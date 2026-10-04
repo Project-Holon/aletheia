@@ -14,6 +14,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8304 0x021D8304 thumb ov123
  */
+#include "../include/Obj03797.h"
 extern void func_021D584C(char *);
 extern void func_021D62B4(char *, int);
 struct Sub02009448Obj;
@@ -24,14 +25,14 @@ extern void func_021D6EE0(char *, int, int);
 extern void func_021D8304(char *p);
 void func_021D834C(char *p)
 {
-    func_021D584C(*(char **)(p + 0x18));
-    func_021D62B4(*(char **)(p + 0x14), 0);
-    func_021D62B4(*(char **)(p + 0x14), 12);
-    func_021D62B4(*(char **)(p + 0x14), 6);
-    func_021D62B4(*(char **)(p + 0x14), 8);
-    if (func_02009370(func_02009448(*(void **)(p + 0x28))))
-        func_021D57B8(*(char **)(p + 0x18), 21);
+    func_021D584C(*(char * *)&((struct Obj03797 *)p)->f18);
+    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 0);
+    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 12);
+    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 6);
+    func_021D62B4(*(char * *)&((struct Obj03797 *)p)->f14, 8);
+    if (func_02009370(func_02009448(((struct Obj03797 *)p)->f28)))
+        func_021D57B8(*(char * *)&((struct Obj03797 *)p)->f18, 21);
     else
-        func_021D57B8(*(char **)(p + 0x18), 10);
+        func_021D57B8(*(char * *)&((struct Obj03797 *)p)->f18, 10);
     func_021D6EE0(p, (int)func_021D8304, 0x64c);
 }

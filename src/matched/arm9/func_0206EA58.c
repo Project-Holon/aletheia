@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0206EA58.c \
  *       --func func_0206EA58 --addr 0x0206EA58 --cc 1.1p1 --arm
  */
+#include "../include/Obj08931.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,13 +37,13 @@ extern u8 *func_0206EACC(void *p, u32 idx);
 u16 *func_0206EA58(u16 *p, u32 arg, u32 v)
 {
     u8 *h = func_0206EACC(p, arg);
-    s16 n = *(s16 *)(h + 4);
-    u8 *t = (u8 *)p + *(u16 *)(h + 6);
+    s16 n = ((struct Obj08931 *)h)->f4;
+    u8 *t = (u8 *)p + ((struct Obj08931 *)h)->f6;
     u32 i = (u32)(n * v) >> 12;
 
     while (i != 0 && *(u16 *)(t + i * 4) >= v)
         i--;
-    while (i + 1 < *(u16 *)h && *(u16 *)(t + 4 + i * 4) <= v)
+    while (i + 1 < ((struct Obj08931 *)h)->f0 && *(u16 *)(t + 4 + i * 4) <= v)
         i++;
     return (u16 *)(t + i * 4);
 }

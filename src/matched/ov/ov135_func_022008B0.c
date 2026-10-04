@@ -14,6 +14,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0220053C 0x0220053C thumb ov135
  */
+#include "../include/Obj01749.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,13 +28,13 @@ extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0220053C(u8 *p, int mode);
 int func_022008B0(u8 *p)
 {
-    if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xbf4))) == 0) {
-        func_0204B878((struct Obj *)(*(u32 *)(p + 0xbf4)), 0);
+    if (func_0204B98C((struct Actor *)(((struct Obj01749 *)p)->fBF4)) == 0) {
+        func_0204B878((struct Obj *)(((struct Obj01749 *)p)->fBF4), 0);
         if (func_020355C4() == 1)
-            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 0);
+            func_0204B3DC((struct Obj *)((struct Obj01749 *)p)->fBF4, 0);
         else
-            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
-        func_0220053C(p, *(u16 *)(p + 0xc0));
+            func_0204B3DC((struct Obj *)((struct Obj01749 *)p)->fBF4, 1);
+        func_0220053C(p, ((struct Obj01749 *)p)->fC0);
     }
     return 2;
 }

@@ -19,6 +19,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj01429.h"
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
@@ -39,15 +40,15 @@ void func_0220549C(char *a, int b)
 {
     int p;
 
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(a + 0x6c)), b);
-    p = *(int *)(a + 0x6c);
+    func_02043B5C((int)func_02045770((struct Descriptor *)((struct Obj01429 *)a)->f6C), b);
+    p = ((struct Obj01429 *)a)->f6C;
     func_02045334((struct Descriptor *)p);
     func_02045374((struct Cfg *)p);
     func_02041B6C(func_02045730((struct Descriptor *)p));
-    if (*(int *)(a + 0x64) != 0)
-        func_0201CE48((struct Rec3 *)(*(int *)(a + 0x64)));
-    if (*(int *)(a + 0x80) != 0)
-        func_02045808((struct U16Vec *)(*(int *)(a + 0x80)));
-    *(int *)(a + 0x64) = 0;
-    *(int *)(a + 0x80) = 0;
+    if (((struct Obj01429 *)a)->f64 != 0)
+        func_0201CE48((struct Rec3 *)(((struct Obj01429 *)a)->f64));
+    if (((struct Obj01429 *)a)->f80 != 0)
+        func_02045808((struct U16Vec *)(((struct Obj01429 *)a)->f80));
+    ((struct Obj01429 *)a)->f64 = 0;
+    ((struct Obj01429 *)a)->f80 = 0;
 }

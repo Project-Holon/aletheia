@@ -14,6 +14,7 @@
  *   func_0202A310  0x0202A310  thumb
  *   func_021EA730  0x021EA730  thumb  ov093
  */
+#include "../include/Obj07846.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 int func_021EA6B0(char *p, u16 a, u16 b)
 {
-    if (func_0202A298(a, b, *(u16 *)(p + 0x184)) != 0) {
-        func_0202A310(a, b, *(void **)(p + 0xac), *(u16 *)(p + 0x184));
-        func_021EA730(p, *(int *)(p + 0xac), 0x50, 0);
+    if (func_0202A298(a, b, ((struct Obj07846 *)p)->f184) != 0) {
+        func_0202A310(a, b, ((struct Obj07846 *)p)->fAC, ((struct Obj07846 *)p)->f184);
+        func_021EA730(p, *(int *)&((struct Obj07846 *)p)->fAC, 0x50, 0);
     } else {
         return 0;
     }

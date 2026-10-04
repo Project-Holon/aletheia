@@ -16,6 +16,7 @@
  *   func_021C4B88 0x021C4B88 thumb ov136
  *   d_021C7EF8 0x021C7EF8 data a1
  */
+#include "../include/Obj02865.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,13 +36,13 @@ extern char d_021C7EF8[];
 void func_021C4C9C(u8 *p)
 {
     void *q;
-    func_02021FD8(*(void **)(p + 0x38), 0, 0, 112, 16, 0);
-    func_02021EE4(*(void **)(p + 0x38), 1);
-    func_02021D50(*(void **)(p + 0x38));
+    func_02021FD8(((struct Obj02865 *)p)->f38, 0, 0, 112, 16, 0);
+    func_02021EE4(((struct Obj02865 *)p)->f38, 1);
+    func_02021D50(((struct Obj02865 *)p)->f38);
     p[0x18] = 0;
     p[0x19] = 0;
-    q = func_02030734((u16)*(u32 *)p, func_02030CB0(3), 0, d_021C7EF8, 0x4F3);
-    *(void **)(p + 0xF4) = q;
-    *(void **)(p + 0xF8) = func_02030CBC(3, q);
-    *(void **)(p + 0xFC) = func_02030DA8(*(void **)(p + 0xF8), func_021C4B88, p, 0);
+    q = func_02030734((u16)((struct Obj02865 *)p)->f0, func_02030CB0(3), 0, d_021C7EF8, 0x4F3);
+    ((struct Obj02865 *)p)->fF4 = q;
+    ((struct Obj02865 *)p)->fF8 = func_02030CBC(3, q);
+    ((struct Obj02865 *)p)->fFC = func_02030DA8(((struct Obj02865 *)p)->fF8, func_021C4B88, p, 0);
 }

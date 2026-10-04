@@ -15,6 +15,19 @@
  *   d_021FDC2C 0x021FDC2C data ov132 a4
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  */
+#include "../include/Obj01157.h"
+#include "../include/Obj23236.h"
+#include "../include/Obj23237.h"
+#include "../include/Obj23238.h"
+#include "../include/Obj23239.h"
+#include "../include/Obj23240.h"
+#include "../include/Obj23241.h"
+#include "../include/Obj23242.h"
+#include "../include/Obj23243.h"
+#include "../include/Obj23245.h"
+#include "../include/Obj23246.h"
+#include "../include/Obj23247.h"
+#include "../include/Obj23248.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,18 +42,18 @@ void *func_021FAC74(char *p, void *arg, int flag)
 {
     u8 i;
     for (i = 0; i < 10; i++) if (*(void **)(p + 0xc + i * 4) == 0) break;
-    ((char **)(p + 0xc))[i] = func_02030734(*(u16 *)p, 0x1c, 0, d_021FDCEC, 0xc4);
-    *(void **)(((char **)(p + 0xc))[i] + 8) = arg;
-    *(void **)(((char **)(p + 0xc))[i] + 0xc) = 0;
-    *(u16 *)(((char **)(p + 0xc))[i] + 0x14) = 0;
-    *(int *)(((char **)(p + 0xc))[i] + 0x10) = 0;
-    *(u16 *)(((char **)(p + 0xc))[i] + 0x16) = 0;
-    *(u8 *)(((char **)(p + 0xc))[i] + 0x18) = 0;
-    *(u8 *)(((char **)(p + 0xc))[i] + 0x19) = i;
-    if (flag == 1) *(u16 *)(((char **)(p + 0xc))[i] + 0x16) |= 2;
+    ((char **)(p + 0xc))[i] = func_02030734(((struct Obj01157 *)p)->f0, 0x1c, 0, d_021FDCEC, 0xc4);
+    ((struct Obj23236 *)(((char **)(p + 0xc))[i]))->f8 = arg;
+    ((struct Obj23237 *)(((char **)(p + 0xc))[i]))->fC = 0;
+    ((struct Obj23238 *)(((char **)(p + 0xc))[i]))->f14 = 0;
+    ((struct Obj23239 *)(((char **)(p + 0xc))[i]))->f10 = 0;
+    ((struct Obj23240 *)(((char **)(p + 0xc))[i]))->f16 = 0;
+    ((struct Obj23241 *)(((char **)(p + 0xc))[i]))->f18 = 0;
+    ((struct Obj23242 *)(((char **)(p + 0xc))[i]))->f19 = i;
+    if (flag == 1) ((struct Obj23243 *)(((char **)(p + 0xc))[i]))->f16 |= 2;
     *(char **)((char **)(p + 0xc))[i] = p;
-    *(void **)(((char **)(p + 0xc))[i] + 4) = func_0201121C(*(u16 *)p, d_021FDC2C);
-    func_0201126C(*(void **)(((char **)(p + 0xc))[i] + 4), ((char **)(p + 0xc))[i]);
-    func_0201127C(*(void **)(((char **)(p + 0xc))[i] + 4), *(void **)(((char **)(p + 0xc))[i] + 8));
+    ((struct Obj23245 *)(((char **)(p + 0xc))[i]))->f4 = func_0201121C(((struct Obj01157 *)p)->f0, d_021FDC2C);
+    func_0201126C(((struct Obj23246 *)(((char **)(p + 0xc))[i]))->f4, ((char **)(p + 0xc))[i]);
+    func_0201127C(((struct Obj23247 *)(((char **)(p + 0xc))[i]))->f4, ((struct Obj23248 *)(((char **)(p + 0xc))[i]))->f8);
     return ((char **)(p + 0xc))[i];
 }

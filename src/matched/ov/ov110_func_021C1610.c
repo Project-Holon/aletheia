@@ -26,6 +26,7 @@
  *   d_021C3C98 0x021C3C98 data a1
  *   d_021C3A44 0x021C3A44 data a4
  */
+#include "../include/Obj22414.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C3C98[];
@@ -58,6 +59,6 @@ void *func_021C1610(unsigned arg, u16 heap) {
     func_0201DD60();
     func_021C1738(p,heap);
     func_021C17DC(p+4,(unsigned)d_021C3A44,heap);
-    *(void **)(p+12)=func_020056A0(func_021C1724,p,0);
+    ((struct Obj22414 *)p)->fC=func_020056A0(func_021C1724,p,0);
     return p;
 }

@@ -14,6 +14,7 @@
  *   func_02157960  0x02157960  thumb
  *   func_02157DB8  0x02157DB8  thumb
  */
+#include "../include/Obj07276.h"
 
 typedef unsigned char u8;
 
@@ -27,7 +28,7 @@ int func_02157E34(void *p)
     *((u8 *)p + 0x675) = 0;
     *((u8 *)p + 0x676) = 0;
     *((u8 *)p + 0x677) = 0;
-    *(int *)((u8 *)p + 0x66C) = 0;
+    ((struct Obj07276 *)p)->f66C = 0;
     func_02157960((int)p, (int)((void *)func_02157DB8), 0x231);
     return r;
 }

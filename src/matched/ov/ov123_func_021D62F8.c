@@ -12,6 +12,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj03266.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -25,10 +26,10 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D62F8(u8 *p, int x, int y)
 {
     struct Point pt;
-    if (*(void **)(p + 0xac) == 0) {
+    if (((struct Obj03266 *)p)->fAC == 0) {
         pt.x = x; pt.y = y; pt.f4 = 0; pt.f6 = 0; pt.f7 = 1;
-        *(void **)(p + 0xac) = func_0204B294((void *)*(u32 *)(p + 0xc), (u32)*(void **)(p + 0x3c), *(u32 *)(p + 0x24), *(u32 *)(p + 0x58), &pt, 1, *(u16 *)(p + 0x43c4));
-        func_0204B92C(*(void **)(p + 0xac), 1);
-        func_0204B3DC(*(void **)(p + 0xac), 1);
+        ((struct Obj03266 *)p)->fAC = func_0204B294((void *)((struct Obj03266 *)p)->fC, (u32)((struct Obj03266 *)p)->f3C, ((struct Obj03266 *)p)->f24, ((struct Obj03266 *)p)->f58, &pt, 1, ((struct Obj03266 *)p)->f43C4);
+        func_0204B92C(((struct Obj03266 *)p)->fAC, 1);
+        func_0204B3DC(((struct Obj03266 *)p)->fAC, 1);
     }
 }

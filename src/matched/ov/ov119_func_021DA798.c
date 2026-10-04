@@ -21,6 +21,7 @@
  *   func_021DA76C 0x021DA76C thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
+#include "../include/Obj08055.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
@@ -67,7 +68,7 @@ void func_021DA798(char *p) {
  else if(a==6) v=0x6f;
  else if(b==3) v=0x61;
  else if(a==3) v=0x66;
- func_02045CAC((struct MsgBank *)(*(unsigned *)(p+0x720)),v,(void *)(*(unsigned *)(p+0x738)));
+ func_02045CAC((struct MsgBank *)(((struct Obj08055 *)p)->f720),v,(void *)(((struct Obj08055 *)p)->f738));
  func_021E1024(p);
  p[0x11e0]=0;
  p[0x11e1]=0;

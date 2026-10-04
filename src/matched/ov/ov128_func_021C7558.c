@@ -24,6 +24,8 @@
  *   func_02045808 0x02045808 arm
  *   func_021CA3E8 0x021CA3E8 thumb ov128
  */
+#include "../include/Obj03280.h"
+#include "../include/Obj05379.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -54,18 +56,18 @@ void func_021C7558(u8 *p,u8 *ctx,unsigned v,unsigned heap)
     void *buf;
     void *obj;
     int font;
-    if(*(void **)(ctx+0x2c)) {
-        func_0201CE48(*(void **)(ctx+0x2c));
-        *(void **)(ctx+0x2c)=0;
+    if(((struct Obj03280 *)ctx)->f2C) {
+        func_0201CE48(((struct Obj03280 *)ctx)->f2C);
+        ((struct Obj03280 *)ctx)->f2C=0;
     }
     buf=func_020457B0(128,heap);
-    func_02043B5C(func_02045770(*(void **)(p+0x1c)),15);
-    func_02045CAC(*(void **)(ctx+4),v,buf);
-    func_0201F250(*(void **)ctx,*(void **)(p+0x2c),buf);
+    func_02043B5C(func_02045770(((struct Obj05379 *)p)->f1C),15);
+    func_02045CAC(((struct Obj03280 *)ctx)->f4,v,buf);
+    func_0201F250(((struct Obj03280 *)ctx)->f0,((struct Obj05379 *)p)->f2C,buf);
     font=func_02012FFC();
-    *(void **)(ctx+0x2c)=func_0201CCE4(*(void **)(p+0x1c),0,0,*(void **)(p+0x2c),*(void **)(ctx+0x17c),font,*(void **)(ctx+0x28),10,*(u16 *)(ctx+0x180),0);
-    func_0201F73C(*(void **)(p+0x1c),2,70,11);
-    obj=*(void **)(p+0x1c);
+    ((struct Obj03280 *)ctx)->f2C=func_0201CCE4(((struct Obj05379 *)p)->f1C,0,0,((struct Obj05379 *)p)->f2C,((struct Obj03280 *)ctx)->f17C,font,((struct Obj03280 *)ctx)->f28,10,((struct Obj03280 *)ctx)->f180,0);
+    func_0201F73C(((struct Obj05379 *)p)->f1C,2,70,11);
+    obj=((struct Obj05379 *)p)->f1C;
     func_02045334(obj);
     func_02045374(obj);
     func_02041B6C(func_02045730(obj));

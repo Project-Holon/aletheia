@@ -13,6 +13,7 @@
  * symbols:
  *   func_021B6818 0x021B6818 thumb ov093
  */
+#include "../include/Obj21004.h"
 typedef unsigned char u8;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 extern int func_021B6818(int *);
@@ -20,7 +21,7 @@ BOOL func_021BA1EC(char **p)
 {
     BOOL result = FALSE;
     if (func_021B6818((int *)*p) == 1) {
-        if (*(u8 *)(*p + 0x7f)) result = TRUE;
+        if (((struct Obj21004 *)(*p))->f7F) result = TRUE;
     }
     return result;
 }

@@ -24,6 +24,7 @@
  *   d_021D404C     0x021D404C  data  a4
  *   d_021DDB84     0x021DDB84  data  a4
  */
+#include "../include/Obj00093.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,7 +54,7 @@ void func_021966F0(u8 *p)
     func_021966B0(p, 0xB);
     func_0219707C(p);
     func_0219630C(4, &t, p, d_021DDB84, d_021D4014, d_021D4024);
-    *(u32 *)(p + 0x24) = (u32)func_02051B84(d_021D404C, (int)((void *)func_0219649C), (int)p, *(u16 *)(p + 0x10));
-    *(void **)(p + 4) = (void *)func_02196974;
+    *(u32 *)&((struct Obj00093 *)p)->f24 = (u32)func_02051B84(d_021D404C, (int)((void *)func_0219649C), (int)p, ((struct Obj00093 *)p)->f10);
+    ((struct Obj00093 *)p)->f4 = (void *)func_02196974;
     func_02196034(p, (void *)func_02196A4C, 0x340);
 }

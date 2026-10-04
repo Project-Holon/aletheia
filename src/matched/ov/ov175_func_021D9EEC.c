@@ -16,6 +16,7 @@
  * Flush partner of func_021D9ED4: sends the byte the object kept at
  *     +0x14 to 0x02039CB4 with the tick/state and line 0x24.
  */
+#include "../include/Obj24327.h"
 
 typedef unsigned long u32;
 
@@ -26,6 +27,6 @@ extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigne
 
 void func_021D9EEC(char *obj)
 {
-    func_02039CB4((struct Link *)func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
+    func_02039CB4((struct Link *)func_020399A8(), (unsigned char)((struct Obj24327 *)obj)->f14, 0x24);
 }
 

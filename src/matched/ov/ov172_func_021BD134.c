@@ -23,6 +23,7 @@
  *
  * Prints message msgId into the text window at +0x30: clears it, draws the string with the context's font and colour 0x440, frees the string, schedules the window transfer and marks the window shown (+0x24) with no pending wait (+0x38).
  */
+#include "../include/Obj01266.h"
 
 typedef unsigned long u32;
 
@@ -49,12 +50,12 @@ void func_021BD134(void *ctx, char *st, u32 msgId)
     u32 sys = func_021BE044(ctx);
     u32 str;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(st + 0x30))), 0xf);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30)), 0xf);
     str = (u32)func_02045EC0((struct MsgBank *)msgs, msgId);
-    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(st + 0x30)), 0, 0, str, font, 0x440);
+    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj01266 *)st)->f30), 0, 0, str, font, 0x440);
     func_02045808((struct U16Vec *)str);
-    func_0201F73C((void *)(*(u32 *)(st + 0x30)), 2, 0x140, 9);
-    *(u32 *)(st + 0x24) = 1;
-    *(u32 *)(st + 0x38) = 0;
+    func_0201F73C((void *)(((struct Obj01266 *)st)->f30), 2, 0x140, 9);
+    ((struct Obj01266 *)st)->f24 = 1;
+    ((struct Obj01266 *)st)->f38 = 0;
     func_021BE34C(ctx);
 }

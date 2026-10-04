@@ -13,6 +13,7 @@
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021BBF04(u32 p,u32 slot);
@@ -29,5 +30,5 @@ void func_021BBD68(u8 *p)
     y=func_021BBF1C((u32)p,slot);
     func_020413B0(2,x,y,28,3,10);
     func_02041B6C(2);
-    *(u32 *)(p+0x160)=1;
+    ((struct Obj00025 *)p)->f160=1;
 }

@@ -21,6 +21,7 @@
  *   d_021CA664 0x021CA664 data a4
  *   d_021CA718 0x021CA718 data a4
  */
+#include "../include/Obj04504.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,11 +50,11 @@ void func_021C66A8(char *p,int heap)
         func_0204152C(i,0);
         func_02040588(i,1);
     }
-    func_02049B68(*(void **)(p+8),0,0,0,192,heap);
-    func_02049B68(*(void **)(p+8),0,4,0,192,heap);
-    func_02049658(*(void **)(p+8),3,0,0,0,0,heap);
-    func_02049658(*(void **)(p+8),3,2,0,0,0,heap);
-    func_02049658(*(void **)(p+8),3,4,0,0,0,heap);
-    func_020498F4(*(void **)(p+8),5,0,0,0,0,heap);
-    func_020498F4(*(void **)(p+8),14,4,0,0,0,heap);
+    func_02049B68(((struct Obj04504 *)p)->f8,0,0,0,192,heap);
+    func_02049B68(((struct Obj04504 *)p)->f8,0,4,0,192,heap);
+    func_02049658(((struct Obj04504 *)p)->f8,3,0,0,0,0,heap);
+    func_02049658(((struct Obj04504 *)p)->f8,3,2,0,0,0,heap);
+    func_02049658(((struct Obj04504 *)p)->f8,3,4,0,0,0,heap);
+    func_020498F4(((struct Obj04504 *)p)->f8,5,0,0,0,0,heap);
+    func_020498F4(((struct Obj04504 *)p)->f8,14,4,0,0,0,heap);
 }

@@ -14,6 +14,7 @@
  *   func_021EAC28 0x021EAC28 thumb ov170
  *   func_021EABA0 0x021EABA0 thumb ov170
  */
+#include "../include/Obj00414.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -27,7 +28,7 @@ extern void func_021EABA0(void **);
 void func_021EAE20(char *p, void **q, int i)
 {
     func_02043B5C(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
-    func_0201EF14(*(void **)(p + 0x84), 0, *q);
-    func_021EAC28(p, i, *(void **)(p + 0x80), 1, 0, 0, *(unsigned *)(p + 0x78), 0x440);
+    func_0201EF14(((struct Obj00414 *)p)->f84, 0, *q);
+    func_021EAC28(p, i, ((struct Obj00414 *)p)->f80, 1, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);
     func_021EABA0((void **)(p + 0x94 + i * 8));
 }

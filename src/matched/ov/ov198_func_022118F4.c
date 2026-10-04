@@ -12,6 +12,7 @@
  *   func_02210EFC 0x02210EFC thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
  */
+#include "../include/Obj14571.h"
 typedef unsigned char u8;
 extern int func_02210EFC(char **p);
 extern int func_022110D4(u8 *,int);
@@ -23,7 +24,7 @@ void func_022118F4(u8 *p)
     } else {
         for(i=0;i<3;i++) {
             if(*(unsigned short *)(p+func_022110D4(p,i)*0x4c+0x14)==0) {
-                ((*(u8 **)p)+i)[0x48]=(*(u8 **)p)[0x20];
+                ((*(u8 * *)&((struct Obj14571 *)p)->f0)+i)[0x48]=(*(u8 **)p)[0x20];
                 break;
             }
         }

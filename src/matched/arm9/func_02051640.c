@@ -14,8 +14,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01319.h"
 
 void *func_02051640(char *p)
 {
-    return *(void **)(p + 0xc);
+    return ((struct Obj01319 *)p)->fC;
 }

@@ -15,6 +15,7 @@
  *   d_021DDE28     0x021DDE28  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12697.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 u8 *func_021A02C4(u16 heap)
 {
     u8 *p = (u8 *)func_02030734(heap, 0x10, 1, d_021DDE28, 0x51);
-    *(u32 *)(p + 8) = 0x0FFFFFFF;
-    *(void **)(p + 0xc) = func_020490F4(0x51, heap);
+    ((struct Obj12697 *)p)->f8 = 0x0FFFFFFF;
+    ((struct Obj12697 *)p)->fC = func_020490F4(0x51, heap);
     return p;
 }

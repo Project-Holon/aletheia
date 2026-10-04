@@ -21,6 +21,10 @@
  *   func_021BEF20 0x021BEF20 thumb ov204
  *   ov067_id 0x00000043 data
  */
+#include "../include/Obj00689.h"
+#include "../include/Obj25331.h"
+#include "../include/Obj25332.h"
+#include "../include/Obj25333.h"
 struct Obj0203159C; struct GfFont; struct MsgBank;
 extern int func_02034AC4(int);
 extern void func_0203064C(unsigned int, unsigned, unsigned);
@@ -42,14 +46,14 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
     func_0203064C(1, 111, 0x100000);
     p = func_0203159C(owner, 0x24, 111);
     func_02082BCC(p, 0, 0x24);
-    *(unsigned short *)p = 111;
-    *(char **)(p + 4) = args;
-    *(unsigned char **)(p + 8) = func_021BDC18(1, *(int *)(args + 8), *(unsigned short *)p);
-    *(struct GfFont **)(p + 0xC) = func_0201D7EC(23, 0, 0, 0, *(unsigned short *)p);
-    *(struct MsgBank **)(p + 0x10) = func_02045B38(0, 2, 65, *(unsigned short *)p);
-    *(char **)(p + 0x18) = func_021BF594(*(unsigned short *)p, *(int *)(*(char **)(p + 4) + 8));
-    *(void **)(p + 0x1C) = func_021BF8DC(*(unsigned char **)(p + 8), *(int *)(*(char **)(p + 4) + 8), *(unsigned short *)p);
-    *(void **)(p + 0x20) = func_021BFC24(*(unsigned char **)(p + 8), *(unsigned short *)p);
-    *(char **)(p + 0x14) = func_021BEF20(*(void **)(p + 0x1C), *(unsigned *)(p + 0x20), *(unsigned *)(p + 0x18), *(char **)(p + 4), *(unsigned *)(p + 8), *(unsigned short *)p);
+    ((struct Obj00689 *)p)->f0 = 111;
+    *(char * *)&((struct Obj00689 *)p)->f4 = args;
+    *(unsigned char * *)&((struct Obj00689 *)p)->f8 = func_021BDC18(1, ((struct Obj25331 *)args)->f8, ((struct Obj00689 *)p)->f0);
+    *(struct GfFont * *)&((struct Obj00689 *)p)->fC = func_0201D7EC(23, 0, 0, 0, ((struct Obj00689 *)p)->f0);
+    *(struct MsgBank * *)&((struct Obj00689 *)p)->f10 = func_02045B38(0, 2, 65, ((struct Obj00689 *)p)->f0);
+    *(char * *)&((struct Obj00689 *)p)->f18 = func_021BF594(((struct Obj00689 *)p)->f0, ((struct Obj25332 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8);
+    ((struct Obj00689 *)p)->f1C = func_021BF8DC(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj25333 *)(*(char * *)&((struct Obj00689 *)p)->f4))->f8, ((struct Obj00689 *)p)->f0);
+    ((struct Obj00689 *)p)->f20 = func_021BFC24(*(unsigned char * *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
+    *(char * *)&((struct Obj00689 *)p)->f14 = func_021BEF20(((struct Obj00689 *)p)->f1C, *(unsigned *)&((struct Obj00689 *)p)->f20, *(unsigned *)&((struct Obj00689 *)p)->f18, *(char * *)&((struct Obj00689 *)p)->f4, *(unsigned *)&((struct Obj00689 *)p)->f8, ((struct Obj00689 *)p)->f0);
     return 1;
 }

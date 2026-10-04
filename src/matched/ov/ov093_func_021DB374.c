@@ -18,6 +18,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj10063.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,7 +63,7 @@ void func_021DB374(void *a, int id, u32 k)
         }
         if (s != v) {
             r = (u8 *)func_021C88A4(a, 0x39, id);
-            *(u32 *)r |= 0x800000;
+            ((struct Obj10063 *)r)->f0 |= 0x800000;
             r[4] = id;
             r[5] = s;
             func_021C8838(r + 8, 2, 0xde);

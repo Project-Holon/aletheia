@@ -18,6 +18,8 @@
  *   func_0201F02C 0x0201F02C thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00329.h"
+#include "../include/Obj10485.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_0201283C(const void *);
@@ -39,12 +41,12 @@ void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
     void *base;
     void *obj;
     void *str;
-    base=func_0201283C(*(void **)(q+4));
+    base=func_0201283C(((struct Obj10485 *)q)->f4);
     obj=func_0200846C(heap);
     str=func_020457B0(10,heap);
     func_02045924(str,func_020099D4(base,idx));
     func_020084E4(obj,str);
     func_02045808(str);
-    func_0201F02C(*(void **)p,0,obj);
+    func_0201F02C(((struct Obj00329 *)p)->f0,0,obj);
     func_020307B0(obj);
 }

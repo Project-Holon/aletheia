@@ -12,6 +12,7 @@
  * another lane's packet, pkt_0202AF34). Every concrete byte reproduces.
  * status:   EXACT
  */
+#include "../include/Obj15818.h"
 
 typedef unsigned int u32;
 
@@ -25,5 +26,5 @@ void func_0202AE9C(void *p)
 {
     int a = func_0202AD78(p);
 
-    func_0202AF34(a, (u32)func_02012AA0((struct Rec44 *)(*(u32 *)p)));
+    func_0202AF34(a, (u32)func_02012AA0((struct Rec44 *)(((struct Obj15818 *)p)->f0)));
 }

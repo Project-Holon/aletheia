@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj26020.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ typedef signed int s32;
 u32 func_021C2194(void *p)
 {
     s32 i;
-    for (i = 0; i < *(u8 *)((char *)p + 0x298); i++) {
+    for (i = 0; i < ((struct Obj26020 *)p)->f298; i++) {
         if (*(u32 *)((char *)p + 0x28 + i * 0x18) == 0)
             return 0;
     }

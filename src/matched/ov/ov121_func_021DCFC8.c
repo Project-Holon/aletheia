@@ -29,6 +29,7 @@
  *   d_021DFBB0 0x021DFBB0 data a4
  *   d_021DF99C 0x021DF99C data a4
  */
+#include "../include/Obj00237.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -65,43 +66,43 @@ void *func_021DCFC8(const Desc *p,u16 heap)
     void *arc;
     void *arc2;
     out=func_02030734(heap,208,0,d_021DFBB0,0xcff);
-    *(u32 *)(out+0x88)=p->w[5];
-    *(u16 *)(out+0x94)=p->w[0];
-    *(u16 *)(out+0x96)=p->w[1];
+    ((struct Obj00237 *)out)->f88=p->w[5];
+    ((struct Obj00237 *)out)->f94=p->w[0];
+    ((struct Obj00237 *)out)->f96=p->w[1];
     *(Desc *)(out+0xa0)=*p;
     if(p->w[0]<4) {
-        *(u32 *)(out+0x9c)=0;
-        *(u32 *)(out+0x98)=0;
-        *(u32 *)(out+0x84)=1;
+        ((struct Obj00237 *)out)->f9C=0;
+        ((struct Obj00237 *)out)->f98=0;
+        ((struct Obj00237 *)out)->f84=1;
     } else {
-        *(u32 *)(out+0x9c)=4;
-        *(u32 *)(out+0x98)=1;
-        *(u32 *)(out+0x84)=0;
+        ((struct Obj00237 *)out)->f9C=4;
+        ((struct Obj00237 *)out)->f98=1;
+        ((struct Obj00237 *)out)->f84=0;
     }
     config=d_021DF99C;
-    *(void **)out=func_021DA1BC((void *)1,(const char *)&config,5,*(u32 *)(out+0xa4),*(u32 *)(out+0xac),*(u32 *)(out+0xc8),*(u32 *)(out+0xc0),*(int *)(out+0xc4),heap);
+    ((struct Obj00237 *)out)->f0=func_021DA1BC((void *)1,(const char *)&config,5,((struct Obj00237 *)out)->fA4,((struct Obj00237 *)out)->fAC,((struct Obj00237 *)out)->fC8,((struct Obj00237 *)out)->fC0,((struct Obj00237 *)out)->fC4,heap);
     arc=func_020490F4(34,heap);
-    *(int *)(out+4)=func_0204ABF0(arc,3,*(u32 *)(out+0x98),p->w[4]<<5,heap);
-    *(int *)(out+12)=func_0204AF28(arc,33,36,heap);
-    *(int *)(out+8)=func_0204A6C8(arc,12,0,*(u32 *)(out+0x98),heap);
+    *(int *)&((struct Obj00237 *)out)->f4=func_0204ABF0(arc,3,((struct Obj00237 *)out)->f98,p->w[4]<<5,heap);
+    *(int *)&((struct Obj00237 *)out)->fC=func_0204AF28(arc,33,36,heap);
+    *(int *)&((struct Obj00237 *)out)->f8=func_0204A6C8(arc,12,0,((struct Obj00237 *)out)->f98,heap);
     func_02049238(arc);
     func_02082BCC(&first,0,8);
     first.x=216;first.y=22;
-    *(void **)(out+28)=func_0204B294((void *)p->w[6],*(u32 *)(out+8),*(u32 *)(out+4),*(u32 *)(out+12),&first,*(u32 *)(out+0x98),heap);
-    func_0204B688(*(void **)(out+28),0);
-    func_0204B3DC(*(void **)(out+28),0);
+    ((struct Obj00237 *)out)->f1C=func_0204B294((void *)p->w[6],((struct Obj00237 *)out)->f8,((struct Obj00237 *)out)->f4,((struct Obj00237 *)out)->fC,&first,((struct Obj00237 *)out)->f98,heap);
+    func_0204B688(((struct Obj00237 *)out)->f1C,0);
+    func_0204B3DC(((struct Obj00237 *)out)->f1C,0);
     arc2=func_0202D7C8(heap);
-    *(int *)(out+16)=func_0202D7D8((int)arc2,1,0,0,0,0,0,*(u32 *)(out+0x98),p->w[5]<<5,heap);
-    *(int *)(out+24)=func_0202D898(1,0,0,0,0,0,2,*(u32 *)(out+0x98),heap);
-    *(int *)(out+20)=func_0202D81C(arc2,1,0,0,0,0,0,0,*(u32 *)(out+0x98),heap);
+    *(int *)&((struct Obj00237 *)out)->f10=func_0202D7D8((int)arc2,1,0,0,0,0,0,((struct Obj00237 *)out)->f98,p->w[5]<<5,heap);
+    *(int *)&((struct Obj00237 *)out)->f18=func_0202D898(1,0,0,0,0,0,2,((struct Obj00237 *)out)->f98,heap);
+    *(int *)&((struct Obj00237 *)out)->f14=func_0202D81C(arc2,1,0,0,0,0,0,0,((struct Obj00237 *)out)->f98,heap);
     func_02049238(arc2);
     func_02082BCC(&second,0,8);
     second.x=184;second.y=112;second.b=p->w[0]&3;
-    *(u32 *)(out+0x8c)=second.b;
-    *(u32 *)(out+0x90)=p->w[1]&3;
-    *(void **)(out+32)=func_0204B294((void *)p->w[6],*(u32 *)(out+20),*(u32 *)(out+16),*(u32 *)(out+24),&second,*(u32 *)(out+0x98),heap);
-    func_0204B570(*(void **)(out+32),2);
-    func_0204B688(*(void **)(out+32),1);
-    func_0204B3DC(*(void **)(out+32),0);
+    ((struct Obj00237 *)out)->f8C=second.b;
+    ((struct Obj00237 *)out)->f90=p->w[1]&3;
+    ((struct Obj00237 *)out)->f20=func_0204B294((void *)p->w[6],((struct Obj00237 *)out)->f14,((struct Obj00237 *)out)->f10,((struct Obj00237 *)out)->f18,&second,((struct Obj00237 *)out)->f98,heap);
+    func_0204B570(((struct Obj00237 *)out)->f20,2);
+    func_0204B688(((struct Obj00237 *)out)->f20,1);
+    func_0204B3DC(((struct Obj00237 *)out)->f20,0);
     return out;
 }

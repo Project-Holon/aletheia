@@ -13,6 +13,7 @@
  *   func_021D6134 0x021D6134 thumb ov115
  *   func_021D62B4 0x021D62B4 thumb ov115
  */
+#include "../include/Obj22610.h"
 typedef unsigned char u8;typedef unsigned int u32;
 extern int func_021D5C70(u8 *p);extern void func_021D6134(void *,void (*)(u8 *),int),func_021D62B4(u8 *);
-void func_021D6294(u8 *p) { if(func_021D5C70(*(void **)(p+8)))func_021D6134(p,func_021D62B4,0x1f4); }
+void func_021D6294(u8 *p) { if(func_021D5C70(((struct Obj22610 *)p)->f8))func_021D6134(p,func_021D62B4,0x1f4); }

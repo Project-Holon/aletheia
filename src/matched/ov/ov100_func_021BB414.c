@@ -18,6 +18,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_021BA780  0x021BA780  thumb  ov100
  */
+#include "../include/Obj00178.h"
 
 typedef unsigned short u16;
 
@@ -37,11 +38,11 @@ int func_021BB414(int a, int b, int c)
     r5 = 0xcf0;
     a = func_0203159C(a, r5, 0x1f);
     func_02082BCC(a, 0, r5);
-    *(int *)(a + 0x244) = c;
-    *(u16 *)(a + 0x278) = 0x1f;
-    *(int *)(a + 0x24c) = *(int *)(*(int *)(a + 0x244) + 0x1c);
-    *(int *)(a + 0xcb4) =
-        (int)func_02030734(*(u16 *)(a + 0x278), 0x200, 0, (const char *)0x021BB8AC, 0xb07);
+    ((struct Obj00178 *)a)->f244 = c;
+    ((struct Obj00178 *)a)->f278 = 0x1f;
+    ((struct Obj00178 *)a)->f24C = *(int *)(((struct Obj00178 *)a)->f244 + 0x1c);
+    ((struct Obj00178 *)a)->fCB4 =
+        (int)func_02030734(((struct Obj00178 *)a)->f278, 0x200, 0, (const char *)0x021BB8AC, 0xb07);
     func_021BA780((char *)a);
     func_0203D0D0();
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);

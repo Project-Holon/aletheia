@@ -13,6 +13,7 @@
  *   func_0218E13C  0x0218E13C  thumb
  *   func_0218F780  0x0218F780  thumb
  */
+#include "../include/Obj02371.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ void func_0218F818(u8 *a)
     if (a != 0) {
         Sub *s = (Sub *)(a + 0xf0);
         if (s->active == 0) {
-            s->saved = *(u32 *)(a + 0x14);
+            s->saved = ((struct Obj02371 *)a)->f14;
             func_0218E13C(a, 0);
             func_0218F780(a, s->body);
             s->active = 1;

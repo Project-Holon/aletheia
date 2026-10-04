@@ -19,6 +19,7 @@
  * func_020315D4 0x020315D4 arm
  * func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj22138.h"
 extern void func_021B71C0(void *p);
 extern void func_021B89B8(void *);
 extern void func_021B87BC(void *);
@@ -31,7 +32,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned);
 int func_021B7734(unsigned a,int b,int c,char *p) {
- func_021B71C0((void *)(*(unsigned *)(p+0x468)));
+ func_021B71C0((void *)(((struct Obj22138 *)p)->f468));
  func_021B89B8(p+0x118);
  func_021B87BC(p+0xfc);
  func_021B85F4(p+0xc0);

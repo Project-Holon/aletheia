@@ -16,6 +16,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07826.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,10 +38,10 @@ void func_021E0FB8(int unused, void *q, int id)
         t = func_021D775C(6);
         r = (u8 *)func_021C88A4(q, 0x1f, id);
         r[6] = t;
-        *(u16 *)(r + 4) = 0xf;
+        ((struct Obj07826 *)r)->f4 = 0xf;
         func_021C8838(r + 0xc, 2, 0x195);
         func_021C8860((struct S *)(r + 0xc), r[6]);
-        func_021C8860((struct S *)(r + 0xc), *(u16 *)(r + 4));
+        func_021C8860((struct S *)(r + 0xc), ((struct Obj07826 *)r)->f4);
         func_021C88C8(q, r);
     }
 }

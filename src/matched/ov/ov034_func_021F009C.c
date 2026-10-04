@@ -11,4 +11,5 @@
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  */
-unsigned func_021F009C(char *p) { return *(unsigned *)(p+0x114) >= *(unsigned *)(p+0x118)/3; }
+#include "../include/Obj13074.h"
+unsigned func_021F009C(char *p) { return ((struct Obj13074 *)p)->f114 >= ((struct Obj13074 *)p)->f118/3; }

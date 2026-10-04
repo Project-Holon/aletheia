@@ -12,11 +12,12 @@
  *   func_021B93B8 0x021B93B8 thumb ov067
  *   func_021BFA14 0x021BFA14 thumb ov210
  */
+#include "../include/Obj25631.h"
 extern int func_021B93B8(char *);
 extern void func_021BFA14(char *, signed short, int);
 void func_021BFB24(char *ctx)
 {
-    unsigned center = func_021B93B8(*(char **)(ctx + 0x1e0));
+    unsigned center = func_021B93B8(*(char * *)&((struct Obj25631 *)ctx)->f1E0);
     int index = (*(unsigned char ***)(ctx))[2][6];
     signed short lower = index - 4;
     signed short upper = index + 4;

@@ -14,6 +14,8 @@
  *   func_0203D1A4  0x0203D1A4  arm
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj19278.h"
+#include "../include/Obj19279.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,12 +28,12 @@ extern void func_02082D44(void *src, void *dst, u32 n);
 
 void func_02174BEC(u32 a, u32 b, void *c, u8 *d)
 {
-    u8 *w = *(u8 **)(d + 0x355C);
+    u8 *w = *(u8 * *)&((struct Obj19278 *)d)->f355C;
 
     if (a == func_0203D1A4((struct Link *)((u32)func_020399A8()))) {
         return;
     }
-    if (w == 0 || *(int *)w == 0) {
+    if (w == 0 || ((struct Obj19279 *)w)->f0 == 0) {
         return;
     }
     if (*(void **)(w + a * 4 + 0x134) == 0) {

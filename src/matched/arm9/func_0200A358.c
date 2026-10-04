@@ -50,6 +50,7 @@
  *   python3 tools/match.py one --src src/pending/func_0200A358.c \
  *       --func sub_0200A358 --addr 0x0200A358 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04037.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -85,17 +86,17 @@ void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
         break;
     }
     if (t != 0) {
-        *(u32 *)p = (u32)sub_020071CC((struct Sub020071CCCtrl *)ctrl, 0x22);
-        *(u32 *)(p + 4) = 1;
+        ((struct Obj04037 *)p)->f0 = (u32)sub_020071CC((struct Sub020071CCCtrl *)ctrl, 0x22);
+        ((struct Obj04037 *)p)->f4 = 1;
         return;
     }
     func_02034AC4((int)ov_id_E4);
     w = func_021DFC20(a3);
-    *(u32 *)(p + 8) = (u32)w;
-    *(u32 *)p = (u32)func_021DFEAC(w);
-    *(u32 *)(p + 4) = 0;
-    if (func_021DFE90((void *)*(u32 *)(p + 8)) == 0) {
-        func_02082BCC((void *)*(u32 *)p, 0, 0x368);
+    ((struct Obj04037 *)p)->f8 = (u32)w;
+    ((struct Obj04037 *)p)->f0 = (u32)func_021DFEAC(w);
+    ((struct Obj04037 *)p)->f4 = 0;
+    if (func_021DFE90((void *)((struct Obj04037 *)p)->f8) == 0) {
+        func_02082BCC((void *)((struct Obj04037 *)p)->f0, 0, 0x368);
         sub_0200A480((struct Obj *)p);
     }
 }

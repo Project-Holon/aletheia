@@ -18,6 +18,7 @@
  *   func_021A3964  0x021A3964  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09570.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ int func_021A5408(u32 a)
 {
     u32 x;
     u32 y;
-    switch (*(u32 *)a) {
+    switch (((struct Obj09570 *)a)->f0) {
     case 0:
         break;
     case 1:
@@ -46,7 +47,7 @@ int func_021A5408(u32 a)
         func_0216D4B4((char *)x);
         func_0216D5E0(x, y);
         func_0216D674((void *)x, 0);
-        func_021A3964((u8 *)(*(u32 *)(a + 12)), 0);
+        func_021A3964((u8 *)(*(u32 *)&((struct Obj09570 *)a)->fC), 0);
         break;
     }
     return 1;

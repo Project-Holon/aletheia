@@ -20,6 +20,8 @@
  *   func_021F1520 0x021F1520 thumb ov107
  *   func_021EF080 0x021EF080 thumb ov107
  */
+#include "../include/Obj00979.h"
+#include "../include/Obj22274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,9 +40,9 @@ extern void func_021F1520(char *p);
 extern void func_021EF080(void *);
 void func_021EE824(u8 *p) {
  void *q; u16 *a,*b;
- func_02034FB8(16); func_02030EAC(*(void **)(p+4));func_0200566C();func_020370C8();
+ func_02034FB8(16); func_02030EAC(((struct Obj00979 *)p)->f4);func_0200566C();func_020370C8();
  if(p[40]==1) func_02005D28();
- else { q=(void *)func_0201296C(*(void **)(*(u8 **)(p+8)+4)); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=*(u16 *)(p+56);*b=*(u16 *)(p+58); }
- if(*(void **)(p+96)) func_020307B0(*(void **)(p+96));
- func_021F0E40(*(void **)(p+12));func_021F1520(*(void **)(p+104));func_021EF080(p);
+ else { q=(void *)func_0201296C(((struct Obj22274 *)(*(u8 * *)&((struct Obj00979 *)p)->f8))->f4); a=(u16 *)func_020143CC((u32)q,16384);b=(u16 *)func_020143CC((u32)q,16385);*a=((struct Obj00979 *)p)->f38;*b=((struct Obj00979 *)p)->f3A; }
+ if(((struct Obj00979 *)p)->f60) func_020307B0(((struct Obj00979 *)p)->f60);
+ func_021F0E40(((struct Obj00979 *)p)->fC);func_021F1520(((struct Obj00979 *)p)->f68);func_021EF080(p);
 }

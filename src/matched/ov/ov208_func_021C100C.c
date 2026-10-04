@@ -11,6 +11,7 @@
  * symbols:
  *   func_021BBB3C 0x021BBB3C thumb ov072
  */
+#include "../include/Obj14656.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BBB3C(char *, int, int);
@@ -18,8 +19,8 @@ int func_021C100C(void *unused, char *p, int key, u8 index, u8 x, u8 y, unsigned
 {
     unsigned dx, dy, distance;
     if (*(unsigned *)(p + index * 8 + 0x1e0) == 1) return 0;
-    dx = func_021BBB3C(*(char **)(p + 0x3c8), index, 4);
-    dy = func_021BBB3C(*(char **)(p + 0x3c8), index, 5);
+    dx = func_021BBB3C(*(char * *)&((struct Obj14656 *)p)->f3C8, index, 4);
+    dy = func_021BBB3C(*(char * *)&((struct Obj14656 *)p)->f3C8, index, 5);
     dy -= y;
     dx -= x;
     distance = dx * dx + dy * dy;

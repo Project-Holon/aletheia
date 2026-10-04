@@ -18,6 +18,7 @@
  *   func_0202B544  0x0202B544  thumb
  *   func_02029CF0  0x02029CF0  thumb
  */
+#include "../include/Obj12557.h"
 
 typedef unsigned short u16;
 
@@ -41,8 +42,8 @@ void func_02189518(char *p, unsigned int idx)
     void *c;
     int k;
 
-    a = func_020120F4(*(void **)(p + 4));
-    b = func_02012134(*(void **)(p + 4));
+    a = func_020120F4(((struct Obj12557 *)p)->f4);
+    b = func_02012134(((struct Obj12557 *)p)->f4);
     c = (void *)func_02012A30(a);
     k = func_02012B28(func_020127A4(a));
     func_0202B544(b, idx);

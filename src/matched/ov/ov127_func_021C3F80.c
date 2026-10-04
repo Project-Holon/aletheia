@@ -15,6 +15,7 @@
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj05371.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021C4790(void *);
@@ -26,14 +27,14 @@ extern void func_020307B0(void *);
 void func_021C3F80(u8 *p)
 {
     u32 i;
-    for (i = 0; i < *(u32 *)(p + 12); i++) {
-        if (!func_021C4790(*(u8 **)(p + 8) + i * 24))
-            func_021C41BC(*(u8 **)(p + 8) + i * 24);
+    for (i = 0; i < ((struct Obj05371 *)p)->fC; i++) {
+        if (!func_021C4790(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24))
+            func_021C41BC(*(u8 * *)&((struct Obj05371 *)p)->f8 + i * 24);
     }
     func_021C4330(p, 0);
     func_021C4010(p);
-    func_02049238(*(u32 *)(p + 760));
-    func_02049238(*(u32 *)(p + 764));
-    func_020307B0(*(void **)(p + 8));
+    func_02049238(((struct Obj05371 *)p)->f2F8);
+    func_02049238(((struct Obj05371 *)p)->f2FC);
+    func_020307B0(((struct Obj05371 *)p)->f8);
     func_020307B0(p);
 }

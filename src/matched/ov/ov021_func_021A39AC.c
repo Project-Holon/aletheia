@@ -16,6 +16,7 @@
  *   func_0216D598  0x0216D598  thumb  ov010
  *   func_021A3AD8  0x021A3AD8  thumb  ov021
  */
+#include "../include/Obj19778.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,5 +36,5 @@ void func_021A39AC(u8 *p, int a)
 
     if (v != func_0216D598(h))
         func_021A3AD8(p, v);
-    *(u16 *)(p + 0x2C) = 0;
+    ((struct Obj19778 *)p)->f2C = 0;
 }

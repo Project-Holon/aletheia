@@ -15,6 +15,7 @@
  * Interface: 021587B0 returns its final ldr r0,[r4] at 021587DC;
  * caller consumes that result despite older callers declaring void.
  */
+#include "../include/Obj12314.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,8 +29,8 @@ int func_0215EBF8(void *a, int *state, void *b)
 {
     int h;
     int t;
-    func_0201296C(func_020120F4(*(void **)((u8 *)b + 8)));
-    h = *(u16 *)((u8 *)b + 12);
+    func_0201296C(func_020120F4(((struct Obj12314 *)b)->f8));
+    h = ((struct Obj12314 *)b)->fC;
     t = func_021587B0((int)a, 0x2711, 0, 0);
     func_02159058(t, h, 0, 0, 0);
     return 0;

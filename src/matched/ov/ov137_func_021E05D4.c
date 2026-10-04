@@ -12,6 +12,8 @@
  *   func_020520FC 0x020520FC arm
  *   func_02047A60 0x02047A60 arm
  */
+#include "../include/Obj02872.h"
+#include "../include/Obj23776.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -32,9 +34,9 @@ void func_021E05D4(u8 *p)
     u8 *s;
     void *object;
     s=p+224;
-    object=func_02048A18(*(void **)(p+2804),*(int *)(s+188));
-    VecSet(&t.pos,*(int *)(s+12),*(int *)(s+16),*(int *)(s+20));
-    VecSet(&t.scale,*(int *)(s+24),*(int *)(s+28),*(int *)(s+32));
-    func_020520FC(*(u16 *)(s+76),(u16)(*(s16 *)(s+78)*182),*(u16 *)(s+80),(struct Mtx33 *)&t.rot);
+    object=func_02048A18(((struct Obj23776 *)p)->fAF4,((struct Obj02872 *)s)->fBC);
+    VecSet(&t.pos,((struct Obj02872 *)s)->fC,((struct Obj02872 *)s)->f10,((struct Obj02872 *)s)->f14);
+    VecSet(&t.scale,((struct Obj02872 *)s)->f18,((struct Obj02872 *)s)->f1C,((struct Obj02872 *)s)->f20);
+    func_020520FC(((struct Obj02872 *)s)->f4C,(u16)(((struct Obj02872 *)s)->f4E*182),((struct Obj02872 *)s)->f50,(struct Mtx33 *)&t.rot);
     func_02047A60(object,&t);
 }

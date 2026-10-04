@@ -31,6 +31,8 @@
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_0201C450 0x0201C450 thumb
  */
+#include "../include/Obj13769.h"
+#include "../include/Obj22333.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,7 +53,7 @@ extern void func_02040588(u8,u32);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16,u32);
 void func_021BA070(u8 *p) {
-    u8 *q=*(u8 **)p;
+    u8 *q=*(u8 * *)&((struct Obj22333 *)p)->f0;
     int i;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     func_020433E0(d_021C3714);
@@ -68,6 +70,6 @@ void func_021BA070(u8 *p) {
         func_020414EC((u8)i);
         func_02040588((u8)i,1);
     }
-    *(void **)(q+0x80)=func_0201D7EC(23,0,0,0,42);
-    *(void **)(q+0x7c)=func_0201C450(0x500,42);
+    ((struct Obj13769 *)q)->f80=func_0201D7EC(23,0,0,0,42);
+    ((struct Obj13769 *)q)->f7C=func_0201C450(0x500,42);
 }

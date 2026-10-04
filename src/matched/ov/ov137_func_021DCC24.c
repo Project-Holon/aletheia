@@ -17,6 +17,10 @@
  * func_021DCBC4 0x021DCBC4 thumb ov137
  * func_021DE08C 0x021DE08C thumb ov137
  */
+#include "../include/Obj03839.h"
+#include "../include/Obj23674.h"
+#include "../include/Obj23675.h"
+#include "../include/Obj23676.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,12 +38,12 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
     if(a!=0) {
         if(func_02039338()!=0) return;
         s=*(struct Packet *)c;
-        s.a=a; s.b=*(u32 *)(p+44);
+        s.a=a; s.b=((struct Obj03839 *)p)->f2C;
         switch(((struct Packet *)c)->c) {
         case 0:
-            if(*(u32 *)(p+44)!=func_021841A4(func_021DCAFC(p)) ||
-               *(u32 *)(p+44)!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
-            else { *(u32 *)(p+48)|=1<<a; s.d=1; }
+            if(((struct Obj03839 *)p)->f2C!=func_021841A4(func_021DCAFC(p)) ||
+               ((struct Obj03839 *)p)->f2C!=func_02080D24(func_021841A0(func_021DCAFC(p)))) s.d=0;
+            else { ((struct Obj03839 *)p)->f30|=1<<a; s.d=1; }
             break;
         case 1: break;
         }
@@ -49,10 +53,10 @@ void func_021DCC24(int a,int b,u8 *c,u8 *p)
         case 0:
             a=c[0];
             if(a!=func_02039338()) return;
-            if(c[3]==0) func_021DE08C(*(char **)(*(u8 **)p+32),8,a);
-            else { *(u16 *)(p+56)=c[1]; func_021DE08C(*(char **)(*(u8 **)p+32),7,a); }
+            if(c[3]==0) func_021DE08C(*(char * *)&((struct Obj23674 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,8,a);
+            else { ((struct Obj03839 *)p)->f38=c[1]; func_021DE08C(*(char * *)&((struct Obj23675 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,7,a); }
             break;
-        case 1: func_021DE08C(*(char **)(*(u8 **)p+32),19,c[0]); break;
+        case 1: func_021DE08C(*(char * *)&((struct Obj23676 *)(*(u8 * *)&((struct Obj03839 *)p)->f0))->f20,19,c[0]); break;
         }
     }
 }

@@ -11,13 +11,14 @@
  *   func_021D8AF4 0x021D8AF4 thumb ov119
  *   func_021D8B0C 0x021D8B0C thumb ov119
  */
+#include "../include/Obj13904.h"
 extern int func_021D8AF4(int a, char *p);
 extern int func_021D8B0C(int, int);
 int func_021DF6B4(char *p, int a, int b)
 {
     int x = func_021D8AF4(a, p);
     int y = func_021D8B0C(a, b);
-    if (*(int *)(p + 0xF94) == y && *(int *)(p + 0xF98) == x) {
+    if (((struct Obj13904 *)p)->fF94 == y && ((struct Obj13904 *)p)->fF98 == x) {
         return 1;
     }
     return 0;

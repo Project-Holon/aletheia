@@ -15,6 +15,7 @@
  * blocker: +0006 THM_CALL func_02021ED8       -> unresolved: 02021ED8 (arm, from name) has no witness outside 021BD100..021BD116
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14675.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern u32 func_02021ED8(const char *ptr);
 
 u32 func_021BD100(u8 *p)
 {
-    if (func_02021ED8((const char *)(*(u32 *)(p + 0xc))) == 0) {
-        return *(u32 *)(p + 0x1c);
+    if (func_02021ED8((const char *)(((struct Obj14675 *)p)->fC)) == 0) {
+        return ((struct Obj14675 *)p)->f1C;
     }
     return 2;
 }

@@ -16,6 +16,7 @@
  *   data_021D8AB8  0x021D8AB8  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01658.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ u32 func_021A682C(u8 *p, u32 a1, u32 a2)
 {
     u32 k;
 
-    if (!func_0216D3CC(*(u32 *)(p + 0x1C)))
+    if (!func_0216D3CC(*(u32 *)&((struct Obj01658 *)p)->f1C))
         return a1;
     if (a2 == 0) {
         k = func_021A67A4(p);

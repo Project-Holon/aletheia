@@ -17,6 +17,7 @@
  *   _fsub          0x0209CB8C  arm
  *   _fadd          0x0209C95C  arm
  */
+#include "../include/Obj20119.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,7 +29,7 @@ void func_021BCF24(char *p)
     float t;
     int a;
 
-    t = (float)(u32)*(u16 *)(p + 0x42) / 20.0f;
+    t = (float)(u32)((struct Obj20119 *)p)->f42 / 20.0f;
     a = (int)(16.0f * (1.0f - t));
     func_0207D63C(0x04000050, 8, 0x11, a, (int)(4.0f + 12.0f * t));
 }

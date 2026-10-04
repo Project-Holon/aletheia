@@ -12,6 +12,7 @@
  * symbols:
  *   func_021CD64C  0x021CD64C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -21,19 +22,19 @@ void func_021C5DAC(u8 *p, u32 a, int n, const int *v)
 {
     switch (n) {
     default:
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, a, 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, a, 0xffff0000);
         break;
     case 1:
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, a, v[0], 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, a, v[0], 0xffff0000);
         break;
     case 2:
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, a, v[0], v[1], 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, a, v[0], v[1], 0xffff0000);
         break;
     case 3:
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, a, v[0], v[1], v[2], 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, a, v[0], v[1], v[2], 0xffff0000);
         break;
     case 4:
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, a, v[0], v[1], v[2], v[3], 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, a, v[0], v[1], v[2], v[3], 0xffff0000);
         break;
     }
 }

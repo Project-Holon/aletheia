@@ -12,10 +12,11 @@
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
  * called from ov020 func_021871F8.
  */
+#include "../include/Obj18952.h"
 
 typedef unsigned short u16;
 
 u16 func_0216209C(char *p)
 {
-    return *(u16 *)(p + 0x26);
+    return ((struct Obj18952 *)p)->f26;
 }

@@ -21,6 +21,8 @@
  *   func_020089F4  0x020089F4  thumb
  *   func_02008A00  0x02008A00  thumb
  */
+#include "../include/Obj17686.h"
+#include "../include/Obj17687.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -73,10 +75,10 @@ sb = sb + 0x20;
 loc_0215B0EC:
     a0 = func_02025C88(a0);
 loc_0215B0F0:
-*(u16 *)((char *)v1) = a0;
+((struct Obj17687 *)((char *)v1))->f0 = a0;
     a0 = func_020089F4(obj);
 loc_0215B0F8:
-*(u16 *)((char *)v0) = a0;
+((struct Obj17686 *)((char *)v0))->f0 = a0;
     a0 = func_02008A00(obj);
 loc_0215B100:
 a0 = 0;

@@ -12,8 +12,9 @@
  *   func_021C5DB4 0x021C5DB4 arm ov114
  *   d_021E4B80 0x021E4B80 data a4
  */
+#include "../include/Obj10692.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 d_021E4B80[];
 extern int func_021C5DB4(void);
-void func_021DC6D0(u8 *p,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; *(u32 *)(p+0x130)=state; *(u32 *)(p+0x12c)=300; if(func_021C5DB4()==0) *(u32 *)(p+0x130)=state; }
+void func_021DC6D0(u8 *p,int state) { d_021E4B80[0]=0; *(u32 *)(d_021E4B80+4)=0; ((struct Obj10692 *)p)->f130=state; ((struct Obj10692 *)p)->f12C=300; if(func_021C5DB4()==0) ((struct Obj10692 *)p)->f130=state; }

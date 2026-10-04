@@ -32,6 +32,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021F3554     0x021F3554  data  a4
  */
+#include "../include/Obj20396.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -78,7 +79,7 @@ int func_021F23CC(u8 *p, u32 a)
     if (func_020072CC((struct Ctrl *)h, 4, 0x70, buf, 0x3000) == 1) {
         crc = func_0203F1FC(buf, 0x2600);
         x = func_0200910C((const struct Sub020090B0Obj *)func_02009210((void *)h));
-        base = (u16)*(u32 *)(p + 0x14);
+        base = (u16)((struct Obj20396 *)p)->f14;
         if (crc == x && func_0200C6F0(buf) != 0) {
             result = 1;
             for (i = 0; i < 15; i++) {

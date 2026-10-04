@@ -14,6 +14,7 @@
 
  * Tears down the handle at +0x24, the two word pair at +0x1C and the handles at +0x18 and +0x14.
  */
+#include "../include/Obj05867.h"
 
 
 struct Descriptor;
@@ -27,9 +28,9 @@ extern void func_020452E8(struct Descriptor *d);
 
 void func_021BE8FC(char *p)
 {
-    func_02045C04((struct Rec *)(*(int *)(p + 0x24)));
-    func_0203FB44(5, *(int *)(p + 0x1c), *(int *)(p + 0x20));
-    func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x18)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x14)));
+    func_02045C04((struct Rec *)(((struct Obj05867 *)p)->f24));
+    func_0203FB44(5, ((struct Obj05867 *)p)->f1C, ((struct Obj05867 *)p)->f20);
+    func_020437AC((struct Obj020437AC *)(((struct Obj05867 *)p)->f18));
+    func_020452E8((struct Descriptor *)(((struct Obj05867 *)p)->f14));
 }
 

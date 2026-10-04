@@ -11,8 +11,9 @@
  * symbols:
  *   func_0203A5E4 0x0203A5E4 arm
  */
+#include "../include/Obj22094.h"
 typedef unsigned int u32;
 extern void func_0203A5E4(u32);
 void func_021B6508(u32 p,u32 a) {
-    if(*(u32 *)(p+0x78)==0) func_0203A5E4(a);
+    if(((struct Obj22094 *)p)->f78==0) func_0203A5E4(a);
 }

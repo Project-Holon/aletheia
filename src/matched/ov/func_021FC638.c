@@ -16,6 +16,7 @@
 
  * Build, kick the two fixed helpers and latch state 6.
  */
+#include "../include/Obj02489.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ int func_021FC638(u8 *p)
     func_021F4BF8(p, 0x14, 0x16a, 8, 2, 1);
     func_021F5060();
     func_021F5034(1);
-    *(u32 *)(p + 0x28) = 6;
+    ((struct Obj02489 *)p)->f28 = 6;
     return 2;
 }

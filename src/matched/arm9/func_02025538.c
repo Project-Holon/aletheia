@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/func_02025538.c \
  *       --func func_02025538 --addr 0x02025538 --cc 1.1p1 --thumb
  */
+#include "../include/Obj08785.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,11 +39,11 @@ void *func_02025538(u32 a0, void *a1)
     int i;
 
     p = func_02030734(a0, 0x18, 1, (const char *)g_020A7494, 0x73);
-    *(u16 *)(p + 4) = a0;
-    *(void **)p = a1;
+    ((struct Obj08785 *)p)->f4 = a0;
+    ((struct Obj08785 *)p)->f0 = a1;
     for (i = 0; i < 3; i++) {
         *(u32 *)(p + 0xc + i * 4) = -1;
     }
-    *(void **)(p + 8) = func_020490F4(0x33, (a0 & 0x7fff) | 0x8000);
+    ((struct Obj08785 *)p)->f8 = func_020490F4(0x33, (a0 & 0x7fff) | 0x8000);
     return p;
 }

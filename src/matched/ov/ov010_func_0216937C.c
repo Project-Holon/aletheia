@@ -13,10 +13,12 @@
  *   func_021693A0 0x021693A0 thumb ov010
  *   func_020490F4 0x020490F4 arm
  */
+#include "../include/Obj00306.h"
+#include "../include/Obj19036.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0216990C(u8 *);
 extern void func_021693A0(int a0);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-void func_0216937C(u8 *p,int a,int b) { func_0216990C(p); func_021693A0((int)p); *(u32 *)(*(u8 **)(p+0x2c)+4)=0; *(void **)(p+0x10)=func_020490F4(a,b); }
+void func_0216937C(u8 *p,int a,int b) { func_0216990C(p); func_021693A0((int)p); ((struct Obj19036 *)(*(u8 * *)&((struct Obj00306 *)p)->f2C))->f4=0; ((struct Obj00306 *)p)->f10=func_020490F4(a,b); }

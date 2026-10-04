@@ -10,6 +10,7 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj00275.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,13 +24,13 @@ extern void func_0202843C(u8 *p);
 void func_021C48FC(u8 *p)
 {
     Template t;
-    *(u32 *)(p + 0x110) = (u32)func_02045EC0(*(void **)(p + 0x20), 4);
-    *(u16 *)(p + 0x114) = 0x39E3;
-    *(u32 *)(p + 0x118) = 0;
-    *(u32 *)(p + 0x11C) = (u32)func_02045EC0(*(void **)(p + 0x20), 5);
-    *(u16 *)(p + 0x120) = 0x39E3;
-    *(u32 *)(p + 0x124) = 0;
-    t.heap = *(u32 *)p;
+    ((struct Obj00275 *)p)->f110 = (u32)func_02045EC0(((struct Obj00275 *)p)->f20, 4);
+    ((struct Obj00275 *)p)->f114 = 0x39E3;
+    ((struct Obj00275 *)p)->f118 = 0;
+    ((struct Obj00275 *)p)->f11C = (u32)func_02045EC0(((struct Obj00275 *)p)->f20, 5);
+    ((struct Obj00275 *)p)->f120 = 0x39E3;
+    ((struct Obj00275 *)p)->f124 = 0;
+    t.heap = ((struct Obj00275 *)p)->f0;
     t.count = 2;
     t.items = p + 0x110;
     t.zero = 0;
@@ -37,8 +38,8 @@ void func_021C48FC(u8 *p)
     t.y = 6;
     t.w = 8;
     t.h = 3;
-    *(void **)(p + 0x10C) = func_02027778(&t, *(void **)(p + 0x108));
-    func_02021FD8(*(void **)(p + 0x38), 0, 0, 48, 10, 0);
-    func_0202843C(*(void **)(p + 0x128));
-    func_0202843C(*(void **)(p + 0x12C));
+    ((struct Obj00275 *)p)->f10C = func_02027778(&t, ((struct Obj00275 *)p)->f108);
+    func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 48, 10, 0);
+    func_0202843C(((struct Obj00275 *)p)->f128);
+    func_0202843C(((struct Obj00275 *)p)->f12C);
 }

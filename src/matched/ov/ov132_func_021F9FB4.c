@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23225.h"
 
 extern void func_02051630(void **p, void *q);
 
@@ -26,5 +27,5 @@ void func_021F9FB4(char *p, int i)
     int v = *(int *)(p + i * 16 + 0x4808);
 
     if (v != 0)
-        func_02051630(*(void **)(p + 0x4804), (void *)v);
+        func_02051630(((struct Obj23225 *)p)->f4804, (void *)v);
 }

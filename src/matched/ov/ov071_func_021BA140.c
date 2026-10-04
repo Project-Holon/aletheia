@@ -13,6 +13,7 @@
  *   func_0202590C  0x0202590C  thumb
  *   func_02043814  0x02043814  arm
  */
+#include "../include/Obj20759.h"
 
 typedef unsigned char u8;
 
@@ -24,7 +25,7 @@ extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 
 void func_021BA140(u8 *p)
 {
-    int x = *(int *)(p + 0x2d8) >> 8;
+    int x = ((struct Obj20759 *)p)->f2D8 >> 8;
     int b = 8 - x % 32;
     u8 *q = p + (x / 32) * 4;
     int i;

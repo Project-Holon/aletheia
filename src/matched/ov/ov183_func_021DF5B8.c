@@ -15,6 +15,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj02522.h"
 typedef unsigned short u16;
 struct W { char pad[0x18]; u16 handles[5][6]; char gap[4]; void *objects[5][6]; };
 extern void func_0204AFD8(unsigned int);
@@ -25,8 +26,8 @@ extern void func_0204B3B4(struct Obj *p);
 void func_021DF5B8(char *p)
 {
     int i, j;
-    func_0204AFD8(*(u16 *)(p + 0x16));
-    func_0204ADA4(*(u16 *)(p + 0x14));
+    func_0204AFD8(((struct Obj02522 *)p)->f16);
+    func_0204ADA4(((struct Obj02522 *)p)->f14);
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 6; j++) {
             if (((struct W *)p)->objects[i][j] != 0) {

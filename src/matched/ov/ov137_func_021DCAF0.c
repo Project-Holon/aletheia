@@ -10,7 +10,8 @@
  * symbols:
  *   func_021DC90C 0x021DC90C thumb ov137
  */
+#include "../include/Obj23669.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DC90C(u8 *p);
-int func_021DCAF0(u8 *p) {func_021DC90C(*(void **)(p+12));return 1;}
+int func_021DCAF0(u8 *p) {func_021DC90C(((struct Obj23669 *)p)->fC);return 1;}

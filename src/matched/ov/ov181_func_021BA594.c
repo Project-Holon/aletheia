@@ -11,6 +11,8 @@
  *   func_02045770 0x02045770 arm
  *   func_021BA4AC 0x021BA4AC thumb ov181
  */
+#include "../include/Obj01071.h"
+#include "../include/Obj08305.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_021BA4AC(char *, unsigned char *, void *, int);
@@ -18,14 +20,14 @@ void func_021BA594(char *p, unsigned char *q)
 {
     void *s;
     int y;
-    if (*(unsigned short *)(q + 4) < 0x100) {
-        s = func_02045770(*(void **)(p + 0x2bc));
-        y = *(unsigned short *)(q + 4);
-        *(unsigned char *)(p + 0x2cf) |= 1;
+    if (((struct Obj01071 *)q)->f4 < 0x100) {
+        s = func_02045770(((struct Obj08305 *)p)->f2BC);
+        y = ((struct Obj01071 *)q)->f4;
+        ((struct Obj08305 *)p)->f2CF |= 1;
     } else {
-        s = func_02045770(*(void **)(p + 0x2c4));
-        y = *(unsigned short *)(q + 4) - 0x100;
-        *(unsigned char *)(p + 0x2cf) |= 2;
+        s = func_02045770(((struct Obj08305 *)p)->f2C4);
+        y = ((struct Obj01071 *)q)->f4 - 0x100;
+        ((struct Obj08305 *)p)->f2CF |= 2;
     }
     func_021BA4AC(p, q, s, y);
 }

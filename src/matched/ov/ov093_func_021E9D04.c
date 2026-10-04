@@ -21,6 +21,7 @@
  *   func_021B9C00 0x021B9C00 thumb ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
  */
+#include "../include/Obj00056.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,35 +47,35 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
     void *list;
     int flag;
     if (p[0x174]) return;
-    *(void **)(p + 0xc8) = (void *)func_021B90E8(*(void **)p);
-    *(void **)(p + 0xe4) = (void *)func_021B90F0(*(void **)p);
-    *(int *)(p + 0xd0) = x;
-    *(u32 *)(p + 0xcc) = *(u32 *)(p + 0xb0);
-    *(u16 *)(p + 0xd4) = *(u16 *)(p + 0x184);
+    ((struct Obj00056 *)p)->fC8 = (void *)func_021B90E8(((struct Obj00056 *)p)->f0);
+    ((struct Obj00056 *)p)->fE4 = (void *)func_021B90F0(((struct Obj00056 *)p)->f0);
+    ((struct Obj00056 *)p)->fD0 = x;
+    ((struct Obj00056 *)p)->fCC = ((struct Obj00056 *)p)->fB0;
+    ((struct Obj00056 *)p)->fD4 = ((struct Obj00056 *)p)->f184;
     p[0xdc] = a;
     p[0xdd] = b;
-    *(u16 *)(p + 0xde) = 0;
-    *(int *)(p + 0xf4) = func_021E9E60(*(void **)(p + 0x180));
-    *(int *)(p + 0xe8) = 0;
-    *(char **)(p + 0xd8) = func_021BA1E4(*(char ***)p);
+    ((struct Obj00056 *)p)->fDE = 0;
+    ((struct Obj00056 *)p)->fF4 = func_021E9E60(((struct Obj00056 *)p)->f180);
+    ((struct Obj00056 *)p)->fE8 = 0;
+    *(char * *)&((struct Obj00056 *)p)->fD8 = func_021BA1E4(*(char ** *)&((struct Obj00056 *)p)->f0);
     flag = 0;
-    if ((int)func_021B86B8(*(void ****)p) != 3) flag = 1;
-    *(int *)(p + 0x108) = flag;
-    *(int *)(p + 0xec) = 0;
+    if ((int)func_021B86B8(*(void *** *)&((struct Obj00056 *)p)->f0) != 3) flag = 1;
+    ((struct Obj00056 *)p)->f108 = flag;
+    ((struct Obj00056 *)p)->fEC = 0;
     flag = 0;
-    if (func_021B86B8(*(void ****)p) == 0) flag = 1;
+    if (func_021B86B8(*(void *** *)&((struct Obj00056 *)p)->f0) == 0) flag = 1;
     p[0xf1] = flag;
     p[0xe1] = 0;
     flag = 0;
     if (c == 0) flag = 3;
-    else if (func_021BA1A8(*(void **)p, 0x40)) flag = 1;
-    else if (func_021B86B8(*(void ****)p) == 0) {
-        if (func_021B9B04(*(int *)(p + 8), 1) > 1) flag = 2;
+    else if (func_021BA1A8(((struct Obj00056 *)p)->f0, 0x40)) flag = 1;
+    else if (func_021B86B8(*(void *** *)&((struct Obj00056 *)p)->f0) == 0) {
+        if (func_021B9B04(((struct Obj00056 *)p)->f8, 1) > 1) flag = 2;
         else if (d) flag = 4;
     }
     p[0xf0] = flag;
     func_021E9984(p, p + 0x10c, 3, 0, 0);
-    list = (void *)func_021D3D7C(*(void **)(p + 4));
+    list = (void *)func_021D3D7C(((struct Obj00056 *)p)->f4);
     n = func_021B9B94(list);
     for (i = 0; i < n; i++)
         p[0x144 + i] = func_021D62C4(func_021B9C00(list, (u8)i), 0x13);

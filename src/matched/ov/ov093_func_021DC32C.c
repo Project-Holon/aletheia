@@ -21,6 +21,7 @@
  * Pointer-sum grouping preserves both candidate-list load sequences.
  * Signed byte storage of -1 preserves the subtraction from the live one.
  */
+#include "../include/Obj03701.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -80,7 +81,7 @@ void func_021DC32C(int a, void *b, u8 c)
             r = (u8 *)func_021C88A4(b, 14, c);
             r[15] = 1;
             r[16] = c;
-            *(u32 *)(r + 4) = first;
+            ((struct Obj03701 *)r)->f4 = first;
             r[12] = 2;
             func_021C88C8(b, r);
         }
@@ -88,8 +89,8 @@ void func_021DC32C(int a, void *b, u8 c)
             r = (u8 *)func_021C88A4(b, 14, c);
             r[15] = 1;
             r[16] = c;
-            *(u32 *)(r + 4) = second;
-            *(s8 *)(r + 12) = -1;
+            ((struct Obj03701 *)r)->f4 = second;
+            *(s8 *)&((struct Obj03701 *)r)->fC = -1;
             func_021C88C8(b, r);
         }
         func_021C88B4(b, 3, c);

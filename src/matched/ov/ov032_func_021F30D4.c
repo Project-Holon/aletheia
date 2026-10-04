@@ -18,6 +18,7 @@
  *   func_0204AF28  0x0204AF28  arm
  *   d_021F36A0     0x021F36A0  data  a1
  */
+#include "../include/Obj07640.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,12 +50,12 @@ void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
     for (i = 0; i < 3; i++) {
         out[i].count = spec[i].count;
         if (out[i].count != 0)
-            out[i].items = func_02030734(*(u16 *)(this + 0x94), out[i].count << 2, 1, d_021F36A0, 0x4C3);
+            out[i].items = func_02030734(((struct Obj07640 *)this)->f94, out[i].count << 2, 1, d_021F36A0, 0x4C3);
     }
     for (i = 0; i < out[0].count; i++)
-        out[0].items[i] = func_0204ABF0(arc, spec[0].base + i, 1, 0, *(u16 *)(this + 0x94));
+        out[0].items[i] = func_0204ABF0(arc, spec[0].base + i, 1, 0, ((struct Obj07640 *)this)->f94);
     for (i = 0; i < out[1].count; i++)
-        out[1].items[i] = func_0204A6C8(arc, spec[1].base + i, 0, 1, *(u16 *)(this + 0x94));
+        out[1].items[i] = func_0204A6C8(arc, spec[1].base + i, 0, 1, ((struct Obj07640 *)this)->f94);
     for (i = 0; i < out[2].count; i++)
-        out[2].items[i] = func_0204AF28(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, *(u16 *)(this + 0x94));
+        out[2].items[i] = func_0204AF28(arc, spec[2].base + i * 2, spec[2].base + 1 + i * 2, ((struct Obj07640 *)this)->f94);
 }

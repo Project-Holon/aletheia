@@ -13,9 +13,11 @@
  *   func_0200FBB0 0x0200FBB0 thumb
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
+#include "../include/Obj08276.h"
+#include "../include/Obj24283.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021D9EA0(void *);
 extern void func_021E8AA8(int a);
 extern u32 func_0200FBB0(void);
-void func_021D9064(void *obj,int unused,u8 *p) { *(u32 *)(*(u8 **)(p+0x104)+4)=3; if(*(void **)(p+52)) { func_021D9EA0(*(void **)(p+52)); *(u32 *)(p+52)=0; } func_0200FBB0(); func_021E8AA8((int)obj); }
+void func_021D9064(void *obj,int unused,u8 *p) { ((struct Obj24283 *)(*(u8 * *)&((struct Obj08276 *)p)->f104))->f4=3; if(((struct Obj08276 *)p)->f34) { func_021D9EA0(((struct Obj08276 *)p)->f34); *(u32 *)&((struct Obj08276 *)p)->f34=0; } func_0200FBB0(); func_021E8AA8((int)obj); }

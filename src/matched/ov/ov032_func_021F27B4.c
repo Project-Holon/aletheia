@@ -12,12 +12,13 @@
  * symbols:
  *   func_021F03EC 0x021F03EC thumb ov032
  */
+#include "../include/Obj00007.h"
 typedef unsigned char u8;
 extern int func_021F03EC(u8 *);
 int func_021F27B4(u8 *p)
 {
     if (func_021F03EC(p) == 0)
         return 4;
-    *(int *)(p + 0x6c) = 0;
+    ((struct Obj00007 *)p)->f6C = 0;
     return 0;
 }

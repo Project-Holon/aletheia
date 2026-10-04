@@ -12,6 +12,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj14716.h"
 extern void func_021BC43C(void *,char *);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -20,8 +21,8 @@ void func_021BC56C(char *p)
     int i;
     for(i=0;i<2;i++) func_021BC43C(p,p+0x68+i*12);
     for(i=0;i<16;i++) func_020307B0(*(void **)(p+0x90+i*8));
-    func_020307B0(*(void **)(p+0x114));
+    func_020307B0(((struct Obj14716 *)p)->f114);
     func_021BC43C(p,p+0x80);
     func_021BC43C(p,p+0x5c);
-    func_02049238(*(void **)(p+0x58));
+    func_02049238(((struct Obj14716 *)p)->f58);
 }

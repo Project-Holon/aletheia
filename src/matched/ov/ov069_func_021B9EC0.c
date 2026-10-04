@@ -11,9 +11,10 @@
  * symbols:
  *   func_0204B98C 0x0204B98C arm
  */
+#include "../include/Obj13147.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-int func_021B9EC0(u8 *p) { if (func_0204B98C(*(void **)(p+0x128))==0) *(int *)(p+0x158)=3; return 1; }
+int func_021B9EC0(u8 *p) { if (func_0204B98C(((struct Obj13147 *)p)->f128)==0) ((struct Obj13147 *)p)->f158=3; return 1; }

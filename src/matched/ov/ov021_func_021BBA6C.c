@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj20098.h"
 
 typedef unsigned int u32;
 
 u32 func_021BBA6C(const void *p)
 {
-    return *(u32 *)((char *)p + 0x10);
+    return ((struct Obj20098 *)p)->f10;
 }

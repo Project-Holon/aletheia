@@ -17,6 +17,7 @@
  *   func_02175920  0x02175920  thumb  ov011
  *   func_0203F4FC  0x0203F4FC  arm
  */
+#include "../include/Obj12438.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -103,7 +104,7 @@ int func_02176048(u8 *a0, Work *p, Src *src, int idx)
     p->entries[idx].rec = *tmp;
     p->entries[idx].state = 1;
     func_02175920(p);
-    *(u32 *)((u8 *)p + 0x190) = func_0203F4FC();
+    ((struct Obj12438 *)p)->f190 = func_0203F4FC();
     *((u8 *)p + 0x19C) = 0;
     return 1;
 }

@@ -14,14 +14,15 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D65C8 0x021D65C8 thumb ov093
  */
+#include "../include/Obj13422.h"
 typedef unsigned char u8;
 struct Work;
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D65C8(struct Work *, struct Work *);
 int func_021D3BE0(char *p, int unused, unsigned int *a)
 {
-    u8 *first = func_021B9934(*(char **)(p + 4), (u8)a[0]);
-    u8 *second = func_021B9934(*(char **)(p + 4), (u8)a[1]);
+    u8 *first = func_021B9934(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[0]);
+    u8 *second = func_021B9934(*(char * *)&((struct Obj13422 *)p)->f4, (u8)a[1]);
     func_021D65C8((struct Work *)second, (struct Work *)first);
     return 1;
 }

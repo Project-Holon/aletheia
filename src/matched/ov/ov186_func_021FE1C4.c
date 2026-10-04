@@ -20,6 +20,7 @@
  *   func_021FD964 0x021FD964 thumb ov186
  *   d_02200AD8 0x02200AD8 data a4
  */
+#include "../include/Obj06632.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {int x,y;} Pair;
@@ -48,11 +49,11 @@ void func_021FE1C4(int *task,int *state,char *p)
         offset=0x228;offset=0x1f8;
         for(i=6;i<12;i++) {
             u16 angle;
-            angle=*(u16 *)(p+i*32+0x2a)+*(int *)(p+0x228)/ *(int *)(p+i*32+0x2c);
+            angle=*(u16 *)(p+i*32+0x2a)+((struct Obj06632 *)p)->f228/ *(int *)(p+i*32+0x2c);
             func_021FE2BC(start+i*32,(void *)d_02200AD8,15,1,angle,angle+0xf000,30);
             func_0204B688(*(void **)(p+i*4+offset),0);
         }
-        *(int *)(p+0x228)=0;
+        ((struct Obj06632 *)p)->f228=0;
         *state=1;
     }
     case 1: {
@@ -60,11 +61,11 @@ void func_021FE1C4(int *task,int *state,char *p)
         int offset;
         offset=0x228;start=p;i=6;start=p+0x18;offset=0x1f8;
         for(;i<12;i++) {
-            func_021FE2F8(start+i*32,(int *)&full,*(int *)(p+0x228));
+            func_021FE2F8(start+i*32,(int *)&full,((struct Obj06632 *)p)->f228);
             pos.x=full.x;pos.y=full.y;
-            func_0204B404(*(void **)(p+i*4+offset),&pos,*(int *)(p+0xc));
+            func_0204B404(*(void **)(p+i*4+offset),&pos,((struct Obj06632 *)p)->fC);
         }
-        if((*(int *)(p+0x228))++>60)*state=2;
+        if((((struct Obj06632 *)p)->f228)++>60)*state=2;
         break;
     }
     case 2:func_021FD73C(task,(int)func_021FD964);break;

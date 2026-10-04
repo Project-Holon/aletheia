@@ -16,6 +16,7 @@
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj02170.h"
 typedef unsigned char u8;
 extern void func_021D584C(u8 *);
 typedef unsigned int   u32;
@@ -27,11 +28,11 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_0203F9B4(void);
 extern void func_020307B0(void *);
 void func_021D4E04(u8 *p) {
-    if (*(int *)(p + 8) == 1) func_021D584C(p);
-    else if (*(void **)(p + 0x10)) {
-        func_02030EAC(*(void **)(p + 0x10));
-        *(void **)(p + 0x10) = 0;
-        *(void **)(p + 0x14) = 0;
+    if (((struct Obj02170 *)p)->f8 == 1) func_021D584C(p);
+    else if (((struct Obj02170 *)p)->f10) {
+        func_02030EAC(((struct Obj02170 *)p)->f10);
+        ((struct Obj02170 *)p)->f10 = 0;
+        ((struct Obj02170 *)p)->f14 = 0;
     }
     func_02040DA8(5, 1, 0);
     func_02040DA8(6, 1, 0);

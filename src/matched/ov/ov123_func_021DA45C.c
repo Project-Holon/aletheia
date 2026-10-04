@@ -12,7 +12,8 @@
  *   func_021B9774 0x021B9774 thumb ov114
  *   func_021B9838 0x021B9838 thumb ov114
  */
+#include "../include/Obj08119.h"
 typedef unsigned char u8;
 extern void func_021B9774(u8 *);
 extern void func_021B9838(u8 *);
-void func_021DA45C(char *p) { if(*(u8 **)(p+8)) { func_021B9774(*(u8 **)(p+8)); func_021B9838(*(u8 **)(p+8)); *(u8 **)(p+8)=0; } }
+void func_021DA45C(char *p) { if(*(u8 * *)&((struct Obj08119 *)p)->f8) { func_021B9774(*(u8 * *)&((struct Obj08119 *)p)->f8); func_021B9838(*(u8 * *)&((struct Obj08119 *)p)->f8); *(u8 * *)&((struct Obj08119 *)p)->f8=0; } }

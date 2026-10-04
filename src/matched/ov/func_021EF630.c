@@ -14,6 +14,7 @@
  * Spin up the 0x0204162C resource, arm channel 6 with tag 0x20,
  *   then hand row 6 of the 0x540 span.
  */
+#include "../include/Obj01558.h"
 
 
 typedef unsigned int u32;
@@ -24,6 +25,6 @@ extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 void func_021EF630(char *p)
 {
     int x = func_0204162C(0);
-    func_0202CA3C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74), 6, 0, 0x20, 3);
-    func_0202CAC4(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74), 6, (const void *)(x + 0x540));
+    func_0202CA3C(*(struct WinMgr **)(*(int *)&((struct Obj01558 *)p)->f2C + 0x74), 6, 0, 0x20, 3);
+    func_0202CAC4(*(struct WinMgr **)(*(int *)&((struct Obj01558 *)p)->f2C + 0x74), 6, (const void *)(x + 0x540));
 }

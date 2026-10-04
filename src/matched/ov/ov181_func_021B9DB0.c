@@ -11,6 +11,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj14409.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *),func_020450C8(void);
-void func_021B9DB0(char *p){func_020452E8(*(struct Descriptor **)(p+0x2bc));func_020452E8(*(struct Descriptor **)(p+0x2c4));func_020450C8();}
+void func_021B9DB0(char *p){func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2BC);func_020452E8(*(struct Descriptor * *)&((struct Obj14409 *)p)->f2C4);func_020450C8();}

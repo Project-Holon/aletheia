@@ -17,6 +17,7 @@
  *   func_021C1680 0x021C1680 thumb ov217
  *   func_021C16C4 0x021C16C4 thumb ov217
  */
+#include "../include/Obj04640.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w0,w4,type,wc,counter; } Rec;
@@ -30,8 +31,8 @@ extern void func_021C1680(Rec *);
 extern void func_021C16C4(void *);
 void func_021C15B8(u8 *p)
 {
-    if (*(u32 *)(p+0x14)==0) {
-        switch (*(u32 *)(p+8)) {
+    if (((struct Obj04640 *)p)->f14==0) {
+        switch (((struct Obj04640 *)p)->f8) {
         case 0: func_021C1610((u32)p); break;
         case 1: func_021C1628(p); break;
         case 2: func_021C1638(p); break;

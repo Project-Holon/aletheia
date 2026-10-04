@@ -12,7 +12,8 @@
  *   func_0216D5B8 0x0216D5B8 thumb ov010
  *   func_021F4124 0x021F4124 thumb ov055
  */
+#include "../include/Obj00204.h"
 typedef unsigned short u16;
 extern u16 func_0216D5B8(void *p);
 extern void func_021F4124(unsigned char *);
-void func_021F3D90(unsigned char *p) { if (p[0]==1 && p[2]==1 && func_0216D5B8(*(void **)(p+12))==2000) { p[2]=0; func_021F4124(p); } }
+void func_021F3D90(unsigned char *p) { if (p[0]==1 && p[2]==1 && func_0216D5B8(((struct Obj00204 *)p)->fC)==2000) { p[2]=0; func_021F4124(p); } }

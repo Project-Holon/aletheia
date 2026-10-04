@@ -11,6 +11,7 @@
  *
  * Loads the byte at +0x2 of the object.
  */
+#include "../include/Obj17986.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 u8 func_021A01D4(u8 *p)
 {
-    return *(u8 *)(p + 0x2);
+    return ((struct Obj17986 *)p)->f2;
 }
 

@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07463.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,23 +34,23 @@ int func_02196D94(u32 v, u8 *p)
 {
     int r = 0;
 
-    *(u32 *)(p + 0x300) = v;
+    ((struct Obj07463 *)p)->f300 = v;
     switch (v) {
     case 1:
         func_020061E4(0x73B);
-        *(u32 *)(p + 0xC) = 0;
+        ((struct Obj07463 *)p)->fC = 0;
         func_02196034(p, func_02196D24, 0x524);
         r = 1;
         break;
     case 0:
         func_020061E4(0x73B);
         r = 1;
-        *(u32 *)(p + 0xC) = 1;
+        ((struct Obj07463 *)p)->fC = 1;
         func_02196034(p, func_02196D24, 0x52A);
         break;
     case 2:
         func_020061E4(0x73C);
-        *(u32 *)(p + 0xC) = 2;
+        ((struct Obj07463 *)p)->fC = 2;
         func_02196034(p, func_02196D24, 0x530);
         break;
     }

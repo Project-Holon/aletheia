@@ -18,6 +18,7 @@
  *   func_020477D4  0x020477D4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06104.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,11 +38,11 @@ void func_021D024C(void *obj, int sel)
         return;
     q = (u8 *)func_021AC1E0((u32)obj);
     for (i = 0; i < 4; i++) {
-        func_02047804(*(u32 *)(q + 0xc), i);
+        func_02047804(((struct Obj06104 *)q)->fC, i);
         if (i == sel)
-            func_020477A4(*(u32 *)(q + 0xc), i);
+            func_020477A4(((struct Obj06104 *)q)->fC, i);
         else
-            func_020477D4(*(u32 *)(q + 0xc), i);
+            func_020477D4(((struct Obj06104 *)q)->fC, i);
     }
     q[2] = sel;
     q[3] = 0;

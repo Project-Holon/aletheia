@@ -15,6 +15,9 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj08353.h"
+#include "../include/Obj24990.h"
+#include "../include/Obj24991.h"
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int   u32;
@@ -33,12 +36,12 @@ extern void func_02045808(struct U16Vec *vec);
 void func_0220B1D4(char *p,int i,int id,int y,u16 colour)
 {
     int handle=*(int *)(p+0x28+i*8);
-    int text=(int)func_02045EC0((struct MsgBank *)(*(int *)(p+0xc)),id);
-    int width=func_0201D304((struct StrObj *)text,*(int *)(*(char **)p+4),0);
+    int text=(int)func_02045EC0((struct MsgBank *)(((struct Obj08353 *)p)->fC),id);
+    int width=func_0201D304((struct StrObj *)text,((struct Obj24990 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4,0);
     int x=(func_02045738((struct Descriptor *)handle)*8-width)>>1;
-    int font=*(int *)(p+0x18);
+    int font=((struct Obj08353 *)p)->f18;
     int surface=(int)func_02045770((struct Descriptor *)*(int *)(p+0x28+i*8));
-    func_0201C724(font,surface,x,y,text,*(int *)(*(char **)p+4),colour);
+    func_0201C724(font,surface,x,y,text,((struct Obj24991 *)(*(char * *)&((struct Obj08353 *)p)->f0))->f4,colour);
     (p+i*8)[0x2c]=1;
     func_02045808((struct U16Vec *)text);
 }

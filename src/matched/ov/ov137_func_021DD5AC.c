@@ -16,6 +16,7 @@
  * func_02043598 0x02043598 arm
  * d_021E1B08 0x021E1B08 data a2
  */
+#include "../include/Obj14208.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,7 +36,7 @@ void func_021DD5AC(u8 *p)
     s.e=1; s.d=0; s.c=0;
     for(i=0;i<5;i++) {
         s.a=d_021E1B08[i*2+2]; s.b=d_021E1B08[i*2+3];
-        *(u32 *)(p+i*4+156)=(u32)func_0204B294((void *)*(u32 *)(p+104),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),*(u32 *)(p+148),&s,0,114);
+        *(u32 *)(p+i*4+156)=(u32)func_0204B294((void *)((struct Obj14208 *)p)->f68,*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),((struct Obj14208 *)p)->f94,&s,0,114);
         func_0204B92C((struct Obj *)*(u32 *)(p+i*4+156),1);
         func_0204B878((struct Obj *)(*(u32 *)(p+i*4+156)),0);
         func_0204B3DC((struct Obj *)*(u32 *)(p+i*4+156),0);

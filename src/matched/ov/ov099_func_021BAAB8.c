@@ -15,6 +15,7 @@
  *
  * Releases the pointer at +0x19C and re-arms the block with the one-flag.
  */
+#include "../include/Obj13683.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ extern void func_021BA978(char *p, int a, int b, int c);
 
 void func_021BAAB8(char *p, int a, int b)
 {
-    *(void **)(p + 0x19C) = (void *)func_021BA8BC(*(void **)(p + 0x19C));
+    ((struct Obj13683 *)p)->f19C = (void *)func_021BA8BC(((struct Obj13683 *)p)->f19C);
     func_021BA978(p, a, b, 1);
 }

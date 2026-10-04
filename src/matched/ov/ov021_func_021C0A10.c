@@ -15,6 +15,7 @@
  *   func_0218C88C  0x0218C88C  thumb  ov021
  *   func_0218C69C  0x0218C69C  thumb  ov021
  */
+#include "../include/Obj00707.h"
 
 typedef unsigned char u8;
 
@@ -27,6 +28,6 @@ void func_021C0A10(u8 *p)
 
     for (i = 0; i < p[0x15]; i++)
         func_0218C88C((unsigned char *)(((int *)(p + 0x1C))[i]), 0, 0);
-    if (*(int *)(p + 0x34) != 0)
-        func_0218C69C((unsigned char *)(*(int *)(p + 0x18)), *(int *)(p + 0x34), 0, 0);
+    if (((struct Obj00707 *)p)->f34 != 0)
+        func_0218C69C((unsigned char *)(*(int *)&((struct Obj00707 *)p)->f18), ((struct Obj00707 *)p)->f34, 0, 0);
 }

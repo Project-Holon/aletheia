@@ -20,6 +20,7 @@
  *   func_021D81EC 0x021D81EC thumb ov116
  *   func_021D81B4 0x021D81B4 thumb ov116
  */
+#include "../include/Obj01926.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021D8010(void *,u32);
@@ -37,27 +38,27 @@ extern void func_021D81B4(u8 *p);
 int func_021D7450(u8 *p,int b)
 {
     int v;
-    switch (*(u32 *)(p+0xb6c)) {
-    case 0: func_021D8010(p+4,7); ++*(u32 *)(p+0xb6c); break;
-    case 1: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++*(u32 *)(p+0xb6c); break;
+    switch (((struct Obj01926 *)p)->fB6C) {
+    case 0: func_021D8010(p+4,7); ++((struct Obj01926 *)p)->fB6C; break;
+    case 1: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 2:
         v=func_021D6EC4(p+0x1610,p+0x182c,0);
-        if(v==1) *(u32 *)(p+0xb6c)=5;
-        else if(v==2) *(u32 *)(p+0xb6c)=3;
+        if(v==1) ((struct Obj01926 *)p)->fB6C=5;
+        else if(v==2) ((struct Obj01926 *)p)->fB6C=3;
         break;
-    case 3: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++*(u32 *)(p+0xb6c); break;
+    case 3: func_021D6E50(p+0x1610,p+0x182c,(int)(p+0x9f4),b); ++((struct Obj01926 *)p)->fB6C; break;
     case 4:
-        if(func_021D6EC4(p+0x1610,p+0x182c,1)==1) *(u32 *)(p+0xb6c)=5;
+        if(func_021D6EC4(p+0x1610,p+0x182c,1)==1) ((struct Obj01926 *)p)->fB6C=5;
         break;
-    case 5: func_021D7060(p+0x1610,p+0x182c); ++*(u32 *)(p+0xb6c); break;
+    case 5: func_021D7060(p+0x1610,p+0x182c); ++((struct Obj01926 *)p)->fB6C; break;
     case 6:
-        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c);
+        if(func_021D70B0(p+0x1610,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++((struct Obj01926 *)p)->fB6C;
         break;
-    case 7: func_0200DBA0(*(void **)(p+0x1858),1,2); func_021D81D0(p); ++*(u32 *)(p+0xb6c); break;
+    case 7: func_0200DBA0(((struct Obj01926 *)p)->f1858,1,2); func_021D81D0(p); ++((struct Obj01926 *)p)->fB6C; break;
     case 8:
-        if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,8); ++*(u32 *)(p+0xb6c); }
+        if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,8); ++((struct Obj01926 *)p)->fB6C; }
         break;
-    case 9: if(func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
+    case 9: if(func_021D80CC(p+4)!=0) ++((struct Obj01926 *)p)->fB6C; break;
     case 10: return 1;
     }
     return 0;

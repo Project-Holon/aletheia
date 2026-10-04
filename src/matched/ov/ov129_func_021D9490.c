@@ -12,6 +12,7 @@
  *   func_021D958C 0x021D958C thumb ov129
  *   func_02051B84 0x02051B84 arm
  */
+#include "../include/Obj14055.h"
 typedef unsigned char u8;
 typedef short s16;
 typedef struct { s16 a,b,c,d; } Rect;
@@ -31,6 +32,6 @@ void func_021D9490(char *p)
         *(u8 *)(p+i*4+0x299)=t.rows[i-12].b+t.rows[i-12].d;
         *(u8 *)(p+i*4+0x29b)=t.rows[i-12].a+t.rows[i-12].c;
     }
-    *(u8 *)(p+0x2f8)=255;
-    *(void **)(p+0x294)=func_02051B84((u8 *)(p+0x298),(int)func_021D958C,(int)p,50);
+    ((struct Obj14055 *)p)->f2F8=255;
+    ((struct Obj14055 *)p)->f294=func_02051B84((u8 *)(p+0x298),(int)func_021D958C,(int)p,50);
 }

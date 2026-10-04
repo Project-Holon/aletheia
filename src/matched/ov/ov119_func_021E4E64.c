@@ -16,6 +16,7 @@
  *   func_021E4B00 0x021E4B00 thumb ov119
  *   func_021E4F28 0x021E4F28 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef short s16;
 extern int func_021E4DBC(char *);
 struct Obj;
@@ -28,20 +29,20 @@ void func_021E4E64(int a, char *p, int b)
 {
     int i, n, j;
     n = func_021E4DBC(p);
-    if (*(s16 *)(p + 0x1080) != n) {
-        *(s16 *)(p + 0x1080) = n;
+    if (((struct Obj00001 *)p)->f1080 != n) {
+        ((struct Obj00001 *)p)->f1080 = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
                 func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }
-        *(int *)(p + 0x1090) = n;
+        ((struct Obj00001 *)p)->f1090 = n;
         func_021E5164((int)p);
         for (i = 0; i < 12; i++) {
-            func_021E4B00(p, a, n, func_021E5158(*(s16 *)(p + 0x1080) + i), b);
+            func_021E4B00(p, a, n, func_021E5158(((struct Obj00001 *)p)->f1080 + i), b);
             n++;
-            if (n >= *(int *)(p + 0x634)) n = 0;
+            if (n >= ((struct Obj00001 *)p)->f634) n = 0;
         }
     }
     func_021E4F28(p);

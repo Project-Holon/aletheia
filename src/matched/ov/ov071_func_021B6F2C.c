@@ -12,6 +12,7 @@
  *   func_020120F4 0x020120F4 thumb
  *   func_021583EC 0x021583EC thumb ov010
  */
+#include "../include/Obj13166.h"
 typedef unsigned char u8;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
@@ -19,5 +20,5 @@ extern int func_021583EC(void *a0, int a1);
 void *func_021B6F2C(u8 **p)
 {
     u8 *q = *p;
-    return (void *)func_021583EC(func_020120F4(*(void **)q), q[0x3c]);
+    return (void *)func_021583EC(func_020120F4(((struct Obj13166 *)q)->f0), q[0x3c]);
 }

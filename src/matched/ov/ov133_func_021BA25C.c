@@ -18,6 +18,7 @@
  *   _ffix 0x0209C494 arm
  *   d_020A1B38 0x020A1B38 data a4
  */
+#include "../include/Obj04524.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -35,18 +36,18 @@ int func_021BA25C(u8 *p, int x, int y)
     s16 c;
     int dx, dy;
     s16 rx, ry;
-    func_021F4F04(*(void **)(p + 12), (Offset *)pos);
-    if (func_021F4EFC(0, *(void **)(p + 12)) == 1) {
-        func_021F4EE0(0, *(void **)(p + 12), &angle);
+    func_021F4F04(((struct Obj04524 *)p)->fC, (Offset *)pos);
+    if (func_021F4EFC(0, ((struct Obj04524 *)p)->fC) == 1) {
+        func_021F4EE0(0, ((struct Obj04524 *)p)->fC, &angle);
         s = d_020A1B38[(angle >> 4) * 2];
         c = d_020A1B38[(angle >> 4) * 2 + 1];
         dx = (int)((float)(pos[0] * c - pos[1] * s) / 4096.0f);
         dy = (int)((float)(pos[0] * s + pos[1] * c) / 4096.0f);
-        rx = *(int *)(p + 16) - dx - x;
-        ry = *(int *)(p + 20) - dy - y;
+        rx = ((struct Obj04524 *)p)->f10 - dx - x;
+        ry = ((struct Obj04524 *)p)->f14 - dy - y;
     } else {
-        rx = *(int *)(p + 16) - x;
-        ry = *(int *)(p + 20) - y;
+        rx = ((struct Obj04524 *)p)->f10 - x;
+        ry = ((struct Obj04524 *)p)->f14 - y;
     }
     if (rx < 16 && rx > -16 && ry < 16 && ry > -16) return 1;
     return 0;

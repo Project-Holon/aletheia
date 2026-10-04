@@ -18,6 +18,13 @@
  *   func_022026BC 0x022026BC thumb ov135
  *   func_0220246C 0x0220246C thumb ov135
  */
+#include "../include/Obj02864.h"
+#include "../include/Obj23476.h"
+#include "../include/Obj23477.h"
+#include "../include/Obj23478.h"
+#include "../include/Obj23479.h"
+#include "../include/Obj23480.h"
+#include "../include/Obj23481.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,25 +45,25 @@ extern void func_0220246C(void *,int);
 void func_022023A4(u8 *p,void *mon,void *unused2,void *unused3,u32 index)
 {
     u32 species, form, pos;
-    func_0200CDE0(*(struct Blk37 **)(*(u8 **)p+0x10),mon);
+    func_0200CDE0(*(struct Blk37 * *)&((struct Obj23476 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f10,mon);
     index=0xFF;
-    if(func_0201AA18(*(void **)(*(u8 **)p+8))==6) index=0;
+    if(func_0201AA18(((struct Obj23477 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8)==6) index=0;
     func_02017E40(mon,9,0x46);
     species=func_02017E1C(mon,5,0);
     form=func_02017E1C(mon,0x6F,0);
     func_02017E40(mon,0x6E,func_02017F50(species,form,func_02017E1C(mon,0,0)));
     if(index==0xFF) {
-        func_0201A98C(*(struct Party **)(*(u8 **)p+8),(const struct PartyMon *)mon);
-        pos=func_0201AA18(*(void **)(*(u8 **)p+8));
-        *(u32 *)(p+0xDC)=0xFF;
+        func_0201A98C(*(struct Party * *)&((struct Obj23478 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8,(const struct PartyMon *)mon);
+        pos=func_0201AA18(((struct Obj23479 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->f8);
+        ((struct Obj02864 *)p)->fDC=0xFF;
         pos--;
     } else {
         u32 slot=0;
-        func_020076D0(*(void **)(*(u8 **)p+0xC),&index,&slot);
-        func_0200752C(*(void **)(*(u8 **)p+0xC),index,(const struct Sub02007454Entry *)func_022026BC(mon));
-        *(u32 *)(p+0xDC)=index;
+        func_020076D0(((struct Obj23480 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->fC,&index,&slot);
+        func_0200752C(((struct Obj23481 *)(*(u8 * *)&((struct Obj02864 *)p)->f0))->fC,index,(const struct Sub02007454Entry *)func_022026BC(mon));
+        ((struct Obj02864 *)p)->fDC=index;
         pos=slot;
     }
-    *(u32 *)(p+0xE0)=pos;
-    func_0220246C(*(void **)*(u8 **)p,1);
+    ((struct Obj02864 *)p)->fE0=pos;
+    func_0220246C(*(void **)*(u8 * *)&((struct Obj02864 *)p)->f0,1);
 }

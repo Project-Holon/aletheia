@@ -20,6 +20,7 @@
  *   d_021DACDC     0x021DACDC  data  a1
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04291.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,8 +48,8 @@ int func_021C9DB0(u8 *p)
 
     if (p[9] == 4) {
         r = 0;
-        if ((u16)func_0200D884(*(void **)(p + 0x70), 0xB, 0) == 1) {
-            idx = (s8)func_0200DC08(*(void **)(p + 0x74));
+        if ((u16)func_0200D884(((struct Obj04291 *)p)->f70, 0xB, 0) == 1) {
+            idx = (s8)func_0200DC08(((struct Obj04291 *)p)->f74);
             if (idx < 0)
                 idx = 0;
             else if (idx >= 10)
@@ -59,7 +60,7 @@ int func_021C9DB0(u8 *p)
         }
     } else {
         r = 0;
-        n = func_0200DB80(*(void **)(p + 0x74), p[9]);
+        n = func_0200DB80(((struct Obj04291 *)p)->f74, p[9]);
         switch (p[9]) {
         case 0:
             row = 0;
@@ -114,6 +115,6 @@ int func_021C9DB0(u8 *p)
     }
     if (r == 0)
         r = 1;
-    func_0200DA80(*(void **)(p + 0x74), r);
+    func_0200DA80(((struct Obj04291 *)p)->f74, r);
     return r;
 }

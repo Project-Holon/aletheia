@@ -45,6 +45,7 @@
  *   func_0201C4E4  0x0201C4E4  thumb
  *   func_0204A600  0x0204A600  arm
  */
+#include "../include/Obj00009.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -129,7 +130,7 @@ int func_021B68F0(u8 *p)
         p[0xc] = 0xb;
     case 11:
         if (func_021BB358(p, (struct S *)(*(int *)(p + W(0x2c) * 4 + 0x160))) == 1) {
-            fn = *(Fn *)(p + 0x120);
+            fn = *(Fn *)&((struct Obj00009 *)p)->f120;
             if (fn != 0)
                 fn(p);
             else

@@ -24,6 +24,7 @@
  * table 0x021BA3AC data ov220 a1
  * coords 0x021BA338 data ov220 a2
  */
+#include "../include/Obj01181.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -43,20 +44,20 @@ void func_021B9B64(char *p)
     void *owner;
     struct Param param;
     u8 i=0;
-    *(u8*)(p+0x84)=0;
-    if(*(u32*)(p+0xb0)!=7){
-        *(u8*)(p+0x84)=*(const u8*)((u32)table+*(u32*)(p+0xb0)*12);
-        if(*(volatile u8*)(p+0x84)){
-            owner=func_020490F4(201,*(u16*)p);
-            *(int*)(p+0x8c)=func_0204AC18(owner,1,0,0,0,1,*(u16*)p);
-            *(int*)(p+0x88)=func_0204A6C8(owner,3,0,0,*(u16*)p);
-            *(int*)(p+0x90)=func_0204AF28(owner,6,7,*(u16*)p);
+    ((struct Obj01181 *)p)->f84=0;
+    if(((struct Obj01181 *)p)->fB0!=7){
+        ((struct Obj01181 *)p)->f84=*(const u8*)((u32)table+((struct Obj01181 *)p)->fB0*12);
+        if(*(volatile u8 *)&((struct Obj01181 *)p)->f84){
+            owner=func_020490F4(201,((struct Obj01181 *)p)->f0);
+            *(int *)&((struct Obj01181 *)p)->f8C=func_0204AC18(owner,1,0,0,0,1,((struct Obj01181 *)p)->f0);
+            *(int *)&((struct Obj01181 *)p)->f88=func_0204A6C8(owner,3,0,0,((struct Obj01181 *)p)->f0);
+            *(int *)&((struct Obj01181 *)p)->f90=func_0204AF28(owner,6,7,((struct Obj01181 *)p)->f0);
             func_02049238(owner);
             func_02082BCC(&param,0,8);
-            for(;i<*(u8*)(p+0x84);i++){
+            for(;i<((struct Obj01181 *)p)->f84;i++){
                 param.x=*(const s16*)((u32)coords+(u32)i*4);
                 param.y=*(const s16*)((u32)coords+(u32)i*4+2);
-                *(void**)((u32)p+(u32)i*4+0x94)=func_0204B294((void *)func_021BA1E0(*(void**)(p+8)),*(u32*)(p+0x88),*(u32*)(p+0x8c),*(u32*)(p+0x90),&param,0,*(u16*)p);
+                *(void**)((u32)p+(u32)i*4+0x94)=func_0204B294((void *)func_021BA1E0(*(void* *)&((struct Obj01181 *)p)->f8),((struct Obj01181 *)p)->f88,((struct Obj01181 *)p)->f8C,((struct Obj01181 *)p)->f90,&param,0,((struct Obj01181 *)p)->f0);
                 func_0204B878(*(void**)((u32)p+(u32)i*4+0x94),0);
                 func_0204B92C(*(void**)((u32)p+(u32)i*4+0x94),1);
             }

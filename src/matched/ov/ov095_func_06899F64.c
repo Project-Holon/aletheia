@@ -17,6 +17,7 @@
  *   func_0689ABA0  0x0689ABA0  thumb  ov095
  *   func_0689AB48  0x0689AB48  thumb  ov095
  */
+#include "../include/Obj07913.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,10 +32,10 @@ extern int func_0689AB48(int unused, u8 *s);
 
 void func_06899F64(u8 *s, u8 *a, void *b)
 {
-    *(u32 *)(s + 0x98) = 0;
-    *(u8 **)(s + 0x7c) = a;
-    *(void **)(s + 0x70) = b;
-    *(void **)(s + 0x68) = (void *)func_0689ABA0;
+    ((struct Obj07913 *)s)->f98 = 0;
+    *(u8 * *)&((struct Obj07913 *)s)->f7C = a;
+    ((struct Obj07913 *)s)->f70 = b;
+    ((struct Obj07913 *)s)->f68 = (void *)func_0689ABA0;
     func_06899FA4(b);
     func_06899FB4(a + 0x18);
     func_06899FC4(a + 0x1c);

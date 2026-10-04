@@ -13,10 +13,11 @@
  *   func_0200C0E8 0x0200C0E8 thumb
  *   func_0200C3B0 0x0200C3B0 thumb
  */
+#include "../include/Obj00377.h"
 typedef unsigned short u16;
 struct Big;
 struct Blk34;
 extern void *func_02012EC0(struct Big *p);
 extern void *func_0200C0E8(void *p);
 extern u16 func_0200C3B0(struct Blk34 *p);
-void func_021F3908(int *p) { if(p[4]==0) { *(u16 *)((char *)p+0x64)=func_0200C3B0(func_0200C0E8(func_02012EC0((void *)p[2]))); p[4]=1; } }
+void func_021F3908(int *p) { if(p[4]==0) { ((struct Obj00377 *)p)->f64=func_0200C3B0(func_0200C0E8(func_02012EC0((void *)p[2]))); p[4]=1; } }

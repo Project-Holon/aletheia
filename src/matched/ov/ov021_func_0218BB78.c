@@ -13,6 +13,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_0218B924  0x0218B924  thumb  ov021
  */
+#include "../include/Obj00572.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ void func_0218BB78(u8 *s, int k)
     int j;
 
     func_02082BCC(s + 0x1c, 0x80, 0x190);
-    for (i = 0; i < *(u16 *)(s + 0x1ac); i++)
+    for (i = 0; i < ((struct Obj00572 *)s)->f1AC; i++)
         s[*func_0218B924(s, i) + 0x1c] = i;
     v = (s + k)[0x1c];
     for (j = 0; j < 0x190; j++) {

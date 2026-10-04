@@ -9,6 +9,7 @@
  * status: EXACT*
  * extent: two bytes zero alignment padding follow the return.
  */
+#include "../include/Obj04496.h"
 struct Ctx;
 struct Rec3;
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
@@ -16,11 +17,11 @@ extern int func_02028484(void *, void *);
 extern void func_0201CE48(struct Rec3 *p);
 int func_021D580C(char *p)
 {
-    if (*(void **)(p+0x80)) {
-        func_020286C4(*(void **)(p+0x40), *(void **)(p+0x80), *(void **)(p+0x44));
-        if (!func_02028484(p+0xa8, *(void **)(p+0x80))) return 0;
-        func_0201CE48(*(void **)(p+0x80));
-        *(void **)(p+0x80)=0;
+    if (((struct Obj04496 *)p)->f80) {
+        func_020286C4(((struct Obj04496 *)p)->f40, ((struct Obj04496 *)p)->f80, ((struct Obj04496 *)p)->f44);
+        if (!func_02028484(p+0xa8, ((struct Obj04496 *)p)->f80)) return 0;
+        func_0201CE48(((struct Obj04496 *)p)->f80);
+        ((struct Obj04496 *)p)->f80=0;
     }
     return 1;
 }

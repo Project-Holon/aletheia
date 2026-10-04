@@ -12,6 +12,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj02179.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -22,11 +23,11 @@ extern void func_02045334(struct Descriptor *);
 int func_021D9B34(u8 *p)
 {
     u32 q;
-    if (*(u32 *)(p + 0x24) == 0) {
-        q = *(u32 *)(p + 8);
+    if (((struct Obj02179 *)p)->f24 == 0) {
+        q = ((struct Obj02179 *)p)->f8;
         if (p[4]) {
-            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)p))) == 0) {
-                func_02045334((struct Descriptor *)*(u32 *)p);
+            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj02179 *)p)->f0))) == 0) {
+                func_02045334((struct Descriptor *)((struct Obj02179 *)p)->f0);
                 p[4] = 0;
             }
         }
@@ -34,7 +35,7 @@ int func_021D9B34(u8 *p)
         return 0;
     } else {
         if (p[4]) {
-            if (func_0201C6C4((struct PrintSys *)(*(u32 *)(p + 8)), (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)p))) == 0)
+            if (func_0201C6C4((struct PrintSys *)(((struct Obj02179 *)p)->f8), (void *)((u32)func_02045770((struct Descriptor *)((struct Obj02179 *)p)->f0))) == 0)
                 p[4] = 0;
         }
         if (p[4] == 0) return 1;

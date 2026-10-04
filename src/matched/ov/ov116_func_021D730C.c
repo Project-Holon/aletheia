@@ -11,6 +11,7 @@
  * symbols:
  *   func_0202E54C 0x0202E54C thumb
  */
+#include "../include/Obj10340.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -19,8 +20,8 @@ struct Obj0202E54C;
 extern void func_0202E54C(struct Obj0202E54C *p);
 void func_021D730C(u8 *p)
 {
-    if (*(void **)(p + 0x1840)) {
-        func_0202E54C(*(void **)(p + 0x1840));
-        *(void **)(p + 0x1840) = 0;
+    if (((struct Obj10340 *)p)->f1840) {
+        func_0202E54C(((struct Obj10340 *)p)->f1840);
+        ((struct Obj10340 *)p)->f1840 = 0;
     }
 }

@@ -18,6 +18,7 @@
  *   func_0203D5D4  0x0203D5D4  arm
  *   func_0209004C  0x0209004C  arm
  */
+#include "../include/Obj12474.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ int func_0209004C(void *p, int a, u32 mask, u32 b, int c);
 
 void func_02178B98(u8 *m)
 {
-    u32 v = *(u16 *)(m + 2);
+    u32 v = ((struct Obj12474 *)m)->f2;
     u32 mask;
     u32 who;
     int c;
@@ -46,7 +47,7 @@ void func_02178B98(u8 *m)
         func_02178138(9);
         return;
     }
-    switch (*(u16 *)(m + 4)) {
+    switch (((struct Obj12474 *)m)->f4) {
     case 0xA:
         if (*(u32 *)(g_021797A8 + 0x1E74) == 5) {
             int r;

@@ -14,6 +14,7 @@
  *   func_020120F4 0x020120F4 thumb
  *   func_021F542C 0x021F542C thumb ov083
  */
+#include "../include/Obj13226.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Ctx;
@@ -23,4 +24,4 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_021F542C(int a0, int *p);
-void *func_021F5340(void *p) { void *task; u8 *w; task=func_020122C0(p,0,(void *)func_021F542C,12); w=func_020124E8(task); *(void **)(w+8)=func_020120F4(p); *(void **)(w+4)=p; return task; }
+void *func_021F5340(void *p) { void *task; u8 *w; task=func_020122C0(p,0,(void *)func_021F542C,12); w=func_020124E8(task); ((struct Obj13226 *)w)->f8=func_020120F4(p); ((struct Obj13226 *)w)->f4=p; return task; }

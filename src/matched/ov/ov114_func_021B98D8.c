@@ -12,6 +12,7 @@
  *
  * Appends `n` bytes at the write cursor and advances it.
  */
+#include "../include/Obj10328.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -22,6 +23,6 @@ void func_021B98D8(u8 *p, int a, int n)
 {
     if (p == 0)
         return;
-    func_02082D44(a, *(u32 *)p + *(u32 *)(p + 4), n);
-    *(u32 *)(p + 4) += n;
+    func_02082D44(a, ((struct Obj10328 *)p)->f0 + ((struct Obj10328 *)p)->f4, n);
+    ((struct Obj10328 *)p)->f4 += n;
 }

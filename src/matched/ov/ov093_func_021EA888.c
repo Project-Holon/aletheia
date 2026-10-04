@@ -13,6 +13,7 @@
  *   func_021CD9E0  0x021CD9E0  thumb  ov093
  *   func_021ED6BC  0x021ED6BC  thumb  ov093
  */
+#include "../include/Obj13562.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -21,5 +22,5 @@ extern void func_021ED6BC(char *p, u32 k, u32 a);
 
 void func_021EA888(char *ctx, int a)
 {
-    func_021ED6BC(*(char **)(ctx + 0x17c), a, func_021CD9E0(*(u8 **)(ctx + 4)));
+    func_021ED6BC(*(char * *)&((struct Obj13562 *)ctx)->f17C, a, func_021CD9E0(*(u8 * *)&((struct Obj13562 *)ctx)->f4));
 }

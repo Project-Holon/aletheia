@@ -17,6 +17,7 @@
  *   func_0202D060 0x0202D060 thumb
  *   func_021FFE24 0x021FFE24 thumb ov094
  */
+#include "../include/Obj01047.h"
 typedef unsigned int u32;
 typedef struct { u32 v[9]; } Rec;
 extern int func_022019F4(char *, int);
@@ -43,8 +44,8 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
     if (*(void **)(e + off) == 0)
         return;
     if (flag == 0) {
-        func_020172AC((int)(*(void **)(w + 4)), *(u32 *)(w + off + 0x3c));
-        func_02014CF8(*(void **)(w + 4), *(void **)(w + 8 + off), (const Rec *)(w + 0xc + off));
+        func_020172AC((int)(((struct Obj01047 *)w)->f4), *(u32 *)(w + off + 0x3c));
+        func_02014CF8(((struct Obj01047 *)w)->f4, *(void **)(w + 8 + off), (const Rec *)(w + 0xc + off));
         func_02015F2C(*(void **)(w + 8 + off), idx, func_02201718, 1);
         if (clear)
             *(u32 *)(w + 0x48 + off) &= ~1u;
@@ -60,7 +61,7 @@ void func_021FFFD8(char *w, int key, int flag, int clear)
         r.v[6] = odd ? 0x37a4 : 0x37aa;
         r.v[7] = odd ? 0x37a5 : 0x37ab;
         r.v[8] = 0;
-        func_02014CF8(*(void **)(w + 4), *(void **)(e + off), &r);
+        func_02014CF8(((struct Obj01047 *)w)->f4, *(void **)(e + off), &r);
         func_021FFE24(w, key);
         if (clear)
             *(u32 *)(w + 0x48 + off) |= 1;

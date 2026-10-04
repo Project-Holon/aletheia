@@ -20,6 +20,7 @@
  *   func_021F096C  0x021F096C  thumb  ov032
  *   func_021F1340  0x021F1340  thumb  ov032
  */
+#include "../include/Obj00188.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -65,8 +66,8 @@ int func_021EFF7C(u8 *p)
     }
     r = func_021F08E4(p, &v);
     if (r != -1) {
-        func_02165AC4((struct Queue *)(*(int *)(p + 0x3C)), (struct Rec *)(*(int *)(p + 0x40)), (u16 *)(p + 0x48), p[0x7C] + r);
-        if (func_02165C10((u8 *)(*(int *)(p + 0x40))) != 0)
+        func_02165AC4((struct Queue *)(((struct Obj00188 *)p)->f3C), (struct Rec *)(((struct Obj00188 *)p)->f40), (u16 *)(p + 0x48), p[0x7C] + r);
+        if (func_02165C10((u8 *)(((struct Obj00188 *)p)->f40)) != 0)
             return 0;
         p[0x7E] = r;
         func_021F1F00(p, r);

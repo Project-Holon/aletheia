@@ -18,6 +18,7 @@
  *   func_021D9CFC 0x021D9CFC thumb ov119
  *   func_021DBA80 0x021DBA80 thumb ov119
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int   u32;
 struct MsgBank;
@@ -34,12 +35,12 @@ extern void func_021D9CFC(u8 *p);
 extern void func_021DBA80(char *p);
 void func_021D9D60(char *p) {
     int v;
-    if (func_020279E8((struct TaskMenu *)(*(int *)(p+0x64C)))) {
-        v=func_02027A04(*(int *)(p+0x64C));
+    if (func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
+        v=func_02027A04(*(int *)&((struct Obj00001 *)p)->f64C);
         func_021E12F8(p);
-        *(int *)(p+0x64C)=0;
+        *(int *)&((struct Obj00001 *)p)->f64C=0;
         if (v==0) {
-            func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),6,(void *)(*(int *)(p+0x738)));
+            func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),6,(void *)(*(int *)&((struct Obj00001 *)p)->f738));
             func_021E1024(p);
             func_021E1030(p);
             func_021D8E84(p,(int)func_021D9CFC);

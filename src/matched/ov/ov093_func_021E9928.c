@@ -14,6 +14,7 @@
  *   func_021E9944  0x021E9944  thumb  ov093
  *   func_021E9730  0x021E9730  thumb  ov093
  */
+#include "../include/Obj21556.h"
 extern void func_021F8A78(void);
 extern void func_021E9944(void *p);
 extern void func_021E9730(void *p);
@@ -21,6 +22,6 @@ extern void func_021E9730(void *p);
 void func_021E9928(char *p)
 {
     func_021F8A78();
-    func_021E9944(*(void **)(p + 0x180));
+    func_021E9944(((struct Obj21556 *)p)->f180);
     func_021E9730(p);
 }

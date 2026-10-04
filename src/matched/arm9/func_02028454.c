@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02028454.c \\
  *       --func func_02028454 --addr 0x02028454 --thumb --cc 1.1p1
  */
+#include "../include/Obj11292.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern void func_02041B6C(u32 v);
 
 void func_02028454(u8 *p)
 {
-    func_02045374((struct Cfg *)(*(u32 *)p));
-    func_02041B6C((u8)*(u16 *)(*(u32 *)(p + 0x18)));
+    func_02045374((struct Cfg *)(((struct Obj11292 *)p)->f0));
+    func_02041B6C((u8)*(u16 *)(((struct Obj11292 *)p)->f18));
 }

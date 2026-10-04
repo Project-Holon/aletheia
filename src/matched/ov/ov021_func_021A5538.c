@@ -22,6 +22,7 @@
  *   func_0216D548  0x0216D548  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06014.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,18 +42,18 @@ extern void func_0216D548(u32 *p, u32 v); /* its third parameter is a scratch it
 int func_021A5538(u8 *a)
 {
     int v;
-    void *x = func_021A3960(*(unsigned char **)(a + 12));
+    void *x = func_021A3960(*(unsigned char * *)&((struct Obj06014 *)a)->fC);
     u32 y = func_0216D608(x);
     if (func_021A5264(a, x, y, &v) != 0) {
         func_021A550C(a);
         func_021A5354((u32)a);
-        func_021A3964(*(u8 **)(a + 12), 0);
+        func_021A3964(*(u8 * *)&((struct Obj06014 *)a)->fC, 0);
         return 0;
     }
     func_021A5328((u32)a);
     func_0216D410(x, func_02197E7C(y, 0x10));
     func_0216D548(x, 0x18);
-    *(u32 *)a = 1;
-    func_021A3964(*(u8 **)(a + 12), 1);
+    ((struct Obj06014 *)a)->f0 = 1;
+    func_021A3964(*(u8 * *)&((struct Obj06014 *)a)->fC, 1);
     return 1;
 }

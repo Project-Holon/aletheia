@@ -12,11 +12,12 @@
  * symbols:
  *   func_020307B0            0x020307B0  arm
  */
+#include "../include/Obj23652.h"
 
 typedef unsigned char u8;
 extern void func_020307B0(void *);
 int func_021C74F8(u8 *p)
 {
-    func_020307B0(*(void **)(p + 0x10));
+    func_020307B0(((struct Obj23652 *)p)->f10);
     return 8;
 }

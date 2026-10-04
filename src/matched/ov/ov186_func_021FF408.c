@@ -32,6 +32,7 @@
  *   func_021FFB80 0x021FFB80 thumb ov186
  *   d_02200D8C 0x02200D8C data a1
  */
+#include "../include/Obj06637.h"
 typedef unsigned long u32;
 typedef unsigned short u16;
 typedef struct {u32 value;u32 unused;void *owner;void *arg;void *context;void (*a)(char *);void (*b)(char *);void (*c)(char *);void (*d)(char *);void (*e)(char *);void (*f)(char *);} Config;
@@ -61,7 +62,7 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     func_02034AC4((int)ov125_id);
     p=func_02030734(heap,0x5E4,0,d_02200D8C,0x97);
     func_02082BCC(p,0,0x5E4);
-    *(void **)(p+0x5E0)=owner;
+    ((struct Obj06637 *)p)->f5E0=owner;
     func_02082BCC(&cfg,0,0x2C);
     cfg.owner=owner;
     cfg.value=func_0200853C(func_02012944(owner));
@@ -70,11 +71,11 @@ char *func_021FF408(void *owner,void *arg,u32 heap)
     cfg.a=func_021FFACC;cfg.b=func_021FFAD8;cfg.c=func_021FFAE4;
     cfg.d=func_021FFAF0;cfg.e=func_021FFAFC;cfg.f=func_021FFB08;
     func_021D6660(p,&cfg);
-    *(int *)(p+0x5A4)=1;
+    ((struct Obj06637 *)p)->f5A4=1;
     func_02012EBC(owner);
-    *(void **)(p+0x5A8)=func_0200D59C(heap);
-    func_0200D5D0(*(void **)(p+0x5A8),owner);
-    *(void **)(p+0x5AC)=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
+    ((struct Obj06637 *)p)->f5A8=func_0200D59C(heap);
+    func_0200D5D0(((struct Obj06637 *)p)->f5A8,owner);
+    ((struct Obj06637 *)p)->f5AC=func_021FFB14(p,(int)((void *)func_021FF8E0),heap);
     func_02156DE0((int)((void *)func_021FFB80),(int)p);
     return p;
 }

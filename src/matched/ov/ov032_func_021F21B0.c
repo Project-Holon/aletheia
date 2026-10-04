@@ -16,6 +16,9 @@
  *   func_02031290 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj07637.h"
+#include "../include/Obj20452.h"
+#include "../include/Obj20453.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,15 +34,15 @@ void func_021F21B0(char *p, char *q, int *r)
     void *t;
     u8 *s;
 
-    t = func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F21F8, 0x10, 0);
+    t = func_020311B8(((struct Obj20452 *)p)->fA0, (void *)func_021F21F8, 0x10, 0);
     s = func_02031290(t);
     func_02082BCC(s, 0, 0x10);
-    *(char **)(s + 8) = p;
-    *(char **)s = q;
-    *(char **)(s + 4) = q + 0x18;
-    *(void **)(q + 0x2c) = t;
+    *(char * *)&((struct Obj07637 *)s)->f8 = p;
+    *(char * *)&((struct Obj07637 *)s)->f0 = q;
+    *(char * *)&((struct Obj07637 *)s)->f4 = q + 0x18;
+    ((struct Obj20453 *)q)->f2C = t;
     if (r != 0) {
-        *(int **)(s + 0xc) = r;
+        *(int * *)&((struct Obj07637 *)s)->fC = r;
         (*r)++;
     }
 }

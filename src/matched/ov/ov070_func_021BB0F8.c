@@ -17,6 +17,7 @@
  *   func_021BB580  0x021BB580  thumb  ov070
  *   func_021BB3F4  0x021BB3F4  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,7 +50,7 @@ void func_021BB0F8(int p)
     int h;
     int r;
 
-    h = *(u16 *)(p + 0x544);
+    h = ((struct Obj00002 *)p)->f544;
     s.a = h;
     s.b = 2;
     s.c = p + 0x780;
@@ -59,18 +60,18 @@ void func_021BB0F8(int p)
     s.g = 8;
     s.h = 3;
     r = (int)func_020457B0(0x64, h);
-    *(int *)(p + 0x780) = r;
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x84, (void *)r);
-    *(u16 *)(p + 0x784) = 0x39E0;
-    *(int *)(p + 0x788) = 0;
-    r = (int)func_020457B0(0x64, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x78C) = r;
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x85, (void *)r);
-    *(u16 *)(p + 0x790) = 0x39E0;
-    *(int *)(p + 0x794) = 0;
-    *(int *)(p + 0x77C) = func_02027778(&s, *(int *)(p + 0x7E0));
-    func_02045808((struct U16Vec *)(*(int *)(p + 0x780)));
-    func_02045808((struct U16Vec *)(*(int *)(p + 0x78C)));
+    ((struct Obj00002 *)p)->f780 = r;
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x84, (void *)r);
+    ((struct Obj00002 *)p)->f784 = 0x39E0;
+    ((struct Obj00002 *)p)->f788 = 0;
+    r = (int)func_020457B0(0x64, ((struct Obj00002 *)p)->f544);
+    ((struct Obj00002 *)p)->f78C = r;
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x85, (void *)r);
+    ((struct Obj00002 *)p)->f790 = 0x39E0;
+    ((struct Obj00002 *)p)->f794 = 0;
+    *(int *)&((struct Obj00002 *)p)->f77C = func_02027778(&s, ((struct Obj00002 *)p)->f7E0);
+    func_02045808((struct U16Vec *)(((struct Obj00002 *)p)->f780));
+    func_02045808((struct U16Vec *)(((struct Obj00002 *)p)->f78C));
     func_021BB580((char *)p, 0);
     func_021BB3F4(p, 0);
 }

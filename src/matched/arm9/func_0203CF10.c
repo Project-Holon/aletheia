@@ -28,6 +28,7 @@
  *   python tools/match.py one --src src/matched/func_0203CF10.c \
  *       --func func_0203CF10 --addr 0x0203CF10 --cc 1.1p1 --arm
  */
+#include "../include/Obj15974.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -44,6 +45,6 @@ u32 func_0203CF10(u32 a)
     p = func_0203D788();
     if (p == 0)
         return 0;
-    f = *(Fn *)(*(u32 *)(p + 0x340) + 0x28);
+    f = *(Fn *)(((struct Obj15974 *)p)->f340 + 0x28);
     return f(a);
 }

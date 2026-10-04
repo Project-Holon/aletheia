@@ -14,6 +14,7 @@
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_020452E8  0x020452E8  arm
  */
+#include "../include/Obj12844.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,8 +29,8 @@ void func_021B40A8(u8 *w)
 {
     int i;
 
-    func_0201C6EC((struct PrintSys *)(*(u32 *)(w + 0x1B0)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(w + 0x1B0)));
+    func_0201C6EC((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
+    func_0201C4C0((struct PrintSys *)(((struct Obj12844 *)w)->f1B0));
     for (i = 0; i < 7; i++) {
         func_020452E8((struct Descriptor *)(*(u32 *)(w + 0x164 + i * 4)));
     }

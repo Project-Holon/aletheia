@@ -14,6 +14,7 @@
  * symbols:
  *   func_021D7C90  0x021D7C90  arm  ov125
  */
+#include "../include/Obj14014.h"
 
 void func_021D7C90(int x);
 
@@ -21,9 +22,9 @@ void func_021D8C5C(void *p)
 {
     int v;
 
-    v = *(int *)((char *)p + 0x800);
+    v = ((struct Obj14014 *)p)->f800;
     if (v == 0)
         return;
     func_021D7C90(v);
-    *(int *)((char *)p + 0x800) = 0;
+    ((struct Obj14014 *)p)->f800 = 0;
 }

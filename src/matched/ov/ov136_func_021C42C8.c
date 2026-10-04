@@ -32,6 +32,7 @@
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj00539.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -67,67 +68,67 @@ int func_021C42C8(u8 *p)
     int r = 0;
     u32 t;
 
-    switch (*(u32 *)(p + 4)) {
+    switch (((struct Obj00539 *)p)->f4) {
     case 0:
         func_021C4AF8();
         func_0202223C(0, 0);
         func_0202223C(1, 0);
         func_02022224(0);
         func_02022224((void *)1);
-        (*(u32 *)(p + 4))++;
+        (((struct Obj00539 *)p)->f4)++;
         break;
     case 1:
         if (func_021C4BFC(p)) {
-            *(void **)(p + 0x104) = func_020056A0((void *)func_021C4B5C, p, 0x10);
+            ((struct Obj00539 *)p)->f104 = func_020056A0((void *)func_021C4B5C, p, 0x10);
             func_020434DC(0x10, 1);
             func_02022230(0);
             func_0207D63C((void *)0x04000050, 4, 8, 0x1C, 4);
             t = func_020056BC();
-            func_0202173C(*(void **)(p + 0x38), 5, 0xFFFF, -1, 0x10, 0, 0, t);
-            (*(u32 *)(p + 4))++;
+            func_0202173C(((struct Obj00539 *)p)->f38, 5, 0xFFFF, -1, 0x10, 0, 0, t);
+            (((struct Obj00539 *)p)->f4)++;
         }
         break;
     case 2:
-        if (!func_02021ED8(*(void **)(p + 0x38)))
-            (*(u32 *)(p + 4))++;
-        func_0202DBC4(*(void **)(p + 0x148));
+        if (!func_02021ED8(((struct Obj00539 *)p)->f38))
+            (((struct Obj00539 *)p)->f4)++;
+        func_0202DBC4(((struct Obj00539 *)p)->f148);
         break;
     case 3:
         if (data_021C7774[p[0xB]](p) == 1) {
-            (*(u32 *)(p + 4))++;
+            (((struct Obj00539 *)p)->f4)++;
             t = func_020056BC();
-            func_0202173C(*(void **)(p + 0x38), 5, 0xFFFF, -1, 0, 0x10, 0, t);
+            func_0202173C(((struct Obj00539 *)p)->f38, 5, 0xFFFF, -1, 0, 0x10, 0, t);
         }
-        func_0202DBC4(*(void **)(p + 0x148));
-        if (*(void **)(p + 0x128)) {
-            func_02028178(*(void **)(p + 0x128));
-            func_02028178(*(void **)(p + 0x12C));
+        func_0202DBC4(((struct Obj00539 *)p)->f148);
+        if (((struct Obj00539 *)p)->f128) {
+            func_02028178(((struct Obj00539 *)p)->f128);
+            func_02028178(((struct Obj00539 *)p)->f12C);
         }
         break;
     case 4:
-        if (!func_02021ED8(*(void **)(p + 0x38))) {
+        if (!func_02021ED8(((struct Obj00539 *)p)->f38)) {
             func_0202223C(0, 0);
             func_0202223C(1, 0);
-            func_02030EAC(*(void **)(p + 0x104));
+            func_02030EAC(((struct Obj00539 *)p)->f104);
             func_021C4AF8();
-            (*(u32 *)(p + 4))++;
+            (((struct Obj00539 *)p)->f4)++;
         }
-        func_0202DBC4(*(void **)(p + 0x148));
+        func_0202DBC4(((struct Obj00539 *)p)->f148);
         break;
     case 5:
         if (func_021C4D14(p))
             r = 1;
         break;
     }
-    if (*(void **)(p + 0xA0))
-        func_0204A600(*(void **)(p + 0xA0));
-    if (*(void **)(p + 0xF8))
-        func_02030D28(*(void **)(p + 0xF8));
-    if (*(void **)(p + 0x100))
-        func_020310C4(*(void **)(p + 0x100));
-    if (*(void **)(p + 0x98))
-        func_0201C4E4(*(void **)(p + 0x98));
-    if (*(void **)(p + 0x158))
-        func_0201C4E4(*(void **)(p + 0x158));
+    if (((struct Obj00539 *)p)->fA0)
+        func_0204A600(((struct Obj00539 *)p)->fA0);
+    if (((struct Obj00539 *)p)->fF8)
+        func_02030D28(((struct Obj00539 *)p)->fF8);
+    if (((struct Obj00539 *)p)->f100)
+        func_020310C4(((struct Obj00539 *)p)->f100);
+    if (((struct Obj00539 *)p)->f98)
+        func_0201C4E4(((struct Obj00539 *)p)->f98);
+    if (((struct Obj00539 *)p)->f158)
+        func_0201C4E4(((struct Obj00539 *)p)->f158);
     return r;
 }

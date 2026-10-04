@@ -13,6 +13,7 @@
  *   func_0203D1B4 0x0203D1B4 arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj13764.h"
 typedef unsigned short u16;
 typedef signed int     s32;
 struct Entry;
@@ -29,5 +30,5 @@ int func_021F1370(void *unused,void *p)
 }
 void func_021F13AC(int a,int b,int c,char *p)
 {
-    *(u16 *)(p+0x18)=(*(u16 *)(p+0x18)&~1)|1;
+    ((struct Obj13764 *)p)->f18=(((struct Obj13764 *)p)->f18&~1)|1;
 }

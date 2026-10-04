@@ -17,6 +17,15 @@
  *   func_0220BF20 0x0220BF20 thumb ov197
  *   func_020260E0 0x020260E0 thumb
  */
+#include "../include/Obj00389.h"
+#include "../include/Obj25073.h"
+#include "../include/Obj25074.h"
+#include "../include/Obj25075.h"
+#include "../include/Obj25076.h"
+#include "../include/Obj25077.h"
+#include "../include/Obj25078.h"
+#include "../include/Obj25079.h"
+#include "../include/Obj25080.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -31,15 +40,15 @@ extern u8 func_020260E0(struct Sound *obj);
 int func_0220CD50(char *p)
 {
     unsigned sel;
-    if (func_02021ED8(*(void **)(p + 8)) != 0) goto done;
+    if (func_02021ED8(((struct Obj00389 *)p)->f8) != 0) goto done;
     if (func_0220D884((char **)p) == 1) return 0x12;
-    sel = func_02025DE8(*(void **)(p + 0x144));
+    sel = func_02025DE8(((struct Obj00389 *)p)->f144);
     switch (sel) {
     case 0: case 1: case 2: case 3: case 4: case 5:
         if (func_0220BB98(p, sel) != 0) {
             func_0220D89C((char **)p, 0x54d);
-            *(u16 *)(*(char **)p + *(u8 *)(p + 0x533) * 2 + 0x30) = (u8)sel;
-            *(u8 *)(p + 0x531) = 9;
+            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = (u8)sel;
+            ((struct Obj00389 *)p)->f531 = 9;
             func_0220BF20(p, (u8)(sel + 4));
             return 0x10;
         }
@@ -47,39 +56,39 @@ int func_0220CD50(char *p)
     case 6:
         func_0220D89C((char **)p, 0x552);
         func_0220BF20(p, 0xa);
-        if (*(int *)(*(char **)p + 8) == 1 || *(int *)(*(char **)p + 8) == 3) {
-            *(u16 *)(*(char **)p + 0x16) = 0;
-            *(u8 *)(*(char **)p + 0x2a) = 4;
+        if (((struct Obj25073 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25074 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
+            ((struct Obj25075 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
+            ((struct Obj25076 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
             return 0x12;
         }
-        *(u8 *)(p + 0x531) = 7;
+        ((struct Obj00389 *)p)->f531 = 7;
         return 0x10;
     case (unsigned)-2:
         func_0220D89C((char **)p, 0x552);
         func_0220BF20(p, 0xa);
-        if (*(int *)(*(char **)p + 8) == 1 || *(int *)(*(char **)p + 8) == 3) {
-            *(u16 *)(*(char **)p + 0x16) = 0;
-            *(u8 *)(*(char **)p + 0x2a) = 4;
+        if (((struct Obj25077 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 1 || ((struct Obj25078 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f8 == 3) {
+            ((struct Obj25079 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f16 = 0;
+            ((struct Obj25080 *)(*(char * *)&((struct Obj00389 *)p)->f0))->f2A = 4;
             return 0x12;
         }
-        *(u8 *)(p + 0x531) = 7;
+        ((struct Obj00389 *)p)->f531 = 7;
         return 0x10;
     case 7:
-        if (*(u8 *)(p + *(u8 *)(p + 0x533) + 0x539) != 0) {
+        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
             func_0220D89C((char **)p, 0x54d);
-            *(u16 *)(*(char **)p + *(u8 *)(p + 0x533) * 2 + 0x30) = 0;
-            *(u8 *)(p + 0x531) = 0xb;
-            *(signed char *)(p + 0x534) = -1;
+            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
+            ((struct Obj00389 *)p)->f531 = 0xb;
+            *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
             func_0220BF20(p, 0xb);
             return 0x10;
         }
         break;
     case 8:
-        if (*(u8 *)(p + *(u8 *)(p + 0x533) + 0x539) != 0) {
+        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
             func_0220D89C((char **)p, 0x54d);
-            *(u16 *)(*(char **)p + *(u8 *)(p + 0x533) * 2 + 0x30) = 0;
-            *(u8 *)(p + 0x531) = 0xb;
-            *(u8 *)(p + 0x534) = 1;
+            *(u16 *)(*(char * *)&((struct Obj00389 *)p)->f0 + ((struct Obj00389 *)p)->f533 * 2 + 0x30) = 0;
+            ((struct Obj00389 *)p)->f531 = 0xb;
+            ((struct Obj00389 *)p)->f534 = 1;
             func_0220BF20(p, 0xc);
             return 0x10;
         }
@@ -88,21 +97,21 @@ int func_0220CD50(char *p)
         func_0220D89C((char **)p, 0x548);
         break;
     case (unsigned)-6:
-        func_020260E0(*(void **)(p + 0x144));
-        if (*(u8 *)(p + *(u8 *)(p + 0x533) + 0x539) != 0) {
+        func_020260E0(((struct Obj00389 *)p)->f144);
+        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
             func_0220D89C((char **)p, 0x54d);
-            *(u8 *)(p + 0x531) = 0xb;
-            *(signed char *)(p + 0x534) = -1;
+            ((struct Obj00389 *)p)->f531 = 0xb;
+            *(signed char *)&((struct Obj00389 *)p)->f534 = -1;
             func_0220BF20(p, 0xb);
             return 0x10;
         }
         break;
     case (unsigned)-5:
-        func_020260E0(*(void **)(p + 0x144));
-        if (*(u8 *)(p + *(u8 *)(p + 0x533) + 0x539) != 0) {
+        func_020260E0(((struct Obj00389 *)p)->f144);
+        if (*(u8 *)(p + ((struct Obj00389 *)p)->f533 + 0x539) != 0) {
             func_0220D89C((char **)p, 0x54d);
-            *(u8 *)(p + 0x531) = 0xb;
-            *(u8 *)(p + 0x534) = 1;
+            ((struct Obj00389 *)p)->f531 = 0xb;
+            ((struct Obj00389 *)p)->f534 = 1;
             func_0220BF20(p, 0xc);
             return 0x10;
         }

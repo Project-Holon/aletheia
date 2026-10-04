@@ -42,6 +42,7 @@
  *   python3 tools/match.py one --src src/matched/func_02070524.c \
  *       --func func_02070524 --addr 0x02070524 --cc ../2.0/sp2 --arm
  */
+#include "../include/Obj16643.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
@@ -114,7 +115,7 @@ two:
     } else {
         w = base + idx;
         v0 = base[idx];
-        v1 = *(u32 *)((char *)w + 4);
+        v1 = ((struct Obj16643 *)w)->f4;
     }
     return (v0 + v1) >> 1;
 }

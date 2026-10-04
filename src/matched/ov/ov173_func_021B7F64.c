@@ -11,6 +11,9 @@
  *   func_02026124 0x02026124 thumb
  *   func_0202614C 0x0202614C thumb
  */
+#include "../include/Obj00180.h"
+#include "../include/Obj24190.h"
+#include "../include/Obj24191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -19,20 +22,20 @@ extern void func_02026124(struct Sound *obj, u32 idx);
 extern void func_0202614C(struct Sound *obj, u32 idx);
 void func_021B7F64(char *p)
 {
-    if (*(u8 *)(p + 0x1b8) < 4) {
-        func_02026124(*(void **)(p + 0x1c8), 4);
-        func_02026124(*(void **)(p + 0x1c8), 5);
+    if (((struct Obj00180 *)p)->f1B8 < 4) {
+        func_02026124(((struct Obj00180 *)p)->f1C8, 4);
+        func_02026124(((struct Obj00180 *)p)->f1C8, 5);
         return;
     }
-    if (*(u16 *)(*(char **)p + 0x16) == 0)
-        func_02026124(*(void **)(p + 0x1c8), 5);
+    if (((struct Obj24190 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f16 == 0)
+        func_02026124(((struct Obj00180 *)p)->f1C8, 5);
     else
-        func_0202614C(*(void **)(p + 0x1c8), 5);
-    if (*(u16 *)(*(char **)p + 0x16) + 4 >= *(u8 *)(p + 0x1b8)) {
-        func_02026124(*(void **)(p + 0x1c8), 4);
+        func_0202614C(((struct Obj00180 *)p)->f1C8, 5);
+    if (((struct Obj24191 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f16 + 4 >= ((struct Obj00180 *)p)->f1B8) {
+        func_02026124(((struct Obj00180 *)p)->f1C8, 4);
         return;
     } else {
-        func_0202614C(*(void **)(p + 0x1c8), 4);
+        func_0202614C(((struct Obj00180 *)p)->f1C8, 4);
         return;
     }
 }

@@ -12,6 +12,7 @@
  *   func_021FB7B0 0x021FB7B0 thumb ov186
  *   func_021FB514 0x021FB514 thumb ov186
  */
+#include "../include/Obj14454.h"
 extern int func_021FB7B0(void *p, int i);
 extern void func_021FB514(char *p, short x, short y);
-void func_021FAEC0(char *p,unsigned index) { short x=(short)func_021FB7B0((void *)(*(int *)(p+0xc)),0);func_021FB514(*(void **)(p+8),x,(short)(169-(index<<4))); }
+void func_021FAEC0(char *p,unsigned index) { short x=(short)func_021FB7B0((void *)(((struct Obj14454 *)p)->fC),0);func_021FB514(((struct Obj14454 *)p)->f8,x,(short)(169-(index<<4))); }

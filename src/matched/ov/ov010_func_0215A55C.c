@@ -14,6 +14,7 @@
  *   func_02158F6C 0x02158F6C thumb ov010
  *   d_021728E0 0x021728E0 data ov010 a4
  */
+#include "../include/Obj05883.h"
 typedef struct { int w[4]; } S16;
 typedef struct { unsigned short id; S16 r; } T;
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
@@ -27,6 +28,6 @@ void *func_0215A55C(const S16 *src, int v)
     s = src;
     p->id = v;
     p->r = *s;
-    *(int *)((char *)p + 0x20) = func_02158F6C((void *)src->w[3]);
+    ((struct Obj05883 *)p)->f20 = func_02158F6C((void *)src->w[3]);
     return p;
 }

@@ -13,8 +13,9 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021F54C0 0x021F54C0 thumb ov075
  */
+#include "../include/Obj20793.h"
 typedef unsigned int u32;
 extern void func_0208068C(int);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F54C0(void *,int *);
-void func_021F54A0(char *p) { *(int *)(p+16)=0; func_0208068C(8); func_020056A0((u32)func_021F54C0,(u32)(p+16),0); }
+void func_021F54A0(char *p) { ((struct Obj20793 *)p)->f10=0; func_0208068C(8); func_020056A0((u32)func_021F54C0,(u32)(p+16),0); }

@@ -17,6 +17,8 @@
  *   func_020061E4 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj00220.h"
+#include "../include/Obj23311.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -31,44 +33,44 @@ void func_021B7CFC(u8 *p,s16 unused_x,s16 unused_y)
 {
     int y0,y1,angle,hit,n;
     u8 *e,*data;
-    y0=(*(u32 *)(p+0x28)*72)/48;
-    y1=(*(u32 *)(p+0x20)*72)/48;
-    angle=func_0203F768(*(int *)(p+0x24),y0,*(int *)(p+0x1c),y1,128,80,72);
-    *(u16 *)(p+0x1830)+=(u16)(angle<0?-angle:angle);
-    if(*(int *)(p+0x14)==1 || *(u16 *)(p+0x1830)>=0x71c){
-        e=func_021BA184(*(void **)(p+0x181c));hit=0;
-        if(*(int *)(p+0x14)==1)*(u16 *)(p+0x182e)=0;
-        *(u16 *)(p+0x1830)=0;*(u8 **)(p+0x38)=0;
+    y0=(((struct Obj00220 *)p)->f28*72)/48;
+    y1=(((struct Obj00220 *)p)->f20*72)/48;
+    angle=func_0203F768(((struct Obj00220 *)p)->f24,y0,((struct Obj00220 *)p)->f1C,y1,128,80,72);
+    ((struct Obj00220 *)p)->f1830+=(u16)(angle<0?-angle:angle);
+    if(((struct Obj00220 *)p)->f14==1 || ((struct Obj00220 *)p)->f1830>=0x71c){
+        e=func_021BA184(((struct Obj00220 *)p)->f181C);hit=0;
+        if(((struct Obj00220 *)p)->f14==1)*(u16 *)&((struct Obj00220 *)p)->f182E=0;
+        ((struct Obj00220 *)p)->f1830=0;*(u8 * *)&((struct Obj00220 *)p)->f38=0;
         while(e){
             data=(u8 *)func_021BA20C(e);
-            if(func_021BA25C(e,*(int *)(p+0x1c),*(int *)(p+0x20))==1){
+            if(func_021BA25C(e,((struct Obj00220 *)p)->f1C,*(int *)&((struct Obj00220 *)p)->f20)==1){
                 hit=1;
-                if(*(int *)(data+12)==0){*(u8 **)(p+0x38)=e;*(int *)(p+0x3c)=1;e=0;}
+                if(((struct Obj23311 *)data)->fC==0){*(u8 * *)&((struct Obj00220 *)p)->f38=e;((struct Obj00220 *)p)->f3C=1;e=0;}
             }
-            if(*(u8 **)(p+0x38)==0)e=(u8 *)func_021BA208(e);
+            if(*(u8 * *)&((struct Obj00220 *)p)->f38==0)e=(u8 *)func_021BA208(e);
         }
-        if(*(int *)(p+0x14)==1 && hit==1 && *(u8 **)(p+0x38)==0){*(int *)(p+0x3c)=1;func_020061E4(0x557);}
+        if(((struct Obj00220 *)p)->f14==1 && hit==1 && *(u8 * *)&((struct Obj00220 *)p)->f38==0){((struct Obj00220 *)p)->f3C=1;func_020061E4(0x557);}
     }
-    if(*(int *)(p+0x30)==1){
+    if(((struct Obj00220 *)p)->f30==1){
         if((angle<0?-angle:angle)>227 && (angle<0?-angle:angle)<0x4000){
-            n=*(u16 *)(p+0x182c)+0x10000-angle;
+            n=((struct Obj00220 *)p)->f182C+0x10000-angle;
             if(n<0)n+=0x10000;
             if(n>=0x10000)n-=0x10000;
-            *(u16 *)(p+0x182c)=n;
-            func_021B765C(p,*(u16 *)(p+0x182c),(s16)angle,72,48);
-            if(angle>=0 && *(s16 *)(p+0x182e)>0 && angle<*(s16 *)(p+0x182e))
-                *(s16 *)(p+0x182e)=(*(s16 *)(p+0x182e)+angle)/2;
-            else if(angle<=0 && *(s16 *)(p+0x182e)<0 && angle>*(s16 *)(p+0x182e))
-                *(s16 *)(p+0x182e)=(*(s16 *)(p+0x182e)+angle)/2;
-            else *(s16 *)(p+0x182e)=angle;
-            n=*(s16 *)(p+0x182e);
-            if((n>0 && *(s16 *)(p+0x1838)>0)||(n<0 && *(s16 *)(p+0x1838)<0))*(s16 *)(p+0x1838)=0;
-            else if(n>0 && *(s16 *)(p+0x1838)>-0x3000){
-                if(n*15>*(s16 *)(p+0x1838)*-10)*(s16 *)(p+0x1838)-=256;
-            } else if(n<0 && *(s16 *)(p+0x1838)<0x3000){
-                if(n*-15>*(s16 *)(p+0x1838)*10)*(s16 *)(p+0x1838)+=256;
+            ((struct Obj00220 *)p)->f182C=n;
+            func_021B765C(p,((struct Obj00220 *)p)->f182C,(s16)angle,72,48);
+            if(angle>=0 && ((struct Obj00220 *)p)->f182E>0 && angle<((struct Obj00220 *)p)->f182E)
+                ((struct Obj00220 *)p)->f182E=(((struct Obj00220 *)p)->f182E+angle)/2;
+            else if(angle<=0 && ((struct Obj00220 *)p)->f182E<0 && angle>((struct Obj00220 *)p)->f182E)
+                ((struct Obj00220 *)p)->f182E=(((struct Obj00220 *)p)->f182E+angle)/2;
+            else ((struct Obj00220 *)p)->f182E=angle;
+            n=((struct Obj00220 *)p)->f182E;
+            if((n>0 && ((struct Obj00220 *)p)->f1838>0)||(n<0 && ((struct Obj00220 *)p)->f1838<0))((struct Obj00220 *)p)->f1838=0;
+            else if(n>0 && ((struct Obj00220 *)p)->f1838>-0x3000){
+                if(n*15>((struct Obj00220 *)p)->f1838*-10)((struct Obj00220 *)p)->f1838-=256;
+            } else if(n<0 && ((struct Obj00220 *)p)->f1838<0x3000){
+                if(n*-15>((struct Obj00220 *)p)->f1838*10)((struct Obj00220 *)p)->f1838+=256;
             }
-        }else *(s16 *)(p+0x182e)=0;
+        }else ((struct Obj00220 *)p)->f182E=0;
     }
-    *(int *)(p+0x30)=1;
+    ((struct Obj00220 *)p)->f30=1;
 }

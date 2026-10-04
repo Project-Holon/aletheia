@@ -16,6 +16,7 @@
  * The result of the first arm9 call is the first argument of the second.
  * Returns the second argument.
  */
+#include "../include/Obj18245.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ extern void sub_02039C68(struct Link *a, unsigned int b, unsigned int c);
 int func_021BD994(void *v, int b)
 {
     sub_02039C68((struct Link *)sub_020399A8(), 0x1B, 0x0A);
-    *(u32 *)((u8 *)v + 0x1CC) = 0x8B;
+    ((struct Obj18245 *)v)->f1CC = 0x8B;
 
     return b;
 }

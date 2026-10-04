@@ -19,6 +19,7 @@
  *   id43 0x00000043 data
  *   id127 0x0000007F data
  */
+#include "../include/Obj10480.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,9 +37,9 @@ extern void func_021C665C(void *);
 extern char id43[],id127[];
 int func_021C6304(void *p,int a,int b,char *q)
 {
-    func_02030EAC(*(void **)(q+0x5a8)); *(void **)(q+0x5a8)=0;
+    func_02030EAC(((struct Obj10480 *)q)->f5A8); ((struct Obj10480 *)q)->f5A8=0;
     func_021C6664(q+4);
-    func_021C6420(q+0x190,*(void **)(q+0x1f8));
+    func_021C6420(q+0x190,((struct Obj10480 *)q)->f1F8);
     func_020315D4(p); func_020306F0(52);
     func_02034A5C((u32)id43); func_02034A5C((u32)id127);
     return 1;

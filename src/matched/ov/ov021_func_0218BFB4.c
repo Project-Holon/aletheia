@@ -23,6 +23,7 @@
  *   d_021D3D58     0x021D3D58  data   a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19518.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -50,7 +51,7 @@ void func_0218BFB4(u8 *a, u32 *out, u32 *st)
     u8 k;
 
     t = func_0218BCAC((u8 *)st[0]);
-    h = (u32)func_02047400((void *)st[1], 0, (void *)(*(u32 *)(a + 0x1D0)));
+    h = (u32)func_02047400((void *)st[1], 0, (void *)(((struct Obj19518 *)a)->f1D0));
     for (i = 0; i < 4; i++) {
         if (st[2 + i] != 0)
             buf[i] = (u32)func_02047564((struct G3dOwner *)h, (const struct G3dOwner *)st[2 + i], 0);

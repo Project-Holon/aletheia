@@ -22,6 +22,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F2684     0x021F2684  data   ov093  a4
  */
+#include "../include/Obj13545.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -44,13 +45,13 @@ void func_021E7998(int a, int b, int c)
         k = 6;
         if (func_021EF948(k) == 0) {
             p = func_021C88A4(b, 0x1b, c);
-            *(int *)(p + 4) = k;
+            ((struct Obj13545 *)p)->f4 = k;
             *(Word *)(p + 8) = func_021E8940(5);
             func_021C8838(p + 0x10, 1, 0xb2);
             func_021C88C8((void *)b, p);
         } else {
             p = func_021C88A4(b, 0x1c, c);
-            *(int *)(p + 4) = k;
+            ((struct Obj13545 *)p)->f4 = k;
             func_021C88C8((void *)b, p);
         }
     }

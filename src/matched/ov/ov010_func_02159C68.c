@@ -13,6 +13,7 @@
  *   func_02159E00  0x02159E00  thumb  ov010
  *   func_02159B94  0x02159B94  thumb  ov010
  */
+#include "../include/Obj12278.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ void func_02159C68(Obj *a, int b, int c)
         u32 i;
         for (i = 0; i < a->f10; i++) {
             u32 *p = (u32 *)((u8 *)a + i * 4);
-            if (v[1] == *(u32 *)((u8 *)p + 0x71c))
-                *(u32 *)((u8 *)p + 0x71c) = v[0];
+            if (v[1] == ((struct Obj12278 *)p)->f71C)
+                ((struct Obj12278 *)p)->f71C = v[0];
         }
         break;
     }

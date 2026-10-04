@@ -12,6 +12,7 @@
  * symbols:
  *   func_02208420 0x02208420 thumb ov195
  */
+#include "../include/Obj00300.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,8 +21,8 @@ extern int func_02208420(char *, u16);
 
 int func_0220682C(char *a)
 {
-    u16 id = *(u16 *)a;
-    char *t = *(char **)(a + 0x58);
+    u16 id = ((struct Obj00300 *)a)->f0;
+    char *t = *(char * *)&((struct Obj00300 *)a)->f58;
     int r = 1;
     u8 i;
 

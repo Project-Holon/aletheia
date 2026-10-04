@@ -20,6 +20,7 @@
  *   func_021B997C  0x021B997C  thumb  ov093
  *   func_021BA710  0x021BA710  thumb  ov093
  */
+#include "../include/Obj03184.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,15 +64,15 @@ void func_021B6848(u8 *s, struct T *t)
     func_021B68D8(s, t);
     if (func_021B9114((u8 **)s) == 0) {
         v = (u32)func_02007B44(func_02012EBC((void *)t->f58));
-        *(u32 *)(s + 0x3e0) = (u32)func_02007B20(*(u16 *)(s + 0x468));
-        func_02007C20((struct PerapVoice *)(*(u32 *)(s + 0x3e0)), (const struct PerapVoice *)v);
-        (*(struct P **)s)->f44[0] = func_021B997C(s, i);
+        ((struct Obj03184 *)s)->f3E0 = (u32)func_02007B20(((struct Obj03184 *)s)->f468);
+        func_02007C20((struct PerapVoice *)(((struct Obj03184 *)s)->f3E0), (const struct PerapVoice *)v);
+        (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[0] = func_021B997C(s, i);
     } else {
         for (i = 0; i < 4; i++) {
-            tmp[func_021BA710(s[0x46c], i)] = (*(struct P **)s)->f44[i];
+            tmp[func_021BA710(s[0x46c], i)] = (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i];
         }
         for (i = 0; i < 4; i++) {
-            (*(struct P **)s)->f44[i] = tmp[i];
+            (*(struct P * *)&((struct Obj03184 *)s)->f0)->f44[i] = tmp[i];
         }
     }
 }

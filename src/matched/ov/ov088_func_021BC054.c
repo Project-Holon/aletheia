@@ -14,12 +14,13 @@
  * symbols:
  *   func_0202208C  0x0202208C  thumb
  */
+#include "../include/Obj20824.h"
 
 extern void func_0202208C(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 
 int func_021BC054(char *p, int v)
 {
     func_0202208C(0, 1, 1, 0, 6, 1, 0xb);
-    *(int *)(p + 0x144) = v;
+    ((struct Obj20824 *)p)->f144 = v;
     return 2;
 }

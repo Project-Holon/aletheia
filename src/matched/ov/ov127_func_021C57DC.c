@@ -15,6 +15,7 @@
  * symbols:
  *   func_021C5944  0x021C5944  thumb  ov127
  */
+#include "../include/Obj00328.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ extern void func_021C5944(u8 *p, int one, int v);
 
 void func_021C57DC(u8 *p)
 {
-    func_021C5944(p, 1, *(u16 *)(p + 0xa));
+    func_021C5944(p, 1, ((struct Obj00328 *)p)->fA);
 }

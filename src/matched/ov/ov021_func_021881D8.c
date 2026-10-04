@@ -87,6 +87,7 @@
  *   func_021C31D4  0x021C31D4  thumb  ov021
  *   func_02189684  0x02189684  thumb  ov021
  */
+#include "../include/Obj00571.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -199,7 +200,7 @@ int func_021881D8(int a, char *p)
     int sys = (int)func_020120F4((const struct Ctx *)a);
     int flag = 1;
 
-    switch (*(u8 *)(p + 0xc8)) {
+    switch (((struct Obj00571 *)p)->fC8) {
     case 0: {
         int x;
         func_0216447C(sys, F16(0xd0));
@@ -297,7 +298,7 @@ int func_021881D8(int a, char *p)
         flag = 0;
         break;
     }
-    (*(u8 *)(p + 0xc8))++;
+    (((struct Obj00571 *)p)->fC8)++;
     F32(0x12c) = 0;
     return flag == 0;
 }

@@ -19,6 +19,8 @@
  *   func_021E1024 0x021E1024 thumb ov119
  *   func_021E1030 0x021E1030 thumb ov119
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj22732.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021D8A24(void *);
@@ -37,8 +39,8 @@ void func_021DAFB8(char *p) {
  if(func_021D8A24(p)) {
   b=4;
   if(func_0203D3A8(func_020399A8(),0xc00,1,(u32)(&b))) {
-   func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),136,(void *)(*(int *)(p+0x738)));func_021E1024(p);func_021E1030(p);
+   func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),136,(void *)(*(int *)&((struct Obj00001 *)p)->f738));func_021E1024(p);func_021E1030(p);
    func_02039C68((struct Link *)func_020399A8(),26,8);func_021D8E84(p,(int)func_021DAF68);
   }
- } else {*(int *)(*(char **)(p+8)+8)=3;func_021D8E84(p,(int)func_021D9434);}
+ } else {((struct Obj22732 *)(*(char * *)&((struct Obj00001 *)p)->f8))->f8=3;func_021D8E84(p,(int)func_021D9434);}
 }

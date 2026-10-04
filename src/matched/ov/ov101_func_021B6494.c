@@ -14,11 +14,12 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  */
+#include "../include/Obj22091.h"
 typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(u32,u32,u32,u32);
 int func_021B6494(u32 p,u32 a,u32 b,u32 c) {
-    if(*(u32 *)(p+0x78)!=0) return 1;
+    if(((struct Obj22091 *)p)->f78!=0) return 1;
     return func_0203D3A8((u32)func_020399A8(),a,b,c);
 }

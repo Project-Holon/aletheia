@@ -15,10 +15,11 @@
  * symbols:
  *   func_021BC6BC  0x021BC6BC  thumb
  */
+#include "../include/Obj25510.h"
 
 extern void func_021BC6BC(char *p);
 
 void ov208_func_021C47B4(int unused, char *p)
 {
-    func_021BC6BC(*(char **)(p + 0x6ac));
+    func_021BC6BC(*(char * *)&((struct Obj25510 *)p)->f6AC);
 }

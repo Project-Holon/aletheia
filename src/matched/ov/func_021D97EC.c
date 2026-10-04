@@ -20,6 +20,7 @@
  * record via func_021C88A4, set flag bit 22, and hand it to func_021C8838
  * and func_021C88C8.
  */
+#include "../include/Obj09219.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,9 +38,9 @@ void func_021D97EC(void *a, void *b, int c)
 {
     if (c == func_021D775C(2)) {
         u8 *p = func_021C88A4(b, 0x1d, c);
-        *(u32 *)p |= 2 << 22;
-        *(u8 *)(p + 4) = 0;
-        *(u8 *)(p + 6) = 1;
+        ((struct Obj09219 *)p)->f0 |= 2 << 22;
+        ((struct Obj09219 *)p)->f4 = 0;
+        ((struct Obj09219 *)p)->f6 = 1;
         func_021C8838(p + 8, 1, 0x5e);
         func_021C88C8(b, p);
     }

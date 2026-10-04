@@ -13,6 +13,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,4 +23,4 @@ extern void func_0204B9A0(struct Actor*);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void*,const Pos*,unsigned);
-void func_021BA098(u8*p){Pos pos;pos.x=*(int*)(p+28);pos.y=*(int*)(p+32);func_0204B9A0(*(struct Actor**)(p+0x18b4));func_0204B3DC(*(void**)(p+0x18b4),1);func_0204B404(*(void**)(p+0x18b4),&pos,0);}
+void func_021BA098(u8*p){Pos pos;pos.x=((struct Obj00004 *)p)->f1C;pos.y=*(int *)&((struct Obj00004 *)p)->f20;func_0204B9A0(*(struct Actor* *)&((struct Obj00004 *)p)->f18B4);func_0204B3DC(*(void* *)&((struct Obj00004 *)p)->f18B4,1);func_0204B404(*(void* *)&((struct Obj00004 *)p)->f18B4,&pos,0);}

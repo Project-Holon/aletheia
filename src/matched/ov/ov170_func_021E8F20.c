@@ -15,6 +15,7 @@
  *   func_021EA984 0x021EA984 thumb ov170
  *   func_021E8FE8 0x021E8FE8 thumb ov170
  */
+#include "../include/Obj23941.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,4 +24,4 @@ extern void func_021ED508(u8 *,int,int);
 extern void func_021EBADC(char *,int);
 extern void func_021EA984(u8 *);
 extern int func_021E8FE8(u8 *,int);
-void func_021E8F20(u8 *p){func_021EC000(*(char **)(p+0x2c),4,0);func_021ED508(p,14,0);func_021EBADC((char *)p,24);func_021EA984(p);func_021E8FE8(p,4);}
+void func_021E8F20(u8 *p){func_021EC000(*(char * *)&((struct Obj23941 *)p)->f2C,4,0);func_021ED508(p,14,0);func_021EBADC((char *)p,24);func_021EA984(p);func_021E8FE8(p,4);}

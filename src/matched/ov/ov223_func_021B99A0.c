@@ -22,6 +22,7 @@
  *   func_021BC52C 0x021BC52C thumb ov223
  *   func_02011B8C 0x02011B8C thumb
  */
+#include "../include/Obj00211.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -45,23 +46,23 @@ void func_021B99A0(char *p)
     u32 base,count;
     int *obj;
     struct Record *r;
-    *(u16 *)(p+46)=func_02047E88(*(struct Util **)(p+40),&setup);
-    *(u16 *)(p+58)=4;
-    *(struct Record **)(p+60)=func_021B95B0(*(u16 *)p,*(u16 *)(p+58));
+    ((struct Obj00211 *)p)->f2E=func_02047E88(*(struct Util * *)&((struct Obj00211 *)p)->f28,&setup);
+    ((struct Obj00211 *)p)->f3A=4;
+    *(struct Record * *)&((struct Obj00211 *)p)->f3C=func_021B95B0(((struct Obj00211 *)p)->f0,((struct Obj00211 *)p)->f3A);
     n=0;
-    base=func_020489F4(*(u8 **)(p+40),*(u16 *)(p+46));
+    base=func_020489F4(*(u8 * *)&((struct Obj00211 *)p)->f28,((struct Obj00211 *)p)->f2E);
     for(i=0;i<4;i++) {
         *(u16 *)(p+i*2+50)=n;
-        r=*(struct Record **)(p+60)+n;
+        r=*(struct Record * *)&((struct Obj00211 *)p)->f3C+n;
         r->id=base+i;
         r->flag=1;
         if(i+1>=2&&i+1<=4)r->translation=*(positions+i-1);
         n++;
     }
-    obj=(int *)func_02048A18(*(u8 **)(p+40),*(u16 *)(*(char **)(p+60)+*(u16 *)(p+50)*68));
+    obj=(int *)func_02048A18(*(u8 * *)&((struct Obj00211 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj00211 *)p)->f3C+((struct Obj00211 *)p)->f32*68));
     count=func_0204779C(obj);
     for(j=0;j<count;j++)func_020477A4((struct G3dSys *)obj,j);
-    *(void **)(p+64)=func_02011510(*(u16 *)p,205,36,10);
-    func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
-    *(u32 *)(p+80)=0;
+    ((struct Obj00211 *)p)->f40=func_02011510(((struct Obj00211 *)p)->f0,205,36,10);
+    func_02011B8C((void *)func_021BC52C(((struct Obj00211 *)p)->f14),((struct Obj00211 *)p)->f40);
+    ((struct Obj00211 *)p)->f50=0;
 }

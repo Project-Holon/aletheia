@@ -18,6 +18,7 @@
  *   func_020307B0      0x020307B0  arm
  *   blink_palanm_File  0x020A7804  data
  */
+#include "../include/Obj15860.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,7 +56,7 @@ void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4)
     p->w04 = func_02030734(p->h18, (u32)p->h0e * 2, 0, blink_palanm_File,
                            0x84);
     handle = func_02049F78(a1, a2, (u32)(&tmp), p->h18);
-    base = *(u8 **)((u8 *)tmp + 0xc);
+    base = *(u8 * *)&((struct Obj15860 *)tmp)->fC;
     func_02082D44(base + a3 * 2, p->w00, (int)((u32)p->h0e * 2));
     func_02082D44(base + a4 * 2, p->w04, (int)((u32)p->h0e * 2));
     func_020307B0(handle);

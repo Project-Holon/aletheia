@@ -16,6 +16,7 @@
  *   d_021A8260     0x021A8260  data  ov009  a4
  *   d_021A1C4C     0x021A1C4C  data  ov009  a1
  */
+#include "../include/Obj12254.h"
 
 extern int *d_021A8260;
 extern char d_021A1C4C[];
@@ -32,7 +33,7 @@ int func_02155168(int a, int b)
     if (d_021A8260 != 0)
         return 0;
     p = (int)func_0203D798();
-    func_02157048(*(unsigned short *)(p + 0x58), *(int *)(p + 0x48));
+    func_02157048(((struct Obj12254 *)p)->f58, ((struct Obj12254 *)p)->f48);
     d_021A8260 = func_02030734(a, 8, 1, d_021A1C4C, 0xba);
     *d_021A8260 = b;
     return 1;

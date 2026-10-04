@@ -23,6 +23,8 @@
  *   func_021DEEFC 0x021DEEFC thumb ov119
  *   func_021DEF1C 0x021DEF1C thumb ov119
  */
+#include "../include/Obj02827.h"
+#include "../include/Obj22746.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02156E24(int,int,int);
@@ -43,11 +45,11 @@ extern void func_021DEF1C(u8 *p);
 void func_021DF0B8(char *p) {
  int n=0;
  int i;
- func_02156E24(13,0x10000,*(u16 *)(p+0x5f4));
- *(u8 **)p=func_021B9800(*(u16 *)(p+0x5f4),func_0200853C(*(void **)(p+0x830)),*(int *)(*(char **)(p+8)+0x24));
+ func_02156E24(13,0x10000,((struct Obj02827 *)p)->f5F4);
+ *(u8 * *)&((struct Obj02827 *)p)->f0=func_021B9800(((struct Obj02827 *)p)->f5F4,func_0200853C(((struct Obj02827 *)p)->f830),((struct Obj22746 *)(*(char * *)&((struct Obj02827 *)p)->f8))->f24);
  func_02156DC4((int)func_021DEEFC,(int)p);
  for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+0xfe4+i*4))) n++;
- func_021B98A0(*(u8 **)p,*(u16 *)(p+0x5f4),func_020173EC()*n,2);
- for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 **)p,*(int *)(p+i*4+0xfe4),func_020173EC());
- func_021B98F8(*(u8 **)p);func_021B9748(*(u8 **)p);func_021D8E84(p,(int)func_021DEF1C);
+ func_021B98A0(*(u8 * *)&((struct Obj02827 *)p)->f0,((struct Obj02827 *)p)->f5F4,func_020173EC()*n,2);
+ for(i=0;i<3;i++) if(func_021D89EC(*(void **)(p+i*4+0xfe4))) func_021B98D8(*(u8 * *)&((struct Obj02827 *)p)->f0,*(int *)(p+i*4+0xfe4),func_020173EC());
+ func_021B98F8(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021B9748(*(u8 * *)&((struct Obj02827 *)p)->f0);func_021D8E84(p,(int)func_021DEF1C);
 }

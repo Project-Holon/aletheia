@@ -16,6 +16,7 @@
  *   func_02026454  0x02026454  thumb
  *   func_02196034  0x02196034  thumb  ov021
  */
+#include "../include/Obj12631.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -30,9 +31,9 @@ extern void func_02196034(void *p, u32 a, u32 b);
 void func_021967BC(u8 *p)
 {
     if (func_020221A4()) {
-        if (*(u32 *)(p + 8) != 0xC) {
+        if (((struct Obj12631 *)p)->f8 != 0xC) {
             if (func_02026454((void *)func_02012138((const struct Ctx *)
-                    func_02155A90((u8 *)*(u32 *)(p + 0x2E4)))) == 0)
+                    func_02155A90((u8 *)((struct Obj12631 *)p)->f2E4))) == 0)
                 func_02196034(p, 0, 0x361);
         } else {
             func_02196034(p, 0, 0x365);

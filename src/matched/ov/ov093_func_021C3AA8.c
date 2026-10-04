@@ -19,6 +19,7 @@
  *   func_021C88E4  0x021C88E4  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
  */
+#include "../include/Obj13330.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -39,7 +40,7 @@ void func_021C3AA8(u8 *p, u16 *a, u8 *b)
     if (k) {
         int x = func_021C3C10(p, k, b);
         if (func_021C3B68(p, k, (u8)(x + 5))) {
-            Q *q = *(Q **)(p + 0x4a8);
+            Q *q = *(Q * *)&((struct Obj13330 *)p)->f4A8;
             if (!q->f)
                 q->f = 1;
             return;
@@ -53,7 +54,7 @@ void func_021C3AA8(u8 *p, u16 *a, u8 *b)
         e = (func_021C88E4(p) == 2);
         func_021CC95C(p + 0x1d74, s, 0x22cc);
         if (e) {
-            Q *q = *(Q **)(p + 0x4a8);
+            Q *q = *(Q * *)&((struct Obj13330 *)p)->f4A8;
             if (!q->f)
                 q->f = 1;
         } else {

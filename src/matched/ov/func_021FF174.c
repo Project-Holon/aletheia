@@ -14,6 +14,7 @@
 
  * Decrement the countdown at +0xd3c and, when the tick returns non-zero, zero it and latch state 1.
  */
+#include "../include/Obj07251.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,12 +24,12 @@ extern u32 func_020221A4(u32 v);
 
 int func_021FF174(u8 *p)
 {
-    u32 v = *(u32 *)(p + 0xd3c) - 1;
+    u32 v = ((struct Obj07251 *)p)->fD3C - 1;
 
-    *(u32 *)(p + 0xd3c) = v;
+    ((struct Obj07251 *)p)->fD3C = v;
     if (func_020221A4(v) != 0) {
-        *(u32 *)(p + 0xd3c) = 0;
-        *(u32 *)(p + 0x28) = 1;
+        ((struct Obj07251 *)p)->fD3C = 0;
+        ((struct Obj07251 *)p)->f28 = 1;
     }
     return 2;
 }

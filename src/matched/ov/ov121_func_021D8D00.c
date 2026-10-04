@@ -11,6 +11,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10410.h"
 
 typedef unsigned int u32;
 
@@ -18,7 +19,7 @@ void func_021D8D00(char *p)
 {
     if (*(void (**)(void))(p + 0x2c) != 0) {
         (*(void (**)(char *))(p + 0x2c))(p);
-        if (*(u32 *)(p + 8) != 0)
-            *(u32 *)(p + 0x2c) = 0;
+        if (((struct Obj10410 *)p)->f8 != 0)
+            *(u32 *)&((struct Obj10410 *)p)->f2C = 0;
     }
 }

@@ -22,6 +22,7 @@
 
  * Closed by the `matched` class: 0x0202B420 was filed as an EXACT entry this wave (pkt_0202B1F4), and the callee had to be declared thumb here.
  */
+#include "../include/Obj08804.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,5 +32,5 @@ extern void sub_0202B420(u8 *p, u16 v);
 
 void func_0202B7C8(u8 *p, u16 v)
 {
-    sub_0202B420(*(void **)(p + 0x18), v);
+    sub_0202B420(((struct Obj08804 *)p)->f18, v);
 }

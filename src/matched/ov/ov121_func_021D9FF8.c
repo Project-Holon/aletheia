@@ -9,5 +9,6 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22877.h"
 typedef unsigned char u8;
-unsigned func_021D9FF8(u8 *p) { return *(unsigned *)(p+0x2c); }
+unsigned func_021D9FF8(u8 *p) { return ((struct Obj22877 *)p)->f2C; }

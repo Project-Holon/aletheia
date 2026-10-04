@@ -14,9 +14,10 @@
  * symbols:
  *   func_021B7070  0x021B7070  thumb  ov071
  */
+#include "../include/Obj04337.h"
 
 void func_021B82E4(void *p, int a)
 {
     void func_021B7070(int *p, int *out);
-    func_021B7070(*(void **)((char *)p + 4), (int *)(a + 0x34));
+    func_021B7070(((struct Obj04337 *)p)->f4, (int *)(a + 0x34));
 }

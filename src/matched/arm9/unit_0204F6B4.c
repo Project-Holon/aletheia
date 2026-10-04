@@ -29,6 +29,9 @@
  * 0x1e0 at bit 5, bit 9 read with `lsl #22` / `lsr #31`), so nothing about the
  * field layout is guessed.
  */
+#include "../include/Obj17359.h"
+#include "../include/Obj17361.h"
+#include "../include/Obj17363.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,21 +48,21 @@ struct Ent {
 
 void func_0204F6B4(u8 *a0, int i, u8 *px)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj17359 *)a0)->f8)[i];
 
     e->f0 = *px;
 }
 
 void func_0204F6DC(u8 *a0, int i, u8 *px)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj17361 *)a0)->f8)[i];
 
     e->f1 = *px;
 }
 
 u32 func_0204F704(u8 *a0, int i)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj17363 *)a0)->f8)[i];
 
     return e->f2;
 }

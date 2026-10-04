@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13446.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -16,5 +17,5 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 void func_021D6E40(u8 *p, u8 a, u16 b)
 {
     p[0x1F6] = a;
-    *(u16 *)(p + 0x1F4) = b;
+    ((struct Obj13446 *)p)->f1F4 = b;
 }

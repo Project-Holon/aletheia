@@ -14,9 +14,10 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj18557.h"
 
 int func_021F722C(char *p)
 {
-    return *(int *)(p + 0x14) != 0;
+    return ((struct Obj18557 *)p)->f14 != 0;
 }
 

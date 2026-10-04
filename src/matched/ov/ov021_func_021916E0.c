@@ -23,6 +23,7 @@
  *   func_02045334  0x02045334  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,14 +50,14 @@ u32 func_021916E0(u32 *a)
     func_0203630C();
     r = func_02190D5C((u32 *)a[7]);
     a[9] = func_0201CE30((void *)(*(u32 *)(a[7] + 4)));
-    func_02040618(1, 3, *(s16 *)((u8 *)a + 0x28));
-    if (*(s16 *)((u8 *)a + 0x28) < 0) {
-        *(s16 *)((u8 *)a + 0x28) += 2;
-        if (*(s16 *)((u8 *)a + 0x28) > 0) {
-            *(s16 *)((u8 *)a + 0x28) = 0;
+    func_02040618(1, 3, ((struct Obj00005 *)a)->f28);
+    if (((struct Obj00005 *)a)->f28 < 0) {
+        ((struct Obj00005 *)a)->f28 += 2;
+        if (((struct Obj00005 *)a)->f28 > 0) {
+            ((struct Obj00005 *)a)->f28 = 0;
         }
     }
-    *(s16 *)((u8 *)a + 0x28) = -*(s16 *)((u8 *)a + 0x28);
+    ((struct Obj00005 *)a)->f28 = -((struct Obj00005 *)a)->f28;
     switch (r) {
     case 0:
         if (func_021927F8((u8 *)a) == 1) {
@@ -71,9 +72,9 @@ u32 func_021916E0(u32 *a)
         }
         break;
     case 2:
-        if (*(s16 *)((u8 *)a + 0x28) != 0) {
-            *(s16 *)((u8 *)a + 0x28) = 0;
-            func_02040618(1, 3, *(s16 *)((u8 *)a + 0x28));
+        if (((struct Obj00005 *)a)->f28 != 0) {
+            ((struct Obj00005 *)a)->f28 = 0;
+            func_02040618(1, 3, ((struct Obj00005 *)a)->f28);
         }
         return 1;
     }

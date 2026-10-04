@@ -24,6 +24,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00342.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -55,23 +56,23 @@ void func_021D4A48(u8 *p, int idx)
     if (func_02017E1C(x, 0x4c, 0) == 0) {
         func_02006984(func_02017E1C(x, 0xab, 0), func_02017E1C(x, 0x6f, 0), 0x40, 0, 0, 0, 0, 0);
     }
-    if (*(u8 *)(p + 0x11EE) == 0) {
+    if (((struct Obj00342 *)p)->f11EE == 0) {
         func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
-        func_021DFD24((u32 *)(*(u32 *)(p + 0x868)));
-        if (*(u8 *)(p + 0x11F0) != 0) {
-            *(u32 *)(p + 0x868) = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x14, buf, d_021D5600, *(u16 *)(p + 0x5F4));
+        func_021DFD24((u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868));
+        if (((struct Obj00342 *)p)->f11F0 != 0) {
+            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
         } else {
-            *(u32 *)(p + 0x868) = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x28, buf, d_021D53D0, *(u16 *)(p + 0x5F4));
+            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(((u32 *)(p + 0x844))[idx], 0x28, buf, d_021D53D0, ((struct Obj00342 *)p)->f5F4);
         }
     } else {
         Quad t = d_021D5200;
         u32 obj = ((u32 *)(p + 0x844))[t.v[idx]];
         func_02015C30((void *)(((u32 *)(p + 0x844))[idx]), buf);
-        func_021DFD24((u32 *)(*(u32 *)(p + 0x868)));
-        if (*(u8 *)(p + 0x11F0) != 0) {
-            *(u32 *)(p + 0x868) = func_021DFBB4(obj, 0x14, buf, d_021D5600, *(u16 *)(p + 0x5F4));
+        func_021DFD24((u32 *)(*(u32 *)&((struct Obj00342 *)p)->f868));
+        if (((struct Obj00342 *)p)->f11F0 != 0) {
+            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(obj, 0x14, buf, d_021D5600, ((struct Obj00342 *)p)->f5F4);
         } else {
-            *(u32 *)(p + 0x868) = func_021DFBB4(obj, 0x12, buf, d_021D52F8, *(u16 *)(p + 0x5F4));
+            *(u32 *)&((struct Obj00342 *)p)->f868 = func_021DFBB4(obj, 0x12, buf, d_021D52F8, ((struct Obj00342 *)p)->f5F4);
         }
     }
 }

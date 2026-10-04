@@ -11,5 +11,6 @@
  * symbols:
  *   func_021F12B8 0x021F12B8 thumb ov032
  */
+#include "../include/Obj20415.h"
 extern void func_021F12B8(unsigned char *, int);
-void func_021F028C(unsigned char *p) { func_021F12B8(p, *(int *)(p + 0x84)); }
+void func_021F028C(unsigned char *p) { func_021F12B8(p, ((struct Obj20415 *)p)->f84); }

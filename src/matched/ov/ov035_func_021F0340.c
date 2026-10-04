@@ -11,12 +11,13 @@
  * symbols:
  *   func_02027858 0x02027858 thumb
  */
+#include "../include/Obj09809.h"
 struct TaskMenu;
 extern void func_02027858(struct TaskMenu *m);
 void func_021F0340(char *p)
 {
-    if (*(void **)(p + 0x44) != 0) {
-        func_02027858(*(void **)(p + 0x44));
-        *(void **)(p + 0x44) = 0;
+    if (((struct Obj09809 *)p)->f44 != 0) {
+        func_02027858(((struct Obj09809 *)p)->f44);
+        ((struct Obj09809 *)p)->f44 = 0;
     }
 }

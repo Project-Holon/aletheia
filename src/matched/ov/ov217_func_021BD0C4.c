@@ -15,6 +15,8 @@
  *   func_020437AC 0x020437AC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00025.h"
+#include "../include/Obj14734.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -41,12 +43,12 @@ void func_021BD0C4(u8 *p)
     for(i=0;i<4;i++) {
         q=&d_021C3470[i];
         if(q->enabled) {
-            bmp=func_0204384C(q->arc,q->member,0,*(u16 *)(p+8));
+            bmp=func_0204384C(q->arc,q->member,0,((struct Obj00025 *)p)->f8);
             dest=p+i*4;
-            func_020439A0(bmp,*(struct Bmp **)(dest+320),0,0,0,0,q->x<<3,q->y<<3,q->b);
+            func_020439A0(bmp,*(struct Bmp * *)&((struct Obj14734 *)dest)->f140,0,0,0,0,q->x<<3,q->y<<3,q->b);
             color=((q->r&31)<<10)|((q->g&31)<<5)|(q->b&31);
             text=func_02045EC0(*(struct MsgBank **)(p+16+q->bank*4),q->index);
-            func_0201C7D0(*(void **)(dest+320),q->px,q->py,text,*(void **)(p+12),color);
+            func_0201C7D0(((struct Obj14734 *)dest)->f140,q->px,q->py,text,((struct Obj00025 *)p)->fC,color);
             func_020307B0(text);
             func_020437AC((struct Obj020437AC *)((int)bmp));
         }

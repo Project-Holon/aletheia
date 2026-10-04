@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00088.h"
 
 void func_021BC90C(char *a, int b)
 {
-    *(unsigned short *)(a + 0xc40) = 0x30;
-    *(unsigned short *)(a + 0xc42) = b;
+    ((struct Obj00088 *)a)->fC40 = 0x30;
+    *(unsigned short *)&((struct Obj00088 *)a)->fC42 = b;
 }

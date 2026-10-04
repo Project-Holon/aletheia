@@ -20,6 +20,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   d_021C8DE4 0x021C8DE4 data a1
  */
+#include "../include/Obj01080.h"
 typedef unsigned short u16;
 struct Bank;struct Ov208Scene;
 extern const char d_021C8DE4[];
@@ -36,16 +37,16 @@ extern void *func_020056A0(unsigned,unsigned,unsigned);
 char *func_021BD8C0(u16 heap,unsigned arg)
 {
     char *p=func_02030734(heap,0x11c,1,d_021C8DE4,0x148);
-    *(u16 *)p=heap;*(unsigned *)(p+4)=arg;
-    *(unsigned *)(p+8)=0;*(unsigned *)(p+12)=0;*(unsigned *)(p+16)=0;
-    *(unsigned *)(p+20)=1;*(unsigned *)(p+24)=0;*(unsigned *)(p+28)=0;*(unsigned *)(p+32)=0;
+    ((struct Obj01080 *)p)->f0=heap;((struct Obj01080 *)p)->f4=arg;
+    ((struct Obj01080 *)p)->f8=0;((struct Obj01080 *)p)->fC=0;((struct Obj01080 *)p)->f10=0;
+    ((struct Obj01080 *)p)->f14=1;((struct Obj01080 *)p)->f18=0;((struct Obj01080 *)p)->f1C=0;((struct Obj01080 *)p)->f20=0;
     func_02040618(1,3,-24);func_0204047C(1,0);
-    p[0x38]=0;*(unsigned *)(p+0x3c)=0;
-    *(struct Bank **)(p+0x28)=func_0204B100(16,0,*(u16 *)p);
-    func_0204B270(*(struct Bank **)(p+0x28));
-    *(unsigned *)(p+0x30)=0;func_021BDCF8((struct Ov208Scene *)p);
-    func_021BD358(*(void **)(p+0x30),0);
-    *(short *)(p+0xb4)=24;func_021BDD48(p,*(short *)(p+0xb4));
-    *(void **)(p+0x2c)=func_020056A0((unsigned)func_021BDCDC,(unsigned)p,1);
+    p[0x38]=0;((struct Obj01080 *)p)->f3C=0;
+    *(struct Bank * *)&((struct Obj01080 *)p)->f28=func_0204B100(16,0,((struct Obj01080 *)p)->f0);
+    func_0204B270(*(struct Bank * *)&((struct Obj01080 *)p)->f28);
+    *(unsigned *)&((struct Obj01080 *)p)->f30=0;func_021BDCF8((struct Ov208Scene *)p);
+    func_021BD358(((struct Obj01080 *)p)->f30,0);
+    ((struct Obj01080 *)p)->fB4=24;func_021BDD48(p,((struct Obj01080 *)p)->fB4);
+    ((struct Obj01080 *)p)->f2C=func_020056A0((unsigned)func_021BDCDC,(unsigned)p,1);
     return p;
 }

@@ -21,6 +21,7 @@
  *   func_021D5C30 0x021D5C30 thumb ov093
  *   func_021C5718 0x021C5718 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,7 +51,7 @@ int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
         n = p[0x77f];
         if (func_021BFE30(d))
             n = func_021BFE50(p + 0x1ab8, func_021D5440(func_021BFE40(d, 0)));
-        func_021CD4B0(*(void **)(p + 12), 48, c, n, e, 0);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 48, c, n, e, 0);
     }
     func_021CC95C(p + 0x1d74, lock, 5173);
     if (r) {
@@ -58,9 +59,9 @@ int func_021BFD24(u8 *p, u8 *q, u16 c, u8 *d, u16 e)
         func_021C6848(p, q);
         func_021CC95C(p + 0x1d74, lock, 5179);
         if (func_021D5C30(q))
-            func_021CD4B0(*(void **)(p + 12), 49, func_021D5440(q), 1);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 49, func_021D5440(q), 1);
         if (id != 31)
-            func_021CD4B0(*(void **)(p + 12), 49, id, 1);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 49, id, 1);
     } else if (out == 0) {
         func_021C5718(p, q, e);
     }

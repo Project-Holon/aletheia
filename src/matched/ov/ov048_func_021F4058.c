@@ -23,6 +23,7 @@
  *   func_021F3D38  0x021F3D38  thumb
  *   d_021F50C0     0x021F50C0  data  a4
  */
+#include "../include/Obj00270.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,8 +59,8 @@ void func_021F4058(int *p)
         return;
     if (k == 0x159 && func_02012984((const struct BigObj *)p[2]) == 3)
         return;
-    h = func_0201EC64(*(u16 *)p);
-    r7 = (u32)func_02045B38(0, 2, 0x59, *(u16 *)p);
+    h = func_0201EC64(((struct Obj00270 *)p)->f0);
+    r7 = (u32)func_02045B38(0, 2, 0x59, ((struct Obj00270 *)p)->f0);
     r6 = (u32)func_02045EC0((struct MsgBank *)r7, func_02013E4C(k));
     func_0201EE0C(h, 0, r6, 0, 1, 0);
     func_02045808((struct U16Vec *)r6);

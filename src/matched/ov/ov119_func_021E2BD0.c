@@ -16,6 +16,7 @@
  *   func_02048B20 0x02048B20 arm
  *   func_021E3A40 0x021E3A40 thumb ov119
  */
+#include "../include/Obj06427.h"
 typedef struct {int x,y,z;} Vec;
 extern void func_02048AFC(void *,Vec *);
 extern void func_02048B44(void *,Vec *);
@@ -29,12 +30,12 @@ void func_021E2BD0(char *p) {
     int d=0x1000;
     a.x=0; a.y=0x3000; a.z=0xf000;
     b.x=0; b.y=0; b.z=0;
-    func_02048AFC(*(void **)(p+0x83c),&a);
-    func_02048B44(*(void **)(p+0x83c),&b);
-    func_02048B60(*(void **)(p+0x83c),&d);
-    func_02048B6C(*(void **)(p+0x83c),&c);
+    func_02048AFC(((struct Obj06427 *)p)->f83C,&a);
+    func_02048B44(((struct Obj06427 *)p)->f83C,&b);
+    func_02048B60(((struct Obj06427 *)p)->f83C,&d);
+    func_02048B6C(((struct Obj06427 *)p)->f83C,&c);
     b.x=0; b.y=0x10000; b.z=0x1000;
-    func_02048B20(*(void **)(p+0x83c),&b);
+    func_02048B20(((struct Obj06427 *)p)->f83C,&b);
 }
 extern void func_021E3A40(char *);
 void func_021E2C34(char *p) {func_021E3A40(p);}

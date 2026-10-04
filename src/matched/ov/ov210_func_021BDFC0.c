@@ -12,6 +12,7 @@
  *   func_021BEDE0 0x021BEDE0 thumb ov210
  *   func_021BF728 0x021BF728 thumb ov210
  */
+#include "../include/Obj04618.h"
 typedef unsigned char u8;
 struct S;
 extern int func_021B7AB0(struct S *p);
@@ -19,17 +20,17 @@ extern int func_021BEDE0(int, int);
 extern void func_021BF728(u8 *, int);
 int func_021BDFC0(u8 *p)
 {
-    switch (*(int *)(p + 20)) {
+    switch (((struct Obj04618 *)p)->f14) {
     case 0:
-        if (func_021B7AB0(*(void **)(p + 0x1E0)) == -1)
-            ++*(int *)(p + 20);
+        if (func_021B7AB0(((struct Obj04618 *)p)->f1E0) == -1)
+            ++((struct Obj04618 *)p)->f14;
         break;
     case 1:
         if (p[0x2C1] != 57 && func_021BEDE0((int)p, p[0x2C1]) != 0)
             break;
-        *(int *)(p + 20) = 0;
+        ((struct Obj04618 *)p)->f14 = 0;
         func_021BF728(p, 0);
-        return *(int *)(p + 24);
+        return ((struct Obj04618 *)p)->f18;
     }
     return 24;
 }

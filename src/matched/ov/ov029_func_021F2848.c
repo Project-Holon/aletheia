@@ -35,6 +35,7 @@
  *   func_021F2180  0x021F2180  thumb  ov029
  *   func_02030D28  0x02030D28  arm
  */
+#include "../include/Obj00761.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -76,7 +77,7 @@ void func_021F2848(u8 *p, u8 v)
 
     func_021F3144(p, v);
     if (func_021F2DA8(p) == 0) {
-        st = func_02158630(func_02012138((const struct Ctx *)*(int *)(p + 0x1c)));
+        st = func_02158630(func_02012138((const struct Ctx *)((struct Obj00761 *)p)->f1C));
         if (st == 3) {
             if (p[0x463] == 0) {
                 func_021F06B8(p, 1, 0);
@@ -89,8 +90,8 @@ void func_021F2848(u8 *p, u8 v)
             }
         }
         if (st == 0) {
-            keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
-            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c))));
+            keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(((struct Obj00761 *)p)->f1C))));
+            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4((const struct Ctx *)(((struct Obj00761 *)p)->f1C)));
             if (keys & 8) {
                 if (p[0x462] == 0) {
                     p[0x462] = 1;
@@ -121,6 +122,6 @@ void func_021F2848(u8 *p, u8 v)
 
     if (*(void (**)(u8 *))p != 0)
         (*(void (**)(u8 *))p)(p);
-    if (*(int *)(p + 0x204) != 0)
-        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
+    if (((struct Obj00761 *)p)->f204 != 0)
+        func_02030D28((struct Ctx *)(((struct Obj00761 *)p)->f204));
 }

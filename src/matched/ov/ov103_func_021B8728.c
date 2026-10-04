@@ -30,6 +30,9 @@
  *   func_021B8A44 0x021B8A44 thumb ov103
  *   d_021B926C 0x021B926C data a4
   */
+#include "../include/Obj13737.h"
+#include "../include/Obj22202.h"
+#include "../include/Obj22203.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,7 +62,7 @@ void func_021B8728(u8 *p,u16 *state)
     if(func_021B7250(*(int **)(p+(off-0x74)))==1) {
         tmp=(Offset)off;
         tmp1=*(u8 **)(p+(tmp+0x60))+12;
-        *(int *)tmp1=1;
+        ((struct Obj22202 *)tmp1)->f0=1;
         func_021B8358(p);
     } else if(func_021B727C(*(int *)(p+(int)((u32)off-0x74)))==0) {
         switch(*state) {
@@ -84,11 +87,11 @@ void func_021B8728(u8 *p,u16 *state)
             break;
         }
         case 1:
-            (*(int *)(p+0x738))++;
+            (((struct Obj13737 *)p)->f738)++;
             func_021B8338((u32)p,(u32)func_021B8364);
             break;
         }
     }
-    if(func_021B6480(*(int **)(*(u8 **)(p+0xb0c)+4)))
+    if(func_021B6480(*(int * *)&((struct Obj22203 *)(*(u8 * *)&((struct Obj13737 *)p)->fB0C))->f4))
         func_021B8338((u32)p,(u32)func_021B8A44);
 }

@@ -11,9 +11,10 @@
  *   func_021DB6A8 0x021DB6A8 thumb ov175
  * leaf: reset request step then prepare four database fields.
  */
+#include "../include/Obj01171.h"
 extern void func_021DB6A8(char *);
 void func_021DBFA4(char *ctx)
 {
-    *(int *)(ctx + 0x12c) = 0;
+    ((struct Obj01171 *)ctx)->f12C = 0;
     func_021DB6A8(ctx);
 }

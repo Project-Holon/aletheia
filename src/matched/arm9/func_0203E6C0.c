@@ -15,6 +15,7 @@
  *   s_020A7DB8      0x020A7DB8  data
  *   s_020A7E00      0x020A7E00  data
  */
+#include "../include/Obj11383.h"
 
 typedef unsigned char u8;
 extern int *g_021469F4;
@@ -34,8 +35,8 @@ void func_0203E6C0(void)
         int *p = (int *)g_021469F4[i];
         if (p == 0)
             continue;
-        if (((((unsigned int)(*(u8 *)((char *)p + 0x10)) << 0x1e) >> 0x1f) == 1))
-            func_020307B0((void *)*(int *)p);
+        if (((((unsigned int)(((struct Obj11383 *)p)->f10) << 0x1e) >> 0x1f) == 1))
+            func_020307B0((void *)((struct Obj11383 *)p)->f0);
         func_020307B0((void *)g_021469F4[i]);
     }
     func_020307B0((void *)g_021469F4);

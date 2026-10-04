@@ -19,6 +19,7 @@
  *
  * Polls the profanity check; once it has finished (state 2) reports whether the +0x1488 count is positive, and when it is, loads message 0x51 for the +0x124 id and hands it to the +0x1490 window.
  */
+#include "../include/Obj10693.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,12 +44,12 @@ int func_021DCAEC(char *obj, int *out)
     if (state != 2)
         done = 0;
     if (done)
-        *out = *(int *)(obj + 0x1488) > 0 ? 1 : 0;
+        *out = ((struct Obj10693 *)obj)->f1488 > 0 ? 1 : 0;
     if (done == 1 && *out == 1) {
-        u32 msg = (u32)func_02045B38(0, 2, 0x51, *(u16 *)(obj + 0x124));
+        u32 msg = (u32)func_02045B38(0, 2, 0x51, ((struct Obj10693 *)obj)->f124);
         u32 str = (u32)func_02045EC0((struct MsgBank *)msg, 0xf);
         func_02045C04((struct Rec *)msg);
-        func_020084E4((u16 *)*(u32 *)(obj + 0x1490), (struct U16Vec *)str);
+        func_020084E4((u16 *)((struct Obj10693 *)obj)->f1490, (struct U16Vec *)str);
         func_02045808((struct U16Vec *)str);
     }
     return done;

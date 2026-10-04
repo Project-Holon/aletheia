@@ -16,11 +16,12 @@
  * +0x14 and hard-codes 4 at +0x1c.  A leaf with no prologue, so disasm.py
  * only found it through a branch target.
  */
+#include "../include/Obj14354.h"
 
 typedef unsigned long u32;
 
 void func_021DCE58(char *ctx, u32 v)
 {
-    *(u32 *)(ctx + 0x14) = v;
-    *(u32 *)(ctx + 0x1c) = 4;
+    ((struct Obj14354 *)ctx)->f14 = v;
+    ((struct Obj14354 *)ctx)->f1C = 4;
 }

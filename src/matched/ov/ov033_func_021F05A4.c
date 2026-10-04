@@ -18,6 +18,7 @@
  *   func_0204B8C4 0x0204B8C4 arm
  *   d_021F0DC8 0x021F0DC8 data ov033 a4
  */
+#include "../include/Obj00323.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,22 +54,22 @@ void func_021F05A4(char *p, int flag)
     func_021F0C44(p);
     if (flag == 0)
         return;
-    if (*(int *)(p + 0x6C) != *(int *)(p + 0x68)) {
-        func_0204B3DC(*(void **)(p + 0x50),
-                      (*(int *)(p + 0x68) == 8 || *(int *)(p + 0x68) == 9) ? 0 : 1);
-        func_0204B3DC(*(void **)(p + 0x5C), *(int *)(p + 0x68) == 8);
+    if (((struct Obj00323 *)p)->f6C != ((struct Obj00323 *)p)->f68) {
+        func_0204B3DC(((struct Obj00323 *)p)->f50,
+                      (((struct Obj00323 *)p)->f68 == 8 || ((struct Obj00323 *)p)->f68 == 9) ? 0 : 1);
+        func_0204B3DC(((struct Obj00323 *)p)->f5C, ((struct Obj00323 *)p)->f68 == 8);
         pt.x = d_021F0DC8[*(int *)(p + 0x68)].x;
         pt.y = d_021F0DC8[*(int *)(p + 0x68)].y;
-        func_0204B404(*(void **)(p + 0x50), &pt, 1);
-        func_0204B878(*(void **)(p + 0x38), d_021F0DC8[*(int *)(p + 0x68)].a);
-        func_0204B878(*(void **)(p + 0x44), d_021F0DC8[*(int *)(p + 0x68)].b);
-        func_0204B878(*(void **)(p + 0x50), d_021F0DC8[*(int *)(p + 0x68)].c);
-        *(int *)(p + 0x6C) = *(int *)(p + 0x68);
+        func_0204B404(((struct Obj00323 *)p)->f50, &pt, 1);
+        func_0204B878(((struct Obj00323 *)p)->f38, d_021F0DC8[*(int *)(p + 0x68)].a);
+        func_0204B878(((struct Obj00323 *)p)->f44, d_021F0DC8[*(int *)(p + 0x68)].b);
+        func_0204B878(((struct Obj00323 *)p)->f50, d_021F0DC8[*(int *)(p + 0x68)].c);
+        ((struct Obj00323 *)p)->f6C = ((struct Obj00323 *)p)->f68;
     }
-    if (*(int *)(p + 0x68) == 8 && *(int *)(p + 0xA4) != 0) {
-        func_0204B878(*(void **)(p + 0x5C), 0);
-        func_0204B92C(*(void **)(p + 0x5C), 1);
-        func_0204B8C4(*(void **)(p + 0x5C), 0);
-        *(int *)(p + 0xA4) = 0;
+    if (((struct Obj00323 *)p)->f68 == 8 && ((struct Obj00323 *)p)->fA4 != 0) {
+        func_0204B878(((struct Obj00323 *)p)->f5C, 0);
+        func_0204B92C(((struct Obj00323 *)p)->f5C, 1);
+        func_0204B8C4(((struct Obj00323 *)p)->f5C, 0);
+        ((struct Obj00323 *)p)->fA4 = 0;
     }
 }

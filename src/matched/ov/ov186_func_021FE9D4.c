@@ -18,6 +18,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj01285.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0207D63C(u32,int,int,int,int);
@@ -31,32 +32,32 @@ int func_021FE9D4(char *p,int *state)
     switch(*state) {
     case 0: {
         int a,b,duration;
-        if(*(int *)(p+8)==0){a=0;b=16;}
-        else if(*(int *)(p+8)==1){a=16;b=0;}
-        if(*(int *)(p+4)&1)func_0207D63C(0x04000050,7,31,a,b);
-        if(*(int *)(p+4)&2)func_0207D63C(0x04001050,3,7,a,b);
-        *(u32 *)(p+0x10)=0;
-        duration=*(int *)(p+0x18);
+        if(((struct Obj01285 *)p)->f8==0){a=0;b=16;}
+        else if(((struct Obj01285 *)p)->f8==1){a=16;b=0;}
+        if(((struct Obj01285 *)p)->f4&1)func_0207D63C(0x04000050,7,31,a,b);
+        if(((struct Obj01285 *)p)->f4&2)func_0207D63C(0x04001050,3,7,a,b);
+        ((struct Obj01285 *)p)->f10=0;
+        duration=((struct Obj01285 *)p)->f18;
         if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
-        *(u32 *)(p+0x14)=duration;
+        ((struct Obj01285 *)p)->f14=duration;
         *state=1;
         break;
     }
     case 1: {
         int a,b;
-        if(*(int *)(p+8)==0){b=_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14));a=16-b;}
-        else if(*(int *)(p+8)==1){a=_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14));b=16-a;}
-        if(*(int *)(p+4)&1) {
+        if(((struct Obj01285 *)p)->f8==0){b=_u32_div_f(((struct Obj01285 *)p)->f10<<4,((struct Obj01285 *)p)->f14);a=16-b;}
+        else if(((struct Obj01285 *)p)->f8==1){a=_u32_div_f(((struct Obj01285 *)p)->f10<<4,((struct Obj01285 *)p)->f14);b=16-a;}
+        if(((struct Obj01285 *)p)->f4&1) {
             *(volatile u16 *)0x04000052=b|(a<<8);
             if(b==0){func_020434DC(1,0);func_020434DC(2,0);func_020434DC(4,0);}
             else{func_020434DC(1,1);func_020434DC(2,1);func_020434DC(4,1);}
         }
-        if(*(int *)(p+4)&2) {
+        if(((struct Obj01285 *)p)->f4&2) {
             *(volatile u16 *)0x04001052=b|(a<<8);
             if(b==0){func_02043598(1,0);func_02043598(2,0);}
             else{func_02043598(1,1);func_02043598(2,1);}
         }
-        if((*(u32 *)(p+0x10))++ >= *(u32 *)(p+0x14))*state=2;
+        if((((struct Obj01285 *)p)->f10)++ >= ((struct Obj01285 *)p)->f14)*state=2;
         break;
     }
     case 2:return 1;

@@ -10,5 +10,6 @@
  * status: EXACT*
  * symbols:
  */
+#include "../include/Obj03650.h"
 
-void func_021F3B10(char *p, int target) { *(int *)(p+0x64) += 16; if (target < *(int *)(p+0x64)) *(int *)(p+0x64)=target; }
+void func_021F3B10(char *p, int target) { ((struct Obj03650 *)p)->f64 += 16; if (target < ((struct Obj03650 *)p)->f64) ((struct Obj03650 *)p)->f64=target; }

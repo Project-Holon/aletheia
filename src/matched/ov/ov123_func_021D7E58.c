@@ -18,6 +18,8 @@
  *   func_021D6AB8 0x021D6AB8 thumb ov123
  *   func_021D7BDC 0x021D7BDC thumb ov123
  */
+#include "../include/Obj00063.h"
+#include "../include/Obj03794.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed int     s32;
@@ -36,7 +38,7 @@ void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
     int i;
     int v;
     if (*r != 0) {
-        *(int *)(p + 128) = *r;
+        ((struct Obj00063 *)p)->f80 = *r;
         func_021D6EE0(p, (int)func_021D6FF0, 0x500);
         return;
     }
@@ -44,21 +46,21 @@ void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
     v = *(int *)q;
     if (v == func_020093D0(h)) goto unchanged;
     {
-        *(int *)(p+0x7c) = v;
+        ((struct Obj00063 *)p)->f7C = v;
         p[0xa4] = q[0x57];
         p[0xa5] = q[0x58];
         p[0xa6] = q[0x59];
-        *(int *)(p+0x6c) = *(u16 *)(q+0x54);
+        ((struct Obj00063 *)p)->f6C = ((struct Obj03794 *)q)->f54;
         if (p[0xa5]) p[0xa8] |= 1;
         if (p[0xa4]) p[0xa8] |= 2;
         if (p[0xa6]) p[0xa8] |= 4;
         for (i = 0; i < 10; i++) {
             if (*(u16 *)(q+i*8+4) == 0) break;
-            func_021D6A70(*(void **)(p+20), i+20, *(u16 *)(q+i*8+4), q[i*8+8], q[i*8+9]);
+            func_021D6A70(((struct Obj00063 *)p)->f14, i+20, *(u16 *)(q+i*8+4), q[i*8+8], q[i*8+9]);
         }
         p[0xa9] = func_021D7CEC((int)h,q);
         func_021D7E20(p,q);
-        func_021D6AB8(*(void **)(p+20));
+        func_021D6AB8(((struct Obj00063 *)p)->f14);
     }
     goto done;
 unchanged:

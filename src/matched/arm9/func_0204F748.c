@@ -23,6 +23,7 @@
  * bit 10.  The entry type is declared with its sizeof at 0x1c, so the encoder
  * emits the image's `mov r0, #0x1c` plus `mla`.
  */
+#include "../include/Obj16146.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ struct Ent {
 
 u32 func_0204F748(u8 *a0, int i)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj16146 *)a0)->f8)[i];
 
     return e->f10;
 }

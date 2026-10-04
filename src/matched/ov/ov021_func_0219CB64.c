@@ -15,6 +15,7 @@
  *   func_02046E24  0x02046E24  arm
  *   func_0219CB24  0x0219CB24  thumb  ov021
  */
+#include "../include/Obj19659.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,5 +31,5 @@ extern void func_0219CB24(u8 *o, u32 a, u32 b, u32 c, u8 s0, u32 s1);
 void func_0219CB64(u8 *s, const D *d, u32 g)
 {
     u16 *q = func_0216E3C8(d);
-    func_0219CB24(s, (u32)func_02046E24(func_0216D518((u8 *)(*(u32 *)(s + 0x10))), *q), d->id, d->f7, d->f8, g);
+    func_0219CB24(s, (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj19659 *)s)->f10)), *q), d->id, d->f7, d->f8, g);
 }

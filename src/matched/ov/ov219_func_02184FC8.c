@@ -17,6 +17,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02184EAC 0x02184EAC thumb ov219
  */
+#include "../include/Obj01013.h"
 typedef unsigned short u16;
 struct Src {unsigned w[13];};
 struct Font;struct Obj;struct Descriptor;
@@ -28,19 +29,19 @@ extern void func_02045334(struct Descriptor *),func_02184EAC(int,int,int);
 void func_02184FC8(char *p,const struct Src *source,unsigned count)
 {
     struct Src cfg;
-    *(void **)(p+0xc078)=*(void **)(p+0xc018);p[0xc07c]=0;
+    ((struct Obj01013 *)p)->fC078=((struct Obj01013 *)p)->fC018;p[0xc07c]=0;
     cfg=*source;
-    cfg.w[0]=*(unsigned *)(p+0xc050);
+    cfg.w[0]=*(unsigned *)&((struct Obj01013 *)p)->fC050;
     *(u16 *)((char *)&cfg+16)=count;
-    cfg.w[3]=*(unsigned *)(p+0xc018);
+    cfg.w[3]=*(unsigned *)&((struct Obj01013 *)p)->fC018;
     cfg.w[1]=(unsigned)func_02184EAC;
     *(u16 *)((char *)&cfg+32)=12;
-    *(u16 *)((char *)&cfg+34)=func_0201DC80(*(struct Font **)(p+0xc06c));
+    *(u16 *)((char *)&cfg+34)=func_0201DC80(*(struct Font * *)&((struct Obj01013 *)p)->fC06C);
     cfg.w[10]=(unsigned)(p+0xc078);
-    cfg.w[11]=*(unsigned *)(p+0xc080);
-    cfg.w[12]=*(unsigned *)(p+0xc06c);
-    *(struct Obj **)(p+0xc04c)=func_0201FF30(&cfg,0,0,(u16)*(unsigned *)p);
-    func_02020CF8(*(struct Obj **)(p+0xc04c),*(unsigned *)p);
-    func_0201F73C(*(void **)(p+0xc018),0,34,7);
-    func_02045334(*(struct Descriptor **)(p+0xc018));
+    cfg.w[11]=((struct Obj01013 *)p)->fC080;
+    cfg.w[12]=*(unsigned *)&((struct Obj01013 *)p)->fC06C;
+    *(struct Obj * *)&((struct Obj01013 *)p)->fC04C=func_0201FF30(&cfg,0,0,(u16)((struct Obj01013 *)p)->f0);
+    func_02020CF8(*(struct Obj * *)&((struct Obj01013 *)p)->fC04C,((struct Obj01013 *)p)->f0);
+    func_0201F73C(((struct Obj01013 *)p)->fC018,0,34,7);
+    func_02045334(*(struct Descriptor * *)&((struct Obj01013 *)p)->fC018);
 }

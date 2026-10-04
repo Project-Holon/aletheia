@@ -14,6 +14,8 @@
  *   func_02012F2C  0x02012F2C  thumb
  *   func_02008DF0  0x02008DF0  thumb
  */
+#include "../include/Obj00020.h"
+#include "../include/Obj12059.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,17 +33,17 @@ int func_0216EF84(int a0, int a1)
     int t4;
     void *p;
 
-t4 = *(int *)((char *)a0 + 8);
-a0 = *(int *)((char *)a0);
+t4 = *(int *)&((struct Obj00020 *)a0)->f8;
+a0 = ((struct Obj00020 *)((char *)a0))->f0;
     p = func_020120F4((const struct Ctx *)a0);
 loc_0216EF8E:
     a0 = (int)func_02012F2C(p);
 loc_0216EF92:
-a1 = *(int *)((char *)t4);
+a1 = ((struct Obj12059 *)((char *)t4))->f0;
     if (a1 != 0) goto loc_0216EFA6;
 loc_0216EF98:
 t4 = t4 + 0x8c;
-a1 = *(int *)((char *)t4);
+a1 = ((struct Obj12059 *)((char *)t4))->f0;
     if (a1 != 4) goto loc_0216EFA6;
 loc_0216EFA0:
 a1 = 0x4f;

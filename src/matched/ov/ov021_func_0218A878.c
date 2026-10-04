@@ -18,6 +18,7 @@
  *   func_021A2FA4  0x021A2FA4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04981.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,10 +33,10 @@ void *func_0218A878(u8 *p, void *a, void *b)
 {
     int r;
 
-    if (func_02013D5C(*(u16 *)(p + 0x10)) == 0)
+    if (func_02013D5C(((struct Obj04981 *)p)->f10) == 0)
         return 0;
-    r = func_021A2FA4(*(void **)(p + 0x18), *(u32 *)(p + 0x2C));
+    r = func_021A2FA4(((struct Obj04981 *)p)->f18, ((struct Obj04981 *)p)->f2C);
     if (r == 9)
         return 0;
-    return func_0217B4D8(a, b, *(void **)(p + 0x18), *(int **)(p + 0x34), *(u16 *)(p + 0x24), r);
+    return func_0217B4D8(a, b, ((struct Obj04981 *)p)->f18, *(int * *)&((struct Obj04981 *)p)->f34, ((struct Obj04981 *)p)->f24, r);
 }

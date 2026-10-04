@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15806.h"
 
-int func_0202A01C(int a0, int a1, int a2, int a3){ int t0; t0 = func_020061F8((int)4); *(unsigned short *)(((char *)((a0 + 0)) + 4)) = (unsigned short)0; return 0; }
+int func_0202A01C(int a0, int a1, int a2, int a3){ int t0; t0 = func_020061F8((int)4); ((struct Obj15806 *)((char *)((a0 + 0))))->f4 = (unsigned short)0; return 0; }

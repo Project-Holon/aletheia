@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj23810.h"
 typedef unsigned short u16;
 void func_021E1814(unsigned char *p,u16 *q)
 {
     u16 *d=(u16 *)(p+108);
     unsigned n=8;
     do { *d++=*q++; } while(--n);
-    *(int *)(p+64)=1;
+    ((struct Obj23810 *)p)->f40=1;
 }

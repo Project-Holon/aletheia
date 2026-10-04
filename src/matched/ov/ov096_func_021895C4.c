@@ -14,6 +14,7 @@
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   d_0218A580     0x0218A580  data   ov096  a4
  */
+#include "../include/Obj10184.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,8 +39,8 @@ int func_021895C4(int a, int b) {
     r6 = func_0201134C(a);
     r7 = func_0201134C(a);
     t = d_0218A580;
-    x = func_021D59B4(*(u8 **)(b + 0xbc), 15);
-    y = func_021D59B4(*(u8 **)(b + 0xc0), 15);
+    x = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fBC, 15);
+    y = func_021D59B4(*(u8 * *)&((struct Obj10184 *)b)->fC0, 15);
     func_0218A0F4((u8 *)a, ((int *)&t)[r6], x, y, r7);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj10184 *)b)->fC4;
 }

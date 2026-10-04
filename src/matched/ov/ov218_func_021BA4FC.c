@@ -11,6 +11,7 @@
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj14773.h"
 typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
@@ -19,8 +20,8 @@ void func_021BA4FC(char *ctx)
 {
     int i;
     void *item;
-    if (*(int *)(ctx + 0x32c) != 0) {
-        *(int *)(ctx + 0x32c) = 0;
+    if (((struct Obj14773 *)ctx)->f32C != 0) {
+        ((struct Obj14773 *)ctx)->f32C = 0;
         for (i = 0; i < 7; i++) {
             item = *(void **)(ctx + 0x294 + i * 4);
             if (func_0204B3F4(item) != 0)

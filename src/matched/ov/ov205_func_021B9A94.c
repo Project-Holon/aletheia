@@ -15,6 +15,7 @@
  *   func_02008654 0x02008654 thumb
  *   func_02008D1C 0x02008D1C thumb
  */
+#include "../include/Obj14631.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -30,8 +31,8 @@ void func_021B9A94(char *p)
 {
     void *counter,*date;
     unsigned year,month,day;
-    counter=func_02012F2C(*(void **)(p+4));
-    date=(void *)func_02012FCC((int)(*(void **)(p+4)));
+    counter=func_02012F2C(((struct Obj14631 *)p)->f4);
+    date=(void *)func_02012FCC((int)(((struct Obj14631 *)p)->f4));
     year=func_0200864C(date);
     month=func_02008650(date);
     day=func_02008654(date);

@@ -9,7 +9,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13274.h"
+#include "../include/Obj20977.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021B90F8(u8 *p) { u8 *q; q=*(u8 **)p; if(*(u32 *)(q+0x94)!=0 && q[0x23]==0) return 1; return 0; }
+int func_021B90F8(u8 *p) { u8 *q; q=*(u8 * *)&((struct Obj20977 *)p)->f0; if(((struct Obj13274 *)q)->f94!=0 && q[0x23]==0) return 1; return 0; }

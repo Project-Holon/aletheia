@@ -28,6 +28,8 @@
  *   func_021A7410  0x021A7410  thumb ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04211.h"
+#include "../include/Obj09478.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -70,16 +72,16 @@ int func_021933C0(int o, int q)
     case 2:
         if (func_02169620((struct S *)o) != 0)
             break;
-        *(int *)((char *)st + 0x18) = 1;
-        *(int *)((char *)st + 0x1c) = 1;
-        *(int *)((char *)st + 0x20) = 1;
+        ((struct Obj04211 *)st)->f18 = 1;
+        ((struct Obj04211 *)st)->f1C = 1;
+        ((struct Obj04211 *)st)->f20 = 1;
         *st = 3;
     case 3:
         func_02169528((unsigned char *)o, (int *)(&h));
         p = h;
-        func_02169540((unsigned char *)o, (unsigned int)(p + *(int *)(p + 4)));
-        off = *(int *)(p + 0x10);
-        if (off != *(int *)(p + 0x14))
+        func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj09478 *)p)->f4));
+        off = ((struct Obj09478 *)p)->f10;
+        if (off != ((struct Obj09478 *)p)->f14)
             func_0218B974(func_0218DD04(q), o, h + off + 4, *(int *)(h + off));
         func_02169580(o);
         if (func_0218DCF4(q))

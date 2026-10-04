@@ -17,6 +17,7 @@
  *   func_02045808  0x02045808  arm
  *   func_0201C7D0  0x0201C7D0  thumb
  */
+#include "../include/Obj09927.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,10 +37,10 @@ extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 
 void func_021B9DC0(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color)
 {
-    void *buf = func_020457B0(16, *(u16 *)p);
-    void *text = func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x134)), idx);
+    void *buf = func_020457B0(16, ((struct Obj09927 *)p)->f0);
+    void *text = func_02045EC0((struct MsgBank *)(((struct Obj09927 *)p)->f134), idx);
     func_0201F250(set, buf, text);
-    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)win)), x, y, buf, (void *)(*(u32 *)(p + 0x13c)), color);
+    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)win)), x, y, buf, (void *)(((struct Obj09927 *)p)->f13C), color);
     func_02045808(text);
     func_02045808(buf);
 }

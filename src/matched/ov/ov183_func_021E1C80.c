@@ -20,6 +20,8 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   d_021E38E0 0x021E38E0 data a4
  */
+#include "../include/Obj02232.h"
+#include "../include/Obj05482.h"
 typedef unsigned short u16;
 typedef struct {int a,b;} Pair;
 extern const Pair d_021E38E0;
@@ -39,16 +41,16 @@ int func_021E1C80(int obj,int unused,char *arg)
     char *p;
     int i;
     Pair pair;
-    p=func_0203159C(obj,32,func_021F9B9C((char *)(*(int *)(arg+0xc))));
+    p=func_0203159C(obj,32,func_021F9B9C((char *)(((struct Obj05482 *)arg)->fC)));
     func_02082BCC(p,0,32);
-    *(char **)(p+0x18)=arg;
-    *(u16 *)(p+8)=func_021F9B9C((char *)(*(int *)(arg+0xc)));
-    *(int *)(p+4)=(int)func_021FD6D8((int)p,(int)func_021E1DA8,*(u16 *)(p+8));
-    *(int *)p=func_0201C440((void *)(*(u16 *)(p+8)));
-    *(int *)(p+0xc)=(int)func_021FD12C(*(int *)(arg+8),(void *)(*(int *)p),*(u16 *)(p+8));
-    func_021FD170((char *)(*(int *)(p+0xc)),(char *)(*(int *)(arg+8)),(void *)111);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x10)=(int)func_021FD760(*(int *)(arg+4),(char *)(*(int *)(arg+8)),i,*(u16 *)(p+8));
+    *(char * *)&((struct Obj02232 *)p)->f18=arg;
+    ((struct Obj02232 *)p)->f8=func_021F9B9C((char *)(((struct Obj05482 *)arg)->fC));
+    ((struct Obj02232 *)p)->f4=(int)func_021FD6D8((int)p,(int)func_021E1DA8,((struct Obj02232 *)p)->f8);
+    ((struct Obj02232 *)p)->f0=func_0201C440((void *)(((struct Obj02232 *)p)->f8));
+    ((struct Obj02232 *)p)->fC=(int)func_021FD12C(((struct Obj05482 *)arg)->f8,(void *)(((struct Obj02232 *)p)->f0),((struct Obj02232 *)p)->f8);
+    func_021FD170((char *)(((struct Obj02232 *)p)->fC),(char *)(((struct Obj05482 *)arg)->f8),(void *)111);
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x10)=(int)func_021FD760(((struct Obj05482 *)arg)->f4,(char *)(((struct Obj05482 *)arg)->f8),i,((struct Obj02232 *)p)->f8);
     pair=d_021E38E0;
-    func_021FD860(*(int *)(p+0x10),4,&pair);
+    func_021FD860(((struct Obj02232 *)p)->f10,4,&pair);
     return 1;
 }

@@ -26,6 +26,8 @@
  *   func_021BD200 0x021BD200 thumb ov093
  *   func_021C091C 0x021C091C thumb ov093
  */
+#include "../include/Obj00003.h"
+#include "../include/Obj05194.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,38 +55,38 @@ u8 func_021C9F6C(u8 *p, u8 *q)
     u8 work[28];
     struct Out *out = (struct Out *)(work + 8);
     u16 *saved;
-    u8 *a = func_021B9934(*(char **)(p + 8), q[4]);
-    u8 *b = func_021B9934(*(char **)(p + 8), q[5]);
+    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[4]);
+    u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[5]);
     struct State *state;
     u32 flag;
     func_021C64B4(p, *(u16 *)(q + 6), a, out);
-    func_021CA0B8(*(void **)(p + 0x860));
-    func_021CA0C8(*(void **)(p + 0x868));
-    func_021CA0D8(*(void **)(p + 0x868), b);
-    func_021CA0E8(*(void **)(p + 0x868), 1);
-    func_021CA0F8(*(void **)(p + 0x868));
-    if (func_021CA108(*(void **)(p + 0x868))) {
+    func_021CA0B8(((struct Obj00003 *)p)->f860);
+    func_021CA0C8(((struct Obj00003 *)p)->f868);
+    func_021CA0D8(((struct Obj00003 *)p)->f868, b);
+    func_021CA0E8(((struct Obj00003 *)p)->f868, 1);
+    func_021CA0F8(((struct Obj00003 *)p)->f868);
+    if (func_021CA108(((struct Obj00003 *)p)->f868)) {
         func_021C5718(p, a, ((u16 *)work)[4]);
         return 0;
     }
-    func_021BF83C(p, (u16 *)out, a, *(int *)(p + 0x868));
-    func_021BF3D8(p, (int)out, a, *(int *)(p + 0x868), p + 0x1f88);
-    func_021BF4AC(p, (u8 *)out, a, *(void **)(p + 0x868), p + 0x1f88);
-    func_021BF8D4(p, (u16 *)out, a, *(int *)(p + 0x868));
-    if (func_021CA118(*(void **)(p + 0x868))) return 0;
-    state = *(struct State **)(p + 0x4a8);
+    func_021BF83C(p, (u16 *)out, a, *(int *)&((struct Obj00003 *)p)->f868);
+    func_021BF3D8(p, (int)out, a, *(int *)&((struct Obj00003 *)p)->f868, p + 0x1f88);
+    func_021BF4AC(p, (u8 *)out, a, ((struct Obj00003 *)p)->f868, p + 0x1f88);
+    func_021BF8D4(p, (u16 *)out, a, *(int *)&((struct Obj00003 *)p)->f868);
+    if (func_021CA118(((struct Obj00003 *)p)->f868)) return 0;
+    state = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
     saved = (u16 *)work;
-    saved[0] = *(u16 *)state;
-    saved[1] = *(u16 *)((u8 *)state + 2);
-    saved[2] = *(u16 *)((u8 *)state + 4);
+    saved[0] = ((struct Obj05194 *)state)->f0;
+    saved[1] = ((struct Obj05194 *)state)->f2;
+    saved[2] = ((struct Obj05194 *)state)->f4;
     func_021BD1E0(state);
-    func_021BD200(*(struct State **)(p + 0x4a8), p, a, *(int *)(p + 0x868));
-    (*(struct State **)(p + 0x4a8))->b4 = 1;
-    func_021C091C(p, (u8 *)out, a, *(u8 **)(p + 0x868), (u32)(p + 0x1f88), 1);
-    state = *(struct State **)(p + 0x4a8);
+    func_021BD200(*(struct State * *)&((struct Obj00003 *)p)->f4A8, p, a, *(int *)&((struct Obj00003 *)p)->f868);
+    (*(struct State * *)&((struct Obj00003 *)p)->f4A8)->b4 = 1;
+    func_021C091C(p, (u8 *)out, a, *(u8 * *)&((struct Obj00003 *)p)->f868, (u32)(p + 0x1f88), 1);
+    state = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
     flag = state->flag;
-    *(u16 *)state = saved[0];
-    *(u16 *)((u8 *)state + 2) = saved[1];
-    *(u16 *)((u8 *)state + 4) = saved[2];
+    ((struct Obj05194 *)state)->f0 = saved[0];
+    ((struct Obj05194 *)state)->f2 = saved[1];
+    ((struct Obj05194 *)state)->f4 = saved[2];
     return flag;
 }

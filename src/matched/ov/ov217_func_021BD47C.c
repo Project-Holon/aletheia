@@ -9,6 +9,7 @@
  * status: EXACT*
  * Trailing: two alignment bytes at 021BD4CA.
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,9 +19,9 @@ extern void func_0202155C(struct PalAnmSlot *, u32, u32, u32);
 extern void func_020216D4(struct PalAnmSlot *, u32, u32, u32);
 void func_021BD47C(u8 *p)
 {
-    *(struct PalAnmSlot **)(p + 152) = func_02021518(*(u16 *)(p + 8));
-    func_0202155C(*(struct PalAnmSlot **)(p + 152), 0, 512, *(u16 *)(p + 8));
-    func_0202155C(*(struct PalAnmSlot **)(p + 152), 2, 512, *(u16 *)(p + 8));
-    func_020216D4(*(struct PalAnmSlot **)(p + 152), 0, 0, 512);
-    func_020216D4(*(struct PalAnmSlot **)(p + 152), 2, 0, 512);
+    *(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98 = func_02021518(((struct Obj00025 *)p)->f8);
+    func_0202155C(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 512, ((struct Obj00025 *)p)->f8);
+    func_0202155C(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 512, ((struct Obj00025 *)p)->f8);
+    func_020216D4(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 0, 0, 512);
+    func_020216D4(*(struct PalAnmSlot * *)&((struct Obj00025 *)p)->f98, 2, 0, 512);
 }

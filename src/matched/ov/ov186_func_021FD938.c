@@ -9,4 +9,5 @@
  * status: EXACT
  * blocker-leaf: ov183 021DB3C4; source/unit/shards checked, parent cleared.
  */
-int func_021FD938(char *p){return *(int *)(p+0x22c);}
+#include "../include/Obj24846.h"
+int func_021FD938(char *p){return ((struct Obj24846 *)p)->f22C;}

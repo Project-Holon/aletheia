@@ -15,6 +15,7 @@
  * Free-and-null on the +0x24 block: hands it to 0x021E82BC (ov177) and
  *  *  clears the field, so a second call is harmless.
  */
+#include "../include/Obj14330.h"
 
 typedef unsigned long u32;
 
@@ -22,10 +23,10 @@ extern void func_021E82BC(char *p);
 
 void func_021D98B8(char *obj)
 {
-    u32 p = *(u32 *)(obj + 0x24);
+    u32 p = ((struct Obj14330 *)obj)->f24;
     if (p != 0) {
         func_021E82BC((char *)p);
-        *(u32 *)(obj + 0x24) = 0;
+        ((struct Obj14330 *)obj)->f24 = 0;
     }
 }
 

@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15665.h"
 typedef unsigned short u16;
 
 u16 func_02015EEC(char *p)
 {
-    return **(u16 **)(p + 0x28);
+    return **(u16 * *)&((struct Obj15665 *)p)->f28;
 }

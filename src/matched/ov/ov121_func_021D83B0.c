@@ -12,10 +12,11 @@
  *   func_021DA6D0 0x021DA6D0 thumb ov121
  *   func_021D6C84 0x021D6C84 thumb ov121
  */
+#include "../include/Obj00326.h"
 extern int func_021DA6D0(unsigned char *);
 extern void func_021D6C84(void *);
 int func_021D83B0(char *p) {
- int n=func_021DA6D0(*(unsigned char **)(p+0x270));
+ int n=func_021DA6D0(*(unsigned char * *)&((struct Obj00326 *)p)->f270);
  func_021D6C84(p+0x294);
  return n;
 }

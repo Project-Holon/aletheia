@@ -8,5 +8,6 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13252.h"
 typedef unsigned int u32;
-int func_021BB8FC(void *unused, u32 p) { if (*(u32 *)(p+12)==0 && *(u32 *)(p+36)==0) return 1; return 0; }
+int func_021BB8FC(void *unused, u32 p) { if (((struct Obj13252 *)p)->fC==0 && ((struct Obj13252 *)p)->f24==0) return 1; return 0; }

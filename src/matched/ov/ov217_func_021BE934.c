@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25908.h"
 
 typedef unsigned char u8;
 
@@ -39,7 +40,7 @@ extern u32 func_021BEB6C(u32 a0);
 
 int func_021BE934(char *p)
 {
-    switch (*(int *)(p + 0x34)) {
+    switch (((struct Obj25908 *)p)->f34) {
     case 0:
     case 2:
     case 3:

@@ -15,6 +15,7 @@
  *   func_021BE448 0x021BE448 thumb ov217
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj06712.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021BE4DC(void *);
@@ -30,7 +31,7 @@ void func_021BE040(u8 *p)
         func_021BE4E0(p);
         break;
     case 1:
-        if (*(u32 *)(p + 40) % 10u == 0) {
+        if (((struct Obj06712 *)p)->f28 % 10u == 0) {
             u8 index = p[765];
             p[765] = index + 1;
             func_021BEFC0(p, index);

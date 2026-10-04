@@ -23,6 +23,7 @@
  *   func_0219EAEC  0x0219EAEC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07482.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ extern u32 func_021BB394(u32);
 
 int func_0219EAB8(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(a)) = func_021BB394(func_0216D530(func_0216D67C(b, b, c, d)));
+*(u32 *)&((struct Obj07482 *)((u8 *)(a)))->f0 = func_021BB394(func_0216D530(func_0216D67C(b, b, c, d)));
 return func_0219EAEC(a, b);
 }
 

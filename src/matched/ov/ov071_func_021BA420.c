@@ -12,11 +12,12 @@
  *   func_020498F4 0x020498F4 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj20764.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_020409B4(unsigned);
 void func_021BA420(char *p) {
-    func_020498F4((void *)(*(unsigned *)(p + 48)),13,2,0,0,1,0x61);
+    func_020498F4((void *)(((struct Obj20764 *)p)->f30),13,2,0,0,1,0x61);
     func_020409B4(0); func_020409B4(2);
 }

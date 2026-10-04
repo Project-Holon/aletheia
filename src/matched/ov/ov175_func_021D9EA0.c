@@ -14,7 +14,8 @@
  *   func_0203A5E4 0x0203A5E4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj24326.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02156DE0(int,int),func_02156DC4(int,int),func_0203A5E4(u32),func_020307B0(void *);
-void func_021D9EA0(u8 *p) { func_02156DE0(0,0); func_02156DC4(0,0); func_0203A5E4(0x2400); func_020307B0(*(void **)(p+0x190)); func_020307B0(p); }
+void func_021D9EA0(u8 *p) { func_02156DE0(0,0); func_02156DC4(0,0); func_0203A5E4(0x2400); func_020307B0(((struct Obj24326 *)p)->f190); func_020307B0(p); }

@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ loc_02166842:
 a0 = *(u8 *)((char *)a0 + 1);
     return a0;
 loc_02166846:
-a0 = *(u8 *)((char *)a0);
+a0 = *(u8 *)&((struct Obj00005 *)((char *)a0))->f0;
     return a0;
 loc_0216684A:
 a0 = *(u8 *)((char *)a0 + 2);

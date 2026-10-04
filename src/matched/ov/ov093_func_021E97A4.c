@@ -12,12 +12,13 @@
  * symbols:
  *   func_021E9738  0x021E9738  thumb  ov093
  */
+#include "../include/Obj21552.h"
 extern int func_021E9738(void *p);
 
 int func_021E97A4(char *p)
 {
     if (func_021E9738(p) != 0) {
-        return *(int *)(p + 0xc4);
+        return ((struct Obj21552 *)p)->fC4;
     }
     return 0;
 }

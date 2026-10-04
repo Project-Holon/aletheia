@@ -12,6 +12,7 @@
  *   func_021F265C 0x021F265C thumb ov194
  *   func_020355D8 0x020355D8 arm
  */
+#include "../include/Obj14503.h"
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F265C(char *,int *,int *);
 typedef unsigned char  u8;
@@ -21,6 +22,6 @@ int func_021F38CC(char *p,int *out) {
  if(func_02035D20(&x,&y)) {
  point[0]=x;point[1]=y;
  if(func_021F265C(p,point,(int *)(p+0xD8))) {
- u=*(int *)(p+0xD8);out[3]=*(int *)(p+0xDC);out[1]=1;out[2]=u;func_020355D8(1);return 1;
+ u=((struct Obj14503 *)p)->fD8;out[3]=((struct Obj14503 *)p)->fDC;out[1]=1;out[2]=u;func_020355D8(1);return 1;
  }}return 0;
 }

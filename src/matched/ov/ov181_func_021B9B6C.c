@@ -13,5 +13,6 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj08302.h"
 extern void func_0201D83C(void *),func_02045808(void *),func_02045C04(void *);
-void func_021B9B6C(char *p){func_0201D83C(*(void **)(p+0xac));func_0201D83C(*(void **)(p+0xa8));func_02045808(*(void **)(p+0xb4));func_02045C04(*(void **)(p+0xb0));}
+void func_021B9B6C(char *p){func_0201D83C(((struct Obj08302 *)p)->fAC);func_0201D83C(((struct Obj08302 *)p)->fA8);func_02045808(((struct Obj08302 *)p)->fB4);func_02045C04(((struct Obj08302 *)p)->fB0);}

@@ -16,6 +16,7 @@
  *   func_02027858 0x02027858 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj06524.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct TaskMenu;
@@ -27,11 +28,11 @@ extern void func_02045808(struct U16Vec *vec);
 int func_021C4998(u8 *p)
 {
     int r = -1;
-    if (func_020279E8(*(void **)(p + 0x10C))) {
-        r = func_02027A04(*(void **)(p + 0x10C));
-        func_02027858(*(void **)(p + 0x10C));
-        func_02045808(*(void **)(p + 0x110));
-        func_02045808(*(void **)(p + 0x11C));
+    if (func_020279E8(((struct Obj06524 *)p)->f10C)) {
+        r = func_02027A04(((struct Obj06524 *)p)->f10C);
+        func_02027858(((struct Obj06524 *)p)->f10C);
+        func_02045808(((struct Obj06524 *)p)->f110);
+        func_02045808(((struct Obj06524 *)p)->f11C);
     }
     return r;
 }

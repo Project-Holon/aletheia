@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj23040.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -22,7 +23,7 @@ char *func_021C4980(char **p, int i)
     char *base = *p;
     char *e = base + i * 0x18;
 
-    if (*(int *)e != 1)
+    if (((struct Obj23040 *)e)->f0 != 1)
         return 0;
     return e;
 }

@@ -16,6 +16,7 @@
  *   func_02043534  0x02043534  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20174.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -24,5 +25,5 @@ extern void func_02043534(u32 a);
 
 void func_021C27E8(u8 *p)
 {
-    func_02043534(*(u32 *)(p + 0x68));
+    func_02043534(((struct Obj20174 *)p)->f68);
 }

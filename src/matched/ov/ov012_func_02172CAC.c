@@ -12,8 +12,9 @@
  *   func_0203CEAC 0x0203CEAC arm
  *   func_02172D14 0x02172D14 thumb ov012
  */
+#include "../include/Obj09356.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0203CEAC(int a0);
 extern void func_02172D14(u8 *p);
-int func_02172CAC(void *a, void *b, u8 *p) { *(u32 *)(p + 0x356c) = 1; if (p[0x3560] < 3) return 0; p[0x3560] = 4; if (func_0203CEAC((int)func_02172D14) == 0) func_02172D14(p); return 1; }
+int func_02172CAC(void *a, void *b, u8 *p) { ((struct Obj09356 *)p)->f356C = 1; if (p[0x3560] < 3) return 0; p[0x3560] = 4; if (func_0203CEAC((int)func_02172D14) == 0) func_02172D14(p); return 1; }

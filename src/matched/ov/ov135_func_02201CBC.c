@@ -14,6 +14,8 @@
  *   func_02201B44 0x02201B44 thumb ov135
  *   func_0220251C 0x0220251C thumb ov135
  */
+#include "../include/Obj00018.h"
+#include "../include/Obj23457.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -28,11 +30,11 @@ extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 extern void func_0220251C(u8 *p, u16 a, u16 b);
 int func_02201CBC(u8 *p)
 {
-    func_022022B8(p, p + 0xe4, func_0200ADE0(**(void ***)p), *(s8 *)(p + 0x207));
-    func_022024B0(*(void **)(*(u8 **)p + 0x18), p + 0xe4);
+    func_022022B8(p, p + 0xe4, func_0200ADE0(**(void ** *)&((struct Obj00018 *)p)->f0), ((struct Obj00018 *)p)->f207);
+    func_022024B0(((struct Obj23457 *)(*(u8 * *)&((struct Obj00018 *)p)->f0))->f18, p + 0xe4);
     func_02201B44(p, p + 0xe4, p + 0xe4, 0);
-    func_0200AD94(**(void ***)p, 0);
-    *(u32 *)(p + 0x28) = 0x22;
+    func_0200AD94(**(void ** *)&((struct Obj00018 *)p)->f0, 0);
+    ((struct Obj00018 *)p)->f28 = 0x22;
     func_0220251C(p, 0x17, 0xf);
     return 2;
 }

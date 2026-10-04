@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24441.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
@@ -18,6 +19,6 @@ void func_0217E4D4(u32 a, void *b, void *c, u8 *p, struct Entry *e)
 {
     if (e == func_020399A8()) {
         if (a != func_0203D1A4((struct Link *)func_020399A8()))
-            *(u32 *)(p + 0x1014) = 1;
+            ((struct Obj24441 *)p)->f1014 = 1;
     }
 }

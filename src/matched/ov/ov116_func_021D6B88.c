@@ -21,6 +21,7 @@
  *   func_0217BC44 0x0217BC44 arm ov009
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj04469.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,18 +40,18 @@ void func_021D6B88(u8 *p, void *save, int id)
     void *str;
     u16 *chars;
     u32 i;
-    func_02008494(func_02012944(save), *(void **)(p + 0x218));
-    str = func_02008510(*(void **)(p + 0x218), id);
+    func_02008494(func_02012944(save), ((struct Obj04469 *)p)->f218);
+    str = func_02008510(((struct Obj04469 *)p)->f218, id);
     func_02082BCC(p + 0x1f0, 0, 40);
-    *(u16 *)(p + 0x214) = id;
+    ((struct Obj04469 *)p)->f214 = id;
     chars = func_02045A90(str);
     for (i = 0; i < func_020458F8(str) + 1u; i++) {
         u16 c = chars[i];
         if (c == func_02045A98()) ((u16 *)(p + 0x1f0))[i] = 0;
         else ((u16 *)(p + 0x1f0))[i] = c;
     }
-    *(void **)(p + 0x208) = p + 0x1f0;
-    *(u32 *)(p + 0x210) = 0;
+    ((struct Obj04469 *)p)->f208 = p + 0x1f0;
+    ((struct Obj04469 *)p)->f210 = 0;
     func_0217BC44(p + 0x208, 1, 0, 0, p + 0x20c, p + 0x210, 128);
     func_02045808(str);
 }

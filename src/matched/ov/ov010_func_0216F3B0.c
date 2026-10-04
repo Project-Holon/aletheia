@@ -12,5 +12,7 @@
  * symbols:
  *   func_0216F088 0x0216F088 thumb ov010
  */
+#include "../include/Obj01640.h"
+#include "../include/Obj19156.h"
 extern int func_0216F088(int a0);
-int func_0216F3B0(char *p) { if (!func_0216F088((int)(p+8))) return 6; if (*(int *)(*(char **)(p+24)+12)==3) return 1; return 7; }
+int func_0216F3B0(char *p) { if (!func_0216F088((int)(p+8))) return 6; if (((struct Obj19156 *)(*(char * *)&((struct Obj01640 *)p)->f18))->fC==3) return 1; return 7; }

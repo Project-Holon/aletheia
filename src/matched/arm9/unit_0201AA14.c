@@ -21,15 +21,17 @@
  *   python tools/match.py tu --src src/matched/unit_0201AA14.c \
  *       --addr 0x0201AA14 --thumb
  */
+#include "../include/Obj17207.h"
+#include "../include/Obj17208.h"
 
 typedef unsigned int u32;
 
 u32 sub_0201AA14(void *p)
 {
-    return *(u32 *)p;
+    return ((struct Obj17207 *)p)->f0;
 }
 
 u32 sub_0201AA18(void *p)
 {
-    return *(u32 *)((char *)p + 4);
+    return ((struct Obj17208 *)p)->f4;
 }

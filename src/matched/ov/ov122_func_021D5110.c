@@ -26,6 +26,7 @@
  *   func_021D50B4 0x021D50B4 thumb ov122
  *   func_021D50DC 0x021D50DC thumb ov122
  */
+#include "../include/Obj00208.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -66,40 +67,40 @@ void func_021D5110(char *p)
 {
     int index;
     void *record, *text;
-    index = func_020107FC((void *)func_0201283C(*(void **)(p + 0x350)));
+    index = func_020107FC((void *)func_0201283C(((struct Obj00208 *)p)->f350));
     if (index != -1) {
         record = (void *)func_0203CF10(index);
-        text = func_020457B0(200, *(u16 *)(p + 0xc));
+        text = func_020457B0(200, ((struct Obj00208 *)p)->fC);
         func_02045994(text, func_0202E930(record), 8);
-        if (!func_0204B3F4(*(void **)(p + 0x3a0))) {
-            func_02045994(*(void **)(p + 0x58), func_0202E930(record), 8);
-            func_02043B5C(func_02045770(*(void **)(p + 0x3c)), 0);
-            func_0201C7D0(func_02045770(*(void **)(p + 0x3c)), 0, 0, *(void **)(p + 0x58), *(void **)(p + 0x4c), 0x39e3);
-            func_02045334(*(void **)(p + 0x3c));
-            func_02045374(*(void **)(p + 0x3c));
-            func_0204B3DC(*(void **)(p + 0x3a0), 1);
+        if (!func_0204B3F4(((struct Obj00208 *)p)->f3A0)) {
+            func_02045994(((struct Obj00208 *)p)->f58, func_0202E930(record), 8);
+            func_02043B5C(func_02045770(((struct Obj00208 *)p)->f3C), 0);
+            func_0201C7D0(func_02045770(((struct Obj00208 *)p)->f3C), 0, 0, ((struct Obj00208 *)p)->f58, ((struct Obj00208 *)p)->f4C, 0x39e3);
+            func_02045334(((struct Obj00208 *)p)->f3C);
+            func_02045374(((struct Obj00208 *)p)->f3C);
+            func_0204B3DC(((struct Obj00208 *)p)->f3A0, 1);
             func_02041B6C(5);
             func_021D50B4(p, index);
         }
         func_02045808(text);
-        func_02028A64((struct SoundSys *)func_02012A30(*(void **)(p + 0x350)));
-        if (func_0204B898(*(void **)(p + 0x39c)) == 15)
-            func_0204B878(*(void **)(p + 0x39c), 16);
-        if (func_0204B898(*(void **)(p + 0x394)) == 11) {
-            func_0204B92C(*(void **)(p + 0x394), 1);
-            func_0204B878(*(void **)(p + 0x394), 19);
+        func_02028A64((struct SoundSys *)func_02012A30(((struct Obj00208 *)p)->f350));
+        if (func_0204B898(((struct Obj00208 *)p)->f39C) == 15)
+            func_0204B878(((struct Obj00208 *)p)->f39C, 16);
+        if (func_0204B898(((struct Obj00208 *)p)->f394) == 11) {
+            func_0204B92C(((struct Obj00208 *)p)->f394, 1);
+            func_0204B878(((struct Obj00208 *)p)->f394, 19);
         }
     } else {
-        func_02028A70((struct SoundSys *)func_02012A30(*(void **)(p + 0x350)));
-        func_0204B3DC(*(void **)(p + 0x3a0), 0);
-        func_02043B5C(func_02045770(*(void **)(p + 0x3c)), 0);
-        func_02045334(*(void **)(p + 0x3c));
+        func_02028A70((struct SoundSys *)func_02012A30(((struct Obj00208 *)p)->f350));
+        func_0204B3DC(((struct Obj00208 *)p)->f3A0, 0);
+        func_02043B5C(func_02045770(((struct Obj00208 *)p)->f3C), 0);
+        func_02045334(((struct Obj00208 *)p)->f3C);
         func_021D50DC(p);
-        if (func_0204B898(*(void **)(p + 0x394)) == 19) {
-            func_0204B92C(*(void **)(p + 0x394), 0);
-            func_0204B878(*(void **)(p + 0x394), 11);
+        if (func_0204B898(((struct Obj00208 *)p)->f394) == 19) {
+            func_0204B92C(((struct Obj00208 *)p)->f394, 0);
+            func_0204B878(((struct Obj00208 *)p)->f394, 11);
         }
-        if (func_0204B898(*(void **)(p + 0x39c)) == 16)
-            func_0204B878(*(void **)(p + 0x39c), 15);
+        if (func_0204B898(((struct Obj00208 *)p)->f39C) == 16)
+            func_0204B878(((struct Obj00208 *)p)->f39C, 15);
     }
 }

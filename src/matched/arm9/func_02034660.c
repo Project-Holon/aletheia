@@ -12,6 +12,7 @@
  *   func_02033CA8  0x02033CA8  arm
  *   _u32_div_f     0x0209C2B0  arm
  */
+#include "../include/Obj11332.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,14 +24,14 @@ extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 
 int func_02034660(u8 *p, u32 a, void **out)
 {
-    u16 d = *(u16 *)(p + 4);
+    u16 d = ((struct Obj11332 *)p)->f4;
     u32 q = a / d;
     u32 v;
 
     if (a % d != 0) {
         q++;
     }
-    v = func_02033CA8((struct AreaMan *)(*(u32 *)p), q);
+    v = func_02033CA8((struct AreaMan *)(((struct Obj11332 *)p)->f0), q);
     if (v != (u32)-1) {
         out[0] = (void *)v;
         out[1] = (void *)q;

@@ -12,6 +12,7 @@
  *   func_021D8B0C 0x021D8B0C thumb ov119
  *   func_021D8E24 0x021D8E24 thumb ov119
  */
+#include "../include/Obj22805.h"
 extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
 extern char *func_021D8E24(int, int, char *);
@@ -23,6 +24,6 @@ char *func_021E49DC(int a, int b, char *p)
         return func_021D8E24(n, func_021D8B0C(a, b), p);
     }
     if (b < 3)
-        return func_021D8E24(*(int *)(p + 0x630), a + b * 2, p);
+        return func_021D8E24(((struct Obj22805 *)p)->f630, a + b * 2, p);
     return 0;
 }

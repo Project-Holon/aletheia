@@ -39,6 +39,8 @@
  *   func_02045A90 0x02045A90 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj01287.h"
+#include "../include/Obj01577.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern int func_021F32D8(char *,u16 *),func_021F4390(char *);
@@ -68,14 +70,14 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     u16 selected;
     u32 action=func_021F32D8(p+0xfc,&selected);
     u16 value=func_021F32FC(p+0xfc);
-    if(*(int *)(p+0x2c8)==1) {
+    if(((struct Obj01287 *)p)->f2C8==1) {
         if(action!=0 || func_021F4390(p+0x264)!=0 || (func_020362DC()&~1u)!=0) {
-            int *q=*(int **)(p+0x2c4);
+            int *q=*(int * *)&((struct Obj01287 *)p)->f2C4;
             if(q[0]==1) {
-                if(q[2]==0) func_021F3DE0(p+0x230,q[0],*(u16 *)((char *)q+4),*(u16 *)((char *)q+6),30);
+                if(q[2]==0) func_021F3DE0(p+0x230,q[0],((struct Obj01577 *)q)->f4,((struct Obj01577 *)q)->f6,30);
                 else func_021F3E18(p+0x230,q[0],(void *)q[2]);
             } else func_021F3D70(p+0x230,q[0]);
-            *(int *)(p+0x2c8)=0;
+            ((struct Obj01287 *)p)->f2C8=0;
         }
     }
     switch(action) {
@@ -88,20 +90,20 @@ void func_021F47B4(unsigned char *owner,void *unused,char *p)
     case 6: func_021F233C(p+0x68); break;
     case 11: func_021F235C(p+0x68); break;
     case 7: if(func_021F23F8((const u8 *)((int)(p+0x68)))==0) {
-        if(func_021F45A8((int)p)==0) {func_020061E4(0x557);func_021F3D70(p+0x230,8);*(int *)(p+0x2c8)=1;}
+        if(func_021F45A8((int)p)==0) {func_020061E4(0x557);func_021F3D70(p+0x230,8);((struct Obj01287 *)p)->f2C8=1;}
         else {
-            if(func_021F5370(*(u32 **)(p+0x2cc),p+0x68,30)) func_020061E4(0x557);
-            else if(func_021F54CC(p+0x68,*(u16 *)(p+0x86),30)) {func_020061E4(0x557);func_021F3D70(p+0x230,9);*(int *)(p+0x2c8)=1;}
+            if(func_021F5370(*(u32 * *)&((struct Obj01287 *)p)->f2CC,p+0x68,30)) func_020061E4(0x557);
+            else if(func_021F54CC(p+0x68,((struct Obj01287 *)p)->f86,30)) {func_020061E4(0x557);func_021F3D70(p+0x230,9);((struct Obj01287 *)p)->f2C8=1;}
             else {
                 int *q;
-                func_020061E4(0x54d);func_021F4524(p);q=*(int **)(p+0x2c4);
+                func_020061E4(0x54d);func_021F4524(p);q=*(int * *)&((struct Obj01287 *)p)->f2C4;
                 if(q[0]==1 && q[3]!=0) {func_021F3EF0(p+0x254,p+0x230,q,30);func_021F462C(owner,(u32)func_021F46F4);}
                 else func_021F462C(owner,(u32)func_021F46B4);
             }
         }
     } else {func_021F235C(p+0x68);func_020061E4(0x54d);} break;
     case 0: if(func_021F4390(p+0x264)) {
-        int text=func_021F4480(p,**(int **)(p+0x2c4),30);
+        int text=func_021F4480(p,**(int * *)&((struct Obj01287 *)p)->f2C4,30);
         func_021F2394(p+0x68);
         if(text) {func_021F23B8(p+0x68,func_02045A90((struct U16Vec *)text));func_02045808((struct U16Vec *)text);}
         func_020061E4(0x54c);

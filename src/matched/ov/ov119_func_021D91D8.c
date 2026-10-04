@@ -11,6 +11,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  */
+#include "../include/Obj08051.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Entry;
@@ -22,7 +23,7 @@ void func_021D91D8(int a,int b,const u8 *c,u8 *p,int e) {
  if(e==(int)func_020399A8()) {
   if(a!=func_0203D1A4((struct Link *)((int)func_020399A8()))) {
    p[0x11f2]=c[0]; p[0x11f4]=c[1];
-   *(u16 *)(p+0x107e)=p[0x11f2]*160+16;
+   ((struct Obj08051 *)p)->f107E=p[0x11f2]*160+16;
   }
  }
 }

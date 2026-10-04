@@ -21,6 +21,8 @@
  *   func_02045770 0x02045770 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj06135.h"
+#include "../include/Obj07634.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,18 +47,18 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
     u32 w;
     u32 v;
 
-    func_02043B5C((struct CharBuf *)(*(u32 *)(q + 4)), a5);
-    if (*(u8 *)(p + 0x7a) != 0) {
-        func_0201C7D0(*(u32 *)(q + 4), x, y, text, *(u32 *)(p + 0xb0), col);
-        w = *(u32 *)q;
+    func_02043B5C((struct CharBuf *)(((struct Obj06135 *)q)->f4), a5);
+    if (((struct Obj07634 *)p)->f7A != 0) {
+        func_0201C7D0(((struct Obj06135 *)q)->f4, x, y, text, ((struct Obj07634 *)p)->fB0, col);
+        w = ((struct Obj06135 *)q)->f0;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
         return;
     }
-    v = *(u32 *)(p + 0xb4);
-    func_0201C724(v, (u32)func_02045770((struct Descriptor *)*(u32 *)(q + 8)), x, y, text,
-                  *(u32 *)(p + 0xb0), col);
-    *(u8 *)(q + 0xc) = 1;
+    v = ((struct Obj07634 *)p)->fB4;
+    func_0201C724(v, (u32)func_02045770((struct Descriptor *)((struct Obj06135 *)q)->f8), x, y, text,
+                  ((struct Obj07634 *)p)->fB0, col);
+    ((struct Obj06135 *)q)->fC = 1;
     func_021F20A8(p, q, (int *)a7);
 }

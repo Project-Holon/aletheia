@@ -14,6 +14,7 @@
  *
  * Forward the word at +0x74 with index 10.
  */
+#include "../include/Obj18535.h"
 
 typedef unsigned int u32;
 struct WinMgr;
@@ -21,6 +22,6 @@ extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 
 void func_021EF680(char *p)
 {
-    func_0202CC70(*(struct WinMgr **)(p + 0x74), 0xa);
+    func_0202CC70(*(struct WinMgr * *)&((struct Obj18535 *)p)->f74, 0xa);
 }
 

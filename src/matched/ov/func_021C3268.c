@@ -14,6 +14,7 @@
 
  * Clears +0x10 and releases the two handles at +8 and +0xC.
  */
+#include "../include/Obj09209.h"
 
 
 struct Descriptor;
@@ -23,8 +24,8 @@ extern void func_020452E8(struct Descriptor *d);
 
 void func_021C3268(int unused, char *p)
 {
-    *(int *)(p + 0x10) = 0;
-    func_0201C6EC((struct PrintSys *)(*(int *)(p + 8)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0xc)));
+    ((struct Obj09209 *)p)->f10 = 0;
+    func_0201C6EC((struct PrintSys *)(((struct Obj09209 *)p)->f8));
+    func_020452E8((struct Descriptor *)(((struct Obj09209 *)p)->fC));
 }
 

@@ -34,6 +34,7 @@
  *   func_0202D9A4 0x0202D9A4 thumb
  *   func_02017DE4 0x02017DE4 thumb
  */
+#include "../include/Obj01267.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020275E4(void);
@@ -68,29 +69,29 @@ void func_021B76C8(char *p,void *other)
     void *mon;
     u32 save;
     bank=func_020490F4(func_020275E4(),79);
-    *(int *)(p+0x70)=func_0204A6C8(bank,func_02027618(),0,1,79);
-    *(int *)(p+0x74)=func_0204A6C8(other,17,0,1,79);
-    *(int *)(p+0x78)=func_0204A6C8(other,26,0,1,79);
+    ((struct Obj01267 *)p)->f70=func_0204A6C8(bank,func_02027618(),0,1,79);
+    ((struct Obj01267 *)p)->f74=func_0204A6C8(other,17,0,1,79);
+    ((struct Obj01267 *)p)->f78=func_0204A6C8(other,26,0,1,79);
     for(i=4;i<8;i++) *(int *)(p+i*4+0x70)=func_0204A6C8(bank,func_020275F8(0),0,0,79);
-    *(int *)(p+0x7c)=func_0204A6C8(other,23,0,1,79);
-    *(int *)(p+0x94)=func_0204AC18(bank,func_02027614(),1,0,0,4,79);
-    *(int *)(p+0x98)=func_0204AC18(other,5,1,128,0,1,79);
-    *(int *)(p+0x9c)=func_0204AC18(bank,func_020275E8(),1,192,0,3,79);
-    *(int *)(p+0xa0)=func_0204ABF0(bank,func_020275E8(),0,0,79);
+    ((struct Obj01267 *)p)->f7C=func_0204A6C8(other,23,0,1,79);
+    ((struct Obj01267 *)p)->f94=func_0204AC18(bank,func_02027614(),1,0,0,4,79);
+    ((struct Obj01267 *)p)->f98=func_0204AC18(other,5,1,128,0,1,79);
+    ((struct Obj01267 *)p)->f9C=func_0204AC18(bank,func_020275E8(),1,192,0,3,79);
+    ((struct Obj01267 *)p)->fA0=func_0204ABF0(bank,func_020275E8(),0,0,79);
     first=func_0202761C(1);
-    *(int *)(p+0xb8)=func_0204AF28(bank,first,func_02027620(1),79);
-    *(int *)(p+0xbc)=func_0204AF28(other,7,8,79);
+    ((struct Obj01267 *)p)->fB8=func_0204AF28(bank,first,func_02027620(1),79);
+    ((struct Obj01267 *)p)->fBC=func_0204AF28(other,7,8,79);
     first=func_020275FC(1);
-    *(int *)(p+0xc0)=func_0204AF28(bank,first,func_02027600(1),79);
-    *(int *)(p+0xc4)=func_0204AF28(other,24,25,79);
-    *(int *)(p+0xc8)=func_0204AF28(other,27,28,79);
+    ((struct Obj01267 *)p)->fC0=func_0204AF28(bank,first,func_02027600(1),79);
+    ((struct Obj01267 *)p)->fC4=func_0204AF28(other,24,25,79);
+    ((struct Obj01267 *)p)->fC8=func_0204AF28(other,27,28,79);
     func_02049238(bank);
     second=func_0202D7C8(79);
-    mon=func_020185F0(**(void ***)p);
+    mon=func_020185F0(**(void ** *)&((struct Obj01267 *)p)->f0);
     save=func_02017DBC(mon);
-    *(int *)(p+0x90)=func_0202D934(second,mon,0,0,79);
-    *(int *)(p+0xa4)=func_0202D8D0(second,mon,0,0,128,79);
-    *(u32 *)(p+0xcc)=func_0202D9A4((u32)mon,0,1,0,79);
+    ((struct Obj01267 *)p)->f90=func_0202D934(second,mon,0,0,79);
+    ((struct Obj01267 *)p)->fA4=func_0202D8D0(second,mon,0,0,128,79);
+    ((struct Obj01267 *)p)->fCC=func_0202D9A4((u32)mon,0,1,0,79);
     func_02017DE4(mon,save);
     func_02049238((void *)second);
 }

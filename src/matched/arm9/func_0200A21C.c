@@ -15,6 +15,7 @@
  *   func_0203F1FC  0x0203F1FC  arm
  *
  */
+#include "../include/Obj15585.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,5 +34,5 @@ int func_0200A21C(u8 *obj)
             n++;
         }
     } while (n < (int)limit);
-    return *(u16 *)(obj + 0x2ce) == func_0203F1FC(obj, 0x2ce);
+    return ((struct Obj15585 *)obj)->f2CE == func_0203F1FC(obj, 0x2ce);
 }

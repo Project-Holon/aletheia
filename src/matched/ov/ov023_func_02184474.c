@@ -14,6 +14,7 @@
  *   func_02039338  0x02039338  arm
  *   func_021844D8  0x021844D8  thumb  ov023
  */
+#include "../include/Obj09766.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,10 +26,10 @@ extern void func_021844D8(char *p, int a, int b);
 
 void func_02184474(int a0, int a1, u8 *a2, char *p, int a4)
 {
-    if (*(u16 *)(p + 0x928a) == 0) {
+    if (((struct Obj09766 *)p)->f928A == 0) {
         func_02185AB0(p, 1, *a2);
-        if (func_02039338() == 0 && *(int *)(p + 0x194) == 1) {
-            *(int *)(p + 0x428c) = 0;
+        if (func_02039338() == 0 && ((struct Obj09766 *)p)->f194 == 1) {
+            ((struct Obj09766 *)p)->f428C = 0;
             func_021844D8(p, 0, a4);
         }
     }

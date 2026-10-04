@@ -14,13 +14,14 @@
 
  * Calls func_021BD3A4 with two fields and the second argument while +0x10 is clear.
  */
+#include "../include/Obj02345.h"
 
 
 extern void func_021BD3A4(int a, int b, int c);
 
 void func_021BDC14(char *p, int b)
 {
-    if (*(int *)(p + 0x10) == 0)
-        func_021BD3A4(*(int *)(p + 0x30), *(int *)*(int **)(p + 0x7c), b);
+    if (((struct Obj02345 *)p)->f10 == 0)
+        func_021BD3A4(*(int *)&((struct Obj02345 *)p)->f30, *(int *)*(int * *)&((struct Obj02345 *)p)->f7C, b);
 }
 

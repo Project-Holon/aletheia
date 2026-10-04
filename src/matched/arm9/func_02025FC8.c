@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/matched/func_02025FC8.c \
  *       --func func_02025FC8 --addr 0x02025FC8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04105.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -31,7 +32,7 @@ extern int func_02025FA4(u8 *a0);
 
 int func_02025FC8(u8 *a0)
 {
-    if (*(u32 *)(a0 + 8) == 1) {
+    if (((struct Obj04105 *)a0)->f8 == 1) {
         if (func_020362DC() & 0xf3) {
             return func_02025FA4(a0);
         }

@@ -21,6 +21,9 @@
  *   func_020306F0 0x020306F0 arm
  *   ov_abs_84 0x00000084 data
  */
+#include "../include/Obj05308.h"
+#include "../include/Obj22509.h"
+#include "../include/Obj22510.h"
 typedef unsigned char u8;
 extern u8 ov_abs_84[];
 extern unsigned func_020221A4(void);
@@ -42,14 +45,14 @@ int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
     func_0207D534((void *)0x0400006c,-16);
     func_0207D534((void *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
-    func_021F4300(*(u8 **)(p+16));
-    func_021F3BF0(*(u8 **)(p+12));
+    func_021F4300(*(u8 * *)&((struct Obj05308 *)p)->f10);
+    func_021F3BF0(*(u8 * *)&((struct Obj05308 *)p)->fC);
     func_021F3AE0(p);
-    func_02030EAC(*(void **)(p+4));
-    if (*(int *)(*(u8 **)(p+8)+4)==1) func_02034A5C((int)ov_abs_84);
+    func_02030EAC(((struct Obj05308 *)p)->f4);
+    if (((struct Obj22509 *)(*(u8 * *)&((struct Obj05308 *)p)->f8))->f4==1) func_02034A5C((int)ov_abs_84);
     if (flag==0) {
-        func_020307B0(*(void **)(*(u8 **)(p+8)+8));
-        func_020307B0(*(void **)(p+8));
+        func_020307B0(((struct Obj22510 *)(*(u8 * *)&((struct Obj05308 *)p)->f8))->f8);
+        func_020307B0(((struct Obj05308 *)p)->f8);
         func_02034A5C((int)ov_abs_84);
     }
     func_020315D4(owner);

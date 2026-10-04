@@ -20,6 +20,7 @@
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213D04 0x02213D04 data a1 ov199
  */
+#include "../include/Obj08368.h"
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
@@ -35,10 +36,10 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
     Offset2740 offset = tag_2740;
     int *p = func_02030734(heap, 0x18, 0, d_02213D04, tag_2740);
     func_02082BCC(p, 0, 0x18);
-    p[0] = *(int *)(ctx + 4);
+    p[0] = ((struct Obj08368 *)ctx)->f4;
     offset -= 0x9b;
-    p[3] = *(int *)(ctx + 0x28);
-    p[4] = *(int *)(ctx + 0x2c);
+    p[3] = ((struct Obj08368 *)ctx)->f28;
+    p[4] = ((struct Obj08368 *)ctx)->f2C;
     p[5] = (int)(ctx + offset);
     switch (func_02213804(obj)) {
     case 4: case 7: p[1] = 1; break;
@@ -48,7 +49,7 @@ int *func_02212740(void *obj, unsigned heap, char *ctx)
     case 0: p[1] = 0; break;
     case 1: case 2: case 5:
     default:
-        if (*(int *)(ctx + 0x1c0)) p[1] = 6;
+        if (((struct Obj08368 *)ctx)->f1C0) p[1] = 6;
         else func_02034714(d_02213D00, 0, d_02213D00);
         break;
     }

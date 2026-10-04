@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B818.c \
  *       --func func_0202B818 --addr 0x0202B818 --thumb --cc 1.1p1
  */
+#include "../include/Obj15843.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern u8 func_02006E7C(const struct Sub02006E40Obj *obj, u16 key);
 
 u8 func_0202B818(struct Obj *o)
 {
-    u32 r = func_0201295C((const struct BigObj *)(*(u32 *)((u8 *)o + 0x4)));
+    u32 r = func_0201295C((const struct BigObj *)(((struct Obj15843 *)o)->f4));
 
     return func_02006E7C((const struct Sub02006E40Obj *)r, (u16)func_0202B810());
 }

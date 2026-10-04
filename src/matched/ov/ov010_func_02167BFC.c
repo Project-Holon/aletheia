@@ -25,6 +25,7 @@
  * from the raw bl sites elsewhere in the image (ov018 0x0217FDEC, ov021 0x021CD548, ov088 0x021BC32A and more), so the call
  * attests as `label`.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -75,7 +76,7 @@ void func_02167BFC(Obj *o, u32 cmd, u32 arg)
 {
     void *t;
 
-    t = *(void **)((char *)o + 0x6C);
+    t = ((struct Obj00116 *)o)->f6C;
     switch (cmd) {
     case 0:
         o->h12 = 0x2C00;

@@ -10,6 +10,7 @@
  * symbols:
  *   func_021F9774 0x021F9774 thumb ov132
  */
+#include "../include/Obj08155.h"
 typedef unsigned char u8;
 extern int func_021F9774(char *,unsigned int);
-int func_021F9768(char *p){return func_021F9774(p,*(u8 *)(p+0xa));}
+int func_021F9768(char *p){return func_021F9774(p,((struct Obj08155 *)p)->fA);}

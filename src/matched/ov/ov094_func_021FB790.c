@@ -14,6 +14,7 @@
  *   func_021F86F0  0x021F86F0  thumb  ov094
  *   func_02201CD0  0x02201CD0  thumb  ov094
  */
+#include "../include/Obj21669.h"
 typedef short s16;
 
 extern int func_0201134C(int a);
@@ -33,5 +34,5 @@ int func_021FB790(int a, char *b)
     t4 = func_0201134C(a);
     t5 = func_0201134C(a);
     func_02201CD0((char *)func_021F86F0(), *(int *)(b + t0 * 4 + 0xcc), t1, arr, t3, t4, t5);
-    return *(int *)(b + 0x23c);
+    return ((struct Obj21669 *)b)->f23C;
 }

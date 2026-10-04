@@ -10,6 +10,8 @@
  * symbols:
  *   func_021E15DC 0x021E15DC thumb ov137
  */
+#include "../include/Obj01754.h"
+#include "../include/Obj14233.h"
 typedef unsigned char u8;
 typedef short s16;
 extern void func_021E15DC(int *,int);
@@ -18,11 +20,11 @@ void func_021E0570(u8 *p)
     u8 *s;
     int angle;
     s=p+224;
-    angle=*(int *)(p+88);
-    func_021E15DC(&angle,*(int *)(s+64));
-    func_021E15DC(&angle,*(int *)(s+68));
-    *(s16 *)(s+78)=(360-angle/4096)%360;
-    *(int *)(s+12)=*(int *)(p+224)+*(int *)(s+48)+*(int *)(s+36);
-    *(int *)(s+16)=*(int *)(s+4)+*(int *)(s+52)+*(int *)(s+40);
-    *(int *)(s+20)=*(int *)(s+8)+*(int *)(s+56)+*(int *)(s+44);
+    angle=((struct Obj14233 *)p)->f58;
+    func_021E15DC(&angle,((struct Obj01754 *)s)->f40);
+    func_021E15DC(&angle,((struct Obj01754 *)s)->f44);
+    ((struct Obj01754 *)s)->f4E=(360-angle/4096)%360;
+    ((struct Obj01754 *)s)->fC=((struct Obj14233 *)p)->fE0+((struct Obj01754 *)s)->f30+((struct Obj01754 *)s)->f24;
+    ((struct Obj01754 *)s)->f10=((struct Obj01754 *)s)->f4+((struct Obj01754 *)s)->f34+((struct Obj01754 *)s)->f28;
+    ((struct Obj01754 *)s)->f14=((struct Obj01754 *)s)->f8+((struct Obj01754 *)s)->f38+((struct Obj01754 *)s)->f2C;
 }

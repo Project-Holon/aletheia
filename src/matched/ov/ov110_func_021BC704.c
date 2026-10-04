@@ -11,6 +11,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021BC69C 0x021BC69C thumb ov110
  */
+#include "../include/Obj01393.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -20,7 +21,7 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021BC69C(u8 *, int);
 void func_021BC704(u8 *p, u32 flag)
 {
-    func_0204B3DC(*(void **)(p + 0x14), flag);
-    func_0204B3DC(*(void **)(p + 0x18), flag);
+    func_0204B3DC(((struct Obj01393 *)p)->f14, flag);
+    func_0204B3DC(((struct Obj01393 *)p)->f18, flag);
     func_021BC69C(p, 1);
 }

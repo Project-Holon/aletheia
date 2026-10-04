@@ -12,25 +12,27 @@
  *   func_021DEA3C 0x021DEA3C thumb ov170
  *   func_021DEAFC 0x021DEAFC thumb ov170
  */
+#include "../include/Obj08237.h"
+#include "../include/Obj10653.h"
 extern int func_021EBFEC(char *, int);
 extern void func_021DEA3C(int a, int b, int c, int d);
 extern int func_021DEAFC(unsigned char *);
 int func_021E1988(unsigned char *p)
 {
-    char *w = *(char **)(p + 0x2C);
+    char *w = *(char * *)&((struct Obj10653 *)p)->f2C;
     char *b = w + 0x58;
-    switch (*(unsigned short *)(b + 0xC)) {
+    switch (((struct Obj08237 *)b)->fC) {
     case 0:
         if (!func_021EBFEC(w, 10)) {
             unsigned old = p[0x16];
-            p[0x16] = **(unsigned short **)(b + 8);
+            p[0x16] = **(unsigned short * *)&((struct Obj08237 *)b)->f8;
             func_021DEA3C((int)p, old, old, 1);
-            *(unsigned short *)(b + 0xC) = 1;
+            ((struct Obj08237 *)b)->fC = 1;
         }
         break;
     case 1:
         if (!func_021DEAFC(p)) {
-            *(unsigned short *)(b + 0xC) = 0;
+            ((struct Obj08237 *)b)->fC = 0;
             return 0;
         }
         break;

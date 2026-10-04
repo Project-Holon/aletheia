@@ -25,6 +25,7 @@
  *   func_020076B4 0x020076B4 thumb
  *   func_02031324 0x02031324 arm
  */
+#include "../include/Obj01948.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { B0=0, B8=8, B16=16 } Bound;
@@ -45,11 +46,11 @@ int func_021DC860(void *manager, int unused, void **context)
     func_0203064C(1,75,0x10000);
     p = func_0203159C(manager,0x30,75);
     func_02082BCC(p,0,0x30);
-    *(void ***)p = context;
+    *(void ** *)&((struct Obj01948 *)p)->f0 = context;
     p[0x14] = func_02007698(context[1]);
     p[0x15] = func_020076A4((*(void ***)p)[1]);
     p[0x17] = 255;
-    *(int *)(p+0x28) = 11;
+    ((struct Obj01948 *)p)->f28 = 11;
     if ((u8)p[0x15] != 24) {
         if ((u8)p[0x15] == 8) max = B8;
         else if ((u8)p[0x15] == 16) max = B16;
@@ -61,6 +62,6 @@ int func_021DC860(void *manager, int unused, void **context)
     p[0x20] = 0;
     p[0x1f] = 0;
     p[0x21] = 1;
-    *(void **)(p+4) = func_02031324(75);
+    ((struct Obj01948 *)p)->f4 = func_02031324(75);
     return 1;
 }

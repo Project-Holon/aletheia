@@ -13,6 +13,7 @@
  *   func_02027778 0x02027778 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,18 +28,18 @@ void func_021E131C(char *p,int *ids,int count,int x,int y)
 {
     Template t;
     int i;
-    t.heap=*(u16 *)(p+0x5f4);
+    t.heap=((struct Obj00001 *)p)->f5F4;
     t.count=count;
     t.items=p+0x650;
     t.flag=1;
     t.x=x;t.y=y;t.a=13;t.b=3;
     for(i=0;i<count;i++) {
-        *(void **)(p+(u32)i*12+0x650)=func_020457B0(100,*(u16 *)(p+0x5f4));
-        func_02045CAC(*(void **)(p+0x720),ids[i],*(void **)(p+(u32)i*12+0x650));
+        *(void **)(p+(u32)i*12+0x650)=func_020457B0(100,((struct Obj00001 *)p)->f5F4);
+        func_02045CAC(((struct Obj00001 *)p)->f720,ids[i],*(void **)(p+(u32)i*12+0x650));
         *(u16 *)(p+(u32)i*12+0x654)=0x39e3;
         if(ids[i]==5) *(int *)(p+(u32)i*12+0x658)=1;
         else *(int *)(p+(u32)i*12+0x658)=0;
     }
-    *(void **)(p+0x64c)=func_02027778(&t,*(void **)(p+0x6b0));
+    ((struct Obj00001 *)p)->f64C=func_02027778(&t,((struct Obj00001 *)p)->f6B0);
     for(i=0;i<count;i++) func_02045808(*(void **)(p+(u32)i*12+0x650));
 }

@@ -16,6 +16,7 @@
  *
  * Enter the 201DC0 sub-state: flag the u16 at +0x32, set the two work values and stamp the state.
  */
+#include "../include/Obj12240.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 int func_02201DC0(u8 *p)
 {
-    *(u16 *)(p + 0x32) = 1;
+    ((struct Obj12240 *)p)->f32 = 1;
     func_021F4EC0(p, 9, 7);
-    *(u32 *)(p + 0x28) = 0x28;
+    ((struct Obj12240 *)p)->f28 = 0x28;
     return 2;
 }

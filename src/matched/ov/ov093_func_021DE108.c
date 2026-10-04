@@ -16,6 +16,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21383.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_021DE108(void *a, void *b, int c, int *d, int e)
         func_021D70C8(a);
         *d = func_021D775C(3) + 1;
         m = (u8 *)func_021C88A4(b, 0, c);
-        *(u32 *)(m + 4) |= 2;
+        ((struct Obj21383 *)m)->f4 |= 2;
         func_021C88C8(b, m);
     }
 }

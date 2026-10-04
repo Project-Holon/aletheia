@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26026.h"
 
 typedef unsigned char u8;
 
@@ -21,5 +22,5 @@ extern int _s32_div_f(int, int);
 
 u8 func_021C28BC(char *p)
 {
-    return (u8)(*(u8 *)(p + 2) / 100);
+    return (u8)(((struct Obj26026 *)p)->f2 / 100);
 }

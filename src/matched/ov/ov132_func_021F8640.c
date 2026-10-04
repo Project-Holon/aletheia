@@ -44,6 +44,7 @@
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00675.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_02005D28(void);
@@ -88,34 +89,34 @@ extern void func_02049238(void *);
 extern void func_020307B0(void *);
 void func_021F8640(char *p)
 {
-    if(*(u32 *)(p+0x2c)==1)func_02005D28();
-    if(*(u32 *)(p+0x28)==1)func_02006504();
-    if(*(u32 *)(p+0x24)==1)func_02006518();
+    if(((struct Obj00675 *)p)->f2C==1)func_02005D28();
+    if(((struct Obj00675 *)p)->f28==1)func_02006504();
+    if(((struct Obj00675 *)p)->f24==1)func_02006518();
     func_0207D534((volatile u16 *)0x0400006c,-16);
     func_0207D534((volatile u16 *)0x0400106c,-16);
     func_0207D63C((void *)0x04000050,0,0,31,31);
     *(volatile u32 *)0x04000000 &= 0xffff1fff;
     func_021F9D08(p);
-    func_021FAB58(*(void **)(p+0xb0));
-    if(*(void **)(p+0xe0)!=0)func_02045808(*(void **)(p+0xe0));
-    func_0201C6EC(*(void **)(p+0xe8));
-    func_0201C4C0(*(void **)(p+0xe8));
-    func_02045C04(*(void **)(p+0xdc));
-    func_020452E8(*(void **)(p+0xd0));
-    func_0201D83C(*(void **)(p+0xd4));
-    func_02031140(*(void **)(p+0xcc));
-    func_021FA64C(*(char **)(p+0xa4));
-    func_021FA04C(*(void **)(p+0xb8));
-    func_021F6F4C(*(void **)(p+0x3c));
-    func_021F6C7C(*(void **)(p+0x90));
-    func_021F9E94(*(void **)(p+0x6c));
-    func_021F6A24(*(void **)(p+0x54));
-    func_021F7120(*(void **)(p+0x40));
-    func_021F51B0((int)(*(void **)(p+0x34)));
-    func_021F4948(*(void **)(p+0x38));
+    func_021FAB58(((struct Obj00675 *)p)->fB0);
+    if(((struct Obj00675 *)p)->fE0!=0)func_02045808(((struct Obj00675 *)p)->fE0);
+    func_0201C6EC(((struct Obj00675 *)p)->fE8);
+    func_0201C4C0(((struct Obj00675 *)p)->fE8);
+    func_02045C04(((struct Obj00675 *)p)->fDC);
+    func_020452E8(((struct Obj00675 *)p)->fD0);
+    func_0201D83C(((struct Obj00675 *)p)->fD4);
+    func_02031140(((struct Obj00675 *)p)->fCC);
+    func_021FA64C(*(char * *)&((struct Obj00675 *)p)->fA4);
+    func_021FA04C(((struct Obj00675 *)p)->fB8);
+    func_021F6F4C(((struct Obj00675 *)p)->f3C);
+    func_021F6C7C(((struct Obj00675 *)p)->f90);
+    func_021F9E94(((struct Obj00675 *)p)->f6C);
+    func_021F6A24(((struct Obj00675 *)p)->f54);
+    func_021F7120(((struct Obj00675 *)p)->f40);
+    func_021F51B0((int)(((struct Obj00675 *)p)->f34));
+    func_021F4948(((struct Obj00675 *)p)->f38);
     func_0204A5AC();
-    func_0204ED24(*(void **)(p+0xac));
-    func_02048AC4(*(void **)(p+0xa8));
+    func_0204ED24(((struct Obj00675 *)p)->fAC);
+    func_02048AC4(((struct Obj00675 *)p)->fA8);
     func_02046788();
     func_020403F4(0);
     func_020403F4(1);
@@ -125,7 +126,7 @@ void func_021F8640(char *p)
     func_020403F4(7);
     func_020450C8();
     func_0203F9B4();
-    func_02030EAC(*(void **)(p+0x20));
-    func_02049238(*(void **)(p+0x18));
+    func_02030EAC(((struct Obj00675 *)p)->f20);
+    func_02049238(((struct Obj00675 *)p)->f18);
     func_020307B0(p);
 }

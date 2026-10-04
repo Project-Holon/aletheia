@@ -22,6 +22,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj02556.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -47,7 +48,7 @@ void func_021B9D48(char *p)
     int disabled;
     void *archive,*bank;
     d_021BB060.owner=p;
-    value=**(u8 **)(p+0x20);
+    value=**(u8 * *)&((struct Obj02556 *)p)->f20;
     if(value<=1)value=2;
     for(i=0;i<130;i++) {
         if(131-i==value) {
@@ -57,22 +58,22 @@ void func_021B9D48(char *p)
             } else d_021BB060.start=i;
         }
     }
-    *(void **)(p+0x2c)=func_021B7754(&template_021BB060,*(u16 *)p);
-    archive=func_020490F4(193,*(u16 *)p);
-    func_021B7A10(*(void **)(p+0x2c),(u32)archive,3,0,0);
-    func_021B7A10(*(void **)(p+0x2c),(u32)archive,4,0,1);
-    func_021B7A4C(*(void **)(p+0x2c),archive,1,2,3);
+    ((struct Obj02556 *)p)->f2C=func_021B7754(&template_021BB060,((struct Obj02556 *)p)->f0);
+    archive=func_020490F4(193,((struct Obj02556 *)p)->f0);
+    func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,3,0,0);
+    func_021B7A10(((struct Obj02556 *)p)->f2C,(u32)archive,4,0,1);
+    func_021B7A4C(((struct Obj02556 *)p)->f2C,archive,1,2,3);
     func_02049238(archive);
-    bank=func_02045B38(0,2,229,*(u16 *)p);
+    bank=func_02045B38(0,2,229,((struct Obj02556 *)p)->f0);
     for(i=0;i<130;i++) {
         offset=i*4;
         disabled=1;
         if(*(u32 *)(p+0x34+offset)==1)disabled=0;
-        func_021B79E4(*(void **)(p+0x2c),disabled,i);
+        func_021B79E4(((struct Obj02556 *)p)->f2C,disabled,i);
         if(disabled==0)
-            *(void **)(*(char **)(p+0x28)+0x2c+offset)=func_02045EC0(bank,*(int *)((char *)tbl_021BAC80+offset));
+            *(void **)(*(char * *)&((struct Obj02556 *)p)->f28+0x2c+offset)=func_02045EC0(bank,*(int *)((char *)tbl_021BAC80+offset));
         else
-            *(void **)(*(char **)(p+0x28)+0x2c+offset)=func_02045EC0(bank,238);
+            *(void **)(*(char * *)&((struct Obj02556 *)p)->f28+0x2c+offset)=func_02045EC0(bank,238);
     }
     func_02045C04(bank);
 }

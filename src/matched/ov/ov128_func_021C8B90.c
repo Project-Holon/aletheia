@@ -11,6 +11,8 @@
  *   func_0204B294 0x0204B294 arm
  *   d_021CA6C8 0x021CA6C8 data a2
  */
+#include "../include/Obj05382.h"
+#include "../include/Obj14043.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -21,8 +23,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 void func_021C8B90(char *p,char *q,int unused,int i,u16 h) {
  Point pt;
- pt.x=(*(s16 *)p+d_021CA6C8[i][0])*8+16;
- pt.y=(*(s16 *)(p+2)+d_021CA6C8[i][1])*8+16;
+ pt.x=(((struct Obj14043 *)p)->f0+d_021CA6C8[i][0])*8+16;
+ pt.y=(((struct Obj14043 *)p)->f2+d_021CA6C8[i][1])*8+16;
  pt.z=0;pt.a=8;pt.b=1;
- *(void **)(p+44+i*4)=func_0204B294((void *)*(u32 *)(q+316),*(u32 *)(q+324),*(u32 *)(q+332),*(u32 *)(q+340),&pt,0,h);
+ *(void **)(p+44+i*4)=func_0204B294((void *)((struct Obj05382 *)q)->f13C,((struct Obj05382 *)q)->f144,((struct Obj05382 *)q)->f14C,((struct Obj05382 *)q)->f154,&pt,0,h);
 }

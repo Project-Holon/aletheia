@@ -12,19 +12,20 @@
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
  */
+#include "../include/Obj09266.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 u8 *func_0215766C(u8 *p)
 {
-    int v = *(int *)(p + 0x31B4);
+    int v = ((struct Obj09266 *)p)->f31B4;
     int rem = v % 0x12;
     u32 q = v / 0x12;
 
-    if (q >= *(u32 *)(p + 0x78)) {
+    if (q >= ((struct Obj09266 *)p)->f78) {
         q = 0;
-        *(int *)(p + 0x31B4) = 0;
+        ((struct Obj09266 *)p)->f31B4 = 0;
     }
     return p + 0x7C + q * 0x708 + rem * 100;
 }

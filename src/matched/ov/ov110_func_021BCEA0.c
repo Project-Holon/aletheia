@@ -13,9 +13,10 @@
  *   func_021BF6DC 0x021BF6DC thumb ov110
  *   func_021BCFBC 0x021BCFBC thumb ov110
  */
+#include "../include/Obj10278.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021BF6DC(u8 *);
 extern void func_021BCFBC(char *,u32,int);
-void func_021BCEA0(char *p) { if (func_021BF6DC(*(u8 **)(p+4))==1) func_021BCFBC(p,0,1); }
+void func_021BCEA0(char *p) { if (func_021BF6DC(*(u8 * *)&((struct Obj10278 *)p)->f4)==1) func_021BCFBC(p,0,1); }

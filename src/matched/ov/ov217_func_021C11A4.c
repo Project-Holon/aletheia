@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14758.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -29,8 +30,8 @@ extern void func_021C1194(u8 *p, struct Pos *v);
 void func_021C11A4(u8 *p, int a1)
 {
     struct Pos v;
-    s16 y = *(s16 *)(p + 0x1B6);
-    s16 x = *(s16 *)(p + 0x1B4);
+    s16 y = ((struct Obj14758 *)p)->f1B6;
+    s16 x = ((struct Obj14758 *)p)->f1B4;
     v.a = x;
     v.b = y;
     v.c = a1;

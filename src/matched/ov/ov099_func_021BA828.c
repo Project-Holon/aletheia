@@ -12,6 +12,7 @@
  *   func_0201FDA0 0x0201FDA0 thumb
  *   data_021C371A 0x021C371A data a2
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,5 +24,5 @@ extern struct BmpMenu *func_0201FDA0(const struct WinDat *, u16, u8, u8, u16);
 void func_021BA828(char *p)
 {
     func_0201DD68();
-    *(struct BmpMenu **)(p + 0x108) = func_0201FDA0(&data_021C371A, *(u32 *)(p + 0x1334), 14, 0, 0x21);
+    *(struct BmpMenu * *)&((struct Obj00008 *)p)->f108 = func_0201FDA0(&data_021C371A, ((struct Obj00008 *)p)->f1334, 14, 0, 0x21);
 }

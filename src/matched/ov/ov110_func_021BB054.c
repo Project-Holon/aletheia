@@ -19,6 +19,7 @@
  *   func_02045F50 0x02045F50 arm
  *   d_021C375C 0x021C375C data a2
  */
+#include "../include/Obj01391.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -40,19 +41,19 @@ int func_021BB054(u8 *p)
     unsigned i,k,found;
     u32 value;
     unsigned j;
-    id=*(u16 *)(p+0xad4);
+    id=((struct Obj01391 *)p)->fAD4;
     if(id>=27) {
         p[0xaf1]=0;
         return 0;
     }
-    func_0204581C(*(void **)(p+0xad0));
-    func_021BB00C(p,*(void **)(p+0xad0));
+    func_0204581C(((struct Obj01391 *)p)->fAD0);
+    func_021BB00C(p,((struct Obj01391 *)p)->fAD0);
     if(id==26) {
         n=func_02045F50(*(void **)(p+0xc+id*4));
         k=0;
         __builtin__clear(special,sizeof(special));
         for(i=0;i<n;i++) {
-            value=func_021B99F0(*(int *)(p+4),id,i);
+            value=func_021B99F0(*(int *)&((struct Obj01391 *)p)->f4,id,i);
             found=0;
             for(j=0;j<10;j++) {
                 if(value==d_021C375C[j]) { found=1; break; }
@@ -64,18 +65,18 @@ int func_021BB054(u8 *p)
                 k++;
             }
         }
-        special[k]=func_021B9A48(*(u32 *)(p+4));
-        p[0xaf1]=func_021B99D8(*(u32 *)(p+4),(u32)special,(u32)(p+0x8bc));
+        special[k]=func_021B9A48(((struct Obj01391 *)p)->f4);
+        p[0xaf1]=func_021B99D8(((struct Obj01391 *)p)->f4,(u32)special,(u32)(p+0x8bc));
         if(p[0xaf1]) return 1;
         return 0;
     } else {
         __builtin__clear(normal,sizeof(normal));
-        n=func_021B6CE0(*(void **)(p+0x78),id,0,*(u32 *)(p+0xad0),p+0x7c,264);
+        n=func_021B6CE0(((struct Obj01391 *)p)->f78,id,0,*(u32 *)&((struct Obj01391 *)p)->fAD0,p+0x7c,264);
         for(i=0;i<n;i++) {
-            normal[i]=func_021B99F0(*(int *)(p+4),id,*(int *)(p+0x80+i*8));
+            normal[i]=func_021B99F0(*(int *)&((struct Obj01391 *)p)->f4,id,*(int *)(p+0x80+i*8));
         }
-        normal[n]=func_021B9A48(*(u32 *)(p+4));
-        p[0xaf1]=func_021B99D8(*(u32 *)(p+4),(u32)normal,(u32)(p+0x8bc));
+        normal[n]=func_021B9A48(((struct Obj01391 *)p)->f4);
+        p[0xaf1]=func_021B99D8(((struct Obj01391 *)p)->f4,(u32)normal,(u32)(p+0x8bc));
         if(p[0xaf1]) return 1;
         return 0;
     }

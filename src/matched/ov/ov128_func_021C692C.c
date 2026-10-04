@@ -15,6 +15,7 @@
  *   func_0203101C 0x0203101C arm
  *   func_0201C440 0x0201C440 thumb
  */
+#include "../include/Obj05377.h"
 typedef unsigned char u8;
 extern void func_0201DD68(void);
 typedef unsigned int   u32;
@@ -29,10 +30,10 @@ extern u32 func_0201C440(void *p);
 void func_021C692C(u8 *p,unsigned heap)
 {
     func_0201DD68();
-    *(void **)p=func_0201EC64(heap);
-    *(void **)(p+4)=func_02045B38(0,2,211,heap);
-    *(void **)(p+0x17c)=func_0201D7EC(23,0,0,0,heap);
-    *(void **)(p+0x28)=func_0203101C(heap,heap,3,256);
-    *(void **)(p+0x2c)=0;
-    *(void **)(p+0x34)=(void *)func_0201C440((void *)heap);
+    ((struct Obj05377 *)p)->f0=func_0201EC64(heap);
+    ((struct Obj05377 *)p)->f4=func_02045B38(0,2,211,heap);
+    ((struct Obj05377 *)p)->f17C=func_0201D7EC(23,0,0,0,heap);
+    ((struct Obj05377 *)p)->f28=func_0203101C(heap,heap,3,256);
+    ((struct Obj05377 *)p)->f2C=0;
+    ((struct Obj05377 *)p)->f34=(void *)func_0201C440((void *)heap);
 }

@@ -27,6 +27,7 @@
  *   func_021FA99C 0x021FA99C thumb ov132
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj00151.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -47,21 +48,21 @@ void func_021FA7E0(char *p)
     void *narc;
     u8 i=0;
     int format;
-    table=func_021F9E0C(*(char **)(p+4));
-    *(void **)(p+0x18)=func_0204B100(5,0,*(u16 *)p);
-    func_0204B270(*(void **)(p+0x18));
-    narc=func_020490F4(47,*(u16 *)p);
-    *(int *)(p+0x1c)=func_0204AC18(narc,0,1,0,0,2,*(u16 *)p);
-    *(int *)(p+0x28)=func_0204A6C8(narc,6,0,1,*(u16 *)p);
-    *(int *)(p+0x34)=func_0204AF28(narc,18,21,*(u16 *)p);
-    *(int *)(p+0x20)=func_0204AC18(narc,1,1,64,0,1,*(u16 *)p);
-    *(int *)(p+0x2c)=func_0204A6C8(narc,7,0,1,*(u16 *)p);
-    *(int *)(p+0x38)=func_0204AF28(narc,19,22,*(u16 *)p);
+    table=func_021F9E0C(*(char * *)&((struct Obj00151 *)p)->f4);
+    ((struct Obj00151 *)p)->f18=func_0204B100(5,0,((struct Obj00151 *)p)->f0);
+    func_0204B270(((struct Obj00151 *)p)->f18);
+    narc=func_020490F4(47,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f1C=func_0204AC18(narc,0,1,0,0,2,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f28=func_0204A6C8(narc,6,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f34=func_0204AF28(narc,18,21,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f20=func_0204AC18(narc,1,1,64,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f2C=func_0204A6C8(narc,7,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f38=func_0204AF28(narc,19,22,((struct Obj00151 *)p)->f0);
     func_02049238(narc);
-    narc=func_020490F4(46,*(u16 *)p);
-    *(int *)(p+0x24)=func_0204ABF0(narc,0,1,96,*(u16 *)p);
-    *(int *)(p+0x30)=func_0204A6C8(narc,26,0,1,*(u16 *)p);
-    *(int *)(p+0x3c)=func_0204AF28(narc,18,22,*(u16 *)p);
+    narc=func_020490F4(46,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f24=func_0204ABF0(narc,0,1,96,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f30=func_0204A6C8(narc,26,0,1,((struct Obj00151 *)p)->f0);
+    *(int *)&((struct Obj00151 *)p)->f3C=func_0204AF28(narc,18,22,((struct Obj00151 *)p)->f0);
     func_02049238(narc);
     for(i=0;i<2;i++) {
         if(*(u16 *)(p+i*2+0x48)!=255) {
@@ -72,16 +73,16 @@ void func_021FA7E0(char *p)
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x28),*(u32 *)(p+0x1c),*(u32 *)(p+0x34),&configs[1],1,*(u16 *)p);
+            *(void **)(p+i*4+0x4c)=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f28,((struct Obj00151 *)p)->f1C,((struct Obj00151 *)p)->f34,&configs[1],1,((struct Obj00151 *)p)->f0);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x2c),*(u32 *)(p+0x20),*(u32 *)(p+0x38),&configs[1],1,*(u16 *)p);
+            *(void **)(p+i*4+0x54)=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f2C,((struct Obj00151 *)p)->f20,((struct Obj00151 *)p)->f38,&configs[1],1,((struct Obj00151 *)p)->f0);
             func_0204B3DC(*(void **)(p+i*4+0x4c),0);
             func_0204B3DC(*(void **)(p+i*4+0x54),0);
             func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    *(void **)(p+0x5c)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x30),*(u32 *)(p+0x24),*(u32 *)(p+0x3c),&configs[0],1,*(u16 *)p);
-    func_0204B3DC(*(void **)(p+0x5c),0);
-    func_0204B92C(*(void **)(p+0x5c),1);
+    ((struct Obj00151 *)p)->f5C=func_0204B294((void *)*(u32 *)&((struct Obj00151 *)p)->f18,((struct Obj00151 *)p)->f30,((struct Obj00151 *)p)->f24,((struct Obj00151 *)p)->f3C,&configs[0],1,((struct Obj00151 *)p)->f0);
+    func_0204B3DC(((struct Obj00151 *)p)->f5C,0);
+    func_0204B92C(((struct Obj00151 *)p)->f5C,1);
 }

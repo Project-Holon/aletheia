@@ -17,6 +17,8 @@
  *   func_02048F60 0x02048F60 arm
  *   func_020113B0 0x020113B0 thumb
  */
+#include "../include/Obj03713.h"
+#include "../include/Obj21683.h"
 typedef unsigned short u16;
 
 extern int func_0201134C(void *);
@@ -31,13 +33,13 @@ int func_021FC374(void *a, char *s)
     int id = func_0201134C(a);
     char *p;
 
-    func_020307B0(*(void **)(s + 0x1e8));
+    func_020307B0(((struct Obj03713 *)s)->f1E8);
     if (id < 0x231)
-        *(char **)(s + 0x1e8) = func_02048F60(0x42, id, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
+        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60(0x42, id, (((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000);
     else
-        *(char **)(s + 0x1e8) = func_02048F60(0x43, id - 0x231, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
-    p = *(char **)(s + 0x1e8);
-    *(int *)(s + 4) = 0;
-    func_020113B0(a, (u32)(p + *(int *)(p + 4)));
-    return *(int *)(s + 0x23c);
+        *(char * *)&((struct Obj03713 *)s)->f1E8 = func_02048F60(0x43, id - 0x231, (((struct Obj03713 *)s)->f238 & 0x7fff) | 0x8000);
+    p = *(char * *)&((struct Obj03713 *)s)->f1E8;
+    ((struct Obj03713 *)s)->f4 = 0;
+    func_020113B0(a, (u32)(p + ((struct Obj21683 *)p)->f4));
+    return ((struct Obj03713 *)s)->f23C;
 }

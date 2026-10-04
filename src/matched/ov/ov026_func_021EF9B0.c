@@ -12,6 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020056EC 0x020056EC thumb
  */
+#include "../include/Obj13039.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,6 +21,6 @@ extern u32 func_020056EC(u32);
 void func_021EF9B0(u8 *p, int b)
 {
     func_02082BCC(p, 0, 64);
-    *(u32 *)(p + 56) = func_020056EC(3);
+    ((struct Obj13039 *)p)->f38 = func_020056EC(3);
     p[1] = b;
 }

@@ -16,6 +16,7 @@
  *   func_02020D18 0x02020D18 thumb
  *   func_0202C9B4 0x0202C9B4 thumb
  */
+#include "../include/Obj01392.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,21 +34,21 @@ u8 *func_021BBC5C(void *a, u8 *b, void *c)
 {
     u8 *p;
     p = func_02030734(42, 444, 1, d_021C3C58, 211);
-    *(void **)(p + 0) = a;
-    *(u8 **)(p + 4) = b;
-    *(void **)(p + 8) = c;
-    *(u8 **)(p + 0x1a0) = func_021BF6D4(b);
-    *(int *)(p + 0x14) = 0;
-    *(int *)(p + 0x18) = 0;
-    *(int *)(p + 0x1a4) = 0;
-    *(void **)(p + 0x30) = func_020457B0(128, 42);
-    *(void **)(p + 0x2c) = func_02045B38(0, 2, 146, 42);
-    *(void **)(p + 0x34) = func_02020D18(42);
-    *(u16 *)(p + 0x198) = 0;
-    *(u16 *)(p + 0x19a) = 0;
-    *(int *)(p + 0x1a8) = 0;
-    *(int *)(p + 0x1ac) = 0;
-    *(int *)(p + 0x1b0) = 0;
-    *(void **)(p + 0x1b4) = func_0202C9B4(1, 1, 42);
+    ((struct Obj01392 *)p)->f0 = a;
+    *(u8 * *)&((struct Obj01392 *)p)->f4 = b;
+    ((struct Obj01392 *)p)->f8 = c;
+    *(u8 * *)&((struct Obj01392 *)p)->f1A0 = func_021BF6D4(b);
+    ((struct Obj01392 *)p)->f14 = 0;
+    ((struct Obj01392 *)p)->f18 = 0;
+    ((struct Obj01392 *)p)->f1A4 = 0;
+    ((struct Obj01392 *)p)->f30 = func_020457B0(128, 42);
+    ((struct Obj01392 *)p)->f2C = func_02045B38(0, 2, 146, 42);
+    ((struct Obj01392 *)p)->f34 = func_02020D18(42);
+    ((struct Obj01392 *)p)->f198 = 0;
+    ((struct Obj01392 *)p)->f19A = 0;
+    ((struct Obj01392 *)p)->f1A8 = 0;
+    ((struct Obj01392 *)p)->f1AC = 0;
+    ((struct Obj01392 *)p)->f1B0 = 0;
+    ((struct Obj01392 *)p)->f1B4 = func_0202C9B4(1, 1, 42);
     return p;
 }

@@ -18,6 +18,7 @@
  *   func_020276A0 0x020276A0 thumb
  *   func_0201BC3C 0x0201BC3C thumb
  */
+#include "../include/Obj14192.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -39,8 +40,8 @@ void func_021C675C(u8 *p)
     arc = func_020490F4(func_020275E4(), 102);
     for (i = 0; i <= 2; i++)
         *(u32 *)(p + 0x210 + i * 4) = func_0204A6C8(arc, func_02027698(), 0, 1, 102);
-    *(u32 *)(p + 0x230) = func_0204ABF0(arc, func_0201BC3C(), 1, 0, 102);
+    ((struct Obj14192 *)p)->f230 = func_0204ABF0(arc, func_0201BC3C(), 1, 0, 102);
     first = func_0202769C(0);
-    *(u32 *)(p + 0x250) = func_0204AF28(arc, first, func_020276A0(0), 102);
+    ((struct Obj14192 *)p)->f250 = func_0204AF28(arc, first, func_020276A0(0), 102);
     func_02049238(arc);
 }

@@ -13,6 +13,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj05469.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct WordSet; struct Rec;
@@ -21,4 +22,4 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *);
 extern void func_0201D83C(void *);
 extern void func_02045C04(struct Rec *);
-void func_021B6474(char *p) {func_02045808(*(void **)(p+0x9040));func_0201ED04(*(struct WordSet **)(p+0x903C));func_0201D83C(*(void **)(p+0x9034));func_0201D83C(*(void **)(p+0x9030));func_02045C04(*(struct Rec **)(p+0x9038));}
+void func_021B6474(char *p) {func_02045808(((struct Obj05469 *)p)->f9040);func_0201ED04(*(struct WordSet * *)&((struct Obj05469 *)p)->f903C);func_0201D83C(((struct Obj05469 *)p)->f9034);func_0201D83C(((struct Obj05469 *)p)->f9030);func_02045C04(*(struct Rec * *)&((struct Obj05469 *)p)->f9038);}

@@ -16,6 +16,7 @@
  *   func_021CDF18  0x021CDF18  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -44,7 +45,7 @@ u32 func_021CD688(u8 *p)
         break;
     }
     if (r == 1) {
-        return *(u32 *)(p + 0x2c);
+        return ((struct Obj00011 *)p)->f2C;
     }
     return 0;
 }

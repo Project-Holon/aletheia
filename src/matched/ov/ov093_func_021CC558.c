@@ -20,6 +20,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
  */
+#include "../include/Obj13347.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ int func_021CC558(char *p, void *m)
             id = func_021D5440(m);
             q = (char *)func_021C88A4(p, 32, id);
             q[6] = id;
-            *(u16 *)(q + 4) = 0;
+            ((struct Obj13347 *)q)->f4 = 0;
             func_021C8838(q + 12, 2, 225);
             func_021C8860((struct S *)(q + 12), id);
             func_021C8860((struct S *)(q + 12), t);

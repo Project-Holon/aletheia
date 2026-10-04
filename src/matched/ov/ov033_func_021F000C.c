@@ -30,6 +30,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   d_021F0E60 0x021F0E60 data ov033 a1
  */
+#include "../include/Obj00618.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,37 +67,37 @@ void *func_021F000C(u32 heap, u32 heap2, u32 a, u32 b)
     u32 v;
 
     p = func_02030734(heap, 0xD4, 1, d_021F0E60, 0x272);
-    *(u16 *)p = heap;
-    *(u16 *)(p + 2) = heap2;
-    *(u32 *)(p + 4) = a;
-    *(u32 *)(p + 8) = b;
+    ((struct Obj00618 *)p)->f0 = heap;
+    ((struct Obj00618 *)p)->f2 = heap2;
+    ((struct Obj00618 *)p)->f4 = a;
+    ((struct Obj00618 *)p)->f8 = b;
     func_021F06AC(p);
     func_021F0760(p);
     func_021F07F4(p);
     func_021F0924(p);
-    *(void **)(p + 0x60) = (void *)func_0204A298(0xC3, 0xD, 0, *(u16 *)p, &size);
-    *(void **)(p + 0xA8) = func_020056A0(func_021F0674, p, 1);
-    *(u8 *)(p + 0xAC) = 0;
-    *(u32 *)(p + 0xB0) = 1;
+    ((struct Obj00618 *)p)->f60 = (void *)func_0204A298(0xC3, 0xD, 0, ((struct Obj00618 *)p)->f0, &size);
+    ((struct Obj00618 *)p)->fA8 = func_020056A0(func_021F0674, p, 1);
+    ((struct Obj00618 *)p)->fAC = 0;
+    ((struct Obj00618 *)p)->fB0 = 1;
     func_021F0B74(p);
-    *(u32 *)(p + 0x64) = 10;
-    *(u32 *)(p + 0x68) = 9;
-    *(u32 *)(p + 0x6C) = 10;
-    *(u32 *)(p + 0x70) = 0;
-    *(u32 *)(p + 0x7C) = 0;
-    *(u32 *)(p + 0x88) = 0;
-    *(u32 *)(p + 0x8C) = 0;
-    *(u32 *)(p + 0x90) = 0;
-    *(u32 *)(p + 0x94) = 0;
-    *(u32 *)(p + 0x9C) = 0;
-    *(u32 *)(p + 0xA4) = 0;
+    ((struct Obj00618 *)p)->f64 = 10;
+    ((struct Obj00618 *)p)->f68 = 9;
+    ((struct Obj00618 *)p)->f6C = 10;
+    ((struct Obj00618 *)p)->f70 = 0;
+    ((struct Obj00618 *)p)->f7C = 0;
+    ((struct Obj00618 *)p)->f88 = 0;
+    ((struct Obj00618 *)p)->f8C = 0;
+    ((struct Obj00618 *)p)->f90 = 0;
+    ((struct Obj00618 *)p)->f94 = 0;
+    ((struct Obj00618 *)p)->f9C = 0;
+    ((struct Obj00618 *)p)->fA4 = 0;
     func_021F05A4(p, 1);
-    *(u32 *)(p + 0xC8) = 1;
-    *(u32 *)(p + 0xCC) = 1;
-    s = (u32)func_020120F4(func_02188C80((void *)(*(u32 *)(p + 8))));
+    ((struct Obj00618 *)p)->fC8 = 1;
+    ((struct Obj00618 *)p)->fCC = 1;
+    s = (u32)func_020120F4(func_02188C80((void *)(((struct Obj00618 *)p)->f8)));
     v = func_0201296C((const struct BigObj *)s);
-    *(void **)(p + 0xD0) = func_021EFEC0(*(u16 *)p, v, (u32)func_0200BE48(func_02012EBC((struct Big *)s)));
+    ((struct Obj00618 *)p)->fD0 = func_021EFEC0(((struct Obj00618 *)p)->f0, v, (u32)func_0200BE48(func_02012EBC((struct Big *)s)));
     func_0207D63C(0x04001050, 0x10, 0x18, 1, 7);
-    func_0203D34C(0, *(u16 *)p);
+    func_0203D34C(0, ((struct Obj00618 *)p)->f0);
     return p;
 }

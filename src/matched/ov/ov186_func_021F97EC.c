@@ -11,9 +11,13 @@
  * symbols:
  *   func_021F98F8 0x021F98F8 thumb ov186
  */
+#include "../include/Obj14449.h"
+#include "../include/Obj24794.h"
+#include "../include/Obj24795.h"
+#include "../include/Obj24796.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void func_021F98F8(char *,int,int,int);
-void func_021F97EC(char *p,char *q) { char *s;if(*(int *)(p+28)){s=*(char **)(q+24);func_021F98F8((char *)(*(u32 *)(s+8)+0x1748),0,*(int *)(*(char **)(s+12)+4),90);} }
+void func_021F97EC(char *p,char *q) { char *s;if(((struct Obj24794 *)p)->f1C){s=*(char * *)&((struct Obj24795 *)q)->f18;func_021F98F8((char *)(((struct Obj14449 *)s)->f8+0x1748),0,((struct Obj24796 *)(*(char * *)&((struct Obj14449 *)s)->fC))->f4,90);} }

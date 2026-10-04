@@ -19,6 +19,8 @@
  *   func_021C6E18 0x021C6E18 thumb ov128
  *   func_021C6DD8 0x021C6DD8 thumb ov128
  */
+#include "../include/Obj00773.h"
+#include "../include/Obj00992.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -35,16 +37,16 @@ extern void func_021C6DD8(u8 *p, u32 a);
 void func_021C97A0(u8 *p,u8 *q,u8 *r,u16 heap)
 {
     u16 *t;
-    func_021C6BCC(r,(u8 *)q,(q+*(signed char *)(q+11))[24],heap);
+    func_021C6BCC(r,(u8 *)q,(q+((struct Obj00992 *)q)->fB)[24],heap);
     func_021C6ADC(r,r+12,13);
-    t=*(u16 **)(p+0xfc);
+    t=*(u16 * *)&((struct Obj00773 *)p)->fFC;
     func_02041090(0,(u32)((u8 *)t+12),0,0,(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(0);
-    t=*(u16 **)(p+0x104);
+    t=*(u16 * *)&((struct Obj00773 *)p)->f104;
     func_02041090(2,(u32)((u8 *)t+12),0,0,(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(2);
     func_021C991C(p,(u8 *)q,r,heap);
-    func_021C9BEC(p,(u8 *)q,r,0,*(s16 *)p,heap);
+    func_021C9BEC(p,(u8 *)q,r,0,*(s16 *)&((struct Obj00773 *)p)->f0,heap);
     if(func_021C9D88((u8 *)q,0)==1) {
         func_021C6E18(r,1,3);
         func_021C6E18(r,0,2);

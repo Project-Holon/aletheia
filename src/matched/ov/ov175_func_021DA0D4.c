@@ -25,6 +25,7 @@
  *
  * Sets up a matchmaking attempt: closes any connection, publishes the eight match keys (player count, group, 1, four record words, version 0x20015), formats the filter string and picks the evaluation callback for the mode (1 asserts).
  */
+#include "../include/Obj05458.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -62,22 +63,22 @@ void func_021DA0D4(char *obj, int mode, int extra, int group, int *rec)
     func_021DA4B8(obj, 6, rec[3]);
     func_021DA4B8(obj, 7, 0x20015);
     STD_TSPrintf(obj + 0x44, d_021E2EFC, count, group, 1);
-    *(u32 *)(obj + 0x40) = 0;
-    *(u32 *)(obj + 0x1a0) = 0;
-    *(u32 *)(obj + 0x1a4) = 0;
+    ((struct Obj05458 *)obj)->f40 = 0;
+    ((struct Obj05458 *)obj)->f1A0 = 0;
+    ((struct Obj05458 *)obj)->f1A4 = 0;
     MI_CpuFill8(obj + 0x138, 0, 0x18);
     switch (mode) {
     case 0:
-        *(EvalFn *)(obj + 0x1218) = func_021DA4F8;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4F8;
         break;
     case 1:
         func_02034714(d_021E2EF8, 0, d_021E2EF8);
         break;
     case 2:
-        *(EvalFn *)(obj + 0x1218) = func_021DA4E8;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4E8;
         break;
     case 3:
-        *(EvalFn *)(obj + 0x1218) = func_021DA4F0;
+        *(EvalFn *)&((struct Obj05458 *)obj)->f1218 = func_021DA4F0;
         break;
     default:
         func_02034714(d_021E2EF8, 0, d_021E2EF8);

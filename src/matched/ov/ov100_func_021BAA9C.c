@@ -16,6 +16,7 @@
  *   func_021BAFA0 0x021BAFA0 thumb ov100
  *   func_021BAB08 0x021BAB08 thumb ov100
  */
+#include "../include/Obj10216.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
@@ -28,10 +29,10 @@ extern void func_021BAFA0(int p);
 extern void func_021BAB08(void);
 void func_021BAA9C(int a) {
  if(func_0204E804()!=0) {
-  if(*(int *)(a+0x24c)==7) {
-   if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int **)(a+0x244))))==32) {
+  if(((struct Obj10216 *)a)->f24C==7) {
+   if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int * *)&((struct Obj10216 *)a)->f244)))==32) {
     func_021B95B8((u8 *)a,(u32)func_021BAFA0);
-    *(int *)(a+0xcac)=180;
+    ((struct Obj10216 *)a)->fCAC=180;
     return;
    }
   }

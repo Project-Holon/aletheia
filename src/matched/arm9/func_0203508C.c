@@ -13,6 +13,7 @@
  *   func_02035080 0x02035080  arm
  *   func_02035120 0x02035120  arm
  */
+#include "../include/Obj08822.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,8 +27,8 @@ void func_0203508C(u32 a, u32 b, u32 c)
     u8 *g = g_021469BC;
 
     if (g[0x41] != 0) {
-        if (*(u32 *)(g + 0x18) != 0) {
-            ((void (*)(u32)) * (u32 *)(g + 0x18))(*(u32 *)(g + 0x2c));
+        if (((struct Obj08822 *)g)->f18 != 0) {
+            ((void (*)(u32)) * (u32 *)(g + 0x18))(((struct Obj08822 *)g)->f2C);
         }
         if (a != 0) {
             ((void (*)(u32))a)(c);

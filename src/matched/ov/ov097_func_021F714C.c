@@ -23,6 +23,7 @@
  *   func_021F72DC 0x021F72DC thumb ov097
  *   d_021F76C8 0x021F76C8 data a4
  */
+#include "../include/Obj21993.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -81,7 +82,7 @@ void func_021F714C(struct P *p)
         }
         func_0204B3DC(p->actors.set.c[i], 0);
     }
-    if (*(int *)(p->parent + 8) == 0) {
+    if (((struct Obj21993 *)(p->parent))->f8 == 0) {
         for (i = 0; i < 3; i++) {
             func_021F72DC((unsigned int)p, i + 3, 128);
             func_021F72DC((unsigned int)p, i + 9, 128);

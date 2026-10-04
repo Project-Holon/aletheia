@@ -11,8 +11,9 @@
  * symbols:
  *   func_0201AF80 0x0201AF80 thumb
  */
+#include "../include/Obj00123.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 *func_0201AF80(u32 heap, u16 *countOut);
-void func_021BC88C(char *p) { *(void **)(p+0xc38)=func_0201AF80(107,0); }
+void func_021BC88C(char *p) { ((struct Obj00123 *)p)->fC38=func_0201AF80(107,0); }

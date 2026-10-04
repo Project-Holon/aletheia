@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT* (extent 76, compiled 74, trailing padding)
  */
+#include "../include/Obj02132.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ void func_021BA82C(char *p)
     p[0xbe] = 0;
     p[0xbf] = 0;
     p[0xc0] = 0;
-    *(u16 *)(p + 0xb4) = 0;
+    ((struct Obj02132 *)p)->fB4 = 0;
 }

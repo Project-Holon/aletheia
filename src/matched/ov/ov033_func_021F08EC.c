@@ -14,10 +14,12 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
+#include "../include/Obj09803.h"
+#include "../include/Obj20476.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
 extern void func_0204A8D4(u32 i);
 extern void func_0204ADA4(u32 i);
-void func_021F08EC(char *p) { unsigned char i; char *q; for(i=0;i<4;i++) { q=p+i*12; func_0204B3B4((struct Obj *)(*(int *)(q+0x38))); if(i!=1) { func_0204AFD8(*(int *)(q+0x34)); func_0204A8D4(*(int *)(q+0x30)); } } func_0204ADA4(*(int *)(p+0x2c)); }
+void func_021F08EC(char *p) { unsigned char i; char *q; for(i=0;i<4;i++) { q=p+i*12; func_0204B3B4((struct Obj *)(((struct Obj09803 *)q)->f38)); if(i!=1) { func_0204AFD8(((struct Obj09803 *)q)->f34); func_0204A8D4(((struct Obj09803 *)q)->f30); } } func_0204ADA4(((struct Obj20476 *)p)->f2C); }

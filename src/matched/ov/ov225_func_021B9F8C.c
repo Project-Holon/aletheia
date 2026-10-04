@@ -16,6 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02034A5C 0x02034A5C arm
  */
+#include "../include/Obj14802.h"
 extern void func_02030EAC(void *),func_021BA4D8(char *),func_021BA218(char *),func_021B639C(unsigned char *),func_020307B0(void *),func_02034A5C(int);
 extern const char ov067_id[];
-void func_021B9F8C(char *p){func_02030EAC(*(void **)(p+72));func_021BA4D8(p);func_021BA218(p);func_021B639C(*(unsigned char **)(p+4));func_020307B0(p);func_02034A5C((int)ov067_id);}
+void func_021B9F8C(char *p){func_02030EAC(((struct Obj14802 *)p)->f48);func_021BA4D8(p);func_021BA218(p);func_021B639C(*(unsigned char * *)&((struct Obj14802 *)p)->f4);func_020307B0(p);func_02034A5C((int)ov067_id);}

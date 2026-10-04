@@ -15,6 +15,8 @@
  *   func_021BE180  0x021BE180  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09202.h"
+#include "../include/Obj18257.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,9 +27,9 @@ extern u8 *func_021BE180(u8 *p);
 
 int func_021BE1C4(u32 a)
 {
-if (*(u32 *)((u8 *)(func_021BE180((u8 *)a)) + 4) == 0) {
-    return *(u32 *)((u8 *)(a) + 104);
+if (((struct Obj18257 *)((u8 *)(func_021BE180((u8 *)a))))->f4 == 0) {
+    return ((struct Obj09202 *)((u8 *)(a)))->f68;
 }
-return *(u32 *)((u8 *)(a) + 108);
+return ((struct Obj09202 *)((u8 *)(a)))->f6C;
 }
 

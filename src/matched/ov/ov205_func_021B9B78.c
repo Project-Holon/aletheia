@@ -15,8 +15,9 @@
  *   func_02012E7C 0x02012E7C thumb
  *   func_020072A4 0x020072A4 thumb
  */
+#include "../include/Obj10884.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Big;struct Sub020072A4Ctrl;extern void *func_02012EBC(struct Big *);extern int func_020071F0(void *);extern int func_02012E7C(char *,int);extern void func_020072A4(struct Sub020072A4Ctrl *,u32);
-void func_021B9B78(char *p) { void *save; u32 n;save=func_02012EBC(*(struct Big **)(p+4));if(func_020071F0(save)==0) { n=func_02012E7C(*(char **)(p+4),8);if(n-2<=1) { func_020072A4(save,8);*(u32 *)(p+0x3c)=1; } } }
+void func_021B9B78(char *p) { void *save; u32 n;save=func_02012EBC(*(struct Big * *)&((struct Obj10884 *)p)->f4);if(func_020071F0(save)==0) { n=func_02012E7C(*(char * *)&((struct Obj10884 *)p)->f4,8);if(n-2<=1) { func_020072A4(save,8);((struct Obj10884 *)p)->f3C=1; } } }

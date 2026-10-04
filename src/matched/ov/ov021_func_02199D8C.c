@@ -14,6 +14,7 @@
  *   func_0216D674  0x0216D674  thumb  ov010
  *   func_0216D7CC  0x0216D7CC  thumb
  */
+#include "../include/Obj09499.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,8 +28,8 @@ extern void func_0216D7CC(u32);
 int func_02199D8C(u32 a)
 {
     u8 *p = func_0216D6BC(a, 16);
-    *(u32 *)(p + 4) = 0x2000;
-    *(u16 *)(p + 8) = 0;
+    ((struct Obj09499 *)p)->f4 = 0x2000;
+    ((struct Obj09499 *)p)->f8 = 0;
     p[10] = 0;
     func_0216D674((void *)a, 11);
     func_0216D7CC(a);

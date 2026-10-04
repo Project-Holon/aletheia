@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08445.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,12 +34,12 @@ extern u8 func_021C28A4(char *p);
 extern u8 func_021C28BC(char *p);
 void func_021C2748(u32 a0, u32 a1)
 {
-    func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 16), a1);
+    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f10, a1);
     if (func_021C28BC((char *)a0) != 0) {
-    func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 20), a1);
+    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f14, a1);
     }
     if (func_021C28BC((char *)a0) != 0 || func_021C28A4((char *)a0) != 0) {
-    func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 24), a1);
+    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f18, a1);
     }
-    func_0204B3DC((struct Obj *)*(u32*)(((u8*)a0) + 28), a1);
+    func_0204B3DC((struct Obj *)((struct Obj08445 *)(((u8*)a0)))->f1C, a1);
 }

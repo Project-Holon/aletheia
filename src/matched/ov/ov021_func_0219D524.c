@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj09515.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,8 +21,8 @@ typedef struct { u16 a; u16 b; } E4;
 u16 func_0219D524(u8 *s, u16 b, u16 a)
 {
     int i;
-    E4 *e = *(E4 **)(s + 0xc);
-    int n = *(u16 *)(s + 8);
+    E4 *e = *(E4 * *)&((struct Obj09515 *)s)->fC;
+    int n = ((struct Obj09515 *)s)->f8;
     for (i = 0; i < n; i++, e++) {
         if (e->b == 0xFFFF) {
             e->b = b;

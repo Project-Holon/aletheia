@@ -11,5 +11,6 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00088.h"
 extern void func_020307B0(void *);
-void func_021BC8A4(char *p) { func_020307B0(*(void **)(p+0xc38)); }
+void func_021BC8A4(char *p) { func_020307B0(((struct Obj00088 *)p)->fC38); }

@@ -16,6 +16,9 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02177D58  0x02177D58  thumb  ov014
  */
+#include "../include/Obj07354.h"
+#include "../include/Obj09380.h"
+#include "../include/Obj09381.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,19 +46,19 @@ void func_0217778C(void)
         return;
     w = g_021797A4;
     st = func_0203D798();
-    sfn = *(SizeFn *)(st + 0x1C);
+    sfn = *(SizeFn *)&((struct Obj09380 *)st)->f1C;
     if (sfn == 0)
         return;
-    n = sfn(*(u32 *)(w + 0xC64));
+    n = sfn(((struct Obj09381 *)w)->fC64);
     if (n >= 0x68) {
         func_02088234();
         return;
     }
     e = w + 0xC6E;
     e[4] = st[0x67];
-    *(u16 *)(e + 2) = *(u32 *)(st + 0x50);
+    ((struct Obj07354 *)e)->f2 = ((struct Obj09380 *)st)->f50;
     e[5] = 0;
     e[7] = w[0xCEA];
-    func_02082D44((void *)(*(DataFn *)(st + 0x18))(*(u32 *)(w + 0xC64)), e + 8, n);
+    func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj09381 *)w)->fC64), e + 8, n);
     func_02177D58(w + 0xC6E, 0x70);
 }

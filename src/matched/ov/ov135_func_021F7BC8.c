@@ -20,6 +20,10 @@
  *   func_0201AE14 0x0201AE14 thumb
  *   func_0201F7A8 0x0201F7A8 thumb
  */
+#include "../include/Obj01553.h"
+#include "../include/Obj03830.h"
+#include "../include/Obj23387.h"
+#include "../include/Obj23388.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,36 +39,36 @@ extern void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 inde
 extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
 int func_021F7BC8(u8 *p)
 {
-    int result=func_021F99F0(*(void **)(p+0xDE4));
+    int result=func_021F99F0(((struct Obj01553 *)p)->fDE4);
     u32 h,v;
     int mode;
     u8 *target;
     switch(result) {
     case (u32)-2:
-        func_0201F7A8(*(void **)(p+0xD40),0);
+        func_0201F7A8(((struct Obj01553 *)p)->fD40,0);
         func_021F4EC0(p,5,5);
-        *(u32 *)(p+0x28)=2;
-        target=*(u8 **)(p+0xE00);
-        func_021F89A8(p+0xEEC,*(u16 *)(target+6)+*(u16 *)(target+4),*(u16 *)(target+10),*(u16 *)(target+8));
+        ((struct Obj01553 *)p)->f28=2;
+        target=*(u8 * *)&((struct Obj01553 *)p)->fE00;
+        func_021F89A8(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
         break;
     case (u32)-1:
         break;
     default:
-        *(short *)(p+0xB50)=result;
+        ((struct Obj01553 *)p)->fB50=result;
         h=(u32)func_0201ADE4((u16)result,0,0x48);
         v=func_0201AE1C((const struct Personal *)h,20);
         func_0201AE14((void *)h);
-        *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;
-        if(func_021F7B9C(p+0xB50,*(u32 *)(*(u8 **)(p+0xE00)+0x20))) {
-            *(u32 *)(p+0x28)=10;
-            mode=*(signed char *)(p+0xB52);
+        ((struct Obj23387 *)(*(u8 * *)&((struct Obj01553 *)p)->fE00))->f20=v;
+        if(func_021F7B9C(p+0xB50,((struct Obj23388 *)(*(u8 * *)&((struct Obj01553 *)p)->fE00))->f20)) {
+            ((struct Obj01553 *)p)->f28=10;
+            mode=((struct Obj01553 *)p)->fB52;
         } else {
-            *(u32 *)(p+0x28)=7;
+            ((struct Obj01553 *)p)->f28=7;
             mode=3;
         }
-        func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),(int)(*(void **)(p+0xB68)),p+0xD90,*(short *)(p+0xB50),mode,-1,p+0xFA0);
-        target=*(u8 **)(p+0xE00);
-        func_021F89A8(p+0xEEC,*(u16 *)(target+6)+*(u16 *)(target+4),*(u16 *)(target+10),*(u16 *)(target+8));
+        func_021F81C8(((struct Obj01553 *)p)->fB6C,((struct Obj01553 *)p)->fB70,(int)(((struct Obj01553 *)p)->fB68),p+0xD90,((struct Obj01553 *)p)->fB50,mode,-1,p+0xFA0);
+        target=*(u8 * *)&((struct Obj01553 *)p)->fE00;
+        func_021F89A8(p+0xEEC,((struct Obj03830 *)target)->f6+((struct Obj03830 *)target)->f4,((struct Obj03830 *)target)->fA,((struct Obj03830 *)target)->f8);
         break;
     }
     return 2;

@@ -25,6 +25,7 @@
  *
  * Keeps the button prompt (+0x1c, kind at +0x18) in step with the selection: a fourth selected slot shows prompt 0x13 (kind 2), any selected slot shows prompt 0x12 (kind 1), none removes the prompt (kind 0) and reprints message 0x11 when the mode byte at +0x14 is set.
  */
+#include "../include/Obj00543.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -72,46 +73,46 @@ void func_021BCEF8(void *ctx, u8 *st)
             n++;
     }
     if (st[3] != 0xff) {
-        if (*(u32 *)(st + 0x18) != 2) {
+        if (((struct Obj00543 *)st)->f18 != 2) {
             struct Prompt p = {0};
 
-            func_02041B6C(func_021BCEF8_show(*(u32 *)(st + 0x2c)));
-            func_0201F7A8((void *)(*(u32 *)(st + 0x2c)), 1);
-            if (*(u32 *)(st + 0x1c) != 0) {
-                func_02028148((u8 *)(*(u32 *)(st + 0x1c)));
-                *(u32 *)(st + 0x1c) = 0;
+            func_02041B6C(func_021BCEF8_show(((struct Obj00543 *)st)->f2C));
+            func_0201F7A8((void *)(((struct Obj00543 *)st)->f2C), 1);
+            if (((struct Obj00543 *)st)->f1C != 0) {
+                func_02028148((u8 *)(((struct Obj00543 *)st)->f1C));
+                ((struct Obj00543 *)st)->f1C = 0;
             }
             p.str = (u32)func_02045EC0((struct MsgBank *)msgs, 0x13);
             p.color = 0x39e3;
             p.flags = 0;
-            *(u32 *)(st + 0x1c) = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
+            ((struct Obj00543 *)st)->f1C = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
             func_02045808((struct U16Vec *)p.str);
-            *(u32 *)(st + 0x18) = 2;
+            ((struct Obj00543 *)st)->f18 = 2;
         }
     } else if (n != 0) {
-        if (*(u32 *)(st + 0x18) != 1) {
+        if (((struct Obj00543 *)st)->f18 != 1) {
             struct Prompt p = {0};
 
-            func_02041B6C(func_021BCEF8_show(*(u32 *)(st + 0x2c)));
-            func_0201F7A8((void *)(*(u32 *)(st + 0x2c)), 1);
-            if (*(u32 *)(st + 0x1c) != 0) {
-                func_02028148((u8 *)(*(u32 *)(st + 0x1c)));
-                *(u32 *)(st + 0x1c) = 0;
+            func_02041B6C(func_021BCEF8_show(((struct Obj00543 *)st)->f2C));
+            func_0201F7A8((void *)(((struct Obj00543 *)st)->f2C), 1);
+            if (((struct Obj00543 *)st)->f1C != 0) {
+                func_02028148((u8 *)(((struct Obj00543 *)st)->f1C));
+                ((struct Obj00543 *)st)->f1C = 0;
             }
             p.str = (u32)func_02045EC0((struct MsgBank *)msgs, 0x12);
             p.color = 0x39e3;
             p.flags = 0;
-            *(u32 *)(st + 0x1c) = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
+            ((struct Obj00543 *)st)->f1C = func_02027FEC(sys, (u32)(&p), 0, 0x15, 0x15, heap);
             func_02045808((struct U16Vec *)p.str);
-            *(u32 *)(st + 0x18) = 1;
+            ((struct Obj00543 *)st)->f18 = 1;
         }
-    } else if (*(u32 *)(st + 0x18) != 0) {
-        if (*(u32 *)(st + 0x1c) != 0) {
-            func_02028148((u8 *)(*(u32 *)(st + 0x1c)));
-            *(u32 *)(st + 0x1c) = 0;
+    } else if (((struct Obj00543 *)st)->f18 != 0) {
+        if (((struct Obj00543 *)st)->f1C != 0) {
+            func_02028148((u8 *)(((struct Obj00543 *)st)->f1C));
+            ((struct Obj00543 *)st)->f1C = 0;
         }
         if (st[0x14] != 0)
             func_021BD0C4(ctx, st, 0x11);
-        *(u32 *)(st + 0x18) = 0;
+        ((struct Obj00543 *)st)->f18 = 0;
     }
 }

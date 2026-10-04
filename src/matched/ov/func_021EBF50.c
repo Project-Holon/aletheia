@@ -15,6 +15,7 @@
  * Release all 0x60 slots of the 0x9E70 pool, then release the pool
  *   head itself.
  */
+#include "../include/Obj07238.h"
 
 
 extern void func_021EBF34(char *, int);
@@ -25,5 +26,5 @@ void func_021EBF50(char *p)
     unsigned i;
     for (i = 0; i < 0x60; i++)
         func_021EBF34(p, i);
-    func_0204B1CC((struct Bank *)(*(int *)(p + 0x9E70)));
+    func_0204B1CC((struct Bank *)(((struct Obj07238 *)p)->f9E70));
 }

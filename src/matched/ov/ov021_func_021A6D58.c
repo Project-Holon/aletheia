@@ -19,6 +19,7 @@
  *   data_021DDF1C  0x021DDF1C  data  a1
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19810.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ u32 *func_021A6D58(void *a, u32 heap)
     u32 *p = sub_02030734(heap, 8, 1, data_021DDF1C, 0x3e);
     void *r6 = func_02188CB4(a);
 
-    *(void **)p = r6;
+    ((struct Obj19810 *)p)->f0 = r6;
     func_021A3664(r6, heap);
     func_021BB3AC(r7, func_021A36A4(r6));
     return p;

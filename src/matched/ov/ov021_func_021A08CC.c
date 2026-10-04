@@ -17,6 +17,7 @@
  * The `const` on `in` is what puts its three loads ahead of the stores in
  * the original's order (in[2], in[1], in[0]; stores o[1], o[2], o[0]).
  */
+#include "../include/Obj19697.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,5 +45,5 @@ void func_021A08CC(s32 *o, const s16 *in, u32 c)
     set((V32 *)o, in[0], in[1], in[2]);
     func_0207CB68(in, c, v);
     set((V32 *)(o + 3), v[0], v[1], v[2]);
-    *(u16 *)(o + 6) = func_0207D184(func_0207CAA4(in, c));
+    ((struct Obj19697 *)o)->f18 = func_0207D184(func_0207CAA4(in, c));
 }

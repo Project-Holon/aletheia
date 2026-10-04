@@ -21,6 +21,7 @@
  *   func_021CD64C 0x021CD64C thumb ov093
  *   func_021BD148 0x021BD148 thumb ov093
  */
+#include "../include/Obj21052.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -77,7 +78,7 @@ int func_021BE6EC(u8 *p, u8 *a, u16 key, u32 x)
     chosen_id = func_021D5440(chosen);
     func_021D5FC0(a, 10);
     func_021D6E40(chosen, id, key);
-    func_021CD64C(*(void **)(p + 12), 91, 0x47a, id, chosen_id, 0xffff0000);
+    func_021CD64C(((struct Obj21052 *)p)->fC, 91, 0x47a, id, chosen_id, 0xffff0000);
     func_021BD148(p, chosen_id);
     return 1;
 fail:

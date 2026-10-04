@@ -13,9 +13,10 @@
  * symbols:
  *   func_021EFA94 0x021EFA94 thumb ov093
  */
+#include "../include/Obj21195.h"
 extern int func_021EFA94(void *, int);
 int func_021D3BB0(char *p, int unused, unsigned int *a)
 {
-    func_021EFA94(*(void **)(p + 0x34), a[0]);
+    func_021EFA94(((struct Obj21195 *)p)->f34, a[0]);
     return 1;
 }

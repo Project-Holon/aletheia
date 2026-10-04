@@ -14,6 +14,7 @@
  *   func_021BBE80 0x021BBE80 thumb ov110
  *   func_021BBE8C 0x021BBE8C thumb ov110
  */
+#include "../include/Obj02816.h"
 typedef unsigned char u8;
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -26,10 +27,10 @@ void func_021BBEF4(u8 *p, u8 value)
 {
     p[0x19c] = 0;
     p[0x19d] = value;
-    if (*(void **)(p + 0x1a4)) func_02030EAC(*(void **)(p + 0x1a4));
-    *(void **)(p + 0x1a4) = func_02005624((u32)func_021BBE80, (u32)p, 1);
-    *(int *)(p + 0x1a8) = 0;
-    *(int *)(p + 0x1ac) = 0;
-    if (*(void **)(p + 0x1b0)) func_02030EAC(*(void **)(p + 0x1b0));
-    *(void **)(p + 0x1b0) = func_020056A0(func_021BBE8C, p, 1);
+    if (((struct Obj02816 *)p)->f1A4) func_02030EAC(((struct Obj02816 *)p)->f1A4);
+    ((struct Obj02816 *)p)->f1A4 = func_02005624((u32)func_021BBE80, (u32)p, 1);
+    ((struct Obj02816 *)p)->f1A8 = 0;
+    ((struct Obj02816 *)p)->f1AC = 0;
+    if (((struct Obj02816 *)p)->f1B0) func_02030EAC(((struct Obj02816 *)p)->f1B0);
+    ((struct Obj02816 *)p)->f1B0 = func_020056A0(func_021BBE8C, p, 1);
 }

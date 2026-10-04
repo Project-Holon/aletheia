@@ -18,6 +18,7 @@
  *   d_02200D04 0x02200D04 data a1
  *   d_02200D14 0x02200D14 data a1
  */
+#include "../include/Obj01569.h"
 typedef unsigned short u16;
 typedef unsigned u32;
 struct Ops {u32 id,size,fn;void (*init)(void *,u32,void *,int);void (*update)(void *,u32);};
@@ -34,28 +35,28 @@ void func_021F9A80(char *p)
  current=(struct Slot *)(p+0x2c);
  old=(struct Slot *)(p+0x1c);
  next=(struct Slot *)(p+0x3c);
- switch(*(u32 *)(p+0x18)){
- case 0:*old=*current;*current=*next;*(u32 *)(p+0x18)=1;break;
+ switch(((struct Obj01569 *)p)->f18){
+ case 0:*old=*current;*current=*next;((struct Obj01569 *)p)->f18=1;break;
  case 1:{
   int mode;
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
   if(!current->ops->init)func_02034714(d_02200D14,0,d_02200D14);
-  current->work=func_02030734(*(u16 *)(p+0x10),current->ops->size,0,d_02200D04,0xd2);
+  current->work=func_02030734(((struct Obj01569 *)p)->f10,current->ops->size,0,d_02200D04,0xd2);
   func_02082BCC(current->work,0,current->ops->size);
-  mode=-2;if(!*(u32 *)(p+0x6c))mode=old->arg;
-  current->ops->init(current->work,*(u32 *)(p+0xc),old->work,mode);
-  *(u32 *)(p+0x6c)=0;
+  mode=-2;if(!((struct Obj01569 *)p)->f6C)mode=old->arg;
+  current->ops->init(current->work,((struct Obj01569 *)p)->fC,old->work,mode);
+  ((struct Obj01569 *)p)->f6C=0;
   if(old->work)func_020307B0(old->work);
-  func_02031348(*(u32 *)p,current->ops->fn,current->ops->id,current->work);
-  *(u32 *)(p+0x18)=2;break;
+  func_02031348(*(u32 *)&((struct Obj01569 *)p)->f0,current->ops->fn,current->ops->id,current->work);
+  ((struct Obj01569 *)p)->f18=2;break;
  }
- case 2:if(!func_02031330(*(void **)p))*(u32 *)(p+0x18)=3;break;
+ case 2:if(!func_02031330(((struct Obj01569 *)p)->f0))((struct Obj01569 *)p)->f18=3;break;
  case 3:
   if(!current->active)func_02034714(d_02200D14,0,d_02200D14);
-  if(current->ops->update)current->ops->update(current->work,*(u32 *)(p+0xc));
-  if(*(u32 *)(p+0x64))*(u32 *)(p+0x18)=0;
-  else{if(current->work)func_020307B0(current->work);*(u32 *)(p+0x18)=4;}
+  if(current->ops->update)current->ops->update(current->work,((struct Obj01569 *)p)->fC);
+  if(((struct Obj01569 *)p)->f64)((struct Obj01569 *)p)->f18=0;
+  else{if(current->work)func_020307B0(current->work);((struct Obj01569 *)p)->f18=4;}
   break;
- case 4:*(u32 *)(p+0x14)=1;break;
+ case 4:((struct Obj01569 *)p)->f14=1;break;
  }
 }

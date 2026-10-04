@@ -19,6 +19,8 @@
  *   func_021EDAB0 0x021EDAB0 thumb ov170
  *   func_021E95CC 0x021E95CC thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23940.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -41,18 +43,18 @@ int func_021E8E24(char *p)
         func_021ED55C(p, 0);
         func_020216D4(*(void **)(W + 0x6c), 0, 0, 0x200);
         func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 0, 16, 0x7fff, (void *)func_020056BC());
-        *(int *)(p + 0x28) = 0x66;
+        ((struct Obj00000 *)p)->f28 = 0x66;
         S++;
         return 3;
     case 1:
         func_021DED58(p, *(u8 *)(W + 0xA17B));
-        func_02007838(*(void **)(*(char **)p + 4), *(u8 *)(p + 0x14), *(u8 *)(W + 0xA17B));
-        func_021EDAB0(p, *(u8 *)(p + 0x14));
+        func_02007838(((struct Obj23940 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f4, ((struct Obj00000 *)p)->f14, *(u8 *)(W + 0xA17B));
+        func_021EDAB0(p, ((struct Obj00000 *)p)->f14);
         S++;
         break;
     case 2:
         func_0202173C(*(void **)(W + 0x6c), 1, 0xc000, 0, 16, 0, 0x7fff, (void *)func_020056BC());
-        *(int *)(p + 0x28) = 0x66;
+        ((struct Obj00000 *)p)->f28 = 0x66;
         S++;
         return 3;
     case 3:

@@ -11,6 +11,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj08249.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -20,7 +21,7 @@ extern void func_020452E8(struct Descriptor *);
 extern void func_020450C8(void);
 void func_021DD8BC(u8 *p)
 {
-    func_020452E8(*(struct Descriptor **)(p+0xb48));
-    func_020452E8(*(struct Descriptor **)(p+0xb50));
+    func_020452E8(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB48);
+    func_020452E8(*(struct Descriptor * *)&((struct Obj08249 *)p)->fB50);
     func_020450C8();
 }

@@ -10,4 +10,5 @@
  * status: EXACT
  * symbols:
  */
-unsigned short func_021BA188(char *p){return *(unsigned short*)(p+4);}
+#include "../include/Obj23328.h"
+unsigned short func_021BA188(char *p){return ((struct Obj23328 *)p)->f4;}

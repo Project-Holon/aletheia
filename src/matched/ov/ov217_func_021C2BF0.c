@@ -16,6 +16,7 @@
  *   func_021C2A28 0x021C2A28 thumb ov217
  *   func_021C2D88 0x021C2D88 thumb ov217
  */
+#include "../include/Obj00115.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,11 +27,11 @@ extern int func_021C2D88(char *);
 void func_021C2BF0(u8 *p)
 {
     int weight;
-    if ((*(u32 *)(p+0x1c) >> 2 & 1) == 0) weight=0;
+    if ((((struct Obj00115 *)p)->f1C >> 2 & 1) == 0) weight=0;
     else weight=6;
-    func_02021F64(*(u16 **)(p+0xc),*(u16 **)(p+8),p[0x10],weight,*(u16 *)(p+0x12));
-    *(u32 *)(p+0x1c) += 1;
-    if (*(u32 *)(p+0x1c)>20) {
+    func_02021F64(*(u16 * *)&((struct Obj00115 *)p)->fC,*(u16 * *)&((struct Obj00115 *)p)->f8,p[0x10],weight,((struct Obj00115 *)p)->f12);
+    ((struct Obj00115 *)p)->f1C += 1;
+    if (((struct Obj00115 *)p)->f1C>20) {
         func_021C2A28(p);
         func_021C2D88((char *)p);
     }

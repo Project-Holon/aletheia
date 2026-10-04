@@ -14,6 +14,7 @@
  *   func_02014D2C 0x02014D2C thumb
  *   func_02047970 0x02047970 arm
  */
+#include "../include/Obj14398.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct McssSys;
@@ -22,4 +23,4 @@ extern void func_020479D8(void);
 extern void func_02014C08(char *);
 extern void func_02014D2C(struct McssSys *);
 extern void func_02047970(void);
-void func_021B66E4(char *p) {func_02047964();func_020479D8();func_02014C08(*(char **)(p+24));func_02014D2C(*(struct McssSys **)(p+24));func_02047970();}
+void func_021B66E4(char *p) {func_02047964();func_020479D8();func_02014C08(*(char * *)&((struct Obj14398 *)p)->f18);func_02014D2C(*(struct McssSys * *)&((struct Obj14398 *)p)->f18);func_02047970();}

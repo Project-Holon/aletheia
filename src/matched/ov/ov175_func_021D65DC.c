@@ -19,6 +19,7 @@
  * Query brother of func_021D65C8: returns the +0x28 block's handler
  *     result through 0x021E8A00, or -1 when the field is empty.
  */
+#include "../include/Obj24230.h"
 
 typedef unsigned long u32;
 
@@ -26,7 +27,7 @@ extern int func_021E8A00(u32 p);
 
 int func_021D65DC(char *obj)
 {
-    u32 p = *(u32 *)(obj + 0x28);
+    u32 p = ((struct Obj24230 *)obj)->f28;
 
     if (p != 0)
         return func_021E8A00(p);

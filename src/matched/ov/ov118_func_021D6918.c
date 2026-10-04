@@ -39,6 +39,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05325.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -91,9 +92,9 @@ void func_021D6918(u8 *p)
     Vec v2;
     u32 buf;
 
-    func_021D64F4(*(s8 **)(p + 0x818));
-    func_021DFC68((void *)(*(u32 *)(p + 0x85C)), (int)p);
-    func_021DFC68((void *)(*(u32 *)(p + 0x860)), (int)p);
+    func_021D64F4(*(s8 * *)&((struct Obj05325 *)p)->f818);
+    func_021DFC68((void *)(((struct Obj05325 *)p)->f85C), (int)p);
+    func_021DFC68((void *)(((struct Obj05325 *)p)->f860), (int)p);
     if (FRAME > func_021D6734(0x2A)) {
         func_021E71F0(p, 0x11);
         func_021E7208(p, 0);
@@ -113,10 +114,10 @@ void func_021D6918(u8 *p)
             func_020307B0((void *)SLOT0);
             SLOT0 = 0;
         }
-        if (*(u8 *)(p + 0x11ED) == 0) {
+        if (((struct Obj05325 *)p)->f11ED == 0) {
             func_02015C30(OBJ(0), &v1);
             func_021DFD24((u32 *)SLOT0);
-            if (*(u8 *)(p + 0x11EF) != 0) {
+            if (((struct Obj05325 *)p)->f11EF != 0) {
                 SLOT0 = func_021DFBB4(OBJ(0), 0x14, &v1, d_021D8880, HEAP);
             } else {
                 SLOT0 = func_021DFBB4(OBJ(0), 0x12, &v1, d_021D82C0, HEAP);
@@ -127,7 +128,7 @@ void func_021D6918(u8 *p)
         } else {
             func_02015C30(OBJ(0), &v2);
             func_021DFD24((u32 *)SLOT0);
-            if (*(u8 *)(p + 0x11EF) != 0) {
+            if (((struct Obj05325 *)p)->f11EF != 0) {
                 SLOT0 = func_021DFBB4(OBJ(0), 0x14, &v2, d_021D8880, HEAP);
             } else {
                 SLOT0 = func_021DFBB4(OBJ(0), 0x28, &v2, d_021D8470, HEAP);

@@ -15,6 +15,7 @@
  *   func_021841A4  0x021841A4  thumb  ov022
  *   func_021841A0  0x021841A0  thumb  ov022
  */
+#include "../include/Obj06117.h"
 
 typedef unsigned int u32;
 
@@ -27,7 +28,7 @@ void func_02184320(int a0, int a1, int a2, char *p)
 {
     func_02185AB0(p, 3, 0);
     func_02082AC0(0, p + 0x4290, 0x3840);
-    *(u32 *)(p + 0x1ac) = func_021841A4((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
-    *(u32 *)(p + 0x1b0) = func_021841A0((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
-    *(u32 *)(p + 0x9e6c) = 1;
+    ((struct Obj06117 *)p)->f1AC = func_021841A4((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj06117 *)p)->f4));
+    ((struct Obj06117 *)p)->f1B0 = func_021841A0((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj06117 *)p)->f4));
+    ((struct Obj06117 *)p)->f9E6C = 1;
 }

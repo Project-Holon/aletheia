@@ -16,6 +16,7 @@
  *   func_021FC36C 0x021FC36C thumb ov186
  *   func_021FE8E8 0x021FE8E8 thumb ov186
  */
+#include "../include/Obj05501.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u16 heap);
@@ -26,11 +27,11 @@ void func_021FC240(char *p,void *owner,unsigned short heap)
 {
     void *h;
     h=func_020490F4(0x89,heap);
-    func_021FE8E8(owner,h,func_021FC31C(*(unsigned *)(p+0xF8)),2,0,0x1C0,heap);
-    func_021FE8E8(owner,h,func_021FC31C(*(unsigned *)(p+0xF8)),3,0,0x1C0,heap);
-    func_021FE8E8(owner,h,func_021FC344(*(unsigned *)(p+0xF8)),0,0,0,heap);
-    func_021FE8E8(owner,h,func_021FC344(*(unsigned *)(p+0xF8)),1,0,0,heap);
-    func_021FE8E8(owner,h,func_021FC36C(*(unsigned *)(p+0xF8)),0,0xE0,0x20,heap);
-    func_021FE8E8(owner,h,func_021FC36C(*(unsigned *)(p+0xF8)),1,0xE0,0x20,heap);
+    func_021FE8E8(owner,h,func_021FC31C(((struct Obj05501 *)p)->fF8),2,0,0x1C0,heap);
+    func_021FE8E8(owner,h,func_021FC31C(((struct Obj05501 *)p)->fF8),3,0,0x1C0,heap);
+    func_021FE8E8(owner,h,func_021FC344(((struct Obj05501 *)p)->fF8),0,0,0,heap);
+    func_021FE8E8(owner,h,func_021FC344(((struct Obj05501 *)p)->fF8),1,0,0,heap);
+    func_021FE8E8(owner,h,func_021FC36C(((struct Obj05501 *)p)->fF8),0,0xE0,0x20,heap);
+    func_021FE8E8(owner,h,func_021FC36C(((struct Obj05501 *)p)->fF8),1,0xE0,0x20,heap);
     func_02049238(h);
 }

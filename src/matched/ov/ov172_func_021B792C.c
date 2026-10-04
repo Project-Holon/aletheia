@@ -18,13 +18,14 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj24071.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
 int func_021B792C(void *p, u16 *value, u16 *limit)
 {
-    unsigned char step = (*(u32 *)((char *)p + 0x20) == 1) ? 4 : 8;
+    unsigned char step = (((struct Obj24071 *)p)->f20 == 1) ? 4 : 8;
     u16 lim = *limit;
     u16 v = *value;
 

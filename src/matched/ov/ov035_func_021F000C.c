@@ -29,6 +29,7 @@
  *   d_021F05E8    0x021F05E8 data ov035 a4
  *   d_021F0608    0x021F0608 data ov035 a4
  */
+#include "../include/Obj13078.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -77,10 +78,10 @@ void func_021F000C(char *p, u32 heap)
     func_020409B4(4);
     func_02040588(4, 1);
     h = func_020490F4(0x1E, heap);
-    i = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(*(void **)(p + 4))));
+    i = func_02008550((const struct Sub0200852CObj *)func_02012944(func_020120F4(((struct Obj13078 *)p)->f4)));
     func_02049B68(h, d_021F05BC[i], 4, 0, 1, heap);
     r = func_02049740(h, d_021F05B0[i], 6, 0, 0, heap);
-    *(u32 *)(p + 0x10) = r;
+    ((struct Obj13078 *)p)->f10 = r;
     func_02049990(h, 3, 6, 0, (u16)r, 0, 0, heap);
     func_02049238(h);
 }

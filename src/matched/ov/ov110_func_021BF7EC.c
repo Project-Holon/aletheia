@@ -9,9 +9,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13799.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 void func_021BF7EC(const u8 *p,u16 *a,u16 *b) {
-    *a=*(const u16 *)(p+0x54);
-    *b=*(const u16 *)(p+0x56);
+    *a=*(const u16 *)&((struct Obj13799 *)p)->f54;
+    *b=*(const u16 *)&((struct Obj13799 *)p)->f56;
 }

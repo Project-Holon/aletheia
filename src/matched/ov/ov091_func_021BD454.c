@@ -14,10 +14,11 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj06214.h"
 struct Descriptor;
 struct Obj;
 extern void func_020452E8(struct Descriptor *);
 extern void func_0204B3B4(struct Obj *);
 extern void func_0204A8D4(unsigned int);
 extern void func_020307B0(void *);
-void func_021BD454(char *unused,char *p) { func_020452E8(*(struct Descriptor **)(p+4)); func_020452E8(*(struct Descriptor **)(p+8)); func_0204B3B4(*(struct Obj **)(p+20)); func_0204B3B4(*(struct Obj **)(p+16)); func_0204A8D4(*(unsigned int *)(p+12)); func_020307B0(p); }
+void func_021BD454(char *unused,char *p) { func_020452E8(*(struct Descriptor * *)&((struct Obj06214 *)p)->f4); func_020452E8(*(struct Descriptor * *)&((struct Obj06214 *)p)->f8); func_0204B3B4(*(struct Obj * *)&((struct Obj06214 *)p)->f14); func_0204B3B4(*(struct Obj * *)&((struct Obj06214 *)p)->f10); func_0204A8D4(((struct Obj06214 *)p)->fC); func_020307B0(p); }

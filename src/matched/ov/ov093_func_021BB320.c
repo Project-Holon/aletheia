@@ -13,6 +13,7 @@
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
  */
+#include "../include/Obj21033.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,7 +27,7 @@ int func_021BB320(u8 *p, int *s)
     switch (*s) {
     case 0: {
         int r = 0;
-        if (func_021B9114(*(u8 ***)(p + 0xc)) == 0) {
+        if (func_021B9114(*(u8 ** *)&((struct Obj21033 *)p)->fC) == 0) {
             if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) r = 1;
         } else {
             r = 1;

@@ -13,6 +13,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
+#include "../include/Obj21283.h"
 
 extern int func_021D775C(int);
 typedef unsigned int   u32;
@@ -23,7 +24,7 @@ void func_021D928C(int a, int b, int c, int d)
     if (b == func_021D775C(2) && b != func_021D775C(3)) {
         if (d == 8 || d == func_021D775C(0x1f)) {
             if (func_021D775C(0x20) < 0)
-                *(int *)c = func_021D76BC(0x41, 1);
+                ((struct Obj21283 *)c)->f0 = func_021D76BC(0x41, 1);
         }
     }
 }

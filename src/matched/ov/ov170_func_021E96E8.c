@@ -36,6 +36,8 @@
  *   func_02007F1C 0x02007F1C thumb
  *   func_021ED55C 0x021ED55C thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23949.h"
 struct WinMgr;
 extern void func_021EF670(char *);
 extern void func_021EA75C(int p);
@@ -78,7 +80,7 @@ int func_021E96E8(unsigned char *p)
         func_021EA75C((int)p); func_021ED888(WORK,0);
         func_021ED164(WORK,p[0x16],1); func_021EE364(p,8,0xa); next=0x46; break;
     }
-    func_021EA878(p,*(short *)(p+0x10));
+    func_021EA878(p,*(short *)&((struct Obj00000 *)p)->f10);
     if(ITEM==0) {
         func_021DEFEC(p,p[0x16]); func_021EF4E4(*(struct WinMgr **)(WORK+0x74));
         func_021EBCB4(p,0,0x18);
@@ -93,7 +95,7 @@ int func_021E96E8(unsigned char *p)
             func_021DD8A8(p,p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
-        func_02007F1C(*(void **)(*(char **)p+0xc),ITEM,1,0x804c);
+        func_02007F1C(((struct Obj23949 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,ITEM,1,0x804c);
         *(unsigned short *)(WORK+0xa16c)=ITEM;
         func_021ED094(WORK,*(unsigned short *)(WORK+0xa16c));
         func_021EC000(WORK,0xa,1); func_021ED1C8(WORK); func_021ED2F4(WORK);

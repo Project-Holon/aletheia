@@ -41,6 +41,7 @@
  *   python3 tools/match.py one --src src/matched/func_0206EC50.c \
  *       --func func_0206EC50 --addr 0x0206EC50 --cc ../2.0/sp2 --arm
  */
+#include "../include/Obj16624.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -58,7 +59,7 @@ static inline u8 *entry_of(Bank *b, u32 idx)
     u8 *t;
     if (b != 0 && idx < b->cnt01) {
         t = (u8 *)b + b->off06;
-        return t + 4 + (*(u16 *)t) * idx;
+        return t + 4 + (((struct Obj16624 *)t)->f0) * idx;
     }
     return 0;
 }

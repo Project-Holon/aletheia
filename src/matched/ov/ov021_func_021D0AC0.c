@@ -14,6 +14,7 @@
  *   func_021D0B58  0x021D0B58  thumb  ov021
  *   func_021D0BCC  0x021D0BCC  thumb  ov021
  */
+#include "../include/Obj20292.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_021D0BCC(u8 *p);
 
 void func_021D0AC0(void *a, u8 *p, u32 c)
 {
-    if (*(u32 *)(p + 0x130) != 0) {
+    if (((struct Obj20292 *)p)->f130 != 0) {
         func_021D0B58((int)a, (struct Big *)p, c);
     } else {
         func_021D0AE4(p, c);

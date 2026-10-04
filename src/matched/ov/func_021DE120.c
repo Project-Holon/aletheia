@@ -15,12 +15,13 @@
  * Program the two 4-short descriptor pairs (0x24, arg2, arg1, 1)
  *   of the p+0x2c+0x60 block and publish each.
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021DDEFC(char *, unsigned short *);
 void func_021DE120(char *p, int a, int b)
 {
-    unsigned short *q = *(unsigned short **)(*(int *)(p + 0x2c) + 0x60);
+    unsigned short *q = *(unsigned short **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x60);
     q[0] = 0x24;
     q[1] = b;
     q[2] = a;

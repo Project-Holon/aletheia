@@ -23,6 +23,7 @@
  *   d_021E7D70 0x021E7D70 data a4
  *   d_021E7DA0 0x021E7DA0 data a4
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -48,7 +49,7 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
     Create c;
     void *q = func_020185F0(mon);
-    void *h = func_020490F4(7,*(u16 *)(p+0x5f4));
+    void *h = func_020490F4(7,((struct Obj00001 *)p)->f5F4);
     int n;
     func_021E62D4(p,i,j);
     if (selected) {
@@ -57,8 +58,8 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
         c.x=d_021E7DA0[i*3+j][0]; c.y=d_021E7DA0[i*3+j][1]; n=1;
     }
     c.z=1; c.a=16; c.b=1;
-    *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,*(u16 *)(p+0x5f4));
-    *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x1020+i*12+j*4),*(int *)(p+0x890),*(int *)(p+0x8c0),&c,n,*(u16 *)(p+0x5f4));
+    *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((void *)((u32)h),func_0201BA68(q),0,n,((struct Obj00001 *)p)->f5F4);
+    *(int *)(p+0x1008+i*12+j*4) = (int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4,*(int *)(p+0x1020+i*12+j*4),*(int *)&((struct Obj00001 *)p)->f890,*(int *)&((struct Obj00001 *)p)->f8C0,&c,n,((struct Obj00001 *)p)->f5F4);
     func_0204B6F4((struct Obj *)(*(int *)(p+0x1008+i*12+j*4)),func_0201BBE8(q),1);
     func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC((struct Obj *)*(int *)(p+0x1008+i*12+j*4),visible);

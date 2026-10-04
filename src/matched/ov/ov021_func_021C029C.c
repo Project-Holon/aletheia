@@ -18,6 +18,7 @@
  *   func_021C71D4  0x021C71D4  thumb  ov021
  *   func_021C6DE0  0x021C6DE0  thumb  ov021
  */
+#include "../include/Obj20154.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -39,7 +40,7 @@ void func_021C029C(u8 *p)
     u32 c;
     u32 d;
 
-    s = *(u32 *)(p + 4);
+    s = ((struct Obj20154 *)p)->f4;
     a = func_02188D38((u8 *)s);
     b = func_021C7D28(s, (int)func_021A3074(func_02188CB4((void *)s)), 0x28, 6);
     c = (u32)func_021C7260(s, 0x14, 4);

@@ -22,6 +22,9 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021DCBC4 0x021DCBC4 thumb ov137
  */
+#include "../include/Obj02867.h"
+#include "../include/Obj23717.h"
+#include "../include/Obj23718.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -43,13 +46,13 @@ int func_021DD9D4(char *p,int state) {
     unsigned result;
     u8 msg[4];
     if (func_02039338()!=0) {
-        if (*(unsigned *)(*(char **)(p+0x10)+0x28)!=0) {
+        if (((struct Obj23717 *)(*(char * *)&((struct Obj02867 *)p)->f10))->f28!=0) {
             if (func_021DE7F4()&0xc3) func_020061E4(0x548);
             func_021DD924(p);
             return state;
         }
     } else {
-        if (*(unsigned *)(*(char **)(p+0x10)+0x30)!=0) {
+        if (((struct Obj23718 *)(*(char * *)&((struct Obj02867 *)p)->f10))->f30!=0) {
             if (func_021DE7F4()&0xc3) func_020061E4(0x548);
             func_021DD924(p);
             return state;
@@ -60,11 +63,11 @@ int func_021DD9D4(char *p,int state) {
         func_021DD924(p);
         return state;
     }
-    result=func_0201FEBC(*(void **)(p+0xe8));
+    result=func_0201FEBC(((struct Obj02867 *)p)->fE8);
     if (result!=-1) {
         if (result==-2) {
             if (func_02039338()==0) func_02184134(func_021DCF50(p));
-            *(int *)(p+0x118)=0;
+            ((struct Obj02867 *)p)->f118=0;
         } else {
             if (func_02039338()==0) {
                 func_021DD93C(p,11);
@@ -73,14 +76,14 @@ int func_021DD9D4(char *p,int state) {
                 func_02082BCC(msg,0,4);
                 msg[2]=0;
                 msg[0]=func_02039338();
-                if (func_021DCBC4(*(void **)(p+0x10),0x2801,msg,4)) {
-                    *(u8 *)(p+0x4810)=1;
-                    *(u16 *)(p+0x4820)=0;
-                    *(int *)(p+0x118)=6;
-                } else *(int *)(p+0x118)=0;
+                if (func_021DCBC4(((struct Obj02867 *)p)->f10,0x2801,msg,4)) {
+                    ((struct Obj02867 *)p)->f4810=1;
+                    ((struct Obj02867 *)p)->f4820=0;
+                    ((struct Obj02867 *)p)->f118=6;
+                } else ((struct Obj02867 *)p)->f118=0;
             }
         }
-        *(void **)(p+0xe8)=0;
+        ((struct Obj02867 *)p)->fE8=0;
     }
     func_021DD924(p);
     return state;

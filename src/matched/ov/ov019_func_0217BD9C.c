@@ -22,6 +22,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021807E8     0x021807E8  data  a4
  */
+#include "../include/Obj04183.h"
 
 typedef unsigned char u8;
 
@@ -49,8 +50,8 @@ int func_0217BD9C(u8 *a, int b, int c, u8 *d)
         a[0x282E] = 0;
         func_020061E4(0x54B);
         p = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
-        *p = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)a + 8)));
-        *(int **)(a + 0x3558) = p;
+        *p = (int)func_02012EBC((struct Big *)(*(int *)(((struct Obj04183 *)a)->f0 + 8)));
+        *(int * *)&((struct Obj04183 *)a)->f3558 = p;
         func_0217422C(a, 0x1d, (int)p);
         (*d)++;
         break;
@@ -59,7 +60,7 @@ int func_0217BD9C(u8 *a, int b, int c, u8 *d)
             (*d)++;
         break;
     case 2:
-        q = *(int **)(a + 0x3558);
+        q = *(int * *)&((struct Obj04183 *)a)->f3558;
         x = q[2];
         y = q[1];
         if (y == 0)

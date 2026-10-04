@@ -13,6 +13,7 @@
  *   d_021C2ED2  0x021C2ED2  data  a4
  *   d_021C2ED0  0x021C2ED0  data  a4
  */
+#include "../include/Obj25835.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ void func_021BA9FC(char *self)
 {
     int i = 0;
     do {
-        *(u32 *)(self + i * 4 + 0x74) = (u32)func_0204B100(d_021C2ED2[i], d_021C2ED0[i], *(u16 *)(self + 4));
+        *(u32 *)(self + i * 4 + 0x74) = (u32)func_0204B100(d_021C2ED2[i], d_021C2ED0[i], ((struct Obj25835 *)self)->f4);
         i++;
     } while (i < 2);
 }

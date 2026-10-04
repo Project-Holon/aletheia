@@ -14,6 +14,7 @@
  *
  * True when the object 0x570 bytes in is not of class 5.
  */
+#include "../include/Obj18150.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern int func_021C49A4(u8 *p, unsigned int i);
 
 BOOL func_021B9BA8(char *p)
 {
-    if (func_021C49A4(*(void **)*(void **)(p + 0x570), 5) == 0) {
+    if (func_021C49A4(*(void **)((struct Obj18150 *)p)->f570, 5) == 0) {
         return 1;
     }
 

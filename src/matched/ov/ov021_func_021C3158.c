@@ -15,6 +15,7 @@
  * symbols:
  *   d_021DA720     0x021DA720  data  ov021
  */
+#include "../include/Obj00576.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,10 +31,10 @@ extern void func_020061E4(u32 a);
 
 void func_021C3158(u8 *p)
 {
-    Ent *t = d_021DA720[*(u16 *)(p + 0x66)];
+    Ent *t = d_021DA720[((struct Obj00576 *)p)->f66];
 
-    if (t[*(u16 *)(p + 0x136)].se != -1 && *(u16 *)(p + 0x134) == t[*(u16 *)(p + 0x136)].frame) {
-        func_020061E4(t[*(u16 *)(p + 0x136)].se);
-        (*(u16 *)(p + 0x136))++;
+    if (t[((struct Obj00576 *)p)->f136].se != -1 && ((struct Obj00576 *)p)->f134 == t[((struct Obj00576 *)p)->f136].frame) {
+        func_020061E4(t[((struct Obj00576 *)p)->f136].se);
+        (((struct Obj00576 *)p)->f136)++;
     }
 }

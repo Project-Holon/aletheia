@@ -20,6 +20,16 @@
  *   func_021C92EC 0x021C92EC thumb ov212
  *   func_021C9380 0x021C9380 thumb ov212
  */
+#include "../include/Obj00635.h"
+#include "../include/Obj25642.h"
+#include "../include/Obj25643.h"
+#include "../include/Obj25644.h"
+#include "../include/Obj25645.h"
+#include "../include/Obj25646.h"
+#include "../include/Obj25647.h"
+#include "../include/Obj25648.h"
+#include "../include/Obj25649.h"
+#include "../include/Obj25650.h"
 typedef unsigned short u16;
 struct Obj0203159C;struct Blk37;
 extern void func_0203064C(unsigned,unsigned,unsigned);
@@ -35,18 +45,18 @@ int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
     func_0203064C(1,105,0x8000);
     p=func_0203159C(obj,44,105);
     func_02082BCC(p,0,44);
-    *(void **)p=ctx;
-    *(void **)(p+4)=func_02031324(105);
-    *(u16 *)(p+16)=func_021C9288(*(struct Blk37 **)(*(char **)p+4),(u16 **)(p+12),105);
-    *(u16 *)(p+18)=0;
-    func_021C92EC(*(struct Blk37 **)(*(char **)p+4),*(u16 **)(p+12),*(u16 *)(p+16));
-    func_021C9380(*(struct Blk37 **)(*(char **)p+4),(unsigned char *)(p+20));
-    if(*(u16 *)(*(char **)p+12)==0){*(unsigned *)(p+28)=1;}
-    else if(*(u16 *)(*(char **)p+12)==1){*(unsigned *)(p+28)=3;}
-    else if(*(u16 *)(*(char **)p+12)==2){*(unsigned *)(p+28)=5;*(unsigned *)(p+36)=1;}
-    else if(*(u16 *)(*(char **)p+12)==3){*(unsigned *)(p+28)=5;*(unsigned *)(p+36)=2;}
-    else if(*(u16 *)(*(char **)p+12)==4){*(unsigned *)(p+28)=5;*(unsigned *)(p+36)=3;}
-    else if(*(u16 *)(*(char **)p+12)==5){*(unsigned *)(p+28)=5;*(unsigned *)(p+36)=4;}
-    else {*(unsigned *)(p+28)=7;}
+    ((struct Obj00635 *)p)->f0=ctx;
+    ((struct Obj00635 *)p)->f4=func_02031324(105);
+    ((struct Obj00635 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25642 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(u16 **)(p+12),105);
+    ((struct Obj00635 *)p)->f12=0;
+    func_021C92EC(*(struct Blk37 * *)&((struct Obj25643 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,*(u16 * *)&((struct Obj00635 *)p)->fC,((struct Obj00635 *)p)->f10);
+    func_021C9380(*(struct Blk37 * *)&((struct Obj25644 *)(*(char * *)&((struct Obj00635 *)p)->f0))->f4,(unsigned char *)(p+20));
+    if(((struct Obj25645 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==0){((struct Obj00635 *)p)->f1C=1;}
+    else if(((struct Obj25646 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==1){((struct Obj00635 *)p)->f1C=3;}
+    else if(((struct Obj25647 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==2){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=1;}
+    else if(((struct Obj25648 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==3){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=2;}
+    else if(((struct Obj25649 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==4){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=3;}
+    else if(((struct Obj25650 *)(*(char * *)&((struct Obj00635 *)p)->f0))->fC==5){((struct Obj00635 *)p)->f1C=5;((struct Obj00635 *)p)->f24=4;}
+    else {((struct Obj00635 *)p)->f1C=7;}
     return 1;
 }

@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23266.h"
 
 extern void func_021F9690(char *p);
 
 int func_021FC5D8(int a, char **pp)
 {
-    func_021F9690(*(void **)(*pp + 0x34));
+    func_021F9690(((struct Obj23266 *)(*pp))->f34);
     return 0;
 }

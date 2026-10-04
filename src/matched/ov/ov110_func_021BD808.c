@@ -11,17 +11,18 @@
  *   func_02035C38 0x02035C38 arm
  *   func_0203630C 0x0203630C arm
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 extern int func_02035C38(void);
 extern unsigned int func_0203630C(void);
 int func_021BD808(u8 *p,void *q) {
  void (*cb)(u8 *,void *);
- if(*(int *)(p+0x70)==1) {
+ if(((struct Obj00012 *)p)->f70==1) {
   if(func_02035C38()) return 0;
-  if(func_0203630C()) { cb=*(void (**)(u8 *,void *))(p+0x74); *(int *)(p+0x70)=0; if(cb) cb(p,q); return 1; }
+  if(func_0203630C()) { cb=*(void (**)(u8 *,void *))(p+0x74); ((struct Obj00012 *)p)->f70=0; if(cb) cb(p,q); return 1; }
  } else {
   if(func_0203630C()) return 0;
-  if(func_02035C38()) { cb=*(void (**)(u8 *,void *))(p+0x74); *(int *)(p+0x70)=1; if(cb) cb(p,q); return 1; }
+  if(func_02035C38()) { cb=*(void (**)(u8 *,void *))(p+0x74); ((struct Obj00012 *)p)->f70=1; if(cb) cb(p,q); return 1; }
  }
  return 0;
 }

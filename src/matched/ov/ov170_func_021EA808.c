@@ -13,6 +13,8 @@
  *   func_02030734 0x02030734 arm
  *   d_021F140C 0x021F140C data a1
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23958.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -24,5 +26,5 @@ void func_021EA808(char *p)
     unsigned short *q = func_02030734(0x804C, 4, 0, d_021F140C, 0x2305);
     q[0] = 0;
     q[1] = 0;
-    *(unsigned short **)(*(char **)(p + 0x2C) + 0xA190) = q;
+    *(unsigned short * *)&((struct Obj23958 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190 = q;
 }

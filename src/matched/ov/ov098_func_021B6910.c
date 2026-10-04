@@ -19,6 +19,9 @@
  *   func_021B6148  0x021B6148  thumb  ov098
  *   func_0201F02C  0x0201F02C  thumb
  */
+#include "../include/Obj07932.h"
+#include "../include/Obj07933.h"
+#include "../include/Obj07934.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,10 +46,10 @@ extern void func_02045808(struct U16Vec *vec);
 void func_021B6910(int a, int b) {
     int r;
     int t;
-    r = (int)func_02045EC0((struct MsgBank *)(*(int *)(a + 0x20)), 0);
+    r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07932 *)a)->f20), 0);
     t = func_021B6140((void *)b);
-    func_0201EEF4(*(void **)(a + 0x30), 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)(a + 0x30)), (void *)(*(int *)(a + 0x2c)), (void *)r);
+    func_0201EEF4(((struct Obj07932 *)a)->f30, 0, (void *)t);
+    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07932 *)a)->f30), (void *)(((struct Obj07932 *)a)->f2C), (void *)r);
     func_021B6B8C(a, 0x50);
     func_02045808((struct U16Vec *)r);
 }
@@ -54,10 +57,10 @@ void func_021B6910(int a, int b) {
 void func_021B6988(int a, int b) {
     int r;
     int t;
-    r = (int)func_02045EC0((struct MsgBank *)(*(int *)(a + 0x20)), 3);
+    r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07933 *)a)->f20), 3);
     t = func_021B6148((u8 *)b);
-    func_0201F02C((struct WordSet *)(*(int *)(a + 0x30)), 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)(a + 0x30)), (void *)(*(int *)(a + 0x2c)), (void *)r);
+    func_0201F02C((struct WordSet *)(((struct Obj07933 *)a)->f30), 0, (void *)t);
+    func_0201F250((struct WordSet *)(((struct Obj07933 *)a)->f30), (void *)(((struct Obj07933 *)a)->f2C), (void *)r);
     func_021B6B8C(a, 0);
     func_02045808((struct U16Vec *)r);
 }
@@ -65,10 +68,10 @@ void func_021B6988(int a, int b) {
 void func_021B69C4(int a, int b) {
     int r;
     int t;
-    r = (int)func_02045EC0((struct MsgBank *)(*(int *)(a + 0x20)), 1);
+    r = (int)func_02045EC0((struct MsgBank *)(((struct Obj07934 *)a)->f20), 1);
     t = func_021B6140((void *)b);
-    func_0201EEF4(*(void **)(a + 0x30), 0, (void *)t);
-    func_0201F250((struct WordSet *)(*(int *)(a + 0x30)), (void *)(*(int *)(a + 0x2c)), (void *)r);
+    func_0201EEF4(((struct Obj07934 *)a)->f30, 0, (void *)t);
+    func_0201F250((struct WordSet *)(*(int *)&((struct Obj07934 *)a)->f30), (void *)(((struct Obj07934 *)a)->f2C), (void *)r);
     func_021B6B8C(a, 0x50);
     func_02045808((struct U16Vec *)r);
 }

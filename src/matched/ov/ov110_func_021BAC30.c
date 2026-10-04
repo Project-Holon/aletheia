@@ -11,9 +11,10 @@
  * symbols:
  *   func_021BCF18 0x021BCF18 thumb ov110
  */
+#include "../include/Obj22339.h"
 typedef unsigned char u8;
 extern void func_021BCF18(void *,int);
 void func_021BAC30(u8 *p,int mode)
 {
-    func_021BCF18(*(void **)(p+0x64),mode);
+    func_021BCF18(((struct Obj22339 *)p)->f64,mode);
 }

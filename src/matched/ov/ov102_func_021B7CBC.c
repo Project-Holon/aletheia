@@ -12,18 +12,21 @@
  *
  * three int getters at +0, +8, +4.
  */
+#include "../include/Obj22144.h"
+#include "../include/Obj22145.h"
+#include "../include/Obj22146.h"
 
 int func_021B7CBC(void *p)
 {
-    return *(int *)p;
+    return ((struct Obj22144 *)p)->f0;
 }
 
 int func_021B7CC0(void *p)
 {
-    return *(int *)((char *)p + 0x8);
+    return ((struct Obj22145 *)p)->f8;
 }
 
 int func_021B7CC4(void *p)
 {
-    return *(int *)((char *)p + 0x4);
+    return ((struct Obj22146 *)p)->f4;
 }

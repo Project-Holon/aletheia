@@ -17,6 +17,7 @@
  *   func_021BEE80 0x021BEE80 thumb ov210
  *   func_021BED1C 0x021BED1C thumb ov210
  */
+#include "../include/Obj25589.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_02041300(u32, int, int, int, u8, u8, u8);
@@ -33,7 +34,7 @@ void func_021BCCA8(char *p)
     func_02041B6C(1);
     func_021BEDB8((int)p, 2, 1);
     func_021BEDB8((int)p, 3, 0);
-    if (func_02012BF8(**(int **)p, 16) == 1)
+    if (func_02012BF8(**(int * *)&((struct Obj25589 *)p)->f0, 16) == 1)
         func_021BEDB8((int)p, 4, 7);
     else
         func_021BEDB8((int)p, 4, 6);

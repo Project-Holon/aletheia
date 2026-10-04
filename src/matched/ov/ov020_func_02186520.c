@@ -11,5 +11,6 @@
  * symbols:
  *   func_02186AC8 0x02186AC8 thumb ov020
  */
+#include "../include/Obj19457.h"
 extern void func_02186AC8(char *, int, char *, int);
-void func_02186520(char *p, int b, char *c) { if (*(unsigned short *)(p + 2) == 0) func_02186AC8(p,b,c,1); else func_02186AC8(p,b,c,0); }
+void func_02186520(char *p, int b, char *c) { if (((struct Obj19457 *)p)->f2 == 0) func_02186AC8(p,b,c,1); else func_02186AC8(p,b,c,0); }

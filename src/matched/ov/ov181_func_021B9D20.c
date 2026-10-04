@@ -13,6 +13,7 @@
  *   func_021B9C30  0x021B9C30  thumb  ov181
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj24504.h"
 
 extern void func_021B9C30(char *);
 extern void func_020307B0(void *p);
@@ -20,5 +21,5 @@ extern void func_020307B0(void *p);
 void func_021B9D20(char *p)
 {
     func_021B9C30(p);
-    func_020307B0((void *)(*(int *)(p + 0x2d4)));
+    func_020307B0((void *)(((struct Obj24504 *)p)->f2D4));
 }

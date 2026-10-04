@@ -16,6 +16,7 @@
  *   func_02051B84 0x02051B84 arm
  *   d_021D8AF0 0x021D8AF0 data a4
  */
+#include "../include/Obj02175.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,14 +34,14 @@ extern void *func_02051B84(u8 *a0, int a1, int a2, int a3);
 extern const int d_021D8AF0[];
 void func_021D8590(u8 *p, int a, int b)
 {
-    void *q = func_020457B0(100, *(u16 *)(p + 0xc8));
-    *(void **)(p + 0xa8) = q;
-    func_02045CAC(*(void **)(p + 12), 15, q);
-    *(u16 *)(p + 0xac) = 0x39e3;
-    *(int *)(p + 0xb0) = 0;
-    *(void **)(p + 0xc4) = func_0202800C((u32)(*(void **)(p + 0xc0)), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, *(u16 *)(p + 0xc8));
-    if (!func_020355C4()) func_02028218(*(void **)(p + 0xc4), 1);
-    func_02045808(*(void **)(p + 0xa8));
+    void *q = func_020457B0(100, ((struct Obj02175 *)p)->fC8);
+    ((struct Obj02175 *)p)->fA8 = q;
+    func_02045CAC(((struct Obj02175 *)p)->fC, 15, q);
+    ((struct Obj02175 *)p)->fAC = 0x39e3;
+    ((struct Obj02175 *)p)->fB0 = 0;
+    ((struct Obj02175 *)p)->fC4 = func_0202800C((u32)(((struct Obj02175 *)p)->fC0), (u32)(p + 0xa8), 10, 21, 12, 3, 0, 1, ((struct Obj02175 *)p)->fC8);
+    if (!func_020355C4()) func_02028218(((struct Obj02175 *)p)->fC4, 1);
+    func_02045808(((struct Obj02175 *)p)->fA8);
     func_021D7710(p);
-    *(void **)(p + 8) = func_02051B84((u8 *)d_021D8AF0, a, b, *(u16 *)(p + 0xc8));
+    ((struct Obj02175 *)p)->f8 = func_02051B84((u8 *)d_021D8AF0, a, b, ((struct Obj02175 *)p)->fC8);
 }

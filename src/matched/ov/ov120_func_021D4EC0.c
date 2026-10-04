@@ -23,6 +23,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4D28 0x021D4D28 thumb ov120
  */
+#include "../include/Obj01253.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021D6988(u8 *p);
@@ -44,20 +45,20 @@ extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D4D28(u8 *p);
 void func_021D4EC0(u8 *p)
 {
-    *(int *)(p + 0x138) = 0;
-    func_021B64D0((u8 *)func_021D6988(*(void **)(p + 0x3c)), 1);
-    func_021D7D3C(*(void **)(p + 0x40));
-    func_021D6814(*(void **)(p + 0x3c));
+    ((struct Obj01253 *)p)->f138 = 0;
+    func_021B64D0((u8 *)func_021D6988(((struct Obj01253 *)p)->f3C), 1);
+    func_021D7D3C(((struct Obj01253 *)p)->f40);
+    func_021D6814(((struct Obj01253 *)p)->f3C);
     *(void (**)(int))(p + 4) = (void (*)(int))func_021D444C;
-    func_021D7DC8(*(void **)(p + 0x40), (int)func_021D4C98, (int)p, *(int *)(p + 0x144), *(int *)(p + 0x13c), *(int *)(p + 0x140));
-    func_021D79F4(*(void **)(p + 0x40), 20);
-    *(void **)(p + 0x34) = func_021D7ECC(*(void **)(p + 0x40), 18);
+    func_021D7DC8(((struct Obj01253 *)p)->f40, (int)func_021D4C98, (int)p, ((struct Obj01253 *)p)->f144, ((struct Obj01253 *)p)->f13C, ((struct Obj01253 *)p)->f140);
+    func_021D79F4(((struct Obj01253 *)p)->f40, 20);
+    ((struct Obj01253 *)p)->f34 = func_021D7ECC(((struct Obj01253 *)p)->f40, 18);
     if (func_020355C4() == 0) {
-        func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x160));
-        if (*(int *)(p + 0x160) == 5)
-            func_02028218(*(void **)(p + 0x34), 1);
+        func_021D69F4(((struct Obj01253 *)p)->f3C, 0, ((struct Obj01253 *)p)->f160);
+        if (((struct Obj01253 *)p)->f160 == 5)
+            func_02028218(((struct Obj01253 *)p)->f34, 1);
     } else {
-        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+        func_021D69F4(((struct Obj01253 *)p)->f3C, 0, 9);
     }
     func_02041B6C(6);
     func_021D4244((int)p, (void (*)(int))func_021D4D28, 0x537);

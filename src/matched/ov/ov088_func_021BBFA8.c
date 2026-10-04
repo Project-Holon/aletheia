@@ -19,6 +19,7 @@
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0201CE48  0x0201CE48  thumb
  */
+#include "../include/Obj01887.h"
 
 typedef unsigned int u32;
 
@@ -37,28 +38,28 @@ extern void func_0201CE48(struct Rec3 *p);
 
 int func_021BBFA8(char *p)
 {
-    if (*(void **)(p + 0x6c) == 0)
+    if (((struct Obj01887 *)p)->f6C == 0)
         return 0;
-    func_020286C4(*(void **)(p + 0x74), *(void **)(p + 0x6c), *(void **)(p + 0xe8));
-    switch (func_0201CE30(*(void **)(p + 0x6c))) {
+    func_020286C4(((struct Obj01887 *)p)->f74, ((struct Obj01887 *)p)->f6C, ((struct Obj01887 *)p)->fE8);
+    switch (func_0201CE30(((struct Obj01887 *)p)->f6C)) {
     case 0:
         if (func_0203630C() & 3)
-            func_0201CE5C(*(void **)(p + 0x6c), 0);
-        *(int *)(p + 0x78) = 0;
+            func_0201CE5C(((struct Obj01887 *)p)->f6C, 0);
+        ((struct Obj01887 *)p)->f78 = 0;
         break;
     case 1:
-        if (*(int *)(p + 0x78) == 0) {
+        if (((struct Obj01887 *)p)->f78 == 0) {
             if (func_020362DC() & 3) {
                 func_020061E4(0x547);
-                func_0201CE38(*(void **)(p + 0x6c));
-                *(int *)(p + 0x78) = 1;
+                func_0201CE38(((struct Obj01887 *)p)->f6C);
+                ((struct Obj01887 *)p)->f78 = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(*(void **)(p + 0x6c));
-        *(int *)(p + 0x6c) = 0;
-        *(int *)(p + 0x78) = 0;
+        func_0201CE48(((struct Obj01887 *)p)->f6C);
+        *(int *)&((struct Obj01887 *)p)->f6C = 0;
+        ((struct Obj01887 *)p)->f78 = 0;
         return 0;
     }
     return 1;

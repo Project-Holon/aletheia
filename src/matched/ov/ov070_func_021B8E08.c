@@ -18,6 +18,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B7CD0  0x021B7CD0  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 extern void func_021B7DD0();
 struct Obj;
@@ -33,7 +34,7 @@ void func_021B8E08(int p)
 {
     int f;
     func_021B7DD0(p);
-    func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 1);
+    func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     func_021BB3F4(p, 1);
     f = 1;
     if (func_020355C4()) {

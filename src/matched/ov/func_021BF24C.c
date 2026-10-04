@@ -18,6 +18,7 @@
  * hands the selector to func_021BB2B0 when set, otherwise raises the word at
  * +0x8F4 and calls func_021C2090.
  */
+#include "../include/Obj06353.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,6 +42,6 @@ void func_021BF24C(u8 *p, int v)
         return;
     }
 
-    *(u32 *)(p + 0x8F4) = 1;
+    ((struct Obj06353 *)p)->f8F4 = 1;
     func_021C2090(p);
 }

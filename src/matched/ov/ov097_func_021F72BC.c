@@ -12,6 +12,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj21994.h"
 struct Obj;
 struct Bank;
 extern void func_0204B3B4(struct Obj *);
@@ -21,5 +22,5 @@ void func_021F72BC(char *p)
     unsigned i;
     for (i = 0; i < 24; i++)
         func_0204B3B4(*(struct Obj **)(p + i * 4 + 0x54));
-    func_0204B1CC(*(struct Bank **)(p + 0x50));
+    func_0204B1CC(*(struct Bank * *)&((struct Obj21994 *)p)->f50);
 }

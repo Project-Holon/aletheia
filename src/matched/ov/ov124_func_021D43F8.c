@@ -30,6 +30,7 @@
  *   d_021D4C24 0x021D4C24 data a4
  *   d_020A1448 0x020A1448 data a4
  */
+#include "../include/Obj00068.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -71,8 +72,8 @@ void func_021D43F8(char *p)
     func_02022224((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0(d_021D4CC4);
-    func_0203F8F4(*(u16 *)p);
-    func_02045088(*(u16 *)p);
+    func_0203F8F4(((struct Obj00068 *)p)->f0);
+    func_02045088(((struct Obj00068 *)p)->f0);
     func_0203FC28(d_021D4BF4);
     func_021D4534(d_021D4C44, 4, 0);
     func_021D4534(d_021D4C64, 5, 0);
@@ -81,8 +82,8 @@ void func_021D43F8(char *p)
     func_0207D63C(0x04001050, 4, 8, 15, 4);
     cfg = d_020A1448;
     cfg.h = 0x40;
-    func_0204A48C(&cfg, (u32)d_021D4CC4, *(u16 *)p);
-    *(void **)(p + 0x4c) = func_0204B100(0x30, 0, *(u16 *)p);
-    func_0204B270(*(void **)(p + 0x4c));
+    func_0204A48C(&cfg, (u32)d_021D4CC4, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f4C = func_0204B100(0x30, 0, ((struct Obj00068 *)p)->f0);
+    func_0204B270(((struct Obj00068 *)p)->f4C);
     func_02043598(0x10, 1);
 }

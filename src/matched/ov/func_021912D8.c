@@ -17,6 +17,7 @@
  *   func_02194950  0x02194950  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,10 +31,10 @@ extern u32 func_02194950(u32, u32);
 
 int func_021912D8(u32 a)
 {
-if (*(u32 *)((u8 *)(a) + 4) != 0) {
-    func_02045808((struct U16Vec *)(*(u32 *)((u8 *)(a) + 4)));
+if (((struct Obj00005 *)((u8 *)(a)))->f4 != 0) {
+    func_02045808((struct U16Vec *)(((struct Obj00005 *)((u8 *)(a)))->f4));
 }
 func_021927E8((u32 *)(a + 12));
-return func_02194950(*(u32 *)((u8 *)(a) + 8), *(u8 *)((u8 *)(a) + 1));
+return func_02194950(*(u32 *)&((struct Obj00005 *)((u8 *)(a)))->f8, *(u8 *)((u8 *)(a) + 1));
 }
 

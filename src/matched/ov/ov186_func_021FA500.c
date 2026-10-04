@@ -26,6 +26,7 @@
  *   func_021FA6A8 0x021FA6A8 thumb ov186
  *   d_02200D18 0x02200D18 data a1
  */
+#include "../include/Obj00684.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {unsigned words[17];} Record;
@@ -48,19 +49,19 @@ void func_021FA500(void *p,int *state,u8 *ctx)
  int section,index,value,i,y;
  int pos[2],other[2];
  Record record;
- if(*(unsigned *)(ctx+0x1c)<=1){
-  section=*(int *)(ctx+0x24);
-  func_021FAEE4(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,pos);
-  func_021FA020(ctx,(int)(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44),1);
-  index=*(int *)(ctx+0x2c);
-  value=func_021FAF24(*(char **)(ctx+0x40)+index*0x44,4);
-  func_021FA1DC(*(void **)(ctx+0x5c),value,index);
-  func_02082BCC(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,0,0x44);
+ if(((struct Obj00684 *)ctx)->f1C<=1){
+  section=((struct Obj00684 *)ctx)->f24;
+  func_021FAEE4(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,pos);
+  func_021FA020(ctx,(int)(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44),1);
+  index=((struct Obj00684 *)ctx)->f2C;
+  value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
+  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,value,index);
+  func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
   pos[1]=-32;
   func_021FA0FC(ctx,section,pos);
   func_021FD73C(p,(int)func_021FA7FC);
- }else if(*(unsigned *)(ctx+0x1c)==2){
-  func_021FA210(*(void **)(ctx+0x5c));
+ }else if(((struct Obj00684 *)ctx)->f1C==2){
+  func_021FA210(((struct Obj00684 *)ctx)->f5C);
   if(func_021FA0A8(ctx,&record)){
    section=func_021FAF24((char *)&record,4);
    if(!record.words[0])func_02034714(d_02200D18,0,d_02200D18);
@@ -69,19 +70,19 @@ void func_021FA500(void *p,int *state,u8 *ctx)
    func_021FA0FC(ctx,section,other);
    y=func_021FB7B0((void *)record.words[3],1);
    for(i=0;i<ctx[0x39];i++){
-    if(y==func_021FB7B0((void *)(*(int *)(*(char **)(ctx+0x40)+i*0x44+0xc)),1))
-     func_021FAFA0(*(char **)(ctx+0x40)+i*0x44,1);
+    if(y==func_021FB7B0((void *)(*(int *)(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44+0xc)),1))
+     func_021FAFA0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44,1);
    }
    func_021FACE0(&record);
    func_021FD73C(p,(int)func_021FA6A8);
   }
  }else{
-  func_021FA020(ctx,(int)(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44),1);
-  index=*(int *)(ctx+0x2c);
-  value=func_021FAF24(*(char **)(ctx+0x40)+index*0x44,4);
-  func_021FA1DC(*(void **)(ctx+0x5c),value,index);
-  func_02082BCC(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,0,0x44);
-  for(i=0;i<ctx[0x39];i++)func_021FACE0(*(char **)(ctx+0x40)+i*0x44);
+  func_021FA020(ctx,(int)(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44),1);
+  index=((struct Obj00684 *)ctx)->f2C;
+  value=func_021FAF24(*(char * *)&((struct Obj00684 *)ctx)->f40+index*0x44,4);
+  func_021FA1DC(((struct Obj00684 *)ctx)->f5C,value,index);
+  func_02082BCC(*(char * *)&((struct Obj00684 *)ctx)->f40+((struct Obj00684 *)ctx)->f2C*0x44,0,0x44);
+  for(i=0;i<ctx[0x39];i++)func_021FACE0(*(char * *)&((struct Obj00684 *)ctx)->f40+i*0x44);
   func_021FD73C(p,(int)func_021FA7FC);
  }
 }

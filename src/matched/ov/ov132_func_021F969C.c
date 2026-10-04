@@ -17,11 +17,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23187.h"
 
 typedef unsigned int u32;
 extern int func_020064B8(u32, u32, u32, u32);
 
 int func_021F969C(char *p, u32 a, u32 b, u32 d)
 {
-    return func_020064B8(a, b, *(u32 *)(p + 0x1e4), d);
+    return func_020064B8(a, b, ((struct Obj23187 *)p)->f1E4, d);
 }

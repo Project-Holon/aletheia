@@ -15,6 +15,7 @@
  *   func_0204B084 0x0204B084 arm
  *   func_0204A5AC 0x0204A5AC arm
  */
+#include "../include/Obj00725.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,8 +33,8 @@ void func_021C68C4(char *p)
     for(i=0;i<2;i++) func_0204A8D4(*(u32 *)(p+i*4+0x144));
     for(i=0;i<2;i++) func_0204ADA4(*(u32 *)(p+i*4+0x14c));
     for(i=0;i<2;i++) func_0204AFD8(*(u32 *)(p+i*4+0x154));
-    func_0204B1CC((struct Bank *)(*(u32 *)(p+0x13c)));
-    func_0204B084(*(u32 *)(p+0x140));
-    func_0204B1CC((struct Bank *)(*(u32 *)(p+0x138)));
+    func_0204B1CC((struct Bank *)(((struct Obj00725 *)p)->f13C));
+    func_0204B084(((struct Obj00725 *)p)->f140);
+    func_0204B1CC((struct Bank *)(((struct Obj00725 *)p)->f138));
     func_0204A5AC();
 }

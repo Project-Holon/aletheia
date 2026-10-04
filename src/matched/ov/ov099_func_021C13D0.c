@@ -14,6 +14,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  */
+#include "../include/Obj04417.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { u16 a, b; unsigned c; } Request;
@@ -27,16 +28,16 @@ extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021C13D0(char *p, int ret)
 {
     Request request;
-    func_021BDD48(p, *(void **)(p + 8));
-    request.a = func_021BDD54(p, *(void **)(p + 8));
-    if (*(u8 *)(p + 0x1356) != 0) {
-        request.b = *(u8 *)(p + 0x1356) - 1;
-        *(u8 *)(p + 0x1356) = 0;
+    func_021BDD48(p, ((struct Obj04417 *)p)->f8);
+    request.a = func_021BDD54(p, ((struct Obj04417 *)p)->f8);
+    if (((struct Obj04417 *)p)->f1356 != 0) {
+        request.b = ((struct Obj04417 *)p)->f1356 - 1;
+        ((struct Obj04417 *)p)->f1356 = 0;
     } else {
-        request.b = *((u8 *)*(void **)(p + 0x248) + 0x46);
+        request.b = *((u8 *)((struct Obj04417 *)p)->f248 + 0x46);
     }
     request.c = func_021BCBD8(p, 1);
     if (func_0203D3A8(func_020399A8(), 0xa03, 8, (u32)(&request)) != 0)
-        *(int *)(p + 0x1cc) = 43;
+        ((struct Obj04417 *)p)->f1CC = 43;
     return ret;
 }

@@ -9,10 +9,11 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj22703.h"
 int func_021D8ADC(char *p)
 {
     int r = 0;
-    int v = *(int *)(p + 0x118c);
+    int v = ((struct Obj22703 *)p)->f118C;
     if (v == 3 || v == 9)
         r = 1;
     return r;

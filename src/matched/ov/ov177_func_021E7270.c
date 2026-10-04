@@ -14,6 +14,7 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   d_021E8CBE 0x021E8CBE data a1
  */
+#include "../include/Obj00133.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
@@ -50,9 +51,9 @@ void func_021E7270(char *p)
     }
     for (i = 0; i < 6; i++)
         func_0204A8D4(*(unsigned *)(p + i * 4 + 0x1c4));
-    func_0204AFD8(*(unsigned *)(p + 0x1e0));
-    func_0204ADA4(*(unsigned *)(p + 0x1e4));
-    func_0204A8D4(*(unsigned *)(p + 0x1f8));
-    func_0204ADA4(*(unsigned *)(p + 0x1f4));
-    func_0204AFD8(*(unsigned *)(p + 0x1fc));
+    func_0204AFD8(*(unsigned *)&((struct Obj00133 *)p)->f1E0);
+    func_0204ADA4(*(unsigned *)&((struct Obj00133 *)p)->f1E4);
+    func_0204A8D4(*(unsigned *)&((struct Obj00133 *)p)->f1F8);
+    func_0204ADA4(*(unsigned *)&((struct Obj00133 *)p)->f1F4);
+    func_0204AFD8(*(unsigned *)&((struct Obj00133 *)p)->f1FC);
 }

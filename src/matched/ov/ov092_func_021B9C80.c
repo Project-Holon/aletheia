@@ -14,6 +14,7 @@
  *   func_020307B0 0x020307B0 arm
  * Prototype width: incoming heap value forwarded without truncation; widen legacy u16.
  */
+#include "../include/Obj13264.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
@@ -24,8 +25,8 @@ u32 func_021B9C80(u32 p, u32 heap)
     u32 result;
     u8 *record;
     data = func_02048F60(0x98, 0, heap);
-    record = (u8 *)data + *(u32 *)p * 0x24;
-    result = *(record + *(u32 *)(p + 4) + 0x13);
+    record = (u8 *)data + ((struct Obj13264 *)p)->f0 * 0x24;
+    result = *(record + ((struct Obj13264 *)p)->f4 + 0x13);
     func_020307B0(data);
     return result;
 }

@@ -15,6 +15,7 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_020457B0 0x020457B0 arm
  */
+#include "../include/Obj00123.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,9 +30,9 @@ extern u32 func_0201C440(void *);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_021BC824(char *p)
 {
-    *(void **)(p + 0x3C) = func_02045B38(0, 2, 0x114, 0x6B);
-    *(void **)(p + 0x38) = func_0201D7EC(0x17, 0, 0, 0, 0x6B);
-    *(void **)(p + 0x40) = func_0201EC64(0x6B);
-    *(u32 *)(p + 0x48) = func_0201C440((void *)0x6B);
-    *(void **)(p + 0x44) = func_020457B0(0x80, 0x6B);
+    ((struct Obj00123 *)p)->f3C = func_02045B38(0, 2, 0x114, 0x6B);
+    ((struct Obj00123 *)p)->f38 = func_0201D7EC(0x17, 0, 0, 0, 0x6B);
+    ((struct Obj00123 *)p)->f40 = func_0201EC64(0x6B);
+    ((struct Obj00123 *)p)->f48 = func_0201C440((void *)0x6B);
+    ((struct Obj00123 *)p)->f44 = func_020457B0(0x80, 0x6B);
 }

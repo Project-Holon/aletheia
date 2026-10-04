@@ -16,6 +16,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj05352.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -28,12 +29,12 @@ extern void func_02041B6C(u32 bit);
 extern void func_020452E8(struct Descriptor *d);
 void func_021D80D4(char *p)
 {
-    if (*(void **)(p+0x84)) {
-        func_02043B5C(func_02045770(*(void **)(p+0x84)),0);
-        func_02045334(*(void **)(p+0x84));
-        func_020456F8(*(void **)(p+0x84));
+    if (((struct Obj05352 *)p)->f84) {
+        func_02043B5C(func_02045770(((struct Obj05352 *)p)->f84),0);
+        func_02045334(((struct Obj05352 *)p)->f84);
+        func_020456F8(((struct Obj05352 *)p)->f84);
         func_02041B6C(1);
-        func_020452E8(*(void **)(p+0x84));
-        *(void **)(p+0x84)=0;
+        func_020452E8(((struct Obj05352 *)p)->f84);
+        ((struct Obj05352 *)p)->f84=0;
     }
 }

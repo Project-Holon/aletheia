@@ -11,6 +11,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj22719.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,6 +22,6 @@ void func_021D9384(u32 a, u32 b, short *src, u8 *base, void *e)
 {
     if (e == func_020399A8()) {
         if (a != func_02039338())
-            *(short *)(base + 0x107e) = *src;
+            ((struct Obj22719 *)base)->f107E = *src;
     }
 }

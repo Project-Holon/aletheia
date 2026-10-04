@@ -20,6 +20,8 @@
  *   func_021B71E4 0x021B71E4 thumb ov101
  *   func_021B63D0 0x021B63D0 thumb ov101
  */
+#include "../include/Obj10249.h"
+#include "../include/Obj22238.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,7 +42,7 @@ int func_021B7778(void *a,u32 *state,void *b,u8 *p)
     case 2: if(!func_0204E804()) *state=3; break;
     case 3:
         (*(void (**)(u8 *,u16 *))(p+0x18c))(p,(u16 *)(p+0x190));
-        if(*(u32 *)(p+0x194)) *state=4;
+        if(((struct Obj10249 *)p)->f194) *state=4;
         break;
     case 4: func_0204E720(3,0,16,0); *state=5; break;
     case 5: if(!func_0204E804()) *state=6; break;
@@ -52,8 +54,8 @@ int func_021B7778(void *a,u32 *state,void *b,u8 *p)
     }
     func_021B78BC(p);
     func_021B85A4(p+0x128);
-    func_021B71E4(*(int *)(p+0x188));
-    object=*(Obj **)(*(u8 **)(p+0x1a4)+4);
+    func_021B71E4(((struct Obj10249 *)p)->f188);
+    object=*(Obj * *)&((struct Obj22238 *)(*(u8 * *)&((struct Obj10249 *)p)->f1A4))->f4;
     if(object) func_021B63D0(object);
     return 0;
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   func_02184148  0x02184148  thumb
  */
+#include "../include/Obj13027.h"
 
 typedef unsigned int u32;
 
@@ -18,5 +19,5 @@ void func_02184148(u32 x, int a);
 
 void func_02184560(char *p, int a)
 {
-    func_02184148(*(u32 *)*(u32 **)(p + 4), a);
+    func_02184148(*(u32 *)*(u32 * *)&((struct Obj13027 *)p)->f4, a);
 }

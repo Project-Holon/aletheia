@@ -11,5 +11,6 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj13123.h"
 extern void func_020307B0(void *);
-void func_021F3F20(unsigned char *p) { func_020307B0(*(void **)(p+0x38)); *(void **)(p+0x38)=0; }
+void func_021F3F20(unsigned char *p) { func_020307B0(((struct Obj13123 *)p)->f38); ((struct Obj13123 *)p)->f38=0; }

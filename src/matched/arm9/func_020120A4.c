@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15622.h"
 
 extern int func_020123C4(void *p);
 void func_020120A4(char *p)
 {
-    *(unsigned char *)(p + 0x31) = (unsigned char)func_020123C4(p);
+    ((struct Obj15622 *)p)->f31 = (unsigned char)func_020123C4(p);
 }

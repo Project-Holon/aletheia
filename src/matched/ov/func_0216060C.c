@@ -18,6 +18,7 @@
  *   func_02188C54  0x02188C54  thumb
  *   func_02190398  0x02190398  thumb
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,10 +36,10 @@ int func_0216060C(int a0, int a1)
     int t6;
 
 t5 = a0 + 0;
-a0 = *(int *)((char *)t5 + 0x18);
+a0 = ((struct Obj00020 *)t5)->f18;
     if (a0 != 0) goto loc_02160662;
 loc_02160616:
-a0 = *(int *)((char *)t5 + 0x1c);
+a0 = *(int *)&((struct Obj00020 *)t5)->f1C;
     if (a0 == 0) goto loc_02160626;
 loc_0216061C:
     if (a0 == 1) goto loc_0216064A;
@@ -47,7 +48,7 @@ loc_02160620:
 loc_02160624:
     goto loc_0216065E;
 loc_02160626:
-a0 = *(int *)((char *)t5 + 0xc);
+a0 = *(int *)&((struct Obj00020 *)t5)->fC;
     if (a0 == 0) goto loc_02160644;
 loc_0216062C:
 a0 = 1;
@@ -56,18 +57,18 @@ t4 = 1;
 t6 = 0;
     a0 = func_02040588(a0, a1);
 loc_02160638:
-a0 = *(int *)((char *)t5 + 0xc);
+a0 = *(int *)&((struct Obj00020 *)t5)->fC;
     a0 = func_021C51A0(a0);
 loc_0216063E:
-*(int *)((char *)t5 + 0xc) = t6;
-*(int *)((char *)t5 + 0x1c) = t4;
+*(int *)&((struct Obj00020 *)t5)->fC = t6;
+*(int *)&((struct Obj00020 *)t5)->f1C = t4;
     goto loc_0216065E;
 loc_02160644:
 a0 = 2;
-*(int *)((char *)t5 + 0x1c) = a0;
+*(int *)&((struct Obj00020 *)t5)->f1C = a0;
     goto loc_0216065E;
 loc_0216064A:
-a0 = *(int *)((char *)t5 + 8);
+a0 = *(int *)&((struct Obj00020 *)t5)->f8;
     a0 = func_02188C54(a0);
 loc_02160650:
     a0 = func_02190398(a0);
@@ -75,7 +76,7 @@ loc_02160654:
     goto loc_02160644;
 loc_02160656:
 a0 = 0;
-*(int *)((char *)t5 + 0x1c) = a0;
+*(int *)&((struct Obj00020 *)t5)->f1C = a0;
 a0 = 1;
     return a0;
 loc_0216065E:

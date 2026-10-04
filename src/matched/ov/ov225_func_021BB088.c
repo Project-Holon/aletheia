@@ -20,6 +20,17 @@
  *   func_02028178 0x02028178 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00074.h"
+#include "../include/Obj26217.h"
+#include "../include/Obj26218.h"
+#include "../include/Obj26219.h"
+#include "../include/Obj26220.h"
+#include "../include/Obj26221.h"
+#include "../include/Obj26222.h"
+#include "../include/Obj26223.h"
+#include "../include/Obj26224.h"
+#include "../include/Obj26225.h"
+#include "../include/Obj26226.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -41,18 +52,18 @@ void func_021BB088(char *p)
     u8 first,last,i;
     u16 index,end;
     first=0;
-    index=(u16)(*(u16 *)(*(char **)p+0xc)-1);
-    if (*(u16 *)(*(char **)p+0xc)==0) {
-        if (*(u8 **)(p+0xc)) {
-            func_0202843C(*(u8 **)(p+0xc));
-            *(u32 *)(p+0x2c)=0;
+    index=(u16)(((struct Obj26217 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC-1);
+    if (((struct Obj26218 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC==0) {
+        if (*(u8 * *)&((struct Obj00074 *)p)->fC) {
+            func_0202843C(*(u8 * *)&((struct Obj00074 *)p)->fC);
+            ((struct Obj00074 *)p)->f2C=0;
         }
-        index=*(u16 *)(*(char **)p+0xc);
+        index=((struct Obj26219 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
         first=1;
-        func_0204B3DC(*(void **)(p+0x60),0);
+        func_0204B3DC(((struct Obj00074 *)p)->f60,0);
     }
     end=(u16)(func_021BB044((u16 **)p)+1);
-    if (end>=*(u16 *)(*(char **)p+4)) end--;
+    if (end>=((struct Obj26220 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f4) end--;
     last=(u8)(first+end-index);
     for(i=last+1;i<=7;i++) {
         if (*(u8 **)(p+i*4+0xc)) {
@@ -63,21 +74,21 @@ void func_021BB088(char *p)
     }
     for(i=first;i<=last;i++) {
         if (*(u8 **)(p+i*4+0xc)) func_0202815C(*(u8 **)(p+i*4+0xc));
-        e.resource=func_02045EC0(*(struct MsgBank **)(*(char **)(p+4)+0x20),*(u16 *)(*(char **)(*(char **)p+8)+index*8+2));
+        e.resource=func_02045EC0(*(struct MsgBank * *)&((struct Obj26221 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f20,*(u16 *)(*(char * *)&((struct Obj26222 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+2));
         if(i==0 || i==7) e.tag=0x3da3; else e.tag=0x39e3;
         e.flags=0;
-        if(*(u32 *)(p+0x94))
-            *(u32 **)(p+i*4+0xc)=func_0202804C(*(u32 *)(p+8),(u32)&e,2,(u8)(i*3),28,3,0,0,*(u16 *)(*(char **)(p+4)+4));
+        if(((struct Obj00074 *)p)->f94)
+            *(u32 **)(p+i*4+0xc)=func_0202804C(*(u32 *)&((struct Obj00074 *)p)->f8,(u32)&e,2,(u8)(i*3),28,3,0,0,((struct Obj26223 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
         else
-            *(u32 *)(p+i*4+0xc)=func_02027FEC(*(u32 *)(p+8),(u32)&e,2,(u8)(i*3),28,*(u16 *)(*(char **)(p+4)+4));
+            *(u32 *)(p+i*4+0xc)=func_02027FEC(*(u32 *)&((struct Obj00074 *)p)->f8,(u32)&e,2,(u8)(i*3),28,((struct Obj26224 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
         func_02028178(*(u8 **)(p+i*4+0xc));
         *(u32 *)(p+i*4+0x2c)=1;
         func_02045808(e.resource);
-        if (*(u32 *)(*(char **)(*(char **)p+8)+index*8+4)==0)
+        if (*(u32 *)(*(char * *)&((struct Obj26225 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==0)
             func_0204B3DC(*(void **)(p+i*4+0x60),0);
-        else if (*(u32 *)(*(char **)(*(char **)p+8)+index*8+4)==1)
+        else if (*(u32 *)(*(char * *)&((struct Obj26226 *)(*(char * *)&((struct Obj00074 *)p)->f0))->f8+index*8+4)==1)
             func_0204B3DC(*(void **)(p+i*4+0x60),1);
         index++;
     }
-    *(u32 *)(p+0x94)=1;
+    ((struct Obj00074 *)p)->f94=1;
 }

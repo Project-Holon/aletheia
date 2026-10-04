@@ -32,6 +32,8 @@
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213C58 0x02213C58 data a4 ov199
  */
+#include "../include/Obj01177.h"
+#include "../include/Obj25291.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -63,7 +65,7 @@ int func_02212560(void *a, int unused, u8 *arg)
     void *v;
     u8 *dst;
     unsigned kind;
-    switch (*(unsigned *)(arg + 8)) {
+    switch (((struct Obj25291 *)arg)->f8) {
     case 1: kind = 1; break;
     case 0: kind = 1; break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
@@ -72,37 +74,37 @@ int func_02212560(void *a, int unused, u8 *arg)
     p = func_0203159C(a, 0x8b0, 0x56);
     func_02082BCC(p, 0, 0x8b0);
     func_02082D44(arg, p + 4, 0x14);
-    *(unsigned *)(p + 0x20) = 0;
-    if (*(void **)(p + 4) == 0) {
-        *(void **)(p + 4) = func_020124F4(1);
-        *(unsigned *)p = 1;
+    ((struct Obj01177 *)p)->f20 = 0;
+    if (((struct Obj01177 *)p)->f4 == 0) {
+        ((struct Obj01177 *)p)->f4 = func_020124F4(1);
+        ((struct Obj01177 *)p)->f0 = 1;
     }
-    *(void **)(p + 0x30) = func_0201A920(0x56);
-    *(void **)(p + 0x34) = func_0201A920(0x56);
-    *(void **)(p + 0x38) = func_0201A920(0x56);
-    *(void **)(p + 0x3c) = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f30 = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f34 = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f38 = func_0201A920(0x56);
+    ((struct Obj01177 *)p)->f3C = func_0201A920(0x56);
     func_0200B400(0x56);
     func_0221336C((char *)p, 0x56);
-    *(void **)(p + 0x18) = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
-    switch (*(unsigned *)(p + 0xc)) {
+    ((struct Obj01177 *)p)->f18 = func_022136E4((void *)d_02213C58, (void *)9, p, 0x56);
+    switch (((struct Obj01177 *)p)->fC) {
     case 0:
-        *(unsigned *)(p + 0x1c) = 0;
-        func_02213808(*(void **)(p + 0x18), 0);
+        ((struct Obj01177 *)p)->f1C = 0;
+        func_02213808(((struct Obj01177 *)p)->f18, 0);
         break;
     case 1:
-        *(unsigned *)(p + 0x1c) = 2;
-        func_02213808(*(void **)(p + 0x18), 4);
+        ((struct Obj01177 *)p)->f1C = 2;
+        func_02213808(((struct Obj01177 *)p)->f18, 4);
         break;
     default: func_02034714(d_02213D00, 0, d_02213D00); break;
     }
-    dst = *(u8 **)(p + 0x28);
-    switch (*(unsigned *)(p + 0x10)) {
+    dst = *(u8 * *)&((struct Obj01177 *)p)->f28;
+    switch (((struct Obj01177 *)p)->f10) {
     case 0:
-        v = func_02012934(*(void **)(p + 4));
+        v = func_02012934(((struct Obj01177 *)p)->f4);
         func_02082D44(v, dst + 0xd4, func_0201A918());
         break;
     case 1:
-        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(*(void **)(p + 4))), 0x8056);
+        v = func_0200BAF4((int)func_0200BAC8(func_02012EBC(((struct Obj01177 *)p)->f4)), 0x8056);
         func_02082D44(v, dst + 0xd4, func_0201A918());
         func_020307B0(v);
         break;

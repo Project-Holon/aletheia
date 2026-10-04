@@ -36,6 +36,7 @@
  *   func_02039338  0x02039338  arm
  *   func_0203D1C0  0x0203D1C0  arm
  */
+#include "../include/Obj00033.h"
 
 typedef unsigned char u8;
 
@@ -88,7 +89,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
     int m;
     int i;
 
-    p = *(u8 **)(w + 0x355C);
+    p = *(u8 * *)&((struct Obj00033 *)w)->f355C;
     if (*state < 7 && func_0200FB24() != 0 && func_0217F1EC(w) == 1) {
         func_0217BAF0(w, a2, 1);
         *state = 7;
@@ -150,7 +151,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
             return 0;
         if (func_0200FB24() != 0) {
             func_0217F074(w);
-            func_02012124((struct Ctx *)((*(Sys **)w)->fc), 1);
+            func_02012124((struct Ctx *)((*(Sys * *)&((struct Obj00033 *)w)->f0)->fc), 1);
             return 0;
         }
         func_02172D38(w);
@@ -171,7 +172,7 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
     case 10:
         if (func_02174268(w) == 0) {
             if (*(u8 **)(w + 0x355C) != 0) {
-                func_0217505C(*(u8 **)(w + 0x355C), (*(Sys **)w)->fc);
+                func_0217505C(*(u8 **)(w + 0x355C), (*(Sys * *)&((struct Obj00033 *)w)->f0)->fc);
                 *(u8 **)(w + 0x355C) = 0;
             }
             func_02172D50(w);

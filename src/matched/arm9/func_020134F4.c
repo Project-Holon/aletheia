@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_020134F4.c \
  *       --func func_020134F4 --addr 0x020134F4 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00155.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ void func_020134F4(u8 *p, u32 a1, u32 a2, u32 a3, u16 h)
     func_020130C4(p);
     func_02013360(p, (void *)a1, (const void *)a3);
     func_0201333C(p, a1, h);
-    *(u32 *)p = 1;
-    *(u32 *)(p + 4) = a2;
-    *(u16 *)(p + 0x1a) = 0x47d;
+    ((struct Obj00155 *)p)->f0 = 1;
+    ((struct Obj00155 *)p)->f4 = a2;
+    ((struct Obj00155 *)p)->f1A = 0x47d;
 }

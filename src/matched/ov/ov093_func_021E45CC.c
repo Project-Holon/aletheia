@@ -22,6 +22,7 @@
  *   func_021E8CF0  0x021E8CF0  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13520.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -68,7 +69,7 @@ void func_021E45CC(int a0, u8 *s, int k)
                 if (n != 0) {
                     c = p[func_021D78AC(n)];
                     e = func_021C88A4(s, 0x14, k);
-                    *(u16 *)(e + 4) = func_021E8CF0(c);
+                    ((struct Obj13520 *)e)->f4 = func_021E8CF0(c);
                     e[6] = k;
                     func_021C88C8(s, e);
                 }

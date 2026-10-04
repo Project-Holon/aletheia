@@ -17,6 +17,7 @@
  *   func_021B6438 0x021B6438 thumb ov098
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj05258.h"
 typedef unsigned char  u8;
 struct Obj;
 struct S02031140;
@@ -29,13 +30,13 @@ extern void func_021B6438(void);
 extern void func_020307B0(void *);
 void func_021B632C(unsigned p)
 {
-    func_02031140(*(void **)(p + 0x18));
-    func_021B68DC(*(void **)(p + 0x14));
+    func_02031140(((struct Obj05258 *)p)->f18);
+    func_021B68DC(((struct Obj05258 *)p)->f14);
     func_021F7808();
-    func_022021F4(*(void **)(p + 0x10));
-    func_0201D83C(*(void **)(p + 8));
-    func_0201D83C(*(void **)(p + 0xc));
+    func_022021F4(((struct Obj05258 *)p)->f10);
+    func_0201D83C(((struct Obj05258 *)p)->f8);
+    func_0201D83C(((struct Obj05258 *)p)->fC);
     func_021B6438();
-    func_020307B0(*(void **)(p + 0x70));
+    func_020307B0(((struct Obj05258 *)p)->f70);
     func_020307B0((void *)p);
 }

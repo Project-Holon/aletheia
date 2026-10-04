@@ -17,6 +17,7 @@
  *   func_020257D0  0x020257D0  thumb
  *   func_02045808  0x02045808  arm
  */
+#include "../include/Obj02719.h"
 
 typedef unsigned short u16;
 typedef short s16;
@@ -40,7 +41,7 @@ void func_021BD588(u32 *p)
 
     buf[0] = func_021BD2C8(p);
     buf[1] = func_02045A98();
-    h = (u32)func_020457B0(2, *(u16 *)p);
+    h = (u32)func_020457B0(2, ((struct Obj02719 *)p)->f0);
     func_02045994((struct Strbuf *)h, buf, 2);
     func_0201C7D0((void *)p[2], 0, 0, (void *)h, (void *)p[1], 0x440);
     func_020257D0((struct Obj *)p[3]);

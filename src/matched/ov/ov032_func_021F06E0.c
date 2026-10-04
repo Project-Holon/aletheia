@@ -16,6 +16,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  *   func_021F0820  0x021F0820  thumb  ov032
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,13 +37,13 @@ void func_021F06E0(u8 *p, u32 x, int y)
         func_021F079C(p, 1);
     if (p[0x59] != v[1] && v[1] == 0x14)
         func_021F079C(p, 2);
-    if (*(u32 *)(p + 0x2d4) % 100 == 0)
+    if (((struct Obj00007 *)p)->f2D4 % 100 == 0)
         func_021F079C(p, 3);
     if (y == 0x1d && p[0x7b] == 0x1e)
         func_021F079C(p, 4);
     if (p[0x58] != v[0] && v[0] == 0x14)
         func_021F079C(p, 5);
-    if (func_021F0820(*(u32 *)(p + 0x2d4)) != 0)
+    if (func_021F0820(((struct Obj00007 *)p)->f2D4) != 0)
         func_021F079C(p, 6);
     p[0x58] = v[0];
     p[0x59] = v[1];

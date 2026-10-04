@@ -25,6 +25,11 @@
  *   func_021B7F64 0x021B7F64 thumb ov173
  *   func_021B7FD0 0x021B7FD0 thumb ov173
  */
+#include "../include/Obj00362.h"
+#include "../include/Obj24153.h"
+#include "../include/Obj24154.h"
+#include "../include/Obj24155.h"
+#include "../include/Obj24156.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,17 +52,17 @@ extern void func_021B7FD0(u8 *,int);
 int func_021B68C8(char *p)
 {
     u32 v;
-    *(u16 *)(p+0x1cc)=func_020260E0(*(struct Sound **)(p+0x1c8));
-    v=func_02025DE8(*(struct Sound **)(p+0x1c8));
+    ((struct Obj00362 *)p)->f1CC=func_020260E0(*(struct Sound * *)&((struct Obj00362 *)p)->f1C8);
+    v=func_02025DE8(*(struct Sound * *)&((struct Obj00362 *)p)->f1C8);
     switch(v) {
     case 0:case 1:case 2:case 3:
         if(func_02035C60()==0) {
-            if(*(u16 *)(*(char **)p+0x16)+v < *(u8 *)(p+0x1b8)) {
+            if(((struct Obj24153 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16+v < ((struct Obj00362 *)p)->f1B8) {
                 func_020061E4(0x54c);
                 return func_021B817C(p);
             }
         } else {
-            if(*(u16 *)(*(char **)p+0x16)+v < *(u8 *)(p+0x1b8))
+            if(((struct Obj24154 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16+v < ((struct Obj00362 *)p)->f1B8)
                 func_020061E4(0x54c);
         }
         break;
@@ -77,9 +82,9 @@ int func_021B68C8(char *p)
         }
         break;
     case -8:
-        if(*(u16 *)(*(char **)p+0x16)!=0) {
+        if(((struct Obj24155 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16!=0) {
             func_020061E4(0x54c);
-            --*(u16 *)(*(char **)p+0x16);
+            --((struct Obj24156 *)(*(char * *)&((struct Obj00362 *)p)->f0))->f16;
             func_021B71C4(p,func_021B7438((char **)p));
             func_021B70D8(p);
             func_021B7F64(p);

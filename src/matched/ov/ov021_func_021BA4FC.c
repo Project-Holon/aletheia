@@ -18,6 +18,7 @@
  *   func_0218EC90  0x0218EC90  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05053.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,12 +46,12 @@ void func_021BA4FC(u8 *p)
     o = func_021B821C(p);
     func_0218E124((u8 *)o, 2);
     func_0218EC54((u8 *)func_021B821C(p));
-    a.x = *(int *)(q + 4);
-    a.y = *(int *)(q + 8);
-    a.z = *(int *)(q + 12);
-    b.x = *(int *)(q + 0x10);
-    b.y = *(int *)(q + 0x14);
-    b.z = *(int *)(q + 0x18);
+    a.x = ((struct Obj05053 *)q)->f4;
+    a.y = ((struct Obj05053 *)q)->f8;
+    a.z = ((struct Obj05053 *)q)->fC;
+    b.x = ((struct Obj05053 *)q)->f10;
+    b.y = ((struct Obj05053 *)q)->f14;
+    b.z = ((struct Obj05053 *)q)->f18;
     func_0218ECF4(o, &a);
     func_0218EC90(o, &b);
 }

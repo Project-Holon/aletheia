@@ -15,6 +15,7 @@
  * Thunk: hands the +0x18 block to 0x021E65FC and returns its result, the
  *     poll partner of func_021D63B0 on the same field.
  */
+#include "../include/Obj24229.h"
 
 typedef unsigned long u32;
 
@@ -22,6 +23,6 @@ extern u32 func_021E65FC(u32 p);
 
 u32 func_021D63BC(char *obj)
 {
-    return func_021E65FC(*(u32 *)(obj + 0x18));
+    return func_021E65FC(((struct Obj24229 *)obj)->f18);
 }
 

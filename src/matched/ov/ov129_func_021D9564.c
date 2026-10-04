@@ -12,10 +12,11 @@
  * symbols:
  *   d_021DA72C 0x021DA72C data a4 ov129
  */
+#include "../include/Obj14056.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct { u8 a,b; } Entry;
 extern Entry d_021DA72C[];
-void func_021D9564(u8 *p,int n) { if(n>=12 && n<24) { *(u16 *)(p+0x1b8)=d_021DA72C[n-12].a; *(u16 *)(p+0x1ba)=d_021DA72C[n-12].b; } }
+void func_021D9564(u8 *p,int n) { if(n>=12 && n<24) { ((struct Obj14056 *)p)->f1B8=d_021DA72C[n-12].a; ((struct Obj14056 *)p)->f1BA=d_021DA72C[n-12].b; } }

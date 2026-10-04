@@ -22,6 +22,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07816.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,8 +55,8 @@ void func_021DCB38(int a, void *b, int c)
         if (n != 0 && func_020213C0(n) != 0 && func_021D5B40(mon) == 0
             && (func_021C8288(b) == 1 || func_021D85C0((int)b, 0x32) != 0)) {
             m = (u8 *)func_021C88A4(b, 0x20, c);
-            *(u32 *)m |= 0x20 << 18;
-            *(u16 *)(m + 4) = n;
+            ((struct Obj07816 *)m)->f0 |= 0x20 << 18;
+            ((struct Obj07816 *)m)->f4 = n;
             m[6] = c;
             m[7] = 1;
             func_021C8838(m + 0xc, 2, 0x1db);

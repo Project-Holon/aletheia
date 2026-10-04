@@ -11,6 +11,7 @@
  * symbols:
  *   func_021FB548 0x021FB548 thumb ov186
  */
+#include "../include/Obj08331.h"
 extern void func_021FB548(char *p, short *x, short *y);
 int func_021FAD74(char *ctx)
 {
@@ -19,8 +20,8 @@ int func_021FAD74(char *ctx)
     if (*(int (**)(char *))(ctx + 0x10) != 0) {
         result = (*(int (**)(char *))(ctx + 0x10))(ctx);
         if (result != 0) *(int (**)(char *))(ctx + 0x10) = 0;
-        if (*(int **)(ctx + 0x2c) != 0) {
-            func_021FB548(*(void **)(ctx + 8), &x, &y);
+        if (*(int * *)&((struct Obj08331 *)ctx)->f2C != 0) {
+            func_021FB548(((struct Obj08331 *)ctx)->f8, &x, &y);
             (*(int **)(ctx + 0x2c))[0] = x + 80;
             (*(int **)(ctx + 0x2c))[1] = y;
         }

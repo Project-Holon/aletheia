@@ -12,9 +12,10 @@
  * symbols:
  *   func_021EFF40 0x021EFF40 thumb
  */
+#include "../include/Obj13071.h"
 
 void func_021EFF40(char *p)
 {
-    *(unsigned short *)(p + 4) = 0;
-    *(unsigned short *)(p + 0xc) = 0;
+    ((struct Obj13071 *)p)->f4 = 0;
+    ((struct Obj13071 *)p)->fC = 0;
 }

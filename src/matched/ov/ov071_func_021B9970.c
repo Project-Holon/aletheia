@@ -26,6 +26,8 @@
  *   func_02043678  0x02043678  arm
  *   func_0216FE2C  0x0216FE2C  thumb  ov010
  */
+#include "../include/Obj04340.h"
+#include "../include/Obj20753.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -56,14 +58,14 @@ void func_021B9970(char **a, List *l, char *c)
     int r;
     void *pos;
 
-    func_020120F4((const struct Ctx *)(**(char ***)a));
+    func_020120F4((const struct Ctx *)(**(char ** *)&((struct Obj04340 *)a)->f0));
     pos = func_021B6F40(a);
     l->idx[0] = i;
     l->kind[0] = 1;
     l->obj[0] = func_02043678(0x17, 2, 0x20, 0x61);
     n = i + 1;
     for (; i < 0x30; i++) {
-        r = func_0216FE2C(*(void **)(c + 0x34), i, pos, (u8 *)(*a + 0x38));
+        r = func_0216FE2C(((struct Obj20753 *)c)->f34, i, pos, (u8 *)(*a + 0x38));
         if (r != 2) {
             l->idx[n] = i;
             l->kind[n] = r;

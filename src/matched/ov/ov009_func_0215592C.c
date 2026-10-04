@@ -21,6 +21,7 @@
  *   func_02155F58  0x02155F58  thumb  ov009
  *   func_021561C0  0x021561C0  thumb  ov009
  */
+#include "../include/Obj18649.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -86,7 +87,7 @@ int func_0215592C(int a)
     case 9: {
         u8 *p = func_0203D798();
         if (d_021A8264->s782 != 0)
-            func_02156344(*(u16 *)(p + 0x56));
+            func_02156344(((struct Obj18649 *)p)->f56);
         d_021A8264->h794 = 0;
         func_02155374(10);
         return SetErr(1000);

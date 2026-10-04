@@ -21,6 +21,7 @@
  *   func_0204B8F4  0x0204B8F4  arm
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj20873.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -66,7 +67,7 @@ void func_021BA8CC(u32 a, S *s)
     if (s->w18 == 1) {
         u32 t = (u32)func_02045770((struct Descriptor *)s->w20);
 
-        if (func_0201C6C4((struct PrintSys *)(*(int *)(a + 0x140)), (void *)t) == 0) {
+        if (func_0201C6C4((struct PrintSys *)(((struct Obj20873 *)a)->f140), (void *)t) == 0) {
             a = s->w20;
             s->w18 = 0;
             func_02045334((struct Descriptor *)a);

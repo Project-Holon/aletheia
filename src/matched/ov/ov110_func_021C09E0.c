@@ -11,6 +11,7 @@
  *
  * Clears the u16 at +0x0c.  Inferred extent runs long (unlabelled follower).
  */
+#include "../include/Obj22407.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,4 +20,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021C09E0(u8 *p) { *(u16 *)(p + 0xc) = 0; }
+void func_021C09E0(u8 *p) { ((struct Obj22407 *)p)->fC = 0; }

@@ -28,6 +28,7 @@
  *   func_021D76BC  0x021D76BC  thumb  ov093
  *   d_021F27BC     0x021F27BC  data   a4
  */
+#include "../include/Obj03704.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -61,19 +62,19 @@ void func_021E3FC0(int u, void *a, int c)
             if (func_021D62A8(func_021C7CF4(a, k)).v == 0) {
                 s = func_021D6314(q, r);
                 p = func_021C88A4(a, 0xc, c);
-                *(int *)(p + 4) = r;
+                ((struct Obj03704 *)p)->f4 = r;
                 if (r == 5 && func_021E8A78(s) != 0)
                     *(Word *)(p + 8) = func_021E8A58();
                 else
-                    *(int *)(p + 8) = func_021D7D18(r);
+                    ((struct Obj03704 *)p)->f8 = func_021D7D18(r);
                 p[0xf] = k;
                 p[0xc] = 1;
                 func_021C88C8(a, p);
                 p = func_021C88A4(a, 0xb, c);
-                *(int *)(p + 4) = r;
+                ((struct Obj03704 *)p)->f4 = r;
                 p[0x14] = 1;
                 p[8] = c;
-                *(u32 *)p |= 0x1000000;
+                ((struct Obj03704 *)p)->f0 |= 0x1000000;
                 func_021C88C8(a, p);
                 func_021D76BC(0x51, 0);
             }

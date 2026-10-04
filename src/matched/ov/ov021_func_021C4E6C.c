@@ -24,6 +24,7 @@
  *   func_0207ADC4  0x0207ADC4  arm
  *   func_020520FC  0x020520FC  arm
  */
+#include "../include/Obj01666.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -46,10 +47,10 @@ void func_021C4E6C(char *p)
     float s;
     float v;
 
-    if (*(void **)(p + 0x10) == 0) {
+    if (((struct Obj01666 *)p)->f10 == 0) {
         return;
     }
-    if (func_02011638(*(void **)(p + 0x10), (struct Rec12 *)hsv) != 1) {
+    if (func_02011638(((struct Obj01666 *)p)->f10, (struct Rec12 *)hsv) != 1) {
         return;
     }
 
@@ -70,6 +71,6 @@ void func_021C4E6C(char *p)
     ch = (u16)(u32)(65535.0f * (h / 360.0f));
     cs = (u16)(u32)(65535.0f * (s / 360.0f));
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
-    func_0207ADC4(*(char **)(p + 0x14) + 0x18);
-    func_020520FC(ch, cs, cv, (struct Mtx33 *)(*(char **)(p + 0x14) + 0x18));
+    func_0207ADC4(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18);
+    func_020520FC(ch, cs, cv, (struct Mtx33 *)(*(char * *)&((struct Obj01666 *)p)->f14 + 0x18));
 }

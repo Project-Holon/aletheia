@@ -15,6 +15,7 @@
  *   func_0204A8D4  0x0204A8D4  arm
  *   func_0204AFD8  0x0204AFD8  arm
  */
+#include "../include/Obj20856.h"
 
 typedef unsigned char u8;
 
@@ -28,7 +29,7 @@ void func_021B7624(char *p)
 {
     u8 i;
 
-    func_020307B0(*(void **)(p + 0x158));
+    func_020307B0(((struct Obj20856 *)p)->f158);
     for (i = 0; i < 8; i++) {
         if (*(int *)(p + i * 4 + 0x178) != -1)
             func_0204ADA4(*(int *)(p + i * 4 + 0x178));

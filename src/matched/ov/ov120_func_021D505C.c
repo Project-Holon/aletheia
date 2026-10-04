@@ -16,6 +16,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4FF4 0x021D4FF4 thumb ov120
  */
+#include "../include/Obj13931.h"
 typedef unsigned char u8;
 extern void func_021D4988(int);
 extern void func_021D8638(u8 *);
@@ -28,7 +29,7 @@ extern void func_021D4FF4(u8 *p);
 void func_021D505C(int a, int b, int p)
 {
     if (b == 0 && *(void (**)(int))p == func_021D4988) {
-        func_021D8638(*(u8 **)(p + 0x40));
+        func_021D8638(*(u8 * *)&((struct Obj13931 *)p)->f40);
         func_0203C554(1);
         func_020355D8(1);
         func_020061E4(0x551);

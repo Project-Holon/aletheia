@@ -14,6 +14,7 @@
 
  * Release the +0xb90, +0xb94 and +0xb88 handles.
  */
+#include "../include/Obj09237.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ extern void func_02045808(struct U16Vec *vec);
 
 void func_021FD2FC(u8 *p)
 {
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0xb90)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0xb94)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0xb88)));
+    func_02045808((struct U16Vec *)(((struct Obj09237 *)p)->fB90));
+    func_02045808((struct U16Vec *)(((struct Obj09237 *)p)->fB94));
+    func_02045808((struct U16Vec *)(((struct Obj09237 *)p)->fB88));
 }

@@ -14,15 +14,16 @@
  * The bit test is a lsls #0x1c / lsrs #0x1f pair, so the promoted value
  * must stay unsigned.
  */
+#include "../include/Obj07745.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 void func_021B91E4(void *p, int add)
 {
-    if (((unsigned int)*(u8 *)((char *)p + 0x473) << 28 >> 31) != 0)
+    if (((unsigned int)((struct Obj07745 *)p)->f473 << 28 >> 31) != 0)
         return;
-    *(u32 *)((char *)p + 0x434) += add;
-    if (*(u32 *)((char *)p + 0x434) > 0x1869f)
-        *(u32 *)((char *)p + 0x434) = 0x1869f;
+    ((struct Obj07745 *)p)->f434 += add;
+    if (((struct Obj07745 *)p)->f434 > 0x1869f)
+        ((struct Obj07745 *)p)->f434 = 0x1869f;
 }

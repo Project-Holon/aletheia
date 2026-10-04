@@ -9,7 +9,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13452.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-void func_021D8230(u8 *p) { u32 i; for(i=0;i<4;i++) p[4+i]=4; *(u32 *)p=0; }
+void func_021D8230(u8 *p) { u32 i; for(i=0;i<4;i++) p[4+i]=4; ((struct Obj13452 *)p)->f0=0; }

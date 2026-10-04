@@ -29,6 +29,7 @@
  *     fall-through where every if/else spelling inverts it (EXACT* once the
  *     ov177 getter 0x021E8844 got its label).
  */
+#include "../include/Obj00594.h"
 
 typedef unsigned long u32;
 
@@ -49,26 +50,26 @@ int func_021D9C34(char *obj, int trigger, int go)
 {
     int r;
 
-    switch (*(u32 *)(obj + 0xec)) {
+    switch (((struct Obj00594 *)obj)->fEC) {
     case 0:
         if (trigger == 0)
             break;
         if (!(func_020362DC() & 2))
             break;
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 1:
-        func_021E8738((int *)(*(u32 *)(obj + 0x2c)), *(u32 *)(obj + 0x14), 0x23, 1);
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
+        func_021E8738((int *)(((struct Obj00594 *)obj)->f2C), ((struct Obj00594 *)obj)->f14, 0x23, 1);
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 2:
-        if (!func_021E8844((const int *)(*(u32 *)(obj + 0x2c))))
+        if (!func_021E8844((const int *)(((struct Obj00594 *)obj)->f2C)))
             break;
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 3:
         func_021D98E4(obj, 0);
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 4:
         r = func_021D9A08(obj);
@@ -77,33 +78,33 @@ int func_021D9C34(char *obj, int trigger, int go)
         func_021D99F4(obj);
         switch (r) {
         case 0:
-            *(u32 *)(obj + 0xec) = 5;
+            ((struct Obj00594 *)obj)->fEC = 5;
             break;
         case 1:
-            func_021E8738((int *)(*(u32 *)(obj + 0x2c)), *(u32 *)(obj + 0x14), 0x21, 0);
-            *(u32 *)(obj + 0xec) = 0;
+            func_021E8738((int *)(((struct Obj00594 *)obj)->f2C), ((struct Obj00594 *)obj)->f14, 0x21, 0);
+            ((struct Obj00594 *)obj)->fEC = 0;
             return 2;
         }
         break;
     case 5:
-        func_021E8738((int *)(*(u32 *)(obj + 0x2c)), *(u32 *)(obj + 0x14), 0x2b, 2);
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
+        func_021E8738((int *)(((struct Obj00594 *)obj)->f2C), ((struct Obj00594 *)obj)->f14, 0x2b, 2);
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
         break;
     case 6:
         if (go == 0)
             break;
-        func_021DA434(*(u32 *)(obj + 0x34));
-        *(u32 *)(obj + 0xec) = *(u32 *)(obj + 0xec) + 1;
-        func_021E7E0C((void **)(*(u32 *)(obj + 0x28)), 0);
-        func_021DA36C(*(u32 *)(obj + 0x34));
+        func_021DA434(((struct Obj00594 *)obj)->f34);
+        ((struct Obj00594 *)obj)->fEC = ((struct Obj00594 *)obj)->fEC + 1;
+        func_021E7E0C((void **)(((struct Obj00594 *)obj)->f28), 0);
+        func_021DA36C(((struct Obj00594 *)obj)->f34);
         if (!func_0200FB24() && func_0203CD98())
             DWC_CloseAllConnectionsHard();
         break;
     case 7:
-        *(u32 *)(obj + 0xec) = 0;
+        ((struct Obj00594 *)obj)->fEC = 0;
         return 3;
     }
-    switch (*(u32 *)(obj + 0xec)) {
+    switch (((struct Obj00594 *)obj)->fEC) {
     case 0:
         return 0;
     default:

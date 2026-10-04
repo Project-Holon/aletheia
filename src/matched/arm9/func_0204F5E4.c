@@ -15,6 +15,7 @@
  * immediate, and the stride is spelled as byte arithmetic so it comes out as
  * `mul` rather than `mla`.
  */
+#include "../include/Obj16136.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ struct F14 {
 
 void func_0204F5E4(u8 *a0, int i, u16 *out)
 {
-    *out = ((struct F14 *)((u8 *)*(u32 *)(a0 + 8) + i * 0x1c))->f0;
+    *out = ((struct F14 *)((u8 *)((struct Obj16136 *)a0)->f8 + i * 0x1c))->f0;
 }

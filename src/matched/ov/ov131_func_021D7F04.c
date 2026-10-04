@@ -30,6 +30,9 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   g_020A7370 0x020A7370 data
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj01256.h"
+#include "../include/Obj23145.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -71,44 +74,44 @@ void func_021D7F04(u8 *p,u8 *q,void *mon)
     u32 tile;
     u16 x;
     u32 species;
-    if(*(u32 *)(p+0x38)==0) {
-        func_021D618C(p,*(u32 *)(q+0xc),8,1,1,0x3c40);
-        ws=func_0201EC64(*(u16 *)p);
+    if(((struct Obj00112 *)p)->f38==0) {
+        func_021D618C(p,((struct Obj01256 *)q)->fC,8,1,1,0x3c40);
+        ws=func_0201EC64(((struct Obj00112 *)p)->f0);
         v=func_02017E88(mon,5,0);
         pal=0x440;
-        if(*(u32 *)(*(u8 **)(p+8)+0x18)==0) v=(*(u16 **)(q+8))[v];
+        if(((struct Obj23145 *)(*(u8 * *)&((struct Obj00112 *)p)->f8))->f18==0) v=(*(u16 **)(q+8))[v];
         if(func_02017EB4(mon)==1) pal=0xc80;
         if(v==999) {
-            func_021D6214(p,*(u32 *)(q+0xc),ws,0x16,0x41,1,pal);
+            func_021D6214(p,((struct Obj01256 *)q)->fC,ws,0x16,0x41,1,pal);
         } else {
             func_0201EFA4(ws,0,v,3,2,1);
-            func_021D6214(p,*(u32 *)(q+0xc),ws,9,0x41,1,pal);
+            func_021D6214(p,((struct Obj01256 *)q)->fC,ws,9,0x41,1,pal);
         }
         func_0201ED04(ws);
-        func_021D618C(p,*(u32 *)(q+0x10),10,1,1,0x3c40);
-        if(*(u32 *)(p+0x38)==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(g_020A7370,species);}
+        func_021D618C(p,*(u32 *)&((struct Obj01256 *)q)->f10,10,1,1,0x3c40);
+        if(((struct Obj00112 *)p)->f38==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(g_020A7370,species);}
         else t=func_02045EC0(g_020A7370,0x28a);
-        tile=(u32)func_02045770(*(void **)(q+0x10));
+        tile=(u32)func_02045770(((struct Obj01256 *)q)->f10);
         pal=0x440;
-        func_0201C724(*(void **)(p+0x84),tile,0x41,1,(u32)t,*(u32 *)(p+0x80),pal);
+        func_0201C724(((struct Obj00112 *)p)->f84,tile,0x41,1,(u32)t,*(u32 *)&((struct Obj00112 *)p)->f80,pal);
         func_02045808(t);
-        func_021D618C(p,*(u32 *)(q+0x14),12,1,1,0x3c40);
-        func_021D618C(p,*(u32 *)(q+0x18),13,1,1,0x3c40);
-        v2=func_020457B0(0x20,*(u16 *)p);
-        ws2=func_0201EC64(*(u16 *)p);
+        func_021D618C(p,((struct Obj01256 *)q)->f14,12,1,1,0x3c40);
+        func_021D618C(p,((struct Obj01256 *)q)->f18,13,1,1,0x3c40);
+        v2=func_020457B0(0x20,((struct Obj00112 *)p)->f0);
+        ws2=func_0201EC64(((struct Obj00112 *)p)->f0);
         r=func_02017E88(mon,0x9a,v2);
         if(r==0) pal=0x14c0;
         else if(r==1) pal=0xc80;
         func_02017E88(mon,0x8d,v2);
         func_0201EE0C(ws2,0,v2,0,1,2);
-        func_021D6214(p,*(u32 *)(q+0x18),ws2,14,0x41,1,pal);
+        func_021D6214(p,((struct Obj01256 *)q)->f18,ws2,14,0x41,1,pal);
         func_0201ED04(ws2);
         func_02045808(v2);
-        func_021D618C(p,*(u32 *)(q+0x1c),15,1,1,0x3c40);
-        ws3=func_0201EC64(*(u16 *)p);
+        func_021D618C(p,((struct Obj01256 *)q)->f1C,15,1,1,0x3c40);
+        ws3=func_0201EC64(((struct Obj00112 *)p)->f0);
         x=func_02017E88(mon,7,0);
         func_0201EFA4(ws3,0,x,5,2,1);
-        func_021D6214(p,*(u32 *)(q+0x1c),ws3,16,0x41,1,0x440);
+        func_021D6214(p,((struct Obj01256 *)q)->f1C,ws3,16,0x41,1,0x440);
         func_0201ED04(ws3);
         n=func_02017E88(mon,0x9e,0);
         s18=func_02017E88(mon,8,0);
@@ -120,24 +123,24 @@ void func_021D7F04(u8 *p,u8 *q,void *mon)
         B=func_02018584((u16)s34,(u16)tt,(u16)n);
         C=A-s18;
         if(n==100) C=0;
-        func_021D618C(p,*(u32 *)(q+0x20),17,1,1,0x3c40);
-        ws4=func_0201EC64(*(u16 *)p);
+        func_021D618C(p,((struct Obj01256 *)q)->f20,17,1,1,0x3c40);
+        ws4=func_0201EC64(((struct Obj00112 *)p)->f0);
         func_0201EFA4(ws4,0,s18,7,0,1);
-        func_021D6214(p,*(u32 *)(q+0x24),ws4,18,1,1,0x440);
+        func_021D6214(p,((struct Obj01256 *)q)->f24,ws4,18,1,1,0x440);
         func_0201ED04(ws4);
-        func_021D618C(p,*(u32 *)(q+0x28),19,1,1,0x3c40);
-        func_021D618C(p,*(u32 *)(q+0x2c),20,1,1,0x440);
-        ws5=func_0201EC64(*(u16 *)p);
+        func_021D618C(p,((struct Obj01256 *)q)->f28,19,1,1,0x3c40);
+        func_021D618C(p,((struct Obj01256 *)q)->f2C,20,1,1,0x440);
+        ws5=func_0201EC64(((struct Obj00112 *)p)->f0);
         func_0201EFA4(ws5,0,C,6,0,1);
-        func_021D6214(p,*(u32 *)(q+0x2c),ws5,21,0x21,1,0x440);
+        func_021D6214(p,((struct Obj01256 *)q)->f2C,ws5,21,0x21,1,0x440);
         func_0201ED04(ws5);
         if(n!=100) {
             r=A-B-C;
             k=(r<<6)/(A-B);
             if(r!=0 && k==0) k=1;
             if(k==0x40) k=k-1;
-            func_02043AF4(func_02045770(*(void **)(q+0x30)),0,3,(u16)k,3,5);
+            func_02043AF4(func_02045770(((struct Obj01256 *)q)->f30),0,3,(u16)k,3,5);
         }
     }
-    *(u32 *)q=1;
+    ((struct Obj01256 *)q)->f0=1;
 }

@@ -14,11 +14,12 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19488.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_02188C64(u8 *p)
 {
-    return *(u32 *)(p + 0x18);
+    return ((struct Obj19488 *)p)->f18;
 }

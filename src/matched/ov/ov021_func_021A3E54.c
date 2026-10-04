@@ -25,6 +25,7 @@
  *   func_0216D88C  0x0216D88C  thumb  ov010
  *   func_021ACB38  0x021ACB38  thumb  ov021
  */
+#include "../include/Obj12732.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,11 +67,11 @@ int func_021A3E54(u8 *p)
     }
     func_021A4114(p);
     if (func_021A3AD4(p) == 0) {
-        c = func_02188CD0((u8 *)(*(u32 *)(p + 8)));
+        c = func_02188CD0((u8 *)(((struct Obj12732 *)p)->f8));
         d = func_0216D5F8(b);
         func_0216D88C(b, (struct VecFx32 *)buf);
         func_021A3AD0(p, func_021ACB38(c, d, buf, b, 1));
     }
-    *(u16 *)(p + 0x32) = 1;
+    ((struct Obj12732 *)p)->f32 = 1;
     return 0;
 }

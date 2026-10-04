@@ -12,6 +12,7 @@
  * symbols:
  *   func_02041EE4  0x02041EE4  arm
  */
+#include "../include/Obj14663.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,12 +22,12 @@ extern void func_02041EE4(u32 index, u32 a, u32 b);
 
 void ov208_func_021C4F30(void *unused, u8 *p)
 {
-    switch (*(u32 *)(p + 0x6b8)) {
+    switch (((struct Obj14663 *)p)->f6B8) {
     case 0:
         func_02041EE4(2, 0, -0x40);
         break;
     case 4:
-        if (*(u16 *)(p + 0x548) >= 2)
+        if (((struct Obj14663 *)p)->f548 >= 2)
             func_02041EE4(2, 0, 0);
         else
             func_02041EE4(2, 0, -0x40);

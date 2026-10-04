@@ -19,6 +19,7 @@
  *   func_0218ED48  0x0218ED48  thumb
  *   func_0218ED58  0x0218ED58  thumb
  */
+#include "../include/Obj00757.h"
 
 typedef unsigned short u16;
 typedef long long s64;
@@ -58,9 +59,9 @@ void func_021ABABC(int a0, const u16 *p, void *q)
     v = p[11] - p[7];
     v = v * t / 4096;
     y = v + p[7];
-    v = *(const int *)(p + 12) - *(const int *)(p + 8);
+    v = *(const int *)&((struct Obj00757 *)p)->f18 - *(const int *)&((struct Obj00757 *)p)->f10;
     v = (int)(((s64)v * t + 0x800) >> 12);
-    z = v + *(const int *)(p + 8);
+    z = v + *(const int *)&((struct Obj00757 *)p)->f10;
     func_0218ED34((u8 *)h, x);
     func_0218ED48((u8 *)h, y);
     func_0218ED58((u8 *)h, z);

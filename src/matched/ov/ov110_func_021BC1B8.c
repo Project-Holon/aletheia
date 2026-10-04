@@ -18,6 +18,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0204B84C 0x0204B84C arm
  */
+#include "../include/Obj01393.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -34,13 +35,13 @@ void func_021BC1B8(u8 *p)
 {
     Triple t;
     Pair pos;
-    if (*(int *)(p+0x44)) func_021BC578((Pair *)(p+0x38),&pos);
+    if (*(int *)&((struct Obj01393 *)p)->f44) func_021BC578((Pair *)(p+0x38),&pos);
     else { pos.x=128; pos.y=24; }
-    func_021BAC64(*(void **)p,&t,1,0);
-    *(void **)(p+0x18)=func_021BAC78(*(void **)p,&t,pos.x,pos.y+192,0,2);
-    func_0204B878(*(void **)(p+0x18),1);
-    func_0204B84C(*(void **)(p+0x18),1);
-    func_021BAC64(*(void **)p,&t,0,0);
-    *(void **)(p+0x14)=func_021BAC78(*(void **)p,&t,pos.x,pos.y,0,1);
+    func_021BAC64(((struct Obj01393 *)p)->f0,&t,1,0);
+    ((struct Obj01393 *)p)->f18=func_021BAC78(((struct Obj01393 *)p)->f0,&t,pos.x,pos.y+192,0,2);
+    func_0204B878(((struct Obj01393 *)p)->f18,1);
+    func_0204B84C(((struct Obj01393 *)p)->f18,1);
+    func_021BAC64(((struct Obj01393 *)p)->f0,&t,0,0);
+    ((struct Obj01393 *)p)->f14=func_021BAC78(((struct Obj01393 *)p)->f0,&t,pos.x,pos.y,0,1);
     func_021BC69C(p,1);
 }

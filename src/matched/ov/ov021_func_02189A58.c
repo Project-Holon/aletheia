@@ -11,11 +11,12 @@
  *
  * Unlabelled leaf setter, called from func_021BEF8C.
  */
+#include "../include/Obj19506.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 void func_02189A58(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x140) = v;
+    ((struct Obj19506 *)p)->f140 = v;
 }

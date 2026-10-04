@@ -16,6 +16,7 @@
  *   func_021C23C8 0x021C23C8 thumb ov099
  *   func_021C23D8 0x021C23D8 thumb ov099
  */
+#include "../include/Obj07953.h"
 typedef unsigned short u16;
 typedef struct { int v[8]; } Table;
 extern const Table d_021C390C;
@@ -31,13 +32,13 @@ int func_021BDC44(char *p, int v)
     func_021BCBD8(p, 1);
     if (func_021BDDF4(p) == 0) {
         func_021BAAB8(p, 0x68, 0);
-        *(int *)(p + 0x1cc) = 0x63;
+        ((struct Obj07953 *)p)->f1CC = 0x63;
         return v;
     }
     t = d_021C390C;
-    func_021C18C8(p, 2, t.v[*(u16 *)(p + 0x134e) + *(u16 *)(p + 0x134c) * 2]);
+    func_021C18C8(p, 2, t.v[((struct Obj07953 *)p)->f134E + ((struct Obj07953 *)p)->f134C * 2]);
     func_021C23C8(p, (void *)(-1));
-    *(int *)(p + 0x1cc) = 0x9e;
+    ((struct Obj07953 *)p)->f1CC = 0x9e;
     func_021C23D8(p, 1);
     return v;
 }

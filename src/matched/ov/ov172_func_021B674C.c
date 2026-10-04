@@ -14,6 +14,7 @@
  *   func_0203D7C8 0x0203D7C8 arm
  *   d_021C71C0 0x021C71C0 data a4
  */
+#include "../include/Obj01264.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,11 +28,11 @@ void func_021B674C(char *p, int count, u16 heap)
     u32 width = func_021B6938(p);
     u32 height = func_021B6944(p);
     u8 i;
-    if (*(u32 *)(p + 4) == 0) {
-        *(void **)(p + 4) = func_02030734(*(u16 *)p, count * 4, 0, d_021C71C0, 0x1D7);
-        *(u8 *)(p + 8) = count;
+    if (*(u32 *)&((struct Obj01264 *)p)->f4 == 0) {
+        ((struct Obj01264 *)p)->f4 = func_02030734(((struct Obj01264 *)p)->f0, count * 4, 0, d_021C71C0, 0x1D7);
+        ((struct Obj01264 *)p)->f8 = count;
         for (i = 0; i < count; i++)
             (*(void ***)(p + 4))[i] = func_0203D7C8(heap, height * (width * 2), d_021C71C0, 0x1DC);
-        *(u32 *)(p + 0xC) = 1;
+        ((struct Obj01264 *)p)->fC = 1;
     }
 }

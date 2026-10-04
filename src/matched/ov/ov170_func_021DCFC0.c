@@ -15,6 +15,7 @@
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00000.h"
 
 typedef struct {
     unsigned char flag : 1;
@@ -36,11 +37,11 @@ extern void func_02041B6C(unsigned bit);
 
 int func_021DCFC0(char *p)
 {
-    Fade *f = (Fade *)(*(char **)(p + 0x2C) + 0x1A6);
+    Fade *f = (Fade *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x1A6);
     switch (f->state) {
     case 0:
         if (f->flag == 0) {
-            func_021EBFCC(*(char **)(p + 0x2C), f->id, f->lo);
+            func_021EBFCC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id, f->lo);
         } else {
             func_020413B0(f->id, f->x, f->y, f->w, f->h, f->lo);
             func_02041B6C(f->id);
@@ -49,7 +50,7 @@ int func_021DCFC0(char *p)
         break;
     case 1:
         if (f->flag == 0) {
-            if (func_021EBFEC(*(char **)(p + 0x2C), f->id) == 0)
+            if (func_021EBFEC(*(char * *)&((struct Obj00000 *)p)->f2C, f->id) == 0)
                 return 0;
         } else {
             f->count++;

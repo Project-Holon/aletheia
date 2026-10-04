@@ -24,6 +24,7 @@
  * record's +0xc.  Record #0xe also sets the 1<<23 header flag and the two-
  * string tail (c) at +0x18.
  */
+#include "../include/Obj04137.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,13 +57,13 @@ void func_021D9BF8(void *a, int b, int c)
     if (func_021D5D50(r, 1) <= 0)
         return;
     p = func_021C88A4(b, 0xe, c);
-    *(u32 *)(p + 4) = 1;
-    *(u8 *)(p + 0xc) = func_021D5D50(r, 1);
-    *(u8 *)(p + 0xe) = 1;
-    *(u8 *)(p + 0xf) = 1;
-    *(u8 *)(p + 0x10) = c;
-    *(u8 *)(p + 0xd) = 1;
-    *(u32 *)p |= 1 << 23;
+    ((struct Obj04137 *)p)->f4 = 1;
+    ((struct Obj04137 *)p)->fC = func_021D5D50(r, 1);
+    ((struct Obj04137 *)p)->fE = 1;
+    ((struct Obj04137 *)p)->fF = 1;
+    ((struct Obj04137 *)p)->f10 = c;
+    ((struct Obj04137 *)p)->fD = 1;
+    ((struct Obj04137 *)p)->f0 |= 1 << 23;
     func_021C8838(p + 0x18, 2, 0x1e1);
     func_021C8860((struct S *)(p + 0x18), c);
     func_021C88C8((void *)b, p);

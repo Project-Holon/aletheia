@@ -22,6 +22,10 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01725.h"
+#include "../include/Obj22687.h"
+#include "../include/Obj22688.h"
+#include "../include/Obj22689.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,15 +40,15 @@ void func_021D66E8(void *p)
 {
     u8 *b = p;
 
-    if (*(void **)((u8 *)*(void **)(b + 0xc) + 0xb0) != 0)
-        func_0204B3B4(*(void **)((u8 *)*(void **)(b + 0xc) + 0xb0));
-    if (*(void **)(b + 0x8a8) != 0) {
-        func_0204A8D4((u32)(*(void **)(b + 0x8a8)));
-        func_0204ADA4((u32)(*(void **)(b + 0x88c)));
-        func_0204AFD8((u32)(*(void **)(b + 0x8bc)));
+    if (((struct Obj22687 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0 != 0)
+        func_0204B3B4(((struct Obj22688 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0);
+    if (((struct Obj01725 *)b)->f8A8 != 0) {
+        func_0204A8D4((u32)(((struct Obj01725 *)b)->f8A8));
+        func_0204ADA4((u32)(((struct Obj01725 *)b)->f88C));
+        func_0204AFD8((u32)(((struct Obj01725 *)b)->f8BC));
     }
-    *(void **)(b + 0x8a8) = 0;
-    *(void **)(b + 0x88c) = 0;
-    *(void **)(b + 0x8bc) = 0;
-    *(void **)((u8 *)*(void **)(b + 0xc) + 0xb0) = 0;
+    ((struct Obj01725 *)b)->f8A8 = 0;
+    ((struct Obj01725 *)b)->f88C = 0;
+    ((struct Obj01725 *)b)->f8BC = 0;
+    ((struct Obj22689 *)((u8 *)((struct Obj01725 *)b)->fC))->fB0 = 0;
 }

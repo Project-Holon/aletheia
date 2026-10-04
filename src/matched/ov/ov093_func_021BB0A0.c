@@ -16,6 +16,8 @@
  *   func_021B9920  0x021B9920  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  */
+#include "../include/Obj21031.h"
+#include "../include/Obj21032.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -37,9 +39,9 @@ u32 func_021BB0A0(u8 *p)
     B *b;
 
     if (func_021BB830(q) != 0) {
-        b = func_021EEB64(*(u32 *)q, 0);
+        b = func_021EEB64(((struct Obj21032 *)q)->f0, 0);
         if (func_021D8454(b) == 3) {
-            u8 *r = func_021B9920(*(void **)(p + 0x10), 1, b->f);
+            u8 *r = func_021B9920(((struct Obj21031 *)p)->f10, 1, b->f);
             return func_021D5440(r);
         }
     }

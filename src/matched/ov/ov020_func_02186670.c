@@ -16,6 +16,7 @@
  *   func_02186818  0x02186818  thumb
  *   func_02186804  0x02186804  thumb
  */
+#include "../include/Obj12540.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,8 +53,8 @@ void func_02186670(char *base, char *out, u16 *cnt, int n, u16 id)
         q = base + k * 0x18;
         do {
             func_02186818((u32 *)h, (u8)q[i * 0x18 + 9]);
-            *(u16 *)(out + *cnt * 8) = *(u16 *)(r + 0x28);
-            *(int *)(out + *cnt * 8 + 4) = *(u16 *)(r + 0x2a);
+            *(u16 *)(out + *cnt * 8) = ((struct Obj12540 *)r)->f28;
+            *(int *)(out + *cnt * 8 + 4) = ((struct Obj12540 *)r)->f2A;
             *cnt = *cnt + 1;
             i++;
         } while (i < num);

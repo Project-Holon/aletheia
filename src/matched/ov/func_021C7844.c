@@ -15,6 +15,7 @@
  *   func_0204E720  0x0204E720  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07232.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 
 int func_021C7844(u32 a, u32 b, u32 c)
 {
-func_0204E720(*(u32 *)((u8 *)(a) + 4), *(u32 *)((u8 *)(a) + 8), *(u32 *)((u8 *)(a) + 12), *(u32 *)((u8 *)(a) + 16));
+func_0204E720(((struct Obj07232 *)((u8 *)(a)))->f4, ((struct Obj07232 *)((u8 *)(a)))->f8, ((struct Obj07232 *)((u8 *)(a)))->fC, ((struct Obj07232 *)((u8 *)(a)))->f10);
 return 1;
 }
 

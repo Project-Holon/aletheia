@@ -16,6 +16,7 @@
  *   func_021F9DE8 0x021F9DE8 thumb ov132
  *   func_021F95E8 0x021F95E8 thumb ov132
  */
+#include "../include/Obj10562.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,11 +35,11 @@ int func_021FC1D4(int a,char **p)
     q=p[0];
     x=func_0201134C(p[1]);
     y=func_0201134C(p[1]);
-    r=func_021F9DD4(*(void **)(q+0x34));
+    r=func_021F9DD4(((struct Obj10562 *)q)->f34);
     s=func_021F6E78(r,1);
     func_021F6F14(r,s,0x3ff,0x10);
     func_021F6F1C(r,s,y,0);
-    func_021F9DE8(*(void **)(q+0x34),s,x);
-    func_021F95E8(*(void **)(q+0x34));
+    func_021F9DE8(((struct Obj10562 *)q)->f34,s,x);
+    func_021F95E8(((struct Obj10562 *)q)->f34);
     return 0;
 }

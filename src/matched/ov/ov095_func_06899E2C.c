@@ -8,6 +8,8 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj07909.h"
+#include "../include/Obj21887.h"
 typedef unsigned int u32;
 void func_06899E2C(unsigned char *p) {
  int i;
@@ -16,10 +18,10 @@ void func_06899E2C(unsigned char *p) {
  zero=0;
  for(i=0;i<4;i++) {
   q=p+i*16;
-  *(u32 *)(q+0x20)=zero;
-  *(u32 *)(q+0x24)=zero;
-  *(u32 *)(q+0x28)=zero;
-  *(u32 *)(q+0x2c)=zero;
+  ((struct Obj07909 *)q)->f20=zero;
+  ((struct Obj07909 *)q)->f24=zero;
+  ((struct Obj07909 *)q)->f28=zero;
+  ((struct Obj07909 *)q)->f2C=zero;
  }
- *(u32 *)(p+0x60)=zero;
+ ((struct Obj21887 *)p)->f60=zero;
 }

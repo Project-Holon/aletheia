@@ -14,6 +14,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10908.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys; struct Descriptor; struct U16Vec; struct Rec;
@@ -31,7 +32,7 @@ void func_021C4A48(void *unused,u8 *p)
         func_020452E8(*(struct Descriptor **)(p+i*4+0x554));
     }
     for(i=0;i<6;i++)func_02045808(*(struct U16Vec **)(p+i*4+0x59c));
-    func_02045C04(*(struct Rec **)(p+0x590));
-    func_02045C04(*(struct Rec **)(p+0x598));
-    func_020307B0(*(void **)(p+0x594));
+    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f590);
+    func_02045C04(*(struct Rec * *)&((struct Obj10908 *)p)->f598);
+    func_020307B0(((struct Obj10908 *)p)->f594);
 }

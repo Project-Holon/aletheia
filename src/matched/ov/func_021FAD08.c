@@ -15,6 +15,7 @@
  *
  * Flush the queued value when the probe reports empty, then answer -1.
  */
+#include "../include/Obj09234.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 
 int func_021FAD08(u8 *p)
 {
-    if (func_0202CE40(*(struct WinMgr **)(p + 0x18), 0) == 0) {
-        *(u32 *)(p + 0x48) = *(u32 *)(p + 0x4c);
+    if (func_0202CE40(*(struct WinMgr * *)&((struct Obj09234 *)p)->f18, 0) == 0) {
+        ((struct Obj09234 *)p)->f48 = ((struct Obj09234 *)p)->f4C;
     }
     return -1;
 }

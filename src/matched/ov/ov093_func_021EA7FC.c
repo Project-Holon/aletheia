@@ -13,11 +13,12 @@
  *   func_021F8A40  0x021F8A40  thumb  ov094
  *   func_021EE200  0x021EE200  thumb  ov093
  */
+#include "../include/Obj21566.h"
 extern void func_021F8A40(int a);
 extern void func_021EE200(char *p);
 
 void func_021EA7FC(char *p)
 {
     func_021F8A40(3);
-    func_021EE200(*(char **)(p + 0x17c));
+    func_021EE200(*(char * *)&((struct Obj21566 *)p)->f17C);
 }

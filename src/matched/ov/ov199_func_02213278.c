@@ -14,6 +14,7 @@
  *   func_0221380C 0x0221380C thumb ov199
  *   d_02213D00 0x02213D00 data ov199 a1
  */
+#include "../include/Obj14578.h"
 extern void func_020307B0(void *);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -22,9 +23,9 @@ extern void func_0221380C(char *);
 extern const char d_02213D00[];
 int func_02213278(char *a, void *work, char *p)
 {
-    switch (*(unsigned int *)(p + 0x1c)) {
+    switch (((struct Obj14578 *)p)->f1C) {
     case 0:
-        if (*(int *)(p + 0x24) != 0)
+        if (((struct Obj14578 *)p)->f24 != 0)
             func_0221380C(a);
         else
             func_02213808(a, 0);

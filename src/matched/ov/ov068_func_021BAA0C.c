@@ -19,6 +19,7 @@
  *   d_021BB704     0x021BB704  data  a4
  *   d_021BB820     0x021BB820  data  a4
  */
+#include "../include/Obj00103.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,39 +49,39 @@ void func_021BAA0C(u8 *p, int flag)
     u32 k;
     int i;
 
-    if (*(int *)(p + 4) >= 5)
+    if (((struct Obj00103 *)p)->f4 >= 5)
         flag = 0;
-    *(int *)(p + 0x54) = flag;
-    base = (func_02040804(*(u16 *)(p + 2)) + 0x14) / 0x18;
-    func_020413B0(*(u16 *)(p + 2), 0, 0, 0x20, 0x20, 5);
+    ((struct Obj00103 *)p)->f54 = flag;
+    base = (func_02040804(((struct Obj00103 *)p)->f2) + 0x14) / 0x18;
+    func_020413B0(((struct Obj00103 *)p)->f2, 0, 0, 0x20, 0x20, 5);
     i = 0;
     for (k = 0; k < 5; k++)
-        func_020413B0(*(u16 *)(p + 2), i, (base + k) * 3 + 2, 0x20, 3, d_021BB538[k]);
+        func_020413B0(((struct Obj00103 *)p)->f2, i, (base + k) * 3 + 2, 0x20, 3, d_021BB538[k]);
     for (i = 0; i < 11; i++) {
-        if (*(int *)(p + 4) == d_021BB704[i][0] && flag) {
+        if (((struct Obj00103 *)p)->f4 == d_021BB704[i][0] && flag) {
             if (func_021BB0AC(p + 0x44, i))
-                func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
+                func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
             else
-                func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0xC);
+                func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0xC);
         } else {
             if (func_021BB0AC(p + 0x44, i))
-                func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
+                func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
             else
-                func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 3);
+                func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 3);
         }
     }
     for (i = 11; i < 16; i++) {
-        if (i - 11 == *(int *)(p + 4) && flag)
-            func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
+        if (i - 11 == ((struct Obj00103 *)p)->f4 && flag)
+            func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 7);
         else
-            func_020413B0(*(u16 *)p, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
+            func_020413B0(((struct Obj00103 *)p)->f0, d_021BB820[i].x, d_021BB820[i].y, d_021BB820[i].w, d_021BB820[i].h, 0);
     }
     if (flag)
-        func_020413B0(*(u16 *)(p + 2), 0, *(int *)(p + 4) * 3 + 2, 0x20, 3, 7);
-    func_02041B6C(*(u16 *)(p + 2));
-    func_02041B6C(*(u16 *)p);
+        func_020413B0(((struct Obj00103 *)p)->f2, 0, ((struct Obj00103 *)p)->f4 * 3 + 2, 0x20, 3, 7);
+    func_02041B6C(((struct Obj00103 *)p)->f2);
+    func_02041B6C(((struct Obj00103 *)p)->f0);
     for (i = 0; i < 11; i++) {
-        if (*(int *)(p + 4) == d_021BB704[i][0] && flag) {
+        if (((struct Obj00103 *)p)->f4 == d_021BB704[i][0] && flag) {
             if (func_021BB0AC(p + 0x44, i))
                 func_0204B8A0(*(void **)(p + i * 4 + 8), 3);
             else

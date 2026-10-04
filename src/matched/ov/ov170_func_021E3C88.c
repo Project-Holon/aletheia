@@ -46,6 +46,7 @@
  * increment read the work pointer through a local loaded once at the top; with
  * the macro on both, the 0xA194 offset is CSEd into the increment and takes r4.
  */
+#include "../include/Obj14266.h"
 
 struct WinMgr;
 typedef unsigned int   u32;
@@ -98,7 +99,7 @@ typedef struct {
 int func_021E3C88(unsigned char *p)
 {
     char *w = WORK(p);
-    switch (*(int *)(w + 0xA194)) {
+    switch (((struct Obj14266 *)w)->fA194) {
     case 0:
         if (NIB(p)->lo == 1) {
             p[0x17] = 0xFF;
@@ -135,7 +136,7 @@ int func_021E3C88(unsigned char *p)
             STATE(p) = 0x2B;
             return 6;
         }
-        (*(int *)(w + 0xA194))++;
+        (((struct Obj14266 *)w)->fA194)++;
         if (func_021EF480(MGR(p)) == 1) {
             func_021EF3D8(MGR(p));
         } else {

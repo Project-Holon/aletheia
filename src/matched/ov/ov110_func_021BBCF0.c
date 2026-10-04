@@ -18,6 +18,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01248.h"
 typedef unsigned char u8;
 struct WinMgr;
 extern void func_0202CA0C(struct WinMgr *mgr);
@@ -36,15 +37,15 @@ extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 void func_021BBCF0(u8 *p)
 {
-    func_0202CA0C(*(void **)(p + 0x1b4));
-    if (*(void **)(p + 0x1b0)) func_02030EAC(*(void **)(p + 0x1b0));
-    if (*(void **)(p + 0x1a4)) func_02030EAC(*(void **)(p + 0x1a4));
-    if (*(void **)(p + 0x34)) func_02020D3C(*(void **)(p + 0x34));
-    if (*(void **)(p + 0x14)) func_0204B3B4(*(void **)(p + 0x14));
-    if (*(void **)(p + 0x18)) func_0204B3B4(*(void **)(p + 0x18));
-    if (*(void **)(p + 0x2c)) func_02045C04(*(void **)(p + 0x2c));
-    if (*(void **)(p + 0x30)) func_02045808(*(void **)(p + 0x30));
-    func_020452E8(*(void **)(p + 0xc));
-    func_020452E8(*(void **)(p + 0x10));
+    func_0202CA0C(((struct Obj01248 *)p)->f1B4);
+    if (((struct Obj01248 *)p)->f1B0) func_02030EAC(((struct Obj01248 *)p)->f1B0);
+    if (((struct Obj01248 *)p)->f1A4) func_02030EAC(((struct Obj01248 *)p)->f1A4);
+    if (((struct Obj01248 *)p)->f34) func_02020D3C(((struct Obj01248 *)p)->f34);
+    if (((struct Obj01248 *)p)->f14) func_0204B3B4(((struct Obj01248 *)p)->f14);
+    if (((struct Obj01248 *)p)->f18) func_0204B3B4(((struct Obj01248 *)p)->f18);
+    if (((struct Obj01248 *)p)->f2C) func_02045C04(((struct Obj01248 *)p)->f2C);
+    if (((struct Obj01248 *)p)->f30) func_02045808(((struct Obj01248 *)p)->f30);
+    func_020452E8(((struct Obj01248 *)p)->fC);
+    func_020452E8(((struct Obj01248 *)p)->f10);
     func_020307B0(p);
 }

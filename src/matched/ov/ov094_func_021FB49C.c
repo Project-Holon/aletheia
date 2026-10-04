@@ -15,6 +15,7 @@
  *   func_021F8700  0x021F8700  thumb  ov094
  *   func_022097CC  0x022097CC  thumb  ov094
  */
+#include "../include/Obj21663.h"
 extern int func_0201134C(int a);
 extern int func_021FCF2C(int a, int b);
 extern int func_021F8700(void);
@@ -32,5 +33,5 @@ int func_021FB49C(int a, char *b)
     t5 = func_0201134C(a);
     v = func_021FCF2C(a, 14);
     func_022097CC(func_021F8700(), v, t0, t1, t2, t3, t4, t5);
-    return *(int *)(b + 0x23c);
+    return ((struct Obj21663 *)b)->f23C;
 }

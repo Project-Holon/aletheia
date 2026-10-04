@@ -22,6 +22,8 @@
  *   func_021D7D3C    0x021D7D3C  thumb  ov120
  *   func_021D7C1C    0x021D7C1C  thumb  ov120
  */
+#include "../include/Obj03260.h"
+#include "../include/Obj08087.h"
 
 typedef unsigned short u16;
 
@@ -41,28 +43,28 @@ void func_021D883C(char *p)
 {
     int i;
 
-    if (*(void **)(p + 0x68) != 0) {
-        func_0201F7A8(*(void **)(p + 0x68), 2);
-        func_020456F8(*(void **)(p + 0x68));
+    if (((struct Obj03260 *)p)->f68 != 0) {
+        func_0201F7A8(((struct Obj03260 *)p)->f68, 2);
+        func_020456F8(((struct Obj03260 *)p)->f68);
         func_02041B6C(1);
-        func_020452E8(*(void **)(p + 0x68));
-        *(void **)(p + 0x68) = 0;
+        func_020452E8(((struct Obj03260 *)p)->f68);
+        ((struct Obj03260 *)p)->f68 = 0;
     }
-    if (*(void **)(p + 0xC4) != 0) {
-        func_02028148(*(void **)(p + 0xC4));
-        *(void **)(p + 0xC4) = 0;
+    if (((struct Obj03260 *)p)->fC4 != 0) {
+        func_02028148(((struct Obj03260 *)p)->fC4);
+        ((struct Obj03260 *)p)->fC4 = 0;
     }
     for (i = 0; i < 6; i++) {
         char *q = p + i * 4;
 
-        if (*(void **)(q + 0x6C) != 0) {
-            func_020456F8(*(void **)(q + 0x6C));
-            func_020452E8(*(void **)(q + 0x6C));
-            *(void **)(q + 0x6C) = 0;
+        if (((struct Obj08087 *)q)->f6C != 0) {
+            func_020456F8(((struct Obj08087 *)q)->f6C);
+            func_020452E8(((struct Obj08087 *)q)->f6C);
+            ((struct Obj08087 *)q)->f6C = 0;
         }
     }
     func_021D7D3C(p);
     func_021D7C1C(p);
-    func_02049B40(0x17, 5, 4, 0x160, 0x20, *(u16 *)(p + 0xC8));
+    func_02049B40(0x17, 5, 4, 0x160, 0x20, ((struct Obj03260 *)p)->fC8);
     func_02041B6C(5);
 }

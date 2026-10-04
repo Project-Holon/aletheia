@@ -14,6 +14,10 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030D28 0x02030D28 arm
  */
+#include "../include/Obj10540.h"
+#include "../include/Obj14094.h"
+#include "../include/Obj23234.h"
+#include "../include/Obj23235.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -29,7 +33,7 @@ void func_021FABD8(char *p)
     int ready;
     int count;
     ready = 1;
-    count = func_021F9E44(*(void **)(p + 0x34));
+    count = func_021F9E44(((struct Obj14094 *)p)->f34);
     while (count != 0) {
         for (i = 0; i < 10; i++) {
             slot = (char **)(p + i * 4);
@@ -38,7 +42,7 @@ void func_021FABD8(char *p)
                     func_020307B0(slot[3]);
                     slot[3] = 0;
                 } else {
-                    if ((*(u16 *)(slot[3] + 0x16) & 2) && !(*(u16 *)(slot[3] + 0x16) & 4)) ready = 0;
+                    if ((((struct Obj23234 *)(slot[3]))->f16 & 2) && !(((struct Obj23235 *)(slot[3]))->f16 & 4)) ready = 0;
                 }
             }
         }
@@ -46,10 +50,10 @@ void func_021FABD8(char *p)
             for (i = 0; i < 10; i++) {
                 char *q;
                 q = *(char **)(p + 0xc + i * 4);
-                if (q != 0 && (*(u16 *)(q + 0x16) & 2) && (*(u16 *)(q + 0x16) & 4)) *(u16 *)(q + 0x16) ^= 4;
+                if (q != 0 && (((struct Obj10540 *)q)->f16 & 2) && (((struct Obj10540 *)q)->f16 & 4)) ((struct Obj10540 *)q)->f16 ^= 4;
             }
         }
-        func_02030D28(*(void **)(p + 4));
+        func_02030D28(((struct Obj14094 *)p)->f4);
         count--;
     }
 }

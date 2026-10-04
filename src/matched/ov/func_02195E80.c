@@ -15,6 +15,7 @@
  *   func_02195E54  0x02195E54  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09176.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_02195E54(u32, u32, u32, u32);
 
 int func_02195E80(u32 a, u32 b, u32 c)
 {
-return func_02195E54(a, *(u32 *)((u8 *)(b) + 12), *(u8 *)((u8 *)(b) + 3), *(u32 *)((u8 *)(b) + 88));
+return func_02195E54(a, ((struct Obj09176 *)((u8 *)(b)))->fC, ((struct Obj09176 *)((u8 *)(b)))->f3, ((struct Obj09176 *)((u8 *)(b)))->f58);
 }
 

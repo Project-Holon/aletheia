@@ -31,6 +31,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00129.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -74,8 +75,8 @@ void func_021C16AC(u8 *p)
     Vec3 a;
     int n;
 
-    o = func_021A3074(*(void **)(p + 0x3c));
-    switch (*(s16 *)(p + 2)) {
+    o = func_021A3074(((struct Obj00129 *)p)->f3C);
+    switch (((struct Obj00129 *)p)->f2) {
     case 0:
         k = 1;
         func_0216DB4C(o, 1);
@@ -83,83 +84,83 @@ void func_021C16AC(u8 *p)
         a = v;
         b = a;
         c = a;
-        func_02164208(*(u16 *)(p + 4), &b, 0x10000);
-        func_02164208(*(u16 *)(p + 4), &c, 0x20000);
+        func_02164208(((struct Obj00129 *)p)->f4, &b, 0x10000);
+        func_02164208(((struct Obj00129 *)p)->f4, &c, 0x20000);
         func_02164280((s16)((b.x >> 4) / 0x1000), (s16)((b.z >> 4) / 0x1000), &b);
-        func_02164208(*(u16 *)(p + 4), &b, 0x4000);
+        func_02164208(((struct Obj00129 *)p)->f4, &b, 0x4000);
         func_02164280((s16)((c.x >> 4) / 0x1000), (s16)((c.z >> 4) / 0x1000), &c);
         *(Vec3 *)(p + 0x24) = c;
         func_02163E58(o, &c, (int *)(p + 0x28));
-        *(int *)(p + 0x30) = (b.x - v.x) / 16;
-        *(int *)(p + 0x38) = (b.z - v.z) / 16;
-        *(int *)(p + 0x34) = -0x6000;
-        *(int *)(p + 0x1c) = 0x1000;
-        r7 = func_021A2F98(*(u32 *)(p + 0x3c));
+        ((struct Obj00129 *)p)->f30 = (b.x - v.x) / 16;
+        ((struct Obj00129 *)p)->f38 = (b.z - v.z) / 16;
+        ((struct Obj00129 *)p)->f34 = -0x6000;
+        ((struct Obj00129 *)p)->f1C = 0x1000;
+        r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
         func_021ACBB8((u32)r7, 2);
-        if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
+        if ((u16)(((struct Obj00129 *)p)->f4 + 0xfffe) <= 1)
             k = 3;
-        t = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
+        t = func_02188CD0((u8 *)(((struct Obj00129 *)p)->f40));
         n = 9;
         func_021ABE30(t, &n, 1);
-        *(u32 *)(p + 0x48) = func_021AD564(t, k, r7);
-        func_021C6B18(*(u32 *)(p + 0x40), 0x10, 0x20000);
+        ((struct Obj00129 *)p)->f48 = func_021AD564(t, k, r7);
+        func_021C6B18(((struct Obj00129 *)p)->f40, 0x10, 0x20000);
         func_020061E4(0x6e1);
-        *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
+        ((struct Obj00129 *)p)->f2 = ((struct Obj00129 *)p)->f2 + 1;
     case 1:
         func_0216D88C(o, (struct VecFx32 *)&w);
-        w.x += *(int *)(p + 0x30);
-        w.z += *(int *)(p + 0x38);
+        w.x += ((struct Obj00129 *)p)->f30;
+        w.z += ((struct Obj00129 *)p)->f38;
         func_0216D89C(o, &w);
-        *(int *)(p + 0x1c) = -*(int *)(p + 0x1c);
-        *(u16 *)(p + 8) += 1;
-        if (*(u16 *)(p + 8) >= 0x10) {
-            *(u16 *)(p + 8) = 0;
-            *(int *)(p + 0x1c) = 0;
-            *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
-            func_021AC154(*(u32 *)(p + 0x48));
-            r7 = func_021A2F98(*(u32 *)(p + 0x3c));
+        ((struct Obj00129 *)p)->f1C = -((struct Obj00129 *)p)->f1C;
+        ((struct Obj00129 *)p)->f8 += 1;
+        if (((struct Obj00129 *)p)->f8 >= 0x10) {
+            ((struct Obj00129 *)p)->f8 = 0;
+            ((struct Obj00129 *)p)->f1C = 0;
+            ((struct Obj00129 *)p)->f2 = ((struct Obj00129 *)p)->f2 + 1;
+            func_021AC154(((struct Obj00129 *)p)->f48);
+            r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
             {
                 u32 k2 = 2;
-                if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
+                if ((u16)(((struct Obj00129 *)p)->f4 + 0xfffe) <= 1)
                     k2 = 2;
-                *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), k2, r7);
+                ((struct Obj00129 *)p)->f48 = func_021AD564(func_02188CD0((u8 *)(((struct Obj00129 *)p)->f40)), k2, r7);
             }
         }
         func_021C12E4(o, p + 0x18);
         break;
     case 2:
         func_0216D88C(o, (struct VecFx32 *)&w);
-        w.y += *(int *)(p + 0x34);
-        if (w.y <= *(int *)(p + 0x28)) {
-            w.y = *(int *)(p + 0x28);
-            *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
-            *(int *)(p + 0x30) = (*(int *)(p + 0x24) - w.x) / 16;
-            *(int *)(p + 0x38) = (*(int *)(p + 0x2c) - w.z) / 16;
-            func_021C6B18(*(u32 *)(p + 0x40), 0x10, -0x20000);
-            func_021AC154(*(u32 *)(p + 0x48));
-            r7 = func_021A2F98(*(u32 *)(p + 0x3c));
+        w.y += ((struct Obj00129 *)p)->f34;
+        if (w.y <= ((struct Obj00129 *)p)->f28) {
+            w.y = ((struct Obj00129 *)p)->f28;
+            ((struct Obj00129 *)p)->f2 = ((struct Obj00129 *)p)->f2 + 1;
+            ((struct Obj00129 *)p)->f30 = (((struct Obj00129 *)p)->f24 - w.x) / 16;
+            ((struct Obj00129 *)p)->f38 = (((struct Obj00129 *)p)->f2C - w.z) / 16;
+            func_021C6B18(((struct Obj00129 *)p)->f40, 0x10, -0x20000);
+            func_021AC154(((struct Obj00129 *)p)->f48);
+            r7 = func_021A2F98(*(u32 *)&((struct Obj00129 *)p)->f3C);
             func_021ACBB8((u32)r7, 1);
-            *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), 0, r7);
+            ((struct Obj00129 *)p)->f48 = func_021AD564(func_02188CD0((u8 *)(((struct Obj00129 *)p)->f40)), 0, r7);
         }
         func_0216D89C(o, &w);
         break;
     case 3:
         func_0216D88C(o, (struct VecFx32 *)&w);
-        w.x += *(int *)(p + 0x30);
-        w.z += *(int *)(p + 0x38);
+        w.x += ((struct Obj00129 *)p)->f30;
+        w.z += ((struct Obj00129 *)p)->f38;
         func_0216D89C(o, &w);
-        *(u16 *)(p + 8) += 1;
-        if (*(u16 *)(p + 8) >= 0x10) {
-            t = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
+        ((struct Obj00129 *)p)->f8 += 1;
+        if (((struct Obj00129 *)p)->f8 >= 0x10) {
+            t = func_02188CD0((u8 *)(((struct Obj00129 *)p)->f40));
             func_0216DB4C(o, 0);
-            func_0216E014(o, p + 0x24, *(u16 *)(p + 4));
-            func_021AC154(*(u32 *)(p + 0x48));
+            func_0216E014(o, p + 0x24, ((struct Obj00129 *)p)->f4);
+            func_021AC154(((struct Obj00129 *)p)->f48);
             func_021ABE64(t, 9);
-            func_021A35A0((u32 *)(*(u32 *)(p + 0x3c)), 1);
-            *(u32 *)(p + 0x48) = 0;
-            *(u16 *)(p + 6) = 1;
+            func_021A35A0((u32 *)(*(u32 *)&((struct Obj00129 *)p)->f3C), 1);
+            ((struct Obj00129 *)p)->f48 = 0;
+            ((struct Obj00129 *)p)->f6 = 1;
             func_020061E4(0x6e2);
-            *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
+            ((struct Obj00129 *)p)->f2 = ((struct Obj00129 *)p)->f2 + 1;
         }
         break;
     }

@@ -13,6 +13,8 @@
  *   func_0203996C 0x0203996C arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj14141.h"
+#include "../include/Obj23297.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021FDA74(u32, u32, int);
@@ -22,7 +24,7 @@ extern struct Entry *func_0203996C(s32 idx);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
 void func_021FD7D4(u8 *p)
 {
-    u32 *q = *(u32 **)(p + 0x140);
+    u32 *q = *(u32 * *)&((struct Obj23297 *)p)->f140;
     u32 id;
     func_021FDA74(q[3], q[10], 0);
     id = (u32)func_0203996C(255);
@@ -31,8 +33,8 @@ void func_021FD7D4(u8 *p)
 void func_021FD814(void *a, void *b, void *c, u8 *p)
 {
     u32 *q;
-    *(u32 *)(p + 0x178) = 1;
-    q = *(u32 **)(p + 0x140);
+    ((struct Obj14141 *)p)->f178 = 1;
+    q = *(u32 * *)&((struct Obj14141 *)p)->f140;
     func_021FDA74(q[3], q[10], 10);
 }
 u32 func_021FD830(void *a, u8 *p)

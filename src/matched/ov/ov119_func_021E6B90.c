@@ -21,6 +21,7 @@
  *   func_020435F4 0x020435F4 arm
  *   d_021E7E44 0x021E7E44 data a4
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct BgTemplate {
@@ -42,21 +43,21 @@ void func_021E6B90(char *p)
 {
     void *h;
     struct BgTemplate t;
-    *(void **)(p + 0x644) = func_0201F5DC((void *)6, 15, 0, *(u16 *)(p + 0x5f4));
-    h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
-    *(u32 *)(p + 0x870) = func_02049740(h, 13, 5, 0, 0, *(u16 *)(p + 0x5f4));
-    func_02049990(h, 7, 4, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
-    func_02049990(h, 7, 5, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    ((struct Obj00001 *)p)->f644 = func_0201F5DC((void *)6, 15, 0, ((struct Obj00001 *)p)->f5F4);
+    h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f870 = func_02049740(h, 13, 5, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    func_02049990(h, 7, 4, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    func_02049990(h, 7, 5, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     t = d_021E7E44;
     func_020403F4(7);
     func_0203FCA0(7, &t, 0);
-    func_02049990(h, 8, 7, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    func_02049990(h, 8, 7, 0, (u16)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     func_02040618(4, 0, -0x80);
     func_02040618(7, 0, 0);
     func_0204047C(4, 3);
-    func_02049990(h, 11, 2, 0, (u16)*(u32 *)(p + 0x86c), 0, 0, *(u16 *)(p + 0x5f4));
+    func_02049990(h, 11, 2, 0, (u16)((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
     func_02049238(h);
-    *(u16 *)(p + 0x11de) = 0;
+    ((struct Obj00001 *)p)->f11DE = 0;
     func_021E6AB0(p);
     func_020435F4(0x1f);
 }

@@ -52,6 +52,7 @@
  *   func_02008748  0x02008748  thumb
  *   func_0200863C  0x0200863C  thumb
  */
+#include "../include/Obj00054.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -95,35 +96,35 @@ void func_02012C18(u8 *p)
     u32 v;
     u32 h;
 
-    if (func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)p)) == 1) {
+    if (func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)&((struct Obj00054 *)p)->f0)) == 1) {
         return;
     }
 
     v = (u32)func_020127A4((struct SaveBlock *)p);
-    func_02008808((void *)(*(u32 *)p), (struct Sub020087E8Arg *)v);
-    func_020088B8((void *)(*(u32 *)p), (struct Sub02008860Buf *)v);
+    func_02008808((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub020087E8Arg *)v);
+    func_020088B8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (struct Sub02008860Buf *)v);
 
     v = func_02012964(p);
-    func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x29)));
+    func_0200EEAC((void *)v, (void *)((u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x29)));
 
-    func_0200BE6C((void *)(*(u32 *)p), (u16 *)func_020127B8(p));
+    func_0200BE6C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (u16 *)func_020127B8(p));
 
     v = func_020127C4(p);
-    func_0200A884(func_0200A864((void *)(*(u32 *)p)), (struct Rec2Head *)v);
+    func_0200A884(func_0200A864((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Rec2Head *)v);
 
-    func_0200B3C8((void *)(*(u32 *)p), (const struct Rec94 *)(p + 0x5EC));
+    func_0200B3C8((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), (const struct Rec94 *)(p + 0x5EC));
 
-    h = *(u32 *)(p + 0x15C);
-    func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)(p + 0x1B8)));
+    h = ((struct Obj00054 *)p)->f15C;
+    func_0200893C((const struct Sub02008828Obj *)h, (void *)(*(u32 *)&((struct Obj00054 *)p)->f1B8));
     func_02008954((const struct Sub02008828Obj *)h, p + 0x1C4);
 
     v = func_0201283C(p);
-    func_020097F0(func_02009D08((void *)(*(u32 *)p)), (struct Sub020097BCObj *)v);
+    func_020097F0(func_02009D08((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), (struct Sub020097BCObj *)v);
 
-    func_02008964((const struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)), p + 0x1C5);
+    func_02008964((const struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C), p + 0x1C5);
 
-    func_0200E89C((void *)(*(u32 *)p), p + 0x694);
+    func_0200E89C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0), p + 0x694);
 
-    v = (u32)func_02008748((void *)(*(u32 *)p));
-    func_0200863C((struct PlayTime *)(*(u32 *)(p + 0x6AC)), (const struct PlayTime *)v);
+    v = (u32)func_02008748((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
+    func_0200863C((struct PlayTime *)(((struct Obj00054 *)p)->f6AC), (const struct PlayTime *)v);
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
  */
+#include "../include/Obj04734.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern void func_02030EAC(struct Node *n);
 void func_02023DDC(void *a0, short *a1)
 {
     func_02023C3C(a1[0], a1[1], a1[2], a1[3],
-                  *(u32 *)((char *)a1 + 8), *(u32 *)((char *)a1 + 0xc));
+                  ((struct Obj04734 *)a1)->f8, ((struct Obj04734 *)a1)->fC);
     func_02030EAC(a0);
 }

@@ -23,6 +23,8 @@
  *   func_021FD6D8 0x021FD6D8 thumb ov186
  *   func_021F8604 0x021F8604 thumb ov185
  */
+#include "../include/Obj00278.h"
+#include "../include/Obj02526.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char ov112_id[];
@@ -47,17 +49,17 @@ int func_021F8480(void *obj,int b,char *q)
     void *v;
     int i;
     func_02034AC4((int)ov112_id);
-    p=func_0203159C(obj,88,func_021F9B9C(*(void **)(q+16)));
+    p=func_0203159C(obj,88,func_021F9B9C(((struct Obj02526 *)q)->f10));
     func_02082BCC(p,0,88);
-    *(char **)(p+52)=q;
-    *(u16 *)(p+48)=func_021F9B9C(*(void **)(q+16));
-    *(u32 *)(p+44)=func_0201C440((void *)(unsigned int)*(u16 *)(p+48));
-    v=(void *)func_021FC4DC(*(void **)(q+8));
-    *(void **)(p+40)=func_02025538(*(u16 *)(p+48),v);
-    for (i=0;i<2;i++) *(void **)(p+i*4+56)=func_021FD760((unsigned int)v,(char *)(*(int *)(q+12)),i,*(u16 *)(p+48));
-    func_021FBE54((char *)(*(int *)(q+12)),6,*(u16 *)(p+48));
+    *(char * *)&((struct Obj00278 *)p)->f34=q;
+    ((struct Obj00278 *)p)->f30=func_021F9B9C(((struct Obj02526 *)q)->f10);
+    ((struct Obj00278 *)p)->f2C=func_0201C440((void *)(unsigned int)((struct Obj00278 *)p)->f30);
+    v=(void *)func_021FC4DC(((struct Obj02526 *)q)->f8);
+    ((struct Obj00278 *)p)->f28=func_02025538(((struct Obj00278 *)p)->f30,v);
+    for (i=0;i<2;i++) *(void **)(p+i*4+56)=func_021FD760((unsigned int)v,(char *)(((struct Obj02526 *)q)->fC),i,((struct Obj00278 *)p)->f30);
+    func_021FBE54((char *)(((struct Obj02526 *)q)->fC),6,((struct Obj00278 *)p)->f30);
     func_02040588(0,1);
     func_021F8EFC(p,q);
-    *(void **)(p+36)=func_021FD6D8((int)p,(int)func_021F8604,*(u16 *)(p+48));
+    ((struct Obj00278 *)p)->f24=func_021FD6D8((int)p,(int)func_021F8604,((struct Obj00278 *)p)->f30);
     return 1;
 }

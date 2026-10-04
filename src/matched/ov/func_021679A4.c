@@ -15,6 +15,7 @@
  * symbols:
  *   func_02194384   0x02194384  thumb
  */
+#include "../include/Obj17734.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ extern int func_02194384(int, int, int, int, int, int);
 
 int func_021679A4(void *a0, int a1, int a2, int a3, int a4, int a5)
 {
-    int v = *(int *)((char *)a0 + 4);
+    int v = ((struct Obj17734 *)a0)->f4;
 
     if (v == 0)
         return 0;

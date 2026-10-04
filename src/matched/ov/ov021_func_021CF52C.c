@@ -13,6 +13,7 @@
  *   d_021DE5FC     0x021DE5FC  data  ov021  a4
  *   func_02030734  0x02030734  arm
  */
+#include "../include/Obj20270.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ extern char d_021DE5FC[];
 
 void func_021CF52C(u8 *p, u32 size, u32 heap)
 {
-    *(void **)(p + 0x1c) = func_02030734(heap, size, 1, d_021DE5FC, 0xe3);
+    ((struct Obj20270 *)p)->f1C = func_02030734(heap, size, 1, d_021DE5FC, 0xe3);
 }

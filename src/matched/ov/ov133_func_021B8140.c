@@ -25,6 +25,8 @@
  *   _ffix 0x0209C494 arm
  *   d_021BA5B8 0x021BA5B8 data a4
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj23312.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,23 +48,23 @@ void func_021B8140(u8 *p)
     Scale old;
     u8 *q,*data,*s,*t;
     u32 *v;
-    data=(u8 *)func_021BA20C(*(u8 **)(p+0x38));
-    pos.x=*(u32 *)(p+0x1c);pos.y=*(u32 *)(p+0x20);
+    data=(u8 *)func_021BA20C(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    pos.x=*(u32 *)&((struct Obj00004 *)p)->f1C;pos.y=((struct Obj00004 *)p)->f20;
     if(pos.x!=0) scale.x=(int)(0.5f+(float)(pos.x<<12));
     else scale.x=(int)((float)(pos.x<<12)-0.5f);
-    if(*(u32 *)(p+0x20)!=0) scale.y=(int)(0.5f+(float)(*(u32 *)(p+0x20)<<12));
-    else scale.y=(int)((float)(*(u32 *)(p+0x20)<<12)-0.5f);
-    q=func_021BA19C(*(u16 *)p,*(void **)(p+0x1884),data,&scale);
-    func_021BA100(*(void **)(p+0x1820),q);
+    if(((struct Obj00004 *)p)->f20!=0) scale.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f20<<12));
+    else scale.y=(int)((float)(((struct Obj00004 *)p)->f20<<12)-0.5f);
+    q=func_021BA19C(((struct Obj00004 *)p)->f0,((struct Obj00004 *)p)->f1884,data,&scale);
+    func_021BA100(((struct Obj00004 *)p)->f1820,q);
     func_021BA21C(q,&pos);
-    s=(u8 *)func_021BA218(*(u8 **)(p+0x38));t=(u8 *)func_021BA218(q);
-    func_021F4EC4(*(int *)(p+0x1884),(int)s,&old.x,&old.y);
-    func_021F4EB4(*(int *)(p+0x1884),(int)t,old.x,old.y);
-    func_021F4EE8(*(int *)(p+0x1884),(int)t,0);
-    v=func_021BA228(*(u8 **)(p+0x38));
-    *(u32 *)(p+0x40)=1;
-    *(u32 *)(p+0x44)=v[0];*(u32 *)(p+0x48)=v[1];
-    *(u32 *)(p+0x3c)=2;*(u8 **)(p+0x38)=q;*(u32 *)(p+0x40)=1;
-    *(u32 *)(data+12)=1;
+    s=(u8 *)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);t=(u8 *)func_021BA218(q);
+    func_021F4EC4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&old.x,&old.y);
+    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,old.x,old.y);
+    func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(int)t,0);
+    v=func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    *(u32 *)&((struct Obj00004 *)p)->f40=1;
+    *(u32 *)&((struct Obj00004 *)p)->f44=v[0];*(u32 *)&((struct Obj00004 *)p)->f48=v[1];
+    *(u32 *)&((struct Obj00004 *)p)->f3C=2;*(u8 * *)&((struct Obj00004 *)p)->f38=q;*(u32 *)&((struct Obj00004 *)p)->f40=1;
+    ((struct Obj23312 *)data)->fC=1;
     func_021B7A18(p);func_020061E4(0x625);
 }

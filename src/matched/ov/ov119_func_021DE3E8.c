@@ -28,6 +28,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_021DE208 0x021DE208 thumb ov119
  */
+#include "../include/Obj00251.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,37 +52,37 @@ void func_021DE3E8(char *p)
     int idx;
     func_02040588(3,1);
     if(func_020221A4()) {
-        func_021B63D0(*(S **)(p+0x9c0));
-        if(func_021B6448(*(u8 **)(p+0x9c0))==1) {
-            func_0202208C((void *)3,0,0,0,6,1,*(u16 *)(p+0x5f4));
+        func_021B63D0(*(S * *)&((struct Obj00251 *)p)->f9C0);
+        if(func_021B6448(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==1) {
+            func_0202208C((void *)3,0,0,0,6,1,((struct Obj00251 *)p)->f5F4);
             func_021D8E84(p,(int)func_021DE2C4);
             return;
         }
-        if(func_021B6470(*(u8 **)(p+0x9c0))==-1) {
+        if(func_021B6470(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==-1) {
             idx=func_02035C08(d_021E80C4);
             if(idx!=-1) {
                 func_020355D8(1);
-                *(int *)(p+0x10a0)=idx;
+                ((struct Obj00251 *)p)->f10A0=idx;
                 func_021E68F4((int)p,-1);
-                func_021DE1B4((State *)p,*(int *)(p+0x10a0));
+                func_021DE1B4((State *)p,((struct Obj00251 *)p)->f10A0);
                 func_020061E4(0x548);
-                *(int *)(p+0xf2c)=0;
+                ((struct Obj00251 *)p)->fF2C=0;
                 func_021D8E84(p,(int)func_021DE3BC);
                 return;
             }
             if(func_020355C4() && poll()) {
                 func_020355D8(0);
-                func_021E68F4((int)p,*(int *)(p+0x10a0));
+                func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
                 func_020061E4(0x548);
-                *(int *)(p+0xf2c)=0;
+                ((struct Obj00251 *)p)->fF2C=0;
                 func_021D8E84(p,(int)func_021DE3BC);
                 return;
             }
             if(func_021DE208(p)) {
                 func_020061E4(0x548);
-                func_021E68F4((int)p,*(int *)(p+0x10a0));
-                func_021DE1B4((State *)p,*(int *)(p+0x10a0));
-                *(int *)(p+0xf2c)=0;
+                func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
+                func_021DE1B4((State *)p,((struct Obj00251 *)p)->f10A0);
+                ((struct Obj00251 *)p)->fF2C=0;
                 func_021D8E84(p,(int)func_021DE3BC);
             }
         }

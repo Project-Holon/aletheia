@@ -29,6 +29,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   ov067_id       0x00000043  data
  */
+#include "../include/Obj00000.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -57,22 +58,22 @@ int func_021E1F90(u8 *p)
     func_021DC964(p);
     func_021DCF30(p);
     func_021EE3CC(p);
-    func_021EF310(*(void **)(p + 0x2c));
-    func_021EBDD8(*(void **)(p + 0x2c));
+    func_021EF310(((struct Obj00000 *)p)->f2C);
+    func_021EBDD8(((struct Obj00000 *)p)->f2C);
     func_021EAAC4(p);
     func_021DD8F8(p);
     func_021DCE80(p);
     func_021DCDD8(p);
     func_021DCB48(p);
-    func_02036270(*(u32 *)(*(u32 *)(p + 0x2c) + 0x4c), *(u32 *)(*(u32 *)(p + 0x2c) + 0x50));
-    func_02049238(*(u32 *)(*(u32 *)(p + 0x2c) + 0x1b0));
-    func_020307B0(*(void **)(p + 0x2c));
+    func_02036270(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x4c), *(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x50));
+    func_02049238(*(u32 *)(*(u32 *)&((struct Obj00000 *)p)->f2C + 0x1b0));
+    func_020307B0(((struct Obj00000 *)p)->f2C);
     func_020306F0(0x4c);
-    *(u32 *)(p + 0x2c) = 0;
+    *(u32 *)&((struct Obj00000 *)p)->f2C = 0;
     *(volatile u16 *)0x04000050 = 0;
     *(volatile u16 *)0x04001050 = 0;
     func_02043534(0);
     func_020435F4(0);
     func_02034A5C((int)ov067_id);
-    return *(u32 *)(p + 0x28);
+    return *(u32 *)&((struct Obj00000 *)p)->f28;
 }

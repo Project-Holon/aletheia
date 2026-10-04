@@ -15,6 +15,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   d_020A7370     0x020A7370  data
  */
+#include "../include/Obj01287.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -33,22 +34,22 @@ int func_021F4480(u8 *p, int a, int b)
     case 0:
         return 0;
     case 1:
-        if (func_020458F8((struct U16Vec *)(*(u32 *)(p + 0x2D0))) == 0)
+        if (func_020458F8((struct U16Vec *)(((struct Obj01287 *)p)->f2D0)) == 0)
             return (int)func_02045EC0((struct MsgBank *)d_020A7370,
-                                 *(u16 *)(*(u32 *)(p + 0x2C4) + 4));
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+                                 *(u16 *)(*(u32 *)&((struct Obj01287 *)p)->f2C4 + 4));
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     case 2:
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     case 3:
         return 0;
     case 4:
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     case 5:
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     case 6:
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     case 7:
-        return (int)func_02045874((struct U16Vec *)(*(u32 *)(p + 0x2D0)), b);
+        return (int)func_02045874((struct U16Vec *)(((struct Obj01287 *)p)->f2D0), b);
     default:
         return 0;
     }

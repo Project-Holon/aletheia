@@ -20,6 +20,7 @@
  *   func_021C12E4  0x021C12E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01359.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,24 +46,24 @@ int func_021C146C(u8 *p)
     void *r4;
     u32 r6;
 
-    r4 = func_021A3074(*(void **)(p + 0x3c));
+    r4 = func_021A3074(((struct Obj01359 *)p)->f3C);
     func_0216D88C(r4, (struct VecFx32 *)&v);
-    v.x += *(int *)(p + 0x30);
-    v.z += *(int *)(p + 0x38);
+    v.x += ((struct Obj01359 *)p)->f30;
+    v.z += ((struct Obj01359 *)p)->f38;
     func_0216D89C(r4, &v);
-    *(int *)(p + 0x1c) = -*(int *)(p + 0x1c);
-    *(u16 *)(p + 8) += 1;
-    if (*(u16 *)(p + 8) >= 0x10) {
-        *(u16 *)(p + 8) = 0;
-        *(int *)(p + 0x1c) = 0;
-        *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
-        func_021AC154(*(u32 *)(p + 0x48));
-        r6 = func_021A2F98(*(u32 *)(p + 0x3c));
+    ((struct Obj01359 *)p)->f1C = -((struct Obj01359 *)p)->f1C;
+    ((struct Obj01359 *)p)->f8 += 1;
+    if (((struct Obj01359 *)p)->f8 >= 0x10) {
+        ((struct Obj01359 *)p)->f8 = 0;
+        ((struct Obj01359 *)p)->f1C = 0;
+        ((struct Obj01359 *)p)->f2 = ((struct Obj01359 *)p)->f2 + 1;
+        func_021AC154(((struct Obj01359 *)p)->f48);
+        r6 = func_021A2F98(*(u32 *)&((struct Obj01359 *)p)->f3C);
         {
             u32 k = 2;
-            if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
+            if ((u16)(((struct Obj01359 *)p)->f4 + 0xfffe) <= 1)
                 k = 2;
-            *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), k, r6);
+            ((struct Obj01359 *)p)->f48 = func_021AD564(func_02188CD0((u8 *)(((struct Obj01359 *)p)->f40)), k, r6);
         }
     }
     func_021C12E4(r4, p + 0x18);

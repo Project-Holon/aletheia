@@ -26,6 +26,7 @@
  *   func_021DA890 0x021DA890 thumb ov121
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01058.h"
 typedef unsigned int u32;
 typedef struct Obj { char pad[0xa7c]; char *slots[12]; } Obj;
 extern void func_021DD980(char *);
@@ -54,24 +55,24 @@ void func_021DAE1C(Obj *obj)
             obj->slots[i]=0;
         }
     }
-    func_021DD1FC(*(void ***)(p+0xab0));
-    if(*(void **)(p+0xabc)) {
-        func_021D9E04(*(void **)(p+0xabc));
-        *(void **)(p+0xabc)=0;
+    func_021DD1FC(*(void ** *)&((struct Obj01058 *)p)->fAB0);
+    if(((struct Obj01058 *)p)->fABC) {
+        func_021D9E04(((struct Obj01058 *)p)->fABC);
+        ((struct Obj01058 *)p)->fABC=0;
     }
     func_02040618(3,0,0);
     func_02040618(2,0,0);
-    func_021DA2A8(*(void **)(p+0xab8));
-    func_021DA280(*(void **)(p+0xab8));
+    func_021DA2A8(((struct Obj01058 *)p)->fAB8);
+    func_021DA280(((struct Obj01058 *)p)->fAB8);
     func_021DB528(p,1);
     func_021DB528(p,0);
     func_021DB3E8(p);
-    for(j=0;j<func_0200A348(*(void **)(p+0xc));j++)
+    for(j=0;j<func_0200A348(((struct Obj01058 *)p)->fC);j++)
         func_021DBEE4((u32)(p+0x28+j*0xdc));
     func_020414EC(4);
     func_020414EC(6);
     func_02041B6C(4);
     func_02041B6C(6);
-    func_021DA890(*(void **)(p+0xac4));
+    func_021DA890(((struct Obj01058 *)p)->fAC4);
     func_020307B0(p);
 }

@@ -14,6 +14,7 @@
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
+#include "../include/Obj22918.h"
 extern int func_0203CEAC(int);
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
@@ -28,7 +29,7 @@ void func_021DEDC8(void *a, int *state, char *p)
         break;
     case 1:
         if (func_0203CD98() == 0) {
-            *(int *)(p + 0x5c) = 0;
+            ((struct Obj22918 *)p)->f5C = 0;
             *state = 2;
         }
         break;

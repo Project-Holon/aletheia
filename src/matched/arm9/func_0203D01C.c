@@ -14,6 +14,7 @@
  *   func_0203C3B4  0x0203C3B4  arm
  *   func_0203B2D0  0x0203B2D0  arm
  */
+#include "../include/Obj11372.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ void func_0203D01C(void)
         return;
     case 0:
     case 5:
-        func_0203B2D0(*(u16 *)(s + 0x56));
+        func_0203B2D0(((struct Obj11372 *)s)->f56);
         return;
     default:
         return;

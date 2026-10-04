@@ -36,6 +36,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef struct { int x,y,z; } Vec;
 typedef struct { int x,y; } Pair;
@@ -70,11 +71,11 @@ void func_021B8444(u8 *p)
     u8 *sprite,*entry,*s;
     Pair *old;
     int state,depth;
-    func_021BA218(*(u8 **)(p+0x38));
-    sprite=func_021BA218(*(u8 **)(p+0x38));
-    if(func_021B8B78(p,*(int *)(p+0x34))==1) {
-        state=func_021F50F4(*(int *)(p+0x34));
-        entry=func_021BA184(*(void **)(p+0x1824));
+    func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    sprite=func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    if(func_021B8B78(p,((struct Obj00004 *)p)->f34)==1) {
+        state=func_021F50F4(((struct Obj00004 *)p)->f34);
+        entry=func_021BA184(((struct Obj00004 *)p)->f1824);
         while(entry) {
             if(state==func_021F50F4(func_021BA258(entry))) break;
             entry=func_021BA208(entry);
@@ -86,20 +87,20 @@ void func_021B8444(u8 *p)
             func_021B7458(p,(int *)&pos);
             pos.x+=offset.x;
             pos.y+=offset.y;
-            func_021BA148(*(void **)(p+0x1824),entry);
-            func_021BA124(*(void **)(p+0x1820),entry);
+            func_021BA148(((struct Obj00004 *)p)->f1824,entry);
+            func_021BA124(((struct Obj00004 *)p)->f1820,entry);
             old=(Pair *)func_021BA228(entry);
             if(pos.x>0) v.x=(int)(0.5f+(float)(pos.x<<12));
             else v.x=(int)((float)(pos.x<<12)-0.5f);
             if(pos.y>0) v.y=(int)(0.5f+(float)(pos.y<<12));
             else v.y=(int)((float)(pos.y<<12)-0.5f);
             func_021BA22C(entry,old);
-            func_021F4E8C(*(int *)(p+0x1884),(int)s,&v);
-            func_021F4ED4(*(int *)(p+0x1884),(int)s,0);
+            func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,&v);
+            func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)s,0);
             func_021BA21C(entry,&pos);
             func_021BA24C(entry,10);
             depth=0;
-            entry=func_021BA184(*(void **)(p+0x1820));
+            entry=func_021BA184(((struct Obj00004 *)p)->f1820);
             while(entry) {
                 s=func_021BA218(entry);
                 func_021F4EA4(*(int *)(p+0x1884),(int)s,&first);
@@ -110,11 +111,11 @@ void func_021B8444(u8 *p)
             }
         }
     }
-    func_021BA148(*(void **)(p+0x1820),*(u8 **)(p+0x38));
-    func_021BA124(*(void **)(p+0x1824),*(u8 **)(p+0x38));
-    func_021F4EB4(*(int *)(p+0x1884),(int)sprite,4096,4096);
-    func_021BA254(*(u8 **)(p+0x38),*(int *)(p+0x34));
-    entry=func_021BA184(*(void **)(p+0x1824));
+    func_021BA148(((struct Obj00004 *)p)->f1820,*(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021BA124(((struct Obj00004 *)p)->f1824,*(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,4096,4096);
+    func_021BA254(*(u8 * *)&((struct Obj00004 *)p)->f38,((struct Obj00004 *)p)->f34);
+    entry=func_021BA184(((struct Obj00004 *)p)->f1824);
     depth=0;
     while(entry) {
         s=func_021BA218(entry);

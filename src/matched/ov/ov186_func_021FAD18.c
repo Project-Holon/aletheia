@@ -14,13 +14,14 @@
  *   func_021FB1EC 0x021FB1EC thumb ov186
  *   func_021FB2F0 0x021FB2F0 thumb ov186
  */
+#include "../include/Obj03891.h"
 extern int func_021FAFD0(char *), func_021FB058(char *), func_021FB0E8(char *), func_021FB1EC(char *), func_021FB2F0(char *);
 void func_021FAD18(char *ctx, int mode, const int *target)
 {
-    *(int *)(ctx + 0x1c) = 0;
+    ((struct Obj03891 *)ctx)->f1C = 0;
     if (target) {
-        *(int *)(ctx + 0x14) = target[0];
-        *(int *)(ctx + 0x18) = target[1];
+        ((struct Obj03891 *)ctx)->f14 = target[0];
+        ((struct Obj03891 *)ctx)->f18 = target[1];
     }
     switch (mode) {
     case 0: *(int (**)(char *))(ctx + 0x10) = func_021FAFD0; break;

@@ -21,6 +21,7 @@
  *   func_021AA304  0x021AA304  thumb
  *   func_0216B004  0x0216B004  thumb  ov010
  */
+#include "../include/Obj03543.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,14 +52,14 @@ struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
     r = func_020122C0((void *)a0, 0, (void *)func_0216B004, 0x3C);
     p = func_020124E8(r);
     func_02082BCC(p, 0, 0x3C);
-    *(int *)p = a1;
-    *(u16 **)(p + 0x28) = a4;
-    *(u16 *)(p + 0x24) = a5;
-    *(int *)(p + 0xC) = a2;
-    *(int *)(p + 0x20) = a3;
-    *(u16 *)(p + 0x2C) = func_0203F1FC((const u8 *)a2, func_020173EC());
+    ((struct Obj03543 *)p)->f0 = a1;
+    *(u16 * *)&((struct Obj03543 *)p)->f28 = a4;
+    ((struct Obj03543 *)p)->f24 = a5;
+    ((struct Obj03543 *)p)->fC = a2;
+    *(int *)&((struct Obj03543 *)p)->f20 = a3;
+    ((struct Obj03543 *)p)->f2C = func_0203F1FC((const u8 *)a2, func_020173EC());
     if (func_0200E2BC(func_02012EBC(h), &a3, a5, 0) == 0)
-        *(u32 *)(p + 0x20) = (*(u32 *)(p + 0x20) & 0xFFFFF800) | 0x28B;
+        ((struct Obj03543 *)p)->f20 = (((struct Obj03543 *)p)->f20 & 0xFFFFF800) | 0x28B;
     func_021AA304(p + 0x10, h, a1);
     return r;
 }

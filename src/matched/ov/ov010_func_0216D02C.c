@@ -12,10 +12,11 @@
  *   func_0216D0F8 0x0216D0F8 thumb ov010
  *   func_021642F8 0x021642F8 thumb ov010
  */
+#include "../include/Obj19118.h"
 typedef unsigned char u8;
 extern void func_0216D0F8(int, u8 *);
 extern void func_021642F8(int);
 void func_0216D02C(int a, u8 *p) {
-    if (*(int *)(p + 0x18) == 0) func_0216D0F8(a, p);
+    if (((struct Obj19118 *)p)->f18 == 0) func_0216D0F8(a, p);
     else func_021642F8(a);
 }

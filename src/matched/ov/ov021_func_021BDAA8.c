@@ -18,6 +18,7 @@
  *   func_02012374  0x02012374  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07540.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,8 +35,8 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 u32 func_021BDAA8(u32 a, int *st, u32 *ctx)
 {
     u8 *p = (u8 *)ctx[0];
-    u32 x = *(u32 *)(p + 4);
-    u32 y = *(u32 *)(p + 0xc);
+    u32 x = ((struct Obj07540 *)p)->f4;
+    u32 y = ((struct Obj07540 *)p)->fC;
 
     switch (*st) {
     case 0:
@@ -43,9 +44,9 @@ u32 func_021BDAA8(u32 a, int *st, u32 *ctx)
         (*st)++;
         break;
     case 1:
-        if (*(u32 *)(p + 0x48) != 0)
+        if (((struct Obj07540 *)p)->f48 != 0)
             func_021BDBF8((u32)ctx);
-        else if (*(u32 *)(p + 0x4c) != 0)
+        else if (((struct Obj07540 *)p)->f4C != 0)
             func_021BDC0C(ctx, a);
         (*st)++;
         break;

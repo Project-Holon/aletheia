@@ -9,11 +9,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 u32 func_021C2E4C(u8 *p)
 {
-    if (++*(u32 *)(p + 0x778) == 0)
-        *(u32 *)(p + 0x778) = 1;
-    return *(u32 *)(p + 0x778);
+    if (++((struct Obj00003 *)p)->f778 == 0)
+        ((struct Obj00003 *)p)->f778 = 1;
+    return ((struct Obj00003 *)p)->f778;
 }

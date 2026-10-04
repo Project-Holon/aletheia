@@ -19,6 +19,7 @@
  *   func_0202CC58 0x0202CC58 thumb
  *   func_0202CD64 0x0202CD64 thumb
  */
+#include "../include/Obj03296.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -40,16 +41,16 @@ void func_021FAAD4(u8 *p)
 {
     int i;
     void *str;
-    func_0202CAE4(*(void **)(p + 24), 0, 96, 25, 1);
-    func_0202CF84(*(void **)(p + 24), 0);
+    func_0202CAE4(((struct Obj03296 *)p)->f18, 0, 96, 25, 1);
+    func_0202CF84(((struct Obj03296 *)p)->f18, 0);
     func_021F9260(p, 1);
     for (i = 0; i < 3; i++) {
-        str = func_02045EC0(*(void **)(p + 32), i + 130);
-        func_021FAC50(*(void **)(p + 24), (*(void ***)p)[i], str, 2, 0x3dc2, p + 124);
+        str = func_02045EC0(((struct Obj03296 *)p)->f20, i + 130);
+        func_021FAC50(((struct Obj03296 *)p)->f18, (*(void ***)p)[i], str, 2, 0x3dc2, p + 124);
         func_02045808(str);
     }
-    func_021FBEB8(*(void **)(p + 24), *(void **)(p + 32), (*(void ***)p)[14], 74, p + 124);
-    func_0202CB4C(*(void **)(p + 24), 0, 32, 0);
-    func_0202CC58(*(void **)(p + 24), 0);
-    func_0202CD64(*(void **)(p + 24), 0, -4, 0, 4);
+    func_021FBEB8(((struct Obj03296 *)p)->f18, ((struct Obj03296 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
+    func_0202CB4C(((struct Obj03296 *)p)->f18, 0, 32, 0);
+    func_0202CC58(((struct Obj03296 *)p)->f18, 0);
+    func_0202CD64(((struct Obj03296 *)p)->f18, 0, -4, 0, 4);
 }

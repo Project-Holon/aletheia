@@ -16,6 +16,7 @@
  *   func_021A1FEC  0x021A1FEC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01356.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,24 +32,24 @@ void func_021A1D04(u8 *p, int x)
 {
     u32 t;
 
-    switch (*(u16 *)(p + 0xa)) {
+    switch (((struct Obj01356 *)p)->fA) {
     case 0:
         break;
     case 1:
-        func_021A1FEC((struct O *)(*(u32 *)(p + 0x24)), d_021D8868[*(u16 *)(p + 0xe) * 2], 1, 1, 2,
-                      *(u32 *)(p + 0x10), x);
-        func_021A2050((struct O *)(*(u32 *)(p + 0x20)), 1, 2);
-        *(u16 *)(p + 0xa) = 2;
+        func_021A1FEC((struct O *)(((struct Obj01356 *)p)->f24), d_021D8868[((struct Obj01356 *)p)->fE * 2], 1, 1, 2,
+                      ((struct Obj01356 *)p)->f10, x);
+        func_021A2050((struct O *)(((struct Obj01356 *)p)->f20), 1, 2);
+        ((struct Obj01356 *)p)->fA = 2;
         break;
     case 2:
-        if (func_021A21B0(*(u32 *)(p + 0x20)) == 0) {
-            t = *(u32 *)(p + 0x20);
-            *(u32 *)(p + 0x20) = *(u32 *)(p + 0x24);
-            *(u32 *)(p + 0x24) = t;
-            *(u16 *)(p + 0xc) = *(u16 *)(p + 0xe);
-            *(u16 *)(p + 0xe) = 0xFFFF;
-            *(u32 *)(p + 0x10) = 1;
-            *(u16 *)(p + 0xa) = 0;
+        if (func_021A21B0(((struct Obj01356 *)p)->f20) == 0) {
+            t = ((struct Obj01356 *)p)->f20;
+            ((struct Obj01356 *)p)->f20 = ((struct Obj01356 *)p)->f24;
+            ((struct Obj01356 *)p)->f24 = t;
+            ((struct Obj01356 *)p)->fC = ((struct Obj01356 *)p)->fE;
+            ((struct Obj01356 *)p)->fE = 0xFFFF;
+            ((struct Obj01356 *)p)->f10 = 1;
+            ((struct Obj01356 *)p)->fA = 0;
         }
         break;
     }

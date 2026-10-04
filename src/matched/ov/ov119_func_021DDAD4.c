@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DDA50 0x021DDA50 thumb ov119
  */
+#include "../include/Obj22740.h"
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E76F4;
 extern void func_021E1410(void *,Pair *,int);
@@ -24,6 +25,6 @@ void func_021DDAD4(char *p)
 {
     Pair t=d_021E76F4;
     func_021E1410(p,&t,2);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+    func_021B6558((unsigned char *)(((struct Obj22740 *)p)->f9C0),1,0);
     func_021D8E84(p,(int)func_021DDA50);
 }

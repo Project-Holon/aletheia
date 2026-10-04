@@ -20,6 +20,8 @@
  *   func_021ECB20 0x021ECB20 thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23897.h"
 struct WinMgr;
 extern void func_020061E4(unsigned);
 typedef unsigned int   u32;
@@ -79,7 +81,7 @@ int func_021E3B50(unsigned char *p)
         STEP(p) = 0;
         func_021ED888(WORK(p), 1);
         func_021EF670(WORK(p));
-        if (*(int *)(*(char **)p + 0x24) == 3) {
+        if (((struct Obj23897 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3) {
             func_021ECB20(p, 0x81, 1);
             func_021EE364(p, 7, 0x21);
             return 0x39;

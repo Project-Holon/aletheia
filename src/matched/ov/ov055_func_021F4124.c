@@ -14,9 +14,10 @@
  *   func_0216DAE0 0x0216DAE0 thumb ov010
  *   func_0216D5B4 0x0216D5B4 thumb ov010
  */
+#include "../include/Obj00204.h"
 extern void func_0216DB4C(unsigned int *,unsigned int);
 extern void func_0216DC98(unsigned int *,unsigned int);
 extern void func_0216DAE0(unsigned int *,unsigned int);
 typedef unsigned short u16;
 extern void func_0216D5B4(void *p, u16 v);
-void func_021F4124(unsigned char *p) { func_0216DB4C(*(unsigned int **)(p+12),1); func_0216DC98(*(unsigned int **)(p+12),1); func_0216DAE0(*(unsigned int **)(p+12),0); func_0216D5B4((void *)(*(unsigned int *)(p+12)),2000); }
+void func_021F4124(unsigned char *p) { func_0216DB4C(*(unsigned int * *)&((struct Obj00204 *)p)->fC,1); func_0216DC98(*(unsigned int * *)&((struct Obj00204 *)p)->fC,1); func_0216DAE0(*(unsigned int * *)&((struct Obj00204 *)p)->fC,0); func_0216D5B4((void *)(*(unsigned int *)&((struct Obj00204 *)p)->fC),2000); }

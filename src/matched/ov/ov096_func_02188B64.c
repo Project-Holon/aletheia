@@ -12,6 +12,8 @@
  *   func_0201134C  0x0201134C  thumb
  *   func_020113B0  0x020113B0  thumb
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj10175.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,15 +30,15 @@ int func_02188B64(int a, int b)
     int i;
     int v;
 
-    p = (u16 *)(*(int *)(a + 0x14) + func_0201134C(a));
+    p = (u16 *)(*(int *)&((struct Obj00005 *)a)->f14 + func_0201134C(a));
     m = func_0201134C(a);
     i = 0;
     do {
         v = p[i] | (p[i + 1] << 16);
-        if (*(int *)(b + 0x38) == v)
-            return *(int *)(b + 0xc4);
+        if (((struct Obj10175 *)b)->f38 == v)
+            return ((struct Obj10175 *)b)->fC4;
         i += 2;
     } while (v != -1);
-    func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + m);
-    return *(int *)(b + 0xc4);
+    func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
+    return ((struct Obj10175 *)b)->fC4;
 }

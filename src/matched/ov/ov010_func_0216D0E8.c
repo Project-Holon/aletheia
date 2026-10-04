@@ -12,8 +12,9 @@
  * symbols:
  *   func_02164304 0x02164304 thumb ov010
  */
+#include "../include/Obj09310.h"
 typedef unsigned char u8;
 extern void func_02164304(int, u8 *);
 void func_0216D0E8(int a, u8 *p) {
-    if (*(int *)(p + 0x18) == 1) func_02164304(a, p);
+    if (((struct Obj09310 *)p)->f18 == 1) func_02164304(a, p);
 }

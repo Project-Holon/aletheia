@@ -18,6 +18,7 @@
  * UNBLOCKED: func_021A392C is now an EXACT entry in layout/matched/ov021;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
+#include "../include/Obj19764.h"
 
 typedef unsigned int u32;
 
@@ -25,5 +26,5 @@ void func_021A392C(void *p, int b);
 
 void func_021A305C(char *p, u32 b)
 {
-    func_021A392C((void *)(*(u32 *)(p + 4)), b);
+    func_021A392C((void *)(((struct Obj19764 *)p)->f4), b);
 }

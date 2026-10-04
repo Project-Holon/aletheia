@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj09942.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 void func_021B9DB8(char *p) {
@@ -15,9 +16,9 @@ void func_021B9DB8(char *p) {
     char *q;
     for(i=0;i<4;i++) {
         q=p+i*40;
-        *(u32 *)(q+32)=0;
-        *(u16 *)(q+42)=0;
-        *(u32 *)(q+44)=0;
+        ((struct Obj09942 *)q)->f20=0;
+        ((struct Obj09942 *)q)->f2A=0;
+        ((struct Obj09942 *)q)->f2C=0;
     }
     for(i=0;i<4;i++) *(u32 *)(p+i*4+0x3e0)=0;
 }

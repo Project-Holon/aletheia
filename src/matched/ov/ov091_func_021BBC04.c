@@ -13,6 +13,8 @@
  *   func_021BBD98 0x021BBD98 thumb ov091
  *   func_02017E1C 0x02017E1C thumb
  */
+#include "../include/Obj05174.h"
+#include "../include/Obj07735.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B99E4(void *, int);
@@ -38,13 +40,13 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
         case 0: APPEND(0); break;
         case 1:
             for (j = 0; j < 4; j++) {
-                if (func_021B99E4(*(void **)(p + 0x38), j))
+                if (func_021B99E4(((struct Obj05174 *)p)->f38, j))
                     APPEND(j + 16);
             }
             break;
         case 2:
             for (j = 0; j < 4; j++) {
-                if (func_02017E1C(*(void **)(p + 0x38), j + 0x36, 0))
+                if (func_02017E1C(((struct Obj05174 *)p)->f38, j + 0x36, 0))
                     APPEND(j + 16);
             }
             break;
@@ -54,7 +56,7 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
         case 6: APPEND(6); break;
         case 7: APPEND(7); break;
         case 8:
-            v = func_021BB43C(*(int **)(p + *(int *)(p + 0x2c) * 4 + 0x160));
+            v = func_021BB43C(*(int **)(p + ((struct Obj05174 *)p)->f2C * 4 + 0x160));
             if (v == 6)
                 APPEND(20);
             else if (v <= 5)
@@ -74,12 +76,12 @@ void func_021BBC04(u8 *p, u8 *s, int *items)
         *(int *)(s + n * 12 + 0x14) = func_021BBD98((int)p, (int)s, *(u16 *)(s + n * 2 + 2));
         entry = s + n * 12;
         if (*(u16 *)(s + n * 2 + 2) >= 16 && *(u16 *)(s + n * 2 + 2) <= 19 && (*(int **)(p + 0x280))[0x34 / 4] != 5)
-            *(u16 *)(entry + 0x18) = 0x35e0;
+            ((struct Obj07735 *)entry)->f18 = 0x35e0;
         else
-            *(u16 *)(entry + 0x18) = 0x39e0;
+            ((struct Obj07735 *)entry)->f18 = 0x39e0;
         if (*(u16 *)(s + n * 2 + 2) == 6)
-            *(int *)(entry + 0x1c) = 1;
+            ((struct Obj07735 *)entry)->f1C = 1;
         else
-            *(int *)(entry + 0x1c) = 0;
+            ((struct Obj07735 *)entry)->f1C = 0;
     }
 }

@@ -14,6 +14,8 @@
  *   func_021BF85C 0x021BF85C thumb ov210
  *   func_021BE978 0x021BE978 thumb ov210
  */
+#include "../include/Obj10915.h"
+#include "../include/Obj25606.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B93B8(char *p);
@@ -22,8 +24,8 @@ extern void func_021BF85C(u8 *, u16, unsigned int);
 extern void func_021BE978(u8 *);
 void func_021BE12C(u8 *p, int n)
 {
-    int value = n + func_021B93B8(*(void **)(p + 0x1E0));
-    u8 *data = *(u8 **)(*(u8 **)p + 8);
+    int value = n + func_021B93B8(((struct Obj10915 *)p)->f1E0);
+    u8 *data = *(u8 * *)&((struct Obj25606 *)(*(u8 * *)&((struct Obj10915 *)p)->f0))->f8;
     if (data[2] == value) {
         data[2] = 255;
         func_021BF85C(p, n, 0);
@@ -31,6 +33,6 @@ void func_021BE12C(u8 *p, int n)
         data[2] = value;
         func_021BF85C(p, n, 1);
     }
-    func_021B93D4(*(void **)(p + 0x1E0), n);
+    func_021B93D4(((struct Obj10915 *)p)->f1E0, n);
     func_021BE978(p);
 }

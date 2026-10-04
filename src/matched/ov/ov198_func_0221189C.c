@@ -11,6 +11,7 @@
  *   func_02210EFC 0x02210EFC thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
  */
+#include "../include/Obj14570.h"
 typedef unsigned char u8;
 typedef struct { u8 lo:7; u8 high:1; } Bits;
 extern int func_02210EFC(char **p);
@@ -23,7 +24,7 @@ int func_0221189C(u8 *p)
     if(i==1) return 0;
     for(;i<6;i++) {
         u8 *record=p+func_022110D4(p,i)*0x4c;
-        if(*(unsigned short *)(record+8)!=0 && ((Bits *)(record+0x1b))->high==0 && *(unsigned short *)(record+0x14)!=0) return 1;
+        if(((struct Obj14570 *)record)->f8!=0 && ((Bits *)(record+0x1b))->high==0 && ((struct Obj14570 *)record)->f14!=0) return 1;
     }
     return 0;
 }

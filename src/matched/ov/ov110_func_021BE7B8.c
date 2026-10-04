@@ -12,6 +12,7 @@
  *   d_021C392C 0x021C392C data a1
  *   func_02035C08 0x02035C08 arm
  */
+#include "../include/Obj22380.h"
 typedef unsigned char u8;
 extern const u8 d_021C392C[];
 extern int func_02035C08(const void *);
@@ -20,7 +21,7 @@ int func_021BE7B8(u8 *p) {
  if(n==-1) return 0;
  switch(n) {
  case 0: return 1;
- case 1: if(*(int *)(p+0x3c)==0) return 2; break;
+ case 1: if(((struct Obj22380 *)p)->f3C==0) return 2; break;
  }
  return 0;
 }

@@ -19,6 +19,12 @@
  *   func_021BD4DC 0x021BD4DC thumb ov209
  *   func_0201EFA4 0x0201EFA4 thumb
  */
+#include "../include/Obj00123.h"
+#include "../include/Obj25561.h"
+#include "../include/Obj25562.h"
+#include "../include/Obj25563.h"
+#include "../include/Obj25564.h"
+#include "../include/Obj25565.h"
 typedef unsigned short u16;
 typedef struct WordSet WordSet;
 typedef unsigned int   u32;
@@ -36,20 +42,20 @@ extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021BD628(char *p)
 {
     unsigned a, b;
-    if (func_0200CA70(*(void **)(*(char **)p + 4)) == 1) {
-        a = func_0200D0CC(*(void **)(*(char **)p + 4));
-        b = func_0200CF28(*(void **)(*(char **)p + 4));
+    if (func_0200CA70(((struct Obj25561 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4) == 1) {
+        a = func_0200D0CC(((struct Obj25562 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
+        b = func_0200CF28(((struct Obj25563 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4);
     } else {
-        a = func_0200D0F8(*(void **)(*(char **)p + 4), 0x806b);
-        b = func_0200CF54(*(void **)(*(char **)p + 4), 0x806b);
+        a = func_0200D0F8(((struct Obj25564 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
+        b = func_0200CF54(((struct Obj25565 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f4, 0x806b);
     }
     func_021BD4F4(p, 1);
     func_021BD4F4(p, 2);
     func_021BD440(p, 1, 2, 0x48, 4, 0x31a0, 1);
-    func_0201EFA4(*(WordSet **)(p + 0x40), 0, a, 3, 0, 1);
+    func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, a, 3, 0, 1);
     func_021BD488(p, 1, 5, 0x68, 4, 0x31a0, 1);
     func_021BD440(p, 2, 3, 0x58, 4, 0x31a0, 1);
-    func_0201EFA4(*(WordSet **)(p + 0x40), 0, b, 3, 0, 1);
+    func_0201EFA4(*(WordSet * *)&((struct Obj00123 *)p)->f40, 0, b, 3, 0, 1);
     func_021BD488(p, 2, 5, 0x78, 4, 0x31a0, 1);
     func_021BD4DC(p + 0x28);
     func_021BD4DC(p + 0x30);

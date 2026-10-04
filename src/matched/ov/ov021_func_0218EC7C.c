@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,5 +23,5 @@ extern void func_02048B6C(struct Light *l, const u32 *in);
 
 void func_0218EC7C(u8 *a, u32 first, ...)
 {
-    func_02048B6C((struct Light *)(*(u32 *)(a + 0xc)), &first);
+    func_02048B6C((struct Light *)(((struct Obj19563 *)a)->fC), &first);
 }

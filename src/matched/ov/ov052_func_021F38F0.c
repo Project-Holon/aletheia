@@ -14,6 +14,8 @@
  *   func_0218DC4C  0x0218DC4C  thumb  ov021
  *   d_021F39CC     0x021F39CC  data  a4
  */
+#include "../include/Obj01038.h"
+#include "../include/Obj20568.h"
 
 typedef struct { int v[4]; } T4;
 typedef struct { int x, y, z; } V3;
@@ -28,34 +30,34 @@ void func_021F38F0(char *a, int b)
 {
     V3 v = {0, 0, 0};
     T4 t = d_021F39CC;
-    unsigned char *p = *(unsigned char **)(a + 0x24);
+    unsigned char *p = *(unsigned char * *)&((struct Obj20568 *)a)->f24;
     int r = func_02188C98((u8 *)b);
 
     switch (p[1]) {
     case 0:
         if (p[0] == 1)
             return;
-        *(int *)(p + 4) = t.v[p[2]];
+        ((struct Obj01038 *)p)->f4 = t.v[p[2]];
         p[2]++;
         p[2] &= 3;
         p[1]++;
     case 1:
-        if (--*(int *)(p + 4) <= 0) {
-            *(int *)(p + 8) = 1;
+        if (--((struct Obj01038 *)p)->f4 <= 0) {
+            ((struct Obj01038 *)p)->f8 = 1;
             p[1]++;
         }
         break;
     case 2:
-        v.y = *(int *)(p + 8) << 12;
+        v.y = ((struct Obj01038 *)p)->f8 << 12;
         func_0218DC4C(r, &v);
-        if (*(int *)(p + 8) == 0)
+        if (((struct Obj01038 *)p)->f8 == 0)
             p[1] = 0;
-        if (*(int *)(p + 8) < 0) {
-            *(int *)(p + 8) += 2;
-            if (*(int *)(p + 8) > 0)
-                *(int *)(p + 8) = 0;
+        if (((struct Obj01038 *)p)->f8 < 0) {
+            ((struct Obj01038 *)p)->f8 += 2;
+            if (((struct Obj01038 *)p)->f8 > 0)
+                ((struct Obj01038 *)p)->f8 = 0;
         }
-        *(int *)(p + 8) = -*(int *)(p + 8);
+        ((struct Obj01038 *)p)->f8 = -((struct Obj01038 *)p)->f8;
         break;
     }
 }

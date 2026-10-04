@@ -23,6 +23,7 @@
  *   func_021B817C 0x021B817C thumb ov104
  *   func_021B8528 0x021B8528 thumb ov104
  */
+#include "../include/Obj04432.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -46,7 +47,7 @@ extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 void func_021B8384(u8 *p,u16 *state) {
  Block data; int diff;
- if(*state<5 && func_021B7250(*(int **)(p+0x7ac))==1) {
+ if(*state<5 && func_021B7250(*(int * *)&((struct Obj04432 *)p)->f7AC)==1) {
   func_021B63BC(*(int **)(CTX(p)+4));
   *(u32 *)(CTX(p)+0xc)=1;
   func_021B818C(p);
@@ -57,19 +58,19 @@ void func_021B8384(u8 *p,u16 *state) {
  case 1: func_021B7F1C(p+0xcc,p+0xbc,2,0,0); *state=2; break;
  case 2: if(func_021B8768(p+0xe0,(Block *)(p+0x814))) *state=3; break;
  case 3: func_021B63CC(*(int **)(CTX(p)+4),2); if(func_021B6424(*(int *)(CTX(p)+4))) *state=4; break;
- case 4: if(func_021B630C(*(int **)(CTX(p)+4),3)) { func_021B72A0(*(int *)(p+0x7ac),0); *state=5; } break;
- case 5: if(*(u16 *)(p+0x80a)>=60) { func_020061E4(0x64b); func_021B7F1C(p+0xcc,p+0xbc,3,0,0); *state=6; } break;
+ case 4: if(func_021B630C(*(int **)(CTX(p)+4),3)) { func_021B72A0(*(int *)&((struct Obj04432 *)p)->f7AC,0); *state=5; } break;
+ case 5: if(((struct Obj04432 *)p)->f80A>=60) { func_020061E4(0x64b); func_021B7F1C(p+0xcc,p+0xbc,3,0,0); *state=6; } break;
  case 6:
-  if((*(u16 *)(p+0x8a2))++<30) return;
+  if((((struct Obj04432 *)p)->f8A2)++<30) return;
   CTX(p)[0x10]=func_021B8880(p);
   func_021B87F4(p+0xe0,&data);
-  diff=*(u16 *)(p+0x88e)-*(u16 *)((u8 *)&data+122);
+  diff=((struct Obj04432 *)p)->f88E-*(u16 *)((u8 *)&data+122);
   if(diff<0) diff=-diff;
   *(int *)(CTX(p)+0x14)=diff;
   *(int *)(CTX(p)+0xc)=0;
   *state=7; return;
  case 7: func_021B818C(p); return;
  }
- if(*state>=1 && *state<=5) { if(*(u16 *)(p+0x80a)<=60) ++*(u16 *)(p+0x80a); }
+ if(*state>=1 && *state<=5) { if(((struct Obj04432 *)p)->f80A<=60) ++((struct Obj04432 *)p)->f80A; }
  if(*state<3) { if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C(p,func_021B8528); }
 }

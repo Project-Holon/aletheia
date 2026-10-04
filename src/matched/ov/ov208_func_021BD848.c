@@ -12,6 +12,7 @@
  * symbols:
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj05536.h"
 
 typedef unsigned short u16;
 struct Obj;
@@ -21,11 +22,11 @@ void func_021BD848(char *p, int which)
 {
     if (which != 0)
     {
-        *(unsigned int *)(p + 8) = *(unsigned short *)(p + 0x28);
+        ((struct Obj05536 *)p)->f8 = ((struct Obj05536 *)p)->f28;
     }
     else
     {
-        *(unsigned int *)(p + 8) = *(unsigned short *)(p + 0x24);
+        ((struct Obj05536 *)p)->f8 = ((struct Obj05536 *)p)->f24;
     }
-    func_0204B878(*(void **)p, (unsigned short)*(unsigned int *)(p + 8));
+    func_0204B878(((struct Obj05536 *)p)->f0, (unsigned short)((struct Obj05536 *)p)->f8);
 }

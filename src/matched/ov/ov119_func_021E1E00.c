@@ -39,6 +39,7 @@
  *   func_021E1AA8 0x021E1AA8 thumb ov119
  *   func_021E40EC 0x021E40EC thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -101,7 +102,7 @@ void func_021E1E00(char *p,int mode,void *mon)
             func_021E1670(mon,func_02045770(P(0x6b4)),96,0,p,0,0);
             func_021E5DFC(p,side,mon);
             func_021E5F14(p,side,0,mon);
-            func_021E0E68(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,*(u16 *)(p+0x5f4),13);
+            func_021E0E68(p+0x8c4,mon,I(0x9c4),b.v[side]+16,16,1,((struct Obj00001 *)p)->f5F4,13);
         } else {
             func_021E0E4C(p+0x8c4);
         }

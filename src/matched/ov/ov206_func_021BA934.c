@@ -13,6 +13,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00173.h"
 struct Descriptor;
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
@@ -21,10 +22,10 @@ extern void func_020307B0(void *);
 void func_021BA934(char *p)
 {
     int i;
-    func_0201C6EC(*(void **)(p+44));
+    func_0201C6EC(((struct Obj00173 *)p)->f2C);
     for(i=0;i<4;i++){
         *(int *)(p+i*4+124)=1;
         func_020452E8(*(void **)(p+i*4+108));
     }
-    func_020307B0(*(void **)(p+688));
+    func_020307B0(((struct Obj00173 *)p)->f2B0);
 }

@@ -15,6 +15,11 @@
  *   func_021FADF8 0x021FADF8 thumb ov132
  *   func_02030DA4 0x02030DA4 arm
  */
+#include "../include/Obj14093.h"
+#include "../include/Obj23230.h"
+#include "../include/Obj23231.h"
+#include "../include/Obj23232.h"
+#include "../include/Obj23233.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct ScriptVm;
@@ -33,9 +38,9 @@ void func_021FAB58(char *p)
     for (i = 0; i < 10; i++) {
         slot = (char **)(p + i * 4);
         if (slot[3] != 0) {
-            func_02011290(*(void **)(slot[3] + 4));
-            func_02011264(*(void **)(slot[3] + 4));
-            if (*(u16 *)(slot[3] + 0x16) & 8) func_020307B0(*(void **)(slot[3] + 0xc));
+            func_02011290(((struct Obj23230 *)(slot[3]))->f4);
+            func_02011264(((struct Obj23231 *)(slot[3]))->f4);
+            if (((struct Obj23232 *)(slot[3]))->f16 & 8) func_020307B0(((struct Obj23233 *)(slot[3]))->fC);
             func_020307B0(slot[3]);
             slot[3] = 0;
         }
@@ -46,7 +51,7 @@ void func_021FAB58(char *p)
         func_021FADF8(p, cur);
         cur = next;
     }
-    func_02030DA4(*(void **)(p + 4));
-    func_020307B0(*(void **)(p + 8));
+    func_02030DA4(((struct Obj14093 *)p)->f4);
+    func_020307B0(((struct Obj14093 *)p)->f8);
     func_020307B0(p);
 }

@@ -15,9 +15,10 @@
  *   func_021DE2A0 0x021DE2A0 thumb ov093
  *   d_021F1A84 0x021F1A84 data a4
  */
+#include "../include/Obj21385.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DE2A0(void *, void *, int, u8 *);
-void func_021DE300(void *a, void *b, int c, u8 *d) { if (*(u32 *)(d + 24)) func_021DE2A0(a,b,c,d); }
+void func_021DE300(void *a, void *b, int c, u8 *d) { if (((struct Obj21385 *)d)->f18) func_021DE2A0(a,b,c,d); }
 extern u8 d_021F1A84[];
 void *func_021DE310(int *p) { *p=4; return d_021F1A84; }

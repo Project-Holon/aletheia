@@ -14,6 +14,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj06442.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -23,4 +24,4 @@ struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32);
 extern void func_020452E8(struct Descriptor *d);
-void func_021D7B38(char *p) { if(*(void **)(p+0x30)) { func_0201F7A8(*(void **)(p+0x30),2); func_020456F8(*(void **)(p+0x30)); func_02041B6C(1); func_020452E8(*(void **)(p+0x30)); *(void **)(p+0x30)=0; } }
+void func_021D7B38(char *p) { if(((struct Obj06442 *)p)->f30) { func_0201F7A8(((struct Obj06442 *)p)->f30,2); func_020456F8(((struct Obj06442 *)p)->f30); func_02041B6C(1); func_020452E8(((struct Obj06442 *)p)->f30); ((struct Obj06442 *)p)->f30=0; } }

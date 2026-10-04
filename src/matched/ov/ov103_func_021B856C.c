@@ -30,6 +30,10 @@
  * d_021B925C 0x021B925C data a4
  * d_021B926C 0x021B926C data a4
  */
+#include "../include/Obj04428.h"
+#include "../include/Obj22198.h"
+#include "../include/Obj22200.h"
+#include "../include/Obj22201.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -59,10 +63,10 @@ void func_021B856C(u8 *p,u16 *state)
     u8 *history,*q;
     pos=(u32 *)(p+0xa44);
     history=p+0xa4c;
-    if(func_021B7250(*(int **)(p+0xa38))==1) {
-        *(u32 *)(*(u8 **)(p+0xb0c)+12)=1;
+    if(func_021B7250(*(int * *)&((struct Obj04428 *)p)->fA38)==1) {
+        ((struct Obj22198 *)(*(u8 * *)&((struct Obj04428 *)p)->fB0C))->fC=1;
         func_021B8358(p);
-    } else if(!func_021B727C(*(int *)(p+0xa38))) {
+    } else if(!func_021B727C(*(int *)&((struct Obj04428 *)p)->fA38)) {
         switch(*state) {
         case 0:
             if(func_021B8D9C(d_021B925C,xy)) {
@@ -86,8 +90,8 @@ void func_021B856C(u8 *p,u16 *state)
         case 1:
             if(func_021B8D9C(d_021B926C,pos)) {
                 func_021B9060(0,55);
-                if(**(void ***)(p+0xb0c))
-                    func_021B824C(p+0x184,p+0x174,1,*(u8 **)(*(u8 **)(p+0xb0c)+8),0,0,55);
+                if(**(void ** *)&((struct Obj04428 *)p)->fB0C)
+                    func_021B824C(p+0x184,p+0x174,1,*(u8 * *)&((struct Obj22200 *)(*(u8 * *)&((struct Obj04428 *)p)->fB0C))->f8,0,0,55);
                 else func_021B8138(p+0x184,p+0x174,1,0,0);
                 func_021B8338((u32)p,(u32)func_021B8728);
                 q=func_021B7954(p);
@@ -97,11 +101,11 @@ void func_021B856C(u8 *p,u16 *state)
             } else if(!func_021B8D9C(d_021B925C,xy)) *state=2;
             break;
         case 2:
-            (*(u32 *)(p+0x738))++;
+            (((struct Obj04428 *)p)->f738)++;
             func_021B8338((u32)p,(u32)func_021B8364);
             break;
         }
     }
-    if(func_021B6480(*(int **)(*(u8 **)(p+0xb0c)+4)))
+    if(func_021B6480(*(int * *)&((struct Obj22201 *)(*(u8 * *)&((struct Obj04428 *)p)->fB0C))->f4))
         func_021B8338((u32)p,(u32)func_021B8A44);
 }

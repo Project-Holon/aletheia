@@ -17,6 +17,7 @@
  *   func_021F0114 0x021F0114 thumb ov032
  *   func_021F0140 0x021F0140 thumb ov032
  */
+#include "../include/Obj00188.h"
 
 extern int func_021F00C8(char *);
 extern int func_021F0078(char *);
@@ -29,7 +30,7 @@ int func_021F2674(char *p)
     int r;
 
     if (func_021F00C8(p)) {
-        *(int *)(p + 0x74) = 90;
+        ((struct Obj00188 *)p)->f74 = 90;
         return 2;
     }
     if (func_021F0078(p)) {
@@ -37,18 +38,18 @@ int func_021F2674(char *p)
     }
     r = func_021EFF7C(p);
     if (r == 0) {
-        if (*(int *)(p + 0x74) != 0) {
-            *(int *)(p + 0x74) = *(int *)(p + 0x74) - 1;
+        if (((struct Obj00188 *)p)->f74 != 0) {
+            ((struct Obj00188 *)p)->f74 = ((struct Obj00188 *)p)->f74 - 1;
             return 0;
         }
         if (func_021F0114(p) == 1) {
-            *(int *)(p + 0x74) = 90;
+            ((struct Obj00188 *)p)->f74 = 90;
             return 2;
         }
         if (func_021F0140(p) == 0) {
             return 0;
         }
-        *(int *)(p + 0x74) = 90;
+        ((struct Obj00188 *)p)->f74 = 90;
         return 1;
     }
     return r;

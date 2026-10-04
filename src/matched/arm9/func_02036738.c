@@ -10,11 +10,12 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj05732.h"
 
 void func_02036738(char *q, int v)
 {
-    *(char *)*(char **)q = (char)v;
-    *(char **)q = *(char **)q + 1;
-    *(unsigned short *)(q + 4) = *(unsigned short *)(q + 4) - 1;
+    *(char *)*(char * *)&((struct Obj05732 *)q)->f0 = (char)v;
+    *(char * *)&((struct Obj05732 *)q)->f0 = *(char * *)&((struct Obj05732 *)q)->f0 + 1;
+    ((struct Obj05732 *)q)->f4 = ((struct Obj05732 *)q)->f4 - 1;
 }
 

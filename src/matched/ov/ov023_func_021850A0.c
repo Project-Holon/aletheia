@@ -34,6 +34,8 @@
  *   func_021868C8  0x021868C8  thumb  ov023
  *   func_02186888  0x02186888  thumb  ov023
  */
+#include "../include/Obj00525.h"
+#include "../include/Obj01221.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -87,7 +89,7 @@ static inline u8 activate(char *p, int value)
 {
     func_021861C4(p, value, value);
     func_02186444(p, 5);
-    func_021852F4((void *)(*(u32 *)(p + 0x100)), 1);
+    func_021852F4((void *)(((struct Obj00525 *)p)->f100), 1);
     func_020061E4(0x551);
     return value;
 }
@@ -116,24 +118,24 @@ void func_021850A0(char *p)
         case 5:
         case 6:
         case 7:
-            if (*(u8 *)(p + 0x420a) != r) {
-                *(u8 *)(p + 0x420a) = r;
+            if (((struct Obj01221 *)p)->f420A != r) {
+                ((struct Obj01221 *)p)->f420A = r;
                 func_021852B4((u32 *)(p + 0xd0), r);
                 func_020061E4(0x548);
             }
             break;
         case 8:
-            if (*(int *)(p + 0x198) != 4)
+            if (((struct Obj01221 *)p)->f198 != 4)
                 break;
             if (func_02039338() == 0) {
-                if (*(int *)(p + 0x1b0) != func_02186558(p)) {
+                if (((struct Obj01221 *)p)->f1B0 != func_02186558(p)) {
                     func_020061E4(0x54b);
                 } else {
-                    *(int *)(p + 0x9e6c) = 2;
+                    ((struct Obj01221 *)p)->f9E6C = 2;
                     k = activate(p, 1);
                 }
             } else {
-                if (*(u8 *)(p + 0x4217) == 2) {
+                if (((struct Obj01221 *)p)->f4217 == 2) {
                     func_020061E4(0x54b);
                 } else {
                     k = activate(p, 1);
@@ -149,8 +151,8 @@ void func_021850A0(char *p)
                 else
                     func_0204B878((struct Obj *)(*(u32 *)(p + 0xf4 + i * 4)), i * 2 + 0x1d);
             }
-            if (*(u8 *)(p + 0x420b) != r - 9) {
-                *(u8 *)(p + 0x420b) = r - 9;
+            if (((struct Obj01221 *)p)->f420B != r - 9) {
+                ((struct Obj01221 *)p)->f420B = r - 9;
                 func_020061E4(0x548);
             }
             break;
@@ -172,13 +174,13 @@ void func_021850A0(char *p)
         path.e[0].b = ((Path *)(p + 0x4244))->e[1].b;
         path.e[1].a = x;
         path.e[1].b = y;
-        func_021864C4(&rec, path.e, *(u8 *)(p + 0x420a), *(u8 *)(p + 0x420b));
+        func_021864C4(&rec, path.e, ((struct Obj01221 *)p)->f420A, ((struct Obj01221 *)p)->f420B);
         if (k == 1)
             rec.mid = 0;
     } else {
         path.e[1].a = 0;
         path.e[1].b = 0;
-        func_02185080(&rec, *(u8 *)(p + 0x420a), *(u8 *)(p + 0x420b));
+        func_02185080(&rec, ((struct Obj01221 *)p)->f420A, ((struct Obj01221 *)p)->f420B);
     }
     func_02186988(&rec, p + 0x928c, 0);
     if (func_02039338() == 0)

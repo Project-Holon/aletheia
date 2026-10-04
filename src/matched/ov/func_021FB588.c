@@ -15,6 +15,7 @@
 
  * If the buffer is still live return -1; otherwise release the three pointers and pick the 0xd/0x9 code from the table.
  */
+#include "../include/Obj00098.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,14 +32,14 @@ extern u8 g_022033FC[];
 
 int func_021FB588(u8 *p)
 {
-    if (func_0204B98C((struct Actor *)(*(u32 *)(p + 8))) != 0) {
+    if (func_0204B98C((struct Actor *)(*(u32 *)&((struct Obj00098 *)p)->f8)) != 0) {
         return -1;
     }
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xc), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x10), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->fC, 0);
+    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f10, 0);
     func_021F9660(p, 0x0);
-    func_0201F868((void *)(*(u32 *)(p + 0x30)));
-    *(u32 *)(p + 0x48) = (*(s32 *)(g_022033FC + *(s16 *)(p + 0x38) * 8) != 1) ? 0xd : 0x9;
+    func_0201F868((void *)(*(u32 *)&((struct Obj00098 *)p)->f30));
+    *(u32 *)&((struct Obj00098 *)p)->f48 = (*(s32 *)(g_022033FC + ((struct Obj00098 *)p)->f38 * 8) != 1) ? 0xd : 0x9;
     return -1;
 }

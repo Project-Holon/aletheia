@@ -19,6 +19,7 @@
  *   func_0202761C 0x0202761C thumb
  *   func_02027620 0x02027620 thumb
  */
+#include "../include/Obj05422.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -37,14 +38,14 @@ void func_021C67D4(u8 *p)
     void *arc;
     u32 first;
     arc = func_020490F4(155, 102);
-    *(u32 *)(p + 0x21c) = func_0204A6C8(arc, 44, 1, 0, 102);
-    *(u32 *)(p + 0x234) = func_0204ABF0(arc, 47, 0, 0, 102);
-    *(u32 *)(p + 0x254) = func_0204AF28(arc, 45, 46, 102);
+    ((struct Obj05422 *)p)->f21C = func_0204A6C8(arc, 44, 1, 0, 102);
+    ((struct Obj05422 *)p)->f234 = func_0204ABF0(arc, 47, 0, 0, 102);
+    ((struct Obj05422 *)p)->f254 = func_0204AF28(arc, 45, 46, 102);
     func_02049238(arc);
     arc = func_020490F4(func_020275E4(), 102);
-    *(u32 *)(p + 0x220) = func_0204A6C8(arc, func_02027618(), 0, 0, 102);
-    *(u32 *)(p + 0x238) = func_0204ABF0(arc, func_02027614(), 0, 128, 102);
+    ((struct Obj05422 *)p)->f220 = func_0204A6C8(arc, func_02027618(), 0, 0, 102);
+    ((struct Obj05422 *)p)->f238 = func_0204ABF0(arc, func_02027614(), 0, 128, 102);
     first = func_0202761C(0);
-    *(u32 *)(p + 0x258) = func_0204AF28(arc, first, func_02027620(0), 102);
+    ((struct Obj05422 *)p)->f258 = func_0204AF28(arc, first, func_02027620(0), 102);
     func_02049238(arc);
 }

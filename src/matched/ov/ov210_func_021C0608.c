@@ -15,6 +15,7 @@
  *   func_021BCEF0 0x021BCEF0 thumb ov210
  *   func_021BF7B0 0x021BF7B0 thumb ov210
  */
+#include "../include/Obj04620.h"
 typedef unsigned int   u32;
 extern void func_021BEC60(int p, int *a, u32 b);
 extern u32 func_021BCEF0(u32 a, u32 b);
@@ -22,7 +23,7 @@ extern void func_021BF7B0(char *,int,int,int);
 void func_021C0608(char *p,int index,void *data,int value,int flag)
 {
     func_021BEC60((int)p,data,(*(unsigned *)(p+484+index*4)));
-    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char **)p+8))[3]))func_021BF7B0(p,0,value,flag);
-    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char **)p+8))[4]))func_021BF7B0(p,1,value,flag);
+    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[3]))func_021BF7B0(p,0,value,flag);
+    if(index==func_021BCEF0((u32)p,(unsigned char)(*(char **)(*(char * *)&((struct Obj04620 *)p)->f0+8))[4]))func_021BF7B0(p,1,value,flag);
 }
 void func_021C065C(void){}

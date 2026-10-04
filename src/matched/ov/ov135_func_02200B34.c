@@ -17,6 +17,7 @@
  *   func_02049238  0x02049238  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj00137.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -36,12 +37,12 @@ void func_02200B34(u8 *p)
 {
     void *h;
 
-    if (*(u32 *)(p + 0x12e0) == 1 && *(u32 *)(p + 0x12e4) == 0) {
+    if (((struct Obj00137 *)p)->f12E0 == 1 && ((struct Obj00137 *)p)->f12E4 == 0) {
         h = func_020490F4(0x60, 0x48);
         func_02049B68(h, 5, 4, 0, 0x20, 0x48);
         func_02049658(h, 0xf, 6, 0, 0, 0, 0x48);
         func_020499D4(h, 0x22, 6, 0, 0, 0, 0, 0x48);
         func_02049238(h);
     }
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 1);
+    func_0204B3DC((struct Obj *)((struct Obj00137 *)p)->fD38, 1);
 }

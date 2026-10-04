@@ -19,6 +19,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00507.h"
 typedef unsigned char u8;
 typedef struct { unsigned char low:7; unsigned char high:1; } Flags;
 struct Descriptor;
@@ -38,7 +39,7 @@ void func_0220D9B4(char *p)
 {
     int state, id, i;
     void *obj;
-    *(u8 **)(p + 0x253c) = d_02211AF4;
+    *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211AF4;
     func_0220BDA0(p);
     func_0220DA6C(p, (*(u8 **)p)[32]);
     state = func_02210DA8(p);
@@ -54,11 +55,11 @@ void func_0220D9B4(char *p)
         func_0220C694(p,3,25);
         return;
     }
-    obj = *(void **)(p + 0x1f80);
+    obj = ((struct Obj00507 *)p)->f1F80;
     func_02045334(obj);
     func_02045374(obj);
     func_02041B6C(func_02045730(obj));
-    obj = *(void **)(p + 0x1f88);
+    obj = ((struct Obj00507 *)p)->f1F88;
     func_02045334(obj);
     func_02045374(obj);
     func_02041B6C(func_02045730(obj));

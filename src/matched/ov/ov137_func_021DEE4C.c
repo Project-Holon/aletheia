@@ -14,6 +14,7 @@
  *   func_021E0C08 0x021E0C08 thumb ov137
  *   d_021E1FDC 0x021E1FDC data a2
  */
+#include "../include/Obj06537.h"
 typedef unsigned short u16;
 extern int *func_021E16C0(char *);
 extern void func_021E0C08(char *,int,int,int,int,int,int *);
@@ -22,8 +23,8 @@ int func_021DEE4C(char *p)
 {
     int *r;
     int value, a, row;
-    if (--*(int *)(p+12)>0) return 0;
-    *(int *)(p+12)=15;
+    if (--((struct Obj06537 *)p)->fC>0) return 0;
+    ((struct Obj06537 *)p)->fC=15;
     r=func_021E16C0(p);
     row=r[5]*10;
     value=*(const u16 *)((unsigned)d_021E1FDC+row+r[4]*2);
@@ -33,8 +34,8 @@ int func_021DEE4C(char *p)
     r[4]++;
     r[4]%=r[5];
     if (++r[0]==r[5]) {
-        *(int *)(p+12)=0;
-        *(int *)p=18;
+        ((struct Obj06537 *)p)->fC=0;
+        ((struct Obj06537 *)p)->f0=18;
     }
     return 0;
 }

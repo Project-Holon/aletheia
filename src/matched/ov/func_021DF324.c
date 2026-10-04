@@ -15,18 +15,20 @@
  *   byte 0xf, then hand the object to the SDK.  The callee argument is the
  *   re-read expression, not the local, which is why the image re-loads it.
  */
+#include "../include/Obj04901.h"
+#include "../include/Obj12155.h"
 
 
 extern void func_020307B0(void *p);
 int func_021DF324(char *p)
 {
-    int q = *(int *)(p + 0xc);
-    if (*(unsigned char *)(p + 0x18) == 0) {
-        if (*(unsigned char *)(p + 0x16) < 0x1e)
-            *(unsigned char *)(p + 0x16) = *(unsigned char *)(q + 0xf);
+    int q = ((struct Obj04901 *)p)->fC;
+    if (((struct Obj04901 *)p)->f18 == 0) {
+        if (((struct Obj04901 *)p)->f16 < 0x1e)
+            ((struct Obj04901 *)p)->f16 = ((struct Obj12155 *)q)->fF;
         else
-            *(unsigned char *)(p + 0x16) = *(unsigned char *)(q + 0xf) + 0x1e;
+            ((struct Obj04901 *)p)->f16 = ((struct Obj12155 *)q)->fF + 0x1e;
     }
-    func_020307B0((void *)(*(int *)(p + 0xc)));
+    func_020307B0((void *)(((struct Obj04901 *)p)->fC));
     return 0;
 }

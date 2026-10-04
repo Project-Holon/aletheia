@@ -12,6 +12,7 @@
  * symbols:
  *   func_02045B38  0x02045B38  arm
  */
+#include "../include/Obj00565.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,11 +28,11 @@ struct MsgBank *func_02167154(int a0, int a1, int a2, int a3)
     struct MsgBank *bank;
 
 t4 = a0 + 0;
-a3 = *(u16 *)((char *)t4);
+a3 = ((struct Obj00565 *)((char *)t4))->f0;
 a0 = 0;
 a1 = 3;
 a2 = 0x2f;
     bank = func_02045B38(a0, a1, a2, a3);
 loc_02167164:
-*(struct MsgBank **)((char *)t4 + 0x18) = bank;
+*(struct MsgBank * *)&((struct Obj00565 *)t4)->f18 = bank;
     return bank;}

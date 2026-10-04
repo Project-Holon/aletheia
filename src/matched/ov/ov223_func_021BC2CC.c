@@ -18,6 +18,7 @@
  * Original caller passes p in r0 to BAD68 despite its matched void prototype;
  * retain that visibly supplied input without editing the callee.
  */
+#include "../include/Obj05571.h"
 extern void func_021BB954(char *);
 extern void func_021BADFC(char *);
 extern void func_021BAD68(char *);
@@ -30,6 +31,6 @@ int func_021BC2CC(char *p)
     *(volatile unsigned short *)0x04001050=0;
     func_021BB954(p); func_021BADFC(p); func_021BAD68(p);
     func_021BAA30(p); func_021BA050(p); func_021B9A6C(p);
-    *(unsigned *)(p+0x10)=0;
+    ((struct Obj05571 *)p)->f10=0;
     return 12;
 }

@@ -12,6 +12,8 @@
  *   func_02045A90 0x02045A90 arm
  *   func_02045A98 0x02045A98 arm
  */
+#include "../include/Obj01970.h"
+#include "../include/Obj02529.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,19 +26,19 @@ void func_021EF140(u8 *a, u8 *b)
 {
     unsigned i;
     u16 *p;
-    *(u32 *)a = *(u16 *)(b+4);
-    *(u32 *)(a+4) = *(u16 *)(b+6);
-    *(u32 *)(a+8) = *(u32 *)b;
-    *(u16 *)(a+0x18) = *(u16 *)(b+0x30);
-    *(u16 *)(a+0x1a) = *(u16 *)(b+0x32);
-    *(u16 *)(a+0x1c) = *(u16 *)(b+0x34);
-    *(u16 *)(a+0x1e) = *(u16 *)(b+0x36);
-    *(u16 *)(a+0x20) = *(u16 *)(b+0x38);
-    *(u16 *)(a+0x22) = *(u16 *)(b+0x3a);
-    *(u16 *)(a+0x24) = *(u16 *)(b+0x3c);
-    *(u16 *)(a+0x26) = *(u16 *)(b+0x3e);
+    ((struct Obj01970 *)a)->f0 = ((struct Obj02529 *)b)->f4;
+    ((struct Obj01970 *)a)->f4 = ((struct Obj02529 *)b)->f6;
+    ((struct Obj01970 *)a)->f8 = ((struct Obj02529 *)b)->f0;
+    ((struct Obj01970 *)a)->f18 = ((struct Obj02529 *)b)->f30;
+    ((struct Obj01970 *)a)->f1A = ((struct Obj02529 *)b)->f32;
+    ((struct Obj01970 *)a)->f1C = ((struct Obj02529 *)b)->f34;
+    ((struct Obj01970 *)a)->f1E = ((struct Obj02529 *)b)->f36;
+    ((struct Obj01970 *)a)->f20 = ((struct Obj02529 *)b)->f38;
+    ((struct Obj01970 *)a)->f22 = ((struct Obj02529 *)b)->f3A;
+    ((struct Obj01970 *)a)->f24 = ((struct Obj02529 *)b)->f3C;
+    ((struct Obj01970 *)a)->f26 = ((struct Obj02529 *)b)->f3E;
     for(i=0;i<4;i++) *(u16 *)(a+12+i*2) = *(u16 *)(b+8+i*2);
-    func_02045924(*(void **)(a+20), (u16 *)(b+16));
-    p = func_02045A90(*(void **)(a+20));
+    func_02045924(((struct Obj01970 *)a)->f14, (u16 *)(b+16));
+    p = func_02045A90(((struct Obj01970 *)a)->f14);
     while (*p != func_02045A98()) p++;
 }

@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19125.h"
 
 typedef unsigned int u32;
 
 void func_0216D570(char *p, u32 v)
 {
-    *(u32 *)(p + 4) &= ~v;
+    ((struct Obj19125 *)p)->f4 &= ~v;
 }

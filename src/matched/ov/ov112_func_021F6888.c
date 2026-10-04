@@ -10,8 +10,9 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03760.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020307B0(void *);
-void func_021F6888(char *p) {if(*(void **)(p+4))func_020307B0(*(void **)(p+4));if(*(void **)(p+8))func_020307B0(*(void **)(p+8));if(*(void **)(p+12))func_020307B0(*(void **)(p+12));if(*(void **)(p+16))func_020307B0(*(void **)(p+16));func_020307B0(p);}
+void func_021F6888(char *p) {if(((struct Obj03760 *)p)->f4)func_020307B0(((struct Obj03760 *)p)->f4);if(((struct Obj03760 *)p)->f8)func_020307B0(((struct Obj03760 *)p)->f8);if(((struct Obj03760 *)p)->fC)func_020307B0(((struct Obj03760 *)p)->fC);if(((struct Obj03760 *)p)->f10)func_020307B0(((struct Obj03760 *)p)->f10);func_020307B0(p);}

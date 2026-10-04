@@ -13,6 +13,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj13800.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { unsigned char plane:5; unsigned char effect:1; unsigned char rest:2; } Wnd;
@@ -32,12 +33,12 @@ static inline void visible(int window) {
 }
 int func_021BFBA0(u8 *p) {
     int i;
-    if(*(int *)(p+0x88)==0) {
+    if(((struct Obj13800 *)p)->f88==0) {
     if(func_021BC898(p+0x4c)) {
         for(i=0;i<10;i++) func_0204B3DC(*(void **)(p+0x20+4*i),0);
         func_02040588(2,0);
         outside(((Wnd *)(p+0x8c))->plane,((Wnd *)(p+0x8c))->effect);
-        visible(*(int *)(p+0x90));
+        visible(((struct Obj13800 *)p)->f90);
         return 1;
     }
     } else return 1;

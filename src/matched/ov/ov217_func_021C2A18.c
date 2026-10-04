@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08447.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,8 +23,8 @@ typedef unsigned int u32;
 
 void func_021C2A18(u8 *p, u32 b, u16 c)
 {
-    *(u32 *)(p + 0x14) = 1;
-    *(u32 *)(p + 0x18) = b;
-    *(u32 *)(p + 0x1c) = 0;
-    *(u16 *)(p + 0x12) = c;
+    ((struct Obj08447 *)p)->f14 = 1;
+    ((struct Obj08447 *)p)->f18 = b;
+    ((struct Obj08447 *)p)->f1C = 0;
+    ((struct Obj08447 *)p)->f12 = c;
 }

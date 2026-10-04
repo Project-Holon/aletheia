@@ -14,6 +14,9 @@
  *   func_02082A90  0x02082A90  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj14384.h"
+#include "../include/Obj14385.h"
+#include "../include/Obj24470.h"
 
 typedef unsigned int   u32;
 extern void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3);
@@ -26,9 +29,9 @@ void func_021B6338(void *obj, int a, int b)
     int t;
     char *p;
 
-    t = (int)func_02049F78((void *)(*(int *)((char *)obj + 4)), b, (u32)(&ptr), 0x807f);
+    t = (int)func_02049F78((void *)(((struct Obj24470 *)obj)->f4), b, (u32)(&ptr), 0x807f);
     p = (char *)obj + 8 + a * 0x2004;
-    *(int *)(p + 0x2000) = *(int *)((char *)ptr + 8);
-    func_02082A90(*(int *)((char *)ptr + 0xc), (int)p, *(int *)(p + 0x2000));
+    ((struct Obj14385 *)p)->f2000 = ((struct Obj14384 *)ptr)->f8;
+    func_02082A90(((struct Obj14384 *)ptr)->fC, (int)p, ((struct Obj14385 *)p)->f2000);
     func_020307B0((void *)t);
 }

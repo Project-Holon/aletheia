@@ -15,6 +15,7 @@
  *   func_02008554  0x02008554  thumb
  *   func_02008550  0x02008550  thumb
  */
+#include "../include/Obj19230.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,5 +50,5 @@ void func_02173524(Work *w, u8 *p)
     r->f6 = func_02008554(w->head->f0);
     r->b0 = func_02008550(w->head->f0);
     r->b1 = 1;
-    *(u16 *)(p + 0x44) = 0xFFFF;
+    ((struct Obj19230 *)p)->f44 = 0xFFFF;
 }

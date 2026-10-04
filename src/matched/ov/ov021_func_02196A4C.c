@@ -14,6 +14,7 @@
  *   func_02051C88  0x02051C88  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19634.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ extern s32 func_02051C88(struct Ctx *c);
 void func_02196A4C(u8 *a)
 {
     if (func_020221A4() != 0) {
-        func_02051C88((struct Ctx *)(*(u32 *)(a + 0x24)));
+        func_02051C88((struct Ctx *)(((struct Obj19634 *)a)->f24));
     }
 }

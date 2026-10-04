@@ -12,6 +12,10 @@
  * symbols:
  *   func_02066ABC  0x02066ABC  arm
  */
+#include "../include/Obj00260.h"
+#include "../include/Obj03025.h"
+#include "../include/Obj16427.h"
+#include "../include/Obj16428.h"
 extern char *func_02062D40(char *self);
 typedef unsigned int   u32;
 struct CellDataBank;
@@ -30,33 +34,33 @@ void func_0206419C(char *self)
     int q;
     int r;
     int r2;
-    if (*(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+    if (*(unsigned short *)(*(int *)&((struct Obj00260 *)self)->f4 + 4) == 0)
         return;
     func_02062D40(self);
     p = func_02062D40(self);
-    o = *(char **)(self + 0x34);
-    *(int *)(self + 0x30) = (int)func_0206285C((struct CellDataBank *)o, *(unsigned short *)p);
-    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    o = *(char * *)&((struct Obj00260 *)self)->f34;
+    ((struct Obj00260 *)self)->f30 = (int)func_0206285C((struct CellDataBank *)o, ((struct Obj03025 *)p)->f0);
+    kind = *(int *)(*(int *)&((struct Obj00260 *)self)->f1C + 4) & 0xff;
     func_02064140(self + 0x3c, 1);
     switch (kind) {
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x3c, *(short *)(p + 4), *(short *)(p + 6));
+        func_020640DC(self + 0x3c, *(short *)&((struct Obj03025 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x3c, *(int *)(p + 4), *(int *)(p + 8));
-        func_02064100(self + 0x3c, *(unsigned short *)(p + 2));
-        func_020640DC(self + 0x3c, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        func_02064120(self + 0x3c, ((struct Obj03025 *)p)->f4, ((struct Obj03025 *)p)->f8);
+        func_02064100(self + 0x3c, ((struct Obj03025 *)p)->f2);
+        func_020640DC(self + 0x3c, ((struct Obj03025 *)p)->fC, ((struct Obj03025 *)p)->fE);
         break;
     }
-    q = *(int *)(o + 0xc);
+    q = ((struct Obj16427 *)o)->fC;
     r = !!q;
     if (r == 0) return;
-    if (*(volatile int *)(self + 0x38) != -1) r2 = 1; else r2 = 0;
+    if (*(volatile int *)&((struct Obj00260 *)self)->f38 != -1) r2 = 1; else r2 = 0;
     if (r2 == 0) return;
     {
-        int *t = (int *)(*(int *)(q + 4) + *(unsigned short *)p * 8);
-        func_02066ABC(*(int *)(self + 0x38), t[0], t[1]);
+        int *t = (int *)(((struct Obj16428 *)q)->f4 + ((struct Obj03025 *)p)->f0 * 8);
+        func_02066ABC(((struct Obj00260 *)self)->f38, t[0], t[1]);
     }
 }

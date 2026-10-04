@@ -17,6 +17,8 @@
  *   d_021CA7C0 0x021CA7C0 data a4
  *   cb_021CA7C0 0x021CA7C0 data a4
  */
+#include "../include/Obj00179.h"
+#include "../include/Obj10484.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -38,29 +40,29 @@ int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)
     int delta;
     Callback cb;
     int mode;
-    if (func_0201C6B4(*(void **)(b + 0x34)) == 0) return 0;
-    if (*(s16 *)(p + 0x100) > 24) {
+    if (func_0201C6B4(((struct Obj10484 *)b)->f34) == 0) return 0;
+    if (((struct Obj00179 *)p)->f100 > 24) {
         pos.x = d_021CA7C0.pos.x;
         pos.y = d_021CA7C0.pos.y;
-        func_0204B09C(*(void **)(b + 0x140), 0, &pos);
-        mode = *(u16 *)(p + 0x102) == 2 ? 2 : 1;
+        func_0204B09C(((struct Obj10484 *)b)->f140, 0, &pos);
+        mode = ((struct Obj00179 *)p)->f102 == 2 ? 2 : 1;
         func_021C8A50(p + 12 + mode * 76, b);
-        func_021C860C(p, a, b, *(s16 *)p, *(s16 *)(p + 4), h);
+        func_021C860C(p, a, b, ((struct Obj00179 *)p)->f0, ((struct Obj00179 *)p)->f4, h);
         return 1;
     }
-    delta = (*(s16 *)(p + 0x100) * 256) / 24;
-    if (*(u16 *)(p + 0x102) == 2) delta = -delta;
+    delta = (((struct Obj00179 *)p)->f100 * 256) / 24;
+    if (((struct Obj00179 *)p)->f102 == 2) delta = -delta;
     func_02041EE4(2, 0, delta);
     func_02041EE4(3, 0, delta);
     pos.x = d_021CA7C0.pos.x;
     pos.y = d_021CA7C0.pos.y;
     pos.x += (s16)delta;
-    func_0204B09C(*(void **)(b + 0x140), 0, &pos);
-    mode = *(s16 *)(p + 0x100);
+    func_0204B09C(((struct Obj10484 *)b)->f140, 0, &pos);
+    mode = ((struct Obj00179 *)p)->f100;
     if (mode % 6 != 0) {
         cb = cb_021CA7C0[mode / 6];
-        if (cb != 0) cb(p, b, *(s16 *)p, *(s16 *)(p + 2));
+        if (cb != 0) cb(p, b, ((struct Obj00179 *)p)->f0, *(s16 *)&((struct Obj00179 *)p)->f2);
     }
-    (*(s16 *)(p + 0x100))++;
+    (((struct Obj00179 *)p)->f100)++;
     return 0;
 }

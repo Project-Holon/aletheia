@@ -16,6 +16,11 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DB690 0x021DB690 thumb ov183
  */
+#include "../include/Obj05470.h"
+#include "../include/Obj24531.h"
+#include "../include/Obj24532.h"
+#include "../include/Obj24533.h"
+#include "../include/Obj24534.h"
 typedef unsigned int   u32;
 extern void func_021FEE74(char *p);
 extern void func_021FE794(char *p, u32 index, u32 a, u32 b, u32 c);
@@ -28,24 +33,24 @@ void func_021DB594(int *task, int *state, char *p)
     switch(*state) {
     case 0: *state=1; break;
     case 1:
-        func_021FEE74((char *)(*(int *)(*(char **)(p+0x1c)+0x14)));
+        func_021FEE74((char *)(((struct Obj24531 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f14));
         *state=2;
         break;
     case 2:
-        if((*(int *)(p+0x10))++ !=0) {
-            *(int *)(p+0x10)=0;
-            func_021FE794((char *)(*(int *)(*(char **)(p+0x1c)+8)),3,3,1,26);
+        if((((struct Obj05470 *)p)->f10)++ !=0) {
+            ((struct Obj05470 *)p)->f10=0;
+            func_021FE794((char *)(((struct Obj24532 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f8),3,3,1,26);
             *state=3;
         }
         break;
     case 3:
     {
         enum { MASK=1 } mask=MASK;
-        if(func_021FE7B0(*(int **)(*(char **)(p+0x1c)+8))&mask) *state=4;
+        if(func_021FE7B0(*(int * *)&((struct Obj24533 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f8)&mask) *state=4;
         break;
     }
     case 4:
-        func_021F9BA0(*(void **)(*(char **)(p+0x1c)+0x10));
+        func_021F9BA0(((struct Obj24534 *)(*(char * *)&((struct Obj05470 *)p)->f1C))->f10);
         func_021FD73C(task,(int)func_021DB690);
         break;
     }

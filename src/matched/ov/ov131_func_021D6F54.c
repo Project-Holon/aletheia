@@ -20,6 +20,8 @@
  *   func_021D72E8 0x021D72E8 thumb ov131
  *   func_02015E4C 0x02015E4C thumb
  */
+#include "../include/Obj01740.h"
+#include "../include/Obj05387.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021D703C(void *,u8 *);
@@ -30,34 +32,34 @@ extern int func_021D72E8(u8 *,u8 *,int);
 extern void func_02015E4C(void *);
 void func_021D6F54(u8 *p,u8 *q)
 {
-    switch(*(u32 *)(q+0x5c)) {
+    switch(((struct Obj01740 *)q)->f5C) {
     case 0:
-        if(q[0x78]>10) {*(u32 *)(q+0x5c)=1;func_021D703C(p,q);}
-        if(q[0x80]>10) {*(u32 *)(q+0x5c)=2;func_021D703C(p,q);}
-        if(q[0x88]>20) {*(u32 *)(q+0x5c)=3;func_021D703C(p,q);}
+        if(q[0x78]>10) {((struct Obj01740 *)q)->f5C=1;func_021D703C(p,q);}
+        if(q[0x80]>10) {((struct Obj01740 *)q)->f5C=2;func_021D703C(p,q);}
+        if(q[0x88]>20) {((struct Obj01740 *)q)->f5C=3;func_021D703C(p,q);}
         break;
     case 1:
         func_021D708C(p,q);
-        if(func_021D7060(p,q,q+0x78)==0) *(u32 *)(q+0x5c)=4;
+        if(func_021D7060(p,q,q+0x78)==0) ((struct Obj01740 *)q)->f5C=4;
         break;
     case 4:
-        if(func_021D708C(p,q)==1) *(u32 *)(q+0x5c)=0;
+        if(func_021D708C(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
         break;
     case 2:
         func_021D7248(p,q);
-        if(func_021D7060(p,q,q+0x80)==0) *(u32 *)(q+0x5c)=5;
+        if(func_021D7060(p,q,q+0x80)==0) ((struct Obj01740 *)q)->f5C=5;
         break;
     case 5:
-        if(func_021D7248(p,q)==1) *(u32 *)(q+0x5c)=0;
+        if(func_021D7248(p,q)==1) ((struct Obj01740 *)q)->f5C=0;
         break;
     case 3:
         func_021D72E8(p,q,1);
-        if(func_021D7060(p,q,q+0x88)==0) *(u32 *)(q+0x5c)=6;
+        if(func_021D7060(p,q,q+0x88)==0) ((struct Obj01740 *)q)->f5C=6;
         break;
     case 6:
         if(func_021D72E8(p,q,0)==1) {
-            func_02015E4C(*(void **)q);
-            *(u32 *)(q+0x5c)=0;
+            func_02015E4C(((struct Obj01740 *)q)->f0);
+            ((struct Obj01740 *)q)->f5C=0;
         }
         break;
     }
@@ -65,10 +67,10 @@ void func_021D6F54(u8 *p,u8 *q)
 typedef unsigned short u16;
 void func_021D703C(void *unused,u8 *q)
 {
-    *(u32 *)(q+0x58)=1;
-    *(u16 *)(q+0x64)=0;
-    *(u16 *)(q+0x68)=0;
-    *(u16 *)(q+0x62)=0;
-    *(u16 *)(q+0x66)=0;
-    *(u16 *)(q+0x60)=0;
+    ((struct Obj05387 *)q)->f58=1;
+    ((struct Obj05387 *)q)->f64=0;
+    ((struct Obj05387 *)q)->f68=0;
+    ((struct Obj05387 *)q)->f62=0;
+    ((struct Obj05387 *)q)->f66=0;
+    ((struct Obj05387 *)q)->f60=0;
 }

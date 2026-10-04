@@ -33,6 +33,7 @@
  *   func_021BB460 0x021BB460 thumb ov099
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj07942.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0201DD68(void);
@@ -74,7 +75,7 @@ void func_021BB528(char *p,int v)
     int unused;
     int message;
     func_0201DD68();
-    index=*(u8 *)(p+0x8ed)-1;
+    index=((struct Obj07942 *)p)->f8ED-1;
     func_02009864(PTR(4),index,9);
     func_0201DD78(15,2,0);
     func_021C2370(p,index);

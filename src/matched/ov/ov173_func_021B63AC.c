@@ -31,6 +31,7 @@
  *   func_021B6278  0x021B6278  thumb  ov173
  *   func_021B6498  0x021B6498  thumb  ov173
  */
+#include "../include/Obj00180.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -79,7 +80,7 @@ void func_021B63AC(u8 *p)
     func_021B8040(p);
     func_0202208C(0, 1, 1, 0, 6, 1, 0x4f);
     func_0204363C(1);
-    *(u32 *)(p + 0x68) = (u32)func_020056A0((void (*)(void))func_021B6498, p, 0x10);
+    ((struct Obj00180 *)p)->f68 = (u32)func_020056A0((void (*)(void))func_021B6498, p, 0x10);
     func_02049238((u32)q);
     func_021B6278(p);
 }

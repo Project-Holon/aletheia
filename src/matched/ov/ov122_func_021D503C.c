@@ -14,6 +14,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj00265.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Ctx;
@@ -25,19 +26,19 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D503C(char *p)
 {
-    switch (func_02158630(func_02012138(*(void **)(p + 0x354)))) {
+    switch (func_02158630(func_02012138(((struct Obj00265 *)p)->f354))) {
     case 0:
     case 1:
-        if (func_0204B898(*(void **)(p + 0x390)) == 20) {
-            func_0204B92C(*(void **)(p + 0x390), 0);
-            func_0204B878(*(void **)(p + 0x390), 12);
+        if (func_0204B898(((struct Obj00265 *)p)->f390) == 20) {
+            func_0204B92C(((struct Obj00265 *)p)->f390, 0);
+            func_0204B878(((struct Obj00265 *)p)->f390, 12);
         }
         break;
     case 2:
     case 3:
-        if (func_0204B898(*(void **)(p + 0x390)) == 12) {
-            func_0204B92C(*(void **)(p + 0x390), 1);
-            func_0204B878(*(void **)(p + 0x390), 20);
+        if (func_0204B898(((struct Obj00265 *)p)->f390) == 12) {
+            func_0204B92C(((struct Obj00265 *)p)->f390, 1);
+            func_0204B878(((struct Obj00265 *)p)->f390, 20);
         }
         break;
     }

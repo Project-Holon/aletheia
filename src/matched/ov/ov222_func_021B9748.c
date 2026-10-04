@@ -23,6 +23,7 @@
  *   func_020306F0 0x020306F0 arm
  *   d_021BA1F4 0x021BA1F4 data a4
  */
+#include "../include/Obj02559.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,11 +58,11 @@ int func_021B9748(void*scene,int unused1,int unused2,char*p)
  func_021B9D64(p);
  func_021B9B84(p);
  func_021B9960(p);
- func_02030EAC(*(void**)(p+20));
- func_0201C6EC(*(void**)(p+16));
- func_0201C4C0(*(void**)(p+16));
- func_0201D83C(*(void**)(p+12));
- func_021B9FB8(*(char**)(p+8));
+ func_02030EAC(*(void* *)&((struct Obj02559 *)p)->f14);
+ func_0201C6EC(*(void* *)&((struct Obj02559 *)p)->f10);
+ func_0201C4C0(*(void* *)&((struct Obj02559 *)p)->f10);
+ func_0201D83C(*(void* *)&((struct Obj02559 *)p)->fC);
+ func_021B9FB8(*(char* *)&((struct Obj02559 *)p)->f8);
  func_020315D4(scene);
  func_020306F0(0x83);
  return 1;

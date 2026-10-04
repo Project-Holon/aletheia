@@ -14,6 +14,7 @@
  *   func_021FF8E4 0x021FF8E4 thumb ov186
  *   d_02200D98 0x02200D98 data a1
  */
+#include "../include/Obj08337.h"
 extern int func_021D68EC(char *, int, unsigned, int, unsigned char);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -22,7 +23,7 @@ extern void func_021FF8E4(void *, int, int);
 extern const char d_02200D98[];
 void func_021FF9D0(char *p, int unused, char *q)
 {
-    if (!func_021D68EC(q, *(unsigned short *)(q + 0x5b0), *(unsigned *)(q + 0x5b4), *(unsigned char *)(q + 0x5b2), *(unsigned char *)(q + 0x5b3)))
+    if (!func_021D68EC(q, ((struct Obj08337 *)q)->f5B0, ((struct Obj08337 *)q)->f5B4, ((struct Obj08337 *)q)->f5B2, ((struct Obj08337 *)q)->f5B3))
         func_02034714(d_02200D98, 0, d_02200D98);
     func_021FFB68(p, (int)func_021FF8E4);
 }

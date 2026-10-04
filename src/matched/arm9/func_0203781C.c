@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/matched/func_0203781C.c \
  *       --func func_0203781C --addr 0x0203781C --cc 1.1p1 --arm
  */
+#include "../include/Obj15920.h"
 
 typedef unsigned int u32;
 
@@ -40,5 +41,5 @@ void func_0203781C(u32 arg)
     hook = *(void (**)(u32, u32))(a + 8);
     if (hook == 0)
         return;
-    hook(*(u32 *)(b + 0x34C), arg);
+    hook(((struct Obj15920 *)b)->f34C, arg);
 }

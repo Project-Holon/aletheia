@@ -23,6 +23,7 @@
  *   func_020189D0  0x020189D0  thumb
  *   func_021D7DC0  0x021D7DC0  thumb  ov093
  */
+#include "../include/Obj07817.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -48,7 +49,7 @@ void func_021DD7B8(int a, u8 *b, int c, int *d, int e)
         m = func_021C7CF4(b, c);
         p = func_021C88A4(b, 5, c);
         p[6] = c;
-        *(u16 *)(p + 4) = func_021D7B74(m, func_021DCFF8(a, 2));
+        *(u16 *)&((struct Obj07817 *)p)->f4 = func_021D7B74(m, func_021DCFF8(a, 2));
         func_021C8838(p + 8, 2, 908);
         func_021C8860((struct S *)(p + 8), c);
         func_021C8860((struct S *)(p + 8), func_021D70A8((void *)a));
@@ -56,7 +57,7 @@ void func_021DD7B8(int a, u8 *b, int c, int *d, int e)
         if (func_020189D0(func_021D5844(m), e) == -1) {
             p = func_021C88A4(b, 0xc, c);
             p[0xf] = c;
-            *(int *)(p + 4) = 6;
+            ((struct Obj07817 *)p)->f4 = 6;
             func_021D7DC0(6, m, p + 8);
             func_021C88C8(b, p);
         }

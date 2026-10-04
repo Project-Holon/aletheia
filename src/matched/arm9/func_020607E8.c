@@ -10,15 +10,16 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj00512.h"
 
 void *func_020607E8(int *p, int v)
 {
     int *q = (int *)p[0];
-    *(unsigned short *)q = (unsigned short)v;
-    *(unsigned short *)((char *)q + 2) = 0;
-    *(int *)((char *)q + 4) = (int)((char *)p[1] - ((char *)q + 0x10));
-    *(int *)((char *)q + 8) = 0;
-    *(int *)((char *)q + 0xc) = 0;
+    ((struct Obj00512 *)q)->f0 = (unsigned short)v;
+    ((struct Obj00512 *)q)->f2 = 0;
+    ((struct Obj00512 *)q)->f4 = (int)((char *)p[1] - ((char *)q + 0x10));
+    ((struct Obj00512 *)q)->f8 = 0;
+    *(int *)&((struct Obj00512 *)q)->fC = 0;
     return q;
 }
 

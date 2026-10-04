@@ -14,6 +14,10 @@
  *   func_0202CDD4 0x0202CDD4 thumb
  *   func_021EC8E4 0x021EC8E4 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj24043.h"
+#include "../include/Obj24044.h"
+#include "../include/Obj24045.h"
 
 typedef unsigned int u32;
 typedef signed char s8;
@@ -27,9 +31,9 @@ int func_021EF400(unsigned char *p)
     signed char a[2];
     signed char b[2];
     unsigned r;
-    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8, &a[1], &a[0]);
-    r = func_0202CDD4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8);
-    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8, &b[1], &b[0]);
+    func_0202CF98(*(struct WinMgr * *)&((struct Obj24043 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74, 8, &a[1], &a[0]);
+    r = func_0202CDD4(*(struct WinMgr * *)&((struct Obj24044 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74, 8);
+    func_0202CF98(*(struct WinMgr * *)&((struct Obj24045 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74, 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
         func_021EC8E4((char *)p);
     {

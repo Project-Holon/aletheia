@@ -11,10 +11,11 @@
  *
  * Unlabelled leaf before func_021BA734; func_021BB1C4 tests its result.
  */
+#include "../include/Obj20643.h"
 
 typedef unsigned char u8;
 
 int func_021BA730(u8 *p)
 {
-    return *(int *)(p + 0x40);
+    return ((struct Obj20643 *)p)->f40;
 }

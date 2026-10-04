@@ -11,6 +11,7 @@
  * symbols:
  *   func_02186878  0x02186878  thumb
  */
+#include "../include/Obj07611.h"
 
 typedef unsigned char u8;
 
@@ -26,11 +27,11 @@ extern int func_02186878(char *p);
 
 void func_02186888(char *p)
 {
-    if (((Rec *)(p + *(int *)(p + 0xBBC) * 30))->mid != 0
+    if (((Rec *)(p + ((struct Obj07611 *)p)->fBBC * 30))->mid != 0
         || ((Rec *)(p + func_02186878(p) * 30))->mid != 0) {
-        *(int *)(p + 0xBBC) += 1;
-        if (*(int *)(p + 0xBBC) >= 100) {
-            *(int *)(p + 0xBBC) = 0;
+        ((struct Obj07611 *)p)->fBBC += 1;
+        if (((struct Obj07611 *)p)->fBBC >= 100) {
+            ((struct Obj07611 *)p)->fBBC = 0;
         }
     }
 }

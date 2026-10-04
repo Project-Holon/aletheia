@@ -16,6 +16,8 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj02558.h"
+#include "../include/Obj08453.h"
 struct Descriptor; struct Cfg; struct PrintSys;
 extern void *func_02045770(struct Descriptor *);
 extern unsigned func_0201C6C4(struct PrintSys *,void *);
@@ -30,12 +32,12 @@ void func_021B9B18(unsigned char *p)
     struct Descriptor *resource;
     for(i=0;i<5;i++) {
         row=p+4*i;
-        if(*(int *)(row+0x30)==0 && func_0201C6C4(*(struct PrintSys **)(p+0x10),func_02045770(*(struct Descriptor **)(row+0x1C)))==0) {
-            resource=*(struct Descriptor **)(row+0x1C);
+        if(((struct Obj08453 *)row)->f30==0 && func_0201C6C4(*(struct PrintSys * *)&((struct Obj02558 *)p)->f10,func_02045770(*(struct Descriptor * *)&((struct Obj08453 *)row)->f1C))==0) {
+            resource=*(struct Descriptor * *)&((struct Obj08453 *)row)->f1C;
             func_02045334(resource);
             func_02045374((struct Cfg *)resource);
             func_02041B6C(func_02045730(resource));
-            *(int *)(row+0x30)=1;
+            ((struct Obj08453 *)row)->f30=1;
         }
     }
 }

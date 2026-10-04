@@ -12,23 +12,27 @@
  *
  * four int getters at +0, +8, +4, +c.
  */
+#include "../include/Obj22244.h"
+#include "../include/Obj22245.h"
+#include "../include/Obj22246.h"
+#include "../include/Obj22247.h"
 
 int func_021B7CA0(void *p)
 {
-    return *(int *)p;
+    return ((struct Obj22244 *)p)->f0;
 }
 
 int func_021B7CA4(void *p)
 {
-    return *(int *)((char *)p + 0x8);
+    return ((struct Obj22245 *)p)->f8;
 }
 
 int func_021B7CA8(void *p)
 {
-    return *(int *)((char *)p + 0x4);
+    return ((struct Obj22246 *)p)->f4;
 }
 
 int func_021B7CAC(void *p)
 {
-    return *(int *)((char *)p + 0xC);
+    return ((struct Obj22247 *)p)->fC;
 }

@@ -16,6 +16,7 @@
  *
  * lever: a brace-initialised Vec local compiles to an @N rodata template; three field stores do not.
  */
+#include "../include/Obj07895.h"
 typedef struct {
     int x, y, z;
 } Vec;
@@ -34,5 +35,5 @@ void func_02201D5C(char *o, int idx, int c, void *d, int s1, int s2, int s3)
     v.z = 0x1000;
 
     func_02201E04(o, idx, c, &v, d, s1, s2, s3, func_02201FF4, func_0220203C);
-    *(unsigned *)(o + 0x7c) |= 1 << idx;
+    ((struct Obj07895 *)o)->f7C |= 1 << idx;
 }

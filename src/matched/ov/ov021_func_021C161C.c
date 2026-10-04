@@ -20,6 +20,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04270.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,13 +40,13 @@ int func_021C161C(u8 *p)
 {
     void *r5;
 
-    r5 = func_021A3074(*(void **)(p + 0x3c));
+    r5 = func_021A3074(((struct Obj04270 *)p)->f3C);
     func_0216DB4C(r5, 0);
-    func_0216E014(r5, p + 0x24, *(u16 *)(p + 4));
-    r5 = func_021A2F98(*(u32 *)(p + 0x3c));
+    func_0216E014(r5, p + 0x24, ((struct Obj04270 *)p)->f4);
+    r5 = func_021A2F98(*(u32 *)&((struct Obj04270 *)p)->f3C);
     func_021ACBB8((u32)r5, 1);
-    *(u32 *)(p + 0x48) = func_021AD564(func_02188CD0((u8 *)(*(u32 *)(p + 0x40))), 0, r5);
+    ((struct Obj04270 *)p)->f48 = func_021AD564(func_02188CD0((u8 *)(((struct Obj04270 *)p)->f40)), 0, r5);
     func_020061E4(0x6e2);
-    *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
+    ((struct Obj04270 *)p)->f2 = ((struct Obj04270 *)p)->f2 + 1;
     return 0;
 }

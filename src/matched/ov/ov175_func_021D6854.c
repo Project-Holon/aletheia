@@ -23,6 +23,7 @@
  *   func_0203CD98                0x0203CD98  arm
  *   DWC_CloseAllConnectionsHard  0x0216B65C  arm
  */
+#include "../include/Obj00171.h"
 
 typedef unsigned long u32;
 
@@ -43,24 +44,24 @@ int func_021D6854(char *obj, int trigger, int go)
 {
     int r;
 
-    switch (*(u32 *)(obj + 0xe4)) {
+    switch (((struct Obj00171 *)obj)->fE4) {
     case 0:
         if (trigger != 0 && (func_020362DC() & 2))
-            *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
+            ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         else return 0;
         break;
     case 1:
-        func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x23, 1);
-        *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
+        func_021E8738((int *)(((struct Obj00171 *)obj)->f24), ((struct Obj00171 *)obj)->f10, 0x23, 1);
+        ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 2:
-        if (!func_021E8844((const int *)(*(u32 *)(obj + 0x24))))
+        if (!func_021E8844((const int *)(((struct Obj00171 *)obj)->f24)))
             break;
-        *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
+        ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 3:
         func_021D6550((u32 *)obj, 0);
-        *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
+        ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 4:
         r = func_021D65DC(obj);
@@ -69,30 +70,30 @@ int func_021D6854(char *obj, int trigger, int go)
         func_021D65C8(obj);
         switch (r) {
         case 0:
-            *(u32 *)(obj + 0xe4) = 5;
+            ((struct Obj00171 *)obj)->fE4 = 5;
             break;
         case 1:
-            func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x21, 0);
-            *(u32 *)(obj + 0xe4) = 0;
+            func_021E8738((int *)(((struct Obj00171 *)obj)->f24), ((struct Obj00171 *)obj)->f10, 0x21, 0);
+            ((struct Obj00171 *)obj)->fE4 = 0;
             return 2;
         }
         break;
     case 5:
-        func_021E8738((int *)(*(u32 *)(obj + 0x24)), *(u32 *)(obj + 0x10), 0x2b, 2);
-        *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
+        func_021E8738((int *)(((struct Obj00171 *)obj)->f24), ((struct Obj00171 *)obj)->f10, 0x2b, 2);
+        ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
         break;
     case 6:
         if (go == 0)
             break;
-        func_021DA434(*(u32 *)(obj + 0x30));
-        *(u32 *)(obj + 0xe4) = *(u32 *)(obj + 0xe4) + 1;
-        func_021E7E0C((void **)(*(u32 *)(obj + 0x20)), 0);
-        func_021DA36C(*(u32 *)(obj + 0x30));
+        func_021DA434(((struct Obj00171 *)obj)->f30);
+        ((struct Obj00171 *)obj)->fE4 = ((struct Obj00171 *)obj)->fE4 + 1;
+        func_021E7E0C((void **)(((struct Obj00171 *)obj)->f20), 0);
+        func_021DA36C(((struct Obj00171 *)obj)->f30);
         if (!func_0200FB24() && func_0203CD98())
             DWC_CloseAllConnectionsHard();
         break;
     case 7:
-        *(u32 *)(obj + 0xe4) = 0;
+        ((struct Obj00171 *)obj)->fE4 = 0;
         return 3;
     }
     return 1;

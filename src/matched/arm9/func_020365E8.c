@@ -24,14 +24,15 @@
  *   python tools/match.py one --src src/matched/func_020365E8.c \
  *       --func func_020365E8 --addr 0x020365E8 --cc 1.1p1 --arm
  */
+#include "../include/Obj01465.h"
 
 typedef unsigned int u32;
 
 int func_020365E8(char *p)
 {
-    int a = *(short *)(p + 0x0C);
+    int a = ((struct Obj01465 *)p)->fC;
 
-    if (a > *(short *)(p + 0x0E))
-        return *(u32 *)(p + 4) + *(volatile short *)(p + 0x0E) - a;
-    return *(volatile short *)(p + 0x0E) - a;
+    if (a > ((struct Obj01465 *)p)->fE)
+        return ((struct Obj01465 *)p)->f4 + *(volatile short *)&((struct Obj01465 *)p)->fE - a;
+    return *(volatile short *)&((struct Obj01465 *)p)->fE - a;
 }

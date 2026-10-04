@@ -19,6 +19,9 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021DBCF4 0x021DBCF4 thumb ov131
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj02847.h"
+#include "../include/Obj23173.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021D6064(u8 *);
@@ -39,17 +42,17 @@ void func_021DB964(u8 *a,void *b,u8 *p) {
     void *q;
     q=func_021D6064(a);
     if(p[0]<4) v=func_02017E88(q,p[0]+54,0);
-    else v=*(u16 *)(*(u8 **)(a+8)+20);
-    if(*(int *)(p+4)==1) {
+    else v=((struct Obj23173 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f14;
+    if(((struct Obj02847 *)p)->f4==1) {
         if(v!=0) {
             i=func_0201C1C8(v);
             func_0204AB84(*(void **)(a+304+i*4),words);
-            func_0204B784(*(void **)(p+12),words);
-            func_0204B6F4(*(void **)(p+12),func_020275EC(i),1);
-            func_0204B3DC(*(void **)(p+12),1);
-        } else func_0204B3DC(*(void **)(p+12),0);
-        func_021DBCF4(*(void **)(p+20));
-        func_0204B3DC(*(void **)(p+8),1);
-        *(int *)(p+4)=0;
+            func_0204B784(((struct Obj02847 *)p)->fC,words);
+            func_0204B6F4(((struct Obj02847 *)p)->fC,func_020275EC(i),1);
+            func_0204B3DC(((struct Obj02847 *)p)->fC,1);
+        } else func_0204B3DC(((struct Obj02847 *)p)->fC,0);
+        func_021DBCF4(((struct Obj02847 *)p)->f14);
+        func_0204B3DC(((struct Obj02847 *)p)->f8,1);
+        ((struct Obj02847 *)p)->f4=0;
     }
 }

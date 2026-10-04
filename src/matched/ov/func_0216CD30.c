@@ -15,6 +15,7 @@
  *   func_02049238  0x02049238  arm
  *   func_0216D4E4  0x0216D4E4  thumb  ov010
  */
+#include "../include/Obj09166.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,13 +31,13 @@ void func_0216CD30(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x20);
+a0 = ((struct Obj09166 *)t4)->f20;
     a0 = func_02030DA4(a0);
 loc_0216CD3A:
-a0 = *(int *)((char *)t4 + 0x1c);
+a0 = ((struct Obj09166 *)t4)->f1C;
     a0 = func_020307B0(a0);
 loc_0216CD40:
-a0 = *(int *)((char *)t4 + 0x10);
+a0 = ((struct Obj09166 *)t4)->f10;
     func_02049238((void *)a0);
 loc_0216CD46:
 a0 = t4 + 0;

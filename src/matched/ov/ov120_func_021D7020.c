@@ -10,11 +10,12 @@
  * symbols:
 
  */
+#include "../include/Obj22843.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 
 void func_021D7020(u8 *p)
 {
-    *(u32 *)(p + 0x108) = 0;
+    ((struct Obj22843 *)p)->f108 = 0;
 }

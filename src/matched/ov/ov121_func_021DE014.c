@@ -9,9 +9,10 @@
  * status: EXACT
  * follower: boolean accessor after func_021DDF84; separate game leaf.
  */
+#include "../include/Obj22908.h"
 typedef unsigned short u16;
 int func_021DE014(char *p)
 {
-    if (*(u16 *)(p+0xdc)==0) return 1;
+    if (((struct Obj22908 *)p)->fDC==0) return 1;
     return 0;
 }

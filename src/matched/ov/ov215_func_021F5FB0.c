@@ -11,19 +11,21 @@
  * symbols:
  *   func_020063B4 0x020063B4 thumb
  */
+#include "../include/Obj14707.h"
+#include "../include/Obj25743.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020063B4(u8 *a0, u32 *a1, u32 a2);
 void func_021F5FB0(void *unused, char *p)
 {
-    *(int *)(p + 0x24) = 0;
+    ((struct Obj14707 *)p)->f24 = 0;
     func_020063B4((u8 *)0x3f3, (u32 *)(p + 0x24), 1);
-    *(int *)(p + 0x18) = 3;
+    ((struct Obj14707 *)p)->f18 = 3;
 }
 
 int func_021F5FCC(void *unused, char *p)
 {
-    if (*(int *)(p + 0x18) == 4) return 1;
+    if (((struct Obj25743 *)p)->f18 == 4) return 1;
     return 0;
 }

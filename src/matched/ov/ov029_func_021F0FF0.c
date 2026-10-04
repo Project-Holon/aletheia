@@ -12,9 +12,10 @@
  * symbols:
  *   func_02021B18 0x02021B18 thumb
  */
+#include "../include/Obj20390.h"
 struct Obj02021B18;
 extern void func_02021B18(struct Obj02021B18 *o);
 void func_021F0FF0(char *p)
 {
-    func_02021B18(*(void **)(p + 0x210));
+    func_02021B18(((struct Obj20390 *)p)->f210);
 }

@@ -27,6 +27,8 @@
  *   d_02213D04 0x02213D04 data a1 ov199
  *   d_02213D00 0x02213D00 data a1 ov199
  */
+#include "../include/Obj01078.h"
+#include "../include/Obj02537.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -52,12 +54,12 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
     u8 *out;
     u8 *row;
     unsigned id;
-    func_0201A948(*(void **)(p + 0x30));
-    func_0201A948(*(void **)(p + 0x34));
+    func_0201A948(((struct Obj01078 *)p)->f30);
+    func_0201A948(((struct Obj01078 *)p)->f34);
     out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
     func_02082BCC(out, 0, 0x24);
-    if (*(unsigned *)(p + 0x1c) == 2 || *(unsigned *)(p + 0x1c) == 3) {
-        switch (*(unsigned *)(p + 8)) {
+    if (((struct Obj01078 *)p)->f1C == 2 || ((struct Obj01078 *)p)->f1C == 3) {
+        switch (((struct Obj01078 *)p)->f8) {
         case 0: id = 15; break;
         case 1: id = 16; break;
         case 2: id = 17; break;
@@ -65,24 +67,24 @@ u8 *func_02212988(int unused, unsigned heap, u8 *p)
         case 4: id = 19; break;
         default: func_02034714(d_02213D00, 0, d_02213D00); break;
         }
-        *(void **)out = func_0201A354(id, heap);
-    } else if (*(unsigned *)(p + 0x1c) == 0) {
-        *(void **)out = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 4))), 0));
-    } else if (*(unsigned *)(p + 0x1c) == 1) {
-        *(void **)out = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 4))), 1));
+        ((struct Obj02537 *)out)->f0 = func_0201A354(id, heap);
+    } else if (((struct Obj01078 *)p)->f1C == 0) {
+        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01078 *)p)->f4)), 0));
+    } else if (((struct Obj01078 *)p)->f1C == 1) {
+        ((struct Obj02537 *)out)->f0 = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01078 *)p)->f4)), 1));
     } else {
         func_02034714(d_02213D00, 0, d_02213D00);
     }
-    *(void **)(out + 0x1c) = *(void **)(p + 0x30);
-    *(void **)(out + 0x14) = *(void **)(p + 4);
-    func_0201AC2C(*(u8 **)(p + 0x28) + 0xd4, *(void **)(p + 0x38));
-    func_0201A2A8(*(void **)out, *(void **)(p + 0x38));
-    *(void **)(out + 4) = *(void **)(p + 0x38);
-    row = *(u8 **)(p + 0x2c);
-    func_0201AC2C(row + 0xd4, *(void **)(p + 0x3c));
-    func_0201A2A8(*(void **)out, *(void **)(p + 0x3c));
-    *(void **)(out + 8) = func_020084F4(row);
-    *(void **)(out + 0x10) = *(void **)(p + 0x3c);
+    ((struct Obj02537 *)out)->f1C = ((struct Obj01078 *)p)->f30;
+    ((struct Obj02537 *)out)->f14 = ((struct Obj01078 *)p)->f4;
+    func_0201AC2C(*(u8 * *)&((struct Obj01078 *)p)->f28 + 0xd4, ((struct Obj01078 *)p)->f38);
+    func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f38);
+    ((struct Obj02537 *)out)->f4 = ((struct Obj01078 *)p)->f38;
+    row = *(u8 * *)&((struct Obj01078 *)p)->f2C;
+    func_0201AC2C(row + 0xd4, ((struct Obj01078 *)p)->f3C);
+    func_0201A2A8(((struct Obj02537 *)out)->f0, ((struct Obj01078 *)p)->f3C);
+    ((struct Obj02537 *)out)->f8 = func_020084F4(row);
+    ((struct Obj02537 *)out)->f10 = ((struct Obj01078 *)p)->f3C;
     out[0xc] = func_02008550(row);
     return out;
 }

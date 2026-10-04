@@ -14,10 +14,11 @@
  *   func_02035C60 0x02035C60 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj14179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02202840(void *),func_02035C60(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
-int func_022021C0(u8 *p) { if((func_02202840(p+0xfa0)==0 && (func_020362DC()&1)) || func_02035C60()) { func_020061E4(0x547); *(u32 *)(p+40)=*(u32 *)(p+44); } return 2; }
+int func_022021C0(u8 *p) { if((func_02202840(p+0xfa0)==0 && (func_020362DC()&1)) || func_02035C60()) { func_020061E4(0x547); ((struct Obj14179 *)p)->f28=((struct Obj14179 *)p)->f2C; } return 2; }

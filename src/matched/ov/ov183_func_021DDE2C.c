@@ -22,6 +22,9 @@
  *   func_021FC754 0x021FC754 thumb ov186
  *   d_021E336C 0x021E336C data a4
  */
+#include "../include/Obj00631.h"
+#include "../include/Obj00632.h"
+#include "../include/Obj14426.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Position { short x,y,z;u8 a,b; };
@@ -46,23 +49,23 @@ void func_021DDE2C(char *p,char *q)
  struct Position pos;
  const struct Record *rec;
  char *slot;
- func_021FBE54(*(char **)(q+8),6,*(u16 *)(p+0x7c));
- func_021FB964((void *)(*(int *)(q+8)),9,*(u16 *)(p+0x7c));
- first=func_021FC20C(*(char **)(q+8));
- second=func_021FC214(*(char **)(q+8));
+ func_021FBE54(*(char * *)&((struct Obj00632 *)q)->f8,6,((struct Obj00631 *)p)->f7C);
+ func_021FB964((void *)(*(int *)&((struct Obj00632 *)q)->f8),9,((struct Obj00631 *)p)->f7C);
+ first=func_021FC20C(*(char * *)&((struct Obj00632 *)q)->f8);
+ second=func_021FC214(*(char * *)&((struct Obj00632 *)q)->f8);
  func_02082BCC(&pos,0,8);
  pos.x=0x50;pos.y=0xa8;pos.z=0;pos.a=1;
- func_021FC124(*(int *)(q+8),6,&triple);
- *(void **)(p+0x20)=func_021FB378(&pos,4,0x60,1,*(int *)(q+4),*(int *)p,first,second,&triple,*(u16 *)(p+0x7c));
+ func_021FC124(*(int *)&((struct Obj00632 *)q)->f8,6,&triple);
+ ((struct Obj00631 *)p)->f20=func_021FB378(&pos,4,0x60,1,*(int *)&((struct Obj00632 *)q)->f4,*(int *)&((struct Obj00631 *)p)->f0,first,second,&triple,((struct Obj00631 *)p)->f7C);
  for(i=0;i<4;i++){
   rec=&d_021E336C[i];slot=p+i*4;
-  *(void **)(slot+0x24)=func_021FC6A4(4,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  ((struct Obj14426 *)slot)->f24=func_021FC6A4(4,rec->a,rec->b,rec->c,rec->d,14,((struct Obj00631 *)p)->f4,((struct Obj00631 *)p)->f7C);
   switch(i){
-   case 0: if(func_021DE000((void *)(*(int *)(q+0x10)),(char *)(*(int *)(q+0x14)))) id=0x83;else id=0x7e;break;
-   case 1: if(func_021DE02C((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))) id=0x84;else id=0x7f;break;
-   case 2: if(func_021DE058((void *)(*(int *)(q+0x10)),(void *)(*(int *)(q+0x14)))) id=0x85;else id=0x80;break;
+   case 0: if(func_021DE000((void *)(((struct Obj00632 *)q)->f10),(char *)(((struct Obj00632 *)q)->f14))) id=0x83;else id=0x7e;break;
+   case 1: if(func_021DE02C((void *)(((struct Obj00632 *)q)->f10),(void *)(((struct Obj00632 *)q)->f14))) id=0x84;else id=0x7f;break;
+   case 2: if(func_021DE058((void *)(((struct Obj00632 *)q)->f10),(void *)(((struct Obj00632 *)q)->f14))) id=0x85;else id=0x80;break;
    case 3: id=0x81;break;
   }
-  func_021FC754(*(void **)(slot+0x24),(void *)second,(void *)id,(void *)first,0x3da0);
+  func_021FC754(((struct Obj14426 *)slot)->f24,(void *)second,(void *)id,(void *)first,0x3da0);
  }
 }

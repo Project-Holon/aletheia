@@ -15,6 +15,7 @@
  *
  * 1 unless both queries come back zero.
  */
+#include "../include/Obj18462.h"
 
 
 struct WinMgr;
@@ -22,7 +23,7 @@ extern int func_021E066C(char *);
 extern int func_021EF5C4(struct WinMgr *mgr);
 int func_021E070C(char *p)
 {
-    if (func_021E066C(p) == 0 && func_021EF5C4(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74)) == 0)
+    if (func_021E066C(p) == 0 && func_021EF5C4(*(struct WinMgr **)(((struct Obj18462 *)p)->f2C + 0x74)) == 0)
         return 0;
     return 1;
 }

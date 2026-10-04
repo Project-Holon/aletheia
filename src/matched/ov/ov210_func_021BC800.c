@@ -14,6 +14,7 @@
  *   func_02021540  0x02021540  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,9 +28,9 @@ extern void func_02021540(u32 a);
 
 void func_021BC800(u8 *p)
 {
-    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 0);
-    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 1);
-    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 2);
-    func_020215A0((struct PalAnmSlot *)(*(u32 *)(p + 12)), 3);
-    func_02021540(*(u32 *)(p + 12));
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 0);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 1);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 2);
+    func_020215A0((struct PalAnmSlot *)(*(u32 *)&((struct Obj00085 *)p)->fC), 3);
+    func_02021540(*(u32 *)&((struct Obj00085 *)p)->fC);
 }

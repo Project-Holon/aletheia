@@ -14,6 +14,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02027CD8 0x02027CD8 thumb
  */
+#include "../include/Obj00060.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Template { int heap; u8 count,pad[3]; int ptr,flag; u8 x,y,z,w; };
@@ -30,27 +31,27 @@ extern void func_02027CD8(int,int);
 void func_021BA290(int a,int flag) {
  struct Template t;
  int v;
- t.heap=*(u16 *)(a+0x278);
+ t.heap=((struct Obj00060 *)a)->f278;
  t.flag=1;
  t.x=32;t.y=24;t.z=13;t.w=3;
  if(flag!=0) {
   t.count=2;t.ptr=a+0xcc8;
-  v=(int)func_020457B0(100,t.heap);*(int *)(a+0xcc8)=v;
-  func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),0x23,(void *)v);
-  *(u16 *)(a+0xccc)=0x39e3;*(int *)(a+0xcd0)=0;
-  v=(int)func_020457B0(100,*(u16 *)(a+0x278));*(int *)(a+0xcd4)=v;
-  func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),2,(void *)v);
-  *(u16 *)(a+0xcd8)=0x39e3;*(int *)(a+0xcdc)=1;
-  *(int *)(a+0xcc0)=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(*(int *)(a+0xcc4)));
-  func_02045808((struct U16Vec *)(*(int *)(a+0xcc8)));func_02045808((struct U16Vec *)(*(int *)(a+0xcd4)));
-  *(int *)(a+0xcbc)=0;
+  v=(int)func_020457B0(100,t.heap);((struct Obj00060 *)a)->fCC8=v;
+  func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),0x23,(void *)v);
+  ((struct Obj00060 *)a)->fCCC=0x39e3;((struct Obj00060 *)a)->fCD0=0;
+  v=(int)func_020457B0(100,((struct Obj00060 *)a)->f278);((struct Obj00060 *)a)->fCD4=v;
+  func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),2,(void *)v);
+  ((struct Obj00060 *)a)->fCD8=0x39e3;((struct Obj00060 *)a)->fCDC=1;
+  ((struct Obj00060 *)a)->fCC0=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(((struct Obj00060 *)a)->fCC4));
+  func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCC8));func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCD4));
+  ((struct Obj00060 *)a)->fCBC=0;
  } else {
   t.count=1;t.ptr=a+0xcc8;
-  v=(int)func_020457B0(100,t.heap);*(int *)(a+0xcc8)=v;
-  func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),2,(void *)v);
-  *(u16 *)(a+0xccc)=0x39e3;*(int *)(a+0xcd0)=1;
-  *(int *)(a+0xcc0)=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(*(int *)(a+0xcc4)));
-  func_02045808((struct U16Vec *)(*(int *)(a+0xcc8)));*(int *)(a+0xcbc)=1;
+  v=(int)func_020457B0(100,t.heap);((struct Obj00060 *)a)->fCC8=v;
+  func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),2,(void *)v);
+  ((struct Obj00060 *)a)->fCCC=0x39e3;((struct Obj00060 *)a)->fCD0=1;
+  ((struct Obj00060 *)a)->fCC0=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(((struct Obj00060 *)a)->fCC4));
+  func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCC8));((struct Obj00060 *)a)->fCBC=1;
  }
- switch(*(int *)(a+0x24c)) {case 9:case 10:case 11:break;default:func_02027CD8(*(int *)(a+0xcc0),1);break;}
+ switch(((struct Obj00060 *)a)->f24C) {case 9:case 10:case 11:break;default:func_02027CD8(((struct Obj00060 *)a)->fCC0,1);break;}
 }

@@ -14,12 +14,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25767.h"
 
 extern void func_021BCCBC(void *);
 
 int func_021BBF14(char *p)
 {
-    if (*(int *)(p + 0xc) != 0)
+    if (((struct Obj25767 *)p)->fC != 0)
         return 3;
     func_021BCCBC(p);
     return 2;

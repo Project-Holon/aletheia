@@ -14,6 +14,8 @@
  *   sub_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10985.h"
+#include "../include/Obj26308.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -23,4 +25,4 @@ extern void func_021B9E80(char *,u32);
 struct Node;
 extern void sub_02030EAC(struct Node *);
 extern void func_020307B0(void *);
-void func_021BBAE8(char *p) { func_021B9E80(*(char **)(p+4),func_021B9CDC(*(void **)(*(char **)(p+4)+0x2c))); sub_02030EAC(*(struct Node **)(p+0x34)); func_020307B0(p); }
+void func_021BBAE8(char *p) { func_021B9E80(*(char * *)&((struct Obj10985 *)p)->f4,func_021B9CDC(((struct Obj26308 *)(*(char * *)&((struct Obj10985 *)p)->f4))->f2C)); sub_02030EAC(*(struct Node * *)&((struct Obj10985 *)p)->f34); func_020307B0(p); }

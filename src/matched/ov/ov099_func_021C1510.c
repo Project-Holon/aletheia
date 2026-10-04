@@ -19,6 +19,7 @@
  *   func_021BDD54 0x021BDD54 thumb ov099
  *   func_021C18C8 0x021C18C8 thumb ov099
  */
+#include "../include/Obj10211.h"
 typedef unsigned char u8;
 extern int func_021C1154(char *, int);
 struct Entry;
@@ -46,16 +47,16 @@ int func_021C1510(char *p, int ret)
     if (func_021C1154(p, ret) == 0) {
         if (func_02039CB4((struct Link *)func_020399A8(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
-                func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(*(void **)(p + 0xc4)), 0));
+                func_0200F4E4(func_020099C8((struct Sub020097BCObj *)func_0201283C(((struct Obj10211 *)p)->fC4), 0));
                 func_021BA8EC(p);
                 s = (void *)func_021C23B8(func_02156A3C());
                 func_021BDD48(p, s);
                 count = func_021BDD54(p, s);
                 if (count == 3) {
-                    *(int *)(p + 0x1cc) = 65;
+                    ((struct Obj10211 *)p)->f1CC = 65;
                 } else {
                     func_021C18C8(p, 4, count);
-                    *(int *)(p + 0x1cc) = 115;
+                    ((struct Obj10211 *)p)->f1CC = 115;
                 }
             }
         }

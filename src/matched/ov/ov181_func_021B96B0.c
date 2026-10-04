@@ -12,12 +12,13 @@
  * symbols:
  *   func_020221A4  0x020221A4  thumb
  */
+#include "../include/Obj24499.h"
 
 extern int func_020221A4(void *);
 
 int func_021B96B0(char *p)
 {
     if (func_020221A4(p) == 1)
-        return *(int *)(p + 0x2f0);
+        return ((struct Obj24499 *)p)->f2F0;
     return 1;
 }

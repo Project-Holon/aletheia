@@ -12,6 +12,7 @@
  * symbols:
  *   func_02035CB8  0x02035CB8  arm
  */
+#include "../include/Obj01726.h"
 
 typedef signed short s16;
 
@@ -24,32 +25,32 @@ void func_021D8B54(void *p)
 
     if (func_02035CB8(&o1, &o2) == 0)
         return;
-    if (*(int *)((char *)p + 0xf60) == 0)
-        *(int *)((char *)p + 0xf5c) = 0;
-    if (*(int *)((char *)p + 0xf60) != 0) {
-        d = ((s16)*(short *)((char *)p + 0xf64) - (s16)*(short *)((char *)p + 0xf68)) - o1;
+    if (((struct Obj01726 *)p)->fF60 == 0)
+        ((struct Obj01726 *)p)->fF5C = 0;
+    if (((struct Obj01726 *)p)->fF60 != 0) {
+        d = ((s16)((struct Obj01726 *)p)->fF64 - (s16)((struct Obj01726 *)p)->fF68) - o1;
         if (d < 0)
             d = -d;
         if (d > 2)
-            *(int *)((char *)p + 0xf5c) = 1;
-        d = ((s16)*(short *)((char *)p + 0xf66) - (s16)*(short *)((char *)p + 0xf6a)) - o2;
+            ((struct Obj01726 *)p)->fF5C = 1;
+        d = ((s16)((struct Obj01726 *)p)->fF66 - (s16)((struct Obj01726 *)p)->fF6A) - o2;
         if (d < 0)
             d = -d;
         if (d > 2)
-            *(int *)((char *)p + 0xf5c) = 1;
-        d = (s16)*(short *)((char *)p + 0xf64) - o1;
+            ((struct Obj01726 *)p)->fF5C = 1;
+        d = (s16)((struct Obj01726 *)p)->fF64 - o1;
         if (d < 0)
             d = -d;
         if (d > 6) {
-            d = (s16)*(short *)((char *)p + 0xf66) - o2;
+            d = (s16)((struct Obj01726 *)p)->fF66 - o2;
             if (d < 0)
                 d = -d;
             if (d > 6)
-                *(int *)((char *)p + 0xf70) = 0;
+                ((struct Obj01726 *)p)->fF70 = 0;
         }
     }
     if ((unsigned int)o2 >= 0x10 && (unsigned int)o2 < 0x90) {
-        *(int *)((char *)p + 0xf54) = o1;
-        *(int *)((char *)p + 0xf58) = o2;
+        ((struct Obj01726 *)p)->fF54 = o1;
+        ((struct Obj01726 *)p)->fF58 = o2;
     }
 }

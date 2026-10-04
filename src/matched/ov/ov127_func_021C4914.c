@@ -10,8 +10,9 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj23038.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-u32 func_021C4914(u8 *p) { return *(u32 *)(p + 4); }
+u32 func_021C4914(u8 *p) { return ((struct Obj23038 *)p)->f4; }

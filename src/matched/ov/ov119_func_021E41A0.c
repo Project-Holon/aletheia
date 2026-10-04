@@ -8,10 +8,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13917.h"
 unsigned short func_021E41A0(int i, int row, char *p, int mode)
 {
-    if (i >= *(int *)(p + 0x638))
-        i -= *(int *)(p + 0x638);
+    if (i >= ((struct Obj13917 *)p)->f638)
+        i -= ((struct Obj13917 *)p)->f638;
     if (i < 12) {
         if (mode)
             return (*(unsigned short **)(p + 0x1180))[i + (row * 32 + 18)];

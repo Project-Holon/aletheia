@@ -25,6 +25,7 @@
  *   func_020403F4  0x020403F4  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned short u16;
 
@@ -62,9 +63,9 @@ void func_021C51A0(int *a)
     func_0201C4C0((struct PrintSys *)a[0x6c / 4]);
     func_0201D83C((void *)a[0x68 / 4]);
     func_02045C04((struct Rec *)a[0x64 / 4]);
-    func_0204ADA4(*(u16 *)((char *)a + 0x50));
-    func_0204A8D4(*(u16 *)((char *)a + 0x52));
-    func_0204AFD8(*(u16 *)((char *)a + 0x54));
+    func_0204ADA4(((struct Obj00020 *)a)->f50);
+    func_0204A8D4(((struct Obj00020 *)a)->f52);
+    func_0204AFD8(((struct Obj00020 *)a)->f54);
     func_0204B1CC((struct Bank *)a[0x4c / 4]);
     func_02040DA8(1, 1, 0);
     func_020403F4(1);

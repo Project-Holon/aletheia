@@ -16,6 +16,7 @@
  *   func_021DDE4C 0x021DDE4C thumb ov119
  *   func_021DDE90 0x021DDE90 thumb ov119
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -30,5 +31,5 @@ extern void func_021DDE90(unsigned char *p);
 
 void func_021DDED4(unsigned char *p)
 {
-    int v; if(func_020279E8((struct TaskMenu *)(*(int *)(p+0x64c)))==0)return;v=func_02027A04((const u8 *)(*(int *)(p+0x64c)));func_021E12F8(p);func_021E1098(p);*(int *)(p+0x64c)=0;switch(v){case 0:func_021D8E84(p,(int)func_021DDE4C);return;case 1:func_021D8E84(p,(int)func_021DDE90);return;}
+    int v; if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))==0)return;v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));func_021E12F8(p);func_021E1098(p);*(int *)&((struct Obj00001 *)p)->f64C=0;switch(v){case 0:func_021D8E84(p,(int)func_021DDE4C);return;case 1:func_021D8E84(p,(int)func_021DDE90);return;}
 }

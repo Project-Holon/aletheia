@@ -14,6 +14,8 @@
  *   ov091_id 0x0000005B data
  *   d_021BED00 0x021BED00 data ov091 a4
  */
+#include "../include/Obj10610.h"
+#include "../include/Obj23650.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -27,7 +29,7 @@ extern void func_02031348(void *, u32, const void *, void *);
 int func_021C7494(u8 *p)
 {
     u32 v = ((struct Bf7 *)(p + 0x21))->v;
-    *(u32 *)(*(u8 **)(p + 0x10) + 0x3C) = v;
-    func_02031348(*(void **)(p + 0x30), (u32)ov091_id, d_021BED00, *(void **)(p + 0x10));
+    ((struct Obj23650 *)(*(u8 * *)&((struct Obj10610 *)p)->f10))->f3C = v;
+    func_02031348(((struct Obj10610 *)p)->f30, (u32)ov091_id, d_021BED00, ((struct Obj10610 *)p)->f10);
     return 0;
 }

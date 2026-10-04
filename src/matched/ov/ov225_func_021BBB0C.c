@@ -19,6 +19,12 @@
  *   func_021BA154 0x021BA154 thumb ov225
  *   func_021BA0F0 0x021BA0F0 thumb ov225
  */
+#include "../include/Obj00602.h"
+#include "../include/Obj26309.h"
+#include "../include/Obj26310.h"
+#include "../include/Obj26312.h"
+#include "../include/Obj26313.h"
+#include "../include/Obj26314.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BBCF4(char *);
@@ -32,7 +38,7 @@ extern void func_021BA0F0(char *,unsigned,unsigned);
 int func_021BBB0C(char *p)
 {
     int result = 0;
-    int timer = *(signed char *)(p + 0x3c);
+    int timer = ((struct Obj00602 *)p)->f3C;
     int choice;
     if (timer == 0) result = 1;
     else if (timer > 0) {
@@ -40,41 +46,41 @@ int func_021BBB0C(char *p)
             func_021BBCF4(p);
             func_021BBC50(p);
         }
-        *(signed char *)(p + 0x3c) -= 1;
+        ((struct Obj00602 *)p)->f3C -= 1;
     }
-    if (*(u32 *)(p + 0x38) != 1) func_021BBD28((u8 *)p);
-    if (*(u32 *)(p + 0x38) == 0 || *(u32 *)(p + 0x38) == 2) {
-        func_021B9FBC(*(char **)(*(char **)(p + 4) + 0x34));
-        if (*(u32 *)(p + 0x38) == 0) {
-            choice = func_021BA158(*(char **)(*(char **)(p + 4) + 0x34));
+    if (((struct Obj00602 *)p)->f38 != 1) func_021BBD28((u8 *)p);
+    if (((struct Obj00602 *)p)->f38 == 0 || ((struct Obj00602 *)p)->f38 == 2) {
+        func_021B9FBC(*(char * *)&((struct Obj26309 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
+        if (((struct Obj00602 *)p)->f38 == 0) {
+            choice = func_021BA158(*(char * *)&((struct Obj26310 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
             if (choice == -1) goto done;
-            *(u32 *)(p + 0x38) = 2;
+            ((struct Obj00602 *)p)->f38 = 2;
             if (choice == 4) {
-                if (*(u8 *)(p + 8) != 0) {
-                    *(u8 *)(p + 8) -= 1;
-                    *(u32 *)(p + 0xc) = 1;
+                if (((struct Obj00602 *)p)->f8 != 0) {
+                    ((struct Obj00602 *)p)->f8 -= 1;
+                    ((struct Obj00602 *)p)->fC = 1;
                 }
             } else if (choice == 5) {
-                if (*(u8 *)(p + 8) < *(u8 *)*(char **)p - 1) {
-                    *(u8 *)(p + 8) += 1;
-                    *(u32 *)(p + 0xc) = 1;
+                if (((struct Obj00602 *)p)->f8 < *(u8 *)*(char * *)&((struct Obj00602 *)p)->f0 - 1) {
+                    ((struct Obj00602 *)p)->f8 += 1;
+                    ((struct Obj00602 *)p)->fC = 1;
                 }
             }
-            if (*(u32 *)(p + 0xc)) func_021BBD74(p);
+            if (((struct Obj00602 *)p)->fC) func_021BBD74(p);
         } else {
-            choice = func_021BA154(*(char **)(*(char **)(p + 4) + 0x34));
+            choice = func_021BA154(*(char * *)&((struct Obj26312 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34);
             if (choice == -1) goto done;
             switch (choice) {
             case 1:
-                *(u32 *)(*(char **)p + 0x28) = 0;
-                *(u32 *)(p + 0x38) = 1;
-                *(signed char *)(p + 0x3c) = 1;
+                ((struct Obj26313 *)(*(char * *)&((struct Obj00602 *)p)->f0))->f28 = 0;
+                ((struct Obj00602 *)p)->f38 = 1;
+                ((struct Obj00602 *)p)->f3C = 1;
                 break;
             case 4: case 5:
-                *(u32 *)(p + 0x38) = 0;
-                if (*(u32 *)(p + 0xc)) {
-                    func_021BA0F0(*(char **)(*(char **)(p + 4) + 0x34), *(u8 *)*(char **)p, *(u8 *)(p + 8));
-                    *(u32 *)(p + 0xc) = 0;
+                ((struct Obj00602 *)p)->f38 = 0;
+                if (((struct Obj00602 *)p)->fC) {
+                    func_021BA0F0(*(char * *)&((struct Obj26314 *)(*(char * *)&((struct Obj00602 *)p)->f4))->f34, *(u8 *)*(char * *)&((struct Obj00602 *)p)->f0, ((struct Obj00602 *)p)->f8);
+                    ((struct Obj00602 *)p)->fC = 0;
                 }
                 break;
             }

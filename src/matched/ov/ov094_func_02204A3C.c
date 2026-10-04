@@ -13,6 +13,7 @@
  *   func_02021ED8  0x02021ED8  thumb
  *   func_0220687C  0x0220687C  thumb  ov094
  */
+#include "../include/Obj21770.h"
 typedef struct Bits { unsigned lo:15; unsigned mode:2; unsigned hi:15; } Bits;
 typedef unsigned int   u32;
 extern u32 func_02021ED8(const char *ptr);
@@ -22,7 +23,7 @@ extern void func_0220687C(char *p, void *q);
 
 void func_02204A3C(void *a, char **s)
 {
-    if (func_02021ED8(*(void **)(*s + 0x64)) != 0)
+    if (func_02021ED8(((struct Obj21770 *)(*s))->f64) != 0)
         return;
     if (func_0204E804() != 0)
         return;

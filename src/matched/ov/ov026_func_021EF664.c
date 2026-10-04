@@ -30,6 +30,7 @@
  *   d_021EFD78     0x021EFD78  data  ov026  a4
  *   d_021EFD3C     0x021EFD3C  data  ov026  a4
  */
+#include "../include/Obj00086.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -128,13 +129,13 @@ void func_021EF664(int a, s16 *p, int b, int d)
         i = p[6] % 0x48 * 6 / 0x48;
         p[11] = d_021EFD74[i].a;
         p[12] = d_021EFD78[i].a;
-        *(int *)(p + 14) = d_021EFD3C[(p[6] % 0xE0u) * 14 / 0xE0u];
+        ((struct Obj00086 *)p)->f1C = d_021EFD3C[(p[6] % 0xE0u) * 14 / 0xE0u];
         break;
     case 3:
     case 4:
         p[11] = 0xA0;
         p[12] = 0x10;
-        *(int *)(p + 14) = 0x800;
+        ((struct Obj00086 *)p)->f1C = 0x800;
         break;
     }
 }

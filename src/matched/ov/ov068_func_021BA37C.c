@@ -22,6 +22,7 @@
  *   func_021B6598  0x021B6598  thumb  ov067
  *   d_021BB5D4     0x021BB5D4  data  a4
  */
+#include "../include/Obj02762.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,12 +44,12 @@ void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3
     Req r;
 
     func_02082BCC(p, 0, 0x44);
-    *(u32 *)(p + 0xc) = 3;
-    *(u32 *)p = a2;
-    *(u32 *)(p + 0x14) = s1;
-    *(u32 *)(p + 0x18) = s0;
-    *(u32 *)(p + 4) = a3;
-    *(u32 *)(p + 0x3c) = s2;
+    ((struct Obj02762 *)p)->fC = 3;
+    ((struct Obj02762 *)p)->f0 = a2;
+    ((struct Obj02762 *)p)->f14 = s1;
+    ((struct Obj02762 *)p)->f18 = s0;
+    ((struct Obj02762 *)p)->f4 = a3;
+    ((struct Obj02762 *)p)->f3C = s2;
     t = d_021BB5D4;
     func_02082BCC(&r, 0, 0x20);
     r.w[0] = (u32)&t;
@@ -57,11 +58,11 @@ void func_021BA37C(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2, u16 s3
     r.w[5] = 8;
     r.w[7] = 1;
     r.w[6] = 2;
-    *(u32 *)(p + 8) = func_021B62E0(&r, s3);
+    ((struct Obj02762 *)p)->f8 = func_021B62E0(&r, s3);
     func_021BA6B8(p, s3);
-    if (func_02012BF8(*(u32 *)(p + 0x3c), 0x18) != 0) {
-        func_021B6598((unsigned char *)(*(u32 *)(p + 8)), 6, 1);
+    if (func_02012BF8(((struct Obj02762 *)p)->f3C, 0x18) != 0) {
+        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 1);
     } else {
-        func_021B6598((unsigned char *)(*(u32 *)(p + 8)), 6, 0);
+        func_021B6598((unsigned char *)(((struct Obj02762 *)p)->f8), 6, 0);
     }
 }

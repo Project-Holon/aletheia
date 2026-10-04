@@ -15,6 +15,7 @@
  *   func_021B9CF8  0x021B9CF8  thumb  ov099
  *   func_021BA1FC  0x021BA1FC  thumb  ov099
  */
+#include "../include/Obj13676.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -40,7 +41,7 @@ int func_021B9788(int a, int *b)
                 v = 0;
         } else
             v = 0;
-        *(u8 *)((char *)b + 0xa) = v;
+        ((struct Obj13676 *)b)->fA = v;
     }
     return 1;
 }

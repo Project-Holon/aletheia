@@ -28,6 +28,7 @@
  *   func_02027620  0x02027620  thumb
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj02418.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -62,16 +63,16 @@ void func_021B9A50(u8 *p)
 
     h = func_020490F4(func_020275E4(), 0x80);
     func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021BA620, 0x80);
-    *(u32 *)(p + 0x11C) = (u32)func_0204B100(4, 1, 0x80);
-    *(u32 *)(p + 0x120) = (u32)func_0204B100(2, 1, 0x80);
+    ((struct Obj02418 *)p)->f11C = (u32)func_0204B100(4, 1, 0x80);
+    ((struct Obj02418 *)p)->f120 = (u32)func_0204B100(2, 1, 0x80);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
-    *(u32 *)(p + 0x138) = func_0204A6C8(*(void **)p, 7, 1, 2, 0x80);
-    *(u32 *)(p + 0x134) = func_0204ABF0(*(void **)p, 10, 2, 0, 0x80);
-    *(u32 *)(p + 0x13C) = func_0204AF28(*(void **)p, 8, 9, 0x80);
-    *(u32 *)(p + 0x144) = func_0204A6C8(h, func_02027618(), 0, 0, 0x80);
-    *(u32 *)(p + 0x140) = func_0204AC18(h, func_02027614(), 0, 0x160, 0, 3, 0x80);
+    ((struct Obj02418 *)p)->f138 = func_0204A6C8(((struct Obj02418 *)p)->f0, 7, 1, 2, 0x80);
+    ((struct Obj02418 *)p)->f134 = func_0204ABF0(((struct Obj02418 *)p)->f0, 10, 2, 0, 0x80);
+    ((struct Obj02418 *)p)->f13C = func_0204AF28(((struct Obj02418 *)p)->f0, 8, 9, 0x80);
+    ((struct Obj02418 *)p)->f144 = func_0204A6C8(h, func_02027618(), 0, 0, 0x80);
+    ((struct Obj02418 *)p)->f140 = func_0204AC18(h, func_02027614(), 0, 0x160, 0, 3, 0x80);
     t = func_0202761C(0);
-    *(u32 *)(p + 0x148) = func_0204AF28(h, t, func_02027620(0), 0x80);
+    ((struct Obj02418 *)p)->f148 = func_0204AF28(h, t, func_02027620(0), 0x80);
     func_02049238(h);
 }

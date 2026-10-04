@@ -28,6 +28,9 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_02035CB8  0x02035CB8  arm
  */
+#include "../include/Obj00024.h"
+#include "../include/Obj01757.h"
+#include "../include/Obj24101.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -77,17 +80,17 @@ void func_021BB288(void *ctx, u8 *p)
         return;
     }
     if (func_02035C38() == 0) {
-        *(int *)(p + 0xc) = 0;
+        ((struct Obj00024 *)p)->fC = 0;
     }
-    if (func_02035C60() == 1 && *(int *)(p + 8) == 0 && *(int *)p == 5 && y >= 0xa8) {
-        if (*(int *)(p + 0x28) == 1) {
-            *(int *)(p + 0x28) = (*(int *)(p + 0x24) == 0) ? 0 : 3;
+    if (func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f0 == 5 && y >= 0xa8) {
+        if (((struct Obj00024 *)p)->f28 == 1) {
+            ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
             func_021BB54C(ctx, p);
         }
         func_021BB9E4(ctx, p);
         return;
     }
-    if ((u32)(*(int *)p - 4) <= 1 && func_02035C60() == 1 && *(int *)(p + 8) == 0 && *(int *)(p + 0x28) == 3) {
+    if ((u32)(((struct Obj00024 *)p)->f0 - 4) <= 1 && func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0 && ((struct Obj00024 *)p)->f28 == 3) {
         mode = func_021BE054(ctx);
         cur = func_021BDFE4(ctx);
         s1 = func_021BDFFC(ctx);
@@ -98,7 +101,7 @@ void func_021BB288(void *ctx, u8 *p)
             e[2] = x;
             e[3] = y;
             e[6] = p[0x37];
-            *(u16 *)(e + 4) = *(u16 *)(p + 0x34);
+            ((struct Obj01757 *)e)->f4 = ((struct Obj00024 *)p)->f34;
             if (mode == 1) {
                 func_021B6E88((char *)s1, e);
             } else {
@@ -106,8 +109,8 @@ void func_021BB288(void *ctx, u8 *p)
             }
         }
     }
-    if (func_02035C60() == 1 && *(int *)(p + 8) == 0) {
-        if (*(int *)(p + 0x28) == 1) {
+    if (func_02035C60() == 1 && ((struct Obj00024 *)p)->f8 == 0) {
+        if (((struct Obj00024 *)p)->f28 == 1) {
             pb = (u16 *)func_0207E008();
             off = y << 9;
             base = (x << 1) + (u32)pb;
@@ -119,45 +122,45 @@ void func_021BB288(void *ctx, u8 *p)
             }
             v1 = *(u16 *)(off + base);
             if (v1 & 0x8000) {
-                *(u16 *)(p + 0x34) = v1;
+                ((struct Obj00024 *)p)->f34 = v1;
             } else {
-                v2 = *(u16 *)a2;
+                v2 = ((struct Obj24101 *)a2)->f0;
                 if (v2 & 0x8000) {
-                    *(u16 *)(p + 0x34) = v2;
+                    ((struct Obj00024 *)p)->f34 = v2;
                 } else {
-                    *(u16 *)(p + 0x34) = 0x8000;
+                    ((struct Obj00024 *)p)->f34 = 0x8000;
                 }
             }
-            *(volatile u16 *)0x0500021A = *(u16 *)(p + 0x34) & 0x7fff;
-            *(int *)(p + 0x28) = (*(int *)(p + 0x24) == 0) ? 0 : 3;
+            *(volatile u16 *)0x0500021A = ((struct Obj00024 *)p)->f34 & 0x7fff;
+            ((struct Obj00024 *)p)->f28 = (((struct Obj00024 *)p)->f24 == 0) ? 0 : 3;
             func_021BB54C(ctx, p);
             func_020061E4(0x66d);
         } else {
-            *(int *)(p + 0xc) = 1;
-            *(u32 *)(p + 0x2c) = 0xffff;
-            *(u32 *)(p + 0x30) = 0xffff;
+            ((struct Obj00024 *)p)->fC = 1;
+            ((struct Obj00024 *)p)->f2C = 0xffff;
+            ((struct Obj00024 *)p)->f30 = 0xffff;
             func_021BB9E4(ctx, p);
         }
     }
-    if ((*(int *)(p + 0x28) == 0 || *(int *)(p + 0x28) == 2) && *(int *)(p + 0xc) == 1) {
+    if ((((struct Obj00024 *)p)->f28 == 0 || ((struct Obj00024 *)p)->f28 == 2) && ((struct Obj00024 *)p)->fC == 1) {
         func_02035CB8(&x2, &y2);
-        if (*(int *)(p + 0xc) == 1) {
-            if (*(u32 *)(p + 0x2c) != 0xffff && *(u32 *)(p + 0x30) != 0xffff) {
+        if (((struct Obj00024 *)p)->fC == 1) {
+            if (((struct Obj00024 *)p)->f2C != 0xffff && ((struct Obj00024 *)p)->f30 != 0xffff) {
                 mode = func_021BE054(ctx);
                 cur = func_021BDFE4(ctx);
                 s2 = func_021BDFFC(ctx);
                 e = (u8 *)func_021B8BB8((int)ctx, (unsigned char *)cur, &out2);
                 if (out2 == 0) {
-                    e[0] = *(u32 *)(p + 0x2c);
-                    e[1] = *(u32 *)(p + 0x30);
+                    e[0] = ((struct Obj00024 *)p)->f2C;
+                    e[1] = ((struct Obj00024 *)p)->f30;
                     e[2] = x2;
                     e[3] = y2;
                     e[6] = p[0x36];
-                    if (*(int *)(p + 0x28) == 2) {
-                        *(u16 *)(e + 4) = 0;
+                    if (((struct Obj00024 *)p)->f28 == 2) {
+                        ((struct Obj01757 *)e)->f4 = 0;
                         e[6] = 2;
                     } else {
-                        *(u16 *)(e + 4) = *(u16 *)(p + 0x34);
+                        ((struct Obj01757 *)e)->f4 = ((struct Obj00024 *)p)->f34;
                     }
                     if (mode == 1) {
                         func_021B6E88((char *)s2, e);
@@ -165,11 +168,11 @@ void func_021BB288(void *ctx, u8 *p)
                         func_021B8BFC((int)ctx, (u8 *)cur);
                     }
                 } else {
-                    *(int *)(p + 0xc) = 0;
+                    ((struct Obj00024 *)p)->fC = 0;
                 }
             }
-            *(u32 *)(p + 0x2c) = x2;
-            *(u32 *)(p + 0x30) = y2;
+            ((struct Obj00024 *)p)->f2C = x2;
+            ((struct Obj00024 *)p)->f30 = y2;
         }
     }
 }

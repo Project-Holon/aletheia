@@ -25,6 +25,7 @@
  *   func_021C7B7C 0x021C7B7C thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,8 +49,8 @@ extern void func_021C7B7C(u8 *p, unsigned int i);
 extern void func_021CC95C(void *, u32, int);
 int func_021CA47C(u8 *p, struct Cmd *q)
 {
-    u8 *a = func_021B9934(*(char **)(p + 8), (u8)q->id);
-    u8 *b = func_021B9934(*(char **)(p + 8), (u8)q->target);
+    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)q->id);
+    u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)q->target);
     u16 k;
     int x, y;
     u32 lock;
@@ -62,7 +63,7 @@ int func_021CA47C(u8 *p, struct Cmd *q)
             func_021E0434(a);
             func_021D8510(a);
             func_021D8484(a);
-            func_021CD4B0(*(void **)(p + 12), 0x53, x, y);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 0x53, x, y);
             func_021C99A0(p, (u8 *)q + 8);
             if (q->flag) func_021C5A34(p, a);
             if (k != func_021D59B4(a, 17)) {

@@ -12,8 +12,9 @@
  *   func_02045770 0x02045770 arm
  *   func_020439A0 0x020439A0 arm
  */
+#include "../include/Obj14408.h"
 struct Bmp;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_020439A0(struct Bmp *,struct Bmp *,unsigned,unsigned,int,int,unsigned,unsigned,unsigned);
-void func_021B9CC8(char *p){struct Bmp *s=func_02045770(*(void **)(p+0x2c4));func_020439A0(*(struct Bmp **)((unsigned)p+*(unsigned char *)(p+0x2bb)*8+0xb8),s,0,0,0,192,256,16,0);}
+void func_021B9CC8(char *p){struct Bmp *s=func_02045770(((struct Obj14408 *)p)->f2C4);func_020439A0(*(struct Bmp **)((unsigned)p+((struct Obj14408 *)p)->f2BB*8+0xb8),s,0,0,0,192,256,16,0);}

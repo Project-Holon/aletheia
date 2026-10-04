@@ -15,6 +15,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02343.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,17 +25,17 @@ typedef signed char    s8;
 
 int func_02194A58(u32 a, u32 b)
 {
-*(u16 *)((u8 *)(a)) = 0;
-*(u32 *)((u8 *)(a) + 8) = 0;
-*(u16 *)((u8 *)(a) + 44) = 0;
-*(u16 *)((u8 *)(a) + 46) = 0;
-*(u16 *)((u8 *)(a) + 48) = 0;
-*(u16 *)((u8 *)(a) + 50) = 0;
-*(u16 *)((u8 *)(a) + 52) = 0;
-*(u16 *)((u8 *)(a) + 54) = 0;
-*(u16 *)((u8 *)(a) + 56) = 0;
-*(u16 *)((u8 *)(a) + 58) = 0;
-*(u16 *)((u8 *)(a) + 60) = 0;
+((struct Obj02343 *)((u8 *)(a)))->f0 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f8 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f2C = 0;
+((struct Obj02343 *)((u8 *)(a)))->f2E = 0;
+((struct Obj02343 *)((u8 *)(a)))->f30 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f32 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f34 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f36 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f38 = 0;
+((struct Obj02343 *)((u8 *)(a)))->f3A = 0;
+((struct Obj02343 *)((u8 *)(a)))->f3C = 0;
 return a;
 }
 

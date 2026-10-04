@@ -24,6 +24,7 @@
  *   func_0689ACAC  0x0689ACAC  thumb  ov095
  *   func_0689ACBC  0x0689ACBC  thumb  ov095
  */
+#include "../include/Obj04407.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,7 +48,7 @@ int func_0689ABA0(int unused, u8 *s)
     u32 w;
     u32 v;
 
-    if (func_0689AC4C(*(u32 *)(s + 0xb0), &t.b, &t.w)) {
+    if (func_0689AC4C(((struct Obj04407 *)s)->fB0, &t.b, &t.w)) {
         flag = (t.w & 0x8000) != 0;
         t.w &= ~0x8000;
         w = t.w;
@@ -55,16 +56,16 @@ int func_0689ABA0(int unused, u8 *s)
             if (t.b == 0)
                 t.b = 1;
             if (w != 7)
-                v = func_0689AC6C(*(u32 *)(*(u32 *)(s + 0x7c) + func_0689AC5C(t.b) * 8), (u8)t.w);
+                v = func_0689AC6C(*(u32 *)(*(u32 *)&((struct Obj04407 *)s)->f7C + func_0689AC5C(t.b) * 8), (u8)t.w);
             else
                 v = 0xa5;
-            func_0689AC7C(*(u8 **)(s + 0x7c) + 0x18, t.b);
-            func_0689AC8C(*(u8 **)(s + 0x7c) + 0x1c, v, 6);
-            func_0689AC9C(*(u32 *)(s + 0x70), v, 6);
+            func_0689AC7C(*(u8 * *)&((struct Obj04407 *)s)->f7C + 0x18, t.b);
+            func_0689AC8C(*(u8 * *)&((struct Obj04407 *)s)->f7C + 0x1c, v, 6);
+            func_0689AC9C(((struct Obj04407 *)s)->f70, v, 6);
             if (flag)
-                func_0689ACAC(*(u32 *)(s + 0x70));
+                func_0689ACAC(((struct Obj04407 *)s)->f70);
         } else if (w == 4) {
-            func_0689ACBC(*(u32 *)(s + 0x70));
+            func_0689ACBC(((struct Obj04407 *)s)->f70);
         }
         return 1;
     }

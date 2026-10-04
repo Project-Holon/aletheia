@@ -28,6 +28,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01499.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -63,29 +64,29 @@ u8 *func_021A5880(u8 *obj, int heap)
     u8 *p;
 
     p = func_02030734(heap, 0x24, 1, &d_021DDF04, 0x1a0);
-    *(u8 **)(p + 0x14) = obj;
-    *(int *)(p + 0x18) = func_021A395C(obj);
-    *(void **)(p + 0x1c) = func_021A3960(*(u8 **)(p + 0x14));
-    if (func_0216D5A0(*(void **)(p + 0x1c)) != 0x45) {
-        d_021DDEE0[1] = func_0216D598(*(void **)(p + 0x1c));
-        func_0216E0AC(*(void **)(p + 0x1c), d_021DDEE0b);
+    *(u8 * *)&((struct Obj01499 *)p)->f14 = obj;
+    ((struct Obj01499 *)p)->f18 = func_021A395C(obj);
+    ((struct Obj01499 *)p)->f1C = func_021A3960(*(u8 * *)&((struct Obj01499 *)p)->f14);
+    if (func_0216D5A0(((struct Obj01499 *)p)->f1C) != 0x45) {
+        d_021DDEE0[1] = func_0216D598(((struct Obj01499 *)p)->f1C);
+        func_0216E0AC(((struct Obj01499 *)p)->f1C, d_021DDEE0b);
     }
-    *(int *)(p + 0x20) = (int)func_0219E348(*(void **)(p + 0x1c));
+    ((struct Obj01499 *)p)->f20 = (int)func_0219E348(((struct Obj01499 *)p)->f1C);
     {
         u16 v[4] = {0, 0, 0, 0};
-        func_0219E2C0(*(void **)(p + 0x1c), v);
+        func_0219E2C0(((struct Obj01499 *)p)->f1C, v);
     }
     func_021A6B88(p + 0xc);
     {
-        int t = func_021A3974(*(u8 **)(p + 0x14));
+        int t = func_021A3974(*(u8 * *)&((struct Obj01499 *)p)->f14);
         switch (t) {
         case 2:
-            func_021A3CB0((u32)(*(u8 **)(p + 0x14)), 4);
-            func_021A3CE8(*(u8 **)(p + 0x14));
+            func_021A3CB0((u32)(*(u8 * *)&((struct Obj01499 *)p)->f14), 4);
+            func_021A3CE8(*(u8 * *)&((struct Obj01499 *)p)->f14);
             break;
         case 3:
-            func_021A3CB0((u32)(*(u8 **)(p + 0x14)), 0x100);
-            func_021A3CE8(*(u8 **)(p + 0x14));
+            func_021A3CB0((u32)(*(u8 * *)&((struct Obj01499 *)p)->f14), 0x100);
+            func_021A3CE8(*(u8 * *)&((struct Obj01499 *)p)->f14);
             break;
         }
     }

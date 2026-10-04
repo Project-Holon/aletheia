@@ -14,6 +14,7 @@
  *   func_02030734  0x02030734  arm
  *   func_021B64F0  0x021B64F0  thumb  ov101
  */
+#include "../include/Obj04420.h"
 
 extern void func_02082BCC(int, int, int);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
@@ -26,12 +27,12 @@ void func_021B66E0(int a, int b, int c)
 
     func_02082BCC(a, 0, 0x34);
     r7 = 0x57b;
-    *(int *)a = b;
-    *(int *)(a + 0x28) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7);
-    func_02082BCC(*(int *)(a + 0x28), 0, 0x2c);
-    *(int *)(a + 0x2c) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 2);
-    func_02082BCC(*(int *)(a + 0x2c), 0, 0x2c);
-    *(int *)(a + 0x30) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
-    func_02082BCC(*(int *)(a + 0x30), 0, 0x2c);
+    ((struct Obj04420 *)a)->f0 = b;
+    ((struct Obj04420 *)a)->f28 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7);
+    func_02082BCC(((struct Obj04420 *)a)->f28, 0, 0x2c);
+    ((struct Obj04420 *)a)->f2C = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 2);
+    func_02082BCC(((struct Obj04420 *)a)->f2C, 0, 0x2c);
+    ((struct Obj04420 *)a)->f30 = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
+    func_02082BCC(((struct Obj04420 *)a)->f30, 0, 0x2c);
     func_021B64F0(b, 0x1000, 0x021B741C, 4, a);
 }

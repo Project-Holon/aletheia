@@ -17,6 +17,7 @@
  *   func_02015F2C  0x02015F2C  thumb
  *   func_02201718  0x02201718  thumb  ov094
  */
+#include "../include/Obj05243.h"
 typedef unsigned char u8;
 
 extern int func_022019F4(char *p, int key);
@@ -28,8 +29,8 @@ extern void func_02201718(int i);
 
 void func_02201234(void *o, char *q)
 {
-    char *p = *(char **)q;
-    int i = func_022019F4(p, *(int *)(q + 4));
+    char *p = *(char * *)&((struct Obj05243 *)q)->f0;
+    int i = func_022019F4(p, ((struct Obj05243 *)q)->f4);
     char *e;
     int off;
     int r;
@@ -44,12 +45,12 @@ void func_02201234(void *o, char *q)
         func_021F89BC(o);
         return;
     }
-    if (*(int *)(q + 0x50) != *(u8 *)(p + *(int *)(q + 4) + 0x5A4)) {
+    if (((struct Obj05243 *)q)->f50 != *(u8 *)(p + ((struct Obj05243 *)q)->f4 + 0x5A4)) {
         func_021F89BC(o);
         return;
     }
     r = func_021F9260(q + 0x14, (int *)(q + 8));
-    func_02200108(p, *(int *)(q + 4), *(int *)(q + 8) >> 12);
+    func_02200108(p, ((struct Obj05243 *)q)->f4, ((struct Obj05243 *)q)->f8 >> 12);
     if (r == 1) {
         func_02015F2C(*(void **)(e + off), i, func_02201718, 1);
         func_021F89BC(o);

@@ -12,13 +12,14 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021E10BC 0x021E10BC thumb ov183
  */
+#include "../include/Obj08317.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_021E10BC(char *);
 void func_021E08E4(char *p)
 {
     int i;
-    for (i = 0; i < *(int *)(p + 0x23c); i++) func_0204B3B4(*(void **)(p + i * 28 + 12));
+    for (i = 0; i < ((struct Obj08317 *)p)->f23C; i++) func_0204B3B4(*(void **)(p + i * 28 + 12));
     for (i = 0; i < 2; i++) {
         func_0204B3B4(*(void **)(p + i * 28 + 0x15c));
         func_0204B3B4(*(void **)(p + i * 28 + 0x1e8));

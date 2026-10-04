@@ -11,6 +11,7 @@
  * symbols:
  *   func_0216D69C  0x0216D69C  thumb
  */
+#include "../include/Obj19650.h"
 
 typedef unsigned int u32;
 
@@ -18,5 +19,5 @@ void *func_0216D69C(void);
 
 void func_0219BF3C(int a, u32 v)
 {
-    *(u32 *)((char *)func_0216D69C() + 4) = v;
+    ((struct Obj19650 *)((char *)func_0216D69C()))->f4 = v;
 }

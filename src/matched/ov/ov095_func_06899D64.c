@@ -14,12 +14,13 @@
  *   func_06899D90 0x06899D90 thumb ov095
  *   func_06899DA0 0x06899DA0 thumb ov095
  */
+#include "../include/Obj21885.h"
 typedef unsigned int u32;
 extern void func_06899D80(u32, int, int);
 extern u32 func_06899D90(int);
 extern void func_06899DA0(u32);
 void func_06899D64(u32 p)
 {
-    func_06899D80(*(u32 *)(p + 0xb0), 0, 0);
+    func_06899D80(((struct Obj21885 *)p)->fB0, 0, 0);
     func_06899DA0(func_06899D90(8));
 }

@@ -11,6 +11,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021B6284 0x021B6284 thumb ov067
  */
+#include "../include/Obj13925.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_021B6284(void *p);
@@ -25,8 +26,8 @@ void func_021E625C(void *p)
             *(int *)(q + i * 4 + 0x14) = 0;
         }
     }
-    if (*(int *)(q + 0x10)) {
+    if (((struct Obj13925 *)q)->f10) {
         func_021B6284(q);
-        *(int *)(q + 0x10) = 0;
+        ((struct Obj13925 *)q)->f10 = 0;
     }
 }

@@ -16,6 +16,7 @@
  *   func_021C6590  0x021C6590  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05038.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,5 +33,5 @@ void func_021AC62C(u32 a, u32 *b)
     b[0] = p[0];
     b[1] = func_021ABE18(*(u32 *)b[0]);
     func_021AC1CC(a, p + 1);
-    *(u16 *)(b + 2) = func_021C6590(b[1], *(u16 *)(b[0] + 4), 0, p + 1);
+    ((struct Obj05038 *)b)->f8 = func_021C6590(b[1], *(u16 *)(b[0] + 4), 0, p + 1);
 }

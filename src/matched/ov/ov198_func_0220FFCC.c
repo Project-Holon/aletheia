@@ -14,6 +14,7 @@
  *   func_0220B760 0x0220B760 thumb ov198
  *   func_02210F1C 0x02210F1C thumb ov198
  */
+#include "../include/Obj04602.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,25 +25,25 @@ extern void func_0220B760(u8 *,u32);
 extern u32 func_02210F1C(u8 *p);
 int func_0220FFCC(u8 *p)
 {
-    u32 sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    u32 sel=func_02025DE8(*(struct Sound * *)&((struct Obj04602 *)p)->f2184);
     switch(sel){
     case 0:
         func_02211970((u8 **)p,1357);
         func_0220B760(p,27);
-        if(func_02210F1C(p)==0)*(u32 *)(p+0x217C)=31;
-        else *(u32 *)(p+0x217C)=27;
+        if(func_02210F1C(p)==0)((struct Obj04602 *)p)->f217C=31;
+        else ((struct Obj04602 *)p)->f217C=27;
         return 29;
     case 1:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2192]=0;
-        *(u32 *)(p+0x217C)=16;
+        ((struct Obj04602 *)p)->f217C=16;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2192]=0;
-        *(u32 *)(p+0x217C)=16;
+        ((struct Obj04602 *)p)->f217C=16;
         return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

@@ -16,6 +16,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBA38 0x021DBA38 thumb ov119
  */
+#include "../include/Obj00001.h"
 extern void func_02082BCC(void *,int,int);
 extern void func_021D8C84(void *);
 extern void func_021DF7AC(void *,int);
@@ -26,17 +27,17 @@ extern void func_021D8E84(void *,int);
 extern void func_021DBA38(void *);
 void func_021DBA80(char *p)
 {
-    *(int *)(p+0x1088)=0;
-    *(short *)(p+0x1078)=0;
-    *(short *)(p+0x107a)=0;
+    ((struct Obj00001 *)p)->f1088=0;
+    ((struct Obj00001 *)p)->f1078=0;
+    ((struct Obj00001 *)p)->f107A=0;
     func_02082BCC(p+0xca0,0,0x78);
     func_02082BCC(p+0xd18,0,0x3c);
     func_02082BCC(p+0xd54,0,0x3c);
     func_021D8C84(p);
     func_021DF7AC(p,1);
-    if(*(int *)(p+0x64c)) {
-        func_02027858((struct TaskMenu *)(*(int *)(p+0x64c)));
-        *(int *)(p+0x64c)=0;
+    if(*(int *)&((struct Obj00001 *)p)->f64C) {
+        func_02027858((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C));
+        *(int *)&((struct Obj00001 *)p)->f64C=0;
     }
     func_021D94A0(p,0);
     func_021D8E84(p,(int)func_021DBA38);

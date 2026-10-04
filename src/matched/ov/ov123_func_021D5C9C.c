@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13975.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,6 +20,6 @@ typedef signed int s32;
 
 void func_021D5C9C(char *p)
 {
-    *(int *)(p + 0xCC) = 0;
-    *(int *)(p + 0xD0) = 0;
+    ((struct Obj13975 *)p)->fCC = 0;
+    ((struct Obj13975 *)p)->fD0 = 0;
 }

@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/sub_0200F104.c \
  *       --func sub_0200F104 --addr 0x0200F104 --cc 1.1p1
  */
+#include "../include/Obj00192.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,13 +37,13 @@ typedef unsigned int u32;
 
 void *sub_0200F104(void *ctx)
 {
-    u16 count = *(u16 *)((u8 *)ctx + 4);
+    u16 count = *(u16 *)&((struct Obj00192 *)ctx)->f4;
     int i = 0;
 
-    ctx = *(void **)((u8 *)ctx + 0x18);
+    ctx = ((struct Obj00192 *)ctx)->f18;
 
     for (;;) {
-        if ((*(u32 *)ctx & 1) == 0) {
+        if ((((struct Obj00192 *)ctx)->f0 & 1) == 0) {
             break;
         }
         i++;

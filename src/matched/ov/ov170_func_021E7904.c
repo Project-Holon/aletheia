@@ -21,6 +21,7 @@
  *   func_021EBD50 0x021EBD50 thumb ov170
  *   func_021E8FE8 0x021E8FE8 thumb ov170
  */
+#include "../include/Obj00000.h"
 struct WinMgr;
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EF57C(struct WinMgr *mgr);
@@ -47,12 +48,12 @@ int func_021E7904(unsigned char *p)
     case 1:
         if (func_021DD25C(p, p[0x16], p[0x14], 0x4C, 0) != 0) {
             func_021EBD1C(p, 4, 0x18);
-            *(int *)(p + 0x28) = 0xE;
+            ((struct Obj00000 *)p)->f28 = 0xE;
             return func_021E8F50(p, 6);
         }
         if (func_021DD908(p, p[0x16]) == 0) {
             func_021EBD1C(p, 6, 0x1B);
-            *(int *)(p + 0x28) = 0xE;
+            ((struct Obj00000 *)p)->f28 = 0xE;
             return func_021E8F50(p, 6);
         }
         func_021ECB20(p, 1, 1);

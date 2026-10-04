@@ -31,6 +31,7 @@
  *   python tools/match.py one --src src/matched/sub_02016078.c \
  *       --func sub_02016078 --addr 0x02016078 --cc 1.1p1
  */
+#include "../include/Obj16729.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -55,6 +56,6 @@ void sub_02016078(void *a, void *b, int mode)
         ((struct Sub02016078Word *)(pb + 0x140))->mode = mode;
 
         func_02016BA0(b);
-        func_020163C4(a, *(u32 *)(pb + 0x148), pb + 0x150);
+        func_020163C4(a, ((struct Obj16729 *)pb)->f148, pb + 0x150);
     }
 }

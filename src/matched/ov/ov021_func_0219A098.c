@@ -16,6 +16,7 @@
  *   func_0216DA50  0x0216DA50  thumb
  *   d_021D4FA4     0x021D4FA4  data  a4
  */
+#include "../include/Obj12644.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ int func_0219A098(u32 a, u32 b)
     int k = 8;
     p = func_0216D684(a, 8);
     p[1] = func_0219B0F0(d_021D4FA4, k - 9);
-    *(u32 *)(p + 2) = b;
+    ((struct Obj12644 *)p)->f4 = b;
     func_0216D674((void *)a, 0);
     return func_0216DA50(a);
 }

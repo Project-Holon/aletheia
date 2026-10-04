@@ -16,6 +16,7 @@
  *   func_02006268 0x02006268 thumb
  *   d_021C6F8F 0x021C6F8F data a1
  */
+#include "../include/Obj00998.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,7 +43,7 @@ void func_021B99F4(void *unused, u8 *q)
         else { if (q[14] == 1) agree = 1; }
         if (agree == 1) {
             q[15]++;
-            if (*(volatile u8 *)(q + 15) >= 25) {
+            if (*(volatile u8 *)&((struct Obj00998 *)q)->fF >= 25) {
                 flag = q[14];
                 q[15] = 10;
             }
@@ -51,12 +52,12 @@ void func_021B99F4(void *unused, u8 *q)
     if (flag == 0) {
         if (q[13] < 8) {
             changed = 1; q[13]++;
-            func_0204B878(*(struct Obj **)(q + 144), (u16)(*(volatile u8 *)(q + 13) + 25));
+            func_0204B878(*(struct Obj * *)&((struct Obj00998 *)q)->f90, (u16)(*(volatile u8 *)&((struct Obj00998 *)q)->fD + 25));
         }
     } else if (flag == 1) {
         if (q[13] > 0) {
             changed = 1; q[13]--;
-            func_0204B878(*(struct Obj **)(q + 144), (u16)(*(volatile u8 *)(q + 13) + 25));
+            func_0204B878(*(struct Obj * *)&((struct Obj00998 *)q)->f90, (u16)(*(volatile u8 *)&((struct Obj00998 *)q)->fD + 25));
         }
     }
     if (changed == 1) {

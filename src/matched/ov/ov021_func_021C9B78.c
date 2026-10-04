@@ -19,6 +19,7 @@
  *   func_021CA250  0x021CA250  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03617.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,9 +42,9 @@ void func_021C9B78(u8 *p)
     else if (p[9] == 7)
         v = 8;
     p[9] = v;
-    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &v);
-    if (func_0200DB44((struct Blk1AC *)(*(u32 *)(p + 0x74)), p[9]) == 1)
-        func_021CA238(p, func_0200DAC4((struct Blk1AC *)(*(u32 *)(p + 0x74)), p[9]));
+    func_0200D914((struct Blk3C *)(((struct Obj03617 *)p)->f70), 0, &v);
+    if (func_0200DB44((struct Blk1AC *)(((struct Obj03617 *)p)->f74), p[9]) == 1)
+        func_021CA238(p, func_0200DAC4((struct Blk1AC *)(((struct Obj03617 *)p)->f74), p[9]));
     else
         func_021CA250(p);
 }

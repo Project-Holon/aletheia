@@ -16,6 +16,7 @@
  * Levers: the 0x274 offset is an enum-typed local (keeps r4 = 0x274 live and
  * derives 0x1CC as `o - 0xa8`); the two stores are written out in each arm.
  */
+#include "../include/Obj13687.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,10 +39,10 @@ int func_021BC468(char *p, int v)
         return v;
     }
     if (r == 0) {
-        *(u8 *)(p + 0x1353) = 0x4c;
+        ((struct Obj13687 *)p)->f1353 = 0x4c;
         *(u32 *)(p + (o - 0xa8)) = 0x8a;
     } else {
-        *(u8 *)(p + 0x1353) = 0x9b;
+        ((struct Obj13687 *)p)->f1353 = 0x9b;
         *(u32 *)(p + (o - 0xa8)) = 0x8a;
     }
     return v;

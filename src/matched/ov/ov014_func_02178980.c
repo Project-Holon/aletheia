@@ -14,6 +14,8 @@
  *   func_0217814C  0x0217814C  thumb  ov014
  *   func_021789C8  0x021789C8  thumb  ov014
  */
+#include "../include/Obj12472.h"
+#include "../include/Obj12473.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -29,14 +31,14 @@ void func_02178980(u8 *m)
     u8 *g;
 
     g_021797A8[0x1EDF] = 0;
-    if (*(u16 *)(m + 2) != 0) {
-        func_0217814C(*(u16 *)(m + 2));
+    if (((struct Obj12472 *)m)->f2 != 0) {
+        func_0217814C(((struct Obj12472 *)m)->f2);
         return;
     }
     func_02178138(1);
     g = g_021797A8;
-    if (*(u16 *)(g + 0x1EB4) != 0) {
-        *(u16 *)(g + 0x1EB4) = 0;
+    if (((struct Obj12473 *)g)->f1EB4 != 0) {
+        ((struct Obj12473 *)g)->f1EB4 = 0;
         if (func_021789C8() == 0)
             func_02178138(9);
     }

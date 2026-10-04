@@ -23,6 +23,13 @@
  *   func_021BB034 0x021BB034 thumb ov225
  *   func_02028230 0x02028230 thumb
  */
+#include "../include/Obj00601.h"
+#include "../include/Obj26179.h"
+#include "../include/Obj26180.h"
+#include "../include/Obj26181.h"
+#include "../include/Obj26182.h"
+#include "../include/Obj26183.h"
+#include "../include/Obj26184.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,43 +49,43 @@ int func_021BA760(char *p)
  u8 i;
  int result=0;
  unsigned selected;
- if(!func_0201C6B4(*(const struct PrintSys **)(*(char **)(p+4)+0x14))) return 0;
- if(*(signed char *)(p+0x90)==0) result=1;
- else if(*(signed char *)(p+0x90)>0) {
-  if(*(signed char *)(p+0x90)==1) func_021BAA50(p);
-  (*(signed char *)(p+0x90))--;
+ if(!func_0201C6B4(*(const struct PrintSys * *)&((struct Obj26179 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f14)) return 0;
+ if(((struct Obj00601 *)p)->f90==0) result=1;
+ else if(((struct Obj00601 *)p)->f90>0) {
+  if(((struct Obj00601 *)p)->f90==1) func_021BAA50(p);
+  (((struct Obj00601 *)p)->f90)--;
  }
- if(*(u32 *)(p+0x84)!=1) {
+ if(((struct Obj00601 *)p)->f84!=1) {
   for(i=0;i<8;i++) {
    if(*(u8 **)(p+i*4+0xc) && *(void **)(p+i*4+0x2c))
     func_02028178(*(u8 **)(p+i*4+0xc),*(void **)(p+i*4+0x2c));
   }
  }
- if(*(u32 *)(p+0x84)==0 || *(u32 *)(p+0x84)==2) {
-  if(func_021BAE2C(p)) *(u32 *)(p+0x84)=2;
-  else *(u32 *)(p+0x84)=0;
+ if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==2) {
+  if(func_021BAE2C(p)) ((struct Obj00601 *)p)->f84=2;
+  else ((struct Obj00601 *)p)->f84=0;
  }
- if(*(u32 *)(p+0x84)==0 || *(u32 *)(p+0x84)==3) {
-  func_021B9FBC(*(char **)(*(char **)(p+4)+0x34));
-  if(*(u32 *)(p+0x84)==0) {
-   if(func_021BA158(*(char **)(*(char **)(p+4)+0x34))!=(unsigned)-1) *(u32 *)(p+0x84)=3;
+ if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==3) {
+  func_021B9FBC(*(char * *)&((struct Obj26180 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34);
+  if(((struct Obj00601 *)p)->f84==0) {
+   if(func_021BA158(*(char * *)&((struct Obj26181 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34)!=(unsigned)-1) ((struct Obj00601 *)p)->f84=3;
   } else {
-   selected=func_021BA154(*(char **)(*(char **)(p+4)+0x34));
+   selected=func_021BA154(*(char * *)&((struct Obj26182 *)(*(char * *)&((struct Obj00601 *)p)->f4))->f34);
    if(selected!=(unsigned)-1) {
-    if(selected==1) *(u32 *)(*(char **)p+0x10)=0;
-    *(u32 *)(p+0x84)=1;
-    *(signed char *)(p+0x90)=1;
+    if(selected==1) ((struct Obj26183 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=0;
+    ((struct Obj00601 *)p)->f84=1;
+    ((struct Obj00601 *)p)->f90=1;
    }
   }
  }
- if(*(u32 *)(p+0x84)==0 || *(u32 *)(p+0x84)==4) {
-  if(*(u32 *)(p+0x84)==0) {
-   if(func_021BAABC(p)) *(u32 *)(p+0x84)=4;
+ if(((struct Obj00601 *)p)->f84==0 || ((struct Obj00601 *)p)->f84==4) {
+  if(((struct Obj00601 *)p)->f84==0) {
+   if(func_021BAABC(p)) ((struct Obj00601 *)p)->f84=4;
   } else {
    if(func_02028230(*(u8 **)(p+func_021BB034((u16 **)p)*4+0xc))) {
-    *(u32 *)(*(char **)p+0x10)=1;
-    *(u32 *)(p+0x84)=1;
-    *(signed char *)(p+0x90)=1;
+    ((struct Obj26184 *)(*(char * *)&((struct Obj00601 *)p)->f0))->f10=1;
+    ((struct Obj00601 *)p)->f84=1;
+    ((struct Obj00601 *)p)->f90=1;
    }
   }
  }

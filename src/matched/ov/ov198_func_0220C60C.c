@@ -14,6 +14,8 @@
  *   func_02045808 0x02045808 arm
  *   func_02043B5C 0x02043B5C arm
  */
+#include "../include/Obj00507.h"
+#include "../include/Obj25142.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -32,11 +34,11 @@ void func_0220C60C(char *p, int id)
 {
     void *t;
     void *f;
-    func_02043B5C((void *)func_02045770(*(void **)(p + 0x1F60)), 15);
-    t = func_02045EC0(*(void **)(p + 0x1EA0), id);
-    f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F60)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x440);
-    *(u8 *)(p + 0x1F64) = 1;
+    func_02043B5C((void *)func_02045770(((struct Obj00507 *)p)->f1F60), 15);
+    t = func_02045EC0(((struct Obj00507 *)p)->f1EA0, id);
+    f = ((struct Obj00507 *)p)->f1EAC;
+    func_0201C724(f, (u32)func_02045770(((struct Obj00507 *)p)->f1F60), 0, 0, (u32)t, ((struct Obj25142 *)(*(char * *)&((struct Obj00507 *)p)->f0))->fC, 0x440);
+    ((struct Obj00507 *)p)->f1F64 = 1;
     func_02045808(t);
     ((struct Flags *)p)->high = 1;
 }

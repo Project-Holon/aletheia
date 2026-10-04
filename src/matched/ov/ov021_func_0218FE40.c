@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj01491.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -19,6 +20,6 @@ typedef signed int     s32;
 
 void func_0218FE40(u8 *a)
 {
-    *(u32 *)(a + 0x1ac) = 0;
-    *(u32 *)(a + 0x1a8) = 0;
+    ((struct Obj01491 *)a)->f1AC = 0;
+    ((struct Obj01491 *)a)->f1A8 = 0;
 }

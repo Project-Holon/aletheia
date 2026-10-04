@@ -18,6 +18,7 @@
  *   python tools/match.py one --src src/pending/func_0202B958.c \
  *       --func func_0202B958 --addr 0x0202B958 --thumb --cc 1.1p1
  */
+#include "../include/Obj01019.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,17 +33,17 @@ extern void   func_02049238(void *h);
 
 void func_0202B958(u8 *p)
 {
-    u32  id = *(u16 *)p;
+    u32  id = ((struct Obj01019 *)p)->f0;
     void *h = func_020490F4(0xb9, (id & 0x7fff) | 0x8000);
     u8   n = (u8)func_0204961C(h);
     u32  i;
 
     p[0x268] = n;
-    *(u32 *)(p + 0x264) = (u32)func_02030734(id, (u32)(n << 3), 0,
+    ((struct Obj01019 *)p)->f264 = (u32)func_02030734(id, (u32)(n << 3), 0,
                                              (const void *)0x020A7738, 0x178);
 
     for (i = 0; i < (u32)n; i++) {
-        func_0204932C(h, i, (void *)(*(u32 *)(p + 0x264) + (i << 3)));
+        func_0204932C(h, i, (void *)(((struct Obj01019 *)p)->f264 + (i << 3)));
     }
     func_02049238(h);
 }

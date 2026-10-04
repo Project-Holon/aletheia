@@ -23,6 +23,7 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021BD5EE     0x021BD5EE  data  ov088  a2
  */
+#include "../include/Obj00271.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -47,7 +48,7 @@ int func_021BB890(char *p, int d)
 
     cur = p[0x128];
     old = (p + cur)[0x120];
-    *(int *)(p + 0x134) = 0;
+    ((struct Obj00271 *)p)->f134 = 0;
     if (d < 0) {
         if (cur == 0)
             return 0;
@@ -58,10 +59,10 @@ int func_021BB890(char *p, int d)
         if ((u8)p[0x120] == 0) {
             if (y < 2) {
                 if (n == 0) {
-                    *(int *)(p + 0x138) = -(((h - ((s8)p[0x12f] - 2)) / 3) * 8);
+                    ((struct Obj00271 *)p)->f138 = -(((h - ((s8)p[0x12f] - 2)) / 3) * 8);
                     p[0x12f] = 2;
                 } else {
-                    *(int *)(p + 0x138) = -((h / 3) * 8);
+                    ((struct Obj00271 *)p)->f138 = -((h / 3) * 8);
                 }
             } else {
                 p[0x12f] = y;
@@ -79,9 +80,9 @@ int func_021BB890(char *p, int d)
         func_021BB810(p, old, func_021BB840(p, (s8)p[0x12f]), 1);
         if ((u8)p[0x120] == 0) {
             if (y == 0x18) {
-                *(int *)(p + 0x138) = (ROWH(nv) / 3) * 8;
+                ((struct Obj00271 *)p)->f138 = (ROWH(nv) / 3) * 8;
             } else if (y + ROWH(nv) > 0x18) {
-                *(int *)(p + 0x138) = (ROWH(nv) / 3) * 8;
+                ((struct Obj00271 *)p)->f138 = (ROWH(nv) / 3) * 8;
             } else {
                 p[0x12f] = y;
             }
@@ -89,6 +90,6 @@ int func_021BB890(char *p, int d)
             p[0x12f] = y;
         }
     }
-    *(u8 *)(p + 0x128) += (u8)d;
+    ((struct Obj00271 *)p)->f128 += (u8)d;
     return 1;
 }

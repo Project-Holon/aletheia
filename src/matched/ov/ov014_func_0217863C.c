@@ -25,6 +25,7 @@
  *   WM_GetDispersionScanPeriod   0x0208EFC4  arm
  *   WM_StartScanEx               0x0208F698  arm
  */
+#include "../include/Obj05923.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,9 +57,9 @@ BOOL func_0217863C(void)
     }
 
     w = g_021797A8;
-    if (*(u16 *)(w + 0x1EB2) == 0) {
+    if (((struct Obj05923 *)w)->f1EB2 == 0) {
         int n;
-        u32 channel = *(u16 *)(w + 0x1406);
+        u32 channel = ((struct Obj05923 *)w)->f1406;
 
         for (n = 0; n < 32; n++) {
             if (channel & 1)
@@ -74,9 +75,9 @@ BOOL func_0217863C(void)
             if (chanpat & (1 << (channel - 1)))
                 break;
         }
-        *(u16 *)(w + 0x1406) = (u16)(1 << (channel - 1));
+        ((struct Obj05923 *)w)->f1406 = (u16)(1 << (channel - 1));
     } else {
-        *(u16 *)(w + 0x1406) = (u16)(1 << (*(u16 *)(w + 0x1EB2) - 1));
+        ((struct Obj05923 *)w)->f1406 = (u16)(1 << (((struct Obj05923 *)w)->f1EB2 - 1));
     }
 
     *(u16 *)(g_021797A8 + 0x1408) = WM_GetDispersionScanPeriod();

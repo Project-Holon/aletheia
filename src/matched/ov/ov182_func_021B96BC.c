@@ -16,6 +16,7 @@
  *   func_021B9814 0x021B9814 thumb ov182
  *   func_021B99E8 0x021B99E8 thumb ov182
  */
+#include "../include/Obj06594.h"
 typedef unsigned short u16;
 extern int func_0204E804(void);
 extern unsigned func_020362DC(void);
@@ -35,7 +36,7 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
         break;
     case 2:
         ready = 0;
-        if (++*(int *)(p + 0x18) > 0x384) ready = 1;
+        if (++((struct Obj06594 *)p)->f18 > 0x384) ready = 1;
         if (ready) {
             *state = 3;
             func_021B9814(0, (void *)0x10, 0);
@@ -50,12 +51,12 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
         break;
     case 4:
         if (!func_0204E804()) {
-            *(int *)(p + 0x18) = 0;
+            ((struct Obj06594 *)p)->f18 = 0;
             *state = 5;
         }
         break;
     case 5:
-        if ((func_020362DC() & 0xb) || ++*(int *)(p + 0x18) > 0x384) {
+        if ((func_020362DC() & 0xb) || ++((struct Obj06594 *)p)->f18 > 0x384) {
             *state = 6;
             func_021B9814(0, (void *)0x10, 0);
         }
@@ -65,7 +66,7 @@ int func_021B96BC(void *a, unsigned *state, void *c, char *p)
         break;
     case 7: return 1;
     }
-    func_0201C4E4(*(void **)(p + 0xc));
-    func_021B99E8(*(char **)(p + 4));
+    func_0201C4E4(((struct Obj06594 *)p)->fC);
+    func_021B99E8(*(char * *)&((struct Obj06594 *)p)->f4);
     return 0;
 }

@@ -13,6 +13,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_021DAA28 0x021DAA28 thumb ov121
  */
+#include "../include/Obj03787.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned char u8;
@@ -26,9 +27,9 @@ extern void func_0201C724(void *,int,s16,s16,void *,int,u16);
 void func_021DA994(char *p,int a,int b,int c)
 {
     int xy[2];
-    func_02043B5C((struct CharBuf *)(*(int *)p),(u8)(*(u16 *)(p+4)&31));
-    func_02045CAC((struct MsgBank *)a,b,*(void **)(p+24));
+    func_02043B5C((struct CharBuf *)(((struct Obj03787 *)p)->f0),(u8)(((struct Obj03787 *)p)->f4&31));
+    func_02045CAC((struct MsgBank *)a,b,((struct Obj03787 *)p)->f18);
     func_021DAA28(p,c,xy);
-    func_0201C724(*(void **)(p+32),*(int *)p,(s16)xy[0],(s16)xy[1],*(void **)(p+24),c,*(u16 *)(p+4));
-    *(int *)(p+8)=1;
+    func_0201C724(((struct Obj03787 *)p)->f20,((struct Obj03787 *)p)->f0,(s16)xy[0],(s16)xy[1],((struct Obj03787 *)p)->f18,c,((struct Obj03787 *)p)->f4);
+    ((struct Obj03787 *)p)->f8=1;
 }

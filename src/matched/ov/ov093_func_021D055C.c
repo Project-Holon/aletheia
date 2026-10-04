@@ -17,6 +17,7 @@
  *   func_021B9C00  0x021B9C00  thumb  ov093
  *   func_021D0644  0x021D0644  thumb  ov093
  */
+#include "../include/Obj00340.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -34,11 +35,11 @@ int func_021D055C(u8 *g, void *a, int b)
     u32 n;
     u32 i;
 
-    n = func_021B9B94(*(void **)(g + 0x118));
-    i = func_021D7F2C(func_021B8588(*(void **)g), g[0x11c]);
+    n = func_021B9B94(((struct Obj00340 *)g)->f118);
+    i = func_021D7F2C(func_021B8588(((struct Obj00340 *)g)->f0), g[0x11c]);
     for (; i < n; i++) {
         if (func_021CFBBC(g, i) == 0) {
-            if (func_021D0644(g, func_021B9C00(*(void **)(g + 0x118), (u8)i), a, b))
+            if (func_021D0644(g, func_021B9C00(((struct Obj00340 *)g)->f118, (u8)i), a, b))
                 return 1;
         }
     }

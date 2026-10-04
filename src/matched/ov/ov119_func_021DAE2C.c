@@ -18,6 +18,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBA80 0x021DBA80 thumb ov119
  */
+#include "../include/Obj10354.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -32,8 +33,8 @@ void func_021DAE2C(char *p) {
  p[0x11e0]=0;p[0x11e1]=0;p[0x11e8]=0;p[0x11e9]=0;
  for(i=0;i<6;i++) {
   char *q=p+(i/3)*12+(i%3)*4;
-  *(int *)(q+0xfa4)=-1;
-  if(*(void **)(q+0xfd8))func_02082BCC(*(void **)(q+0xfd8),0,func_020173EC());
+  ((struct Obj10354 *)q)->fFA4=-1;
+  if(((struct Obj10354 *)q)->fFD8)func_02082BCC(((struct Obj10354 *)q)->fFD8,0,func_020173EC());
  }
  func_021D8E84(p,(int)func_021DBA80);
 }

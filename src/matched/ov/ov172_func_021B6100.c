@@ -41,6 +41,7 @@
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  */
+#include "../include/Obj00917.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -85,20 +86,20 @@ char *func_021B6100(int id)
     z = 0;
     p = func_02030734(id, 0x50, 0, d_021C71C0, 0x6F);
     g_021C88E0 = p;
-    *(unsigned short *)p = id;
-    *(int *)(p + 4) = z;
-    *(char *)(p + 0x18) = z;
-    *(char *)(p + 8) = z;
-    *(int *)(p + 0xC) = z;
-    *(int *)(p + 0x10) = z;
-    *(int *)(p + 0x14) = z;
-    *(int *)(p + 0x2C) = 1;
-    *(int *)(p + 0x30) = 5;
-    *(int *)(p + 0x1C) = z;
-    *(int *)(p + 0x20) = z;
-    *(int *)(p + 0x24) = z;
-    *(int *)(p + 0x3C) = z;
-    *(int *)(p + 0x40) = z;
+    ((struct Obj00917 *)p)->f0 = id;
+    ((struct Obj00917 *)p)->f4 = z;
+    ((struct Obj00917 *)p)->f18 = z;
+    ((struct Obj00917 *)p)->f8 = z;
+    ((struct Obj00917 *)p)->fC = z;
+    ((struct Obj00917 *)p)->f10 = z;
+    ((struct Obj00917 *)p)->f14 = z;
+    ((struct Obj00917 *)p)->f2C = 1;
+    ((struct Obj00917 *)p)->f30 = 5;
+    ((struct Obj00917 *)p)->f1C = z;
+    ((struct Obj00917 *)p)->f20 = z;
+    ((struct Obj00917 *)p)->f24 = z;
+    ((struct Obj00917 *)p)->f3C = z;
+    ((struct Obj00917 *)p)->f40 = z;
     func_02034F84(0x40);
     if (func_02085D3C() == 1) {
         r = func_021B62A8();
@@ -108,26 +109,26 @@ char *func_021B6100(int id)
     }
     if (r == 7) func_02088234();
     if (r == 6) return 0;
-    r = *(int *)(p + 0x2C);
+    r = ((struct Obj00917 *)p)->f2C;
     if (func_02085D3C() == 1) func_021B62B8(r, 3, 0);
-    r = *(int *)(p + 0x2C);
+    r = ((struct Obj00917 *)p)->f2C;
     if (func_02085D3C() == 1) func_021B62C0(r, 1);
-    r = *(int *)(p + 0x2C);
+    r = ((struct Obj00917 *)p)->f2C;
     if (func_02085D3C() == 1) func_021B62C8(r, 1);
-    r = *(int *)(p + 0x2C);
+    r = ((struct Obj00917 *)p)->f2C;
     if (func_02085D3C() == 1) r = func_021B62D0(r);
     else r = 7;
     if (r == 7) func_02088234();
     if (r == 6) return 0;
-    *(int *)(p + 0x28) = 0;
+    ((struct Obj00917 *)p)->f28 = 0;
     func_02084968(0x20000000);
     if (func_02085D3C() == 1) func_021B62D8((void *)func_021B662C);
     if (func_02085D3C() == 1) func_021B62E0((void *)func_021B65D8);
     if (func_02085D3C() == 1) func_021B62E8((void *)func_021B6620);
     func_021B68A0(p);
     if (func_02085D3C() == 1) func_021B62F0(1);
-    *(int *)(p + 0x48) = 0;
-    *(char *)(p + 0x44) = 0;
+    ((struct Obj00917 *)p)->f48 = 0;
+    ((struct Obj00917 *)p)->f44 = 0;
     func_021B62F8(1, 0);
     func_021B6300(1, 0);
     func_021B6308(1, 1);

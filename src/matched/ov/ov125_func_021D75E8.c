@@ -10,6 +10,7 @@
  * symbols:
  *   d_0214616C 0x0214616C data a4
  */
+#include "../include/Obj14011.h"
 typedef unsigned short u16;
 extern char *d_0214616C;
 typedef unsigned int   u32;
@@ -21,8 +22,8 @@ int func_021D75E8(int a, int x, int y, u16 *state, int b, u16 c)
     switch (*state) {
     case 0:
         p = d_0214616C;
-        *(int *)(p + 0xb8) = x;
-        *(int *)(p + 0xbc) = y;
+        ((struct Obj14011 *)p)->fB8 = x;
+        ((struct Obj14011 *)p)->fBC = y;
         ++*state;
         break;
     case 1:

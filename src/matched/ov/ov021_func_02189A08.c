@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj19503.h"
 
 int func_02189A08(unsigned char *p)
 {
-    return *(int *)(p + 0x13C);
+    return ((struct Obj19503 *)p)->f13C;
 }

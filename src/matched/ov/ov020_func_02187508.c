@@ -18,6 +18,7 @@
  *   func_021912D8  0x021912D8  thumb  ov021
  *   func_021912F8  0x021912F8  thumb  ov021
  */
+#include "../include/Obj00128.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,43 +37,43 @@ int func_02187508(char *p)
 {
     int r;
 
-    switch (*(u16 *)(p + 0x52)) {
+    switch (((struct Obj00128 *)p)->f52) {
     case 0:
-        if (func_02191388((u32 *)(*(int *)(p + 0x10))) == 0)
+        if (func_02191388((u32 *)(*(int *)&((struct Obj00128 *)p)->f10)) == 0)
             break;
-        *(u16 *)(p + 0x52) = *(u16 *)(p + 0x52) + 1;
+        ((struct Obj00128 *)p)->f52 = ((struct Obj00128 *)p)->f52 + 1;
         break;
     case 1:
         if ((func_020362DC() & 0xf3) == 0)
             break;
-        if (*(u8 *)(p + 0x55) == 0)
-            *(u16 *)(p + 0x52) = 4;
+        if (((struct Obj00128 *)p)->f55 == 0)
+            ((struct Obj00128 *)p)->f52 = 4;
         else
-            *(u16 *)(p + 0x52) = 2;
+            ((struct Obj00128 *)p)->f52 = 2;
         break;
     case 2:
-        *(int *)(p + 0x14) = (int)func_02190BE4((u16 *)(*(int *)(p + 0xc)), 0);
-        *(u16 *)(p + 0x52) = *(u16 *)(p + 0x52) + 1;
+        *(int *)&((struct Obj00128 *)p)->f14 = (int)func_02190BE4((u16 *)(((struct Obj00128 *)p)->fC), 0);
+        ((struct Obj00128 *)p)->f52 = ((struct Obj00128 *)p)->f52 + 1;
         break;
     case 3:
-        r = func_02190C78((struct Handle *)(*(int *)(p + 0x14)));
+        r = func_02190C78((struct Handle *)(*(int *)&((struct Obj00128 *)p)->f14));
         if (r == 2)
             break;
         if (r == 0)
-            *(u8 *)(p + 0x54) = 1;
+            ((struct Obj00128 *)p)->f54 = 1;
         else
-            *(u8 *)(p + 0x54) = 0;
-        *(u16 *)(p + 0x52) = 4;
-        func_021909BC(*(int *)(p + 0x14));
-        *(int *)(p + 0x14) = 0;
+            ((struct Obj00128 *)p)->f54 = 0;
+        ((struct Obj00128 *)p)->f52 = 4;
+        func_021909BC(*(int *)&((struct Obj00128 *)p)->f14);
+        *(int *)&((struct Obj00128 *)p)->f14 = 0;
         break;
     case 4:
-        func_021912D8(*(int *)(p + 0x10));
-        *(u16 *)(p + 0x52) = *(u16 *)(p + 0x52) + 1;
+        func_021912D8(*(int *)&((struct Obj00128 *)p)->f10);
+        ((struct Obj00128 *)p)->f52 = ((struct Obj00128 *)p)->f52 + 1;
         break;
     case 5:
-        if (func_021912F8(*(int *)(p + 0x10)) != 0) {
-            *(int *)(p + 0x10) = 0;
+        if (func_021912F8(*(int *)&((struct Obj00128 *)p)->f10) != 0) {
+            *(int *)&((struct Obj00128 *)p)->f10 = 0;
             return 1;
         }
         break;

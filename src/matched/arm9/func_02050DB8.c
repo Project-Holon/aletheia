@@ -63,6 +63,7 @@
  *       --func func_02050DB8 --addr 0x02050DB8 --cc 1.1p1 --arm
  *   EXACT, 284 bytes, 9 relocation sites, all resolved.
  */
+#include "../include/Obj01319.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -107,13 +108,13 @@ void func_02050DB8(u8 *p)
     }
 
     {
-        u32 h = *(u32 *)(p + 4);
+        u32 h = ((struct Obj01319 *)p)->f4;
         p[0x258] = (u8)z;
-        *(u32 *)(p + 8) = z;
+        ((struct Obj01319 *)p)->f8 = z;
         if (h != 0) {
-            if (((u32)((*(u16 *)(p + 0x32)) << 31) >> 31) == 0) {
+            if (((u32)((((struct Obj01319 *)p)->f32) << 31) >> 31) == 0) {
                 func_020307B0((void *)h);
-                *(u32 *)(p + 4) = z;
+                ((struct Obj01319 *)p)->f4 = z;
             }
         }
     }
@@ -132,8 +133,8 @@ void func_02050DB8(u8 *p)
         }
     }
 
-    if (*(u32 *)(p + 0x20) != 0)
-        func_02048AC4((void *)(*(u32 *)(p + 0x20)));
+    if (((struct Obj01319 *)p)->f20 != 0)
+        func_02048AC4((void *)(((struct Obj01319 *)p)->f20));
 
     func_020307B0(p);
 }

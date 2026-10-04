@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00164.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,12 +21,12 @@ void func_02028BA0(u8 *o, u32 v)
 {
     int i;
 
-    if (*(u32 *)(o + 0xb4) == 0) {
+    if (((struct Obj00164 *)o)->fB4 == 0) {
         for (i = 0; i < 2; i++) {
             if (*(u16 *)(o + 0xac + i * 2) != 0xffff) {
                 func_020061F8(i + 1);
             }
         }
     }
-    *(u32 *)(o + 0xb4) |= v;
+    ((struct Obj00164 *)o)->fB4 |= v;
 }

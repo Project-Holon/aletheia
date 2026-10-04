@@ -31,6 +31,7 @@
  *   func_0216D974  0x0216D974  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00571.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -69,21 +70,21 @@ void func_02189204(u8 *a)
     u32 r;
     u32 t;
 
-    h = (u32)func_020120F4((const struct Ctx *)(*(u32 *)(a + 4)));
+    h = (u32)func_020120F4((const struct Ctx *)(((struct Obj00571 *)a)->f4));
     r = func_02012964((const struct BigObj *)h);
-    *(u32 *)(a + 0x38) = r;
-    func_0216CCDC((char *)r, *(u16 *)a, h, (int)a, *(u32 *)(a + 0x48), *(u32 *)(a + 0x3C));
-    func_0219C554(*(u32 *)(a + 0x38), *(u32 *)(a + 0xB0), 0x20);
-    func_0219C680(*(u32 *)(a + 0x38));
-    x = *(u16 *)(a + 0xD8);
+    ((struct Obj00571 *)a)->f38 = r;
+    func_0216CCDC((char *)r, ((struct Obj00571 *)a)->f0, h, (int)a, *(u32 *)&((struct Obj00571 *)a)->f48, ((struct Obj00571 *)a)->f3C);
+    func_0219C554(((struct Obj00571 *)a)->f38, ((struct Obj00571 *)a)->fB0, 0x20);
+    func_0219C680(((struct Obj00571 *)a)->f38);
+    x = ((struct Obj00571 *)a)->fD8;
     if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        t = func_0217C0A8((int)((void *)func_02012138((const struct Ctx *)*(u32 *)(a + 4))));
+        t = func_0217C0A8((int)((void *)func_02012138((const struct Ctx *)((struct Obj00571 *)a)->f4)));
     } else {
         t = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)h));
     }
     func_0219C658(r, func_021A31A4(t, 0));
-    func_0219D448(*(u32 *)(a + 0x38), *(u32 *)(a + 0x130));
-    func_0216CDB8((u8 *)(*(u32 *)(a + 0x38)), (u32)func_0218ED50((u8 *)(*(u32 *)(a + 0x10))));
-    func_0216D2F8(*(u32 *)(a + 0x38));
-    func_0216D974((unsigned int *)r, func_02189AE8(*(u16 *)(a + 0xD0)));
+    func_0219D448(((struct Obj00571 *)a)->f38, ((struct Obj00571 *)a)->f130);
+    func_0216CDB8((u8 *)(((struct Obj00571 *)a)->f38), (u32)func_0218ED50((u8 *)(((struct Obj00571 *)a)->f10)));
+    func_0216D2F8(((struct Obj00571 *)a)->f38);
+    func_0216D974((unsigned int *)r, func_02189AE8(((struct Obj00571 *)a)->fD0));
 }

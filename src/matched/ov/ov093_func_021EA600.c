@@ -12,11 +12,12 @@
  * symbols:
  *   func_021EA730  0x021EA730  thumb  ov093
  */
+#include "../include/Obj01899.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA600(char *p)
 {
-    func_021EA730(p, *(int *)(p + 0xac), 0x50, 0);
+    func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }

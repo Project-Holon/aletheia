@@ -16,6 +16,7 @@
  *   func_021D63EC  0x021D63EC  thumb  ov093
  *   func_021D6580  0x021D6580  thumb  ov093
  */
+#include "../include/Obj07795.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,9 +36,9 @@ int func_021D3934(char *a, int b, u32 *s)
     char *l;
     void *e;
 
-    x = *(u32 *)(a + 0x13c);
-    y = *(u32 *)(a + 0x140);
-    l = func_021B9AEC(*(char **)(a + 4), *(u32 *)(a + 0x138));
+    x = ((struct Obj07795 *)a)->f13C;
+    y = ((struct Obj07795 *)a)->f140;
+    l = func_021B9AEC(*(char * *)&((struct Obj07795 *)a)->f4, ((struct Obj07795 *)a)->f138);
     if (x != y)
         func_021B9C10((u32 *)l, x, y);
     e = (void *)func_021B9BF0((struct S2 *)l, x);

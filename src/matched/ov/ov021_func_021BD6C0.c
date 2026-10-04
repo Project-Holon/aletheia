@@ -15,6 +15,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20132.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ u32 func_021BD6C0(u32 a, int *st, u32 *ctx)
     switch (*st) {
     case 0:
         func_021BD94C(ctx);
-        if (*(int *)(p + 0x38) != 2)
+        if (((struct Obj20132 *)p)->f38 != 2)
             func_020061E4(0x559);
         func_021BD988(ctx, a);
         (*st)++;

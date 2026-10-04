@@ -20,6 +20,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02040618 0x02040618 arm
  */
+#include "../include/Obj01216.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -45,20 +46,20 @@ void func_021C5224(char *p)
     if (func_021C5334((u32)p) == 0) {
         return;
     }
-    switch (*(u16 *)(p + 0x70)) {
+    switch (((struct Obj01216 *)p)->f70) {
     case 0:
         break;
     case 1:
         func_020061E4(0x54C);
-        *(u16 *)(p + 0x72) = 0;
-        *(u32 *)(p + 0x80) = 0;
-        *(void **)(p + 0x84) = func_020056A0((void *)func_021C59BC, p, 0);
-        *(u16 *)(p + 0x70) = 2;
+        ((struct Obj01216 *)p)->f72 = 0;
+        ((struct Obj01216 *)p)->f80 = 0;
+        ((struct Obj01216 *)p)->f84 = func_020056A0((void *)func_021C59BC, p, 0);
+        ((struct Obj01216 *)p)->f70 = 2;
         break;
     case 2:
-        if (*(u32 *)(p + 0x80) != 0) {
-            func_02030EAC(*(void **)(p + 0x84));
-            *(u16 *)(p + 0x70) = 3;
+        if (((struct Obj01216 *)p)->f80 != 0) {
+            func_02030EAC(((struct Obj01216 *)p)->f84);
+            ((struct Obj01216 *)p)->f70 = 3;
         }
         break;
     case 3:
@@ -66,14 +67,14 @@ void func_021C5224(char *p)
         r = func_021C5768(p);
         switch (r) {
         case -1:
-            *(u32 *)(p + 0x74) = 0;
+            ((struct Obj01216 *)p)->f74 = 0;
             break;
         case -2:
-            *(u32 *)(p + 0x74) = 2;
+            ((struct Obj01216 *)p)->f74 = 2;
             break;
         default:
-            *(u32 *)(p + 0x74) = 1;
-            *(int *)(p + 0x78) = r;
+            ((struct Obj01216 *)p)->f74 = 1;
+            ((struct Obj01216 *)p)->f78 = r;
             break;
         }
         break;
@@ -81,13 +82,13 @@ void func_021C5224(char *p)
         for (i = 0; i < 3; i++) {
             func_0204B3DC((struct Obj *)*(u32 *)(p + 0x58 + i * 4), 0);
         }
-        *(u16 *)(p + 0x72) = 4;
-        *(u16 *)(p + 0x70) = 5;
+        ((struct Obj01216 *)p)->f72 = 4;
+        ((struct Obj01216 *)p)->f70 = 5;
         break;
     case 5:
-        func_02040618(1, 3, *(u16 *)(p + 0x72) * 0xC0 / 4 - 0xC0);
-        if ((*(u16 *)(p + 0x72))-- == 0) {
-            *(u16 *)(p + 0x70) = 0;
+        func_02040618(1, 3, ((struct Obj01216 *)p)->f72 * 0xC0 / 4 - 0xC0);
+        if ((((struct Obj01216 *)p)->f72)-- == 0) {
+            ((struct Obj01216 *)p)->f70 = 0;
         }
         break;
     }

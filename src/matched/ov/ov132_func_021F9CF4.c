@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14086.h"
 
 typedef unsigned short u16;
 extern char *func_021F9EDC(char *p, u16 a);
 
 void func_021F9CF4(char *p)
 {
-    *(void **)(p + 0xbc) = func_021F9EDC(*(void **)(p + 0x6c), 0x36);
+    ((struct Obj14086 *)p)->fBC = func_021F9EDC(((struct Obj14086 *)p)->f6C, 0x36);
 }

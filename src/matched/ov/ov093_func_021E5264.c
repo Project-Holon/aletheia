@@ -17,6 +17,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10093.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -36,8 +37,8 @@ void func_021E5264(int a, void *b, int c)
         k = func_021D775C(6);
         w = func_021C88A4(b, 12, c);
         w[0xf] = c;
-        *(int *)(w + 4) = 0x1d;
-        *(int *)(w + 8) = func_021E8A28(k, 2);
+        ((struct Obj10093 *)w)->f4 = 0x1d;
+        ((struct Obj10093 *)w)->f8 = func_021E8A28(k, 2);
         func_021C8838(w + 0x14, 2, 0x28b);
         func_021C8860((struct S *)(w + 0x14), c);
         func_021C8860((struct S *)(w + 0x14), k);

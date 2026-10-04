@@ -18,6 +18,7 @@
  *   func_021F0728  0x021F0728  thumb  ov029
  *   func_021F1CD8  0x021F1CD8  thumb  ov029
  */
+#include "../include/Obj00042.h"
 
 typedef signed int     s32;
 struct Ctx;
@@ -32,17 +33,17 @@ extern void func_021F1CD8(char *p);
 
 void func_021F2130(char *p)
 {
-    func_02051C88((struct Ctx *)(*(int *)(p + 0x10)));
+    func_02051C88((struct Ctx *)(((struct Obj00042 *)p)->f10));
     func_021F2D50(p);
     func_021F2DC8(p);
     func_021F1F80(p);
     if (func_021F2DA8(p) == 0) {
-        if (*(unsigned char *)(p + 0x45A)) {
+        if (((struct Obj00042 *)p)->f45A) {
             func_021F05D0(p);
             func_021F0728(p);
             func_021F1CD8(p);
         }
     } else {
-        *(int *)(p + 0x214) = 0;
+        ((struct Obj00042 *)p)->f214 = 0;
     }
 }

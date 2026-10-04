@@ -15,6 +15,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
+#include "../include/Obj02557.h"
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
@@ -25,8 +26,8 @@ extern void func_0204ADA4(u32 i);
 
 void func_021B9CCC(char *p)
 {
-    func_0204B3B4(*(void **)(p + 0x54));
-    func_0204AFD8((u32)(*(void **)(p + 0x50)));
-    func_0204A8D4((u32)(*(void **)(p + 0x48)));
-    func_0204ADA4((u32)(*(void **)(p + 0x4c)));
+    func_0204B3B4(((struct Obj02557 *)p)->f54);
+    func_0204AFD8((u32)(((struct Obj02557 *)p)->f50));
+    func_0204A8D4((u32)(((struct Obj02557 *)p)->f48));
+    func_0204ADA4((u32)(((struct Obj02557 *)p)->f4C));
 }

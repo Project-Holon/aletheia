@@ -17,6 +17,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04613.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BCF6C(char *p);
@@ -27,7 +28,7 @@ extern void func_02082BCC(void *,int,int);
 extern void func_020307B0(void *p);
 void func_021BCEC0(char *p)
 {
-    func_02030EAC(*(void **)(p+0xc));
+    func_02030EAC(((struct Obj04613 *)p)->fC);
     func_021BCF6C(p);
     func_021BD07C(p+4);
     func_021BCFF8(p);

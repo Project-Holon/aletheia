@@ -17,6 +17,7 @@
  *   func_0203A424 0x0203A424 arm
  * Original narrows r3 to u16 before func_0203A424, retained in the call prototype.
  */
+#include "../include/Obj20354.h"
 typedef unsigned short u16;
 extern int func_021862B0(char *);
 extern void func_02186444(char *, unsigned int);
@@ -28,7 +29,7 @@ int func_02185880(char *p, int a)
 {
     if (func_021862B0(p)) {
         func_02186444(p, 0x14);
-        func_0203A424((char *)func_020399A8(), 0xc8, 0x29, (u16)*(int *)(p + 0x1b0));
+        func_0203A424((char *)func_020399A8(), 0xc8, 0x29, (u16)((struct Obj20354 *)p)->f1B0);
     }
     func_02185354(p);
     return a;

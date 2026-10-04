@@ -11,8 +11,9 @@
  * symbols:
  *   func_0201FEBC 0x0201FEBC thumb
  */
+#include "../include/Obj10343.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0201FEBC(u8 *);
-u32 func_021D8168(u8 *p) { u32 result=-2; if(*(u8 **)(p+0x980)!=0) { result=func_0201FEBC(*(u8 **)(p+0x980)); if(result!=-1) *(u32 *)(p+0x980)=0; } return result; }
+u32 func_021D8168(u8 *p) { u32 result=-2; if(*(u8 * *)&((struct Obj10343 *)p)->f980!=0) { result=func_0201FEBC(*(u8 * *)&((struct Obj10343 *)p)->f980); if(result!=-1) *(u32 *)&((struct Obj10343 *)p)->f980=0; } return result; }

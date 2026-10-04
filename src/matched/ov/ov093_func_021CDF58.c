@@ -18,6 +18,7 @@
  *   func_021CDFE4  0x021CDFE4  thumb  ov093
  *   func_021CE0E0  0x021CE0E0  thumb  ov093
  */
+#include "../include/Obj01892.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -35,15 +36,15 @@ int func_021CDF58(u8 *p, int *st)
 
     switch (*st) {
     case 0:
-        func_021EAA00(*(void **)(p + 0x54), p[0xc4]);
+        func_021EAA00(((struct Obj01892 *)p)->f54, p[0xc4]);
         func_021CE068(p);
         *st = *st + 1;
         break;
     case 1:
         if (func_021CE08C(p) != 0) {
-            func_021EAA5C(*(void **)(p + 0x54));
+            func_021EAA5C(((struct Obj01892 *)p)->f54);
             *st = 2;
-        } else if (func_021EAA34(*(void **)(p + 0x54), &buf) != 0) {
+        } else if (func_021EAA34(((struct Obj01892 *)p)->f54, &buf) != 0) {
             p[0xc4] = buf;
             *st = 3;
         }
@@ -57,8 +58,8 @@ int func_021CDF58(u8 *p, int *st)
         *st = *st + 1;
         break;
     case 4:
-        *(u8 **)(p + 0xd8) = p + 0xc4;
-        *(int *)(p + 0xdc) = 1;
+        *(u8 * *)&((struct Obj01892 *)p)->fD8 = p + 0xc4;
+        ((struct Obj01892 *)p)->fDC = 1;
         return 1;
     }
     return 0;

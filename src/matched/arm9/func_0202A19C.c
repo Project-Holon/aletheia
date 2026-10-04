@@ -12,6 +12,7 @@
  *   func_0202A20C  0x0202A20C  thumb
  *   func_0202A21C  0x0202A21C  thumb
  */
+#include "../include/Obj15810.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e)
     int i = func_0202A20C((u8 *)p, c, d, e);
     u8 *r = func_0202A21C(p, *(u16 *)((u8 *)*p + i * 8 + 6));
 
-    if (*(u8 *)((u8 *)r + 7) == 2) {
+    if (((struct Obj15810 *)r)->f7 == 2) {
         return 1;
     }
     return 0;

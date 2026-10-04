@@ -14,6 +14,7 @@
  *
  * Seat the 0x54 handler word.
  */
+#include "../include/Obj18436.h"
 
 
 
@@ -22,5 +23,5 @@ typedef unsigned int   u32;
 extern void func_021DC970(u32 a, char *p);
 void func_021DC94C(char *p)
 {
-    *(int *)(*(int *)(p + 0x2c) + 0x54) = func_020056A0((void *)func_021DC970, p, 0);
+    *(int *)(((struct Obj18436 *)p)->f2C + 0x54) = func_020056A0((void *)func_021DC970, p, 0);
 }

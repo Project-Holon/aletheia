@@ -8,5 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj20880.h"
 typedef unsigned int u32;
-int func_021BB3C4(void *unused, u32 p) { if (*(u32 *)(p + 20) != 1) return 1; return 0; }
+int func_021BB3C4(void *unused, u32 p) { if (((struct Obj20880 *)p)->f14 != 1) return 1; return 0; }

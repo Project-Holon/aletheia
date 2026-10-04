@@ -14,6 +14,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj01255.h"
+#include "../include/Obj23132.h"
 typedef unsigned char u8;
 struct S020315D4;
 extern int func_021D4418(char *p);
@@ -25,9 +27,9 @@ int func_021D657C(struct S020315D4 *handle, int unused, int mode, char *p)
 {
     if (!func_021D4418(p)) return 0;
     if (!mode) {
-        func_02012704(*(u8 **)(*(char **)(p + 8) + 8));
-        func_020307B0(*(void **)*(char **)(p + 8));
-        func_020307B0(*(void **)(p + 8));
+        func_02012704(*(u8 * *)&((struct Obj23132 *)(*(char * *)&((struct Obj01255 *)p)->f8))->f8);
+        func_020307B0(*(void **)*(char * *)&((struct Obj01255 *)p)->f8);
+        func_020307B0(((struct Obj01255 *)p)->f8);
     }
     func_020315D4(handle);
     func_020306F0(0x42);

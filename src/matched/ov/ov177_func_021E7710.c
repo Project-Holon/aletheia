@@ -18,6 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021E7AE0 0x021E7AE0 thumb ov177
  */
+#include "../include/Obj14374.h"
 extern void func_021E7CD0(void *);
 typedef unsigned int   u32;
 struct Obj;
@@ -30,13 +31,13 @@ extern int func_021E7AE0(unsigned char *p, void *mgr);
 void func_021E7710(char *p)
 {
     *(volatile unsigned short *)0x04000050 = 0;
-    switch (*(unsigned *)(p + 0x98)) {
+    switch (((struct Obj14374 *)p)->f98) {
     case 0: case 1: break;
     case 2: case 3: func_021E7CD0(p); break;
     }
     func_021E7C14(p);
     func_021E7B44(p);
-    func_0202DC08(*(void **)(p + 0x7c));
+    func_0202DC08(((struct Obj14374 *)p)->f7C);
     func_02040618(2, 0, -256);
     func_02040618(1, 0, -256);
     func_020307B0(p);

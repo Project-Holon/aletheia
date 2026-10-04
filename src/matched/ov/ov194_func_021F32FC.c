@@ -10,7 +10,8 @@
  * symbols:
 
  */
+#include "../include/Obj24907.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F32FC(const u8 *p) {return *(void **)(p+0x104);}
+void *func_021F32FC(const u8 *p) {return ((struct Obj24907 *)p)->f104;}

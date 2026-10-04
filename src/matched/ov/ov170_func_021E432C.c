@@ -26,6 +26,9 @@
  *   func_021EF68C 0x021EF68C thumb ov170
  *   func_021EF670 0x021EF670 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23899.h"
+#include "../include/Obj23900.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 #define W(p) (*(u8 **)((p) + 44))
@@ -76,7 +79,7 @@ int func_021E432C(u8 *p)
         func_021DEFEC(p, selection + 30);
         func_021ED544(p, 6);
         func_021ED508(p, 14, 1);
-        if (*(int *)(*(u8 **)p + 36) == 2) {
+        if (((struct Obj23899 *)(*(u8 * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
             func_021EE364(p, 5, selection);
             return 27;
         }
@@ -92,7 +95,7 @@ int func_021E432C(u8 *p)
         func_021EF670(W(p));
         func_021ED544(p, 6);
         func_021ED508(p, 14, 1);
-        if (*(int *)(*(u8 **)p + 36) == 4) {
+        if (((struct Obj23900 *)(*(u8 * *)&((struct Obj00000 *)p)->f0))->f24 == 4) {
             func_021EE364(p, 13, index);
             return 35;
         }

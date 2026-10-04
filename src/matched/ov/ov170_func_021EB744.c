@@ -10,14 +10,15 @@
  * symbols:
  *   func_021EB708 0x021EB708 thumb ov170
  */
+#include "../include/Obj02213.h"
 struct WinMgr;
 extern void func_021EB708(void *m, unsigned i, void *d);
 void func_021EB744(char *p)
 {
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 0, *(void **)(p + 0x104));
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 1, *(void **)(p + 0x10c));
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 2, *(void **)(p + 0x114));
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 3, *(void **)(p + 0x11c));
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 4, *(void **)(p + 0x124));
-    func_021EB708(*(struct WinMgr **)(p + 0x74), 5, *(void **)(p + 0x12c));
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 0, ((struct Obj02213 *)p)->f104);
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 1, ((struct Obj02213 *)p)->f10C);
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 2, ((struct Obj02213 *)p)->f114);
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 3, ((struct Obj02213 *)p)->f11C);
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 4, ((struct Obj02213 *)p)->f124);
+    func_021EB708(*(struct WinMgr * *)&((struct Obj02213 *)p)->f74, 5, ((struct Obj02213 *)p)->f12C);
 }

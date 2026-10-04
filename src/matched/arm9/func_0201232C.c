@@ -11,6 +11,7 @@
  * symbols:
  *   g_020A727C      0x020A727C  data
  */
+#include "../include/Obj01023.h"
 
 extern char g_020A727C[];
 extern void func_020307B0(void *p);
@@ -20,10 +21,10 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 void func_0201232C(char *p, int a1, int a2)
 {
     void *q;
-    *(int *)(p + 8) = 0;
-    q = *(void **)(p + 0xc);
-    *(int *)(p + 4) = a1;
+    *(int *)&((struct Obj01023 *)p)->f8 = 0;
+    q = ((struct Obj01023 *)p)->fC;
+    *(int *)&((struct Obj01023 *)p)->f4 = a1;
     if (q)
         func_020307B0(q);
-    *(void **)(p + 0xc) = func_02030734(4, a2, 1, g_020A727C, 0x60);
+    ((struct Obj01023 *)p)->fC = func_02030734(4, a2, 1, g_020A727C, 0x60);
 }

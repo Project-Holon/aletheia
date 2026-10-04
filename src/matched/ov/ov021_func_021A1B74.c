@@ -18,6 +18,7 @@
  *   func_021A1FEC  0x021A1FEC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00755.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,17 +37,17 @@ void func_021A1B74(u8 *p, int a, int f)
     int i;
     u32 t;
 
-    if (a == *(u16 *)(p + 0xc) && a != 0) {
+    if (a == ((struct Obj00755 *)p)->fC && a != 0) {
         return;
     }
     for (i = 0; i < 2; i++) {
         func_021A20C8((struct O *)(*(u32 *)(p + 0x20 + i * 4)));
     }
     func_021A1C04(p);
-    *(u16 *)(p + 0xa) = 0;
+    ((struct Obj00755 *)p)->fA = 0;
     func_021A1BF8(p, d_021D886C[a * 2]);
     t = d_021D8868[a * 2];
-    func_021A1FEC((struct O *)(*(u32 *)(p + 0x20)), t, 0, 0, 1, 1, f);
-    *(u16 *)(p + 0xc) = a;
-    *(u16 *)(p + 0xe) = 0xFFFF;
+    func_021A1FEC((struct O *)(((struct Obj00755 *)p)->f20), t, 0, 0, 1, 1, f);
+    ((struct Obj00755 *)p)->fC = a;
+    ((struct Obj00755 *)p)->fE = 0xFFFF;
 }

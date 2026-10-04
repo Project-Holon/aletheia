@@ -23,6 +23,7 @@
  *   func_021D63B8  0x021D63B8  thumb  ov093
  *   func_021D53C0  0x021D53C0  thumb  ov093
  */
+#include "../include/Obj00041.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct {
     void *w;
@@ -59,7 +60,7 @@ void func_021D646C(Obj *p)
     func_021D63B8(p, 1);
     func_021D53C0((char *)p + 0xfc);
     ((u8 *)p)[0x141] = p->f1b_lo;
-    *(u16 *)((u8 *)p + 0x13c) = p->f16;
+    ((struct Obj00041 *)p)->f13C = p->f16;
     func_02017E40(p->w, 0x6f, ((u8 *)p)[0x141]);
     func_020185C4(p->w);
 }

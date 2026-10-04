@@ -21,6 +21,9 @@
  *   func_021DBCA4 0x021DBCA4 thumb ov131
  *   func_021DBCF4 0x021DBCF4 thumb ov131
  */
+#include "../include/Obj01548.h"
+#include "../include/Obj23149.h"
+#include "../include/Obj23150.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -40,11 +43,11 @@ void func_021D8FAC(u8 *a,u8 *p)
 {
     u8 i;
     u16 value;
-    func_020410D0(2,0,0,32,24,*(u32 *)(p+0x28)+12,0,0,32,32);
+    func_020410D0(2,0,0,32,24,((struct Obj01548 *)p)->f28+12,0,0,32,32);
     func_02041B6C(2);
-    func_02040AE0(6,*(u8 **)(p+0x30)+12,*(u32 *)(*(u8 **)(p+0x30)+8));
+    func_02040AE0(6,*(u8 * *)&((struct Obj01548 *)p)->f30+12,((struct Obj23150 *)(*(u8 * *)&((struct Obj01548 *)p)->f30))->f8);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,*(u32 *)(p+0x40)+12,0,0,32,32);
+    func_020410D0(5,0,0,32,3,((struct Obj01548 *)p)->f40+12,0,0,32,32);
     func_02041B6C(5);
     for(i=0;i<10;i++) {
         value=((struct List *)p)->entries[i].id;
@@ -54,11 +57,11 @@ void func_021D8FAC(u8 *a,u8 *p)
             func_021DBCF4(((struct List *)p)->entries[i].object);
         } else func_021DBCA4(((struct List *)p)->entries[i].object,0);
     }
-    *(u32 *)(p+0x14)=0;
+    ((struct Obj01548 *)p)->f14=0;
     p[0x58]=255;
     p[0x59]=255;
     p[0x5a]=255;
-    *(u32 *)p=1;
-    *(u32 *)(p+0xc)=1;
-    func_0204B878(*(void **)(a+0x180),5);
+    ((struct Obj01548 *)p)->f0=1;
+    ((struct Obj01548 *)p)->fC=1;
+    func_0204B878(((struct Obj23149 *)a)->f180,5);
 }

@@ -21,6 +21,7 @@
  *   func_02012944  0x02012944  thumb
  *   func_02008550  0x02008550  thumb
  */
+#include "../include/Obj19353.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,7 +56,7 @@ u8 func_0217C0A8(int a0)
             q = func_02026474(a0);
         if (q == 0) {
             obj = func_02012944((void *)h);
-        } else if (func_02013D5C(*(u16 *)(q + 0x84)) == 1) {
+        } else if (func_02013D5C(((struct Obj19353 *)q)->f84) == 1) {
             obj = func_02012944((void *)h);
         } else {
             obj = func_02012950(h, func_02012B80((const struct BigObj *)h));

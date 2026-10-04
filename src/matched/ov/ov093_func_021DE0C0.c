@@ -15,9 +15,10 @@
  *   func_021DE058 0x021DE058 thumb ov093
  *   d_021F160C 0x021F160C data a4
  */
+#include "../include/Obj21380.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DE058(void *, void *, int, u8 *);
-void func_021DE0C0(void *a, void *b, int c, u8 *d) { if (*(u32 *)(d + 24)) func_021DE058(a,b,c,d); }
+void func_021DE0C0(void *a, void *b, int c, u8 *d) { if (((struct Obj21380 *)d)->f18) func_021DE058(a,b,c,d); }
 extern u8 d_021F160C[];
 void *func_021DE0D0(int *p) { *p=2; return d_021F160C; }

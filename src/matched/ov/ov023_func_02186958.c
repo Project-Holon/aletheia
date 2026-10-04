@@ -11,14 +11,15 @@
  * symbols:
  *   func_02186938 0x02186938 thumb ov023
  */
+#include "../include/Obj05109.h"
 typedef unsigned char u8;
 typedef struct { u8 b[4]; u8 lo:3; u8 mid:3; u8 hi:2; u8 b5; } Rec;
 extern void func_02186938(Rec *);
 void func_02186958(char *p)
 {
-    if (*(int *)(p + 0xBB8) != *(int *)(p + 0xBBC)) {
-        func_02186938((Rec *)(p + *(int *)(p + 0xBB8) * 30));
-        *(int *)(p + 0xBB8) += 1;
-        if (*(int *)(p + 0xBB8) >= 100) *(int *)(p + 0xBB8) = 0;
+    if (((struct Obj05109 *)p)->fBB8 != ((struct Obj05109 *)p)->fBBC) {
+        func_02186938((Rec *)(p + ((struct Obj05109 *)p)->fBB8 * 30));
+        ((struct Obj05109 *)p)->fBB8 += 1;
+        if (((struct Obj05109 *)p)->fBB8 >= 100) ((struct Obj05109 *)p)->fBB8 = 0;
     }
 }

@@ -19,6 +19,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj00029.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,27 +44,27 @@ loc_02169E14:
 a0 = t4 + 0;
     a0 = func_02169E98(a0);
 loc_02169E1A:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 0x14);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = ((struct Obj00029 *)a0)->f14;
     a0 = func_0201C4C0(a0);
 loc_02169E22:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 0x1c);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = ((struct Obj00029 *)a0)->f1C;
     a0 = func_02028604(a0);
 loc_02169E2A:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = *(int *)&((struct Obj00029 *)((char *)a0))->f0;
     a0 = func_02031140(a0);
 loc_02169E32:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 0x18);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = *(int *)&((struct Obj00029 *)a0)->f18;
     a0 = func_02045808(a0);
 loc_02169E3A:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 4);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = *(int *)&((struct Obj00029 *)a0)->f4;
     a0 = func_02045C04(a0);
 loc_02169E42:
-a0 = *(int *)((char *)t4 + 0x18);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
     a0 = func_020307B0(a0);
 loc_02169E48:
     return a0;}

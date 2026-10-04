@@ -34,6 +34,7 @@
  *   func_021E7058 0x021E7058 thumb ov119
  *   func_021DB290 0x021DB290 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 a,b,c,d; } Rect;
@@ -58,7 +59,7 @@ void func_021DB304(char *p)
     if(func_021E12AC(p)) {
         index=func_02035C08(d_021E8044);
         if(index!=-1) {
-            *(u32 *)(p+0x800)=(u32)index+1u;
+            ((struct Obj00001 *)p)->f800=(u32)index+1u;
             func_021E6FD4(p,d_021E8044[index].c,d_021E8044[index].a);
             if(func_021DB1BC(p,index)) {
                 func_020061E4(0x548);
@@ -66,14 +67,14 @@ void func_021DB304(char *p)
                 func_021D8E84(p,(int)func_021DB2E8);
                 return;
             }
-            func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),0x34,(void *)(*(int *)(p+0x738)));
+            func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x34,(void *)(*(int *)&((struct Obj00001 *)p)->f738));
             func_021E0EF4(p,1,1,1,0x1d,4);
             func_020061E4(0x557);
         }
-        func_021B63D0(*(void **)(p+0x9c0));
-        if(func_021B6448(*(u8 **)(p+0x9c0))==1) {
+        func_021B63D0(((struct Obj00001 *)p)->f9C0);
+        if(func_021B6448(*(u8 * *)&((struct Obj00001 *)p)->f9C0)==1) {
             func_020435F4(0x1a);
-            *(int *)(p+0x800)=0;
+            *(int *)&((struct Obj00001 *)p)->f800=0;
             func_021E5D84(p);
             func_021E1098(p);
             *(volatile u32 *)0x04001000 &= 0xffff1fff;

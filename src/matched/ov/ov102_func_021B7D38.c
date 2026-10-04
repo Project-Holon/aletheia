@@ -19,6 +19,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj03230.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
@@ -40,13 +41,13 @@ void func_021B7D38(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16
 {
     int win;
     func_02082BCC(p, 0, 20);
-    *(u16 *)(p + 16) = g;
-    *(int *)p = func_020450F0(a, b, c, d, e, f, h);
-    *(int *)(p + 12) = (int)func_020457B0(255, heap);
-    *(int *)(p + 4) = *(int *)p;
+    ((struct Obj03230 *)p)->f10 = g;
+    ((struct Obj03230 *)p)->f0 = func_020450F0(a, b, c, d, e, f, h);
+    ((struct Obj03230 *)p)->fC = (int)func_020457B0(255, heap);
+    ((struct Obj03230 *)p)->f4 = ((struct Obj03230 *)p)->f0;
     p[8] = 0;
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), *(u16 *)(p + 16));
-    win = *(int *)p;
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03230 *)p)->f0)), ((struct Obj03230 *)p)->f10);
+    win = ((struct Obj03230 *)p)->f0;
     func_02045334((struct Descriptor *)win);
     func_02045374((struct Cfg *)win);
     func_020409B4(func_02045730((struct Descriptor *)win));

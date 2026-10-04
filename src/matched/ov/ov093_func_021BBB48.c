@@ -12,12 +12,13 @@
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj21039.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02049238(u32);
 extern void func_020307B0(void *);
 void func_021BBB48(u8 *p)
 {
-    func_02049238(*(u32 *)(p + 0x4a4));
+    func_02049238(((struct Obj21039 *)p)->f4A4);
     func_020307B0(p);
 }

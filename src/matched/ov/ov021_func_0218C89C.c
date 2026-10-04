@@ -12,11 +12,12 @@
  * symbols:
  *   func_0218C3B0  0x0218C3B0  thumb  ov021
  */
+#include "../include/Obj19539.h"
 
 void func_0218C3B0(unsigned char *p, int a, int b);
 
 void func_0218C89C(unsigned char *p, int v)
 {
     if (p != 0)
-        func_0218C3B0(p + 0xC, *(int *)(p + 4), v);
+        func_0218C3B0(p + 0xC, ((struct Obj19539 *)p)->f4, v);
 }

@@ -16,6 +16,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj05290.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -33,9 +34,9 @@ void func_021BBB84(u8 *p, unsigned index)
     Vec2 pos;
     int x, y;
     int state;
-    *(unsigned *)(p + 0x58) = func_0204B3F4(*(void **)(p + 0x54));
-    func_0204B3DC(*(void **)(p + 0x54), 1);
-    if (func_021BF6DC(*(u8 **)(p + 4)) == 0 && index != 254) {
+    ((struct Obj05290 *)p)->f58 = func_0204B3F4(((struct Obj05290 *)p)->f54);
+    func_0204B3DC(((struct Obj05290 *)p)->f54, 1);
+    if (func_021BF6DC(*(u8 * *)&((struct Obj05290 *)p)->f4) == 0 && index != 254) {
         pos.x = 48 + 80 * (index % 3U);
         pos.y = 64 + 24 * (index / 3U);
         state = 31;
@@ -51,6 +52,6 @@ void func_021BBB84(u8 *p, unsigned index)
             break;
         }
     }
-    func_0204B404(*(void **)(p + 0x54), &pos, 0);
-    func_0204B878(*(void **)(p + 0x54), state);
+    func_0204B404(((struct Obj05290 *)p)->f54, &pos, 0);
+    func_0204B878(((struct Obj05290 *)p)->f54, state);
 }

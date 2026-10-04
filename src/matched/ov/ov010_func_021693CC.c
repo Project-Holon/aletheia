@@ -12,8 +12,9 @@
  * Unlabelled leaf (no push, so disasm.py printed it as a .word run);
  * called from ov021 func_0218D05C.
  */
+#include "../include/Obj19040.h"
 
 void func_021693CC(char *p)
 {
-    *(int *)(p + 0x98) = 0;
+    ((struct Obj19040 *)p)->f98 = 0;
 }

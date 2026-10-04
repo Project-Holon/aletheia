@@ -15,6 +15,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D706C 0x021D706C thumb ov123
  */
+#include "../include/Obj10443.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
@@ -22,4 +23,4 @@ extern int func_021D5C0C(char *p);
 extern void func_021D5B70(char *p);
 extern void func_021D6EE0(u8 *,u32,int);
 extern void func_021D706C(char *);
-void func_021D6F44(u8 *p){if(func_021D5C0C((char *)(*(int *)(p+8)))){func_021D5B70((char *)(*(int *)(p+8)));*(int *)(p+8)=0;func_021D6EE0(p,(u32)func_021D706C,0x17c);}}
+void func_021D6F44(u8 *p){if(func_021D5C0C((char *)(((struct Obj10443 *)p)->f8))){func_021D5B70((char *)(((struct Obj10443 *)p)->f8));((struct Obj10443 *)p)->f8=0;func_021D6EE0(p,(u32)func_021D706C,0x17c);}}

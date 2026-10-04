@@ -21,6 +21,10 @@
  *   func_02049238 0x02049238 arm
  *   d_021DC854 0x021DC854 data a1
  */
+#include "../include/Obj01549.h"
+#include "../include/Obj06487.h"
+#include "../include/Obj06488.h"
+#include "../include/Obj10527.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -49,30 +53,30 @@ u8 *func_021DBAD0(u8 *a,const u8 *b)
     u8 *e;
     int mode;
     void *bm;
-    blk=func_02030734(*(u16 *)(a+4),0x24,1,d_021DC854,0x8a);
-    bm=*(void *const *)b;
-    *(void **)blk=bm;
+    blk=func_02030734(((struct Obj06487 *)a)->f4,0x24,1,d_021DC854,0x8a);
+    bm=*(void *const *)&((struct Obj01549 *)b)->f0;
+    ((struct Obj06488 *)blk)->f0=bm;
     cols=((u32)func_020437DC(bm)>>6)&0xff;
-    rows=((u32)func_020437E4(*(void *const *)b)>>5)&0xff;
-    if(func_020437DC(*(void *const *)b)%64!=0) cols=cols+1;
-    if(func_020437E4(*(void *const *)b)%32!=0) rows=rows+1;
+    rows=((u32)func_020437E4(*(void *const *)&((struct Obj01549 *)b)->f0)>>5)&0xff;
+    if(func_020437DC(*(void *const *)&((struct Obj01549 *)b)->f0)%64!=0) cols=cols+1;
+    if(func_020437E4(*(void *const *)&((struct Obj01549 *)b)->f0)%32!=0) rows=rows+1;
     blk[0x22]=cols;
     blk[0x23]=rows;
-    *(u16 *)(blk+0x20)=*(const u16 *)(b+0x12);
-    *(u32 *)(blk+0x10)=*(const u32 *)(b+0x14);
-    heap=func_020490F4(0x4e,*(u16 *)(a+4));
+    ((struct Obj06488 *)blk)->f20=*(const u16 *)&((struct Obj01549 *)b)->f12;
+    ((struct Obj06488 *)blk)->f10=*(const u32 *)&((struct Obj01549 *)b)->f14;
+    heap=func_020490F4(0x4e,((struct Obj06487 *)a)->f4);
     for(i=0;i<rows;i++) {
         for(j=0;j<cols;j++) {
             row=blk+i*cols*4;
-            mode=func_021DBEA4(a,*(const u32 *)(b+0x14),(u32)heap);
+            mode=func_021DBEA4(a,*(const u32 *)&((struct Obj01549 *)b)->f14,(u32)heap);
             e=row+j*4;
-            *(void **)(e+0x14)=(void *)func_0204A6C8(heap,7,0,*(const u32 *)(b+0x14),*(u16 *)(a+4));
-            d.x=*(const s16 *)(b+4)+(j<<6);
-            d.y=*(const s16 *)(b+6)+(i<<5);
+            ((struct Obj10527 *)e)->f14=(void *)func_0204A6C8(heap,7,0,*(const u32 *)&((struct Obj01549 *)b)->f14,((struct Obj06487 *)a)->f4);
+            d.x=*(const s16 *)&((struct Obj01549 *)b)->f4+(j<<6);
+            d.y=*(const s16 *)&((struct Obj01549 *)b)->f6+(i<<5);
             d.kind=b[0x10];
             d.flag=b[0x11];
-            *(void **)(e+4)=func_0204B294((void *)*(u32 *)a,*(u32 *)(e+0x14),*(const u32 *)(b+8),*(u32 *)(a+8+mode*4),&d,*(const u16 *)(b+0x12),*(u16 *)(a+4));
-            func_0204B6F4(*(void **)(blk+(u32)j*4+4),*(const u32 *)(b+0xc),0);
+            ((struct Obj10527 *)e)->f4=func_0204B294((void *)((struct Obj06487 *)a)->f0,*(u32 *)&((struct Obj10527 *)e)->f14,*(const u32 *)&((struct Obj01549 *)b)->f8,*(u32 *)(a+8+mode*4),&d,*(const u16 *)&((struct Obj01549 *)b)->f12,((struct Obj06487 *)a)->f4);
+            func_0204B6F4(*(void **)(blk+(u32)j*4+4),*(const u32 *)&((struct Obj01549 *)b)->fC,0);
         }
     }
     func_02049238(heap);

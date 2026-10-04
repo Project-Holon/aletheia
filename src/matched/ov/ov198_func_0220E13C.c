@@ -15,6 +15,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_0220E168 0x0220E168 thumb ov198
  */
+#include "../include/Obj02247.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct CharBuf;extern void func_0201F73C(void *,int,int,int);extern void *func_02045770(struct Descriptor *);extern void func_02043B5C(struct CharBuf *,u8);extern void func_0220E168(char *);
-void func_0220E13C(u8 *p){func_0201F73C(*(void **)(p+0x1f68),2,1,14);func_02043B5C(func_02045770(*(struct Descriptor **)(p+0x1f68)),15);func_0220E168((char *)p);}
+void func_0220E13C(u8 *p){func_0201F73C(((struct Obj02247 *)p)->f1F68,2,1,14);func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj02247 *)p)->f1F68),15);func_0220E168((char *)p);}

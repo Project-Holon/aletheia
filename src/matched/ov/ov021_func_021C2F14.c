@@ -15,6 +15,7 @@
  *   func_021C2F50  0x021C2F50  thumb  ov021
  *   func_021C2ECC  0x021C2ECC  thumb  ov021
  */
+#include "../include/Obj12922.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,8 +33,8 @@ int func_021C2F14(u8 *p, const char *name)
     int r;
 
     func_021C2F50((char *)&t, name);
-    if (p != 0 && *(u16 *)(p + 0x34) != 0)
-        r = func_0206E62C(p + *(u16 *)(p + 0x34), &t);
+    if (p != 0 && ((struct Obj12922 *)p)->f34 != 0)
+        r = func_0206E62C(p + ((struct Obj12922 *)p)->f34, &t);
     else
         r = 0;
     if (r == 0)

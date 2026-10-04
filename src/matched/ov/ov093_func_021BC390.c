@@ -12,16 +12,17 @@
  * symbols:
  *   func_021BC3B0 0x021BC3B0 thumb ov093
  */
+#include "../include/Obj05189.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BC3B0(int *);
 int func_021BC390(u8 *p)
 {
     int result = 0;
-    u32 *out = *(u32 **)(p + 12);
+    u32 *out = *(u32 * *)&((struct Obj05189 *)p)->fC;
     out[0] = 0;
     out[1] = 0;
     func_021BC3B0((int *)p);
-    if (**(u32 **)(p + 12)) result = 1;
+    if (**(u32 * *)&((struct Obj05189 *)p)->fC) result = 1;
     return result;
 }

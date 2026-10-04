@@ -12,6 +12,7 @@
  * symbols:
  *   sub_020266C0 0x020266C0  thumb
  */
+#include "../include/Obj04053.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,8 +33,8 @@ void func_020264B4(void *p, int idx, u16 val0, u8 val3, u32 val4, int flag)
         return;
     }
     if (old0 != val0) {
-        *(u16 *)(elem + 2) = old0;
-        *(u16 *)elem = val0;
+        ((struct Obj04053 *)elem)->f2 = old0;
+        ((struct Obj04053 *)elem)->f0 = val0;
     }
     old5 = elem[5];
     if (old5 == val3) {

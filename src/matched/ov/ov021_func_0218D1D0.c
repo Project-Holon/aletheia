@@ -18,6 +18,7 @@
  *   func_0218DD9C  0x0218DD9C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02687.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,20 +50,20 @@ void func_0218D1D0(char *p, void *a, Elem *e)
     int t;
     int s;
 
-    n = *(u16 *)(p + 0x14) * *(u16 *)(p + 0x16);
-    rows = *(u32 *)(p + 0x18) / n;
-    if (*(u32 *)(p + 0x18) % n != 0)
+    n = ((struct Obj02687 *)p)->f14 * ((struct Obj02687 *)p)->f16;
+    rows = ((struct Obj02687 *)p)->f18 / n;
+    if (((struct Obj02687 *)p)->f18 % n != 0)
         rows++;
-    s = *(int *)(p + 4);
-    base = func_0207C768(*(int *)(p + 4), 0x2000);
+    s = ((struct Obj02687 *)p)->f4;
+    base = func_0207C768(((struct Obj02687 *)p)->f4, 0x2000);
     idx = 0;
-    t = *(int *)(p + 8);
+    t = ((struct Obj02687 *)p)->f8;
     for (row = 0; row < rows; row++) {
         for (col = 0; col < n; col++) {
             y = FX_Mul(row << 12, t);
-            c = col % *(u16 *)(p + 0x14);
-            r = col / *(u16 *)(p + 0x14);
-            if (idx >= *(u32 *)(p + 0x18))
+            c = col % ((struct Obj02687 *)p)->f14;
+            r = col / ((struct Obj02687 *)p)->f14;
+            if (idx >= ((struct Obj02687 *)p)->f18)
                 idx = -1;
             func_0218DD80(e + idx, idx);
             func_0218DD9C(e + idx, base + FX_Mul(c << 12, s), y, base + FX_Mul(r << 12, s));

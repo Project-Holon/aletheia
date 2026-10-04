@@ -27,6 +27,8 @@
  *   func_02007B5C 0x02007B5C thumb
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj00589.h"
+#include "../include/Obj22755.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void * func_02012EBC(void *);
@@ -41,37 +43,37 @@ void func_021E02E8(char *p)
 {
     void *dest,*src;
     u32 n;
-    dest=*(void **)(p+0x60c);
+    dest=((struct Obj00589 *)p)->f60C;
     if(dest) {
-        src=*(void **)(p+0x82c);
+        src=((struct Obj00589 *)p)->f82C;
         func_02012EBC(src);
         src=func_02008FEC(src);
         n=func_02008FFC();
         func_02082D44(dest,src,n);
         func_020307B0(dest);
     }
-    dest=*(void **)(p+0x610);
+    dest=((struct Obj00589 *)p)->f610;
     if(dest) {
-        src=func_02012F2C(*(void **)(p+0x82c));
+        src=func_02012F2C(((struct Obj00589 *)p)->f82C);
         n=func_02008C20();
         func_02082D44(dest,src,n);
         func_020307B0(dest);
     }
-    if(*(void **)(p+0x614)) func_021E017C(*(void **)(p+0x82c),*(void **)(p+0x614));
-    if(*(void **)(p+0x618)) func_021E01E0(*(void **)(p+0x82c),*(void **)(p+0x618));
-    if(*(void **)(p+0x61c)) func_021E0240(*(void **)(p+0x82c),*(void **)(p+0x61c));
-    if(*(void **)(p+0x620)) {
-        func_0201AC2C(*(void **)(p+0x620),*(void **)(p+0x838));
-        func_020086F8((void *)func_02012FCC((int)(*(void **)(p+0x82c))),p+0x628);
-        func_020307B0(*(void **)(p+0x620));
-        *(int *)(p+0x620)=0;
+    if(((struct Obj00589 *)p)->f614) func_021E017C(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f614);
+    if(((struct Obj00589 *)p)->f618) func_021E01E0(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f618);
+    if(((struct Obj00589 *)p)->f61C) func_021E0240(((struct Obj00589 *)p)->f82C,((struct Obj00589 *)p)->f61C);
+    if(((struct Obj00589 *)p)->f620) {
+        func_0201AC2C(((struct Obj00589 *)p)->f620,((struct Obj00589 *)p)->f838);
+        func_020086F8((void *)func_02012FCC((int)(((struct Obj00589 *)p)->f82C)),p+0x628);
+        func_020307B0(((struct Obj00589 *)p)->f620);
+        *(int *)&((struct Obj00589 *)p)->f620=0;
     }
-    if(*(void **)(p+0x624)) {
-        n=func_02007AEC(*(void **)(p+0x624));
-        src=func_02007AF4(*(void **)(p+0x828),*(u16 *)(*(char **)(p+8)+0x28));
-        func_02082D44(*(void **)(p+0x624),src,n);
-        func_020307B0(*(void **)(p+0x624));
+    if(((struct Obj00589 *)p)->f624) {
+        n=func_02007AEC(((struct Obj00589 *)p)->f624);
+        src=func_02007AF4(((struct Obj00589 *)p)->f828,((struct Obj22755 *)(*(char * *)&((struct Obj00589 *)p)->f8))->f28);
+        func_02082D44(((struct Obj00589 *)p)->f624,src,n);
+        func_020307B0(((struct Obj00589 *)p)->f624);
     }
-    if(*(int *)(p+0x62c)) func_02007B5C(func_02012F98(*(void **)(p+0x82c)));
+    if(((struct Obj00589 *)p)->f62C) func_02007B5C(func_02012F98(((struct Obj00589 *)p)->f82C));
     func_02082BCC(p+0x60c,0,0x24);
 }

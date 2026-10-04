@@ -23,6 +23,8 @@
  *   func_02040EBC 0x02040EBC arm
  *   func_021F6720 0x021F6720 thumb ov215
  */
+#include "../include/Obj03372.h"
+#include "../include/Obj25737.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,10 +47,10 @@ void func_021F5C20(int a,char *p)
 {
     u8 i;
     for (i=0;i<=7;i++) func_02040588(i,0);
-    *(void **)(p+4)=func_021F63CC(1,*(u16 *)p);
-    *(void **)(p+8)=func_0201D7EC(23,0,0,0,*(u16 *)p);
-    *(u32 *)(p+12)=func_0201C440((void *)(u32)*(u16 *)p);
-    *(void **)(p+0x28)=func_020056A0((u32)func_021F5C08,(u32)p,1);
+    ((struct Obj03372 *)p)->f4=func_021F63CC(1,((struct Obj03372 *)p)->f0);
+    ((struct Obj03372 *)p)->f8=func_0201D7EC(23,0,0,0,((struct Obj03372 *)p)->f0);
+    ((struct Obj03372 *)p)->fC=func_0201C440((void *)(u32)((struct Obj03372 *)p)->f0);
+    ((struct Obj03372 *)p)->f28=func_020056A0((u32)func_021F5C08,(u32)p,1);
     func_021F5D4C(a,p);
     func_021F5DAC(a,(struct Context *)p);
     func_021F6060(a,p);
@@ -63,5 +65,5 @@ void func_021F5C20(int a,char *p)
     func_0207D63C((u32 *)0x04000050,1,47,0,0);
     func_02040EBC(0,0x4210);
     func_02040EBC(4,0);
-    *(char **)(p+0x80)=func_021F6720(*(u16 *)p,*(void **)((u32)a+4));
+    *(char * *)&((struct Obj03372 *)p)->f80=func_021F6720(((struct Obj03372 *)p)->f0,((struct Obj25737 *)((u32)a))->f4);
 }

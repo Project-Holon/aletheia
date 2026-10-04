@@ -19,11 +19,12 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj16114.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 void func_0204EDA4(u8 *dst, u16 *src)
 {
-    *(u16 *)(dst + 0x22) = *src;
+    ((struct Obj16114 *)dst)->f22 = *src;
 }

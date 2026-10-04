@@ -19,6 +19,7 @@
  *   func_022110E0 0x022110E0 thumb ov198
  *   func_0220E13C 0x0220E13C thumb ov198
  */
+#include "../include/Obj02536.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_02021ED8(const char *ptr);
@@ -32,14 +33,14 @@ extern void func_022110E0(u8 **, unsigned, unsigned);
 extern void func_0220E13C(u8 *);
 int func_022112AC(u8 *p)
 {
-    if (func_02021ED8(*(void **)(p + 0x1d8)) != 0) return 8;
+    if (func_02021ED8(((struct Obj02536 *)p)->f1D8) != 0) return 8;
     if (func_02211958((u8 **)p) == 1) return 0x1f;
     if (func_02210A4C(p) == 1) {
         if ((*(u8 **)p)[0x20] == 6) {
             func_02211970((u8 **)p, 0x552);
             func_0220B760(p, 6);
             (*(u8 **)p)[0x20] = p[0x2498];
-            *(unsigned *)(p + 0x217c) = 0xc;
+            ((struct Obj02536 *)p)->f217C = 0xc;
             return 0x1d;
         }
         if ((*(u8 **)p)[0x20] == p[0x2498]) return 0xc;
@@ -52,7 +53,7 @@ int func_022112AC(u8 *p)
             return 9;
         }
         func_0220E13C(p);
-        *(unsigned *)(p + 0x217c) = 0xa;
+        ((struct Obj02536 *)p)->f217C = 0xa;
         return 0x17;
     }
     return 8;

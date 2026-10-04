@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj00105.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ int func_021588B0(int a0, int a1, int a2)
 
 a2 = a0 + 0;
 a0 = a1 + 0;
-a1 = *(int *)((char *)a2 + 0x14);
-a2 = *(int *)((char *)a2 + 0x10);
+a1 = *(int *)&((struct Obj00105 *)a2)->f14;
+a2 = *(int *)&((struct Obj00105 *)a2)->f10;
     a0 = ((int (*)())a2)(a0, a1, a2);
 loc_021588BC:
     return a0;}

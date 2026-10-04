@@ -19,6 +19,16 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
+#include "../include/Obj00509.h"
+#include "../include/Obj14557.h"
+#include "../include/Obj25156.h"
+#include "../include/Obj25157.h"
+#include "../include/Obj25158.h"
+#include "../include/Obj25159.h"
+#include "../include/Obj25160.h"
+#include "../include/Obj25161.h"
+#include "../include/Obj25162.h"
+#include "../include/Obj25163.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -49,35 +59,35 @@ void func_0220CDF0(u8 *p,int index)
     u32 otherWidth;
     u16 x;
     elem=p+4+func_022110D4(p,index)*0x4C;
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x26);
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1FD8)),0,0,(u32)text,*(u32 *)(*(u8 **)p+12),0x3DC0);
-    *(u8 *)(p+0x1FDC)=1;
+    text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x26);
+    context=((struct Obj00509 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1FD8),0,0,(u32)text,((struct Obj25156 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x3DC0);
+    ((struct Obj00509 *)p)->f1FDC=1;
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x29);
-    width=func_0201D304(text,*(u32 *)(*(u8 **)p+12),0);
-    x=((func_02045738(*(void **)(p+0x1F90))<<3)-width)>>1;
-    secondContext=*(void **)(p+0x1EAC);
-    func_0201C724(secondContext,(u32)func_02045770(*(void **)(p+0x1F90)),(s16)x,0,(u32)text,*(u32 *)(*(u8 **)p+12),0x2120);
-    *(u8 *)(p+0x1F94)=1;
+    text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x29);
+    width=func_0201D304(text,((struct Obj25157 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0);
+    x=((func_02045738(((struct Obj00509 *)p)->f1F90)<<3)-width)>>1;
+    secondContext=((struct Obj00509 *)p)->f1EAC;
+    func_0201C724(secondContext,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)x,0,(u32)text,((struct Obj25158 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    ((struct Obj00509 *)p)->f1F94=1;
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x27);
-    buf=func_020457B0(8,*(u16 *)(*(u8 **)p+16));
-    func_0201EFA4(*(void **)(p+0x1EA4),0,*(u16 *)(elem+0x10),3,0,1);
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
-    otherWidth=func_0201D304(buf,*(u32 *)(*(u8 **)p+12),0);
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F90)),(s16)(x-otherWidth),0,(u32)buf,*(u32 *)(*(u8 **)p+12),0x2120);
-    *(u8 *)(p+0x1F94)=1;
+    text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x27);
+    buf=func_020457B0(8,((struct Obj25159 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
+    func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f10,3,0,1);
+    func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
+    otherWidth=func_0201D304(buf,((struct Obj25160 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0);
+    context=((struct Obj00509 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x-otherWidth),0,(u32)buf,((struct Obj25161 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    ((struct Obj00509 *)p)->f1F94=1;
     func_02045808(text);
     func_02045808(buf);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x28);
-    buf=func_020457B0(8,*(u16 *)(*(u8 **)p+16));
-    func_0201EFA4(*(void **)(p+0x1EA4),0,*(u16 *)(elem+0x12),3,0,1);
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F90)),(s16)(x+width),0,(u32)buf,*(u32 *)(*(u8 **)p+12),0x2120);
-    *(u8 *)(p+0x1F94)=1;
+    text=func_02045EC0(((struct Obj00509 *)p)->f1EA0,0x28);
+    buf=func_020457B0(8,((struct Obj25162 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->f10);
+    func_0201EFA4(((struct Obj00509 *)p)->f1EA4,0,((struct Obj14557 *)elem)->f12,3,0,1);
+    func_0201F250(((struct Obj00509 *)p)->f1EA4,buf,text);
+    context=((struct Obj00509 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(((struct Obj00509 *)p)->f1F90),(s16)(x+width),0,(u32)buf,((struct Obj25163 *)(*(u8 * *)&((struct Obj00509 *)p)->f0))->fC,0x2120);
+    ((struct Obj00509 *)p)->f1F94=1;
     func_02045808(text);
     func_02045808(buf);
 }

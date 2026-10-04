@@ -12,12 +12,13 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj25770.h"
 
 extern void func_020307B0(void *);
 
 void func_021BC378(char *p)
 {
-    func_020307B0(*(void **)(p + 0x120));
+    func_020307B0(((struct Obj25770 *)p)->f120);
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned short *)0x04000050 = 0;
 }

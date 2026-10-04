@@ -12,12 +12,13 @@
  * symbols:
  *   func_02050DB8  0x02050DB8  arm
  */
+#include "../include/Obj14401.h"
 
 typedef unsigned char  u8;
 extern void func_02050DB8(u8 *p);
 
 void func_021B681C(int *p)
 {
-    func_02050DB8((u8 *)(*(int *)((char *)p + 0x2c)));
-    *(int *)((char *)p + 0x2c) = 0;
+    func_02050DB8((u8 *)(((struct Obj14401 *)p)->f2C));
+    ((struct Obj14401 *)p)->f2C = 0;
 }

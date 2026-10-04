@@ -13,6 +13,8 @@
  * symbols:
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj06543.h"
+#include "../include/Obj23807.h"
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-void func_021E172C(char *p,unsigned short *q) { unsigned int index;unsigned short value; index=*(volatile unsigned short *)q;value=*(volatile unsigned short *)q;*(unsigned short *)(p+index*4+0x7c)=value;*(unsigned short *)(p+index*4+0x7e)=q[1];if(q[1]==func_02039338())*(unsigned int *)(p+0x2c)=q[0]; }
+void func_021E172C(char *p,unsigned short *q) { unsigned int index;unsigned short value; index=*(volatile unsigned short *)&((struct Obj06543 *)q)->f0;value=*(volatile unsigned short *)&((struct Obj06543 *)q)->f0;*(unsigned short *)(p+index*4+0x7c)=value;*(unsigned short *)(p+index*4+0x7e)=q[1];if(q[1]==func_02039338())((struct Obj23807 *)p)->f2C=q[0]; }

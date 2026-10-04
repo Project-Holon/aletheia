@@ -13,8 +13,9 @@
  *   func_02047828 0x02047828 arm
  *   func_02047A60 0x02047A60 arm
  */
+#include "../include/Obj06366.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 extern void func_02047910(int,u16,int); extern void func_02047828(int,int,int *); extern void func_02047A60(int,void *);
-void func_021B7F04(u8 *p) { int i,x,y; if(*(int *)(p+0x58)) { for(i=0;i<2;i++) func_02047910(*(int *)(p+16),i,4096); func_02047828(*(int *)(p+16),0,&x); y=0; if(x==0)y=1; *(int *)(p+0x5c)=y; func_02047A60(*(int *)(p+16),p+0x1c); } }
+void func_021B7F04(u8 *p) { int i,x,y; if(((struct Obj06366 *)p)->f58) { for(i=0;i<2;i++) func_02047910(((struct Obj06366 *)p)->f10,i,4096); func_02047828(((struct Obj06366 *)p)->f10,0,&x); y=0; if(x==0)y=1; ((struct Obj06366 *)p)->f5C=y; func_02047A60(((struct Obj06366 *)p)->f10,p+0x1c); } }

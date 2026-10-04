@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02029408.c \\
  *       --func func_02029408 --addr 0x02029408 --thumb --cc 1.1p1
  */
+#include "../include/Obj04741.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,13 +24,13 @@ extern void func_0203D12C(int a);
 
 u32 func_02029408(u8 *p)
 {
-    if (*(u32 *)(p + 0xc) == 0) {
+    if (((struct Obj04741 *)p)->fC == 0) {
         return 0;
     }
-    func_020063B4((u8 *)(*(u32 *)(p + 0xc)), (u32 *)((u32)(p + 0x14)), 1);
-    *(u32 *)(p + 0x10) = *(u32 *)(p + 0xc);
-    *(u32 *)(p + 0xc) = 0;
-    *(u32 *)(p + 8) = 0;
+    func_020063B4((u8 *)(((struct Obj04741 *)p)->fC), (u32 *)((u32)(p + 0x14)), 1);
+    ((struct Obj04741 *)p)->f10 = ((struct Obj04741 *)p)->fC;
+    ((struct Obj04741 *)p)->fC = 0;
+    ((struct Obj04741 *)p)->f8 = 0;
     func_0203D12C(2);
     return 1;
 }

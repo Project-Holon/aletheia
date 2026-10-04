@@ -11,11 +11,12 @@
  * symbols:
  *   func_021DE080 0x021DE080 thumb ov171
  */
+#include "../include/Obj00347.h"
 extern void func_021DE080(char *, int, int);
 int func_021DD500(char *p, int i, int n, int v)
 {
     func_021DE080(p, i, n);
-    *(int *)(p + 0xc64) = i;
-    *(int *)(p + 0xc68) = v;
+    ((struct Obj00347 *)p)->fC64 = i;
+    ((struct Obj00347 *)p)->fC68 = v;
     return 3;
 }

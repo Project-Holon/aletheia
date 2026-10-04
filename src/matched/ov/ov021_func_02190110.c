@@ -17,6 +17,7 @@
  *   func_0218EC90  0x0218EC90  thumb
  *   func_0218ECD4  0x0218ECD4  thumb
  */
+#include "../include/Obj19579.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ extern void func_0218ECD4(void *a, const Vec3 *p);
 
 void func_02190110(u8 *a)
 {
-    void *x = *(void **)(a + 4);
+    void *x = ((struct Obj19579 *)a)->f4;
     Params *p = (Params *)(func_021901E8(a) + 0x24);
     func_0218ED34(x, p->h0);
     func_0218ED48(x, p->h2);

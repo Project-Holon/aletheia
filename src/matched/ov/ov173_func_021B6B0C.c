@@ -12,6 +12,8 @@
  *   func_02017E40 0x02017E40 thumb
  *   func_0201C158 0x0201C158 thumb
  */
+#include "../include/Obj05450.h"
+#include "../include/Obj24157.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,12 +25,12 @@ int func_021B6B0C(char **p)
     char *q;
     u32 zero;
     q = *p;
-    func_02017E40(*(void **)q, *(u8 *)(q + 0x1b) + 0x36, func_021B7438(p));
+    func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x36, func_021B7438(p));
     q = *p;
     zero = 0;
-    func_02017E40(*(void **)q, *(u8 *)(q + 0x1b) + 0x3e, 0);
+    func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3e, 0);
     q = *p;
-    func_02017E40(*(void **)q, *(u8 *)(q + 0x1b) + 0x3a, func_0201C158(func_021B7438(p), 0));
-    *(u8 *)(*p + 0x1a) = zero;
+    func_02017E40(((struct Obj05450 *)q)->f0, ((struct Obj05450 *)q)->f1B + 0x3a, func_0201C158(func_021B7438(p), 0));
+    ((struct Obj24157 *)(*p))->f1A = zero;
     return 8;
 }

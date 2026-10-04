@@ -21,6 +21,7 @@
  *   func_02035C38  0x02035C38  arm
  *   func_0201CE5C  0x0201CE5C  thumb
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned int u32;
 
@@ -43,29 +44,29 @@ int func_021BADF0(int p)
 {
     int r;
 
-    if (*(int *)(p + 0x510) != 0) {
-        r = func_0201CE30((void *)(*(int *)(p + 0x510)));
-        func_020286C4((struct Ctx *)(*(int *)(p + 0x518)), (void *)(*(int *)(p + 0x510)), (void *)(*(int *)(p + 0x4FC)));
+    if (((struct Obj00002 *)p)->f510 != 0) {
+        r = func_0201CE30((void *)(((struct Obj00002 *)p)->f510));
+        func_020286C4((struct Ctx *)(((struct Obj00002 *)p)->f518), (void *)(((struct Obj00002 *)p)->f510), (void *)(((struct Obj00002 *)p)->f4FC));
         switch (r) {
         case 2:
-            func_0201CE48((struct Rec3 *)(*(int *)(p + 0x510)));
-            *(int *)(p + 0x510) = 0;
-            *(int *)(p + 0x514) = 0;
+            func_0201CE48((struct Rec3 *)(((struct Obj00002 *)p)->f510));
+            ((struct Obj00002 *)p)->f510 = 0;
+            ((struct Obj00002 *)p)->f514 = 0;
             break;
         case 1:
-            if (*(int *)(p + 0x514) == 0) {
+            if (((struct Obj00002 *)p)->f514 == 0) {
                 if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
                     func_020061E4(0x547);
-                    func_0201CE38((void *)(*(int *)(p + 0x510)));
-                    *(int *)(p + 0x514) = 1;
+                    func_0201CE38((void *)(((struct Obj00002 *)p)->f510));
+                    ((struct Obj00002 *)p)->f514 = 1;
                 }
             }
             break;
         case 0:
             if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-                func_0201CE5C((struct Rec *)(*(int *)(p + 0x510)), 0);
+                func_0201CE5C((struct Rec *)(((struct Obj00002 *)p)->f510), 0);
             }
-            *(int *)(p + 0x514) = 0;
+            ((struct Obj00002 *)p)->f514 = 0;
             break;
         }
         return 0;

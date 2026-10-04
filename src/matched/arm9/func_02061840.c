@@ -18,6 +18,7 @@
  *   python tools/match.py one --src src/matched/func_02061840.c \
  *       --func func_02061840 --addr 0x02061840 --arm --cc 1.1p1
  */
+#include "../include/Obj16393.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,5 +26,5 @@ typedef unsigned int   u32;
 
 u32 func_02061840(u8 *p, u32 v)
 {
-    return (u16)((v + 1) % *(u32 *)(p + 4));
+    return (u16)((v + 1) % ((struct Obj16393 *)p)->f4);
 }

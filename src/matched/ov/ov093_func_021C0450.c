@@ -22,6 +22,7 @@
  *   func_021C6564 0x021C6564 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,7 +54,7 @@ void func_021C0450(u8 *p, u8 *q, u16 c, int k)
         case 4: func_021C5480(p, q, 601); break;
         case 23: {
             union Slot s = func_021D7D18(2);
-            func_021CD4B0(*(void **)(p + 12), 49, func_021D5440(q), 0);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 49, func_021D5440(q), 0);
             func_021C5C1C(p, q, 2, s);
             func_021C5480(p, q, 598);
             break;

@@ -19,6 +19,7 @@
  *   func_021C88A4 0x021C88A4 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
+#include "../include/Obj06266.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -39,8 +40,8 @@ void func_021E072C(int unused, void *q, int id)
         target = func_021D775C(6);
         if (func_021D6D7C(func_021C7CF4(q, target)) == 0) {
             r = func_021C88A4(q, 14, id);
-            *(int *)(r + 4) = 7;
-            *(s8 *)(r + 12) = -1;
+            ((struct Obj06266 *)r)->f4 = 7;
+            ((struct Obj06266 *)r)->fC = -1;
             r[14] = 1;
             r[15] = 1;
             r[16] = target;

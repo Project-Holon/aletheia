@@ -24,6 +24,7 @@
  *   func_0204B8C4  0x0204B8C4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04424.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,12 +45,12 @@ void func_021B8810(int a0, int b, int c)
     u16 tmp[2];
 
     func_02082BCC(a0, 0, 0x1c);
-    *(int *)(a0 + 0x18) = b;
-    func_0204B878(*(int *)(a0 + 0x18), c != 0 ? 0xd : 0xc);
+    ((struct Obj04424 *)a0)->f18 = b;
+    func_0204B878(((struct Obj04424 *)a0)->f18, c != 0 ? 0xd : 0xc);
     func_021B88F8((int *)a0);
-    tmp[0] = (u16)*(u32 *)(a0 + 8);
-    tmp[1] = (u16)*(u32 *)(a0 + 0xc);
-    func_0204B404((struct Obj *)(*(int *)(a0 + 0x18)), (const struct Vec2 *)tmp, 1);
-    func_0204B3DC((struct Obj *)*(int *)(a0 + 0x18), 1);
-    func_0204B8C4((struct Obj *)(*(int *)(a0 + 0x18)), func_02005728(0x2000));
+    tmp[0] = (u16)((struct Obj04424 *)a0)->f8;
+    tmp[1] = (u16)((struct Obj04424 *)a0)->fC;
+    func_0204B404((struct Obj *)(((struct Obj04424 *)a0)->f18), (const struct Vec2 *)tmp, 1);
+    func_0204B3DC((struct Obj *)((struct Obj04424 *)a0)->f18, 1);
+    func_0204B8C4((struct Obj *)(((struct Obj04424 *)a0)->f18), func_02005728(0x2000));
 }

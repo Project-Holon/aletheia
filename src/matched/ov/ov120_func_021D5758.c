@@ -17,6 +17,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_021D69F4 0x021D69F4 thumb ov120
  */
+#include "../include/Obj05345.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -30,13 +31,13 @@ extern u8 func_020355C4(void);
 extern void func_021D69F4(u8 *p, void *q, u32 n);
 void func_021D5758(u8 *p)
 {
-    if (func_021D7AF4(*(void **)(p + 0x40))) {
-        if (--*(int *)(p + 0x14) <= 0) {
-            func_021D79F4(*(void **)(p + 0x40), 0x20);
-            func_021B64D0((u8 *)func_021D6988(*(void **)(p + 0x3c)), 1);
+    if (func_021D7AF4(((struct Obj05345 *)p)->f40)) {
+        if (--((struct Obj05345 *)p)->f14 <= 0) {
+            func_021D79F4(((struct Obj05345 *)p)->f40, 0x20);
+            func_021B64D0((u8 *)func_021D6988(((struct Obj05345 *)p)->f3C), 1);
             func_021D4244((int)p, (int)func_021D5AD4, 0x7c7);
             if (func_020355C4() == 0)
-                func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));
+                func_021D69F4(((struct Obj05345 *)p)->f3C, 0, ((struct Obj05345 *)p)->f15C);
         }
     }
 }

@@ -39,6 +39,7 @@
  *   func_0216E3C4  0x0216E3C4  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05015.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -74,7 +75,7 @@ void func_0219F2B0(u32 a)
     flag = 0;
     f = 0;
     q = (u8 *)func_0216D6F0((void *)a);
-    if (*(u16 *)q != 0xFFFF) {
+    if (((struct Obj05015 *)q)->f0 != 0xFFFF) {
         r = func_0219C9DC((u8 *)func_0216D910(a));
         x = func_0219FFD4(a);
         if (func_0216D598((void *)a) == 0xCC) {
@@ -91,13 +92,13 @@ void func_0219F2B0(u32 a)
         w = (u16)(k + x);
         if (q[4] != x) {
             q[4] = x;
-            func_0205082C(r, *(u16 *)q, w);
+            func_0205082C(r, ((struct Obj05015 *)q)->f0, w);
             flag = 1;
         }
-        func_021A000C(a, r, *(u16 *)q, flag, f);
+        func_021A000C(a, r, ((struct Obj05015 *)q)->f0, flag, f);
     func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
     r = func_02050080((u32 *)r);
-    func_0204F638((u8 *)r, *(u16 *)q, (struct Trip *)buf);
+    func_0204F638((u8 *)r, ((struct Obj05015 *)q)->f0, (struct Trip *)buf);
     }
 }

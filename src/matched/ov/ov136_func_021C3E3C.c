@@ -15,6 +15,9 @@
  *   func_021C409C 0x021C409C thumb ov136
  *   func_02031324 0x02031324 arm
  */
+#include "../include/Obj08196.h"
+#include "../include/Obj08197.h"
+#include "../include/Obj23488.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0203064C(unsigned, unsigned, unsigned);
@@ -28,11 +31,11 @@ int func_021C3E3C(void *a, void *b, u8 *p)
     func_0203064C(1, 0x63, 0x1000);
     q = func_0203159C(a, 0x20, 0x63);
     func_02082AC0(0, q, 0x20);
-    *(unsigned *)q = 0x63;
-    *(u8 **)(q + 0x10) = func_021C409C(*(void **)(p + 0x14), 0x63);
-    if (*(u16 *)p == 1) (*(u8 **)(q + 0x10))[0xB] = p[0xF];
+    ((struct Obj08197 *)q)->f0 = 0x63;
+    *(u8 * *)&((struct Obj08197 *)q)->f10 = func_021C409C(((struct Obj08196 *)p)->f14, 0x63);
+    if (((struct Obj08196 *)p)->f0 == 1) (*(u8 **)(q + 0x10))[0xB] = p[0xF];
     if ((*(u8 **)(q + 0x10))[0xB] >= 0xC) (*(u8 **)(q + 0x10))[0xB] = 0;
-    *(u16 *)(*(u8 **)(q + 0x10)) = *(u16 *)p;
-    *(void **)(q + 0x1C) = func_02031324(0x63);
+    ((struct Obj23488 *)(*(u8 * *)&((struct Obj08197 *)q)->f10))->f0 = ((struct Obj08196 *)p)->f0;
+    ((struct Obj08197 *)q)->f1C = func_02031324(0x63);
     return 1;
 }

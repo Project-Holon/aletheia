@@ -15,6 +15,7 @@
  *   func_021B9DD0  0x021B9DD0  thumb  ov088
  *   func_021B9F68  0x021B9F68  thumb  ov088
  */
+#include "../include/Obj07719.h"
 
 extern void func_021B99E0(void *, unsigned short);
 extern void func_021B9BD4(void *, unsigned short);
@@ -23,8 +24,8 @@ extern void func_021B9F68(void *, unsigned short);
 
 void func_021B9928(unsigned char *p)
 {
-    func_021B99E0(p + 0x08, *(unsigned short *)(p + 2));
-    func_021B9BD4(p + 0x14, *(unsigned short *)(p + 2));
-    func_021B9DD0(p + 0x40, *(unsigned short *)(p + 2));
-    func_021B9F68(p + 0x54, *(unsigned short *)(p + 2));
+    func_021B99E0(p + 0x08, ((struct Obj07719 *)p)->f2);
+    func_021B9BD4(p + 0x14, ((struct Obj07719 *)p)->f2);
+    func_021B9DD0(p + 0x40, ((struct Obj07719 *)p)->f2);
+    func_021B9F68(p + 0x54, ((struct Obj07719 *)p)->f2);
 }

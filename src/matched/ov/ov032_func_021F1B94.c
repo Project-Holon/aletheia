@@ -27,6 +27,8 @@
  *   func_021F05E8 0x021F05E8 thumb ov032
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj00007.h"
+#include "../include/Obj01037.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,13 +56,13 @@ void func_021F1B94(void *h, u8 *t)
     char *p;
     int r;
 
-    p = *(char **)(t + 0x1c);
-    if (*(int *)(t + 8) > 0)
+    p = *(char * *)&((struct Obj01037 *)t)->f1C;
+    if (((struct Obj01037 *)t)->f8 > 0)
         return;
     switch (t[0]) {
     case 0:
         func_021F0A98(p, d_021F352C[t[3]]);
-        func_021F0B80(p, (void *)(*(u32 *)(p + 0x11c)), (unsigned int)((int *)(t + 8)));
+        func_021F0B80(p, (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (unsigned int)((int *)(t + 8)));
         t[0]++;
         break;
     case 1:
@@ -85,7 +87,7 @@ void func_021F1B94(void *h, u8 *t)
             t[0] = 3;
             break;
         case 1:
-            p[0x7f] = *(int *)(t + 0xc);
+            p[0x7f] = ((struct Obj01037 *)t)->fC;
             func_021F253C(p, 5);
             t[0] = 4;
             break;
@@ -95,7 +97,7 @@ void func_021F1B94(void *h, u8 *t)
         }
         break;
     case 4:
-        if (*(u8 *)(p + 0x7f) != 0x30) {
+        if (*(u8 *)&((struct Obj00007 *)p)->f7F != 0x30) {
             p[0x7f] = 0x30;
             t[0] = 3;
             break;
@@ -117,7 +119,7 @@ void func_021F1B94(void *h, u8 *t)
     default:
         func_021F05E8(p, 4, 0);
         func_021F029C(p, 0);
-        (**(int **)(t + 0x20))--;
+        (**(int * *)&((struct Obj01037 *)t)->f20)--;
         func_02031194(h);
         break;
     }

@@ -14,6 +14,7 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  */
+#include "../include/Obj19151.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_020306F0(unsigned int heap);
 
 int func_0216F228(void *a, int b, int c, char *d)
 {
-    func_020307B0(*(void **)(d + 0x18));
+    func_020307B0(((struct Obj19151 *)d)->f18);
     func_020315D4(a);
     func_020306F0(0x26);
     return 1;

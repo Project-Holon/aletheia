@@ -14,6 +14,7 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_021E8568 0x021E8568 thumb ov177
  */
+#include "../include/Obj02888.h"
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
@@ -23,8 +24,8 @@ extern u32 func_0201C440(void *p);
 extern void *func_021E8568(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
 void func_0217AF50(char *p)
 {
-    *(void **)(p+0xc)=func_0201D7EC(0x17,0,0,0,*(unsigned short *)p);
-    *(void **)(p+0x10)=func_02045B38(0,2,4,*(unsigned short *)p);
-    *(void **)(p+0x14)=(void *)func_0201C440((void *)(*(unsigned short *)p));
-    *(void **)(p+8)=func_021E8568(0,15,14,10,*(void **)(p+0x14),*(void **)(p+0xc),*(unsigned short *)p);
+    ((struct Obj02888 *)p)->fC=func_0201D7EC(0x17,0,0,0,((struct Obj02888 *)p)->f0);
+    ((struct Obj02888 *)p)->f10=func_02045B38(0,2,4,((struct Obj02888 *)p)->f0);
+    ((struct Obj02888 *)p)->f14=(void *)func_0201C440((void *)(((struct Obj02888 *)p)->f0));
+    ((struct Obj02888 *)p)->f8=func_021E8568(0,15,14,10,((struct Obj02888 *)p)->f14,((struct Obj02888 *)p)->fC,((struct Obj02888 *)p)->f0);
 }

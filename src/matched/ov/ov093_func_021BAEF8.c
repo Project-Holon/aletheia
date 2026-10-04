@@ -27,6 +27,7 @@
  *   func_021B916C 0x021B916C thumb ov093
  *   func_021BABF4 0x021BABF4 thumb ov093
  */
+#include "../include/Obj01235.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BB724(u8 *p, int a, int b, int c);
@@ -65,7 +66,7 @@ int func_021BAEF8(u8 *p, int *s)
     case 2:
         if (func_021BB798(p)) {
             func_021BB7D0(p);
-            if (func_021BA618(*(u8 **)(p + 0xc))) {
+            if (func_021BA618(*(u8 * *)&((struct Obj01235 *)p)->fC)) {
                 func_021BABEC(p, (void *)func_021BB280);
                 break;
             }
@@ -84,12 +85,12 @@ int func_021BAEF8(u8 *p, int *s)
         break;
     case 4:
         func_021BB7D0(p);
-        func_021BBD80(*(u8 **)(p + 0x44));
+        func_021BBD80(*(u8 * *)&((struct Obj01235 *)p)->f44);
         (*s)++;
     case 5:
-        *(int *)(p + 0x48) = func_021BBD8C(*(u8 **)(p + 0x44), p + 0xb4);
+        ((struct Obj01235 *)p)->f48 = func_021BBD8C(*(u8 * *)&((struct Obj01235 *)p)->f44, p + 0xb4);
         {
-            int *q = *(int **)(p + 0xcb0);
+            int *q = *(int * *)&((struct Obj01235 *)p)->fCB0;
             func_021BB724(p, 8, (int)(q + 2), *q);
         }
         (*s)++;
@@ -97,7 +98,7 @@ int func_021BAEF8(u8 *p, int *s)
     case 6:
         if (func_021BB798(p)) {
             func_021BB7D0(p);
-            switch (*(int *)(p + 0x48)) {
+            switch (((struct Obj01235 *)p)->f48) {
             case 2:
                 *s = 0;
                 break;
@@ -105,7 +106,7 @@ int func_021BAEF8(u8 *p, int *s)
                 *s = 5;
                 break;
             case 4:
-                func_021B916C((u8 *)(*(int *)(p + 0xc)), func_021C84D8((u8 *)(*(int *)(p + 0x44))));
+                func_021B916C((u8 *)(*(int *)&((struct Obj01235 *)p)->fC), func_021C84D8((u8 *)(*(int *)&((struct Obj01235 *)p)->f44)));
                 func_021BABEC(p, (void *)func_021BB280);
                 break;
             case 5:

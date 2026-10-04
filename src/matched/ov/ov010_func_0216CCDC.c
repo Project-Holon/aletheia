@@ -21,6 +21,7 @@
  *   func_0216D4DC  0x0216D4DC  thumb  ov010
  *   d_02172B48     0x02172B48  data  ov010  a1
  */
+#include "../include/Obj02669.h"
 
 typedef unsigned int   u32;
 typedef unsigned short u16;
@@ -36,15 +37,15 @@ void func_0216CCDC(char *a, int b, int c, int d, int e, int f)
 {
     int t;
     unsigned short h;
-    *(int *)(a + 0x34) = e;
-    *(short *)(a + 0xa) = b;
-    *(int *)(a + 0x30) = c;
-    *(int *)(a + 0x3c) = d;
-    t = (int)func_02030734(b, func_02030CB0(*(unsigned short *)(a + 4)), 0, d_02172B48, 0x109);
-    h = *(unsigned short *)(a + 4);
-    *(int *)(a + 0x1c) = t;
-    *(int *)(a + 0x20) = (int)func_02030CBC(h, (struct Ctx *)t);
-    *(int *)(a + 0x10) = func_020490F4(0x31, b);
-    *(int *)(a + 0x38) = f;
+    ((struct Obj02669 *)a)->f34 = e;
+    ((struct Obj02669 *)a)->fA = b;
+    ((struct Obj02669 *)a)->f30 = c;
+    ((struct Obj02669 *)a)->f3C = d;
+    t = (int)func_02030734(b, func_02030CB0(((struct Obj02669 *)a)->f4), 0, d_02172B48, 0x109);
+    h = ((struct Obj02669 *)a)->f4;
+    ((struct Obj02669 *)a)->f1C = t;
+    ((struct Obj02669 *)a)->f20 = (int)func_02030CBC(h, (struct Ctx *)t);
+    ((struct Obj02669 *)a)->f10 = func_020490F4(0x31, b);
+    ((struct Obj02669 *)a)->f38 = f;
     func_0216D4DC(a, 0x10);
 }

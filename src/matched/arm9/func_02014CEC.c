@@ -8,9 +8,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj15658.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 void func_02014CEC(u8 *p, u32 value)
 {
-    *(u32 *)(p + 8) = value;
+    ((struct Obj15658 *)p)->f8 = value;
 }

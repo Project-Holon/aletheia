@@ -12,9 +12,10 @@
  * symbols:
  *   func_021E777C 0x021E777C thumb ov177
  */
+#include "../include/Obj00171.h"
 struct Work;
 extern int func_021E777C(struct Work *);
 int func_021D6460(char *p)
 {
-    return func_021E777C(*(struct Work **)(p + 0x1c));
+    return func_021E777C(*(struct Work * *)&((struct Obj00171 *)p)->f1C);
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_0203FB44 0x0203FB44 arm
  */
+#include "../include/Obj25728.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern void func_0203FB44(u32,u16,u16);
-void func_021BAC3C(int unused,u8 *p){u32 v=*(u32 *)(p+0x2c0);func_0203FB44(2,v,v>>16);}
+void func_021BAC3C(int unused,u8 *p){u32 v=((struct Obj25728 *)p)->f2C0;func_0203FB44(2,v,v>>16);}

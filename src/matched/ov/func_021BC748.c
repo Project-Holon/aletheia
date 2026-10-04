@@ -15,6 +15,7 @@
  *   func_0204B084  0x0204B084  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00575.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ extern void func_0204B084(u32 v);
 
 void func_021BC748(u8 *p)
 {
-    u32 v = *(u32 *)(p + 56);
+    u32 v = ((struct Obj00575 *)p)->f38;
     if (v != 0) {
         func_0204B084(v);
-        *(u32 *)(p + 56) = 0;
+        ((struct Obj00575 *)p)->f38 = 0;
     }
 }

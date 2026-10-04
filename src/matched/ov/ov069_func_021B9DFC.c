@@ -15,6 +15,7 @@
  *   func_02045770  0x02045770  arm
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj06172.h"
 
 typedef unsigned int   u32;
 struct PrintSys;
@@ -29,9 +30,9 @@ void func_021B9DFC(unsigned char *p)
     int i;
     int h;
 
-    func_0201C4E4((struct PrintSys *)(*(int *)(p + 0xE8)));
+    func_0201C4E4((struct PrintSys *)(((struct Obj06172 *)p)->fE8));
     for (i = 0; i < 18; i++) {
-        h = *(int *)(p + 0xE8);
+        h = ((struct Obj06172 *)p)->fE8;
         if (p[i * 8 + 0x5C] != 0) {
             if (func_0201C6C4((struct PrintSys *)h, (void *)((int)func_02045770((struct Descriptor *)*(int *)(p + i * 8 + 0x58)))) == 0) {
                 func_02045334((struct Descriptor *)*(int *)(p + i * 8 + 0x58));

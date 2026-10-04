@@ -15,6 +15,7 @@
  *
  * candidate func_021E7D3C: state machine step
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021EBB64(unsigned char *p, unsigned v, int i);
@@ -22,12 +23,12 @@ extern int func_021E8F50(char *p, int v);
 void func_021E7D3C(char *p)
 {
     int v;
-    func_021EBB64((unsigned char *)((int)p), *(unsigned short *)(p + 0x10), 0x18);
-    v = *(int *)(*(int *)p + 0x24);
+    func_021EBB64((unsigned char *)((int)p), ((struct Obj00000 *)p)->f10, 0x18);
+    v = *(int *)(*(int *)&((struct Obj00000 *)p)->f0 + 0x24);
     if (v == 3)
-        *(int *)(p + 0x28) = 0x3c;
+        ((struct Obj00000 *)p)->f28 = 0x3c;
     else
-        *(int *)(p + 0x28) = 0xe;
+        ((struct Obj00000 *)p)->f28 = 0xe;
     func_021E8F50((char *)((int)p), 6);
 }
 

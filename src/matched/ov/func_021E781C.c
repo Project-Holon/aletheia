@@ -24,6 +24,7 @@
  * second record #4 gets the 4<<22 flag in its header word and the two-string
  * tail (c and the key).
  */
+#include "../include/Obj07237.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,12 +53,12 @@ void func_021E781C(void *a, int b, int c)
     k = (u8)func_021D775C(6);
     r = func_021C7CF4((int *)b, k);
     p = func_021C88A4(b, 0x14, c);
-    *(u8 *)(p + 6) = c;
-    *(u16 *)(p + 4) = func_021D57FC(r);
-    *(u8 *)(p + 7) = 1;
+    ((struct Obj07237 *)p)->f6 = c;
+    ((struct Obj07237 *)p)->f4 = func_021D57FC(r);
+    ((struct Obj07237 *)p)->f7 = 1;
     func_021C88C8((void *)b, p);
     p = func_021C88A4(b, 4, c);
-    *(u32 *)p |= 4 << 22;
+    ((struct Obj07237 *)p)->f0 |= 4 << 22;
     func_021C8838(p + 4, 2, 0x441);
     func_021C8860((struct S *)(p + 4), c);
     func_021C8860((struct S *)(p + 4), k);

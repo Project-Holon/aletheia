@@ -12,10 +12,11 @@
  *   func_021BCB70 0x021BCB70 thumb ov099
  *   func_021BCBBC 0x021BCBBC thumb ov099
  */
+#include "../include/Obj07954.h"
 extern int func_021BCB70(int,int,int *);
 extern int func_021BCBBC(int,int,int *);
 int func_021BDDF4(char *p) {
  int out;
- if (func_021BCB70(*(int *)(p+0x1348),*(int *)(p+0xc4),&out) && func_021BCBBC(*(int *)(p+0x1348),*(int *)(p+0xcc),&out)) return 0;
+ if (func_021BCB70(((struct Obj07954 *)p)->f1348,((struct Obj07954 *)p)->fC4,&out) && func_021BCBBC(((struct Obj07954 *)p)->f1348,((struct Obj07954 *)p)->fCC,&out)) return 0;
  return 1;
 }

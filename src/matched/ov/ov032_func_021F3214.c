@@ -14,6 +14,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204BA20 0x0204BA20 arm
  */
+#include "../include/Obj13068.h"
 
 typedef struct {
     short x;
@@ -39,7 +40,7 @@ void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short 
     r.w = w;
     r.h = h;
     r.z = z;
-    res = func_0204B294((void *)*(unsigned *)(p + 0x128), a, b, c, &r, 0, *(unsigned short *)(p + 0x94));
+    res = func_0204B294((void *)((struct Obj13068 *)p)->f128, a, b, c, &r, 0, ((struct Obj13068 *)p)->f94);
     func_0204B92C(res, 1);
     func_0204BA20(res, 0);
     return res;

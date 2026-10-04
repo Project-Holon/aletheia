@@ -14,6 +14,7 @@
  * symbols:
  *   func_0218C88C  0x0218C88C  thumb  ov021
  */
+#include "../include/Obj00959.h"
 
 typedef unsigned char u8;
 
@@ -25,6 +26,6 @@ void func_021C0C48(u8 *p)
 
     for (i = 0; i < p[0x15]; i++)
         func_0218C88C((unsigned char *)(((int *)(p + 0x1C))[i]), 0, 2);
-    if (*(int *)(p + 0x34) != 0)
-        func_0218C88C((unsigned char *)(*(int *)(p + 0x38)), 0, 0);
+    if (((struct Obj00959 *)p)->f34 != 0)
+        func_0218C88C((unsigned char *)(((struct Obj00959 *)p)->f38), 0, 0);
 }

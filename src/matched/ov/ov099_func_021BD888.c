@@ -13,6 +13,8 @@
  *   func_021BA858 0x021BA858 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj13693.h"
+#include "../include/Obj13694.h"
 extern void func_0201DD68(void);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
@@ -24,16 +26,16 @@ int func_021BD888(char *p, int v)
     t = func_021BA858(p);
     if (t == -1) return v;
     if (t == 0) {
-        *(int *)(p + 0x1cc) = 0x80;
+        ((struct Obj13693 *)p)->f1CC = 0x80;
     } else {
-        *(int *)(p + 0x1cc) = 0x86;
+        ((struct Obj13693 *)p)->f1CC = 0x86;
     }
     func_021BA8EC(p);
     return v;
 }
 int func_021BD8C0(char *p, int v)
 {
-    *(unsigned char *)(p + 0x1353) = 0x4a;
-    *(int *)(p + 0x1cc) = 0x8a;
+    ((struct Obj13694 *)p)->f1353 = 0x4a;
+    ((struct Obj13694 *)p)->f1CC = 0x8a;
     return v;
 }

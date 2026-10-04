@@ -16,6 +16,7 @@
  *   func_02027A04 0x02027A04 thumb
  *   func_02186694 0x02186694 thumb ov023
  */
+#include "../include/Obj03625.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
@@ -27,9 +28,9 @@ extern void func_02186694(char *);
 int func_02186660(char *p)
 {
     int r = 2;
-    func_02027974(*(struct Obj **)(p + 0x178));
-    if (func_020279E8(*(struct TaskMenu **)(p + 0x178)) != 0) {
-        u8 v = func_02027A04(*(const u8 **)(p + 0x178));
+    func_02027974(*(struct Obj * *)&((struct Obj03625 *)p)->f178);
+    if (func_020279E8(*(struct TaskMenu * *)&((struct Obj03625 *)p)->f178) != 0) {
+        u8 v = func_02027A04(*(const u8 * *)&((struct Obj03625 *)p)->f178);
         r = 0;
         if (v != 0) r = 1;
         func_02186694(p);

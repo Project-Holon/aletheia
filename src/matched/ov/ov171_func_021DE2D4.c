@@ -14,6 +14,7 @@
  *   func_021DE064 0x021DE064 thumb ov171
  *   d_021DEBA4 0x021DEBA4 data a4
  */
+#include "../include/Obj01756.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Bank;
@@ -24,12 +25,12 @@ extern const char d_021DEBA4[];
 void func_021DE2D4(char *p)
 {
     unsigned i;
-    *(int *)(p + 0xb70) = (int)func_0204B100(31, 0, 0x8c);
+    *(int *)&((struct Obj01756 *)p)->fB70 = (int)func_0204B100(31, 0, 0x8c);
     for (i = 0; i < 16; ++i)
         *(int *)(p + 0xb74 + i * 4) = 0;
     for (i = 12; i <= 15; ++i)
         *(int *)(p + 0xb74 + i * 4) = func_021DE290(p, d_021DEBA4 + (i * 24 - 0x120));
-    if (*(u8 *)(p + 0xc5f) == 1) {
+    if (((struct Obj01756 *)p)->fC5F == 1) {
         func_021DE064((int *)p, 12, 0);
         func_021DE064((int *)p, 13, 0);
     }

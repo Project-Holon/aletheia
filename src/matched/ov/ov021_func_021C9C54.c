@@ -19,6 +19,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ void func_021C9C54(u8 *p)
     u32 m;
 
     p[8] = func_021CA270(p[9]);
-    func_0200D884((struct Blk3C *)(*(u32 *)(p + 0x70)), 5, p + 0x1e);
+    func_0200D884((struct Blk3C *)(((struct Obj00116 *)p)->f70), 5, p + 0x1e);
     h = func_021CA210(p);
     for (i = 0; i < p[8]; i++) {
         m = (u32)func_0201AB28(h, p[0x1e + i]);

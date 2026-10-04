@@ -23,6 +23,7 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  */
+#include "../include/Obj01767.h"
 typedef unsigned short u16;
 struct Data { void *a, *b, *c, *d; u16 heap; u16 pad; void *e; };
 typedef unsigned int   u32;
@@ -45,23 +46,23 @@ int func_021E050C(void *task, int unused, char *q)
 {
     struct Data *p;
     int entries[3];
-    func_021FC20C((char *)(*(int *)(q + 8)));
-    func_021FC214(*(char **)(q + 8));
-    p = func_0203159C(task, 24, func_021F9B9C(*(void **)(q + 12)));
+    func_021FC20C((char *)(*(int *)&((struct Obj01767 *)q)->f8));
+    func_021FC214(*(char * *)&((struct Obj01767 *)q)->f8);
+    p = func_0203159C(task, 24, func_021F9B9C(((struct Obj01767 *)q)->fC));
     func_02082BCC(p, 0, 24);
-    p->heap = func_021F9B9C(*(void **)(q + 12));
-    func_021FB964((void *)(*(int *)(q + 8)), 29, p->heap);
-    func_021FBE54(*(char **)(q + 8), 11, p->heap);
-    func_021FBE54(*(char **)(q + 8), 12, p->heap);
-    func_021FBE54(*(char **)(q + 8), 6, p->heap);
-    p->e = func_021FD760((unsigned int)(*(void **)(q + 4)), (char *)(*(int *)(q + 8)), 1, p->heap);
+    p->heap = func_021F9B9C(((struct Obj01767 *)q)->fC);
+    func_021FB964((void *)(*(int *)&((struct Obj01767 *)q)->f8), 29, p->heap);
+    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 11, p->heap);
+    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 12, p->heap);
+    func_021FBE54(*(char * *)&((struct Obj01767 *)q)->f8, 6, p->heap);
+    p->e = func_021FD760((unsigned int)(((struct Obj01767 *)q)->f4), (char *)(*(int *)&((struct Obj01767 *)q)->f8), 1, p->heap);
     entries[0] = 2;
     entries[1] = 5;
     entries[2] = 5;
-    p->a = func_021E07A4(p->heap, 12, *(void **)(q + 4), (void *)(*(int *)(q + 8)), p->e, entries);
+    p->a = func_021E07A4(p->heap, 12, ((struct Obj01767 *)q)->f4, (void *)(*(int *)&((struct Obj01767 *)q)->f8), p->e, entries);
     p->b = func_021E06D0(p->a, p->heap);
     p->d = (void *)func_0201C440((void *)p->heap);
-    p->c = func_021FD12C(*(int *)(q + 8), p->d, p->heap);
-    func_021FD170(p->c, (char *)(*(int *)(q + 8)), (void *)104);
+    p->c = func_021FD12C(*(int *)&((struct Obj01767 *)q)->f8, p->d, p->heap);
+    func_021FD170(p->c, (char *)(*(int *)&((struct Obj01767 *)q)->f8), (void *)104);
     return 1;
 }

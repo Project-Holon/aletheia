@@ -56,6 +56,7 @@
  *   func_021C88E4 0x021C88E4 thumb ov093
  *   func_021CC95C 0x021CC95C thumb ov093
  */
+#include "../include/Obj21086.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -135,7 +136,7 @@ void func_021C3438(u8 *p, u16 *q, u8 *a, u8 *out)
             category = func_021D7AD4(item);
             event1 = 0;
             event2 = 0;
-            flags = *(struct Flags **)(p + 0x4a8);
+            flags = *(struct Flags * *)&((struct Obj21086 *)p)->f4A8;
             if (!flags->a) flags->a = 1;
             if (func_021D6D7C(b)) {
                 half = func_021C3720(p, b, q, category);

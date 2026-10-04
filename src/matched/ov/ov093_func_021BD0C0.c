@@ -18,6 +18,7 @@
  *   func_021D82FC  0x021D82FC  thumb  ov093
  *   func_021BCCE0  0x021BCCE0  thumb  ov093
  */
+#include "../include/Obj09960.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -37,7 +38,7 @@ int func_021BD0C0(u8 *p, u8 x, u32 y)
             e = func_021BCA50(p, e, x);
         }
         if (e[0xd] == 0) {
-            if (func_021BDE48(*(void **)e, e + 4)) return 0;
+            if (func_021BDE48(((struct Obj09960 *)e)->f0, e + 4)) return 0;
             if (func_021D8454(e + 4) == 6) return 0;
             func_021D82FC(e + 4, func_021BD138(p + 0x1ab8, y));
             func_021BCCE0(p, e);

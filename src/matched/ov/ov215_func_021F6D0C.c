@@ -16,12 +16,13 @@
  *   entry), so neither label nor sole-ref/code can attest the bl site;
  *   byte-correct.
  */
+#include "../include/Obj14711.h"
 
 extern void func_02015E04(void *p);
 
 int func_021F6D0C(char *a)
 {
-    func_02015E04((void *)(*(int *)(a + 0x34)));
-    *(int *)(a + 0x38) = 1;
+    func_02015E04((void *)(((struct Obj14711 *)a)->f34));
+    ((struct Obj14711 *)a)->f38 = 1;
     return 1;
 }

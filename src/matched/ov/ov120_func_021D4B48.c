@@ -28,6 +28,7 @@
  *   d_021D8B40 0x021D8B40 data a2
  *   d_021D8B50 0x021D8B50 data a1
  */
+#include "../include/Obj01539.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,29 +60,29 @@ void func_021D4B48(u8 *p)
     void *q;
     int i;
     Record *r;
-    if (func_021D7AF4(*(void **)(p + 0x40))) {
+    if (func_021D7AF4(((struct Obj01539 *)p)->f40)) {
         if (func_0203CD98() == 0) {
-            func_021D8590(*(u8 **)(p + 0x40), (int)func_021D505C, (int)p);
+            func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
             func_021D4244((int)p, (int)func_021D4988, 0x3ea);
             return;
         }
         func_0203D644(0);
-        func_02009CA8((void *)(*(u32 *)(p + 0x44)), values);
-        values[0] = *(u32 *)(p + 0x14c);
-        values[1] = *(u32 *)(p + 0x138);
-        values[2] = *(u32 *)(p + 0x144);
-        values[3] = *(u32 *)(p + 0x13c);
-        values[4] = *(u32 *)(p + 0x140);
+        func_02009CA8((void *)(((struct Obj01539 *)p)->f44), values);
+        values[0] = ((struct Obj01539 *)p)->f14C;
+        values[1] = ((struct Obj01539 *)p)->f138;
+        values[2] = ((struct Obj01539 *)p)->f144;
+        values[3] = ((struct Obj01539 *)p)->f13C;
+        values[4] = ((struct Obj01539 *)p)->f140;
         values[5] = 0x20015;
         values[6] = 1;
         values[7] = 0;
-        if (*(u32 *)(p + 0x138) == 1) {
-            if (*(int *)(p + 0x148) == -1)
+        if (((struct Obj01539 *)p)->f138 == 1) {
+            if (((struct Obj01539 *)p)->f148 == -1)
                 values[2] = 4;
             else {
-                q = func_021D4F70(*(void **)(p + 0x2c), *(int *)(p + 0x148));
+                q = func_021D4F70(((struct Obj01539 *)p)->f2C, ((struct Obj01539 *)p)->f148);
                 values[7] = func_02008530(q);
-                *(u32 *)(p + 0x18) = func_02008530(q);
+                ((struct Obj01539 *)p)->f18 = func_02008530(q);
             }
         }
         for (i = 0; i < 8; i++) {
@@ -90,11 +91,11 @@ void func_021D4B48(u8 *p)
             r->value = values[i];
             r->kind = func_0216C8DC(r->kind, (char *)(&r->detail), (int *)r);
         }
-        func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(u32 *)(p + 0x138), 1);
+        func_0208D7E0((char *)p + 0xb8, d_021D8B50, ((struct Obj01539 *)p)->f138, 1);
         if (func_0215580C((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
             func_0203C35C();
             func_02156BC4(0);
-            func_021D8590(*(u8 **)(p + 0x40), (int)func_021D505C, (int)p);
+            func_021D8590(*(u8 * *)&((struct Obj01539 *)p)->f40, (int)func_021D505C, (int)p);
             func_021D4244((int)p, (int)func_021D4988, 0x41d);
             return;
         }

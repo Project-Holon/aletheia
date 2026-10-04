@@ -13,6 +13,8 @@
  *   func_0203C9AC  0x0203C9AC  arm
  *   func_02036428  0x02036428  arm
  */
+#include "../include/Obj06939.h"
+#include "../include/Obj11355.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +41,7 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     func_0203D798();
     func_0203D6BC();
     g = lbl_021469D0;
-    *(u32 *)(g + 0x1b0) = *(u32 *)(g + 0x1b0) - 1;
+    ((struct Obj11355 *)g)->f1B0 = ((struct Obj11355 *)g)->f1B0 - 1;
     if (p == 0)
         return 0;
     if (a0 == 0)
@@ -55,8 +57,8 @@ int func_02038924(u32 a0, u8 *p, s32 n)
     if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
         func_02039548();
         q = func_0203CA98();
-        if (*(u32 *)(q + 0xc) == 0)
-            func_0203C9AC(*(u32 *)q, *(u32 *)(q + 4), *(u32 *)(q + 8), 0x3f2);
+        if (((struct Obj06939 *)q)->fC == 0)
+            func_0203C9AC(((struct Obj06939 *)q)->f0, ((struct Obj06939 *)q)->f4, ((struct Obj06939 *)q)->f8, 0x3f2);
         return 0;
     }
     *(u8 *)(lbl_021469D0 + 0x1d6) = p[5];

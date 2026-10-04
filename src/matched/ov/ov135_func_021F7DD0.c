@@ -14,6 +14,8 @@
  *   func_021F886C 0x021F886C thumb ov135
  *   func_021F81C8 0x021F81C8 thumb ov135
  */
+#include "../include/Obj01942.h"
+#include "../include/Obj23389.h"
 typedef unsigned char u8;
 extern int func_021F99F0(void *p);
 extern void func_0201F7A8(void *p, unsigned kind);
@@ -24,23 +26,23 @@ typedef unsigned int   u32;
 extern void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int mode, int place, void *g);
 int func_021F7DD0(u8 *p)
 {
-    unsigned result = func_021F99F0(*(void **)(p + 0xDE4));
+    unsigned result = func_021F99F0(((struct Obj01942 *)p)->fDE4);
     switch (result) {
     case 12: case (unsigned)-2:
-        func_0201F7A8(*(void **)(p + 0xD40), 0);
-        if (func_021F7B9C(p + 0xB50, *(int *)(*(u8 **)(p + 0xE00) + 0x20))) {
-            *(unsigned *)(p + 0x28) = 0;
+        func_0201F7A8(((struct Obj01942 *)p)->fD40, 0);
+        if (func_021F7B9C(p + 0xB50, ((struct Obj23389 *)(*(u8 * *)&((struct Obj01942 *)p)->fE00))->f20)) {
+            ((struct Obj01942 *)p)->f28 = 0;
         } else {
-            *(unsigned *)(p + 0x28) = 7;
+            ((struct Obj01942 *)p)->f28 = 7;
         }
         break;
     case (unsigned)-1:
         break;
     default:
         func_021F882C(p + 0xB50, result, 0);
-        *(unsigned *)(p + 0x28) = 13;
-        result = func_021F886C(*(signed char *)(p + 0xB53), *(signed char *)(p + 0xB54), 0);
-        func_021F81C8(*(void **)(p + 0xB6C), *(void **)(p + 0xB70), (int)(*(void **)(p + 0xB68)), p + 0xD90, *(short *)(p + 0xB50), *(signed char *)(p + 0xB52), result, p + 0xFA0);
+        ((struct Obj01942 *)p)->f28 = 13;
+        result = func_021F886C(((struct Obj01942 *)p)->fB53, ((struct Obj01942 *)p)->fB54, 0);
+        func_021F81C8(((struct Obj01942 *)p)->fB6C, ((struct Obj01942 *)p)->fB70, (int)(((struct Obj01942 *)p)->fB68), p + 0xD90, ((struct Obj01942 *)p)->fB50, ((struct Obj01942 *)p)->fB52, result, p + 0xFA0);
         break;
     }
     return 2;

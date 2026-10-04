@@ -16,6 +16,7 @@
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
  */
+#include "../include/Obj02170.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Bank;
@@ -36,11 +37,11 @@ void func_021D584C(u8 *p) {
             *(u32 *)(p + i * 4 + 0x99c) = 0;
         }
     }
-    func_0204ADA4(*(u32 *)(p + 0x98c));
-    func_0204A8D4(*(u32 *)(p + 0x990));
-    func_0204AFD8(*(u32 *)(p + 0x994));
-    if (*(u32 *)(p + 0x988)) func_02030EAC((struct Node *)(*(u32 *)(p + 0x988)));
-    func_02030EAC((struct Node *)(*(u32 *)(p + 0x984)));
-    func_0204B1CC((struct Bank *)(*(u32 *)(p + 0x980)));
+    func_0204ADA4(((struct Obj02170 *)p)->f98C);
+    func_0204A8D4(((struct Obj02170 *)p)->f990);
+    func_0204AFD8(((struct Obj02170 *)p)->f994);
+    if (((struct Obj02170 *)p)->f988) func_02030EAC((struct Node *)(((struct Obj02170 *)p)->f988));
+    func_02030EAC((struct Node *)(((struct Obj02170 *)p)->f984));
+    func_0204B1CC((struct Bank *)(((struct Obj02170 *)p)->f980));
     func_0204A5AC();
 }

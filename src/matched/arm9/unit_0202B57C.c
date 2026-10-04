@@ -19,15 +19,17 @@
  *   python tools/match.py tu --src src/matched/unit_0202B57C.c \
  *       --addr 0x0202B57C --thumb
  */
+#include "../include/Obj17265.h"
+#include "../include/Obj17266.h"
 
 typedef unsigned int u32;
 
 u32 sub_0202B57C(void *obj)
 {
-    return *(u32 *)((char *)obj + 0x24);
+    return ((struct Obj17265 *)obj)->f24;
 }
 
 u32 sub_0202B580(void *obj)
 {
-    return *(u32 *)((char *)obj + 0x18);
+    return ((struct Obj17266 *)obj)->f18;
 }

@@ -20,6 +20,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj01041.h"
 
 typedef struct {
     unsigned short a, b, c;
@@ -45,19 +46,19 @@ void func_021B9E14(char *p, int id)
 {
     void *bg;
     Rect r;
-    if (*(int *)(p + 0x6A0) != 0) {
+    if (*(int *)&((struct Obj01041 *)p)->f6A0 != 0) {
         func_021B9DE8(p);
     }
-    bg = func_020490F4(0x19, *(unsigned short *)(p + 0x544));
-    *(int *)(p + 0x548) = func_0204AC18(bg, func_02020E60(id, 2), 1, 0, 0, 1, *(unsigned short *)(p + 0x544));
-    *(int *)(p + 0x54C) = func_0204A6C8(bg, func_02020E60(id, 1), 0, 1, *(unsigned short *)(p + 0x544));
+    bg = func_020490F4(0x19, ((struct Obj01041 *)p)->f544);
+    ((struct Obj01041 *)p)->f548 = func_0204AC18(bg, func_02020E60(id, 2), 1, 0, 0, 1, ((struct Obj01041 *)p)->f544);
+    ((struct Obj01041 *)p)->f54C = func_0204A6C8(bg, func_02020E60(id, 1), 0, 1, ((struct Obj01041 *)p)->f544);
     func_02049238(bg);
     r.a = 0x84;
     r.b = 0x50;
     r.c = 0;
     r.d = 0;
     r.e = 0;
-    *(int *)(p + 0x6A0) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x54C), *(int *)(p + 0x548), *(int *)(p + 0x550), &r, 1, *(unsigned short *)(p + 0x544));
-    func_0204B92C((struct Obj *)*(int *)(p + 0x6A0), 1);
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x6A0), 1);
+    *(int *)&((struct Obj01041 *)p)->f6A0 = (int)func_0204B294((void *)((struct Obj01041 *)p)->f69C, ((struct Obj01041 *)p)->f54C, ((struct Obj01041 *)p)->f548, ((struct Obj01041 *)p)->f550, &r, 1, ((struct Obj01041 *)p)->f544);
+    func_0204B92C((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
+    func_0204B3DC((struct Obj *)*(int *)&((struct Obj01041 *)p)->f6A0, 1);
 }

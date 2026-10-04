@@ -13,6 +13,7 @@
  *   func_0204ADEC 0x0204ADEC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22852.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,6 +25,6 @@ void func_021D6C60(u8 *p,int heap)
     void *out;
     void *raw;
     raw=func_02049F34(34,8,(u32)(&out),heap);
-    func_0204ADEC(*(void **)p,out,7);
+    func_0204ADEC(((struct Obj22852 *)p)->f0,out,7);
     func_020307B0(raw);
 }

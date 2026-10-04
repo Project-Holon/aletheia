@@ -18,6 +18,7 @@
  *   func_0200FB24  0x0200FB24  thumb
  *   func_02167B34  0x02167B34  thumb  ov010
  */
+#include "../include/Obj12971.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ int func_021CB700(u32 unused, u32 a)
     s = func_0215A5F4((void *)a);
     t = func_020120F4(func_02158F54(s));
     p = func_02012ED8(t);
-    q = func_02158FE0(s, t, *(u16 *)(p + 0x72A));
+    q = func_02158FE0(s, t, ((struct Obj12971 *)p)->f72A);
     if (func_0200FB24() != 0) {
         *q = 0;
         return 1;

@@ -20,6 +20,7 @@
  *   func_0201DD78  0x0201DD78  thumb
  *   d_021BABFC     0x021BABFC  data  a4
  */
+#include "../include/Obj00044.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -43,15 +44,15 @@ void func_021B98C4(char *a)
 {
     void *r6;
 
-    r6 = func_02045770(*(void **)(a + 0x280));
-    if (*(void **)(a + 0x294) == 0)
+    r6 = func_02045770(((struct Obj00044 *)a)->f280);
+    if (((struct Obj00044 *)a)->f294 == 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
-    func_0201CE48(*(void **)(a + 0x294));
-    *(void **)(a + 0x294) = 0;
-    func_02045808(*(void **)(a + 0x290));
-    *(void **)(a + 0x290) = 0;
-    func_0201F7A8(*(void **)(a + 0x280), 0);
+    func_0201CE48(((struct Obj00044 *)a)->f294);
+    ((struct Obj00044 *)a)->f294 = 0;
+    func_02045808(((struct Obj00044 *)a)->f290);
+    ((struct Obj00044 *)a)->f290 = 0;
+    func_0201F7A8(((struct Obj00044 *)a)->f280, 0);
     func_02043B5C(r6, 0xff);
-    func_02045334(*(void **)(a + 0x280));
+    func_02045334(((struct Obj00044 *)a)->f280);
     func_0201DD78(0xf, 2, 0);
 }

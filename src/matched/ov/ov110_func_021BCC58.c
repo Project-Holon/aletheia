@@ -14,6 +14,7 @@
  *   func_021BD248 0x021BD248 thumb ov110
  *   func_021BD264 0x021BD264 thumb ov110
  */
+#include "../include/Obj00295.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,7 +28,7 @@ extern void func_021BD264(void *);
 void func_021BCC58(u8 *p)
 {
     func_021BCAD8(p);
-    func_0204B3DC(*(void **)(p + 0x8c), 1);
-    if (func_021BF6DC(*(u8 **)(p + 4)) == 0) func_021BD248(p);
+    func_0204B3DC(((struct Obj00295 *)p)->f8C, 1);
+    if (func_021BF6DC(*(u8 * *)&((struct Obj00295 *)p)->f4) == 0) func_021BD248(p);
     else func_021BD264(p);
 }

@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14762.h"
 
 typedef unsigned short u16;
 
@@ -21,5 +22,5 @@ extern int func_021C0E08(int a0, int a1);
 
 void func_021C1DF0(char *p)
 {
-    *(int *)(p + 0xc) = func_021C0E08(0xa, *(u16 *)p);
+    ((struct Obj14762 *)p)->fC = func_021C0E08(0xa, ((struct Obj14762 *)p)->f0);
 }

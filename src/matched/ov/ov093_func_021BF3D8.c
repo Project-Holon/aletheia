@@ -23,6 +23,7 @@
  *   func_021B8FF4  0x021B8FF4  thumb  ov093
  *   func_021BA1B4  0x021BA1B4  thumb  ov093
  */
+#include "../include/Obj13315.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void func_021CC8A0(u32 *p);
@@ -53,8 +54,8 @@ void func_021BF3D8(u8 *p, int b, u8 *a, int d, void *arr)
             func_021BF48C(d, x);
             func_021C7C24((u16 *)(p + 0x1f7c), (int)p, a, x, 0);
             e = func_021B8DDC(func_021D5440(a));
-            if (e == func_021B8FF4(*(u8 **)(p + 4)))
-                func_021BA1B4(*(u8 **)(p + 4), 0x4b);
+            if (e == func_021B8FF4(*(u8 * *)&((struct Obj13315 *)p)->f4))
+                func_021BA1B4(*(u8 * *)&((struct Obj13315 *)p)->f4, 0x4b);
         }
         x = func_021BF49C(d);
     }

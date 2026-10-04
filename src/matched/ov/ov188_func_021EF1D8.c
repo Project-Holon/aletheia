@@ -12,14 +12,16 @@
  * symbols:
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj02907.h"
+#include "../include/Obj24897.h"
 
 extern void func_02082D44(void *, void *, int);
 
 int func_021EF1D8(char *p, char *a1)
 {
-    int v = *(int *)(a1 + 0x34);
+    int v = ((struct Obj24897 *)a1)->f34;
 
-    *(int *)(p + 0x98) = v;
-    func_02082D44(a1 + 0x38, *(void **)(p + 0x94), v);
+    ((struct Obj02907 *)p)->f98 = v;
+    func_02082D44(a1 + 0x38, ((struct Obj02907 *)p)->f94, v);
     return 1;
 }

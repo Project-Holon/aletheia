@@ -23,6 +23,7 @@
  *   func_021C5714 0x021C5714 thumb ov136
  *   func_021C5BE0 0x021C5BE0 thumb ov136
  */
+#include "../include/Obj04536.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,12 +44,12 @@ extern void func_020307B0(void *);
 extern void func_020306F0(u32);
 u32 func_021C6A5C(u8 *p)
 {
-    if (*(void **)(p + 0x2c) != 0) {
-        func_02030EAC(*(void **)(p + 0x2c));
-        *(void **)(p + 0x2c) = 0;
+    if (((struct Obj04536 *)p)->f2C != 0) {
+        func_02030EAC(((struct Obj04536 *)p)->f2C);
+        ((struct Obj04536 *)p)->f2C = 0;
     }
     func_021C5AA8(p);
-    func_021C5954(*(void **)(p + 8));
+    func_021C5954(((struct Obj04536 *)p)->f8);
     func_021C76A8(p);
     func_021C5E30(p);
     func_021C657C(p);
@@ -60,8 +61,8 @@ u32 func_021C6A5C(u8 *p)
     *(u16 *)0x04001050 = 0;
     func_02043534(0);
     func_020435F4(0);
-    func_020307B0(*(void **)(p + 8));
-    *(void **)(p + 8) = 0;
+    func_020307B0(((struct Obj04536 *)p)->f8);
+    ((struct Obj04536 *)p)->f8 = 0;
     func_020306F0(102);
-    return *(u32 *)(p + 0x28);
+    return ((struct Obj04536 *)p)->f28;
 }

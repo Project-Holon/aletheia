@@ -29,6 +29,7 @@
  *   d_021F3214     0x021F3214  data  a4
  *   d_021F3272     0x021F3272  data  a2
  */
+#include "../include/Obj00106.h"
 
 struct Bank;
 struct Ctx;
@@ -57,17 +58,17 @@ void func_021F1DE8(char *p, int flag)
 {
     int z;
 
-    *(unsigned char *)(p + 0x459) = func_02008550(func_02012944((int)func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
-    *(unsigned char *)(p + 0x458) = func_020090F0(*(int *)(p + 0x20));
+    ((struct Obj00106 *)p)->f459 = func_02008550(func_02012944((int)func_020120F4((const struct Ctx *)(((struct Obj00106 *)p)->f1C))));
+    ((struct Obj00106 *)p)->f458 = func_020090F0(((struct Obj00106 *)p)->f20);
     z = 0;
-    *(int *)(p + 0x34) = func_0204B100(0x44, 0, *(unsigned short *)(p + 0xc));
-    *(void **)(p + 0x38) = func_0204B034(d_021F3214, 1, *(unsigned short *)(p + 0xc));
-    func_0204B258((struct Bank *)(*(int *)(p + 0x34)), *(void **)(p + 0x38));
-    func_021F1458(p, *(unsigned char *)(p + 0x459), *(unsigned char *)(p + 0x458), 1);
-    func_021F1574(p, *(unsigned char *)(p + 0x459));
+    ((struct Obj00106 *)p)->f34 = func_0204B100(0x44, 0, ((struct Obj00106 *)p)->fC);
+    ((struct Obj00106 *)p)->f38 = func_0204B034(d_021F3214, 1, ((struct Obj00106 *)p)->fC);
+    func_0204B258((struct Bank *)(((struct Obj00106 *)p)->f34), ((struct Obj00106 *)p)->f38);
+    func_021F1458(p, ((struct Obj00106 *)p)->f459, ((struct Obj00106 *)p)->f458, 1);
+    func_021F1574(p, ((struct Obj00106 *)p)->f459);
     func_021F1950(p);
     func_021F1C0C(p);
-    *(int *)(p + 0x10) = func_02051B84(d_021F3272, (void *)func_021F18F0, p, *(unsigned short *)(p + 0xc));
+    ((struct Obj00106 *)p)->f10 = func_02051B84(d_021F3272, (void *)func_021F18F0, p, ((struct Obj00106 *)p)->fC);
     if (flag) {
         func_021F1010(p);
         func_021F1A64(p, z);

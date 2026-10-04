@@ -11,8 +11,9 @@
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
  */
+#include "../include/Obj15900.h"
 
 int func_02036624(void *p, int v)
 {
-    return v % *(int *)((char *)p + 4);
+    return v % ((struct Obj15900 *)p)->f4;
 }

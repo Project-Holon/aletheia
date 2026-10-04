@@ -14,6 +14,7 @@
  *   func_021CD4B0 0x021CD4B0 thumb ov093
  *   func_021CD64C 0x021CD64C thumb ov093
  */
+#include "../include/Obj04360.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -29,17 +30,17 @@ void func_021C5A8C(u8 *p, u8 *a, int c, int d, u16 msg, int flag)
     if (d > 0) {
         int x = func_021D5DC0((s8 *)a, c, d);
         u8 t = x;
-        func_021CD4B0(*(void **)(p + 12), 9, n, (u8)c, t);
-        func_021CD4B0(*(void **)(p + 12), 0x37, n, (u8)c, t);
+        func_021CD4B0(((struct Obj04360 *)p)->fC, 9, n, (u8)c, t);
+        func_021CD4B0(((struct Obj04360 *)p)->fC, 0x37, n, (u8)c, t);
         if (flag) {
-            if (msg == 0) func_021CD64C(*(void **)(p + 12), 0x5b, 0x1b, n, c, x, 0xffff0000);
-            else func_021CD64C(*(void **)(p + 12), 0x5b, 0x3aa, n, msg, c, x, 0xffff0000);
+            if (msg == 0) func_021CD64C(((struct Obj04360 *)p)->fC, 0x5b, 0x1b, n, c, x, 0xffff0000);
+            else func_021CD64C(((struct Obj04360 *)p)->fC, 0x5b, 0x3aa, n, msg, c, x, 0xffff0000);
         }
     } else {
         int x = func_021D5E38((s8 *)a, c, -d);
         u8 t = x;
-        func_021CD4B0(*(void **)(p + 12), 10, n, (u8)c, t);
-        func_021CD4B0(*(void **)(p + 12), 0x38, n, (u8)c, t);
-        func_021CD64C(*(void **)(p + 12), 0x5b, 0x5a, n, c, x, 0xffff0000);
+        func_021CD4B0(((struct Obj04360 *)p)->fC, 10, n, (u8)c, t);
+        func_021CD4B0(((struct Obj04360 *)p)->fC, 0x38, n, (u8)c, t);
+        func_021CD64C(((struct Obj04360 *)p)->fC, 0x5b, 0x5a, n, c, x, 0xffff0000);
     }
 }

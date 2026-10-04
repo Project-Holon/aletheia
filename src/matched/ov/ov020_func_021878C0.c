@@ -20,6 +20,7 @@
  *   d_02187E28     0x02187E28  data  ov020
  *   d_02187E38     0x02187E38  data  ov020
  */
+#include "../include/Obj19478.h"
 
 typedef unsigned short u16;
 
@@ -37,7 +38,7 @@ void func_020414AC(int a);
 void func_021878C0(char *o)
 {
     func_020433E0(d_02187E58);
-    func_0203F8F4(*(u16 *)(o + 8));
+    func_0203F8F4(((struct Obj19478 *)o)->f8);
     func_0203FC28(d_02187E28);
     func_0203FCA0(3, d_02187E38, 0);
     func_0204047C(0, 1);

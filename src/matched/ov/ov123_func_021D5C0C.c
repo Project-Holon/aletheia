@@ -10,5 +10,6 @@
  * symbols:
  *   g_021DAC20 0x021DAC20 data ov123 a4
  */
+#include "../include/Obj22945.h"
 extern char *g_021DAC20;
-int func_021D5C0C(char *p){if(*(int *)(g_021DAC20+0xb0)){if(!*(int *)(p+0xb4))return 1;}return 0;}
+int func_021D5C0C(char *p){if(*(int *)(g_021DAC20+0xb0)){if(!((struct Obj22945 *)p)->fB4)return 1;}return 0;}

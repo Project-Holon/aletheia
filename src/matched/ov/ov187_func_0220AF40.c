@@ -16,6 +16,7 @@
  *   func_0220B0F8 0x0220B0F8 thumb ov187
  *   d_0220B2A0 0x0220B2A0 data a4
  */
+#include "../include/Obj24881.h"
 extern void func_0203064C(unsigned, unsigned, unsigned);
 extern char *func_0203159C(unsigned, unsigned, unsigned);
 extern void *func_02082BCC(void *, int, unsigned);
@@ -29,7 +30,7 @@ int func_0220AF40(unsigned a, unsigned unused, unsigned mode)
     func_0203064C(1, 0x59, 0x12000);
     p = func_0203159C(a, 0x17f4, 0x59);
     func_02082BCC(p, 0, 0x17f4);
-    *(unsigned *)(p + 0x17f0) = mode;
+    ((struct Obj24881 *)p)->f17F0 = mode;
     func_0200B400(0x59);
     func_0220B008(p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
     func_0220B0F8(p, 0);

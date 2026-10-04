@@ -21,6 +21,7 @@
  *   func_0216D5A8  0x0216D5A8  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12074.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,9 +37,9 @@ if (func_02197EDC(a, b, c, d) == 0) {
     return 0;
 }
 if (func_0216D5A8(a) != 11) {
-    *(u32 *)((u8 *)(b) + 4) = 0;
+    ((struct Obj12074 *)((u8 *)(b)))->f4 = 0;
 }
-*(u8 *)((u8 *)(b) + 2) = 2;
+((struct Obj12074 *)((u8 *)(b)))->f2 = 2;
 return 1;
 }
 

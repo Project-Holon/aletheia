@@ -17,6 +17,8 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4808 0x021D4808 thumb ov120
  */
+#include "../include/Obj02831.h"
+#include "../include/Obj13929.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Rec0200E6FC;
@@ -38,22 +40,22 @@ void func_021D4864(u8 *p)
 {
     u8 *q;
     int value;
-    if (func_021D7AF4((char *)(*(int *)(p + 0x40)))) {
+    if (func_021D7AF4((char *)(((struct Obj02831 *)p)->f40))) {
         if (func_0203CD98() == 0) {
             func_021D4244((int)p, func_021D4808, 0x2fe);
             return;
         }
-        if (*(int *)(p + 0x14) > 0) {
-            *(int *)(p + 0x14) = *(int *)(p + 0x14) - 1;
+        if (((struct Obj02831 *)p)->f14 > 0) {
+            ((struct Obj02831 *)p)->f14 = ((struct Obj02831 *)p)->f14 - 1;
             return;
         }
         if (func_020399EC() == 2) {
-            q = *(u8 **)(p + 0x48);
-            value = (int)func_0200E6E8(*(int *)(p + 0x30));
-            *(int *)(q + 4) = *(int *)(p + 0x144);
-            *(int *)(q + 8) = *(int *)(p + 0x13c);
+            q = *(u8 * *)&((struct Obj02831 *)p)->f48;
+            value = (int)func_0200E6E8(((struct Obj02831 *)p)->f30);
+            ((struct Obj13929 *)q)->f4 = ((struct Obj02831 *)p)->f144;
+            ((struct Obj13929 *)q)->f8 = ((struct Obj02831 *)p)->f13C;
             func_0200E6FC((struct Rec0200E6FC *)value, 0, (struct Rec0200E6FC *)(p + 0x168));
-            *(int *)(p + 0x170) = func_02009EA8(func_02012F14((void **)(*(int *)(p + 0x2c))));
+            ((struct Obj02831 *)p)->f170 = func_02009EA8(func_02012F14((void **)(((struct Obj02831 *)p)->f2C)));
             func_02039C68((struct Link *)func_020399A8(), 2, 0x22);
             func_021D4244((int)p, func_021D4808, 0x314);
         }

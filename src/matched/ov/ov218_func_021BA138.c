@@ -17,6 +17,7 @@
  *   func_021B9914 0x021B9914 thumb ov218
  *   func_021B61F8 0x021B61F8 thumb ov067
  */
+#include "../include/Obj04644.h"
 extern void func_021B991C(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -30,20 +31,20 @@ extern void func_021B9914(struct TaskMenu *p);
 extern void func_021B61F8(unsigned char *, unsigned short);
 int func_021BA138(unsigned char *task, char *ctx)
 {
-    func_021B991C(*(void **)(ctx + 0x1c));
-    if (func_020279E8(*(void **)(ctx + 0x1c)) != 0) {
-        switch (func_02027A04(*(void **)(ctx + 0x1c))) {
+    func_021B991C(((struct Obj04644 *)ctx)->f1C);
+    if (func_020279E8(((struct Obj04644 *)ctx)->f1C) != 0) {
+        switch (func_02027A04(((struct Obj04644 *)ctx)->f1C)) {
         case 0:
             func_021B9F98((int *)ctx, 0);
             func_021B9944();
-            func_021B9C74(*(void **)(ctx + 0x28));
-            func_021B9914(*(void **)(ctx + 0x1c));
+            func_021B9C74(((struct Obj04644 *)ctx)->f28);
+            func_021B9914(((struct Obj04644 *)ctx)->f1C);
             func_021B61F8(task, 65534);
             break;
         case 1:
             func_021B9944();
-            func_021B9C74(*(void **)(ctx + 0x28));
-            func_021B9914(*(void **)(ctx + 0x1c));
+            func_021B9C74(((struct Obj04644 *)ctx)->f28);
+            func_021B9914(((struct Obj04644 *)ctx)->f1C);
             func_021B61F8(task, 0);
             break;
         }

@@ -33,6 +33,7 @@
  * Finally the sink pointer is published at +0x28 (null when not overridden)
  * and the key is packed into the low 31 bits of the word at +0x3C.
  */
+#include "../include/Obj08865.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -121,7 +122,7 @@ void func_0204DACC(struct Res *r, u32 idx, struct Sink *s, struct Ovr *ovr,
     }
 
     if (ovrd == 0) s = 0;
-    *(u32 *)(cell + 0x28) = (u32)s;
-    *(u32 *)(cell + 0x3c) = (*(u32 *)(cell + 0x3c) & 0x80000001)
+    ((struct Obj08865 *)cell)->f28 = (u32)s;
+    ((struct Obj08865 *)cell)->f3C = (((struct Obj08865 *)cell)->f3C & 0x80000001)
                           | ((key << 2) >> 1);
 }

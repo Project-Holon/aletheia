@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218C944  0x0218C944  thumb  ov021
  */
+#include "../include/Obj19545.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -21,5 +22,5 @@ int func_0218C990(unsigned char *p, int v)
 {
     if (p == 0)
         return 0;
-    return func_0218C944(p, *(int *)(p + 4), (u16 *)v);
+    return func_0218C944(p, ((struct Obj19545 *)p)->f4, (u16 *)v);
 }

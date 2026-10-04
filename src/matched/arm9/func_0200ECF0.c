@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15609.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -19,7 +20,7 @@ extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst020
 
 void func_0200ECF0(void *a0, u32 a1, void *a2, void *a3)
 {
-    int v = *(int *)((u8 *)a0 + 0x1554) - 1 - (int)a1;
+    int v = ((struct Obj15609 *)a0)->f1554 - 1 - (int)a1;
 
     if (v < 0)
         v += 0xf;

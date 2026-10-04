@@ -15,6 +15,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C83CC  0x021C83CC  thumb  ov093
  */
+#include "../include/Obj01898.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -38,18 +39,18 @@ void func_021E4A70(int u, int a, int b)
         s = func_021C88A4(a, 0xe, b);
         s[0xf] = e;
         s[0x10] = k;
-        *(int *)(s + 4) = e;
+        ((struct Obj01898 *)s)->f4 = e;
         t = e - 3;
         s[0xc] = t;
-        *(u32 *)(s + 8) = w;
+        ((struct Obj01898 *)s)->f8 = w;
         s[0xe] = 1;
         func_021C88C8((void *)a, s);
         s = func_021C88A4(a, 0xe, b);
         s[0xf] = e;
         s[0x10] = k;
-        *(int *)(s + 4) = 3;
+        ((struct Obj01898 *)s)->f4 = 3;
         s[0xc] = t;
-        *(u32 *)(s + 8) = w;
+        ((struct Obj01898 *)s)->f8 = w;
         s[0xe] = 1;
         func_021C88C8((void *)a, s);
         s = func_021C88A4(a, 0x13, b);

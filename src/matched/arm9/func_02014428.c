@@ -19,6 +19,7 @@
  * bc 72 0a 02 at 0x02014440, and the one "differing byte" was bit 5 of that
  * address, not a register choice.
  */
+#include "../include/Obj15653.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,5 +32,5 @@ void func_02014428(u32 heap)
 {
     u8 *p = func_02030734(heap, 0x14, 1, (const char *)&sBtlSetupFile, 0x33);
 
-    *(u16 *)(p + 0x12) = 0;
+    ((struct Obj15653 *)p)->f12 = 0;
 }

@@ -9,5 +9,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj04748.h"
 
-int func_0203675C(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3, t4; t0 = func_02036738((int)a1, (int)((*(unsigned short *)(((char *)(a0) + 14)) >> 8) & 0xff), (int)*(unsigned short *)(((char *)(a0) + 14))); t1 = func_02036738((int)a1, (int)(*(unsigned short *)(((char *)(a0) + 14)) & 0xff)); t2 = func_02036738((int)a1, (int)((*(unsigned short *)(((char *)(a0) + 12)) >> 8) & 0xff)); t3 = func_02036738((int)a1, (int)(*(unsigned short *)(((char *)(a0) + 12)) & 0xff)); t4 = func_02036738((int)a1, (int)*(unsigned char *)(((char *)(a0) + 16))); return 0; }
+int func_0203675C(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3, t4; t0 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fE >> 8) & 0xff), (int)((struct Obj04748 *)((char *)(a0)))->fE); t1 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fE & 0xff)); t2 = func_02036738((int)a1, (int)((((struct Obj04748 *)((char *)(a0)))->fC >> 8) & 0xff)); t3 = func_02036738((int)a1, (int)(((struct Obj04748 *)((char *)(a0)))->fC & 0xff)); t4 = func_02036738((int)a1, (int)((struct Obj04748 *)((char *)(a0)))->f10); return 0; }

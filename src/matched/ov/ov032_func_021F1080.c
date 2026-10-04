@@ -14,6 +14,7 @@
  *   func_02026D48  0x02026D48  thumb
  *   func_021F2144  0x021F2144  thumb  ov032
  */
+#include "../include/Obj00225.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,14 +27,14 @@ void func_021F1080(char *p, char *q, int r, int t)
 {
     u8 c;
 
-    c = (func_02026D48(*(u16 *)(q + 6)) >= 0x2a30) ? 1 : 0;
-    if (c == *(u8 *)(q + 5) && r == 0) {
+    c = (func_02026D48(((struct Obj00225 *)q)->f6) >= 0x2a30) ? 1 : 0;
+    if (c == ((struct Obj00225 *)q)->f5 && r == 0) {
         return;
     }
-    *(u8 *)(q + 5) = c;
+    ((struct Obj00225 *)q)->f5 = c;
     if (c != 0) {
-        func_021F2144(p, q, (void *)(*(int *)(q + 0x24)), 0xca0, t);
+        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0xca0, t);
     } else {
-        func_021F2144(p, q, (void *)(*(int *)(q + 0x24)), 0x3c60, t);
+        func_021F2144(p, q, (void *)(*(int *)&((struct Obj00225 *)q)->f24), 0x3c60, t);
     }
 }

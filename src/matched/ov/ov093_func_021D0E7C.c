@@ -36,6 +36,7 @@
  *   func_021EA7FC 0x021EA7FC thumb ov093
  *   func_021EA814 0x021EA814 thumb ov093
  */
+#include "../include/Obj00819.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 pad[0x1B3]; volatile u8 count; } CountField;
@@ -79,50 +80,50 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
                 count = ((CountField *)p)->count;
                 if (count > n) count = n;
                 if (func_021D102C(p) != 0) {
-                    mon = func_021B9C00(*(void **)(p + 0x118), 0);
+                    mon = func_021B9C00(((struct Obj00819 *)p)->f118, 0);
                     if (n == 1 && func_021D5B68(mon) != 0) {
                         func_021D8394(p + 0x124, 0, order[0]);
-                        *(u8 **)(p + 0xD8) = p + 0x124;
-                        *(int *)(p + 0xDC) = 4;
+                        *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
+                        ((struct Obj00819 *)p)->fDC = 4;
                         *state = 4;
                         break;
                     }
                 }
-                func_021B8E28(*(u8 **)p, p[0x1B5], &pair[1], &pair[0]);
+                func_021B8E28(*(u8 * *)&((struct Obj00819 *)p)->f0, p[0x1B5], &pair[1], &pair[0]);
                 func_021D0B10(p, param, count, p + 0x184, p + 0x190);
-                func_021E9A78(*(void **)(p + 0x54), p + 0x184, pair[0], 0, p + 0x190);
+                func_021E9A78(((struct Obj00819 *)p)->f54, p + 0x184, pair[0], 0, p + 0x190);
                 func_021CE068(p);
                 *state = 1;
             } else {
                 if (func_021D102C(p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
-                    *(int *)(p + 0xDC) = mode;
-                    *(u8 **)(p + 0xD8) = p + 0x124;
+                    ((struct Obj00819 *)p)->fDC = mode;
+                    *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
                     *state = 4;
                 } else {
                     func_021D83C4(p + 0x124);
-                    *(u8 **)(p + 0xD8) = p + 0x124;
-                    *(int *)(p + 0xDC) = 4;
+                    *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
+                    ((struct Obj00819 *)p)->fDC = 4;
                     *state = 4;
                 }
             }
         } else {
             func_021D8434(p + 0x124);
-            *(u8 **)(p + 0xD8) = p + 0x124;
-            *(int *)(p + 0xDC) = 4;
+            *(u8 * *)&((struct Obj00819 *)p)->fD8 = p + 0x124;
+            ((struct Obj00819 *)p)->fDC = 4;
             *state = 4;
         }
         break;
     case 1:
         if (func_021CE08C(p) != 0) {
-            func_021E9B14(*(void **)(p + 0x54));
+            func_021E9B14(((struct Obj00819 *)p)->f54);
             *state = 2;
-        } else if (func_021E9B20(*(void **)(p + 0x54)) != 0) {
+        } else if (func_021E9B20(((struct Obj00819 *)p)->f54) != 0) {
             func_021D0B6C(p, p + 0x190);
             *state = 3;
         }
         break;
     case 2:
-        if (func_021E9B20(*(void **)(p + 0x54)) != 0) {
+        if (func_021E9B20(((struct Obj00819 *)p)->f54) != 0) {
             func_021D0BB0(p);
             *state = 3;
         }
@@ -132,16 +133,16 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
         *state = 4;
         break;
     case 4:
-        if (func_021B86C0(*(void **)p) != 0) {
+        if (func_021B86C0(((struct Obj00819 *)p)->f0) != 0) {
             p[0x1A9] = 1;
-            func_021EA7FC(*(void **)(p + 0x54));
+            func_021EA7FC(((struct Obj00819 *)p)->f54);
             *state = 5;
         } else {
             *state = 6;
         }
         break;
     case 5:
-        if (func_021EA814(*(void **)(p + 0x54)) != 0) {
+        if (func_021EA814(((struct Obj00819 *)p)->f54) != 0) {
             *state = 6;
         }
         break;

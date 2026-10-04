@@ -24,6 +24,7 @@
  *   func_021F43D8  0x021F43D8  thumb  ov055
  *   func_02189A68  0x02189A68  thumb  ov021
  */
+#include "../include/Obj09846.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -52,14 +53,14 @@ void func_021F39C0(int a, int b, char *c)
 
     t0 = func_02188C54((u8 *)b);
     t1 = (int)func_020120F4(func_02188C80((void *)b));
-    *(void **)c = func_02188CB4((void *)b);
-    *(void **)(c + 4) = func_02188C7C((void *)b);
+    ((struct Obj09846 *)c)->f0 = func_02188CB4((void *)b);
+    ((struct Obj09846 *)c)->f4 = func_02188C7C((void *)b);
     t2 = func_02188C9C((u8 *)b);
     t3 = func_021690B4(t1);
     t4 = func_02188C84((u8 *)b);
     func_021F3E84(c + 0x308, t3, t2, t4);
     for (i = 0; i < 0x20; i++)
-        func_021F3C2C((struct O *)(c + 8 + i * 0x18), (int)(*(void **)(c + 4)), t2, (const struct T *)(c + 0x308), i);
+        func_021F3C2C((struct O *)(c + 8 + i * 0x18), (int)(((struct Obj09846 *)c)->f4), t2, (const struct T *)(c + 0x308), i);
     func_021F405C(c + 0x308, c, t3);
     func_021F43D8(c + 0x348, t0, c + 0x308, t3, t4);
     func_02189A68((char *)b, (int)c);

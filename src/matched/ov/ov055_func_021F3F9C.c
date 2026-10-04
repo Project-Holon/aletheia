@@ -21,6 +21,7 @@
  *   func_021F3B48  0x021F3B48  thumb  ov055
  *   func_021F3D0C  0x021F3D0C  thumb  ov055
  */
+#include "../include/Obj05137.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,5 +63,5 @@ void func_021F3F9C(const char *a, int b, const u16 *c, u8 *d, u16 e)
             t0 = 1;
     }
     if (out == 0)
-        func_021F3D0C(d, *(const int *)(a + 4), *(const int *)a, t0, x, y, c[4], (u16)(c[5] - e), c);
+        func_021F3D0C(d, *(const int *)&((struct Obj05137 *)a)->f4, *(const int *)&((struct Obj05137 *)a)->f0, t0, x, y, c[4], (u16)(c[5] - e), c);
 }

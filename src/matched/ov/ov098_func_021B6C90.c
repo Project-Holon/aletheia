@@ -14,6 +14,7 @@
  *   func_02043B5C  0x02043B5C  arm
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj03220.h"
 
 typedef unsigned char u8;
 
@@ -25,16 +26,16 @@ extern void func_02045334(struct Descriptor *);
 
 void func_021B6C90(char *p, int flag)
 {
-    if ((u8)(*(u8 *)(p + 0x14) + 0xff) <= 1) {
+    if ((u8)(((struct Obj03220 *)p)->f14 + 0xff) <= 1) {
         if (flag == 0) {
-            func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), 0xc);
-            func_02045334((struct Descriptor *)*(int *)p);
+            func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03220 *)p)->f0)), 0xc);
+            func_02045334((struct Descriptor *)((struct Obj03220 *)p)->f0);
         }
-        *(int *)(p + 4) = 0;
-        *(int *)(p + 8) = 0x10000;
-        *(int *)(p + 0xc) = 0x52AA;
-        *(int *)(p + 0x10) = -0x1800;
-        *(u8 *)(p + 0x15) = 6;
-        *(u8 *)(p + 0x14) = 4;
+        ((struct Obj03220 *)p)->f4 = 0;
+        ((struct Obj03220 *)p)->f8 = 0x10000;
+        ((struct Obj03220 *)p)->fC = 0x52AA;
+        ((struct Obj03220 *)p)->f10 = -0x1800;
+        ((struct Obj03220 *)p)->f15 = 6;
+        ((struct Obj03220 *)p)->f14 = 4;
     }
 }

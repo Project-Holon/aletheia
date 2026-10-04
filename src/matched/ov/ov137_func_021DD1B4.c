@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10615.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern void func_020310C4(struct Tcbl *p);
 
 void func_021DD1B4(u8 *p)
 {
-    if (*(void **)(p + 0xec))
-        func_0201C4E4(*(void **)(p + 0xec));
-    func_020310C4(*(void **)(p + 0xf4));
+    if (((struct Obj10615 *)p)->fEC)
+        func_0201C4E4(((struct Obj10615 *)p)->fEC);
+    func_020310C4(((struct Obj10615 *)p)->fF4);
 }

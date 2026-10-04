@@ -15,6 +15,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02041EE4 0x02041EE4 arm
  */
+#include "../include/Obj02177.h"
+#include "../include/Obj08089.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -32,24 +34,24 @@ void func_021D928C(u8 *p)
     void *sprite;
     u8 *q;
     s16 xy[2];
-    if(*(int *)(p+16)!=-819) {
-        int base=*(int *)(p+20);
-        *(int *)(p+16)=base+((-819-base)**(u16 *)(p+8))/60;
-        if((*(u16 *)(p+8))++>60) *(int *)(p+16)=-819;
+    if(((struct Obj02177 *)p)->f10!=-819) {
+        int base=((struct Obj02177 *)p)->f14;
+        ((struct Obj02177 *)p)->f10=base+((-819-base)*((struct Obj02177 *)p)->f8)/60;
+        if((((struct Obj02177 *)p)->f8)++>60) ((struct Obj02177 *)p)->f10=-819;
     }
     for(i=0;i<32;i++) {
-        sprite=func_021D6C58(*(void **)(p+280),i+1);
+        sprite=func_021D6C58(((struct Obj02177 *)p)->f118,i+1);
         if(func_0204B3F4(sprite)) {
             q=p+i*4;
-            *(int *)(q+24)=*(int *)(q+24)+*(int *)(q+152);
+            ((struct Obj08089 *)q)->f18=((struct Obj08089 *)q)->f18+((struct Obj08089 *)q)->f98;
             func_0204B53C(sprite,xy);
-            xy[1]=*(int *)(q+24)>>12;
+            xy[1]=((struct Obj08089 *)q)->f18>>12;
             func_0204B528(sprite,xy);
             if(xy[1]>=0 && xy[1]<=208) func_0204B3DC(sprite,1);
             else func_0204B3DC(sprite,0);
         }
     }
-    *(int *)(p+12)=*(int *)(p+12)+*(int *)(p+16);
-    func_02041EE4(3,3,*(int *)(p+12)>>12);
-    func_02041EE4(7,3,*(int *)(p+12)>>12);
+    ((struct Obj02177 *)p)->fC=((struct Obj02177 *)p)->fC+((struct Obj02177 *)p)->f10;
+    func_02041EE4(3,3,((struct Obj02177 *)p)->fC>>12);
+    func_02041EE4(7,3,((struct Obj02177 *)p)->fC>>12);
 }

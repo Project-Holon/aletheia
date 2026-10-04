@@ -26,6 +26,7 @@
  *   func_02184CEC  0x02184CEC  thumb  ov020
  *   func_02185EB0  0x02185EB0  thumb  ov020
  */
+#include "../include/Obj00248.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -63,15 +64,15 @@ void *func_02185360(void *p, int u, int a, int b)
 
     r4 = func_020124E8(r0v);
     func_02184CEC(r4, p);
-    *(int *)(r4 + 0x40) = 1;
+    ((struct Obj00248 *)r4)->f40 = 1;
     if (func_021625E8(a) != 0) {
         *(S7 *)(r4 + 0x10) = *func_02012894(r5);
     } else {
         func_02162694(a, (int)(r4 + 0x10), b);
     }
-    *(int *)(r4 + 0x2c) = func_021626E8((u8 *)a);
+    ((struct Obj00248 *)r4)->f2C = func_021626E8((u8 *)a);
     r6 = func_02012870(r5);
-    if (func_02013E7C(r6[2]) == 1 && func_02013E7C(*(u16 *)(r4 + 0x14)) == 0) {
+    if (func_02013E7C(r6[2]) == 1 && func_02013E7C(((struct Obj00248 *)r4)->f14) == 0) {
         func_020128C0(r5, r6);
     }
     func_02185EB0((int)r5, (u16 *)(r4 + 0x10));

@@ -14,10 +14,11 @@
  * symbols:
  *   func_020452E8  0x020452E8  arm
  */
+#include "../include/Obj20695.h"
 
 struct Descriptor;
 void func_021B7994(void *p)
 {
     void func_020452E8(struct Descriptor *d);
-    func_020452E8(*(void **)p);
+    func_020452E8(((struct Obj20695 *)p)->f0);
 }

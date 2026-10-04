@@ -12,10 +12,11 @@
  *   func_021FCA38 0x021FCA38 thumb ov132
  *   func_02026400 0x02026400 thumb
  */
+#include "../include/Obj03291.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern void func_021FCA38(char *);
 extern void func_02026400(struct Comm *);
-void func_021FC684(char *p) { func_021FCA38(p); func_02026400(*(struct Comm **)(p+0x50)); }
+void func_021FC684(char *p) { func_021FCA38(p); func_02026400(*(struct Comm * *)&((struct Obj03291 *)p)->f50); }

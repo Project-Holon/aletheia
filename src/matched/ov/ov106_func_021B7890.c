@@ -12,5 +12,6 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021B78D0 0x021B78D0 thumb ov106
  */
+#include "../include/Obj22256.h"
 extern void func_02082BCC(void *,unsigned char,unsigned int); extern void func_021B78D0(unsigned char *,unsigned int);
-void func_021B7890(unsigned char *p,unsigned int a,unsigned int b) { func_02082BCC(p,0,16); *(unsigned int *)(p+12)=a; func_021B78D0(p,b); }
+void func_021B7890(unsigned char *p,unsigned int a,unsigned int b) { func_02082BCC(p,0,16); ((struct Obj22256 *)p)->fC=a; func_021B78D0(p,b); }

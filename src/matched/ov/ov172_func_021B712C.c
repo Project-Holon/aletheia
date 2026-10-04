@@ -13,6 +13,7 @@
  *   func_021BE100 0x021BE100 thumb ov172
  *   func_021B64AC 0x021B64AC thumb ov172
  */
+#include "../include/Obj03852.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B78B8(void *, char *);
@@ -31,18 +32,18 @@ static inline void window1(int x1, int y1, int x2, int y2)
 void func_021B712C(int unused, char *q)
 {
     u8 i;
-    if (*(int *)(q + 20) == 0) {
+    if (((struct Obj03852 *)q)->f14 == 0) {
         for (i = 0; i < 4; i++) {
             if (func_021B78B8(q, q + 0x34 + i * 28) == 1) {
-                *(u8 *)(q + 16) |= (u8)(1 << i);
+                ((struct Obj03852 *)q)->f10 |= (u8)(1 << i);
                 break;
             }
         }
     }
-    if (func_021BE100() == 1) func_021B64AC(*(void **)(q + 0xa4));
-    if (*(u8 *)(q + 0x2d) < 0xc0 && *(int *)(q + 0x30) == 0) {
-        *(u8 *)(q + 0x2d) += 8;
-        window0(0, 0, 255, *(u8 *)(q + 0x2d));
-        window1(128, 0, 0, *(u8 *)(q + 0x2d));
+    if (func_021BE100() == 1) func_021B64AC(((struct Obj03852 *)q)->fA4);
+    if (((struct Obj03852 *)q)->f2D < 0xc0 && ((struct Obj03852 *)q)->f30 == 0) {
+        ((struct Obj03852 *)q)->f2D += 8;
+        window0(0, 0, 255, ((struct Obj03852 *)q)->f2D);
+        window1(128, 0, 0, ((struct Obj03852 *)q)->f2D);
     }
 }

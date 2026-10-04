@@ -12,8 +12,9 @@
  * symbols:
  *   func_021E62CC 0x021E62CC thumb ov177
  */
+#include "../include/Obj00053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E62CC(char *,int,void *,void *,int,u32);
-void func_0217D1A0(u8 *p,int mode) {func_021E62CC(*(char **)(p+16),mode,*(void **)(p+36),*(void **)(p+0x1ac),*(int *)(p+0x1a8),*(u16 *)(p+0x1c8));}
+void func_0217D1A0(u8 *p,int mode) {func_021E62CC(*(char * *)&((struct Obj00053 *)p)->f10,mode,((struct Obj00053 *)p)->f24,((struct Obj00053 *)p)->f1AC,((struct Obj00053 *)p)->f1A8,((struct Obj00053 *)p)->f1C8);}

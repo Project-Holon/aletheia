@@ -22,6 +22,8 @@
  * does not merge with the `<< 4` value. slot is assigned p first, then
  * p + 8: both stores to its stack slot survive.
  */
+#include "../include/Obj12902.h"
+#include "../include/Obj20141.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,11 +42,11 @@ void func_021BE418(u8 *p, u16 i)
     slot = p + 8;
     if (*(u32 *)(slot + (i << 4)) != 0 && i < 4) {
         e = p + (i << 4);
-        for (k = 0; k < *(u16 *)(e + 0x16); k++)
-            func_020307B0(*(u8 **)(*(u8 **)(e + 0x10) + k * 8 + 4));
+        for (k = 0; k < ((struct Obj12902 *)e)->f16; k++)
+            func_020307B0(*(u8 **)(*(u8 * *)&((struct Obj12902 *)e)->f10 + k * 8 + 4));
         func_020307B0(*(void **)(p + 0x10 + (u32)i * 16));
         func_020307B0(*(void **)(p + 0xC + (u32)i * 16));
-        func_020480E4((struct Ctx *)(*(u32 *)(p + 4)), *(u16 *)(p + 0x14 + (u32)i * 16));
+        func_020480E4((struct Ctx *)(((struct Obj20141 *)p)->f4), *(u16 *)(p + 0x14 + (u32)i * 16));
         *(u32 *)(slot + (i << 4)) = 0;
     }
 }

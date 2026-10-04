@@ -17,6 +17,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj14801.h"
 
 extern void func_02082BCC(void *, int, int);
 extern void func_0204A48C(int, int, int);
@@ -31,8 +32,8 @@ void func_021B9ACC(unsigned char *p, int a, int b)
 {
     func_02082BCC(p, 0, 4);
     func_0204A48C(0x021BBE00, a, b);
-    *(int *)p = func_0204B100(0x80, 0, b);
-    func_0204B270((void *)*(int *)p);
+    ((struct Obj14801 *)p)->f0 = func_0204B100(0x80, 0, b);
+    func_0204B270((void *)((struct Obj14801 *)p)->f0);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

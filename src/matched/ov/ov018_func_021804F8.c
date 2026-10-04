@@ -17,6 +17,7 @@
  *   func_02188C84  0x02188C84  thumb ov021
  *   func_02180538  0x02180538  thumb ov018
  */
+#include "../include/Obj12504.h"
 
 typedef unsigned short u16;
 
@@ -40,6 +41,6 @@ void *func_021804F8(void *p, int a)
 
     func_02082BCC(q, 0, 0x138);
     *q = func_02188C84(v);
-    *(int *)((char *)q + 0x34) = a;
+    ((struct Obj12504 *)q)->f34 = a;
     return r;
 }

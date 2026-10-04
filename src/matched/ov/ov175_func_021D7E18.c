@@ -100,6 +100,11 @@
  * The six leaf calls that kept it at MATCH* (0x021E8AB4 x3, 0x021E8AB8,
  *     0x02156F50, 0x02009EC8) resolve since seeds_2 labelled and matched them.
  */
+#include "../include/Obj24253.h"
+#include "../include/Obj24254.h"
+#include "../include/Obj24255.h"
+#include "../include/Obj24256.h"
+#include "../include/Obj24260.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -491,8 +496,8 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
     case 0xf:
         TouchParty(w18->f14, b28);
         TouchParty(w18->f18, b20);
-        if (*(u32 *)(w18->f14 + 0x40) == *(u32 *)(w18->f18 + 0x40)
-            && *(u32 *)(w18->f14 + 0x50) == *(u32 *)(w18->f18 + 0x50))
+        if (((struct Obj24253 *)(w18->f14))->f40 == ((struct Obj24254 *)(w18->f18))->f40
+            && ((struct Obj24255 *)(w18->f14))->f50 == ((struct Obj24256 *)(w18->f18))->f50)
             *state = 0x10;
         else
             *state = 0x33;
@@ -508,7 +513,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
         break;
     case 0x11:
         if (*obj->f104->f20 == 0) {
-            func_021DB3A4(obj->f34, *(u32 *)(obj->f104->f18 + 0x4c), 3, obj->ffc);
+            func_021DB3A4(obj->f34, ((struct Obj24260 *)(obj->f104->f18))->f4C, 3, obj->ffc);
             *state = 0x12;
         }
         break;

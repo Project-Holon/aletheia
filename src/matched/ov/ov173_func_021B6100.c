@@ -17,6 +17,8 @@
  *   func_021B7ADC 0x021B7ADC thumb ov173
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj06563.h"
+#include "../include/Obj24149.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,12 +38,12 @@ int func_021B6100(u32 obj, int unused, u8 *input)
     func_0203064C(1,79,0x50000);
     p=func_0203159C(obj,0x228,79);
     func_02082BCC(p,0,0x228);
-    *(u8 **)p=input;
-    *(u32 *)(p+0x60)=(u32)func_0201D7EC(23,0,0,0,79);
-    *(u32 *)(p+0x64)=(u32)func_0203101C(79,79,32,32);
+    *(u8 * *)&((struct Obj06563 *)p)->f0=input;
+    ((struct Obj06563 *)p)->f60=(u32)func_0201D7EC(23,0,0,0,79);
+    ((struct Obj06563 *)p)->f64=(u32)func_0203101C(79,79,32,32);
     func_021B63AC(p);
-    func_021B7ADC(p,*(u16 *)(*(u8 **)p+0x14),3);
-    *(u32 *)(p+0x1b0)=1;
+    func_021B7ADC(p,((struct Obj24149 *)(*(u8 * *)&((struct Obj06563 *)p)->f0))->f14,3);
+    ((struct Obj06563 *)p)->f1B0=1;
     func_0203D34C(1,79);
     return 1;
 }

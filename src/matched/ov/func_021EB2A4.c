@@ -21,6 +21,7 @@
  *   func_021EB208  0x021EB208  thumb  ov170
  *   func_021EABA0  0x021EABA0  thumb  ov170
  */
+#include "../include/Obj00000.h"
 typedef unsigned char u8;
 
 extern void func_021EADB4(void *q, int a, int i);
@@ -36,17 +37,17 @@ extern void func_021EABA0(void *q);
 
 void func_021EB2A4(u8 *p, int a)
 {
-    func_021EADB4(*(void **)(p + 0x2c), a, 1);
-    func_021EAE20(*(void **)(p + 0x2c), (void **)a, 2);
-    func_021EAE74(*(void **)(p + 0x2c), a, 3);
-    func_021EAF20(*(void **)(p + 0x2c), a, 4);
+    func_021EADB4(((struct Obj00000 *)p)->f2C, a, 1);
+    func_021EAE20(((struct Obj00000 *)p)->f2C, (void **)a, 2);
+    func_021EAE74(((struct Obj00000 *)p)->f2C, a, 3);
+    func_021EAF20(((struct Obj00000 *)p)->f2C, a, 4);
     func_021EAFBC(p, a, 5);
-    func_021EB098(*(void **)(p + 0x2c), (unsigned char *)a, 6);
-    func_021EB114(*(void **)(p + 0x2c), (unsigned char *)a, 7);
-    func_021EB190(*(void **)(p + 0x2c), (unsigned char *)a, 8);
-    func_021EB208(*(void **)(p + 0x2c), a, 9);
-    func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xe4);
-    func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xec);
-    func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xf4);
-    func_021EABA0((u8 *)*(void **)(p + 0x2c) + 0xfc);
+    func_021EB098(((struct Obj00000 *)p)->f2C, (unsigned char *)a, 6);
+    func_021EB114(((struct Obj00000 *)p)->f2C, (unsigned char *)a, 7);
+    func_021EB190(((struct Obj00000 *)p)->f2C, (unsigned char *)a, 8);
+    func_021EB208(((struct Obj00000 *)p)->f2C, a, 9);
+    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xe4);
+    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xec);
+    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xf4);
+    func_021EABA0((u8 *)((struct Obj00000 *)p)->f2C + 0xfc);
 }

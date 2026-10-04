@@ -9,5 +9,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj03468.h"
 
-int func_02062F38(int a0, int a1, int a2, int a3){ int t0; t0 = func_02062F78((int)(a0 + 0x20)); *(int *)((char *)(a0)) = (int)0; *(int *)(((char *)(a0) + 4)) = (int)0; *(int *)(((char *)(a0) + 8)) = (int)0; *(int *)(((char *)(a0) + 12)) = (int)1; *(int *)(((char *)(a0) + 16)) = (int)0; *(int *)(((char *)(a0) + 20)) = (int)0x1000; *(int *)(((char *)(a0) + 24)) = (int)0; *(int *)(((char *)(a0) + 28)) = (int)0; return 0x1000; }
+int func_02062F38(int a0, int a1, int a2, int a3){ int t0; t0 = func_02062F78((int)(a0 + 0x20)); ((struct Obj03468 *)((char *)(a0)))->f0 = (int)0; ((struct Obj03468 *)((char *)(a0)))->f4 = (int)0; ((struct Obj03468 *)((char *)(a0)))->f8 = (int)0; ((struct Obj03468 *)((char *)(a0)))->fC = (int)1; ((struct Obj03468 *)((char *)(a0)))->f10 = (int)0; ((struct Obj03468 *)((char *)(a0)))->f14 = (int)0x1000; ((struct Obj03468 *)((char *)(a0)))->f18 = (int)0; ((struct Obj03468 *)((char *)(a0)))->f1C = (int)0; return 0x1000; }

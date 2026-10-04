@@ -20,6 +20,7 @@
  *   d_021BEAD0     0x021BEAD0  data  a4
  *   d_021BEAC4     0x021BEAC4  data  a4
  */
+#include "../include/Obj07728.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,14 +41,14 @@ void func_021B6F28(char *p)
     int r;
 
     func_0207D4B0(1, 0, 1);
-    func_02046440(0, 1, 0, 1, 0, *(u16 *)p, 0);
+    func_02046440(0, 1, 0, 1, 0, ((struct Obj07728 *)p)->f0, 0);
     *(volatile u16 *)0x04000008 = *(volatile u16 *)0x04000008 & ~3;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x20;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 0x10;
     *(volatile u16 *)0x04000060 = (*(volatile u16 *)0x04000060 & ~0x3000) | 8;
-    r = func_02048A24(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, d_021BEAB8, d_021BEAD0, d_021BEAC4, *(u16 *)p);
-    *(int *)(p + 0x258) = r;
+    r = func_02048A24(2, 0, 0x50D7, 0, 0x6BCA, 0x1000, 0x80000, 0, d_021BEAB8, d_021BEAD0, d_021BEAC4, ((struct Obj07728 *)p)->f0);
+    ((struct Obj07728 *)p)->f258 = r;
     func_02048AD0((struct Light *)r);
     func_0207D63C(0x04000050, 4, 0x1e, 0x10, 10);
-    func_02050B80(*(u16 *)p);
+    func_02050B80(((struct Obj07728 *)p)->f0);
 }

@@ -11,5 +11,7 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj08304.h"
+#include "../include/Obj14411.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-void func_021BA000(u8 *p){u32 i;for(i=0;i<15;i++){u8 *q=p+i*4;*(u16 *)(q+0x34)=*(u16 *)(q+0x38);*(u16 *)(q+0x36)=*(u16 *)(q+0x3a);}*(u16 *)(p+0x70)=65535;*(u16 *)(p+0x72)=0;}
+void func_021BA000(u8 *p){u32 i;for(i=0;i<15;i++){u8 *q=p+i*4;((struct Obj08304 *)q)->f34=((struct Obj08304 *)q)->f38;((struct Obj08304 *)q)->f36=((struct Obj08304 *)q)->f3A;}((struct Obj14411 *)p)->f70=65535;((struct Obj14411 *)p)->f72=0;}

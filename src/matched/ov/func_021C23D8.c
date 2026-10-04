@@ -16,6 +16,7 @@
  * Raises the state word at +0x9B4 once, re-arms the block 0x274 bytes in, and
  * runs the six/zero setup when the selector is 1.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,11 +30,11 @@ extern void func_021BAADC(char *p, int a, int b);
 
 void func_021C23D8(char *p, int v)
 {
-    if (*(u32 *)(p + 0x9B4) != 0) {
+    if (((struct Obj00008 *)p)->f9B4 != 0) {
         return;
     }
 
-    *(u32 *)(p + 0x9B4) = 1;
+    ((struct Obj00008 *)p)->f9B4 = 1;
     func_021B98F8(p + 0x274, 1);
 
     if (v == 1) {

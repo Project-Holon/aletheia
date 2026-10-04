@@ -16,6 +16,8 @@
  *   func_0219CD68  0x0219CD68  thumb  ov021
  *   func_0219CF00  0x0219CF00  thumb  ov021
  */
+#include "../include/Obj01353.h"
+#include "../include/Obj03118.h"
 
 typedef struct { int a; int b; int c; } S3;
 
@@ -44,15 +46,15 @@ void func_0219CFB0(int *obj, int a1, unsigned char *src, int a3, int a5, int a6,
             *((unsigned char *)p + 0xd) = 0;
             p[1] = a1;
             p[0] = a3;
-            *(unsigned short *)(p + 2) = *(unsigned short *)src;
+            ((struct Obj01353 *)p)->f8 = ((struct Obj03118 *)src)->f0;
             *((unsigned char *)p + 0xa) = src[7];
             *((unsigned char *)p + 0xb) = src[8];
             *((unsigned char *)p + 0xc) = src[9];
-            func_0219CBD4((u32)obj, *(unsigned short *)(p + 2), (u32)(&v[1]), (u32)(&v[0]));
-            if (v[1] == 0xFFFF && func_0219CF00(obj, *(unsigned short *)(p + 2), &v[0]) == 0) {
+            func_0219CBD4((u32)obj, ((struct Obj01353 *)p)->f8, (u32)(&v[1]), (u32)(&v[0]));
+            if (v[1] == 0xFFFF && func_0219CF00(obj, ((struct Obj01353 *)p)->f8, &v[0]) == 0) {
                 t = func_0216E3C8(src);
                 v[0] = 1;
-                func_0219CD68((u8 *)obj, *(unsigned short *)(p + 2), *((unsigned char *)p + 0xa),
+                func_0219CD68((u8 *)obj, ((struct Obj01353 *)p)->f8, *((unsigned char *)p + 0xa),
                               *((unsigned char *)p + 0xb), *t, 1);
             }
             p[5] = a5;

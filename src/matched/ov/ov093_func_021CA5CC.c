@@ -22,6 +22,7 @@
  *   func_021C5620 0x021C5620 thumb ov093
  *   func_021CD64C 0x021CD64C thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,12 +48,12 @@ int func_021CA5CC(const u8 *p, const struct Cmd *q)
     u8 *a;
     int changed;
     u8 t;
-    n = func_021C7F68((u8 *)p, func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), q->id) | 0x800, buf);
+    n = func_021C7F68((u8 *)p, func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, q->id) | 0x800, buf);
     i = 0;
     if (i >= n) goto done;
 loop:
     {
-        a = (u8 *)func_021B9934(*(char **)(p + 8), buf[i]);
+        a = (u8 *)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, buf[i]);
         changed = 0;
         if (func_021D5BDC(a, 3)) {
             func_021C5418((u8 *)p, a, 3);
@@ -70,7 +71,7 @@ loop:
             func_021C5620((u8 *)p, a, 32, 0);
             changed = 1;
         }
-        if (changed) func_021CD64C(*(void **)(p + 12), 0x5b, 0x43b, buf[i], 0xffff0000);
+        if (changed) func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x43b, buf[i], 0xffff0000);
     }
     i++;
     if (i < n) goto loop;

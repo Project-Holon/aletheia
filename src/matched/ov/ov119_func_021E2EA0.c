@@ -11,11 +11,12 @@
  * symbols:
  *   func_02011558 0x02011558 thumb
  */
+#include "../include/Obj02173.h"
 struct IcaAnime;
 extern void func_02011558(struct IcaAnime *p);
 void func_021E2EA0(char *p) {
-    if (*(void **)(p+0x90)) {func_02011558(*(void **)(p+0x90)); *(void **)(p+0x90)=0;}
-    if (*(void **)(p+0x94)) {func_02011558(*(void **)(p+0x94)); *(void **)(p+0x94)=0;}
-    if (*(void **)(p+0x98)) {func_02011558(*(void **)(p+0x98)); *(void **)(p+0x98)=0;}
-    if (*(void **)(p+0x9c)) {func_02011558(*(void **)(p+0x9c)); *(void **)(p+0x9c)=0;}
+    if (((struct Obj02173 *)p)->f90) {func_02011558(((struct Obj02173 *)p)->f90); ((struct Obj02173 *)p)->f90=0;}
+    if (((struct Obj02173 *)p)->f94) {func_02011558(((struct Obj02173 *)p)->f94); ((struct Obj02173 *)p)->f94=0;}
+    if (((struct Obj02173 *)p)->f98) {func_02011558(((struct Obj02173 *)p)->f98); ((struct Obj02173 *)p)->f98=0;}
+    if (((struct Obj02173 *)p)->f9C) {func_02011558(((struct Obj02173 *)p)->f9C); ((struct Obj02173 *)p)->f9C=0;}
 }

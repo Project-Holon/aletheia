@@ -24,6 +24,7 @@
  *   func_02204A88 0x02204A88 thumb ov094
  *   func_02204AEC 0x02204AEC thumb ov094
  */
+#include "../include/Obj00896.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,23 +57,23 @@ void func_02205B90(char *p, int n)
     int index;
     void **q;
     if (n == 0) return;
-    *(void **)(p + 0x210) = func_0204B294((void *)*(u32 *)(p + 0x20c), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
+    ((struct Obj00896 *)p)->f210 = func_0204B294((void *)((struct Obj00896 *)p)->f20C, ((struct Obj00896 *)p)->f104, ((struct Obj00896 *)p)->f108, ((struct Obj00896 *)p)->f10C, d_0220A392, 1, ((struct Obj00896 *)p)->f240);
     index = n - 1;
     v.x = 0x130 + b.v[index];
     v.y = 0x20 + c.v[index];
-    func_0204B404(*(void **)(p + 0x210), &v.x, 1);
-    func_0204B92C(*(void **)(p + 0x210), 1);
+    func_0204B404(((struct Obj00896 *)p)->f210, &v.x, 1);
+    func_0204B92C(((struct Obj00896 *)p)->f210, 1);
     n += 14;
-    func_0204B878(*(void **)(p + 0x210), n);
-    *(void **)(p + 0x214) = func_0204B294((void *)*(u32 *)(p + 0x20c), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
+    func_0204B878(((struct Obj00896 *)p)->f210, n);
+    ((struct Obj00896 *)p)->f214 = func_0204B294((void *)((struct Obj00896 *)p)->f20C, ((struct Obj00896 *)p)->f104, ((struct Obj00896 *)p)->f108, ((struct Obj00896 *)p)->f10C, d_0220A392, 1, ((struct Obj00896 *)p)->f240);
     v.x = 0x130;
     v.y = 0x20;
-    func_0204B404(*(void **)(p + 0x214), &v.x, 1);
-    func_0204B92C(*(void **)(p + 0x214), 1);
-    func_0204B878(*(void **)(p + 0x214), 14);
-    func_0204B6F4(*(void **)(p + 0x214), a.v[index], 0);
-    q = func_02030734((u16)((*(u16 *)(p + 0x240) & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
+    func_0204B404(((struct Obj00896 *)p)->f214, &v.x, 1);
+    func_0204B92C(((struct Obj00896 *)p)->f214, 1);
+    func_0204B878(((struct Obj00896 *)p)->f214, 14);
+    func_0204B6F4(((struct Obj00896 *)p)->f214, a.v[index], 0);
+    q = func_02030734((u16)((((struct Obj00896 *)p)->f240 & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
     q[0] = p;
-    func_0220684C(p, (int)func_02030DA8(*(void **)p, (u32)func_02204A88, (u32)q, 0), (int)((void *)func_02204AEC));
+    func_0220684C(p, (int)func_02030DA8(((struct Obj00896 *)p)->f0, (u32)func_02204A88, (u32)q, 0), (int)((void *)func_02204AEC));
     ((Bits *)(p + 0x68))->count++;
 }

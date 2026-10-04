@@ -15,6 +15,7 @@
  * Thunk: hands the +0x1c block to 0x021E64C8 and returns its result; the
  *     poll func_021D97D0 spins on.
  */
+#include "../include/Obj24302.h"
 
 typedef unsigned long u32;
 
@@ -22,6 +23,6 @@ extern u32 func_021E64C8(u32 p);
 
 u32 func_021D97B8(char *obj)
 {
-    return func_021E64C8(*(u32 *)(obj + 0x1c));
+    return func_021E64C8(((struct Obj24302 *)obj)->f1C);
 }
 

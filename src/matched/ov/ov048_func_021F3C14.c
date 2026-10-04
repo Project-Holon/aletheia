@@ -11,5 +11,6 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03645.h"
 extern void func_020307B0(void *p);
-void func_021F3C14(char *p) { if (*(void **)(p+0x20)) { func_020307B0(*(void **)(p+0x20)); *(void **)(p+0x20)=0; p[0x24]=0; } }
+void func_021F3C14(char *p) { if (((struct Obj03645 *)p)->f20) { func_020307B0(((struct Obj03645 *)p)->f20); ((struct Obj03645 *)p)->f20=0; p[0x24]=0; } }

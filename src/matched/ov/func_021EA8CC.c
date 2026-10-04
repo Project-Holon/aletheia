@@ -18,6 +18,7 @@
  *   an early return -- an `int r = 0; ... return r;` keeps r live from
  *   the top, which pushes i from r4 to r6 and widens the push set.
  */
+#include "../include/Obj12168.h"
 
 typedef unsigned int u32;
 
@@ -35,7 +36,7 @@ int func_021EA8CC(unsigned char *p)
     if (func_021DD694((char *)p, i) == 0)
         return 1;
     if (func_0202136C((unsigned short)func_02017E1C(
-            func_0201AB28(*(void **)(*(int *)p + 8), i), 6, 0)) == 1)
+            func_0201AB28(*(void **)(((struct Obj12168 *)p)->f0 + 8), i), 6, 0)) == 1)
         return 2;
     return 0;
 }

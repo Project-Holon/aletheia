@@ -13,6 +13,7 @@
  *   func_02158F50  0x02158F50  thumb  ov010
  *   func_020124E8  0x020124E8  thumb
  */
+#include "../include/Obj01023.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,5 +36,5 @@ a0 = 0;
 loc_021589EA:
     p = func_020124E8((struct Obj *)p);
 loc_021589EE:
-a0 = *(int *)((char *)p + 4);
+a0 = *(int *)&((struct Obj01023 *)p)->f4;
     return a0;}

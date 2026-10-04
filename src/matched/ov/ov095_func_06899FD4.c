@@ -23,6 +23,9 @@
  *   func_0689B0D4  0x0689B0D4  thumb  ov095
  *   func_0689B1E4  0x0689B1E4  thumb  ov095
  */
+#include "../include/Obj10164.h"
+#include "../include/Obj13634.h"
+#include "../include/Obj21890.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,21 +46,21 @@ void func_06899FD4(void)
 
 void func_06899FDC(u8 *p)
 {
-    func_06899E48(p, 0, (void *)*(u32 *)(p + 0x68));
+    func_06899E48(p, 0, (void *)((struct Obj21890 *)p)->f68);
 }
 
 void func_06899FE8(u8 *p, u32 a, u32 b)
 {
-    *(u32 *)(p + 0x6c) = a;
-    *(u32 *)(p + 0x70) = b;
-    *(u32 *)(p + 0x98) = 0;
+    ((struct Obj10164 *)p)->f6C = a;
+    ((struct Obj10164 *)p)->f70 = b;
+    ((struct Obj10164 *)p)->f98 = 0;
     func_06899E48(p, (void *)func_0689A878, (void *)func_0689A84C);
 }
 
 void func_0689A008(u8 *p, u32 a, u32 b)
 {
-    *(u32 *)(p + 0x6c) = a;
-    *(u32 *)(p + 0x70) = b;
+    ((struct Obj13634 *)p)->f6C = a;
+    ((struct Obj13634 *)p)->f70 = b;
     func_06899E48(p, (void *)func_0689B0D4, (void *)func_0689B1E4);
 }
 

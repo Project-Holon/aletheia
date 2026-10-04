@@ -16,6 +16,7 @@
  *
  * Releases the record's +0x0c handle and re-arms the module.
  */
+#include "../include/Obj03763.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,9 +27,9 @@ void func_021B9774(u8 *p)
 {
     if (p == 0)
         return;
-    if (*(u32 *)(p + 0xc) == 0)
+    if (((struct Obj03763 *)p)->fC == 0)
         return;
-    func_021BF184(*(u32 *)(p + 0xc));
-    *(u32 *)(p + 0xc) = 0;
+    func_021BF184(((struct Obj03763 *)p)->fC);
+    ((struct Obj03763 *)p)->fC = 0;
     func_021BE698();
 }

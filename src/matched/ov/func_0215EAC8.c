@@ -12,6 +12,7 @@
  * symbols:
  *   func_0215F104  0x0215F104  thumb  ov010
  */
+#include "../include/Obj17698.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ int func_0215EAC8(int a0, int a1)
 {
     int t4;
 
-a1 = *(int *)((char *)a0 + 4);
+a1 = ((struct Obj17698 *)a0)->f4;
     if (a1 != 2) goto loc_0215EAD4;
 loc_0215EAD0:
 a0 = 4;

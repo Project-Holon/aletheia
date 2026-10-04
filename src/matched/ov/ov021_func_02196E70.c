@@ -21,6 +21,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12633.h"
+#include "../include/Obj19636.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,10 +38,10 @@ extern u32 func_0200BBA8(void *a);
 
 void func_02196E70(u8 *p)
 {
-    if (*(u32 *)(p + 8) == 0xC) {
+    if (((struct Obj12633 *)p)->f8 == 0xC) {
         func_02196034(p, func_02196A60, 0x558);
     } else {
-        if (func_0200BBA8(func_0200BAC8(*(void **)(*(u8 **)(p + 0x2E4) + 0x4C))) != 0) {
+        if (func_0200BBA8(func_0200BAC8(((struct Obj19636 *)(*(u8 * *)&((struct Obj12633 *)p)->f2E4))->f4C)) != 0) {
             func_02196034(p, func_02196E04, 0x55D);
         } else {
             func_02196034(p, func_02196804, 0x560);

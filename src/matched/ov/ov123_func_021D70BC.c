@@ -16,6 +16,7 @@
  *   func_021D7088 0x021D7088 thumb ov123
  *   func_021D706C 0x021D706C thumb ov123
  */
+#include "../include/Obj06463.h"
 typedef struct { int x[8]; } Table;
 extern const Table d_021DA844;
 extern void func_021D584C(char *);
@@ -27,10 +28,10 @@ extern void func_021D706C(char *);
 void func_021D70BC(char *p)
 {
     Table t=d_021DA844;
-    if (*(unsigned char *)(p+0xa8)) {
-        func_021D584C(*(char **)(p+0x18));
-        func_021D5950(*(char **)(p+0x18),t.x[*(unsigned char *)(p+0xa8)]);
-        func_021D5960(*(char **)(p+0x18),1,8);
+    if (((struct Obj06463 *)p)->fA8) {
+        func_021D584C(*(char * *)&((struct Obj06463 *)p)->f18);
+        func_021D5950(*(char * *)&((struct Obj06463 *)p)->f18,t.x[((struct Obj06463 *)p)->fA8]);
+        func_021D5960(*(char * *)&((struct Obj06463 *)p)->f18,1,8);
         func_021D6EE0(p,(int)func_021D7088,0x1f0);
     } else {
         func_021D6EE0(p,(int)func_021D706C,0x1f3);

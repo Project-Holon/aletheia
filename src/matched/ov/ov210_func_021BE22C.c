@@ -15,6 +15,8 @@
  *   func_021BF85C 0x021BF85C thumb ov210
  *   func_021BEB8C 0x021BEB8C thumb ov210
  */
+#include "../include/Obj10917.h"
+#include "../include/Obj25610.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct S;
@@ -24,8 +26,8 @@ extern void func_021BF85C(char *, u16, int);
 extern void func_021BEB8C(u8 *);
 void func_021BE22C(u8 *p, int index)
 {
-    int sum = index + func_021B93B8(*(char **)(p + 0x1e0));
-    u8 *data = *(u8 **)(*(u8 **)p + 8);
+    int sum = index + func_021B93B8(*(char * *)&((struct Obj10917 *)p)->f1E0);
+    u8 *data = *(u8 * *)&((struct Obj25610 *)(*(u8 * *)&((struct Obj10917 *)p)->f0))->f8;
     if (data[5] == sum) {
         data[5] = 255;
         func_021BF85C((char *)p, index, 0);
@@ -33,6 +35,6 @@ void func_021BE22C(u8 *p, int index)
         data[5] = sum;
         func_021BF85C((char *)p, index, 1);
     }
-    func_021B93D4(*(struct S **)(p + 0x1e0), index);
+    func_021B93D4(*(struct S * *)&((struct Obj10917 *)p)->f1E0, index);
     func_021BEB8C(p);
 }

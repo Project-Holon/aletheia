@@ -26,6 +26,7 @@
  *   func_021903CC  0x021903CC  thumb  ov021
  *   func_021902AC  0x021902AC  thumb  ov021
  */
+#include "../include/Obj01504.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -54,19 +55,19 @@ int func_021BEF8C(u32 p0, int *st, u8 *q)
 
     switch (*st) {
     case 0:
-        func_02189A58((u8 *)(*(u32 *)(q + 4)), 1);
-        *(int *)(q + 0x1C) = 0x10;
+        func_02189A58((u8 *)(((struct Obj01504 *)q)->f4), 1);
+        ((struct Obj01504 *)q)->f1C = 0x10;
         func_0204047C(2, 0);
         func_0204047C(0, 1);
         func_02040588(0, 1);
-        func_0207D63C(0x04000050, 4, 1, *(int *)(q + 0x1C), 0);
-        func_0204E720(*(u32 *)(q + 0xC), 0x10, 0, -1);
+        func_0207D63C(0x04000050, 4, 1, ((struct Obj01504 *)q)->f1C, 0);
+        func_0204E720(((struct Obj01504 *)q)->fC, 0x10, 0, -1);
         *st = *st + 1;
         break;
     case 1:
-        if (*(int *)(q + 0x1C) != 0) {
-            *(int *)(q + 0x1C) = *(int *)(q + 0x1C) - 1;
-            *(volatile u16 *)0x04000052 = ((0x10 - *(int *)(q + 0x1C)) << 8) | *(int *)(q + 0x1C);
+        if (((struct Obj01504 *)q)->f1C != 0) {
+            ((struct Obj01504 *)q)->f1C = ((struct Obj01504 *)q)->f1C - 1;
+            *(volatile u16 *)0x04000052 = ((0x10 - ((struct Obj01504 *)q)->f1C) << 8) | ((struct Obj01504 *)q)->f1C;
             break;
         }
         func_02040588(2, 0);
@@ -78,32 +79,32 @@ int func_021BEF8C(u32 p0, int *st, u8 *q)
         *st = *st + 1;
         break;
     case 2:
-        func_021BF564(*(u32 *)(q + 4));
+        func_021BF564(((struct Obj01504 *)q)->f4);
         *st = *st + 1;
         break;
     case 3:
-        func_02188DF0((u8 *)(*(u32 *)(q + 4)));
+        func_02188DF0((u8 *)(((struct Obj01504 *)q)->f4));
         *st = *st + 1;
         break;
     case 4:
-        m = func_02188C54((u8 *)(*(u32 *)(q + 4)));
+        m = func_02188C54((u8 *)(((struct Obj01504 *)q)->f4));
         if (func_021903CC((u8 *)m) != 0) {
             func_021902AC((u16 *)m, 0);
             *st = *st + 1;
         }
         break;
     case 5:
-        func_021902AC((u16 *)func_02188C54((u8 *)(*(u32 *)(q + 4))), 1);
+        func_021902AC((u16 *)func_02188C54((u8 *)(((struct Obj01504 *)q)->f4)), 1);
         *st = *st + 1;
         break;
     case 6:
-        func_021902AC((u16 *)func_02188C54((u8 *)(*(u32 *)(q + 4))), 2);
+        func_021902AC((u16 *)func_02188C54((u8 *)(((struct Obj01504 *)q)->f4)), 2);
         *st = *st + 1;
         break;
     case 7:
         *st = *st + 1;
     case 8:
-        func_02189A58((u8 *)(*(u32 *)(q + 4)), 0);
+        func_02189A58((u8 *)(((struct Obj01504 *)q)->f4), 0);
         return 1;
     }
     return 0;

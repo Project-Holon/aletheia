@@ -14,12 +14,14 @@
  *
  * Forward and then return a status constant.
  */
+#include "../include/Obj18466.h"
+#include "../include/Obj18467.h"
 
 extern void func_020307B0(void *);
 
 int func_021E8014(char *p)
 {
-    func_020307B0(*(void **)(*(char **)(p + 0x2c) + 0x60));
+    func_020307B0(((struct Obj18467 *)(*(char * *)&((struct Obj18466 *)p)->f2C))->f60);
     return 0x56;
 }
 

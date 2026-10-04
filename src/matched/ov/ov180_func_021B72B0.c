@@ -10,13 +10,14 @@
  * symbols:
  *   func_021B73E4 0x021B73E4 thumb ov180
  */
+#include "../include/Obj03876.h"
 extern void func_021B73E4(char *,int,short,short);
 int func_021B72B0(char *p,int i) {
-    if(*(unsigned char *)(p+0x915f)==8) {
-        func_021B73E4(p,i,*(short *)(p+0x9160),*(short *)(p+0x9162));
+    if(((struct Obj03876 *)p)->f915F==8) {
+        func_021B73E4(p,i,((struct Obj03876 *)p)->f9160,((struct Obj03876 *)p)->f9162);
         return 0;
     }
-    func_021B73E4(p,i,*(short *)(p+0x9160)+*(short *)(p+0x9164+*(unsigned char *)(p+0x915f)*2),*(short *)(p+0x9162)+*(short *)(p+0x9174+*(unsigned char *)(p+0x915f)*2));
-    (*(unsigned char *)(p+0x915f))++;
+    func_021B73E4(p,i,((struct Obj03876 *)p)->f9160+*(short *)(p+0x9164+((struct Obj03876 *)p)->f915F*2),((struct Obj03876 *)p)->f9162+*(short *)(p+0x9174+((struct Obj03876 *)p)->f915F*2));
+    (((struct Obj03876 *)p)->f915F)++;
     return 1;
 }

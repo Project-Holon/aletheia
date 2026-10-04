@@ -21,6 +21,7 @@
  *   func_021DAEC8 0x021DAEC8 thumb ov119
  *   func_021DBA80 0x021DBA80 thumb ov119
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 extern int func_021E12AC(void *),func_021D8A24(void *);
@@ -41,7 +42,7 @@ void func_021DAEF0(char *p) {
   if(poll_a() || poll_b()) {
    func_021E1098(p);
    if(func_021D8A24(p)) {
-    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),50,(void *)(*(int *)(p+0x738)));func_021E1024(p);func_021E1030(p);func_021D8E84(p,(int)func_021DAEC8);
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),50,(void *)(*(int *)&((struct Obj00001 *)p)->f738));func_021E1024(p);func_021E1030(p);func_021D8E84(p,(int)func_021DAEC8);
    } else func_021D8E84(p,(int)func_021DBA80);
   }
  }

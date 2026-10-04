@@ -15,6 +15,8 @@
  *   func_021BD6BC 0x021BD6BC thumb ov216
  *   func_021BCD00 0x021BCD00 thumb ov216
  */
+#include "../include/Obj03943.h"
+#include "../include/Obj25779.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -29,18 +31,18 @@ extern void func_021BCD00(int);
 void func_021BD668(char *owner, int direction, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl **)(owner + 24), func_021BD6BC, 12, 0));
+    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj25779 *)owner)->f18, func_021BD6BC, 12, 0));
     MI_CpuFill8(work, 0, 12);
-    *(u8 *)work = direction;
-    if (*(u8 *)work == 0) {
-        *(u8 *)(work + 3) = 0;
-        *(s8 *)(work + 4) = 8;
+    ((struct Obj03943 *)work)->f0 = direction;
+    if (((struct Obj03943 *)work)->f0 == 0) {
+        ((struct Obj03943 *)work)->f3 = 0;
+        ((struct Obj03943 *)work)->f4 = 8;
     } else {
-        *(u8 *)(work + 3) = 64;
-        *(s8 *)(work + 4) = -8;
+        ((struct Obj03943 *)work)->f3 = 64;
+        ((struct Obj03943 *)work)->f4 = -8;
     }
-    *(u8 *)(work + 1) = 8;
+    ((struct Obj03943 *)work)->f1 = 8;
     func_021BCD00(1357);
-    *(int **)(work + 8) = counter;
+    *(int * *)&((struct Obj03943 *)work)->f8 = counter;
     ++*counter;
 }

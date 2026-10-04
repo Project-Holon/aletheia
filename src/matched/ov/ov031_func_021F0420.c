@@ -11,9 +11,10 @@
  * symbols:
  *   func_0203FB44 0x0203FB44 arm
  */
+#include "../include/Obj20404.h"
 typedef unsigned int u32;
 extern void func_0203FB44(u32, u32, u32);
 void func_021F0420(char *p)
 {
-    func_0203FB44(5, *(u32 *)(p + 4), 128);
+    func_0203FB44(5, ((struct Obj20404 *)p)->f4, 128);
 }

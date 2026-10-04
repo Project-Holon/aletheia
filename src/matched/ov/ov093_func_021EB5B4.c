@@ -18,6 +18,7 @@
  *   func_021EB584  0x021EB584  thumb  ov093
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
+#include "../include/Obj10117.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021B8ED8(u8 *p, u8 k);
@@ -36,8 +37,8 @@ int func_021EB5B4(u8 *p, int *state, u8 *src, u8 n)
         u8 k;
         for (i = 0; i < n; i++) {
             c = src[i];
-            k = func_021B8ED8(*(u8 **)(p + 0x134), c);
-            func_021F7EE8(func_021D5864(func_021B98AC(*(char *const **)(p + 0x138), k)), c);
+            k = func_021B8ED8(*(u8 * *)&((struct Obj10117 *)p)->f134, c);
+            func_021F7EE8(func_021D5864(func_021B98AC(*(char *const * *)&((struct Obj10117 *)p)->f138, k)), c);
             func_021EDA04(p + 0x48 + k * 12);
         }
         *state = *state + 1;

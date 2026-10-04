@@ -16,6 +16,7 @@
  * Only when the +0x18 pointer is live: spin on func_021D63BC until it
  *     reports ready, then hand the object to the func_021D639C release path.
  */
+#include "../include/Obj10680.h"
 
 typedef unsigned long u32;
 
@@ -24,7 +25,7 @@ extern void func_021D639C(char *obj);
 
 void func_021D63DC(char *obj)
 {
-    if (*(u32 *)(obj + 0x18) != 0) {
+    if (((struct Obj10680 *)obj)->f18 != 0) {
         while (func_021D63BC(obj) == 0)
             ;
         func_021D639C(obj);

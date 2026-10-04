@@ -15,6 +15,7 @@
  *
  * Decrement the u16 counter at +0x36 when it is non-zero.
  */
+#include "../include/Obj12193.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,9 +23,9 @@ typedef unsigned int u32;
 typedef signed int s32;
 void func_021F4F84(u8 *p)
 {
-    u16 v = *(u16 *)(p + 0x36);
+    u16 v = ((struct Obj12193 *)p)->f36;
 
     if (v != 0) {
-        *(u16 *)(p + 0x36) = v - 1;
+        ((struct Obj12193 *)p)->f36 = v - 1;
     }
 }

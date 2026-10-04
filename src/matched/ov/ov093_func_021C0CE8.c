@@ -31,6 +31,7 @@
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
  */
+#include "../include/Obj21066.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -53,7 +54,7 @@ int func_021C0CE8(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u
     u32 n = 0;
     for (; i < q->n; i++) {
         if (q->e[i].f == 0) {
-            o1[n] = (u32)func_021B9934(*(char **)(p + 8), (u8)q->e[i].lo);
+            o1[n] = (u32)func_021B9934(*(char * *)&((struct Obj21066 *)p)->f8, (u8)q->e[i].lo);
             o2[n] = q->e[i].v;
             o3[n] = q->e[i].b;
             o4[n] = q->e[i].d;

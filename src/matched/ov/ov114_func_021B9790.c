@@ -14,6 +14,7 @@
  * func_021B9774 0x021B9774 thumb ov114
  * func_0203C9AC 0x0203C9AC arm
  */
+#include "../include/Obj03763.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BF488(int a);
@@ -26,13 +27,13 @@ int func_021B9790(u8 *p)
     int a,b,c;
     int result;
     if (p == 0) return -1;
-    if (*(u32 *)(p+12) == 0) return 0;
-    result = func_021BF488(*(u32 *)(p+12));
+    if (((struct Obj03763 *)p)->fC == 0) return 0;
+    result = func_021BF488(((struct Obj03763 *)p)->fC);
     if (result == 15) {
-        func_021BF4B0(*(u32 *)(p+12), &a, &b);
+        func_021BF4B0(((struct Obj03763 *)p)->fC, &a, &b);
     } else {
-        int x = func_021BF488(*(u32 *)(p+12));
-        if (x == 0) func_021BE838((void *)(*(u32 *)(p+12)), (char **)(&c));
+        int x = func_021BF488(((struct Obj03763 *)p)->fC);
+        if (x == 0) func_021BE838((void *)(((struct Obj03763 *)p)->fC), (char **)(&c));
         else func_0203C9AC(x, 2, x, 0x3f6);
         func_021B9774(p);
         return result;

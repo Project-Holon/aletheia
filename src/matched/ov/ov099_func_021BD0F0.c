@@ -16,6 +16,7 @@
  *   func_0201AC2C  0x0201AC2C  thumb
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  */
+#include "../include/Obj04415.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,14 +39,14 @@ int func_021BD0F0(char *p, int v)
     if (func_0203D378() == 0) {
         t = 1;
     }
-    if (func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out) != 0
-        && *(int *)(p + 0xCC) == 0) {
-        func_0201AC2C(func_02012934(*(void **)(p + 0xC4)),
-                      *(void **)(*(char **)(p + 0x248) + t * 4 + 0x14));
-        *(u32 *)(p + 0x1CC) = 0x67;
+    if (func_021BCBBC(((struct Obj04415 *)p)->f1348, ((struct Obj04415 *)p)->fCC, &out) != 0
+        && ((struct Obj04415 *)p)->fCC == 0) {
+        func_0201AC2C(func_02012934(((struct Obj04415 *)p)->fC4),
+                      *(void **)(*(char * *)&((struct Obj04415 *)p)->f248 + t * 4 + 0x14));
+        ((struct Obj04415 *)p)->f1CC = 0x67;
     } else {
         func_021BAAB8(p, 0x71, 0);
-        *(u32 *)(p + 0x1CC) = 0x65;
+        ((struct Obj04415 *)p)->f1CC = 0x65;
     }
     return v;
 }

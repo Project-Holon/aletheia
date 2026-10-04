@@ -21,6 +21,8 @@
  *   func_021D8AD0 0x021D8AD0 thumb ov131
  *   func_021D8CD0 0x021D8CD0 thumb ov131
  */
+#include "../include/Obj00091.h"
+#include "../include/Obj00136.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D8E24(u8 *,u8 *);
@@ -36,19 +38,19 @@ extern void func_021D8CD0(u8 *,u8 *);
 void func_021D8A2C(u8 *a,u8 *p)
 {
     int index;
-    if(*(u32 *)(a+0x44)==1) {
+    if(((struct Obj00136 *)a)->f44==1) {
         if(p[0x10]==0) return;
         index=func_021D8E24(a,p);
         if(func_020362DC()!=1 && index==-1) return;
-        *(int *)(p+0x5c)=0;
+        ((struct Obj00091 *)p)->f5C=0;
         func_021D5A9C(a,0);
         if(func_020362DC()==1) {
             func_021D8EA8(a,p);
             a[0x1c]=0;
         } else {
-            *(u32 *)(p+0x64)=1;
+            ((struct Obj00091 *)p)->f64=1;
             p[0x58]=(u8)index;
-            *(u32 *)(p+0x68)=1;
+            ((struct Obj00091 *)p)->f68=1;
             p[0x59]=func_021D9428(p,(u8)index);
             func_021D5A9C(a,0);
             a[0x1c]=1;
@@ -57,6 +59,6 @@ void func_021D8A2C(u8 *a,u8 *p)
         func_021D964C(a,p);
         func_021D949C(a,p);
     } else {
-        if(*(u32 *)(p+8)==0 && func_021D8AD0(a,p)==0) func_021D8CD0(a,p);
+        if(*(u32 *)&((struct Obj00091 *)p)->f8==0 && func_021D8AD0(a,p)==0) func_021D8CD0(a,p);
     }
 }

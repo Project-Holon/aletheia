@@ -15,6 +15,7 @@
  * blocker: +000C ABS32 func_02025D14          -> unresolved: 02025D14 (arm, from name) has no witness outside 022119E8..022119F8
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25290.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_02025D14(u32);
 
 u32 func_022119E8(u8 *p)
 {
-    return func_02025D14(*(u32 *)(p + 0x2184));
+    return func_02025D14(((struct Obj25290 *)p)->f2184);
 }
 

@@ -37,6 +37,7 @@
  *   func_02041B6C  0x02041B6C  arm
  *   func_0203D34C  0x0203D34C  arm
  */
+#include "../include/Obj04352.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -107,22 +108,22 @@ int func_021B660C(u8 *p)
         ((int *)(p + 0x178))[i] = -1;
     W(0x1c) = *(int *)(W(0x280) + 0x34) == 0x19 ? 1 : 0;
     q = (u8 *)W(0x280);
-    if (*(int *)(q + 0x34) == 0x18) {
-        *(int *)(q + 0x34) = 3;
+    if (((struct Obj04352 *)q)->f34 == 0x18) {
+        ((struct Obj04352 *)q)->f34 = 3;
         W(0x18) = 1;
     } else {
         W(0x18) = 0;
     }
     q = (u8 *)W(0x280);
-    if (*(int *)(q + 0x34) == 0x1a) {
-        *(int *)(q + 0x34) = 1;
+    if (((struct Obj04352 *)q)->f34 == 0x1a) {
+        ((struct Obj04352 *)q)->f34 = 1;
         W(0x20) = 1;
     } else {
         W(0x20) = 0;
     }
     q = (u8 *)W(0x280);
-    if (*(int *)(q + 0x34) == 6 && *(u16 *)(q + 0x46) == 0)
-        *(u16 *)(W(0x280) + 0x46) = func_020212B0(*(u16 *)(q + 0x44));
+    if (((struct Obj04352 *)q)->f34 == 6 && ((struct Obj04352 *)q)->f46 == 0)
+        *(u16 *)(W(0x280) + 0x46) = func_020212B0(((struct Obj04352 *)q)->f44);
     func_021B6D90(p);
     func_021B7298(p);
     func_021B71E4(p);

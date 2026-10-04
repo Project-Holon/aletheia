@@ -21,6 +21,7 @@
  *   func_021BDB5C 0x021BDB5C thumb ov172
  *   func_021BD7D0 0x021BD7D0 thumb ov172
  */
+#include "../include/Obj03855.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -42,14 +43,14 @@ void func_021BD3B8(u8 *p)
 {
     u8 i;
     for (i=0; i<4; i++) func_020452E8((struct Descriptor *)(*(u32 *)(p + i*4 + 0x1b8)));
-    func_02030EAC((struct Node *)(*(u32 *)(p+4)));
-    func_021B6C34(*(char **)(p+0x1f4));
-    func_021BBA88((int)p, *(u32 *)(p+0x1f0));
-    func_021BA2B8((int)p, *(u32 *)(p+0x1ec));
-    func_021B8CB0(p, *(char **)(p+0x1e8));
-    func_021B7DCC(p, (char *)(*(u32 *)(p+0x1e4)));
-    func_021B70A8((int)p, (char *)(*(u32 *)(p+0x1e0)));
-    func_02027FD8((struct TaskMenuState *)(*(u32 *)(p+0x1d4)));
+    func_02030EAC((struct Node *)(((struct Obj03855 *)p)->f4));
+    func_021B6C34(*(char * *)&((struct Obj03855 *)p)->f1F4);
+    func_021BBA88((int)p, ((struct Obj03855 *)p)->f1F0);
+    func_021BA2B8((int)p, ((struct Obj03855 *)p)->f1EC);
+    func_021B8CB0(p, *(char * *)&((struct Obj03855 *)p)->f1E8);
+    func_021B7DCC(p, (char *)(((struct Obj03855 *)p)->f1E4));
+    func_021B70A8((int)p, (char *)(((struct Obj03855 *)p)->f1E0));
+    func_02027FD8((struct TaskMenuState *)(((struct Obj03855 *)p)->f1D4));
     func_021BDC70(p);
     func_021BDB5C(p);
     func_021BD7D0(p);

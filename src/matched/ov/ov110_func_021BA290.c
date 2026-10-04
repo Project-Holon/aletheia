@@ -16,6 +16,8 @@
  *   func_021BC72C 0x021BC72C thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj00135.h"
+#include "../include/Obj05287.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BF71C(u8 *);
@@ -27,11 +29,11 @@ extern u16 func_021BF714(u8 *);
 extern void func_021BC72C(u8 *, int);
 extern void func_021B9CBC(u8 *);
 void func_021BA290(int unused, u8 *p) {
-    u8 *q = *(u8 **)p;
+    u8 *q = *(u8 * *)&((struct Obj00135 *)p)->f0;
     q[0x74] = 0;
-    func_021BCF7C(*(u8 **)(q+0x64), func_021BF71C(*(u8 **)(q+0x18)), 0);
-    func_021BC728(*(u8 **)(q+0x54));
-    func_021BC704(*(u8 **)(q+0x54), 1);
-    func_021BC72C(*(u8 **)(q+0x54), func_021BF714(*(u8 **)(p+4)));
+    func_021BCF7C(*(u8 * *)&((struct Obj05287 *)q)->f64, func_021BF71C(*(u8 * *)&((struct Obj05287 *)q)->f18), 0);
+    func_021BC728(*(u8 * *)&((struct Obj05287 *)q)->f54);
+    func_021BC704(*(u8 * *)&((struct Obj05287 *)q)->f54, 1);
+    func_021BC72C(*(u8 * *)&((struct Obj05287 *)q)->f54, func_021BF714(*(u8 * *)&((struct Obj00135 *)p)->f4));
     func_021B9CBC(p);
 }

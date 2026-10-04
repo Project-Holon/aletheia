@@ -19,6 +19,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   func_021D7DC0 0x021D7DC0 thumb ov093
  */
+#include "../include/Obj03703.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -45,7 +46,7 @@ void func_021E11DC(int unused, void *q, int id)
         case 0:
             r = func_021C88A4(q, 12, id);
             r[15] = target;
-            *(int *)(r + 4) = value;
+            ((struct Obj03703 *)r)->f4 = value;
             func_021D7DC0(value, (int)m, (Word *)(r + 8));
             func_021C88C8(q, r);
             break;
@@ -53,8 +54,8 @@ void func_021E11DC(int unused, void *q, int id)
             r = func_021C88A4(q, 14, id);
             r[15] = 1;
             r[16] = target;
-            *(int *)(r + 4) = value;
-            *(s8 *)(r + 12) = -1;
+            ((struct Obj03703 *)r)->f4 = value;
+            ((struct Obj03703 *)r)->fC = -1;
             func_021C88C8(q, r);
             break;
         case 2:

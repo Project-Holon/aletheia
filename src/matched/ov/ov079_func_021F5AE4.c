@@ -12,6 +12,7 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13219.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ typedef unsigned short u16;
 void func_021F5AE4(u8 *w)
 {
     int *c = (int *)(w + 0x3000);
-    int n = *(u16 *)(w + 0x3008) * *(u16 *)(w + 0x300A);
+    int n = ((struct Obj13219 *)w)->f3008 * ((struct Obj13219 *)w)->f300A;
 
     if (c[0] < n) {
         if (c[1] == 0) {

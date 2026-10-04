@@ -15,6 +15,7 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AF28 0x0204AF28 arm
  */
+#include "../include/Obj00037.h"
 
 extern unsigned func_02020E60(unsigned a, unsigned b);
 typedef signed int     s32;
@@ -26,7 +27,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021B3CFC(char *w)
 {
-    *(void **)(w + 0x1EC) = (void *)func_0204AC18(*(void **)(w + 0x1F8), func_02020E60(1, 2), 0, 0x20, 0, 1, *(unsigned short *)(w + 4));
-    *(void **)(w + 0x1F0) = (void *)func_0204A6C8(*(void **)(w + 0x1F8), func_02020E60(1, 1), 0, 0, *(unsigned short *)(w + 4));
-    *(void **)(w + 0x1F4) = (void *)func_0204AF28(*(void **)(w + 0x1F8), 1, 0, *(unsigned short *)(w + 4));
+    ((struct Obj00037 *)w)->f1EC = (void *)func_0204AC18(((struct Obj00037 *)w)->f1F8, func_02020E60(1, 2), 0, 0x20, 0, 1, ((struct Obj00037 *)w)->f4);
+    ((struct Obj00037 *)w)->f1F0 = (void *)func_0204A6C8(((struct Obj00037 *)w)->f1F8, func_02020E60(1, 1), 0, 0, ((struct Obj00037 *)w)->f4);
+    ((struct Obj00037 *)w)->f1F4 = (void *)func_0204AF28(((struct Obj00037 *)w)->f1F8, 1, 0, ((struct Obj00037 *)w)->f4);
 }

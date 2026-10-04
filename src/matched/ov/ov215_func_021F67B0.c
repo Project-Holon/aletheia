@@ -18,6 +18,7 @@
  *   sub_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04636.h"
 struct Node;
 extern void func_021F7028(char *);
 extern void func_021F6F18(char *);
@@ -26,4 +27,4 @@ extern void func_021F6CAC(char *);
 extern void func_021F6AE0(char *);
 extern void sub_02030EAC(struct Node *);
 extern void func_020307B0(void *);
-void func_021F67B0(char *p){func_021F7028(p);func_021F6F18(p);func_021F6E4C(*(char **)(p+68));func_021F6CAC(p);func_021F6AE0(p);sub_02030EAC(*(struct Node **)(p+44));func_020307B0(p);}
+void func_021F67B0(char *p){func_021F7028(p);func_021F6F18(p);func_021F6E4C(*(char * *)&((struct Obj04636 *)p)->f44);func_021F6CAC(p);func_021F6AE0(p);sub_02030EAC(*(struct Node * *)&((struct Obj04636 *)p)->f2C);func_020307B0(p);}

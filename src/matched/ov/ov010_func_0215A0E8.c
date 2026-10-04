@@ -19,6 +19,7 @@
  *   func_0215A214  0x0215A214  thumb  ov010
  *   d_021728CC  0x021728CC  data
  */
+#include "../include/Obj04920.h"
 
 typedef unsigned int u32;
 
@@ -48,7 +49,7 @@ void *func_0215A0E8(int a, int b, int c, int d, unsigned short e)
     p[0x38 / 4] = 0;
     p[0x3c / 4] = 0;
     *((unsigned char *)p + 0x5e) = d;
-    *(unsigned short *)((unsigned char *)p + 0x46) = e;
+    ((struct Obj04920 *)p)->f46 = e;
     r = func_020122C0((void *)a, 0, func_0215A214, 0x18);
     q = func_020124E8(r);
     q[0] = a;

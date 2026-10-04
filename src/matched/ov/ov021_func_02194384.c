@@ -13,6 +13,8 @@
  *   func_0216D854  0x0216D854  thumb  ov010
  *   func_02163C04  0x02163C04  thumb  ov010
  */
+#include "../include/Obj07448.h"
+#include "../include/Obj12622.h"
 
 typedef unsigned short u16;
 typedef short s16;
@@ -27,16 +29,16 @@ int func_02194384(u16 *a, s16 b, int c, s16 d, int *e, unsigned *f)
     short dlt;
 
     if (*f < n) {
-        q = *(unsigned char **)(a + 4) + *f * 0xc;
+        q = *(unsigned char * *)&((struct Obj12622 *)a)->f8 + *f * 0xc;
         do {
             (*f)++;
-            if (*(void **)(q + 8) != 0) {
-                dlt = func_0216D854(*(void **)(q + 8)) - c;
+            if (((struct Obj07448 *)q)->f8 != 0) {
+                dlt = func_0216D854(((struct Obj07448 *)q)->f8) - c;
                 if (dlt < 0)
                     dlt = -dlt;
                 if (dlt < 1) {
-                    if (func_02163C04((int)(*(void **)(q + 8)), b, d, 1)) {
-                        *e = *(int *)q;
+                    if (func_02163C04((int)(((struct Obj07448 *)q)->f8), b, d, 1)) {
+                        *e = ((struct Obj07448 *)q)->f0;
                         return 1;
                     }
                 }

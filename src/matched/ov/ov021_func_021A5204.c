@@ -15,6 +15,7 @@
  *   func_0216D410  0x0216D410  thumb  ov010
  *   func_021A3964  0x021A3964  thumb  ov021
  */
+#include "../include/Obj19801.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ void func_021A3964(u8 *p, u32 v);
 
 void func_021A5204(u32 *p, int b, u8 *c)
 {
-    func_0216D410(b, func_02197E7C(*(u16 *)(c + 8), 0x24));
+    func_0216D410(b, func_02197E7C(((struct Obj19801 *)c)->f8, 0x24));
     p[0] = 2;
     func_021A3964((u8 *)p[3], 2);
 }

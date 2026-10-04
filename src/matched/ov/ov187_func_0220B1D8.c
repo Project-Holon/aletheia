@@ -17,6 +17,9 @@
  *   func_02013930 0x02013930 thumb
  *   func_0220B0F8 0x0220B0F8 thumb ov187
  */
+#include "../include/Obj01819.h"
+#include "../include/Obj10802.h"
+#include "../include/Obj24886.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,13 +36,13 @@ extern void func_02013930(void *);
 extern void func_0220B0F8(u8 *p, u32 v);
 void func_0220B1D8(u8 *a, u8 *b)
 {
-    void *p = (void *)func_02012A30(*(void **)(*(u8 **)(b+0x17F0)+4));
+    void *p = (void *)func_02012A30(((struct Obj24886 *)(*(u8 * *)&((struct Obj10802 *)b)->f17F0))->f4);
     func_02005E9C();
     func_02005DE4(0);
     func_02005DF8(30);
-    if (*(u32 *)*(u8 **)(b+0x17F0) == 0) func_02028A58(p,64,0);
-    *(u32 *)(b+0x17E4) = ((Flag *)(a+0xC1))->flag;
-    func_020307B0(*(void **)(a+0x34));
+    if (*(u32 *)*(u8 * *)&((struct Obj10802 *)b)->f17F0 == 0) func_02028A58(p,64,0);
+    ((struct Obj10802 *)b)->f17E4 = ((Flag *)(a+0xC1))->flag;
+    func_020307B0(((struct Obj01819 *)a)->f34);
     func_02013930(a);
     func_020307B0(a);
     func_0220B0F8((u8 *)((u32)b),0);

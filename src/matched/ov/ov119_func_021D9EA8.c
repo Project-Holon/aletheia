@@ -10,9 +10,10 @@
  * symbols:
  *   func_021D8B38 0x021D8B38 thumb ov119
  */
+#include "../include/Obj00001.h"
 extern void func_021D8B38(char *p);
 void func_021D9EA8(char *p,int a,int b) {
- *(int *)(p+0xF74)=a;
- *(int *)(p+0xF78)=b;
+ ((struct Obj00001 *)p)->fF74=a;
+ ((struct Obj00001 *)p)->fF78=b;
  func_021D8B38(p);
 }

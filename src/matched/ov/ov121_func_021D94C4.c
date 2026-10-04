@@ -12,6 +12,7 @@
  *   func_0202D214 0x0202D214 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj13942.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_0202D6F4(void **,int,int,u16);
@@ -30,7 +31,7 @@ unsigned func_021D94C4(int id,int heap)
     func_0202D214(object,heap);
     for(row=11;row>=0;row--) {
         for(col=0;col<12;col++) {
-            unsigned *p=(unsigned *)(*(u8 **)((u8 *)object+20)+(row*12+col)*32);
+            unsigned *p=(unsigned *)(*(u8 * *)&((struct Obj13942 *)object)->f14+(row*12+col)*32);
             for(bit=7;bit>=0;bit--) {
                 if(p[bit]) {
                     unsigned index=row*8+bit;

@@ -13,6 +13,7 @@
  *   func_02021FD8  0x02021FD8  thumb
  *   func_021D3294  0x021D3294  thumb  ov021
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -25,12 +26,12 @@ extern void func_021D3294(u32 p, u32 a, u32 b, u32 c, u32 d);
 void func_021F0208(u8 *p, int flag)
 {
     if (flag) {
-        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(p + 0xac)), 1, 0, 0xe0, 6, 0);
-        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(p + 0xac)), 3, 0, 0xe0, 6, 0);
-        func_021D3294(*(u32 *)(p + 0x10), 5, 0x1e, 0xa, 6);
+        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 1, 0, 0xe0, 6, 0);
+        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 3, 0, 0xe0, 6, 0);
+        func_021D3294(((struct Obj00007 *)p)->f10, 5, 0x1e, 0xa, 6);
     } else {
-        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(p + 0xac)), 1, 0, 0xe0, 0, 0);
-        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(p + 0xac)), 3, 0, 0xe0, 0, 0);
-        func_021D3294(*(u32 *)(p + 0x10), 4, 0x1e, 0xd, 3);
+        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 1, 0, 0xe0, 0, 0);
+        func_02021FD8((struct Chan02021FD8 *)(((struct Obj00007 *)p)->fAC), 3, 0, 0xe0, 0, 0);
+        func_021D3294(((struct Obj00007 *)p)->f10, 4, 0x1e, 0xd, 3);
     }
 }

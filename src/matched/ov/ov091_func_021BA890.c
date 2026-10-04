@@ -15,6 +15,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03678.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,4 +28,4 @@ extern void func_0204B084(void *);
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A8D4(u32);
 extern void func_020307B0(void *);
-void func_021BA890(void *ignored,u8 *p) { if (!*(u32 *)(p+0x14)) { func_020452E8(*(void **)(p+0x20)); func_0204B3B4(*(void **)(p+0x30)); func_0204B3B4(*(void **)(p+0x34)); func_0204B3B4(*(void **)(p+0x38)); func_0204B084(*(void **)(p+0x24)); func_0204B1CC(*(void **)(p+0x28)); func_0204A8D4(*(u32 *)(p+0x2c)); } func_020307B0(p); }
+void func_021BA890(void *ignored,u8 *p) { if (!((struct Obj03678 *)p)->f14) { func_020452E8(((struct Obj03678 *)p)->f20); func_0204B3B4(((struct Obj03678 *)p)->f30); func_0204B3B4(((struct Obj03678 *)p)->f34); func_0204B3B4(((struct Obj03678 *)p)->f38); func_0204B084(((struct Obj03678 *)p)->f24); func_0204B1CC(((struct Obj03678 *)p)->f28); func_0204A8D4(((struct Obj03678 *)p)->f2C); } func_020307B0(p); }

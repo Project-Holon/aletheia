@@ -17,6 +17,7 @@
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
+#include "../include/Obj00000.h"
 struct WinMgr;
 extern void func_020061E4(unsigned);
 typedef unsigned int   u32;
@@ -76,6 +77,6 @@ int func_021E62FC(unsigned char *p)
         func_021ECB20(p, 0x82, 1);
     }
     *(unsigned short *)(WORK(p) + 0xa16c) = 0;
-    *(int *)(p + 0x28) = 0x3d;
+    ((struct Obj00000 *)p)->f28 = 0x3d;
     return func_021E8F50(p, 6);
 }

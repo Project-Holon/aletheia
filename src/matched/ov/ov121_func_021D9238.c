@@ -11,12 +11,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10411.h"
 
 typedef unsigned int u32;
 
 void func_021D9238(char *p)
 {
-    if (*(u32 *)(p + 4) != 0 && *(u32 *)p != 0) {
+    if (((struct Obj10411 *)p)->f4 != 0 && ((struct Obj10411 *)p)->f0 != 0) {
         void (*fp)(char *) = *(void (**)(char *))(p + 0x11c);
         if (fp != 0)
             fp(p);

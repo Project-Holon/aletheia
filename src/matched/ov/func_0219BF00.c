@@ -19,6 +19,7 @@
  *   func_0216D568  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12076.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,10 +34,10 @@ extern int func_0219BF48(u32 a);
 
 int func_0219BF00(u32 a, u32 b, u32 c, u32 d)
 {
-if (*(u8 *)((u8 *)(b) + 2) == 0) {
+if (((struct Obj12076 *)((u8 *)(b)))->f2 == 0) {
     if (func_0219BF48(a) == 0) {
         if (func_0216DB24(a) == 1) {
-            func_0219BF3C(a, func_0219BEB4(a, *(u8 *)((u8 *)(b) + 1)));
+            func_0219BF3C(a, func_0219BEB4(a, ((struct Obj12076 *)((u8 *)(b)))->f1));
         }
     }
     func_0216D568((void *)a, (2 << 14));

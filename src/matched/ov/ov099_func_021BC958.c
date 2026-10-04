@@ -22,6 +22,8 @@
  * Twins: func_021BCA14 (+0x22 byte, +0x134e halfword) and func_021BCAD0
  * (stores 1 - r at +0x20).
  */
+#include "../include/Obj01915.h"
+#include "../include/Obj22029.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,25 +47,25 @@ int func_021BC958(char *p, int v)
     int r;
     int q;
 
-    q = *(int *)(p + 0x1B8);
-    if (*(u8 *)(p + 0x1B0) != 0) {
-        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC)))) == 0) {
-            func_02045334((struct Descriptor *)*(int *)(p + 0x1AC));
-            *(u8 *)(p + 0x1B0) = 0;
+    q = ((struct Obj01915 *)p)->f1B8;
+    if (((struct Obj01915 *)p)->f1B0 != 0) {
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)((struct Obj01915 *)p)->f1AC))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj01915 *)p)->f1AC);
+            ((struct Obj01915 *)p)->f1B0 = 0;
         }
     }
-    r = func_020200CC((struct Obj *)(*(int *)(p + 0xbc)));
+    r = func_020200CC((struct Obj *)(((struct Obj01915 *)p)->fBC));
     if (r != -2) {
         if (r == -1) {
             return v;
         }
-        *(u16 *)(p + 0x134c) = r;
-        *(u8 *)(*(char **)(p + 0x248) + 0x21) = r;
+        ((struct Obj01915 *)p)->f134C = r;
+        ((struct Obj22029 *)(*(char * *)&((struct Obj01915 *)p)->f248))->f21 = r;
     }
-    *(u32 *)(p + 0x1CC) = 0x4e;
+    ((struct Obj01915 *)p)->f1CC = 0x4e;
     func_021BA8EC(p);
-    *(void **)(p + 0x1A4) = (void *)func_021BA8BC(*(void **)(p + 0x1A4));
-    func_0202020C((struct Obj *)(*(int *)(p + 0xbc)), 0, (u16 *)(p + 0x236));
-    func_0201F868((void *)(*(int *)(p + 0xb8)));
+    ((struct Obj01915 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj01915 *)p)->f1A4);
+    func_0202020C((struct Obj *)(((struct Obj01915 *)p)->fBC), 0, (u16 *)(p + 0x236));
+    func_0201F868((void *)(((struct Obj01915 *)p)->fB8));
     return v;
 }

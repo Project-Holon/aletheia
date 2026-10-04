@@ -14,6 +14,7 @@
  *   func_021B9B64  0x021B9B64  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  */
+#include "../include/Obj22028.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ int func_021BC4D4(char *p, int v)
         *(u32 *)(p + (o - 0xa8)) = 0x52;
         func_021BA8EC(p);
     } else {
-        *(u8 *)(p + 0x1353) = 0x90;
+        ((struct Obj22028 *)p)->f1353 = 0x90;
         *(u32 *)(p + (o - 0xa8)) = 0x8a;
     }
     return v;

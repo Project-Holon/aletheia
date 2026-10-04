@@ -23,6 +23,8 @@
  *   func_021C8120 0x021C8120 thumb ov093
  *   func_021C7F68 0x021C7F68 thumb ov093
  */
+#include "../include/Obj05222.h"
+#include "../include/Obj13508.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,9 +53,9 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     u8 *entry;
     if (c != func_021D775C(3)) return;
     if (func_021D62C4(func_021C7CF4(b, c), 25) != 0) return;
-    if (*(u32 *)(d + 24) != 0) return;
+    if (((struct Obj13508 *)d)->f18 != 0) return;
     p = func_021C88A4(b, 12, c);
-    *(u32 *)(p + 4) = 25;
+    ((struct Obj05222 *)p)->f4 = 25;
     *(Word *)(p + 8) = func_021E896C(3, func_021D70A8(a));
     p[12] = 0;
     p[15] = c;
@@ -69,7 +71,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
         entry = buf + i;
         if (func_021D62C4(func_021C7CF4(b, entry[1]), 2) != 0) {
             p = func_021C88A4(b, 11, c);
-            *(u32 *)(p + 4) = 2;
+            ((struct Obj05222 *)p)->f4 = 2;
             p[20] = 1;
             p[8] = entry[1];
             func_021C8838(p + 24, 2, 706);
@@ -77,5 +79,5 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
             func_021C88C8(b, p);
         }
     }
-    *(u32 *)(d + 24) = 1;
+    ((struct Obj13508 *)d)->f18 = 1;
 }

@@ -14,6 +14,7 @@
  *   func_02009864 0x02009864 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj00992.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -26,19 +27,19 @@ int func_021C9D88(u8 *p,int direction)
     int index;
     u32 data;
     u32 count;
-    data=func_0201283C(*(void **)(p+4));
-    index=*(s8 *)(p+11);
+    data=func_0201283C(((struct Obj00992 *)p)->f4);
+    index=((struct Obj00992 *)p)->fB;
     if(direction==0) {
-        for(count=0;count<*(u32 *)(p+16)-1;count++) {
+        for(count=0;count<((struct Obj00992 *)p)->f10-1;count++) {
             index--;
-            if(index<0) index+=*(u32 *)(p+16);
-            if(*(s8 *)(p+11)==index) goto fail;
+            if(index<0) index+=((struct Obj00992 *)p)->f10;
+            if(((struct Obj00992 *)p)->fB==index) goto fail;
             if(func_02009864((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
         }
     } else {
-        for(count=0;count<*(u32 *)(p+16)-1;count++) {
-            index=(u32)(index+1)%*(u32 *)(p+16);
-            if(*(s8 *)(p+11)==index) goto fail;
+        for(count=0;count<((struct Obj00992 *)p)->f10-1;count++) {
+            index=(u32)(index+1)%((struct Obj00992 *)p)->f10;
+            if(((struct Obj00992 *)p)->fB==index) goto fail;
             if(func_02009864((const struct Sub020097BCObj *)data,p[index+24],9)!=2) return 1;
         }
     }

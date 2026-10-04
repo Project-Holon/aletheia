@@ -29,6 +29,7 @@
  *   d_021B8FB4 0x021B8FB4 data
  *   d_021B8F40 0x021B8F40 data ov104
  */
+#include "../include/Obj22217.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -74,7 +75,7 @@ void func_021B7994(void *p,u16 heap) {
  func_020498F4((void *)((u32)archive),4,6,0,0,0,heap);
  func_020498F4((void *)((u32)archive),0x2f,4,0,0,0,heap);
  func_02040C14(5,0,1,0);
- *(u32 *)p=func_02049740((void *)((u32)archive),0x31,5,0,0,heap);
+ ((struct Obj22217 *)p)->f0=func_02049740((void *)((u32)archive),0x31,5,0,0,heap);
  func_02049238(archive);
  func_02049B40(0x17,5,0,0x1a0,0x20,heap);
  func_02040C14(2,0,1,0);

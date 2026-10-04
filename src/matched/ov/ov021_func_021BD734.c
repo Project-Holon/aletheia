@@ -19,6 +19,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12883.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ extern void func_020061E4(u32);
 u32 func_021BD734(u32 a, int *st, u32 *ctx)
 {
     u8 *p = (u8 *)ctx[2];
-    u32 x = *(u32 *)(p + 0xc);
+    u32 x = ((struct Obj12883 *)p)->fC;
 
     switch (*st) {
     case 0:
@@ -48,7 +49,7 @@ u32 func_021BD734(u32 a, int *st, u32 *ctx)
         break;
     case 1:
         if (func_02161B74(ctx[1])) {
-            if (*(int *)(p + 0x38) != 2)
+            if (((struct Obj12883 *)p)->f38 != 2)
                 func_020061E4(0x559);
             func_021BD988(ctx, a);
             (*st)++;

@@ -29,6 +29,7 @@
  *
  * Storage-server record download step (state at +0x12c): initialises the database client, requests our records (or the one record id at +0x1b0), polls with a 3600-tick timeout, collects the result and shuts the client down; returns 1 when done, 2 on error (the error and its source line go to +0x18), 0 while running.
  */
+#include "../include/Obj00840.h"
 
 typedef unsigned long u32;
 
@@ -54,70 +55,70 @@ int func_021DB478(char *obj)
 {
     int r;
 
-    switch (*(u32 *)(obj + 0x12c)) {
+    switch (((struct Obj00840 *)obj)->f12C) {
     case 0:
-        r = DWC_GdbInitialize(0xb5f, *(u32 *)obj, 0);
+        r = DWC_GdbInitialize(0xb5f, ((struct Obj00840 *)obj)->f0, 0);
         if (r != 0) {
             func_021DCE40(obj + 0x18, r, 0xdef);
             func_021DB6A0(obj);
             return 2;
         }
-        *(u32 *)(obj + 0x12c) = 1;
+        ((struct Obj00840 *)obj)->f12C = 1;
         break;
     case 1:
-        if (*(int *)(obj + 0x198) >= 0x26)
+        if (((struct Obj00840 *)obj)->f198 >= 0x26)
             func_02034714(d_021E2EF8, 0, d_021E2EF8);
-        if (*(int *)(obj + 0x1b0) == -1)
-            r = DWC_GdbGetMyRecordsAsync(d_021E2F1C, *(void **)(obj + 0x194), *(int *)(obj + 0x198), func_021DB72C, obj);
+        if (((struct Obj00840 *)obj)->f1B0 == -1)
+            r = DWC_GdbGetMyRecordsAsync(d_021E2F1C, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, func_021DB72C, obj);
         else
-            r = DWC_GdbGetRecordsAsync(d_021E2F1C, (int *)(obj + 0x1b0), 1, *(void **)(obj + 0x194), *(int *)(obj + 0x198), func_021DB72C, obj);
+            r = DWC_GdbGetRecordsAsync(d_021E2F1C, (int *)(obj + 0x1b0), 1, ((struct Obj00840 *)obj)->f194, ((struct Obj00840 *)obj)->f198, func_021DB72C, obj);
         if (r != 0) {
             func_021DCE40(obj + 0x18, r, 0xe0a);
             func_021DB6A0(obj);
             return 2;
         }
-        *(u32 *)(obj + 0x12c) = 2;
-        *(u32 *)(obj + 0x1a0) = 0;
+        ((struct Obj00840 *)obj)->f12C = 2;
+        ((struct Obj00840 *)obj)->f1A0 = 0;
         break;
     case 2:
-        if ((*(u32 *)(obj + 0x1a0))++ > 0xe10) {
+        if ((((struct Obj00840 *)obj)->f1A0)++ > 0xe10) {
             func_021DCE08(obj + 0x18, 1, 0xe17);
-            *(u32 *)(obj + 0x12c) = 6;
+            ((struct Obj00840 *)obj)->f12C = 6;
             break;
         }
         DWC_GdbProcess();
         r = DWC_GdbGetState();
         if (r == 0 || r == 4) {
             func_021DCE48(obj + 0x18, r, 0xe26);
-            *(u32 *)(obj + 0x12c) = 6;
+            ((struct Obj00840 *)obj)->f12C = 6;
         } else if (r == 1) {
-            *(u32 *)(obj + 0x12c) = 3;
+            ((struct Obj00840 *)obj)->f12C = 3;
         }
         break;
     case 3:
         r = DWC_GdbGetAsyncResult();
         if (r == 0) {
             func_021DCE50(obj + 0x18, r, 0xe39);
-            *(u32 *)(obj + 0x12c) = 6;
+            ((struct Obj00840 *)obj)->f12C = 6;
         } else if (r != 1) {
             func_021DCE50(obj + 0x18, r, 0xe3f);
             func_021DB6A0(obj);
             return 2;
         } else {
-            *(u32 *)(obj + 0x12c) = 4;
+            ((struct Obj00840 *)obj)->f12C = 4;
         }
         break;
     case 4:
         func_021DB6A0(obj);
-        *(u32 *)(obj + 0x12c) = 5;
+        ((struct Obj00840 *)obj)->f12C = 5;
         break;
     case 5:
         return 1;
     case 6:
         r = DWC_GdbCancelRequest();
         if (r == 0) {
-            *(u32 *)(obj + 0x1a0) = 0;
-            *(u32 *)(obj + 0x12c) = 7;
+            ((struct Obj00840 *)obj)->f1A0 = 0;
+            ((struct Obj00840 *)obj)->f12C = 7;
         } else {
             func_021DCE40(obj + 0x18, r, 0xe5e);
             func_021DB6A0(obj);
@@ -125,7 +126,7 @@ int func_021DB478(char *obj)
         }
         break;
     case 7:
-        if ((*(u32 *)(obj + 0x1a0))++ > 0xe10) {
+        if ((((struct Obj00840 *)obj)->f1A0)++ > 0xe10) {
             func_021DCE08(obj + 0x18, 1, 0xe6a);
             func_021DB6A0(obj);
             return 2;
@@ -137,7 +138,7 @@ int func_021DB478(char *obj)
             return 2;
         }
         if (r == 1)
-            *(u32 *)(obj + 0x12c) = 8;
+            ((struct Obj00840 *)obj)->f12C = 8;
         break;
     case 8:
         func_021DB6A0(obj);

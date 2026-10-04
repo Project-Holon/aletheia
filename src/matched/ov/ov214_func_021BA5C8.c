@@ -14,6 +14,7 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_021BA4E8 0x021BA4E8 thumb ov214
  */
+#include "../include/Obj02552.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Descriptor;
@@ -27,13 +28,13 @@ extern void func_021BA4E8(void*,char*);
 void func_021BA5C8(void*obj,char*p)
 {
     void*h;
-    h=func_02045EC0(*(void**)(p+0x58),19);
-    func_0201C724(*(void**)(p+0x10),(unsigned)func_02045770(*(void**)(p+0x8c)),4,1,(unsigned)h,*(unsigned*)(p+8),0x440);
+    h=func_02045EC0(*(void* *)&((struct Obj02552 *)p)->f58,19);
+    func_0201C724(*(void* *)&((struct Obj02552 *)p)->f10,(unsigned)func_02045770(*(void* *)&((struct Obj02552 *)p)->f8C),4,1,(unsigned)h,((struct Obj02552 *)p)->f8,0x440);
     func_02045808(h);
-    *(int*)(p+0x9c)=0;
-    h=func_02045EC0(*(void**)(p+0x58),*(unsigned*)(p+0x2a4));
-    func_0201C724(*(void**)(p+0x10),(unsigned)func_02045770(*(void**)(p+0x90)),4,1,(unsigned)h,*(unsigned*)(p+8),0x440);
+    ((struct Obj02552 *)p)->f9C=0;
+    h=func_02045EC0(*(void* *)&((struct Obj02552 *)p)->f58,((struct Obj02552 *)p)->f2A4);
+    func_0201C724(*(void* *)&((struct Obj02552 *)p)->f10,(unsigned)func_02045770(*(void* *)&((struct Obj02552 *)p)->f90),4,1,(unsigned)h,((struct Obj02552 *)p)->f8,0x440);
     func_02045808(h);
-    *(int*)(p+0xa0)=0;
+    ((struct Obj02552 *)p)->fA0=0;
     func_021BA4E8(obj,p);
 }

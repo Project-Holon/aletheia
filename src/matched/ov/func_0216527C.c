@@ -16,6 +16,7 @@
  * symbols:
  *   func_02027430   0x02027430  thumb
  */
+#include "../include/Obj05720.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_02027430(void *, unsigned);
 
 void func_0216527C(void *a0, unsigned a1)
 {
-    *(u16 *)((char *)a0 + 0x30) = 0xA;
-    *(u16 *)((char *)a0 + 0x34) = a1;
+    ((struct Obj05720 *)a0)->f30 = 0xA;
+    ((struct Obj05720 *)a0)->f34 = a1;
     func_02027430(a0, a1);
 }
 

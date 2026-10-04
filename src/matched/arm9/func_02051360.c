@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02051360.c \
  *       --func func_02051360 --addr 0x02051360 --cc 1.1p1 --arm
  */
+#include "../include/Obj02319.h"
 
 typedef unsigned short u16;
 
@@ -21,5 +22,5 @@ extern void func_02051230(void *p, unsigned int a1, unsigned int a2, unsigned in
 void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3)
 {
     func_02051230(p, a1, a2, a3);
-    *(u16 *)((char *)p + 50) = (u16)((*(u16 *)((char *)p + 50) & ~1) | 1);
+    ((struct Obj02319 *)p)->f32 = (u16)((((struct Obj02319 *)p)->f32 & ~1) | 1);
 }

@@ -14,6 +14,7 @@
  *   func_021B0614  0x021B0614  arm  ov013
  *   d_021B3C80     0x021B3C80  data  ov013
  */
+#include "../include/Obj19303.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,7 +29,7 @@ int func_021AECC4(void)
     u8 *p = *(u8 **)(d_021B3C80 + 0x1A1C);
     int r;
 
-    if (p != 0 && *(int *)(p + 0xc) == 4) {
+    if (p != 0 && ((struct Obj19303 *)p)->fC == 4) {
         r = 0;
         if (func_021B2180((int)p, 0) != 0) {
             return r;

@@ -14,12 +14,14 @@
  *
  * Tail call func_02030EAC with the word at +0x2c/+0x54.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj18437.h"
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
 void func_021DC964(char *p)
 {
-    func_02030EAC(*(void **)(*(char **)(p + 0x2c) + 0x54));
+    func_02030EAC(((struct Obj18437 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f54);
 }
 

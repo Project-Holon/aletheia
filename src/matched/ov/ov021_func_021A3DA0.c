@@ -22,6 +22,7 @@
  *   func_021AC154  0x021AC154  thumb  ov021
  *   func_0216D8E0  0x0216D8E0  thumb  ov010
  */
+#include "../include/Obj19780.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -59,6 +60,6 @@ int func_021A3DA0(u8 *p)
         func_021A3AD0(p, 0);
     }
     func_0216D8E0(b, buf);
-    *(u16 *)(p + 0x32) = 1;
+    ((struct Obj19780 *)p)->f32 = 1;
     return 0;
 }

@@ -18,6 +18,7 @@
  *   func_0204581C  0x0204581C  arm
  *   func_02031194  0x02031194  arm
  */
+#include "../include/Obj00225.h"
 
 typedef unsigned char u8;
 
@@ -38,19 +39,19 @@ void func_021F0EDC(char *p)
 
     func_021F0EA4(p, 0);
     func_021F0ED0(p, 0);
-    func_02043B5C((struct CharBuf *)(*(int *)(p + 0x1c)), 0);
-    func_020257D0((struct Obj *)(*(int *)(p + 0x18)));
-    func_0204581C((struct U16Vec *)(*(int *)(p + 0x24)));
-    func_0204581C((struct U16Vec *)(*(int *)(p + 0x20)));
-    *(u8 *)(p + 1) = 0xff;
-    *(u8 *)(p + 2) = z;
-    *(u8 *)(p + 3) = z;
-    if (*(int *)(p + 0x2c) != 0) {
-        func_02031194((struct TcblNode *)(*(int *)(p + 0x2c)));
-        *(int *)(p + 0x2c) = z;
+    func_02043B5C((struct CharBuf *)(((struct Obj00225 *)p)->f1C), 0);
+    func_020257D0((struct Obj *)(*(int *)&((struct Obj00225 *)p)->f18));
+    func_0204581C((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f24));
+    func_0204581C((struct U16Vec *)(*(int *)&((struct Obj00225 *)p)->f20));
+    ((struct Obj00225 *)p)->f1 = 0xff;
+    ((struct Obj00225 *)p)->f2 = z;
+    ((struct Obj00225 *)p)->f3 = z;
+    if (((struct Obj00225 *)p)->f2C != 0) {
+        func_02031194((struct TcblNode *)(((struct Obj00225 *)p)->f2C));
+        ((struct Obj00225 *)p)->f2C = z;
     }
-    if (*(int *)(p + 0x30) != 0) {
-        func_02031194((struct TcblNode *)(*(int *)(p + 0x30)));
-        *(int *)(p + 0x30) = 0;
+    if (*(int *)&((struct Obj00225 *)p)->f30 != 0) {
+        func_02031194((struct TcblNode *)(*(int *)&((struct Obj00225 *)p)->f30));
+        *(int *)&((struct Obj00225 *)p)->f30 = 0;
     }
 }

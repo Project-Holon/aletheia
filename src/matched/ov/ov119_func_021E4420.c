@@ -20,6 +20,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045788 0x02045788 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -65,8 +66,8 @@ void func_021E4420(char *p)
             if (*(u32 *)(q+h) == 0)
                 *(u32 *)(q+off1) = func_020450F0(5,0,0,15,2,14,0);
             if (i == *(int *)(p+off))
-                func_02045CAC(*(void **)(p+0x720),16,*(void **)(p+off2));
-            else func_0200785C(*(void **)(p+0x828),i,*(void **)(p+off3));
+                func_02045CAC(((struct Obj00001 *)p)->f720,16,*(void **)(p+off2));
+            else func_0200785C(((struct Obj00001 *)p)->f828,i,*(void **)(p+off3));
             func_0201DD78(15,2,zero);
             func_02043B5C(func_02045770(*(void **)(q+a)),zero);
             func_0201C7A4(func_02045770(*(void **)(q+b)),zero,1,*(void **)(p+d),*(void **)(p+c));

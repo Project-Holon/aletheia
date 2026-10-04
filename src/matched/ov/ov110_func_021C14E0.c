@@ -15,6 +15,7 @@
  *   func_021C09E0 0x021C09E0 thumb ov110
  *   func_021C0C50 0x021C0C50 thumb ov110
  */
+#include "../include/Obj03244.h"
 typedef unsigned char u8;
 struct TaskMenu;
 extern void func_021C0B44(struct TaskMenu *);
@@ -23,14 +24,14 @@ extern void func_02023F60(unsigned, unsigned, unsigned);
 extern void func_021C09E0(u8 *);
 extern void func_021C0C50(u8 *);
 int func_021C14E0(void *arg, u8 *p) {
-    func_021C0B44(*(void **)(p+0x68));
-    *(int *)(p+0xa8) = func_020355C4()==1;
-    if (*(int *)(p+0xa0)==4) {
+    func_021C0B44(((struct Obj03244 *)p)->f68);
+    ((struct Obj03244 *)p)->fA8 = func_020355C4()==1;
+    if (((struct Obj03244 *)p)->fA0==4) {
         func_02023F60(0,30,1);
         func_021C09E0(p+0x24);
         p[0x44]=0;
-        *(int *)(p+0x40)=0;
-        if (*(int *)(p+0xa8)!=0) {
+        ((struct Obj03244 *)p)->f40=0;
+        if (((struct Obj03244 *)p)->fA8!=0) {
             p[0x94]=p[0x95];
             p[0x95]=255;
             func_021C0C50(p);

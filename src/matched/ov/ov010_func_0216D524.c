@@ -11,8 +11,9 @@
  *
  * Unlabelled leaf: str r1, [r0, #0x28]; bx lr.
  */
+#include "../include/Obj19121.h"
 
 void func_0216D524(void *p, void *v)
 {
-    *(void **)((char *)p + 0x28) = v;
+    ((struct Obj19121 *)p)->f28 = v;
 }

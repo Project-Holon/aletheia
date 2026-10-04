@@ -9,10 +9,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13145.h"
 typedef unsigned char u8;
 typedef void (*Callback)(void *, void *, int);
 void func_021BB120(u8 *p)
 {
-    if (*(int *)(p + 4) == 0)
-        (*(Callback *)p)(p, p + 8, *(int *)(p + 12));
+    if (((struct Obj13145 *)p)->f4 == 0)
+        (*(Callback *)p)(p, p + 8, ((struct Obj13145 *)p)->fC);
 }

@@ -23,6 +23,7 @@
  * The SDK MI_CpuClear8 inline spelling restores both fill-call setup orders
  * (direct MI_CpuFill8 leaves 15 bytes; data/size signedness changes are flat).
  */
+#include "../include/Obj02195.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,7 +48,7 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
  u32 size1,size2;
  u8 i,j;
  data=func_02012F44(P(p,0x58));
- *(u16 *)p=heap;
+ ((struct Obj02195 *)p)->f0=heap;
  for(i=0;i<4;i++) {
   u8 *row;
   row=p+i*0x30;
@@ -56,9 +57,9 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   W(row,0x78)=0;
   W(row,0x64)=0;W(row,0x68)=0;W(row,0x6C)=0;
   row[0x70]=10;row[0x71]=10;
-  P(row,0x7C)=func_02030734(*(u16 *)p,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
+  P(row,0x7C)=func_02030734(((struct Obj02195 *)p)->f0,func_020173EC()+0x7C,0,d_021FDE5C,0x20E);
   size1=func_02008468();
-  P(row,0x8C)=func_02030734(*(u16 *)p,(size1+4)+func_020173E8(),0,d_021FDE5C,0x20F);
+  P(row,0x8C)=func_02030734(((struct Obj02195 *)p)->f0,(size1+4)+func_020173E8(),0,d_021FDE5C,0x20F);
   clear8(P(row,0x7C),func_020173EC()+0x7C);
   size2=func_02008468();
   clear8(P(row,0x8C),(size2+4)+func_020173E8());
@@ -67,12 +68,12 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   P(row,0x88)=P(row,0x8C)+4+func_02008468();
   for(j=0;j<2;j++) row[0x73+j]=0xFF;
  }
- *(u16 *)(p+0x12C)=func_0200A81C(data);
- *(void **)(p+0x130)=a;*(void **)(p+0x134)=b;
+ ((struct Obj02195 *)p)->f12C=func_0200A81C(data);
+ ((struct Obj02195 *)p)->f130=a;((struct Obj02195 *)p)->f134=b;
  W(p,0x138)=0;W(p,0x124)=0;
- P(p,0x128)=func_02030734(*(u16 *)p,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
+ P(p,0x128)=func_02030734(((struct Obj02195 *)p)->f0,(func_020173EC()+0x7C)*4,0,d_021FDE5C,0x221);
  size1=func_02008468();
- P(p,0x13C)=func_02030734(*(u16 *)p,((size1+4)+func_020173E8())*4,0,d_021FDE5C,0x222);
+ P(p,0x13C)=func_02030734(((struct Obj02195 *)p)->f0,((size1+4)+func_020173E8())*4,0,d_021FDE5C,0x222);
  p[0x1C]=0;W(p,0x14)=0;W(p,0x18)=0;
  p[0x14C]=0;W(p,0x150)=0;
  W(p,0x158)=0;W(p,0x15C)=0;W(p,0x160)=0;W(p,0x164)=0;
@@ -84,6 +85,6 @@ void func_021FC848(u8 *p,void *a,void *b,int unused,void *d,u16 heap)
   u8 *entry=p+j*4;
   W(entry,0x18C)=0xFFFF;
  }
- *(void **)(p+0x140)=d;
+ ((struct Obj02195 *)p)->f140=d;
  W(p,0x4C)=1;
 }

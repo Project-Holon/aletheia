@@ -14,6 +14,7 @@
  *   func_02030DA8 0x02030DA8 arm
  *   func_021E1540 0x021E1540 thumb ov137
  */
+#include "../include/Obj02209.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int a, b; } Pair;
@@ -29,5 +30,5 @@ void func_021E1584(char *p, int flag)
     q[0] = (int)p;
     q[1] = flag;
     q[2] = ((int *)&values)[flag];
-    func_02030DA8(*(void **)(p + 0xd98), func_021E1540, q, 0);
+    func_02030DA8(((struct Obj02209 *)p)->fD98, func_021E1540, q, 0);
 }

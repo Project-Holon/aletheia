@@ -18,6 +18,7 @@
  *   python tools/match.py one --src src/matched/sub_0200EC98.c \
  *       --func sub_0200EC98 --addr 0x0200EC98 --cc 1.1p1 --thumb
  */
+#include "../include/Obj08961.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ struct Out0200EC98 {
 
 void sub_0200EC98(const u8 *o, struct Out0200EC98 *out)
 {
-    out->a = *(const u16 *)(o + 0x168);
+    out->a = *(const u16 *)&((struct Obj08961 *)o)->f168;
     out->b = o[0x16a];
     out->c = o[0x16b];
     out->d = 0;

@@ -28,6 +28,8 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj12372.h"
+#include "../include/Obj12373.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,6 +46,6 @@ void func_02167848(char *a0, int a1, char *a2)
     char *d = a0 + a1 * 0x1C;
 
     *(Blk12 *)(d + 8) = *(Blk12 *)(a2 + 4);
-    *(u16 *)(d + 0x18) = *(u16 *)(a2 + 0x10);
-    *(u32 *)(d + 0x14) = *(u32 *)(a2 + 0);
+    ((struct Obj12373 *)d)->f18 = ((struct Obj12372 *)a2)->f10;
+    ((struct Obj12373 *)d)->f14 = ((struct Obj12372 *)a2)->f0;
 }

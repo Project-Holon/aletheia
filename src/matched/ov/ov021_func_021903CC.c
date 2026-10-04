@@ -11,13 +11,14 @@
  *
  * Unlabelled leaf predicate, called from func_021BEF8C.
  */
+#include "../include/Obj19582.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 int func_021903CC(u8 *p)
 {
-    if (*(u32 *)(p + 0x16C) == 0)
+    if (((struct Obj19582 *)p)->f16C == 0)
         return 1;
     return 0;
 }

@@ -15,6 +15,7 @@
  *   func_0201EF40  0x0201EF40  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18097.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ extern u32 func_0201EF40(u32, u32, u32, u32);
 
 int func_021B7068(u32 a, u32 b, u32 c, u32 d)
 {
-func_0201EF40(a, 0, ((*(u32 *)((u8 *)(b)) << 16) >> 16), d);
+func_0201EF40(a, 0, ((((struct Obj18097 *)((u8 *)(b)))->f0 << 16) >> 16), d);
 return 8;
 }
 

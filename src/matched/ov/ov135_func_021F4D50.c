@@ -17,6 +17,7 @@
  *   str_02203B08 0x02203B08 data
  *   data_02202C2C 0x02202C2C data a4
  */
+#include "../include/Obj00448.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,13 +37,13 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     Items items;
     Menu menu;
     int i;
-    if (*(u32 *)(p+0xE04)) func_02034714(str_02203B08,0,str_02203B08);
-    if (*(u32 *)(p+0xE08)) func_02034714(str_02203B08,0,str_02203B08);
-    *(void **)(p+0xE04)=func_02027F60(a,10,*(u32 *)(p+0xFA0),*(u32 *)(p+0xFAC),0x48);
+    if (*(u32 *)&((struct Obj00448 *)p)->fE04) func_02034714(str_02203B08,0,str_02203B08);
+    if (*(u32 *)&((struct Obj00448 *)p)->fE08) func_02034714(str_02203B08,0,str_02203B08);
+    ((struct Obj00448 *)p)->fE04=func_02027F60(a,10,((struct Obj00448 *)p)->fFA0,((struct Obj00448 *)p)->fFAC,0x48);
     items=data_02202C2C;
     func_02082BCC(&menu,0,20);
     if ((u32)count>3) func_02034714(str_02203B08,0,str_02203B08);
-    for(i=0;i<count;i++) items.item[i].a=*(u32 *)(*(u32 *)(p+0xDE8)+i*8);
+    for(i=0;i<count;i++) items.item[i].a=*(u32 *)(*(u32 *)&((struct Obj00448 *)p)->fDE8+i*8);
     menu.heap=0x48;
     menu.count=count;
     menu.items=items.item;
@@ -51,6 +52,6 @@ void func_021F4D50(u8 *p, u16 a, int count, int b)
     menu.b=b;
     menu.c=13;
     menu.d=3;
-    *(void **)(p+0xE08)=func_02027778(&menu,*(void **)(p+0xE04));
+    ((struct Obj00448 *)p)->fE08=func_02027778(&menu,((struct Obj00448 *)p)->fE04);
     func_021F5008(1);
 }

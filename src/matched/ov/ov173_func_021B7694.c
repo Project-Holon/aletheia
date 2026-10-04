@@ -14,6 +14,7 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00362.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,4 +23,4 @@ extern void func_0204B3B4(struct Obj *);
 extern void func_0204B1CC(struct Bank *);
 extern void func_0204A5AC(void);
 extern void func_02049238(void *);
-void func_021B7694(u8 *p) {u32 i;for(i=0;i<14;i++)func_0204B3B4(*(struct Obj **)(p+i*4+260));func_0204B1CC(*(struct Bank **)(p+256));func_0204A5AC();func_02049238(*(void **)(p+316));}
+void func_021B7694(u8 *p) {u32 i;for(i=0;i<14;i++)func_0204B3B4(*(struct Obj **)(p+i*4+260));func_0204B1CC(*(struct Bank * *)&((struct Obj00362 *)p)->f100);func_0204A5AC();func_02049238(((struct Obj00362 *)p)->f13C);}

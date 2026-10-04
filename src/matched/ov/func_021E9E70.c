@@ -14,6 +14,7 @@
  *
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: adds r1, r0, #0; movs r2, #1; adds r1, #0xe8; str r2, [r1]; movs r1, #0x4f; lsls r1, r1, #2; str r2, [r0, r1]; bx lr.
  */
+#include "../include/Obj12163.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ typedef signed int s32;
 /* 021E9E70  str 1 at p+0xe8 and at p+0x13c */
 void func_021E9E70(u8 *p)
 {
-    *(u32 *)(p + 0xe8) = 1;
-    *(u32 *)(p + 0x13c) = 1;
+    ((struct Obj12163 *)p)->fE8 = 1;
+    ((struct Obj12163 *)p)->f13C = 1;
 }
 

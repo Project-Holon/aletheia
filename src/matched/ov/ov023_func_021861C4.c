@@ -25,6 +25,7 @@
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj00525.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,25 +61,25 @@ void func_021861C4(u8 *w, u32 msg, int mode)
     void *p;
 
     str = func_020457B0(0x50, 0x28);
-    func_02045CAC(*(void **)(w + 0x14), msg, str);
-    func_0201F250(*(void **)(w + 0x10), *(void **)(w + 0x30), str);
+    func_02045CAC(((struct Obj00525 *)w)->f14, msg, str);
+    func_0201F250(((struct Obj00525 *)w)->f10, ((struct Obj00525 *)w)->f30, str);
     func_02045808(str);
-    func_02043B5C(func_02045770(*(void **)(w + 0x11C)), 15);
-    func_0201F73C(*(void **)(w + 0x11C), 0, 1, 10);
-    if (*(void **)(w + 0x16C) != 0) {
-        func_0201CE48(*(void **)(w + 0x16C));
-        *(void **)(w + 0x16C) = 0;
+    func_02043B5C(func_02045770(((struct Obj00525 *)w)->f11C), 15);
+    func_0201F73C(((struct Obj00525 *)w)->f11C, 0, 1, 10);
+    if (((struct Obj00525 *)w)->f16C != 0) {
+        func_0201CE48(((struct Obj00525 *)w)->f16C);
+        ((struct Obj00525 *)w)->f16C = 0;
     }
     if (mode == 0) {
-        t = *(void **)(w + 0x168);
-        func_0201C724(t, func_02045770(*(void **)(w + 0x15C)), 0, 0, *(void **)(w + 0x30), *(u32 *)(w + 0xC), 0x44F);
-        *(u8 *)(w + 0x160) = 1;
+        t = ((struct Obj00525 *)w)->f168;
+        func_0201C724(t, func_02045770(((struct Obj00525 *)w)->f15C), 0, 0, ((struct Obj00525 *)w)->f30, ((struct Obj00525 *)w)->fC, 0x44F);
+        ((struct Obj00525 *)w)->f160 = 1;
     } else {
-        *(void **)(w + 0x16C) = func_0201CCE4(*(void **)(w + 0x11C), 0, 0, *(void **)(w + 0x30),
-                                              *(u32 *)(w + 0xC), func_02012FFC(),
-                                              *(void **)(w + 0x170), 1, 0x28, 0xF0F);
+        ((struct Obj00525 *)w)->f16C = func_0201CCE4(((struct Obj00525 *)w)->f11C, 0, 0, ((struct Obj00525 *)w)->f30,
+                                              ((struct Obj00525 *)w)->fC, func_02012FFC(),
+                                              ((struct Obj00525 *)w)->f170, 1, 0x28, 0xF0F);
     }
-    p = *(void **)(w + 0x11C);
+    p = ((struct Obj00525 *)w)->f11C;
     func_02045334(p);
     func_02045374(p);
     func_020409B4(func_02045730(p));

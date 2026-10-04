@@ -13,12 +13,13 @@
  *   func_020362DC 0x020362DC arm
  * prototype-evidence: r1 is forwarded unchanged from entry into BA928.
  */
+#include "../include/Obj00008.h"
 typedef unsigned int u32;
 extern int func_021BA928(void *, int);
 extern u32 func_020362DC(void);
 int func_021BC51C(char *p, int ret)
 {
     if (func_021BA928(p, ret) == 0) return ret;
-    if (func_020362DC() != 0) *(u32 *)(p + 0x1CC) = 0x44;
+    if (func_020362DC() != 0) *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x44;
     return ret;
 }

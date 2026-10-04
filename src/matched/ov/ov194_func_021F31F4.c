@@ -24,6 +24,7 @@
  *   func_021F1BFC 0x021F1BFC thumb ov194
  *   func_021F3304 0x021F3304 thumb ov194
  */
+#include "../include/Obj00117.h"
 typedef struct {int x,y;} Pair;
 typedef struct {int left,top,right,bottom;} Rect;
 extern void func_02082BCC(void *,unsigned,unsigned);
@@ -41,8 +42,8 @@ void func_021F31F4(char *p,char *q)
     int out2[4];
     Rect rect;
     int result;
-    *(int *)(p+0xE8)=0;
-    switch(*(int *)(p+0xE4)){
+    ((struct Obj00117 *)p)->fE8=0;
+    switch(((struct Obj00117 *)p)->fE4){
     case 0:
         func_02082BCC(out0,0,16);
         result=func_021F38CC(p,out0);
@@ -54,14 +55,14 @@ void func_021F31F4(char *p,char *q)
         result=func_021F3BD4(p,out2);
         if(!result){func_021F3A0C(p,out2);result=func_021F3B18(p,out2);}
         if(result)func_021F3C40(p,out2);
-        if(func_021F33C0(p))*(int *)(p+0xE4)=0;
+        if(func_021F33C0(p))((struct Obj00117 *)p)->fE4=0;
         break;
     case 1:
-        if(func_021F23E4(q)){func_021F2828(p,7,(Pair *)(p+0xD8));*(int *)(p+0xE8)=11;}
-        *(int *)(p+0xE4)=0;
+        if(func_021F23E4(q)){func_021F2828(p,7,(Pair *)(p+0xD8));((struct Obj00117 *)p)->fE8=11;}
+        ((struct Obj00117 *)p)->fE4=0;
         break;
     }
     func_021F2818(p,(int)(p+0xD8),(int)&rect);
-    func_021F1BFC(p+0x24,*(int *)(p+0x100),&rect);
+    func_021F1BFC(p+0x24,((struct Obj00117 *)p)->f100,&rect);
     func_021F3304(p);
 }

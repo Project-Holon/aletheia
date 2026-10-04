@@ -19,6 +19,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DE3E8 0x021DE3E8 thumb ov119
  */
+#include "../include/Obj03775.h"
 typedef unsigned short u16;
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
 extern int func_020221A4(void *);
@@ -40,7 +41,7 @@ void func_021DE518(State *p)
     void *obj;
     int other;
     if(func_020221A4(p)) {
-        idx=(u16)*(int *)(b+0x10a0);
+        idx=(u16)((struct Obj03775 *)b)->f10A0;
         col=idx%3; row=idx/3;
         other=1-row;
         obj=p->obj[other][col];
@@ -49,7 +50,7 @@ void func_021DE518(State *p)
             func_021E1D68(p,obj); func_021E6440((int)p,row,col);
         }
         func_021DEBD4(p);
-        func_0202208C(3,1,1,0,6,1,*(u16 *)(b+0x5f4));
+        func_0202208C(3,1,1,0,6,1,((struct Obj03775 *)b)->f5F4);
         func_021D8980(p); func_021DD09C(p);
         func_021D8E84(p,(int)func_021DE3E8);
     }

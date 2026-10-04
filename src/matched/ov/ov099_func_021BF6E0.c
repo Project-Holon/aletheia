@@ -35,6 +35,7 @@
  *   func_021C23B8 0x021C23B8 thumb ov099
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj00901.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
@@ -66,44 +67,44 @@ int func_021BF6E0(char *p,int ret)
 {
     unsigned action=0,kind;
     int index;
-    if(*(int *)(p+0x1f0)!=-1){
-        if(++*(int *)(p+0x1c8)>0xe10){func_0203C9AC(0,0,0,0x3f1);return ret;}
+    if(((struct Obj00901 *)p)->f1F0!=-1){
+        if(++((struct Obj00901 *)p)->f1C8>0xe10){func_0203C9AC(0,0,0,0x3f1);return ret;}
     }
     func_021BA928(p);
-    *(u8 *)(p+0x1356)=0;
+    ((struct Obj00901 *)p)->f1356=0;
     func_021BF280(p,(void *)33);
     func_021C1BEC(p);
     func_021B9B54(p+0x274);
-    if(func_021BF03C(p) && *(int *)(p+0x1f0)!=-1){
+    if(func_021BF03C(p) && ((struct Obj00901 *)p)->f1F0!=-1){
         func_0200616C((void *)0x806,0);
         func_0203D7B0(1);
         func_0203D7BC(1);
-        *(int *)(p+0x1cc)=40;
+        ((struct Obj00901 *)p)->f1CC=40;
         return ret;
     }
-    if(func_021BF068(p) && *(int *)(p+0x1f0)!=-1){
+    if(func_021BF068(p) && ((struct Obj00901 *)p)->f1F0!=-1){
         func_021BA874(p,func_02156BA8());
         func_021BAAB8(p,15,0);
-        *(int *)(p+0x1cc)=19;
+        ((struct Obj00901 *)p)->f1CC=19;
         return ret;
     }
-    if(*(int *)(p+0x1f0)==-1 && func_02156B8C()!=-1){
+    if(((struct Obj00901 *)p)->f1F0==-1 && func_02156B8C()!=-1){
         index=func_02156B8C();
-        *(int *)(p+0x1f0)=index;
+        ((struct Obj00901 *)p)->f1F0=index;
         func_021BA874(p,index);
-        if(!*(u8 *)(p+0x1351))func_021BAAB8(p,46,0);
-        *(int *)(p+0x1c8)=0;
+        if(!((struct Obj00901 *)p)->f1351)func_021BAAB8(p,46,0);
+        ((struct Obj00901 *)p)->f1C8=0;
     }else if(func_02156BA8()!=-1){
         func_021BA874(p,func_02156BA8());
         func_021BAAB8(p,15,0);
-        *(int *)(p+0x1cc)=19;
+        ((struct Obj00901 *)p)->f1CC=19;
         return ret;
     }
-    kind=func_021BDD48(p,*(void **)(p+8));
-    if(*(int *)(p+0x1f0)==-1){
+    kind=func_021BDD48(p,((struct Obj00901 *)p)->f8);
+    if(((struct Obj00901 *)p)->f1F0==-1){
         if((func_020362DC()&2) && func_021BDDA8(kind)){
             func_020061E4(0x54c);
-            *(int *)(p+0x1cc)=31;
+            ((struct Obj00901 *)p)->f1CC=31;
             func_021C1A30(p,33);
             return ret;
         }
@@ -115,20 +116,20 @@ int func_021BF6E0(char *p,int ret)
     case 1:
         func_020061E4(0x54c);
         if(func_021BDDA8(kind)){
-            *(int *)(p+0x1cc)=31;
+            ((struct Obj00901 *)p)->f1CC=31;
         }else{
-            *(int *)(p+0x1d0)=0;
-            *(int *)(p+0x1cc)=49;
+            ((struct Obj00901 *)p)->f1D0=0;
+            ((struct Obj00901 *)p)->f1CC=49;
             func_021BAAB8(p,25,1);
         }
         func_021C1A30(p,33);
         return ret;
     case 3:
         if(kind==1){
-            *(int *)(p+0x135c)=1;
+            ((struct Obj00901 *)p)->f135C=1;
             func_020061E4(0x54c);
             func_021B9B24(p+0x274);
-            *(int *)(p+0x1cc)=28;
+            ((struct Obj00901 *)p)->f1CC=28;
             func_021C1A30(p,33);
             return ret;
         }
@@ -138,7 +139,7 @@ int func_021BF6E0(char *p,int ret)
             index=func_021B97F4(p+0x274);
             func_020061E4(0x54c);
             func_02082D44((void *)func_021C23B8(index-1),p+0x24c,32);
-            *(int *)(p+0x1cc)=34;
+            ((struct Obj00901 *)p)->f1CC=34;
             func_021C1A30(p,33);
             return ret;
         }

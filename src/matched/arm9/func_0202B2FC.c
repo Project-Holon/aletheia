@@ -17,6 +17,7 @@
  *   python tools/match.py one --src src/pending/func_0202B2FC.c \
  *       --func func_0202B2FC --addr 0x0202B2FC --thumb --cc 1.1p1
  */
+#include "../include/Obj05726.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -32,11 +33,11 @@ u8 *func_0202B2FC(u32 heapId)
     u8 *p = (u8 *)func_02030734(heapId, 8, 0, (const void *)0x020A7718, 0x77);
 
     p[0] = (u8)func_02049030(0x92);
-    *(u32 *)(p + 4) = (u32)func_02030734(heapId, 0x1c * p[0], 0,
+    ((struct Obj05726 *)p)->f4 = (u32)func_02030734(heapId, 0x1c * p[0], 0,
                                          (const void *)0x020A7718, 0x79);
 
     for (i = 0; (int)i < (int)p[0]; i++) {
-        func_02048F74((u8 *)(*(u32 *)(p + 4) + i * 0x1c), 0x92, i, 0, (u32 *)0x1c);
+        func_02048F74((u8 *)(((struct Obj05726 *)p)->f4 + i * 0x1c), 0x92, i, 0, (u32 *)0x1c);
     }
     return p;
 }

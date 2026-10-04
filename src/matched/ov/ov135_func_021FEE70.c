@@ -19,6 +19,7 @@
  *   func_021F882C 0x021F882C thumb ov135
  *   func_021F8154 0x021F8154 thumb ov135
  */
+#include "../include/Obj05417.h"
 typedef unsigned short u16;
 extern int func_021F99F0(void *);
 typedef unsigned int   u32;
@@ -38,20 +39,20 @@ extern void func_021F882C(void *, int, int);
 extern void func_021F8154(void *, void *, int, unsigned, unsigned, u16, int, void *);
 int func_021FEE70(char *p)
 {
-    unsigned r = func_021F99F0(*(void **)(p + 0xde4));
+    unsigned r = func_021F99F0(((struct Obj05417 *)p)->fDE4);
     switch (r) {
     case 11:
     case -2:
         func_021FF570(0);
-        *(int *)(p + 0x28) = 0;
+        ((struct Obj05417 *)p)->f28 = 0;
         break;
     case -1: break;
     default:
         func_021FF570(0);
         func_021F882C(p + 0xb56, r, 1);
-        *(int *)(p + 0x28) = 0;
-        func_02043B5C(func_02045770(*(void **)(p + 0xda4)), 0);
-        func_021F8154(*(void **)(p + 0xda4), *(void **)(p + 0xb6c), r, 0, 0, 0x3c40, 1, p + 0xfa0);
+        ((struct Obj05417 *)p)->f28 = 0;
+        func_02043B5C(func_02045770(((struct Obj05417 *)p)->fDA4), 0);
+        func_021F8154(((struct Obj05417 *)p)->fDA4, ((struct Obj05417 *)p)->fB6C, r, 0, 0, 0x3c40, 1, p + 0xfa0);
         break;
     }
     return 2;

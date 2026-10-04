@@ -11,6 +11,7 @@
  * symbols:
  *   func_020362DC 0x020362DC arm
  */
+#include "../include/Obj06441.h"
 
 typedef unsigned int u32;
 struct Rec3;
@@ -20,10 +21,10 @@ extern void func_0201CE38(void *);
 extern u32 func_020362DC(void);
 int func_021D7AF4(char *p)
 {
-    if (*(void **)(p+0x9c)) {
-        switch (func_0201CE30(*(void **)(p+0x9c))) {
-        case 2: func_0201CE48(*(void **)(p+0x9c)); *(void **)(p+0x9c)=0; break;
-        case 1: if (func_020362DC()==1) func_0201CE38(*(void **)(p+0x9c)); break;
+    if (((struct Obj06441 *)p)->f9C) {
+        switch (func_0201CE30(((struct Obj06441 *)p)->f9C)) {
+        case 2: func_0201CE48(((struct Obj06441 *)p)->f9C); ((struct Obj06441 *)p)->f9C=0; break;
+        case 1: if (func_020362DC()==1) func_0201CE38(((struct Obj06441 *)p)->f9C); break;
         }
         return 0;
     }

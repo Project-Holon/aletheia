@@ -15,8 +15,9 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D5188 0x021D5188 thumb ov120
  */
+#include "../include/Obj10389.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021D79F4(u8 *p, u16 n); extern void func_021D4244(int,void (*)(int),int); extern void func_021D5188(int);
-void func_021D51D4(u8 *p) { if (*(int *)(p+328)==-1) func_021D79F4(*(u8 **)(p+64),45); else func_021D79F4(*(u8 **)(p+64),31); func_021D4244((int)p,func_021D5188,0x646); }
+void func_021D51D4(u8 *p) { if (((struct Obj10389 *)p)->f148==-1) func_021D79F4(*(u8 * *)&((struct Obj10389 *)p)->f40,45); else func_021D79F4(*(u8 * *)&((struct Obj10389 *)p)->f40,31); func_021D4244((int)p,func_021D5188,0x646); }

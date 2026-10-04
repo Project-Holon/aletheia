@@ -12,6 +12,8 @@
  *   func_021D4BF4 0x021D4BF4 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
  */
+#include "../include/Obj05359.h"
+#include "../include/Obj22931.h"
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158630(int a);
@@ -22,25 +24,25 @@ extern void func_021D4244(char *, void *, int);
 int func_021D4C50(int value, char *p)
 {
     void *obj;
-    obj = (void *)func_02012138(*(void **)(p + 0x354));
-    *(int *)(p + 0x35c) = value;
+    obj = (void *)func_02012138(((struct Obj05359 *)p)->f354);
+    ((struct Obj05359 *)p)->f35C = value;
     switch (value) {
     case 0:
     case 3:
-        *(int *)(*(char **)(p + 0x344) + 0x28) = func_02158630((int)obj);
-        *(int *)(p + 8) = 0;
+        ((struct Obj22931 *)(*(char * *)&((struct Obj05359 *)p)->f344))->f28 = func_02158630((int)obj);
+        ((struct Obj05359 *)p)->f8 = 0;
         func_020061E4(0x73b);
         func_021D4244(p, func_021D4BF4, 0x3c4);
         break;
     case 1:
     case 4:
-        *(int *)(p + 8) = 1;
+        ((struct Obj05359 *)p)->f8 = 1;
         func_020061E4(0x73b);
         func_021D4244(p, func_021D4BF4, 0x3cd);
         break;
     case 2:
         func_020061E4(0x73c);
-        *(int *)(p + 8) = 2;
+        ((struct Obj05359 *)p)->f8 = 2;
         func_021D4244(p, func_021D4BF4, 0x3d3);
         break;
     }

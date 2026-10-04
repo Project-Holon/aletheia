@@ -16,6 +16,7 @@
  *   func_021E8CFC  0x021E8CFC  thumb  ov093
  *   func_021E8D04  0x021E8D04  thumb  ov093
  */
+#include "../include/Obj13664.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,6 +47,6 @@ int func_02189694(int a, int b) {
     } else {
         t = 0;
     }
-    *(int *)(b + 0x38) = t;
-    return *(int *)(b + 0xc4);
+    ((struct Obj13664 *)b)->f38 = t;
+    return ((struct Obj13664 *)b)->fC4;
 }

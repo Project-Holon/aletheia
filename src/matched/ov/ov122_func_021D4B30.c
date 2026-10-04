@@ -10,6 +10,7 @@
  * symbols:
  *   func_021D4244 0x021D4244 thumb ov122
  */
+#include "../include/Obj13964.h"
 extern int func_020221A4(char *);
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
@@ -19,8 +20,8 @@ extern void func_021D4244(char *, void *, int);
 void func_021D4B30(char *p)
 {
     if (func_020221A4(p)) {
-        if (*(int *)(p + 8) == 1) {
-            if (!func_02026454((void *)func_02012138(*(void **)(p + 0x354))))
+        if (((struct Obj13964 *)p)->f8 == 1) {
+            if (!func_02026454((void *)func_02012138(((struct Obj13964 *)p)->f354)))
                 func_021D4244(p, 0, 0x341);
         } else {
             func_021D4244(p, 0, 0x345);

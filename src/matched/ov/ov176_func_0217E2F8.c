@@ -11,8 +11,9 @@
  * symbols:
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj14370.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082D44(void *,const void *,u32);
-int func_0217E2F8(u8 *p,const void *q) {int v;v=*(int *)(p+0x1014);if(v) {*(int *)(p+0x1014)=0;func_02082D44(p+6,q,4);}return v;}
+int func_0217E2F8(u8 *p,const void *q) {int v;v=((struct Obj14370 *)p)->f1014;if(v) {((struct Obj14370 *)p)->f1014=0;func_02082D44(p+6,q,4);}return v;}

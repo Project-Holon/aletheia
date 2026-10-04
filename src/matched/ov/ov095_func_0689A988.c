@@ -26,6 +26,7 @@
  *   d_0689E128 0x0689E128 data a4
  *   d_0689E054 0x0689E054 data a4
  */
+#include "../include/Obj01703.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,27 +49,27 @@ int func_0689A988(int unused, u8 *s)
     int r;
     const char *q, *n;
     int flag;
-    r = func_0689AA98(*(void **)(s + 0xa0), func_0689AA88(*(void **)(s + 0xa0), *(void **)(s + 0xa4), func_0689AA78(*(void **)(s + 0x6c))));
-    if (func_0689AAA8(*(void **)(s + 0xa0)) == 2 && r != 4) q = d_0689D880;
+    r = func_0689AA98(((struct Obj01703 *)s)->fA0, func_0689AA88(((struct Obj01703 *)s)->fA0, ((struct Obj01703 *)s)->fA4, func_0689AA78(((struct Obj01703 *)s)->f6C)));
+    if (func_0689AAA8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) q = d_0689D880;
     else q = d_0689D91C;
-    if (func_0689AAB8(*(void **)(s + 0xa0)) == 2 && r != 4) n = d_0689E128;
+    if (func_0689AAB8(((struct Obj01703 *)s)->fA0) == 2 && r != 4) n = d_0689E128;
     else n = d_0689E054;
-    r = func_0689AAC8(*(char **)(s + 0xb0), q, (int)n);
+    r = func_0689AAC8(*(char * *)&((struct Obj01703 *)s)->fB0, q, (int)n);
     if (r != -1) {
         if (r & 0x8000) flag = 1;
         else flag = 0;
         r &= ~0x8000;
         if (r == 4) {
-            func_0689AAD8(*(void **)(s + 0x70));
+            func_0689AAD8(((struct Obj01703 *)s)->f70);
             return 1;
         }
-        if (r < func_0689AAE8(*(void **)(s + 0x6c))) {
-            func_0689AB08(*(void **)(s + 0x70), func_0689AAF8(*(void **)(s + 0x6c), r), 6);
-            if (flag) func_0689AB18(*(void **)(s + 0x70));
+        if (r < func_0689AAE8(((struct Obj01703 *)s)->f6C)) {
+            func_0689AB08(((struct Obj01703 *)s)->f70, func_0689AAF8(((struct Obj01703 *)s)->f6C, r), 6);
+            if (flag) func_0689AB18(((struct Obj01703 *)s)->f70);
             return 1;
         }
-        if (func_0689AB28(*(void **)(s + 0xa0)) == 2 && r == 5) {
-            func_0689AB38(*(void **)(s + 0x70));
+        if (func_0689AB28(((struct Obj01703 *)s)->fA0) == 2 && r == 5) {
+            func_0689AB38(((struct Obj01703 *)s)->f70);
             return 1;
         }
     }

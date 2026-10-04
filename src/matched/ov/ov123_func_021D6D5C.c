@@ -17,6 +17,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj01544.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -37,13 +38,13 @@ void func_021D6D5C(u8 *p)
 {
     struct Point pt;
     void *h;
-    h=func_020490F4(25,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x34)=(void *)func_0204AC18(h,func_02020E60(1,2),0,256,0,1,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x50)=(void *)func_0204A6C8(h,func_02020E60(1,1),0,0,*(u16 *)(p+0x43c4));
-    *(void **)(p+0x6c)=(void *)func_0204AF28(h,1,0,*(u16 *)(p+0x43c4));
+    h=func_020490F4(25,((struct Obj01544 *)p)->f43C4);
+    ((struct Obj01544 *)p)->f34=(void *)func_0204AC18(h,func_02020E60(1,2),0,256,0,1,((struct Obj01544 *)p)->f43C4);
+    ((struct Obj01544 *)p)->f50=(void *)func_0204A6C8(h,func_02020E60(1,1),0,0,((struct Obj01544 *)p)->f43C4);
+    ((struct Obj01544 *)p)->f6C=(void *)func_0204AF28(h,1,0,((struct Obj01544 *)p)->f43C4);
     func_02049238(h);
     pt.x=156; pt.y=28; pt.f4=0; pt.f6=0; pt.f7=2;
-    *(void **)(p+0xb8)=func_0204B294((void *)*(u32 *)(p+0xc),(unsigned int)*(void **)(p+0x50),*(u32 *)(p+0x34),*(u32 *)(p+0x6c),&pt,0,*(u16 *)(p+0x43c4));
-    func_0204B92C(*(void **)(p+0xb8),0);
-    func_0204B3DC(*(void **)(p+0xb8),0);
+    ((struct Obj01544 *)p)->fB8=func_0204B294((void *)((struct Obj01544 *)p)->fC,(unsigned int)((struct Obj01544 *)p)->f50,*(u32 *)&((struct Obj01544 *)p)->f34,*(u32 *)&((struct Obj01544 *)p)->f6C,&pt,0,((struct Obj01544 *)p)->f43C4);
+    func_0204B92C(((struct Obj01544 *)p)->fB8,0);
+    func_0204B3DC(((struct Obj01544 *)p)->fB8,0);
 }

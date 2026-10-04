@@ -12,8 +12,9 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DAA7C 0x021DAA7C thumb ov119
  */
+#include "../include/Obj13891.h"
 extern void func_021DC62C(char *,int),func_021D8E84(char *,int),func_021DAA7C(char *);
 void func_021DAAE4(char *p) {
- func_021DC62C(p,*(int *)(p+0xf2c)-1);
- if(*(int *)(p+0xf2c)>=24) func_021D8E84(p,(int)func_021DAA7C);
+ func_021DC62C(p,((struct Obj13891 *)p)->fF2C-1);
+ if(((struct Obj13891 *)p)->fF2C>=24) func_021D8E84(p,(int)func_021DAA7C);
 }

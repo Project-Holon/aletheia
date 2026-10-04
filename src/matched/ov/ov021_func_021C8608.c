@@ -17,6 +17,7 @@
  *   d_021DE534     0x021DE534  data  a4
  *   d_00000024     0x00000024  data  a4
  */
+#include "../include/Obj03616.h"
 
 extern char d_021DE534;
 extern char d_00000024[];
@@ -33,14 +34,14 @@ char *func_021C8608(void)
 {
     char *p = func_02030734(5, 0x1b8, 1, &d_021DE534, 0x31);
 
-    *(int *)(p + 0) = 0;
-    *(unsigned short *)(p + 4) = 0;
-    *(int *)(p + 8) = 0;
+    ((struct Obj03616 *)p)->f0 = 0;
+    ((struct Obj03616 *)p)->f4 = 0;
+    ((struct Obj03616 *)p)->f8 = 0;
     p[0x1b0] = 0;
     p[0x1b1] = 0;
     p[0x1b2] = 0;
     p[0x1b3] = 0;
-    *(int *)(p + 0x1b4) = 0;
+    ((struct Obj03616 *)p)->f1B4 = 0;
     func_02034AC4((int)d_00000024);
     func_021F36C0(p);
     func_02034A5C((int)d_00000024);

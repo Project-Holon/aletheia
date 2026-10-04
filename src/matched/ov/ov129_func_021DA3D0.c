@@ -14,6 +14,7 @@
  *   func_0202570C 0x0202570C thumb
  *   func_02025588 0x02025588 thumb
  */
+#include "../include/Obj08140.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -22,4 +23,4 @@ struct Grid;
 extern void func_0204ADA4(u32);
 extern void func_0202570C(struct Grid *);
 extern void func_02025588(void *);
-void func_021DA3D0(u8 *p) { func_0204ADA4(*(u32 *)(p+0x30c)); func_0202570C(*(struct Grid **)(p+0x304)); func_0202570C(*(struct Grid **)(p+0x308)); func_02025588(*(void **)(p+0x300)); }
+void func_021DA3D0(u8 *p) { func_0204ADA4(((struct Obj08140 *)p)->f30C); func_0202570C(*(struct Grid * *)&((struct Obj08140 *)p)->f304); func_0202570C(*(struct Grid * *)&((struct Obj08140 *)p)->f308); func_02025588(((struct Obj08140 *)p)->f300); }

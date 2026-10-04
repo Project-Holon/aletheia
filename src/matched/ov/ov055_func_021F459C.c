@@ -11,9 +11,10 @@
  *
  * Clear the two halfwords at 0x6 and 0x0.
  */
+#include "../include/Obj05138.h"
 
 void func_021F459C(void *p)
 {
-    *(unsigned short *)((char *)p + 6) = 0;
-    *(unsigned short *)p = 0;
+    ((struct Obj05138 *)p)->f6 = 0;
+    ((struct Obj05138 *)p)->f0 = 0;
 }

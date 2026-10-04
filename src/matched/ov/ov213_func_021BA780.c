@@ -12,5 +12,6 @@
  *   func_02047CFC 0x02047CFC arm
  *   func_02050B80 0x02050B80 arm
  */
+#include "../include/Obj10929.h"
 extern void func_0207D63C(void *,int,int,int,int),func_02050B80(unsigned);extern void *func_02047CFC(unsigned,unsigned,unsigned);
-void func_021BA780(char *p,void *state,short heap){func_0207D63C((void *)0x04000050,1,31,0,0);*(void **)p=state;*(unsigned short *)(p+4)=heap;*(void **)(p+8)=func_02047CFC(16,20,heap);func_02050B80(heap);}
+void func_021BA780(char *p,void *state,short heap){func_0207D63C((void *)0x04000050,1,31,0,0);((struct Obj10929 *)p)->f0=state;((struct Obj10929 *)p)->f4=heap;((struct Obj10929 *)p)->f8=func_02047CFC(16,20,heap);func_02050B80(heap);}

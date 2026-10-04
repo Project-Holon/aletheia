@@ -14,10 +14,11 @@
  * symbols:
  *   func_0201134C 0x0201134C thumb
  */
+#include "../include/Obj13594.h"
 extern int func_0201134C(void *);
 
 int func_021FBE60(void *a, char *s)
 {
-    *(int *)(s + 4) = func_0201134C(a);
-    return *(int *)(s + 0x23c);
+    ((struct Obj13594 *)s)->f4 = func_0201134C(a);
+    return ((struct Obj13594 *)s)->f23C;
 }

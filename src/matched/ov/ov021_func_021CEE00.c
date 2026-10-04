@@ -13,6 +13,7 @@
  *   func_021CEF08  0x021CEF08  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09739.h"
 
 typedef unsigned char  u8;
 typedef short          s16;
@@ -30,8 +31,8 @@ void func_021CEE00(u8 *p)
         u8 *e = q + i * 0x2c;
 
         if (e[0x2e] == 1) {
-            *(s16 *)(e + 0x30) -= 1;
-            if (*(s16 *)(e + 0x30) <= 0) {
+            ((struct Obj09739 *)e)->f30 -= 1;
+            if (((struct Obj09739 *)e)->f30 <= 0) {
                 func_021CEF08(p, i);
                 q[0x2d1] = 1;
             }

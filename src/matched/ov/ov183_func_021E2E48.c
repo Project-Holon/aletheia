@@ -11,9 +11,10 @@
  * symbols:
 
  */
+#include "../include/Obj14444.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 
-void func_021E2E48(char *p,int a,int b) { void (*f)(int,int);f=*(void (**)(int,int))(p+4);if(f){f(a,b);*(int *)(p+4)=0;} }
+void func_021E2E48(char *p,int a,int b) { void (*f)(int,int);f=*(void (**)(int,int))(p+4);if(f){f(a,b);*(int *)&((struct Obj14444 *)p)->f4=0;} }

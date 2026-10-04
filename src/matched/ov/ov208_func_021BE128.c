@@ -14,6 +14,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj14652.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,10 +35,10 @@ void ov208_func_021BE128(u8 *p)
     u32 file;
     u8 *data;
 
-    file = (u32)func_02049F34(0x9f, 3, (u32)(&pltt), *(u16 *)p);
+    file = (u32)func_02049F34(0x9f, 3, (u32)(&pltt), ((struct Obj14652 *)p)->f0);
     data = pltt->data;
     func_02082D44(data + 0x20, p + 0xb6, 0x20);
     func_02082D44(data + 0x60, p + 0xd6, 0x20);
     func_020307B0((void *)file);
-    *(u32 *)(p + 0x118) = 0;
+    ((struct Obj14652 *)p)->f118 = 0;
 }

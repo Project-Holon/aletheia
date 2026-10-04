@@ -22,6 +22,10 @@
  *   func_02024450 0x02024450 thumb
  *   func_020414EC 0x020414EC arm
  */
+#include "../include/Obj01066.h"
+#include "../include/Obj23643.h"
+#include "../include/Obj23644.h"
+#include "../include/Obj23645.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,12 +37,12 @@ void func_021C7360(u8 *p)
 {
     int i;
     for (i = 0; i < 3; i++) {
-        if (func_02024450(func_02008FC8(*(void **)(*(u8 **)(p + 8) + p[0x1F]*4 + 0x298), i)) != 0) {
-            func_0202DC9C(*(void **)(*(u8 **)(p + 8) + 0x35C), i, 0);
+        if (func_02024450(func_02008FC8(*(void **)(*(u8 * *)&((struct Obj01066 *)p)->f8 + p[0x1F]*4 + 0x298), i)) != 0) {
+            func_0202DC9C(((struct Obj23643 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, i, 0);
         }
     }
-    if (*(u16 *)(*(u8 **)(p + 8) + 0x364) != 0) {
-        func_0202DC9C(*(void **)(*(u8 **)(p + 8) + 0x35C), i, 0);
+    if (((struct Obj23644 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f364 != 0) {
+        func_0202DC9C(((struct Obj23645 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f35C, i, 0);
     }
     func_020414EC(4);
     func_020414EC(5);

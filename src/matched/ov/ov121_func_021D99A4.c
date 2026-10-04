@@ -22,6 +22,7 @@
  *   func_020409B4 0x020409B4 arm
  *   d_021DFBA0 0x021DFBA0 data a1
  */
+#include "../include/Obj01929.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,20 +46,20 @@ void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 hea
     void *q;
     p = func_02030734(heap, 0x28, 0, d_021DFBA0, 0x55);
     func_02082BCC(p, 0, 0x28);
-    *(u32 *)(p + 8) = h;
-    *(u16 *)(p + 0x14) = b;
-    *(u16 *)(p + 0x16) = 0x440;
-    *(u32 *)(p + 0x24) = a;
-    *(void **)(p + 0x10) = func_020457B0(0x200, heap);
+    ((struct Obj01929 *)p)->f8 = h;
+    ((struct Obj01929 *)p)->f14 = b;
+    ((struct Obj01929 *)p)->f16 = 0x440;
+    ((struct Obj01929 *)p)->f24 = a;
+    ((struct Obj01929 *)p)->f10 = func_020457B0(0x200, heap);
     q = func_020450F0(b, c, d, e, f, g, 1);
-    *(void **)(p + 0xc) = q;
-    *(void **)p = q;
+    ((struct Obj01929 *)p)->fC = q;
+    ((struct Obj01929 *)p)->f0 = q;
     p[4] = 0;
-    func_02043B5C(func_02045770(q), *(u16 *)(p + 0x16) & 31);
-    if (*(u32 *)(p + 0x24) == 0) {
-        func_02045334(*(void **)(p + 0xc));
-        func_02045374(*(void **)(p + 0xc));
-        func_020409B4(func_02045730(*(void **)(p + 0xc)));
+    func_02043B5C(func_02045770(q), ((struct Obj01929 *)p)->f16 & 31);
+    if (((struct Obj01929 *)p)->f24 == 0) {
+        func_02045334(((struct Obj01929 *)p)->fC);
+        func_02045374(((struct Obj01929 *)p)->fC);
+        func_020409B4(func_02045730(((struct Obj01929 *)p)->fC));
     }
     return p;
 }

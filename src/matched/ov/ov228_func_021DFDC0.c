@@ -11,6 +11,7 @@
  * symbols:
  *   func_0203F1FC 0x0203F1FC arm
  */
+#include "../include/Obj04657.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,9 +19,9 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 void func_021DFDC0(u8 *p)
 {
     p[0x379]=0;
-    if(*(u32 *)(p+0x374)==2)p[0x37A]=1;
+    if(((struct Obj04657 *)p)->f374==2)p[0x37A]=1;
     else p[0x37A]=0;
-    *(u32 *)p=0xA10F49AE;
-    *(u32 *)(p+4)+=1;
-    *(u16 *)(p+8)=func_0203F1FC(p+12,0x368);
+    ((struct Obj04657 *)p)->f0=0xA10F49AE;
+    ((struct Obj04657 *)p)->f4+=1;
+    ((struct Obj04657 *)p)->f8=func_0203F1FC(p+12,0x368);
 }

@@ -14,6 +14,8 @@
  *   func_0202822C 0x0202822C thumb
  *   func_02012204 0x02012204 thumb
  */
+#include "../include/Obj00122.h"
+#include "../include/Obj22992.h"
 typedef unsigned char u8;
 typedef struct { u8 bytes[16]; } Table16;
 extern const Table16 d_021D4BE4;
@@ -30,29 +32,29 @@ void func_021D48A4(char *p)
     table = d_021D4BE4;
     switch (func_02035C08(&table)) {
     case 0:
-        if (*(u8 *)(p + 0x18) != 0) {
-            (*(u8 *)(p + 0x18))--;
-            func_021D4940(p,*(u8 *)(p + 0x18));
-            func_0202822C(*(void **)(p + 0x38),1);
+        if (((struct Obj00122 *)p)->f18 != 0) {
+            (((struct Obj00122 *)p)->f18)--;
+            func_021D4940(p,((struct Obj00122 *)p)->f18);
+            func_0202822C(((struct Obj00122 *)p)->f38,1);
             func_020061E4(0x54c);
         }
         break;
     case 1:
-        if (*(u8 *)(p + 0x18) < 11) {
-            (*(u8 *)(p + 0x18))++;
-            func_021D4940(p,*(u8 *)(p + 0x18));
-            func_0202822C(*(void **)(p + 0x3c),1);
+        if (((struct Obj00122 *)p)->f18 < 11) {
+            (((struct Obj00122 *)p)->f18)++;
+            func_021D4940(p,((struct Obj00122 *)p)->f18);
+            func_0202822C(((struct Obj00122 *)p)->f3C,1);
             func_020061E4(0x54c);
         }
         break;
     case 2:
-        func_0202822C(*(void **)(p + 0x40),1);
-        *(int *)(p + 0x10) = 2;
+        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        *(int *)&((struct Obj00122 *)p)->f10 = 2;
         func_020061E4(0x551);
         break;
     }
-    if (func_02012204(*(void **)(*(char **)(p + 4) + 4)) == 1) {
-        func_0202822C(*(void **)(p + 0x40),1);
-        *(int *)(p + 0x10) = 2;
+    if (func_02012204(((struct Obj22992 *)(*(char * *)&((struct Obj00122 *)p)->f4))->f4) == 1) {
+        func_0202822C(((struct Obj00122 *)p)->f40,1);
+        *(int *)&((struct Obj00122 *)p)->f10 = 2;
     }
 }

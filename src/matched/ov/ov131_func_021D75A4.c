@@ -22,6 +22,7 @@
  *   func_021D77F8 0x021D77F8 thumb ov131
  *   func_021D7810 0x021D7810 thumb ov131
  */
+#include "../include/Obj00219.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -44,18 +45,18 @@ void func_021D75A4(int a,u8 *p)
     func_02035CB8(&x,&y);
     dx=(s8)(x-p[0x7a]);
     dy=(s8)(y-p[0x7b]);
-    if ((*(u32 *)(p+0x7c)==0 || *(u32 *)(p+0x7c)==3) && dx>16)
+    if ((((struct Obj00219 *)p)->f7C==0 || ((struct Obj00219 *)p)->f7C==3) && dx>16)
         func_021D77F8((struct hdr *)(p+0x78),x,y,1);
-    if (*(u32 *)(p+0x7c)<=1 && dx < -16)
+    if (((struct Obj00219 *)p)->f7C<=1 && dx < -16)
         func_021D77F8((struct hdr *)(p+0x78),x,y,3);
     if (dy>16 || dy < -16 || p[0x79]>20)
         func_021D77E8((u8 *)p+0x78,x,y);
     ++((u8 *)p)[0x79];
     dx=(s8)(x-p[0x82]);
     dy=(s8)(y-p[0x83]);
-    if ((*(u32 *)(p+0x84)==0 || *(u32 *)(p+0x84)==4) && dy>16)
+    if ((((struct Obj00219 *)p)->f84==0 || ((struct Obj00219 *)p)->f84==4) && dy>16)
         func_021D77F8((struct hdr *)(p+0x80),x,y,2);
-    if ((*(u32 *)(p+0x84)==0 || *(u32 *)(p+0x84)==2) && dy < -16)
+    if ((((struct Obj00219 *)p)->f84==0 || ((struct Obj00219 *)p)->f84==2) && dy < -16)
         func_021D77F8((struct hdr *)(p+0x80),x,y,4);
     if (dx>16 || dx < -16 || p[0x81]>20)
         func_021D77E8((u8 *)p+0x80,x,y);
@@ -69,35 +70,35 @@ void func_021D75A4(int a,u8 *p)
     else if (rx < -16) direction=3;
     else if (ry>16) direction=2;
     else if (ry < -16) direction=4;
-    if (direction!=0 && (u32)direction!=*(u32 *)(p+0x8c)) {
-        if (*(u32 *)(p+0x8c)+1==(u32)direction ||
-            (*(u32 *)(p+0x8c)==4 && direction==1)) {
-            tmp=*(u32 *)(p+0x90);
+    if (direction!=0 && (u32)direction!=((struct Obj00219 *)p)->f8C) {
+        if (((struct Obj00219 *)p)->f8C+1==(u32)direction ||
+            (((struct Obj00219 *)p)->f8C==4 && direction==1)) {
+            tmp=((struct Obj00219 *)p)->f90;
             if (tmp<=1) {
-                *(u32 *)(p+0x90)=1;
+                ((struct Obj00219 *)p)->f90=1;
                 func_021D77F8((struct hdr *)(p+0x88),x,y,direction);
-                if (*(u32 *)(p+0x8c)==4) flag=1;
+                if (((struct Obj00219 *)p)->f8C==4) flag=1;
             } else {
-                *(u32 *)(p+0x90)=0;
+                ((struct Obj00219 *)p)->f90=0;
                 func_021D77E8((u8 *)p+0x88,x,y);
             }
-        } else if (*(u32 *)(p+0x8c)-1==(u32)direction ||
-            (*(u32 *)(p+0x8c)==1 && direction==4)) {
+        } else if (((struct Obj00219 *)p)->f8C-1==(u32)direction ||
+            (((struct Obj00219 *)p)->f8C==1 && direction==4)) {
             tmp1=(u32 *)(p+0x90);
-            if (*tmp1==2 || *(u32 *)(p+0x90)==0) {
-                *(u32 *)(p+0x90)=2;
+            if (*tmp1==2 || ((struct Obj00219 *)p)->f90==0) {
+                ((struct Obj00219 *)p)->f90=2;
                 func_021D77F8((struct hdr *)(p+0x88),x,y,direction);
-                if (*(u32 *)(p+0x8c)==4) flag=1;
+                if (((struct Obj00219 *)p)->f8C==4) flag=1;
             } else {
-                *(u32 *)(p+0x90)=0;
+                ((struct Obj00219 *)p)->f90=0;
                 func_021D77E8((u8 *)p+0x88,x,y);
             }
-        } else if (*(u32 *)(p+0x8c)==0) {
-            *(u32 *)(p+0x8c)=direction;
+        } else if (((struct Obj00219 *)p)->f8C==0) {
+            ((struct Obj00219 *)p)->f8C=direction;
         }
     }
     if (p[0x89]>20) {
-        *(u32 *)(p+0x90)=0;
+        ((struct Obj00219 *)p)->f90=0;
         func_021D77E8((u8 *)p+0x88,x,y);
     }
     func_021D7810(a,(Ring *)p,flag);

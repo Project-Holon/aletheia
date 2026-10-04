@@ -27,6 +27,8 @@
  *   func_021BA7D8 0x021BA7D8 thumb ov099
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj01386.h"
+#include "../include/Obj02804.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
@@ -55,32 +57,32 @@ int func_021C24F0(void *obj, int unused, char *args)
     p = func_0203159C(obj, 0x1360, 0x21);
     func_02082BCC(p, 0, 0x1360);
     func_0203D668((u32)p);
-    *(u32 *)(p + 8) = *(u32 *)args;
-    *(u32 *)(p + 0xc0) = *(u32 *)(args + 8);
-    *(u32 *)(p + 0xc4) = *(u32 *)(args + 4);
-    *(int *)(p + 0xcc) = func_021BCB8C(*(void **)(p + 0xc4));
-    *(void **)(p + 0xc8) = func_02012934(*(struct BigObj **)(p + 0xc4));
-    *(u32 *)(p + 4) = func_0201283C(*(struct BigObj **)(p + 0xc4));
-    *(u32 *)(p + 0xd8) = (u32)func_0200873C((void *)(*(u32 *)(args + 8)));
-    *(u32 *)(p + 0x1d8) = *(u32 *)(args + 0xc);
-    *(int *)(p + 0x135c) = *(u8 *)(args + 0x49);
-    if (*(int *)(args + 0xc) == 1) {
-        *(int *)(args + 0xc) = 0;
+    ((struct Obj01386 *)p)->f8 = ((struct Obj02804 *)args)->f0;
+    ((struct Obj01386 *)p)->fC0 = ((struct Obj02804 *)args)->f8;
+    *(u32 *)&((struct Obj01386 *)p)->fC4 = ((struct Obj02804 *)args)->f4;
+    ((struct Obj01386 *)p)->fCC = func_021BCB8C(((struct Obj01386 *)p)->fC4);
+    ((struct Obj01386 *)p)->fC8 = func_02012934(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
+    ((struct Obj01386 *)p)->f4 = func_0201283C(*(struct BigObj * *)&((struct Obj01386 *)p)->fC4);
+    ((struct Obj01386 *)p)->fD8 = (u32)func_0200873C((void *)(((struct Obj02804 *)args)->f8));
+    ((struct Obj01386 *)p)->f1D8 = *(u32 *)&((struct Obj02804 *)args)->fC;
+    ((struct Obj01386 *)p)->f135C = ((struct Obj02804 *)args)->f49;
+    if (((struct Obj02804 *)args)->fC == 1) {
+        ((struct Obj02804 *)args)->fC = 0;
         func_021C24D4(p, 4);
-    } else if (*(int *)(args + 0xc) != 0) {
+    } else if (((struct Obj02804 *)args)->fC != 0) {
         func_021C24D4(p, 4);
     } else {
         func_021C24D4(p, 1);
     }
-    *(int *)(p + 0x1d0) = 0;
-    *(int *)(p + 0x1f0) = -1;
-    *(char **)(p + 0x248) = args;
+    ((struct Obj01386 *)p)->f1D0 = 0;
+    ((struct Obj01386 *)p)->f1F0 = -1;
+    *(char * *)&((struct Obj01386 *)p)->f248 = args;
     func_020434DC(15, 0);
     func_02043598(15, 0);
     func_021BB1A8(p);
-    *(int *)(p + 0x1cc) = 0;
+    ((struct Obj01386 *)p)->f1CC = 0;
     func_021BDE94(p);
-    if (*(int *)(args + 0xc) == 0) func_021BE6F0(p, 1, 2);
+    if (((struct Obj02804 *)args)->fC == 0) func_021BE6F0(p, 1, 2);
     if (func_0203CD98() != 0) {
         func_021BA7D8(p);
         func_0203D34C(1, 0x21);

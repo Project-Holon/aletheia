@@ -20,6 +20,7 @@
  *   func_021D09D0  0x021D09D0  thumb  ov021
  *   d_021DE674     0x021DE674  data  a4
  */
+#include "../include/Obj07595.h"
 
 typedef unsigned short u16;
 
@@ -44,9 +45,9 @@ void *func_021D096C(int a)
     r7 = func_0200E588();
     func_02012EBC(func_020120F4((const struct Ctx *)a));
     p = func_02030734(5, 0x154, 1, (const char *)&d_021DE674, 0x5D);
-    *(u16 *)(p + 0x120) = 5;
-    *(int *)(p + 0x14C) = (int)func_02030734(5, r7, 1, (const char *)&d_021DE674, 0x5F);
+    ((struct Obj07595 *)p)->f120 = 5;
+    ((struct Obj07595 *)p)->f14C = (int)func_02030734(5, r7, 1, (const char *)&d_021DE674, 0x5F);
     func_021D09D0(a, p);
-    *(int *)(p + 0x128) = (int)func_0201A920(*(u16 *)(p + 0x120));
+    ((struct Obj07595 *)p)->f128 = (int)func_0201A920(((struct Obj07595 *)p)->f120);
     return p;
 }

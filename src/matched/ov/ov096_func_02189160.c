@@ -10,9 +10,10 @@
  * symbols:
  *   func_02189170 0x02189170 thumb ov096
  */
+#include "../include/Obj21956.h"
 extern void func_02189170(int, int, int);
 int func_02189160(int a, int b)
 {
     func_02189170(a, b, 1);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21956 *)b)->fC4;
 }

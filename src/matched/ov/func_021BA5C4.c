@@ -14,6 +14,7 @@
  *
  * ldrh at #0x442 (pool constant)
  */
+#include "../include/Obj18159.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u16 func_021BA5C4(u8 *p)
 {
-    return *(u16 *)(p + 0x442);
+    return ((struct Obj18159 *)p)->f442;
 }

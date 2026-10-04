@@ -29,6 +29,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   ov072_id 0x00000048 data a1
  */
+#include "../include/Obj00510.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -64,37 +65,37 @@ u32 func_021BF788(void *a0,u32 a1,u16 *heap,u32 a3,int key)
     p = (u8 *)func_021BC32C(a0,0x438,*heap);
     i = 0;
     func_02082BCC(p,0,0x438);
-    *(u32 *)(p+0) = func_021BCF4C((char *)func_021BC3A8((int *)key));
-    *(u32 *)(p+4) = func_021BC3AC((int *)key);
+    ((struct Obj00510 *)p)->f0 = func_021BCF4C((char *)func_021BC3A8((int *)key));
+    ((struct Obj00510 *)p)->f4 = func_021BC3AC((int *)key);
     for (;i<2;i++) *(u32 *)(p+i*4+0x5c)=0;
-    *(u32 *)(p+0x64)=0;
-    *(u32 *)(p+0x8c)=0;
-    *(u32 *)(p+0x90)=1;
-    *(u32 *)(p+0x94)=0;
-    *(u32 *)(p+0x6c)=0;
-    *(u32 *)(p+0x70)=0;
-    *(u32 *)(p+0x74)=0;
+    ((struct Obj00510 *)p)->f64=0;
+    ((struct Obj00510 *)p)->f8C=0;
+    ((struct Obj00510 *)p)->f90=1;
+    ((struct Obj00510 *)p)->f94=0;
+    ((struct Obj00510 *)p)->f6C=0;
+    ((struct Obj00510 *)p)->f70=0;
+    ((struct Obj00510 *)p)->f74=0;
     p[0x78]=func_02012984((const struct BigObj *)save);
     p[0x79]=0xff;
-    *(u32 *)(p+0x84)=0;
-    *(u32 *)(p+0x88)=1;
-    *(int *)(p+0x3c8)=func_021BBB24(*heap);
+    ((struct Obj00510 *)p)->f84=0;
+    ((struct Obj00510 *)p)->f88=1;
+    ((struct Obj00510 *)p)->f3C8=func_021BBB24(*heap);
     func_021C0048(heap,(char *)p,key);
-    *(void **)(p+0x40c)=func_020490F4(0xb2,*heap);
-    *(void **)(p+0x410)=func_020056A0((u32)func_021BFFEC,(u32)p,1);
+    ((struct Obj00510 *)p)->f40C=func_020490F4(0xb2,*heap);
+    ((struct Obj00510 *)p)->f410=func_020056A0((u32)func_021BFFEC,(u32)p,1);
     p[0x414]=0;
     func_021C06C8(heap,(char *)p,key);
-    *(void **)(p+0x418)=func_021BC448(*heap);
-    *(void **)(p+0x41c)=func_021BC448(*heap);
-    func_021BC518(*(u32 **)(p+0x418));
-    func_021BC518(*(u32 **)(p+0x41c));
-    func_021BC508(0,*(u32 **)(p+0x418));
-    func_021BC508(1,*(u32 **)(p+0x41c));
-    *(void **)(p+0x420)=func_021BC560(*heap,0xa);
-    *(u32 *)(p+0x424)=0;
-    *(u32 *)(p+0x428)=1;
-    *(u32 *)(p+0x42c)=0;
-    *(u32 *)(p+0x430)=1;
-    *(u32 *)(p+0x434)=1;
+    ((struct Obj00510 *)p)->f418=func_021BC448(*heap);
+    ((struct Obj00510 *)p)->f41C=func_021BC448(*heap);
+    func_021BC518(*(u32 * *)&((struct Obj00510 *)p)->f418);
+    func_021BC518(*(u32 * *)&((struct Obj00510 *)p)->f41C);
+    func_021BC508(0,*(u32 * *)&((struct Obj00510 *)p)->f418);
+    func_021BC508(1,*(u32 * *)&((struct Obj00510 *)p)->f41C);
+    ((struct Obj00510 *)p)->f420=func_021BC560(*heap,0xa);
+    ((struct Obj00510 *)p)->f424=0;
+    ((struct Obj00510 *)p)->f428=1;
+    ((struct Obj00510 *)p)->f42C=0;
+    ((struct Obj00510 *)p)->f430=1;
+    ((struct Obj00510 *)p)->f434=1;
     return 1;
 }

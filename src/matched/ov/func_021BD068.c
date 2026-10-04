@@ -15,6 +15,7 @@
  *   func_02045808  0x02045808  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00575.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ extern void func_02045808(struct U16Vec *vec);
 
 void func_021BD068(u8 *p)
 {
-    u32 v = *(u32 *)(p + 28);
+    u32 v = ((struct Obj00575 *)p)->f1C;
     if (v != 0) {
         func_02045808((struct U16Vec *)v);
-        *(u32 *)(p + 28) = 0;
+        ((struct Obj00575 *)p)->f1C = 0;
     }
 }

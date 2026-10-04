@@ -31,6 +31,7 @@
  *   d_021D35AC     0x021D35AC  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01344.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -73,24 +74,24 @@ void func_02188EE4(u8 *p)
     u8 *h;
     u16 heap;
 
-    *(u32 *)(p + 0xB0) = (u32)func_0204FE94(0x40, 0x80, (u32)func_02189140, *(u16 *)p);
-    h = (u8 *)func_02050080((u32 *)(*(u32 *)(p + 0xB0)));
+    ((struct Obj01344 *)p)->fB0 = (u32)func_0204FE94(0x40, 0x80, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
+    h = (u8 *)func_02050080((u32 *)(((struct Obj01344 *)p)->fB0));
     func_0204EDBC(h, 2);
     func_0204EDC4(h, 0, -0xA00);
-    *(u32 *)(p + 0xB4) = (u32)func_0204FE94(0x3A, 0x50, (u32)func_02189140, *(u16 *)p);
-    *(u32 *)(p + 0xB8) = (u32)func_0204FE94(0x1E, 0x28, (u32)func_02189140, *(u16 *)p);
-    h = (u8 *)func_02050080((u32 *)(*(u32 *)(p + 0xB8)));
+    ((struct Obj01344 *)p)->fB4 = (u32)func_0204FE94(0x3A, 0x50, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
+    ((struct Obj01344 *)p)->fB8 = (u32)func_0204FE94(0x1E, 0x28, (u32)func_02189140, ((struct Obj01344 *)p)->f0);
+    h = (u8 *)func_02050080((u32 *)(((struct Obj01344 *)p)->fB8));
     v30 = d_021D36F4;
     func_0204ED70(h, &v30);
     v20 = 0;
     func_0204EDB0(h, &v20);
     func_021891C0(p);
-    *(u32 *)(p + 0x130) = func_021C63AC(*(u16 *)p, 0x40, 0x40);
-    heap = *(u16 *)p;
+    ((struct Obj01344 *)p)->f130 = func_021C63AC(((struct Obj01344 *)p)->f0, 0x40, 0x40);
+    heap = ((struct Obj01344 *)p)->f0;
     v24 = d_021D36E8;
-    *(u32 *)(p + 0xA4) = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
+    ((struct Obj01344 *)p)->fA4 = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0,
                                        &d_021D35C0, &v24, &d_021D35CC, heap);
-    *(u32 *)(p + 0xA8) = (u32)func_02048BC4((const struct LightSet *)d_021D35AC, *(u16 *)p);
-    func_02048AD0((struct Light *)(*(u32 *)(p + 0xA4)));
-    func_02048C58((struct LightSlot *)(*(u32 *)(p + 0xA8)));
+    ((struct Obj01344 *)p)->fA8 = (u32)func_02048BC4((const struct LightSet *)d_021D35AC, ((struct Obj01344 *)p)->f0);
+    func_02048AD0((struct Light *)(((struct Obj01344 *)p)->fA4));
+    func_02048C58((struct LightSlot *)(((struct Obj01344 *)p)->fA8));
 }

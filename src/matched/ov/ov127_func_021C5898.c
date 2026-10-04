@@ -15,6 +15,7 @@
  * symbols:
  *   func_021C428C  0x021C428C  thumb  ov127
  */
+#include "../include/Obj23053.h"
 
 typedef signed short s16;
 
@@ -27,5 +28,5 @@ extern void func_021C428C(char *p, int x, int y);
 
 void func_021C5898(char *p, P2 v)
 {
-    func_021C428C(*(void **)(p + 4), v.x, v.y);
+    func_021C428C(((struct Obj23053 *)p)->f4, v.x, v.y);
 }

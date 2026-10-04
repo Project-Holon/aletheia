@@ -15,6 +15,7 @@
  *   func_02028148  0x02028148  thumb
  *   func_02082BCC  0x02082BCC  arm
  */
+#include "../include/Obj20641.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -29,7 +30,7 @@ void func_021BA410(u8 *p)
 {
     int i;
 
-    func_021B639C(*(void **)(p + 8));
+    func_021B639C(((struct Obj20641 *)p)->f8);
     for (i = 0; i < 2; i++) {
         func_02045808((struct U16Vec *)(*(u32 *)(p + i * 0xc + 0x1c)));
         func_02028148((u8 *)(*(u32 *)(p + i * 4 + 0x34)));

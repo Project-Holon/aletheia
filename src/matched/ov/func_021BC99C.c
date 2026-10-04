@@ -14,6 +14,7 @@
 
  * Restarts the widget when its +5 counter has run out, otherwise counts it down.
  */
+#include "../include/Obj07226.h"
 
 
 typedef unsigned int   u32;
@@ -23,12 +24,12 @@ void func_021BC99C(char *p)
 {
     unsigned char c;
 
-    c = *(unsigned char *)(p + 5);
+    c = ((struct Obj07226 *)p)->f5;
     if (c == 0) {
-        func_02041EE4(*(unsigned char *)(p + 4), 1, 1);
-        *(unsigned char *)(p + 5) = 4;
+        func_02041EE4(((struct Obj07226 *)p)->f4, 1, 1);
+        ((struct Obj07226 *)p)->f5 = 4;
     } else {
-        *(unsigned char *)(p + 5) = c - 1;
+        ((struct Obj07226 *)p)->f5 = c - 1;
     }
 }
 

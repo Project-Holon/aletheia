@@ -13,6 +13,7 @@
  *   func_021C42FC 0x021C42FC thumb ov127
  *   d_021C6100 0x021C6100 data a1
  */
+#include "../include/Obj02839.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,8 +33,8 @@ Context *func_021C3EE0(void *a, void *b, u32 count, u32 heap)
     p->h0 = func_020490F4(31, heap);
     p->h1 = func_020490F4(32, heap);
     for (i = 0; i < 18; i++) p->entries[i].handle = -1;
-    *(u32 *)((u8 *)p + 736) = -1;
-    *(u32 *)((u8 *)p + 756) = -1;
+    ((struct Obj02839 *)p)->f2E0 = -1;
+    ((struct Obj02839 *)p)->f2F4 = -1;
     func_021C42FC(p, 0, heap);
     p->count = count;
     p->items = func_02030734(heap, 24 * p->count, 1, d_021C6100, 379);

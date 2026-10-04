@@ -16,6 +16,7 @@
  *   func_02045374 0x02045374 arm
  *   func_021BC78C 0x021BC78C thumb ov110
  */
+#include "../include/Obj03756.h"
 typedef unsigned char u8;
 extern void func_021BFED0(u8 *,int);
 extern unsigned func_021BF734(u8 *);
@@ -32,27 +33,27 @@ void func_021BFCA4(u8 *p,int amount) {
     u8 y;
     func_021BFED0(p,amount);
     count=amount*2;
-    start=*(int *)(p+0x98);
+    start=((struct Obj03756 *)p)->f98;
     newstart=start+count;
     step=24*amount;
-    newy=(u8)(*(unsigned *)(p+0x94)+step);
+    newy=(u8)(((struct Obj03756 *)p)->f94+step);
     if(amount<0) {
         start=newstart;
         y=newy;
         count=-count;
         amount=-amount;
     } else {
-        y=(u8)(*(unsigned *)(p+0x94)+192);
+        y=(u8)(((struct Obj03756 *)p)->f94+192);
         start+=16;
-        if(count+start>func_021BF734(*(u8 **)(p+4))) count--;
+        if(count+start>func_021BF734(*(u8 * *)&((struct Obj03756 *)p)->f4)) count--;
     }
     for(i=0;i<count;i++) {
         func_021BFF7C(p,start+i,y);
         if(i&1) y+=24;
     }
-    *(unsigned *)(p+0x94)=newy;
-    *(int *)(p+0x98)=newstart;
-    func_02045334((struct Descriptor *)*(unsigned *)(p+12));
-    func_02045374((struct Cfg *)(*(unsigned *)(p+12)));
+    ((struct Obj03756 *)p)->f94=newy;
+    ((struct Obj03756 *)p)->f98=newstart;
+    func_02045334((struct Descriptor *)((struct Obj03756 *)p)->fC);
+    func_02045374((struct Cfg *)(((struct Obj03756 *)p)->fC));
     func_021BC78C(p+0x6c,2,1,step,amount);
 }

@@ -26,6 +26,7 @@
  * shadow.  Written with `out[8] = 0` first, the compiled order flips and
  * nine bytes differ.
  */
+#include "../include/Obj04054.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,13 +53,13 @@ int func_02026608(u8 *p, u8 *out)
         return 0;
     }
     func_02082BCC(out, 0, 0x10);
-    *(u32 *)out = r->w4;
+    ((struct Obj04054 *)out)->f0 = r->w4;
     out[8] = 0;
     out[0xa] = r->f1;
-    *(u32 *)(out + 4) = r->w8;
+    ((struct Obj04054 *)out)->f4 = r->w8;
     out[9] = 1;
     out[0xb] = r->f2;
-    *(u16 *)(out + 0xc) = r->h0;
+    ((struct Obj04054 *)out)->fC = r->h0;
     r->live = 0;
     base[0x48] = base[0x48] + 1;
     if (base[0x48] >= 6) {

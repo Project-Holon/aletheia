@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/matched/func_0202947C.c \\
  *       --func func_0202947C --addr 0x0202947C --thumb --cc 1.1p1
  */
+#include "../include/Obj15804.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,5 +30,5 @@ extern u8 func_02012E40(const u8 *o);
 
 u32 func_0202947C(u8 *p)
 {
-    return func_02012E40((const u8 *)(*(u32 *)p));
+    return func_02012E40((const u8 *)(((struct Obj15804 *)p)->f0));
 }

@@ -18,6 +18,7 @@
  *   func_021DEF58 0x021DEF58 thumb ov170
  *   func_02017DE4 0x02017DE4 thumb
  */
+#include "../include/Obj00000.h"
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 typedef unsigned int   u32;
 struct Sav;
@@ -33,11 +34,11 @@ void func_021DEFF8(char *p, unsigned b)
     void *mon;
     void *s;
     int state;
-    mon = (void *)func_021DD2D0((void ***)p, *(unsigned char *)(p + 0x14), b);
+    mon = (void *)func_021DD2D0((void ***)p, ((struct Obj00000 *)p)->f14, b);
     state = func_02017DBC(mon);
     s = func_021DEDD8(mon);
     func_021ECCCC(p, s, 11);
-    func_021ED028(*(void **)(p + 0x2C), s);
+    func_021ED028(((struct Obj00000 *)p)->f2C, s);
     func_021EB2A4(p, s);
     func_021DEF58(s);
     func_02017DE4(mon, state);

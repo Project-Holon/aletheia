@@ -17,6 +17,7 @@
  *   func_020215BC  0x020215BC  thumb
  *   d_021F33CC     0x021F33CC  data  ov029  a4
  */
+#include "../include/Obj00042.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,17 +41,17 @@ void func_021F1CD8(char *p)
     void *e;
 
     cnt = 0;
-    if (*(u8 *)(p + 0x45a) == 0) {
+    if (((struct Obj00042 *)p)->f45A == 0) {
         return;
     }
     if (func_021F05B4(p) != 0) {
         return;
     }
     n = func_02026C8C();
-    if (*(u8 *)(p + 0x450) == 0) {
+    if (((struct Obj00042 *)p)->f450 == 0) {
         tmp = 0;
         if (func_02026CA0(&tmp) != 30) {
-            *(u8 *)(p + 0x450) = 1;
+            ((struct Obj00042 *)p)->f450 = 1;
         }
     }
     n--;
@@ -59,12 +60,12 @@ void func_021F1CD8(char *p)
             break;
         }
         if (n < 0) {
-            func_020215BC(*(int *)(p + 0x210), p + 0x1f8, 3, d_021F33CC[cnt] * 2 + 0x60, 4);
+            func_020215BC(*(int *)&((struct Obj00042 *)p)->f210, p + 0x1f8, 3, d_021F33CC[cnt] * 2 + 0x60, 4);
             cnt++;
         } else {
             e = func_02026C78(n);
             if (e != 0) {
-                func_020215BC(*(int *)(p + 0x210), (u32 *)(p + 0x1b8) + func_02165CD8(e), 3,
+                func_020215BC(*(int *)&((struct Obj00042 *)p)->f210, (u32 *)(p + 0x1b8) + func_02165CD8(e), 3,
                               d_021F33CC[cnt] * 2 + 0x60, 4);
                 cnt++;
             }

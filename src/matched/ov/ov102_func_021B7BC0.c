@@ -16,6 +16,7 @@
  * func_0204A5AC 0x0204A5AC arm
  * func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj07973.h"
 struct Bank;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
@@ -30,10 +31,10 @@ void func_021B7BC0(void *p) {
  for(i=0;i<32;i++) {
   if(*(void **)((char *)p+16+i*4)) func_0204B3B4(*(void **)((char *)p+16+i*4));
  }
- func_0204ADA4(*(unsigned *)((char *)p+4));
- func_0204A8D4(*(unsigned *)((char *)p+8));
- func_0204AFD8(*(unsigned *)((char *)p+12));
- func_0204B1CC(*(void **)p);
+ func_0204ADA4(((struct Obj07973 *)p)->f4);
+ func_0204A8D4(((struct Obj07973 *)p)->f8);
+ func_0204AFD8(((struct Obj07973 *)p)->fC);
+ func_0204B1CC(((struct Obj07973 *)p)->f0);
  func_0204A5AC();
  func_02082BCC(p,0,0x90);
 }

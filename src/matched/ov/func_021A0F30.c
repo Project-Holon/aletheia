@@ -15,6 +15,7 @@
  *   func_021A0EE4  0x021A0EE4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12083.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern u32 func_021A0EE4(u32, u32);
 
 int func_021A0F30(u32 a, u32 b)
 {
-*(u32 *)((u8 *)(a) + 4) = func_021A0EE4(a, b);
-*(u32 *)((u8 *)(a) + 8) = 1;
+((struct Obj12083 *)((u8 *)(a)))->f4 = func_021A0EE4(a, b);
+((struct Obj12083 *)((u8 *)(a)))->f8 = 1;
 return 1;
 }
 

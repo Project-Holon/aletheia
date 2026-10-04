@@ -14,6 +14,7 @@
 
  * Claim the 0xb4/0x48 resource into +0xb88 and the 0x2d transfer into +0xb8c.
  */
+#include "../include/Obj09242.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void func_0220040C(u8 *p)
 {
-    *(u32 *)(p + 0xb88) = (u32)func_020457B0(0xb4, 0x48);
-    *(u32 *)(p + 0xb8c) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0xb6c)), 0x2d);
+    ((struct Obj09242 *)p)->fB88 = (u32)func_020457B0(0xb4, 0x48);
+    ((struct Obj09242 *)p)->fB8C = (u32)func_02045EC0((struct MsgBank *)(((struct Obj09242 *)p)->fB6C), 0x2d);
 }

@@ -18,6 +18,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_021542C0  0x021542C0  thumb  ov000
  */
+#include "../include/Obj04140.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,12 +43,12 @@ void *func_02154670(void *p)
     r7 = (void *)func_020122C0(p, 0, func_021542C0, 0x2CC);
     r4 = func_020124E8(r7);
     q = (int)func_020120F4(p);
-    *(int *)(r4 + 4) = q;
-    *(int *)(r4 + 8) = (int)func_02012EBC((struct Big *)q);
-    *(void **)r4 = p;
-    *(int *)(r4 + 0x258) = (int)func_020120F4(p);
-    *(int *)(r4 + 0x25C) = 1;
-    *(int *)(r4 + 0x260) = 0;
-    *(int *)(r4 + 0x264) = 0x31;
+    ((struct Obj04140 *)r4)->f4 = q;
+    ((struct Obj04140 *)r4)->f8 = (int)func_02012EBC((struct Big *)q);
+    ((struct Obj04140 *)r4)->f0 = p;
+    ((struct Obj04140 *)r4)->f258 = (int)func_020120F4(p);
+    ((struct Obj04140 *)r4)->f25C = 1;
+    ((struct Obj04140 *)r4)->f260 = 0;
+    ((struct Obj04140 *)r4)->f264 = 0x31;
     return r7;
 }

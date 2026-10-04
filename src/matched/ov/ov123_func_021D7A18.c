@@ -13,6 +13,7 @@
  *   func_021D6FF0 0x021D6FF0 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  */
+#include "../include/Obj13989.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021D5CF8(char *p);
@@ -21,10 +22,10 @@ extern void func_021D6FF0(char *p);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D7A18(int a)
 {
-    if (func_021D5CF8((char *)(*(int *)(a + 8)))) {
+    if (func_021D5CF8((char *)(((struct Obj13989 *)a)->f8))) {
         func_021D6EE0((u8 *)a, (int)func_021D79A4, 0x415);
         return;
     }
-    *(int *)(a + 0x80) = 0xfff0;
+    ((struct Obj13989 *)a)->f80 = 0xfff0;
     func_021D6EE0((u8 *)a, (int)func_021D6FF0, 0x419);
 }

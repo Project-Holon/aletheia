@@ -33,6 +33,7 @@
  *   func_021DAFCC 0x021DAFCC thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
  */
+#include "../include/Obj00827.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 w[9]; } Desc;
@@ -73,18 +74,18 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
     case 1:
         func_021D9288(p+312,0);
         func_021D8380(p);
-        func_021D9E04(*(void **)(p+644));
-        *(void **)(p+644)=0;
+        func_021D9E04(((struct Obj00827 *)p)->f284);
+        ((struct Obj00827 *)p)->f284=0;
         func_02082BCC(&d,0,36);
         d.w[0]=1;
-        d.w[2]=(u32)func_021D9744(*(void **)(p+916));
-        d.w[3]=*(u32 *)(p+956);
-        d.w[4]=*(u32 *)(p+920);
-        d.w[5]=*(u32 *)(p+924);
-        d.w[6]=*(u32 *)(p+936);
-        d.w[7]=*(u32 *)(p+932);
-        d.w[8]=*(u32 *)(p+952);
-        *(void **)(p+8)=func_021DAC18(&d,29);
+        d.w[2]=(u32)func_021D9744(((struct Obj00827 *)p)->f394);
+        d.w[3]=*(u32 *)&((struct Obj00827 *)p)->f3BC;
+        d.w[4]=*(u32 *)&((struct Obj00827 *)p)->f398;
+        d.w[5]=*(u32 *)&((struct Obj00827 *)p)->f39C;
+        d.w[6]=((struct Obj00827 *)p)->f3A8;
+        d.w[7]=((struct Obj00827 *)p)->f3A4;
+        d.w[8]=((struct Obj00827 *)p)->f3B8;
+        ((struct Obj00827 *)p)->f8=func_021DAC18(&d,29);
         *state=2;
         break;
     case 2:
@@ -93,8 +94,8 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 3:
-        func_021DAEF0(*(void **)(p+8));
-        if(func_021DB008(*(void **)(p+8))) *state=4;
+        func_021DAEF0(((struct Obj00827 *)p)->f8);
+        if(func_021DB008(((struct Obj00827 *)p)->f8)) *state=4;
         break;
     case 4:
         func_0204E720(3,0,16,0);
@@ -103,12 +104,12 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         break;
     case 5:
         func_021D9288(p+312,1);
-        func_021DAE1C(*(void **)(p+8));
-        *(void **)(p+8)=0;
+        func_021DAE1C(((struct Obj00827 *)p)->f8);
+        ((struct Obj00827 *)p)->f8=0;
         func_021D694C(p+912,0);
         func_021D6C60(p+660,29);
-        *(void **)(p+644)=func_021D9CA4(1,15,*(void **)(p+924),*(void **)(p+920),29);
-        func_021D9FFC(*(void **)(p+644),10,14);
+        ((struct Obj00827 *)p)->f284=func_021D9CA4(1,15,((struct Obj00827 *)p)->f39C,((struct Obj00827 *)p)->f398,29);
+        func_021D9FFC(((struct Obj00827 *)p)->f284,10,14);
         func_0207D63C((void *)0x04000050,4,24,15,3);
         func_021D81B0(p,0,29);
         *state=6;
@@ -119,12 +120,12 @@ void func_021D7CF4(void *task,u32 *state,u8 *p)
         *state=8;
         break;
     case 7:
-        *(void **)(p+968)=(void *)func_0200A0C8(*(void **)(p+956));
+        ((struct Obj00827 *)p)->f3C8=(void *)func_0200A0C8(((struct Obj00827 *)p)->f3BC);
         func_021DA8B0(task,(u32)func_021D6E3C);
         break;
     case 8:
         if(!func_0204E804()) func_021DA8C4(task);
         break;
     }
-    if(*(void **)(p+8)) func_021DAFCC(*(void **)(p+8));
+    if(((struct Obj00827 *)p)->f8) func_021DAFCC(((struct Obj00827 *)p)->f8);
 }

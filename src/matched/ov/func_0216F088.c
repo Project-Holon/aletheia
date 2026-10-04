@@ -13,6 +13,7 @@
  *   func_02031330  0x02031330  arm
  *   func_0203133C  0x0203133C  arm
  */
+#include "../include/Obj09170.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,18 +27,18 @@ int func_0216F088(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4);
+a0 = ((struct Obj09170 *)((char *)t4))->f0;
     if (a0 == 0) goto loc_0216F0A8;
 loc_0216F092:
     a0 = func_02031330((void *)a0);
 loc_0216F096:
     if (a0 != 0) goto loc_0216F0A8;
 loc_0216F09A:
-a0 = *(int *)((char *)t4);
+a0 = ((struct Obj09170 *)((char *)t4))->f0;
     a0 = func_0203133C(a0);
 loc_0216F0A0:
 a0 = 0;
-*(int *)((char *)t4) = a0;
+((struct Obj09170 *)((char *)t4))->f0 = a0;
 a0 = 1;
     return a0;
 loc_0216F0A8:

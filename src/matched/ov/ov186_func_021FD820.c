@@ -17,6 +17,7 @@
  *
  * Release the twelve handles at r5+0x1F8, then tear the object down.
  */
+#include "../include/Obj10793.h"
 
 
 struct Obj;
@@ -30,7 +31,7 @@ void func_021FD820(char *r5)
     int i;
     for (i = 0; i < 0xC; i++)
         func_0204B3B4((struct Obj *)(*(int *)(r5 + 0x1F8 + i * 4)));
-    func_021FC0C8((char *)(*(int *)(r5 + 0x14)), *(int *)(r5 + 0xC) + 9);
-    func_021FD714((void *)(*(int *)(r5 + 0x10)));
+    func_021FC0C8((char *)(((struct Obj10793 *)r5)->f14), ((struct Obj10793 *)r5)->fC + 9);
+    func_021FD714((void *)(((struct Obj10793 *)r5)->f10));
     func_020307B0((int *)r5);
 }

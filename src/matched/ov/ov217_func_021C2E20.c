@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14769.h"
 
 typedef unsigned int u32;
 
@@ -25,6 +26,6 @@ extern void ENV_SetResourceSet(u32 p);
 
 void func_021C2E20(char *p)
 {
-    ENV_SetResourceSet(*(u32 *)(p + 0xc));
-    *(u32 *)(p + 4) = 0;
+    ENV_SetResourceSet(((struct Obj14769 *)p)->fC);
+    ((struct Obj14769 *)p)->f4 = 0;
 }

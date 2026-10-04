@@ -32,6 +32,7 @@
  *   func_021DA898 0x021DA898 thumb ov119
  *   func_021DB7AC 0x021DB7AC thumb ov119
  */
+#include "../include/Obj03773.h"
 typedef unsigned char u8;
 struct Entry;
 struct Link;
@@ -66,14 +67,14 @@ void func_021DA8F8(char *p)
  func_021E1098(p);
  if(func_021D8AA8(p)) {
   func_021DD1B8(p);func_021DF904(p);
-  if(*(int *)(p+0x118c)==2) func_0215642C(0);
-  func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),134,(void *)(*(int *)(p+0x738)));func_021E1024(p);
+  if(((struct Obj03773 *)p)->f118C==2) func_0215642C(0);
+  func_02045CAC((struct MsgBank *)(((struct Obj03773 *)p)->f720),134,(void *)(((struct Obj03773 *)p)->f738));func_021E1024(p);
   func_021DD528(p,0);func_021DD68C(p);
-  *(u8 *)(p+0x11e8)=0;*(u8 *)(p+0x11e9)=0;
+  ((struct Obj03773 *)p)->f11E8=0;((struct Obj03773 *)p)->f11E9=0;
   func_021DF78C(p);func_021DF7AC(p,1);
   func_02082BCC(p+0xca0,0,0x78);func_02082BCC(p+0xd18,0,0x3c);func_02082BCC(p+0xd54,0,0x3c);
   func_021D8C84(p);
-  if(*(int *)(p+0x64c)) {func_02027858((struct TaskMenu *)(*(int *)(p+0x64c)));*(int *)(p+0x64c)=0;}
+  if(((struct Obj03773 *)p)->f64C) {func_02027858((struct TaskMenu *)(((struct Obj03773 *)p)->f64C));((struct Obj03773 *)p)->f64C=0;}
   func_021E4420(p);func_021E6700(p);func_021DBB6C(p);
  }
  func_021D8E84(p,(int)func_021DA898);func_021DB7AC(p,0,1);

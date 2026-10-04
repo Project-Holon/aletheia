@@ -16,6 +16,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  */
+#include "../include/Obj00131.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,22 +39,22 @@ extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021D8684(char *p,int unused,u32 n)
 {
     void *q;
-    func_02045CAC(*(void **)(p+12),40,*(void **)(p+24));
-    if(!*(void **)(p+0x8c)) *(void **)(p+0x8c)=(void *)func_020450F0(1,21,4,10,2,4,1);
-    q=*(void **)(p+0x8c);
+    func_02045CAC(((struct Obj00131 *)p)->fC,40,((struct Obj00131 *)p)->f18);
+    if(!((struct Obj00131 *)p)->f8C) ((struct Obj00131 *)p)->f8C=(void *)func_020450F0(1,21,4,10,2,4,1);
+    q=((struct Obj00131 *)p)->f8C;
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,14,0);
-    func_0201C7A4(func_02045770(q),0,3,*(void **)(p+24),*(void **)(p+20));
+    func_0201C7A4(func_02045770(q),0,3,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     func_02045334(q);
     func_02045374(q);
-    func_0201EFA4(*(void **)(p+16),0,n,5,1,1);
-    func_02045CAC(*(void **)(p+12),36,*(void **)(p+32));
-    func_0201F250(*(void **)(p+16),*(void **)(p+24),*(void **)(p+32));
-    if(!*(void **)(p+0x90)) *(void **)(p+0x90)=(void *)func_020450F0(1,21,6,10,3,11,1);
-    q=*(void **)(p+0x90);
+    func_0201EFA4(((struct Obj00131 *)p)->f10,0,n,5,1,1);
+    func_02045CAC(((struct Obj00131 *)p)->fC,36,((struct Obj00131 *)p)->f20);
+    func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
+    if(!((struct Obj00131 *)p)->f90) ((struct Obj00131 *)p)->f90=(void *)func_020450F0(1,21,6,10,3,11,1);
+    q=((struct Obj00131 *)p)->f90;
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,2,0);
-    func_0201C7A4(func_02045770(q),0,5,*(void **)(p+24),*(void **)(p+20));
+    func_0201C7A4(func_02045770(q),0,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     func_02045334(q);
     func_02045374(q);
 }

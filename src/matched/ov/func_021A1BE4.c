@@ -15,6 +15,7 @@
  *   func_021A1C34  0x021A1C34  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02701.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern u32 func_021A1C34(u32, u32, u32, u32);
 int func_021A1BE4(u32 a, u32 b, u32 c, u32 d)
 {
 func_021A1C34(a, b, c, d);
-*(u32 *)((u8 *)(a) + 16) = 0;
+((struct Obj02701 *)((u8 *)(a)))->f10 = 0;
 return 0;
 }
 

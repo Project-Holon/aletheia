@@ -21,6 +21,7 @@
  *   func_021B9E7C  0x021B9E7C  thumb  ov088
  *   func_021B9A14  0x021B9A14  thumb  ov088
  */
+#include "../include/Obj00462.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -39,19 +40,19 @@ extern void  func_021B9A14(u16 *p, u16 a, u16 b);
 
 void func_021B965C(char *p)
 {
-    if ((func_020362DC() & 0xB) && *(u32 *)(p + 0x94) == 1) {
+    if ((func_020362DC() & 0xB) && ((struct Obj00462 *)p)->f94 == 1) {
         func_0204363C(0);
         func_02040588(6, 1);
         func_02040588(3, 1);
         func_02043598(0x10, 1);
         func_021B9E7C(p + 0x40, 0x14B5);
-        *(u32 *)(p + 0x94) = 2;
+        ((struct Obj00462 *)p)->f94 = 2;
         return;
     }
     if (func_020362DC() & 9) {
-        *(u32 *)(p + 4) = 0;
-        *(u16 *)p = 4;
-        *(void **)(p + 0x90) = (void *)func_02006984(0x283, 0, 0x40, 0, 0, 0, 0, 0);
+        ((struct Obj00462 *)p)->f4 = 0;
+        ((struct Obj00462 *)p)->f0 = 4;
+        ((struct Obj00462 *)p)->f90 = (void *)func_02006984(0x283, 0, 0x40, 0, 0, 0, 0, 0);
         func_021B9E7C(p + 0x40, 0x1389);
         func_0204363C(0);
         func_02040588(6, 1);
@@ -62,10 +63,10 @@ void func_021B965C(char *p)
         return;
     }
     if (func_0203630C() == 0x46) {
-        *(u32 *)(p + 4) = 2;
-        *(u16 *)p = 5;
+        ((struct Obj00462 *)p)->f4 = 2;
+        ((struct Obj00462 *)p)->f0 = 5;
     } else if (func_0203630C() == 0xC80) {
-        *(u32 *)(p + 4) = 3;
-        *(u16 *)p = 5;
+        ((struct Obj00462 *)p)->f4 = 3;
+        ((struct Obj00462 *)p)->f0 = 5;
     }
 }

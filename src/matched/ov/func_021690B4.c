@@ -15,6 +15,7 @@
  *   func_02012984  0x02012984  thumb
  *   func_020113F0  0x020113F0  thumb
  */
+#include "../include/Obj17735.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ loc_021690C0:
 a0 = t5 + 0;
     a0 = func_02012984((const struct BigObj *)a0);
 loc_021690C8:
-a1 = *(int *)((char *)t4 + 0x14);
+a1 = ((struct Obj17735 *)t4)->f14;
     a0 = func_020113F0(a0, a1);
 loc_021690CE:
     return a0;}

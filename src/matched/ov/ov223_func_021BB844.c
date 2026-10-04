@@ -14,6 +14,8 @@
  *   func_021BB520 0x021BB520 thumb ov223
  *   func_02061CA4 0x02061CA4 arm
  */
+#include "../include/Obj06728.h"
+#include "../include/Obj14793.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,26 +34,26 @@ void func_021BB844(char *p)
     int next;
     u16 red,green,blue;
     u32 tmp;
-    if(*(int *)(p+0x86c)!=1) goto done;
+    if(((struct Obj06728 *)p)->f86C!=1) goto done;
     {
-        if(*(volatile u8 *)(p+0x870)==16) *(int *)(p+0x86c)=0;
-        else {++*(volatile u8 *)(p+0x870);active=1;}
+        if(*(volatile u8 *)&((struct Obj06728 *)p)->f870==16) ((struct Obj06728 *)p)->f86C=0;
+        else {++*(volatile u8 *)&((struct Obj06728 *)p)->f870;active=1;}
     }
     if(active) {
         which=0x870;
         i=0;
         which+=1;
         for(;i<128;i++) {
-            weight=*(u8 *)(p+0x870);
+            weight=((struct Obj06728 *)p)->f870;
             next=*(u16 *)(p+(*(u8 *)(p+which))*256+i*2+0x26a);
             tmp=(u32)p+i*2;
             q=tmp;
-            func_021BB520(*(u16 *)(q+0x66a),&colors.r1,&colors.g1,&colors.b1);
+            func_021BB520(((struct Obj14793 *)q)->f66A,&colors.r1,&colors.g1,&colors.b1);
             func_021BB520(next,&colors.r2,&colors.g2,&colors.b2);
             blue=(colors.b1*(16-weight)+colors.b2*weight)/16;
             red=(colors.r1*(16-weight)+colors.r2*weight)/16;
             green=(colors.g1*(16-weight)+colors.g2*weight)/16;
-            *(u16 *)(q+0x76a)=red|(green<<5)|(blue<<10);
+            ((struct Obj14793 *)q)->f76A=red|(green<<5)|(blue<<10);
         }
         func_02061CA4((void *)31,256,(u32)(p+0x76a),256);
     }

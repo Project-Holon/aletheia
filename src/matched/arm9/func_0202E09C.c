@@ -15,6 +15,7 @@
  *   func_0202DFEC  0x0202DFEC  thumb
  *
  */
+#include "../include/Obj11318.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,5 +31,5 @@ void func_0202E09C(u8 *o, struct Res *a, u16 b)
     for (i = 0; i < 2; i++) {
         *(u32 *)(o + 8 + i * 4) = (u32)func_0202DFEC(a, b);
     }
-    *(u32 *)(o + 0x18) = (*(u32 *)(o + 0x18) & ~1) | 4;
+    ((struct Obj11318 *)o)->f18 = (((struct Obj11318 *)o)->f18 & ~1) | 4;
 }

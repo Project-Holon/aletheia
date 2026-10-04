@@ -25,6 +25,7 @@
  *   zero) gave the same size with flag and the zero in each other's registers
  *   (docs/notes/pkt_ov094_022025D8.c.txt).
  */
+#include "../include/Obj03718.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -42,12 +43,12 @@ void func_022025D8(char *o, int flag)
 {
     int *p;
 
-    p = func_02030734((u16)((*(u16 *)(o + 0x240) & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x4F7);
+    p = func_02030734((u16)((((struct Obj03718 *)o)->f240 & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x4F7);
     if (flag == 1)
-        func_0202173C(*(void **)(o + 0x64), 0xA, 0xFFFF, 1, 0, 0x10, 0, *(void **)o);
+        func_0202173C(((struct Obj03718 *)o)->f64, 0xA, 0xFFFF, 1, 0, 0x10, 0, ((struct Obj03718 *)o)->f0);
     else
-        func_0202173C(*(void **)(o + 0x64), 0xA, 0xFFFF, 1, 0xC, 0x10, 0, *(void **)o);
-    *(unsigned int *)(o + 0x68) = (*(unsigned int *)(o + 0x68) & 0xFFFE7FFF) | 0x8000;
+        func_0202173C(((struct Obj03718 *)o)->f64, 0xA, 0xFFFF, 1, 0xC, 0x10, 0, ((struct Obj03718 *)o)->f0);
+    ((struct Obj03718 *)o)->f68 = (((struct Obj03718 *)o)->f68 & 0xFFFE7FFF) | 0x8000;
     p[0] = (int)o;
-    func_0220684C(o, (int)func_02030DA8(*(void **)o, func_02204A3C, p, 0), (int)func_02204A70);
+    func_0220684C(o, (int)func_02030DA8(((struct Obj03718 *)o)->f0, func_02204A3C, p, 0), (int)func_02204A70);
 }

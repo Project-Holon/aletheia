@@ -16,6 +16,7 @@
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_0216B838  0x0216B838  arm  ov009
  */
+#include "../include/Obj18650.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ int func_021562EC(void)
 {
     u8 *g = g_021A8264;
     if (g != 0) {
-        u32 s = *(u32 *)(g + 0x754);
+        u32 s = ((struct Obj18650 *)g)->f754;
         if (s == 9 || s == 10 || s == 0x12) {
             return func_0216B838();
         }

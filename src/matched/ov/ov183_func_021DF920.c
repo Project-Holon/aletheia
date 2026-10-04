@@ -19,6 +19,8 @@
  *   func_021FBE54 0x021FBE54 thumb ov186
  *   func_021E02F8 0x021E02F8 thumb ov183
  */
+#include "../include/Obj01765.h"
+#include "../include/Obj02230.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned int func_021F9B9C(char *);
@@ -36,21 +38,21 @@ int func_021DF920(void *obj, int unused, char *q)
 {
     char *p;
     int i;
-    p = func_0203159C(obj, 0x58, func_021F9B9C(*(char **)(q + 0xC)));
+    p = func_0203159C(obj, 0x58, func_021F9B9C(*(char * *)&((struct Obj02230 *)q)->fC));
     func_02082BCC(p, 0, 0x58);
-    *(u16 *)(p + 0x54) = func_021F9B9C(*(char **)(q + 0xC));
-    *(void **)(p + 0x48) = (void *)func_0201C440((void *)(*(u16 *)(p + 0x54)));
-    *(void **)(p + 0x44) = func_02025538(*(u16 *)(p + 0x54), *(void **)(q + 4));
-    *(int *)(p + 0x38) = (int)func_021FD12C(*(int *)(q + 8), (void *)(*(int *)(p + 0x48)), *(u16 *)(p + 0x54));
-    func_021FD170((char *)(*(int *)(p + 0x38)), (char *)(*(int *)(q + 8)), (void *)0x6B);
+    ((struct Obj01765 *)p)->f54 = func_021F9B9C(*(char * *)&((struct Obj02230 *)q)->fC);
+    ((struct Obj01765 *)p)->f48 = (void *)func_0201C440((void *)(((struct Obj01765 *)p)->f54));
+    ((struct Obj01765 *)p)->f44 = func_02025538(((struct Obj01765 *)p)->f54, ((struct Obj02230 *)q)->f4);
+    ((struct Obj01765 *)p)->f38 = (int)func_021FD12C(((struct Obj02230 *)q)->f8, (void *)(*(int *)&((struct Obj01765 *)p)->f48), ((struct Obj01765 *)p)->f54);
+    func_021FD170((char *)(((struct Obj01765 *)p)->f38), (char *)(((struct Obj02230 *)q)->f8), (void *)0x6B);
     for (i = 0; i < 2; i++) {
-        *(int *)(p + i * 4 + 0x3C) = (int)func_021FD760(*(int *)(q + 4), (char *)(*(int *)(q + 8)), i, *(u16 *)(p + 0x54));
+        *(int *)(p + i * 4 + 0x3C) = (int)func_021FD760(*(int *)&((struct Obj02230 *)q)->f4, (char *)(((struct Obj02230 *)q)->f8), i, ((struct Obj01765 *)p)->f54);
     }
-    *(u16 *)(q + 0x14) = 0xFFFF;
-    *(u8 *)(q + 0x16) = 0xFF;
-    *(u8 *)(q + 0x17) = 0xFF;
-    *(int *)(q + 0x18) = 0x13;
-    func_021FBE54((char *)(*(int *)(q + 8)), 6, *(u16 *)(p + 0x54));
+    ((struct Obj02230 *)q)->f14 = 0xFFFF;
+    ((struct Obj02230 *)q)->f16 = 0xFF;
+    ((struct Obj02230 *)q)->f17 = 0xFF;
+    ((struct Obj02230 *)q)->f18 = 0x13;
+    func_021FBE54((char *)(((struct Obj02230 *)q)->f8), 6, ((struct Obj01765 *)p)->f54);
     func_021E02F8(p, q);
     return 1;
 }

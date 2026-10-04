@@ -13,6 +13,8 @@
  *   func_021F9DC4 0x021F9DC4 thumb ov132
  *   func_021F9F74 0x021F9F74 thumb ov132
  */
+#include "../include/Obj05403.h"
+#include "../include/Obj23258.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_0201134C(void *);
@@ -24,13 +26,13 @@ int func_021FC014(int unused, char *p)
     int a, b, c, d, e;
     void *target;
     struct { int x, y, z; } vec;
-    obj = *(char **)p;
-    a = func_0201134C(*(void **)(p + 4));
-    b = func_0201134C(*(void **)(p + 4));
-    c = func_0201134C(*(void **)(p + 4));
-    d = func_0201134C(*(void **)(p + 4));
-    e = func_0201134C(*(void **)(p + 4));
-    target = func_021F9DC4(*(void **)(obj + 0x34), (u8)a);
+    obj = *(char * *)&((struct Obj05403 *)p)->f0;
+    a = func_0201134C(((struct Obj05403 *)p)->f4);
+    b = func_0201134C(((struct Obj05403 *)p)->f4);
+    c = func_0201134C(((struct Obj05403 *)p)->f4);
+    d = func_0201134C(((struct Obj05403 *)p)->f4);
+    e = func_0201134C(((struct Obj05403 *)p)->f4);
+    target = func_021F9DC4(((struct Obj23258 *)obj)->f34, (u8)a);
     vec.x = c / 16;
     vec.y = (0xC0000 - d) / 16;
     vec.z = e;

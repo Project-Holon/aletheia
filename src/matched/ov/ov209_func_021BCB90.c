@@ -13,6 +13,7 @@
  *   func_021BD75C 0x021BD75C thumb ov209
  *   func_021BE29C 0x021BE29C thumb ov209
  */
+#include "../include/Obj02924.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021B9398(char *p, int index);
@@ -22,7 +23,7 @@ void func_021BCB90(char *p, int index, int a, u16 b, int c)
 {
     u32 v;
     u32 low;
-    v = func_021B9398(*(void **)(p + 0xC2C), index);
+    v = func_021B9398(((struct Obj02924 *)p)->fC2C, index);
     low = v & 0x0FFFFFFF;
     func_021BD75C(p, (unsigned char *)a, *(u32 *)(p + index * 4 + 0x4C), low);
     if ((v & 0xF0000000) >> 28) func_021BE29C(p, low, b, c);

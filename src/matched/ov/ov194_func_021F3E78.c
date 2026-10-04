@@ -12,6 +12,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj05513.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
-int func_021F3E78(u8 *p) {int window;window=*(int *)(p+16);if(p[12]) {if(func_0201C6C4((struct PrintSys *)window,(void *)((int)func_02045770((struct Descriptor *)*(int *)(p+8))))==0) {func_02045334(*(void **)(p+8));p[12]=0;}}if(!p[12]) return 1;return 0;}
+int func_021F3E78(u8 *p) {int window;window=((struct Obj05513 *)p)->f10;if(p[12]) {if(func_0201C6C4((struct PrintSys *)window,(void *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj05513 *)p)->f8)))==0) {func_02045334(((struct Obj05513 *)p)->f8);p[12]=0;}}if(!p[12]) return 1;return 0;}

@@ -12,8 +12,9 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021B61C8 0x021B61C8 thumb ov070
  */
+#include "../include/Obj00002.h"
 typedef unsigned short u16;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021B61C8(void *);
-void func_021BB5A4(char *p) { if (*(int *)(p + 0x80C) == 2 || *(int *)(p + 0x80C) == 3 || func_021B61C8(p) <= 1) func_0204B878(*(void **)(p + 0x72C), 4); else func_0204B878(*(void **)(p + 0x72C), 0); }
+void func_021BB5A4(char *p) { if (((struct Obj00002 *)p)->f80C == 2 || ((struct Obj00002 *)p)->f80C == 3 || func_021B61C8(p) <= 1) func_0204B878(((struct Obj00002 *)p)->f72C, 4); else func_0204B878(((struct Obj00002 *)p)->f72C, 0); }

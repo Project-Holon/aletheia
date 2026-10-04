@@ -33,6 +33,10 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B84C 0x0204B84C arm
  */
+#include "../include/Obj00136.h"
+#include "../include/Obj00536.h"
+#include "../include/Obj23161.h"
+#include "../include/Obj23162.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -77,33 +81,33 @@ void func_021D9EF0(u8 *a,u8 *p)
         func_020409B4(func_02045730(cell));
     }
     i=0;
-    func_020409E0(6,*(u8 **)(p+0x44)+12,*(u32 *)(*(u8 **)(p+0x44)+8),0);
-    func_02040AE0(6,*(u8 **)(p+0x44)+12,*(u32 *)(*(u8 **)(p+0x44)+8));
+    func_020409E0(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23161 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8,0);
+    func_02040AE0(6,*(u8 * *)&((struct Obj00536 *)p)->f44+12,((struct Obj23162 *)(*(u8 * *)&((struct Obj00536 *)p)->f44))->f8);
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,(u32)(*(u8 **)(p+0x54)+12),0,0,32,32);
+    func_020410D0(5,0,0,32,3,(u32)(*(u8 * *)&((struct Obj00536 *)p)->f54+12),0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(*(void **)(p+0x90),0);
-    func_0204B3DC(*(void **)(p+0x94),1);
+    func_0204B3DC(((struct Obj00536 *)p)->f90,0);
+    func_0204B3DC(((struct Obj00536 *)p)->f94,1);
     for(;i<p[0x2b];i++) func_021DB964(a,p,(p+0xb0)+i*24);
     object=func_021D6064(a);
     first=func_02017E88(object,174,0);
     second=func_02017E88(object,175,0);
     func_0204AB84(*(u32 *)(((u32)a+first*4u)+0x130u),&r1);
-    func_0204B784(*(void **)(a+0x198),&r1);
-    func_0204B6F4(*(void **)(a+0x198),func_020275EC(first),1);
+    func_0204B784(((struct Obj00136 *)a)->f198,&r1);
+    func_0204B6F4(((struct Obj00136 *)a)->f198,func_020275EC(first),1);
     point.x=208;
     point.y=120;
-    func_0204B404(*(void **)(a+0x198),&point,0);
-    func_0204B3DC(*(void **)(a+0x198),1);
-    func_0204B84C(*(void **)(a+0x198),0);
+    func_0204B404(((struct Obj00136 *)a)->f198,&point,0);
+    func_0204B3DC(((struct Obj00136 *)a)->f198,1);
+    func_0204B84C(((struct Obj00136 *)a)->f198,0);
     if(first!=second) {
         func_0204AB84(*(u32 *)(((u32)a+second*4u)+0x130u),&r2);
-        func_0204B784(*(void **)(a+0x19c),&r2);
-        func_0204B6F4(*(void **)(a+0x19c),func_020275EC(second),1);
+        func_0204B784(((struct Obj00136 *)a)->f19C,&r2);
+        func_0204B6F4(((struct Obj00136 *)a)->f19C,func_020275EC(second),1);
         point.x=240;
         point.y=120;
-        func_0204B404(*(void **)(a+0x19c),&point,0);
-        func_0204B3DC(*(void **)(a+0x19c),1);
-        func_0204B84C(*(void **)(a+0x19c),0);
-    } else func_0204B3DC(*(void **)(a+0x19c),0);
+        func_0204B404(((struct Obj00136 *)a)->f19C,&point,0);
+        func_0204B3DC(((struct Obj00136 *)a)->f19C,1);
+        func_0204B84C(((struct Obj00136 *)a)->f19C,0);
+    } else func_0204B3DC(((struct Obj00136 *)a)->f19C,0);
 }

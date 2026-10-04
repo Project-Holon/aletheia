@@ -16,6 +16,7 @@
  *   func_0216DA5C  0x0216DA5C  thumb  ov010
  *   func_0216D57C  0x0216D57C  thumb  ov010
  */
+#include "../include/Obj19649.h"
 
 typedef unsigned int u32;
 
@@ -28,7 +29,7 @@ extern u32 func_0216D57C(void *p, u32 v);
 
 int func_0219BCE4(u32 a, u32 b)
 {
-    u32 c = *(u32 *)(b + 8);
+    u32 c = ((struct Obj19649 *)b)->f8;
     u32 x = func_0216D83C((void *)a);
     u32 y = func_0216D86C((void *)a);
     u32 p = func_0216D804((void *)c);

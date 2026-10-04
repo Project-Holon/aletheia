@@ -12,6 +12,7 @@
  * symbols:
  *   d_021F3B88 0x021F3B88 data ov093 a4
  */
+#include "../include/Obj13433.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *d_021F3B88;
@@ -21,7 +22,7 @@ void func_021D4CEC(void)
     u8 *p;
     for (i = 0; i < 4; i++) {
         p = d_021F3B88 + 0xbf4 + i * 0xbbc;
-        *(u16 *)(p + 0xbb8) = 0;
-        *(u16 *)(p + 0xbba) = 1;
+        ((struct Obj13433 *)p)->fBB8 = 0;
+        ((struct Obj13433 *)p)->fBBA = 1;
     }
 }

@@ -13,6 +13,7 @@
  *   func_0216E290  0x0216E290  thumb  ov010
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj12056.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,10 +29,10 @@ int func_0216CCB0(int a0)
 t4 = a0 + 0;
     a0 = func_0216E290(a0);
 loc_0216CCB8:
-a0 = *(int *)((char *)t4 + 0x44);
+a0 = ((struct Obj12056 *)t4)->f44;
     a0 = func_020307B0(a0);
 loc_0216CCBE:
-a0 = *(int *)((char *)t4 + 0x18);
+a0 = ((struct Obj12056 *)t4)->f18;
     a0 = func_020307B0(a0);
 loc_0216CCC4:
 a0 = t4 + 0;

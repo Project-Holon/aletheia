@@ -14,6 +14,7 @@
  * symbols:
  *   func_02048B20  0x02048B20  arm
  */
+#include "../include/Obj19564.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -22,5 +23,5 @@ extern void func_02048B20(u32 a, u32 b);
 
 void func_0218ED14(u8 *p, u32 q)
 {
-    func_02048B20(*(u32 *)(p + 0xc), q);
+    func_02048B20(((struct Obj19564 *)p)->fC, q);
 }

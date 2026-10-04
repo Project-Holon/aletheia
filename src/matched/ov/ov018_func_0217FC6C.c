@@ -16,6 +16,7 @@
  *   func_0217545C  0x0217545C  thumb ov011
  *   func_0217FCAC  0x0217FCAC  thumb ov018
  */
+#include "../include/Obj07367.h"
 
 typedef unsigned short u16;
 
@@ -38,7 +39,7 @@ void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
     q[0] = a;
     q[1] = c;
     q[2] = d;
-    *(u16 *)(q + 3) = e;
+    ((struct Obj07367 *)q)->fC = e;
     func_0217545C((u8 *)b);
     return r;
 }

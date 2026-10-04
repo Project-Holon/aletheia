@@ -16,6 +16,7 @@
  *   func_021CEAB0  0x021CEAB0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02098.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -36,7 +37,7 @@ void func_021CE24C(u8 *p)
             void (*cb)(u32, u8 *, u8 *) = *(void (**)(u32, u8 *, u8 *))(p + 0x490);
 
             if (cb) {
-                cb(*(u32 *)(p + 0x488), p + 0x50 + off, p + 0x73 + off);
+                cb(((struct Obj02098 *)p)->f488, p + 0x50 + off, p + 0x73 + off);
             }
             func_021CE3D8(p, i);
             func_021CEA84(p, i);

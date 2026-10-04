@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj04082.h"
 
-void func_020610A0(int p0, int p1, int p2, int p3){ *(int *)((p0 + 36)) = (int)*(int *)((p0 + 24)); *(int *)((p0 + 44)) = (int)0; }
+void func_020610A0(int p0, int p1, int p2, int p3){ ((struct Obj04082 *)p0)->f24 = (int)((struct Obj04082 *)p0)->f18; ((struct Obj04082 *)p0)->f2C = (int)0; }

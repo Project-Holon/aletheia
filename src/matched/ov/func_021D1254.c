@@ -15,6 +15,7 @@
  *   func_020437AC  0x020437AC  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04299.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern u32 func_020437AC(u32, u32, u32, u32);
 
 int func_021D1254(u32 a, u32 b, u32 c, u32 d)
 {
-func_020437AC(*(u32 *)((u8 *)(a) + 16), b, c, d);
-*(u32 *)((u8 *)(a) + 16) = 0;
+func_020437AC(((struct Obj04299 *)((u8 *)(a)))->f10, b, c, d);
+((struct Obj04299 *)((u8 *)(a)))->f10 = 0;
 return 0;
 }
 

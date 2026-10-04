@@ -20,6 +20,8 @@
  *   func_020399A8  0x020399A8  arm
  *   func_02039C68  0x02039C68  arm
  */
+#include "../include/Obj05262.h"
+#include "../include/Obj22034.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,15 +43,15 @@ int func_021BCECC(char *p, int v)
 {
     if (func_0203D378() == 0) {
         func_021BCC4C(p);
-        func_021BBEB4(p, 0, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 1);
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
-        func_021BA978(p, *(u16 *)(p + 0x134C) + 0x69 + (*(u16 *)(p + 0x134E) << 2), 0, 1);
-        *(u32 *)(p + 0x1CC) = 0x7A;
+        func_021BBEB4(p, 0, ((struct Obj22034 *)(*(u8 * *)&((struct Obj05262 *)p)->f248))->f48, 1);
+        func_021BA874(p, ((struct Obj05262 *)p)->f242 - 1);
+        func_021BA978(p, ((struct Obj05262 *)p)->f134C + 0x69 + (((struct Obj05262 *)p)->f134E << 2), 0, 1);
+        ((struct Obj05262 *)p)->f1CC = 0x7A;
     } else {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
         func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
-        *(u32 *)(p + 0x1CC) = 0x49;
+        ((struct Obj05262 *)p)->f1CC = 0x49;
     }
     return v;
 }

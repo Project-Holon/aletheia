@@ -15,6 +15,7 @@
  *   func_0202590C 0x0202590C thumb
  *   func_021EB874 0x021EB874 thumb ov170
  */
+#include "../include/Obj00000.h"
 typedef struct { short x, y; int b, c, d, e; short f, g; } Desc;
 extern const Desc d_021EFD1C;
 extern unsigned char func_021DEB14(unsigned char *, signed char);
@@ -35,9 +36,9 @@ void func_021ED9C8(char *p)
         t = base;
         y = i * 0x22;
         t.y += (short)y;
-        func_021EC08C(*(char **)(p + 0x2c), i + 0x2d, t.x, t.y, 0);
+        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2d, t.x, t.y, 0);
         func_021EDB64(p, a, i + 0x2d);
-        func_0202590C(*(void **)(*(char **)(p + 0x2c) + i * 8 + 0xc), 0x13c, y + 2);
+        func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xc), 0x13c, y + 2);
         func_021EB874((char **)p, a, i + 1);
     }
 }

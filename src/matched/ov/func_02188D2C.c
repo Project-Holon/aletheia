@@ -16,8 +16,9 @@
  * Matched to supply the `matched` witness for the ten pending callers that
  * reference it.
  */
+#include "../include/Obj17877.h"
 
 int func_02188D2C(int *p)
 {
-    return *(int *)((char *)p + 0x34);
+    return ((struct Obj17877 *)p)->f34;
 }

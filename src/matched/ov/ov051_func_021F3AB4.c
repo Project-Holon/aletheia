@@ -21,6 +21,7 @@
  *   func_021C90AC  0x021C90AC  thumb
  *   func_021C90D0  0x021C90D0  thumb
  */
+#include "../include/Obj07660.h"
 
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
@@ -42,7 +43,7 @@ int func_021F3AB4(int a, int *s, int *t)
     switch (*s) {
     case 0:
         if (func_0216D3CC(r6) == 1) {
-            func_0216D410(r6, func_02197E7C(*(unsigned short *)t, 0x1c));
+            func_0216D410(r6, func_02197E7C(((struct Obj07660 *)t)->f0, 0x1c));
             func_020061E4(0x55a);
             *s = *s + 1;
         }

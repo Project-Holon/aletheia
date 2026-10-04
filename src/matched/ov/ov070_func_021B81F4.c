@@ -13,6 +13,7 @@
  *   func_02012BF8 0x02012BF8 thumb
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj04328.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,4 +21,4 @@ extern int func_021B81B0(int x);
 extern int func_02012BF8(int p, int a);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-void func_021B81F4(u8 *p) { if (*(int *)(p+0x81C)!=1) func_0204B878(*(void **)(p+0x718),(unsigned int)func_02012BF8(*(int *)p,func_021B81B0(*(int *)(p+0x80C)))+6u); }
+void func_021B81F4(u8 *p) { if (((struct Obj04328 *)p)->f81C!=1) func_0204B878(((struct Obj04328 *)p)->f718,(unsigned int)func_02012BF8(*(int *)&((struct Obj04328 *)p)->f0,func_021B81B0(((struct Obj04328 *)p)->f80C))+6u); }

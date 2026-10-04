@@ -14,6 +14,8 @@
  *   func_02045EC0  0x02045EC0  arm
  *   func_021BA1C4  0x021BA1C4  thumb  ov068
  */
+#include "../include/Obj02763.h"
+#include "../include/Obj09871.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,22 +31,22 @@ void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3)
     int i;
 
     func_02082BCC(p, 0, 0x70);
-    *(u16 *)(p + 0x54) = 0;
-    *(u32 *)(p + 0x6c) = s1;
+    ((struct Obj02763 *)p)->f54 = 0;
+    ((struct Obj02763 *)p)->f6C = s1;
     func_021BA1C4(p, a, b, (u32)c, s0, s2, s3);
     for (i = 0; i < 2; i++) {
         u8 *e = p + i * 12;
 
-        *(void **)(e + 0x3c) = func_02045EC0(c, i + 0x22);
-        *(u16 *)(e + 0x40) = 0x39E3;
-        *(u32 *)(e + 0x44) = 0;
+        ((struct Obj09871 *)e)->f3C = func_02045EC0(c, i + 0x22);
+        ((struct Obj09871 *)e)->f40 = 0x39E3;
+        ((struct Obj09871 *)e)->f44 = 0;
     }
-    *(u32 *)(p + 0x58) = s3;
-    *(u8 *)(p + 0x5c) = 2;
-    *(u8 **)(p + 0x60) = p + 0x3c;
-    *(u32 *)(p + 0x64) = 1;
-    *(u8 *)(p + 0x68) = 0x20;
-    *(u8 *)(p + 0x69) = 0xc;
-    *(u8 *)(p + 0x6a) = 0xd;
-    *(u8 *)(p + 0x6b) = 3;
+    ((struct Obj02763 *)p)->f58 = s3;
+    ((struct Obj02763 *)p)->f5C = 2;
+    *(u8 * *)&((struct Obj02763 *)p)->f60 = p + 0x3c;
+    ((struct Obj02763 *)p)->f64 = 1;
+    ((struct Obj02763 *)p)->f68 = 0x20;
+    ((struct Obj02763 *)p)->f69 = 0xc;
+    ((struct Obj02763 *)p)->f6A = 0xd;
+    ((struct Obj02763 *)p)->f6B = 3;
 }

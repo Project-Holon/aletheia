@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj05795.h"
 
-void func_02024598(int p0, int p1, int p2, int p3){ *(unsigned short *)(p0) = (unsigned short)p1; *(unsigned short *)((p0 + 2)) = (unsigned short)p2; }
+void func_02024598(int p0, int p1, int p2, int p3){ ((struct Obj05795 *)p0)->f0 = (unsigned short)p1; ((struct Obj05795 *)p0)->f2 = (unsigned short)p2; }

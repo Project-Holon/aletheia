@@ -16,9 +16,10 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj18617.h"
 
 void func_02208918(char *p, int v)
 {
-    *(int *)(p + 0x444) = v;
+    ((struct Obj18617 *)p)->f444 = v;
 }
 

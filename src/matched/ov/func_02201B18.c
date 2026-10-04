@@ -14,6 +14,7 @@
 
  * Switch on the mode word at +0x18; both arms latch state 0x28.
  */
+#include "../include/Obj09247.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,14 +24,14 @@ extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 void func_02201B18(u8 *p)
 {
-    switch (*(u32 *)(p + 0x18)) {
+    switch (((struct Obj09247 *)p)->f18) {
     case 1:
         func_021F4EC0(p, 1, 0);
-        *(u32 *)(p + 0x28) = 0x28;
+        ((struct Obj09247 *)p)->f28 = 0x28;
         break;
     case 2:
         func_021F4EC0(p, 2, 3);
-        *(u32 *)(p + 0x28) = 0x28;
+        ((struct Obj09247 *)p)->f28 = 0x28;
         break;
     }
 }

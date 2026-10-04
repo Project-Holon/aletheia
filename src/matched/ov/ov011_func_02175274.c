@@ -14,6 +14,8 @@
  *   func_02012B58  0x02012B58  thumb
  *   func_021751D4  0x021751D4  thumb ov011
  */
+#include "../include/Obj12425.h"
+#include "../include/Obj19182.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,7 +39,7 @@ void func_02175274(u8 *p, int arg)
     int i;
     u8 *e;
 
-    n = func_02012B58((const struct BigObj *)func_02026478((void *)(*(int *)(p + 4))));
+    n = func_02012B58((const struct BigObj *)func_02026478((void *)(((struct Obj12425 *)p)->f4)));
     h = p + 0x70;
     i = 0;
     arr = p + 0x8C;
@@ -45,7 +47,7 @@ void func_02175274(u8 *p, int arg)
         if ((p[0x8FB] & (1 << i)) && i != n) {
             e = arr + i * 0x1C;
             *(C12 *)(e + 4) = *(C12 *)(p + 0xE4 + i * 0x14);
-            func_021751D4(p, *(u16 *)(h + 0x14), arg, (struct Ent *)e);
+            func_021751D4(p, ((struct Obj19182 *)h)->f14, arg, (struct Ent *)e);
         }
     }
 }

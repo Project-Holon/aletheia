@@ -14,6 +14,8 @@
  *   func_021C8904 0x021C8904 thumb ov128
  *   func_021CA2DC 0x021CA2DC thumb ov128
  */
+#include "../include/Obj00179.h"
+#include "../include/Obj14039.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -23,11 +25,11 @@ extern void func_021C8904(u8 *, u8 *, u8 *, void *, u8 *, u8 *, int, u16);
 extern void func_021CA2DC(u8 *);
 void func_021C860C(u8 *p, u8 *a, u8 *b, int x, int y, u16 c)
 {
-    *(s16 *)(p + 4) = y;
-    *(s16 *)p = x;
+    ((struct Obj00179 *)p)->f4 = y;
+    ((struct Obj00179 *)p)->f0 = x;
     func_021CA40C(p, x);
     func_021C88C0((s16 *)(p + 12), b, b + 0x16c);
-    func_021C8904(p + 12, a, b, *(void **)(p + 0x104), b + 0x16c, a + 16, x, c);
+    func_021C8904(p + 12, a, b, ((struct Obj00179 *)p)->f104, b + 0x16c, a + 16, x, c);
     func_021CA2DC(p);
 }
 void func_021C8660(void) {}
@@ -35,6 +37,6 @@ void func_021C8664(void) {}
 void func_021C8668(u8 *p, u8 *a, int n)
 {
     a[8] = 3;
-    *(u16 *)(p + 0x102) = n;
-    *(u16 *)(p + 0x100) = 0;
+    ((struct Obj14039 *)p)->f102 = n;
+    ((struct Obj14039 *)p)->f100 = 0;
 }

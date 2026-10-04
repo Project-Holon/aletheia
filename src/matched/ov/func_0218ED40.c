@@ -11,6 +11,7 @@
  *
  * Loads the halfword at byte +0x7a of the object.
  */
+#include "../include/Obj17911.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 u16 func_0218ED40(u8 *p)
 {
-    return *(u16 *)(p + 0x7a);
+    return ((struct Obj17911 *)p)->f7A;
 }
 

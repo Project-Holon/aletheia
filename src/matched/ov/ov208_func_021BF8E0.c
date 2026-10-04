@@ -28,6 +28,8 @@
  *   func_02049238 0x02049238 arm
  *   func_02034A5C 0x02034A5C arm
  */
+#include "../include/Obj03933.h"
+#include "../include/Obj08396.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Node;
@@ -53,26 +55,26 @@ extern u8 ov072_id[];
 u32 func_021BF8E0(void *a0, u32 a1, void *a2, char *p, void *a4)
 {
     u8 i;
-    func_021C1F44(*(u32 *)(p + 0x94));
+    func_021C1F44(((struct Obj03933 *)p)->f94);
     for (i = 0; i < 2; i++) {
         char *q = p + i * 4;
-        if (*(u32 *)(q + 0x5c) != 0) func_021C0C00((void *)(*(u32 *)(q + 0x4c)), (void *)(*(u32 *)(q + 0x5c)));
-        *(u32 *)(q + 0x5c) = 0;
+        if (((struct Obj08396 *)q)->f5C != 0) func_021C0C00((void *)(((struct Obj08396 *)q)->f4C), (void *)(((struct Obj08396 *)q)->f5C));
+        ((struct Obj08396 *)q)->f5C = 0;
     }
     func_021C0B58(a2, p, a4);
     func_021C0950(a2, p, a4);
     func_021C0898(a2, p, a4);
-    func_021BC97C(*(void **)(p + 8));
+    func_021BC97C(((struct Obj03933 *)p)->f8);
     func_021C06A0(a2, p, a4);
     func_021C0524(a2, p, a4);
     func_021C03C4(a2, p, a4);
-    func_021BC61C(*(void **)(p + 0x420));
-    func_021BC464(*(void **)(p + 0x41c));
-    func_021BC464(*(void **)(p + 0x418));
+    func_021BC61C(((struct Obj03933 *)p)->f420);
+    func_021BC464(((struct Obj03933 *)p)->f41C);
+    func_021BC464(((struct Obj03933 *)p)->f418);
     func_021C06EC(a2, p, a4);
-    func_02030EAC(*(void **)(p + 0x410));
-    func_02049238(*(void **)(p + 0x40c));
-    func_021BBB34(*(void **)(p + 0x3c8));
+    func_02030EAC(((struct Obj03933 *)p)->f410);
+    func_02049238(((struct Obj03933 *)p)->f40C);
+    func_021BBB34(((struct Obj03933 *)p)->f3C8);
     func_021BC34C(a0);
     func_02034A5C((int)ov072_id);
     return 1;

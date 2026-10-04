@@ -17,6 +17,7 @@
  *   data_021DB478  0x021DB478  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00659.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,9 +33,9 @@ void func_021CEB20(u8 *p)
 {
     u32 h;
 
-    h = func_02188C54((u8 *)(*(u32 *)p));
-    *(u32 *)(p + 0x13c) = func_02190A20(0x10, *(u16 *)(p + 0x528));
+    h = func_02188C54((u8 *)(((struct Obj00659 *)p)->f0));
+    ((struct Obj00659 *)p)->f13C = func_02190A20(0x10, ((struct Obj00659 *)p)->f528);
     func_021CEF1C(p);
-    *(u32 *)(p + 0x140) = func_0219097C(h, data_021DB478, *(u32 *)(p + 0x13c));
+    ((struct Obj00659 *)p)->f140 = func_0219097C(h, data_021DB478, ((struct Obj00659 *)p)->f13C);
     p[0x40c] = 0;
 }

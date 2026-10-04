@@ -11,10 +11,11 @@
  * symbols:
  *   g_02FFFC3C  0x02FFFC3C  data  a4
  */
+#include "../include/Obj19554.h"
 
 typedef unsigned int u32;
 
 void func_0218DEF0(char *p)
 {
-    *(u32 *)(p + 0x50) = *(u32 *)0x02FFFC3C;
+    ((struct Obj19554 *)p)->f50 = *(u32 *)0x02FFFC3C;
 }

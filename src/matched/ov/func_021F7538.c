@@ -26,6 +26,7 @@
  * 0201F250, then the p+0xd40 window through the 02045334/02045374/
  * 02045730/020409B4 group and a 02202858 redraw with the p+0xfa0 block.
  */
+#include "../include/Obj00018.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,16 +52,16 @@ extern u32 func_02202858(void *p, u8 b, void *s, u32 x, u32 y, void *out);
 
 void func_021F7538(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)(p + 0xb6c)), b);
+    u32 v = (u32)sub_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00018 *)p)->fB6C), b);
     u32 h;
 
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0xb68)), (void *)(*(u32 *)(p + 0xb88)), (void *)v);
-    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)*(u32 *)(p + 0xd40))), 0xf);
-    h = *(u32 *)(p + 0xd40);
+    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00018 *)p)->fB68), (void *)(((struct Obj00018 *)p)->fB88), (void *)v);
+    sub_02043B5C((struct CharBuf *)((u32)sub_02045770((struct Descriptor *)((struct Obj00018 *)p)->fD40)), 0xf);
+    h = ((struct Obj00018 *)p)->fD40;
     sub_02045334((struct Descriptor *)h);
     sub_02045374((struct Cfg *)h);
     sub_020409B4(unit_02045730(h));
-    func_0201F73C((void *)(*(u32 *)(p + 0xd40)), 0, 1, 0xe);
-    func_02202858((void *)(*(u32 *)(p + 0xd40)), 0, (void *)(*(u32 *)(p + 0xb88)), 0, 0, p + 0xfa0);
+    func_0201F73C((void *)(((struct Obj00018 *)p)->fD40), 0, 1, 0xe);
+    func_02202858((void *)(((struct Obj00018 *)p)->fD40), 0, (void *)(((struct Obj00018 *)p)->fB88), 0, 0, p + 0xfa0);
     sub_02045808((struct U16Vec *)v);
 }

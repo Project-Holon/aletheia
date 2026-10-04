@@ -25,6 +25,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   d_021BB598     0x021BB598  data  a4
  */
+#include "../include/Obj20634.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,5 +63,5 @@ void func_021B9850(u8 *p, u32 a)
     func_0201DD78(0xf, 0xe, 0);
     func_021B9980(p, a);
     func_021B9E28(p + 0x7c, d_021BB598, a);
-    *(u32 *)(p + 0xd0) = func_020056A0((void (*)(void))func_021B996C, p, 0);
+    ((struct Obj20634 *)p)->fD0 = func_020056A0((void (*)(void))func_021B996C, p, 0);
 }

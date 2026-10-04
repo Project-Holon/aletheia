@@ -19,6 +19,7 @@
  *   func_021DAFB8 0x021DAFB8 thumb ov119
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef short s16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -29,12 +30,12 @@ extern void func_021E12F8(void *),func_021E1098(void *),func_021E4E64(int,void *
 extern void func_021D8E84(void *,int),func_021DAFB8(void *),func_021DBE70(void *);
 void func_021DB030(char *p) {
  int v;
- if(func_020279E8((struct TaskMenu *)(*(int *)(p+0x64c)))) {
-  v=func_02027A04((const u8 *)(*(int *)(p+0x64c)));func_021E12F8(p);*(int *)(p+0x64c)=0;
+ if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
+  v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));func_021E12F8(p);*(int *)&((struct Obj00001 *)p)->f64C=0;
   switch(v) {
   case 0:func_021D8E84(p,(int)func_021DAFB8);return;
   case 1:func_021E1098(p);func_021D8E84(p,(int)func_021DBE70);
-   *(s16 *)(p+0x1080)=-1;func_021E4E64(*(int *)(p+0x828),p,0);func_021E6700(p);return;
+   ((struct Obj00001 *)p)->f1080=-1;func_021E4E64(*(int *)&((struct Obj00001 *)p)->f828,p,0);func_021E6700(p);return;
   }
  }
 }

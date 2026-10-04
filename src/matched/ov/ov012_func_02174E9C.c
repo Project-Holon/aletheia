@@ -14,6 +14,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj19294.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
@@ -22,6 +23,6 @@ extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 u32 func_02174E9C(int v) { return func_0203D3F8((u32)func_020399A8(),(u8)v,0x150a,0,0,1,0,0); }
 void func_02174EC4(int unused0,int unused1,int unused2,u8 *ctx)
 {
-    u8 *p = *(u8 **)(ctx+0x355c);
+    u8 *p = *(u8 * *)&((struct Obj19294 *)ctx)->f355C;
     if (p) p[0xcb] = 1;
 }

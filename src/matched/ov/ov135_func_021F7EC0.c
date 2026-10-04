@@ -13,6 +13,7 @@
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_021F8668 0x021F8668 thumb ov135
  */
+#include "../include/Obj10576.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021F4D14(void *p);
@@ -26,13 +27,13 @@ int func_021F7EC0(u8 *p)
     if (result == 1) {
         func_021F4CE4(p);
         func_021F4EC0(p, 7, 7);
-        *(u32 *)(p + 0x28) = 2;
-        *(u32 *)(p + 0xEB4) = 1;
+        ((struct Obj10576 *)p)->f28 = 2;
+        ((struct Obj10576 *)p)->fEB4 = 1;
         func_021F8668(p + 0xE4, p);
     } else if (result == 2) {
         func_021F4CE4(p);
         func_021F4EC0(p, 5, 5);
-        *(u32 *)(p + 0x28) = 2;
+        ((struct Obj10576 *)p)->f28 = 2;
     }
     return 2;
 }

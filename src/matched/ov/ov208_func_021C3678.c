@@ -13,6 +13,7 @@
  *   func_02043AF4 0x02043AF4 arm
  *   func_021C3A24 0x021C3A24 thumb ov208
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -26,14 +27,14 @@ void func_021C3678(u16 *heap,u8 *p,int key)
 {
     struct Bmp *bmp;
     p[0x24] = 0;
-    *(u16 *)(p+0x18) = 0;
-    *(u16 *)(p+0x1a) = 0;
-    *(u16 *)(p+0x26) = 0;
-    *(u16 *)(p+0x28) = 0;
-    *(u16 *)(p+0x30) = 0;
-    *(u16 *)(p+0x32) = *(s16 *)(p+0x30);
-    *(u32 *)(p+0x38) = 0;
-    bmp = func_02045770(*(struct Descriptor **)(p+0x20));
+    ((struct Obj00146 *)p)->f18 = 0;
+    ((struct Obj00146 *)p)->f1A = 0;
+    ((struct Obj00146 *)p)->f26 = 0;
+    ((struct Obj00146 *)p)->f28 = 0;
+    ((struct Obj00146 *)p)->f30 = 0;
+    ((struct Obj00146 *)p)->f32 = *(s16 *)&((struct Obj00146 *)p)->f30;
+    ((struct Obj00146 *)p)->f38 = 0;
+    bmp = func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->f20);
     func_02043B5C((struct CharBuf *)bmp,0);
     func_02043AF4(bmp,0,0x37,0xee,1,0xf);
     func_021C3A24(heap,p,key);

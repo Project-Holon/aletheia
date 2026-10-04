@@ -33,6 +33,7 @@
  *   python tools/match.py one --src src/matched/func_0201045C.c \
  *       --func func_0201045C --addr 0x0201045C --thumb
  */
+#include "../include/Obj05697.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,8 +46,8 @@ void func_0201045C(const void *src)
 {
     u8 *o = g_021461E0;
 
-    if (*(u16 *)(o + 0x310) != 0 && *(u16 *)(o + 0x316) < *(u16 *)(o + 0x310) && *(u16 *)(o + 0x316) < 4) {
-        MI_CpuCopy8(src, o + *(u16 *)(o + 0x316) * 0xC0, 0xC0);
+    if (((struct Obj05697 *)o)->f310 != 0 && ((struct Obj05697 *)o)->f316 < ((struct Obj05697 *)o)->f310 && ((struct Obj05697 *)o)->f316 < 4) {
+        MI_CpuCopy8(src, o + ((struct Obj05697 *)o)->f316 * 0xC0, 0xC0);
         *(u16 *)(g_021461E0 + 0x316) = *(u16 *)(g_021461E0 + 0x316) + 1;
     }
 }

@@ -19,6 +19,8 @@
  *   func_0201BBE8 0x0201BBE8 thumb
  *   func_0204B6F4 0x0204B6F4 arm
  */
+#include "../include/Obj03731.h"
+#include "../include/Obj07943.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,8 +52,8 @@ void func_021BBC34(char *p, void *a, int k, u32 o)
         rec.d = 0;
         rec.e = 0;
         dst = base+i*4;
-        *(int *)(dst+0x118) = func_0204A6C8((void *)o,func_0201BA68(mon),0,0,0x21);
-        *(u32 *)(dst+0x150) = (u32)func_0204B294((void *)*(u32 *)(p+0x110),*(u32 *)(dst+0x118),*(u32 *)(p+0x148),*(u32 *)(p+0x14c),&rec,0,0x21);
-        func_0204B6F4(*(void **)(dst+0x150),func_0201BBE8(mon),1);
+        *(int *)&((struct Obj07943 *)dst)->f118 = func_0204A6C8((void *)o,func_0201BA68(mon),0,0,0x21);
+        *(u32 *)&((struct Obj07943 *)dst)->f150 = (u32)func_0204B294((void *)((struct Obj03731 *)p)->f110,((struct Obj07943 *)dst)->f118,*(u32 *)&((struct Obj03731 *)p)->f148,*(u32 *)&((struct Obj03731 *)p)->f14C,&rec,0,0x21);
+        func_0204B6F4(((struct Obj07943 *)dst)->f150,func_0201BBE8(mon),1);
     }
 }

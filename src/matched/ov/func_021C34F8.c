@@ -16,6 +16,7 @@
  *   func_0200BC2C  0x0200BC2C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04896.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u32 func_0200BCA8(void *e, u32 i);
 
 void *func_021C34F8(void *a, u32 b)
 {
-func_0200BCA8(*(void **)((u8 *)a + 8), b);
-return func_0200BC2C(*(void **)((u8 *)a + 8), b);
+func_0200BCA8(((struct Obj04896 *)a)->f8, b);
+return func_0200BC2C(((struct Obj04896 *)a)->f8, b);
 }
 

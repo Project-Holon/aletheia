@@ -10,8 +10,9 @@
  * symbols:
  *   func_021E0B38 0x021E0B38 thumb ov137
  */
+#include "../include/Obj23779.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E0B38(char *,char *,int);
-void func_021E0B14(char *p,char *q) { char *r; int offset; r=p+0x664; offset=*(int *)(q+0x10)*0x7c; *(int *)(r+offset)=1; *(char **)(r+offset+0x78)=q; func_021E0B38(p,r+offset,0); }
+void func_021E0B14(char *p,char *q) { char *r; int offset; r=p+0x664; offset=((struct Obj23779 *)q)->f10*0x7c; *(int *)(r+offset)=1; *(char **)(r+offset+0x78)=q; func_021E0B38(p,r+offset,0); }

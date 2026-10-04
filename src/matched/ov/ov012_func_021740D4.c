@@ -17,6 +17,7 @@
  *   func_021840A4 0x021840A4 thumb ov022
  *   d_02175624 0x02175624 data a1
  */
+#include "../include/Obj12450.h"
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -29,10 +30,10 @@ extern u8 d_02175624[];
 void func_021740D4(int a, int x, u8 *b, u8 *p)
 {
     if (a != func_0203D1A4((struct Link *)((int)func_020399A8()))) {
-        if (*(int *)(p + 0x3528) == 0) {
+        if (((struct Obj12450 *)p)->f3528 == 0) {
             func_02034714(d_02175624, 0, d_02175624);
             return;
         }
-        func_021840A4(*(int *)(p + 0x3528), *b);
+        func_021840A4(((struct Obj12450 *)p)->f3528, *b);
     }
 }

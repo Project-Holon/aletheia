@@ -20,6 +20,7 @@
  *   func_020140CC  0x020140CC  thumb
  *   d_021D3700     0x021D3700  data  a4
  */
+#include "../include/Obj03106.h"
 
 typedef struct Rec { int w[15]; } Rec;
 typedef struct Ent { Rec r; int f3c; int f40; int f44; } Ent;
@@ -44,14 +45,14 @@ void func_02189B30(int a, int x, char *out, void *obj)
 
     *(Rec *)out = d_021D3700[i].r;
     if (d_021D3700[i].f40 != 0) {
-        *(unsigned short *)(out + 0x14) = func_02159BF4(obj);
-        *(unsigned short *)(out + 0x16) = func_02159BF8(obj);
-        *(int *)(out + 0x18) = func_02159BFC(obj);
-        *(int *)(out + 0x1c) = (int)func_02159C20(obj);
+        ((struct Obj03106 *)out)->f14 = func_02159BF4(obj);
+        ((struct Obj03106 *)out)->f16 = func_02159BF8(obj);
+        ((struct Obj03106 *)out)->f18 = func_02159BFC(obj);
+        ((struct Obj03106 *)out)->f1C = (int)func_02159C20(obj);
     }
-    *(int *)(out + 0x20) = 1;
-    *(int *)(out + 0x24) = 0xe;
-    *(int *)(out + 0x28) = func_020140BC((struct Sub020140BCObj *)x);
-    *(int *)(out + 0x2c) = func_020140C0((struct Sub020140BCObj *)x);
-    *(int *)(out + 0x30) = func_020140CC((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f20 = 1;
+    ((struct Obj03106 *)out)->f24 = 0xe;
+    ((struct Obj03106 *)out)->f28 = func_020140BC((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f2C = func_020140C0((struct Sub020140BCObj *)x);
+    ((struct Obj03106 *)out)->f30 = func_020140CC((struct Sub020140BCObj *)x);
 }

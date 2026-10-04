@@ -14,6 +14,8 @@
  *   _s32_div_f     0x0209C0A4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02702.h"
+#include "../include/Obj12713.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,11 +33,11 @@ void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w
 
     fn(p, n, w);
     cnt = 0;
-    cur = *(u8 **)(p + 0x774);
+    cur = *(u8 * *)&((struct Obj02702 *)p)->f774;
     if (cur == 0) {
         return;
     }
-    next = *(u8 **)(cur + 0x34);
+    next = *(u8 * *)&((struct Obj12713 *)cur)->f34;
     i = 0;
     if (n <= 0) {
         return;
@@ -52,13 +54,13 @@ void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w
             } while (j < cnt);
         }
         cur = next;
-        next = *(u8 **)(cur + 0x34);
+        next = *(u8 * *)&((struct Obj12713 *)cur)->f34;
         if (i >= m) {
             if (i % m == 0) {
                 cnt += k;
             }
         }
-        if (cur == *(u8 **)(p + 0x774)) {
+        if (cur == *(u8 * *)&((struct Obj02702 *)p)->f774) {
             break;
         }
         i++;

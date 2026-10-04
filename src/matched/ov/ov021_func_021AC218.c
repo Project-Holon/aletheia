@@ -18,6 +18,7 @@
  *   d_021DE028     0x021DE028  data  a1
  *   d_021D908C     0x021D908C  data  a4
  */
+#include "../include/Obj04241.h"
 
 typedef struct { int x; int y; int z; } V;
 
@@ -37,10 +38,10 @@ char *func_021AC218(int a, int heap)
     char *p;
 
     p = (char *)func_02030734(heap, 0x1c, 1, d_021DE028, 0x5c);
-    *(int *)p = a;
+    *(int *)&((struct Obj04241 *)p)->f0 = a;
     *(V *)(p + 4) = d_021D908C;
-    *(int *)(p + 0x10) = func_02188C88((u8 *)func_021ABE14((u8 *)a));
-    *(int *)(p + 0x14) = func_02050080((u32 *)(*(int *)(p + 0x10)));
+    ((struct Obj04241 *)p)->f10 = func_02188C88((u8 *)func_021ABE14((u8 *)a));
+    ((struct Obj04241 *)p)->f14 = func_02050080((u32 *)(((struct Obj04241 *)p)->f10));
     func_021AC274(p);
     return p;
 }

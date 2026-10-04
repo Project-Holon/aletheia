@@ -15,6 +15,8 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj10450.h"
+#include "../include/Obj22976.h"
 
 typedef unsigned int u32;
 extern int func_021D580C(char *);
@@ -25,10 +27,10 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 void func_021D885C(char *p)
 {
-    if (func_021D580C(*(char **)(p+0x18))) {
+    if (func_021D580C(*(char * *)&((struct Obj10450 *)p)->f18)) {
         if (func_020362DC() || func_02035C60()) {
-            *(int *)(*(char **)(p+0x20)+0x1c8) = 1;
-            func_021D584C(*(char **)(p+0x18));
+            ((struct Obj22976 *)(*(char * *)&((struct Obj10450 *)p)->f20))->f1C8 = 1;
+            func_021D584C(*(char * *)&((struct Obj10450 *)p)->f18);
             func_021D6EE0(p, (int)func_021D6F04, 0x808);
         }
     }

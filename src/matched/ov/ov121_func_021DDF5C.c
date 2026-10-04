@@ -10,8 +10,9 @@
  * symbols:
  *   func_021DC024 0x021DC024 thumb ov121
  */
+#include "../include/Obj10421.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021DC024(void *);
-void func_021DDF5C(u8 *p) { if(func_021DC024(p)==1 && *(u16 *)(p+220)==0) { *(u16 *)(p+220)=1; *(u16 *)(p+222)=0; } }
+void func_021DDF5C(u8 *p) { if(func_021DC024(p)==1 && ((struct Obj10421 *)p)->fDC==0) { ((struct Obj10421 *)p)->fDC=1; ((struct Obj10421 *)p)->fDE=0; } }

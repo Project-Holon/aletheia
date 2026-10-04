@@ -25,6 +25,7 @@
  *   d_021E7E24 0x021E7E24 data a4
  *   d_021E7F44 0x021E7F44 data a4
  */
+#include "../include/Obj02829.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -45,16 +46,16 @@ void func_021E5284(char *p,int mode)
  a=d_021E7E24;func_0203FCA0(6,&a,0);func_02040C14(6,0,1,0);func_02041300(6,0,0,0,32,24,17);func_020409B4(6);
  b=d_021E7F44;func_0203FCA0(7,&b,2);
  if(mode==0) {
-  v=func_020490F4(0x67,*(u16 *)(p+0x5f4));
-  func_02049B68(v,5,6,0x6000,0,*(u16 *)(p+0x5f4));
-  func_02049658((void *)((u32)v),4,7,0,0,0,*(u16 *)(p+0x5f4));
-  func_020498F4((void *)((u32)v),6,7,0,0,0,*(u16 *)(p+0x5f4));
+  v=func_020490F4(0x67,((struct Obj02829 *)p)->f5F4);
+  func_02049B68(v,5,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
+  func_02049658((void *)((u32)v),4,7,0,0,0,((struct Obj02829 *)p)->f5F4);
+  func_020498F4((void *)((u32)v),6,7,0,0,0,((struct Obj02829 *)p)->f5F4);
   func_02040618(7,0,0);func_02049238(v);
  } else {
-  v=func_020490F4(0x68,*(u16 *)(p+0x5f4));
-  func_02049B68(v,1,6,0x6000,0,*(u16 *)(p+0x5f4));
-  func_02049658((void *)((u32)v),0,7,0,0,0,*(u16 *)(p+0x5f4));
-  func_020498F4((void *)((u32)v),2,7,0,0,0,*(u16 *)(p+0x5f4));
+  v=func_020490F4(0x68,((struct Obj02829 *)p)->f5F4);
+  func_02049B68(v,1,6,0x6000,0,((struct Obj02829 *)p)->f5F4);
+  func_02049658((void *)((u32)v),0,7,0,0,0,((struct Obj02829 *)p)->f5F4);
+  func_020498F4((void *)((u32)v),2,7,0,0,0,((struct Obj02829 *)p)->f5F4);
   func_02040618(7,0,0);func_02049238(v);
  }
 }

@@ -15,6 +15,7 @@
  * Closes the +0x3c stream handle through 0x021E8AA0 and parks the +0x40
  *     result word at the 0xFFFF sentinel.  Mirrors func_021D6788.
  */
+#include "../include/Obj00013.h"
 
 typedef unsigned long u32;
 
@@ -22,7 +23,7 @@ extern void func_021E8AA0(int *p, int v);
 
 void func_021D9A1C(char *obj, void *fn)
 {
-    func_021E8AA0((int *)(*(u32 *)(obj + 0x3c)), (int)fn);
-    *(u32 *)(obj + 0x40) = 0xFFFF;
+    func_021E8AA0((int *)(((struct Obj00013 *)obj)->f3C), (int)fn);
+    ((struct Obj00013 *)obj)->f40 = 0xFFFF;
 }
 

@@ -18,6 +18,8 @@
  *   func_021D562C 0x021D562C thumb ov123
  *   func_0200FB24 0x0200FB24 thumb
  */
+#include "../include/Obj01406.h"
+#include "../include/Obj22983.h"
 typedef unsigned char u8;
 extern int func_020221A4(void *);
 typedef unsigned int   u32;
@@ -39,25 +41,25 @@ int func_021D9158(void *a, int b, int c, char *p)
     int result;
     callback=*(void (**)(char *))(p+0x50);
     result=1;
-    if (func_020221A4(a) && !*(u8 *)(p+0xae) && func_0200FB24()) {
-        if (*(void **)(p+8)) func_021D5D58(*(void **)(p+8));
-        func_021B9774(*(void **)(p+0x10));
-        if (*(u8 *)(p+0xad)) {
-            func_02012E08(*(void **)(p+0x2c));
-            *(u8 *)(p+0xad)=0;
+    if (func_020221A4(a) && !((struct Obj01406 *)p)->fAE && func_0200FB24()) {
+        if (((struct Obj01406 *)p)->f8) func_021D5D58(((struct Obj01406 *)p)->f8);
+        func_021B9774(((struct Obj01406 *)p)->f10);
+        if (((struct Obj01406 *)p)->fAD) {
+            func_02012E08(((struct Obj01406 *)p)->f2C);
+            ((struct Obj01406 *)p)->fAD=0;
         }
         func_021D8F58(p);
-        if (*(u8 *)(p+0xab)) func_0200F7C0(41);
+        if (((struct Obj01406 *)p)->fAB) func_0200F7C0(41);
         func_0202223C(0,0);
         func_0202223C(1,0);
         func_02157170(1,0);
-        *(int *)(*(char **)(p+0x20)+0x1c8)=7;
+        ((struct Obj22983 *)(*(char * *)&((struct Obj01406 *)p)->f20))->f1C8=7;
         return 1;
     }
     if (callback) { callback(p); result=0; }
-    if (*(void **)(p+0x1c)) func_02027974(*(void **)(p+0x1c));
-    if (*(void **)(p+8)) func_021D5D7C(*(void **)(p+8));
-    func_021D5E60(*(void **)(p+0x14));
-    func_021D562C(*(void **)(p+0x18));
+    if (((struct Obj01406 *)p)->f1C) func_02027974(((struct Obj01406 *)p)->f1C);
+    if (((struct Obj01406 *)p)->f8) func_021D5D7C(((struct Obj01406 *)p)->f8);
+    func_021D5E60(((struct Obj01406 *)p)->f14);
+    func_021D562C(((struct Obj01406 *)p)->f18);
     return result;
 }

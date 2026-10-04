@@ -27,6 +27,7 @@
  *   python tools/match.py one --src src/matched/func_02165368.c \
  *       --func func_02165368 --addr 0x02165368 --region ov010 --cc dsi/1.1p1 --thumb
  */
+#include "../include/Obj00121.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,6 +37,6 @@ extern void func_0202744C(void *);
 
 void func_02165368(void *a0, unsigned a1, unsigned a2, unsigned a3)
 {
-    *(u16 *)((char *)a0 + 48) = 21;
+    ((struct Obj00121 *)a0)->f30 = 21;
     func_0202744C(a0);
 }

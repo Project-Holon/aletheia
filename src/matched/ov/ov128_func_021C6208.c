@@ -15,6 +15,9 @@
  *   func_021C9244 0x021C9244 thumb ov128
  *   func_021C6638 0x021C6638 thumb ov128
  */
+#include "../include/Obj03279.h"
+#include "../include/Obj23062.h"
+#include "../include/Obj23063.h"
 typedef unsigned char u8;
 extern int func_021C6EC0(void *,void *,void *,int);
 extern int func_021C76F8(void *,void *,void *,int);
@@ -26,24 +29,24 @@ int func_021C6208(int result,int *stage,int unused,char *p)
 {
     switch(*stage) {
     case 0:
-        switch(*(unsigned *)p) {
+        switch(((struct Obj03279 *)p)->f0) {
         case 0: result=func_021C6EC0(p+0x1fc,p+0x190,p+4,52); break;
         case 1: result=func_021C76F8(p+0x24c,p+0x190,p+4,52); break;
         case 2: result=func_021C8C04(p+0x3f8,p,p+0x190,p+4,52); break;
         case 3: result=func_021C8E2C(p+0x404,p+0x190,p+4,52); break;
         case 4: result=func_021C9244(p+0x420,p+0x190,p+4,52); break;
-        case 5: *(int *)(*(char **)(p+0x1f8)+4)=0; return 1;
-        case 6: *(int *)(*(char **)(p+0x1f8)+4)=1; return 1;
+        case 5: ((struct Obj23062 *)(*(char * *)&((struct Obj03279 *)p)->f1F8))->f4=0; return 1;
+        case 6: ((struct Obj23063 *)(*(char * *)&((struct Obj03279 *)p)->f1F8))->f4=1; return 1;
         }
         if(result==1) {
-            *(int *)p=*(u8 *)(p+0x199);
-            *(u8 *)(p+0x198)=*(u8 *)(p+0x19a);
-            *(int *)(p+0x5ac)=4;
+            *(int *)&((struct Obj03279 *)p)->f0=((struct Obj03279 *)p)->f199;
+            ((struct Obj03279 *)p)->f198=((struct Obj03279 *)p)->f19A;
+            ((struct Obj03279 *)p)->f5AC=4;
             *stage=1;
         }
         break;
     case 1:
-        if(--*(int *)(p+0x5ac)<=0) *stage=0;
+        if(--((struct Obj03279 *)p)->f5AC<=0) *stage=0;
         break;
     }
     func_021C6638(p+4);

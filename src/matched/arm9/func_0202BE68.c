@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/matched/func_0202BE68.c \
  *       --func func_0202BE68 --addr 0x0202BE68 --thumb --cc 1.1p1
  */
+#include "../include/Obj03439.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,14 +34,14 @@ u8 *func_0202BE68(u32 heapId)
     u8 *p = (u8 *)func_02030734(heapId, 0x18, 0, (const void *)0x020A7748,
                                 0x55);
 
-    *(u32 *)p = 0;
+    ((struct Obj03439 *)p)->f0 = 0;
     p[4] = 0;
-    *(u32 *)(p + 8) = 0;
+    ((struct Obj03439 *)p)->f8 = 0;
     p[0xc] = 0xff;
-    *(u16 *)(p + 0xe) = 0;
-    *(u16 *)(p + 0x10) = 0;
-    *(u16 *)(p + 0x12) = 0;
-    *(u16 *)(p + 0x14) = 0;
+    ((struct Obj03439 *)p)->fE = 0;
+    ((struct Obj03439 *)p)->f10 = 0;
+    ((struct Obj03439 *)p)->f12 = 0;
+    ((struct Obj03439 *)p)->f14 = 0;
     func_0202BEEC(p, heapId);
     return p;
 }

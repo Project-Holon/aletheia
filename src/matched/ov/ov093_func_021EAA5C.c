@@ -12,6 +12,7 @@
  * symbols:
  *   func_0689B558  0x0689B558  thumb
  */
+#include "../include/Obj21569.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -19,5 +20,5 @@ extern void func_0689B558(int a);
 
 void func_021EAA5C(u8 *o)
 {
-    func_0689B558(*(int *)(o + 0x180));
+    func_0689B558(((struct Obj21569 *)o)->f180);
 }

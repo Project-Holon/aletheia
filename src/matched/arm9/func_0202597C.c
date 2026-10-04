@@ -12,6 +12,7 @@
  * symbols:
  *   func_0204B688  0x0204B688  arm
  */
+#include "../include/Obj08787.h"
 
 typedef signed char    s8;
 typedef unsigned char  u8;
@@ -25,9 +26,9 @@ void func_0202597C(u8 *g, u32 a)
     int i;
     int j;
 
-    for (i = 0; i < *(u8 *)(g + 0xCB); i++) {
-        for (j = 0; j < *(u8 *)(g + 0xCA); j++) {
-            func_0204B688(*(void **)(g + 4 + (i * *(u8 *)(g + 0xCA) + j) * 4), a);
+    for (i = 0; i < ((struct Obj08787 *)g)->fCB; i++) {
+        for (j = 0; j < ((struct Obj08787 *)g)->fCA; j++) {
+            func_0204B688(*(void **)(g + 4 + (i * ((struct Obj08787 *)g)->fCA + j) * 4), a);
         }
     }
 }

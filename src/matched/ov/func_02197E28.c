@@ -15,6 +15,7 @@
  *   func_0216D454  0x0216D454  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12073.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,10 +26,10 @@ extern u32 func_0216D454(u32, u32, u32, u32);
 
 int func_02197E28(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216D454(*(u32 *)((u8 *)(a) + 12), b, c, d) == 0) {
+if (func_0216D454(((struct Obj12073 *)((u8 *)(a)))->fC, b, c, d) == 0) {
     return 0;
 }
-*(u32 *)((u8 *)(a)) = 4;
+((struct Obj12073 *)((u8 *)(a)))->f0 = 4;
 return 1;
 }
 

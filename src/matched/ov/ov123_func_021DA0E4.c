@@ -14,8 +14,9 @@
  *   func_021DA034 0x021DA034 thumb ov123
  *   func_021DA0B8 0x021DA0B8 thumb ov123
  */
+#include "../include/Obj10456.h"
 extern int func_021D95F0(char *);
 extern int func_02012DAC(int);
 extern void func_021DA034(char *,int,int);
 extern void func_021DA0B8(char *p);
-void func_021DA0E4(char *p) { if(func_021D95F0(*(char **)(p+0x10))) { *(int *)(p+0x6c)=1; func_02012DAC(*(int *)(p+0x20)); func_021DA034(p,(int)func_021DA0B8,0x109); } }
+void func_021DA0E4(char *p) { if(func_021D95F0(*(char * *)&((struct Obj10456 *)p)->f10)) { ((struct Obj10456 *)p)->f6C=1; func_02012DAC(((struct Obj10456 *)p)->f20); func_021DA034(p,(int)func_021DA0B8,0x109); } }

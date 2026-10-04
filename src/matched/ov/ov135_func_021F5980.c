@@ -14,6 +14,7 @@
  *   func_02030734 0x02030734 arm
  *   str_02203B54 0x02203B54 data a1
  */
+#include "../include/Obj04526.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,11 +28,11 @@ extern const char str_02203B54[];
 void func_021F5980(u8 *p)
 {
     func_021F6E08(p);
-    *(void **)(p + 0xb80) = func_020457B0(0x12, 0x48);
-    *(void **)(p + 0xb88) = func_020457B0(0xb4, 0x48);
-    *(void **)(p + 0xb84) = func_02045EC0(*(void **)(p + 0xb6c), 0x73);
-    if (*(u16 *)(p + 0xc6) == 0x1e) {
-        *(u16 *)(p + 0xc6) = 0;
+    ((struct Obj04526 *)p)->fB80 = func_020457B0(0x12, 0x48);
+    ((struct Obj04526 *)p)->fB88 = func_020457B0(0xb4, 0x48);
+    ((struct Obj04526 *)p)->fB84 = func_02045EC0(((struct Obj04526 *)p)->fB6C, 0x73);
+    if (((struct Obj04526 *)p)->fC6 == 0x1e) {
+        ((struct Obj04526 *)p)->fC6 = 0;
     }
-    *(void **)(p + 0xeac) = func_02030734(0x48, 0x78, 0, str_02203B54, 0x344);
+    ((struct Obj04526 *)p)->fEAC = func_02030734(0x48, 0x78, 0, str_02203B54, 0x344);
 }

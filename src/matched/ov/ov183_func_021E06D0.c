@@ -21,6 +21,9 @@
  *   func_021E16E4 0x021E16E4 thumb ov183
  *   d_021E3968 0x021E3968 data ov183
  */
+#include "../include/Obj03331.h"
+#include "../include/Obj24624.h"
+#include "../include/Obj24625.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,13 +45,13 @@ char *func_021E06D0(const struct Source *src, u16 heap)
     p = func_02030734(heap, 0x368, 0, d_021E3968, 56);
     func_02082BCC(p, 0, 0x368);
     *(struct Source *)(p + 0x324) = *src;
-    *(u16 *)(p + 0x34c) = heap;
-    *(int *)(p + 0x25c) = src->words[7];
-    *(int *)(p + 0x310) = func_021FC20C((char *)src->words[8]);
-    *(void **)(p + 0x258) = func_020490F4(59, *(u16 *)(p + 0x34c));
+    ((struct Obj03331 *)p)->f34C = heap;
+    ((struct Obj03331 *)p)->f25C = src->words[7];
+    ((struct Obj03331 *)p)->f310 = func_021FC20C((char *)src->words[8]);
+    ((struct Obj03331 *)p)->f258 = func_020490F4(59, ((struct Obj03331 *)p)->f34C);
     func_021E1244(p);
     func_021E1910(p);
-    *(void **)(p + 0x314) = func_020056A0(func_021E083C, p, 16);
+    ((struct Obj03331 *)p)->f314 = func_020056A0(func_021E083C, p, 16);
     return p;
 }
 void func_021E0754(char *p)
@@ -57,9 +60,9 @@ void func_021E0754(char *p)
 }
 int func_021E075C(char *p)
 {
-    return *(int *)(p + 0x350);
+    return ((struct Obj24624 *)p)->f350;
 }
 u64 func_021E0764(char *p)
 {
-    return *(u64 *)(p + 0x360);
+    return ((struct Obj24625 *)p)->f360;
 }

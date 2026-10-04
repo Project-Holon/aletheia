@@ -15,6 +15,7 @@
  *   func_02188C84 0x02188C84 thumb ov021
  *   func_02188C58 0x02188C58 thumb ov021
  */
+#include "../include/Obj05905.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_020122C0(void *,void *,void *,unsigned int);
@@ -28,6 +29,6 @@ extern void *func_02188C58(void *);
 void *func_0216C44C(void *a,void *b) {
     void *t; u8 *p;
     t=func_020122C0(a,0,(void *)func_0216C2FC,0x14); p=func_020124E8(t);
-    *(u16 *)p=func_02188C84(b); *(void **)(p+4)=a; *(void **)(p+8)=b;
-    *(void **)(p+12)=func_02188C58(b); *(int *)(p+16)=0; return t;
+    ((struct Obj05905 *)p)->f0=func_02188C84(b); ((struct Obj05905 *)p)->f4=a; ((struct Obj05905 *)p)->f8=b;
+    ((struct Obj05905 *)p)->fC=func_02188C58(b); ((struct Obj05905 *)p)->f10=0; return t;
 }

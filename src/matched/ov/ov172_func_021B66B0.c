@@ -16,6 +16,7 @@
  *   func_021B644C 0x021B644C thumb ov172
  *   g_021C88E0 0x021C88E0 data a4
  */
+#include "../include/Obj02879.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_02085D3C(void);
@@ -33,13 +34,13 @@ void func_021B66B0(void)
     if ((func_02085D3C() == 1 ? func_021B672C() : 0) == 1) {
         one = 1;
         if (func_021B6734(one) != 0) func_021B673C(one);
-        if (*(u32 *)(p + 0x24) != 0) {
-            *(u32 *)(p + 0x24) = 0;
-        } else if (*(u32 *)(p + 0x28) > 4) {
+        if (((struct Obj02879 *)p)->f24 != 0) {
+            ((struct Obj02879 *)p)->f24 = 0;
+        } else if (((struct Obj02879 *)p)->f28 > 4) {
             if (*(void (**)(u32, u32))(p + 0x3C) != 0)
-                (*(void (**)(u32, u32))(p + 0x3C))((*(u32 **)(p + 4))[*(u8 *)(p + 0x18)], *(u32 *)(p + 0x40));
-            *(u8 *)(p + 0x18) = (*(u8 *)(p + 0x18) + 1) % *(u8 *)(p + 8);
+                (*(void (**)(u32, u32))(p + 0x3C))((*(u32 **)(p + 4))[((struct Obj02879 *)p)->f18], ((struct Obj02879 *)p)->f40);
+            ((struct Obj02879 *)p)->f18 = (((struct Obj02879 *)p)->f18 + 1) % ((struct Obj02879 *)p)->f8;
         }
-        if (*(u32 *)(p + 0x10) == 1) func_021B644C(p);
+        if (((struct Obj02879 *)p)->f10 == 1) func_021B644C(p);
     }
 }

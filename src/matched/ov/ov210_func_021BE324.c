@@ -19,17 +19,18 @@
  *   func_02012BE0 0x02012BE0 thumb
  *   func_021BEDB8 0x021BEDB8 thumb ov210
  */
+#include "../include/Obj10921.h"
 typedef unsigned char u8;
 extern int func_02012BF8(int a0, int a1);
 extern void func_02012BE0(void *, unsigned, unsigned);
 extern void func_021BEDB8(int p, int i, int v);
 void func_021BE324(u8 *p)
 {
-    if (func_02012BF8((int)(**(void ***)p), 16) == 1) {
-        func_02012BE0(**(void ***)p, 16, 0);
+    if (func_02012BF8((int)(**(void ** *)&((struct Obj10921 *)p)->f0), 16) == 1) {
+        func_02012BE0(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 0);
         func_021BEDB8((int)p, 4, 6);
     } else {
-        func_02012BE0(**(void ***)p, 16, 1);
+        func_02012BE0(**(void ** *)&((struct Obj10921 *)p)->f0, 16, 1);
         func_021BEDB8((int)p, 4, 7);
     }
 }

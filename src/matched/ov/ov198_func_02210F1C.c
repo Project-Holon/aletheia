@@ -11,8 +11,10 @@
  * symbols:
  *   func_0202F72C 0x0202F72C thumb
  */
+#include "../include/Obj08364.h"
+#include "../include/Obj25273.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0202F72C(void *,u16,u16);
-u32 func_02210F1C(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 **)p;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return func_0202F72C(*(void **)q,*(u16 *)(row+i*8+48),*(u16 *)(q+16)); }
+u32 func_02210F1C(u8 *p) { u8 *q;unsigned long i;int row;q=*(u8 * *)&((struct Obj25273 *)p)->f0;i=q[75];if(i==4)return 0;row=(u32)p+q[32]*76;return func_0202F72C(((struct Obj08364 *)q)->f0,*(u16 *)(row+i*8+48),((struct Obj08364 *)q)->f10); }

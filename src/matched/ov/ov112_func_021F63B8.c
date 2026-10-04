@@ -29,6 +29,10 @@
  *   func_021F6540 0x021F6540 thumb ov112
  *   d_021F83D4 0x021F83D4 data a4
  */
+#include "../include/Obj00722.h"
+#include "../include/Obj13834.h"
+#include "../include/Obj22550.h"
+#include "../include/Obj22551.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -58,28 +62,28 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     void **job;
     struct AnimSequence *sequence;
     u8 *table;
-    *(u32 *)(q+236) |= 4;
+    ((struct Obj00722 *)q)->fEC |= 4;
     func_02063790((u32 *)(q+144));
     func_020637D4((u32 *)(q+180));
-    *(void **)(q+0)=func_02049FBC(res[0],res[3],0,(u32)(q+4),*(u32 *)(q+244));
-    *(void **)(q+16)=func_0204A03C(res[0],res[4],1,(u32)(q+20),*(u32 *)(q+244));
-    *(void **)(q+8)=func_0204A0BC(res[0],res[5],0,(u32)(q+12),*(u32 *)(q+244));
-    *(void **)(q+24)=func_0204A13C(res[0],res[6],0,(u32)(q+28),*(u32 *)(q+244));
-    sequence=func_020627D8(*(struct AnimBank **)(q+28),0);
+    ((struct Obj00722 *)q)->f0=func_02049FBC(res[0],res[3],0,(u32)(q+4),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f10=func_0204A03C(res[0],res[4],1,(u32)(q+20),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f8=func_0204A0BC(res[0],res[5],0,(u32)(q+12),((struct Obj00722 *)q)->fF4);
+    ((struct Obj00722 *)q)->f18=func_0204A13C(res[0],res[6],0,(u32)(q+28),((struct Obj00722 *)q)->fF4);
+    sequence=func_020627D8(*(struct AnimBank * *)&((struct Obj00722 *)q)->f1C,0);
     func_021F659C((char *)q,1);
     func_0206469C((struct Obj0206469C *)(q+40),sequence);
-    table=func_02048F60(res[0],res[7],*(u32 *)(q+244));
-    *(u8 **)(q+32)=table;
-    *(u8 **)(q+36)=table+4+56* *(u32 *)table;
-    job=func_02030734((u16)*(u32 *)(q+244),36,1,d_021F83D4,1104);
+    table=func_02048F60(res[0],res[7],((struct Obj00722 *)q)->fF4);
+    *(u8 * *)&((struct Obj00722 *)q)->f20=table;
+    *(u8 * *)&((struct Obj00722 *)q)->f24=table+4+56* ((struct Obj22550 *)table)->f0;
+    job=func_02030734((u16)((struct Obj00722 *)q)->fF4,36,1,d_021F83D4,1104);
     job[2]=q+144;
     job[3]=q+180;
-    job[6]=*(u8 **)(a+12)+index*16384;
-    job[7]=*(u8 **)(a+16)+index*32;
+    job[6]=*(u8 * *)&((struct Obj13834 *)a)->fC+index*16384;
+    job[7]=*(u8 * *)&((struct Obj13834 *)a)->f10+index*32;
     job[8]=q;
-    job[4]=func_02049DB4(res[0],res[1],1,(u32)job,*(u32 *)(q+244));
-    job[5]=func_02049F34(res[0],res[2],(u32)(job+1),*(u32 *)(q+244));
-    if(res[7]==6548) func_020172D8(*(u8 **)((u8 *)job[0]+20),res[8]);
+    job[4]=func_02049DB4(res[0],res[1],1,(u32)job,((struct Obj00722 *)q)->fF4);
+    job[5]=func_02049F34(res[0],res[2],(u32)(job+1),((struct Obj00722 *)q)->fF4);
+    if(res[7]==6548) func_020172D8(*(u8 * *)&((struct Obj22551 *)((u8 *)job[0]))->f14,res[8]);
     if(mode==1) func_020056A0((u32)func_021F6540,(u32)job,0);
     else func_021F6540(0,job);
 }

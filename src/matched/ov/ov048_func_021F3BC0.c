@@ -15,6 +15,7 @@
  *   func_021F4DE4  0x021F4DE4  thumb  ov048
  *   d_021F5224     0x021F5224  data  ov048  a1
  */
+#include "../include/Obj00377.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,11 +32,11 @@ void func_021F3BC0(u8 *p)
     int n;
     int i;
 
-    if (*(u8 **)(p + 0x20) == 0) {
+    if (*(u8 * *)&((struct Obj00377 *)p)->f20 == 0) {
         n = func_02049030(0xa6);
-        *(void **)(p + 0x20) = func_02030734(*(u16 *)p, n * 0x24, 0, d_021F5224, 0x4cb);
+        ((struct Obj00377 *)p)->f20 = func_02030734(((struct Obj00377 *)p)->f0, n * 0x24, 0, d_021F5224, 0x4cb);
         for (i = 0; i < n; i++) {
-            func_021F4DE4((int)(*(u8 **)(p + 0x20) + i * 0x24), 0xa6, i);
+            func_021F4DE4((int)(*(u8 * *)&((struct Obj00377 *)p)->f20 + i * 0x24), 0xa6, i);
         }
         p[0x24] = n;
     }

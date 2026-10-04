@@ -11,9 +11,10 @@
  * symbols:
  *   func_021887F4 0x021887F4 thumb ov096
  */
+#include "../include/Obj21922.h"
 extern void func_021887F4(int, int, int);
 int func_021887D4(int a, int b)
 {
     func_021887F4(a, b, 2);
-    return *(int *)((unsigned int)b + 0xc4);
+    return ((struct Obj21922 *)((unsigned int)b))->fC4;
 }

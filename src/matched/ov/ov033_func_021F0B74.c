@@ -21,6 +21,7 @@
  *   func_020216D4 0x020216D4 thumb
  *   d_021F0E60 0x021F0E60 data ov033 a1
  */
+#include "../include/Obj01512.h"
 
 extern unsigned func_02030CB0(unsigned);
 typedef unsigned short u16;
@@ -38,14 +39,14 @@ extern const char d_021F0E60[];
 
 void func_021F0B74(char *p)
 {
-    *(void **)(p + 0xB8) = func_02030734(*(unsigned short *)p, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
-    *(void **)(p + 0xB4) = func_02030CBC(2, *(void **)(p + 0xB8));
-    *(unsigned *)(p + 0xBC) = (unsigned int)func_02021518(*(unsigned short *)p);
-    func_02021EE4((struct Obj02021EE4 *)(*(unsigned *)(p + 0xBC)), 1);
-    func_0202155C((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 1, 0x60, *(unsigned short *)p);
-    func_0202155C((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 3, 0x80, *(unsigned short *)p);
-    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 1, 0, 0x60);
-    func_020216D4((struct PalAnmSlot *)(*(unsigned *)(p + 0xBC)), 3, 0, 0x80);
-    *(unsigned *)(p + 0xC0) = 0;
-    *(unsigned *)(p + 0xC4) = 0;
+    ((struct Obj01512 *)p)->fB8 = func_02030734(((struct Obj01512 *)p)->f0, func_02030CB0(2), 1, d_021F0E60, 0x6DF);
+    ((struct Obj01512 *)p)->fB4 = func_02030CBC(2, ((struct Obj01512 *)p)->fB8);
+    ((struct Obj01512 *)p)->fBC = (unsigned int)func_02021518(((struct Obj01512 *)p)->f0);
+    func_02021EE4((struct Obj02021EE4 *)(((struct Obj01512 *)p)->fBC), 1);
+    func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0x60, ((struct Obj01512 *)p)->f0);
+    func_0202155C((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 3, 0x80, ((struct Obj01512 *)p)->f0);
+    func_020216D4((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 1, 0, 0x60);
+    func_020216D4((struct PalAnmSlot *)(((struct Obj01512 *)p)->fBC), 3, 0, 0x80);
+    ((struct Obj01512 *)p)->fC0 = 0;
+    ((struct Obj01512 *)p)->fC4 = 0;
 }

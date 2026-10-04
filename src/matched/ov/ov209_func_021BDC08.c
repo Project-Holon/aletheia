@@ -18,6 +18,11 @@
  *   func_02012BF8 0x02012BF8 thumb
  *   d_021BE9F0 0x021BE9F0 data a4
  */
+#include "../include/Obj04617.h"
+#include "../include/Obj25570.h"
+#include "../include/Obj25571.h"
+#include "../include/Obj25572.h"
+#include "../include/Obj25573.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,7 +43,7 @@ void func_021BDC08(char *p)
 {
     unsigned i;
     Template t;
-    *(void **)(p + 0xa70) = func_0204B100(60, 0, 0x6b);
+    ((struct Obj04617 *)p)->fA70 = func_0204B100(60, 0, 0x6b);
     for (i = 0; i < 60; i++)
         *(unsigned *)(p + i * 4 + 0xa74) = 0;
     for (i = 0; i <= 9; i++) {
@@ -46,20 +51,20 @@ void func_021BDC08(char *p)
         t.w8 = *(u32 *)(p + t.w8 * 4 + 0xb64);
         t.wC = *(u32 *)(p + t.wC * 4 + 0xbf4);
         t.w10 = *(u32 *)(p + t.w10 * 4 + 0xc0c);
-        *(void **)(p + i * 4 + 0xa74) = func_021C940C(*(void **)(p + 0xa70), &t, 0x6b);
+        *(void **)(p + i * 4 + 0xa74) = func_021C940C(((struct Obj04617 *)p)->fA70, &t, 0x6b);
         func_0204BA20(*(void **)(p + i * 4 + 0xa74), 0);
     }
-    if (*(u16 *)(*(char **)p + 10) <= 7) {
+    if (((struct Obj25570 *)(*(char * *)&((struct Obj04617 *)p)->f0))->fA <= 7) {
         func_021BD8D8(p, 0, 0);
         func_021BD8D8(p, 1, 0);
     }
-    if (func_0200CA54(*(void **)(*(char **)p + 4)) == 0)
+    if (func_0200CA54(((struct Obj25571 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 9, 0);
-    if (func_0200CA38(*(void **)(*(char **)p + 4)) == 0)
+    if (func_0200CA38(((struct Obj25572 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f4) == 0)
         func_021BD8D8(p, 8, 0);
-    if (*(u16 *)(*(char **)p + 8) == 1) {
+    if (((struct Obj25573 *)(*(char * *)&((struct Obj04617 *)p)->f0))->f8 == 1) {
         func_021BD8D8(p, 8, 0);
         func_021BD8D8(p, 5, 0);
-    } else if (func_02012BF8(**(int **)p, 15) == 1)
+    } else if (func_02012BF8(**(int * *)&((struct Obj04617 *)p)->f0, 15) == 1)
         func_021BD890(p, 5, 7);
 }

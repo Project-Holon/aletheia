@@ -38,6 +38,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -72,7 +73,7 @@ void func_021BE108(char *p)
 {
     switch (func_021BE4DC(p)) {
     case 0:
-        *(u32 *)(p + 0x3d0) = 1;
+        ((struct Obj00021 *)p)->f3D0 = 1;
         func_021BF704(p);
         func_021BF728(p);
         func_021BFC60(p);
@@ -92,7 +93,7 @@ void func_021BE108(char *p)
         break;
     case 1:
         if (func_02006238() == 0) {
-            if (*(u32 *)(p + 0x28) >= 0x3c) {
+            if (((struct Obj00021 *)p)->f28 >= 0x3c) {
                 func_021BE4E0(p);
                 return;
             }
@@ -100,7 +101,7 @@ void func_021BE108(char *p)
         }
         break;
     case 2:
-        *(u32 *)(p + 0x3d0) = 0;
+        ((struct Obj00021 *)p)->f3D0 = 0;
         func_021BEC0C(p);
         func_021C1184(func_021BF77C(p), 0);
         func_021BF08C(p);

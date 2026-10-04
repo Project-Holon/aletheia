@@ -16,6 +16,8 @@
  *   func_02031290 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj04311.h"
+#include "../include/Obj20428.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,7 +33,7 @@ void func_021F178C(char *this, u8 a, int *p)
     u8 *r;
     int v;
 
-    r = func_02031290(func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F17D8, 0xc, 0));
+    r = func_02031290(func_020311B8(((struct Obj20428 *)this)->fA0, (void *)func_021F17D8, 0xc, 0));
     func_02082BCC(r, 0, 0xc);
     r[0] = a;
     if (r[0] == 0) {
@@ -44,6 +46,6 @@ void func_021F178C(char *this, u8 a, int *p)
     }
     r[4] = v;
     r[1] = 4;
-    *(int **)(r + 8) = p;
+    *(int * *)&((struct Obj04311 *)r)->f8 = p;
     *p = *p + 1;
 }

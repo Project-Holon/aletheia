@@ -17,6 +17,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021D7B74  0x021D7B74  thumb  ov093
  */
+#include "../include/Obj10057.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,9 +38,9 @@ void func_021D9880(void *a, int b, int c)
     if (c == func_021D775C(0x39) && b == func_021D775C(2)) {
         q = func_021C7CF4(a, b);
         p = func_021C88A4(a, 5, b);
-        *(u32 *)p |= 0x800000;
+        ((struct Obj10057 *)p)->f0 |= 0x800000;
         p[6] = b;
-        *(u16 *)(p + 4) = func_021D7B74(q, 0x10);
+        ((struct Obj10057 *)p)->f4 = func_021D7B74(q, 0x10);
         func_021C88C8(a, p);
         func_021D76BC(0x41, 1);
     }

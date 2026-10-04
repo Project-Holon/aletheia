@@ -15,6 +15,7 @@
  *   func_021DDFBC 0x021DDFBC thumb ov171
  *   func_020434DC 0x020434DC arm
  */
+#include "../include/Obj10659.h"
 extern void func_021DE76C(char *, int);
 extern void func_021DCBA4(char *);
 extern int func_021DCBE8(char *);
@@ -24,12 +25,12 @@ typedef unsigned int   u32;
 extern void func_020434DC(u32 mask, u32 enable);
 int func_021DD38C(char *p)
 {
-    switch (*(int *)(p + 0xc70)) {
+    switch (((struct Obj10659 *)p)->fC70) {
     case 0:
         func_021DE76C(p, 0);
         func_021DCBA4(p);
         func_020434DC(2, 0);
-        ++*(int *)(p + 0xc70);
+        ++((struct Obj10659 *)p)->fC70;
         break;
     case 1:
         if (!func_021DCBE8(p)) {
@@ -37,7 +38,7 @@ int func_021DD38C(char *p)
             func_021DE080(p, 13, 5);
             func_021DE080(p, 14, 0);
             func_021DDFBC(p);
-            *(int *)(p + 0xc70) = 0;
+            ((struct Obj10659 *)p)->fC70 = 0;
             return 4;
         }
         break;

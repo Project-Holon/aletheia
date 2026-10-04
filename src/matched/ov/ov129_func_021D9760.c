@@ -16,6 +16,7 @@
  *   func_021D97B8 0x021D97B8 thumb ov129
  * Extent ends with two bytes of zero alignment padding.
  */
+#include "../include/Obj00361.h"
 
 extern void func_021D8950(char *,int);
 extern void func_021DA164(void *);
@@ -24,15 +25,15 @@ extern void func_021D8AF4(char *,int);
 extern void func_021D9E60(char *,int);
 extern void func_021D97B8(char *);
 void func_021D9760(char *p)  {
-    switch(*(int *)(p+0x31c))  {
+    switch(((struct Obj00361 *)p)->f31C)  {
         case 0: break;
-        case 1: func_021D8950(p,*(int *)(p+0x320));
+        case 1: func_021D8950(p,((struct Obj00361 *)p)->f320);
         func_021DA164(p);
         func_021DA1A8(p,1);
         func_021D8AF4(p,2);
-        *(int *)(p+0x31c)=255;
+        ((struct Obj00361 *)p)->f31C=255;
         break;
-        case 2: func_021D9E60(p,*(int *)(p+0x320));
+        case 2: func_021D9E60(p,((struct Obj00361 *)p)->f320);
         func_021D97B8(p);
         break;
         case 255: break;

@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj25299.h"
 int func_02213800(char *p)
 {
-    return *(int *)(p + 0x1c);
+    return ((struct Obj25299 *)p)->f1C;
 }

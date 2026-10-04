@@ -15,6 +15,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj13978.h"
 typedef unsigned char u8;
 void func_021D66D0(u8 *p, int n)
 {
@@ -22,5 +23,5 @@ void func_021D66D0(u8 *p, int n)
     int v;
     if (n > 100) v = 0;
     else v = (int)(120.0f - x);
-    if (*(int *)(p + 0x455c) > v) *(int *)(p + 0x455c) = v;
+    if (((struct Obj13978 *)p)->f455C > v) ((struct Obj13978 *)p)->f455C = v;
 }

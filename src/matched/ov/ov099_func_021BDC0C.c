@@ -12,6 +12,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj13697.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BA928(void *);
@@ -22,8 +23,8 @@ int func_021BDC0C(char *p, int v)
     if (func_021BA928(p) == 0) return v;
     if (func_020362DC() != 0) {
         func_021BA8EC(p);
-        *(u8 *)(p + 0x1353) = 0x4a;
-        *(u32 *)(p + 0x1cc) = 0x8a;
+        ((struct Obj13697 *)p)->f1353 = 0x4a;
+        ((struct Obj13697 *)p)->f1CC = 0x8a;
     }
     return v;
 }

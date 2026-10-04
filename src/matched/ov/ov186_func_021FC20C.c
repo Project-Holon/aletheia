@@ -8,4 +8,5 @@
  * isa: thumb
  * status: EXACT*
  */
-unsigned func_021FC20C(char *p) { return *(unsigned *)(p+0xe8); }
+#include "../include/Obj24829.h"
+unsigned func_021FC20C(char *p) { return ((struct Obj24829 *)p)->fE8; }

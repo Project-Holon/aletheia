@@ -28,6 +28,7 @@
  *   func_021C48FC 0x021C48FC thumb ov136
  *   func_021C4998 0x021C4998 thumb ov136
  */
+#include "../include/Obj00275.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -58,16 +59,16 @@ int func_021C49D0(u8 *p)
     int r;
     void *w;
 
-    switch (*(u16 *)(p + 8)) {
+    switch (((struct Obj00275 *)p)->f8) {
     case 0:
-        func_02028218(*(void **)(p + 0x128), 0);
-        func_0202822C(*(void **)(p + 0x12C), 1);
+        func_02028218(((struct Obj00275 *)p)->f128, 0);
+        func_0202822C(((struct Obj00275 *)p)->f12C, 1);
         break;
     case 1:
-        if (func_02028230(*(void **)(p + 0x12C))) {
-            func_020282A4(*(void **)(p + 0x12C));
-            func_02028218(*(void **)(p + 0x12C), 1);
-            *(int *)(p + 0x10) = 1;
+        if (func_02028230(((struct Obj00275 *)p)->f12C)) {
+            func_020282A4(((struct Obj00275 *)p)->f12C);
+            func_02028218(((struct Obj00275 *)p)->f12C, 1);
+            ((struct Obj00275 *)p)->f10 = 1;
             func_021C47C4(p, 3);
             func_021C44FC(p);
             p[0x1B] = p[0x1A];
@@ -75,34 +76,34 @@ int func_021C49D0(u8 *p)
         }
         return 0;
     case 2:
-        if (func_0201CE30(*(void **)(p + 0x9C)) == 2) {
-            func_0201CE48(*(void **)(p + 0x9C));
+        if (func_0201CE30(((struct Obj00275 *)p)->f9C) == 2) {
+            func_0201CE48(((struct Obj00275 *)p)->f9C);
             func_021C48FC(p);
-            *(u16 *)(p + 8) = 3;
+            ((struct Obj00275 *)p)->f8 = 3;
         }
         return 0;
     case 3:
-        func_02027974(*(void **)(p + 0x10C));
+        func_02027974(((struct Obj00275 *)p)->f10C);
         r = func_021C4998(p);
         if (r < 0)
             return 0;
-        func_0201F7A8(*(void **)(p + 0x5C), 2);
-        w = *(void **)(p + 0x5C);
+        func_0201F7A8(((struct Obj00275 *)p)->f5C, 2);
+        w = ((struct Obj00275 *)p)->f5C;
         func_020456F8(w);
         func_020409B4(func_02045730(w));
-        *(u16 *)(p + 8) = 0;
+        ((struct Obj00275 *)p)->f8 = 0;
         if (r == 0) {
-            **(u16 **)(p + 0x1C) = 0xFFFF;
+            **(u16 * *)&((struct Obj00275 *)p)->f1C = 0xFFFF;
             p[0xB] = p[0xC];
             return 1;
         }
-        *(int *)(p + 0x10) = 0;
+        ((struct Obj00275 *)p)->f10 = 0;
         p[0xB] = p[0xC];
-        func_02021FD8(*(void **)(p + 0x38), 0, 0, 0x30, 0, 0);
-        func_02028454(*(void **)(p + 0x128));
-        func_02028454(*(void **)(p + 0x12C));
+        func_02021FD8(((struct Obj00275 *)p)->f38, 0, 0, 0x30, 0, 0);
+        func_02028454(((struct Obj00275 *)p)->f128);
+        func_02028454(((struct Obj00275 *)p)->f12C);
         return 0;
     }
-    (*(u16 *)(p + 8))++;
+    (((struct Obj00275 *)p)->f8)++;
     return 0;
 }

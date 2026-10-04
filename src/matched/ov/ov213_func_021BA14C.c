@@ -10,24 +10,25 @@
  * symbols:
  *   func_021BA034 0x021BA034 thumb ov213
  */
+#include "../include/Obj00443.h"
 extern void func_021BA034(char *,unsigned);
 void func_021BA14C(char *p,unsigned limit)
 {
-    if(*(unsigned char *)(p+0x28)) {
-        switch(*(unsigned char *)(p+8)) {
+    if(((struct Obj00443 *)p)->f28) {
+        switch(((struct Obj00443 *)p)->f8) {
         case 0:break;
         case 1:limit=12;break;
         case 3:
-            if(*(unsigned char *)(p+9)==0 || *(unsigned char *)(p+9)==2) limit=15;
-            else if(*(unsigned char *)(p+9)==1 || *(unsigned char *)(p+9)==3) limit=19;
+            if(((struct Obj00443 *)p)->f9==0 || ((struct Obj00443 *)p)->f9==2) limit=15;
+            else if(((struct Obj00443 *)p)->f9==1 || ((struct Obj00443 *)p)->f9==3) limit=19;
             break;
         case 2:limit=8;break;
         case 4:
-            if(*(unsigned char *)(p+9)==0 || *(unsigned char *)(p+9)==2) limit=11;
-            else if(*(unsigned char *)(p+9)==1 || *(unsigned char *)(p+9)==3) limit=15;
+            if(((struct Obj00443 *)p)->f9==0 || ((struct Obj00443 *)p)->f9==2) limit=11;
+            else if(((struct Obj00443 *)p)->f9==1 || ((struct Obj00443 *)p)->f9==3) limit=15;
             break;
         }
-        if(*(unsigned *)(p+0x24)>=limit) func_021BA034(p,limit);
-        (*(unsigned *)(p+0x24))++;
+        if(((struct Obj00443 *)p)->f24>=limit) func_021BA034(p,limit);
+        (((struct Obj00443 *)p)->f24)++;
     }
 }

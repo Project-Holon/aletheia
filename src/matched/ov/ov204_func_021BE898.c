@@ -16,6 +16,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_0200854C 0x0200854C thumb
  */
+#include "../include/Obj03920.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BFAE8(char *,u32);
@@ -29,21 +30,21 @@ int func_021BE898(char *p,u32 *q)
     void *obj;
     switch (*q) {
     case 0:
-        func_021BFAE8(*(char **)(p+12),0);
+        func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,0);
         *q=4;
         break;
     case 1:
         if (func_020362DC()&16) {
             if (q[1]!=1) {
                 func_020061E4(0x548);
-                func_021BFAE8(*(char **)(p+12),2);
+                func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,2);
                 q[1]=1;
                 *q=4;
             }
         } else if (func_020362DC()&32) {
             if (q[1]!=0) {
                 func_020061E4(0x548);
-                func_021BFAE8(*(char **)(p+12),1);
+                func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,1);
                 q[1]=0;
                 *q=4;
             }
@@ -53,21 +54,21 @@ int func_021BE898(char *p,u32 *q)
         }
         break;
     case 2:
-        obj=**(void ***)(p+4);
+        obj=**(void ** *)&((struct Obj03920 *)p)->f4;
         if (q[1]==0) {
             func_0200854C(obj,0);
-            func_021BFAE8(*(char **)(p+12),3);
+            func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,3);
         } else {
             func_0200854C(obj,1);
-            func_021BFAE8(*(char **)(p+12),4);
+            func_021BFAE8(*(char * *)&((struct Obj03920 *)p)->fC,4);
         }
         (*q)++;
         break;
     case 3:
-        if (func_021BFB2C(*(char **)(p+12))!=0) return 1;
+        if (func_021BFB2C(*(char * *)&((struct Obj03920 *)p)->fC)!=0) return 1;
         break;
     case 4:
-        if (func_021BFB2C(*(char **)(p+12))!=0) *q=1;
+        if (func_021BFB2C(*(char * *)&((struct Obj03920 *)p)->fC)!=0) *q=1;
         break;
     }
     return 0;

@@ -13,13 +13,14 @@
  *   func_020306F0 0x020306F0 arm
  *   func_02173420 0x02173420 thumb ov012
  */
+#include "../include/Obj00033.h"
 typedef unsigned char u8;
 extern void func_020307B0(void *p);
 extern void func_020306F0(unsigned int heap);
 extern void func_02173420(void *p);
 void func_02172C1C(void *p, u8 *q)
 {
-    if (*(void **)(q + 0x352c) != 0) func_020307B0(*(void **)(q + 0x352c));
+    if (((struct Obj00033 *)q)->f352C != 0) func_020307B0(((struct Obj00033 *)q)->f352C);
     func_02173420(q);
     func_020307B0(q);
     func_020306F0(0x41);

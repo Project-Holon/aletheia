@@ -19,6 +19,7 @@
  *
  * Populate the 0x28-byte record from the two source objects.
  */
+#include "../include/Obj01763.h"
 
 
 typedef unsigned int   u32;
@@ -40,18 +41,18 @@ void func_021E57E0(int *r5, int *r6, char *r4)
     a = (int)func_02012EBC((struct Big *)r5[5]);
     func_02012944((void *)r5[5]);
     b = (int)func_0200CA1C((void *)r5[5]);
-    *(int *)r4 = r6[1];
-    *(int *)(r4 + 8) = r5[5];
-    *(int *)(r4 + 4) = (int)func_0200873C((void *)a);
-    *(char *)(r4 + 0xC) = 1;
-    *(char *)(r4 + 0xD) = 1;
-    *(char *)(r4 + 0xE) = func_0201AA18((void *)r6[1]);
-    *(char *)(r4 + 0xF) = 0;
-    *(char *)(r4 + 0x10) = 0;
-    *(char *)(r4 + 0x11) = 0;
-    *(char *)(r4 + 0x12) = 0;
-    *(short *)(r4 + 0x14) = 0;
-    *(int *)(r4 + 0x18) = func_0200CA38((struct Blk37 *)b);
-    *(int *)(r4 + 0x20) = 0;
-    *(int *)(r4 + 0x24) = 0;
+    ((struct Obj01763 *)r4)->f0 = r6[1];
+    ((struct Obj01763 *)r4)->f8 = r5[5];
+    ((struct Obj01763 *)r4)->f4 = (int)func_0200873C((void *)a);
+    ((struct Obj01763 *)r4)->fC = 1;
+    ((struct Obj01763 *)r4)->fD = 1;
+    ((struct Obj01763 *)r4)->fE = func_0201AA18((void *)r6[1]);
+    ((struct Obj01763 *)r4)->fF = 0;
+    ((struct Obj01763 *)r4)->f10 = 0;
+    ((struct Obj01763 *)r4)->f11 = 0;
+    ((struct Obj01763 *)r4)->f12 = 0;
+    ((struct Obj01763 *)r4)->f14 = 0;
+    ((struct Obj01763 *)r4)->f18 = func_0200CA38((struct Blk37 *)b);
+    ((struct Obj01763 *)r4)->f20 = 0;
+    ((struct Obj01763 *)r4)->f24 = 0;
 }

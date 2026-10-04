@@ -13,6 +13,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0202CD64 0x0202CD64 thumb
  */
+#include "../include/Obj03297.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
@@ -25,14 +26,14 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 int func_021FAD24(u8 *p)
 {
-    if (func_0204B98C(*(void **)(p + 8))) return -1;
-    func_0204B3DC(*(void **)(p + 8), 0);
-    func_0204B3DC(*(void **)(p + 12), 0);
-    func_0204B3DC(*(void **)(p + 16), 0);
-    if (*(s16 *)(p + 84) == 3 && *(int *)(p + 76) == 28)
-        func_0202CD64(*(void **)(p + 24), 0, 6, 0, 6);
+    if (func_0204B98C(((struct Obj03297 *)p)->f8)) return -1;
+    func_0204B3DC(((struct Obj03297 *)p)->f8, 0);
+    func_0204B3DC(((struct Obj03297 *)p)->fC, 0);
+    func_0204B3DC(((struct Obj03297 *)p)->f10, 0);
+    if (((struct Obj03297 *)p)->f54 == 3 && ((struct Obj03297 *)p)->f4C == 28)
+        func_0202CD64(((struct Obj03297 *)p)->f18, 0, 6, 0, 6);
     else
-        func_0202CD64(*(void **)(p + 24), 0, 4, 0, 4);
-    *(int *)(p + 72) = 4;
+        func_0202CD64(((struct Obj03297 *)p)->f18, 0, 4, 0, 4);
+    ((struct Obj03297 *)p)->f48 = 4;
     return -1;
 }

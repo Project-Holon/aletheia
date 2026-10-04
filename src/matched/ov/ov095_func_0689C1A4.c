@@ -15,6 +15,7 @@
  *   func_0689C1F4 0x0689C1F4 thumb ov095
  *   func_0689C204 0x0689C204 thumb ov095
  */
+#include "../include/Obj13638.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0689C1D4(void *);
@@ -25,7 +26,7 @@ void func_0689C1A4(void *a, void *b)
 {
     void *r;
     r = func_0689C1E4(a, 0x21, func_0689C1D4(b));
-    *(u8 *)((u32)r + 4) = func_0689C1F4(b);
-    *(u32 *)((u32)r + 8) = 0;
+    ((struct Obj13638 *)((u32)r))->f4 = func_0689C1F4(b);
+    ((struct Obj13638 *)((u32)r))->f8 = 0;
     func_0689C204(a, r);
 }

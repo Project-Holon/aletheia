@@ -12,10 +12,11 @@
  *   func_021DE34C 0x021DE34C thumb ov171
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj08252.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021DE34C(char *,int);
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
-void func_021DE368(char *p) { u32 i; for(i=0;i<16;i++) func_021DE34C(p,i); func_0204B1CC(*(void **)(p+0xb70)); }
+void func_021DE368(char *p) { u32 i; for(i=0;i<16;i++) func_021DE34C(p,i); func_0204B1CC(((struct Obj08252 *)p)->fB70); }

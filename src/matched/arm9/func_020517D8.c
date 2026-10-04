@@ -11,8 +11,9 @@
  *
  * Stores the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16170.h"
 
 void func_020517D8(char *p, int v)
 {
-    *(int *)(p + 0x5c) = v;
+    ((struct Obj16170 *)p)->f5C = v;
 }

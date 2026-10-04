@@ -11,6 +11,8 @@
  * lever: the high-field stores are spelled +33 then +127 for the observed scheduling.
  * symbols:
  */
+#include "../include/Obj02907.h"
+#include "../include/Obj10804.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,12 +24,12 @@ int func_021EF2D4(u8 *a, const u8 *b)
 {
     *(Block16 *)(a+8) = *(Block16 *)(b+24);
     *(Block24 *)(a+156) = *(Block24 *)b;
-    *(u16 *)(a+24) = *(u16 *)(b+44);
-    *(u16 *)(a+26) = *(u16 *)(b+46);
-    *(u32 *)a = ((const Bits50 *)(b+50))->low;
-    *(u32 *)(a+4) = ((const Bits51 *)(b+51))->low;
+    ((struct Obj02907 *)a)->f18 = ((struct Obj10804 *)b)->f2C;
+    ((struct Obj02907 *)a)->f1A = ((struct Obj10804 *)b)->f2E;
+    ((struct Obj02907 *)a)->f0 = ((const Bits50 *)(b+50))->low;
+    ((struct Obj02907 *)a)->f4 = ((const Bits51 *)(b+51))->low;
     a[34] = ((const Bits51 *)(b+51))->mid;
-    *(u16 *)(a+134) = *(u16 *)(b+48);
+    ((struct Obj02907 *)a)->f86 = ((struct Obj10804 *)b)->f30;
     a[33] = ((const Bits50 *)(b+50))->high;
     a[127] = ((const Bits51 *)(b+51))->high;
     return 1;

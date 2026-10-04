@@ -16,6 +16,7 @@
  *   func_021EABA0 0x021EABA0 thumb ov170
  *   func_021EAAE4 0x021EAAE4 thumb ov170
  */
+#include "../include/Obj08243.h"
 typedef unsigned char  u8;
 struct CharBuf;
 struct Descriptor;
@@ -31,9 +32,9 @@ void func_021EAF20(char *p, Entry *e, unsigned i)
     func_02043B5C(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag && e->enabled == 1) {
         if (e->kind == 0) {
-            func_021EABD0(p, i, *(void **)(p + 0x80), 95, 0, 0, *(unsigned *)(p + 0x78), 0x14c0);
+            func_021EABD0(p, i, ((struct Obj08243 *)p)->f80, 95, 0, 0, ((struct Obj08243 *)p)->f78, 0x14c0);
         } else if (e->kind == 1) {
-            func_021EABD0(p, i, *(void **)(p + 0x80), 96, 0, 0, *(unsigned *)(p + 0x78), 0xc80);
+            func_021EABD0(p, i, ((struct Obj08243 *)p)->f80, 96, 0, 0, ((struct Obj08243 *)p)->f78, 0xc80);
         } else {
             func_021EAAE4(p, i); return;
         }

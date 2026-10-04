@@ -8,10 +8,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24481.h"
 typedef unsigned char u8;
 struct Node;
 extern void func_02030EAC(struct Node *);
 void func_021B6188(u8 *p)
 {
-    func_02030EAC(*(struct Node **)(p + 4));
+    func_02030EAC(*(struct Node * *)&((struct Obj24481 *)p)->f4);
 }

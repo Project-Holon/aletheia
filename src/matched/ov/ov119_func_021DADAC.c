@@ -19,6 +19,7 @@
  *   func_02039C68  0x02039C68  arm
  *   func_02045CAC  0x02045CAC  arm
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -41,8 +42,8 @@ void func_021DADAC(void *p)
     u8 b = 3;
 
     if (func_021D8A24(p) == 0) {
-        func_02045CAC((struct MsgBank *)(*(int *)((char *)p + 0x720)), 0x61,
-                      (void *)(*(int *)((char *)p + 0x738)));
+        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720), 0x61,
+                      (void *)(*(int *)&((struct Obj00001 *)p)->f738));
         func_021E1024(p);
         func_021D8E84(p, 0x021DAEF1);
         return;
@@ -50,7 +51,7 @@ void func_021DADAC(void *p)
     if (func_0203D3A8(func_020399A8(), 0xc00, 1, (u32)(&b)) == 0)
         return;
     func_02039C68((struct Link *)func_020399A8(), 0x1b, 8);
-    func_02045CAC((struct MsgBank *)(*(int *)((char *)p + 0x720)), 6, (void *)(*(int *)((char *)p + 0x738)));
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720), 6, (void *)(*(int *)&((struct Obj00001 *)p)->f738));
     func_021E1024(p);
     func_021E1030(p);
     func_021D8E84(p, 0x021DAD85);

@@ -10,13 +10,14 @@
  * symbols:
 
  */
+#include "../include/Obj06440.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 
 void func_021D6FF8(u8 *p, int state)
 {
-    *(int *)(p + 0x108) = state;
-    if (state == 2) *(u32 *)(p + 0x10c) = *(u32 *)(p + 0x104) + 48;
-    else if (state == 1) *(u32 *)(p + 0x10c) = *(u32 *)(p + 0x104) - 48;
+    ((struct Obj06440 *)p)->f108 = state;
+    if (state == 2) ((struct Obj06440 *)p)->f10C = ((struct Obj06440 *)p)->f104 + 48;
+    else if (state == 1) ((struct Obj06440 *)p)->f10C = ((struct Obj06440 *)p)->f104 - 48;
 }

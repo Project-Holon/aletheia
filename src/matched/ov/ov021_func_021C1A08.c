@@ -15,6 +15,7 @@
  *   d_021DE3C8     0x021DE3C8  data  ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12917.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ u32 *func_021C1A08(u32 a)
     u32 *r;
 
     r = func_02030734(a, 0x10, 1, (const char *)&d_021DE3C8, 0x2e);
-    *(u16 *)((u8 *)r + 4) = a;
+    ((struct Obj12917 *)r)->f4 = a;
     func_02050B80(a);
     r[2] = (u32)func_02030734(a, 0x4800, 1, (const char *)&d_021DE3C8, 0x34);
     return r;

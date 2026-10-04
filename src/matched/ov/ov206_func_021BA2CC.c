@@ -21,6 +21,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00173.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021BA814(void *);
@@ -42,21 +43,21 @@ void func_021BA2CC(char *p)
 {
     u8 i;
     func_021BA814(p);
-    *(int *)(p+68)=0;
+    ((struct Obj00173 *)p)->f44=0;
     for(i=0;i<2;i++) func_021BB160(p,i);
-    if(*(int *)(p+24)==2) func_021BA4CC(p);
+    if(((struct Obj00173 *)p)->f18==2) func_021BA4CC(p);
     func_021BBA7C(p);
     func_021BB480(p);
-    func_02030EAC(*(void **)(p+80));
+    func_02030EAC(((struct Obj00173 *)p)->f50);
     func_021BB0E4(p);
-    if(*(int *)(p+64)!=0) {
-        func_0203FB44(*(u8 *)(p+78),(u16)*(unsigned *)(p+60),(u16)(*(unsigned *)(p+60)>>16));
-        *(int *)(p+64)=0;
+    if(((struct Obj00173 *)p)->f40!=0) {
+        func_0203FB44(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f3C,(u16)(((struct Obj00173 *)p)->f3C>>16));
+        ((struct Obj00173 *)p)->f40=0;
     }
-    func_0203FB44(*(u8 *)(p+78),(u16)*(unsigned *)(p+52),(u16)(*(unsigned *)(p+52)>>16));
-    func_0203FB44(*(u8 *)(p+77),(u16)*(unsigned *)(p+48),(u16)(*(unsigned *)(p+48)>>16));
+    func_0203FB44(((struct Obj00173 *)p)->f4E,(u16)((struct Obj00173 *)p)->f34,(u16)(((struct Obj00173 *)p)->f34>>16));
+    func_0203FB44(((struct Obj00173 *)p)->f4D,(u16)((struct Obj00173 *)p)->f30,(u16)(((struct Obj00173 *)p)->f30>>16));
     func_021BC008(p);
-    func_0201C6EC(*(void **)(p+44));
-    func_0201C4C0(*(void **)(p+44));
+    func_0201C6EC(((struct Obj00173 *)p)->f2C);
+    func_0201C4C0(((struct Obj00173 *)p)->f2C);
     func_020307B0(p);
 }

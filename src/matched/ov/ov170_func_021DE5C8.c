@@ -11,6 +11,8 @@
  *
  * symbols:
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23846.h"
 
 typedef struct {
     unsigned short id;
@@ -22,7 +24,7 @@ typedef struct {
 
 int func_021DE5C8(char *p, unsigned id)
 {
-    Entry *e = *(Entry **)(*(char **)(p + 0x2C) + 0x60);
+    Entry *e = *(Entry * *)&((struct Obj23846 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
     unsigned i;
     for (i = 0; i < 7; i++) {
         if (e[i].used != 0 && id == e[i].id)

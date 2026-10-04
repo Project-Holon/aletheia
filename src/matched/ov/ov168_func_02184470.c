@@ -12,15 +12,16 @@
  * symbols:
  *   func_0208B500  0x0208B500  arm
  */
+#include "../include/Obj10643.h"
 
 extern void func_0208B500(int *);
 
 void func_02184470(int *p)
 {
-    if (*(int *)((char *)p + 0x30) == 0) {
+    if (((struct Obj10643 *)p)->f30 == 0) {
         func_0208B500(p);
-        *(int *)((char *)p + 0x28) = 1;
+        ((struct Obj10643 *)p)->f28 = 1;
     } else {
-        *(int *)((char *)p + 0x2c) = 1;
+        ((struct Obj10643 *)p)->f2C = 1;
     }
 }

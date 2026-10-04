@@ -19,6 +19,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DAC60 0x021DAC60 thumb ov119
  */
+#include "../include/Obj04477.h"
 typedef unsigned short u16;
 extern u16 func_02039338(void);
 extern void func_021E36D8(void *,int);
@@ -29,9 +30,9 @@ extern void func_02082BCC(void *,int,int),func_0204B3DC(struct Obj *,unsigned in
 extern void func_021D8E84(void *,int),func_021DAC60(void *);
 void func_021DACE4(char *p) {
  int i;
- func_02039338();*(int *)(p+0xf88)=-1;*(int *)(p+0xf84)=-1;*(int *)(p+0x800)=0;*(int *)(p+0xf60)=0;*(int *)(p+0x1060)=0;
+ func_02039338();((struct Obj04477 *)p)->fF88=-1;((struct Obj04477 *)p)->fF84=-1;((struct Obj04477 *)p)->f800=0;((struct Obj04477 *)p)->fF60=0;((struct Obj04477 *)p)->f1060=0;
  func_021E36D8(p,0);func_021E36D8(p,1);if(func_021D8AA8(p))func_021DD1B8(p);
- func_02082BCC(*(void **)(p+0x5dc),0,func_020173EC());func_02082BCC(*(void **)(p+0x5e0),0,func_020173EC());
+ func_02082BCC(((struct Obj04477 *)p)->f5DC,0,func_020173EC());func_02082BCC(((struct Obj04477 *)p)->f5E0,0,func_020173EC());
  for(i=0;i<10;i++) {if(*(int *)(p+0xefc+4*i))func_0204B3DC((struct Obj *)*(int *)(p+0xefc+4*i),1);}
  func_021E1098(p);func_021D8E84(p,(int)func_021DAC60);
 }

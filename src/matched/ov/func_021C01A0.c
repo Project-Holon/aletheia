@@ -17,6 +17,7 @@
  * Re-arms the block 0x274 bytes in, then runs the setup and stamps selector
  * 0x21 when the guard answers true; returns the selector.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ int func_021C01A0(char *p, int v)
 
     if (func_021BA928(p) != 0) {
         func_021BA828(p);
-        *(u32 *)(p + 0x1CC) = 0x21;
+        *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x21;
     }
 
     return v;

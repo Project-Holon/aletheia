@@ -20,6 +20,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00595.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned long u32;
@@ -34,29 +35,29 @@ void func_021FF248(char *p)
     int direction;
     int position;
     float value;
-    *(int *)(p+0x28)=(*(int *)(p+0x28)+1)%2;
-    if(*(int *)(p+0x28)!=0)return;
-    switch(*(int *)(p+0x1C)){
+    ((struct Obj00595 *)p)->f28=(((struct Obj00595 *)p)->f28+1)%2;
+    if(((struct Obj00595 *)p)->f28!=0)return;
+    switch(((struct Obj00595 *)p)->f1C){
     case 0:
-        func_0204B3DC(*(void **)(p+4),1);
-        func_0204B49C(*(void **)(p+4),*(s16 *)(p+0x3C),*(u32 *)(p+0x44),0);
-        if(*(s16 *)(p+0x3C)>0)value=0.5f+(float)(*(s16 *)(p+0x3C)<<12);
-        else value=(float)(*(s16 *)(p+0x3C)<<12)-0.5f;
-        *(int *)(p+0x10)=(int)value;
-        *(int *)(p+0x20)=*(s16 *)(p+0x40);
-        *(int *)(p+0x1C)=1;
+        func_0204B3DC(((struct Obj00595 *)p)->f4,1);
+        func_0204B49C(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f3C,((struct Obj00595 *)p)->f44,0);
+        if(((struct Obj00595 *)p)->f3C>0)value=0.5f+(float)(((struct Obj00595 *)p)->f3C<<12);
+        else value=(float)(((struct Obj00595 *)p)->f3C<<12)-0.5f;
+        ((struct Obj00595 *)p)->f10=(int)value;
+        ((struct Obj00595 *)p)->f20=((struct Obj00595 *)p)->f40;
+        ((struct Obj00595 *)p)->f1C=1;
         break;
     case 1:
         direction=-1;
-        if(*(int *)(p+0x48)!=0)direction=1;
-        position=*(int *)(p+0x10)+-(signed char)direction*(func_0203F684(*(int *)(p+0x20)*65535/360)*3);
-        *(int *)(p+0x20)+=*(s16 *)(p+0x42);
-        *(int *)(p+0x20)%=360;
-        func_0204B49C(*(void **)(p+4),position>>12,*(u32 *)(p+0x44),0);
+        if(((struct Obj00595 *)p)->f48!=0)direction=1;
+        position=((struct Obj00595 *)p)->f10+-(signed char)direction*(func_0203F684(((struct Obj00595 *)p)->f20*65535/360)*3);
+        ((struct Obj00595 *)p)->f20+=((struct Obj00595 *)p)->f42;
+        ((struct Obj00595 *)p)->f20%=360;
+        func_0204B49C(((struct Obj00595 *)p)->f4,position>>12,((struct Obj00595 *)p)->f44,0);
         break;
     }
-    if(*(int *)(p+0x14)>410){
-        *(int *)(p+0x14)-=410;
-        func_0204B5D4(*(void **)(p+4),*(int *)(p+0x14),0);
+    if(((struct Obj00595 *)p)->f14>410){
+        ((struct Obj00595 *)p)->f14-=410;
+        func_0204B5D4(((struct Obj00595 *)p)->f4,((struct Obj00595 *)p)->f14,0);
     }
 }

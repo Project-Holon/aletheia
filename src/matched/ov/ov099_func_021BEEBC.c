@@ -36,6 +36,7 @@
  *   func_02049238 0x02049238 arm
  *   func_0202208C 0x0202208C thumb
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -78,30 +79,30 @@ void func_021BEEBC(char *p)
     func_021C19A8(p);
     func_021C0290(p);
     func_02082BCC(p+0x30,0,32);
-    if(*(void **)(p+0xb0)){
-        func_020452E8(*(void **)(p+0x1a0));
-        func_0202020C(*(void **)(p+0xb4),0,0);
-        *(void **)(p+0xb4)=0;
-        func_0201F868(*(void **)(p+0xb0));
-        *(void **)(p+0xb0)=0;
+    if(((struct Obj00008 *)p)->fB0){
+        func_020452E8(((struct Obj00008 *)p)->f1A0);
+        func_0202020C(((struct Obj00008 *)p)->fB4,0,0);
+        ((struct Obj00008 *)p)->fB4=0;
+        func_0201F868(((struct Obj00008 *)p)->fB0);
+        ((struct Obj00008 *)p)->fB0=0;
     }
     if(!func_021B96CC(p+0x274)){
-        enabled=func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(p+0xc4)));
+        enabled=func_02008550((const struct Sub0200852CObj *)func_02012944(((struct Obj00008 *)p)->fC4));
         kind=16;
         if(enabled)kind=17;
-        *(u16 *)(p+0x132a)=func_02009A54(*(void **)(p+4));
-        func_021B95A0(p+0x274,33,h,kind,*(u16 *)(p+0x132a),33,*(void **)(p+0x110),*(void **)(p+0x114));
+        ((struct Obj00008 *)p)->f132A=func_02009A54(((struct Obj00008 *)p)->f4);
+        func_021B95A0(p+0x274,33,h,kind,((struct Obj00008 *)p)->f132A,33,((struct Obj00008 *)p)->f110,((struct Obj00008 *)p)->f114);
         func_021BE21C(p,func_021B9900(p+0x274,kind));
     }
     if(!func_021C1A44(p))func_021C1A58(p,(int)h,33);
-    func_021C282C(*(void **)(p+8));
-    *(u8 *)(p+0x1351)=0;
+    func_021C282C(((struct Obj00008 *)p)->f8);
+    ((struct Obj00008 *)p)->f1351=0;
     func_021C205C(p,33);
     func_021BA8EC(p);
     func_021BE788(p);
     func_021BEDA0(p);
     func_021BDD0C(p,0);
-    *(int *)(p+0x1f0)=-1;
+    ((struct Obj00008 *)p)->f1F0=-1;
     func_02049238(h);
     func_0202208C(0,1,1,0,6,1,33);
 }

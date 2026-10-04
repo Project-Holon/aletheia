@@ -19,6 +19,7 @@
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07491.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,13 +39,13 @@ void func_021A1AAC(u8 *p)
 {
     int i;
 
-    func_02030EAC((struct Node *)(*(u32 *)(p + 0x2c)));
+    func_02030EAC((struct Node *)(((struct Obj07491 *)p)->f2C));
     for (i = 0; i < 2; i++) {
         func_021A1DF8((u8 *)(*(u32 *)(p + 0x20 + i * 4)));
     }
     func_021A1C04(p);
-    func_0204B084(*(u32 *)(p + 0x1c));
-    func_0204B1CC((struct Bank *)(*(u32 *)(p + 0x18)));
+    func_0204B084(((struct Obj07491 *)p)->f1C);
+    func_0204B1CC((struct Bank *)(((struct Obj07491 *)p)->f18));
     for (i = 0; i < 2; i++) {
         func_021A15D4(((u32 *)p)[i]);
     }

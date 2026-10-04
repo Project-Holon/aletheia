@@ -14,6 +14,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj03817.h"
 typedef unsigned char u8;
 struct CharBuf;
 struct Descriptor;
@@ -26,14 +27,14 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
 void func_021F94B0(u8 *p)
 {
-    if (*(void **)(p + 0xd8)) {
-        func_0201CE48(*(void **)(p + 0xd8));
-        *(void **)(p + 0xd8) = 0;
+    if (((struct Obj03817 *)p)->fD8) {
+        func_0201CE48(((struct Obj03817 *)p)->fD8);
+        ((struct Obj03817 *)p)->fD8 = 0;
     }
-    if (*(void **)(p + 0xe0)) {
-        func_02045808(*(void **)(p + 0xe0));
-        *(void **)(p + 0xe0) = 0;
+    if (((struct Obj03817 *)p)->fE0) {
+        func_02045808(((struct Obj03817 *)p)->fE0);
+        ((struct Obj03817 *)p)->fE0 = 0;
     }
-    func_02043B5C(func_02045770(*(void **)(p + 0xd0)), 0);
-    func_02045334(*(void **)(p + 0xd0));
+    func_02043B5C(func_02045770(((struct Obj03817 *)p)->fD0), 0);
+    func_02045334(((struct Obj03817 *)p)->fD0);
 }

@@ -25,6 +25,7 @@
  *   func_021B9804  0x021B9804  thumb ov091
  *   func_021BA454  0x021BA454  thumb ov091
  */
+#include "../include/Obj13245.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,7 +57,7 @@ void func_021BA3A4(u8 *p, u32 state)
     if (state == 14) {
         r = func_02009020((void *)((u32 *)W(0x280))[2], 0);
         if (r >= 0) {
-            buf = func_02008F08(*(u16 *)p);
+            buf = func_02008F08(((struct Obj13245 *)p)->f0);
             func_02017E1C((void *)W(0x38), 0xa7, (u32)buf);
             func_0200903C((void *)((u32 *)W(0x280))[2], 0, r, buf);
             func_020307B0(buf);

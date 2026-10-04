@@ -13,6 +13,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj00001.h"
 typedef signed short s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -29,8 +30,8 @@ extern void func_02045C04(struct Rec *rec);
 void func_021E1A44(int a,int b,int x,int y,char *p)
 {
     int s;
-    s=(int)func_02045B38(0,2,24,*(u16 *)(p+0x5f4));
-    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(*(int *)(p+0x730)));
-    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
+    s=(int)func_02045B38(0,2,24,((struct Obj00001 *)p)->f5F4);
+    func_02045CAC((struct MsgBank *)s,func_02018598((void *)a),(void *)(*(int *)&((struct Obj00001 *)p)->f730));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
     func_02045C04((struct Rec *)s);
 }

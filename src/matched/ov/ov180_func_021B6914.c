@@ -14,6 +14,7 @@
  *   func_02048AC4  0x02048AC4  arm
  *   func_02014BA8  0x02014BA8  thumb
  */
+#include "../include/Obj04569.h"
 
 extern void func_021B6984(int *);
 typedef unsigned char  u8;
@@ -23,6 +24,6 @@ extern void func_02014BA8(u8 *a0);
 void func_021B6914(int *p)
 {
     func_021B6984(p);
-    func_02048AC4((void *)(*(int *)((char *)p + 0x20)));
-    func_02014BA8((u8 *)(*(int *)((char *)p + 0x18)));
+    func_02048AC4((void *)(((struct Obj04569 *)p)->f20));
+    func_02014BA8((u8 *)(((struct Obj04569 *)p)->f18));
 }

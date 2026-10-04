@@ -17,6 +17,7 @@
  *   func_021B3CFC  0x021B3CFC  thumb  ov021
  *   func_021B3DEC  0x021B3DEC  thumb  ov021
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,10 +33,10 @@ extern void func_021B3DEC(u8 *);
 
 void func_021B3F00(u8 *w)
 {
-    *(u32 *)(w + 0x1BC) = (u32)func_0204B100(5, 1, *(u16 *)(w + 4));
-    func_0204B22C((struct Bank *)(*(u32 *)(w + 0x1BC)), 1);
+    ((struct Obj00037 *)w)->f1BC = (u32)func_0204B100(5, 1, ((struct Obj00037 *)w)->f4);
+    func_0204B22C((struct Bank *)(((struct Obj00037 *)w)->f1BC), 1);
     func_021B3C78(w);
-    *(void **)(w + 0x1F8) = func_020490F4(0x19, *(u16 *)(w + 4));
+    ((struct Obj00037 *)w)->f1F8 = func_020490F4(0x19, ((struct Obj00037 *)w)->f4);
     func_021B3CFC(w);
     func_021B3DEC(w);
 }

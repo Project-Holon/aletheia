@@ -19,6 +19,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj13956.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,7 +42,7 @@ void func_021DB938(char *p,int a,u16 index)
     int y,x,tile;
     int yy;
     rect=d_021DF86E[index];
-    if((a && *(int *)(p+0xad0)==0) || (a==0 && *(int *)(p+0xad0))) {
+    if((a && ((struct Obj13956 *)p)->fAD0==0) || (a==0 && ((struct Obj13956 *)p)->fAD0)) {
         index+=4;
         rect.b[0]+=32;
         rect.b[2]+=32;

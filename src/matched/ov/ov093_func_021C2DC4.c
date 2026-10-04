@@ -15,6 +15,7 @@
  *   func_021C2E3C  0x021C2E3C  thumb  ov093
  *   func_021C2E64  0x021C2E64  thumb  ov093
  */
+#include "../include/Obj21085.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,7 +32,7 @@ void func_021C2DC4(u8 *p, u32 a, u32 b, u32 c)
     func_021C2E1C(c);
     for (t = func_021C2E2C(c); t != 0; t = func_021C2E3C(c)) {
         if (func_021C2E64(p, (const u16 *)a, (u8 *)b, (u8 *)t, 1) != 0) {
-            BF *f = *(BF **)(p + 0x4A8);
+            BF *f = *(BF * *)&((struct Obj21085 *)p)->f4A8;
             if (!f->f)
                 f->f = 1;
         }

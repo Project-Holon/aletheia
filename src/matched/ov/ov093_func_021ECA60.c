@@ -29,6 +29,8 @@
  *   func_021F7EE8 0x021F7EE8 thumb ov094
  *   func_021EDA04 0x021EDA04 thumb ov093
  */
+#include "../include/Obj00027.h"
+#include "../include/Obj01523.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -78,16 +80,16 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
         if (!func_021F7EB4() && !func_021F827C(0)) {
             b[10] = 2;
             b[11] = 4;
-            b[15] = func_021B8FF4(*(u8 **)(p + 0x134));
-            side = func_021B8FE4(*(u8 **)(p + 0x134)) ^ 1;
+            b[15] = func_021B8FF4(*(u8 * *)&((struct Obj00027 *)p)->f134);
+            side = func_021B8FE4(*(u8 * *)&((struct Obj00027 *)p)->f134) ^ 1;
             for (i = 0; i < 2U; i++) {
-                b[8 + i] = func_021B8ED8(*(u8 **)(p + 0x134), b[10 + i]);
-                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const **)(p + 0x138), b[8 + i]);
+                b[8 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[10 + i]);
+                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[8 + i]);
                 b[12 + i] = func_021D5440(((u8 **)b)[i]);
             }
-            msg = func_021B9F70(*(void **)(p + 0x134), c) ? 14 : 17;
-            func_021EEE24(*(u32 *)(p + 0x34), msg, 2, c, (b + side)[12]);
-            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            msg = func_021B9F70(((struct Obj00027 *)p)->f134, c) ? 14 : 17;
+            func_021EEE24(((struct Obj00027 *)p)->f34, msg, 2, c, (b + side)[12]);
+            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;
@@ -100,12 +102,12 @@ int func_021ECA60(u8 *p, int *state, u32 a, u8 c)
         break;
     case 4:
         if (func_021ED814(p + 0x154)) {
-            winner = func_021B8FE4(*(u8 **)(p + 0x134));
+            winner = func_021B8FE4(*(u8 * *)&((struct Obj00027 *)p)->f134);
             func_021F7EE8(func_021D5864(*(void **)b), b[10]);
-            func_021F7EE8(func_021D5864(*(void **)(b + 4)), b[11]);
+            func_021F7EE8(func_021D5864(((struct Obj01523 *)b)->f4), b[11]);
             func_021F7998(0x234);
-            func_021EEE24(*(u32 *)(p + 0x34), 11, 1, (b + winner)[12]);
-            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            func_021EEE24(((struct Obj00027 *)p)->f34, 11, 1, (b + winner)[12]);
+            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;

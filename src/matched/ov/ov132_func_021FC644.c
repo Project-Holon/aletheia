@@ -11,6 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   d_021FDE5C 0x021FDE5C data a4
  */
+#include "../include/Obj05406.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ctx;
@@ -23,11 +24,11 @@ void func_021FC644(int a, void *b, void *c, int d)
 {
     char *p;
     p = func_02030734(4, 0x1ac, 1, d_021FDE5C, 0x14c);
-    *(int *)(p + 0xc) = d;
-    *(void **)(p + 0x54) = b;
-    *(void **)(p + 0x58) = func_020120F4(b);
-    *(void **)(p + 0x50) = c;
-    *(int *)(p + 4) = 0;
-    *(int *)(p + 8) = 0;
+    ((struct Obj05406 *)p)->fC = d;
+    ((struct Obj05406 *)p)->f54 = b;
+    ((struct Obj05406 *)p)->f58 = func_020120F4(b);
+    ((struct Obj05406 *)p)->f50 = c;
+    ((struct Obj05406 *)p)->f4 = 0;
+    ((struct Obj05406 *)p)->f8 = 0;
     func_020263D8(c, 4, (u32)p);
 }

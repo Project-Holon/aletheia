@@ -19,6 +19,7 @@
  *   func_0204E804  0x0204E804  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03671.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -42,20 +43,20 @@ int func_021F5748(void *task, int *st)
     w = (u8 *)func_021CF560((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(func_020124E4(task)))));
     switch (*st) {
     case 0:
-        if (*(int *)(w + 0x19D8) != 0) {
-            (*(int *)(w + 0x19D8))--;
-        } else if (*(int *)(w + 0x19DC) == 0) {
-            func_0204E720(*(int *)(w + 0x19D4), 0, 0x10, 0);
-            *(int *)(w + 0x19DC) = 1;
+        if (((struct Obj03671 *)w)->f19D8 != 0) {
+            (((struct Obj03671 *)w)->f19D8)--;
+        } else if (((struct Obj03671 *)w)->f19DC == 0) {
+            func_0204E720(((struct Obj03671 *)w)->f19D4, 0, 0x10, 0);
+            ((struct Obj03671 *)w)->f19DC = 1;
         }
         if (func_021F5950(w) != 0) {
-            *(s16 *)(w + 0x19C8) = 6;
+            ((struct Obj03671 *)w)->f19C8 = 6;
             (*st)++;
         }
         break;
     case 1:
-        if (*(s16 *)(w + 0x19C8) != 0) {
-            (*(s16 *)(w + 0x19C8))--;
+        if (((struct Obj03671 *)w)->f19C8 != 0) {
+            (((struct Obj03671 *)w)->f19C8)--;
         } else if (func_0204E804() == 0) {
             return 1;
         }

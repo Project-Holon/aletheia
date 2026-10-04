@@ -25,6 +25,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj03744.h"
 typedef unsigned char u8;
 struct PrintSys;
 struct Rec;
@@ -50,12 +51,12 @@ int func_021B7798(void *a,int b,int *state,u8 *p)
 {
  int i;
  for(i=0;i<4;i++)func_021B9360(*(void **)(p+0x62C+i*4));
- func_0204ADA4((u32)(*(void **)(p+0x644)));
- func_021B71C0(*(void **)(p+0x614));
+ func_0204ADA4((u32)(((struct Obj03744 *)p)->f644));
+ func_021B71C0(((struct Obj03744 *)p)->f614);
  func_021B8304(p+0x38);
  func_021B8FC4(p+0x600); func_021B8D9C(p+0x5D4);func_021B78AC(p+0x28);
- func_02025588(*(void **)(p+0x624));func_021B807C(p);func_021B8D5C(*(void **)(p+0x63C));
- func_02045C04(*(void **)(p+0x620));func_0201D83C(*(void **)(p+0x618));func_0201C4C0(*(void **)(p+0x61C));
- if(*state==0)func_02012704(*(void **)(p+0x628));
+ func_02025588(((struct Obj03744 *)p)->f624);func_021B807C(p);func_021B8D5C(((struct Obj03744 *)p)->f63C);
+ func_02045C04(((struct Obj03744 *)p)->f620);func_0201D83C(((struct Obj03744 *)p)->f618);func_0201C4C0(((struct Obj03744 *)p)->f61C);
+ if(*state==0)func_02012704(((struct Obj03744 *)p)->f628);
  func_020315D4(a);func_020306F0(67);return 1;
 }

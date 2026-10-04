@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14739.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern void func_021C0FF8(u8 *p, int visible);
 void func_021BF38C(char *p)
 {
     if (func_021BF810(p) == 0) {
-        func_021C0FF8((u8 *)(*(u32 *)(p + 0x360)), 1);
+        func_021C0FF8((u8 *)(((struct Obj14739 *)p)->f360), 1);
     } else {
-        func_021C0FF8((u8 *)(*(u32 *)(p + 0x360)), 0);
+        func_021C0FF8((u8 *)(((struct Obj14739 *)p)->f360), 0);
     }
 }

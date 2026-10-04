@@ -27,6 +27,8 @@
  *   func_0202208C 0x0202208C thumb
  *   func_020221A4 0x020221A4 thumb
  */
+#include "../include/Obj00773.h"
+#include "../include/Obj10491.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,7 +54,7 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
 {
     switch(q[8]) {
     case 0:
-        *(u16 *)(p+14)=0; *(u16 *)p=0;
+        ((struct Obj00773 *)p)->fE=0; ((struct Obj00773 *)p)->f0=0;
     case 1:
         func_021C9238(p,q,r,heap);
         func_021C97A0(p,q,r,heap);
@@ -65,31 +67,31 @@ int func_021C9244(u8 *p,u8 *q,u8 *r,u16 heap)
         q[8]=4; break;
     case 4: if(func_021C95CC(p,q,r,heap)==1)q[8]=5; break;
     case 5:
-        if(func_0201C6B4(*(void **)(r+0x34))==1) {
+        if(func_0201C6B4(((struct Obj10491 *)r)->f34)==1) {
             func_02041EE4(2,0,0);func_02041EE4(3,0,0);q[8]=2;
         } break;
     case 6:
-        if(*(u16 *)(p+14)) {
-            --*(u16 *)(p+12);
-            if(*(u16 *)(p+12))break;
+        if(((struct Obj00773 *)p)->fE) {
+            --((struct Obj00773 *)p)->fC;
+            if(((struct Obj00773 *)p)->fC)break;
         }
-        if(func_021C9D0C(q,*(int *)(p+8))) {
+        if(func_021C9D0C(q,((struct Obj00773 *)p)->f8)) {
             func_020061E4(0x548);
             func_021C98EC(p,r);
             func_021C6438(q,4,1);
-            *(u16 *)(p+14)=1;
+            ((struct Obj00773 *)p)->fE=1;
             func_021C9730(p,q,r);
             return 1;
         } else q[8]=2;
         break;
     case 7:
-        if(func_0204B98C(*(void **)(r+0x164))!=1) {
+        if(func_0204B98C(((struct Obj10491 *)r)->f164)!=1) {
             func_021C987C(p,r);
             func_021C6438(q,1,11);
             func_021C9730(p,q,r);
             return 1;
         } break;
-    case 8: if(func_0204B98C(*(void **)(r+0x168))!=1)q[8]=9; break;
+    case 8: if(func_0204B98C(((struct Obj10491 *)r)->f168)!=1)q[8]=9; break;
     case 9: func_0202208C(0,0,0,0,6,1,heap);q[8]=10;break;
     case 10: if(func_020221A4()) {
         func_021C6438(q,6,0);func_021C9730(p,q,r);return 1;

@@ -19,6 +19,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj01756.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed int     s32;
@@ -45,9 +46,9 @@ void func_021DE144(char *p)
     for (i = 0; i < 13; ++i)
         *(int *)(p + 0xc1c + i * 4) = -1;
     s = func_020490F4(func_020275E4(), 0x808c);
-    *(int *)(p + 0xbe4) = func_0204A6C8(s, func_02027618(), 0, 0, 0x8c);
-    *(int *)(p + 0xc18) = func_0204ABF0(s, func_02027614(), 0, 0x180, 0x8c);
+    ((struct Obj01756 *)p)->fBE4 = func_0204A6C8(s, func_02027618(), 0, 0, 0x8c);
+    *(int *)&((struct Obj01756 *)p)->fC18 = func_0204ABF0(s, func_02027614(), 0, 0x180, 0x8c);
     a = func_0202761C(2);
-    *(int *)(p + 0xc4c) = func_0204AF28(s, a, func_02027620(2), 0x8c);
+    ((struct Obj01756 *)p)->fC4C = func_0204AF28(s, a, func_02027620(2), 0x8c);
     func_02049238(s);
 }

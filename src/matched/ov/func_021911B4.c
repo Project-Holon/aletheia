@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17934.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef unsigned int   u32;
 
 u32 func_021911B4(u8 *p)
 {
-    return *(u32*)p;
+    return ((struct Obj17934 *)p)->f0;
 }

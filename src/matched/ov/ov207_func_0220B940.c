@@ -10,7 +10,8 @@
  * status: EXACT
  * Extra: ARM9-free blocker getter for assigned 0220B0A4; ownership and SDK checks clear.
  */
+#include "../include/Obj25413.h"
 int func_0220B940(char *p)
 {
-    return *(int *)(p + 0x40);
+    return ((struct Obj25413 *)p)->f40;
 }

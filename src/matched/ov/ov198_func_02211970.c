@@ -12,6 +12,7 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25286.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ extern void func_020061E4(u32);
 
 void func_02211970(u8 **p, u32 b)
 {
-    if (*(u32 *)(*p + 0x40) == 1) {
+    if (((struct Obj25286 *)(*p))->f40 == 1) {
         func_020061E4(b);
     }
 }

@@ -14,6 +14,7 @@
  *   func_021B6B70  0x021B6B70  thumb  ov071
  *   d_021BA978     0x021BA978  data  a4
  */
+#include "../include/Obj20722.h"
 
 extern unsigned d_021BA978[];
 
@@ -24,7 +25,7 @@ void func_021B82A4(int *a, char *p)
     unsigned i;
 
     func_021B6C7C(a, 3);
-    for (i = 0; i < d_021BA978[*(unsigned char *)(p + 0x32)]; i++) {
+    for (i = 0; i < d_021BA978[((struct Obj20722 *)p)->f32]; i++) {
         func_021B6B70(a[1], p + i * 16);
     }
 }

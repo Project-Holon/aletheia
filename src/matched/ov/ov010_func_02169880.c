@@ -13,6 +13,7 @@
  *
  * symbols:
  */
+#include "../include/Obj12387.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ void func_02169880(u8 *p)
     int i;
     E *e;
 
-    for (i = 0; i < *(u16 *)(p + 0xa4); i++) {
+    for (i = 0; i < ((struct Obj12387 *)p)->fA4; i++) {
         (*(E **)(p + 0x9c))[i].a = -1;
         e = &(*(E **)(p + 0x9c))[i];
         e->b = 0;
@@ -39,7 +40,7 @@ void func_02169880(u8 *p)
         e->d = 0;
         (*(E **)(p + 0x9c))[i].e = 0;
     }
-    for (i = 0; i < *(u16 *)(p + 0xa6); i++) {
+    for (i = 0; i < ((struct Obj12387 *)p)->fA6; i++) {
         (*(E **)(p + 0xa0))[i].a = -1;
         e = &(*(E **)(p + 0xa0))[i];
         e->b = 0;

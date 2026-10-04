@@ -21,6 +21,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01438.h"
+#include "../include/Obj10952.h"
+#include "../include/Obj25801.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,18 +45,18 @@ extern u32 func_021B9920();
 extern void func_021B9A24(u32 heap);
 u32 func_021B95A0(u32 a0, u32 a1, u8 *a2, u32 a3)
 {
-    switch (*(u32*)(((u8*)a1))) {
+    switch (((struct Obj10952 *)((u8*)a1))->f0) {
     case 0:
     func_0203159C((struct Obj0203159C *)a0, 32, 1);
-    *(u32*)(((u8*)a1)) = (u32)(*(u32*)(((u8*)a1)) + 1);
+    ((struct Obj10952 *)((u8*)a1))->f0 = (u32)(((struct Obj10952 *)((u8*)a1))->f0 + 1);
     break;
     case 1:
-    func_021B985C((void *)a3, *(u32*)(((u8*)a2)));
+    func_021B985C((void *)a3, ((struct Obj25801 *)((u8*)a2))->f0);
     func_020433E0((const struct DispVram *)0x21C2EA0);
     func_0204363C(0);
-    func_021B98B8(*(u16*)(((u8*)a3)));
-    func_021B9A24(*(u16*)(((u8*)a3)));
-    func_021B9920(*(u16*)(((u8*)a3)));
+    func_021B98B8(((struct Obj01438 *)((u8*)a3))->f0);
+    func_021B9A24(((struct Obj01438 *)((u8*)a3))->f0);
+    func_021B9920(((struct Obj01438 *)((u8*)a3))->f0);
     func_021B9874(a3);
     func_021B9894(a3);
     return 1;

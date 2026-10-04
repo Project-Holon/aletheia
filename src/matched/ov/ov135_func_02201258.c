@@ -18,6 +18,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_0217BC44 0x0217BC44 arm ov009
  */
+#include "../include/Obj06520.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,18 +41,18 @@ int func_02201258(u8 *p)
     s=func_020457B0(8,0x48);
     func_02045994((struct Strbuf *)s,(u16 *)(p+0x1F4),8);
     func_02082BCC(p+0x1300,0,0x28);
-    *(u16 *)(p+0x1324)=0x48;
+    ((struct Obj06520 *)p)->f1324=0x48;
     text=func_02045A90(s);
     for(i=0;i<func_020458F8(s)+1;i++) {
         c=*(u16 *)((u32)text+i*2);
         if(c==func_02045A98()) *(u16 *)((u32)p+i*2+0x1300)=0;
         else *(u16 *)((u32)p+i*2+0x1300)=c;
     }
-    *(u32 *)(p+0x1318)=(u32)(p+0x1300);
-    *(u32 *)(p+0x1320)=0;
+    ((struct Obj06520 *)p)->f1318=(u32)(p+0x1300);
+    ((struct Obj06520 *)p)->f1320=0;
     func_0217BC44(p+0x1318,1,0,0,p+0x131C,p+0x1320,0x80);
     func_02045808(s);
-    *(u32 *)(p+0x28)=5;
-    *(u32 *)(p+0xF8C)=0;
+    ((struct Obj06520 *)p)->f28=5;
+    ((struct Obj06520 *)p)->fF8C=0;
     return 2;
 }

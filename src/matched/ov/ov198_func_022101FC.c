@@ -12,6 +12,8 @@
  * symbols:
  *   func_02210C88 0x02210C88 thumb
  */
+#include "../include/Obj03351.h"
+#include "../include/Obj25233.h"
 
 extern int func_02210C88(void *, int);
 
@@ -21,7 +23,7 @@ int func_022101FC(char *p)
     {
         return 0xf;
     }
-    if (*(unsigned char *)((char *)*(void **)p + 0x1f) == 5)
+    if (((struct Obj25233 *)((char *)((struct Obj03351 *)p)->f0))->f1F == 5)
     {
         return 0x1e;
     }

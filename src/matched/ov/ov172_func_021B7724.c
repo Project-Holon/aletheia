@@ -8,13 +8,14 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj06553.h"
 typedef unsigned char u8;
 void func_021B7724(void *a, char *b, int c)
 {
     int m;
-    if (*(int *)(b + 0x14) == 0) {
+    if (((struct Obj06553 *)b)->f14 == 0) {
         m = 1 << c;
-        if (*(u8 *)(b + 0x10) & m)
-            *(u8 *)(b + 0x10) -= (u8)m;
+        if (((struct Obj06553 *)b)->f10 & m)
+            ((struct Obj06553 *)b)->f10 -= (u8)m;
     }
 }

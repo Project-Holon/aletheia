@@ -13,6 +13,8 @@
  *   func_02041EE4 0x02041EE4 arm
  *   func_021CA4B4 0x021CA4B4 thumb ov128
  */
+#include "../include/Obj23081.h"
+#include "../include/Obj23082.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -21,4 +23,4 @@ struct PrintSys;
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_02041EE4(u32,u32,u32);
 extern void func_021CA4B4(char *);
-int func_021C8354(u8 *p,u8 *q) {if(func_0201C6B4(*(const struct PrintSys **)(q+52))==1) {func_02041EE4(2,0,0);func_02041EE4(3,0,0);func_021CA4B4(**(char ***)(p+20));return 1;}return 0;}
+int func_021C8354(u8 *p,u8 *q) {if(func_0201C6B4(*(const struct PrintSys * *)&((struct Obj23082 *)q)->f34)==1) {func_02041EE4(2,0,0);func_02041EE4(3,0,0);func_021CA4B4(**(char ** *)&((struct Obj23081 *)p)->f14);return 1;}return 0;}

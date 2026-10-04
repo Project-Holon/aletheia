@@ -23,6 +23,7 @@
  *   func_021BEDB8  0x021BEDB8  thumb ov210
  *   func_021BEDD0  0x021BEDD0  thumb ov210
  */
+#include "../include/Obj08414.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -35,17 +36,17 @@ extern int  func_021BEDD0(void *, int);
 
 void func_021BF728(u8 *p, int a)
 {
-    int r6 = func_021B93B0((char *)(*(u32 *)(p + 0x1E0)));
+    int r6 = func_021B93B0((char *)(((struct Obj08414 *)p)->f1E0));
 
     if (func_021BEDD0(p, 6) != 0xC || a == 0) {
-        if (func_021B93B8((char *)(*(u32 *)(p + 0x1E0))) == 0 && r6 == 0)
+        if (func_021B93B8((char *)(((struct Obj08414 *)p)->f1E0)) == 0 && r6 == 0)
             func_021BEDB8((int)p, 6, 0x12);
         else
             func_021BEDB8((int)p, 6, 4);
     }
     if (func_021BEDD0(p, 5) != 0xD || a == 0) {
-        if (func_021B93C0((char *)(*(u32 *)(p + 0x1E0))) == 0 &&
-            r6 == *(u32 *)(p + 0x2AC) - 1)
+        if (func_021B93C0((char *)(((struct Obj08414 *)p)->f1E0)) == 0 &&
+            r6 == ((struct Obj08414 *)p)->f2AC - 1)
             func_021BEDB8((int)p, 5, 0x13);
         else
             func_021BEDB8((int)p, 5, 5);

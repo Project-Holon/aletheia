@@ -12,13 +12,14 @@
  *   func_02049990 0x02049990 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj10381.h"
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049990(void *, int, int, int, u16, int, int, u16);
 extern void func_02049238(void *);
 void func_021E5958(int p)
 {
-    void *a = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
-    func_02049990(a, 0x1d, 2, 0, *(int *)(p + 0x86c), 0, 0, *(u16 *)(p + 0x5f4));
+    void *a = func_020490F4(0x66, ((struct Obj10381 *)p)->f5F4);
+    func_02049990(a, 0x1d, 2, 0, ((struct Obj10381 *)p)->f86C, 0, 0, ((struct Obj10381 *)p)->f5F4);
     func_02049238(a);
 }

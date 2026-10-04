@@ -13,6 +13,7 @@
  *   _s32_div_f 0x0209C0A4 arm
  *   d_021DEB56 0x021DEB56 data
  */
+#include "../include/Obj00347.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef signed short s16;
@@ -21,16 +22,16 @@ extern int _s32_div_f(int, int);
 extern const u8 d_021DEB56[];
 
 void func_021DD620(char *p, int step) {
-    s16 dst = *(s8 *)(p + 0xc5c);
+    s16 dst = ((struct Obj00347 *)p)->fC5C;
     s16 src = dst + step;
     unsigned i;
     int angle;
     u16 count;
     if (src < 0) {
-        count = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4);
+        count = *(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4);
         src += (s16)count;
     } else {
-        count = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4);
+        count = *(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4);
         if (src >= count) src -= (s16)count;
     }
     for (i = 0; i < (unsigned)count; i++) {
@@ -38,19 +39,19 @@ void func_021DD620(char *p, int step) {
         *(u8 *)(p + dst + 0xb40) = *(u8 *)(p + src + 0xb34);
         dst += (s16)_s32_div_f(step, step < 0 ? -step : step);
         if (dst < 0) {
-            count = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4);
+            count = *(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4);
             dst = count - 1;
         } else {
-            count = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4);
+            count = *(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4);
             if (dst >= count) dst = 0;
         }
         src += (s16)_s32_div_f(step, step < 0 ? -step : step);
         if (src < 0) src = count - 1;
         else if (src >= count) src = 0;
     }
-    angle = *(s8 *)(p + 0xc61);
+    angle = ((struct Obj00347 *)p)->fC61;
     if (angle < 0) angle = -angle;
     if (step < 0) step = -step;
     angle = _s32_div_f(d_021DEB56[count - 1], angle);
-    *(u8 *)(p + 0xc62) = angle * step;
+    ((struct Obj00347 *)p)->fC62 = angle * step;
 }

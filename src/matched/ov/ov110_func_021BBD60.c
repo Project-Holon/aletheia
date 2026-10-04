@@ -25,6 +25,7 @@
  *   func_0202CEBC 0x0202CEBC thumb
  *   func_0202CC58 0x0202CC58 thumb
  */
+#include "../include/Obj01922.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -52,22 +53,22 @@ void func_021BBD60(u8 *p,u32 a)
     func_021BC068(p,(void *)a);
     func_020498F4((void *)a,25,0,0,0,0,42);
     func_020498F4((void *)a,25,4,0,0,0,42);
-    *(s16 *)(p+0x19a)=-192;
-    func_02040618(4,3,*(s16 *)(p+0x19a));
+    ((struct Obj01922 *)p)->f19A=-192;
+    func_02040618(4,3,((struct Obj01922 *)p)->f19A);
     func_02049658((void *)a,14,0,0,0,0,42);
     func_02049658((void *)a,14,4,0,0,0,42);
-    *(u32 *)(p+0xc)=func_020450F0(0,3,1,28,4,0,1);
-    *(u32 *)(p+0x10)=func_020450F0(4,3,1,28,4,0,1);
-    func_02045374(*(void **)(p+0xc));
-    func_02045374(*(void **)(p+0x10));
+    *(u32 *)&((struct Obj01922 *)p)->fC=func_020450F0(0,3,1,28,4,0,1);
+    *(u32 *)&((struct Obj01922 *)p)->f10=func_020450F0(4,3,1,28,4,0,1);
+    func_02045374(((struct Obj01922 *)p)->fC);
+    func_02045374(((struct Obj01922 *)p)->f10);
     func_021BC120(p);
     func_021BC160(p);
     func_021BC23C(p);
     func_021BC1B8(p);
-    func_0202CA3C(*(void **)(p+0x1b4),0,0,32,6);
-    func_0202CB18(*(void **)(p+0x1b4),0,(void *)a,25,0);
-    func_0202CB4C(*(void **)(p+0x1b4),0,0,0);
-    func_0202CEBC(*(void **)(p+0x1b4),0,*(void **)(p+0xc));
-    func_0202CC58(*(void **)(p+0x1b4),0);
-    *(u32 *)(p+0x1b8)=0;
+    func_0202CA3C(((struct Obj01922 *)p)->f1B4,0,0,32,6);
+    func_0202CB18(((struct Obj01922 *)p)->f1B4,0,(void *)a,25,0);
+    func_0202CB4C(((struct Obj01922 *)p)->f1B4,0,0,0);
+    func_0202CEBC(((struct Obj01922 *)p)->f1B4,0,((struct Obj01922 *)p)->fC);
+    func_0202CC58(((struct Obj01922 *)p)->f1B4,0);
+    ((struct Obj01922 *)p)->f1B8=0;
 }

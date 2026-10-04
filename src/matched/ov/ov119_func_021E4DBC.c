@@ -9,10 +9,11 @@
  * status: EXACT
  * lever: a separate adjusted-coordinate local keeps the subtraction before division.
  */
+#include "../include/Obj22807.h"
 int func_021E4DBC(char *p)
 {
     int x, q, r, v;
-    x = *(short *)(p + 0x107c);
+    x = ((struct Obj22807 *)p)->f107C;
     if (x < 48) x = 0;
     else if (x < 96) x = 1;
     else {

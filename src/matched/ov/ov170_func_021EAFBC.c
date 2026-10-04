@@ -17,6 +17,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_021EABA0 0x021EABA0 thumb ov170
  */
+#include "../include/Obj06549.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { unsigned char pad[18]; unsigned char low:7,high:1; } Entry;
@@ -40,9 +41,9 @@ void func_021EAFBC(char *p,const Entry *e,u32 i)
     func_02043B5C(func_02045770(*(void **)(W(p)+i*8+148)),0);
     if (e->high == 0) {
         if (*(u32 *)(W(p)+380) == 1)
-            n = *(u16 *)((const char *)e+4);
+            n = ((struct Obj06549 *)e)->f4;
         else
-            n = *(u16 *)(*(char **)(W(p)+384)+*(u16 *)((const char *)e+4)*2);
+            n = *(u16 *)(*(char **)(W(p)+384)+((struct Obj06549 *)e)->f4*2);
         if (n != 999) {
             func_021EAC28(W(p),i,*(void **)(W(p)+128),108,0,0,*(u32 *)(W(p)+120),1088);
             text=func_0201D304(*(void **)(W(p)+136),*(u32 *)(W(p)+120),0);

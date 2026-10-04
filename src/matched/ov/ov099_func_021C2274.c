@@ -17,6 +17,7 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj02157.h"
 typedef short s16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -37,8 +38,8 @@ void func_021C2274(char *p, void *window, int id)
     func_02043B5C(func_02045770(window), 0);
     func_0201DD78(15, 2, 0);
     func_021C2370(p, id - 1);
-    func_02045CAC(*(void **)(p + 0xe0), 33, *(void **)(p + 0xf0));
-    func_0201F250(*(void **)(p + 0x8b0), *(void **)(p + 0xf8), *(void **)(p + 0xf0));
-    func_0201C7A4(func_02045770(window), 2, 8, *(void **)(p + 0xf8), *(void **)(p + 0xe8));
+    func_02045CAC(((struct Obj02157 *)p)->fE0, 33, ((struct Obj02157 *)p)->fF0);
+    func_0201F250(((struct Obj02157 *)p)->f8B0, ((struct Obj02157 *)p)->fF8, ((struct Obj02157 *)p)->fF0);
+    func_0201C7A4(func_02045770(window), 2, 8, ((struct Obj02157 *)p)->fF8, ((struct Obj02157 *)p)->fE8);
     func_02045334(window);
 }

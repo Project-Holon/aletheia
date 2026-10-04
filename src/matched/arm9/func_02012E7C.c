@@ -10,6 +10,7 @@
  * status:   EXACT
  * blocker:  +0016 THM_CALL func_020073B0       : 020073B0 (thumb, from name) has no witness outside 02012E7C..02012EBC
  */
+#include "../include/Obj00054.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,11 +27,11 @@ int func_02012E7C(char *p, int a1)
 
     if (func_02005C64() == 1)
         return 0;
-    r = func_020073B0(*(u32 *)p, a1);
+    r = func_020073B0(*(u32 *)&((struct Obj00054 *)p)->f0, a1);
     if (r == 2 || r == 3) {
         func_020351A0(2);
         func_02010444();
-        *(u8 *)(p + 0x1CE) = 0;
+        ((struct Obj00054 *)p)->f1CE = 0;
         func_02034FB8(0x80);
     }
     return r;

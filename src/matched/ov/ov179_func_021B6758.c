@@ -12,12 +12,13 @@
  * symbols:
  *   func_021B62E0  0x021B62E0  thumb  ov179
  */
+#include "../include/Obj14391.h"
 
 typedef unsigned int   u32;
 extern void func_021B62E0(char *p, u32 a, u32 b, u32 c);
 
 int func_021B6758(int a, int *q)
 {
-    func_021B62E0((char *)a, *(int *)((char *)q + 4), *(int *)((char *)q + 8), 5);
+    func_021B62E0((char *)a, ((struct Obj14391 *)q)->f4, ((struct Obj14391 *)q)->f8, 5);
     return 1;
 }

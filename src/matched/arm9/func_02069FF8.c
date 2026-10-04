@@ -9,9 +9,10 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj01198.h"
 
 void func_02069FF8(char *p, int a, int b)
 {
-    if (a) *(int *)(p + 8) = a;
-    if (b) *(int *)(p + 0x18) = b;
+    if (a) *(int *)&((struct Obj01198 *)p)->f8 = a;
+    if (b) *(int *)&((struct Obj01198 *)p)->f18 = b;
 }

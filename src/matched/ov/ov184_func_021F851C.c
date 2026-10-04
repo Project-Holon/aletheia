@@ -19,6 +19,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_02034A5C 0x02034A5C arm
  */
+#include "../include/Obj02233.h"
+#include "../include/Obj04581.h"
 struct PrintSys;
 extern void func_021FD714(void *p);
 extern void func_021F89D0(int *,char *);
@@ -34,16 +36,16 @@ extern char ov112_id[];
 int func_021F851C(int obj,int b,char *q,char *p)
 {
     int i;
-    func_021FD714((void *)(*(int *)(p+0xc)));
+    func_021FD714((void *)(((struct Obj02233 *)p)->fC));
     func_021F89D0((int *)p,q);
     func_021F88E0(p,q);
     for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0x14));
-    if (*(void **)(p+0x10)) {
-        func_021FD15C(*(void **)(p+0x10),*(int *)(q+0xc));
-        *(int *)(p+0x10)=0;
+    if (((struct Obj02233 *)p)->f10) {
+        func_021FD15C(((struct Obj02233 *)p)->f10,((struct Obj04581 *)q)->fC);
+        *(int *)&((struct Obj02233 *)p)->f10=0;
     }
-    func_02025588((void *)(*(int *)(p+0x1c)));
-    func_0201C4C0((struct PrintSys *)(*(int *)(p+0x20)));
+    func_02025588((void *)(((struct Obj02233 *)p)->f1C));
+    func_0201C4C0((struct PrintSys *)(((struct Obj02233 *)p)->f20));
     func_020315D4((struct S020315D4 *)obj);
     func_02034A5C((int)ov112_id);
     return 1;

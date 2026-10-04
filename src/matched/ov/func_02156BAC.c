@@ -15,6 +15,7 @@
  * symbols:
  *   func_0200FB24   0x0200FB24  thumb
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,12 +25,12 @@ extern int func_0200FB24(int);
 
 void func_02156BAC(void *p)
 {
-    int v = *(int *)((char *)p + 0x14);
+    int v = *(int *)&((struct Obj00005 *)p)->f14;
 
     if (v == 1) {
         if (func_0200FB24(v)) {
-            if (*(int *)((char *)p + 0x50) == 0) {
-                *(int *)((char *)p + 0x50) = 1;
+            if (((struct Obj00005 *)p)->f50 == 0) {
+                ((struct Obj00005 *)p)->f50 = 1;
             }
         }
     }

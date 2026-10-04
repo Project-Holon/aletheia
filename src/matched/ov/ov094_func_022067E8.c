@@ -13,6 +13,7 @@
  *   func_021F8AC0  0x021F8AC0  thumb  ov094
  *   func_021F8554  0x021F8554  thumb  ov094
  */
+#include "../include/Obj21800.h"
 
 extern void func_021F8AC0(int a);
 typedef unsigned int   u32;
@@ -21,5 +22,5 @@ extern void func_021F8554(u32 flags, int kind, int n, int s, int t);
 void func_022067E8(char *p)
 {
     func_021F8AC0(2);
-    func_021F8554((u32)(*(void **)(p + 0x278)), 1, 10, 0, 8);
+    func_021F8554((u32)(((struct Obj21800 *)p)->f278), 1, 10, 0, 8);
 }

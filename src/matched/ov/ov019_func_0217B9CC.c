@@ -15,6 +15,8 @@
  *   func_0200BAF4 0x0200BAF4 thumb
  * Return from the legacy void tail forwarder 0200BAC8 is used by this caller.
  */
+#include "../include/Obj19401.h"
+#include "../include/Obj19402.h"
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
@@ -23,7 +25,7 @@ extern void *func_0200BAF4(int, int);
 void *func_0217B9CC(char *p)
 {
     void *a;
-    a = func_0200BAC8(func_02012EBC(*(void **)(*(char **)p + 8)));
+    a = func_0200BAC8(func_02012EBC(((struct Obj19402 *)(*(char * *)&((struct Obj19401 *)p)->f0))->f8));
     if (func_0200BBA8(a) == 0) return 0;
     return func_0200BAF4((int)a, 65);
 }

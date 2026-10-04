@@ -11,6 +11,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  */
+#include "../include/Obj22717.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
@@ -20,6 +21,6 @@ void func_021D92FC(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
     if (e == func_020399A8()) {
         if (a != func_0203D1A4(func_020399A8()))
-            *(u32 *)(base + 0x1060) = *src;
+            ((struct Obj22717 *)base)->f1060 = *src;
     }
 }

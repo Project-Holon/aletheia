@@ -21,6 +21,7 @@
  *   func_0202B920  0x0202B920  thumb
  *   d_021DE48C     0x021DE48C  data  a4
  */
+#include "../include/Obj01507.h"
 
 typedef unsigned short u16;
 
@@ -44,7 +45,7 @@ void *func_021C4D14(int a, int b, int c, int d, int e)
 
     r = func_0202B57C((void *)func_02012134((int)func_02188C80((void *)a)));
     p = (int *)func_02030734(n, 0x18, 0, (const char *)&d_021DE48C, 0x3c);
-    *(u16 *)p = n;
+    ((struct Obj01507 *)p)->f0 = n;
     p[1] = a;
     p[2] = r;
     p[3] = c;

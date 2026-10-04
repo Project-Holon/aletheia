@@ -17,6 +17,7 @@
  *   func_0204F764  0x0204F764  arm
  *   func_0204F794  0x0204F794  arm
  */
+#include "../include/Obj06991.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -88,7 +89,7 @@ void func_02050550(Own *o, Ent *e)
 
     p = (u8 *)(e->f04 * 8);
     p = p + (u32)o->f0c;
-    if (*(u32 *)(p + 4) != 0) {
+    if (((struct Obj06991 *)p)->f4 != 0) {
         func_020506B8(o, p, s0);
     } else {
         func_0204F66C(o->f04, e->f00, &s0);

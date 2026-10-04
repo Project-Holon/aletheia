@@ -30,6 +30,7 @@
  *   ov114_id 0x00000072 data
  *   ov067_id 0x00000043 data
  */
+#include "../include/Obj01563.h"
 typedef unsigned int u32;
 extern const char ov114_id[],ov067_id[];
 extern void func_020307B0(void *);
@@ -58,7 +59,7 @@ extern void func_020306F0(u32);
 extern void func_02034A5C(int);
 int func_021D6A98(u32 sys,u32 unused,u32 arg,char *p)
 {
-    func_020307B0(*(void **)(p+0xfc));
+    func_020307B0(((struct Obj01563 *)p)->fFC);
     func_021DD008((char *)((u32 *)p)[13],0);
     func_021E7DF0((int *)(((u32 *)p)[10]));
     func_021E8A78((void *)(((u32 *)p)[15])); func_021E8A78((void *)(((u32 *)p)[14]));

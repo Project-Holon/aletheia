@@ -13,6 +13,7 @@
  *   data_021D36B8  0x021D36B8  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02685.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,13 +27,13 @@ extern Fn data_021D36B8[][2];
 
 u32 func_02188B58(void *a, u8 *b)
 {
-    u32 c = *(u32 *)(b + 0xCC);
+    u32 c = ((struct Obj02685 *)b)->fCC;
     s32 r = 0;
     Fn f;
     Fn *row;
 
-    *(u32 *)(b + 0xCC) = c + 1;
-    row = data_021D36B8[*(u32 *)(b + 0xC4)];
+    ((struct Obj02685 *)b)->fCC = c + 1;
+    row = data_021D36B8[((struct Obj02685 *)b)->fC4];
     f = row[b[0xC9]];
     if (f != 0)
         r = f(a, b);
@@ -41,7 +42,7 @@ u32 func_02188B58(void *a, u8 *b)
         b[0xC9] = (b[0xC9] == 0);
         break;
     case 1:
-        *(u32 *)(b + 0xC4) = *(u32 *)(b + 0xC4) + 1;
+        ((struct Obj02685 *)b)->fC4 = ((struct Obj02685 *)b)->fC4 + 1;
         b[0xC8] = 0;
         b[0xC9] = 0;
         break;

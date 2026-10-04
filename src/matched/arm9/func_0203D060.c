@@ -30,6 +30,7 @@
  *   python tools/match.py one --src src/matched/func_0203D060.c \
  *       --func func_0203D060 --addr 0x0203D060 --cc 1.1p1 --arm
  */
+#include "../include/Obj15978.h"
 
 typedef signed char   s8;
 typedef unsigned char u8;
@@ -49,5 +50,5 @@ void func_0203D060(u32 a, u32 b, u32 c)
     if (func_0203DA4C() == 1)
         v = (u32)func_0203DA7C((void *)a, (void *)b, (void *)c);
 
-    func_0203BA98(*(u16 *)(s + 0x56), v, 1);
+    func_0203BA98(((struct Obj15978 *)s)->f56, v, 1);
 }

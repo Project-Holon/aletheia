@@ -16,7 +16,9 @@
  *   func_021D4708 0x021D4708 thumb ov115
  *   func_021D5D3C 0x021D5D3C thumb ov115
  */
+#include "../include/Obj10330.h"
+#include "../include/Obj22592.h"
 typedef unsigned char u8; typedef unsigned int u32;
 extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern void func_021D4708(u8 *); extern void func_021D5D3C(int);
-void func_021D4798(u8 *p) { *(void **)(p+0x30)=func_021D5D5C(*(u8 **)(p+0x38),1,!*(int *)(*(u8 **)(p+0x40)+4),1); func_021D426C(p,(u32)func_021D4708);  }
+void func_021D4798(u8 *p) { ((struct Obj10330 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10330 *)p)->f38,1,!((struct Obj22592 *)(*(u8 * *)&((struct Obj10330 *)p)->f40))->f4,1); func_021D426C(p,(u32)func_021D4708);  }

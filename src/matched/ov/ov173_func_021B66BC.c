@@ -17,6 +17,7 @@
  *   func_02049B40  0x02049B40  arm
  *   func_0201F5BC  0x0201F5BC  thumb
  */
+#include "../include/Obj00180.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,7 +41,7 @@ void func_021B66BC(u8 *p, u8 *q)
     func_020498F4(q, 2, 7, 0, v, 0, 0x4f);
     func_02049B68(q, 0, 4, 0, 0, 0x4f);
     t = func_02049EF4(q, 3, 0, (void **)(p + 0x1c4), 0x4f);
-    *(void **)(p + 0x1c0) = t;
+    ((struct Obj00180 *)p)->f1C0 = t;
     func_02049B40(0x17, 5, 4, 0x1c0, 0x20, 0x4f);
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0x4f);
     func_02049B40(0x17, 5, 4, 0x1e0, 0x20, 0x4f);

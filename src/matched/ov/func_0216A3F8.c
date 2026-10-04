@@ -16,6 +16,7 @@
  *   func_02012F50  0x02012F50  thumb
  *   func_021D096C  0x021D096C  thumb
  */
+#include "../include/Obj12054.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,12 +41,12 @@ loc_0216A400:
 loc_0216A406:
     v1 = func_02012F50(p);
 loc_0216A40A:
-a0 = *(int *)((char *)v1);
+a0 = *(int *)&((struct Obj12054 *)((char *)v1))->f0;
     if (a0 != 0) goto loc_0216A41A;
 loc_0216A412:
     p = func_021D096C(v0);
 loc_0216A418:
-*(void **)((char *)v1) = p;
+((struct Obj12054 *)((char *)v1))->f0 = p;
 loc_0216A41A:
 a0 = 0;
     return a0;}

@@ -12,6 +12,7 @@
  *   func_021BD348 0x021BD348 thumb ov110
  *   func_0204B98C 0x0204B98C arm
  */
+#include "../include/Obj06388.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Actor;
@@ -22,11 +23,11 @@ void func_021BCA84(u8 *p)
 {
     int i;
     for (i=0;i<3;i++) if (*(void **)(p+0x64+i*4)) func_02028178(*(void **)(p+0x64+i*4));
-    switch (*(unsigned *)(p+0x2c)) {
+    switch (((struct Obj06388 *)p)->f2C) {
     case 0: break;
-    case 1: *(unsigned *)(p+0x2c)=2;
-    case 2: if (!func_0204B98C(*(void **)(p+0x28))) *(unsigned *)(p+0x2c)=3; break;
-    case 3: *(unsigned *)(p+0x2c)=0; break;
+    case 1: ((struct Obj06388 *)p)->f2C=2;
+    case 2: if (!func_0204B98C(((struct Obj06388 *)p)->f28)) ((struct Obj06388 *)p)->f2C=3; break;
+    case 3: ((struct Obj06388 *)p)->f2C=0; break;
     }
     func_021BD348(p);
 }

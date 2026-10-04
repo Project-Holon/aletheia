@@ -17,6 +17,7 @@
  *   func_02012B8C  0x02012B8C  thumb
  *   func_02161FEC  0x02161FEC  thumb  ov010
  */
+#include "../include/Obj00269.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_02175710(u8 *o, u32 v)
 {
     void *p;
 
-    p = func_020120F4(*(void **)o);
+    p = func_020120F4(((struct Obj00269 *)o)->f0);
     ((Lo3 *)(o + 0x86))->v = v;
     func_02012B8C(p, v);
     func_02161FEC(o + 0x35c, v);

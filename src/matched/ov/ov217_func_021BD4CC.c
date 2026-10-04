@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10958.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,8 +36,8 @@ struct PalAnmSlot;
 extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 u32 func_021BD4CC(u32 a0)
 {
-    func_020215A0((struct PalAnmSlot *)(*(u32*)(((u8*)a0 + 152))), 0);
-    func_020215A0((struct PalAnmSlot *)(*(u32*)(((u8*)a0 + 152))), 2);
-    return func_02021540(*(u32*)(((u8*)a0 + 152)));
+    func_020215A0((struct PalAnmSlot *)(((struct Obj10958 *)((u8*)a0))->f98), 0);
+    func_020215A0((struct PalAnmSlot *)(((struct Obj10958 *)((u8*)a0))->f98), 2);
+    return func_02021540(((struct Obj10958 *)((u8*)a0))->f98);
 }
 

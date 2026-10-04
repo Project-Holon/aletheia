@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09714.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -34,9 +35,9 @@ void func_021C8F38(u8 *p)
 {
     u32 i;
 
-    func_0204762C((struct Rec *)(*(u32 *)(p + 0x28)));
-    func_02047738((struct Rec *)(*(u32 *)(p + 0x30)));
-    func_02047504((struct Rec *)(*(u32 *)(p + 0x2c)));
+    func_0204762C((struct Rec *)(((struct Obj09714 *)p)->f28));
+    func_02047738((struct Rec *)(((struct Obj09714 *)p)->f30));
+    func_02047504((struct Rec *)(((struct Obj09714 *)p)->f2C));
     for (i = 0; i < 4; i++) {
         func_020470D0((u32 *)(*(u32 *)(p + i * 4 + 4)));
         func_02046EFC((struct Tagged *)(*(u32 *)(p + i * 4 + 4)));

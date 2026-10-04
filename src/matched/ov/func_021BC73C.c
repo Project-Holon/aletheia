@@ -16,6 +16,7 @@
  * +0x1353 and selector 0x8A when it has gone negative; returns the selector.
  * The guard call takes the aged value, not the selector.
  */
+#include "../include/Obj07225.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,11 +29,11 @@ extern int func_021BA928(void *p, int v);
 
 int func_021BC73C(char *p, int v)
 {
-    func_021BA928(p, --*(s32 *)(p + 0x1E0));
+    func_021BA928(p, --((struct Obj07225 *)p)->f1E0);
 
-    if (*(s32 *)(p + 0x1E0) < 0) {
-        *(u8 *)(p + 0x1353) = 0x79;
-        *(u32 *)(p + 0x1CC) = 0x8A;
+    if (((struct Obj07225 *)p)->f1E0 < 0) {
+        ((struct Obj07225 *)p)->f1353 = 0x79;
+        ((struct Obj07225 *)p)->f1CC = 0x8A;
     }
 
     return v;

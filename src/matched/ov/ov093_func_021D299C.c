@@ -12,6 +12,7 @@
  *   func_021EA8E4 0x021EA8E4 thumb ov093
  *   func_021EA8F4 0x021EA8F4 thumb ov093
  */
+#include "../include/Obj13398.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -21,11 +22,11 @@ int func_021D299C(char *p, int *state)
 {
     switch (*state) {
     case 0:
-        func_021EA8E4(*(void **)(p + 0x54));
+        func_021EA8E4(((struct Obj13398 *)p)->f54);
         (*state)++;
         break;
     case 1:
-        if (func_021EA8F4(*(void **)(p + 0x54)) != 0) return 1;
+        if (func_021EA8F4(((struct Obj13398 *)p)->f54) != 0) return 1;
         break;
     }
     return 0;

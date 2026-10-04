@@ -14,6 +14,7 @@
  *   func_02063A54 0x02063A54 arm
  *   func_02063E54 0x02063E54 arm
  */
+#include "../include/Obj22552.h"
 typedef unsigned int u32;
 extern void func_020307B0(void *);
 struct Node;
@@ -24,7 +25,7 @@ extern void func_02063A54(struct Res *r, u32 dst, int mode, struct Out *out);
 extern void func_02063E54(void *,void *,int,void *);
 void func_021F6540(void *a, void **p)
 {
-    if(p[8]) *(u32 *)((char *)p[8]+236) &= ~4u;
+    if(p[8]) ((struct Obj22552 *)((char *)p[8]))->fEC &= ~4u;
     if(p[4]) { func_02063A54(p[0],(u32)p[6],0,p[2]); func_020307B0(p[4]); }
     if(p[1]) { func_02063E54(p[1],p[7],0,p[3]); func_020307B0(p[5]); }
     func_020307B0(p);

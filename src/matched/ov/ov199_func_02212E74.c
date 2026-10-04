@@ -25,6 +25,9 @@
  *   func_020130DC 0x020130DC thumb
  *   func_02213808 0x02213808 thumb ov199
  */
+#include "../include/Obj01007.h"
+#include "../include/Obj03909.h"
+#include "../include/Obj10857.h"
 typedef unsigned char u8;
 typedef struct Flag { u8 bit:1; u8 rest:7; } Flag;
 typedef struct Bytes { u8 a,b,c; } Bytes;
@@ -50,45 +53,45 @@ extern void func_020130DC(void *);
 extern void func_02213808(char *p, int value);
 int func_02212E74(void *manager, u8 *arg, u8 *p)
 {
-    u8 *record = *(u8 **)(arg + 4);
-    int state = *(int *)(arg + 0xc);
+    u8 *record = *(u8 * *)&((struct Obj03909 *)arg)->f4;
+    int state = ((struct Obj03909 *)arg)->fC;
     Bytes bytes;
     void *rules,*reg,*created;
     int setting;
-    *(unsigned *)(p + 0x1b8) = *(unsigned *)(record + 4);
-    *(unsigned *)(p + 0x1b4) = *(unsigned *)(record + 0x8c);
-    *(unsigned *)(p + 0x1c4) = ((Flag *)(record + 0xc1))->bit;
-    *(unsigned *)(p + 0x1b4) = *(unsigned *)(record + 0x8c);
-    func_022135CC(*(u8 **)(arg + 4), &bytes.b, &bytes.c);
+    ((struct Obj01007 *)p)->f1B8 = ((struct Obj10857 *)record)->f4;
+    ((struct Obj01007 *)p)->f1B4 = ((struct Obj10857 *)record)->f8C;
+    ((struct Obj01007 *)p)->f1C4 = ((Flag *)(record + 0xc1))->bit;
+    ((struct Obj01007 *)p)->f1B4 = ((struct Obj10857 *)record)->f8C;
+    func_022135CC(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.b, &bytes.c);
     p[0x1bc] = bytes.c;
-    func_02213684(*(u8 **)(arg + 4), &bytes.a, p + 0x1bd);
+    func_02213684(*(u8 * *)&((struct Obj03909 *)arg)->f4, &bytes.a, p + 0x1bd);
     func_0200BA58();
-    func_021EEE78(*(void **)(arg + 4));
+    func_021EEE78(((struct Obj03909 *)arg)->f4);
     func_0200BA68();
-    if (*(int *)(p + 0x1c) == 0) {
-        rules = func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 4))),0);
+    if (((struct Obj01007 *)p)->f1C == 0) {
+        rules = func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj01007 *)p)->f4)),0);
         reg = func_0200AE14(rules);
         setting = func_0200B078(rules,2);
-        if (state == 0) func_022133E4(p + 0x1d0,*(void **)(p + 0x30),*(void **)(p + 0x34),*(void **)(p + 0x2c),reg,setting,record,p + 0x1b4,0);
-    } else if (*(int *)(p + 0x1c) == 2) {
-        created = func_0201A354(*(int *)(p + 8) + 0xf,0x56);
-        if (state == 0) func_022133E4(p + 0x1d0,*(void **)(p + 0x30),*(void **)(p + 0x34),*(void **)(p + 0x2c),created,0,record,p + 0x1b4,2);
+        if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,reg,setting,record,p + 0x1b4,0);
+    } else if (((struct Obj01007 *)p)->f1C == 2) {
+        created = func_0201A354(((struct Obj01007 *)p)->f8 + 0xf,0x56);
+        if (state == 0) func_022133E4(p + 0x1d0,((struct Obj01007 *)p)->f30,((struct Obj01007 *)p)->f34,((struct Obj01007 *)p)->f2C,created,0,record,p + 0x1b4,2);
         func_020307B0(created);
     }
-    func_020130DC(*(void **)(arg + 4));
-    func_020307B0(*(void **)(arg + 4));
-    func_020307B0(*(void **)(arg + 8));
+    func_020130DC(((struct Obj03909 *)arg)->f4);
+    func_020307B0(((struct Obj03909 *)arg)->f4);
+    func_020307B0(((struct Obj03909 *)arg)->f8);
     func_020307B0(arg);
-    if (*(int *)(p + 0x1c) == 1) {
+    if (((struct Obj01007 *)p)->f1C == 1) {
         switch(state) {
         case 0: func_02213808(manager,0);break;
-        case 1: *(int *)(p + 0x1c0)=1;func_02213808(manager,0);break;
+        case 1: ((struct Obj01007 *)p)->f1C0=1;func_02213808(manager,0);break;
         }
     } else {
         switch(state) {
-        case 0: *(int *)(p + 0x20)=1;func_02213808(manager,1);break;
-        case 2: *(int *)(p + 0x220)=1;func_02213808(manager,4);break;
-        case 3: *(int *)(p + 0x20)=2;func_02213808(manager,1);break;
+        case 0: ((struct Obj01007 *)p)->f20=1;func_02213808(manager,1);break;
+        case 2: ((struct Obj01007 *)p)->f220=1;func_02213808(manager,4);break;
+        case 3: ((struct Obj01007 *)p)->f20=2;func_02213808(manager,1);break;
         }
     }
     return 1;

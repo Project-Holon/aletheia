@@ -14,6 +14,9 @@
  *   func_0202590C 0x0202590C thumb
  *   func_02025774 0x02025774 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj24025.h"
+#include "../include/Obj24026.h"
 extern const short d_021EFCD8[];
 extern void func_021EC08C(char *, int, short, short, short);
 extern void func_021EC000(char *, int, int);
@@ -26,8 +29,8 @@ extern void func_02025774(u8 *g, u32 a);
 void func_021EDFC4(char *p, int i)
 {
     short y = d_021EFCD8[i];
-    func_021EC08C(*(char **)(p + 0x2c), 3, 0xce, y, 0);
-    func_021EC000(*(char **)(p + 0x2c), 3, 1);
-    func_0202590C(*(void **)(*(char **)(p + 0x2c) + 4), 0x9e, y - 8);
-    func_02025774(*(void **)(*(char **)(p + 0x2c) + 4), 1);
+    func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, 3, 0xce, y, 0);
+    func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 3, 1);
+    func_0202590C(((struct Obj24025 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f4, 0x9e, y - 8);
+    func_02025774(((struct Obj24026 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f4, 1);
 }

@@ -13,6 +13,8 @@
  *   func_021ECBD8 0x021ECBD8 thumb
  *   func_021EC768 0x021EC768 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23848.h"
 
 typedef struct {
     unsigned short id;
@@ -37,23 +39,23 @@ void func_021DE66C(char *p, Entry *e)
     unsigned short save = 0xFFFF;
     for (i = 0; i < 7; i++) {
         if (e[i].used != 0)
-            buf[i] = *(unsigned char *)(*(char **)(p + 0x2C) + e[i].src + 0x3DD2);
+            buf[i] = *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e[i].src + 0x3DD2);
     }
     for (i = 0; i < 7; i++) {
         if (e[i].used == 0)
             continue;
         if (e[i].slot <= 0x24) {
-            *(unsigned char *)(*(char **)(p + 0x2C) + e[i].slot + 0x3DD2) = buf[i];
+            *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + e[i].slot + 0x3DD2) = buf[i];
             if (e[i].id == 0x24)
                 save = e[i].slot;
         } else {
-            *(unsigned char *)(*(char **)(p + 0x2C) + 0x3DF6) = buf[i];
+            ((struct Obj23848 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f3DF6 = buf[i];
             if (e[i].id == 0x24)
                 save = 0x24;
         }
     }
     if (save != 0xFFFF)
-        func_021ECBD8(*(char **)(p + 0x2C), save);
+        func_021ECBD8(*(char * *)&((struct Obj00000 *)p)->f2C, save);
     for (i = 0; i < 0x24; i++)
-        func_021EC768(*(char **)(p + 0x2C), i, 1);
+        func_021EC768(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
 }

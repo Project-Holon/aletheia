@@ -19,6 +19,7 @@
  *   func_021FAA34 0x021FAA34 thumb ov186
  *   d_02200358 0x02200358 data a4
  */
+#include "../include/Obj01278.h"
 extern const int d_02200358[];
 extern void func_021FAD18(char *,int,const int *);
 extern int func_021FAD74(char *),func_021FAF24(char *,int);
@@ -37,25 +38,25 @@ void func_021FA7FC(void *p,int *state,unsigned char *ctx)
  switch(*state){
  case 0:
   for(i=0;i<ctx[0x3b];i++){
-   if(i==ctx[0x3b]-1)func_021FAD18(*(char **)(ctx+0x3c)+i*0x44,2,d_02200358);
-   else func_021FAD18(*(char **)(ctx+0x3c)+i*0x44,4,d_02200358+(ctx[0x3b]-i-1)*2);
+   if(i==ctx[0x3b]-1)func_021FAD18(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,2,d_02200358);
+   else func_021FAD18(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44,4,d_02200358+(ctx[0x3b]-i-1)*2);
   }
   *state=1;break;
  case 1:
   ready=1;
-  for(i=0;i<ctx[0x3b];i++)ready&=func_021FAD74(*(char **)(ctx+0x3c)+i*0x44);
+  for(i=0;i<ctx[0x3b];i++)ready&=func_021FAD74(*(char * *)&((struct Obj01278 *)ctx)->f3C+i*0x44);
   if(ready){func_021FA21C(ctx,0);*state=2;}break;
  case 2:
-  entry=*(char **)(ctx+0x3c)+(ctx[0x3b]-1)*0x44;
+  entry=*(char * *)&((struct Obj01278 *)ctx)->f3C+(ctx[0x3b]-1)*0x44;
   kind=func_021FAF24(entry,0);
   value=func_021FAF24(entry,2);
   if(kind==1){
-   if(!*(void **)(ctx+0x50))*(void **)(ctx+0x50)=func_021FD12C((int)(*(void **)(ctx+4)),(void *)(*(int *)(ctx+0x4c)),*(unsigned short *)ctx);
-   func_021FD170(*(void **)(ctx+0x50),*(void **)(ctx+4),(void *)value);
+   if(!((struct Obj01278 *)ctx)->f50)((struct Obj01278 *)ctx)->f50=func_021FD12C((int)(((struct Obj01278 *)ctx)->f4),(void *)(((struct Obj01278 *)ctx)->f4C),((struct Obj01278 *)ctx)->f0);
+   func_021FD170(((struct Obj01278 *)ctx)->f50,((struct Obj01278 *)ctx)->f4,(void *)value);
   }
   *state=3;break;
  case 3:
-  switch(*(unsigned *)(ctx+0x1c)){
+  switch(((struct Obj01278 *)ctx)->f1C){
   case 0:case 1:func_021FD73C(p,(int)func_021FA6A8);break;
   default:func_021FD73C(p,(int)func_021FAA34);break;
   }

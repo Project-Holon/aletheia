@@ -25,6 +25,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00543.h"
 
 typedef unsigned int u32;
 
@@ -50,10 +51,10 @@ void func_021BD0C4(void *a0, char *a1, int a2)
     u32 z = func_021BE044(a0);
     u32 w;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(a1 + 0x2c))), 0xf);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00543 *)a1)->f2C)), 0xf);
     w = (u32)func_02045EC0((struct MsgBank *)y, a2);
-    func_0201C724(z, (u32)func_02045770((struct Descriptor *)*(u32 *)(a1 + 0x2c)), 0, 0, w, x, 0x440);
+    func_0201C724(z, (u32)func_02045770((struct Descriptor *)((struct Obj00543 *)a1)->f2C), 0, 0, w, x, 0x440);
     func_02045808((struct U16Vec *)w);
-    func_0201F73C((void *)(*(u32 *)(a1 + 0x2c)), 2, 0x140, 9);
-    *(u32 *)(a1 + 0x20) = 1;
+    func_0201F73C((void *)(((struct Obj00543 *)a1)->f2C), 2, 0x140, 9);
+    ((struct Obj00543 *)a1)->f20 = 1;
 }

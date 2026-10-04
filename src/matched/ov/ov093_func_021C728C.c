@@ -21,6 +21,7 @@
  *   func_021D7540  0x021D7540  thumb  ov093
  *   func_021D7B10  0x021D7B10  thumb  ov093
  */
+#include "../include/Obj07759.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -37,16 +38,16 @@ extern u32 func_021D7B10(u32 a, u32 b);
 
 u16 func_021C728C(u8 *p, u8 *a, u8 *b, u8 *s)
 {
-    u32 t = func_0201C1D8((void *)(*(u16 *)s));
+    u32 t = func_0201C1D8((void *)(((struct Obj07759 *)s)->f0));
     u16 x;
     u32 y;
 
     func_021D74F8(12487);
     func_021D75EC(3, func_021D5440(a));
     func_021D75EC(4, func_021D5440(b));
-    func_021D75EC(0x12, *(u16 *)s);
+    func_021D75EC(0x12, ((struct Obj07759 *)s)->f0);
     func_021D75EC(0x16, s[6]);
-    func_021D75EC(0x1a, *(u32 *)(s + 8));
+    func_021D75EC(0x1a, ((struct Obj07759 *)s)->f8);
     func_021D7630(0x30, t);
     func_021D70F0(p, 0x37);
     func_021D7674(0x31, 0x1000, 0x29, 0x200000);

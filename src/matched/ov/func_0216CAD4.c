@@ -19,6 +19,7 @@
  *   func_021CBD84   0x021CBD84  thumb  ov021
  *   func_0216CAA8   0x0216CAA8  thumb  ov010
  */
+#include "../include/Obj17769.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,6 +32,6 @@ void func_0216CAD4(void *a0, void *a1, void *a2)
 {
     int v = (int)func_021CBD84(a0);
 
-    func_0216CAA8(a1, a2, (void *)(*(int *)((char *)a0 + 0x7CC)), (void *)v);
+    func_0216CAA8(a1, a2, (void *)(((struct Obj17769 *)a0)->f7CC), (void *)v);
 }
 

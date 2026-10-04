@@ -13,6 +13,8 @@
  * func_02049F78 0x02049F78 arm
  * func_021DE6C0 0x021DE6C0 thumb ov137
  */
+#include "../include/Obj02495.h"
+#include "../include/Obj23712.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct MsgBank;
@@ -30,13 +32,13 @@ void func_021DD2E0(u8 *p,void *q)
         *(u32 *)(p+i*8+312)=0; *(u32 *)(p+i*8+316)=0;
         *(u32 *)(p+i*4+352)=0;
     }
-    *(u32 *)(p+92)=(u32)func_020457B0(180,114);
-    v=(u32)func_020457B0(40,114); *(u32 *)(p+96)=v;
-    *(u32 *)(p+280)=0;
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p+64)),17,(void *)v);
+    ((struct Obj02495 *)p)->f5C=(u32)func_020457B0(180,114);
+    v=(u32)func_020457B0(40,114); ((struct Obj02495 *)p)->f60=v;
+    ((struct Obj02495 *)p)->f118=0;
+    func_02045CAC((struct MsgBank *)(((struct Obj02495 *)p)->f40),17,(void *)v);
     func_021DE6C0(p,q);
-    *(u32 *)(p+24)=0; *(u32 *)(p+32)=0; *(u32 *)(p+28)=0;
-    *(u32 *)(p+36)=(u32)func_02049F78(q,2,(u32)(p+40),114);
-    *(u32 *)(p+0x4804)=0; *(u32 *)(p+232)=0;
-    *(u32 *)(*(u8 **)(p+16)+44)=2;
+    ((struct Obj02495 *)p)->f18=0; ((struct Obj02495 *)p)->f20=0; ((struct Obj02495 *)p)->f1C=0;
+    ((struct Obj02495 *)p)->f24=(u32)func_02049F78(q,2,(u32)(p+40),114);
+    ((struct Obj02495 *)p)->f4804=0; ((struct Obj02495 *)p)->fE8=0;
+    ((struct Obj23712 *)(*(u8 * *)&((struct Obj02495 *)p)->f10))->f2C=2;
 }

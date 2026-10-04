@@ -17,6 +17,8 @@
  *   d_02211D68 0x02211D68 data a2
  *   d_02211D98 0x02211D98 data a2
  */
+#include "../include/Obj10847.h"
+#include "../include/Obj14560.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {short x,y;} Pair;
@@ -44,7 +46,7 @@ void func_0220EC2C(u8 *p)
     func_0220E9A0((char *)p,rec,(Pair *)&d_02211D98);
     pair.x+=8;
     pair.y+=8;
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),&pair);
-    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)(p+0x1ed4),(Pair *)&d_02211D34.second);
-    func_0220E7CC(*(u8 **)(p+0x1f08),(unsigned)&d_02211D68.last);
+    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 **)((const u8 *)p+i*4+0x1ebc),&pair);
+    func_0220EA30(((struct Obj14560 *)rec)->f1A,*(u8 * *)&((struct Obj10847 *)p)->f1ED4,(Pair *)&d_02211D34.second);
+    func_0220E7CC(*(u8 * *)&((struct Obj10847 *)p)->f1F08,(unsigned)&d_02211D68.last);
 }

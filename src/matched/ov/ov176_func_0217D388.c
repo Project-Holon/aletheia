@@ -12,6 +12,8 @@
  * symbols:
  *   func_0200B078  0x0200B078  thumb
  */
+#include "../include/Obj24427.h"
+#include "../include/Obj24428.h"
 
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -20,5 +22,5 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 
 void func_0217D388(int *p, int *q)
 {
-    *(int *)((char *)p + 0x40) = func_0200B078((struct Reg2 *)(*(int *)((char *)q + 0x38)), 2);
+    ((struct Obj24427 *)p)->f40 = func_0200B078((struct Reg2 *)(((struct Obj24428 *)q)->f38), 2);
 }

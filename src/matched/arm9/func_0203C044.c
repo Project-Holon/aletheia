@@ -10,5 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15960.h"
+#include "../include/Obj15961.h"
 
-int func_0203C044(int a0, int a1, int a2, int a3){ int t0; t0 = func_0203D798(); *(unsigned char *)(((char *)(t0) + 100)) = (unsigned char)*(unsigned char *)((char *)(a2)); return t0; }
+int func_0203C044(int a0, int a1, int a2, int a3){ int t0; t0 = func_0203D798(); ((struct Obj15961 *)((char *)(t0)))->f64 = (unsigned char)((struct Obj15960 *)((char *)(a2)))->f0; return t0; }

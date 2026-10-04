@@ -30,6 +30,7 @@
  *   func_020310C4 0x020310C4 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj06564.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021B68B0(void *),func_021B68C8(void *),func_021B69F8(void *);
@@ -62,7 +63,7 @@ int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p)
     }
     func_021B6390(p);
     func_0204A600();
-    func_020310C4(*(void **)(p+0x64));
-    func_0201C4E4(*(void **)(p+0x218));
+    func_020310C4(((struct Obj06564 *)p)->f64);
+    func_0201C4E4(((struct Obj06564 *)p)->f218);
     return 0;
 }

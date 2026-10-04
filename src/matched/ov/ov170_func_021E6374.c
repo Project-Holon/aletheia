@@ -17,6 +17,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb ov170
  *   func_021E0F4C 0x021E0F4C thumb ov170
  */
+#include "../include/Obj00000.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,4 +28,4 @@ extern void func_021EF670(char *);
 extern void func_021EF68C(char *);
 extern int func_021E8FC0(char *,int,int);
 extern int func_021E0F4C(u8 *);
-void func_021E6374(u8 *p){func_021ED6E4((char **)p,0);func_021EBA5C(*(char **)(p+0x2c),24);func_021DD14C((char *)p);if(p[0x16]<30)func_021EF670(*(char **)(p+0x2c));else func_021EF68C(*(char **)(p+0x2c));func_021E8FC0((char *)p,(int)func_021E0F4C,61);}
+void func_021E6374(u8 *p){func_021ED6E4((char **)p,0);func_021EBA5C(*(char * *)&((struct Obj00000 *)p)->f2C,24);func_021DD14C((char *)p);if(p[0x16]<30)func_021EF670(*(char * *)&((struct Obj00000 *)p)->f2C);else func_021EF68C(*(char * *)&((struct Obj00000 *)p)->f2C);func_021E8FC0((char *)p,(int)func_021E0F4C,61);}

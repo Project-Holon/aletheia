@@ -38,6 +38,7 @@
  *   func_0217E524  0x0217E524  thumb  ov018
  *   str_02183B14   0x02183B14  data  a1
  */
+#include "../include/Obj02674.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -93,12 +94,12 @@ u8 *func_0217CFE4(void *a)
 
     s = (void *)func_02012138(a);
     w = func_02030734(0x70, 0x170, 1, str_02183B14, 0x240);
-    *(void **)w = a;
+    ((struct Obj02674 *)w)->f0 = a;
     w[0x105] = 0xFF;
     w[0x11B] = 0xFF;
     w[0x169] = 4;
     w[0x16A] = 4;
-    *(short *)(w + 0x10A) = -1;
+    ((struct Obj02674 *)w)->f10A = -1;
     for (i = 0; i < 3; i++) {
         *(u16 *)(w + 0xF0 + i * 8) = 0x1AB;
     }
@@ -125,8 +126,8 @@ u8 *func_0217CFE4(void *a)
     tmp |= 0x20;
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
-    *(void **)(w + 0x34) = func_020056A0((void (*)(void))func_0217D5AC, w, 10);
-    q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
+    ((struct Obj02674 *)w)->f34 = func_020056A0((void (*)(void))func_0217D5AC, w, 10);
+    q = func_02012AC8((const struct Rec44 *)func_020120F8(((struct Obj02674 *)w)->f0));
     k = (int)func_0217EBD8(w);
     func_0217E638(w, q);
     func_0217DE68(w, k);

@@ -22,6 +22,7 @@
  *   func_021D81B4 0x021D81B4 thumb ov116
  *   func_021D82AC 0x021D82AC thumb ov116
  */
+#include "../include/Obj01721.h"
 typedef unsigned char u8;
 struct Descriptor;
 struct Rec;
@@ -43,22 +44,22 @@ extern void func_021D82AC(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);
 void func_021D7C58(u8 *p) {
-    if(*(int *)p!=0) {
-        if(*(void **)(p+0x9a4)) func_0201CE48(*(void **)(p+0x9a4));
-        func_02031140(*(void **)(p+0x9a8));
-        func_02045C04(*(void **)(p+0x990));
-        func_0201ED04(*(void **)(p+0x994));
-        func_0201D83C(*(void **)(p+0x998));
-        func_02045808(*(void **)(p+0x99c));
-        func_02045808(*(void **)(p+0x9a0));
+    if(((struct Obj01721 *)p)->f0!=0) {
+        if(((struct Obj01721 *)p)->f9A4) func_0201CE48(((struct Obj01721 *)p)->f9A4);
+        func_02031140(((struct Obj01721 *)p)->f9A8);
+        func_02045C04(((struct Obj01721 *)p)->f990);
+        func_0201ED04(((struct Obj01721 *)p)->f994);
+        func_0201D83C(((struct Obj01721 *)p)->f998);
+        func_02045808(((struct Obj01721 *)p)->f99C);
+        func_02045808(((struct Obj01721 *)p)->f9A0);
         func_021D7FC4(p);
         func_021D81B4(p);
-        if(*(void **)(p+0x980)) {
-            func_0201FEF4(*(void **)(p+0x980));
-            *(void **)(p+0x980)=0;
+        if(((struct Obj01721 *)p)->f980) {
+            func_0201FEF4(((struct Obj01721 *)p)->f980);
+            ((struct Obj01721 *)p)->f980=0;
         }
-        func_020452E8(*(void **)(p+0x97c));
-        func_021D82AC(*(void **)(p+8));
+        func_020452E8(((struct Obj01721 *)p)->f97C);
+        func_021D82AC(((struct Obj01721 *)p)->f8);
         func_0201DD68();
         func_02082BCC(p,0,0x9ac);
     }

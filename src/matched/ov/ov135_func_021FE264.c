@@ -17,6 +17,9 @@
  *   func_021FF318 0x021FF318 thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
  */
+#include "../include/Obj00018.h"
+#include "../include/Obj23414.h"
+#include "../include/Obj23415.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -33,26 +36,26 @@ void func_021FE264(u8 *p,u32 mode)
 {
     u32 h,v;
     switch(mode) {
-    case 0: *(u32 *)(p+0x28)=4; break;
+    case 0: ((struct Obj00018 *)p)->f28=4; break;
     case 1:
-        if(*(s16 *)(p+0xB56)!=0) {
-            h=(u32)func_0201ADE4((u16)*(s16 *)(p+0xB56),0,0x48);
+        if(((struct Obj00018 *)p)->fB56!=0) {
+            h=(u32)func_0201ADE4((u16)((struct Obj00018 *)p)->fB56,0,0x48);
             v=func_0201AE1C((const struct Personal *)h,0x14);
             func_0201AE14((void *)h);
-            *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;
-            if(func_021F7B9C(p+0xB56,*(u32 *)(*(u8 **)(p+0xE00)+0x20))) break;
+            ((struct Obj23414 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20=v;
+            if(func_021F7B9C(p+0xB56,((struct Obj23415 *)(*(u8 * *)&((struct Obj00018 *)p)->fE00))->f20)) break;
         }
-        *(u32 *)(p+0x28)=7;
+        ((struct Obj00018 *)p)->f28=7;
         break;
-    case 2: *(u32 *)(p+0x28)=10; break;
-    case 3: *(u32 *)(p+0x28)=13; break;
+    case 2: ((struct Obj00018 *)p)->f28=10; break;
+    case 3: ((struct Obj00018 *)p)->f28=13; break;
     case 4:
-        if(*(u32 *)(p+0xD0)) {
-            *(u32 *)(p+0x28)=32;
+        if(*(u32 *)&((struct Obj00018 *)p)->fD0) {
+            ((struct Obj00018 *)p)->f28=32;
             func_0202208C(0,0,0,0,16,1,0x48);
         }
         break;
-    case 5: *(u32 *)(p+0x28)=16; break;
+    case 5: ((struct Obj00018 *)p)->f28=16; break;
     case 6:
         func_021FF318(p,15,1,0,0xF0F);
         func_021F4E98(p,23,26);

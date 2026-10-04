@@ -16,6 +16,7 @@
  *   func_021BC52C 0x021BC52C thumb ov223
  *   func_02011B8C 0x02011B8C thumb
  */
+#include "../include/Obj00738.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -32,10 +33,10 @@ void func_021B9A8C(char *p)
     int *obj;
     u32 n;
     u16 j;
-    obj=(int *)func_02048A18(*(unsigned char **)(p+40),*(u16 *)(*(char **)(p+60)+*(u16 *)(p+50)*68));
+    obj=(int *)func_02048A18(*(unsigned char * *)&((struct Obj00738 *)p)->f28,*(u16 *)(*(char * *)&((struct Obj00738 *)p)->f3C+((struct Obj00738 *)p)->f32*68));
     n=func_0204779C(obj);
     for(j=0;j<n;j++) func_02047910(obj,j,2048);
-    func_02011590(*(void **)(p+64),2048);
-    func_02011B8C((void *)func_021BC52C(*(void **)(p+20)),*(void **)(p+64));
-    (*(u32 *)(p+80))++;
+    func_02011590(((struct Obj00738 *)p)->f40,2048);
+    func_02011B8C((void *)func_021BC52C(((struct Obj00738 *)p)->f14),((struct Obj00738 *)p)->f40);
+    (((struct Obj00738 *)p)->f50)++;
 }

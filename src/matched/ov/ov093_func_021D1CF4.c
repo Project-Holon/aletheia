@@ -26,6 +26,8 @@
  *   func_021EA4C4 0x021EA4C4 thumb ov093
  *   func_021CDECC 0x021CDECC thumb ov093
  */
+#include "../include/Obj01691.h"
+#include "../include/Obj21146.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct S;
@@ -47,7 +49,7 @@ static inline void message(u8 *p, int code, u32 value, u32 id)
     func_021EAF18(p + 0x58, 1, code);
     func_021EAF50(p + 0x58, value);
     func_021EAF50(p + 0x58, id);
-    func_021EA614(*(void **)(p + 0x54), p + 0x58);
+    func_021EA614(((struct Obj21146 *)p)->f54, p + 0x58);
 }
 int func_021D1CF4(u8 *p, int *state, const u32 *params)
 {
@@ -58,16 +60,16 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
     switch (*state) {
     case 0:
         if (flag != 0) {
-            id = func_021D5440(func_021B9920(*(void **)(p + 4), a, b));
-            if (func_021B8CE8((int)(*(void **)p), p[0x1A6], a) == 0) {
+            id = func_021D5440(func_021B9920(((struct Obj01691 *)p)->f4, a, b));
+            if (func_021B8CE8((int)(((struct Obj01691 *)p)->f0), p[0x1A6], a) == 0) {
                 if (p[0x1A6] == a) {
                     func_021EAF18(p + 0x58, 1, func_021D1DF4(p));
                     func_021EAF50(p + 0x58, id);
-                    func_021EA614(*(void **)(p + 0x54), p + 0x58);
+                    func_021EA614(((struct Obj01691 *)p)->f54, p + 0x58);
                 } else {
                     message(p, 0x11, a, id);
                 }
-            } else if (func_021B9F70(*(void **)p, a) != 0) {
+            } else if (func_021B9F70(((struct Obj01691 *)p)->f0, a) != 0) {
                 message(p, 0xE, a, id);
             } else {
                 message(p, 0x11, a, id);
@@ -76,13 +78,13 @@ int func_021D1CF4(u8 *p, int *state, const u32 *params)
         (*state)++;
         break;
     case 1:
-        if (func_021EA710(*(void **)(p + 0x54)) != 0) {
-            func_021EA488(*(void **)(p + 0x54), func_021B8BEC(*(u8 **)p, a, b), a, b);
+        if (func_021EA710(((struct Obj01691 *)p)->f54) != 0) {
+            func_021EA488(((struct Obj01691 *)p)->f54, func_021B8BEC(*(u8 * *)&((struct Obj01691 *)p)->f0, a, b), a, b);
             (*state)++;
         }
         break;
     case 2:
-        if (func_021EA4C4(*(void **)(p + 0x54)) != 0) {
+        if (func_021EA4C4(((struct Obj01691 *)p)->f54) != 0) {
             func_021CDECC(p);
             return 1;
         }

@@ -21,6 +21,7 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   d_021BD5EC     0x021BD5EC  data  a4
  */
+#include "../include/Obj00014.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -52,7 +53,7 @@ void func_021BB608(char *p)
 
     i = 0;
     p[0x128] = 0;
-    *(u32 *)(p + 0x130) = 0;
+    ((struct Obj00014 *)p)->f130 = 0;
     y = 2;
     p[0x12f] = 2;
     for (i = 0; i < 8; i++) {
@@ -61,25 +62,25 @@ void func_021BB608(char *p)
         func_021BB798(p, (u8)(p + i)[0x120], y);
         v = (p + i)[0x120];
         if (v == 0) {
-            obj = *(void **)(p + 0x1c);
+            obj = ((struct Obj00014 *)p)->f1C;
         } else if (v == 5) {
             func_021BB5E0(p, 5, y * 8 + d_021BD5EC[v].f2 * 8 / 2);
-            obj = *(void **)(p + 0x30);
+            obj = ((struct Obj00014 *)p)->f30;
         } else if (v == 3) {
-            if (func_0200C308(*(void **)(p + 8), 1) != 1)
+            if (func_0200C308(((struct Obj00014 *)p)->f8, 1) != 1)
                 goto next;
             func_021BB5E0(p, 2, y * 8 + d_021BD5EC[(u8)(p + i)[0x120]].f2 * 8 / 2);
-            obj = *(void **)(p + 0x24);
+            obj = ((struct Obj00014 *)p)->f24;
         } else if (v == 4) {
-            if (func_0200C308(*(void **)(p + 8), 2) != 1)
+            if (func_0200C308(((struct Obj00014 *)p)->f8, 2) != 1)
                 goto next;
             func_021BB5E0(p, 3, y * 8 + d_021BD5EC[(u8)(p + i)[0x120]].f2 * 8 / 2);
-            obj = *(void **)(p + 0x28);
+            obj = ((struct Obj00014 *)p)->f28;
         } else if (v == 7) {
-            if (func_0200C308(*(void **)(p + 8), 3) != 1)
+            if (func_0200C308(((struct Obj00014 *)p)->f8, 3) != 1)
                 goto next;
             func_021BB5E0(p, 4, y * 8 + d_021BD5EC[(u8)(p + i)[0x120]].f2 * 8 / 2);
-            obj = *(void **)(p + 0x2c);
+            obj = ((struct Obj00014 *)p)->f2C;
         } else {
             goto next;
         }

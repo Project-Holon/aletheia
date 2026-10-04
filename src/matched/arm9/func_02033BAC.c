@@ -13,6 +13,7 @@
  *   str_020A793C   0x020A793C  data
  *   func_02034714  0x02034714  arm
  */
+#include "../include/Obj11331.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,8 +24,8 @@ extern void func_02034714(const u8 *file, int line, const u8 *msg);
 
 u32 func_02033BAC(u8 *p, u32 i)
 {
-    if (i >= *(u32 *)(p + 4)) {
+    if (i >= ((struct Obj11331 *)p)->f4) {
         func_02034714(str_020A78CC, 0xd6, str_020A793C);
     }
-    return *(u32 *)(*(u32 *)(p + 0x14) + i * 0xc + 4);
+    return *(u32 *)(((struct Obj11331 *)p)->f14 + i * 0xc + 4);
 }

@@ -14,6 +14,7 @@
  *   func_021BB85C 0x021BB85C thumb ov093
  *   func_021B9BF0 0x021B9BF0 thumb ov093
  */
+#include "../include/Obj09979.h"
 typedef unsigned char u8;
 struct Unk021B8CB0;
 extern u8 func_021B8CB0(struct Unk021B8CB0 **p, u8 x);
@@ -25,6 +26,6 @@ extern u32 func_021B9BF0(struct S2 *p, u32 i);
 void *func_021CB1A4(u8 *p, u8 n)
 {
     u8 out[2];
-    func_021B8E28(*(u8 **)(p + 4), func_021B8CB0(*(void **)(p + 4), n), out + 1, out);
-    return (void *)func_021B9BF0(*(void **)(func_021BB85C(*(u8 **)p, out[1]) + 4), out[0]);
+    func_021B8E28(*(u8 * *)&((struct Obj09979 *)p)->f4, func_021B8CB0(((struct Obj09979 *)p)->f4, n), out + 1, out);
+    return (void *)func_021B9BF0(*(void **)(func_021BB85C(*(u8 * *)&((struct Obj09979 *)p)->f0, out[1]) + 4), out[0]);
 }

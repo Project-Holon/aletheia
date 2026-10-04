@@ -16,6 +16,7 @@
  *   d_021D872C  0x021D872C  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02081.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,7 +46,7 @@ void func_021A0D68(u32 *a)
         d_021D872C[a[0]].update(a, func_02189A2C((int *)a[5]) == 0);
         break;
     case 1:
-        func_0202208C((void *)4, 0, 0, 0, 1, 1, *(u16 *)(a + 3));
+        func_0202208C((void *)4, 0, 0, 0, 1, 1, ((struct Obj02081 *)a)->fC);
         a[2] = 2;
         break;
     case 2:
@@ -59,7 +60,7 @@ void func_021A0D68(u32 *a)
     case 3:
         break;
     case 4:
-        func_0202208C((void *)4, 1, 1, 0, 1, 1, *(u16 *)(a + 3));
+        func_0202208C((void *)4, 1, 1, 0, 1, 1, ((struct Obj02081 *)a)->fC);
         a[2] = 5;
         break;
     case 5:

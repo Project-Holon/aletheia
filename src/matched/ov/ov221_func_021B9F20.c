@@ -17,6 +17,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj26072.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,7 +32,7 @@ extern void func_020307B0(void*);
 /* volatile accesses: display cleanup, original 021B9F46..021B9F60. */
 void func_021B9F20(char*p)
 {
- func_02030EAC(*(void**)(p+12));
+ func_02030EAC(*(void* *)&((struct Obj26072 *)p)->fC);
  func_021BA130((int*)(p+8));
  func_021BA094(p+4);
  func_021BA010(p);

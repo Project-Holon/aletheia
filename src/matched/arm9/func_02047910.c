@@ -15,6 +15,8 @@
  * returns 0, if it goes negative it pins it to the limit and returns 0,
  * otherwise returns 1.
  */
+#include "../include/Obj06972.h"
+#include "../include/Obj16062.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,7 +35,7 @@ struct Obj {
 
 int func_02047910(void *a, int idx, int amount)
 {
-    struct Obj **tbl = *(struct Obj ***)((char *)a + 8);
+    struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
     struct Obj *e = tbl[idx];
     struct Run *r;
     int nv;
@@ -47,7 +49,7 @@ int func_02047910(void *a, int idx, int amount)
     nv = (int)r->cur + amount;
     r->cur = (u32)nv;
 
-    lim = (u32)*(u16 *)(r->desc + 4) << 12;
+    lim = (u32)((struct Obj16062 *)(r->desc))->f4 << 12;
     if (nv >= (int)lim) {
         r->cur = 0;
         return 0;

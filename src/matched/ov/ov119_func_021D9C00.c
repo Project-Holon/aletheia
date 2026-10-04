@@ -22,6 +22,8 @@
  *   func_021D9BC4 0x021D9BC4 thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
+#include "../include/Obj03772.h"
+#include "../include/Obj22727.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -67,11 +69,11 @@ void func_021D9C00(char *p)
         return;
     }
     if (a == 4 && ((u8 *)p + other)[0x11e0] == 4) {
-        *(int *)(*(char **)(p + 8) + 8) = 3;
-        func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), 0x8d, (void *)(*(int *)(p + 0x738)));
+        ((struct Obj22727 *)(*(char * *)&((struct Obj03772 *)p)->f8))->f8 = 3;
+        func_02045CAC((struct MsgBank *)(((struct Obj03772 *)p)->f720), 0x8d, (void *)(((struct Obj03772 *)p)->f738));
         func_021E1024(p);
         func_021E1030(p);
-        *(int *)(p + 0xf2c) = 0;
+        ((struct Obj03772 *)p)->fF2C = 0;
         func_021D8E84(p, (int)func_021D9BC4);
         return;
     }
@@ -79,7 +81,7 @@ void func_021D9C00(char *p)
         cmd = 0x61;
     else if (a == 4)
         cmd = 0x66;
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), cmd, (void *)(*(int *)(p + 0x738)));
+    func_02045CAC((struct MsgBank *)(((struct Obj03772 *)p)->f720), cmd, (void *)(((struct Obj03772 *)p)->f738));
     func_021E1024(p);
     p[0x11e0] = 0;
     p[0x11e1] = 0;

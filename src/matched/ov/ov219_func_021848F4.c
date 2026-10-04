@@ -10,20 +10,21 @@
  * lever: declare oldx before a named base pointer; this puts oldx in r5
  * and base in r6. Const on the parameter alone left their five-byte swap.
  */
+#include "../include/Obj00302.h"
 void func_021848F4(const char *p,int x,int y,int *xflag,int *xdistance,int *yflag,int *ydistance)
 {
     int oldx;
     const char *base=p;
     int xf=0,yf=0,dx=0,dy=0;
-    oldx=*(int *)(base+0xc364);
+    oldx=((struct Obj00302 *)base)->fC364;
     if(oldx!=0xffff){
         dx=oldx-x;
         if(dx<0){dx^=-1;xf=0x10;}
         else if(dx>0)xf=0x20;
     }
     *xflag=xf;*xdistance=dx&63;
-    if(*(int *)(base+0xc368)!=0xffff){
-        dy=*(int *)(base+0xc368)-y;
+    if(((struct Obj00302 *)base)->fC368!=0xffff){
+        dy=((struct Obj00302 *)base)->fC368-y;
         if(dy<0){dy^=-1;yf=0x80;}
         else if(dy>0)yf=0x40;
     }

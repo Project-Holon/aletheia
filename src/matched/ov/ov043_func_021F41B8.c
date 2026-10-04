@@ -13,6 +13,7 @@
  *   func_0218EC5C  0x0218EC5C  thumb  ov021
  *   func_0218ECC4  0x0218ECC4  thumb  ov021
  */
+#include "../include/Obj02756.h"
 
 typedef unsigned char u8;
 
@@ -24,21 +25,21 @@ void func_021F41B8(int a0, int a1, int a2, int a3, u8 *s)
 {
     s[0] = 0;
     s[1] = 0;
-    *(int *)(s + 8) = a3;
-    *(int *)(s + 0xC) = func_0218EC5C((u8 *)a3);
+    ((struct Obj02756 *)s)->f8 = a3;
+    ((struct Obj02756 *)s)->fC = func_0218EC5C((u8 *)a3);
     func_0218ECC4(a3, s + 0x10);
     if (a2) {
-        *(int *)(s + 4) = 0x1000;
+        ((struct Obj02756 *)s)->f4 = 0x1000;
         s[2] = 2;
     } else {
         if (a0 == 5) {
-            *(int *)(s + 4) = 0x4000;
+            ((struct Obj02756 *)s)->f4 = 0x4000;
         } else {
-            *(int *)(s + 4) = 0x2000;
+            ((struct Obj02756 *)s)->f4 = 0x2000;
         }
         s[2] = 4;
     }
     if (a1 < 0) {
-        *(int *)(s + 4) *= -1;
+        ((struct Obj02756 *)s)->f4 *= -1;
     }
 }

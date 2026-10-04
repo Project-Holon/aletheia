@@ -24,6 +24,7 @@
  *   func_021D82F8 0x021D82F8 thumb ov116
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
  */
+#include "../include/Obj22632.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -51,6 +52,6 @@ void *func_021D821C(int a,unsigned heap) {
  func_0204335C(0); func_020433E0(d_021D83C0); func_0204363C(a);
  func_0204361C(); func_020434CC(); func_02043588(); func_0201DD60();
  func_021D8304(p,heap);
- *(void **)((char *)p+12)=func_020056A0((void *)func_021D82F8,p,0);
+ ((struct Obj22632 *)p)->fC=func_020056A0((void *)func_021D82F8,p,0);
  return p;
 }

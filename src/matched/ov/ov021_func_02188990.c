@@ -48,6 +48,7 @@
  *   func_021C7F9C  0x021C7F9C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00401.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -95,46 +96,46 @@ extern void func_021C7F9C(u8 *p);
 
 int func_02188990(void *a, u8 *p)
 {
-    func_021CF480(*(u32 *)(p + 0x13C));
-    func_021C1C04((u32 *)(*(u32 *)(p + 0x124)));
-    func_021C1AD0(*(u32 *)(p + 0x120));
+    func_021CF480(((struct Obj00401 *)p)->f13C);
+    func_021C1C04((u32 *)(((struct Obj00401 *)p)->f124));
+    func_021C1AD0(((struct Obj00401 *)p)->f120);
     func_0201209C(a, 0, 0);
-    func_021A2EB8((u32 *)(*(u32 *)(p + 0x8C)));
-    func_021BB90C(*(u32 *)(p + 0xBC));
+    func_021A2EB8((u32 *)(((struct Obj00401 *)p)->f8C));
+    func_021BB90C(((struct Obj00401 *)p)->fBC);
     func_020263B0((void *)func_02012138(a), (u32)p);
-    if (*(u32 *)(p + 0x30) != 0)
-        func_021BC424(*(u32 *)(p + 0x30));
+    if (((struct Obj00401 *)p)->f30 != 0)
+        func_021BC424(((struct Obj00401 *)p)->f30);
     func_021BE218(p);
-    func_021BE2E0(*(u32 *)(p + 0x34));
-    func_021A9F28(*(u32 *)(p + 0x90));
-    func_020129B8(func_020120F4(a), func_021A0D44((u32 *)(*(u32 *)(p + 0x24))));
-    func_021ABDE8(*(u32 *)(p + 0x94));
-    if (*(u32 *)(p + 0x98) != 0) {
-        func_0217F8EC((char *)(*(u32 *)(p + 0x98)));
-        *(u32 *)(p + 0x98) = 0;
+    func_021BE2E0(((struct Obj00401 *)p)->f34);
+    func_021A9F28(((struct Obj00401 *)p)->f90);
+    func_020129B8(func_020120F4(a), func_021A0D44((u32 *)(((struct Obj00401 *)p)->f24)));
+    func_021ABDE8(((struct Obj00401 *)p)->f94);
+    if (((struct Obj00401 *)p)->f98 != 0) {
+        func_0217F8EC((char *)(((struct Obj00401 *)p)->f98));
+        ((struct Obj00401 *)p)->f98 = 0;
     }
-    func_021A1AAC((u8 *)(*(u32 *)(p + 0x20)));
-    *(u32 *)(p + 0x20) = 0;
-    func_021A0448((u8 *)(*(u32 *)(p + 0x14)));
-    func_021A02F4(*(u32 *)(p + 0x1C));
-    func_021A0138(*(u32 *)(p + 0x18));
-    func_021D33E0((u32 *)(*(u32 *)(p + 0x9C)));
-    func_021BB240(*(u32 *)(p + 0x3C));
-    func_021AB81C(*(u32 *)(p + 0x44));
-    func_021AB624((u8 *)(*(u32 *)(p + 0x40)));
-    func_0218E0E4((u8 *)(*(u32 *)(p + 0x10)));
+    func_021A1AAC((u8 *)(((struct Obj00401 *)p)->f20));
+    ((struct Obj00401 *)p)->f20 = 0;
+    func_021A0448((u8 *)(((struct Obj00401 *)p)->f14));
+    func_021A02F4(((struct Obj00401 *)p)->f1C);
+    func_021A0138(((struct Obj00401 *)p)->f18);
+    func_021D33E0((u32 *)(((struct Obj00401 *)p)->f9C));
+    func_021BB240(((struct Obj00401 *)p)->f3C);
+    func_021AB81C(((struct Obj00401 *)p)->f44);
+    func_021AB624((u8 *)(((struct Obj00401 *)p)->f40));
+    func_0218E0E4((u8 *)(((struct Obj00401 *)p)->f10));
     (*(void (**)(u8 *))(*(u8 **)(p + 0x108) + 0xC))(p);
     func_021895DC(p);
     func_021892B4(p);
-    func_021A2E90(*(u32 *)(p + 0x8C));
-    func_0218D05C((char *)(*(u32 *)(p + 0x48)));
-    if (*(u32 *)(p + 0x2C) != 0)
-        func_02190728(*(u32 *)(p + 0x2C));
-    if (*(u32 *)(p + 0x28) != 0)
-        func_021902BC((struct Obj *)(*(u32 *)(p + 0x28)));
+    func_021A2E90(((struct Obj00401 *)p)->f8C);
+    func_0218D05C((char *)(((struct Obj00401 *)p)->f48));
+    if (((struct Obj00401 *)p)->f2C != 0)
+        func_02190728(((struct Obj00401 *)p)->f2C);
+    if (((struct Obj00401 *)p)->f28 != 0)
+        func_021902BC((struct Obj *)(((struct Obj00401 *)p)->f28));
     func_020129DC(func_020120F4(a), 0);
     func_02035660(0x3C);
-    func_021C31FC(*(u32 *)(p + 0x128));
-    func_021C7F9C((u8 *)(*(u32 *)(p + 0xA0)));
+    func_021C31FC(((struct Obj00401 *)p)->f128);
+    func_021C7F9C((u8 *)(((struct Obj00401 *)p)->fA0));
     return 1;
 }

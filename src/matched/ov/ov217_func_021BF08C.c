@@ -18,6 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00021.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct ArcFile;
@@ -35,14 +36,14 @@ void func_021BF08C(char *p)
     struct ArcFile *arc;
     void *file,*out;
     unsigned id;
-    arc=func_020490F4(192,*(u16 *)(p+4));
-    if (*(unsigned *)(p+0x3d0)!=0) id=8;
+    arc=func_020490F4(192,((struct Obj00021 *)p)->f4);
+    if (((struct Obj00021 *)p)->f3D0!=0) id=8;
     else if (func_021BF810(p)==0) id=6;
     else {
         id=6;
-        if (*(unsigned *)(p+0x3c8)!=0) id=7;
+        if (((struct Obj00021 *)p)->f3C8!=0) id=7;
     }
-    file=func_02049250(arc,id,*(u16 *)(p+4));
+    file=func_02049250(arc,id,((struct Obj00021 *)p)->f4);
     func_02062B30(file,&out);
     func_02041090(2,(unsigned)out+12,0,0,32,32);
     func_020409B4(2);

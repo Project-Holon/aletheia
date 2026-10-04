@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08253.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,13 +36,13 @@ void func_021B6814(void *a0)
     char *p = (char *)a0;
     int one = 1;
 
-    if (*(u32 *)(p + 0x10) != 0)
+    if (((struct Obj08253 *)p)->f10 != 0)
         return;
     if ((func_02085D3C() == 1 ? func_021B6850() : 0) != 0)
         return;
     if (func_021B6858(one) == 1)
         func_021B6860(one);
-    *(u32 *)(p + 0x10) = one;
-    *(u32 *)(p + 0x1c) = one;
-    *(u32 *)(p + 0x28) = 0;
+    ((struct Obj08253 *)p)->f10 = one;
+    ((struct Obj08253 *)p)->f1C = one;
+    ((struct Obj08253 *)p)->f28 = 0;
 }

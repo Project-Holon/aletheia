@@ -21,6 +21,7 @@
  *
  * Follows the mode byte at +0x14 against its last seen value (+0x15): entering mode 0 prints message 0x1c in the text window and switches the display to the window at +0x2c; leaving mode 0 prints message 0x11 in the window at +0x30 and switches back.
  */
+#include "../include/Obj01266.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -43,18 +44,18 @@ static inline u8 func_021BD038_show(u32 win)
 
 void func_021BD038(void *ctx, char *st)
 {
-    if (*(u8 *)(st + 0x14) == *(u8 *)(st + 0x15))
+    if (((struct Obj01266 *)st)->f14 == ((struct Obj01266 *)st)->f15)
         return;
-    if (*(u8 *)(st + 0x14) == 0) {
+    if (((struct Obj01266 *)st)->f14 == 0) {
         func_021BD134(ctx, st, 0x1c);
-        *(u32 *)(st + 0x38) = 1;
-        func_02041B6C(func_021BD038_show(*(u32 *)(st + 0x2c)));
-        func_0201F7A8((void *)(*(u32 *)(st + 0x2c)), 1);
-    } else if (*(u8 *)(st + 0x15) == 0 && *(u8 *)(st + 0x14) != 0) {
+        ((struct Obj01266 *)st)->f38 = 1;
+        func_02041B6C(func_021BD038_show(((struct Obj01266 *)st)->f2C));
+        func_0201F7A8((void *)(((struct Obj01266 *)st)->f2C), 1);
+    } else if (((struct Obj01266 *)st)->f15 == 0 && ((struct Obj01266 *)st)->f14 != 0) {
         func_021BD0C4(ctx, st, 0x11);
         func_021BE34C(ctx);
-        func_0201F7A8((void *)(*(u32 *)(st + 0x30)), 1);
-        func_020409B4(func_021BD038_show(*(u32 *)(st + 0x30)));
+        func_0201F7A8((void *)(((struct Obj01266 *)st)->f30), 1);
+        func_020409B4(func_021BD038_show(((struct Obj01266 *)st)->f30));
     }
-    *(u8 *)(st + 0x15) = *(u8 *)(st + 0x14);
+    ((struct Obj01266 *)st)->f15 = ((struct Obj01266 *)st)->f14;
 }

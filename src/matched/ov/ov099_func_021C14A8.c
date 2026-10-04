@@ -15,6 +15,7 @@
  *   func_0203D7B0 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
+#include "../include/Obj22056.h"
 extern int func_021C1154(char *, int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -30,7 +31,7 @@ int func_021C14A8(char *p, int ret)
             func_0203D7B0(1);
             func_0203D7BC(1);
             func_02039C68((struct Link *)func_020399A8(), 18, 10);
-            *(int *)(p + 0x1cc) = 45;
+            ((struct Obj22056 *)p)->f1CC = 45;
         }
     }
     return ret;

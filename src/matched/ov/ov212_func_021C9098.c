@@ -14,6 +14,14 @@
  *   func_021C9288 0x021C9288 thumb ov212
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01587.h"
+#include "../include/Obj25660.h"
+#include "../include/Obj25661.h"
+#include "../include/Obj25662.h"
+#include "../include/Obj25663.h"
+#include "../include/Obj25664.h"
+#include "../include/Obj25665.h"
+#include "../include/Obj25666.h"
 typedef unsigned short u16;
 struct Blk37;
 extern void func_021C8F7C(char *);
@@ -22,32 +30,32 @@ extern void func_020307B0(void *);
 int func_021C9098(char *p)
 {
     int result;
-    switch(*(unsigned *)(*(char **)(p+40)+16)){
+    switch(((struct Obj25660 *)(*(char * *)&((struct Obj01587 *)p)->f28))->f10){
     case 0:
-        if(*(u16 *)(p+18)==0){
-            *(u16 *)(*(char **)p+14)=0;result=9;
+        if(((struct Obj01587 *)p)->f12==0){
+            ((struct Obj25661 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=0;result=9;
         }else{
             func_021C8F7C(p);
-            *(u16 *)(p+16)=func_021C9288(*(struct Blk37 **)(*(char **)p+4),(u16 **)(p+12),105);
-            *(u16 *)(p+18)=0;result=3;
+            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25662 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
+            ((struct Obj01587 *)p)->f12=0;result=3;
         }
         goto done;
-    case 1:*(u16 *)(*(char **)p+14)=1;result=9;goto done;
+    case 1:((struct Obj25663 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=1;result=9;goto done;
     case 2:
         func_021C8F7C(p);
-        *(u16 *)(p+16)=func_021C9288(*(struct Blk37 **)(*(char **)p+4),(u16 **)(p+12),105);
+        ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25664 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         result=3;goto done;
-    case 3:result=5;*(unsigned *)(p+36)=1;goto done;
+    case 3:result=5;((struct Obj01587 *)p)->f24=1;goto done;
     case 4:
-        if(*(u16 *)(p+18)==1){
+        if(((struct Obj01587 *)p)->f12==1){
             func_021C8F7C(p);
-            *(u16 *)(p+16)=func_021C9288(*(struct Blk37 **)(*(char **)p+4),(u16 **)(p+12),105);
+            ((struct Obj01587 *)p)->f10=func_021C9288(*(struct Blk37 * *)&((struct Obj25665 *)(*(char * *)&((struct Obj01587 *)p)->f0))->f4,(u16 **)(p+12),105);
         }
         result=7;goto done;
     default:break;
     }
-    *(u16 *)(*(char **)p+14)=0;result=9;
+    ((struct Obj25666 *)(*(char * *)&((struct Obj01587 *)p)->f0))->fE=0;result=9;
 done:
-    func_020307B0(*(void **)(p+40));
+    func_020307B0(((struct Obj01587 *)p)->f28);
     return result;
 }

@@ -11,6 +11,7 @@
  * symbols:
 
  */
+#include "../include/Obj10274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-void func_021BAF7C(unsigned p,int v) { int n; *(u16 *)(p+*(u8 *)(p+0xaf0)*2+0xad4)=v; n=*(u8 *)(p+0xaf0)+1; if(n>12) n=12; else if(n<0) n=0; *(u8 *)(p+0xaf0)=n; }
+void func_021BAF7C(unsigned p,int v) { int n; *(u16 *)(p+((struct Obj10274 *)p)->fAF0*2+0xad4)=v; n=((struct Obj10274 *)p)->fAF0+1; if(n>12) n=12; else if(n<0) n=0; ((struct Obj10274 *)p)->fAF0=n; }

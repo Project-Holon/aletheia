@@ -16,6 +16,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj10519.h"
+#include "../include/Obj10520.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DB9FC(void *,void *,u8 *);
@@ -35,9 +37,9 @@ void func_021D9D94(u8 *a,u8 *p)
     func_020409B4(1);
     func_02041570(4,0);
     func_02041B6C(4);
-    func_0204B3DC(*(void **)(p+0x90),0);
-    func_0204B3DC(*(void **)(p+0x94),0);
-    func_0204B3DC(*(void **)(a+0x198),0);
-    func_0204B3DC(*(void **)(a+0x19c),0);
-    func_0204B878(*(void **)(a+0x17c),1);
+    func_0204B3DC(((struct Obj10520 *)p)->f90,0);
+    func_0204B3DC(((struct Obj10520 *)p)->f94,0);
+    func_0204B3DC(((struct Obj10519 *)a)->f198,0);
+    func_0204B3DC(((struct Obj10519 *)a)->f19C,0);
+    func_0204B878(((struct Obj10519 *)a)->f17C,1);
 }

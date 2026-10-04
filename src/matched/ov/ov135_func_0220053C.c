@@ -14,6 +14,7 @@
  *   func_022009A4 0x022009A4 thumb ov135
  *   func_02200A10 0x02200A10 thumb ov135
  */
+#include "../include/Obj01749.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,25 +28,25 @@ void func_0220053C(u8 *p, int mode)
 {
     switch (mode) {
     case 0:
-        if (*(u16 *)(p + 0x32) == 0) {
+        if (((struct Obj01749 *)p)->f32 == 0) {
             func_021F4EC0(p, 5, 5);
-            *(u32 *)(p + 0x28) = 9;
-        } else if (*(u16 *)(p + 0x36) == 0) {
+            ((struct Obj01749 *)p)->f28 = 9;
+        } else if (((struct Obj01749 *)p)->f36 == 0) {
             func_021F4EC0(p, 7, 11);
-            *(u32 *)(p + 0x18) = 2;
-            *(u32 *)(p + 0x28) = 9;
-            *(u16 *)(p + 0x36) = 0xE10;
+            ((struct Obj01749 *)p)->f18 = 2;
+            ((struct Obj01749 *)p)->f28 = 9;
+            ((struct Obj01749 *)p)->f36 = 0xE10;
         } else {
             func_022009A4(p, 40, 1, 0, 0xF0F);
             func_021F4E98(p, 11, 5);
             func_020061E4(0x557);
-            *(u32 *)(p + 0xDFC) = 0;
+            ((struct Obj01749 *)p)->fDFC = 0;
         }
         break;
     case 1:
-        *(u16 *)(p + 0xE1A) = 0;
+        ((struct Obj01749 *)p)->fE1A = 0;
         func_021F4EC0(p, 4, 13);
-        *(u32 *)(p + 0x28) = 9;
+        ((struct Obj01749 *)p)->f28 = 9;
         break;
     case 2:
         func_02200A10(p, 7, func_021F4ED4(p), 0, 0xF0F);

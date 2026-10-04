@@ -15,6 +15,7 @@
  *   func_0216D550  0x0216D550  thumb  ov010
  *   func_021A5334  0x021A5334  thumb  ov021
  */
+#include "../include/Obj06014.h"
 
 typedef unsigned int u32;
 
@@ -26,7 +27,7 @@ void func_021A5334(u32 a);
 void func_021A550C(u32 *p)
 {
     if (func_021A5340(p) == 1) {
-        func_0216D550(func_021A3960(*(unsigned char **)(p + 3)), 0x18);
+        func_0216D550(func_021A3960(*(unsigned char * *)&((struct Obj06014 *)p)->fC), 0x18);
         func_021A5334((u32)p);
     }
 }

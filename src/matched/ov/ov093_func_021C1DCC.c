@@ -16,6 +16,7 @@
  *   func_021C1E14  0x021C1E14  thumb  ov093
  *   func_021C5D88  0x021C5D88  thumb  ov093
  */
+#include "../include/Obj09967.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -27,8 +28,8 @@ extern void func_021C5D88(u8 *p, u8 *a, int b);
 
 void func_021C1DCC(u8 *p, u8 *q, u32 a, u8 *b, u32 s)
 {
-    if (sub_0201C1BC(*(u16 *)q) == 8) {
-        if (func_021C1E14(p, a, (u32)b, func_021D7B3C(s, sub_0201BD28(*(u16 *)q, 0x19)))) {
+    if (sub_0201C1BC(((struct Obj09967 *)q)->f0) == 8) {
+        if (func_021C1E14(p, a, (u32)b, func_021D7B3C(s, sub_0201BD28(((struct Obj09967 *)q)->f0, 0x19)))) {
             func_021C5D88(p, b, 0x383);
         }
     }

@@ -10,4 +10,5 @@
  * symbols:
 
  */
-unsigned func_021BA158(char *p){return *(unsigned *)(p+36);}
+#include "../include/Obj26146.h"
+unsigned func_021BA158(char *p){return ((struct Obj26146 *)p)->f24;}

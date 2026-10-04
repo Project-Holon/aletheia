@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/pending/func_0202C198.c \
  *       --func func_0202C198 --addr 0x0202C198 --thumb --cc 1.1p1
  */
+#include "../include/Obj04743.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -33,10 +34,10 @@ void func_0202C198(u8 *p)
     int i;
 
     for (i = 0; i < n; i++) {
-        func_0202C308(*(u8 **)(*(u32 *)(p + 8) + (i << 2)));
+        func_0202C308(*(u8 **)(*(u32 *)&((struct Obj04743 *)p)->f8 + (i << 2)));
     }
-    func_020307B0(*(void **)(p + 8));
+    func_020307B0(((struct Obj04743 *)p)->f8);
     p[4] = 0;
-    *(u32 *)(p + 8) = 0;
-    *(u32 *)(p + 0xc) = 0;
+    *(u32 *)&((struct Obj04743 *)p)->f8 = 0;
+    ((struct Obj04743 *)p)->fC = 0;
 }

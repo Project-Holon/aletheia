@@ -14,12 +14,13 @@
  * symbols:
  *   func_02011324 0x02011324 thumb
  */
+#include "../include/Obj13584.h"
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 
 void func_021F9AA4(void *a)
 {
     char *s = func_02011324(a);
-    *(int *)(s + 0x2a4) = 0;
-    *(int *)(s + 0x2a8) = 0;
+    ((struct Obj13584 *)s)->f2A4 = 0;
+    ((struct Obj13584 *)s)->f2A8 = 0;
 }

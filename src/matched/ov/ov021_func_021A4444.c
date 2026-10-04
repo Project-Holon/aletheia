@@ -15,6 +15,7 @@
  *   func_021A48C8  0x021A48C8  thumb  ov021
  *   func_021A4B00  0x021A4B00  thumb  ov021
  */
+#include "../include/Obj09565.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ int func_021A4444(u8 *p, u32 s)
     int r;
 
     r = 0;
-    switch (func_021A3974(*(u32 *)(p + 0xc))) {
+    switch (func_021A3974(*(u32 *)&((struct Obj09565 *)p)->fC)) {
     case 0:
         r = func_021A44C8(p, s);
         break;

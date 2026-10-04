@@ -14,6 +14,7 @@
  *   func_021E96A4  0x021E96A4  thumb  ov093
  *   func_021E96B4  0x021E96B4  thumb  ov093
  */
+#include "../include/Obj03707.h"
 typedef unsigned char u8;
 extern u8 func_021D3D90(u8 *p);
 extern void func_021E96A4(void *a, int b, int c, int d, int e);
@@ -23,12 +24,12 @@ int func_021E964C(char *p, int *st)
 {
     switch (*st) {
     case 0:
-        func_021E96A4(*(void **)(p + 0x180), *(int *)(p + 0xbc), *(u8 *)(p + 0x175),
-                      func_021D3D90(*(void **)(p + 4)), *(int *)(p + 0xb8));
+        func_021E96A4(((struct Obj03707 *)p)->f180, ((struct Obj03707 *)p)->fBC, ((struct Obj03707 *)p)->f175,
+                      func_021D3D90(((struct Obj03707 *)p)->f4), ((struct Obj03707 *)p)->fB8);
         (*st)++;
     case 1:
-        *(int *)(p + 0xc4) = func_021E96B4(*(void **)(p + 0x180));
-        if (*(int *)(p + 0xc4))
+        ((struct Obj03707 *)p)->fC4 = func_021E96B4(((struct Obj03707 *)p)->f180);
+        if (((struct Obj03707 *)p)->fC4)
             return 1;
     }
     return 0;

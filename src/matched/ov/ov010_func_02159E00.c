@@ -12,6 +12,7 @@
  * symbols:
  *   func_02159E60  0x02159E60  thumb  ov010
  */
+#include "../include/Obj07280.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ int func_02159E00(u8 *a, u32 *b, u32 *c)
     u8 *r4 = a + 0x1a;
     u8 *r5 = a + 0xc;
     int sel = r4[3];
-    u32 old = *(u16 *)(r4 + 4);
+    u32 old = ((struct Obj07280 *)r4)->f4;
     int idx;
     u32 cur;
     switch (sel) {

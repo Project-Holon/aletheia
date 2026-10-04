@@ -12,6 +12,7 @@
  *   func_02040618 0x02040618 arm
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj03636.h"
 
 typedef signed char s8;
 typedef unsigned char u8;
@@ -26,11 +27,11 @@ void func_021F17D8(void *task, u8 *q)
     old = q[2];
     q[2] = old + 1;
     if (old < q[1]) {
-        x = *(s8 *)(q + 3);
-        q[3] = x + *(s8 *)(q + 4);
-        func_02040618(6, 3, *(s8 *)(q + 3), x);
+        x = ((struct Obj03636 *)q)->f3;
+        q[3] = x + ((struct Obj03636 *)q)->f4;
+        func_02040618(6, 3, ((struct Obj03636 *)q)->f3, x);
         return;
     }
-    (**(int **)(q + 8))--;
+    (**(int * *)&((struct Obj03636 *)q)->f8)--;
     func_02031194(task);
 }

@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B438.c \
  *       --func func_0202B438 --addr 0x0202B438 --thumb --cc 1.1p1
  */
+#include "../include/Obj15837.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -24,7 +25,7 @@ extern u8 *func_0202B374(u8 *p, u32 id);
 
 u32 func_0202B438(u8 *p, u32 id)
 {
-    u8 *q = *(u8 **)(p + 0x14);
+    u8 *q = *(u8 * *)&((struct Obj15837 *)p)->f14;
 
     if (q == 0) {
         return 0;

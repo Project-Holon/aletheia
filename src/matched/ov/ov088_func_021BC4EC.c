@@ -18,6 +18,7 @@
  *   func_021BC62C  0x021BC62C  thumb  ov088
  *   func_021BC75C  0x021BC75C  thumb  ov088
  */
+#include "../include/Obj09923.h"
 
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern char *func_0203159C(int, int, int);
@@ -30,10 +31,10 @@ int func_021BC4EC(int a, int b, int *c)
     func_0203064C(1, 0x39, 0x80000);
     r = func_0203159C(a, 0x1c, 0x39);
     if (*c == 0)
-        *(int *)(r + 4) = 0;
+        ((struct Obj09923 *)r)->f4 = 0;
     else
-        *(int *)(r + 4) = 2;
-    *(unsigned short *)(r + 0x18) = 0;
+        ((struct Obj09923 *)r)->f4 = 2;
+    ((struct Obj09923 *)r)->f18 = 0;
     func_021BC62C(r);
     func_021BC75C(r);
     return 1;

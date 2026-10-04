@@ -19,6 +19,7 @@
  * pool word is its only reference in the image.  It is attested by the
  * compiled witness src/matched/func_02008450.c (class `matched`).
  */
+#include "../include/Obj15630.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -28,5 +29,5 @@ extern void func_02008450(struct Flags02008450 *flags, int on);
 
 void func_02012BC8(u8 *p, int on)
 {
-    func_02008450((struct Flags02008450 *)*(u32 *)(p + 0x198), on ? 1 : 0);
+    func_02008450((struct Flags02008450 *)((struct Obj15630 *)p)->f198, on ? 1 : 0);
 }

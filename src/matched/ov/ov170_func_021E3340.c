@@ -32,6 +32,8 @@
  * Re-entry of the box menu: restores the cursor, redraws the box and picks
  * the message for the current mode.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23893.h"
 
 struct WinMgr;
 extern void func_021DD530(unsigned char *p);
@@ -152,7 +154,7 @@ int func_021E3340(unsigned char *p)
         func_021EBD78(p, 0);
         return 0x18;
     }
-    if (*(int *)(*(char **)p + 0x24) == 2) {
+    if (((struct Obj23893 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
         if (func_021EF770(MGR(p)) == 1)
             func_021EF670(WORK(p));
         else

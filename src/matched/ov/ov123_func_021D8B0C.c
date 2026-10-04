@@ -15,6 +15,7 @@
  *   func_0203C9AC 0x0203C9AC arm
  *   func_0203C938 0x0203C938 arm
  */
+#include "../include/Obj03272.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021D66D0(u8 *p, int n);
@@ -26,13 +27,13 @@ extern void func_021D6EE0(char *,int,int);
 extern void func_021D8A9C(char *p);
 void func_021D8B0C(char *p)
 {
-    if (*(int *)(p+0x70)<100) ++*(int *)(p+0x70);
-    func_021D66D0(*(void **)(p+0x14),*(int *)(p+0x70));
-    switch (func_02012DD0(*(void **)(p+0x2c))) {
+    if (((struct Obj03272 *)p)->f70<100) ++((struct Obj03272 *)p)->f70;
+    func_021D66D0(((struct Obj03272 *)p)->f14,((struct Obj03272 *)p)->f70);
+    switch (func_02012DD0(((struct Obj03272 *)p)->f2C)) {
     case 1:
-        if (*(void **)(p+0x34)) {
-            func_020307B0(*(void **)(p+0x34));
-            *(void **)(p+0x34)=0;
+        if (((struct Obj03272 *)p)->f34) {
+            func_020307B0(((struct Obj03272 *)p)->f34);
+            ((struct Obj03272 *)p)->f34=0;
         }
         break;
     case 3:

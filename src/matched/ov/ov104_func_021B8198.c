@@ -18,6 +18,7 @@
  *   func_02040588 0x02040588 arm
  *   func_021B8220 0x021B8220 thumb ov104
  */
+#include "../include/Obj13744.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -32,4 +33,4 @@ extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 extern void func_02040588(u32 which, u32 enable);
 extern void func_021B8220(u8 *,u16 *);
-void func_021B8198(u8 *p,u16 *state) { switch(*state) { case 0: *(u16 *)(p+0x80a)=0; *state=1; break; case 1: func_02040588(2,0); *state=3; break; case 3: func_021B816C(p+0x7b0); func_021B817C(p,func_021B8220); break; } if(func_021B7250(*(void **)(p+0x7ac))==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C(p,func_021B8528); }
+void func_021B8198(u8 *p,u16 *state) { switch(*state) { case 0: ((struct Obj13744 *)p)->f80A=0; *state=1; break; case 1: func_02040588(2,0); *state=3; break; case 3: func_021B816C(p+0x7b0); func_021B817C(p,func_021B8220); break; } if(func_021B7250(((struct Obj13744 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); } if(func_021B6480(*(void **)(CTX(p)+4))!=0) func_021B817C(p,func_021B8528); }

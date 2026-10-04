@@ -11,8 +11,9 @@
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj04345.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,int);
-void func_021BAF74(u8 *p,u8 a,u8 b) { u16 z=0; func_02082BCC(p,0,0x38); p[0]=a; p[1]=b; *(u32 *)(p+0x14)=0x1000; *(u16 *)(p+4)=z; *(u16 *)(p+6)=z; *(u16 *)(p+8)=z; *(u16 *)(p+10)=z; }
+void func_021BAF74(u8 *p,u8 a,u8 b) { u16 z=0; func_02082BCC(p,0,0x38); p[0]=a; p[1]=b; ((struct Obj04345 *)p)->f14=0x1000; ((struct Obj04345 *)p)->f4=z; ((struct Obj04345 *)p)->f6=z; ((struct Obj04345 *)p)->f8=z; ((struct Obj04345 *)p)->fA=z; }

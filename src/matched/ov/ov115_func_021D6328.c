@@ -9,5 +9,6 @@
  * status: EXACT
  * extent: single store-and-return callback; following bytes are rodata.
  */
+#include "../include/Obj22611.h"
 typedef unsigned char u8;
-void func_021D6328(u8 *p) { *(int *)(p+24)=1; }
+void func_021D6328(u8 *p) { ((struct Obj22611 *)p)->f18=1; }

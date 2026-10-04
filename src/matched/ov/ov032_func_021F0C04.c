@@ -13,6 +13,7 @@
  *   func_021F0C04  0x021F0C04  thumb
  *   func_0202800C  0x0202800C  thumb
  */
+#include "../include/Obj13061.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,8 +39,8 @@ void func_021F0C04(char *p, int flag)
         base = 0x10;
     }
     for (i = 0; i < n; i++) {
-        *(u32 *)(q + i * 16) = (u32)func_0202800C(*(u32 *)(p + 0xb8), (u32)(q + i * 16 + 4),
+        *(u32 *)(q + i * 16) = (u32)func_0202800C(((struct Obj13061 *)p)->fB8, (u32)(q + i * 16 + 4),
                                       (u8)(base + i * 8), 0x15, 8, 3, 1, 0,
-                                      *(u16 *)(p + 0x98));
+                                      ((struct Obj13061 *)p)->f98);
     }
 }

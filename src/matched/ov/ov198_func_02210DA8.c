@@ -16,6 +16,9 @@
  *   func_02210ED4 0x02210ED4 thumb ov198
  *   func_02210F98 0x02210F98 thumb ov198
  */
+#include "../include/Obj10852.h"
+#include "../include/Obj25270.h"
+#include "../include/Obj25271.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,10 +32,10 @@ int func_02210DA8(u8 *p)
     int index=func_022110D4(p,(*(u8 **)p)[32]);
     u8 *q=p+4+76*index;
     if(func_02210F04((u32)p,index)==1) return 1;
-    if(*(u16 *)(q+16)==0) return 2;
+    if(((struct Obj25270 *)q)->f10==0) return 2;
     if(func_02210F4C(p,(*(u8 **)p)[32])==1) return 3;
     if(func_02210ED4(p)==1) return 5;
     if(func_02210F98(p,(*(u8 **)p)[32])==1) return 4;
-    if(*(u16 *)(*(u8 **)p+38)!=0) return 6;
+    if(((struct Obj25271 *)(*(u8 * *)&((struct Obj10852 *)p)->f0))->f26!=0) return 6;
     return 0;
 }

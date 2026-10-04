@@ -23,6 +23,7 @@
  *   func_02035C08 0x02035C08 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj02928.h"
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern int func_02035C08(void *p);
@@ -50,7 +51,7 @@ void func_021BB37C(char *p)
     if (keys & 1) {
         func_021BC5A8(p, 3);
         func_021BC580(p, 5);
-        switch (*(int *)(p + 0x2c)) {
+        switch (*(int *)&((struct Obj02928 *)p)->f2C) {
         case 0:
             func_021BB934(p, 0);
             func_021BB91C(p);

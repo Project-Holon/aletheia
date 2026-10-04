@@ -18,6 +18,7 @@
  *   func_021C272C 0x021C272C thumb ov217
  *   func_021C271C 0x021C271C thumb ov217
  */
+#include "../include/Obj25921.h"
 typedef unsigned char u8;
 typedef signed int s32;
 extern unsigned func_021BF7E0(void *);
@@ -48,5 +49,5 @@ void func_021BEF30(char *p)
             i++;
         }
     }
-    *(u8 *)(p+0x2fc)=i;
+    ((struct Obj25921 *)p)->f2FC=i;
 }

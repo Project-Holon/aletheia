@@ -17,6 +17,8 @@
  *   func_021B6FDC 0x021B6FDC thumb ov173
  *   func_021B7968 0x021B7968 thumb ov173
  */
+#include "../include/Obj00837.h"
+#include "../include/Obj24161.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,10 +37,10 @@ void func_021B70D8(char *p)
 {
     u32 i;
     void *q;
-    func_02043B5C(func_02045770(*(void **)(p + 0x30)), 0);
+    func_02043B5C(func_02045770(((struct Obj00837 *)p)->f30), 0);
     for (i = 0; i < 4; i++)
-        func_021B6FDC(p, *(u16 *)(*(char **)p + 0x16), i);
-    q = *(void **)(p + 0x30);
+        func_021B6FDC(p, ((struct Obj24161 *)(*(char * *)&((struct Obj00837 *)p)->f0))->f16, i);
+    q = ((struct Obj00837 *)p)->f30;
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(func_02045730(q));

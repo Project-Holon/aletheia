@@ -26,6 +26,7 @@
  *   func_02027620  0x02027620  thumb
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj00049.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -58,16 +59,16 @@ void func_02184C48(u8 *p, void *q)
 
     h = func_020490F4(func_020275E4(), 0x28);
     func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_02186ACC, 0x28);
-    *(u32 *)(p + 0x38) = (u32)func_0204B100(0x35, 1, 0x28);
-    *(u32 *)(p + 0x40) = func_0204A6C8(q, 3, 0, 0, 0x28);
-    *(u32 *)(p + 0x3C) = func_0204ABF0(q, 0, 0, 0, 0x28);
-    *(u32 *)(p + 0x44) = func_0204AF28(q, 5, 8, 0x28);
-    *(u32 *)(p + 0x4C) = func_0204A6C8(h, func_02027618(), 0, 0, 0x28);
-    *(u32 *)(p + 0x48) = func_0204AC18(h, func_02027614(), 0, 0x160, 0, 3, 0x28);
+    ((struct Obj00049 *)p)->f38 = (u32)func_0204B100(0x35, 1, 0x28);
+    ((struct Obj00049 *)p)->f40 = func_0204A6C8(q, 3, 0, 0, 0x28);
+    ((struct Obj00049 *)p)->f3C = func_0204ABF0(q, 0, 0, 0, 0x28);
+    ((struct Obj00049 *)p)->f44 = func_0204AF28(q, 5, 8, 0x28);
+    ((struct Obj00049 *)p)->f4C = func_0204A6C8(h, func_02027618(), 0, 0, 0x28);
+    ((struct Obj00049 *)p)->f48 = func_0204AC18(h, func_02027614(), 0, 0x160, 0, 3, 0x28);
     t = func_0202761C(0);
-    *(u32 *)(p + 0x50) = func_0204AF28(h, t, func_02027620(0), 0x28);
-    *(u32 *)(p + 0x58) = func_0204A6C8(q, 3, 0, 1, 0x28);
-    *(u32 *)(p + 0x54) = func_0204ABF0(q, 0, 1, 0, 0x28);
-    *(u32 *)(p + 0x5C) = func_0204AF28(q, 5, 8, 0x28);
+    ((struct Obj00049 *)p)->f50 = func_0204AF28(h, t, func_02027620(0), 0x28);
+    ((struct Obj00049 *)p)->f58 = func_0204A6C8(q, 3, 0, 1, 0x28);
+    ((struct Obj00049 *)p)->f54 = func_0204ABF0(q, 0, 1, 0, 0x28);
+    ((struct Obj00049 *)p)->f5C = func_0204AF28(q, 5, 8, 0x28);
     func_02049238(h);
 }

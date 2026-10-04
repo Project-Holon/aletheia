@@ -22,6 +22,7 @@
  *   func_0217FE38  0x0217FE38  thumb ov018
  *   d_0218383C     0x0218383C  data ov018 a2
  */
+#include "../include/Obj09400.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,7 +56,7 @@ int func_021808E8(int x, int *st, u8 *obj)
     m = (void *)func_02158344(func_02012138((const struct Ctx *)v));
     switch (*st) {
     case 0:
-        func_0201F02C((struct WordSet *)(*(int *)(obj + 0x10)), 0, func_02012950((struct Sub24 *)w, obj[0x40]));
+        func_0201F02C((struct WordSet *)(((struct Obj09400 *)obj)->f10), 0, func_02012950((struct Sub24 *)w, obj[0x40]));
         func_0217F3C4(obj + 0x10, d_0218383C[obj[0x42]]);
         *st = *st + 1;
         break;

@@ -25,6 +25,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03316.h"
+#include "../include/Obj08261.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -46,31 +48,31 @@ void func_021BBE5C(void *a0, char *a1)
     u32 p;
     u8 i, j;
 
-    if (*(void **)(a1 + 0x1c) != 0) {
-        func_02028148((u8 *)(*(u32 *)(a1 + 0x1c)));
-        *(u32 *)(a1 + 0x1c) = 0;
+    if (((struct Obj03316 *)a1)->f1C != 0) {
+        func_02028148((u8 *)(*(u32 *)&((struct Obj03316 *)a1)->f1C));
+        *(u32 *)&((struct Obj03316 *)a1)->f1C = 0;
     }
 
-    p = *(u32 *)(a1 + 0x2c);
+    p = ((struct Obj03316 *)a1)->f2C;
     func_020456F8((struct Descriptor *)p);
     func_020409B4(func_02045730((struct Descriptor *)p));
-    func_020452E8((struct Descriptor *)(*(u32 *)(a1 + 0x2c)));
+    func_020452E8((struct Descriptor *)(((struct Obj03316 *)a1)->f2C));
 
-    p = *(u32 *)(a1 + 0x30);
+    p = ((struct Obj03316 *)a1)->f30;
     func_020456F8((struct Descriptor *)p);
     func_020409B4(func_02045730((struct Descriptor *)p));
-    func_020452E8((struct Descriptor *)(*(u32 *)(a1 + 0x30)));
+    func_020452E8((struct Descriptor *)(((struct Obj03316 *)a1)->f30));
 
-    func_0204B3B4((struct Obj *)(*(u32 *)(a1 + 0x404)));
-    func_0204B3B4((struct Obj *)(*(u32 *)(a1 + 0x400)));
+    func_0204B3B4((struct Obj *)(((struct Obj03316 *)a1)->f404));
+    func_0204B3B4((struct Obj *)(((struct Obj03316 *)a1)->f400));
 
     for (i = 0; i < 0xf; i++) {
         char *q = a1 + i * 0x1c;
 
-        func_020452E8((struct Descriptor *)(*(u32 *)(q + 0x54)));
-        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x50)));
-        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x4c)));
-        func_0204B3B4((struct Obj *)(*(u32 *)(q + 0x48)));
+        func_020452E8((struct Descriptor *)(((struct Obj08261 *)q)->f54));
+        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f50));
+        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f4C));
+        func_0204B3B4((struct Obj *)(((struct Obj08261 *)q)->f48));
     }
 
     for (j = 0; j < 0xf; j++)

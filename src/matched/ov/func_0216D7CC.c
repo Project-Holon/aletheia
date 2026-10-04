@@ -20,6 +20,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ typedef unsigned int   u32;
 
 void func_0216D7CC(u8 *p)
 {
-    *(u16 *)(p + 0x28) = *(u16 *)(p + 0x28) + 1;
+    ((struct Obj00113 *)p)->f28 = ((struct Obj00113 *)p)->f28 + 1;
 }

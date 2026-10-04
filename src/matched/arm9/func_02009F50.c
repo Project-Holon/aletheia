@@ -10,6 +10,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15577.h"
 
 struct Obj;
 extern unsigned int func_0200A400(struct Obj *obj);
@@ -20,7 +21,7 @@ int func_02009F50(char *p, unsigned int idx)
 {
     unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
     func_0200A400((struct Obj *)p);
-    if (idx < 0xc && func_02009F0C(*(unsigned char *)((char *)e + 0xb3)) != 0)
+    if (idx < 0xc && func_02009F0C(((struct Obj15577 *)e)->fB3) != 0)
         return 1;
     return 0;
 }

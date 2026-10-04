@@ -16,6 +16,7 @@
  *   func_02051E74 0x02051E74 arm
  *   func_02040860 0x02040860 arm
  */
+#include "../include/Obj00682.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -31,58 +32,58 @@ int func_021BA83C(char *p)
     struct Mtx22 matrix;
     int v;
     unsigned scale;
-    switch (*(u8 *)(p + 0x2ce)) {
+    switch (((struct Obj00682 *)p)->f2CE) {
     case 0:
         func_021B9A80(p, 1);
         func_0207D63C(0x04000050, 8, 0x20, 0, 16);
         func_020434DC(8, 1);
         func_0207D534((void *)0x0400006c, 0);
         func_0207D534((void *)0x0400106c, 0);
-        *(u8 *)(p + 0x2d0) = 0;
-        ++*(u8 *)(p + 0x2ce);
+        *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
+        ++((struct Obj00682 *)p)->f2CE;
         break;
     case 1:
-        if (*(u8 *)(p + 0x2d2) == 1) *(s8 *)(p + 0x2d0) += 8;
-        else *(s8 *)(p + 0x2d0) += 2;
-        v = *(s8 *)(p + 0x2d0);
+        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2D0 += 8;
+        else ((struct Obj00682 *)p)->f2D0 += 2;
+        v = ((struct Obj00682 *)p)->f2D0;
         if (v >= 16) {
             *(volatile u16 *)0x04000052 = 16;
             func_02051E74(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
-            *(u8 *)(p + 0x2d0) = 0;
-            *(u16 *)(p + 0x2da) = 0xa6;
-            ++*(u8 *)(p + 0x2ce);
+            *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
+            *(u16 *)&((struct Obj00682 *)p)->f2DA = 0xa6;
+            ++((struct Obj00682 *)p)->f2CE;
         } else {
             *(volatile u16 *)0x04000052 = v | ((16 - v) << 8);
-            scale = 8 - *(s8 *)(p + 0x2d0) / 2;
+            scale = 8 - ((struct Obj00682 *)p)->f2D0 / 2;
             func_02051E74(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
         }
         break;
     case 2:
-        if (*(u8 *)(p + 0x2d2) == 1) *(short *)(p + 0x2da) -= 4;
-        else --*(short *)(p + 0x2da);
-        if (*(short *)(p + 0x2da) <= 0) {
-            *(short *)(p + 0x2da) = 0;
-            ++*(u8 *)(p + 0x2ce);
+        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2DA -= 4;
+        else --((struct Obj00682 *)p)->f2DA;
+        if (((struct Obj00682 *)p)->f2DA <= 0) {
+            ((struct Obj00682 *)p)->f2DA = 0;
+            ++((struct Obj00682 *)p)->f2CE;
         }
         break;
     case 3:
-        if (*(u8 *)(p + 0x2d2) == 1) *(s8 *)(p + 0x2d0) += 8;
-        else *(s8 *)(p + 0x2d0) += 2;
-        v = *(s8 *)(p + 0x2d0);
+        if (((struct Obj00682 *)p)->f2D2 == 1) ((struct Obj00682 *)p)->f2D0 += 8;
+        else ((struct Obj00682 *)p)->f2D0 += 2;
+        v = ((struct Obj00682 *)p)->f2D0;
         if (v >= 16) {
             *(volatile u16 *)0x04000050 = 0;
             func_020434DC(8, 0);
             func_02051E74(&matrix, 0, (const void *)0x1000, (const void *)0x1000, 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
             func_021B9A80(p, 0);
-            *(u8 *)(p + 0x2d0) = 0;
-            *(u8 *)(p + 0x2ce) = 0;
+            *(u8 *)&((struct Obj00682 *)p)->f2D0 = 0;
+            ((struct Obj00682 *)p)->f2CE = 0;
             return 0;
         } else {
             *(volatile u16 *)0x04000052 = (16 - v) | (v << 8);
-            scale = *(s8 *)(p + 0x2d0) / 2 + 1;
+            scale = ((struct Obj00682 *)p)->f2D0 / 2 + 1;
             func_02051E74(&matrix, 0, (const void *)(scale << 12), (const void *)(scale << 12), 0);
             func_02040860(3, (unsigned)&matrix, 0x80, 0x60);
         }

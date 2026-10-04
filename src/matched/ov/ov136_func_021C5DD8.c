@@ -13,6 +13,13 @@
  *   func_0202DB0C 0x0202DB0C thumb
  *   func_0202DE5C 0x0202DE5C thumb
  */
+#include "../include/Obj04535.h"
+#include "../include/Obj23533.h"
+#include "../include/Obj23534.h"
+#include "../include/Obj23535.h"
+#include "../include/Obj23536.h"
+#include "../include/Obj23537.h"
+#include "../include/Obj23538.h"
 typedef unsigned char u8;
 extern void *func_0201C440(int);
 typedef unsigned int   u32;
@@ -23,8 +30,8 @@ extern void *func_0202DB0C(void *,int,void *,void *,int,int,int);
 extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 void func_021C5DD8(u8 *p)
 {
-    *(void **)(*(u8 **)(p+8)+0x36c) = func_0201C440(102);
-    *(void **)(*(u8 **)(p+8)+0x368) = func_0204B100(8,2,102);
-    *(void **)(*(u8 **)(p+8)+0x35c) = func_0202DB0C(*(void **)(*(u8 **)(p+8)+0x368),1,*(void **)(*(u8 **)(p+8)+0x36c),*(void **)(p+24),4,4,102);
-    func_0202DE5C(*(void **)(*(u8 **)(p+8)+0x35c),0);
+    ((struct Obj23533 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f36C = func_0201C440(102);
+    ((struct Obj23534 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f368 = func_0204B100(8,2,102);
+    ((struct Obj23537 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f35C = func_0202DB0C(((struct Obj23535 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f368,1,((struct Obj23536 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f36C,((struct Obj04535 *)p)->f18,4,4,102);
+    func_0202DE5C(((struct Obj23538 *)(*(u8 * *)&((struct Obj04535 *)p)->f8))->f35C,0);
 }

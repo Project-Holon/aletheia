@@ -9,14 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj04041.h"
 
 void func_02013220(char *p)
 {
-    *(int *)p = 0;
-    *(int *)(p + 4) = 0;
-    *(unsigned char *)(p + 9) = 0;
-    *(unsigned char *)(p + 8) = 0;
-    *(unsigned short *)(p + 0xa) = 0;
-    *(unsigned char *)(p + 0xc) = 0xa;
-    *(unsigned char *)(p + 0xd) = 0;
+    ((struct Obj04041 *)p)->f0 = 0;
+    ((struct Obj04041 *)p)->f4 = 0;
+    ((struct Obj04041 *)p)->f9 = 0;
+    ((struct Obj04041 *)p)->f8 = 0;
+    ((struct Obj04041 *)p)->fA = 0;
+    ((struct Obj04041 *)p)->fC = 0xa;
+    ((struct Obj04041 *)p)->fD = 0;
 }

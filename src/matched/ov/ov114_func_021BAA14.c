@@ -12,10 +12,11 @@
  *
  * Word getter at +0x14.
  */
+#include "../include/Obj22577.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 u32 func_021BAA14(u8 *p)
 {
-    return *(u32 *)(p + 0x14);
+    return ((struct Obj22577 *)p)->f14;
 }

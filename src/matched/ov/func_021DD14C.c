@@ -17,6 +17,7 @@
  *   refresh.  Bytes 0x20 and 0x21 go through a computed address because 32 is
  *   past the ldrb immediate range -- and the fields are unsigned char (ldrb).
  */
+#include "../include/Obj00000.h"
 
 
 struct WinMgr;
@@ -24,7 +25,7 @@ extern void func_021EE038(char *, int, int, int);
 extern void func_021EF660(struct WinMgr *mgr);
 void func_021DD14C(char *p)
 {
-    func_021EE038(p, *(unsigned char *)(p + 0x1f), *(unsigned char *)(p + 0x20),
-                  *(unsigned char *)(p + 0x21));
-    func_021EF660(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
+    func_021EE038(p, ((struct Obj00000 *)p)->f1F, ((struct Obj00000 *)p)->f20,
+                  ((struct Obj00000 *)p)->f21);
+    func_021EF660(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
 }

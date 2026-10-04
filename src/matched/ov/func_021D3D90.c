@@ -14,6 +14,7 @@
  *
  * ldrb at #0x1ab (pool constant)
  */
+#include "../include/Obj18397.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u8 func_021D3D90(u8 *p)
 {
-    return *(u8 *)(p + 0x1ab);
+    return ((struct Obj18397 *)p)->f1AB;
 }

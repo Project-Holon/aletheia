@@ -16,11 +16,12 @@
  * only overlay in the window that does not overlap the caller's ov204), so
  * the bl site resolves as matched and the verdict promoted to EXACT.
  */
+#include "../include/Obj25361.h"
 
 extern void func_021BD374(unsigned char *p);
 
 int func_021BE6E8(char *a)
 {
-    func_021BD374((unsigned char *)(*(int *)(a + 0xa4)));
+    func_021BD374((unsigned char *)(((struct Obj25361 *)a)->fA4));
     return 1;
 }

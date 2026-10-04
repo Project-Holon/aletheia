@@ -39,6 +39,7 @@
  * Original reloads p before 7B8/830/BAB58 despite their unused entry r0.
  * BA144 visibly receives classification in r1; retain that argument.
  */
+#include "../include/Obj01785.h"
 extern void func_021BA67C(unsigned);
 extern void func_021BA5BC(unsigned);
 extern void func_021BA5F8(char *self);
@@ -80,6 +81,6 @@ void func_021B9B98(char *p)
     if (func_021BA3B4((unsigned)p,0)==0)func_021BA2FC((unsigned)p);
     kind=func_021BA19C((unsigned char *)p);
     func_021BA144((unsigned char *)p,func_021BA19C((unsigned char *)p));
-    if (kind==2) {func_021BA284(*(unsigned *)(p+0x28));func_021BA3E8((char *)((unsigned)p),0);}
+    if (kind==2) {func_021BA284(((struct Obj01785 *)p)->f28);func_021BA3E8((char *)((unsigned)p),0);}
     func_021BA354();func_021BA150(p);
 }

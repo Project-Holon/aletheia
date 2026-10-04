@@ -32,6 +32,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
  */
+#include "../include/Obj00199.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,35 +63,35 @@ extern void func_02034A5C(int handle);
 void func_021D5FC4(u8 *p)
 {
     int i;
-    func_0204B3B4(*(void **)(p+0x134));
+    func_0204B3B4(((struct Obj00199 *)p)->f134);
     func_021D698C(p);
     func_021D6ED8(p);
     func_021D6C64(p);
-    func_020307B0(*(void **)(p+0x124));
-    func_020307B0(*(void **)(p+0x128));
+    func_020307B0(((struct Obj00199 *)p)->f124);
+    func_020307B0(((struct Obj00199 *)p)->f128);
     func_021D6B5C(p);
-    func_0204ADA4((u32)(*(void **)(p+0x18)));
-    func_0204ADA4((u32)(*(void **)(p+0x1c)));
-    func_0204A8D4((u32)(*(void **)(p+0x28)));
-    func_0204A8D4((u32)(*(void **)(p+0x2c)));
-    func_0204AFD8((u32)(*(void **)(p+0x74)));
-    func_0204AFD8((u32)(*(void **)(p+0x78)));
-    func_0204ADA4((u32)(*(void **)(p+0x24)));
-    func_0204A8D4((u32)(*(void **)(p+0x70)));
-    func_0204AFD8((u32)(*(void **)(p+0xbc)));
-    func_0204ADA4((u32)(*(void **)(p+0x20)));
+    func_0204ADA4((u32)(((struct Obj00199 *)p)->f18));
+    func_0204ADA4((u32)(((struct Obj00199 *)p)->f1C));
+    func_0204A8D4((u32)(((struct Obj00199 *)p)->f28));
+    func_0204A8D4((u32)(((struct Obj00199 *)p)->f2C));
+    func_0204AFD8((u32)(((struct Obj00199 *)p)->f74));
+    func_0204AFD8((u32)(((struct Obj00199 *)p)->f78));
+    func_0204ADA4((u32)(((struct Obj00199 *)p)->f24));
+    func_0204A8D4((u32)(((struct Obj00199 *)p)->f70));
+    func_0204AFD8((u32)(((struct Obj00199 *)p)->fBC));
+    func_0204ADA4((u32)(((struct Obj00199 *)p)->f20));
     for(i=0;i<16;i++) {
         func_0204A8D4((u32)(*(void **)(p+i*4+0x30)));
         func_0204AFD8((u32)(*(void **)(p+i*4+0x7c)));
     }
-    func_02030EAC(*(void **)(p+0x14));
-    func_0204B1CC(*(void **)(p+0x10));
+    func_02030EAC(((struct Obj00199 *)p)->f14);
+    func_0204B1CC(((struct Obj00199 *)p)->f10);
     func_0204A5AC();
-    func_0202EA20(*(void **)(p+0xf8));
-    func_0202EA20(*(void **)(p+0xfc));
-    func_0203FB44(7,*(u32 *)(p+8),*(u32 *)(p+8)>>16);
-    func_0203FB44(4,*(u32 *)p,*(u32 *)p>>16);
-    func_0203FB44(0,*(u32 *)(p+4),*(u32 *)(p+4)>>16);
+    func_0202EA20(((struct Obj00199 *)p)->fF8);
+    func_0202EA20(((struct Obj00199 *)p)->fFC);
+    func_0203FB44(7,((struct Obj00199 *)p)->f8,((struct Obj00199 *)p)->f8>>16);
+    func_0203FB44(4,((struct Obj00199 *)p)->f0,((struct Obj00199 *)p)->f0>>16);
+    func_0203FB44(0,((struct Obj00199 *)p)->f4,((struct Obj00199 *)p)->f4>>16);
     func_02040DA8(1,1,0);
     func_02040DA8(5,1,0);
     func_02040DA8(6,1,0);

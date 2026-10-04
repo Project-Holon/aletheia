@@ -26,6 +26,7 @@
  *   func_0217B8E4  0x0217B8E4  thumb  ov019
  *   d_021807E4     0x021807E4  data  a4
  */
+#include "../include/Obj09414.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -101,10 +102,10 @@ int func_0217D890(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 5:
         if (func_02174268(a) == 0) {
-            if (*(int *)(a + 0x355C) != 0)
+            if (((struct Obj09414 *)a)->f355C != 0)
                 func_02034714(d_021807E4, 0, d_021807E4);
-            p = *(int **)a;
-            *(int *)(a + 0x355C) = func_02174F4C(p[2], p[3], p[0], b->b1);
+            p = *(int * *)&((struct Obj09414 *)a)->f0;
+            ((struct Obj09414 *)a)->f355C = func_02174F4C(p[2], p[3], p[0], b->b1);
             func_0217BAF0(a, c, 1);
             func_0217B8E4(a, 0x28);
             return 1;

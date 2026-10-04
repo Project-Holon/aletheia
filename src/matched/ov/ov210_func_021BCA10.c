@@ -12,6 +12,7 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25586.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,6 +23,6 @@ extern u32 func_0202EA20(u32);
 
 u32 func_021BCA10(u8 *p)
 {
-    return func_0202EA20(*(u32 *)(p + 0x2b4));
+    return func_0202EA20(((struct Obj25586 *)p)->f2B4);
 }
 

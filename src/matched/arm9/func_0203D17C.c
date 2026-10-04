@@ -24,6 +24,8 @@
  *   python tools/match.py one --src src/matched/func_0203D17C.c \
  *       --func func_0203D17C --addr 0x0203D17C --cc 1.1p1 --arm
  */
+#include "../include/Obj15981.h"
+#include "../include/Obj15982.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -39,9 +41,9 @@ void func_0203D17C(u32 a)
     Fn   f;
 
     p = func_0203D788();
-    vt = *(u32 **)(p + 0x340);
+    vt = *(u32 * *)&((struct Obj15981 *)p)->f340;
     if (vt == 0)
         return;
-    f = *(Fn *)((u8 *)vt + 0xC4);
+    f = *(Fn *)&((struct Obj15982 *)vt)->fC4;
     f(a);
 }

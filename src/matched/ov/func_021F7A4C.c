@@ -14,6 +14,7 @@
 
  * Test bit 1 of the callee result; the odd branch re-latches state 2 before state 3.
  */
+#include "../include/Obj12199.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,8 +29,8 @@ int func_021F7A4C(u8 *p)
 
     if (v & 2) {
         func_021F4EC0(p, 5, 5);
-        *(u32 *)(p + 0x28) = 2;
+        ((struct Obj12199 *)p)->f28 = 2;
     }
-    *(u32 *)(p + 0x28) = 3;
+    ((struct Obj12199 *)p)->f28 = 3;
     return 2;
 }

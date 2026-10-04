@@ -14,6 +14,7 @@
  *   func_021B9C00 0x021B9C00 thumb ov093
  *   func_021D5B68 0x021D5B68 thumb ov093
  */
+#include "../include/Obj13368.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned int func_021B8588(void *);
@@ -22,6 +23,6 @@ extern u8 *func_021B9C00(void *p, u32 i);
 extern int func_021D5B68(void *);
 int func_021D102C(char *p)
 {
-    if (func_021B8588(*(void **)p) == 3 && func_021D5B68(func_021B9C00(*(void **)(p + 0x118), 0)) != 0) return 1;
+    if (func_021B8588(((struct Obj13368 *)p)->f0) == 3 && func_021D5B68(func_021B9C00(((struct Obj13368 *)p)->f118, 0)) != 0) return 1;
     return 0;
 }

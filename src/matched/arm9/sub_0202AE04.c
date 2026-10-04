@@ -16,10 +16,11 @@
  *   python tools/match.py one --src src/matched/sub_0202AE04.c \
  *       --func sub_0202AE04 --addr 0x0202AE04 --cc 1.1p1 --thumb
  */
+#include "../include/Obj16760.h"
 
 typedef unsigned int u32;
 
 u32 sub_0202AE04(void *obj)
 {
-    return *(u32 *)((char *)obj + 0x10);
+    return ((struct Obj16760 *)obj)->f10;
 }

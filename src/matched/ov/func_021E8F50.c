@@ -13,11 +13,13 @@
  *
  * Clear the pooled-offset word and return the argument.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj18468.h"
 
 
 int func_021E8F50(char *p, int v)
 {
-    *(int *)(*(char **)(p + 0x2c) + 0xA194) = 0;
+    ((struct Obj18468 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA194 = 0;
     return v;
 }
 

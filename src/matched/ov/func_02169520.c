@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj17744.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ int func_02169520(int a0, int a1)
 {
 
 a0 = a0 + 0xb0;
-*(int *)((char *)a1) = a0;
+((struct Obj17744 *)((char *)a1))->f0 = a0;
     return a0;}

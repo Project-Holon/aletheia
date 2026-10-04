@@ -15,13 +15,14 @@
  *   python tools/match.py one --src src/matched/func_0202B490.c \
  *       --func func_0202B490 --addr 0x0202B490 --thumb --cc 1.1p1
  */
+#include "../include/Obj11315.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 void func_0202B490(u8 *p)
 {
-    if (*(u32 *)(p + 0xc) != 0) {
-        *(u32 *)(p + 0xc) = 0;
+    if (((struct Obj11315 *)p)->fC != 0) {
+        ((struct Obj11315 *)p)->fC = 0;
     }
 }

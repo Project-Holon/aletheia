@@ -15,6 +15,7 @@
  *   func_021C2A28 0x021C2A28 thumb ov217
  *   func_021C2D88 0x021C2D88 thumb ov217
  */
+#include "../include/Obj00115.h"
 struct Rgb555 {
     unsigned short r : 5;
     unsigned short g : 5;
@@ -26,9 +27,9 @@ extern void func_021C2A28(void *);
 extern int func_021C2D88(char *);
 void func_021C2CB0(char *p)
 {
-    int weight = ((*(unsigned int *)(p + 0x1c) >> 2) & 1) == 0 ? 0 : 9;
-    func_02021F64(*(unsigned short **)(p + 12), *(unsigned short **)(p + 8), *(unsigned char *)(p + 16), weight, *(unsigned short *)(p + 18));
-    if (++*(unsigned int *)(p + 0x1c) > 20) {
+    int weight = ((((struct Obj00115 *)p)->f1C >> 2) & 1) == 0 ? 0 : 9;
+    func_02021F64(*(unsigned short * *)&((struct Obj00115 *)p)->fC, *(unsigned short * *)&((struct Obj00115 *)p)->f8, ((struct Obj00115 *)p)->f10, weight, ((struct Obj00115 *)p)->f12);
+    if (++((struct Obj00115 *)p)->f1C > 20) {
         func_021C2A28(p);
         func_021C2D88(p);
     }

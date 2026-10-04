@@ -18,6 +18,7 @@
  *   func_02168CF4  0x02168CF4  thumb  ov010
  *   func_0215897C  0x0215897C  thumb  ov010
  */
+#include "../include/Obj17757.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,7 +53,7 @@ loc_0216A572:
 loc_0216A578:
     v2 = func_02012F50(p);
 loc_0216A57C:
-a1 = *(int *)((char *)v2);
+a1 = ((struct Obj17757 *)((char *)v2))->f0;
     task = func_02168CF4(v1, a1);
 loc_0216A586:
     a0 = func_0215897C(v0, task);

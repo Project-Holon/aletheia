@@ -23,6 +23,7 @@
  *   func_02045334 0x02045334 arm
  *   d_021E81D4 0x021E81D4 data a4
  */
+#include "../include/Obj01055.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -51,8 +52,8 @@ void func_021E5C64(char *p)
     void *h;
     func_02040588(4, 0);
     func_02040588(6, 0);
-    h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
-    func_02049990(h, 16, 4, 0, (u16)*(int *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    h = func_020490F4(0x66, ((struct Obj01055 *)p)->f5F4);
+    func_02049990(h, 16, 4, 0, (u16)((struct Obj01055 *)p)->f870, 0, 0, ((struct Obj01055 *)p)->f5F4);
     func_02041B6C(4);
     func_02040618(4, 0, -4);
     func_02040618(6, 0, -4);
@@ -60,8 +61,8 @@ void func_021E5C64(char *p)
     func_0201DD78(1, 2, 15);
     for (i = 0; i < 26; i++) {
         *(void **)(p + i * 4 + 0x750) = (void *)func_020450F0(6, (u8)d_021E81D4[i].x, (u8)d_021E81D4[i].y, 2, 2, 14, 0);
-        func_02045CAC((struct MsgBank *)(*(int *)(p + 0x720)), i + 0x35, (void *)(*(int *)(p + 0x730)));
-        func_0201C7A4(func_02045770(*(void **)(p + i * 4 + 0x750)), 0, 0, *(void **)(p + 0x730), *(void **)(p + 0x728));
+        func_02045CAC((struct MsgBank *)(((struct Obj01055 *)p)->f720), i + 0x35, (void *)(*(int *)&((struct Obj01055 *)p)->f730));
+        func_0201C7A4(func_02045770(*(void **)(p + i * 4 + 0x750)), 0, 0, ((struct Obj01055 *)p)->f730, ((struct Obj01055 *)p)->f728);
         func_02045374(*(void **)(p + i * 4 + 0x750));
         func_02045334(*(void **)(p + i * 4 + 0x750));
     }

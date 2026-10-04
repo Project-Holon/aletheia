@@ -18,6 +18,7 @@
  *   func_021F8098 0x021F8098 thumb ov135
  *   func_021F8154 0x021F8154 thumb ov135
  */
+#include "../include/Obj08180.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,18 +40,18 @@ void func_021F81C8(void *bank, void *names, int unused, u8 *win, u32 index, int 
     void *str;
     int show = 1;
     str = func_02045EC0(bank, 0x6b);
-    func_021F91A0(*(void **)win, (u32)str, 1, 0, 0, 0x440, (u32)g);
+    func_021F91A0(((struct Obj08180 *)win)->f0, (u32)str, 1, 0, 0, 0x440, (u32)g);
     for (i = 1; i < 3; i++)
         func_02043B5C(func_02045770(*(void **)(win + i * 4)), 0);
-    func_021F7F9C(*(void **)(win + 4), names, index, 0, 0, 0x440, g);
+    func_021F7F9C(((struct Obj08180 *)win)->f4, names, index, 0, 0, 0x440, g);
     if (index == 29 && mode == 2)
         show = 0;
     else if (index == 32 && mode == 1)
         show = 0;
     if (show) {
         if (mode == 1 || mode == 2)
-            func_021F8098(*(void **)(win + 4), bank, mode, 0, 0, 70, 0x440, g);
+            func_021F8098(((struct Obj08180 *)win)->f4, bank, mode, 0, 0, 70, 0x440, g);
     }
-    func_021F8154(*(void **)(win + 8), bank, place, 2, 0, 0x440, 0, g);
+    func_021F8154(((struct Obj08180 *)win)->f8, bank, place, 2, 0, 0x440, 0, g);
     func_02045808(str);
 }

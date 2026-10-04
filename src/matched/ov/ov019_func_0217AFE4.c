@@ -16,6 +16,7 @@
  *   func_02034714  0x02034714  arm
  *   d_021807E0     0x021807E0  data  ov019  a1
  */
+#include "../include/Obj19390.h"
 
 typedef unsigned char u8;
 
@@ -53,7 +54,7 @@ Ent *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)
             p->f6 = d;
             p->f7 = 1;
             r = func_0217AED4(b, p);
-            r = func_0217AE40(a, ((int *)*(int *)a)[2], c->f6, r);
+            r = func_0217AE40(a, ((int *)((struct Obj19390 *)a)->f0)[2], c->f6, r);
             if (e == 0)
                 func_0216DAC8((unsigned int *)r, 1);
             *f = r;

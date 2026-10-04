@@ -16,6 +16,7 @@
  *   func_021BF4C4 0x021BF4C4 thumb ov110
  *   func_021BF500 0x021BF500 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,13 +29,13 @@ extern int func_021BF4C4(u8 *p, int *q);
 extern void func_021BF500(u8 *);
 void func_021BF608(u8 *p,u32 *q) {
     switch(*q) {
-    case 0: func_021BF6CC(p+107,1,1); *(u16 *)(p+72)=1; func_021B9BEC(*(void **)(p+20),21); *q=1; break;
+    case 0: func_021BF6CC(p+107,1,1); ((struct Obj00012 *)p)->f48=1; func_021B9BEC(((struct Obj00012 *)p)->f14,21); *q=1; break;
     case 1:
-        switch(func_021BAC0C(*(void **)(p+20))) {
-        case 0: func_021B9BEC(*(void **)(p+20),23); *q=2; break;
+        switch(func_021BAC0C(((struct Obj00012 *)p)->f14)) {
+        case 0: func_021B9BEC(((struct Obj00012 *)p)->f14,23); *q=2; break;
         case 1: func_021BD7A0(p,(void (*)(void))func_021BF4C4); *q=2; break;
         }
         break;
-    case 2: if(func_021B9C74((unsigned int)(*(void **)(p+20)))) func_021BF500(p); break;
+    case 2: if(func_021B9C74((unsigned int)(((struct Obj00012 *)p)->f14))) func_021BF500(p); break;
     }
 }

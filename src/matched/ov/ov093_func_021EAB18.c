@@ -17,6 +17,7 @@
  *   func_021ED53C  0x021ED53C  thumb  ov093
  *   func_021ED554  0x021ED554  thumb  ov093
  */
+#include "../include/Obj04382.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -35,26 +36,26 @@ int func_021EAB18(int *st, u8 *b)
 
     switch (*st) {
     case 0:
-        func_021F8414(t[1], t[2] & 1, func_021CD9E0(*(void **)(b + 4)) == 0);
+        func_021F8414(t[1], t[2] & 1, func_021CD9E0(((struct Obj04382 *)b)->f4) == 0);
         *st = *st + 1;
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[5]);
-            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[6]);
-            func_021ED53C((u8 *)(*(u32 *)(b + 0x17c)), t[7]);
+            func_021ED53C((u8 *)(((struct Obj04382 *)b)->f17C), t[5]);
+            func_021ED53C((u8 *)(((struct Obj04382 *)b)->f17C), t[6]);
+            func_021ED53C((u8 *)(((struct Obj04382 *)b)->f17C), t[7]);
             *st = *st + 1;
         }
         break;
     case 2:
         r = 1;
-        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[5]) == 0) {
+        if (func_021ED554((u8 *)(((struct Obj04382 *)b)->f17C), t[5]) == 0) {
             r = 0;
         }
-        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[6]) == 0) {
+        if (func_021ED554((u8 *)(((struct Obj04382 *)b)->f17C), t[6]) == 0) {
             r = 0;
         }
-        if (func_021ED554((u8 *)(*(u32 *)(b + 0x17c)), t[7]) == 0) {
+        if (func_021ED554((u8 *)(((struct Obj04382 *)b)->f17C), t[7]) == 0) {
             r = 0;
         }
         if (r != 0) {

@@ -11,6 +11,7 @@
  *   func_021BF9F0 0x021BF9F0 thumb ov217
  *   func_021C2070 0x021C2070 thumb ov217
  */
+#include "../include/Obj14747.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Params { u32 handles[3]; u16 a, b, c, d, e; };
@@ -27,5 +28,5 @@ void func_021BFE8C(char *p)
     args.c = 1;
     args.d = 2;
     args.e = 3;
-    *(u32 *)(p + 0x2d0) = func_021C2070(*(u16 *)(p + 4), (u32)&args);
+    ((struct Obj14747 *)p)->f2D0 = func_021C2070(((struct Obj14747 *)p)->f4, (u32)&args);
 }

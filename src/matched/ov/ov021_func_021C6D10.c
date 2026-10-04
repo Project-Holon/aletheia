@@ -14,6 +14,7 @@
  *   d_021DE4E4     0x021DE4E4  data  ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09696.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ u8 *func_021C6D10(int n, int heap)
     u8 *p = (u8 *)func_02030734(heap, 12, 0, (const char *)&d_021DE4E4, 0x34);
 
     p[0] = n;
-    *(void **)(p + 4) = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x36);
-    *(void **)(p + 8) = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x37);
+    ((struct Obj09696 *)p)->f4 = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x36);
+    ((struct Obj09696 *)p)->f8 = func_02030734(heap, n * 4, 1, (const char *)&d_021DE4E4, 0x37);
     return p;
 }

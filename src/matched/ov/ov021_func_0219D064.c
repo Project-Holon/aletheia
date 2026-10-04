@@ -16,6 +16,7 @@
  *   func_0219C780  0x0219C780  thumb  ov021
  *   func_0216D758  0x0216D758  thumb  ov010
  */
+#include "../include/Obj00808.h"
 
 extern unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5);
 typedef unsigned int   u32;
@@ -32,12 +33,12 @@ void func_0219D064(int *obj, int *rec)
     x[0] = 0xFFFF;
     *((unsigned char *)rec + 0xd) = 0;
     if (rec[4] != 0) {
-        x[2] = func_0219D3F0(obj, *(unsigned short *)(rec + 2), *((unsigned char *)rec + 0xa),
+        x[2] = func_0219D3F0(obj, ((struct Obj00808 *)rec)->f8, *((unsigned char *)rec + 0xa),
                              *((unsigned char *)rec + 0xb), rec[4], 1);
         rec[4] = 0;
-        func_0219CBD4((u32)obj, *(unsigned short *)(rec + 2), (u32)(&x[0]), (u32)(&x[1]));
+        func_0219CBD4((u32)obj, ((struct Obj00808 *)rec)->f8, (u32)(&x[0]), (u32)(&x[1]));
     } else {
-        func_0219CBD4((u32)obj, *(unsigned short *)(rec + 2), (u32)(&x[2]), (u32)(&x[1]));
+        func_0219CBD4((u32)obj, ((struct Obj00808 *)rec)->f8, (u32)(&x[2]), (u32)(&x[1]));
     }
     if (rec[1] != 0) {
         r = func_0219C7B4(rec[1], x[2], x[0]);

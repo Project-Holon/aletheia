@@ -20,6 +20,7 @@
  *   func_021F3DBC  0x021F3DBC  thumb  ov055
  *   func_021F3D90  0x021F3D90  thumb  ov055
  */
+#include "../include/Obj00204.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,29 +43,29 @@ void func_021F41F0(u8 *a, u32 b, u32 c)
 
     switch (a[1]) {
     case 0:
-        if (func_0216D454(*(u32 *)(a + 0xc)) == 0) {
+        if (func_0216D454(*(u32 *)&((struct Obj00204 *)a)->fC) == 0) {
             return;
         }
         a[1] = a[1] + 1;
     case 1:
-        if (*(u16 *)(a + 4) == 0) {
+        if (((struct Obj00204 *)a)->f4 == 0) {
             a[1] = 2;
             return;
         }
         x = (void *)func_021A3074((void *)c);
         c = 1;
         if (func_021F4318(a, x, 1, 1)) {
-            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), *(u16 *)(a + 6));
+            func_0216D5B4((void *)(*(u32 *)&((struct Obj00204 *)a)->fC), ((struct Obj00204 *)a)->f6);
             return;
         }
         if (func_021F42AC(a, (void *)b, &loc, c, 0)) {
             func_021F3DD4(a, loc);
-            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), 0x7d0);
+            func_0216D5B4((void *)(*(u32 *)&((struct Obj00204 *)a)->fC), 0x7d0);
             func_021F3D90(a);
         } else {
-            func_0216D410((void *)(*(u32 *)(a + 0xc)), (u16)(*(u16 *)(a + 0xa) + a[3]));
-            *(u16 *)(a + 4) = *(u16 *)(a + 4) - 1;
-            func_0216D5B4((void *)(*(u32 *)(a + 0xc)), 0x7d0);
+            func_0216D410((void *)(*(u32 *)&((struct Obj00204 *)a)->fC), (u16)(((struct Obj00204 *)a)->fA + a[3]));
+            ((struct Obj00204 *)a)->f4 = ((struct Obj00204 *)a)->f4 - 1;
+            func_0216D5B4((void *)(*(u32 *)&((struct Obj00204 *)a)->fC), 0x7d0);
         }
         a[1] = 0;
         return;

@@ -9,10 +9,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj06173.h"
 void func_021BA350(char *p)
 {
-    *(unsigned short *)(p + 0x160) = 0;
-    *(unsigned short *)(p + 0x162) = *(int *)(p + 0x164) / 10;
-    if (*(int *)(p + 0x164) % 10 != 0)
-        (*(unsigned short *)(p + 0x162))++;
+    ((struct Obj06173 *)p)->f160 = 0;
+    ((struct Obj06173 *)p)->f162 = ((struct Obj06173 *)p)->f164 / 10;
+    if (((struct Obj06173 *)p)->f164 % 10 != 0)
+        (((struct Obj06173 *)p)->f162)++;
 }

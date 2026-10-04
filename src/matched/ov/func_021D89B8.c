@@ -23,6 +23,7 @@
  * then record #4 is published as a two-string record and d's flag pair is set
  * to (0, 1).
  */
+#include "../include/Obj04900.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,21 +47,21 @@ void func_021D89B8(void *a, int b, int c, void *d)
 
     if (c != func_021D775C(2))
         return;
-    if (*(int *)((u8 *)d + 8) != 0)
+    if (((struct Obj04900 *)d)->f8 != 0)
         return;
-    if (*(int *)((u8 *)d + 4) < 5) {
+    if (((struct Obj04900 *)d)->f4 < 5) {
         if (func_021C804C(b, c, &v) == 0)
             return;
         if (v.kind == 3)
             return;
-        *(int *)((u8 *)d + 4) += 1;
+        ((struct Obj04900 *)d)->f4 += 1;
     }
-    if (*(int *)((u8 *)d + 4) < 5)
+    if (((struct Obj04900 *)d)->f4 < 5)
         return;
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x1f3);
     func_021C8860((struct S *)(p + 4), c);
     func_021C88C8((void *)b, p);
-    *(int *)((u8 *)d + 0xc) = 0;
-    *(int *)((u8 *)d + 8) = 1;
+    ((struct Obj04900 *)d)->fC = 0;
+    ((struct Obj04900 *)d)->f8 = 1;
 }

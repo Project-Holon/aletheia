@@ -17,6 +17,7 @@
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
+#include "../include/Obj00117.h"
 typedef unsigned char u8;
 typedef struct {int x,y;} Pair;
 typedef struct {int left,top,right,bottom;} Rect;
@@ -40,16 +41,16 @@ int func_021F37EC(char *p,int *out)
         func_021F2828(p,6,(Pair *)(out+2));out[0]=6;changed=1;
     }
     if(func_020362DC()==4) {
-        out[0]=*(int *)(p+0x100)+3;
+        out[0]=((struct Obj00117 *)p)->f100+3;
         if(out[0]>5)out[0]=2;
         func_021F2828(p,out[0],(Pair *)(p+0xD8));
         *(Pair *)(out+2)=*(Pair *)(p+0xD8);changed=1;
     }
-    if(func_020362DC()==256){*(int *)(p+0xE8)=10;changed=0;}
+    if(func_020362DC()==256){((struct Obj00117 *)p)->fE8=10;changed=0;}
     if(changed && func_020355C4()==1) {
         if(func_021F2818(p,(int)(p+0xD8),(int)&rect)) {
             func_020061E4(1352);func_020355D8(0);
-            func_021F1A1C(p+0x24,1,&rect,*(int *)(p+0x104),*(int *)(p+0x100));
+            func_021F1A1C(p+0x24,1,&rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
             return 0;
         }
     }

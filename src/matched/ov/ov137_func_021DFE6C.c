@@ -17,6 +17,8 @@
  *   func_020409B4 0x020409B4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj23769.h"
+#include "../include/Obj23770.h"
 typedef unsigned char u8;
 extern void *func_021E1634(u8 *,int,int);
 extern int func_02062B30(void *,void **);
@@ -30,8 +32,8 @@ void func_021DFE6C(u8 *p,int file)
     u8 *screen;
     buf=func_021E1634(p,file,0);
     func_02062B30(buf,(void **)(p+3420));
-    screen=*(u8 **)(p+3420);
-    func_02040AE0(6,screen+12,*(int *)(screen+8));
+    screen=*(u8 * *)&((struct Obj23769 *)p)->fD5C;
+    func_02040AE0(6,screen+12,((struct Obj23770 *)screen)->f8);
     func_020409B4(6);
     func_020307B0(buf);
 }

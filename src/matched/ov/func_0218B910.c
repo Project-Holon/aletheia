@@ -16,6 +16,7 @@
  *   func_0218BBF4  0x0218BBF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09453.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern int func_0218BBF4(u32 a, u32 b);
 
 int func_0218B910(u32 a, u32 b)
 {
-return func_0218BBF4(*(u32 *)((u8 *)(a) + 24), func_0218BBD0(a, b));
+return func_0218BBF4(((struct Obj09453 *)((u8 *)(a)))->f18, func_0218BBD0(a, b));
 }
 

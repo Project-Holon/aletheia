@@ -15,12 +15,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14715.h"
 
 extern void func_021BBB34(void *p);
 extern void func_020307B0(void *p);
 
 void func_021BC0B4(char *p)
 {
-    func_021BBB34((void *)(*(int *)(p + 0x1c)));
-    func_020307B0((void *)(*(int *)(p + 0x28)));
+    func_021BBB34((void *)(((struct Obj14715 *)p)->f1C));
+    func_020307B0((void *)(((struct Obj14715 *)p)->f28));
 }

@@ -12,6 +12,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_021B6100 0x021B6100 thumb ov070
  */
+#include "../include/Obj00002.h"
 typedef unsigned short u16;
 typedef void (*Callback)(void *);
 typedef unsigned int   u32;
@@ -20,8 +21,8 @@ extern u32 func_0204B98C(struct Actor *a);
 extern void func_021B6100(void *p, Callback callback);
 void func_021B8CB4(char *p)
 {
-    if (func_0204B98C((struct Actor *)(*(int *)(p + 0x710 + *(u16 *)(p + 0x864) * 4))) == 0) {
-        *(u16 *)(p + 0x864) = 0;
-        func_021B6100(p, *(Callback *)(p + 0x868));
+    if (func_0204B98C((struct Actor *)(*(int *)(p + 0x710 + ((struct Obj00002 *)p)->f864 * 4))) == 0) {
+        ((struct Obj00002 *)p)->f864 = 0;
+        func_021B6100(p, *(Callback *)&((struct Obj00002 *)p)->f868);
     }
 }

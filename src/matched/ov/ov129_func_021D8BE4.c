@@ -14,6 +14,7 @@
  *   func_021DA578 0x021DA578 thumb ov129
  *   func_021D8AF4 0x021D8AF4 thumb ov129
  */
+#include "../include/Obj02843.h"
 
 typedef unsigned int u32;
 
@@ -23,12 +24,12 @@ extern int func_02035C60(void);
 extern void func_021DA578(void *p, int a, void *b, u32 c);
 extern void func_021D8AF4(char *,int);
 int func_021D8BE4(char *p)  {
-    switch(*(int *)(p+0x234))  {
-        case 0: func_021DA610((void *)(*(int *)(p+0x310)),*(int *)(p+0x328),(void *)(*(int *)(p+0x314)),*(int *)(p+0x344));
-        *(int *)(p+0x234)+=1;
+    switch(((struct Obj02843 *)p)->f234)  {
+        case 0: func_021DA610((void *)(((struct Obj02843 *)p)->f310),((struct Obj02843 *)p)->f328,(void *)(((struct Obj02843 *)p)->f314),((struct Obj02843 *)p)->f344);
+        ((struct Obj02843 *)p)->f234+=1;
         break;
         case 1: if((func_020362DC() & 2) || (func_020362DC() & 1) || func_02035C60())  {
-            func_021DA578((void *)(*(int *)(p+0x310)),*(int *)(p+0x328),(void *)(*(int *)(p+0x314)),*(int *)(p+0x344));
+            func_021DA578((void *)(((struct Obj02843 *)p)->f310),((struct Obj02843 *)p)->f328,(void *)(((struct Obj02843 *)p)->f314),((struct Obj02843 *)p)->f344);
             func_021D8AF4(p,1);
         }
         break;

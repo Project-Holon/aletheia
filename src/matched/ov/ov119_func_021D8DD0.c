@@ -13,6 +13,7 @@
  *   func_0201AB28 0x0201AB28 thumb
  *   func_020185F4 0x020185F4 thumb
  */
+#include "../include/Obj00001.h"
 
 extern void *func_02007A18(void *a, int b, int c, void *p);
 extern unsigned int func_0201AA18(void *m);
@@ -26,12 +27,12 @@ void *func_021D8DD0(void *a, int b, int c, char *p)
     int n;
 
     if (b != -1) {
-        n = *(int *)(p + 0x630);
+        n = ((struct Obj00001 *)p)->f630;
         if (b > n)
             return 0;
         if (b != n && c != -1)
             return func_02007A18(a, b, c, p);
-        m = *(void **)(p + 0x838);
+        m = ((struct Obj00001 *)p)->f838;
         if (c < (int)func_0201AA18(m) && c != -1)
             return func_020185F4(func_0201AB28(m, c));
     }

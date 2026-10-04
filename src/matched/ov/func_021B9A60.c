@@ -24,6 +24,7 @@
  * UNBLOCKED: 0x021C4A8C is now an EXACT entry in layout/matched/ov127;
  * the second call site resolves as matched, verdict promoted to EXACT.
  */
+#include "../include/Obj18148.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,5 +39,5 @@ extern unsigned char func_021C4A8C(int i);
 
 void func_021B9A60(char *p)
 {
-    func_021C4A8C(func_021C49A4(*(void **)p, 6));
+    func_021C4A8C(func_021C49A4(((struct Obj18148 *)p)->f0, 6));
 }

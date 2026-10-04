@@ -16,7 +16,9 @@
  *   func_021D47C4 0x021D47C4 thumb ov115
  *   func_021D5D3C 0x021D5D3C thumb ov115
  */
+#include "../include/Obj10331.h"
+#include "../include/Obj22593.h"
 typedef unsigned char u8; typedef unsigned int u32;
 extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern void func_021D47C4(u8 *); extern void func_021D5D3C(int);
-void func_021D4878(u8 *p) { *(void **)(p+0x30)=func_021D5D5C(*(u8 **)(p+0x38),1,!*(int *)(*(u8 **)(p+0x40)+4),1); func_021D426C(p,(u32)func_021D47C4);  }
+void func_021D4878(u8 *p) { ((struct Obj10331 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj10331 *)p)->f38,1,!((struct Obj22593 *)(*(u8 * *)&((struct Obj10331 *)p)->f40))->f4,1); func_021D426C(p,(u32)func_021D47C4);  }

@@ -12,6 +12,7 @@
  *   func_0215F104 0x0215F104 thumb ov010
  *   func_021C6078 0x021C6078 thumb ov021
  */
+#include "../include/Obj12315.h"
 extern int func_0215F104(void *, int);
 typedef enum { B_FALSE, B_TRUE } Bool;
 int func_0215EC2C(void *p)
@@ -23,5 +24,5 @@ typedef unsigned short u16;
 extern void *func_021C6078(void *, void *, u8);
 void *func_0215EC40(u16 *a, void *b)
 {
-    return func_021C6078(*(void **)((u8 *)b + 8), *(void **)((u8 *)b + 16), *a);
+    return func_021C6078(((struct Obj12315 *)b)->f8, ((struct Obj12315 *)b)->f10, *a);
 }

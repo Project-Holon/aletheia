@@ -16,6 +16,7 @@
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17941.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ extern void func_02195E90(struct FrameStyle *style, void *win);
 int func_02194A34(u32 a, u32 b)
 {
 func_02195E90((struct FrameStyle *)a, (void *)b);
-return func_020409B4(((*(u32 *)((u8 *)(a) + 16) << 24) >> 24));
+return func_020409B4(((((struct Obj17941 *)((u8 *)(a)))->f10 << 24) >> 24));
 }
 

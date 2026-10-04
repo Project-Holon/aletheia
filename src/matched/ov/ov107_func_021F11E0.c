@@ -10,7 +10,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22298.h"
+#include "../include/Obj22299.h"
 typedef unsigned short u16;
 struct Bits { unsigned char pad[24]; u16 unused:2; u16 flag:1; u16 rest:13; };
-int func_021F11E0(unsigned char *a) { return *(u16 *)(*(unsigned char **)(a+16)+2); }
+int func_021F11E0(unsigned char *a) { return ((struct Obj22299 *)(*(unsigned char * *)&((struct Obj22298 *)a)->f10))->f2; }
 int func_021F11E8(struct Bits *a) { return a->flag; }

@@ -17,6 +17,14 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
+#include "../include/Obj01077.h"
+#include "../include/Obj25176.h"
+#include "../include/Obj25177.h"
+#include "../include/Obj25178.h"
+#include "../include/Obj25179.h"
+#include "../include/Obj25180.h"
+#include "../include/Obj25181.h"
+#include "../include/Obj25182.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -44,32 +52,32 @@ void func_0220D6DC(char *p,u8 *record,int slot)
     void *secondContext;
     u32 width;
     u32 otherWidth;
-    buf=func_020457B0(6,*(u16 *)(*(char **)p+16));
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x35);
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),40,24,(u32)text,*(u32 *)(*(char **)p+12),0x3DC0);
+    buf=func_020457B0(6,((struct Obj25176 *)(*(char * *)&((struct Obj01077 *)p)->f0))->f10);
+    text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x35);
+    context=((struct Obj01077 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),40,24,(u32)text,((struct Obj25177 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x38);
-    width=func_0201D304(text,*(u32 *)(*(char **)p+12),0);
-    secondContext=*(void **)(p+0x1EAC);
-    func_0201C724(secondContext,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),80,24,(u32)text,*(u32 *)(*(char **)p+12),0x3DC0);
+    text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x38);
+    width=func_0201D304(text,((struct Obj25178 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0);
+    secondContext=((struct Obj01077 *)p)->f1EAC;
+    func_0201C724(secondContext,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),80,24,(u32)text,((struct Obj25179 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x37);
-    func_0201EFA4(*(void **)(p+0x1EA4),0,record[3],2,0,1);
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
-    context=*(void **)(p+0x1EAC);
+    text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x37);
+    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[3],2,0,1);
+    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    context=((struct Obj01077 *)p)->f1EAC;
     width+=80;
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)width,24,(u32)buf,*(u32 *)(*(char **)p+12),0x3DC0);
+    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)width,24,(u32)buf,((struct Obj25180 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x1EA0),0x36);
-    func_0201EFA4(*(void **)(p+0x1EA4),0,record[2],2,0,1);
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
-    otherWidth=func_0201D304(buf,*(u32 *)(*(char **)p+12),0);
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)(80-otherWidth),24,(u32)buf,*(u32 *)(*(char **)p+12),0x3DC0);
+    text=func_02045EC0(((struct Obj01077 *)p)->f1EA0,0x36);
+    func_0201EFA4(((struct Obj01077 *)p)->f1EA4,0,record[2],2,0,1);
+    func_0201F250(((struct Obj01077 *)p)->f1EA4,buf,text);
+    otherWidth=func_0201D304(buf,((struct Obj25181 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0);
+    context=((struct Obj01077 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)(80-otherWidth),24,(u32)buf,((struct Obj25182 *)(*(char * *)&((struct Obj01077 *)p)->f0))->fC,0x3DC0);
     *(u8 *)(p+0x1F74+slot*8)=1;
     func_02045808(text);
     func_02045808(buf);

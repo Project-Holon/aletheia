@@ -19,6 +19,8 @@
  *   func_021D6848  0x021D6848  thumb  ov093
  *   func_021CD4B0  0x021CD4B0  thumb  ov093
  */
+#include "../include/Obj02778.h"
+#include "../include/Obj21078.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Rec { u16 a; u16 b; u8 c; u8 d; u8 e; };
@@ -35,12 +37,12 @@ void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w)
     u8 n = func_021D5440(x);
     u8 m = func_021D5440(c);
     c6 = q[6];
-    a0 = *(u16 *)q;
+    a0 = ((struct Obj02778 *)q)->f0;
     r.a = a0;
     r.b = w;
     r.c = c6;
     r.d = n;
     r.e = b;
     func_021D6848(c, &r);
-    func_021CD4B0(*(void **)(p + 0xc), 0x2d, m, n, b, q[6], *(u16 *)q, w);
+    func_021CD4B0(((struct Obj21078 *)p)->fC, 0x2d, m, n, b, q[6], ((struct Obj02778 *)q)->f0, w);
 }

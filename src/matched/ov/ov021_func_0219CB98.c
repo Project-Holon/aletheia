@@ -15,6 +15,7 @@
  *   func_0219C52C  0x0219C52C  thumb  ov021
  *   func_0219CA6C  0x0219CA6C  thumb  ov021
  */
+#include "../include/Obj00429.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,9 +35,9 @@ void func_0219CB98(u8 *s, u16 k)
     u16 t[2];
     func_0219CA98((Tbl *)(s + 0x14), k, &t[0], &t[1]);
     if (t[1] & 2) {
-        func_02050278((struct BbActSys *)(*(u32 *)(s + 4)), t[0], 1);
+        func_02050278((struct BbActSys *)(((struct Obj00429 *)s)->f4), t[0], 1);
     } else {
-        func_0219C52C(*(u32 *)(s + 4), t[0]);
+        func_0219C52C(((struct Obj00429 *)s)->f4, t[0]);
     }
     func_0219CA6C((Tbl *)(s + 0x14), k);
 }

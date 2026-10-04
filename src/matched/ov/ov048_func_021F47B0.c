@@ -12,18 +12,21 @@
  *
  * int getter, u16 getter, u8 getter.
  */
+#include "../include/Obj20545.h"
+#include "../include/Obj20546.h"
+#include "../include/Obj20547.h"
 
 int func_021F47B0(void *p)
 {
-    return *(int *)((char *)p + 0x18);
+    return ((struct Obj20545 *)p)->f18;
 }
 
 int func_021F47B4(void *p)
 {
-    return *(unsigned short *)p;
+    return ((struct Obj20546 *)p)->f0;
 }
 
 int func_021F47B8(void *p)
 {
-    return *(unsigned char *)((char *)p + 0x2);
+    return ((struct Obj20547 *)p)->f2;
 }

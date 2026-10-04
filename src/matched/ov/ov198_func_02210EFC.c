@@ -8,4 +8,5 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_02210EFC(char **p) { return *(int *)(*p+24); }
+#include "../include/Obj25272.h"
+int func_02210EFC(char **p) { return ((struct Obj25272 *)(*p))->f18; }

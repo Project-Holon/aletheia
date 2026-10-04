@@ -13,6 +13,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  */
+#include "../include/Obj00784.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -24,32 +25,32 @@ extern void func_02043B5C(struct CharBuf *, u8);
 int func_021BA6F0(char *p)
 {
     int a, b;
-    switch (*(u8 *)(p + 0x2ce)) {
+    switch (((struct Obj00784 *)p)->f2CE) {
     case 0:
-        if (*(u8 *)(p + 0x2cf) & 1) func_0207D63C(0x04000050, 2, 0x21, 16, 0);
-        if (*(u8 *)(p + 0x2cf) & 2) func_0207D63C(0x04001050, 2, 0x21, 16, 0);
-        ++*(u8 *)(p + 0x2ce);
+        if (((struct Obj00784 *)p)->f2CF & 1) func_0207D63C(0x04000050, 2, 0x21, 16, 0);
+        if (((struct Obj00784 *)p)->f2CF & 2) func_0207D63C(0x04001050, 2, 0x21, 16, 0);
+        ++((struct Obj00784 *)p)->f2CE;
     case 1:
-        if (*(u8 *)(p + 0x2d2) == 1) *(s8 *)(p + 0x2d0) += 16;
-        else *(s8 *)(p + 0x2d0) += 4;
-        b = *(s8 *)(p + 0x2d0);
+        if (((struct Obj00784 *)p)->f2D2 == 1) ((struct Obj00784 *)p)->f2D0 += 16;
+        else ((struct Obj00784 *)p)->f2D0 += 4;
+        b = ((struct Obj00784 *)p)->f2D0;
         if (b > 16) { a = 0; b = 16; }
         else a = 16 - b;
-        if (*(u8 *)(p + 0x2cf) & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
-        if (*(u8 *)(p + 0x2cf) & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
-        if (*(s8 *)(p + 0x2d0) >= 16) {
-            if (*(u8 *)(p + 0x2cf) & 1) func_02043B5C(func_02045770(*(void **)(p + 0x2bc)), 0);
-            if (*(u8 *)(p + 0x2cf) & 2) func_02043B5C(func_02045770(*(void **)(p + 0x2c4)), 0);
-            *(u8 *)(p + 0x2cc) = *(u8 *)(p + 0x2cf);
-            *(u8 *)(p + 0x2d0) = 0;
-            ++*(u8 *)(p + 0x2ce);
+        if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000052 = a | (b << 8);
+        if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001052 = a | (b << 8);
+        if (((struct Obj00784 *)p)->f2D0 >= 16) {
+            if (((struct Obj00784 *)p)->f2CF & 1) func_02043B5C(func_02045770(((struct Obj00784 *)p)->f2BC), 0);
+            if (((struct Obj00784 *)p)->f2CF & 2) func_02043B5C(func_02045770(((struct Obj00784 *)p)->f2C4), 0);
+            ((struct Obj00784 *)p)->f2CC = ((struct Obj00784 *)p)->f2CF;
+            *(u8 *)&((struct Obj00784 *)p)->f2D0 = 0;
+            ++((struct Obj00784 *)p)->f2CE;
         }
         break;
     case 2:
-        if (*(u8 *)(p + 0x2cf) & 1) *(volatile u16 *)0x04000050 = 0;
-        if (*(u8 *)(p + 0x2cf) & 2) *(volatile u16 *)0x04001050 = 0;
-        *(u8 *)(p + 0x2cf) = 0;
-        *(u8 *)(p + 0x2ce) = 0;
+        if (((struct Obj00784 *)p)->f2CF & 1) *(volatile u16 *)0x04000050 = 0;
+        if (((struct Obj00784 *)p)->f2CF & 2) *(volatile u16 *)0x04001050 = 0;
+        ((struct Obj00784 *)p)->f2CF = 0;
+        ((struct Obj00784 *)p)->f2CE = 0;
         return 0;
     }
     return 1;

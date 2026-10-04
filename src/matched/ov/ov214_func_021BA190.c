@@ -18,6 +18,7 @@
  *   func_0201CE5C 0x0201CE5C thumb
  *   func_0201CE38 0x0201CE38 thumb
  */
+#include "../include/Obj04632.h"
 
 typedef unsigned int u32;
 extern unsigned func_0201CE30(void*);
@@ -35,26 +36,26 @@ extern void func_020061E4(unsigned);
 int func_021BA190(int unused,char*p)
 {
     int result=0;
-    switch(func_0201CE30(*(void**)(p+0x5c))){
+    switch(func_0201CE30(*(void* *)&((struct Obj04632 *)p)->f5C)){
     case 0:
         if((func_0203630C()&3)||func_02035C38()){
-            func_0201CE5C(*(void**)(p+0x5c),0);
+            func_0201CE5C(*(void* *)&((struct Obj04632 *)p)->f5C,0);
             if(func_0203630C()&3)func_020355D8(0);else func_020355D8(1);
         }
         break;
     case 1:
         if((func_020362DC()&3)||func_02035C60()){
             func_020061E4(0x547);
-            func_0201CE38(*(void**)(p+0x5c));
+            func_0201CE38(*(void* *)&((struct Obj04632 *)p)->f5C);
             if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
         }
         break;
     case 2:
-        if(*(int*)(p+0x64))--*(int*)(p+0x64);
-        else if(*(int*)(p+0x60)){
+        if(((struct Obj04632 *)p)->f64)--((struct Obj04632 *)p)->f64;
+        else if(((struct Obj04632 *)p)->f60){
             if((func_020362DC()&3)||func_02035C60()){
                 if(func_020362DC()&3)func_020355D8(0);else func_020355D8(1);
-                *(int*)(p+0x60)=0;
+                ((struct Obj04632 *)p)->f60=0;
                 result=1;
             }
         }else result=1;

@@ -13,6 +13,7 @@
  *   func_02017988 0x02017988 thumb
  *   func_0200CDE0 0x0200CDE0 thumb
  */
+#include "../include/Obj20931.h"
 typedef unsigned int u32;
 struct Blk37;
 extern u32 func_02017988(void *, u32);
@@ -20,5 +21,5 @@ extern void func_0200CDE0(struct Blk37 *, void *);
 void func_021BDD58(u32 p, void *m)
 {
     func_02017988(m, 1);
-    func_0200CDE0(*(struct Blk37 **)(*(u32 *)(p + 0x280) + 0x18), m);
+    func_0200CDE0(*(struct Blk37 **)(((struct Obj20931 *)p)->f280 + 0x18), m);
 }

@@ -19,6 +19,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj01404.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,10 +54,10 @@ void func_021D44BC(int i, Object *p, Row *row, const int *xs, const int *ys)
     p->f10[i] = func_020450F0(7, row->f00, row->f04, row->f08, row->f0c, 13, 0);
     x = 0;
     func_02043B5C(func_02045770(p->f10[i]), 0);
-    if (xs) x = xs[i] - (func_0201D304(*(void **)((char *)p + 0x54), *(u32 *)((char *)p + 0x4c), 0) >> 1);
-    if (ys) y = ys[i] - (func_0201D42C(*(void **)((char *)p + 0x54), *(void **)((char *)p + 0x4c)) >> 1);
+    if (xs) x = xs[i] - (func_0201D304(((struct Obj01404 *)p)->f54, *(u32 *)&((struct Obj01404 *)p)->f4C, 0) >> 1);
+    if (ys) y = ys[i] - (func_0201D42C(((struct Obj01404 *)p)->f54, ((struct Obj01404 *)p)->f4C) >> 1);
     else y = 0;
-    func_0201C7D0(func_02045770(p->f10[i]), x, y, *(void **)((char *)p + 0x54), *(void **)((char *)p + 0x4c), 0x39e3);
+    func_0201C7D0(func_02045770(p->f10[i]), x, y, ((struct Obj01404 *)p)->f54, ((struct Obj01404 *)p)->f4C, 0x39e3);
     func_02045334(p->f10[i]);
     func_02045374(p->f10[i]);
     func_02041B6C(7);

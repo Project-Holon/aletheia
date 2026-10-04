@@ -20,6 +20,7 @@
  *   func_02186444  0x02186444  thumb  ov023
  *   func_02185354  0x02185354  thumb  ov023
  */
+#include "../include/Obj02104.h"
 
 typedef unsigned int u32;
 
@@ -36,19 +37,19 @@ extern void func_02185354(char *p);
 
 int func_02185A1C(char *p, int a1)
 {
-    if (!((*(int *)(p + 0x927c) == 0 || *(int *)(p + 0x927c) == func_0218654C(p))
-          && (func_02186558(p) & *(int *)(p + 0x9280))))
-        *(int *)(p + 0x927c) = 0;
-    *(int *)(p + 0x1a4) += 1;
-    if (*(int *)(p + 0x1a4) > 0x3c && *(int *)(p + 0x927c) == 0) {
+    if (!((((struct Obj02104 *)p)->f927C == 0 || ((struct Obj02104 *)p)->f927C == func_0218654C(p))
+          && (func_02186558(p) & ((struct Obj02104 *)p)->f9280)))
+        ((struct Obj02104 *)p)->f927C = 0;
+    ((struct Obj02104 *)p)->f1A4 += 1;
+    if (((struct Obj02104 *)p)->f1A4 > 0x3c && ((struct Obj02104 *)p)->f927C == 0) {
         func_021862F4(p);
         func_02186444(p, 4);
         if (func_02039338() == 0) {
-            *(int *)(p + 0x9e6c) = 1;
+            ((struct Obj02104 *)p)->f9E6C = 1;
             func_02186304(p, 1);
         }
-        *(int *)(p + 0x1ac) = func_021841A4(**(unsigned char ***)(p + 4));
-        *(int *)(p + 0x1b0) = func_021841A0((unsigned char *)(**(u32 **)(p + 4)));
+        ((struct Obj02104 *)p)->f1AC = func_021841A4(**(unsigned char ** *)&((struct Obj02104 *)p)->f4);
+        ((struct Obj02104 *)p)->f1B0 = func_021841A0((unsigned char *)(**(u32 * *)&((struct Obj02104 *)p)->f4));
     }
     func_02185354(p);
     return a1;

@@ -14,6 +14,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj00021.h"
 typedef unsigned char u8;
 struct Row { u8 x,y,w,h; int fields[8]; };
 struct Vec2 { short x,y; };
@@ -28,10 +29,10 @@ void func_021BF3D8(char *p)
     const struct Row *row;
     struct Obj *a,*b;
     struct Vec2 pos;
-    row=&d_021C3AC8[*(unsigned *)(p+52)];
+    row=&d_021C3AC8[((struct Obj00021 *)p)->f34];
     a=(struct Obj *)func_021BFA08(p,0);
     b=(struct Obj *)func_021BFA08(p,1);
-    if (*(unsigned *)(p+0x3d0)==1 || *(unsigned *)(p+52)==2 || *(unsigned *)(p+52)==4) {
+    if (((struct Obj00021 *)p)->f3D0==1 || ((struct Obj00021 *)p)->f34==2 || ((struct Obj00021 *)p)->f34==4) {
         func_0204B3DC(a,0);
         func_0204B3DC(b,0);
         return;

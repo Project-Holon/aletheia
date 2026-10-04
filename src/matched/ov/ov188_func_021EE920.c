@@ -13,6 +13,11 @@
  *   func_02019A50 0x02019A50 thumb
  *   func_02019C38 0x02019C38 thumb
  */
+#include "../include/Obj00685.h"
+#include "../include/Obj01968.h"
+#include "../include/Obj02905.h"
+#include "../include/Obj24888.h"
+#include "../include/Obj24889.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,24 +41,24 @@ void func_021EE920(struct Mon *p,char *q)
     b=func_02019C38(p,p->seed,1);
     c=func_02019C38(p,p->seed,2);
     d=func_02019C38(p,p->seed,3);
-    *(u32 *)q=p->seed;
+    ((struct Obj00685 *)q)->f0=p->seed;
     ((Flags *)(q+4))->a=0;
     ((Flags *)(q+4))->b=0;
     ((Flags *)(q+4))->c=p->flags.c;
-    ((Flags *)(q+4))->mode=*(u8 *)(b+0x19);
-    *(u16 *)(q+6)=*(u16 *)a;
-    *(u16 *)(q+8)=*(u16 *)(a+2);
-    *(u32 *)(q+0xc)=*(u32 *)(a+4);
-    *(u32 *)(q+0x10)=*(u32 *)(a+8);
-    *(u8 *)(q+0x14)=*(u8 *)(a+0xc);
-    *(u8 *)(q+0x15)=*(u8 *)(a+0xd);
-    *(u8 *)(q+0x16)=*(u8 *)(a+0x10);
-    *(u8 *)(q+0x17)=*(u8 *)(a+0x11);
-    *(u8 *)(q+0x18)=*(u8 *)(a+0x12);
-    *(u8 *)(q+0x19)=*(u8 *)(a+0x13);
-    *(u8 *)(q+0x1a)=*(u8 *)(a+0x14);
-    *(u8 *)(q+0x1b)=*(u8 *)(a+0x15);
-    *(u8 *)(q+0x59)=*(u8 *)(a+0xf);
+    ((Flags *)(q+4))->mode=((struct Obj24888 *)b)->f19;
+    ((struct Obj00685 *)q)->f6=((struct Obj01968 *)a)->f0;
+    ((struct Obj00685 *)q)->f8=((struct Obj01968 *)a)->f2;
+    ((struct Obj00685 *)q)->fC=((struct Obj01968 *)a)->f4;
+    ((struct Obj00685 *)q)->f10=((struct Obj01968 *)a)->f8;
+    ((struct Obj00685 *)q)->f14=((struct Obj01968 *)a)->fC;
+    ((struct Obj00685 *)q)->f15=((struct Obj01968 *)a)->fD;
+    ((struct Obj00685 *)q)->f16=((struct Obj01968 *)a)->f10;
+    ((struct Obj00685 *)q)->f17=((struct Obj01968 *)a)->f11;
+    ((struct Obj00685 *)q)->f18=((struct Obj01968 *)a)->f12;
+    ((struct Obj00685 *)q)->f19=((struct Obj01968 *)a)->f13;
+    ((struct Obj00685 *)q)->f1A=((struct Obj01968 *)a)->f14;
+    ((struct Obj00685 *)q)->f1B=((struct Obj01968 *)a)->f15;
+    ((struct Obj00685 *)q)->f59=((struct Obj01968 *)a)->fF;
     for(i=0;i<4;i++) {
         *(u16 *)(q+2*i+0x1c)=*(u16 *)(b+2*i);
         *(u8 *)(q+i+0x24)=*(u8 *)(b+i+8);
@@ -72,17 +77,17 @@ void func_021EE920(struct Mon *p,char *q)
     ((Byte *)(q+0x30))->c=((Byte *)(b+0x18))->c;
     for(i=0;i<11;i++) *(u16 *)(q+2*i+0x32)=*(u16 *)(c+2*i);
     for(i=0;i<8;i++) *(u16 *)(q+2*i+0x48)=*(u16 *)(d+2*i);
-    *(u8 *)(q+0x58)=*(u8 *)(d+0x1b);
-    *(u32 *)(q+0x5c)=*(u32 *)((char *)p+0x88);
-    *(u8 *)(q+0x60)=*(u8 *)((char *)p+0x8c);
-    *(u8 *)(q+0x61)=*(u8 *)((char *)p+0x8d);
-    *(u16 *)(q+0x62)=*(u16 *)((char *)p+0x8e);
-    *(u16 *)(q+0x64)=*(u16 *)((char *)p+0x90);
-    *(u16 *)(q+0x66)=*(u16 *)((char *)p+0x92);
-    *(u16 *)(q+0x68)=*(u16 *)((char *)p+0x94);
-    *(u16 *)(q+0x6a)=*(u16 *)((char *)p+0x96);
-    *(u16 *)(q+0x6c)=*(u16 *)((char *)p+0x98);
-    *(u16 *)(q+0x6e)=*(u16 *)((char *)p+0x9a);
+    ((struct Obj00685 *)q)->f58=((struct Obj24889 *)d)->f1B;
+    ((struct Obj00685 *)q)->f5C=((struct Obj02905 *)p)->f88;
+    ((struct Obj00685 *)q)->f60=((struct Obj02905 *)p)->f8C;
+    ((struct Obj00685 *)q)->f61=((struct Obj02905 *)p)->f8D;
+    ((struct Obj00685 *)q)->f62=((struct Obj02905 *)p)->f8E;
+    ((struct Obj00685 *)q)->f64=((struct Obj02905 *)p)->f90;
+    ((struct Obj00685 *)q)->f66=((struct Obj02905 *)p)->f92;
+    ((struct Obj00685 *)q)->f68=((struct Obj02905 *)p)->f94;
+    ((struct Obj00685 *)q)->f6A=((struct Obj02905 *)p)->f96;
+    ((struct Obj00685 *)q)->f6C=((struct Obj02905 *)p)->f98;
+    ((struct Obj00685 *)q)->f6E=((struct Obj02905 *)p)->f9A;
     if (!p->flags.a) {
         func_02019A50((u16 *)((char *)p+0x88),0x54,p->seed);
         func_02019A50((u16 *)p->block,0x80,p->check);

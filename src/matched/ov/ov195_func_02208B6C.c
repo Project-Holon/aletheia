@@ -18,6 +18,7 @@
  *   func_02047910  0x02047910  arm
  *   func_020478B8  0x020478B8  arm
  */
+#include "../include/Obj00789.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -31,27 +32,27 @@ void func_02208B6C(char *p)
     int j = 0;
     int v2;
 
-    for (i = 0; i < *(unsigned short *)(p + 0x1c); i++) {
-        unsigned short v = *(unsigned short *)(*(int *)(p + 0x20) + i * 0x44);
-        int x = func_02048A18((u8 *)(*(int *)(p + 0x14)), v);
+    for (i = 0; i < ((struct Obj00789 *)p)->f1C; i++) {
+        unsigned short v = *(unsigned short *)(((struct Obj00789 *)p)->f20 + i * 0x44);
+        int x = func_02048A18((u8 *)(((struct Obj00789 *)p)->f14), v);
 
         func_02047910((void *)x, j, 0x1000);
     }
-    *(int *)(p + 0x24) = *(int *)(p + 0x24) + 1;
-    v2 = func_02048A18((u8 *)(*(int *)(p + 0x14)),
-                       *(unsigned short *)(*(int *)(p + 0x20) +
-                                           *(unsigned short *)(p + 0x1a) * 0x44));
-    if (*(int *)(p + 0x28) == 1) {
+    ((struct Obj00789 *)p)->f24 = ((struct Obj00789 *)p)->f24 + 1;
+    v2 = func_02048A18((u8 *)(((struct Obj00789 *)p)->f14),
+                       *(unsigned short *)(((struct Obj00789 *)p)->f20 +
+                                           ((struct Obj00789 *)p)->f1A * 0x44));
+    if (((struct Obj00789 *)p)->f28 == 1) {
         int a = func_020478B8((void *)v2, 1, 0x5000);
         int b = func_020478B8((void *)v2, 2, 0x5000);
 
         if (a == 0 && b == 0)
-            *(int *)(p + 0x28) = 2;
-    } else if (*(int *)(p + 0x28) == 3) {
+            ((struct Obj00789 *)p)->f28 = 2;
+    } else if (((struct Obj00789 *)p)->f28 == 3) {
         int a = func_020478B8((void *)v2, 1, -0x2000);
         int b = func_020478B8((void *)v2, 2, -0x2000);
 
         if (a == 0 && b == 0)
-            *(int *)(p + 0x28) = 0;
+            ((struct Obj00789 *)p)->f28 = 0;
     }
 }

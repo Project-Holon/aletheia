@@ -14,6 +14,12 @@
  *   func_0201C450 0x0201C450 thumb
  *   func_020457B0 0x020457B0 arm
  */
+#include "../include/Obj02916.h"
+#include "../include/Obj25254.h"
+#include "../include/Obj25255.h"
+#include "../include/Obj25256.h"
+#include "../include/Obj25257.h"
+#include "../include/Obj25258.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct GfFont;
@@ -27,9 +33,9 @@ extern void *func_0201C450(u16,u32);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_02210710(char *p)
 {
-    *(void **)(p+0x1ea0)=func_02045B38(0,2,0x12,*(u16 *)(*(char **)p+0x10));
-    *(void **)(p+0x1e9c)=func_0201D7EC(0x17,3,0,0,*(u16 *)(*(char **)p+0x10));
-    *(void **)(p+0x1ea4)=func_0201EC64(*(u16 *)(*(char **)p+0x10));
-    *(void **)(p+0x1eac)=func_0201C450(0x800,*(u16 *)(*(char **)p+0x10));
-    *(void **)(p+0x1ea8)=func_020457B0(0x200,*(u16 *)(*(char **)p+0x10));
+    ((struct Obj02916 *)p)->f1EA0=func_02045B38(0,2,0x12,((struct Obj25254 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
+    ((struct Obj02916 *)p)->f1E9C=func_0201D7EC(0x17,3,0,0,((struct Obj25255 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
+    ((struct Obj02916 *)p)->f1EA4=func_0201EC64(((struct Obj25256 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
+    ((struct Obj02916 *)p)->f1EAC=func_0201C450(0x800,((struct Obj25257 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
+    ((struct Obj02916 *)p)->f1EA8=func_020457B0(0x200,((struct Obj25258 *)(*(char * *)&((struct Obj02916 *)p)->f0))->f10);
 }

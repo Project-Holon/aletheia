@@ -14,6 +14,7 @@
  *   func_0204B954  0x0204B954  arm
  *   func_0204B98C  0x0204B98C  arm
  */
+#include "../include/Obj06130.h"
 
 struct Obj;
 extern void func_0204B92C(struct Obj *a, unsigned int b);
@@ -24,14 +25,14 @@ extern u32 func_0204B98C(struct Actor *a);
 
 int func_021F2C10(char *p)
 {
-    switch (*(unsigned char *)(p + 0x455)) {
+    switch (((struct Obj06130 *)p)->f455) {
     case 0:
-        func_0204B92C((struct Obj *)*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c), 1);
-        func_0204B954((struct Actor *)(*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c)), 1 << 13);
-        *(unsigned char *)(p + 0x455) += 1;
+        func_0204B92C((struct Obj *)*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c), 1);
+        func_0204B954((struct Actor *)(*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c)), 1 << 13);
+        ((struct Obj06130 *)p)->f455 += 1;
         break;
     case 1:
-        if (func_0204B98C((struct Actor *)(*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c))) == 0)
+        if (func_0204B98C((struct Actor *)(*(int *)(p + ((struct Obj06130 *)p)->f416 * 4 + 0x12c))) == 0)
             return 1;
         break;
     }

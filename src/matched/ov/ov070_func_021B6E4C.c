@@ -18,6 +18,7 @@
  *   func_021B6AD8  0x021B6AD8  thumb  ov070
  *   func_021B7D20  0x021B7D20  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -35,16 +36,16 @@ extern void func_021B7D20(void *obj, int x);
 
 u32 func_021B6E4C(u8 *p)
 {
-    if (*(u32 *)(p + 0x848) == 0) {
-        if (func_02028754(*(void **)(p + 0xC), 3)) {
-            *(u32 *)(p + 0x844) = 0xE;
+    if (((struct Obj00002 *)p)->f848 == 0) {
+        if (func_02028754(((struct Obj00002 *)p)->fC, 3)) {
+            ((struct Obj00002 *)p)->f844 = 0xE;
             func_021B6100(p, 0);
             func_021B7D20(p, 1);
             return 1;
         }
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x3A, (void *)(*(u32 *)(p + 0x524)));
-        func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x520)), 0, (void *)(*(u32 *)(p + 8)));
-        func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+        func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3A, (void *)(((struct Obj00002 *)p)->f524));
+        func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
+        func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
         func_021B6100(p, (void *)func_021B6AD8);
         return 0;
     }

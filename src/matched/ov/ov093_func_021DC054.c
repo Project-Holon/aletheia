@@ -15,6 +15,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj05217.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,8 +32,8 @@ void func_021DC054(int u, void *a, u32 b)
         && (v = func_021D775C(3), func_021B9A24(b, v)) == 0
         && func_021D775C(0x20) < 0) {
         e = func_021C88A4(a, 0xe, b);
-        *(u32 *)e |= 0x20 << 18;
-        *(u32 *)(e + 4) = 1;
+        ((struct Obj05217 *)e)->f0 |= 0x20 << 18;
+        ((struct Obj05217 *)e)->f4 = 1;
         e[0xc] = 2;
         e[0xe] = 1;
         e[0xf] = 1;

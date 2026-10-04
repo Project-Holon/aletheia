@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02028590 0x02028590 thumb
  */
+#include "../include/Obj00180.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
@@ -39,8 +40,8 @@ void func_021B67A4(u8 *p)
         *(u32 *)(p+i*4+4)=func_020450F0(d_021B8420[i].a,d_021B8420[i].b,d_021B8420[i].c,d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,1);
         func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+i*4+4))),0);
     }
-    h=*(u32 *)(p+0x28);
+    h=((struct Obj00180 *)p)->f28;
     func_020456F8((struct Descriptor *)h);
     func_02041B6C(func_02045730((struct Descriptor *)h));
-    *(u32 *)(p+0x21c)=func_02028590(15,1,1,79);
+    ((struct Obj00180 *)p)->f21C=func_02028590(15,1,1,79);
 }

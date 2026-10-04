@@ -15,6 +15,7 @@
  *   func_02051C88 0x02051C88 arm
  *   func_02030D28 0x02030D28 arm
  */
+#include "../include/Obj05294.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,14 +29,14 @@ extern void func_02030D28(struct Ctx *c);
 int func_021BD534(void *a,int b,int c,u8 *p) {
     int result;
     int x;
-    x=func_020362DC(); *(u16 *)(p+0x34)=x;
-    x=func_0203630C(); *(u16 *)(p+0x36)=x;
-    x=func_0203633C(); *(u16 *)(p+0x38)=x;
-    func_02051C88(*(void **)(p+0x44));
+    x=func_020362DC(); ((struct Obj05294 *)p)->f34=x;
+    x=func_0203630C(); ((struct Obj05294 *)p)->f36=x;
+    x=func_0203633C(); ((struct Obj05294 *)p)->f38=x;
+    func_02051C88(((struct Obj05294 *)p)->f44);
     if (*(void (**)(u8 *,void *))(p+0x30)) {
         (*(void (**)(u8 *,void *))(p+0x30))(p,p+0x2c);
         result=0;
     } else result=(*(int (**)(u8 *,void *))(p+0x24))(p,p+0x20);
-    func_02030D28(*(void **)(p+0x7c));
+    func_02030D28(((struct Obj05294 *)p)->f7C);
     return result;
 }

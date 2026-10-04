@@ -17,6 +17,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021D805C  0x021D805C  thumb  ov093
  */
+#include "../include/Obj10097.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -38,7 +39,7 @@ void func_021E5DAC(u8 *p, void *a, int b, int *c)
     if (v == 0)
         return;
     q = func_021C88A4(a, 0x23, b);
-    *(int *)(q + 4) = 1;
+    ((struct Obj10097 *)q)->f4 = 1;
     func_021C88C8(a, q);
     *c = 1;
     if (func_021D775C(0x46) == 0 && func_021D775C(0x47) == 0 && func_021D805C((void *)v, 9) != 0) {

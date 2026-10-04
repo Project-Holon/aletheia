@@ -16,6 +16,7 @@
  *   func_021BEE38 0x021BEE38 thumb ov210
  * BEE38 parameters widened: original call uses signed full-width loads.
  */
+#include "../include/Obj14673.h"
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
@@ -30,8 +31,8 @@ void func_021BCDA4(char *p)
     short x, y;
     func_02041EE4(4, 3, 48);
     func_02041EE4(7, 3, 48);
-    func_0202CB4C(*(struct WinMgr **)(p + 0x20), 0, 0, 27);
-    func_0202CD94(*(struct WinMgr **)(p + 0x20));
+    func_0202CB4C(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20, 0, 0, 27);
+    func_0202CD94(*(struct WinMgr * *)&((struct Obj14673 *)p)->f20);
     for (i = 2; i <= 4; i++) {
         func_021BEE58(p, i, &x, &y, 0);
         y += 48;

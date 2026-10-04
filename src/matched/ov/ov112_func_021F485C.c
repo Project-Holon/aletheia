@@ -11,6 +11,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj06406.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,13 +28,13 @@ void func_021F485C(u8 *p)
 {
     Item items[2];
     Menu menu;
-    items[0].data=func_02045EC0((struct MsgBank *)(*(u32 *)(p+0x28)),4);
-    items[1].data=func_02045EC0((struct MsgBank *)(*(u32 *)(p+0x28)),5);
+    items[0].data=func_02045EC0((struct MsgBank *)(((struct Obj06406 *)p)->f28),4);
+    items[1].data=func_02045EC0((struct MsgBank *)(((struct Obj06406 *)p)->f28),5);
     items[0].value=0x39e0;
     items[1].value=0x39e0;
     items[0].zero=0;
     items[1].zero=0;
-    menu.heap=*(u16 *)p;
+    menu.heap=((struct Obj06406 *)p)->f0;
     menu.count=2;
     menu.items=items;
     menu.zero=0;
@@ -41,7 +42,7 @@ void func_021F485C(u8 *p)
     menu.b=6;
     menu.c=8;
     menu.d=3;
-    *(void **)(p+0x3c)=func_02027778((struct TaskMenuTmpl *)(&menu),(void *)(*(u32 *)(p+0x40)));
+    ((struct Obj06406 *)p)->f3C=func_02027778((struct TaskMenuTmpl *)(&menu),(void *)(((struct Obj06406 *)p)->f40));
     func_02045808(items[0].data);
     func_02045808(items[1].data);
 }

@@ -14,6 +14,7 @@
 
  * Frees the three allocations at +0x5C..+0x64 and clears +0x30.
  */
+#include "../include/Obj01081.h"
 
 
 struct Ov208Mgr;
@@ -25,12 +26,12 @@ extern void func_0204AFD8(u32 i);
 
 void func_021BE680(char *p)
 {
-    if (*(int *)(p + 0x30) != 0) {
-        func_021BD208((struct Ov208Mgr *)(*(int *)(p + 0x30)));
-        func_0204ADA4(*(int *)(p + 0x5c));
-        func_0204A8D4(*(int *)(p + 0x60));
-        func_0204AFD8(*(int *)(p + 0x64));
+    if (*(int *)&((struct Obj01081 *)p)->f30 != 0) {
+        func_021BD208((struct Ov208Mgr *)(*(int *)&((struct Obj01081 *)p)->f30));
+        func_0204ADA4(((struct Obj01081 *)p)->f5C);
+        func_0204A8D4(((struct Obj01081 *)p)->f60);
+        func_0204AFD8(((struct Obj01081 *)p)->f64);
     }
-    *(int *)(p + 0x30) = 0;
+    *(int *)&((struct Obj01081 *)p)->f30 = 0;
 }
 

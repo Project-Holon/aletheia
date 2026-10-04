@@ -15,6 +15,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj14559.h"
 typedef unsigned char  u8;
 struct Bank;
 struct Obj;
@@ -29,9 +30,9 @@ void func_0220E74C(char *p)
 {
     unsigned i;
     for(i=0;i<41;i++) func_0204B3B4(*(void **)(p+i*4+0x1ebc));
-    func_0220AFC4(*(void **)(p+0x2188));
+    func_0220AFC4(((struct Obj14559 *)p)->f2188);
     for(i=0;i<26;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x24a4)));
     for(i=0;i<6;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x250c)));
     for(i=0;i<6;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x2524)));
-    func_0204B1CC(*(void **)(p+0x1eb8));
+    func_0204B1CC(((struct Obj14559 *)p)->f1EB8);
 }

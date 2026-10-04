@@ -14,6 +14,7 @@
  *   func_02035D20  0x02035D20  arm
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj20411.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ int func_021F0D64(char *p)
     if (x >= 0xE9 && x <= 0xFF && y >= 0x1C && y <= 0x9C) {
         t[0] = 0xF4;
         t[1] = y;
-        func_0204B404((struct Obj *)(*(int *)(p + 0x2C)), (const struct Vec2 *)t, 1);
+        func_0204B404((struct Obj *)(((struct Obj20411 *)p)->f2C), (const struct Vec2 *)t, 1);
         return 1;
     }
     return 0;

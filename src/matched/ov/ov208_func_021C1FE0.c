@@ -18,6 +18,7 @@
  *   func_021C1D30 0x021C1D30 thumb ov208
  *   func_021C2238 0x021C2238 thumb ov208
  */
+#include "../include/Obj00081.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Obj;
@@ -36,21 +37,21 @@ extern void func_021C2238(u16 *, u8 *, int);
 void func_021C1FE0(u16 *heap, u8 *p, int key)
 {
     u8 i;
-    if (func_0204B3F4(*(struct Obj **)(p + 0xc8))) {
-        if (*(unsigned *)(p + 0x90) == 1) {
-            *(unsigned *)(p + 0x30) = 0;
-            func_0201C6EC(*(struct PrintSys **)(p + 0x40));
-            func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0x20)), 0);
-            func_02045334(*(struct Descriptor **)(p + 0x20));
-            func_0204B3DC(*(struct Obj **)(p + 0xc8), 0);
+    if (func_0204B3F4(*(struct Obj * *)&((struct Obj00081 *)p)->fC8)) {
+        if (((struct Obj00081 *)p)->f90 == 1) {
+            ((struct Obj00081 *)p)->f30 = 0;
+            func_0201C6EC(*(struct PrintSys * *)&((struct Obj00081 *)p)->f40);
+            func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj00081 *)p)->f20), 0);
+            func_02045334(*(struct Descriptor * *)&((struct Obj00081 *)p)->f20);
+            func_0204B3DC(*(struct Obj * *)&((struct Obj00081 *)p)->fC8, 0);
         }
     } else {
         for (i = 0; i < 61; i++) func_0204B3DC(*(struct Obj **)(p + i * 4 + 0xdc), 0);
-        if (*(unsigned *)(p + 0x90) == 0) {
+        if (((struct Obj00081 *)p)->f90 == 0) {
             func_021C0C8C(heap, p, key, 0);
             p[0x79] = 255;
-            func_0204B3DC(*(struct Obj **)(p + 0xcc), 0);
-            func_0204B3DC(*(struct Obj **)(p + 0xd0), 0);
+            func_0204B3DC(*(struct Obj * *)&((struct Obj00081 *)p)->fCC, 0);
+            func_0204B3DC(*(struct Obj * *)&((struct Obj00081 *)p)->fD0, 0);
             func_021C1D30(heap, p, key);
             func_021C2238(heap, p, key);
         }

@@ -9,8 +9,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj00002.h"
 typedef unsigned char u8;
 int func_021B61B8(u8 *p)
 {
-    return (int)(*(unsigned int *)(p + 0x810) + *(unsigned int *)(p + 0x814) + 1U);
+    return (int)(*(unsigned int *)&((struct Obj00002 *)p)->f810 + *(unsigned int *)&((struct Obj00002 *)p)->f814 + 1U);
 }

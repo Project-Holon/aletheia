@@ -13,6 +13,7 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0201D7EC 0x0201D7EC thumb
  */
+#include "../include/Obj03327.h"
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
@@ -22,8 +23,8 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 void func_021B9B1C(char *p)
 {
-    *(void **)(p + 0xB0) = func_02045B38(0, 2, 0xB1, 0x8E);
-    *(void **)(p + 0xB4) = func_020457B0(0x80, 0x8E);
-    *(void **)(p + 0xA8) = func_0201D7EC(0x17, 0, 1, 0, 0x8E);
-    *(void **)(p + 0xAC) = func_0201D7EC(0x17, 2, 1, 0, 0x8E);
+    ((struct Obj03327 *)p)->fB0 = func_02045B38(0, 2, 0xB1, 0x8E);
+    ((struct Obj03327 *)p)->fB4 = func_020457B0(0x80, 0x8E);
+    ((struct Obj03327 *)p)->fA8 = func_0201D7EC(0x17, 0, 1, 0, 0x8E);
+    ((struct Obj03327 *)p)->fAC = func_0201D7EC(0x17, 2, 1, 0, 0x8E);
 }

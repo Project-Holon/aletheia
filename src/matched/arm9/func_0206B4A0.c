@@ -42,6 +42,10 @@
  *   g_020A8290        0x020A8290  data
  *   g_020A82A8        0x020A82A8  data
  */
+#include "../include/Obj07047.h"
+#include "../include/Obj16563.h"
+#include "../include/Obj16564.h"
+#include "../include/Obj16565.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -94,18 +98,18 @@ void func_0206B4A0(Obj0206B4A0 *o, Cfg0206B4A0 *cfg)
     MIi_CpuClearFast(0, o, 0x188);
     o->fc4 = 1;
     o->f08 = 1;
-    o->f00 = cfg->f30 != 0 ? cfg->f30 : cfg->f04 + *(u32 *)(cfg->f04 + 4);
+    o->f00 = cfg->f30 != 0 ? cfg->f30 : cfg->f04 + ((struct Obj16563 *)(cfg->f04))->f4;
     o->f04 = cfg;
     o->fd4 = cfg->f04 != 0 ? cfg->f04 + 0x40 : 0;
     q = cfg->f04;
-    o->fd8 = q != 0 && *(u32 *)(q + 8) != 0 ? q + *(u32 *)(q + 8) : 0;
+    o->fd8 = q != 0 && ((struct Obj07047 *)q)->f8 != 0 ? q + ((struct Obj07047 *)q)->f8 : 0;
     q = cfg->f04;
-    o->fdc = q != 0 && *(u32 *)(q + 0xc) != 0 ? q + *(u32 *)(q + 0xc) : 0;
+    o->fdc = q != 0 && ((struct Obj07047 *)q)->fC != 0 ? q + ((struct Obj07047 *)q)->fC : 0;
     o->fe8 = g_020A829C[cfg->f04[0x15]];
     o->fec = g_020A8290[cfg->f04[0x15]];
     o->ff0 = g_020A82A8[cfg->f04[0x16]];
-    o->fe0 = *(u32 *)(cfg->f04 + 0x1c);
-    o->fe4 = *(u32 *)(cfg->f04 + 0x20);
+    o->fe0 = ((struct Obj16564 *)(cfg->f04))->f1C;
+    o->fe4 = ((struct Obj16565 *)(cfg->f04))->f20;
     if (cfg->f20 != 0 && cfg->f24 < 0x20) {
         o->f0c[cfg->f24] = cfg->f20;
         o->f8c[cfg->f24] = cfg->f25;

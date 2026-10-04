@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj15660.h"
 
 typedef unsigned short u16;
 
 void func_02015D88(char *p, u16 value)
 {
-    *(u16 *)(p + 0x17a) = value;
+    ((struct Obj15660 *)p)->f17A = value;
 }

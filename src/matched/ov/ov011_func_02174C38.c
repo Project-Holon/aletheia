@@ -20,6 +20,7 @@
  *   func_021747F4 0x021747F4 thumb ov011
  *   func_02162040 0x02162040 thumb ov010
  */
+#include "../include/Obj07329.h"
 typedef unsigned int   u32;
 u32 func_02026478(void *obj);
 int func_020127C4(int h);
@@ -36,7 +37,7 @@ void func_02174C38(unsigned char *p)
     int b2[2];
     unsigned char i;
     int h;
-    h = func_02026478((void *)(*(int *)(p + 4)));
+    h = func_02026478((void *)(((struct Obj07329 *)p)->f4));
     if (p[0x908] != 0) {
         if (func_02174734(p, p[0x908], func_020127C4(h)) == 1) {
             p[0x908] = 0;

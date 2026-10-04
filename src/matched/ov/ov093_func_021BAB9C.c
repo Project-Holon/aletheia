@@ -13,6 +13,7 @@
  *   func_021BB724  0x021BB724  thumb  ov093
  *   func_021BB798  0x021BB798  thumb  ov093
  */
+#include "../include/Obj07750.h"
 
 typedef unsigned char  u8;
 extern void func_021BB724(u8 *p, int a, int b, int c);
@@ -21,11 +22,11 @@ extern int func_021BB798(unsigned char *p);
 int func_021BAB9C(int a)
 {
     char *p = (char *)a;
-    if (*(unsigned char *)(p + 0xed) != 2) {
+    if (((struct Obj07750 *)p)->fED != 2) {
         int (*fp)(int, int) = *(int (**)(int, int))p;
         if (fp(a, a + 4) != 0) {
-            func_021BB724((u8 *)a, 9, *(int *)(p + 0xb0), 8);
-            *(unsigned char *)(p + 0xed) = 2;
+            func_021BB724((u8 *)a, 9, ((struct Obj07750 *)p)->fB0, 8);
+            ((struct Obj07750 *)p)->fED = 2;
         }
     } else {
         if (func_021BB798((unsigned char *)p) != 0)

@@ -11,9 +11,10 @@
  * symbols:
  *   func_021BD890 0x021BD890 thumb ov209
  */
+#include "../include/Obj25555.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bits {u16 low:1;u16 high:15;};
 extern void func_021BD890(char *,int,int);
-int func_021BD2C4(char *p,int a,int b,int c) { func_021BD890(p,a,b);((struct Bits *)(p+0xc24))->high=(u16)a;*(int *)(p+24)=c;return 6; }
+int func_021BD2C4(char *p,int a,int b,int c) { func_021BD890(p,a,b);((struct Bits *)(p+0xc24))->high=(u16)a;((struct Obj25555 *)p)->f18=c;return 6; }

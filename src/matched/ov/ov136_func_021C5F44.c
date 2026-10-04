@@ -15,6 +15,9 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj08203.h"
+#include "../include/Obj23546.h"
+#include "../include/Obj23547.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -29,11 +32,11 @@ extern void func_020450C8(void);
 void func_021C5F44(u8 *p)
 {
     u32 i;
-    func_0201C4C0(*(void **)(*(u8 **)(p + 8) + 0x1C4));
-    func_02031140((struct S02031140 *)(*(u32 *)(*(u8 **)(p + 8) + 0x1CC)));
+    func_0201C4C0(((struct Obj23546 *)(*(u8 * *)&((struct Obj08203 *)p)->f8))->f1C4);
+    func_02031140((struct S02031140 *)(((struct Obj23547 *)(*(u8 * *)&((struct Obj08203 *)p)->f8))->f1CC));
     for (i = 0; i < 0x20; i++) {
-        func_020452E8(*(void **)(*(u8 **)(p + 8) + i * 4 + 0x44));
+        func_020452E8(*(void **)(*(u8 * *)&((struct Obj08203 *)p)->f8 + i * 4 + 0x44));
     }
-    func_0201D83C((void *)(*(u32 *)(p + 0x18)));
+    func_0201D83C((void *)(((struct Obj08203 *)p)->f18));
     func_020450C8();
 }

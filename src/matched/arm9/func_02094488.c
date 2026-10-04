@@ -12,6 +12,7 @@
  * symbols:
  *   func_02092344  0x02092344  arm
  */
+#include "../include/Obj07071.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,12 +21,12 @@ extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
 u32 func_02094488(u8 *p, const void *src, u32 n)
 {
-    u32 pos = *(u32 *)(p + 8);
-    u32 cap = *(u32 *)(p + 4);
+    u32 pos = ((struct Obj07071 *)p)->f8;
+    u32 cap = ((struct Obj07071 *)p)->f4;
 
     if (pos + n > cap)
         n = cap - pos;
-    func_02092344(*(u8 **)p + pos, src, n);
-    *(u32 *)(p + 8) += n;
+    func_02092344(*(u8 * *)&((struct Obj07071 *)p)->f0 + pos, src, n);
+    ((struct Obj07071 *)p)->f8 += n;
     return 1;
 }

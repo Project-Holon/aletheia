@@ -16,6 +16,7 @@
  *   func_021A1BF4  0x021A1BF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18307.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u16 func_021A1BF4(u8 *p);
 
 int func_021C61D4(u32 a)
 {
-if (func_021A1BF4((u8 *)func_02188C6C((u8 *)(*(u32 *)((u8 *)(a) + 12)))) == 0) {
+if (func_021A1BF4((u8 *)func_02188C6C((u8 *)(((struct Obj18307 *)((u8 *)(a)))->fC))) == 0) {
     return 1;
 }
 return 0;

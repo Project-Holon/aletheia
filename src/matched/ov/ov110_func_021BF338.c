@@ -9,12 +9,13 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj04449.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 int func_021BF338(u8 *p) {
- if(*(u16 *)p!=0) {
-  if(*(u16 *)p>=6) { *(u16 *)p-=6; *(int *)(p+8)=-6; }
-  else { *(int *)(p+8)=-*(u16 *)p; *(u16 *)p=0; }
+ if(((struct Obj04449 *)p)->f0!=0) {
+  if(((struct Obj04449 *)p)->f0>=6) { ((struct Obj04449 *)p)->f0-=6; ((struct Obj04449 *)p)->f8=-6; }
+  else { ((struct Obj04449 *)p)->f8=-((struct Obj04449 *)p)->f0; ((struct Obj04449 *)p)->f0=0; }
   return 2;
  }
  return 4;

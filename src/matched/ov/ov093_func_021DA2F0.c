@@ -16,6 +16,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  * extent: includes store-and-return followers 021DA320.
  */
+#include "../include/Obj07811.h"
 extern unsigned char d_021F07F0[];
 extern int func_021D775C(int);
 extern void *func_021C88A4(void *, int, int);
@@ -26,7 +27,7 @@ void func_021DA2F0(int a, void *b, int c)
     unsigned char *p;
     if (c == func_021D775C(2)) {
         p = func_021C88A4(b, 11, c);
-        *(unsigned int *)(p + 4) = 0x24;
+        ((struct Obj07811 *)p)->f4 = 0x24;
         p[0x14] = 1;
         p[8] = c;
         p[0x15] = 1;

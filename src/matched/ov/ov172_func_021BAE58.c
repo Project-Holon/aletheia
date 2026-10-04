@@ -17,6 +17,7 @@
  *   func_021BB54C 0x021BB54C thumb ov172
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj00024.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,17 +33,17 @@ extern void func_021BB54C(void *ctx, u8 *p);
 extern void func_020061E4(u32 a);
 void func_021BAE58(void *p, u8 *q)
 {
-    if ((func_020362DC() & 1024) && *(u32 *)(q + 56) == 0) {
-        if (func_0204B98C(*(struct Actor **)(q + 108)) == 0 ||
-            func_0204B898(*(struct Obj **)(q + 108)) == 1) {
-            *(u32 *)q = 5;
+    if ((func_020362DC() & 1024) && ((struct Obj00024 *)q)->f38 == 0) {
+        if (func_0204B98C(*(struct Actor * *)&((struct Obj00024 *)q)->f6C) == 0 ||
+            func_0204B898(*(struct Obj * *)&((struct Obj00024 *)q)->f6C) == 1) {
+            *(u32 *)&((struct Obj00024 *)q)->f0 = 5;
             q[4] = 0;
             func_021BB65C(p, q, 1);
-            func_0204B878(*(struct Obj **)(q + 108), 1);
+            func_0204B878(*(struct Obj * *)&((struct Obj00024 *)q)->f6C, 1);
             func_020061E4(1644);
         }
     } else if (func_020362DC() & 2) {
-        *(u32 *)q = 2;
+        *(u32 *)&((struct Obj00024 *)q)->f0 = 2;
         func_020061E4(1361);
     }
     if (func_020362DC() & 12) {

@@ -18,6 +18,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012F2C  0x02012F2C  thumb
  */
+#include "../include/Obj07341.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -44,10 +45,10 @@ void func_02175280(u8 *a, void *b, u8 *out, int d)
 
     count = 0;
     func_02082BCC(out, 0, 0x58);
-    *(int *)(out + 0x44) = 3;
+    ((struct Obj07341 *)out)->f44 = 3;
     for (i = 0; i < 4; i++) {
         if (a[0x158 + i] == 0) {
-            *(int *)(out + 0x44) = 1;
+            ((struct Obj07341 *)out)->f44 = 1;
             break;
         }
         count++;
@@ -60,7 +61,7 @@ void func_02175280(u8 *a, void *b, u8 *out, int d)
         y = a[0x15C + i];
         if ((y & 1) == (self & 1)) {
             base = 0;
-        } else if (*(int *)(out + 0x44) == 1) {
+        } else if (((struct Obj07341 *)out)->f44 == 1) {
             base = 1;
         } else {
             base = 2;
@@ -71,5 +72,5 @@ void func_02175280(u8 *a, void *b, u8 *out, int d)
         }
         func_02175358(a, out + v * 16, (u8)i, d);
     }
-    *(int *)(out + 0x54) = (int)func_02012F2C(func_020120F4(b));
+    ((struct Obj07341 *)out)->f54 = (int)func_02012F2C(func_020120F4(b));
 }

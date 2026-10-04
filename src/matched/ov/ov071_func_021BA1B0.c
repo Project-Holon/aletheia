@@ -11,7 +11,8 @@
  * symbols:
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj13186.h"
 
 struct Obj;
 extern void func_020257D0(struct Obj *o);
-void func_021BA1B0(void *unused, char *p) { int i; if (*(int *)(p + 0x2f0) == 1) { for (i = 0; i < 7; i++) func_020257D0(*(void **)(p + i * 4 + 0x2a0)); *(int *)(p + 0x2f0) = 0; } }
+void func_021BA1B0(void *unused, char *p) { int i; if (((struct Obj13186 *)p)->f2F0 == 1) { for (i = 0; i < 7; i++) func_020257D0(*(void **)(p + i * 4 + 0x2a0)); ((struct Obj13186 *)p)->f2F0 = 0; } }

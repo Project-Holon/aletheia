@@ -10,6 +10,7 @@
  * symbols:
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj20919.h"
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
-void func_021BCE9C(unsigned int p) { func_0204B1CC((struct Bank *)(*(unsigned int *)(p + 0x1EC))); }
+void func_021BCE9C(unsigned int p) { func_0204B1CC((struct Bank *)(((struct Obj20919 *)p)->f1EC)); }

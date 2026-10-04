@@ -14,6 +14,11 @@
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201CCE4 0x0201CCE4 thumb
  */
+#include "../include/Obj00127.h"
+#include "../include/Obj23559.h"
+#include "../include/Obj23560.h"
+#include "../include/Obj23561.h"
+#include "../include/Obj23562.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,9 +31,9 @@ extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 
 void func_021C6230(u8 *p)
 {
-    u32 win = *(u32 *)(*(u8 **)(p + 8) + 0xA8);
+    u32 win = ((struct Obj23559 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     u32 w2;
     w2 = (u32)func_02045770((struct Descriptor *)win);
     func_02043B5C((struct CharBuf *)w2, 0xf);
-    *(u32 *)(*(u8 **)(p + 8) + 0x1C8) = func_0201CCE4(win, 0, 0, *(u32 *)(*(u8 **)(p + 8) + 0x1D8), *(u32 *)(p + 0x18), func_02012FFC(), *(u32 *)(*(u8 **)(p + 8) + 0x1CC), 0, 0x66, 0xf);
+    ((struct Obj23562 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1C8 = func_0201CCE4(win, 0, 0, ((struct Obj23560 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8, ((struct Obj00127 *)p)->f18, func_02012FFC(), ((struct Obj23561 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1CC, 0, 0x66, 0xf);
 }

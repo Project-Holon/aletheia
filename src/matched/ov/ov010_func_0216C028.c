@@ -20,6 +20,7 @@
  *   func_02045838  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
  */
+#include "../include/Obj02352.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,9 +42,9 @@ int *func_0216C028(unsigned short a0, int a1, int a2, int a3, int s0)
     p[10] = s0;
     if (a1) {
         int t;
-        *(short *)((char *)p + 4) = func_02017E1C((void *)a1, 5, 0);
+        ((struct Obj02352 *)p)->f4 = func_02017E1C((void *)a1, 5, 0);
         t = func_02017E1C((void *)a1, 0x6f, 0);
-        *(short *)((char *)p + 6) = (func_02017E1C((void *)a1, 0x6e, 0) << 8) | t;
+        ((struct Obj02352 *)p)->f6 = (func_02017E1C((void *)a1, 0x6e, 0) << 8) | t;
     }
     p[8] = (int)func_020457B0(0xb, a0);
     if (a3)

@@ -27,6 +27,7 @@
  *   data_021D5860 0x021D5860 data a4
  *   data_021D5710 0x021D5710 data a4
  */
+#include "../include/Obj00265.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int f00, f04, f08, f0c; } Row;
@@ -55,62 +56,62 @@ void func_021D4D98(char *p)
     int force = 0;
     int scratch = 0;
     int object, mode, count;
-    object = func_02012138(*(void **)(p + 0x354));
+    object = func_02012138(((struct Obj00265 *)p)->f354);
     mode = func_02158630(object);
-    if (!*(int *)(p + 0x374)) {
+    if (!((struct Obj00265 *)p)->f374) {
         scratch = 0;
-        if (func_02026CA0(&scratch) != 30) *(int *)(p + 0x374) = 1;
+        if (func_02026CA0(&scratch) != 30) ((struct Obj00265 *)p)->f374 = 1;
     }
-    if (*(int *)(p + 0x36c) != *(int *)(p + 0x370)) force = 1;
-    if (*(int *)(p + 0x368) != *(int *)(p + 0x364)) force = 1;
+    if (((struct Obj00265 *)p)->f36C != ((struct Obj00265 *)p)->f370) force = 1;
+    if (((struct Obj00265 *)p)->f368 != ((struct Obj00265 *)p)->f364) force = 1;
     func_021D4CD8(4, 2, 0, 0, p);
     func_021D4CD8(6, 4, 0, 0, p);
     func_021D4CD8(8, 12, 0, 0, p);
     if (mode == 0) {
-        func_0201EFA4(*(void **)(p + 0x48), 0, *(int *)(p + 0x36c), 2, 0, 1);
+        func_0201EFA4(((struct Obj00265 *)p)->f48, 0, ((struct Obj00265 *)p)->f36C, 2, 0, 1);
         func_021D4CD8(5, 3, force, 1, p);
-        if (*(int *)(p + 0x364) & 32) func_021D4CD8(7, 5, force, 1, p);
+        if (((struct Obj00265 *)p)->f364 & 32) func_021D4CD8(7, 5, force, 1, p);
         else func_021D4CD8(7, 6, force, 1, p);
-        if (*(int *)(p + 0x374)) func_021D4CD8(9, 5, force, 1, p);
+        if (((struct Obj00265 *)p)->f374) func_021D4CD8(9, 5, force, 1, p);
         else func_021D4CD8(9, 6, force, 1, p);
     } else {
         func_021D4590(5, (u32)p); func_021D4590(7, (u32)p); func_021D4590(9, (u32)p);
     }
-    if (mode == 2 && *(int *)(p + 0x128) != func_02158678((void *)object)) *(int *)(p + 0x124) = 0;
-    if (*(int *)(p + 0x124) != mode) {
+    if (mode == 2 && ((struct Obj00265 *)p)->f128 != func_02158678((void *)object)) ((struct Obj00265 *)p)->f124 = 0;
+    if (((struct Obj00265 *)p)->f124 != mode) {
         switch (mode) {
         case 0:
-            func_0204B3DC(*(void **)(p + 0x3a4), 0);
+            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
-            func_02045CAC(*(void **)(p + 0x44), 0, *(void **)(p + 0x54));
+            func_02045CAC(((struct Obj00265 *)p)->f44, 0, ((struct Obj00265 *)p)->f54);
             func_021D44BC(0, p, &data_021D5840, data_021D5710, data_021D5714);
             break;
         case 1:
-            func_0204B3DC(*(void **)(p + 0x3a4), 0);
+            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
-            func_02045CAC(*(void **)(p + 0x44), 15, *(void **)(p + 0x54));
+            func_02045CAC(((struct Obj00265 *)p)->f44, 15, ((struct Obj00265 *)p)->f54);
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 2:
             count = func_02158678((void *)object);
-            *(int *)(p + 0x128) = count;
-            func_0204B3DC(*(void **)(p + 0x3a4), 0);
+            ((struct Obj00265 *)p)->f128 = count;
+            func_0204B3DC(((struct Obj00265 *)p)->f3A4, 0);
             func_021D45BC(10, (u32)p);
-            func_0201EFA4(*(void **)(p + 0x48), 0, count, 1, 0, 1);
-            func_02045CAC(*(void **)(p + 0x44), 16, *(void **)(p + 0x50));
-            func_0201F250(*(void **)(p + 0x48), *(void **)(p + 0x54), *(void **)(p + 0x50));
+            func_0201EFA4(((struct Obj00265 *)p)->f48, 0, count, 1, 0, 1);
+            func_02045CAC(((struct Obj00265 *)p)->f44, 16, ((struct Obj00265 *)p)->f50);
+            func_0201F250(((struct Obj00265 *)p)->f48, ((struct Obj00265 *)p)->f54, ((struct Obj00265 *)p)->f50);
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
             break;
         case 3:
-            func_02045CAC(*(void **)(p + 0x44), 17, *(void **)(p + 0x54));
+            func_02045CAC(((struct Obj00265 *)p)->f44, 17, ((struct Obj00265 *)p)->f54);
             func_021D44BC(0, p, &data_021D5860, data_021D5710, data_021D5714);
-            if (func_021586C8(object, *(int *)(p + 0x54))) {
+            if (func_021586C8(object, *(int *)&((struct Obj00265 *)p)->f54)) {
                 func_021D44BC(10, p, &data_021D5850, 0, 0);
-                func_0204B3DC(*(void **)(p + 0x3a4), 1);
+                func_0204B3DC(((struct Obj00265 *)p)->f3A4, 1);
             }
             break;
         }
-        *(int *)(p + 0x124) = mode;
+        ((struct Obj00265 *)p)->f124 = mode;
     }
     func_02041B6C(7);
 }

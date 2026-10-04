@@ -14,6 +14,7 @@
  *
  * Runs the five/zero setup and stamps selector 0x1D 0x1CC bytes in.
  */
+#include "../include/Obj18266.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021BAAB8(char *p, int a, int b);
 int func_021C0274(char *p, int v)
 {
     func_021BAAB8(p, 5, 0);
-    *(u32 *)(p + 0x1CC) = 0x1D;
+    ((struct Obj18266 *)p)->f1CC = 0x1D;
     return v;
 }

@@ -16,6 +16,7 @@
  *   func_02045874  0x02045874  arm
  *   func_02190A64  0x02190A64  thumb  ov021
  */
+#include "../include/Obj00005.h"
 
 typedef struct {
     unsigned short a;
@@ -38,7 +39,7 @@ extern int func_02190A64(u32 a, u32 b, u32 c, u32 d);
 
 void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1)
 {
-    Q *q = (Q *)(*(char **)((char *)p + 0x20) + 0x34);
+    Q *q = (Q *)(*(char * *)&((struct Obj00005 *)p)->f20 + 0x34);
 
     if (b != 0xffff) {
         unsigned i = func_0201F91C(q->j);

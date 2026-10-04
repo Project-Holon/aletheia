@@ -38,6 +38,8 @@
  *   func_021BA9F0  0x021BA9F0  thumb  ov068
  *   func_021BAF38  0x021BAF38  thumb  ov068
  */
+#include "../include/Obj09875.h"
+#include "../include/Obj20654.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -91,7 +93,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
     int k;
     int r;
 
-    if (func_0201C6B4((const struct PrintSys *)(*(int *)(w + 0x258))) == 0)
+    if (func_0201C6B4((const struct PrintSys *)(((struct Obj09875 *)w)->f258)) == 0)
         return;
     switch (*st) {
     case 0:
@@ -108,7 +110,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
                     func_021BB138(a, (int)func_021BB4D4);
                 break;
             case 2:
-                **(int **)(w + 0x26C) = 1;
+                **(int * *)&((struct Obj09875 *)w)->f26C = 1;
                 func_021BA9E0(w + 0x148, &b50);
                 if (func_021BB0E4(w + 0x248, &b50)) {
                     func_021BB138(a, (int)func_021BB4A4);
@@ -130,7 +132,7 @@ void func_021BB1C4(void *a, u32 *st, u8 *w)
                 break;
             }
         }
-        r = func_020071F0(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)(*(u8 **)(w + 0x26C) + 4)))));
+        r = func_020071F0(func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj20654 *)(*(u8 * *)&((struct Obj09875 *)w)->f26C))->f4))));
         func_021BA9E0(w + 0x148, &b38);
         if (b38.b == 0 && r != 0)
             *st = 1;

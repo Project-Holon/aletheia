@@ -15,6 +15,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04505.h"
 typedef unsigned char u8;
 extern void func_021CA444(char *);
 extern void func_021CA458(void *,void *);
@@ -29,11 +30,11 @@ void func_021C72A0(u8 *p, int unused, u8 *q)
 {
     func_021CA444((char *)q);
     func_021CA458(q,q+12);
-    func_02027FD8(*(void **)(p+0x48));
-    func_02045808(*(void **)(p+0x30));
-    func_02045808(*(void **)(p+0x3c));
-    func_02045808(*(void **)(p+0x2c));
-    func_020452E8(*(void **)(p+0x1c));
-    func_020452E8(*(void **)(p+0xc));
-    func_020307B0(*(void **)(p+0x14));
+    func_02027FD8(((struct Obj04505 *)p)->f48);
+    func_02045808(((struct Obj04505 *)p)->f30);
+    func_02045808(((struct Obj04505 *)p)->f3C);
+    func_02045808(((struct Obj04505 *)p)->f2C);
+    func_020452E8(((struct Obj04505 *)p)->f1C);
+    func_020452E8(((struct Obj04505 *)p)->fC);
+    func_020307B0(((struct Obj04505 *)p)->f14);
 }

@@ -14,6 +14,7 @@
  *   func_02049740 0x02049740 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00182.h"
 
 typedef unsigned short u16;
 
@@ -24,8 +25,8 @@ extern void func_02049238(void *);
 
 void func_021BABF4(int unused, char *p)
 {
-    void *h = func_020490F4(188, *(unsigned short *)p);
-    func_02049B68(h, 0, 0, 0, 320, *(unsigned short *)p);
-    *(unsigned int *)(p + 704) = func_02049740(h, 1, 2, 0, 0, *(unsigned short *)p);
+    void *h = func_020490F4(188, ((struct Obj00182 *)p)->f0);
+    func_02049B68(h, 0, 0, 0, 320, ((struct Obj00182 *)p)->f0);
+    ((struct Obj00182 *)p)->f2C0 = func_02049740(h, 1, 2, 0, 0, ((struct Obj00182 *)p)->f0);
     func_02049238(h);
 }

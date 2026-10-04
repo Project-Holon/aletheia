@@ -32,6 +32,10 @@
  *   func_021DBAD0 0x021DBAD0 thumb ov131
  *   d_021DC2B8 0x021DC2B8 data a1 ov131
  */
+#include "../include/Obj01409.h"
+#include "../include/Obj02846.h"
+#include "../include/Obj04511.h"
+#include "../include/Obj23172.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -74,39 +78,39 @@ void func_021DB7D4(u8 *p,u8 *q,u8 *entry)
         count=func_02017E88(mon,entry[0]+58,0);
         value=func_02017E88(mon,entry[0]+66,0);
     } else {
-        id=*(u16 *)(*(u8 **)(p+8)+20);
+        id=((struct Obj23172 *)(*(u8 * *)&((struct Obj02846 *)p)->f8))->f14;
         count=func_0201BD28(id,5);
         value=count;
     }
-    *(Bmp **)(entry+16)=func_02043678(11,4,32,*(u16 *)p);
-    bank=func_02045B38(0,2,203,*(u16 *)p);
+    *(Bmp * *)&((struct Obj01409 *)entry)->f10=func_02043678(11,4,32,((struct Obj02846 *)p)->f0);
+    bank=func_02045B38(0,2,203,((struct Obj02846 *)p)->f0);
     text=func_02045EC0(bank,id);
-    func_0201C724(*(void **)(p+132),*(u32 *)(entry+16),3,2,(u32)text,*(u32 *)(p+128),1088);
+    func_0201C724(((struct Obj02846 *)p)->f84,*(u32 *)&((struct Obj01409 *)entry)->f10,3,2,(u32)text,((struct Obj02846 *)p)->f80,1088);
     func_02045808(text);
     func_02045C04((struct Rec *)bank);
     if(id!=0) {
-        func_021D614C(p,*(int *)(entry+16),135,13,17,1088);
-        first=func_0201EC64(*(u16 *)p);
+        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,135,13,17,1088);
+        first=func_0201EC64(((struct Obj02846 *)p)->f0);
         func_0201EFA4(first,0,count,3,1,1);
-        func_021D6244(p,*(int *)(entry+16),first,136,57,17,1088);
+        func_021D6244(p,*(int *)&((struct Obj01409 *)entry)->f10,first,136,57,17,1088);
         func_0201ED04(first);
-        func_021D614C(p,*(int *)(entry+16),117,57,17,1088);
-        second=func_0201EC64(*(u16 *)p);
+        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,117,57,17,1088);
+        second=func_0201EC64(((struct Obj02846 *)p)->f0);
         func_0201EFA4(second,0,value,3,1,1);
-        func_021D61B8(p,*(int *)(entry+16),second,141,61,17,1088);
+        func_021D61B8(p,*(int *)&((struct Obj01409 *)entry)->f10,second,141,61,17,1088);
         func_0201ED04(second);
     } else {
-        func_021D614C(p,*(int *)(entry+16),153,49,17,1088);
+        func_021D614C(p,*(int *)&((struct Obj01409 *)entry)->f10,153,49,17,1088);
     }
     desc.x=(*(const u8 *)((u32)&d_021DC2B8[0].x+(u32)entry[0]*2U)+5)*8;
     desc.y=*(const u8 *)((u32)&d_021DC2B8[0].y+(u32)entry[0]*2U)*8;
-    desc.resource=*(u32 *)(p+184);
+    desc.resource=*(u32 *)&((struct Obj02846 *)p)->fB8;
     desc.value=0;
     desc.a=6;
     desc.b=0;
     desc.c=0;
     desc.d=0;
-    desc.bmp=*(Bmp **)(entry+16);
-    *(u8 **)(entry+20)=func_021DBAD0(*(u8 **)(q+164),&desc);
-    *(u32 *)(entry+4)=1;
+    desc.bmp=*(Bmp * *)&((struct Obj01409 *)entry)->f10;
+    *(u8 * *)&((struct Obj01409 *)entry)->f14=func_021DBAD0(*(u8 * *)&((struct Obj04511 *)q)->fA4,&desc);
+    ((struct Obj01409 *)entry)->f4=1;
 }

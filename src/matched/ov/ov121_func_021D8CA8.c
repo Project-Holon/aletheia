@@ -18,6 +18,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj08088.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
@@ -34,9 +35,9 @@ void func_021D8CA8(u8 *p)
     *(volatile unsigned *)0x04000000 &= 0xFFFF1FFF;
     if(func_021D6D7C(p+280)) func_021D6D38(p+280);
     func_02040588(2,0);
-    func_0204B3B4(*(void **)(p+4));
-    func_0204ADA4((u32)(*(void **)(p+12)));
-    func_0204A8D4((u32)(*(void **)(p+16)));
-    func_0204AFD8((u32)(*(void **)(p+20)));
+    func_0204B3B4(((struct Obj08088 *)p)->f4);
+    func_0204ADA4((u32)(((struct Obj08088 *)p)->fC));
+    func_0204A8D4((u32)(((struct Obj08088 *)p)->f10));
+    func_0204AFD8((u32)(((struct Obj08088 *)p)->f14));
     func_02082BCC(p,0,300);
 }

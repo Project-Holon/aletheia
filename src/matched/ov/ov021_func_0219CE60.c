@@ -17,6 +17,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03579.h"
+#include "../include/Obj03580.h"
+#include "../include/Obj12673.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,18 +30,18 @@ extern void *func_02046E24(u32 a0, u32 a1);
 
 int func_0219CE60(u8 *o, u32 a, u32 b, u32 c, u16 e, u32 w)
 {
-    u8 *ctx = *(u8 **)(o + 0x1c);
-    u8 *p = *(u8 **)(ctx + 0x10);
+    u8 *ctx = *(u8 * *)&((struct Obj03579 *)o)->f1C;
+    u8 *p = *(u8 * *)&((struct Obj12673 *)ctx)->f10;
     u32 i;
-    for (i = 0; i < *(u16 *)(ctx + 6); i++, p += 0x14) {
-        if (*(u32 *)(p + 0x10) == 0) {
-            *(u8 *)p = 0;
-            *(u16 *)(p + 8) = a;
-            *(u8 *)(p + 0xa) = b;
-            *(u8 *)(p + 0xb) = c;
-            *(u32 *)(p + 4) = w;
-            *(u32 *)(p + 0x10) = (u32)func_02046E24(func_0216D518((u8 *)(*(u32 *)(o + 0x10))), e);
-            *(u8 *)p = 1;
+    for (i = 0; i < ((struct Obj12673 *)ctx)->f6; i++, p += 0x14) {
+        if (((struct Obj03580 *)p)->f10 == 0) {
+            ((struct Obj03580 *)p)->f0 = 0;
+            ((struct Obj03580 *)p)->f8 = a;
+            ((struct Obj03580 *)p)->fA = b;
+            ((struct Obj03580 *)p)->fB = c;
+            ((struct Obj03580 *)p)->f4 = w;
+            ((struct Obj03580 *)p)->f10 = (u32)func_02046E24(func_0216D518((u8 *)(((struct Obj03579 *)o)->f10)), e);
+            ((struct Obj03580 *)p)->f0 = 1;
             return 1;
         }
     }

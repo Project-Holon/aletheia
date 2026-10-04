@@ -12,6 +12,7 @@
  * symbols:
  *   func_021B8C38  0x021B8C38  thumb  ov093
  */
+#include "../include/Obj00067.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ u8 func_0218A160(u8 *p, int k)
     case 0:
         return p[0x95];
     case 3:
-        switch (*(int *)(p + 0x98)) {
+        switch (*(int *)&((struct Obj00067 *)p)->f98) {
         case 0:
         case 3:
             return p[0x94];
@@ -48,7 +49,7 @@ u8 func_0218A160(u8 *p, int k)
         }
         break;
     case 2:
-        switch (*(int *)(p + 0x98)) {
+        switch (*(int *)&((struct Obj00067 *)p)->f98) {
         case 0:
         case 3:
             return p[0x95];

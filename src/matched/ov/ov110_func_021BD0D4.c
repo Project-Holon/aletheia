@@ -13,6 +13,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj13787.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ void func_021BD0D4(u8 *p)
 {
     int i;
     for(i=0;i<8;i++) func_0204B3B4(*(void **)(p+i*4+0x70));
-    func_0204A8D4(*(u32 *)(p+0x14));
-    func_0204AFD8(*(u32 *)(p+0x18));
+    func_0204A8D4(((struct Obj13787 *)p)->f14);
+    func_0204AFD8(((struct Obj13787 *)p)->f18);
 }

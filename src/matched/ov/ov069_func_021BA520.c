@@ -17,6 +17,7 @@
  *   func_0202CEBC  0x0202CEBC  thumb
  *   func_0202CC58  0x0202CC58  thumb
  */
+#include "../include/Obj07687.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -38,11 +39,11 @@ void func_021BA520(u8 *a0, int a1, void *a2, int a3)
     func_02043B5C(func_02045770(*(void **)(a0 + 0x10 + a1 * 4)), 4);
     if (a3 == 0)
         func_0201C7D0((void *)func_02045770(*(void **)(a0 + 0x10 + a1 * 4)), 0, 0, a2,
-                      *(void **)(a0 + 0xc), 0x3584);
+                      ((struct Obj07687 *)a0)->fC, 0x3584);
     else
         func_0201C7D0((void *)func_02045770(*(void **)(a0 + 0x10 + a1 * 4)), 0, 0, a2,
-                      *(void **)(a0 + 0xc), 0x2D44);
+                      ((struct Obj07687 *)a0)->fC, 0x2D44);
     func_02045334(*(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CEBC(*(struct WinMgr **)(a0 + 4), a1, *(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CC58(*(struct WinMgr **)(a0 + 4), a1);
+    func_0202CEBC(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1, *(void **)(a0 + 0x10 + a1 * 4));
+    func_0202CC58(*(struct WinMgr * *)&((struct Obj07687 *)a0)->f4, a1);
 }

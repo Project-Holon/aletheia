@@ -21,6 +21,7 @@
  *   func_021BC920 0x021BC920 thumb ov216
  *   func_021BCA24 0x021BCA24 thumb ov216
  */
+#include "../include/Obj03374.h"
 struct Tcbl; struct PrintSys;
 extern void func_021BC3DC(void *);
 extern int func_021BBF28(char *);
@@ -35,8 +36,8 @@ extern void func_021BCA24(char *);
 int func_021BBF0C(char *);
 int func_021BBE7C(int unused0,int *state,int unused2,char *p)
 {
-    if (*(int *)(p+0x10)) return 1;
-    if (*state>=2 && *state<=3) func_021BC3DC(*(void **)(p+0x124));
+    if (((struct Obj03374 *)p)->f10) return 1;
+    if (*state>=2 && *state<=3) func_021BC3DC(((struct Obj03374 *)p)->f124);
     switch (*state) {
     case 0: *state=func_021BBF28(p); break;
     case 1: *state=func_021BBF60(p); break;
@@ -45,10 +46,10 @@ int func_021BBE7C(int unused0,int *state,int unused2,char *p)
     case 4: *state=func_021BBF98(p); break;
     case 5: return 1;
     }
-    func_020310C4(*(struct Tcbl **)(p+0x18));
-    func_0201C4E4(*(struct PrintSys **)(p+0x12c));
+    func_020310C4(*(struct Tcbl * *)&((struct Obj03374 *)p)->f18);
+    func_0201C4E4(*(struct PrintSys * *)&((struct Obj03374 *)p)->f12C);
     func_021BC920((unsigned *)p);
-    func_021BCA24(*(char **)(p+0x50));
+    func_021BCA24(*(char * *)&((struct Obj03374 *)p)->f50);
     return 0;
 }
 int func_021BBF0C(char *p)

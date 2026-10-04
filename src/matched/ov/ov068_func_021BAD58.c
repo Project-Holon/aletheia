@@ -11,8 +11,9 @@
  *
  * Shift the word field at 0x3c left by one.
  */
+#include "../include/Obj20647.h"
 
 void func_021BAD58(void *p)
 {
-    *(unsigned int *)((char *)p + 0x3c) <<= 1;
+    ((struct Obj20647 *)p)->f3C <<= 1;
 }

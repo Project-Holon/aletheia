@@ -15,6 +15,7 @@
  *   func_0219D064  0x0219D064  thumb  ov021
  *   func_0219D1F8  0x0219D1F8  thumb  ov021
  */
+#include "../include/Obj00808.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,7 +39,7 @@ void func_0219D0F4(int *obj)
     }
     for (; i < n; i++, p += 10) {
         if (p[0] != 0 && *((unsigned char *)p + 0xd) == 1) {
-            if (func_0219CBD4((u32)obj, *(unsigned short *)(p + 2), (u32)(&sp[0]), (u32)(&sp[1])) == 1) {
+            if (func_0219CBD4((u32)obj, ((struct Obj00808 *)p)->f8, (u32)(&sp[0]), (u32)(&sp[1])) == 1) {
                 func_0219D064(obj, p);
                 func_0219D1F8(p);
             }

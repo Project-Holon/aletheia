@@ -99,6 +99,8 @@
  *   func_02204C98  0x02204C98  thumb  ov094
  *   func_02205768  0x02205768  thumb  ov094
  */
+#include "../include/Obj21781.h"
+#include "../include/Obj21782.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -227,7 +229,7 @@ void func_02204CC0(Work *p, const Slots *q)
             func_0204B6F4(p->obj[i], func_020275EC(k), 1);
             func_0204B7C8(p->obj[i], &buf);
             vram = VRAM_BASE;
-            func_02082A60(*(void **)((char *)cd + 0x14), (void *)(vram + buf.w[2]), 0x100);
+            func_02082A60(((struct Obj21781 *)cd)->f14, (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             func_0201DE00(&c[2], &c[1], &c[0]);
             func_0201DD78(1, 2, 0);
@@ -254,7 +256,7 @@ void func_02204CC0(Work *p, const Slots *q)
         }
         heap = (p->heap & 0x7fff) | 0x8000;
         pltt = func_02049F34(0xb, file, (u32)(&pd), heap);
-        func_020215BC(p->bg, *(void **)((char *)pd + 0xc), 1, i * 16 + 0x90, 0x20);
+        func_020215BC(p->bg, ((struct Obj21782 *)pd)->fC, 1, i * 16 + 0x90, 0x20);
         func_020307B0(pltt);
     }
     p->f25a[i] = 1;

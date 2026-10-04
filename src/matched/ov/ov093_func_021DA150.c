@@ -26,6 +26,7 @@
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
+#include "../include/Obj06254.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -89,12 +90,12 @@ void func_021DA150(int a, void *b, int c, int *d)
     if (move != 0 && c != 31) {
         p = func_021C88A4(b, 31, c);
         p[6] = c;
-        *(u16 *)(p + 4) = move;
+        ((struct Obj06254 *)p)->f4 = move;
         p[8] = 1;
-        *(u32 *)p |= 1 << 23;
+        ((struct Obj06254 *)p)->f0 |= 1 << 23;
         func_021C8838(p + 12, 2, 0x17d);
         func_021C8860((struct S *)(p + 12), chosen);
-        func_021C8860((struct S *)(p + 12), *(u16 *)(p + 4));
+        func_021C8860((struct S *)(p + 12), ((struct Obj06254 *)p)->f4);
         func_021C88C8(b, p);
     }
 }

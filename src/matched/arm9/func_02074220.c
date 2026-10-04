@@ -55,6 +55,7 @@
  *   python tools/match.py one --src src/matched/func_02074220.c \
  *       --func func_02074220 --addr 0x02074220 --cc ../2.0/sp2 --arm
  */
+#include "../include/Obj11683.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -93,11 +94,11 @@ void func_02074220(struct Hdr *h, u8 *base)
 
     for (i = 0; i < h->f88->count; i++) {
         u8 *p = (u8 *)h->f88 + 0xc + i * 0x10;
-        u32 v = *(u32 *)p;
+        u32 v = ((struct Obj11683 *)p)->f0;
         u32 r;
         if (v == 0) r = 0;
         else        r = (u32)(base + v);
-        *(u32 *)(p + 8) = r;
+        ((struct Obj11683 *)p)->f8 = r;
     }
 
     h->f30 = 0;

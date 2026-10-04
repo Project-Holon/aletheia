@@ -18,6 +18,7 @@
  *   func_02040B1C  0x02040B1C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01509.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,12 +36,12 @@ extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 
 void func_021D1430(u8 *p, u32 n)
 {
-    u32 a = func_02045768((struct Descriptor *)(*(u32 *)(p + 4)));
-    u32 b = (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 4));
+    u32 a = func_02045768((struct Descriptor *)(((struct Obj01509 *)p)->f4));
+    u32 b = (u32)func_02045770((struct Descriptor *)((struct Obj01509 *)p)->f4);
     u32 x;
     u32 y;
 
-    func_020439A0((struct Bmp *)(*(u32 *)(p + 0x10)), (struct Bmp *)b, 0, n << 5, *(u16 *)(p + 8), *(u16 *)(p + 10), 0x20, 0x20, 0xFFFF);
+    func_020439A0((struct Bmp *)(((struct Obj01509 *)p)->f10), (struct Bmp *)b, 0, n << 5, ((struct Obj01509 *)p)->f8, ((struct Obj01509 *)p)->fA, 0x20, 0x20, 0xFFFF);
     x = (u32)func_020437D4((const struct Bmp *)b);
     y = func_020437EC((const struct Bmp *)b);
     func_02040B1C(3, (const void *)x, y, a);

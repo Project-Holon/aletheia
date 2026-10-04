@@ -16,6 +16,7 @@
  *   func_021C88A4   0x021C88A4  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  */
+#include "../include/Obj06252.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,10 +48,10 @@ void func_021D9E08(int a, int b, int c, Slot d, Byte e)
     if (func_021D85C0(a, e.b) == 0)
         return;
     p = func_021C88A4(a, 0xc, b);
-    *(u32 *)p |= m << 21;
-    *(u32 *)(p + 4) = c;
-    *(u32 *)(p + 8) = d.raw;
-    *(u8 *)(p + 0xc) = 0;
-    *(u8 *)(p + 0xf) = func_021D775C(3);
+    ((struct Obj06252 *)p)->f0 |= m << 21;
+    ((struct Obj06252 *)p)->f4 = c;
+    ((struct Obj06252 *)p)->f8 = d.raw;
+    ((struct Obj06252 *)p)->fC = 0;
+    ((struct Obj06252 *)p)->fF = func_021D775C(3);
     func_021C88C8((void *)a, p);
 }

@@ -21,6 +21,7 @@
  *   func_021D6E24 0x021D6E24 thumb ov093
  *   func_021CD4B0 0x021CD4B0 thumb ov093
  */
+#include "../include/Obj02784.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,24 +46,24 @@ int func_021CBA40(u8 *p, void *a, u16 b)
     u8 i;
     u8 result;
     u8 flag;
-    count = func_021B8778(*(void **)(p + 4), (unsigned short)((chosen << 8) | func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a))), buf);
+    count = func_021B8778(((struct Obj02784 *)p)->f4, (unsigned short)((chosen << 8) | func_021B8D8C(((struct Obj02784 *)p)->f4, ((struct Obj02784 *)p)->f8, func_021D5440(a))), buf);
     for (i = 0; i < count; i++) {
-        m = func_021B98A4(*(char *const **)(p + 8), buf[i]);
+        m = func_021B98A4(*(char *const * *)&((struct Obj02784 *)p)->f8, buf[i]);
         if (!func_021D5B68(m)) { chosen = buf[i]; break; }
     }
-    if (!func_021B86B8(*(void **)(p + 4))) {
+    if (!func_021B86B8(((struct Obj02784 *)p)->f4)) {
         if (chosen != 6) {
             result = func_021CBB34(p, a, m, b, &out[1], &out[0]);
             if (result) {
-                *(int *)(p + 20) = 6;
+                ((struct Obj02784 *)p)->f14 = 6;
                 p[0x784] = chosen;
-                flag = func_021B8724(*(void **)(p + 4), m) == 0 ? 1 : 0;
+                flag = func_021B8724(((struct Obj02784 *)p)->f4, m) == 0 ? 1 : 0;
                 func_021D6E24(m, b);
             } else { flag = 0; }
-            func_021CD4B0(*(void **)(p + 12), 0x46, chosen, out[1], result, flag, out[0], b);
+            func_021CD4B0(((struct Obj02784 *)p)->fC, 0x46, chosen, out[1], result, flag, out[0], b);
         }
         return 1;
     }
-    if (chosen != 6) func_021CD4B0(*(void **)(p + 12), 0x47, chosen, b);
+    if (chosen != 6) func_021CD4B0(((struct Obj02784 *)p)->fC, 0x47, chosen, b);
     return 0;
 }

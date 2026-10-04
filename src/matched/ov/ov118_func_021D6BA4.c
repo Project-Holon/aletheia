@@ -26,6 +26,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00984.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -60,7 +61,7 @@ void func_021D6BA4(u8 *p)
     if (FRAME == 10) {
         func_021D6AD4(p);
     }
-    if (*(u8 *)(p + 0x11ED) == 0 && FRAME == 6) {
+    if (((struct Obj00984 *)p)->f11ED == 0 && FRAME == 6) {
         func_02015C30(OBJ(0), &v);
         func_02015C48(OBJ(2), &v);
         func_02015EB0((void *)OBJ(2));
@@ -70,7 +71,7 @@ void func_021D6BA4(u8 *p)
     }
     if (FRAME > 0xC8 && func_021E12AC(p) != 0) {
         func_021E1098(p);
-        if (*(u8 *)(p + 0x11ED) == 0) {
+        if (((struct Obj00984 *)p)->f11ED == 0) {
             func_021E36D8(p, 0);
             OBJ(0) = OBJ(2);
             OBJ(2) = 0;

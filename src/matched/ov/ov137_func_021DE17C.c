@@ -14,6 +14,12 @@
  *   func_021841A4 0x021841A4 thumb ov022
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj02868.h"
+#include "../include/Obj23729.h"
+#include "../include/Obj23730.h"
+#include "../include/Obj23731.h"
+#include "../include/Obj23732.h"
+#include "../include/Obj23733.h"
 extern void *func_021DCF50(void *);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -24,29 +30,29 @@ extern int func_021841A4(unsigned char *p);
 extern u16 func_02039338(void);
 void func_021DE17C(char *p, int command, int player) {
     void *target;
-    if (*(int *)(p+0x118) == 3) {
+    if (((struct Obj02868 *)p)->f118 == 3) {
         switch (command) {
         case 1:
             target = func_02184180(func_021DCF50(p), player);
             if (target != 0)
-                func_0201F02C(*(void **)(p+0x3c), 0, target);
-            *(int *)(p+0x118) = command;
-            *(unsigned *)(*(char **)(p+0x10)+0x2c) = func_021841A4(func_021DCF50(p));
-            *(unsigned *)(*(char **)(p+0x10)+0x30) = 0;
+                func_0201F02C(((struct Obj02868 *)p)->f3C, 0, target);
+            ((struct Obj02868 *)p)->f118 = command;
+            ((struct Obj23729 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
+            ((struct Obj23730 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
             return;
         case 19:
-            func_0201F02C(*(void **)(p+0x3c), 0, func_02184180(func_021DCF50(p), player));
+            func_0201F02C(((struct Obj02868 *)p)->f3C, 0, func_02184180(func_021DCF50(p), player));
             if (player != func_02039338()) {
                 if (func_02039338() == 0)
-                    *(unsigned *)(*(char **)(p+0x10)+0x30) &= player ^ 0xffff;
-                *(int *)(p+0x118) = command;
+                    ((struct Obj23731 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 &= player ^ 0xffff;
+                ((struct Obj02868 *)p)->f118 = command;
             }
             break;
         }
     } else {
         if (command == 1) {
-            *(unsigned *)(*(char **)(p+0x10)+0x30) = 0;
-            *(unsigned *)(*(char **)(p+0x10)+0x2c) = func_021841A4(func_021DCF50(p));
+            ((struct Obj23732 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f30 = 0;
+            ((struct Obj23733 *)(*(char * *)&((struct Obj02868 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
         }
     }
 }

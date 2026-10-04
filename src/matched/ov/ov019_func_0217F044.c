@@ -11,6 +11,7 @@
  * symbols:
  *   func_0201ED04 0x0201ED04 thumb
  */
+#include "../include/Obj09417.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,8 +19,8 @@ struct WordSet;
 extern void func_0201ED04(struct WordSet *p);
 void func_0217F044(u8 *p)
 {
-    if (*(void **)(p + 0x2804) != 0) {
-        func_0201ED04(*(void **)(p + 0x2804));
-        *(void **)(p + 0x2804) = 0;
+    if (((struct Obj09417 *)p)->f2804 != 0) {
+        func_0201ED04(((struct Obj09417 *)p)->f2804);
+        ((struct Obj09417 *)p)->f2804 = 0;
     }
 }

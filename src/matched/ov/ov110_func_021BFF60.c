@@ -10,9 +10,10 @@
  * symbols:
  *   func_02040618 0x02040618 arm
  */
+#include "../include/Obj02166.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_02040618(u32,u32,u32);
-void func_021BFF60(u8 *p) { *(u32 *)(p+0x94)=0; *(u32 *)(p+0x98)=0; func_02040618(2,3,8); }
+void func_021BFF60(u8 *p) { ((struct Obj02166 *)p)->f94=0; ((struct Obj02166 *)p)->f98=0; func_02040618(2,3,8); }

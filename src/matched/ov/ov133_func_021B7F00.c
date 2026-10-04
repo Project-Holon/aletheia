@@ -13,6 +13,7 @@
  *   func_021BA228 0x021BA228 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
  */
+#include "../include/Obj04522.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_021BA184(char *p);
@@ -25,14 +26,14 @@ int func_021B7F00(u8 *p, void *q, u32 a)
     u8 *e = func_021BA184(q);
     u32 *v;
     while (e) {
-        if (func_021BA25C(e, *(int *)(p + 0x1c), *(int *)(p + 0x20)) == 1) {
+        if (func_021BA25C(e, ((struct Obj04522 *)p)->f1C, ((struct Obj04522 *)p)->f20) == 1) {
             v = func_021BA228(e);
-            *(u32 *)(p + 0x3c) = 2;
-            *(u8 **)(p + 0x38) = e;
+            ((struct Obj04522 *)p)->f3C = 2;
+            *(u8 * *)&((struct Obj04522 *)p)->f38 = e;
             func_020061E4(0x623);
-            *(u32 *)(p + 0x40) = a;
-            *(u32 *)(p + 0x44) = v[0];
-            *(u32 *)(p + 0x48) = v[1];
+            ((struct Obj04522 *)p)->f40 = a;
+            ((struct Obj04522 *)p)->f44 = v[0];
+            ((struct Obj04522 *)p)->f48 = v[1];
             return 1;
         }
         e = (u8 *)func_021BA208(e);

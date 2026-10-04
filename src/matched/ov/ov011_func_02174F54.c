@@ -15,6 +15,7 @@
  *   func_02039338  0x02039338  arm
  *   func_021751D4  0x021751D4  thumb ov011
  */
+#include "../include/Obj00269.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,10 +55,10 @@ void func_02174F54(u8 *p, int idx, const Ent *src, int arg)
     if (src->f0 == 1) {
         e->f0 = 1;
     }
-    func_020264B4((void *)(*(int *)(p + 4)), idx, e->f14, (u8)e->a, e->lo, arg);
+    func_020264B4((void *)(((struct Obj00269 *)p)->f4), idx, e->f14, (u8)e->a, e->lo, arg);
     if (idx != func_02039338()) {
         *((Cp *)(p + 0xE0) + idx) = *(Cp *)e;
-        func_021751D4(p, *(u16 *)(p + 0x84), *(int *)(p + 0x74), e);
+        func_021751D4(p, ((struct Obj00269 *)p)->f84, ((struct Obj00269 *)p)->f74, e);
     }
     p[0x927] |= (u8)(1 << idx);
 }

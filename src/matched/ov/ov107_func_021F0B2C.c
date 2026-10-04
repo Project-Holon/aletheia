@@ -34,6 +34,7 @@
  *   d_021F6EE4 0x021F6EE4 data a2
  *   d_021F6E24 0x021F6E24 data a4
  */
+#include "../include/Obj04440.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -84,7 +85,7 @@ void func_021F0B2C(u16 aid,u32 event,u8 *p)
   if(P(0)){func_020307B0(P(0));P(0)=0;}
   if(P(4)){func_0203D7FC(P(4));P(4)=0;}break;
  case 13:
-  switch(*(u16 *)p){case 1:case 2:case 9:func_021F0D1C(7);break;case 8:break;}break;
+  switch(((struct Obj04440 *)p)->f0){case 1:case 2:case 9:func_021F0D1C(7);break;case 8:break;}break;
  case 1:case 4:case 5:case 6:case 8:case 11:
  break;
  case 0:

@@ -15,6 +15,7 @@
  *   sub_020403F4  0x020403F4 arm
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj20480.h"
 
 typedef unsigned int   u32;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
@@ -23,7 +24,7 @@ extern void func_02040588(u32 which, u32 enable);
 
 void func_021F0100(char *p)
 {
-    unsigned int v = *(unsigned int *)(p + 0x10);
+    unsigned int v = ((struct Obj20480 *)p)->f10;
     func_0203FB44(6, (unsigned short)v, (unsigned short)(v >> 16));
     sub_020403F4(6);
     sub_020403F4(5);

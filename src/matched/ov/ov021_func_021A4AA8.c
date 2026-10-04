@@ -17,6 +17,7 @@
  *   func_021A491C  0x021A491C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02084.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,14 +31,14 @@ extern int func_021A491C(u32, u32, u32);
 int ov021_func_021A4AA8(u32 a, u32 b, u8 *c)
 {
     u32 r = func_0216D5F8((void *)b);
-    if (*(u16 *)(c + 8) != 9 && *(u16 *)(c + 8) != r) {
+    if (((struct Obj02084 *)c)->f8 != 9 && ((struct Obj02084 *)c)->f8 != r) {
         func_0216D4B4((char *)b);
         return func_021A4994((u8 *)a, (void *)b, (u8 *)((u32)c));
     }
     if (func_0216D3CC(b) == 0) {
         return 0;
     }
-    if (*(u16 *)(c + 8) == 9) {
+    if (((struct Obj02084 *)c)->f8 == 9) {
         return func_021A491C(a, b, (u32)c);
     }
     return func_021A4994((u8 *)a, (void *)b, (u8 *)((u32)c));

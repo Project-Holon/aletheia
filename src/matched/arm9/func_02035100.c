@@ -19,10 +19,11 @@
  * is the same shape, where the stub in between makes a `matched` entry useless
  * - here the pool word names the leaf directly, so the entry is the unblock).
  */
+#include "../include/Obj15886.h"
 
 typedef unsigned int u32;
 
 u32 func_02035100(u32 *p)
 {
-    return *(u32 *)((char *)p + 0x1c);
+    return ((struct Obj15886 *)p)->f1C;
 }

@@ -15,6 +15,8 @@
  *   func_0218FC80  0x0218FC80  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07424.h"
+#include "../include/Obj19572.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,8 +39,8 @@ void func_0218F930(u8 *p, u8 *a, u8 *b, u32 *c, u16 v)
         func_0218F780(p, q + 0x34);
         *(B12 *)(q + 0x64) = *(B12 *)a;
         *(B12 *)(q + 0x70) = *(B12 *)b;
-        *(u16 *)(q + 0x96) = 0;
-        *(u16 *)(q + 0x94) = v;
+        ((struct Obj07424 *)q)->f96 = 0;
+        ((struct Obj07424 *)q)->f94 = v;
         loc.w[5] = c[5];
         loc.w[1] = 0;
         loc.w[4] = c[4];
@@ -46,8 +48,8 @@ void func_0218F930(u8 *p, u8 *a, u8 *b, u32 *c, u16 v)
         loc.w[3] = 0;
         loc.w[0] = c[0];
         *(B24 *)(q + 0xa0) = loc;
-        *(void **)(p + 0x1ac) = (void *)func_0218FC80;
-        *(u32 *)(q + 0xb8) = 0;
-        *(u32 *)(q + 0x9c) = 1;
+        ((struct Obj19572 *)p)->f1AC = (void *)func_0218FC80;
+        ((struct Obj07424 *)q)->fB8 = 0;
+        ((struct Obj07424 *)q)->f9C = 1;
     }
 }

@@ -14,6 +14,7 @@
  *   func_021C2050 0x021C2050 thumb ov099
  *   func_021C203C 0x021C203C thumb ov099
  */
+#include "../include/Obj22048.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C23C0(int index);
@@ -28,7 +29,7 @@ int func_021BE788(char *p)
     unsigned value;
     for (i = 0; i < 32; i++) {
         *(u8 *)(p + i + 0x10) = 0;
-        if (*(u16 *)(p + 0x132a) > i && func_021C23C0(i)) {
+        if (((struct Obj22048 *)p)->f132A > i && func_021C23C0(i)) {
             value = func_021BDD48((int)p, (void *)func_021C23B8(i));
             if (value != 0 && value < 6) {
                 *(u8 *)(p + count + 0x10) = i + 1;

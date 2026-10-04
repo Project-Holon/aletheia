@@ -26,6 +26,8 @@
  *   func_021B6114 0x021B6114 thumb ov090
  * callee: 02031348 tail-forwards to 020314F4 whose own matched body reads all four arguments; retain caller register payloads.
  */
+#include "../include/Obj00349.h"
+#include "../include/Obj10715.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -43,52 +45,52 @@ extern u32 func_02031330(void *);
 extern void func_021B6114(u8 *);
 int func_021E5524(void *unused,int unused2,char *q,char *p)
 {
-    if(*(u32 *)(p+0x98)==1 && *(u16 *)(p+0x68)!=0) {
+    if(((struct Obj00349 *)p)->f98==1 && ((struct Obj00349 *)p)->f68!=0) {
         u32 now;
         now=d_02FFFC3C;
-        *(u8 *)(p+0xc8)+=(u8)(now-*(u32 *)(p+0xcc));
-        *(u32 *)(p+0xcc)=now;
-        if(*(u8 *)(p+0xc8)>60) {
-            --*(u16 *)(p+0x68);
-            *(u8 *)(p+0xc8)-=60;
+        ((struct Obj00349 *)p)->fC8+=(u8)(now-((struct Obj00349 *)p)->fCC);
+        ((struct Obj00349 *)p)->fCC=now;
+        if(((struct Obj00349 *)p)->fC8>60) {
+            --((struct Obj00349 *)p)->f68;
+            ((struct Obj00349 *)p)->fC8-=60;
         }
     }
     if(func_0203CD98()) {
         if(*((u8 *)func_0203D798()+0x65)==3) {
             if(func_0200FB24()) {
                 func_0200FB38();
-                *(u32 *)(q+0x20)=2;
-                *(u8 *)(p+0x6b)=1;*(u32 *)(p+0xc4)=1;
+                ((struct Obj10715 *)q)->f20=2;
+                ((struct Obj00349 *)p)->f6B=1;((struct Obj00349 *)p)->fC4=1;
             }
         } else {
             int one;
             one=1;
             switch(func_02157170((void *)1,(void *)1)) {
             case 0:case 3:break;
-            case 4:*(u32 *)(q+0x20)=3;*(u8 *)(p+0x6b)=one;*(u32 *)(p+0xc4)=one;break;
-            case 1:case 2:default:*(u32 *)(q+0x20)=1;*(u8 *)(p+0x6b)=1;*(u32 *)(p+0xc4)=1;break;
+            case 4:((struct Obj10715 *)q)->f20=3;((struct Obj00349 *)p)->f6B=one;((struct Obj00349 *)p)->fC4=one;break;
+            case 1:case 2:default:((struct Obj10715 *)q)->f20=1;((struct Obj00349 *)p)->f6B=1;((struct Obj00349 *)p)->fC4=1;break;
             }
         }
     }
-    switch(*(u32 *)p) {
+    switch(((struct Obj00349 *)p)->f0) {
     case 0:func_02034AC4((int)ov091_id);
-        func_02031348(*(void **)(p+0xd0),-1,d_021BED00,p+8);*(u32 *)p=1;break;
-    case 1:if(func_02031330(*(void **)(p+0xd0))==0)*(u32 *)p=2;break;
+        func_02031348(((struct Obj00349 *)p)->fD0,-1,d_021BED00,p+8);((struct Obj00349 *)p)->f0=1;break;
+    case 1:if(func_02031330(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=2;break;
     case 2:func_02034A5C((int)ov091_id);
-        if(*(u32 *)(p+0x48)==1) {*(u8 *)(p+0xaf)=*(u32 *)(p+0x44);*(u32 *)p=3;}
+        if(((struct Obj00349 *)p)->f48==1) {((struct Obj00349 *)p)->fAF=((struct Obj00349 *)p)->f44;((struct Obj00349 *)p)->f0=3;}
         else return 1;
         break;
     case 3:func_02034AC4((int)ov131_id);
-        func_02031348(*(void **)(p+0xd0),-1,d_021DC800,p+0xa0);*(u32 *)p=4;break;
+        func_02031348(((struct Obj00349 *)p)->fD0,-1,d_021DC800,p+0xa0);((struct Obj00349 *)p)->f0=4;break;
     case 4:
-        if(*(u32 *)(p+0x98)==1 && *(u16 *)(p+0x68)==0)*(u32 *)(p+0xc4)=1;
-        if(func_02031330(*(void **)(p+0xd0))==0)*(u32 *)p=5;break;
+        if(((struct Obj00349 *)p)->f98==1 && ((struct Obj00349 *)p)->f68==0)((struct Obj00349 *)p)->fC4=1;
+        if(func_02031330(((struct Obj00349 *)p)->fD0)==0)((struct Obj00349 *)p)->f0=5;break;
     case 5:func_02034A5C((int)ov131_id);
-        if(*(u8 *)(p+0x6b)==0) {*(u32 *)(p+0x44)=*(u8 *)(p+0xaf);*(u32 *)p=0;}
+        if(((struct Obj00349 *)p)->f6B==0) {((struct Obj00349 *)p)->f44=((struct Obj00349 *)p)->fAF;((struct Obj00349 *)p)->f0=0;}
         else return 1;
         break;
     }
-    if(*(u8 *)(p+0x6b)==0) {
+    if(((struct Obj00349 *)p)->f6B==0) {
         p+=8;
         func_021B6114((u8 *)p);
     }

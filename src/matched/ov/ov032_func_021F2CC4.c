@@ -16,6 +16,7 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_02028604 0x02028604 thumb
  */
+#include "../include/Obj00812.h"
 
 typedef unsigned char  u8;
 struct TaskMenuState;
@@ -41,6 +42,6 @@ void func_021F2CC4(char *p)
         }
         func_02045808((struct U16Vec *)(*(int *)(p + i * 16 + 0xc4)));
     }
-    func_02027FD8((struct TaskMenuState *)(*(int *)(p + 0xb8)));
-    func_02028604(*(unsigned *)(p + 0xbc));
+    func_02027FD8((struct TaskMenuState *)(((struct Obj00812 *)p)->fB8));
+    func_02028604(((struct Obj00812 *)p)->fBC);
 }

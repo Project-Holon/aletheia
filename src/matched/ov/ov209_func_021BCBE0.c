@@ -13,6 +13,7 @@
  *   func_021BDD7C 0x021BDD7C thumb ov209
  *   func_021BE51C 0x021BE51C thumb ov209
  */
+#include "../include/Obj14667.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021B9398(char *p, int index);
@@ -22,8 +23,8 @@ extern void func_021BE51C(char *, int);
 void func_021BCBE0(char *p, int index)
 {
     u32 v;
-    v = func_021B9398(*(void **)(p + 0xC2C), index);
+    v = func_021B9398(((struct Obj14667 *)p)->fC2C, index);
     if ((v & 0xF0000000) >> 28) func_021BDD7C(p, v & 0x0FFFFFFF);
     else func_021BDD7C(p, 0);
-    func_021BE51C(p, index - func_021B93B8(*(char **)(p + 0xC2C)));
+    func_021BE51C(p, index - func_021B93B8(*(char * *)&((struct Obj14667 *)p)->fC2C));
 }

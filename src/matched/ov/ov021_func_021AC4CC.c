@@ -19,6 +19,7 @@
  *   func_021C6574  0x021C6574  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07513.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,5 +42,5 @@ void func_021AC4CC(u32 *a)
     func_021C6AF0((u32)buf, r4, 0x30);
     func_021C6AF8(buf, r4);
     func_021C6AFC(buf, 0x60);
-    *(u16 *)(a + 1) = func_021C6574(r6, (u32)buf, 0);
+    ((struct Obj07513 *)a)->f4 = func_021C6574(r6, (u32)buf, 0);
 }

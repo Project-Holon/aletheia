@@ -13,6 +13,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00295.h"
 typedef unsigned char u8;
 typedef struct { void *s; unsigned short x; unsigned short pad; int flag; } Record;
 typedef struct { u8 pad[0x40]; Record records[3]; void *windows[3]; void *items[8]; void *other[2]; } Object;
@@ -32,5 +33,5 @@ void func_021BCAD8(Object *p) {
     for(i=0;i<8;i++) func_0204B3DC(p->items[i],0);
     for(i=0;i<2;i++) func_0204B3DC(p->other[i],0);
     func_020409B4(0);
-    func_0204B3DC(*(void **)((u8 *)p+0x28),0);
+    func_0204B3DC(((struct Obj00295 *)p)->f28,0);
 }

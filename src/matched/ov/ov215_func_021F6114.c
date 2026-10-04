@@ -15,6 +15,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj02926.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Descriptor;
@@ -30,11 +31,11 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020452E8(struct Descriptor *d);
 void func_021F6114(void *unused,char *p)
 {
-    if(*(void **)(p+80)) func_0201CE48(*(void **)(p+80));
-    if(*(void **)(p+104)) func_02045808(*(void **)(p+104));
-    func_02031140(*(void **)(p+84));
-    func_02045C04(*(void **)(p+100));
-    func_0203FB44(1,(u16)*(unsigned *)(p+96),(u16)(*(unsigned *)(p+96)>>16));
-    func_020452E8(*(void **)(p+88));
-    func_020452E8(*(void **)(p+92));
+    if(((struct Obj02926 *)p)->f50) func_0201CE48(((struct Obj02926 *)p)->f50);
+    if(((struct Obj02926 *)p)->f68) func_02045808(((struct Obj02926 *)p)->f68);
+    func_02031140(((struct Obj02926 *)p)->f54);
+    func_02045C04(((struct Obj02926 *)p)->f64);
+    func_0203FB44(1,(u16)((struct Obj02926 *)p)->f60,(u16)(((struct Obj02926 *)p)->f60>>16));
+    func_020452E8(((struct Obj02926 *)p)->f58);
+    func_020452E8(((struct Obj02926 *)p)->f5C);
 }

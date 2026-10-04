@@ -14,11 +14,12 @@
  * symbols:
  *   func_0202CA0C  0x0202CA0C  thumb
  */
+#include "../include/Obj20818.h"
 
 struct WinMgr;
 extern void func_0202CA0C(struct WinMgr *mgr);
 
 void func_021BB474(char *p)
 {
-    func_0202CA0C(*(void **)(p + 0x118));
+    func_0202CA0C(((struct Obj20818 *)p)->f118);
 }

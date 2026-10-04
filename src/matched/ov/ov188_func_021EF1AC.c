@@ -12,19 +12,21 @@
  * symbols:
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj14493.h"
+#include "../include/Obj24896.h"
 typedef unsigned int u32;
 
 extern void func_02082D44(void *, void *, int);
 
 int func_021EF1AC(char *p, char *q)
 {
-    u32 a = *(u32 *)(p + 0x94);
+    u32 a = ((struct Obj14493 *)p)->f94;
 
     if (a != 0) {
-        u32 b = *(u32 *)(p + 0x98);
+        u32 b = ((struct Obj14493 *)p)->f98;
 
         if (b < 0xc00) {
-            *(u32 *)(q + 0x34) = b;
+            ((struct Obj24896 *)q)->f34 = b;
             func_02082D44((void *)a, q + 0x38, b);
             return 1;
         }

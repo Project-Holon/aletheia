@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19541.h"
 
 typedef struct { unsigned short a, b; } E;
 
@@ -16,5 +17,5 @@ unsigned short func_0218C924(unsigned char *p)
 {
     if (p == 0)
         return 0;
-    return (**(E ***)(p + 0x10))->b;
+    return (**(E ** *)&((struct Obj19541 *)p)->f10)->b;
 }

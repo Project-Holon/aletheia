@@ -17,6 +17,7 @@
  *   func_021D9E50 0x021D9E50 thumb ov121
  *   func_021DC08C 0x021DC08C thumb ov121
  */
+#include "../include/Obj01930.h"
 extern void *func_021D9CA4(int,int,void *,void *,int);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -31,21 +32,21 @@ void func_021DCEC4(void *arg,int *state,char *p)
 {
     switch (*state) {
     case 0:
-        if (!*(void **)(p+0xabc))
-            *(void **)(p+0xabc)=func_021D9CA4(0,15,*(void **)(p+0x14),*(void **)(p+0x10),29);
-        func_021D9FFC(*(void **)(p+0xabc),1,13);
-        func_021D9F08(*(void **)(p+0xabc),*(int *)(p+0x1c),92,1);
+        if (!((struct Obj01930 *)p)->fABC)
+            ((struct Obj01930 *)p)->fABC=func_021D9CA4(0,15,((struct Obj01930 *)p)->f14,((struct Obj01930 *)p)->f10,29);
+        func_021D9FFC(((struct Obj01930 *)p)->fABC,1,13);
+        func_021D9F08(((struct Obj01930 *)p)->fABC,((struct Obj01930 *)p)->f1C,92,1);
         *state=1; break;
     case 1:
-        if (func_021D9FF8(*(void **)(p+0xabc))) *state=2;
+        if (func_021D9FF8(((struct Obj01930 *)p)->fABC)) *state=2;
         break;
     case 2:
-        if (*(void **)(p+0xabc)) {
-            func_021D9E04(*(void **)(p+0xabc));
-            *(void **)(p+0xabc)=0;
+        if (((struct Obj01930 *)p)->fABC) {
+            func_021D9E04(((struct Obj01930 *)p)->fABC);
+            ((struct Obj01930 *)p)->fABC=0;
         }
         func_021DA8B0(arg,(u32)func_021DC08C);
         break;
     }
-    if (*(void **)(p+0xabc)) func_021D9E50(*(void **)(p+0xabc));
+    if (((struct Obj01930 *)p)->fABC) func_021D9E50(((struct Obj01930 *)p)->fABC);
 }

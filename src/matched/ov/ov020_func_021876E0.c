@@ -17,6 +17,7 @@
  *   func_02187D28  0x02187D28  thumb  ov020
  *   func_02187CCC  0x02187CCC  thumb  ov020
  */
+#include "../include/Obj12549.h"
 
 typedef unsigned int u32;
 
@@ -38,7 +39,7 @@ int func_021876E0(void *unused, int *s, char *o)
     case 5: func_02187CFC(o); return 1;
     }
     if (func_020362DC() & 1) { if (func_02187D20(o) == 0) func_02187D28(o); }
-    *(int *)(o + 0x18) = *(int *)(o + 0x18) + 1;
+    ((struct Obj12549 *)o)->f18 = ((struct Obj12549 *)o)->f18 + 1;
     func_02187CCC(o, s);
     return 0;
 }

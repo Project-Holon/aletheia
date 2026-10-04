@@ -18,6 +18,10 @@
  *   d_021BE794 0x021BE794 data ov209 a4
  *   ov209_id 0x000000D1 data a1
  */
+#include "../include/Obj02259.h"
+#include "../include/Obj04626.h"
+#include "../include/Obj25658.h"
+#include "../include/Obj25659.h"
 typedef unsigned short u16;
 struct Obj020314F4;struct Blk37;
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
@@ -30,17 +34,17 @@ extern unsigned char ov209_id[];
 void func_021C9024(char *p)
 {
     char *q=func_02030734(105,20,0,d_021C99A0,359);
-    *(void **)(p+40)=q;
-    *(unsigned *)q=**(unsigned **)p;
-    *(unsigned *)(q+4)=*(unsigned *)(*(char **)p+4);
-    *(u16 *)(q+8)=*(u16 *)(p+18);
-    if(*(u16 *)(p+18)==0&&func_021C9348(*(struct Blk37 **)(*(char **)p+4))==0){
-        *(u16 **)(q+12)=*(u16 **)(p+12)+1;
-        *(u16 *)(q+10)=*(u16 *)(p+16)-1;
+    ((struct Obj02259 *)p)->f28=q;
+    ((struct Obj04626 *)q)->f0=**(unsigned * *)&((struct Obj02259 *)p)->f0;
+    ((struct Obj04626 *)q)->f4=((struct Obj25658 *)(*(char * *)&((struct Obj02259 *)p)->f0))->f4;
+    ((struct Obj04626 *)q)->f8=((struct Obj02259 *)p)->f12;
+    if(((struct Obj02259 *)p)->f12==0&&func_021C9348(*(struct Blk37 * *)&((struct Obj25659 *)(*(char * *)&((struct Obj02259 *)p)->f0))->f4)==0){
+        *(u16 * *)&((struct Obj04626 *)q)->fC=*(u16 * *)&((struct Obj02259 *)p)->fC+1;
+        ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10-1;
     }else{
-        *(void **)(q+12)=*(void **)(p+12);
-        *(u16 *)(q+10)=*(u16 *)(p+16);
+        ((struct Obj04626 *)q)->fC=((struct Obj02259 *)p)->fC;
+        ((struct Obj04626 *)q)->fA=((struct Obj02259 *)p)->f10;
     }
-    func_02031348(*(struct Obj020314F4 **)(p+4),(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)(p+40));
+    func_02031348(*(struct Obj020314F4 * *)&((struct Obj02259 *)p)->f4,(unsigned)ov209_id,(unsigned)d_021BE794,*(unsigned *)&((struct Obj02259 *)p)->f28);
     func_021C8F90(p,4);
 }

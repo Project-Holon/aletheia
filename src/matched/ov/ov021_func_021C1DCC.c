@@ -19,6 +19,8 @@
  *   func_021C2D68  0x021C2D68  thumb  ov021
  *   func_021C2CF4  0x021C2CF4  thumb  ov021
  */
+#include "../include/Obj01213.h"
+#include "../include/Obj07558.h"
 
 typedef unsigned char u8;
 
@@ -50,15 +52,15 @@ int func_021C1DCC(int a, char *b, int c, int d)
     }
     x = (int)func_020124E8((struct Obj *)r);
     func_021C313C((u32)b, (u32 *)x);
-    *(int *)(x + 0x3c) = d;
+    *(int *)&((struct Obj07558 *)x)->f3C = d;
     if (q[4] != 0)
-        *(void **)(b + 0x128) = func_021C2D68;
+        ((struct Obj01213 *)b)->f128 = func_021C2D68;
     else
-        *(void **)(b + 0x128) = 0;
-    *(void **)(b + 0x12c) = func_021C2CF4;
-    *(int *)(b + 0xc) = 2;
+        ((struct Obj01213 *)b)->f128 = 0;
+    ((struct Obj01213 *)b)->f12C = func_021C2CF4;
+    *(int *)&((struct Obj01213 *)b)->fC = 2;
     s = (int *)(b + 0x9c);
-    *(int *)(b + 0x9c) = q[3];
+    ((struct Obj01213 *)b)->f9C = q[3];
     s[1] = q[1];
     s[2] = q[2];
     if (q[4] == 1)

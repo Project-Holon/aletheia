@@ -10,12 +10,14 @@
  * symbols:
  *   func_021F875C 0x021F875C thumb ov135
  */
+#include "../include/Obj02855.h"
+#include "../include/Obj23386.h"
 typedef unsigned char u8;
 extern void *func_021F875C(void *p, void *dst, void *win, void *bank, void *names, void *obj, void *ctx);
 int func_021F7B50(u8 *p)
 {
-    *(void **)(p + 0xDF4) = func_021F875C(p, p + 0xDE8, *(void **)(p + 0xD54), *(void **)(p + 0xB6C), *(void **)(p + 0xB70), *(void **)(p + 0xE00), *(void **)(*(u8 **)p + 0x10));
-    *(unsigned short *)(p + 0xBC) = 0xFFFF;
-    *(unsigned *)(p + 0x28) = 6;
+    ((struct Obj02855 *)p)->fDF4 = func_021F875C(p, p + 0xDE8, ((struct Obj02855 *)p)->fD54, ((struct Obj02855 *)p)->fB6C, ((struct Obj02855 *)p)->fB70, ((struct Obj02855 *)p)->fE00, ((struct Obj23386 *)(*(u8 * *)&((struct Obj02855 *)p)->f0))->f10);
+    ((struct Obj02855 *)p)->fBC = 0xFFFF;
+    ((struct Obj02855 *)p)->f28 = 6;
     return 2;
 }

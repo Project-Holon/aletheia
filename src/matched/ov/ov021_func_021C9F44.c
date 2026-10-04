@@ -17,6 +17,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ int func_021C9F44(u8 *p)
     u8 *q;
     u32 m;
 
-    if (*(u16 *)(p + 0x84) != 0 || *(u16 *)(p + 0x82) == 7 || *(u16 *)(p + 0x82) == 8)
+    if (((struct Obj00116 *)p)->f84 != 0 || ((struct Obj00116 *)p)->f82 == 7 || ((struct Obj00116 *)p)->f82 == 8)
         return 0;
     h = func_021CA210(p);
     for (i = 0; i < p[8]; i++) {

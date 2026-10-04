@@ -21,6 +21,8 @@
  *   func_0200854C  0x0200854C  thumb
  *   d_021DE59C  0x021DE59C  data  ov021
  */
+#include "../include/Obj20247.h"
+#include "../include/Obj20248.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -62,10 +64,10 @@ Obj *func_021CBFB0(u32 a, u32 b)
     p->fC = func_02030734((u16)a, 0xdc, 0, d_021DE59C, 0x65);
     p->f10 = (int)func_0200846C(a);
     func_020084A0((struct Sub0200852CObj *)p->f10);
-    r = (int)func_021CC070(a, *(u32 *)(p->f8 + 0x68));
+    r = (int)func_021CC070(a, ((struct Obj20247 *)(p->f8))->f68);
     func_02045A38((struct U16Vec *)r, (u16 *)buf, 0x80);
     func_02045808((struct U16Vec *)r);
     func_020084D4(p->f10, buf);
-    func_0200854C(p->f10, *(u32 *)(p->f8 + 0x50));
+    func_0200854C(p->f10, ((struct Obj20248 *)(p->f8))->f50);
     return p;
 }

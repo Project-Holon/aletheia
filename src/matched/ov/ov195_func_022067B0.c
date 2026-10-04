@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10826.h"
 
 void func_022067B0(char *a, int b, int c, int d, int e)
 {
-    *(int *)(a + 0x1c) = c;
+    ((struct Obj10826 *)a)->f1C = c;
     *(int *)(a + 0x1c + 4) = d;
     *(int *)(a + 0x1c + 8) = e;
 }

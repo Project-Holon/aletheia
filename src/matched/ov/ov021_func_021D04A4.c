@@ -18,6 +18,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_021AC1E0  0x021AC1E0  thumb  ov021
  */
+#include "../include/Obj13000.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ void func_021D04A4(void *a)
 
     if (a != 0) {
         e = (u8 *)func_021AC1E0((u32)a);
-        *(u16 *)(e + 0x1a) = 1;
-        func_020061E4(d_021DB934[*(u32 *)(e + 0xc)]);
+        ((struct Obj13000 *)e)->f1A = 1;
+        func_020061E4(d_021DB934[((struct Obj13000 *)e)->fC]);
     }
 }

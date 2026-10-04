@@ -35,6 +35,11 @@
  *   python tools/match.py tu --src src/matched/unit_02026454.c \
  *       --addr 0x02026454 --thumb
  */
+#include "../include/Obj17245.h"
+#include "../include/Obj17246.h"
+#include "../include/Obj17248.h"
+#include "../include/Obj17249.h"
+#include "../include/Obj17250.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -58,12 +63,12 @@ u32 sub_02026460(void *obj)
 
 u32 sub_02026474(void *obj)
 {
-    return *(u32 *)((u8 *)obj + 0x18);
+    return ((struct Obj17245 *)obj)->f18;
 }
 
 u32 sub_02026478(void *obj)
 {
-    return *(u32 *)obj;
+    return ((struct Obj17246 *)obj)->f0;
 }
 
 u32 sub_0202647C(void *obj)
@@ -73,15 +78,15 @@ u32 sub_0202647C(void *obj)
 
 void sub_02026480(void *obj, u32 value)
 {
-    *(u32 *)((u8 *)obj + 8) = value;
+    ((struct Obj17248 *)obj)->f8 = value;
 }
 
 void sub_02026484(void *obj)
 {
-    *(u32 *)((u8 *)obj + 8) = 0;
+    ((struct Obj17249 *)obj)->f8 = 0;
 }
 
 u32 sub_0202648C(void *obj)
 {
-    return *(u32 *)((u8 *)obj + 8);
+    return ((struct Obj17250 *)obj)->f8;
 }

@@ -14,6 +14,7 @@
  *
  * Runs the setup for selector 0x61 and stamps it 0x1CC bytes in.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021BA828(char *p);
 int func_021BCF9C(char *p, int v)
 {
     func_021BA828(p);
-    *(u32 *)(p + 0x1CC) = 0x61;
+    *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x61;
     return v;
 }

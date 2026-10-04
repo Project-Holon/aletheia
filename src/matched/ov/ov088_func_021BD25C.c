@@ -19,6 +19,7 @@
  *   d_021BDA0C     0x021BDA0C  data  ov088  a4
  *   d_021BD3B9     0x021BD3B9  data  ov088  a1
  */
+#include "../include/Obj13237.h"
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 struct Sub020071E4Ctrl;
@@ -29,7 +30,7 @@ extern void func_020351F8(u32 a, u32 b);
 void *func_021BD25C(int a, int b)
 {
     char *r4 = (char *)func_02030734(a, 0x10, 1, (const char *)0x021BDA0C, 0x45);
-    *(int *)r4 = b;
+    ((struct Obj13237 *)r4)->f0 = b;
     if (func_020071EC((const struct Sub020071E4Ctrl *)b) == 1) {
         r4[7] = 1;
     } else {

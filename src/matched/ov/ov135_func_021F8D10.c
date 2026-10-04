@@ -17,6 +17,8 @@
  *   d_021D6338 0x021D6338 data ov115 a4
  *   ov115_id 0x00000073 data
  */
+#include "../include/Obj03294.h"
+#include "../include/Obj23401.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {
@@ -40,21 +42,21 @@ extern void func_0200F7B8(u32 mode);
 int func_021F8D10(u8 *p)
 {
     State *s;
-    *(State **)(p + 0x10DC) = func_02030734(0x48, sizeof(State), 0, str_02203C34, 0x263);
-    func_02082BCC(*(State **)(p + 0x10DC), 0, sizeof(State));
-    s = *(State **)(p + 0x10DC);
-    s->handle = func_020120F4(*(void **)(*(u8 **)p + 0x40));
+    *(State * *)&((struct Obj03294 *)p)->f10DC = func_02030734(0x48, sizeof(State), 0, str_02203C34, 0x263);
+    func_02082BCC(*(State * *)&((struct Obj03294 *)p)->f10DC, 0, sizeof(State));
+    s = *(State * *)&((struct Obj03294 *)p)->f10DC;
+    s->handle = func_020120F4(((struct Obj23401 *)(*(u8 * *)&((struct Obj03294 *)p)->f0))->f40);
     s->f4 = 0;
     s->f8 = 1;
     s->f10 = p + 0x116C;
     s->fc = 30;
     s->callback = (void (*)(void *, void *))func_021F8E88;
     s->user = p;
-    *(u32 *)(p + 0x12EC) = 0;
-    if (*(u32 *)(p + 0x20) == 21) s->f14 = 1;
+    ((struct Obj03294 *)p)->f12EC = 0;
+    if (((struct Obj03294 *)p)->f20 == 21) s->f14 = 1;
     else s->f14 = 0;
-    func_02031348(*(void **)(p + 0x12F0), (u32)ov115_id, d_021D6338, *(State **)(p + 0x10DC));
+    func_02031348(((struct Obj03294 *)p)->f12F0, (u32)ov115_id, d_021D6338, *(State **)(p + 0x10DC));
     func_0200F7B8(0);
-    *(u32 *)(p + 0x28) = 3;
+    ((struct Obj03294 *)p)->f28 = 3;
     return 2;
 }

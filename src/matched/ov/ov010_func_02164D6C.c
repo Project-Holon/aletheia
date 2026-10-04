@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09313.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,12 +51,12 @@ u8 *func_02164D6C(u8 *obj, int *arg)
     u8 *src;
     int i;
     u8 *rec = obj + 0x74;
-    if (*(int *)(obj + 4) == 0) {
+    if (((struct Obj09313 *)obj)->f4 == 0) {
         return 0;
     }
-    if (*(int *)(obj + 4) == 1) {
+    if (((struct Obj09313 *)obj)->f4 == 1) {
         func_0203D0FC(0);
-        *(int *)(obj + 4) = 2;
+        ((struct Obj09313 *)obj)->f4 = 2;
         return 0;
     }
     if (rec[0] == 0) {

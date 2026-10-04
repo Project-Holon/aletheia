@@ -13,6 +13,8 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj10708.h"
+#include "../include/Obj24447.h"
 typedef unsigned int   u32;
 struct Descriptor;
 struct PrintSys;
@@ -23,11 +25,11 @@ int func_021E6E8C(unsigned char *p, void *mgr)
 {
     unsigned i;
     int result = 1;
-    for (i = 0; i < *(unsigned *)p; i++) {
+    for (i = 0; i < ((struct Obj24447 *)p)->f0; i++) {
         if (*(void **)(p + i * 4 + 4)) {
             unsigned char *e = p + i * 8;
             if (e[0x80] != 0) {
-                if (func_0201C6C4(mgr, func_02045770(*(void **)(e + 0x7c))) == 0) {
+                if (func_0201C6C4(mgr, func_02045770(((struct Obj10708 *)e)->f7C)) == 0) {
                     func_02045334(*(void **)((unsigned)p + (int)i * 8 + 0x7c));
                     *(unsigned char *)((unsigned)p + (int)i * 8 + 0x80) = 0;
                 }

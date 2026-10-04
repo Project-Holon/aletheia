@@ -14,6 +14,7 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
  */
+#include "../include/Obj03928.h"
 
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -26,16 +27,16 @@ int func_021BD764(char *p)
 {
     unsigned x,y;
     int hit=0;
-    if(func_0204B3F4(*(void **)p)&*(unsigned *)(p+4)) {
-        if(func_02035D20(&x,&y) && x-*(short *)(p+0x18)<=*(unsigned short *)(p+0x1c) && y-*(short *)(p+0x1a)<=24) {
+    if(func_0204B3F4(((struct Obj03928 *)p)->f0)&((struct Obj03928 *)p)->f4) {
+        if(func_02035D20(&x,&y) && x-((struct Obj03928 *)p)->f18<=((struct Obj03928 *)p)->f1C && y-((struct Obj03928 *)p)->f1A<=24) {
             hit=1;
             func_020355D8(1);
         }
-        if(*(unsigned *)(p+0x2c) && (func_020362DC()&*(unsigned *)(p+0x2c))) {
+        if(((struct Obj03928 *)p)->f2C && (func_020362DC()&((struct Obj03928 *)p)->f2C)) {
             func_020355D8(0);
             hit=1;
         }
-        if(*(int *)(p+0x34)) {
+        if(((struct Obj03928 *)p)->f34) {
             func_020355D8(0);
             hit=1;
         }

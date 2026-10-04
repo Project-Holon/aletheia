@@ -38,6 +38,7 @@
  * no EXACT entry covers that address. Closes to EXACT the day it is
  * matched, or gets a second caller elsewhere in the image.
  */
+#include "../include/Obj02301.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,13 +55,13 @@ extern void func_0206469C(struct Obj0206469C *o, void *bank);
 void sub_02016028(void *a, u32 flag)
 {
     u8 *p = (u8 *)a;
-    u32 value = (u32)func_020627D8((struct AnimBank *)(*(u32 *)(p + 0x28)), (u16)flag);
+    u32 value = (u32)func_020627D8((struct AnimBank *)(((struct Obj02301 *)p)->f28), (u16)flag);
 
-    if (*(u32 *)(p + 0x98) != 0) {
-        func_020307B0((void *)(*(u32 *)(p + 0x98)));
+    if (((struct Obj02301 *)p)->f98 != 0) {
+        func_020307B0((void *)(((struct Obj02301 *)p)->f98));
     }
 
     func_02016984(a, 1);
     func_0206469C((struct Obj0206469C *)(p + 0x34), (void *)value);
-    *(u32 *)(p + 0x144) &= ~1u;
+    ((struct Obj02301 *)p)->f144 &= ~1u;
 }

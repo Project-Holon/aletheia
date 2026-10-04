@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13619.h"
 
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
 void func_02206AF8(char *p)
 {
-    if (*(int *)(p + 0x54) != 3 || *(int *)(p + 0x58) == 6)
+    if (((struct Obj13619 *)p)->f54 != 3 || ((struct Obj13619 *)p)->f58 == 6)
         func_020061E4(0x555);
 }

@@ -17,6 +17,7 @@
  *   func_021B42D0 0x021B42D0 thumb ov021
  *   func_021B4804 0x021B4804 thumb ov021
  */
+#include "../include/Obj00030.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,30 +34,30 @@ extern void func_021B4804(char *w, u32 b);
 int func_021B4AA4(char *w)
 {
     if (func_0203633C() & 0x40) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)*(u32 *)(w + 0x204), 1) != 0) {
+        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 1) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, *(u16 *)(w + 0x208), *(u32 *)(w + 0x200));
+            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
     } else if (func_0203633C() & 0x80) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)*(u32 *)(w + 0x204), -1) != 0) {
+        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -1) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, *(u16 *)(w + 0x208), *(u32 *)(w + 0x200));
+            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
     } else if (func_0203633C() & 0x20) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)*(u32 *)(w + 0x204), -10) != 0) {
+        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, -10) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, *(u16 *)(w + 0x208), *(u32 *)(w + 0x200));
+            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
     } else if (func_0203633C() & 0x10) {
-        if (func_021B49EC((s16 *)(w + 0x208), (u16)*(u32 *)(w + 0x204), 10) != 0) {
+        if (func_021B49EC((s16 *)(w + 0x208), (u16)((struct Obj00030 *)w)->f204, 10) != 0) {
             func_020061E4(0x548);
-            func_021B42D0(w, *(u16 *)(w + 0x208), *(u32 *)(w + 0x200));
+            func_021B42D0(w, ((struct Obj00030 *)w)->f208, ((struct Obj00030 *)w)->f200);
         }
     }
     if (func_020362DC() & 1) {
         func_020061E4(0x54C);
-        func_021B4804(w, *(u8 *)(w + 0x162));
-        *(u8 *)(w + 1) = 6;
+        func_021B4804(w, ((struct Obj00030 *)w)->f162);
+        *(u8 *)&((struct Obj00030 *)w)->f1 = 6;
         return 10;
     }
     if (func_020362DC() & 2) {

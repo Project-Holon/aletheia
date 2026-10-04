@@ -22,6 +22,7 @@
  * stamp block and invert the test to `beq`, where the image branches out of
  * line with `bne`.
  */
+#include "../include/Obj18246.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,6 +43,6 @@ int func_021BDB08(char *p, int v)
         return v;
     }
 
-    *(u32 *)(p + 0x1CC) = 0x79;
+    ((struct Obj18246 *)p)->f1CC = 0x79;
     return v;
 }

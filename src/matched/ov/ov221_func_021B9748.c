@@ -22,6 +22,7 @@
  *   func_020306F0 0x020306F0 arm
  *   d_021BA148 0x021BA148 data a4
  */
+#include "../include/Obj02557.h"
 struct Node; struct PrintSys;
 typedef enum { LAYER_FIRST=0,LAYER_LIMIT=1 } Layer;
 extern const unsigned d_021BA148[][11];
@@ -49,11 +50,11 @@ int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
     func_021B9CCC(p);
     func_021B9AEC(p);
     func_021B9960(p);
-    func_02030EAC(*(struct Node **)(p+0x14));
-    func_0201C6EC(*(struct PrintSys **)(p+0x10));
-    func_0201C4C0(*(void **)(p+0x10));
-    func_0201D83C(*(void **)(p+0xC));
-    func_021B9F20(*(char **)(p+8));
+    func_02030EAC(*(struct Node * *)&((struct Obj02557 *)p)->f14);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj02557 *)p)->f10);
+    func_0201C4C0(((struct Obj02557 *)p)->f10);
+    func_0201D83C(((struct Obj02557 *)p)->fC);
+    func_021B9F20(*(char * *)&((struct Obj02557 *)p)->f8);
     func_020315D4((struct S020315D4 *)owner);
     func_020306F0(0x83);
     return 1;

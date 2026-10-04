@@ -14,6 +14,7 @@
  *   func_0208CADC 0x0208CADC arm
  *   d_021DAA88 0x021DAA88 data a4
  */
+#include "../include/Obj14013.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *d_021DAA88;
@@ -25,7 +26,7 @@ void func_021D8C14(const char *s, u8 *p)
 {
     func_02082D44(d_021DAA88, p, 0x830);
     if (s) {
-        *(char **)(p + 0x800) = func_021D7C7C(func_0208CC78(s) + 1);
-        func_0208CADC(*(char **)(p + 0x800), s);
+        *(char * *)&((struct Obj14013 *)p)->f800 = func_021D7C7C(func_0208CC78(s) + 1);
+        func_0208CADC(*(char * *)&((struct Obj14013 *)p)->f800, s);
     }
 }

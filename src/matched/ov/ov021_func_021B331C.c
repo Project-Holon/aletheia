@@ -12,6 +12,7 @@
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -22,9 +23,9 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021B331C(u8 *w, int b)
 {
     if (b == 1) {
-        *(u32 *)(w + 0x194) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xd);
+        ((struct Obj00037 *)w)->f194 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xd);
     } else {
-        *(u32 *)(w + 0x194) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xc);
+        ((struct Obj00037 *)w)->f194 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xc);
     }
-    *(u32 *)(w + 0x1A0) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0xe);
+    ((struct Obj00037 *)w)->f1A0 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0xe);
 }

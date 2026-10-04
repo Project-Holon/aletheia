@@ -18,6 +18,8 @@
  * and the entry test moves.  EXACT*: the 2-byte linker filler at 0x0200AC12
  * is inside the packet but the listing extent runs to the next label.
  */
+#include "../include/Obj11230.h"
+#include "../include/Obj15588.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -29,7 +31,7 @@ int func_0200ABE0(u8 *a0, int n, u8 *b)
     for (i = 0; i < n; i++) {
         u8 *p = a0 + i * 0x1c;
 
-        if (*(u32 *)(b + 0x14) == *(u32 *)(p + 0x14) && *(u32 *)(p + 0x10) >> 31 == 1)
+        if (((struct Obj15588 *)b)->f14 == ((struct Obj11230 *)p)->f14 && ((struct Obj11230 *)p)->f10 >> 31 == 1)
             return 1;
     }
     return 0;

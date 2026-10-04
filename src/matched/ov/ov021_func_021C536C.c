@@ -11,12 +11,13 @@
  *
  * Advances the sequence from state 3 to 4 (EXACT*: pad).
  */
+#include "../include/Obj12940.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 void func_021C536C(u8 *p)
 {
-    if (*(u16 *)(p + 0x70) == 3)
-        *(u16 *)(p + 0x70) = 4;
+    if (((struct Obj12940 *)p)->f70 == 3)
+        ((struct Obj12940 *)p)->f70 = 4;
 }

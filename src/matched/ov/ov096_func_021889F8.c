@@ -11,9 +11,10 @@
  * symbols:
  *   func_02188A08 0x02188A08 thumb ov096
  */
+#include "../include/Obj21933.h"
 extern void func_02188A08(int, int, int);
 int func_021889F8(int a, int b)
 {
     func_02188A08(a, b, 3);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21933 *)b)->fC4;
 }

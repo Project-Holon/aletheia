@@ -14,6 +14,7 @@
  *   func_02035C60 0x02035C60 arm
  *   func_0201F7A8 0x0201F7A8 thumb
  */
+#include "../include/Obj08362.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_02211958(u8 **);
@@ -24,11 +25,11 @@ int func_0221034C(char *p)
 {
     if (func_02211958((u8 **)p)==1) return 0x1f;
     if ((func_020362DC()&3)!=0 || func_02035C60()==1) {
-        if (*(u8 *)(p+0x2193)==1) {
-            func_0201F7A8(*(void **)(p+0x1f68),0);
-            *(u8 *)(p+0x2193)=0;
+        if (((struct Obj08362 *)p)->f2193==1) {
+            func_0201F7A8(((struct Obj08362 *)p)->f1F68,0);
+            ((struct Obj08362 *)p)->f2193=0;
         }
-        return *(int *)(p+0x217c);
+        return ((struct Obj08362 *)p)->f217C;
     }
     return 0x18;
 }

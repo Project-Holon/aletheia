@@ -16,6 +16,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj21317.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_021DAE38(int unused, void *a, int id, int *f)
     if (*f != 0) {
         k = (u8)func_021D775C(2);
         r = (u8 *)func_021C88A4(a, 4, id);
-        *(u32 *)r |= 0x800000;
+        ((struct Obj21317 *)r)->f0 |= 0x800000;
         func_021C8838(r + 4, 2, 0x389);
         func_021C8860((struct S *)(r + 4), k);
         func_021C8860((struct S *)(r + 4), f[1]);

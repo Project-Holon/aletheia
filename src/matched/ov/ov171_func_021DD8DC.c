@@ -14,6 +14,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj14290.h"
 typedef unsigned int   u32;
 struct PrintSys;
 extern u32 func_0201C4E4(struct PrintSys *ps);
@@ -27,7 +28,7 @@ void func_021DD8DC(char *p)
     unsigned i;
     int obj;
     char *q;
-    func_0201C4E4((struct PrintSys *)(*(int *)(p + 0xb6c)));
+    func_0201C4E4((struct PrintSys *)(((struct Obj14290 *)p)->fB6C));
     a = 0xb6c;
     a = 0xb48;
     b = 0xb6c;
@@ -37,7 +38,7 @@ void func_021DD8DC(char *p)
     d = 0xb6c;
     d = 0xb4c;
     for (i = 0; i < 2; ++i) {
-        obj = *(int *)(p + 0xb6c);
+        obj = ((struct Obj14290 *)p)->fB6C;
         q = p + i * 8;
         if (*(unsigned char *)(q + d)) {
             if (!func_0201C6C4((struct PrintSys *)obj, (void *)((int)func_02045770((struct Descriptor *)*(int *)(q + c))))) {

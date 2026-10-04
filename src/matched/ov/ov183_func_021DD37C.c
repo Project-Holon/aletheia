@@ -19,6 +19,8 @@
  *   func_021DDE2C 0x021DDE2C thumb ov183
  *   func_021DD5C8 0x021DD5C8 thumb ov183
  */
+#include "../include/Obj00631.h"
+#include "../include/Obj00632.h"
 typedef unsigned short u16;
 extern unsigned int func_021F9B9C(char *);
 extern void *func_0203159C(void *, int, unsigned int);
@@ -32,13 +34,13 @@ extern void func_021DDE2C(char *, char *);
 extern void func_021DD5C8(char *, char *);
 int func_021DD37C(void *a, int unused, char *q)
 {
-    char *p = func_0203159C(a, 0x80, func_021F9B9C(*(char **)(q + 0xc)));
+    char *p = func_0203159C(a, 0x80, func_021F9B9C(*(char * *)&((struct Obj00632 *)q)->fC));
     func_02082BCC(p, 0, 0x80);
-    *(u16 *)(p + 0x7c) = func_021F9B9C(*(char **)(q + 0xc));
-    *(void **)p = func_02025538(*(u16 *)(p + 0x7c), *(void **)(q + 4));
-    *(void **)(p + 4) = (void *)func_0201C440((void *)(*(u16 *)(p + 0x7c)));
-    *(void **)(p + 0x74) = func_021FD760((unsigned int)(*(void **)(q + 4)), (char *)(*(int *)(q + 8)), 1, *(u16 *)(p + 0x7c));
-    func_021FBE54(*(char **)(q + 8), 13, *(u16 *)(p + 0x7c));
+    ((struct Obj00631 *)p)->f7C = func_021F9B9C(*(char * *)&((struct Obj00632 *)q)->fC);
+    ((struct Obj00631 *)p)->f0 = func_02025538(((struct Obj00631 *)p)->f7C, ((struct Obj00632 *)q)->f4);
+    ((struct Obj00631 *)p)->f4 = (void *)func_0201C440((void *)(((struct Obj00631 *)p)->f7C));
+    ((struct Obj00631 *)p)->f74 = func_021FD760((unsigned int)(((struct Obj00632 *)q)->f4), (char *)(*(int *)&((struct Obj00632 *)q)->f8), 1, ((struct Obj00631 *)p)->f7C);
+    func_021FBE54(*(char * *)&((struct Obj00632 *)q)->f8, 13, ((struct Obj00631 *)p)->f7C);
     func_021DDE2C(p, q);
     func_021DD5C8(p, q);
     return 1;

@@ -20,6 +20,7 @@
  *   func_02045808  0x02045808  arm
  *   func_02040588  0x02040588  arm
  */
+#include "../include/Obj03578.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,12 +45,12 @@ void func_02196768(u8 *p)
     func_0201DD68(p);
     func_02196454(p);
     func_02040DA8(5, 1, 0);
-    v = *(u32 *)(p + 0x3C);
+    v = ((struct Obj03578 *)p)->f3C;
     func_0203FB44(5, (u16)v, (u16)(v >> 16));
     func_020403F4(5);
     func_020403F4(4);
-    func_02045C04((struct Rec *)(*(u32 *)(p + 0x28)));
-    func_0201D83C((void *)(*(u32 *)(p + 0x2C)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x38)));
+    func_02045C04((struct Rec *)(((struct Obj03578 *)p)->f28));
+    func_0201D83C((void *)(((struct Obj03578 *)p)->f2C));
+    func_02045808((struct U16Vec *)(((struct Obj03578 *)p)->f38));
     func_02040588(5, 0);
 }

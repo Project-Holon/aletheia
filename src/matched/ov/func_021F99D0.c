@@ -17,6 +17,7 @@
  *
  * Tear the object down: sub-object at +0x7c, buffer at +0x34, then the object.
  */
+#include "../include/Obj12206.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern void func_020307B0(void *p);
 void func_021F99D0(u8 *p)
 {
     func_02202744(p + 0x7c);
-    func_022029D4(*(u8 **)(p + 0x34));
-    func_0202CA0C(*(struct WinMgr **)(p + 0x18));
+    func_022029D4(*(u8 * *)&((struct Obj12206 *)p)->f34);
+    func_0202CA0C(*(struct WinMgr * *)&((struct Obj12206 *)p)->f18);
     func_020307B0((void *)((u32)p));
 }

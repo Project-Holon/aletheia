@@ -13,11 +13,12 @@
  *   func_021B904C  0x021B904C  thumb  ov093
  *   func_021EBFDC  0x021EBFDC  thumb  ov093
  */
+#include "../include/Obj00027.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 func_021B904C(u8 *p, int k);
 extern int func_021EBFDC(u8 *, int *, u16);
 int func_021EBF80(u8 *p, int *state)
 {
-    return func_021EBFDC(p, state, func_021B904C(*(void **)(p + 0x134), 0));
+    return func_021EBFDC(p, state, func_021B904C(((struct Obj00027 *)p)->f134, 0));
 }

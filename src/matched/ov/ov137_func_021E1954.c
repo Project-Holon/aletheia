@@ -12,5 +12,7 @@
  * lever: Initialize count before loading x; declare count before x.
  * Existing result-before-input and declaration-order idioms cover this.
  */
+#include "../include/Obj06536.h"
+#include "../include/Obj23811.h"
 
-int func_021E1954(char *p) { int count; unsigned int x; count=0;x=*(unsigned short *)(*(char **)(p+0xdc)+74);while(x) { count+=x&1; x>>=1; }return count; }
+int func_021E1954(char *p) { int count; unsigned int x; count=0;x=((struct Obj23811 *)(*(char * *)&((struct Obj06536 *)p)->fDC))->f4A;while(x) { count+=x&1; x>>=1; }return count; }

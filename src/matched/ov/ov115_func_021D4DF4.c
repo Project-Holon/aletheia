@@ -11,9 +11,10 @@
  * symbols:
  *   func_021D580C 0x021D580C thumb ov115
  */
+#include "../include/Obj03765.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void func_021D580C(u8 *);
-void func_021D4DF4(u8 *p) { if(*(int *)(p+8)==1) func_021D580C(p); }
+void func_021D4DF4(u8 *p) { if(((struct Obj03765 *)p)->f8==1) func_021D580C(p); }

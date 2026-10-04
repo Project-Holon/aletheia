@@ -23,6 +23,8 @@
  *   d_021E3758 0x021E3758 data a4
  *   d_021E3728 0x021E3728 data a4
  */
+#include "../include/Obj02523.h"
+#include "../include/Obj04571.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -48,18 +50,18 @@ int func_021DFE98(char *p,char *q)
     Config cfg;
     Triple triple;
     Params params;
-    first=func_021FC20C(*(char **)(q+8));
-    second=func_021FC214(*(char **)(q+8));
-    func_021FB964((void *)(*(int *)(q+8)),27,*(u16 *)(p+0x54));
-    *(Slot **)(p+0x14)=func_0201F81C(19,*(u16 *)(p+0x54));
-    for(i=0;i<19;i++)func_0201F878((Slot *)((u32)*(Slot **)(p+0x14)+i*8),second,i+205,i,*(u16 *)(p+0x54));
+    first=func_021FC20C(*(char * *)&((struct Obj04571 *)q)->f8);
+    second=func_021FC214(*(char * *)&((struct Obj04571 *)q)->f8);
+    func_021FB964((void *)(*(int *)&((struct Obj04571 *)q)->f8),27,((struct Obj02523 *)p)->f54);
+    *(Slot * *)&((struct Obj02523 *)p)->f14=func_0201F81C(19,((struct Obj02523 *)p)->f54);
+    for(i=0;i<19;i++)func_0201F878((Slot *)((u32)*(Slot * *)&((struct Obj02523 *)p)->f14+i*8),second,i+205,i,((struct Obj02523 *)p)->f54);
     cfg=d_021E3758;
-    cfg.words[0]=*(u32 *)(p+0x14);cfg.words[1]=19;
-    cfg.words[5]=*(u32 *)(q+8);cfg.words[6]=*(u32 *)(q+4);
-    *(void **)(p+0x18)=func_021FC8C8(&cfg,*(u16 *)(p+0x54));
+    cfg.words[0]=*(u32 *)&((struct Obj02523 *)p)->f14;cfg.words[1]=19;
+    cfg.words[5]=*(u32 *)&((struct Obj04571 *)q)->f8;cfg.words[6]=((struct Obj04571 *)q)->f4;
+    ((struct Obj02523 *)p)->f18=func_021FC8C8(&cfg,((struct Obj02523 *)p)->f54);
     func_02082BCC(&params,0,8);
-    func_021FC124(*(int *)(q+8),6,&triple);
+    func_021FC124(*(int *)&((struct Obj04571 *)q)->f8,6,&triple);
     params.a=d_021E3728[0].a;params.b=d_021E3728[0].b;params.c=d_021E3728[0].c;params.flag=1;
-    *(void **)(p+0xc)=func_021FB378(&params,d_021E3728[0].file,96,1,*(int *)(q+4),*(int *)(p+0x44),first,second,&triple,*(u16 *)(p+0x54));
+    ((struct Obj02523 *)p)->fC=func_021FB378(&params,d_021E3728[0].file,96,1,*(int *)&((struct Obj04571 *)q)->f4,((struct Obj02523 *)p)->f44,first,second,&triple,((struct Obj02523 *)p)->f54);
     return 1;
 }

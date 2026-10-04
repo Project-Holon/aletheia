@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_0202B2BC.c \
  *       --func func_0202B2BC --addr 0x0202B2BC --thumb --cc 1.1p1
  */
+#include "../include/Obj15831.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,5 +24,5 @@ extern void func_02005F24(u32 a, u32 b);
 
 void func_0202B2BC(u8 *p)
 {
-    func_02005F24(0x300, *(u32 *)(p + 4));
+    func_02005F24(0x300, ((struct Obj15831 *)p)->f4);
 }

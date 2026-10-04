@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22664.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -65,7 +66,7 @@ void func_021D54F0(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     b = func_02017E1C(mon, 0x6F, 0);
     egg = func_02017E1C(mon, 0x4C, 0);
     if (egg == 0) {
-        h = (u32)func_0201ADE4((u16)a, (u16)b, *(u16 *)(p + 0x5F4));
+        h = (u32)func_0201ADE4((u16)a, (u16)b, ((struct Obj22664 *)p)->f5F4);
         flag = func_0201AE1C((const struct Personal *)h, 0x10);
         func_0201AE14((void *)h);
     }

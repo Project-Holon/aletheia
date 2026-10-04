@@ -15,6 +15,8 @@
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj02880.h"
+#include "../include/Obj14307.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
@@ -32,8 +34,8 @@ void func_021BB4D0(void *unused, u8 *q)
     s16 pos[2];
     u8 i;
     int changed = 0;
-    if (func_0204B98C(*(struct Actor **)(q + 108)) == 0 ||
-        func_0204B898(*(struct Obj **)(q + 108)) == 1) {
+    if (func_0204B98C(*(struct Actor * *)&((struct Obj02880 *)q)->f6C) == 0 ||
+        func_0204B898(*(struct Obj * *)&((struct Obj02880 *)q)->f6C) == 1) {
         if ((u8)q[4] < (u8)q[5]) { q[5] -= 24; changed = 1; }
         else if ((u8)q[4] > (u8)q[5]) { q[5] += 24; changed = 1; }
     }
@@ -41,10 +43,10 @@ void func_021BB4D0(void *unused, u8 *q)
         func_02041EE4(0, 3, 24 - (u8)q[5]);
         for (i = 0; i < 6; i++) {
             u8 *element = q + i * 4;
-            func_0204B454(*(struct Actor **)(element + 88), (struct PtS *)pos, 0);
+            func_0204B454(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);
             pos[1] = q[5] + 180;
             if (i == 5) pos[1] -= 12;
-            func_0204B404(*(struct Actor **)(element + 88), (struct PtS *)pos, 0);
+            func_0204B404(*(struct Actor * *)&((struct Obj14307 *)element)->f58, (struct PtS *)pos, 0);
         }
     }
 }

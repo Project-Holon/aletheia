@@ -14,6 +14,7 @@
  *
  * Leaf with no calls and no pool; 4 instructions, 8 bytes: ldr r0, [r0]; adds r0, #0x23; ldrb r0, [r0]; bx lr.
  */
+#include "../include/Obj18137.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021B9114  ldr r0,[r0]; adds r0,#0x23; ldrb r0,[r0] */
-u8 func_021B9114(u8 **p) { return *(u8 *)(*p + 0x23); }
+u8 func_021B9114(u8 **p) { return ((struct Obj18137 *)(*p))->f23; }
 

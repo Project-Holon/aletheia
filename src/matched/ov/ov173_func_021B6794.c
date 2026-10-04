@@ -12,10 +12,11 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj24150.h"
 
 extern int func_020307B0(int);
 
 int func_021B6794(int *p)
 {
-    return func_020307B0(*(int *)((char *)p + 0x1C0));
+    return func_020307B0(((struct Obj24150 *)p)->f1C0);
 }

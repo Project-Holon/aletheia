@@ -12,6 +12,7 @@
  * symbols:
  *   func_020113B0  0x020113B0  thumb
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,6 +62,6 @@ int func_0218A0F4(u8 *a, int op, int x, int y, int z)
         break;
     }
     if (r == 1)
-        func_020113B0((struct Cur *)a, (u32)(*(u8 **)(a + 0x14) + z));
+        func_020113B0((struct Cur *)a, (u32)(*(u8 * *)&((struct Obj00005 *)a)->f14 + z));
     return r;
 }

@@ -15,6 +15,7 @@
  *   func_02027F60 0x02027F60 thumb
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj00007.h"
 
 extern unsigned func_02028590(int, int, int, unsigned);
 typedef unsigned short u16;
@@ -30,11 +31,11 @@ void func_021F2C1C(char *p)
     int z;
 
     z = 0;
-    *(unsigned *)(p + 0xbc) = func_02028590(9, 0, 1, *(unsigned short *)(p + 0x98));
-    *(unsigned *)(p + 0xb8) = (unsigned int)func_02027F60(4, 0xe, *(unsigned *)(p + 0xb0), *(unsigned *)(p + 0xb4), *(unsigned short *)(p + 0x98));
+    ((struct Obj00007 *)p)->fBC = func_02028590(9, 0, 1, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->fB8 = (unsigned int)func_02027F60(4, 0xe, ((struct Obj00007 *)p)->fB0, ((struct Obj00007 *)p)->fB4, ((struct Obj00007 *)p)->f98);
     i = 0;
     do {
-        *(unsigned *)(p + i * 16 + 0xc4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)(p + 0x114)), i + 0xc);
+        *(unsigned *)(p + i * 16 + 0xc4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&((struct Obj00007 *)p)->f114), i + 0xc);
         *(unsigned short *)(p + i * 16 + 0xc8) = 0x39e3;
         *(int *)(p + i * 16 + 0xcc) = z;
         *(int *)(p + i * 16 + 0xc0) = z;
@@ -43,7 +44,7 @@ void func_021F2C1C(char *p)
     z = 0;
     i = 0;
     do {
-        *(unsigned *)(p + i * 16 + 0xf4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)(p + 0x114)), i + 0xf);
+        *(unsigned *)(p + i * 16 + 0xf4) = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)&((struct Obj00007 *)p)->f114), i + 0xf);
         *(unsigned short *)(p + i * 16 + 0xf8) = 0x39e3;
         *(int *)(p + i * 16 + 0xfc) = z;
         *(int *)(p + i * 16 + 0xf0) = z;

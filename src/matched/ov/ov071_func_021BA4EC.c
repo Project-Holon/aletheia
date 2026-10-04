@@ -15,6 +15,8 @@
  *   func_0201C6FC 0x0201C6FC thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj09901.h"
+#include "../include/Obj13189.h"
 typedef unsigned int   u32;
 struct MsgBank;
 struct PrintSys;
@@ -26,9 +28,9 @@ extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 
 extern void func_02045808(struct U16Vec *vec);
 void func_021BA4EC(char *p, char *q) {
     unsigned s, h;
-    s = (unsigned int)func_02045EC0((struct MsgBank *)(*(unsigned *)(p + 40)),38);
-    h = *(unsigned *)(p + 8);
-    func_0201C6FC((struct PrintSys *)h,(unsigned)func_02045770((struct Descriptor *)*(unsigned *)(q + 12)),0,4,(void *)s,*(unsigned *)(p + 12));
+    s = (unsigned int)func_02045EC0((struct MsgBank *)(((struct Obj09901 *)p)->f28),38);
+    h = ((struct Obj09901 *)p)->f8;
+    func_0201C6FC((struct PrintSys *)h,(unsigned)func_02045770((struct Descriptor *)((struct Obj13189 *)q)->fC),0,4,(void *)s,((struct Obj09901 *)p)->fC);
     q[16] = 1;
     func_02045808((struct U16Vec *)s);
 }

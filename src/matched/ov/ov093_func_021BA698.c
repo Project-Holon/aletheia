@@ -12,6 +12,7 @@
  *   func_021BA710 0x021BA710 thumb ov093
  *   func_021B997C 0x021B997C thumb ov093
  */
+#include "../include/Obj07743.h"
 
 typedef unsigned char u8;
 extern u8 func_021BA710(int, int);
@@ -20,5 +21,5 @@ void func_021BA698(u8 *p, int k)
 {
  int i;
  i = func_021BA710(p[0x46c], k);
- *((u8 *)(*(char **)p + i) + 0x44) = func_021B997C(p, k);
+ *((u8 *)(*(char * *)&((struct Obj07743 *)p)->f0 + i) + 0x44) = func_021B997C(p, k);
 }

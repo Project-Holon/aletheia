@@ -97,6 +97,7 @@
  *   python3 tools/match.py one --src src/pending/func_020124F4.c \
  *       --func func_020124F4 --addr 0x020124F4 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00054.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -156,17 +157,17 @@ void *func_020124F4(u16 heap)
     void *obj;
 
     p = func_02030734(heap, 0x6B0, 1, g_020A728C, 0xAD);
-    *(u32 *)p = (u32)func_020070A4();
-    *(u8 *)(p + 0x1C4) = func_0202E888();
-    *(u8 *)(p + 0x1C6) = 0;
+    *(u32 *)&((struct Obj00054 *)p)->f0 = (u32)func_020070A4();
+    ((struct Obj00054 *)p)->f1C4 = func_0202E888();
+    ((struct Obj00054 *)p)->f1C6 = 0;
 
-    *(u32 *)(p + 0x15C) = (u32)func_02008854((void *)(*(u32 *)p));
-    *(u32 *)(p + 0x160) = func_02008844(*(u32 *)(p + 0x15C));
-    *(u32 *)(p + 0x164) = func_02008844(*(u32 *)(p + 0x15C));
-    *(u32 *)(p + 0x168) = (u32)func_02008848((struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)));
-    *(u32 *)(p + 0x16C) = (u32)func_0200884C((struct Sub02008828Obj *)(*(u32 *)(p + 0x15C)));
+    ((struct Obj00054 *)p)->f15C = (u32)func_02008854((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
+    *(u32 *)&((struct Obj00054 *)p)->f160 = func_02008844(((struct Obj00054 *)p)->f15C);
+    *(u32 *)&((struct Obj00054 *)p)->f164 = func_02008844(((struct Obj00054 *)p)->f15C);
+    *(u32 *)&((struct Obj00054 *)p)->f168 = (u32)func_02008848((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C));
+    *(u32 *)&((struct Obj00054 *)p)->f16C = (u32)func_0200884C((struct Sub02008828Obj *)(((struct Obj00054 *)p)->f15C));
 
-    *(u32 *)(p + 0x1A4) = (u32)func_02006E40(heap);
+    ((struct Obj00054 *)p)->f1A4 = (u32)func_02006E40(heap);
 
     for (i = 0; i < 5; i++) {
         func_02012A60(p + 4 + i * 0x44);
@@ -174,21 +175,21 @@ void *func_020124F4(u16 heap)
 
     n = func_02008468();
     src = func_02012944(p);
-    memcpy(func_02008730((void *)(*(u32 *)p)), src, n);
+    memcpy(func_02008730((void *)(*(u32 *)&((struct Obj00054 *)p)->f0)), src, n);
 
-    *(void **)(p + 0x158) = obj = (void *)func_0216237C(heap);
+    ((struct Obj00054 *)p)->f158 = obj = (void *)func_0216237C(heap);
     func_021623DC(obj);
-    *(u32 *)(p + 0x1AC) = func_02012FE4(*(u32 *)p);
-    *(u32 *)(p + 0x1B0) = (u32)func_02159B48(heap);
-    *(u32 *)(p + 0x1A8) = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x33));
-    *(u32 *)(p + 0x1B4) = (u32)func_02028844(p, heap);
-    *(u32 *)(p + 0x1B8) = func_02014428(heap);
-    *(u32 *)(p + 0x18C) = (u32)func_02008254(heap);
-    *(u32 *)(p + 0x190) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x19);
-    *(u32 *)(p + 0x194) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x1A);
-    *(u32 *)(p + 0x198) = (u32)func_0200873C((void *)(*(u32 *)p));
-    *(u32 *)(p + 0x19C) = (u32)func_02007AA4(heap, *(u32 *)p);
-    *(u32 *)(p + 0x1A0) = (u32)func_020097C4(heap);
+    ((struct Obj00054 *)p)->f1AC = func_02012FE4(*(u32 *)&((struct Obj00054 *)p)->f0);
+    ((struct Obj00054 *)p)->f1B0 = (u32)func_02159B48(heap);
+    ((struct Obj00054 *)p)->f1A8 = (u32)func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x33));
+    ((struct Obj00054 *)p)->f1B4 = (u32)func_02028844(p, heap);
+    *(u32 *)&((struct Obj00054 *)p)->f1B8 = func_02014428(heap);
+    ((struct Obj00054 *)p)->f18C = (u32)func_02008254(heap);
+    *(u32 *)&((struct Obj00054 *)p)->f190 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x19);
+    *(u32 *)&((struct Obj00054 *)p)->f194 = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)&((struct Obj00054 *)p)->f0, 0x1A);
+    ((struct Obj00054 *)p)->f198 = (u32)func_0200873C((void *)(*(u32 *)&((struct Obj00054 *)p)->f0));
+    ((struct Obj00054 *)p)->f19C = (u32)func_02007AA4(heap, *(u32 *)&((struct Obj00054 *)p)->f0);
+    ((struct Obj00054 *)p)->f1A0 = (u32)func_020097C4(heap);
 
     for (i = 0; i < 4; i++) {
         func_0200BDE4(p + 0x1D4 + i * 0x10);
@@ -198,20 +199,20 @@ void *func_020124F4(u16 heap)
         func_02161D98((char *)(p + 0x214 + i * 0x1E8));
     }
 
-    *(u32 *)(p + 0x6AC) = (u32)func_0200857C(heap);
-    *(u32 *)(p + 0x1C0) = 0;
-    func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)p));
+    ((struct Obj00054 *)p)->f6AC = (u32)func_0200857C(heap);
+    ((struct Obj00054 *)p)->f1C0 = 0;
+    func_020071E4((const struct Sub020071E4Ctrl *)(*(u32 *)&((struct Obj00054 *)p)->f0));
 
-    *(u32 *)(p + 0x5E4) = (u32)func_0215E31C(heap);
+    ((struct Obj00054 *)p)->f5E4 = (u32)func_0215E31C(heap);
     func_0202E43C(p + 0x5E8);
     func_02012C18(p);
-    *(u32 *)(p + 0x680) = 0;
-    *(u32 *)(p + 0x688) = 0;
-    *(u32 *)(p + 0x684) = (u32)func_0202E770((void *)heap);
-    *(u32 *)(p + 0x68C) = func_0202751C(heap, 0x8001);
-    *(u32 *)(p + 0x690) = (u32)func_021647A0(p, heap);
-    *(u32 *)(p + 0x6A4) = 0;
-    *(u32 *)(p + 0x6A8) = 0;
+    ((struct Obj00054 *)p)->f680 = 0;
+    *(u32 *)&((struct Obj00054 *)p)->f688 = 0;
+    ((struct Obj00054 *)p)->f684 = (u32)func_0202E770((void *)heap);
+    ((struct Obj00054 *)p)->f68C = func_0202751C(heap, 0x8001);
+    ((struct Obj00054 *)p)->f690 = (u32)func_021647A0(p, heap);
+    ((struct Obj00054 *)p)->f6A4 = 0;
+    ((struct Obj00054 *)p)->f6A8 = 0;
 
     return p;
 }

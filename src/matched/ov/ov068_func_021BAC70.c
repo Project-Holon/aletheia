@@ -16,6 +16,7 @@
  *   func_021BAFD8  0x021BAFD8  thumb  ov068
  *   func_021BACF4  0x021BACF4  thumb  ov068
  */
+#include "../include/Obj13141.h"
 
 typedef unsigned char u8;
 typedef signed char   s8;
@@ -46,7 +47,7 @@ void func_021BAC70(u8 *p, void *b)
     for (i = 0; i < 11; i++) {
         Ent *e = &d_021BB704[i];
 
-        y = *(int *)(p + 0x34) + e->f12;
+        y = ((struct Obj13141 *)p)->f34 + e->f12;
         x = e->f10;
         r[1] = y;
         r[0] = x;
@@ -56,7 +57,7 @@ void func_021BAC70(u8 *p, void *b)
             if (func_021BB508(r, b)) {
                 func_020061E4(0x548);
                 func_021BAFD8(p + 0x44, i);
-                func_021BACF4(p, *(s8 *)(p + 0x47), 0);
+                func_021BACF4(p, ((struct Obj13141 *)p)->f47, 0);
                 return;
             }
         }

@@ -25,6 +25,7 @@
  * Record #0x20 carries k, a zero halfword and a three-string tail (c, k and
  * that halfword).
  */
+#include "../include/Obj12158.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -58,8 +59,8 @@ void func_021E3420(void *a, int b, int c)
     if (v == 0)
         return;
     p = func_021C88A4(b, 0x20, c);
-    *(u8 *)(p + 6) = k;
-    *(u16 *)(p + 4) = 0;
+    ((struct Obj12158 *)p)->f6 = k;
+    ((struct Obj12158 *)p)->f4 = 0;
     func_021C8838(p + 0xc, 2, 0x41a);
     func_021C8860((struct S *)(p + 0xc), c);
     func_021C8860((struct S *)(p + 0xc), k);

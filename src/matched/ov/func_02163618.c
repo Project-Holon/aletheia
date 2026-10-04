@@ -15,6 +15,7 @@
  *   func_021C4BE0  0x021C4BE0  thumb
  *   func_0216DBCC  0x0216DBCC  thumb  ov010
  */
+#include "../include/Obj00110.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ int func_02163618(int a0, int a1)
 
 t4 = a1 + 0;
 t5 = a0 + 0;
-a0 = *(u16 *)((char *)t4 + 0xa);
+a0 = ((struct Obj00110 *)t4)->fA;
     a0 = func_021AB304(a0);
 loc_02163624:
     if (a0 != 1) goto loc_02163644;
@@ -42,7 +43,7 @@ a0 = t5 + 0;
 loc_0216362E:
     if (a0 != 0) goto loc_0216364C;
 loc_02163632:
-a0 = *(int *)((char *)t4 + 0x14);
+a0 = ((struct Obj00110 *)t4)->f14;
 a1 = t5 + 0;
     a0 = func_021C4BE0(a0, a1);
 loc_0216363A:

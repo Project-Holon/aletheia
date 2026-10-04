@@ -16,6 +16,7 @@
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204B084 0x0204B084 arm
  */
+#include "../include/Obj02546.h"
 typedef unsigned char u8;
 struct Obj;
 struct Bank;
@@ -29,15 +30,15 @@ void func_021C03C4(void *unused, char *p)
 {
     u8 i;
     for (i = 0; i < 7; i++) func_0204B3B4(*(struct Obj **)(p + i * 4 + 0xbc));
-    func_0204AFD8(*(unsigned *)(p + 0xb8));
-    func_0204A8D4(*(unsigned *)(p + 0xb0));
-    func_0204ADA4(*(unsigned *)(p + 0xb4));
-    func_0204AFD8(*(unsigned *)(p + 0xac));
-    func_0204A8D4(*(unsigned *)(p + 0xa4));
-    func_0204ADA4(*(unsigned *)(p + 0xa8));
-    func_0204AFD8(*(unsigned *)(p + 0xa0));
-    func_0204A8D4(*(unsigned *)(p + 0x98));
-    func_0204ADA4(*(unsigned *)(p + 0x9c));
-    func_0204B1CC(*(struct Bank **)(p + 0x1d0));
-    func_0204B084(*(void **)(p + 0x1d4));
+    func_0204AFD8(((struct Obj02546 *)p)->fB8);
+    func_0204A8D4(((struct Obj02546 *)p)->fB0);
+    func_0204ADA4(((struct Obj02546 *)p)->fB4);
+    func_0204AFD8(((struct Obj02546 *)p)->fAC);
+    func_0204A8D4(((struct Obj02546 *)p)->fA4);
+    func_0204ADA4(((struct Obj02546 *)p)->fA8);
+    func_0204AFD8(((struct Obj02546 *)p)->fA0);
+    func_0204A8D4(((struct Obj02546 *)p)->f98);
+    func_0204ADA4(((struct Obj02546 *)p)->f9C);
+    func_0204B1CC(*(struct Bank * *)&((struct Obj02546 *)p)->f1D0);
+    func_0204B084(((struct Obj02546 *)p)->f1D4);
 }

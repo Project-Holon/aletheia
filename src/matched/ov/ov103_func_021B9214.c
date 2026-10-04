@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22213.h"
 
 int func_021B9214(void *p)
 {
-    return *(int *)((char *)p + 0x5c);
+    return ((struct Obj22213 *)p)->f5C;
 }

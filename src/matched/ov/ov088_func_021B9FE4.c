@@ -14,6 +14,7 @@
  *   func_0204A600  0x0204A600  arm
  *   d_021BD63C     0x021BD63C  data  ov088  a4
  */
+#include "../include/Obj13230.h"
 
 typedef int (*StateFn)(char *);
 
@@ -25,11 +26,11 @@ extern StateFn d_021BD63C[];
 int func_021B9FE4(int a0, int a1, int a2, char *p)
 {
     int s = d_021BD63C[*(int *)(p + 0x13c)](p);
-    *(int *)(p + 0x13c) = s;
+    ((struct Obj13230 *)p)->f13C = s;
     if (s == 12) {
         return 1;
     }
-    func_020310C4((struct Tcbl *)(*(int *)(p + 0x70)));
+    func_020310C4((struct Tcbl *)(((struct Obj13230 *)p)->f70));
     func_0204A600();
     return 0;
 }

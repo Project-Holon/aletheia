@@ -15,6 +15,7 @@
  *   func_021B10A4  0x021B10A4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18092.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021B10A4(void *p);
 
 int func_021B10F4(u8 *p)
 {
-    func_021B10A4((void *)(*(u32 *)(p + 4)));
+    func_021B10A4((void *)(((struct Obj18092 *)p)->f4));
     return 1;
 }

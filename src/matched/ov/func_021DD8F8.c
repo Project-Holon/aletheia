@@ -14,11 +14,13 @@
  *
  * Tail call func_020307B0 with the word at +0x2c/+0x180.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj18452.h"
 
 extern void func_020307B0(void *);
 
 void func_021DD8F8(char *p)
 {
-    func_020307B0(*(void **)(*(char **)(p + 0x2c) + 0x180));
+    func_020307B0(((struct Obj18452 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f180);
 }
 

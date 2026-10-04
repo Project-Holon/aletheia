@@ -29,6 +29,7 @@
  *   func_021E8DF8 0x021E8DF8 thumb ov093
  *   func_021E88F8 0x021E88F8 thumb ov093
  */
+#include "../include/Obj01370.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -105,13 +106,13 @@ int func_021B6500(int handle, u32 *state, int unused, u8 *p)
         } else *state += 1;
         break;
     case 3:
-        if (*(void **)(p + 0x2bc)) { func_021EF980(*(void **)(p + 0x2bc)); *(void **)(p + 0x2bc) = 0; }
-        if (*(void **)(p + 0x2c0)) { func_020307B0(*(void **)(p + 0x2c0)); *(void **)(p + 0x2c0) = 0; }
-        if (*(void **)(p + 0x2c4)) { func_021D4D5C(*(void **)(p + 0x2c4)); *(void **)(p + 0x2c4) = 0; }
+        if (((struct Obj01370 *)p)->f2BC) { func_021EF980(((struct Obj01370 *)p)->f2BC); ((struct Obj01370 *)p)->f2BC = 0; }
+        if (((struct Obj01370 *)p)->f2C0) { func_020307B0(((struct Obj01370 *)p)->f2C0); ((struct Obj01370 *)p)->f2C0 = 0; }
+        if (((struct Obj01370 *)p)->f2C4) { func_021D4D5C(((struct Obj01370 *)p)->f2C4); ((struct Obj01370 *)p)->f2C4 = 0; }
         func_021D7894();
         func_021BA0CC((struct S *)p);
         func_021B9DE8((char *)p);
-        func_021B6804((Callback *)(p + 0x450), p, *(u8 **)p);
+        func_021B6804((Callback *)(p + 0x450), p, *(u8 * *)&((struct Obj01370 *)p)->f0);
         *state += 1;
         break;
     case 4:

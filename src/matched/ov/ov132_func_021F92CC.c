@@ -18,6 +18,9 @@
  *   func_0203101C 0x0203101C arm
  *   func_0201C440 0x0201C440 thumb
  */
+#include "../include/Obj01257.h"
+#include "../include/Obj23182.h"
+#include "../include/Obj23183.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,17 +41,17 @@ extern u32 func_0201C440(void *);
 void func_021F92CC(u8 *p)
 {
     int zero;
-    *(u32 *)(p+0xd0)=func_020450F0(1,4,20,24,4,15,1);
-    func_02045334((struct Descriptor *)*(u32 *)(p+0xd0));
-    func_02045374((struct Cfg *)(*(u32 *)(p+0xd0)));
+    ((struct Obj01257 *)p)->fD0=func_020450F0(1,4,20,24,4,15,1);
+    func_02045334((struct Descriptor *)((struct Obj01257 *)p)->fD0);
+    func_02045374((struct Cfg *)(((struct Obj01257 *)p)->fD0));
     func_020409B4(1);
     zero=0;
-    *(u32 *)(p+0xd4)=(u32)func_0201D7EC(23,0,0,0,*(u16 *)p);
-    *(u32 *)(p+0xdc)=(u32)func_02045C44(*(void **)(*(u8 **)(*(u8 **)(p+0x30)+0x18)+8),*(u16 *)p);
-    func_02049B40(23,5,0,480,32,*(u16 *)p);
-    *(u32 *)(p+0xcc)=(u32)func_0203101C(*(u16 *)p,*(u16 *)p,3,256);
-    *(u32 *)(p+0xd8)=zero;
-    *(u32 *)(p+0xe0)=zero;
-    *(u32 *)(p+0xe4)=zero;
-    *(u32 *)(p+0xe8)=func_0201C440((void *)(u32)*(u16 *)p);
+    ((struct Obj01257 *)p)->fD4=(u32)func_0201D7EC(23,0,0,0,((struct Obj01257 *)p)->f0);
+    ((struct Obj01257 *)p)->fDC=(u32)func_02045C44(((struct Obj23183 *)(*(u8 * *)&((struct Obj23182 *)(*(u8 * *)&((struct Obj01257 *)p)->f30))->f18))->f8,((struct Obj01257 *)p)->f0);
+    func_02049B40(23,5,0,480,32,((struct Obj01257 *)p)->f0);
+    ((struct Obj01257 *)p)->fCC=(u32)func_0203101C(((struct Obj01257 *)p)->f0,((struct Obj01257 *)p)->f0,3,256);
+    ((struct Obj01257 *)p)->fD8=zero;
+    ((struct Obj01257 *)p)->fE0=zero;
+    ((struct Obj01257 *)p)->fE4=zero;
+    ((struct Obj01257 *)p)->fE8=func_0201C440((void *)(u32)((struct Obj01257 *)p)->f0);
 }

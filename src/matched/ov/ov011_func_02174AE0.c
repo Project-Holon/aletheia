@@ -15,6 +15,7 @@
  *   func_02014484  0x02014484  thumb
  *   func_02174E14  0x02174E14  thumb ov011
  */
+#include "../include/Obj09347.h"
 
 typedef unsigned int   u32;
 struct BigObj;
@@ -28,15 +29,15 @@ void func_02174AE0(unsigned char *p)
 {
     int r;
 
-    r = func_02014484((int)func_02012B38((const struct BigObj *)func_02026478((void *)(*(int *)(p + 4)))));
+    r = func_02014484((int)func_02012B38((const struct BigObj *)func_02026478((void *)(((struct Obj09347 *)p)->f4))));
     switch (r) {
     case 0:
-        if (((unsigned)(*(unsigned short *)(p + 0x86) << 17) >> 26) == 2) {
+        if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 2) {
             func_02174E14(p, 0);
         }
         break;
     case 1:
-        if (((unsigned)(*(unsigned short *)(p + 0x86) << 17) >> 26) == 0) {
+        if (((unsigned)(((struct Obj09347 *)p)->f86 << 17) >> 26) == 0) {
             func_02174E14(p, 2);
         }
         break;

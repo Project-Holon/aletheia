@@ -20,6 +20,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj06593.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,11 +46,11 @@ int func_021B964C(void *task, int b, int c, char *p)
     *(volatile u16 *)0x04001050 = 0;
     *(volatile u32 *)0x04001000 &= ~0xe000;
     func_021B9810(p);
-    func_02030EAC(*(void **)(p + 0x14));
-    func_0201C6EC(*(void **)(p + 0xc));
-    func_0201C4C0(*(void **)(p + 0xc));
-    func_0201D83C(*(void **)(p + 8));
-    func_021B998C(*(void **)(p + 4));
+    func_02030EAC(((struct Obj06593 *)p)->f14);
+    func_0201C6EC(((struct Obj06593 *)p)->fC);
+    func_0201C4C0(((struct Obj06593 *)p)->fC);
+    func_0201D83C(((struct Obj06593 *)p)->f8);
+    func_021B998C(((struct Obj06593 *)p)->f4);
     func_020315D4(task);
     func_020306F0(0x88);
     return 1;

@@ -13,6 +13,7 @@
  *   func_021BF7CC 0x021BF7CC thumb ov204
  *   d_021BFFE4 0x021BFFE4 data a1
  */
+#include "../include/Obj10874.h"
 extern void func_021BF624(void *, int, int, int, const void *, unsigned char);
 extern void func_021BF67C(char *p, unsigned int a, unsigned int b, unsigned int c, unsigned int species, unsigned char i);
 extern void func_021BF7CC(void *, unsigned char, int);
@@ -20,10 +21,10 @@ extern const char d_021BFFE4[];
 int func_021BE4B8(char *p, int unused, unsigned *q)
 {
     if (q[1] == 0) {
-        func_021BF624(*(void **)(p + 8), q[2], q[3], 0, d_021BFFE4, q[0]);
-        func_021BF7CC(*(void **)(p + 8), q[0], 1);
+        func_021BF624(((struct Obj10874 *)p)->f8, q[2], q[3], 0, d_021BFFE4, q[0]);
+        func_021BF7CC(((struct Obj10874 *)p)->f8, q[0], 1);
     } else {
-        func_021BF67C(*(void **)(p + 8), q[2], q[3], 0x1000, q[1], q[0]);
+        func_021BF67C(((struct Obj10874 *)p)->f8, q[2], q[3], 0x1000, q[1], q[0]);
     }
     return 1;
 }

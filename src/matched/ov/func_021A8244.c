@@ -16,6 +16,7 @@
  *   func_0218C8D8  0x0218C8D8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18069.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ int func_021A8244(u32 a, u32 b, u32 c, u32 d)
 if (func_021A8268(a, b, c, d) == 0) {
     return 1;
 }
-if (func_0218C8D8((void *)(*(u32 *)((u8 *)(a) + 40))) != 0) {
+if (func_0218C8D8((void *)(((struct Obj18069 *)((u8 *)(a)))->f28)) != 0) {
     return 1;
 }
 return 0;

@@ -14,6 +14,7 @@
  * symbols:
  *   func_021BC6E0  0x021BC6E0  thumb  ov110
  */
+#include "../include/Obj22337.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u16 func_021BC6E0(u8 *p, int i);
-u16 func_021BABF4(u8 *p, int i) { return func_021BC6E0(*(u8 **)(p + 0x54), i); }
+u16 func_021BABF4(u8 *p, int i) { return func_021BC6E0(*(u8 * *)&((struct Obj22337 *)p)->f54, i); }

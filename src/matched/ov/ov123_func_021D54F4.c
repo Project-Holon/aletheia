@@ -19,6 +19,7 @@
  *   func_02049B40 0x02049B40 arm
  *   d_021DAA30 0x021DAA30 data a1
  */
+#include "../include/Obj00499.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,20 +46,20 @@ u8 *func_021D54F4(u32 heap,u32 bank)
 {
     u8 *p;
     p=func_02030734(heap,0xb4,1,d_021DAA30,0x96);
-    *(u16 *)(p+0xb0)=heap;
-    *(void **)(p+0x24)=func_0201EC64(*(u16 *)(p+0xb0));
-    func_02045088(*(u16 *)(p+0xb0)); func_0201DD60();
-    *(void **)(p+0x84)=func_0203101C(*(u16 *)(p+0xb0),*(u16 *)(p+0xb0),2,0);
-    *(u32 *)(p+0x88)=func_0201C440((void *)(u32)*(u16 *)(p+0xb0));
-    *(void **)(p+0x2c)=func_020457B0(400,*(u16 *)(p+0xb0));
-    *(void **)(p+0x30)=func_020457B0(400,*(u16 *)(p+0xb0));
-    *(void **)(p+0x28)=func_0201D7EC(23,0,0,0,*(u16 *)(p+0xb0));
-    *(void **)(p+0x20)=func_02045B38(0,2,bank,*(u16 *)(p+0xb0));
-    *(u32 *)(p+0x40)=func_02028590(15,1,1,*(u16 *)(p+0xb0));
-    *(void **)(p+0xa4)=func_02027F60(5,9,*(u32 *)(p+0x28),*(u32 *)(p+0x88),*(u16 *)(p+0xb0));
-    *(void **)(p+8)=func_0201F5DC((void *)5,12,0,*(u16 *)(p+0xb0));
-    *(void **)(p+4)=func_0201F5DC((void *)6,12,0,*(u16 *)(p+0xb0));
-    func_02049B40(23,5,4,352,32,*(u16 *)(p+0xb0));
-    func_02049B40(23,5,0,352,32,*(u16 *)(p+0xb0));
+    ((struct Obj00499 *)p)->fB0=heap;
+    ((struct Obj00499 *)p)->f24=func_0201EC64(((struct Obj00499 *)p)->fB0);
+    func_02045088(((struct Obj00499 *)p)->fB0); func_0201DD60();
+    ((struct Obj00499 *)p)->f84=func_0203101C(((struct Obj00499 *)p)->fB0,((struct Obj00499 *)p)->fB0,2,0);
+    ((struct Obj00499 *)p)->f88=func_0201C440((void *)(u32)((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f2C=func_020457B0(400,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f30=func_020457B0(400,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f28=func_0201D7EC(23,0,0,0,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f20=func_02045B38(0,2,bank,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f40=func_02028590(15,1,1,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->fA4=func_02027F60(5,9,*(u32 *)&((struct Obj00499 *)p)->f28,((struct Obj00499 *)p)->f88,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f8=func_0201F5DC((void *)5,12,0,((struct Obj00499 *)p)->fB0);
+    ((struct Obj00499 *)p)->f4=func_0201F5DC((void *)6,12,0,((struct Obj00499 *)p)->fB0);
+    func_02049B40(23,5,4,352,32,((struct Obj00499 *)p)->fB0);
+    func_02049B40(23,5,0,352,32,((struct Obj00499 *)p)->fB0);
     return p;
 }

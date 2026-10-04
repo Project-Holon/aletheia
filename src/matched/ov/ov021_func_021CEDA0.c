@@ -16,6 +16,7 @@
  *   func_021CE9E4  0x021CE9E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char  u8;
 typedef short          s16;
@@ -64,7 +65,7 @@ int func_021CEDA0(u8 *p)
         if (n->e[r].used == 1) {
             n->cur = &n->e[r];
             func_0203D000(n->cur->name + 0x20);
-            func_0201F02C((struct WordSet *)(*(u32 *)(p + 4)), 0, (void *)((int)n->cur));
+            func_0201F02C((struct WordSet *)(((struct Obj00011 *)p)->f4), 0, (void *)((int)n->cur));
             func_021CE9E4(p, 0x20);
             n->f2d4 = 0;
         }

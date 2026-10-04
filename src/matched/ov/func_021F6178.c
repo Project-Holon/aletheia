@@ -14,6 +14,7 @@
 
  * Create the resource, register the three 5d/5e/5f entries and latch state 0xa.
  */
+#include "../include/Obj00448.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,11 +27,11 @@ extern void func_021F4D50(u8 *p, u16 a, int count, int b);
 
 int func_021F6178(u8 *p)
 {
-    *(u32 *)(p + 0xde8) = func_0201F81C(3, 0x48);
-    func_0201F878(*(u32 *)(p + 0xde8), *(u32 *)(p + 0xb6c), 0x5d, 1, 0x48);
-    func_0201F878(*(u32 *)(p + 0xde8), *(u32 *)(p + 0xb6c), 0x5e, 2, 0x48);
-    func_0201F878(*(u32 *)(p + 0xde8), *(u32 *)(p + 0xb6c), 0x5f, 3, 0x48);
+    *(u32 *)&((struct Obj00448 *)p)->fDE8 = func_0201F81C(3, 0x48);
+    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5d, 1, 0x48);
+    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5e, 2, 0x48);
+    func_0201F878(*(u32 *)&((struct Obj00448 *)p)->fDE8, *(u32 *)&((struct Obj00448 *)p)->fB6C, 0x5f, 3, 0x48);
     func_021F4D50(p, 0, 3, 0x14);
-    *(u32 *)(p + 0x28) = 0xa;
+    ((struct Obj00448 *)p)->f28 = 0xa;
     return 2;
 }

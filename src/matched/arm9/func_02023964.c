@@ -28,6 +28,7 @@
  * func_02022F0C's own (u32, u8 *, u32) parameter list.  With that call
  * corrected the rest of the note's body compiles byte for byte.
  */
+#include "../include/Obj02305.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -58,16 +59,16 @@ void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
         MI_CpuFill8(w + 0xC0, 0, 0xC0);
     }
 
-    *(u32 *)(w + 0x30C) = d->f00;
-    *(u32 *)(w + 0x310) = d->f04;
-    *(u32 *)(w + 0x324) = d->f06;
-    *(u32 *)(w + 0x328) = a7;
-    *(u32 *)(w + 0x314) = a2;
-    *(u32 *)(w + 0x318) = 0;
-    *(u32 *)(w + 0x31C) = a3;
-    *(u32 *)(w + 0x320) = 0;
-    *(u32 *)(w + 0x32C) = a5;
-    *(u32 *)(w + 0x330) = a6;
+    ((struct Obj02305 *)w)->f30C = d->f00;
+    ((struct Obj02305 *)w)->f310 = d->f04;
+    ((struct Obj02305 *)w)->f324 = d->f06;
+    ((struct Obj02305 *)w)->f328 = a7;
+    ((struct Obj02305 *)w)->f314 = a2;
+    ((struct Obj02305 *)w)->f318 = 0;
+    ((struct Obj02305 *)w)->f31C = a3;
+    ((struct Obj02305 *)w)->f320 = 0;
+    ((struct Obj02305 *)w)->f32C = a5;
+    ((struct Obj02305 *)w)->f330 = a6;
 
     func_02022F0C(a6, w, a7);
 
@@ -77,5 +78,5 @@ void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
         func_02022E20(a5, 0x3F, 0x20, 0, a4, 0, 0, 0, 0, d->f06);
     }
 
-    func_02022E88(a5, 1, a4, *(u32 *)(w + 0x324));
+    func_02022E88(a5, 1, a4, ((struct Obj02305 *)w)->f324);
 }

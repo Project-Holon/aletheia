@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0201394C.c \
  *       --func func_0201394C --addr 0x0201394C --cc 1.1p1 --thumb
  */
+#include "../include/Obj15647.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,7 +46,7 @@ void func_0201394C(struct ZoneData *o)
 {
     if (o->f0 == 1) {
         o->f0 = 2;
-        if (func_0202A3FC(*(u32 *)(o->f4c + 4)) != 0xb) {
+        if (func_0202A3FC(((struct Obj15647 *)(o->f4c))->f4) != 0xb) {
             o->f18 = 0x46b;
             o->f1a = 0x47d;
         } else {

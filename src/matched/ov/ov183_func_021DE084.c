@@ -14,6 +14,9 @@
  *   func_0204B688 0x0204B688 arm
  *   func_021DE15C 0x021DE15C thumb ov183
  */
+#include "../include/Obj05472.h"
+#include "../include/Obj14427.h"
+#include "../include/Obj14428.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -35,8 +38,8 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
     pos.x = x;
     pos.y = y;
     pos.z = 10;
-    *(void **)p = func_0204B294(manager, (unsigned int)*(void **)(q + 4), (unsigned int)*(void **)(q + 8), (unsigned int)*(void **)q, &pos, 0, heap);
-    func_0204B688(*(void **)p, 1);
+    ((struct Obj14427 *)p)->f0 = func_0204B294(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
+    func_0204B688(((struct Obj14427 *)p)->f0, 1);
     pos.z = 0;
     base = x;
     base = x + 20;
@@ -45,8 +48,8 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
         pos.x = base + i * 16;
         pos.y = y;
         slot = p + i * 4;
-        *(void **)(slot + 4) = func_0204B294(manager, (unsigned int)*(void **)(q + 4), (unsigned int)*(void **)(q + 8), (unsigned int)*(void **)q, &pos, 0, heap);
-        func_0204B688(*(void **)(slot + 4), 1);
+        ((struct Obj14428 *)slot)->f4 = func_0204B294(manager, (unsigned int)((struct Obj05472 *)q)->f4, (unsigned int)((struct Obj05472 *)q)->f8, (unsigned int)((struct Obj05472 *)q)->f0, &pos, 0, heap);
+        func_0204B688(((struct Obj14428 *)slot)->f4, 1);
     }
     func_021DE15C(p, value);
 }

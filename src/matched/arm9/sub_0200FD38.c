@@ -41,6 +41,7 @@
  * loads the buffer before the call and raises the pressure that spills a0
  * to [sp] exactly as the image does.
  */
+#include "../include/Obj01327.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -136,22 +137,22 @@ void sub_0200FD38(u32 a0, u32 a1)
     if (func_02010054() == 0) {
         return;
     }
-    *(int *)(g + 0x14) = GXx_GetMasterBrightness_(&reg_GX_MASTER_BRIGHT);
-    *(int *)(g + 0x18) = GXx_GetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT);
+    ((struct Obj01327 *)g)->f14 = GXx_GetMasterBrightness_(&reg_GX_MASTER_BRIGHT);
+    ((struct Obj01327 *)g)->f18 = GXx_GetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, -16);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, -16);
     if (a1 == 0) {
-        *(u32 *)(g + 0x1c) = GX_HBlankIntr(0);
-        *(u32 *)(g + 0x20) = GX_VBlankIntr(0);
+        ((struct Obj01327 *)g)->f1C = GX_HBlankIntr(0);
+        ((struct Obj01327 *)g)->f20 = GX_VBlankIntr(0);
     }
-    *(u32 *)(g + 0x24) = func_020808F4();
-    *(u32 *)(g + 0x28) = func_020809A0();
+    ((struct Obj01327 *)g)->f24 = func_020808F4();
+    ((struct Obj01327 *)g)->f28 = func_020809A0();
     GX_SetBankForBG(4);
-    *(u32 *)(g + 0xc) = reg_GX_DISPCNT;
+    ((struct Obj01327 *)g)->fC = reg_GX_DISPCNT;
     GX_SetGraphicsMode(1, 0, 0);
     GX_SetVisiblePlane(2);
     GX_SetVisibleWnd(0);
-    *(int *)(g + 0x3c) = GXS_GetVisibleWnd();
+    ((struct Obj01327 *)g)->f3C = GXS_GetVisibleWnd();
     GXS_SetVisibleWnd(0);
     *(GXBg01Control *)(g + 0x10) = G2_GetBG1Control();
     G2_SetBG1Control(0, 0, 0, 1, ((GXBg01Control *)(g + 0x10))->bgExtPltt);
@@ -160,21 +161,21 @@ void sub_0200FD38(u32 a0, u32 a1)
     if (g[0x59] != 0x60) {
         void *dst;
         void *src;
-        dst = *(void **)(g + 0);
+        dst = ((struct Obj01327 *)g)->f0;
         src = G2_GetBG1CharPtr();
         MIi_CpuCopy16(src, dst, 0x4000);
-        dst = *(void **)(g + 4);
+        dst = ((struct Obj01327 *)g)->f4;
         src = G2_GetBG1ScrPtr();
         MIi_CpuCopy16(src, dst, 0x800);
-        MIi_CpuCopy16((void *)0x05000000, *(void **)(g + 8), 0x20);
+        MIi_CpuCopy16((void *)0x05000000, ((struct Obj01327 *)g)->f8, 0x20);
     }
-    *(u16 *)(g + 0x34) = reg_G2_BLDCNT;
-    *(u16 *)(g + 0x34) = reg_G2S_DB_BLDCNT;
+    ((struct Obj01327 *)g)->f34 = reg_G2_BLDCNT;
+    ((struct Obj01327 *)g)->f34 = reg_G2S_DB_BLDCNT;
     reg_G2_BLDCNT = 0;
     reg_G2S_DB_BLDCNT = 0;
-    *(u32 *)(g + 0x38) = func_02043668();
+    ((struct Obj01327 *)g)->f38 = func_02043668();
     func_020435F4(0);
-    *(u16 *)(g + 0x40) = *(volatile u16 *)0x05000400;
+    ((struct Obj01327 *)g)->f40 = *(volatile u16 *)0x05000400;
     *(volatile u16 *)0x05000400 = 0x7eea;
     if (g_0214617C[0x59] == 0x60) {
         sub_02010068(1);

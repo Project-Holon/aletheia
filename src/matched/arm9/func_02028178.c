@@ -48,6 +48,7 @@
  * is read as a signed value, so a plain `& 1` would be four bytes shorter
  * and wrong.
  */
+#include "../include/Obj00864.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -87,29 +88,29 @@ void func_02028178(u8 *p)
     u32 obj;
     u16 *ctx;
 
-    if (*(u32 *)(p + 0xc) != 0) {
-        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)(p + 0x18) + 0x14)),
-                          (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)p))) == 0) {
-            obj = *(u32 *)p;
+    if (((struct Obj00864 *)p)->fC != 0) {
+        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)&((struct Obj00864 *)p)->f18 + 0x14)),
+                          (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00864 *)p)->f0))) == 0) {
+            obj = ((struct Obj00864 *)p)->f0;
             func_02045334((struct Descriptor *)obj);
             func_02045374((struct Cfg *)obj);
             func_02041B6C(func_02045730((struct Descriptor *)obj));
-            *(u32 *)(p + 0xc) = 0;
+            ((struct Obj00864 *)p)->fC = 0;
         }
     }
 
-    if (*(u32 *)(p + 8) != 0) {
-        s32 d = 4 / (s32)*(u16 *)(p + 0x12);
+    if (((struct Obj00864 *)p)->f8 != 0) {
+        s32 d = 4 / (s32)((struct Obj00864 *)p)->f12;
 
-        if ((u8)((s32)*(u16 *)(p + 0x10) / d % 2) == 0) {
-            func_02027B30(*(u32 *)p, (struct S *)(*(u32 *)(p + 0x18)), 1);
+        if ((u8)((s32)((struct Obj00864 *)p)->f10 / d % 2) == 0) {
+            func_02027B30(((struct Obj00864 *)p)->f0, (struct S *)(*(u32 *)&((struct Obj00864 *)p)->f18), 1);
         } else {
-            func_02027B30(*(u32 *)p, (struct S *)(*(u32 *)(p + 0x18)), 0);
+            func_02027B30(((struct Obj00864 *)p)->f0, (struct S *)(*(u32 *)&((struct Obj00864 *)p)->f18), 0);
         }
-        *(u16 *)(p + 0x10) = *(u16 *)(p + 0x10) + 1;
+        ((struct Obj00864 *)p)->f10 = ((struct Obj00864 *)p)->f10 + 1;
     }
 
-    ctx = *(u16 **)(p + 0x18);
+    ctx = *(u16 * *)&((struct Obj00864 *)p)->f18;
     func_02027BF4((u16 *)(p + 0x14), (u16 *)(p + 0x16), (u8)ctx[0], (u8)ctx[1],
-                  *(u16 *)(p + 0x1c), *(u16 *)(p + 0x1e));
+                  ((struct Obj00864 *)p)->f1C, ((struct Obj00864 *)p)->f1E);
 }

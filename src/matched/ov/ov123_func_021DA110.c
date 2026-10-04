@@ -14,9 +14,10 @@
  *   func_021DA0E4 0x021DA0E4 thumb ov123
  *   func_021DA034 0x021DA034 thumb ov123
  */
+#include "../include/Obj14000.h"
 typedef unsigned char u8;
 extern void func_021D9514(char *,int);
 extern void func_021D95B4(char *);
 extern void func_021DA0E4(char *);
 extern void func_021DA034(char *,int,int);
-void func_021DA110(char *p) { func_021D9514(*(char **)(p+0x10),6); func_021D95B4(*(char **)(p+0x10)); func_021DA034(p,(int)func_021DA0E4,0x112); }
+void func_021DA110(char *p) { func_021D9514(*(char * *)&((struct Obj14000 *)p)->f10,6); func_021D95B4(*(char * *)&((struct Obj14000 *)p)->f10); func_021DA034(p,(int)func_021DA0E4,0x112); }

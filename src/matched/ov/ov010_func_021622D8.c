@@ -10,12 +10,13 @@
  * symbols:
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj18956.h"
 typedef unsigned short u16;
 extern void func_02082D44(void *, void *, unsigned);
 int func_021622D8(char *p, void *out)
 {
     int result = 0;
-    if (*(u16 *)(p + 2) & 16) {
+    if (((struct Obj18956 *)p)->f2 & 16) {
         func_02082D44(p + 0x28, out, 8);
         result = 1;
     }

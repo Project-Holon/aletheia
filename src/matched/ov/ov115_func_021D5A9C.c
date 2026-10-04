@@ -27,6 +27,7 @@
  *   func_020450C8 0x020450C8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00724.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -58,24 +59,24 @@ extern void func_020450C8(void);
 extern void func_020307B0(void *);
 void func_021D5A9C(u8 *p) {
     u32 n;
-    if (*(void **)(p+0x80)) { func_0202F038(*(void **)(p+0x80)); *(void **)(p+0x80)=0; }
-    if (*(void **)(p+0x38)) { func_0201CE48(*(void **)(p+0x38)); *(void **)(p+0x38)=0; }
+    if (((struct Obj00724 *)p)->f80) { func_0202F038(((struct Obj00724 *)p)->f80); ((struct Obj00724 *)p)->f80=0; }
+    if (((struct Obj00724 *)p)->f38) { func_0201CE48(((struct Obj00724 *)p)->f38); ((struct Obj00724 *)p)->f38=0; }
     func_021D5D3C(p);
-    n=*(u32 *)p;
-    func_0203FB44(func_021D5FA0(*(u32 *)(p+0x50)),n,n>>16);
-    n=*(u32 *)(p+4);
-    func_0203FB44(func_021D5FC4(*(u32 *)(p+0x50)),n,n>>16);
+    n=((struct Obj00724 *)p)->f0;
+    func_0203FB44(func_021D5FA0(((struct Obj00724 *)p)->f50),n,n>>16);
+    n=((struct Obj00724 *)p)->f4;
+    func_0203FB44(func_021D5FC4(((struct Obj00724 *)p)->f50),n,n>>16);
     func_0201DD68();
-    func_0201ED04(*(void **)(p+0x20));
-    func_02045C04(*(void **)(p+0x1c));
-    func_0201D83C(*(void **)(p+0x24));
-    func_02045808(*(void **)(p+0x28));
-    func_02027FD8(*(void **)(p+0x70));
-    func_02031140(*(void **)(p+0x44));
-    func_0201C6EC(*(void **)(p+0x48));
-    func_0201C4C0(*(void **)(p+0x48));
-    if (*(void **)(p+0x2c)) { func_020452E8(*(void **)(p+0x2c)); *(void **)(p+0x2c)=0; }
-    if (*(void **)(p+0x30)) { func_020452E8(*(void **)(p+0x30)); *(void **)(p+0x30)=0; }
+    func_0201ED04(((struct Obj00724 *)p)->f20);
+    func_02045C04(((struct Obj00724 *)p)->f1C);
+    func_0201D83C(((struct Obj00724 *)p)->f24);
+    func_02045808(((struct Obj00724 *)p)->f28);
+    func_02027FD8(((struct Obj00724 *)p)->f70);
+    func_02031140(((struct Obj00724 *)p)->f44);
+    func_0201C6EC(((struct Obj00724 *)p)->f48);
+    func_0201C4C0(((struct Obj00724 *)p)->f48);
+    if (((struct Obj00724 *)p)->f2C) { func_020452E8(((struct Obj00724 *)p)->f2C); ((struct Obj00724 *)p)->f2C=0; }
+    if (((struct Obj00724 *)p)->f30) { func_020452E8(((struct Obj00724 *)p)->f30); ((struct Obj00724 *)p)->f30=0; }
     func_020450C8();
     func_020307B0(p);
 }

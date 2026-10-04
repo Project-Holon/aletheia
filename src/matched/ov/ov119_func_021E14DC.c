@@ -16,6 +16,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -28,4 +29,4 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-void func_021E14DC(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!*(unsigned char *)(p+0x11f6)) {t=func_0201AF80(*(u16 *)(p+0x5f4),0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),162,(void *)(*(int *)(p+0x730)));}else {func_0201EFA4((struct WordSet *)(*(int *)(p+0x724)),1,v,3,1,1);func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),27,(void *)(*(int *)(p+0x734)));func_0201F250((struct WordSet *)(*(int *)(p+0x724)),(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x734)));}func_0201C7A4(b,x,y,(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x728)));}}
+void func_021E14DC(void *a,void *b,int x,int y,int flag,char *p) {int v;u16 *t;if(!flag) {v=func_02017E1C(a,171,0);if(!((struct Obj00001 *)p)->f11F6) {t=func_0201AF80(((struct Obj00001 *)p)->f5F4,0);v=t[v];func_020307B0(t);}if(v==999) {func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),162,(void *)(*(int *)&((struct Obj00001 *)p)->f730));}else {func_0201EFA4((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),1,v,3,1,1);func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),27,(void *)(*(int *)&((struct Obj00001 *)p)->f734));func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));}func_0201C7A4(b,x,y,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));}}

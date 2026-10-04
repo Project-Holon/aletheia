@@ -28,6 +28,7 @@
  *   func_021BC910  0x021BC910  thumb  ov021
  *   func_021BCB9C  0x021BCB9C  thumb  ov021
  */
+#include "../include/Obj00183.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -70,7 +71,7 @@ void func_021BCC80(char *p)
         break;
     case 2:
         func_021BC720(p);
-        w = *(u32 *)(p + 0x24);
+        w = *(u32 *)&((struct Obj00183 *)p)->f24;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));

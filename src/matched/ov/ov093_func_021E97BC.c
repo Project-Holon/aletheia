@@ -15,6 +15,7 @@
  *   func_021E9728  0x021E9728  thumb  ov093
  *   func_021E9884  0x021E9884  thumb  ov093
  */
+#include "../include/Obj06280.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -25,9 +26,9 @@ extern int func_021E9884(void *p);
 
 void func_021E97BC(char *p, u8 *a, int b)
 {
-    *(u8 **)(p + 0xbc) = a;
-    *(u32 *)(p + 0xc0) = func_021D5440(a);
-    *(int *)(p + 0xb8) = b;
-    func_021E97F8(*(void **)(p + 0x180), *(u8 **)(p + 0xbc), b);
+    *(u8 * *)&((struct Obj06280 *)p)->fBC = a;
+    ((struct Obj06280 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj06280 *)p)->fB8 = b;
+    func_021E97F8(((struct Obj06280 *)p)->f180, *(u8 * *)&((struct Obj06280 *)p)->fBC, b);
     func_021E9728(p, (u32)func_021E9884);
 }

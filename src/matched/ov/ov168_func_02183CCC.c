@@ -20,6 +20,7 @@
  * Gate on p+0x130, then run the four init/teardown helpers and the
  *   word at p+0x144 through func_02030D28.
  */
+#include "../include/Obj23813.h"
 
 
 extern int func_02183D40(char *);
@@ -38,6 +39,6 @@ int func_02183CCC(int a, int b, int c, char *p)
     func_02183FA0(p);
     func_021841F4(p + 0xE4);
     func_0218441C(p + 0xF8);
-    func_02030D28((struct Ctx *)(*(int *)(p + 0x144)));
+    func_02030D28((struct Ctx *)(((struct Obj23813 *)p)->f144));
     return 0;
 }

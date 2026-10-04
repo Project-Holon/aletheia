@@ -23,6 +23,8 @@
  *   func_021DE084 0x021DE084 thumb ov183
  *   d_021E3350 0x021E3350 data a4
  */
+#include "../include/Obj00631.h"
+#include "../include/Obj00632.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Record { u8 a, b, c, d; int value; };
@@ -48,20 +50,20 @@ void func_021DD5C8(char *p, char *q)
     struct Triple triple;
     const struct Record *rec;
     u8 a, b, c, d;
-    first = func_021FC20C(*(char **)(q + 8));
-    second = func_021FC214(*(char **)(q + 8));
-    func_021FB964((void *)(*(int *)(q + 8)), 14, *(u16 *)(p + 0x7c));
+    first = func_021FC20C(*(char * *)&((struct Obj00632 *)q)->f8);
+    second = func_021FC214(*(char * *)&((struct Obj00632 *)q)->f8);
+    func_021FB964((void *)(*(int *)&((struct Obj00632 *)q)->f8), 14, ((struct Obj00631 *)p)->f7C);
     rec = &d_021E3350[0];
     d = rec->d;
     a = rec->a;
     b = rec->b;
     c = rec->c;
-    *(void **)(p + 0x34) = func_021FC6A4(1, a, b, c, d, 14, *(void **)(p + 4), *(u16 *)(p + 0x7c));
-    func_021FC868(*(void **)(p + 0x34), 0, 1, 0);
-    func_021FC754(*(void **)(p + 0x34), (void *)second, (void *)rec->value, (void *)first, 0x3da0);
-    *(void **)(p + 0x1c) = func_021FD12C(*(int *)(q + 8), (void *)(*(int *)(p + 4)), *(u16 *)(p + 0x7c));
-    func_021FD170(*(void **)(p + 0x1c), (char *)(*(int *)(q + 8)), (void *)0x86);
-    v = func_0200DABC((struct Blk1AC *)(*(int *)(q + 0x10)));
-    func_021FC124(*(int *)(q + 8), 13, &triple);
-    func_021DE084((void *)(p + 8), (void *)(*(int *)(q + 4)), (const char *)(&triple), v, 0x68, 0x58, *(u16 *)(p + 0x7c));
+    ((struct Obj00631 *)p)->f34 = func_021FC6A4(1, a, b, c, d, 14, ((struct Obj00631 *)p)->f4, ((struct Obj00631 *)p)->f7C);
+    func_021FC868(((struct Obj00631 *)p)->f34, 0, 1, 0);
+    func_021FC754(((struct Obj00631 *)p)->f34, (void *)second, (void *)rec->value, (void *)first, 0x3da0);
+    ((struct Obj00631 *)p)->f1C = func_021FD12C(*(int *)&((struct Obj00632 *)q)->f8, (void *)(*(int *)&((struct Obj00631 *)p)->f4), ((struct Obj00631 *)p)->f7C);
+    func_021FD170(((struct Obj00631 *)p)->f1C, (char *)(*(int *)&((struct Obj00632 *)q)->f8), (void *)0x86);
+    v = func_0200DABC((struct Blk1AC *)(((struct Obj00632 *)q)->f10));
+    func_021FC124(*(int *)&((struct Obj00632 *)q)->f8, 13, &triple);
+    func_021DE084((void *)(p + 8), (void *)(*(int *)&((struct Obj00632 *)q)->f4), (const char *)(&triple), v, 0x68, 0x58, ((struct Obj00631 *)p)->f7C);
 }

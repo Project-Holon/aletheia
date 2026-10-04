@@ -15,6 +15,7 @@
  *   func_0204E804 0x0204E804 arm
  *   func_02024004 0x02024004 thumb
  */
+#include "../include/Obj26046.h"
 extern unsigned func_021B61FC(const unsigned char *);
 extern void func_021B6200(unsigned char *);
 extern int func_021B9924(void);
@@ -35,7 +36,7 @@ advance:
             break;
         if (func_02024004(1) == 0)
             break;
-        func_021B9B78(*(void **)(ctx + 0x28), 0xef);
+        func_021B9B78(((struct Obj26046 *)ctx)->f28, 0xef);
         goto advance;
     case 2:
         return 1;

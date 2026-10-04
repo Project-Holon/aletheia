@@ -12,10 +12,11 @@
  * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C335C
  * (wave A1, lane 13).
  */
+#include "../include/Obj11232.h"
 
 typedef unsigned char u8;
 
 void func_0200BC20(u8 *p)
 {
-    *(int *)(p + 0x1C8) = 0;
+    *(int *)&((struct Obj11232 *)p)->f1C8 = 0;
 }

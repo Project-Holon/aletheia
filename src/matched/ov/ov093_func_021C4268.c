@@ -17,6 +17,7 @@
  *   func_021D70F0  0x021D70F0  thumb  ov093
  *   func_021D7540  0x021D7540  thumb  ov093
  */
+#include "../include/Obj07754.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -33,11 +34,11 @@ void func_021C4268(u8 *p, u8 *a, u8 *b, u8 *c, u32 s0, u32 s1, u32 s2, u32 s3)
     func_021D74F8(9335);
     func_021D75EC(3, func_021D5440(a));
     func_021D75EC(4, x);
-    func_021D75EC(0x14, *(u16 *)(c + 2));
-    func_021D75EC(0x12, *(u16 *)c);
+    func_021D75EC(0x14, ((struct Obj07754 *)c)->f2);
+    func_021D75EC(0x12, ((struct Obj07754 *)c)->f0);
     func_021D75EC(0x38, s0);
     func_021D75EC(0x16, c[6]);
-    func_021D75EC(0x1a, *(u32 *)(c + 8));
+    func_021D75EC(0x1a, ((struct Obj07754 *)c)->f8);
     func_021D75EC(0x32, s1);
     func_021D75EC(0x45, s2);
     func_021D75EC(0x46, s3);

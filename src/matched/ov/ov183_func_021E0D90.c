@@ -14,6 +14,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021E0CE8 0x021E0CE8 thumb ov183
  */
+#include "../include/Obj14438.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
@@ -30,14 +31,14 @@ void func_021E0D90(char *p)
         if (state == 3) {
             if (!func_0204B98C(*(void **)(p + i * 28 + 0x194))) {
                 func_0204B878(*(void **)(p + i * 28 + 0x194), *(int *)(p + i * 28 + 0x188));
-                if (*(int *)(p + 0x2fc) == 1) func_021E0CE8(p, 1, 0);
+                if (((struct Obj14438 *)p)->f2FC == 1) func_021E0CE8(p, 1, 0);
                 else func_021E0CE8(p, 1, 1);
                 func_021E0CE8(p, 2, 0);
             }
         } else {
             if (state != *(int *)(p + i * 28 + 0x188)) func_0204B878(*(void **)(p + i * 28 + 0x194), *(int *)(p + i * 28 + 0x188));
             if (func_0204B898(*(void **)(p + i * 28 + 0x194)) != 3) {
-                if (*(int *)(p + 0x2fc) == 1) func_021E0CE8(p, 1, 0);
+                if (((struct Obj14438 *)p)->f2FC == 1) func_021E0CE8(p, 1, 0);
                 else func_021E0CE8(p, 1, 1);
             }
         }

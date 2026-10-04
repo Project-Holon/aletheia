@@ -10,19 +10,21 @@
  * symbols:
  *   func_02042FB0 0x02042FB0 arm
  */
+#include "../include/Obj08079.h"
+#include "../include/Obj22842.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02042FB0(u32 idx, u32 x, u32 y, u16 value);
 void func_021D6CCC(u8 *p, int n)
 {
-    u8 *q = *(u8 **)(p + 0x11c) + 0xc;
-    int base = (u16)*(unsigned int *)p;
+    u8 *q = *(u8 * *)&((struct Obj08079 *)p)->f11C + 0xc;
+    int base = (u16)((struct Obj08079 *)p)->f0;
     int off;
     int x, y;
     y = 0;
     off = 6 * n;
     for (; y < 6; y++)
         for (x = 0; x < 32; x++)
-            func_02042FB0(4, x, y + off, *(u16 *)(q + 0x3e) + base);
+            func_02042FB0(4, x, y + off, ((struct Obj22842 *)q)->f3E + base);
 }

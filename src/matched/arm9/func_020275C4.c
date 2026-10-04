@@ -12,8 +12,9 @@
  * Unlabelled arm9 leaf reading the word at +0xB08. Filed as the relocation
  * witness for ov021 func_021CD3A4 (wave A1).
  */
+#include "../include/Obj15765.h"
 
 int func_020275C4(void *p)
 {
-    return *(int *)((char *)p + 0xB08);
+    return ((struct Obj15765 *)p)->fB08;
 }

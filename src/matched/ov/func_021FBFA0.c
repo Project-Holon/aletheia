@@ -17,13 +17,14 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj09236.h"
 
 extern int  func_021F8694(void);
 extern void func_02200140(int a, int b, int c);
 
 int func_021FBFA0(int a, char *b)
 {
-    func_02200140(func_021F8694(), *(int *)(b + 0xe0), *(int *)(b + 0xdc));
-    return *(int *)(b + 0x23c);
+    func_02200140(func_021F8694(), ((struct Obj09236 *)b)->fE0, ((struct Obj09236 *)b)->fDC);
+    return ((struct Obj09236 *)b)->f23C;
 }
 

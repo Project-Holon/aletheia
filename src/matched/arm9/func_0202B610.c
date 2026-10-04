@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B610.c \
  *       --func func_0202B610 --addr 0x0202B610 --thumb --cc 1.1p1
  */
+#include "../include/Obj00563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,5 +30,5 @@ extern struct Node *func_0202AAF4(u32 a, u32 heapId);
 
 void func_0202B610(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x10) = (u32)func_0202AAF4((u32)func_0202B7F8(o), *(u16 *)o);
+    ((struct Obj00563 *)o)->f10 = (u32)func_0202AAF4((u32)func_0202B7F8(o), ((struct Obj00563 *)o)->f0);
 }

@@ -18,6 +18,7 @@
  *   func_02162598  0x02162598  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01119.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,10 +37,10 @@ extern int func_02162598(char *p, struct Q *q);
 int func_021A6C6C(u8 *p, u32 k)
 {
     u32 buf[2];
-    void *o = func_021A3960(*(unsigned char **)(p + 0x14));
+    void *o = func_021A3960(*(unsigned char * *)&((struct Obj01119 *)p)->f14);
     u32 r4;
 
-    r4 = func_02012844(func_020120F4(func_02188C80(*(u8 **)(p + 0x18))));
+    r4 = func_02012844(func_020120F4(func_02188C80(*(u8 * *)&((struct Obj01119 *)p)->f18)));
     func_0219E664(o, k, buf);
     return func_02162598((char *)r4, (struct Q *)buf) != 0xFFFF;
 }

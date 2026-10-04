@@ -9,6 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj05917.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021734A8(u8 *self, u32 id, u32 v) { u8 *p; p=self+0x2830; switch(id) { case 0: *(u32 *)(p+0x14)=v; return; case 1: *(u32 *)(p+0x18)=v; return; case 2: *(u32 *)(p+0x1c)=v; return; case 3: *(u32 *)(p+0x20)=v; return; case 4: *p=v; } }
+void func_021734A8(u8 *self, u32 id, u32 v) { u8 *p; p=self+0x2830; switch(id) { case 0: ((struct Obj05917 *)p)->f14=v; return; case 1: ((struct Obj05917 *)p)->f18=v; return; case 2: ((struct Obj05917 *)p)->f1C=v; return; case 3: ((struct Obj05917 *)p)->f20=v; return; case 4: *p=v; } }

@@ -32,6 +32,8 @@
  *   python3 tools/match.py one --src src/matched/func_020169E8.c \
  *       --func func_020169E8 --addr 0x020169E8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00353.h"
+#include "../include/Obj01459.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -77,73 +79,73 @@ void func_020169E8(u8 *a0, u8 *a1)
     s8 cur;
     s8 tgt;
 
-    if (*(s8 *)(a1 + 0x136) != 0) {
+    if (((struct Obj00353 *)a1)->f136 != 0) {
         goto dec;
     }
 
     flag = 1;
-    p = (struct Obj *)func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), 0x2C, 1, data_020A72CC, 0x9A1);
+    p = (struct Obj *)func_02030734((u16)(((u16)((struct Obj00353 *)a1)->f14C & 0x7FFF) | 0x8000), 0x2C, 1, data_020A72CC, 0x9A1);
     p->f20 = a0;
-    if (*(void **)(a0 + 8) == 0) {
+    if (((struct Obj01459 *)a0)->f8 == 0) {
         flag = 0;
     }
     p->f28 = flag;
     p->f24 = a1;
     p->f0c = a1 + 0xC0;
-    p->f1c = *(u32 *)(a0 + 0x34) + (*(u32 *)(a1 + 0x148) << 5);
+    p->f1c = ((struct Obj01459 *)a0)->f34 + (((struct Obj00353 *)a1)->f148 << 5);
 
     flag = 0;
-    p->f04 = (struct Inner *)func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), 0x10, 0, data_020A72CC, 0x9A9);
-    p->f04->f00 = *(u32 *)(a1 + 0xC0);
+    p->f04 = (struct Inner *)func_02030734((u16)(((u16)((struct Obj00353 *)a1)->f14C & 0x7FFF) | 0x8000), 0x10, 0, data_020A72CC, 0x9A9);
+    p->f04->f00 = ((struct Obj00353 *)a1)->fC0;
     p->f04->f04 = flag;
-    p->f04->f08 = *(u32 *)(a1 + 0xDC);
-    p->f04->f0c = func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), *(u32 *)(a1 + 0xDC), 0, data_020A72CC, 0x9A9 + 5);
+    p->f04->f08 = ((struct Obj00353 *)a1)->fDC;
+    p->f04->f0c = func_02030734((u16)(((u16)((struct Obj00353 *)a1)->f14C & 0x7FFF) | 0x8000), ((struct Obj00353 *)a1)->fDC, 0, data_020A72CC, 0x9A9 + 5);
 
-    if ((*(u32 *)(a1 + 0x140) << 3) >> 0x1F) {
-        func_02021F64(*(void **)(a1 + 0xD8), p->f04->f0c,
-                      ((s32)*(u32 *)(a1 + 0xDC) / 2),
-                      *(u8 *)(a1 + 0x134), (u16)*(u32 *)(a1 + 0x13C));
+    if ((((struct Obj00353 *)a1)->f140 << 3) >> 0x1F) {
+        func_02021F64(((struct Obj00353 *)a1)->fD8, p->f04->f0c,
+                      ((s32)((struct Obj00353 *)a1)->fDC / 2),
+                      *(u8 *)&((struct Obj00353 *)a1)->f134, (u16)((struct Obj00353 *)a1)->f13C);
     } else {
-        func_02021F64(*(void **)(a1 + 0xD4), p->f04->f0c,
-                      ((s32)*(u32 *)(a1 + 0xDC) / 2),
-                      *(u8 *)(a1 + 0x134), (u16)*(u32 *)(a1 + 0x13C));
+        func_02021F64(((struct Obj00353 *)a1)->fD4, p->f04->f0c,
+                      ((s32)((struct Obj00353 *)a1)->fDC / 2),
+                      *(u8 *)&((struct Obj00353 *)a1)->f134, (u16)((struct Obj00353 *)a1)->f13C);
     }
 
-    if (*(void **)(a1 + 4) != 0) {
-        func_02016C38((int)(*(void **)(a1 + 4)));
-        *(void **)(a1 + 4) = 0;
+    if (((struct Obj00353 *)a1)->f4 != 0) {
+        func_02016C38((int)(((struct Obj00353 *)a1)->f4));
+        ((struct Obj00353 *)a1)->f4 = 0;
     }
 
-    if (*(void **)(a0 + 8) != 0) {
-        ret = func_02030DA8(*(void **)(a0 + 8), func_0201691C, p, 0);
+    if (((struct Obj01459 *)a0)->f8 != 0) {
+        ret = func_02030DA8(((struct Obj01459 *)a0)->f8, func_0201691C, p, 0);
     } else {
         ret = func_020056A0(func_0201691C, p, 0);
     }
-    *(void **)(a1 + 4) = ret;
+    ((struct Obj00353 *)a1)->f4 = ret;
 
-    cur = *(s8 *)(a1 + 0x134);
-    tgt = *(s8 *)(a1 + 0x135);
+    cur = ((struct Obj00353 *)a1)->f134;
+    tgt = ((struct Obj00353 *)a1)->f135;
     if (cur == tgt) {
-        *(u32 *)(a1 + 0x140) &= 0xFFFFEFFF;
+        ((struct Obj00353 *)a1)->f140 &= 0xFFFFEFFF;
     } else {
-        step = *(s32 *)(a1 + 0x138);
-        *(s8 *)(a1 + 0x134) = (s8)(cur + (s8)step);
-        if (step < 0 || *(s8 *)(a1 + 0x134) < tgt) {
+        step = ((struct Obj00353 *)a1)->f138;
+        ((struct Obj00353 *)a1)->f134 = (s8)(cur + (s8)step);
+        if (step < 0 || ((struct Obj00353 *)a1)->f134 < tgt) {
             if (step < 0) {
-                tgt = *(s8 *)(a1 + 0x135);
-                if (*(s8 *)(a1 + 0x134) > tgt) {
+                tgt = ((struct Obj00353 *)a1)->f135;
+                if (((struct Obj00353 *)a1)->f134 > tgt) {
                     goto done;
                 }
             } else {
                 goto done;
             }
         }
-        *(s8 *)(a1 + 0x134) = tgt;
+        ((struct Obj00353 *)a1)->f134 = tgt;
     }
 done:
-    *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x137);
+    ((struct Obj00353 *)a1)->f136 = ((struct Obj00353 *)a1)->f137;
     return;
 dec:
-    *(s8 *)(a1 + 0x136) = *(s8 *)(a1 + 0x136) - 1;
+    ((struct Obj00353 *)a1)->f136 = ((struct Obj00353 *)a1)->f136 - 1;
 }
 

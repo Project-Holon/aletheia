@@ -15,6 +15,7 @@
  *   _ffix 0x0209C494 arm
  *   func_0207C768 0x0207C768 arm
  */
+#include "../include/Obj07991.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0207C768(u32,u32);
@@ -36,7 +37,7 @@ void func_021B900C(u8 *p,int amount,int duration) {
  if(rounded(duration)>53248) value=53248;
  else if(rounded(duration)<0) value=0;
  else value=rounded(duration);
- *(int *)p=func_0207C768(amount-4096,241664);
- *(int *)(p+4)=4096-func_0207C768(value,53248);
- *(int *)(p+12)=1;
+ ((struct Obj07991 *)p)->f0=func_0207C768(amount-4096,241664);
+ ((struct Obj07991 *)p)->f4=4096-func_0207C768(value,53248);
+ ((struct Obj07991 *)p)->fC=1;
 }

@@ -14,6 +14,7 @@
  *
  * Clears the flag block 0x8ED bytes in and sets the keep flag when the entry test answers 1.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,5 +36,5 @@ void func_021C1C70(char *p)
     p[0x8EE] = 0;
     p[0x8EF] = 0;
     p[0x8F1] = 1;
-    *(u32 *)(p + 0x8F4) = 1;
+    *(u32 *)&((struct Obj00008 *)p)->f8F4 = 1;
 }

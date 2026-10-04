@@ -18,13 +18,14 @@
  * (wave A1 witness).
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13075.h"
 
 typedef unsigned short u16;
 
 int func_021F00F0(char *p)
 {
-    if (*(u16 *)(p + 0x124) == 10) {
-        *(int *)(p + 0x110) = 0;
+    if (((struct Obj13075 *)p)->f124 == 10) {
+        ((struct Obj13075 *)p)->f110 = 0;
         return 1;
     }
     return 0;

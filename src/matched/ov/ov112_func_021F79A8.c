@@ -25,6 +25,9 @@
  *   func_021F7FAC 0x021F7FAC thumb ov112
  *   d_021F832C 0x021F832C data a4
  */
+#include "../include/Obj03248.h"
+#include "../include/Obj13841.h"
+#include "../include/Obj22558.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,13 +48,13 @@ void func_021F7A94(char *,char *);
 void func_021F79A8(char *p,char *q,int index)
 {
     u32 v;
-    if(*(int *)(q+132+index*4)==0 || *(int *)(q+260)!=0) return;
-    v=func_021F514C((void *)func_021F4F10((u8 *)*(void **)(p+16)),**(u16 **)(q+168+index*4));
-    *(u16 *)(q+240)=0;
-    *(int *)(q+244)=index;
-    *(int *)(q+248)=0;
+    if(*(int *)(q+132+index*4)==0 || *(int *)&((struct Obj03248 *)q)->f104!=0) return;
+    v=func_021F514C((void *)func_021F4F10((u8 *)((struct Obj13841 *)p)->f10),**(u16 **)(q+168+index*4));
+    ((struct Obj03248 *)q)->fF0=0;
+    ((struct Obj03248 *)q)->fF4=index;
+    ((struct Obj03248 *)q)->fF8=0;
     func_0200616C(d_021F832C[v],2);
-    *(u8 *)(p+1084)+=1;
+    ((struct Obj13841 *)p)->f43C+=1;
     switch(v) {
     case 0: func_021F7A94(p,q); *(void (**)(char *,char *))(q+260)=func_021F7A98; break;
     case 1: func_021F7AEC(p,q); *(void (**)(u8 *,u8 *))(q+260)=func_021F7BA8; break;
@@ -62,7 +65,7 @@ void func_021F79A8(char *p,char *q,int index)
 }
 int func_021F7A80(char *p,char *q)
 {
-    if(*(int *)(q+260)!=0) return 1;
+    if(((struct Obj22558 *)q)->f104!=0) return 1;
     return 0;
 }
 void func_021F7A94(char *p,char *q)

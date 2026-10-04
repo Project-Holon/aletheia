@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_021B7350 0x021B7350 thumb ov174
  */
+#include "../include/Obj02218.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0201F7A8(void *,int),func_020456F8(void *),func_02041B6C(unsigned),func_020452E8(void *),func_0201CE48(void *),func_02045808(void *);
@@ -27,12 +28,12 @@ extern void func_021B7350(int,int *);
 void func_021B6994(u8 *p)
 {
  void *tmp; u8 i;
- if(*(void **)(p+92)){
- func_0201F7A8(*(void **)(p+92),1);tmp=*(void **)(p+92);
+ if(((struct Obj02218 *)p)->f5C){
+ func_0201F7A8(((struct Obj02218 *)p)->f5C,1);tmp=((struct Obj02218 *)p)->f5C;
  func_020456F8(tmp);func_02041B6C(func_02045730(tmp));
- func_020452E8(*(void **)(p+92));*(void **)(p+92)=0;
+ func_020452E8(((struct Obj02218 *)p)->f5C);((struct Obj02218 *)p)->f5C=0;
  }
- if(*(void **)(p+100)){func_0201CE48(*(void **)(p+100));*(void **)(p+100)=0;}
- if(*(void **)(p+112)){func_02045808(*(void **)(p+112));*(void **)(p+112)=0;}
- for(i=0;i<*(int *)(p+8);i++) if(*(int **)(p+28+i*4)) func_021B7350((int)p,*(int **)(p+28+i*4));
+ if(((struct Obj02218 *)p)->f64){func_0201CE48(((struct Obj02218 *)p)->f64);((struct Obj02218 *)p)->f64=0;}
+ if(((struct Obj02218 *)p)->f70){func_02045808(((struct Obj02218 *)p)->f70);((struct Obj02218 *)p)->f70=0;}
+ for(i=0;i<((struct Obj02218 *)p)->f8;i++) if(*(int **)(p+28+i*4)) func_021B7350((int)p,*(int **)(p+28+i*4));
 }

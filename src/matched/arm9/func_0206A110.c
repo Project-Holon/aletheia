@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16538.h"
 
 int func_0206A110(int p)
 {
-    return p ? (*(unsigned short *)(p + 0x30) << 3) : 0;
+    return p ? (((struct Obj16538 *)p)->f30 << 3) : 0;
 }

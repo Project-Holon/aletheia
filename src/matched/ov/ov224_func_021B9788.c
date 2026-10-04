@@ -18,6 +18,7 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021B9A44 0x021B9A44 thumb ov224
  */
+#include "../include/Obj14799.h"
 
 typedef unsigned int u32;
 extern int func_0204E804(void);
@@ -44,7 +45,7 @@ int func_021B9788(void *a,unsigned *state,int b,char *p)
     case 3: if(!func_0204E804()) *state=4; break;
     case 4: return 1;
     }
-    func_0201C4E4(*(void **)(p+16)); func_021B9A44(*(void **)(p+8));
+    func_0201C4E4(((struct Obj14799 *)p)->f10); func_021B9A44(((struct Obj14799 *)p)->f8);
     return 0;
 }
 void func_021B9820(void) {}

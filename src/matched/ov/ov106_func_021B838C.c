@@ -11,6 +11,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_021B8524 0x021B8524 thumb ov106
  */
+#include "../include/Obj02814.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int   u32;
@@ -18,15 +19,15 @@ extern void func_020061E4(u32 a);
 extern void func_021B8524(u8 *);
 void func_021B838C(u8 *p) {
     int value;
-    if(*(int *)(p+0x594)==0)return;
-    *(int *)(p+0x594)=0;
-    value=*(s16 *)(p+0x556);
+    if(((struct Obj02814 *)p)->f594==0)return;
+    ((struct Obj02814 *)p)->f594=0;
+    value=((struct Obj02814 *)p)->f556;
     if(value%24==0) {
-        if(*(s16 *)(p+0x55c)!=value/24)func_020061E4(1605);
-        *(s16 *)(p+0x55c)=*(s16 *)(p+0x556)/24;
-        *(s16 *)(p+0x564)=-40;
-        *(s16 *)(p+0x566)=24;
+        if(((struct Obj02814 *)p)->f55C!=value/24)func_020061E4(1605);
+        ((struct Obj02814 *)p)->f55C=((struct Obj02814 *)p)->f556/24;
+        ((struct Obj02814 *)p)->f564=-40;
+        ((struct Obj02814 *)p)->f566=24;
         func_021B8524(p);
-        *(int *)(p+0x590)=1;
-    } else *(int *)(p+0x598)=1;
+        ((struct Obj02814 *)p)->f590=1;
+    } else ((struct Obj02814 *)p)->f598=1;
 }

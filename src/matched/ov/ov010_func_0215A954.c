@@ -11,6 +11,8 @@
  *   func_021909E4 0x021909E4 thumb ov021
  *   func_0215A920 0x0215A920 thumb ov010
  */
+#include "../include/Obj04148.h"
+#include "../include/Obj12286.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Handle;
@@ -19,11 +21,11 @@ extern int func_0215A920(int a0);
 int func_0215A954(u8 *a) {
  u8 *p;
  int v;
- p = *(u8 **)(a + 32) + 52;
- v = func_021909E4(*(void **)(p + 28));
+ p = *(u8 * *)&((struct Obj12286 *)a)->f20 + 52;
+ v = func_021909E4(((struct Obj04148 *)p)->f1C);
  if (v == -1) return 0;
  func_0215A920((int)p);
- if (v != -2) **(u16 **)(p + 8) = v;
- else **(u16 **)(p + 8) = 65534;
+ if (v != -2) **(u16 * *)&((struct Obj04148 *)p)->f8 = v;
+ else **(u16 * *)&((struct Obj04148 *)p)->f8 = 65534;
  return 1;
 }

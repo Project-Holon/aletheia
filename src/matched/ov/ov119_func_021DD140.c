@@ -10,14 +10,15 @@
  * symbols:
  *   func_021D8ADC 0x021D8ADC thumb ov119
  */
+#include "../include/Obj00001.h"
 extern int func_021D8ADC(void *, int);
 int func_021DD140(char *p)
 {
-    if (*(unsigned char *)(p + 0x11F1)) {
-        if (func_021D8ADC(p, *(unsigned char *)(p + 0x11F1)))
-            *(unsigned char *)(p + 0x11F1) = *(unsigned char *)(p + 0x11F1) - 1;
+    if (((struct Obj00001 *)p)->f11F1) {
+        if (func_021D8ADC(p, ((struct Obj00001 *)p)->f11F1))
+            ((struct Obj00001 *)p)->f11F1 = ((struct Obj00001 *)p)->f11F1 - 1;
         else
-            *(unsigned char *)(p + 0x11F1) = 0;
+            ((struct Obj00001 *)p)->f11F1 = 0;
     }
-    return *(unsigned char *)(p + 0x11F1) == 0;
+    return ((struct Obj00001 *)p)->f11F1 == 0;
 }

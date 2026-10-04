@@ -12,11 +12,12 @@
  * symbols:
  *   func_02047CFC 0x02047CFC arm
  */
+#include "../include/Obj00687.h"
 
 extern int func_02047CFC(int, int, int);
 
 void func_02208A54(char *a)
 {
-    *(int *)(a + 0x14) = func_02047CFC(4, 1, *(unsigned short *)a);
-    *(unsigned short *)(a + 0x1c) = 0;
+    *(int *)&((struct Obj00687 *)a)->f14 = func_02047CFC(4, 1, ((struct Obj00687 *)a)->f0);
+    ((struct Obj00687 *)a)->f1C = 0;
 }

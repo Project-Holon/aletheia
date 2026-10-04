@@ -28,6 +28,9 @@
  *   func_021BBAF8  0x021BBAF8  thumb  ov091
  *   func_021F6744  0x021F6744  thumb  ov112
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj20858.h"
+#include "../include/Obj20859.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,7 +56,7 @@ void func_021B8180(u8 *p)
     int buf[8];
 
     func_020409B4(0);
-    switch (*(int *)(*(u8 **)(p + 0x280) + 0x34)) {
+    switch (((struct Obj20858 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f34) {
     case 0:
         if (func_021BB468((int)p, (int *)(*(u32 *)(p + W(0x2c) * 4 + 0x160))) == 1) {
             buf[1] = 3;
@@ -103,7 +106,7 @@ void func_021B8180(u8 *p)
         func_021BB97C(p, W(0x150));
         func_021BB99C((int)p, W(0x150), 0, W(0x38));
         func_021BB714(p, (u32 *)W(0x150), 2);
-        func_021BB7E8(p, (u32 *)W(0x150), func_021BC228((int)p, *(u16 *)(*(u8 **)(p + 0x280) + 0x44)));
+        func_021BB7E8(p, (u32 *)W(0x150), func_021BC228((int)p, ((struct Obj20859 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f44));
         func_021BB98C(p, W(0x150));
         break;
     case 18:

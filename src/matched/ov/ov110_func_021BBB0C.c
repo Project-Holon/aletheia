@@ -15,6 +15,7 @@
  *   func_021BC7DC 0x021BC7DC thumb ov110
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj05289.h"
 typedef unsigned char u8;
 extern unsigned func_021BAC4C(u8 *);
 struct Descriptor;
@@ -31,12 +32,12 @@ int func_021BBB0C(u8 *p, int a)
     unsigned owner;
     int ready;
     int result;
-    owner = func_021BAC4C(*(u8 **)p);
+    owner = func_021BAC4C(*(u8 * *)&((struct Obj05289 *)p)->f0);
     ready = 1;
     if (a) {
         if (p[0xa0]) {
-            if (func_0201C6C4((struct PrintSys *)owner, (void *)((unsigned)func_02045770(*(void **)(p + 0x9c)))) == 0) {
-                func_02045334(*(void **)(p + 0x9c));
+            if (func_0201C6C4((struct PrintSys *)owner, (void *)((unsigned)func_02045770(((struct Obj05289 *)p)->f9C))) == 0) {
+                func_02045334(((struct Obj05289 *)p)->f9C);
                 p[0xa0] = 0;
             }
         }

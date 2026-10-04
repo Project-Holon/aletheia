@@ -12,6 +12,7 @@
  * symbols:
  *   func_02062D08    0x02062D08  arm
  */
+#include "../include/Obj07015.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ int func_02062F00(void *s, u32 i)
     u32 r = func_02062D08(s, i);
 
     if (r != 0) {
-        *(u32 *)((u8 *)s + 0x10) = 0;
+        ((struct Obj07015 *)s)->f10 = 0;
     }
     return r;
 }

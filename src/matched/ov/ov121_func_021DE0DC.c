@@ -15,6 +15,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj08099.h"
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Point;
 extern void func_020414EC(unsigned);
@@ -29,10 +30,10 @@ void func_021DE0DC(char *p)
     Point pt;
     func_020414EC(4);
     func_020409B4(4);
-    func_0204B3DC(*(void **)(p+0x1c),0);
+    func_0204B3DC(((struct Obj08099 *)p)->f1C,0);
     pt.x=184;
     pt.y=112;
-    func_0204B404(*(void **)(p+0x20),&pt,*(unsigned *)(p+0x98));
-    func_0204B3DC(*(void **)(p+0x20),0);
+    func_0204B404(((struct Obj08099 *)p)->f20,&pt,((struct Obj08099 *)p)->f98);
+    func_0204B3DC(((struct Obj08099 *)p)->f20,0);
     func_02040588(6,0);
 }

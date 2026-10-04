@@ -14,6 +14,7 @@
  *
  * Calls 0x0204AFD8 on +0x138, 0x0204ADA4 on +0x134 and 0x02049238 on +0x128 of the second argument.
  */
+#include "../include/Obj09213.h"
 
 typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
@@ -22,7 +23,7 @@ extern void func_02049238(int);
 
 void func_021C533C(void *a, char *q)
 {
-    func_0204AFD8(*(int *)(q + 0x138));
-    func_0204ADA4(*(int *)(q + 0x134));
-    func_02049238(*(int *)(q + 0x128));
+    func_0204AFD8(((struct Obj09213 *)q)->f138);
+    func_0204ADA4(((struct Obj09213 *)q)->f134);
+    func_02049238(((struct Obj09213 *)q)->f128);
 }

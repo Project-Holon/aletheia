@@ -15,6 +15,7 @@
  *   func_02028218 0x02028218 thumb
  *   _s32_div_f 0x0209C0A4 arm
  */
+#include "../include/Obj00274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,11 +37,11 @@ int func_021C45C0(u8 *p)
                 p[0xB] = 2;
                 return 0;
             }
-            **(u16 **)(p + 0x1C) = 4;
+            **(u16 * *)&((struct Obj00274 *)p)->f1C = 4;
             func_020061E4(0x54E);
             (*(u8 **)(p + 0x1C))[2] = 0;
             (*(u8 **)(p + 0x1C))[3] = 0;
-            func_0202822C(*(void **)(p + 0x128), 1);
+            func_0202822C(((struct Obj00274 *)p)->f128, 1);
             return 1;
         }
         if (p[0x16] == 5) {
@@ -49,7 +50,7 @@ int func_021C45C0(u8 *p)
             return 0;
         }
         (*(u8 **)(p + 0x1C))[2] = p[0x16];
-        **(u16 **)(p + 0x1C) = (*(u8 **)(p + 0x1C))[2];
+        **(u16 * *)&((struct Obj00274 *)p)->f1C = (*(u8 **)(p + 0x1C))[2];
         (*(u8 **)(p + 0x1C))[3] = p[0x17];
         func_020061E4(0x54D);
         return 1;
@@ -77,14 +78,14 @@ int func_021C45C0(u8 *p)
     }
     func_020061E4(0x54C);
     if (p[0x16] < 4) {
-        func_02028218(*(void **)(p + 0x128), 0);
-        func_02028218(*(void **)(p + 0x12C), 0);
+        func_02028218(((struct Obj00274 *)p)->f128, 0);
+        func_02028218(((struct Obj00274 *)p)->f12C, 0);
     } else if (p[0x16] == 4) {
-        func_02028218(*(void **)(p + 0x128), 1);
-        func_02028218(*(void **)(p + 0x12C), 0);
+        func_02028218(((struct Obj00274 *)p)->f128, 1);
+        func_02028218(((struct Obj00274 *)p)->f12C, 0);
     } else if (p[0x16] == 5) {
-        func_02028218(*(void **)(p + 0x128), 0);
-        func_02028218(*(void **)(p + 0x12C), 1);
+        func_02028218(((struct Obj00274 *)p)->f128, 0);
+        func_02028218(((struct Obj00274 *)p)->f12C, 1);
     }
     p[0x1A] = p[0x16];
     return 0;

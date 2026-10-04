@@ -18,6 +18,7 @@
  *   func_0203101C  0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  */
+#include "../include/Obj00014.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,11 +38,11 @@ extern u32 func_02028590(u32, u32, u32, u32);
 
 void func_021BAC74(char *p)
 {
-    *(u32 *)(p + 0x5c) = (u32)func_02045B38(0, 2, 0xb3, 0xb);
-    *(u32 *)(p + 0x58) = (u32)func_0201D7EC(0x17, 0, 0, 0, 0xb);
-    *(u32 *)(p + 0x60) = (u32)func_0201EC64(0xb);
-    *(u32 *)(p + 0x68) = func_0201C440((void *)0xb);
-    *(u32 *)(p + 0x64) = (u32)func_020457B0(0x400, 0xb);
-    *(u32 *)(p + 0x70) = (u32)func_0203101C(0xb, 0xb, 1, 4);
-    *(u32 *)(p + 0x74) = func_02028590(0xf, 1, 0, 0xb);
+    *(u32 *)&((struct Obj00014 *)p)->f5C = (u32)func_02045B38(0, 2, 0xb3, 0xb);
+    *(u32 *)&((struct Obj00014 *)p)->f58 = (u32)func_0201D7EC(0x17, 0, 0, 0, 0xb);
+    *(u32 *)&((struct Obj00014 *)p)->f60 = (u32)func_0201EC64(0xb);
+    *(u32 *)&((struct Obj00014 *)p)->f68 = func_0201C440((void *)0xb);
+    *(u32 *)&((struct Obj00014 *)p)->f64 = (u32)func_020457B0(0x400, 0xb);
+    ((struct Obj00014 *)p)->f70 = (u32)func_0203101C(0xb, 0xb, 1, 4);
+    ((struct Obj00014 *)p)->f74 = func_02028590(0xf, 1, 0, 0xb);
 }

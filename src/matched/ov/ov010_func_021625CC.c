@@ -8,5 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj07293.h"
 typedef unsigned short u16;
-void *func_021625CC(char *p, unsigned i) { char *r=*(char **)(p+0x24); if(!r) return 0; if(i>=*(u16 *)(p+0x16)) return 0; return r+i*20; }
+void *func_021625CC(char *p, unsigned i) { char *r=*(char * *)&((struct Obj07293 *)p)->f24; if(!r) return 0; if(i>=((struct Obj07293 *)p)->f16) return 0; return r+i*20; }

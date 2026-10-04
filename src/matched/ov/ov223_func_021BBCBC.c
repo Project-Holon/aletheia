@@ -15,6 +15,7 @@
  *   func_021BABFC 0x021BABFC thumb ov223
  *   func_021B98F4 0x021B98F4 thumb ov223
  */
+#include "../include/Obj05570.h"
 extern void func_021BB35C(unsigned char *),func_021B98F4(unsigned char *),func_021BAC6C(unsigned char *);
 extern int func_021BABFC(unsigned char *);
-int func_021BBCBC(unsigned char *p){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_021BB35C(p);func_021BAC6C(p);func_021BABFC(p);func_021B98F4(p);*(unsigned *)(p+16)=0;return 7;}
+int func_021BBCBC(unsigned char *p){*(volatile unsigned short *)0x04000050=0;*(volatile unsigned short *)0x04001050=0;func_021BB35C(p);func_021BAC6C(p);func_021BABFC(p);func_021B98F4(p);((struct Obj05570 *)p)->f10=0;return 7;}

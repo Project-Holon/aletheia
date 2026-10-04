@@ -23,6 +23,8 @@
  *   func_021BB56C  0x021BB56C  thumb  ov091
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj03679.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,23 +54,23 @@ void func_021BAFA0(u8 *a, u8 *s, int k)
     if (k == 1) {
         if ((u8)(a[0xc] + 253) <= 1)
             func_021BB050((int)a, s, 8);
-        else if (func_021B9A84((u32)a) == 1 && *(int *)(s + 0x1c) < 6)
+        else if (func_021B9A84((u32)a) == 1 && ((struct Obj03679 *)s)->f1C < 6)
             func_021BB050((int)a, s, 8);
         else
             func_021BB050((int)a, s, 6);
-        func_0204B878((struct Obj *)(*(int *)(s + 0x34)), 1);
+        func_0204B878((struct Obj *)(((struct Obj03679 *)s)->f34), 1);
         p = get(s, 0x1a, 0x13, b1);
     } else {
-        if ((a[0xc] == 3 && *(int *)(a + 0x30) == s[4]) ||
-            (a[0xc] == 4 && *(int *)(a + 0x34) == s[4]))
+        if ((a[0xc] == 3 && ((struct Obj00009 *)a)->f30 == s[4]) ||
+            (a[0xc] == 4 && ((struct Obj00009 *)a)->f34 == s[4]))
             func_021BB050((int)a, s, 5);
-        else if (func_021B9A84((u32)a) == 1 && *(int *)(s + 0x1c) < 6)
+        else if (func_021B9A84((u32)a) == 1 && ((struct Obj03679 *)s)->f1C < 6)
             func_021BB050((int)a, s, 5);
         else
             func_021BB050((int)a, s, 3);
-        func_0204B878((struct Obj *)(*(int *)(s + 0x34)), 0);
+        func_0204B878((struct Obj *)(((struct Obj03679 *)s)->f34), 0);
         p = get(s, 0x18, 0x10, b0);
     }
-    func_0204B404((struct Obj *)(*(int *)(s + 0x30)), (const struct Vec2 *)p, 0);
-    *(int *)(s + 0x10) = k;
+    func_0204B404((struct Obj *)(((struct Obj03679 *)s)->f30), (const struct Vec2 *)p, 0);
+    ((struct Obj03679 *)s)->f10 = k;
 }

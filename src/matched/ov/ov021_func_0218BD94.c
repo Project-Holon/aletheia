@@ -13,6 +13,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0218BF84  0x0218BF84  thumb  ov021
  */
+#include "../include/Obj01114.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,11 +26,11 @@ void func_0218BD94(u8 *s)
 {
     u32 i;
 
-    if (*(u8 **)(s + 0x1cc) != 0) {
-        for (i = 0; i < *(u32 *)(s + 0x1c8); i++)
-            func_0218BF84(*(u8 **)(s + 0x1cc) + i * 0x18);
-        func_020307B0(*(u8 **)(s + 0x1cc));
-        *(u32 *)(s + 0x1c8) = 0;
-        *(u8 **)(s + 0x1cc) = 0;
+    if (*(u8 * *)&((struct Obj01114 *)s)->f1CC != 0) {
+        for (i = 0; i < ((struct Obj01114 *)s)->f1C8; i++)
+            func_0218BF84(*(u8 * *)&((struct Obj01114 *)s)->f1CC + i * 0x18);
+        func_020307B0(*(u8 * *)&((struct Obj01114 *)s)->f1CC);
+        ((struct Obj01114 *)s)->f1C8 = 0;
+        *(u8 * *)&((struct Obj01114 *)s)->f1CC = 0;
     }
 }

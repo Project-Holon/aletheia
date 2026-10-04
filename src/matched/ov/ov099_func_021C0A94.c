@@ -14,6 +14,7 @@
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021BC090 0x021BC090 thumb ov099
  */
+#include "../include/Obj00008.h"
 extern int func_021BA928(char *,int);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
@@ -27,12 +28,12 @@ int func_021C0A94(char *p,int ret) {
     if(r==-1)return ret;
     if(r==0){
         func_021BAAB8(p,74,0);
-        *(int *)(p+0x1cc)=21;
+        ((struct Obj00008 *)p)->f1CC=21;
     }else {
         func_021BA8EC(p);
         func_021BAAB8(p,14,0);
         func_021BC090(p);
-        *(int *)(p+0x1cc)=136;
+        ((struct Obj00008 *)p)->f1CC=136;
     }
     return ret;
 }

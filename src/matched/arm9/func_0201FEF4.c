@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj02993.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,12 +27,12 @@ extern void func_0201F9E8(u8 *o, u8 *out);
 
 void func_0201FEF4(u8 *o)
 {
-    func_0201C6EC((struct PrintSys *)(*(u32 *)(o + 0x18)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(o + 0x18)));
-    func_020307B0(*(void **)(o + 0x14));
-    func_0201F7A8(*(void **)(o + 4), 0);
-    func_0201D83C(*(void **)(o + 0x1c));
-    func_0201F868(*(void **)o);
-    func_020452E8(*(void **)(o + 4));
+    func_0201C6EC((struct PrintSys *)(((struct Obj02993 *)o)->f18));
+    func_0201C4C0((struct PrintSys *)(((struct Obj02993 *)o)->f18));
+    func_020307B0(((struct Obj02993 *)o)->f14);
+    func_0201F7A8(((struct Obj02993 *)o)->f4, 0);
+    func_0201D83C(((struct Obj02993 *)o)->f1C);
+    func_0201F868(((struct Obj02993 *)o)->f0);
+    func_020452E8(((struct Obj02993 *)o)->f4);
     func_0201F9E8(o, 0);
 }

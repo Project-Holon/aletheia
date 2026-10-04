@@ -33,6 +33,7 @@
  * func_0200EF78 is matched, so no EXACT entry covers either address.  It closes
  * when one of the two is matched, or when the image acquires a second caller.
  */
+#include "../include/Obj00606.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -46,7 +47,7 @@ void sub_0200EEAC(void *ctx, void *list)
     u32 i;
 
     for (i = 0; i < 0x40; i++, rec += 0x50) {
-        if (*(u32 *)rec & 1) {
+        if (((struct Obj00606 *)rec)->f0 & 1) {
             func_0200EF78(func_0200F104(ctx), rec, ctx);
         }
     }

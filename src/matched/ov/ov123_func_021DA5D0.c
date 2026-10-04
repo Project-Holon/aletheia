@@ -23,6 +23,7 @@
  *   func_02034A5C  0x02034A5C  arm
  *   ov114_id       0x00000072  data
  */
+#include "../include/Obj02479.h"
 
 typedef unsigned char  u8;
 struct TaskMenu;
@@ -40,17 +41,17 @@ extern unsigned char ov114_id[];
 
 int func_021DA5D0(int a, int b, int c, char *obj)
 {
-    if (*(int *)(obj + 0x14))
-        func_02027858((struct TaskMenu *)(*(int *)(obj + 0x14)));
-    func_021D941C((u8 *)(*(int *)(obj + 0x10)));
-    func_021D9A1C((u8 *)(*(int *)(obj + 0x0c)));
-    if (*(int *)(obj + 0x04))
-        func_020307B0((void *)(*(int *)(obj + 0x04)));
-    if (*(int *)(obj + 0x24))
-        func_020307B0((void *)(*(int *)(obj + 0x24)));
-    if (*(int *)(obj + 0x08)) {
-        func_021B9838((u8 *)(*(int *)(obj + 0x08)));
-        *(int *)(obj + 0x08) = 0;
+    if (((struct Obj02479 *)obj)->f14)
+        func_02027858((struct TaskMenu *)(((struct Obj02479 *)obj)->f14));
+    func_021D941C((u8 *)(((struct Obj02479 *)obj)->f10));
+    func_021D9A1C((u8 *)(((struct Obj02479 *)obj)->fC));
+    if (((struct Obj02479 *)obj)->f4)
+        func_020307B0((void *)(((struct Obj02479 *)obj)->f4));
+    if (((struct Obj02479 *)obj)->f24)
+        func_020307B0((void *)(((struct Obj02479 *)obj)->f24));
+    if (((struct Obj02479 *)obj)->f8) {
+        func_021B9838((u8 *)(((struct Obj02479 *)obj)->f8));
+        ((struct Obj02479 *)obj)->f8 = 0;
     }
     if (func_0203CD98())
         func_02156DC4(0, 0);

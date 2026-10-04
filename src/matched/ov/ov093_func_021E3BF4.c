@@ -18,6 +18,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021E3C5C  0x021E3C5C  thumb  ov093
  */
+#include "../include/Obj13514.h"
 
 typedef unsigned char u8;
 
@@ -38,7 +39,7 @@ void func_021E3BF4(int u, void *a, int c)
         func_021C7CF4(a, c);
         p = func_021C88A4(a, 0x15, c);
         p[8] = c;
-        *(int *)(p + 4) = 7;
+        ((struct Obj13514 *)p)->f4 = 7;
         func_021C88C8(a, p);
         func_021E3C5C(a, c, 0);
         p = func_021C88A4(a, 4, c);

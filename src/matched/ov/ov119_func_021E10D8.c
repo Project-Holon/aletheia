@@ -19,6 +19,7 @@
  *   func_02028590 0x02028590 thumb
  *   func_02027F60 0x02027F60 thumb
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct GfFont;
@@ -38,16 +39,16 @@ extern void *func_02028590(u32,u32,u32,u32);
 extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 void func_021E10D8(char *p)
 {
-    *(void **)(p+0x724)=func_0201EC64(*(u16 *)(p+0x5f4));
-    *(void **)(p+0x720)=func_02045B38(0,2,159,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x728)=func_0201D7EC(23,0,0,0,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x730)=func_020457B0(128,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x734)=func_020457B0(128,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x738)=func_020457B0(128,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x73c)=func_020457B0(128,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x740)=(void *)func_0201C440((void *)(*(u16 *)(p+0x5f4)));
+    ((struct Obj00001 *)p)->f724=func_0201EC64(((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f720=func_02045B38(0,2,159,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f728=func_0201D7EC(23,0,0,0,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f730=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f734=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f738=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f73C=func_020457B0(128,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f740=(void *)func_0201C440((void *)(((struct Obj00001 *)p)->f5F4));
     func_0201DD78(1,2,15);
-    *(void **)(p+0x744)=func_0203101C(*(u16 *)(p+0x5f4),*(u16 *)(p+0x5f4),2,0);
-    *(void **)(p+0x74c)=func_02028590(15,1,0,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x6b0)=func_02027F60(6,9,*(u32 *)(p+0x728),*(u32 *)(p+0x740),*(u16 *)(p+0x5f4));
+    ((struct Obj00001 *)p)->f744=func_0203101C(((struct Obj00001 *)p)->f5F4,((struct Obj00001 *)p)->f5F4,2,0);
+    ((struct Obj00001 *)p)->f74C=func_02028590(15,1,0,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f6B0=func_02027F60(6,9,*(u32 *)&((struct Obj00001 *)p)->f728,*(u32 *)&((struct Obj00001 *)p)->f740,((struct Obj00001 *)p)->f5F4);
 }

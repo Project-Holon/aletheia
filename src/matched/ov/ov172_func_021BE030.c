@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24116.h"
 typedef unsigned int u32;
 void func_021BE030(void *p, u32 v)
 {
-    *(u32 *)((char *)p + 0x10) = v;
+    ((struct Obj24116 *)p)->f10 = v;
 }

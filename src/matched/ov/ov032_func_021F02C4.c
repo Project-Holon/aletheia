@@ -22,6 +22,8 @@
  *   func_021659F0  0x021659F0  thumb  ov010
  *   func_021F13A0  0x021F13A0  thumb  ov032
  */
+#include "../include/Obj00007.h"
+#include "../include/Obj20416.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,41 +47,41 @@ int func_021F02C4(u8 *p)
 {
     int r;
 
-    switch (*(int *)(p + 0x6C)) {
+    switch (((struct Obj00007 *)p)->f6C) {
     case 0:
-        if (*(int *)(*(u8 **)(p + 0x50) + 0x2C) != 0)
+        if (((struct Obj20416 *)(*(u8 * *)&((struct Obj00007 *)p)->f50))->f2C != 0)
             break;
-        (*(int *)(p + 0x6C))++;
+        (((struct Obj00007 *)p)->f6C)++;
         break;
     case 1:
-        r = func_021F180C(p, *(int *)(p + 0x4C), *(int *)(p + 0x5C));
-        if (*(int *)(p + 0x5C) == 0) {
+        r = func_021F180C(p, ((struct Obj00007 *)p)->f4C, ((struct Obj00007 *)p)->f5C);
+        if (((struct Obj00007 *)p)->f5C == 0) {
             if (r != 0) {
                 func_021F05E8(p, 4, 2);
                 func_021F0DD8(0x549);
             }
-            if (*(u8 **)(p + 0x50) != 0) {
-                func_021F1144(p, *(u8 **)(p + 0x50), (void *)(*(int *)(p + 0x4C)), 0, r == 0, 0);
-                func_021F0EA4(*(u8 **)(p + 0x50), 1);
+            if (*(u8 * *)&((struct Obj00007 *)p)->f50 != 0) {
+                func_021F1144(p, *(u8 * *)&((struct Obj00007 *)p)->f50, (void *)(((struct Obj00007 *)p)->f4C), 0, r == 0, 0);
+                func_021F0EA4(*(u8 * *)&((struct Obj00007 *)p)->f50, 1);
             }
             return 1;
         }
         func_021F05E8(p, 4, 2);
-        (*(int *)(p + 0x6C))++;
+        (((struct Obj00007 *)p)->f6C)++;
         break;
     case 2:
         func_021F0AC0(p);
         func_021F0B10(p, 1, p + 0xA8);
-        func_021F06E0(p, *(int *)(p + 0x4C), p[0x57]);
-        (*(int *)(p + 0x6C))++;
+        func_021F06E0(p, ((struct Obj00007 *)p)->f4C, p[0x57]);
+        (((struct Obj00007 *)p)->f6C)++;
         break;
     case 3:
         if (p[0x7C] != 0) {
             p[0x54] = p[0x7C];
-            func_02165AC4((struct Queue *)(*(int *)(p + 0x3C)), (struct Rec *)(*(int *)(p + 0x4C)), (u16 *)(p + 0x4A), p[0x54]);
-            p[0x55] = func_021659F0((u8 *)(*(int *)(p + 0x3C)), p[0x54]);
+            func_02165AC4((struct Queue *)(((struct Obj00007 *)p)->f3C), (struct Rec *)(((struct Obj00007 *)p)->f4C), (u16 *)(p + 0x4A), p[0x54]);
+            p[0x55] = func_021659F0((u8 *)(((struct Obj00007 *)p)->f3C), p[0x54]);
         }
-        func_021F13A0(p, *(int *)(p + 0x4C), p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
+        func_021F13A0(p, ((struct Obj00007 *)p)->f4C, p[0x55], 1, (p[0x7C] != 0 ? 1 : 0) + 1);
         p[0x7C] = p[0x54];
         func_021F0DD8(0x64A);
         return 1;

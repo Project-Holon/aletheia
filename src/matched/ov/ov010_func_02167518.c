@@ -11,6 +11,7 @@
  *   func_02030734 0x02030734 arm
  *   d_02172A18 0x02172A18 data a1
  */
+#include "../include/Obj07311.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,8 +21,8 @@ void *func_02167518(int a, void *b, u16 heap, int c) {
     u8 *p;
     p = func_02030734(heap, 148, 1, d_02172A18, 97);
     p[142] = a;
-    *(void **)p = b;
-    *(u16 *)(p+140) = heap;
+    ((struct Obj07311 *)p)->f0 = b;
+    ((struct Obj07311 *)p)->f8C = heap;
     p[144] = c;
     return p;
 }

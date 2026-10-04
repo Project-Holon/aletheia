@@ -17,6 +17,9 @@
  * func_021C630C 0x021C630C thumb ov136
  * func_021C71A8 0x021C71A8 thumb ov136
  */
+#include "../include/Obj00127.h"
+#include "../include/Obj23656.h"
+#include "../include/Obj23657.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,14 +33,14 @@ void func_021C758C(u8 *p)
 {
     u16 n;
     func_021C73C8(p); func_021C7420(p); func_021C5BE0(p); func_021C5B40(p);
-    if(*(u16 *)(*(u8 **)(p+8)+0x2fc)<=10) {
-        func_021C66B8(*(void **)(p+8),0,0);
-        func_021C66B8(*(void **)(p+8),1,0);
+    if(((struct Obj23656 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f2FC<=10) {
+        func_021C66B8(((struct Obj00127 *)p)->f8,0,0);
+        func_021C66B8(((struct Obj00127 *)p)->f8,1,0);
     }
-    n=*(u16 *)(*(u8 **)(p+8)+0x2fe);
-    if(*(u16 *)(p+28)>n) { *(u16 *)(p+28)=n; p[30]=0; }
+    n=((struct Obj23657 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f2FE;
+    if(((struct Obj00127 *)p)->f1C>n) { ((struct Obj00127 *)p)->f1C=n; p[30]=0; }
     func_021C5C00(p);
-    func_0202CC70(**(void ***)(p+8),10);
+    func_0202CC70(**(void ** *)&((struct Obj00127 *)p)->f8,10);
     func_021C630C(p,1);
     func_021C71A8(p,1,18);
 }

@@ -15,6 +15,7 @@
  *   func_02049238 0x02049238 arm
  *   func_02049B40 0x02049B40 arm
  */
+#include "../include/Obj00137.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 void func_02200AB4(u8 *p)
 {
     void *h;
-    if (*(u32 *)(p + 0x12e0) == 1 && *(u32 *)(p + 0x12e4) == 0) {
+    if (((struct Obj00137 *)p)->f12E0 == 1 && ((struct Obj00137 *)p)->f12E4 == 0) {
         h = func_020490F4(0x60, 0x48);
         func_02049BDC(h, 4, 4, 0x160, 0x160, 0xa0, 0x48);
         func_02049658(h, 0xe, 5, 0, 0x1c00, 0, 0x48);

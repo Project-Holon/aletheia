@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22544.h"
 typedef unsigned char u8;
 void func_021F6230(u8 *p, int a)
 {
-    *(int *)(p + 0x10) = a;
+    ((struct Obj22544 *)p)->f10 = a;
 }

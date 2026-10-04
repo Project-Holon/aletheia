@@ -15,6 +15,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj06132.h"
 struct Bank;
 struct PrintSys;
 struct Rec;
@@ -25,9 +26,9 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0204B1CC(struct Bank *bank);
 void func_021F022C(char *p)
 {
-    func_02045C04(*(void **)(p + 0x48));
-    func_0201D83C(*(void **)(p + 0x44));
-    func_0201C6EC(*(void **)(p + 0x40));
-    func_0201C4C0(*(void **)(p + 0x40));
-    func_0204B1CC(*(void **)(p + 0x14));
+    func_02045C04(((struct Obj06132 *)p)->f48);
+    func_0201D83C(((struct Obj06132 *)p)->f44);
+    func_0201C6EC(((struct Obj06132 *)p)->f40);
+    func_0201C4C0(((struct Obj06132 *)p)->f40);
+    func_0204B1CC(((struct Obj06132 *)p)->f14);
 }

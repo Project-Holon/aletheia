@@ -16,6 +16,7 @@
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj08363.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,8 +34,8 @@ void func_02210BFC(u8 *p,int mode)
     if(mode!=2) return;
     q=p+4+76*func_022110D4(p,(*(u8 **)p)[32]);
     if(((Level *)q)->level<100U) {
-        denominator=*(u32 *)(q+36)-*(u32 *)(q+32);
-        numerator=*(u32 *)(q+28)-*(u32 *)(q+32);
+        denominator=((struct Obj08363 *)q)->f24-((struct Obj08363 *)q)->f20;
+        numerator=((struct Obj08363 *)q)->f1C-((struct Obj08363 *)q)->f20;
     } else { denominator=0; numerator=0; }
     amount=func_0202D01C(numerator,denominator,64);
     for(i=0;i<8;i++) {

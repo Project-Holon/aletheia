@@ -13,6 +13,7 @@
  *   func_021D11D8  0x021D11D8  thumb
  *   func_021D1194  0x021D1194  thumb
  */
+#include "../include/Obj00029.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,12 +27,12 @@ int func_0216A280(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 0x48);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = *(int *)&((struct Obj00029 *)a0)->f48;
     a0 = func_021D11D8(a0);
 loc_0216A28C:
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0 + 0x48);
+a0 = *(int *)&((struct Obj00029 *)t4)->f18;
+a0 = *(int *)&((struct Obj00029 *)a0)->f48;
     a0 = func_021D1194(a0);
 loc_0216A294:
     return a0;}

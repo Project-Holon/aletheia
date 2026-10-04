@@ -12,6 +12,7 @@
  * symbols:
  *   func_021D4C6C  0x021D4C6C  thumb  ov093
  */
+#include "../include/Obj21628.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ u16 func_021EEC20(W *p, u8 **out)
         func_021D4C6C(&q);
         r = q;
         *out = r + 4;
-        return *(u16 *)(r + 2);
+        return ((struct Obj21628 *)r)->f2;
     }
     *out = p->d;
     return p->h12;

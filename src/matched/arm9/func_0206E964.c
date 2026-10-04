@@ -15,18 +15,20 @@
  *   python tools/match.py one --src src/matched/func_0206E964.c \
  *       --func func_0206E964 --addr 0x0206E964 --cc 1.1p1 --arm
  */
+#include "../include/Obj04802.h"
+#include "../include/Obj11639.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 unsigned char *func_0206E964(unsigned char *p)
 {
-    unsigned char *q = p + *(u16 *)(p + 12);
+    unsigned char *q = p + ((struct Obj04802 *)p)->fC;
 
-    if (*(u16 *)(p + 14) == 1) {
-        if (*(u32 *)p == 0x30585442u)
-            return p + *(u32 *)q;
+    if (((struct Obj04802 *)p)->fE == 1) {
+        if (((struct Obj04802 *)p)->f0 == 0x30585442u)
+            return p + ((struct Obj11639 *)q)->f0;
         return 0;
     }
-    return p + *(u32 *)(q + 4);
+    return p + ((struct Obj11639 *)q)->f4;
 }

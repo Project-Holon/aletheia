@@ -35,6 +35,7 @@
  *   func_02064140   0x02064140  arm
  *   func_020643CC   0x020643CC  arm
  */
+#include "../include/Obj16437.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed short   s16;
@@ -99,7 +100,7 @@ void func_0206469C(struct Obj0206469C *o, void *bank)
     func_02062FF0(o, bank);
     o->unk_30 = 0;
 
-    if (*(u16 *)(o->unk_04 + 4) == 0) {
+    if (((struct Obj16437 *)(o->unk_04))->f4 == 0) {
         return;
     }
 

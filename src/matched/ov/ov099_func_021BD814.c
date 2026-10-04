@@ -11,6 +11,7 @@
  *   func_0203D7B0 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
+#include "../include/Obj13692.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0203D7B0(int);
@@ -20,7 +21,7 @@ int func_021BD814(char *p, int v)
     int zero = 0;
     func_0203D7B0(zero);
     func_0203D7BC(zero);
-    *(u32 *)(p + 0x1e0) = zero;
-    *(u32 *)(p + 0x1cc) = 0x91;
+    ((struct Obj13692 *)p)->f1E0 = zero;
+    ((struct Obj13692 *)p)->f1CC = 0x91;
     return v;
 }

@@ -14,6 +14,9 @@
  *   func_02021FD8 0x02021FD8 thumb
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj02752.h"
+#include "../include/Obj20443.h"
+#include "../include/Obj20444.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,15 +33,15 @@ void func_021F1F9C(void *task, u8 *s)
 
     if (c < 2) {
         if (s[1]++ >= s[2]) {
-            func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(*(char **)(s + 0xc) + 0xac)), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
+            func_02021FD8((struct Chan02021FD8 *)(((struct Obj20443 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, (c % 2) << 2, 0x7fff);
             s[0]++;
             s[1] = 0;
         }
     } else {
         int *r;
 
-        func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(*(char **)(s + 0xc) + 0xac)), 3, s[3], 0x10, 0, 0x7fff);
-        r = *(int **)(s + 0x10);
+        func_02021FD8((struct Chan02021FD8 *)(((struct Obj20444 *)(*(char * *)&((struct Obj02752 *)s)->fC))->fAC), 3, s[3], 0x10, 0, 0x7fff);
+        r = *(int * *)&((struct Obj02752 *)s)->f10;
         if (r != 0)
             (*r)--;
         func_02031194(task);

@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj08946.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -23,7 +24,7 @@ int func_02073838(u8 *o, int n, u8 *src) {
         m |= 1u << src[i];
     }
     if (func_0207292C(m) == 0) return 0;
-    *(u32 *)(o + 0x50) = n;
-    *(u32 *)(o + 0x4c) = m;
+    ((struct Obj08946 *)o)->f50 = n;
+    ((struct Obj08946 *)o)->f4C = m;
     return 1;
 }

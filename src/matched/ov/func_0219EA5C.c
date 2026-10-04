@@ -22,6 +22,7 @@
  *   func_021BB394  0x021BB394  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12077.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,8 +35,8 @@ extern u32 func_021BB394(u32);
 
 int func_0219EA5C(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(a)) = func_021BB394(func_0216D530(func_0216D67C(b, b, c, d)));
-*(u8 *)((u8 *)(a) + 6) = 2;
+((struct Obj12077 *)((u8 *)(a)))->f0 = func_021BB394(func_0216D530(func_0216D67C(b, b, c, d)));
+((struct Obj12077 *)((u8 *)(a)))->f6 = 2;
 return 2;
 }
 

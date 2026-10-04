@@ -37,6 +37,7 @@
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021CD64C 0x021CD64C thumb ov093
  */
+#include "../include/Obj04359.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -86,8 +87,8 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
     changed = func_021C0404(p, a, (void *)c);
     mode = func_021D62A8(a);
     if (mode == 3 && changed == 0) { reason = 4; goto done; }
-    if (*(int *)(p + 0x1f78) == 4) { reason = 22; goto done; }
-    if (*(int *)(p + 0x1f78) == 2) { reason = 23; goto done; }
+    if (((struct Obj04359 *)p)->f1F78 == 4) { reason = 22; goto done; }
+    if (((struct Obj04359 *)p)->f1F78 == 2) { reason = 23; goto done; }
     if (d == 0) {
         int index = func_021D5778((struct UtilWork *)a, c);
         if (index != 4 && func_021D5584((struct UtilWork *)a, index) == 0) { reason = 1; goto done; }
@@ -109,7 +110,7 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
         }
         if (func_021D62C4(a, 25) && c != func_021D67A8(a)) { reason = 17; goto done; }
         if (func_021D62C4(a, 11) && func_0201C314((void *)c) == 0) { reason = 10; goto done; }
-        if (func_021EF948(3) && func_021EF91C(*(void **)(p + 8), a, c)) { reason = 12; goto done; }
+        if (func_021EF948(3) && func_021EF91C(((struct Obj04359 *)p)->f8, a, c)) { reason = 12; goto done; }
     }
     if (func_021C031C(p, a)) { reason = 5; goto done; }
     if (mode == 1 && func_021D7AF0(25)) { reason = 3; goto done; }
@@ -124,7 +125,7 @@ done:
         func_021C5480(p, a, 598);
     } else if (changed && mode == 3) {
         func_021C557C(p, a, mode, 0);
-        func_021CD64C(*(void **)(p + 12), 91, 303, func_021D5440(a), c, 0xffff0000);
+        func_021CD64C(((struct Obj04359 *)p)->fC, 91, 303, func_021D5440(a), c, 0xffff0000);
     }
     return 0;
 }

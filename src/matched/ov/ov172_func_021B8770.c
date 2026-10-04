@@ -24,6 +24,8 @@
  *   func_021BA1E8 0x021BA1E8 thumb ov172
  *   func_021BE0D4 0x021BE0D4 thumb ov172
  */
+#include "../include/Obj00593.h"
+#include "../include/Obj08258.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,72 +53,72 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
     char *base;
     u32 v;
     self = func_0203D1A4((struct Link *)((u32)func_020399A8()));
-    switch (*(u8 *)(msg + 1)) {
+    switch (((struct Obj08258 *)msg)->f4) {
     case 0:
         if (id == self)
             break;
-        *(u8 *)(q + 0x183) |= (u8)(1 << id);
+        ((struct Obj00593 *)q)->f183 |= (u8)(1 << id);
         break;
     case 1:
         v = msg[0];
-        *(u8 *)(q + 0x3ae) = v;
+        ((struct Obj00593 *)q)->f3AE = v;
         if (v != 0xff) {
-            func_021BE210(*(u8 **)(q + 0x3dc), (u8)v);
+            func_021BE210(*(u8 * *)&((struct Obj00593 *)q)->f3DC, (u8)v);
         } else {
-            r = func_021BDFEC(*(void **)(q + 0x3dc));
-            func_021BE2E0(*(void **)(q + 0x3dc));
+            r = func_021BDFEC(((struct Obj00593 *)q)->f3DC);
+            func_021BE2E0(((struct Obj00593 *)q)->f3DC);
             func_021BA234(r);
         }
         break;
     case 3:
-        func_021B6EA8((void *)func_021BDFFC(*(void **)(q + 0x3dc)), msg[0]);
-        func_021BE0CC(*(void **)(q + 0x3dc), 0);
+        func_021B6EA8((void *)func_021BDFFC(((struct Obj00593 *)q)->f3DC), msg[0]);
+        func_021BE0CC(((struct Obj00593 *)q)->f3DC, 0);
         break;
     case 2:
-        base = (char *)func_021BDFDC(*(void **)(q + 0x3dc));
+        base = (char *)func_021BDFDC(((struct Obj00593 *)q)->f3DC);
         v = msg[0];
-        if (v == func_021BE078(*(void **)(q + 0x3dc)))
+        if (v == func_021BE078(((struct Obj00593 *)q)->f3DC))
             break;
-        func_021BE0A0(*(void **)(q + 0x3dc), v);
-        func_021B7740(*(void **)(q + 0x3dc), base, 1, 0);
+        func_021BE0A0(((struct Obj00593 *)q)->f3DC, v);
+        func_021B7740(((struct Obj00593 *)q)->f3DC, base, 1, 0);
         break;
     case 4:
         if (id == self)
             break;
-        *(u32 *)(q + 0x3c0) = 1;
+        ((struct Obj00593 *)q)->f3C0 = 1;
         break;
     case 5:
         if (id == self)
             break;
-        *(u32 *)(q + 0x3c8) = 1;
+        ((struct Obj00593 *)q)->f3C8 = 1;
         break;
     case 6:
         if (self != 0)
             break;
         *(u32 *)(q + id * 0x40 + 0x74) = 1;
-        *(u32 *)(q + 0x3b0) = 1;
+        ((struct Obj00593 *)q)->f3B0 = 1;
         break;
     case 7:
-        r = func_021BDFEC(*(void **)(q + 0x3dc));
+        r = func_021BDFEC(((struct Obj00593 *)q)->f3DC);
         if (id == self)
-            func_021BA1E8(r, *(char **)(q + 0x1a4), *(u16 *)(q + 0x19c), 0, *(int *)(q + 0x1a0));
+            func_021BA1E8(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0, ((struct Obj00593 *)q)->f1A0);
         else
-            func_021BA1E8(r, *(char **)(q + 0x1a4), *(u16 *)(q + 0x19c), 0x7f, *(int *)(q + 0x1a0));
+            func_021BA1E8(r, *(char * *)&((struct Obj00593 *)q)->f1A4, ((struct Obj00593 *)q)->f19C, 0x7f, ((struct Obj00593 *)q)->f1A0);
         break;
     case 8:
         if (self == 0) {
             *(u32 *)(q + id * 0x40 + 0x74) = 0;
-            *(u32 *)(q + 0x3b0) = 1;
+            ((struct Obj00593 *)q)->f3B0 = 1;
         }
-        func_021BE2E0(*(void **)(q + 0x3dc));
+        func_021BE2E0(((struct Obj00593 *)q)->f3DC);
         break;
     case 9:
-        if (id == *(u8 *)(q + 0x3ae))
-            *(u32 *)(q + 0x3b0) = 1;
-        func_021BE2E0(*(void **)(q + 0x3dc));
+        if (id == ((struct Obj00593 *)q)->f3AE)
+            ((struct Obj00593 *)q)->f3B0 = 1;
+        func_021BE2E0(((struct Obj00593 *)q)->f3DC);
         break;
     case 10:
-        func_021BE0D4(*(void **)(q + 0x3dc), 1);
+        func_021BE0D4(((struct Obj00593 *)q)->f3DC, 1);
         break;
     }
 }

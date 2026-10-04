@@ -17,20 +17,21 @@
  *   python tools/match.py one --src src/matched/sub_0202B584.c \
  *       --func sub_0202B584 --addr 0x0202B584 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00563.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 void sub_0202B584(void *obj)
 {
-    *(u16 *)obj = 0;
-    *(u32 *)((char *)obj + 4) = 0;
-    *(u32 *)((char *)obj + 8) = 0;
-    *(u32 *)((char *)obj + 0xc) = 0;
-    *(u32 *)((char *)obj + 0x10) = 0;
-    *(u32 *)((char *)obj + 0x14) = 0;
-    *(u32 *)((char *)obj + 0x18) = 0;
-    *(u32 *)((char *)obj + 0x1c) = 0;
-    *(u32 *)((char *)obj + 0x20) = 0;
-    *(u32 *)((char *)obj + 0x24) = 0;
+    ((struct Obj00563 *)obj)->f0 = 0;
+    ((struct Obj00563 *)obj)->f4 = 0;
+    ((struct Obj00563 *)obj)->f8 = 0;
+    ((struct Obj00563 *)obj)->fC = 0;
+    ((struct Obj00563 *)obj)->f10 = 0;
+    ((struct Obj00563 *)obj)->f14 = 0;
+    ((struct Obj00563 *)obj)->f18 = 0;
+    ((struct Obj00563 *)obj)->f1C = 0;
+    ((struct Obj00563 *)obj)->f20 = 0;
+    ((struct Obj00563 *)obj)->f24 = 0;
 }

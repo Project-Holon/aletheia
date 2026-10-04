@@ -14,6 +14,7 @@
  * Walk 9 8-byte records releasing both words of each, then the
  *   head.
  */
+#include "../include/Obj18525.h"
 
 
 struct Grid;
@@ -28,5 +29,5 @@ void func_021EE200(char *p)
         func_0202570C((struct Grid *)(*(int *)(p + i * 8 + 4)));
         func_020437AC((struct Obj020437AC *)(*(int *)(p + i * 8 + 8)));
     }
-    func_02025588((void *)(*(int *)p));
+    func_02025588((void *)(((struct Obj18525 *)p)->f0));
 }

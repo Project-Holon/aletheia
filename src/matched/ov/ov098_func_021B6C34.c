@@ -15,6 +15,7 @@
  * symbols:
  *   func_0207D63C  0x0207D63C  arm
  */
+#include "../include/Obj07937.h"
 
 typedef unsigned char u8;
 
@@ -22,9 +23,9 @@ extern void func_0207D63C(int, int, int, int, int);
 
 void func_021B6C34(char *p, int a)
 {
-    *(int *)p = a;
-    *(u8 *)(p + 0x14) = 0;
-    *(int *)(p + 4) = 0x1f000;
-    *(int *)(p + 8) = 0x7000;
+    ((struct Obj07937 *)p)->f0 = a;
+    ((struct Obj07937 *)p)->f14 = 0;
+    ((struct Obj07937 *)p)->f4 = 0x1f000;
+    ((struct Obj07937 *)p)->f8 = 0x7000;
     func_0207D63C(0x04000050, 2, 0x3d, 0x1f, 7);
 }

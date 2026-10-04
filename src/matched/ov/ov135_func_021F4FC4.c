@@ -15,6 +15,7 @@
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj00018.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -31,10 +32,10 @@ extern void func_020409B4(u32 v);
 
 void func_021F4FC4(u8 *p)
 {
-    if (*(u32 *)(p + 0xdf8) != 0) {
-        func_0202F038((u8 *)(*(u32 *)(p + 0xdf8)));
-        *(u32 *)(p + 0xdf8) = 0;
-        func_02045374((struct Cfg *)(*(u32 *)(p + 0xd40)));
-        func_020409B4(func_02045730((struct Descriptor *)(*(u32 *)(p + 0xd40))));
+    if (((struct Obj00018 *)p)->fDF8 != 0) {
+        func_0202F038((u8 *)(((struct Obj00018 *)p)->fDF8));
+        ((struct Obj00018 *)p)->fDF8 = 0;
+        func_02045374((struct Cfg *)(((struct Obj00018 *)p)->fD40));
+        func_020409B4(func_02045730((struct Descriptor *)(((struct Obj00018 *)p)->fD40)));
     }
 }

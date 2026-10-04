@@ -13,6 +13,7 @@
  *   func_02030EAC  0x02030EAC  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25584.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern u32 func_02030EAC(u32 a);
 
 u32 func_021BC330(u8 *p)
 {
-    return func_02030EAC(*(u32 *)(p + 8));
+    return func_02030EAC(((struct Obj25584 *)p)->f8);
 }

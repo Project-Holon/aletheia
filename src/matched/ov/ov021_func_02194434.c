@@ -22,6 +22,7 @@
  *   func_0216DC64  0x0216DC64  thumb  ov010
  *   func_0216DCCC  0x0216DCCC  thumb  ov010
  */
+#include "../include/Obj19625.h"
 
 typedef unsigned short u16;
 typedef struct { unsigned w[9]; } T;
@@ -42,7 +43,7 @@ extern void func_0216DCCC(void *o, int v);
 
 void *func_02194434(unsigned char *a, int x, u16 *q, int d, int e, int f)
 {
-    void *m = *(void **)(a + 4);
+    void *m = ((struct Obj19625 *)a)->f4;
     T local = d_021D3F68;
     void *o;
 

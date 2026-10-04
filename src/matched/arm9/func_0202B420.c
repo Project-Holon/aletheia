@@ -19,11 +19,12 @@
  *   python tools/match.py one --src src/matched/func_0202B420.c \
  *       --func func_0202B420 --addr 0x0202B420 --thumb --cc 1.1p1
  */
+#include "../include/Obj15835.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 void func_0202B420(u8 *p, u16 v)
 {
-    *(u16 *)(p + 0x12) = v;
+    ((struct Obj15835 *)p)->f12 = v;
 }

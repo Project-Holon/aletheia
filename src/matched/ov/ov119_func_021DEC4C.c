@@ -16,6 +16,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020221A4 0x020221A4 thumb
  */
+#include "../include/Obj05337.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021E69C0(char *p);
@@ -27,8 +28,8 @@ extern u8 func_020355C4(void);
 extern u32 func_020221A4(void);
 void func_021DEC4C(void *p) {
  if(func_021E69C0(p)) {
-  if(func_020355C4()) {func_021E68F4((int)p,-1);*(int *)((char *)p+0x10a0)=0;}
-  else {func_021E68F4((int)p,0);*(int *)((char *)p+0x10a0)=0;}
+  if(func_020355C4()) {func_021E68F4((int)p,-1);((struct Obj05337 *)p)->f10A0=0;}
+  else {func_021E68F4((int)p,0);((struct Obj05337 *)p)->f10A0=0;}
   if(func_020221A4()) {func_021DEBD4(p);func_021D8E84(p,(int)func_021DEBA0);}
  }
 }

@@ -14,6 +14,7 @@
  *   func_02159AE8  0x02159AE8  thumb  ov010
  *   func_0202EB44  0x0202EB44  thumb
  */
+#include "../include/Obj17703.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ int func_0215F214(int a0, int a1)
 loc_0215F21A:
     a0 = func_0202EB44();
 loc_0215F220:
-*(u16 *)((char *)v0) = a0;
+((struct Obj17703 *)((char *)v0))->f0 = a0;
 a0 = 0;
     return a0;}

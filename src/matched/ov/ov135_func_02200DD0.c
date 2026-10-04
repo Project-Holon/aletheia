@@ -14,6 +14,7 @@
  *   func_02200AB4 0x02200AB4 thumb ov135
  *   func_02200B34 0x02200B34 thumb ov135
  */
+#include "../include/Obj00137.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,12 +29,12 @@ void func_02200DD0(u8 *p)
     func_02049B40(0x17, 5, 0, 0x1a0, 0x20, 0x48);
     func_0201F5BC(0, 1, 0xe, 0, 0x48);
     func_0201F5BC(0, 0x1f, 0xb, 0, 0x48);
-    if (*(u16 *)(p + 0xe18) == 0) {
+    if (((struct Obj00137 *)p)->fE18 == 0) {
         func_02040588(4, 0);
         func_02040588(5, 0);
         func_02043598(0x10, 0);
     }
-    if (*(u32 *)(p + 0x1c) == 9) {
+    if (((struct Obj00137 *)p)->f1C == 9) {
         func_02200AB4(p);
         func_02200B34(p);
     }

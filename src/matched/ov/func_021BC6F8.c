@@ -15,6 +15,7 @@
 
  * Runs the idle transition with 0x10 in the fourth argument and marks state 3.
  */
+#include "../include/Obj18188.h"
 
 
 extern int func_021BC6C8(char *);
@@ -25,6 +26,6 @@ void func_021BC6F8(char *p)
     if (func_021BC6C8(p))
         return;
     func_021BC7B4(p, -1, 0, 0x10);
-    *(int *)(p + 0x10) = 3;
+    ((struct Obj18188 *)p)->f10 = 3;
 }
 

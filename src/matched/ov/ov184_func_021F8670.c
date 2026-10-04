@@ -15,6 +15,9 @@
  *   func_021F8624 0x021F8624 thumb ov184
  *   func_021F86EC 0x021F86EC thumb ov184
  */
+#include "../include/Obj05483.h"
+#include "../include/Obj24700.h"
+#include "../include/Obj24701.h"
 extern int func_02035D20(int *,int *);
 extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
@@ -25,18 +28,18 @@ void func_021F8670(int a,int b,char *p)
 {
     int x,y;
     if (func_02035D20(&x,&y)) {
-        if (func_021FB4B4(*(int *)(p+4),x,y)) {
+        if (func_021FB4B4(((struct Obj05483 *)p)->f4,x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
-            func_021FD860(*(int *)(p+24),1,pair);
-            *(int *)(*(char **)(p+48)+28)=0;
+            func_021FD860(((struct Obj05483 *)p)->f18,1,pair);
+            ((struct Obj24700 *)(*(char * *)&((struct Obj05483 *)p)->f30))->f1C=0;
             func_021FD73C((int *)a,(int)func_021F8624);
         }
-        if (func_021FB4B4(*(int *)(p+8),x,y)) {
+        if (func_021FB4B4(((struct Obj05483 *)p)->f8,x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
-            func_021FD860(*(int *)(p+24),1,pair);
-            *(int *)(*(char **)(p+48)+28)=1;
+            func_021FD860(((struct Obj05483 *)p)->f18,1,pair);
+            ((struct Obj24701 *)(*(char * *)&((struct Obj05483 *)p)->f30))->f1C=1;
             func_021FD73C((int *)a,(int)func_021F86EC);
         }
     }

@@ -22,6 +22,7 @@
  * Three-state step over the object at *(p+0x30): submit on 0, poll on 1,
  *   release the two child handles on 2.
  */
+#include "../include/Obj08318.h"
 
 
 extern int func_021FE784(int, int, int, int);
@@ -33,16 +34,16 @@ void func_021F8624(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784(*(int *)(*(int *)(p + 0x30)), 4, 3, 1);
+        func_021FE784(*(int *)(((struct Obj08318 *)p)->f30), 4, 3, 1);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(*(int *)(*(int *)(p + 0x30))))
+        if (func_021FE7B0(*(int *)(((struct Obj08318 *)p)->f30)))
             *state = 2;
         break;
     case 2:
-        func_021FD744(*(int *)(p + 0xC));
-        func_021F9BA0(*(int *)(*(int *)(p + 0x30) + 0x10));
+        func_021FD744(((struct Obj08318 *)p)->fC);
+        func_021F9BA0(*(int *)(((struct Obj08318 *)p)->f30 + 0x10));
         break;
     }
 }

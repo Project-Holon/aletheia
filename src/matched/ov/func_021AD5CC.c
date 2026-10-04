@@ -15,6 +15,7 @@
  *   func_021AC1E0  0x021AC1E0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18088.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern int func_021AC1E0(u32 a);
 int func_021AD5CC(u32 a)
 {
 if (a != 0) {
-    return *(u32 *)((u8 *)(func_021AC1E0(a)) + 12);
+    return ((struct Obj18088 *)((u8 *)(func_021AC1E0(a))))->fC;
 }
 return 1;
 }

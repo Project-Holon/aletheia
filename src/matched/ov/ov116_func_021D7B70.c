@@ -29,6 +29,7 @@
  *   func_02043598 0x02043598 arm
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj10342.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,10 +61,10 @@ extern void func_0203D34C(u32, u32);
 void func_021D7B70(u8 *p, u32 heap)
 {
     P(8) = func_021D821C(1, heap);
-    *(u16 *)(p + 4) = heap;
+    ((struct Obj10342 *)p)->f4 = heap;
     func_021D7D0C(p, heap);
     P(0x97c) = (void *)func_020450F0(1, 1, 19, 30, 4, 12, 1);
-    func_0201F73C(P(0x97c), 1, *(u32 *)(p + 0x984), 13);
+    func_0201F73C(P(0x97c), 1, ((struct Obj10342 *)p)->f984, 13);
     func_02043B5C(func_02045770(P(0x97c)), 15);
     func_02045374(P(0x97c));
     func_02045334(P(0x97c));
@@ -74,7 +75,7 @@ void func_021D7B70(u8 *p, u32 heap)
     P(0x99c) = func_020457B0(128, heap);
     P(0x9a0) = func_020457B0(128, heap);
     P(0x9a8) = func_0203101C(heap, heap, 1, 0);
-    *(u32 *)p = 1;
+    ((struct Obj10342 *)p)->f0 = 1;
     func_020434DC(16, 1);
     func_02043598(16, 1);
     func_0203D34C(1, heap);

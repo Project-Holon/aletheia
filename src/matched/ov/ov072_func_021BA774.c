@@ -12,10 +12,11 @@
  *   func_021BBB3C 0x021BBB3C thumb ov072
  * call width: r1 is explicitly narrowed before the call, so extern takes u16.
  */
+#include "../include/Obj03179.h"
 typedef unsigned short u16;
 extern u16 func_021BBB3C(char *p, u16 a, int b);
 int func_021BA774(char *p, int i) {
  if (i>=2 && i<=10) return *(int *)((unsigned int)p+(i-2)*4+12);
- if (i==12) return *(int *)(p+60);
- return func_021BBB3C(*(char **)(p+4),*(int *)(p+8),i);
+ if (i==12) return ((struct Obj03179 *)p)->f3C;
+ return func_021BBB3C(*(char * *)&((struct Obj03179 *)p)->f4,((struct Obj03179 *)p)->f8,i);
 }

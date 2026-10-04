@@ -13,10 +13,11 @@
  *   func_021DD054 0x021DD054 thumb ov183
  *   func_021FD744 0x021FD744 thumb ov186
  */
+#include "../include/Obj00050.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *);
 extern int func_021FD744(int);
-void func_021DBD40(int task,int b,char *p) { if(*(int *)(p+176)) func_021DCE28(p,*(char **)(p+208)); else func_021DCE48(p,*(char **)(p+208)); func_021DD054(p,*(char **)(p+208)); func_021FD744(task); }
+void func_021DBD40(int task,int b,char *p) { if(((struct Obj00050 *)p)->fB0) func_021DCE28(p,*(char * *)&((struct Obj00050 *)p)->fD0); else func_021DCE48(p,*(char * *)&((struct Obj00050 *)p)->fD0); func_021DD054(p,*(char * *)&((struct Obj00050 *)p)->fD0); func_021FD744(task); }

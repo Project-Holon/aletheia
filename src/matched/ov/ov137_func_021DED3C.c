@@ -12,6 +12,7 @@
  *   func_021E1910 0x021E1910 thumb ov137
  *   func_021DCBC4 0x021DCBC4 thumb ov137
  */
+#include "../include/Obj03304.h"
 typedef unsigned char u8;
 extern int func_021E17EC(void *);
 extern int func_021E1910(void *);
@@ -19,13 +20,13 @@ typedef unsigned int   u32;
 extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 int func_021DED3C(u8 *p)
 {
-    if (*(int *)(p + 0x30) == func_021E17EC(p)) {
+    if (((struct Obj03304 *)p)->f30 == func_021E17EC(p)) {
         if (func_021E1910(p) == 1) {
-            func_021DCBC4(*(void **)(p + 0xdc), 10253, 0, 0);
-            *(int *)p = 45;
+            func_021DCBC4(((struct Obj03304 *)p)->fDC, 10253, 0, 0);
+            ((struct Obj03304 *)p)->f0 = 45;
         } else {
-            func_021DCBC4(*(void **)(p + 0xdc), 10254, 0, 0);
-            *(int *)p = 15;
+            func_021DCBC4(((struct Obj03304 *)p)->fDC, 10254, 0, 0);
+            ((struct Obj03304 *)p)->f0 = 15;
         }
     }
     return 0;

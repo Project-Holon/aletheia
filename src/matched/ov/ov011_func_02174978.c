@@ -38,6 +38,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00269.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -83,7 +84,7 @@ void func_02174978(u8 *s)
     int n;
     void *w;
 
-    h = func_02026478((void *)(*(int *)(s + 4)));
+    h = func_02026478((void *)(((struct Obj00269 *)s)->f4));
     if (func_0203D378() == 1) {
         n = func_0203D1B4();
         if (n > s[0x902]) {
@@ -122,8 +123,8 @@ void func_02174978(u8 *s)
     }
     if (func_02012E40((const u8 *)h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
         w = func_0200BE48(func_02012EBC((struct Big *)h));
-        if (func_021756D0(*(u16 *)(s + 0x8f4)) == 0) {
-            *(u16 *)(s + 0x8f4) = 0x11;
+        if (func_021756D0(((struct Obj00269 *)s)->f8F4) == 0) {
+            ((struct Obj00269 *)s)->f8F4 = 0x11;
         }
         func_0200BE84(w, s + 0x8e4);
         ((Bits *)(s + 0x8f8))->b0 = 0;

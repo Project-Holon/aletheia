@@ -20,6 +20,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00252.h"
+#include "../include/Obj03781.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x, y, prio; u8 pal, mode; } ObjTmpl;
@@ -42,9 +44,9 @@ void func_021E467C(char *p)
     void *arc;
     char *q;
     ObjTmpl t;
-    arc = func_020490F4(7, *(u16 *)(p + 0x5f4));
-    *(void **)(p + 0x87c) = func_0204ACEC(arc, func_0201BC3C(), 1, 0x60, *(u16 *)(p + 0x5f4));
-    *(void **)(p + 0x8ac) = func_0204AF28(arc, func_0201BC78(), func_0201BCB4(), *(u16 *)(p + 0x5f4));
+    arc = func_020490F4(7, ((struct Obj00252 *)p)->f5F4);
+    ((struct Obj00252 *)p)->f87C = func_0204ACEC(arc, func_0201BC3C(), 1, 0x60, ((struct Obj00252 *)p)->f5F4);
+    ((struct Obj00252 *)p)->f8AC = func_0204AF28(arc, func_0201BC78(), func_0201BCB4(), ((struct Obj00252 *)p)->f5F4);
     for (i = 0; i < 12; i++) {
         for (j = 0; j < 5; j++) {
             z = 0;
@@ -54,17 +56,17 @@ void func_021E467C(char *p)
             t.pal = 0x10;
             t.mode = 3;
             q = p + i * 20 + j * 4;
-            *(void **)(q + 0x9cc) = func_0204A6C8(arc, 0x51b, z, 1, *(u16 *)(p + 0x5f4));
-            *(void **)(q + 0xac0) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(q + 0x9cc),
-                (unsigned int)*(void **)(p + 0x87c), (unsigned int)*(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
+            ((struct Obj03781 *)q)->f9CC = func_0204A6C8(arc, 0x51b, z, 1, ((struct Obj00252 *)p)->f5F4);
+            ((struct Obj03781 *)q)->fAC0 = func_0204B294(((struct Obj00252 *)p)->f9C4, (unsigned int)((struct Obj03781 *)q)->f9CC,
+                (unsigned int)((struct Obj00252 *)p)->f87C, (unsigned int)((struct Obj00252 *)p)->f8AC, &t, 1, ((struct Obj00252 *)p)->f5F4);
             t.prio = z;
             t.pal = 0xf;
-            *(void **)(q + 0xbb0) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x894),
-                (unsigned int)*(void **)(p + 0x880), (unsigned int)*(void **)(p + 0x8b0), &t, 1, *(u16 *)(p + 0x5f4));
-            func_0204B92C(*(void **)(q + 0xac0), z);
-            func_0204B3DC(*(void **)(q + 0xac0), z);
-            func_0204B3DC(*(void **)(q + 0xbb0), z);
-            func_0204B92C(*(void **)(q + 0xbb0), 1);
+            ((struct Obj03781 *)q)->fBB0 = func_0204B294(((struct Obj00252 *)p)->f9C4, (unsigned int)((struct Obj00252 *)p)->f894,
+                (unsigned int)((struct Obj00252 *)p)->f880, (unsigned int)((struct Obj00252 *)p)->f8B0, &t, 1, ((struct Obj00252 *)p)->f5F4);
+            func_0204B92C(((struct Obj03781 *)q)->fAC0, z);
+            func_0204B3DC(((struct Obj03781 *)q)->fAC0, z);
+            func_0204B3DC(((struct Obj03781 *)q)->fBB0, z);
+            func_0204B92C(((struct Obj03781 *)q)->fBB0, 1);
         }
     }
     func_02049238(arc);

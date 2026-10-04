@@ -14,6 +14,7 @@
  *
  * candidate func_021E22B8: guard then dispatch
  */
+#include "../include/Obj00000.h"
 
 
 typedef unsigned int   u32;
@@ -22,8 +23,8 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021E8F60(void *p, int a);
 int func_021E22B8(int p)
 {
-    if (func_0201C6B4((const struct PrintSys *)(*(int *)(*(int *)(p + 0x2c) + 0x8c))) == 0)
+    if (func_0201C6B4((const struct PrintSys *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x8c))) == 0)
         return 0xc;
-    func_021E8F60((void *)p, *(int *)(*(int *)(p + 0x2c) + 0xA198));
+    func_021E8F60((void *)p, *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA198));
 }
 

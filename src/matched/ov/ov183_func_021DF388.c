@@ -18,6 +18,7 @@
  *   func_0201F868 0x0201F868 thumb
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj02522.h"
 typedef unsigned short u16;
 extern void func_021DF5B8(char *);
 struct Obj020437AC;
@@ -33,11 +34,11 @@ void func_021DF388(char *p)
 {
     unsigned int i;
     func_021DF5B8(p);
-    for (i = 0; i < func_021FCE0C(*(void **)(p + 4), 3); i++) {
-        func_020437AC(func_021FCDE8(*(void **)(p + 4), i));
+    for (i = 0; i < func_021FCE0C(((struct Obj02522 *)p)->f4, 3); i++) {
+        func_020437AC(func_021FCDE8(((struct Obj02522 *)p)->f4, i));
     }
-    func_0201ED04(*(void **)(p + 8));
-    func_021FCC80(*(void **)(p + 4));
-    func_0201F868(*(void **)p);
+    func_0201ED04(((struct Obj02522 *)p)->f8);
+    func_021FCC80(((struct Obj02522 *)p)->f4);
+    func_0201F868(((struct Obj02522 *)p)->f0);
     func_02082BCC(p, 0, 0xD4);
 }

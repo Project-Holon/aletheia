@@ -20,6 +20,7 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021FD854 0x021FD854 thumb ov186
  */
+#include "../include/Obj04576.h"
 typedef unsigned long long u64;
 extern void func_021FE784(int, int, int, int);
 extern int func_021FE7B0(int *);
@@ -47,7 +48,7 @@ int func_021E0618(int unused, int *state, int *q, int *p)
         func_021E0754((char *)p[1]);
         switch (func_021E075C((char *)p[1])) {
         case 1: func_021F9BA0(q[3]); *state = 3; break;
-        case 2: *(u64 *)(q + 4) = func_021E0764((char *)p[1]); func_021F9BF4((unsigned int *)q[3], 2); *state = 3; break;
+        case 2: ((struct Obj04576 *)q)->f10 = func_021E0764((char *)p[1]); func_021F9BF4((unsigned int *)q[3], 2); *state = 3; break;
         }
         break;
     case 3:

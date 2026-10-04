@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06715.h"
 
 extern int _s32_div_f(int, int);
 
 void func_021C0EA4(char *p, int v)
 {
-    *(int *)(*(int *)p + *(int *)(p + 0xc) * 4) = v;
-    *(int *)(p + 0xc) = (*(int *)(p + 0xc) + 1) % *(int *)(p + 4);
+    *(int *)(((struct Obj06715 *)p)->f0 + ((struct Obj06715 *)p)->fC * 4) = v;
+    ((struct Obj06715 *)p)->fC = (((struct Obj06715 *)p)->fC + 1) % ((struct Obj06715 *)p)->f4;
 }

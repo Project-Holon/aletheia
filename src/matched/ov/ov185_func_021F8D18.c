@@ -19,6 +19,7 @@
  * Build the p+0x14 handle once: flush the three sub-resources and start
  *   0x21F3AF0 on the indexed table entry.
  */
+#include "../include/Obj06622.h"
 
 
 extern void func_021FEEC0(int, int, int);
@@ -29,13 +30,13 @@ extern int func_021F3AF0(int, int);
 
 void func_021F8D18(char *a, int *r4)
 {
-    if (*(int *)(a + 0x14) == 0) {
+    if (((struct Obj06622 *)a)->f14 == 0) {
         func_021FEEC0(r4[1], 0, 0);
         func_021FBDA4(r4[3], 0);
         func_021FC1F8(r4[3], 0);
-        func_021FC610(r4[2], *(unsigned short *)(a + 0x30));
-        *(int *)(a + 0x14) = func_021F3AF0(
-            *(int *)(a + 0x40 + *(unsigned short *)(a + 0xC) * 4) + 0x80,
-            *(unsigned short *)(a + 0x30));
+        func_021FC610(r4[2], ((struct Obj06622 *)a)->f30);
+        ((struct Obj06622 *)a)->f14 = func_021F3AF0(
+            *(int *)(a + 0x40 + ((struct Obj06622 *)a)->fC * 4) + 0x80,
+            ((struct Obj06622 *)a)->f30);
     }
 }

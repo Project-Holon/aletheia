@@ -21,6 +21,7 @@
  *   func_021DA524 0x021DA524 thumb ov129
  *   func_021D8AF4 0x021D8AF4 thumb ov129
  */
+#include "../include/Obj10498.h"
 
 extern void func_021D9890(char *);
 extern void func_021DA164(void *);
@@ -44,7 +45,7 @@ int func_021D8B0C(char *p)  {
     func_021DA320(p);
     func_021DA3B8(p);
     func_021DA42C(p);
-    func_021DA524(p+0x310,*(int *)(p+0x328),4,2,19,27,4,*(int *)(p+0x314),*(int *)(p+0x344));
+    func_021DA524(p+0x310,((struct Obj10498 *)p)->f328,4,2,19,27,4,((struct Obj10498 *)p)->f314,((struct Obj10498 *)p)->f344);
     func_021D8AF4(p,1);
     func_0202208C(0,1,1,0,6,1,50);
     return 0;

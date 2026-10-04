@@ -14,6 +14,7 @@
  *   func_021BEDEC 0x021BEDEC thumb ov110
  *   func_021B9BEC 0x021B9BEC thumb ov110
  */
+#include "../include/Obj13788.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ void func_021BD868(u8 *p)
 {
     func_020061E4(1356);
     func_021BED84(p+0x54,p);
-    *(u32 *)(p+0x28)=(u32)func_021BEDEC;
-    func_021B9BEC(*(u8 **)(p+0x14),12);
+    ((struct Obj13788 *)p)->f28=(u32)func_021BEDEC;
+    func_021B9BEC(*(u8 * *)&((struct Obj13788 *)p)->f14,12);
 }

@@ -24,6 +24,7 @@
  *   python tools/match.py one --src src/matched/func_02035760.c \
  *       --func func_02035760 --addr 0x02035760 --cc 1.1p1 --arm
  */
+#include "../include/Obj11334.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,6 +42,6 @@ u16 func_02035760(struct Kind *p)
 
     q = func_02035750(p);
     if (p->unk3D == 0x1E)
-        return *(u16 *)(q + 0x64);
-    return *(u16 *)(q + 0x5C);
+        return ((struct Obj11334 *)q)->f64;
+    return ((struct Obj11334 *)q)->f5C;
 }

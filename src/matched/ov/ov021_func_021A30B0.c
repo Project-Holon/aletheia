@@ -15,6 +15,7 @@
  *   func_021A398C  0x021A398C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19766.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern u32 func_021A398C(u8 *p);
 
 void func_021A30B0(u8 *p)
 {
-    func_021A398C((u8 *)(*(u32 *)(p + 4)));
+    func_021A398C((u8 *)(((struct Obj19766 *)p)->f4));
 }

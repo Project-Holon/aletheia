@@ -18,6 +18,7 @@
  * symbols:
  *   func_021C584C  0x021C584C  thumb  ov127
  */
+#include "../include/Obj22009.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,4 +28,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021C584C(u8 *p, int a);
-void func_021B98E4(int a, u8 *b) { func_021C584C((u8 *)(*(u32 *)(b + 4)), 1); }
+void func_021B98E4(int a, u8 *b) { func_021C584C((u8 *)(((struct Obj22009 *)b)->f4), 1); }

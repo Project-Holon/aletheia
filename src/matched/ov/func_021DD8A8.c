@@ -15,6 +15,7 @@
  *   func_020185C4  0x020185C4  thumb
  *   func_02017D70  0x02017D70  thumb
  */
+#include "../include/Obj18451.h"
 typedef unsigned int u32;
 
 extern void *func_0201AB28(void *p, u32 idx);
@@ -30,7 +31,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
     if (idx < 0x1e)
         return;
-    h = func_0201AB28(*(void **)((char *)*pp + 8), idx - 0x1e);
+    h = func_0201AB28(((struct Obj18451 *)((char *)*pp))->f8, idx - 0x1e);
     v = func_02017D30(h);
     func_020185C4(h);
     func_02017D70(h, v);

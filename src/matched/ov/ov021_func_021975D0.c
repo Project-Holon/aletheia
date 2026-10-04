@@ -23,6 +23,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,23 +44,23 @@ extern void func_020061E4(u32 a);
 
 int func_021975D0(u8 *p)
 {
-    if (*(void **)(p + 0x2B4) != 0) {
-        if (*(void **)(p + 0x2B0) != 0)
-            func_020286C4(*(void **)(p + 0x2A8), *(void **)(p + 0x2B4), *(void **)(p + 0x2B0));
-        switch (func_0201CE30(*(void **)(p + 0x2B4))) {
+    if (((struct Obj00094 *)p)->f2B4 != 0) {
+        if (((struct Obj00094 *)p)->f2B0 != 0)
+            func_020286C4(((struct Obj00094 *)p)->f2A8, ((struct Obj00094 *)p)->f2B4, ((struct Obj00094 *)p)->f2B0);
+        switch (func_0201CE30(((struct Obj00094 *)p)->f2B4)) {
         case 2:
-            func_0201CE48(*(void **)(p + 0x2B4));
-            *(void **)(p + 0x2B4) = 0;
+            func_0201CE48(((struct Obj00094 *)p)->f2B4);
+            ((struct Obj00094 *)p)->f2B4 = 0;
             break;
         case 1:
             if (func_02035C60() != 0) {
                 func_020061E4(0x547);
-                func_0201CE38(*(void **)(p + 0x2B4));
+                func_0201CE38(((struct Obj00094 *)p)->f2B4);
             }
             break;
         case 0:
             if (func_02035C38() != 0)
-                func_0201CE5C(*(void **)(p + 0x2B4), 0);
+                func_0201CE5C(((struct Obj00094 *)p)->f2B4, 0);
             break;
         }
         return 0;

@@ -12,6 +12,8 @@
  *   func_021C87A0 0x021C87A0 thumb ov128
  *   func_021C8388 0x021C8388 thumb ov128
  */
+#include "../include/Obj08130.h"
+#include "../include/Obj10485.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned long long u64;
@@ -26,18 +28,18 @@ extern void *func_02027778(TextConfig *,void *);
 void func_021C83DC(u8 *p, u8 *a, void *unused, int heap)
 {
     TextConfig config;
-    void *q = func_0201283C(*(void **)(a + 4));
+    void *q = func_0201283C(((struct Obj10485 *)a)->f4);
     int result = func_02009864(q, (a + func_021C87A0((s16 *)p))[24], 9);
     config.heap = heap;
     config.count = 4;
     if (result == 2) {
         config.entries = p + (func_021C8388(p, a) != 0 ? 0x148 : 0x118);
-        *(int *)(p + 0x198) = 1;
+        ((struct Obj08130 *)p)->f198 = 1;
     } else {
         config.entries = p + 0x118;
-        *(int *)(p + 0x198) = 0;
+        ((struct Obj08130 *)p)->f198 = 0;
     }
     config.mode = 1;
     config.x = 32; config.y = 24; config.a = 17; config.b = 3;
-    *(void **)(p + 0x194) = func_02027778(&config, *(void **)(p + 0x190));
+    ((struct Obj08130 *)p)->f194 = func_02027778(&config, ((struct Obj08130 *)p)->f190);
 }

@@ -14,6 +14,7 @@
 
  * Reset, latch state 8 and clear the u16 slot at +0xe18.
  */
+#include "../include/Obj04530.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ extern void func_021FF9E0(u8 *p);
 int func_02200770(u8 *p)
 {
     func_021FF9E0(p);
-    *(u32 *)(p + 0x28) = 8;
-    *(u16 *)(p + 0xe18) = 0;
+    ((struct Obj04530 *)p)->f28 = 8;
+    ((struct Obj04530 *)p)->fE18 = 0;
     return 2;
 }

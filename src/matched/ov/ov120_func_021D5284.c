@@ -12,22 +12,23 @@
  *   func_021D6FF8 0x021D6FF8 thumb ov120
  *   func_021D822C 0x021D822C thumb ov120
  */
+#include "../include/Obj04487.h"
 typedef unsigned char u8;
 extern int func_021D6E1C(void *, void *);
 extern void func_021D6FF8(u8 *p, int state);
 extern void func_021D822C(char *p, void *q, int index);
 int func_021D5284(u8 *p)
 {
-    int result = func_021D6E1C(*(void **)(p + 0x3c), p + 0x150);
+    int result = func_021D6E1C(((struct Obj04487 *)p)->f3C, p + 0x150);
     switch (result) {
     case 0: break;
     case 1:
-        if (*(int *)(p + 0x164) != 8)
-            (*(int *)(p + 0x164))++;
+        if (((struct Obj04487 *)p)->f164 != 8)
+            (((struct Obj04487 *)p)->f164)++;
         break;
     case 2:
-        func_021D6FF8(*(void **)(p + 0x3c), 2);
-        func_021D822C(*(void **)(p + 0x40), *(void **)(p + 0x2c), *(int *)(p + 0x158) + 2);
+        func_021D6FF8(((struct Obj04487 *)p)->f3C, 2);
+        func_021D822C(((struct Obj04487 *)p)->f40, ((struct Obj04487 *)p)->f2C, ((struct Obj04487 *)p)->f158 + 2);
         break;
     }
     return result;

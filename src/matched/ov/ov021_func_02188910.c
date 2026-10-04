@@ -20,6 +20,7 @@
  *   func_021890AC  0x021890AC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04193.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,18 +43,18 @@ extern void func_021890AC(unsigned char *p);
 
 u32 func_02188910(void *a, u8 *b)
 {
-    if (func_02012E40((const u8 *)(*(u32 *)(b + 8))) != 0) {
+    if (func_02012E40((const u8 *)(((struct Obj04193 *)b)->f8)) != 0) {
         func_020129F0(func_020120F4(a));
         return 0;
     }
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-    func_0218CC34(*(u32 *)(b + 0x48));
+    func_0218CC34(((struct Obj04193 *)b)->f48);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_021A0E58((u32 *)(*(u32 *)(b + 0x24)));
-    if (*(u32 *)(b + 0x28) != 0)
-        func_021903E0((struct Obj *)*(u32 *)(b + 0x28));
-    if (*(u32 *)(b + 0x30) != 0)
-        func_021BC4F0((int)*(u32 *)(b + 0x30));
+    func_021A0E58((u32 *)(((struct Obj04193 *)b)->f24));
+    if (((struct Obj04193 *)b)->f28 != 0)
+        func_021903E0((struct Obj *)((struct Obj04193 *)b)->f28);
+    if (((struct Obj04193 *)b)->f30 != 0)
+        func_021BC4F0((int)((struct Obj04193 *)b)->f30);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     func_021890AC(b);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;

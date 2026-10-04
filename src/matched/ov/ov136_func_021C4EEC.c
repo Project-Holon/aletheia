@@ -29,6 +29,7 @@
  *   func_021C4534 0x021C4534 thumb ov136
  *   func_021C4528 0x021C4528 thumb ov136
  */
+#include "../include/Obj00540.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,29 +56,29 @@ extern int func_021C4528(void *a);
 void func_021C4EEC(u8 *p)
 {
     u32 k = (*(u8 **)(p + 0x1C))[0xB];
-    void *h = func_020490F4(0x9B, (u16)*(u32 *)p);
+    void *h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
     u32 sz;
     u32 pal;
     u32 chr;
 
-    func_0201F5BC(0, 1, 4, 0, (u16)*(u32 *)p);
-    func_0201F5BC(0, 0xD, 6, 0, (u16)*(u32 *)p);
+    func_0201F5BC(0, 1, 4, 0, (u16)((struct Obj00540 *)p)->f0);
+    func_0201F5BC(0, 0xD, 6, 0, (u16)((struct Obj00540 *)p)->f0);
     pal = k + 0xC;
-    func_02049658(h, pal, 3, 0, 0, 1, (u16)*(u32 *)p);
-    func_02049658(h, pal, 4, 0, 0, 1, (u16)*(u32 *)p);
+    func_02049658(h, pal, 3, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
+    func_02049658(h, pal, 4, 0, 0, 1, (u16)((struct Obj00540 *)p)->f0);
     chr = k + 0x18;
     sz = 0x800;
-    func_020498F4(h, chr, 3, 0, sz, 1, (u16)*(u32 *)p);
-    func_020498F4(h, chr, 4, 0, sz, 1, (u16)*(u32 *)p);
-    func_02049B68(h, k, 4, 0, 0, (u16)*(u32 *)p);
-    func_02049B40(0x17, 5, 0, 0xA0, 0x20, (u16)*(u32 *)p);
-    *(u32 *)(p + 0x38) = (u32)func_02021518(*(u32 *)p);
-    func_0202155C((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), 0, 0xE0, (u16)*(u32 *)p);
-    func_020216B4((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), h, k, (u16)*(u32 *)p, 0, 0x60, 0);
-    func_02021640((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), 0x17, 7, (u16)*(u32 *)p, 0, 0x20, 0x30);
-    func_02021640((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), 0x17, 5, (u16)*(u32 *)p, 0, 0x20, 0x50);
-    func_02021640((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), 5, func_0201F548(0), (u16)*(u32 *)p, 0, 0x20, 0x40);
-    func_02021640((struct PalAnmSlot *)(*(u32 *)(p + 0x38)), 5, func_0201F548(1), (u16)*(u32 *)p, 0, 0x20, 0x60);
+    func_020498F4(h, chr, 3, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
+    func_020498F4(h, chr, 4, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
+    func_02049B68(h, k, 4, 0, 0, (u16)((struct Obj00540 *)p)->f0);
+    func_02049B40(0x17, 5, 0, 0xA0, 0x20, (u16)((struct Obj00540 *)p)->f0);
+    ((struct Obj00540 *)p)->f38 = (u32)func_02021518(((struct Obj00540 *)p)->f0);
+    func_0202155C((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0, 0xE0, (u16)((struct Obj00540 *)p)->f0);
+    func_020216B4((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), h, k, (u16)((struct Obj00540 *)p)->f0, 0, 0x60, 0);
+    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 7, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x30);
+    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 0x17, 5, (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x50);
+    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(0), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x40);
+    func_02021640((struct PalAnmSlot *)(((struct Obj00540 *)p)->f38), 5, func_0201F548(1), (u16)((struct Obj00540 *)p)->f0, 0, 0x20, 0x60);
     func_0201DD68();
     func_02049238(h);
     func_02041300(4, 0x2001, 0, 0, 0x20, 0x20, 0x11);
@@ -86,11 +87,11 @@ void func_021C4EEC(u8 *p)
     func_020434DC(2, 1);
     func_020434DC(8, 1);
     if (p[0xB] != 0) {
-        h = func_020490F4(0x9B, (u16)*(u32 *)p);
-        func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)*(u32 *)p);
+        h = func_020490F4(0x9B, (u16)((struct Obj00540 *)p)->f0);
+        func_020498F4(h, 0x24, 2, 0, sz, 1, (u16)((struct Obj00540 *)p)->f0);
         func_02049238(h);
-        *(void **)(p + 0x3C) = (void *)func_021C4534;
-        *(void **)(p + 0x40) = (void *)func_021C4528;
+        ((struct Obj00540 *)p)->f3C = (void *)func_021C4534;
+        ((struct Obj00540 *)p)->f40 = (void *)func_021C4528;
         func_020434DC(4, 1);
     }
 }

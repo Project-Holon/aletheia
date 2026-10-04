@@ -22,6 +22,7 @@
  *   func_0202D1AC 0x0202D1AC thumb
  *   func_0202D1E0 0x0202D1E0 thumb
  */
+#include "../include/Obj04459.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,13 +41,13 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     u32 a, c, d, flag;
     int b;
     u32 n;
-    func_020185F4(*(void **)(p + 4));
-    a = *(u16 *)(p + 8);
+    func_020185F4(((struct Obj04459 *)p)->f4);
+    a = ((struct Obj04459 *)p)->f8;
     n = func_02019D30(a, p[11]);
     c = p[10];
     d = p[12];
     flag = 0;
-    b = func_02019D58(*(u16 *)(p + 8), n);
+    b = func_02019D58(((struct Obj04459 *)p)->f8, n);
     if (k == 1) flag = 1;
     out[0] = 52;
     out[1] = func_0202D09C(out[0],a,b,c,d,flag,0);
@@ -56,5 +57,5 @@ void func_021F5518(u8 *p, u32 *out, u32 k)
     out[5] = func_0202D178(out[0],a,b,c,d,flag,0);
     out[6] = func_0202D1AC(out[0],a,b,c,d,flag,0);
     out[7] = func_0202D1E0(out[0],a,b,c,d,flag,0);
-    out[8] = *(u32 *)(p + 16);
+    out[8] = ((struct Obj04459 *)p)->f10;
 }

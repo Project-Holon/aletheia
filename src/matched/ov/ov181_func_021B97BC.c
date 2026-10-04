@@ -18,6 +18,8 @@
  *   func_021BA390 0x021BA390 thumb ov181
  *   d_021BABD0 0x021BABD0 data a4
  */
+#include "../include/Obj01003.h"
+#include "../include/Obj24500.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -32,33 +34,33 @@ extern int func_021BA2AC(char *,int);
 extern void func_021BA390(char *);
 int func_021B97BC(char *p) {
     char *row;
-    if(*(u32 *)(p+0x2ec)==0) {
+    if(((struct Obj01003 *)p)->f2EC==0) {
         for(;;) {
-            row=*(char **)(p+0x2d4)+*(u16 *)(p+0x2d8)*16;
-            if(*(u16 *)(p+0x2d8)==*(u32 *)((u32)p+*(u8 *)(p+0x2bb)*8+0xbc)) {
+            row=*(char * *)&((struct Obj01003 *)p)->f2D4+((struct Obj01003 *)p)->f2D8*16;
+            if(((struct Obj01003 *)p)->f2D8==*(u32 *)((u32)p+((struct Obj01003 *)p)->f2BB*8+0xbc)) {
                 func_021B9CC8(p);
-                (*(u8 *)(p+0x2bb))++;
-                *(u16 *)(p+0x2da)=*(u16 *)(row+4);
-                *(u32 *)(p+0x2ec)=1;
-                *(u16 *)(p+0x2d8)+=2;
+                (((struct Obj01003 *)p)->f2BB)++;
+                *(u16 *)&((struct Obj01003 *)p)->f2DA=((struct Obj24500 *)row)->f4;
+                ((struct Obj01003 *)p)->f2EC=1;
+                ((struct Obj01003 *)p)->f2D8+=2;
                 break;
             }
             if(d_021BABD0[*(u8 *)(row+6)](p,row)==1) {
-                (*(u16 *)(p+0x2d8))++;
+                (((struct Obj01003 *)p)->f2D8)++;
                 break;
             }
-            (*(u16 *)(p+0x2d8))++;
+            (((struct Obj01003 *)p)->f2D8)++;
         }
     }
-    switch(*(u32 *)(p+0x2ec)) {
+    switch(((struct Obj01003 *)p)->f2EC) {
     case 1:
-        if(*(s16 *)(p+0x2da)<=0) {
-            *(s16 *)(p+0x2da)=0; *(u32 *)(p+0x2ec)=0;
-        } else if(*(u8 *)(p+0x2d2)==1) *(s16 *)(p+0x2da)-=4;
-        else (*(s16 *)(p+0x2da))--;
+        if(((struct Obj01003 *)p)->f2DA<=0) {
+            ((struct Obj01003 *)p)->f2DA=0; ((struct Obj01003 *)p)->f2EC=0;
+        } else if(((struct Obj01003 *)p)->f2D2==1) ((struct Obj01003 *)p)->f2DA-=4;
+        else (((struct Obj01003 *)p)->f2DA)--;
         break;
-    case 2: if(func_021BA5E8(p)==0) *(u32 *)(p+0x2ec)=0; break;
-    case 3: if(func_021BA6F0(p)==0) *(u32 *)(p+0x2ec)=0; break;
+    case 2: if(func_021BA5E8(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
+    case 3: if(func_021BA6F0(p)==0) ((struct Obj01003 *)p)->f2EC=0; break;
     case 5:
         if(func_02005F38()==1) func_02005E30(64);
         return func_021BA2AC(p,2);

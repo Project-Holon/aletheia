@@ -37,6 +37,7 @@
  *   func_021B80BC 0x021B80BC thumb ov105
  *   func_021B80D8 0x021B80D8 thumb ov105
  */
+#include "../include/Obj03234.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -76,12 +77,12 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     func_0203064C(1,60,0x20000);
     p=func_0203159C(a,0x1a8,60);
     func_02082BCC(p,0,0x1a8);
-    *(u8 **)(p+0x1a4)=context;
+    *(u8 * *)&((struct Obj03234 *)p)->f1A4=context;
     func_021B784C(p,60);
     func_021B7C20(p+0xb0,0,60);
     if(*(void **)CTX) func_02012138(*(void **)CTX);
     func_021B7CB0(p+0xc0,5,1,18,30,5,5,60);
-    func_0201F73C(*(void **)(p+0xc0),0,*(u32 *)p,6);
+    func_0201F73C(((struct Obj03234 *)p)->fC0,0,((struct Obj03234 *)p)->f0,6);
     func_021B7D20(p+0xd4,7,6,3,20,5,8,1,1,60);
     func_021B7E48(p+0xd4,p+0xb0,1);
     func_02041F6C(7,3,4096);
@@ -96,14 +97,14 @@ int func_021B7560(struct Task *a,void *b,u8 *context)
     handle=func_021B78D4(p);
     tag=func_021B7CA0(p+0xb0);
     font=func_021B7CA4(p+0xb0);
-    *(void **)(p+0x188)=func_021B70DC(2,handle,0,13,13,2,tag,font,60);
-    func_021B728C(*(int *)(p+0x188),0);
+    ((struct Obj03234 *)p)->f188=func_021B70DC(2,handle,0,13,13,2,tag,font,60);
+    func_021B728C(*(int *)&((struct Obj03234 *)p)->f188,0);
     func_021B84B4(p+0x128,3,CTX[12],60);
     if(*(void **)CTX) {
         func_021B658C(*(void **)CTX,&second);
-        if(second.low && ((Data *)*(void **)(CTX+8))->low) *(int *)(p+0x19c)=1;
-        else *(int *)(p+0x19c)=0;
-        *(int *)(p+0x1a0)=func_021B8840(CTX[12],*(int *)(p+0x19c));
+        if(second.low && ((Data *)*(void **)(CTX+8))->low) ((struct Obj03234 *)p)->f19C=1;
+        else ((struct Obj03234 *)p)->f19C=0;
+        ((struct Obj03234 *)p)->f1A0=func_021B8840(CTX[12],((struct Obj03234 *)p)->f19C);
     }
     func_021B80BC(p,(unsigned int)func_021B80D8);
     return 1;

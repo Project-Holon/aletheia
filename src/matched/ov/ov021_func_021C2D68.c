@@ -34,6 +34,7 @@
  * with the last two arguments set in an if/else (cross-jumped into case 0's
  * call); two separate calls come out 12 bytes long.
  */
+#include "../include/Obj00457.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -86,14 +87,14 @@ int func_021C2D68(int a, int *b)
     q = (u32 *)(p + 0x9c);
     switch (*b) {
     case 0:
-        *(void **)(p + 0x90) = func_02043678(16, 16, 32, *(u16 *)(p + 0x10));
+        ((struct Obj00457 *)p)->f90 = func_02043678(16, 16, 32, ((struct Obj00457 *)p)->f10);
         func_021C2BE4((struct Obj *)p, (u32)d_021DE3E4, (u32)d_021DE3F4, q[1], q[2]);
         (*b)++;
         break;
     case 1:
-        func_020437AC(*(void **)(p + 0x90));
-        func_020307B0(*(void **)(p + 0x94));
-        func_020307B0(*(void **)(p + 0x98));
+        func_020437AC(((struct Obj00457 *)p)->f90);
+        func_020307B0(((struct Obj00457 *)p)->f94);
+        func_020307B0(((struct Obj00457 *)p)->f98);
         func_021C2F84(s, p, d_021DE404, d_021DE40C, q[0], 0);
         (*b)++;
         break;
@@ -102,7 +103,7 @@ int func_021C2D68(int a, int *b)
             *b = 4;
             break;
         }
-        *(void **)(p + 0x90) = func_02043678(16, 16, 32, *(u16 *)(p + 0x10));
+        ((struct Obj00457 *)p)->f90 = func_02043678(16, 16, 32, ((struct Obj00457 *)p)->f10);
         if (func_02008550((const struct Sub0200852CObj *)s) == 0) {
             x = 0;
             y = 0x16;
@@ -114,16 +115,16 @@ int func_021C2D68(int a, int *b)
         (*b)++;
         break;
     case 3:
-        func_020437AC(*(void **)(p + 0x90));
-        func_020307B0(*(void **)(p + 0x94));
-        func_020307B0(*(void **)(p + 0x98));
+        func_020437AC(((struct Obj00457 *)p)->f90);
+        func_020307B0(((struct Obj00457 *)p)->f94);
+        func_020307B0(((struct Obj00457 *)p)->f98);
         func_021C2F84(s, p, d_021DE43C, d_021DE448, 0, q[4]);
         (*b)++;
         break;
     case 4:
-        *(int *)(p + 0x1c) = 0;
-        *(int *)(p + 0x20) = 0;
-        *(int *)(p + 0x24) = 0xFFD44000;
+        ((struct Obj00457 *)p)->f1C = 0;
+        ((struct Obj00457 *)p)->f20 = 0;
+        ((struct Obj00457 *)p)->f24 = 0xFFD44000;
         func_02046BE0(0, 0);
         return 1;
     }

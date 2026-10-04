@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/sub_0200F800.c \
  *       --func sub_0200F800 --addr 0x0200F800 --cc 1.1p1
  */
+#include "../include/Obj11713.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -33,6 +34,6 @@ extern void func_0207D534(volatile u16 *reg, int brightness);
 void sub_0200F800(void)
 {
     u32 *g = (u32 *)0x0214617C;
-    func_0207D534((volatile u16 *)0x0400006C, *(u32 *)((u8 *)g + 0x14));
-    func_0207D534((volatile u16 *)0x0400106C, *(u32 *)((u8 *)g + 0x18));
+    func_0207D534((volatile u16 *)0x0400006C, ((struct Obj11713 *)g)->f14);
+    func_0207D534((volatile u16 *)0x0400106C, ((struct Obj11713 *)g)->f18);
 }

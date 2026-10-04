@@ -15,6 +15,7 @@
  *   func_0216D83C  0x0216D83C  thumb  ov010
  *   func_0216D86C  0x0216D86C  thumb  ov010
  */
+#include "../include/Obj05998.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ extern int func_0216D86C(void *p);
 void func_0219BA0C(u32 a, u8 *s)
 {
     u32 o = (u32)func_0216DEE0(func_0216D67C((void *)a));
-    *(u16 *)(s + 2) = func_0216D83C((void *)o);
-    *(u16 *)(s + 4) = func_0216D86C((void *)o);
+    ((struct Obj05998 *)s)->f2 = func_0216D83C((void *)o);
+    ((struct Obj05998 *)s)->f4 = func_0216D86C((void *)o);
 }

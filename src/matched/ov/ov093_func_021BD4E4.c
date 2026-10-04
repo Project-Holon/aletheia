@@ -13,6 +13,7 @@
  *   func_021B9C00 0x021B9C00 thumb ov093
  *   func_021BD518 0x021BD518 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 extern char *func_021B9AEC(char *, int);
 typedef unsigned int u32;
@@ -23,7 +24,7 @@ void func_021BD4E4(u8 *p, int i, u8 a, u8 b)
     u8 *arr;
     u8 *first;
     u8 *second;
-    arr = (u8 *)func_021B9AEC(*(char **)(p + 8), i);
+    arr = (u8 *)func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
     first = func_021B9C00(arr, a);
     second = func_021B9C00(arr, b);
     func_021BD518(p, first);

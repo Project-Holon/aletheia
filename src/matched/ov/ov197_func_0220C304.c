@@ -17,6 +17,13 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00315.h"
+#include "../include/Obj25027.h"
+#include "../include/Obj25028.h"
+#include "../include/Obj25029.h"
+#include "../include/Obj25030.h"
+#include "../include/Obj25031.h"
+#include "../include/Obj25032.h"
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
@@ -31,14 +38,14 @@ extern void func_020307B0(void *);
 extern void func_02049238(void *);
 void func_0220C304(char *p)
 {
-    void *arc = func_020490F4(11,(*(u16 *)(*(char **)p+0xc)&0x7fff)|0x8000);
+    void *arc = func_020490F4(11,(((struct Obj25027 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
     char *data;
     void *buf;
-    *(int *)(p+0x564)=func_0204A6C8(arc,119,0,1,*(u16 *)(*(char **)p+0xc));
-    *(int *)(p+0x588)=func_0204AC18(arc,116,1,256,4,1,*(u16 *)(*(char **)p+0xc));
-    *(int *)(p+0x594)=func_0204AF28(arc,120,121,*(u16 *)(*(char **)p+0xc));
-    buf=func_02049F78(arc,116,&data,(*(u16 *)(*(char **)p+0xc)&0x7fff)|0x8000);
-    func_020215BC(*(void **)(p+8),*(char **)(data+0xc)+128,3,128,32);
+    ((struct Obj00315 *)p)->f564=func_0204A6C8(arc,119,0,1,((struct Obj25028 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    ((struct Obj00315 *)p)->f588=func_0204AC18(arc,116,1,256,4,1,((struct Obj25029 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    ((struct Obj00315 *)p)->f594=func_0204AF28(arc,120,121,((struct Obj25030 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+    buf=func_02049F78(arc,116,&data,(((struct Obj25031 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
+    func_020215BC(((struct Obj00315 *)p)->f8,*(char * *)&((struct Obj25032 *)data)->fC+128,3,128,32);
     func_020307B0(buf);
     func_02049238(arc);
 }

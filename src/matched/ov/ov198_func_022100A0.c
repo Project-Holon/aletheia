@@ -13,6 +13,7 @@
  *   func_0220D6AC  0x0220D6AC  thumb  ov198
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14566.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern void func_0220D6AC(u8 *);
 u32 func_022100A0(u8 *p)
 {
     func_0220D6AC(p);
-    *(u8 *)(p + 0x2193) = 1;
-    *(u32 *)(p + 0x217c) = 0x1a;
+    ((struct Obj14566 *)p)->f2193 = 1;
+    ((struct Obj14566 *)p)->f217C = 0x1a;
     return 0x17;
 }
 

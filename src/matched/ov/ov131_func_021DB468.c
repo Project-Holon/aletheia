@@ -15,6 +15,7 @@
  *   func_021DBA78 0x021DBA78 thumb ov131
  *   func_021D9EE8 0x021D9EE8 thumb ov131
  */
+#include "../include/Obj00536.h"
 typedef unsigned char u8;
 extern void func_021DBA54(u8 *,u8 *);
 extern void func_0204B404(void *,u8 *,int);
@@ -27,10 +28,10 @@ void func_021DB468(u8 *a,u8 *b,u8 c,int d) {
     u8 box[4];
     if(a[28]==0) {
         func_021DBA54(b+176+c*24,box);
-        func_0204B404(*(void **)(b+152),box,0);
-        func_0204B3DC(*(void **)(b+152),0);
-    } else func_0204B3DC(*(void **)(b+152),0);
-    if(b[41]!=b[42] || *(int *)(b+20)==0) {
+        func_0204B404(((struct Obj00536 *)b)->f98,box,0);
+        func_0204B3DC(((struct Obj00536 *)b)->f98,0);
+    } else func_0204B3DC(((struct Obj00536 *)b)->f98,0);
+    if(b[41]!=b[42] || ((struct Obj00536 *)b)->f14==0) {
         if(b[41]!=255) func_021DBA78(b+176+b[41]*24,0);
     } else func_021DBA78(b+176+b[41]*24,2);
     func_021DBA78(b+176+c*24,1);

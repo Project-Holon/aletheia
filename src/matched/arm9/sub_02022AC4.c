@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/sub_02022AC4.c \
  *       --func sub_02022AC4 --addr 0x02022AC4 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11726.h"
 
 typedef unsigned char u8;
 
@@ -37,5 +38,5 @@ extern void sub_020222CC(u32 which, int brightness);
 
 void sub_02022AC4(void *unused, u8 *o)
 {
-    sub_020222CC((u32)(*(void **)(o + 0x18)), (int)(*(void **)(o + 0x1c)));
+    sub_020222CC((u32)(((struct Obj11726 *)o)->f18), (int)(((struct Obj11726 *)o)->f1C));
 }

@@ -24,6 +24,7 @@
  *   func_021CD4B0  0x021CD4B0  thumb  ov093
  *   func_021D6730  0x021D6730  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 func_021D5440(u8 *p);
@@ -55,7 +56,7 @@ void func_021C2250(u8 *p, u8 *a, u16 b, u32 c)
     if (b == 0)
         func_021C60EC(p, a, 15);
     func_021DCF24(a);
-    func_021CD4B0(*(void **)(p + 0xC), 0x1E, name, b);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x1E, name, b);
     func_021D5B44((struct QI *)a, b);
     if (b != 0)
         func_021DCF5C(a);
@@ -64,7 +65,7 @@ void func_021C2250(u8 *p, u8 *a, u16 b, u32 c)
     func_021CC95C(p + 0x1D74, s, 7487);
     if (c != 0) {
         func_021D6730((struct QK *)a, t);
-        func_021CD4B0(*(void **)(p + 0xC), 0x17, name, t);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 0x17, name, t);
         func_021C6134(p, a, 8);
     }
 }

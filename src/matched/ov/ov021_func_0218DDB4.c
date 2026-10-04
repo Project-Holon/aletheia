@@ -16,6 +16,9 @@
  *   func_021C06B4  0x021C06B4  thumb ov021
  *   func_021C06A8  0x021C06A8  thumb ov021
  */
+#include "../include/Obj02370.h"
+#include "../include/Obj03107.h"
+#include "../include/Obj12588.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,8 +36,8 @@ void func_0218DDB4(const char *p, int *q, char *r)
 {
     S6 tmp = d_021D3DD4;
     int cnt = 0;
-    int base = *(u16 *)(r + 0x100);
-    int n = func_021C0688((u8 *)(*(int *)(p + 0x70)));
+    int base = ((struct Obj03107 *)r)->f100;
+    int n = func_021C0688((u8 *)(((struct Obj02370 *)p)->f70));
     int z;
     int x;
     int i;
@@ -42,16 +45,16 @@ void func_0218DDB4(const char *p, int *q, char *r)
     x = q[0] / 0x10000;
     z = q[2] / 0x10000;
     for (i = 0; i < n; i++) {
-        if (func_021C068C(x, z, *(int *)(p + 0x70), i)) {
+        if (func_021C068C(x, z, ((struct Obj02370 *)p)->f70, i)) {
             int k = base + ++cnt - 1;
             char *e;
             if (k >= 0x10)
                 break;
             e = r + k * 16;
             *(S6 *)e = tmp;
-            *(int *)(e + 8) = func_021C06B4(i, *(int *)(p + 0x70));
-            *(int *)(e + 0xc) = func_021C06A8(i, *(int *)(p + 0x70));
+            ((struct Obj12588 *)e)->f8 = func_021C06B4(i, ((struct Obj02370 *)p)->f70);
+            ((struct Obj12588 *)e)->fC = func_021C06A8(i, ((struct Obj02370 *)p)->f70);
         }
     }
-    *(u16 *)(r + 0x100) += (u16)cnt;
+    ((struct Obj03107 *)r)->f100 += (u16)cnt;
 }

@@ -13,24 +13,26 @@
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
  */
+#include "../include/Obj05552.h"
+#include "../include/Obj25768.h"
 extern void func_021BC3DC(void *);
 extern int func_021B6448(unsigned char *);
 extern void func_0204E720(unsigned,int,int,int);
 extern int func_0204E804(void);
 int func_021BBF98(char *p)
 {
-    switch (*(int *)(p+4)) {
+    switch (((struct Obj05552 *)p)->f4) {
     case 0:
-        if (*(unsigned char *)(*(char **)(p+0x14)+9)==0) {
-            func_021BC3DC(*(void **)(p+0x124));
-            if (func_021B6448(*(unsigned char **)(p+0x124))!=1) break;
+        if (((struct Obj25768 *)(*(char * *)&((struct Obj05552 *)p)->f14))->f9==0) {
+            func_021BC3DC(((struct Obj05552 *)p)->f124);
+            if (func_021B6448(*(unsigned char * *)&((struct Obj05552 *)p)->f124)!=1) break;
         }
         func_0204E720(3,0,16,0);
-        (*(int *)(p+4))++;
+        (((struct Obj05552 *)p)->f4)++;
         break;
     case 1:
         if (func_0204E804()==0) {
-            *(int *)(p+4)=0;
+            ((struct Obj05552 *)p)->f4=0;
             return 5;
         }
         break;

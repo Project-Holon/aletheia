@@ -15,6 +15,7 @@
  *   func_0220B760 0x0220B760 thumb ov198
  *   func_02210B30 0x02210B30 thumb ov198
  */
+#include "../include/Obj03908.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,7 +31,7 @@ int func_0220F9F8(u8 *p)
     u32 sel;
     u8 next;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03908 *)p)->f2184);
     switch(sel){
     case 0:
         next=func_02210B30(p,(*(u8 **)p)[0x20],-1);
@@ -38,7 +39,7 @@ int func_0220F9F8(u8 *p)
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
             func_0220B760(p,12);
-            *(u32 *)(p+0x217C)=20;
+            ((struct Obj03908 *)p)->f217C=20;
             return 29;
         }
         break;
@@ -48,26 +49,26 @@ int func_0220F9F8(u8 *p)
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
             func_0220B760(p,13);
-            *(u32 *)(p+0x217C)=20;
+            ((struct Obj03908 *)p)->f217C=20;
             return 29;
         }
         break;
     case 2:
         func_02211970((u8 **)p,1357);
         func_0220B760(p,11);
-        *(u32 *)(p+0x217C)=14;
+        ((struct Obj03908 *)p)->f217C=14;
         return 29;
     case 3:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2190]=1;
-        *(u32 *)(p+0x217C)=12;
+        ((struct Obj03908 *)p)->f217C=12;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2190]=1;
-        *(u32 *)(p+0x217C)=12;
+        ((struct Obj03908 *)p)->f217C=12;
         return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

@@ -17,6 +17,7 @@
  *   func_021F545C 0x021F545C thumb ov112
  *   func_021F5350 0x021F5350 thumb ov112
  */
+#include "../include/Obj02852.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,15 +33,15 @@ void func_021B6E74(u8 *p)
 {
     int v[3];
     int *q;
-    *(u8 **)(p + 0x187c) = func_021F5164(*(u16 *)p);
-    func_021F5438(*(u8 **)(p + 0x187c), 0x50000);
-    func_021F5444(*(u8 **)(p + 0x187c), 0x3fe0);
-    *(u8 **)(p + 0x1880) = func_021F5204(*(u8 **)(p + 0x187c), (*(void ***)(p + 4))[1], 0);
-    func_021F51E8(*(u8 **)(p + 0x187c));
-    func_021F51F4(*(u8 **)(p + 0x187c));
-    q = func_021F545C(*(u8 **)(p + 0x1880));
+    *(u8 * *)&((struct Obj02852 *)p)->f187C = func_021F5164(((struct Obj02852 *)p)->f0);
+    func_021F5438(*(u8 * *)&((struct Obj02852 *)p)->f187C, 0x50000);
+    func_021F5444(*(u8 * *)&((struct Obj02852 *)p)->f187C, 0x3fe0);
+    *(u8 * *)&((struct Obj02852 *)p)->f1880 = func_021F5204(*(u8 * *)&((struct Obj02852 *)p)->f187C, (*(void ***)(p + 4))[1], 0);
+    func_021F51E8(*(u8 * *)&((struct Obj02852 *)p)->f187C);
+    func_021F51F4(*(u8 * *)&((struct Obj02852 *)p)->f187C);
+    q = func_021F545C(*(u8 * *)&((struct Obj02852 *)p)->f1880);
     v[0] = (0x80000 - q[0]) / 16;
     v[1] = (0xc0000 - (0x70000 - q[1])) / 16;
     v[2] = 0x28000;
-    func_021F5350(*(u8 **)(p + 0x1880), v);
+    func_021F5350(*(u8 * *)&((struct Obj02852 *)p)->f1880, v);
 }

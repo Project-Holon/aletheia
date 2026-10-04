@@ -35,6 +35,7 @@
  *   d_021DADF8     0x021DADF8  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12974.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -131,7 +132,7 @@ void func_021CB9E4(u8 *p, void *a1, void *a2, void *a3)
         return;
     }
     ent = d_021DAEBC;
-    cnt = func_0200DB80(*(void **)(p + 0x74), kind);
+    cnt = func_0200DB80(((struct Obj12974 *)p)->f74, kind);
     switch (kind) {
     case 0:
     case 1:

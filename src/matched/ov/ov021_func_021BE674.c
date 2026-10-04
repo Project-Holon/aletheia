@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BE674  0x021BE674  thumb
  */
+#include "../include/Obj12904.h"
 
 typedef unsigned short u16;
 
@@ -24,10 +25,10 @@ void *func_021BE674(char *base, int i, unsigned int j, int k)
     };
     char *arr;
 
-    if (*(int *)(e + 8) == 0) {
+    if (((struct Obj12904 *)e)->f8 == 0) {
         return 0;
     }
-    if (j >= *(u16 *)(e + 0x16)) {
+    if (j >= ((struct Obj12904 *)e)->f16) {
         return 0;
     }
     arr = (*(struct S **)(e + 0x10))[j].arr;

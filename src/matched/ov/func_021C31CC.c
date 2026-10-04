@@ -20,6 +20,7 @@
  * plus two padding bytes); the extent ran two bytes long because the follower
  * has no func_ label.
  */
+#include "../include/Obj09208.h"
 
 
 typedef unsigned int   u32;
@@ -39,7 +40,7 @@ void func_021C31CC(int unused, char *q)
     buf.h[1] = 0x80;
     buf.w[0] = 0x1000;
     buf.w[1] = 0x1000;
-    func_0204B404((struct Obj *)(*(int *)(q + *(int *)(q + 0x5c) * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
-    func_0204B5AC(*(int *)(q + *(int *)(q + 0x5c) * 4 + 0x54), buf.w);
-    *(int *)(q + 0x60) = 1;
+    func_0204B404((struct Obj *)(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54)), (const struct Vec2 *)buf.h, 1);
+    func_0204B5AC(*(int *)(q + ((struct Obj09208 *)q)->f5C * 4 + 0x54), buf.w);
+    ((struct Obj09208 *)q)->f60 = 1;
 }

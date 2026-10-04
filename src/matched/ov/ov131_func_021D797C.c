@@ -11,13 +11,14 @@
  *   func_02015EA0 0x02015EA0 thumb
  *   func_02015BA4 0x02015BA4 thumb
  */
+#include "../include/Obj14069.h"
 extern void func_02015EA0(void *);
 extern void func_02015BA4(void *,void *);
 void func_021D797C(unsigned char *p,void **q) {
  func_02015EA0(q[0]);
  func_02015EA0(q[1]);
- func_02015BA4(*(void **)(p+0x78),q[0]);
- func_02015BA4(*(void **)(p+0x78),q[1]);
+ func_02015BA4(((struct Obj14069 *)p)->f78,q[0]);
+ func_02015BA4(((struct Obj14069 *)p)->f78,q[1]);
  q[0]=0;
  q[1]=0;
 }

@@ -27,6 +27,7 @@
  *   func_021B7114  0x021B7114  thumb  ov071
  *   d_021BAAA4     0x021BAAA4  data  a4
  */
+#include "../include/Obj07702.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -71,8 +72,8 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
         void *q = c->f4->f8;
         u8 *s = d + i * 8;
         if (s[0x1c] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(*(void **)(s + 0x18)))) == 0) {
-                func_02045334(*(void **)(s + 0x18));
+            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj07702 *)s)->f18))) == 0) {
+                func_02045334(((struct Obj07702 *)s)->f18);
                 s[0x1c] = 0;
             }
         }

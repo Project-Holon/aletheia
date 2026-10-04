@@ -25,6 +25,7 @@
  *   d_021F3648     0x021F3648  data  ov032  a4
  *   d_021F3668     0x021F3668  data  ov032  a4
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,12 +58,12 @@ void func_021F2A8C(u8 *p, u32 h)
     func_02082A7C(0, (void *)0x06200000, 0x20000);
     REG_DB_DISPCNT_SUB &= 0xFFFF1FFF;
     REG_DB_BLDCNT_SUB = 0;
-    func_020216B4((struct PalAnmSlot *)(*(u32 *)(p + 0xac)), (void *)h, 0x13, *(u16 *)(p + 0x96), 1, 0x1a0, 0);
-    func_02021640((struct PalAnmSlot *)(*(u32 *)(p + 0xac)), 0x17, 5, *(u16 *)(p + 0x96), 1, 0x20, 0xd0);
-    func_02049658((void *)h, 0x14, 7, 0, 0, 1, *(u16 *)(p + 0x96));
-    func_020498F4((void *)h, 0x15, 5, 0, 0x800, 1, *(u16 *)(p + 0x96));
-    func_020498F4((void *)h, 0x16, 6, 0, 0x800, 1, *(u16 *)(p + 0x96));
-    func_020498F4((void *)h, 0x17, 7, 0, 0x800, 1, *(u16 *)(p + 0x96));
+    func_020216B4((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), (void *)h, 0x13, ((struct Obj00007 *)p)->f96, 1, 0x1a0, 0);
+    func_02021640((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 0x17, 5, ((struct Obj00007 *)p)->f96, 1, 0x20, 0xd0);
+    func_02049658((void *)h, 0x14, 7, 0, 0, 1, ((struct Obj00007 *)p)->f96);
+    func_020498F4((void *)h, 0x15, 5, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
+    func_020498F4((void *)h, 0x16, 6, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
+    func_020498F4((void *)h, 0x17, 7, 0, 0x800, 1, ((struct Obj00007 *)p)->f96);
     func_0207D63C(0x04001050, 4, 0x1e, 0xd, 3);
     func_02040588(4, 1);
     func_02040588(5, 1);

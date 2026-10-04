@@ -10,6 +10,7 @@
  * symbols:
 
  */
+#include "../include/Obj23667.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void *func_021DC924(u8 *p) { return *(void **)(p+16); }
+void *func_021DC924(u8 *p) { return ((struct Obj23667 *)p)->f10; }

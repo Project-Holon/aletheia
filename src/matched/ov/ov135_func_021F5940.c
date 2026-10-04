@@ -11,6 +11,7 @@
  *   func_02202940 0x02202940 thumb ov135
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj00287.h"
 typedef unsigned char u8;
 extern void func_02202940(void *);
 struct Descriptor;
@@ -18,9 +19,9 @@ extern void func_020452E8(struct Descriptor *d);
 void func_021F5940(u8 *p)
 {
     func_02202940(p + 0xfa0);
-    func_020452E8(*(void **)(p + 0xde0));
-    func_020452E8(*(void **)(p + 0xdd0));
-    func_020452E8(*(void **)(p + 0xd54));
-    func_020452E8(*(void **)(p + 0xd40));
-    func_020452E8(*(void **)(p + 0xd4c));
+    func_020452E8(((struct Obj00287 *)p)->fDE0);
+    func_020452E8(((struct Obj00287 *)p)->fDD0);
+    func_020452E8(((struct Obj00287 *)p)->fD54);
+    func_020452E8(((struct Obj00287 *)p)->fD40);
+    func_020452E8(((struct Obj00287 *)p)->fD4C);
 }

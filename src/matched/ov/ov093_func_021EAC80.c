@@ -25,6 +25,7 @@
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
  */
+#include "../include/Obj01694.h"
 typedef unsigned char u8;
 extern void func_021EAD44(void *, int);
 extern int func_021EAD54(void *);
@@ -41,13 +42,13 @@ int func_021EAC80(u8 *p, u8 *out)
 {
     switch (p[0x174]) {
     case 0:
-        func_021EAD44(*(void **)(p + 0x180), 0);
+        func_021EAD44(((struct Obj01694 *)p)->f180, 0);
         func_02034AC4((int)ov196_id);
         p[0x174]++;
         break;
     case 1:
-        if (func_021EAD54(*(void **)(p + 0x180))) {
-            func_021EAD64(*(void **)(p + 0x180));
+        if (func_021EAD54(((struct Obj01694 *)p)->f180)) {
+            func_021EAD64(((struct Obj01694 *)p)->f180);
             func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
             p[0x174]++;
@@ -56,13 +57,13 @@ int func_021EAC80(u8 *p, u8 *out)
     case 2:
         if (p[0x158]) {
             func_02034A5C((int)ov198_id);
-            func_021EAD74(*(void **)(p + 0x180));
-            func_021EAD84(*(void **)(p + 0x180));
+            func_021EAD74(((struct Obj01694 *)p)->f180);
+            func_021EAD84(((struct Obj01694 *)p)->f180);
             p[0x174]++;
         }
         break;
     case 3:
-        if (func_021EAD94(*(void **)(p + 0x180))) p[0x174]++;
+        if (func_021EAD94(((struct Obj01694 *)p)->f180)) p[0x174]++;
         break;
     default:
         *out = p[0x157];

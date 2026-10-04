@@ -25,6 +25,7 @@
  *   func_0203C9AC  0x0203C9AC  arm
  *   func_02036428  0x02036428  arm
  */
+#include "../include/Obj03449.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -65,8 +66,8 @@ int func_020387A0(u32 i, u8 *p, s32 n)
     if (p[0] != (u8)r || ((r & 0xff00) >> 8) != p[1]) {
         func_02039548();
         q = (u8 *)func_0203CA98();
-        if (*(u32 *)(q + 0xc) == 0)
-            func_0203C9AC(*(u32 *)q, *(u32 *)(q + 4), *(u32 *)(q + 8), 0x3f2);
+        if (((struct Obj03449 *)q)->fC == 0)
+            func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f2);
         return 0;
     }
     {
@@ -74,8 +75,8 @@ int func_020387A0(u32 i, u8 *p, s32 n)
         if (s[i] != 0 && (u8)(p[5] - 1) != s[i]) {
             func_02039548();
             q = (u8 *)func_0203CA98();
-            if (*(u32 *)(q + 0xc) == 0)
-                func_0203C9AC(*(u32 *)q, *(u32 *)(q + 4), *(u32 *)(q + 8), 0x3f3);
+            if (((struct Obj03449 *)q)->fC == 0)
+                func_0203C9AC(((struct Obj03449 *)q)->f0, ((struct Obj03449 *)q)->f4, ((struct Obj03449 *)q)->f8, 0x3f3);
             return 0;
         }
         s[i] = p[5];

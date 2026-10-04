@@ -11,6 +11,7 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj13262.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *);
-void func_021BD61C(char *p) { func_020452E8(*(struct Descriptor **)(p+0x1FC)); func_020452E8(*(struct Descriptor **)(p+0x200)); }
+void func_021BD61C(char *p) { func_020452E8(*(struct Descriptor * *)&((struct Obj13262 *)p)->f1FC); func_020452E8(*(struct Descriptor * *)&((struct Obj13262 *)p)->f200); }

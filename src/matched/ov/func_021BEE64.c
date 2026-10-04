@@ -18,6 +18,7 @@
  * returns - agree under func_021C27D8 after both have been released through
  * func_021C27D0.
  */
+#include "../include/Obj18261.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ extern int func_021C27D8(void *p);
 
 BOOL func_021BEE64(void *a, char *b)
 {
-    void *x = *(void **)(b + 8);
+    void *x = ((struct Obj18261 *)b)->f8;
     void *y = (void *)func_021C23B8((int)a);
 
     func_021C27D0(x);

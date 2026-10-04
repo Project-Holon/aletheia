@@ -11,6 +11,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07486.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,8 +22,8 @@ void func_021A0338(u8 *p, u32 id, u32 c, u8 d)
 {
     if (id != 0x0FFFFFFF) {
         p[0] = 1;
-        *(u16 *)(p + 2) = id;
+        ((struct Obj07486 *)p)->f2 = id;
         p[1] = d;
     }
-    *(u32 *)(p + 8) = c;
+    ((struct Obj07486 *)p)->f8 = c;
 }

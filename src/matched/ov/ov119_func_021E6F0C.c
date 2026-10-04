@@ -16,6 +16,7 @@
  *   func_02049238 0x02049238 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -29,18 +30,18 @@ extern void func_02049238(void *);
 extern void func_02041B6C(u32 bit);
 void func_021E6F0C(char *p, int side, void *mon)
 {
-    void *h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
+    void *h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     void *f;
     Pal *pal;
     u16 *d;
     u32 i;
     if (side == 0)
-        f = func_02049EF4(h, 5, 0, (void **)&pal, *(u16 *)(p + 0x5f4));
+        f = func_02049EF4(h, 5, 0, (void **)&pal, ((struct Obj00001 *)p)->f5F4);
     else
-        f = func_02049EF4(h, 6, 0, (void **)&pal, *(u16 *)(p + 0x5f4));
+        f = func_02049EF4(h, 6, 0, (void **)&pal, ((struct Obj00001 *)p)->f5F4);
     d = pal->data;
     for (i = 0; i < pal->size / 2; i++)
-        d[i] += (u16)*(int *)(p + 0x86c);
+        d[i] += (u16)*(int *)&((struct Obj00001 *)p)->f86C;
     if (!side)
         func_02041090(1, (u32)d, 0, 0, 16, 24);
     else

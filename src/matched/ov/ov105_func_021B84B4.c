@@ -19,6 +19,8 @@
  *   func_02061CA4 0x02061CA4 arm
  *   func_021B87E8 0x021B87E8 thumb ov105
  */
+#include "../include/Obj07990.h"
+#include "../include/Obj22250.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02082BCC(void *,int,int);
@@ -39,15 +41,15 @@ void func_021B84B4(u8 *p,int id,int choice,int heap)
     u8 *pal;
     int i;
     func_02082BCC(p,0,0x60);
-    *(u16 *)p=id;
-    *(u16 *)(p+0x54)=func_021B87E8(choice,(int *)(p+0x5c));
-    if (*(int *)(p+0x5c)) ++*(u16 *)(p+0x54);
+    ((struct Obj07990 *)p)->f0=id;
+    ((struct Obj07990 *)p)->f54=func_021B87E8(choice,(int *)(p+0x5c));
+    if (((struct Obj07990 *)p)->f5C) ++((struct Obj07990 *)p)->f54;
     archive=func_020490F4(0x5e,heap);
     func_02049658(archive,15,3,0,0,0,heap);
     func_020498F4(archive,17,3,0,0,0,heap);
     func_02049238(archive);
     data=func_02049F34(0x5e,16,(u32)(&raw),heap);
-    pal=*(u8 **)((u8 *)raw+12);
+    pal=*(u8 * *)&((struct Obj22250 *)raw)->fC;
     func_02082D44(pal,p+8,32);
     func_02082D44(pal+0x100,p+8,32);
     func_020307B0(data);

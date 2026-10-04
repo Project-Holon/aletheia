@@ -11,6 +11,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj22722.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,6 +22,6 @@ void func_021D93E0(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
     if (e == func_020399A8()) {
         if (a != func_02039338())
-            *(u32 *)(base + 0xfa0) = *src;
+            ((struct Obj22722 *)base)->fFA0 = *src;
     }
 }

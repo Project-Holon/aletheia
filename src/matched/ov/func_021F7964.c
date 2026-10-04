@@ -14,6 +14,7 @@
 
  * Release the +0xbf8, +0xd2c and +0xd30 handles.
  */
+#include "../include/Obj09229.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ extern void func_0204B3B4(struct Obj *p);
 
 void func_021F7964(u8 *p)
 {
-    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xbf8)));
-    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xd2c)));
-    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xd30)));
+    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fBF8));
+    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fD2C));
+    func_0204B3B4((struct Obj *)(((struct Obj09229 *)p)->fD30));
 }

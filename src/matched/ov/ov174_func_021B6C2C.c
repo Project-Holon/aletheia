@@ -15,5 +15,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj00681.h"
+#include "../include/Obj24204.h"
 struct S020315D4;extern void func_021B61C4(unsigned char *),func_02012704(unsigned char *),func_020307B0(void *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
-int func_021B6C2C(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {func_021B61C4(p);if(own==0){func_02012704(*(unsigned char **)(*(char **)(p+48)+4));func_020307B0(*(void **)(p+48));}func_020315D4(a);func_020306F0(85);return 1;}
+int func_021B6C2C(struct S020315D4 *a,unsigned unused,int own,unsigned char *p) {func_021B61C4(p);if(own==0){func_02012704(*(unsigned char * *)&((struct Obj24204 *)(*(char * *)&((struct Obj00681 *)p)->f30))->f4);func_020307B0(((struct Obj00681 *)p)->f30);}func_020315D4(a);func_020306F0(85);return 1;}

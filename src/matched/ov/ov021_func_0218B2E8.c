@@ -14,6 +14,7 @@
  *   func_021626B0  0x021626B0  thumb  ov010
  *   func_02185360  0x02185360  thumb  ov020
  */
+#include "../include/Obj04982.h"
 
 typedef unsigned short u16;
 
@@ -23,6 +24,6 @@ extern void *func_02185360(void *p, int u, int a, int b);
 
 int func_0218B2E8(char *p, void *x, int a, int *b)
 {
-    void *obj = func_021625CC(*(void **)(p + 0xc), (u16)a);
-    return (int)func_02185360(*(void **)(p + 4), (int)x, (int)obj, func_021626B0(obj, b));
+    void *obj = func_021625CC(((struct Obj04982 *)p)->fC, (u16)a);
+    return (int)func_02185360(((struct Obj04982 *)p)->f4, (int)x, (int)obj, func_021626B0(obj, b));
 }

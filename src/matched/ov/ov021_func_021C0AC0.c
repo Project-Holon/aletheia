@@ -16,6 +16,7 @@
  *   func_021C0C80  0x021C0C80  thumb  ov021
  *   func_021C0BD8  0x021C0BD8  thumb  ov021
  */
+#include "../include/Obj00959.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,19 +31,19 @@ int func_021C0AC0(u32 a, int *st, u8 *p)
 {
     switch (*st) {
     case 0:
-        if ((int)*(u16 *)(p + 0x16) % 20 == 0) {
+        if ((int)((struct Obj00959 *)p)->f16 % 20 == 0) {
             func_021C0BE8(p);
             if (p[0x14] <= p[0x15]) {
                 *st = *st + 1;
-                *(u16 *)(p + 0x16) = 0;
+                ((struct Obj00959 *)p)->f16 = 0;
             }
         }
         break;
     case 1:
-        if (*(u16 *)(p + 0x16) > 10) {
+        if (((struct Obj00959 *)p)->f16 > 10) {
             func_021C0C48(p);
             *st = *st + 1;
-            *(u16 *)(p + 0x16) = 0;
+            ((struct Obj00959 *)p)->f16 = 0;
         }
         break;
     case 2:
@@ -54,6 +55,6 @@ int func_021C0AC0(u32 a, int *st, u8 *p)
         func_021C0BD8(p);
         return 1;
     }
-    *(u16 *)(p + 0x16) = *(u16 *)(p + 0x16) + 1;
+    ((struct Obj00959 *)p)->f16 = ((struct Obj00959 *)p)->f16 + 1;
     return 0;
 }

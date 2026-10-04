@@ -20,6 +20,8 @@
  *   func_021C6DE0  0x021C6DE0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09472.h"
+#include "../include/Obj19581.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +40,7 @@ void func_0219014C(u32 *a)
 {
     u32 h = *a;
     u8 *o = (u8 *)func_021901E8((u8 *)a);
-    u32 k = *(u32 *)o;
+    u32 k = ((struct Obj19581 *)o)->f0;
     u8 *q = o + 0x24;
     u32 v0;
     u32 v1;
@@ -46,9 +48,9 @@ void func_0219014C(u32 *a)
     u32 v3;
     u32 v4;
 
-    v0 = func_021C7058(h, k, *(u16 *)q);
-    v1 = func_021C701C(h, k, *(u16 *)(q + 2));
-    v2 = func_021C6F00(h, k, *(u32 *)(q + 4));
+    v0 = func_021C7058(h, k, ((struct Obj09472 *)q)->f0);
+    v1 = func_021C701C(h, k, ((struct Obj09472 *)q)->f2);
+    v2 = func_021C6F00(h, k, ((struct Obj09472 *)q)->f4);
     v3 = func_021C7C10(h, k, o + 0xc, q + 8);
     v4 = func_021C7AE4(h, k, q + 0x14);
     h = func_02188D38((u8 *)h);

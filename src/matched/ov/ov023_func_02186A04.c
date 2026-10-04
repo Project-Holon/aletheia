@@ -10,6 +10,7 @@
  * status:   EXACT
  * note:     Five six-byte records; remainder of handed extent is rodata.
  */
+#include "../include/Obj09773.h"
 
 typedef unsigned char u8;
 typedef struct {
@@ -23,9 +24,9 @@ typedef struct {
 void func_02186A04(Rec *d, char *p)
 {
     int i;
-    if (*(int *)(p + 0xBB8) != *(int *)(p + 0xBBC)) {
+    if (((struct Obj09773 *)p)->fBB8 != ((struct Obj09773 *)p)->fBBC) {
         for (i = 0; i < 5; i++) {
-            d[i] = ((Rec *)(p + *(int *)(p + 0xBB8) * 30))[i];
+            d[i] = ((Rec *)(p + ((struct Obj09773 *)p)->fBB8 * 30))[i];
         }
     } else {
         for (i = 0; i < 5; i++) {

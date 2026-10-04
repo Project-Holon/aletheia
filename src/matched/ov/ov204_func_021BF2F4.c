@@ -15,6 +15,7 @@
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
  */
+#include "../include/Obj03358.h"
 
 typedef unsigned int u32;
 
@@ -35,25 +36,25 @@ extern u32 func_02035C60(void);
 
 int func_021BF2F4(char *a)
 {
-    if (*(int *)(a + 0x14) != 0) {
-        func_020286C4((struct Ctx *)(*(int *)(a + 0x20)), (void *)(*(int *)(a + 0x14)),
-                      (void *)(*(int *)(a + 0x1c)));
+    if (((struct Obj03358 *)a)->f14 != 0) {
+        func_020286C4((struct Ctx *)(((struct Obj03358 *)a)->f20), (void *)(((struct Obj03358 *)a)->f14),
+                      (void *)(((struct Obj03358 *)a)->f1C));
 
-        switch (func_0201CE30((void *)(*(int *)(a + 0x14)))) {
+        switch (func_0201CE30((void *)(((struct Obj03358 *)a)->f14))) {
         case 2:
-            func_0201CE48((struct Rec3 *)(*(int *)(a + 0x14)));
-            *(int *)(a + 0x14) = 0;
+            func_0201CE48((struct Rec3 *)(((struct Obj03358 *)a)->f14));
+            ((struct Obj03358 *)a)->f14 = 0;
             return 1;
         case 1:
             if (func_020362DC() == 1 || func_020362DC() == 2
                 || func_02035C60() != 0) {
-                func_0201CE38((void *)(*(int *)(a + 0x14)));
+                func_0201CE38((void *)(((struct Obj03358 *)a)->f14));
                 func_020061E4(0x547);
             }
             break;
         case 0:
             if ((func_0203630C() & 3) != 0 || func_02035C38() != 0)
-                func_0201CE5C((struct Rec *)(*(int *)(a + 0x14)), 0);
+                func_0201CE5C((struct Rec *)(((struct Obj03358 *)a)->f14), 0);
             break;
         }
         return 0;

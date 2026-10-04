@@ -23,6 +23,7 @@
  *   func_02030EE8  0x02030EE8  arm
  *   func_02030EAC  0x02030EAC  arm
  */
+#include "../include/Obj00380.h"
 typedef unsigned int u32;
 
 typedef enum { SLOT_0, SLOT_MAX = 8 } Slot;
@@ -63,14 +64,14 @@ void func_02206E28(char *p)
     }
     for (j = 0; j < 6; j++)
         func_0204ADA4(*(int *)(p + j * 4 + 0x18));
-    func_0204A8D4(*(int *)(p + 0x30));
-    func_0204AFD8(*(int *)(p + 0x34));
-    func_0204ADA4(*(int *)(p + 0x38));
-    func_0204ADA4(*(int *)(p + 0x3c));
-    func_0204B1CC((struct Bank *)(*(int *)p));
-    func_020307B0(*(void **)(p + 0x10));
-    func_02049238(*(u32 *)(p + 4));
-    func_020307B0((void *)func_02030EE8(*(void **)(p + 0xc)));
-    func_02030EAC(*(void **)(p + 0xc));
+    func_0204A8D4(((struct Obj00380 *)p)->f30);
+    func_0204AFD8(((struct Obj00380 *)p)->f34);
+    func_0204ADA4(((struct Obj00380 *)p)->f38);
+    func_0204ADA4(((struct Obj00380 *)p)->f3C);
+    func_0204B1CC((struct Bank *)(((struct Obj00380 *)p)->f0));
+    func_020307B0(((struct Obj00380 *)p)->f10);
+    func_02049238(((struct Obj00380 *)p)->f4);
+    func_020307B0((void *)func_02030EE8(((struct Obj00380 *)p)->fC));
+    func_02030EAC(((struct Obj00380 *)p)->fC);
     func_020307B0(p);
 }

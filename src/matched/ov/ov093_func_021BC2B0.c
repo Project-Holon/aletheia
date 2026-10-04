@@ -16,6 +16,7 @@
  *   func_021B9AEC  0x021B9AEC  thumb  ov093
  *   func_021B9B98  0x021B9B98  thumb  ov093
  */
+#include "../include/Obj00003.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,9 +35,9 @@ int func_021BC2B0(u8 *p)
     f[1] = 0;
     f[0] = f[1];
     for (i = 0; i < 4; i++) {
-        if (func_021B8B9C(*(u8 **)(p + 4), i) != 0) {
-            char *q = func_021B9AEC(*(char **)(p + 8), i);
-            u8 k = func_021B8BC4(*(u8 **)(p + 4), i);
+        if (func_021B8B9C(*(u8 * *)&((struct Obj00003 *)p)->f4, i) != 0) {
+            char *q = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, i);
+            u8 k = func_021B8BC4(*(u8 * *)&((struct Obj00003 *)p)->f4, i);
 
             if (func_021B9B98(q) != 0)
                 f[k] = 1;

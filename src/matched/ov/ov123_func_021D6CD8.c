@@ -16,6 +16,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj02474.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -35,12 +36,12 @@ void func_021D6CD8(u8 *p)
     struct Point pt;
     void *h;
     u16 n;
-    h=func_020490F4(7,*(u16 *)(p+0x43c4));
+    h=func_020490F4(7,((struct Obj02474 *)p)->f43C4);
     n=func_0201BABC(1,0,0,0);
-    *(void **)(p+0x44)=(void *)func_0204A6C8(h,n,0,0,*(u16 *)(p+0x43c4));
+    ((struct Obj02474 *)p)->f44=(void *)func_0204A6C8(h,n,0,0,((struct Obj02474 *)p)->f43C4);
     pt.x=133; pt.y=128; pt.f4=0; pt.f6=3; pt.f7=2;
-    *(void **)(p+0xb4)=func_0204B294((void *)*(u32 *)(p+0xc),(u32)*(void **)(p+0x44),*(u32 *)(p+0x28),*(u32 *)(p+0x5c),&pt,0,*(u16 *)(p+0x43c4));
-    func_0204B92C(*(void **)(p+0xb4),0);
-    func_0204B3DC(*(void **)(p+0xb4),0);
+    ((struct Obj02474 *)p)->fB4=func_0204B294((void *)((struct Obj02474 *)p)->fC,(u32)((struct Obj02474 *)p)->f44,((struct Obj02474 *)p)->f28,((struct Obj02474 *)p)->f5C,&pt,0,((struct Obj02474 *)p)->f43C4);
+    func_0204B92C(((struct Obj02474 *)p)->fB4,0);
+    func_0204B3DC(((struct Obj02474 *)p)->fB4,0);
     func_02049238(h);
 }

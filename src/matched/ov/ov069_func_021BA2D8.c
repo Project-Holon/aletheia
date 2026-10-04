@@ -15,6 +15,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_0204B878  0x0204B878  arm
  */
+#include "../include/Obj00432.h"
 
 typedef unsigned int   u32;
 extern int func_021BA400(char *p, int k);
@@ -30,20 +31,20 @@ void func_021BA2D8(char *o, int k)
     case 0:
         if (func_021BA400(o, k) != 0) {
             func_020061E4(0x548);
-            func_0204B878((struct Obj *)(*(int *)(o + 0x12C)), 12);
-            func_021BA438(o, *(unsigned short *)(o + 0x160));
+            func_0204B878((struct Obj *)(((struct Obj00432 *)o)->f12C), 12);
+            func_021BA438(o, ((struct Obj00432 *)o)->f160);
         }
         break;
     case 1:
         if (func_021BA400(o, k) != 0) {
             func_020061E4(0x548);
-            func_0204B878((struct Obj *)(*(int *)(o + 0x130)), 13);
-            func_021BA438(o, *(unsigned short *)(o + 0x160));
+            func_0204B878((struct Obj *)(((struct Obj00432 *)o)->f130), 13);
+            func_021BA438(o, ((struct Obj00432 *)o)->f160);
         }
         break;
     case 2:
-        *(int *)(o + 0x158) = 2;
-        func_0204B878((struct Obj *)(*(int *)(o + 0x128)), 9);
+        ((struct Obj00432 *)o)->f158 = 2;
+        func_0204B878((struct Obj *)(((struct Obj00432 *)o)->f128), 9);
         break;
     }
 }

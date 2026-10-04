@@ -15,6 +15,7 @@
  *   func_021FA4AC 0x021FA4AC thumb ov132
  *   func_021FA27C 0x021FA27C thumb ov132
  */
+#include "../include/Obj10539.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021F9DFC(void *p);
@@ -25,7 +26,7 @@ extern void func_021FA27C(char *);
 void func_021FA064(char *p)
 {
     u8 i;
-    if (func_021F9DFC(*(void **)(p + 0x1e8)) == 0) {
+    if (func_021F9DFC(((struct Obj10539 *)p)->f1E8) == 0) {
         if (func_02005728(10) == 0) {
             for (i = 0; i < 3; i++) {
                 u8 a = func_02005728(4);
@@ -34,9 +35,9 @@ void func_021FA064(char *p)
             }
         }
     } else {
-        if (*(int *)(p + 0x200) == 1) {
+        if (((struct Obj10539 *)p)->f200 == 1) {
             func_021FA4AC(p);
-            *(int *)(p + 0x200) = 0;
+            ((struct Obj10539 *)p)->f200 = 0;
         }
         func_021FA27C(p);
     }

@@ -16,6 +16,7 @@
  *   func_02029DFC  0x02029DFC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12889.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,11 +30,11 @@ extern void *func_02029DFC(const void *p);
 u32 func_021BD8C0(u32 *ctx)
 {
     u8 *p = (u8 *)ctx[2];
-    u32 q = *(u32 *)(p + 8);
+    u32 q = ((struct Obj12889 *)p)->f8;
 
     if (!func_021BD904(ctx))
         return 0;
-    if (func_02029E08(q, *(u16 *)(p + 0x20)))
+    if (func_02029E08(q, ((struct Obj12889 *)p)->f20))
         return 0;
     if (func_021BD93C(ctx) == 1 && (u32)func_02029DFC((const void *)q) == 0x3F4)
         return 0;

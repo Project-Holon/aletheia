@@ -20,6 +20,7 @@
  *   func_021D81E4 0x021D81E4 thumb ov123
  *   func_021D88C0 0x021D88C0 thumb ov123
  */
+#include "../include/Obj06468.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct RtcDate { int year; u32 month; int day, week; };
@@ -44,11 +45,11 @@ void func_021D8958(char *p)
     struct RtcDate saved, current;
     u32 value;
     int day;
-    if (func_02008BD0(func_02008B14(*(void **)(p+0x28))) && *(u8 *)(p+0xac)) {
+    if (func_02008BD0(func_02008B14(((struct Obj06468 *)p)->f28)) && ((struct Obj06468 *)p)->fAC) {
         func_021D6EE0(p,(int)func_021D81E4,0x85c);
         return;
     }
-    value=func_020093C8(func_02009448(*(void **)(p+0x28)));
+    value=func_020093C8(func_02009448(((struct Obj06468 *)p)->f28));
     saved.year=(u8)(value>>24);
     saved.month=(u8)(value>>16);
     saved.day=(u8)(value>>8);
@@ -60,7 +61,7 @@ void func_021D8958(char *p)
         return;
     }
     if (func_0203CD98()) {
-        if (func_021B95D4(1,*(void **)(p+0x10)) && !func_021B9748(*(void **)(p+0x10)))
+        if (func_021B95D4(1,((struct Obj06468 *)p)->f10) && !func_021B9748(((struct Obj06468 *)p)->f10))
             func_021D6EE0(p,(int)func_021D88C0,0x871);
     } else {
         if (func_020362DC() || func_02035C60())

@@ -12,10 +12,11 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_0204B6F4 0x0204B6F4 arm
  */
+#include "../include/Obj13740.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204B6F4(struct Obj *,u8,u32);
-void func_021B9184(u8 *p,struct Obj *q,u32 v,u32 w) { func_02082BCC(p,0,0x2c); *(struct Obj **)p=q; *(u32 *)(p+4)=w; func_0204B6F4(q,v,1); }
+void func_021B9184(u8 *p,struct Obj *q,u32 v,u32 w) { func_02082BCC(p,0,0x2c); *(struct Obj * *)&((struct Obj13740 *)p)->f0=q; ((struct Obj13740 *)p)->f4=w; func_0204B6F4(q,v,1); }

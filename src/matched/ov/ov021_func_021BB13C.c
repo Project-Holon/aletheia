@@ -9,17 +9,19 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj07530.h"
+#include "../include/Obj20092.h"
 
 int func_021BB13C(char *a, char *b)
 {
     int r = -1;
-    if (*(unsigned char *)(b + 2) == 1) {
-        unsigned idx = *(unsigned short *)b;
-        if (*(unsigned *)(a + 8) > idx) {
+    if (((struct Obj07530 *)b)->f2 == 1) {
+        unsigned idx = ((struct Obj07530 *)b)->f0;
+        if (((struct Obj20092 *)a)->f8 > idx) {
             unsigned short *e = (*(unsigned short ***)(a + 0xc))[idx];
             unsigned w = e[0];
-            int x = *(short *)(b + 4) + (w >> 1);
-            int y = *(unsigned short *)(b + 6);
+            int x = ((struct Obj07530 *)b)->f4 + (w >> 1);
+            int y = ((struct Obj07530 *)b)->f6;
             if ((int)w > x && e[1] > y && x >= 0 && y >= 0)
                 r = *(int *)((char *)e + (x + w * y) * 4 + 4);
         }

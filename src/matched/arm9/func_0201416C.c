@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj00193.h"
 
-int func_0201416C(int a0, int a1, int a2, int a3){ int t0; t0 = func_020140F8(a0); *(unsigned short *)(((char *)((a0 + 0)) + 4)) = (unsigned short)(a1 + 0); *(unsigned short *)(((char *)((a0 + 0)) + 6)) = (unsigned short)(a2 + 0); *(unsigned short *)(((char *)((a0 + 0)) + 10)) = (unsigned short)(a3 + 0); return t0; }
+int func_0201416C(int a0, int a1, int a2, int a3){ int t0; t0 = func_020140F8(a0); ((struct Obj00193 *)((char *)((a0 + 0))))->f4 = (unsigned short)(a1 + 0); ((struct Obj00193 *)((char *)((a0 + 0))))->f6 = (unsigned short)(a2 + 0); ((struct Obj00193 *)((char *)((a0 + 0))))->fA = (unsigned short)(a3 + 0); return t0; }

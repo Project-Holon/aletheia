@@ -20,6 +20,8 @@
  *   func_02034714 0x02034714 arm
  *   d_021F90A0 0x021F90A0 data a1
  */
+#include "../include/Obj03338.h"
+#include "../include/Obj05490.h"
 typedef unsigned short u16;
 typedef struct Config {u16 x,y,z; unsigned char a,b;} Config;
 typedef struct Triple {int a,b,c;} Triple;
@@ -41,17 +43,17 @@ void func_021F8D98(char *p,char *q)
     void *v;
     Config cfg;
     Triple triple;
-    if (!*(int *)(p+0x1c)) {
-        a=func_021FC20C(*(char **)(q+12));
-        b=func_021FC214(*(char **)(q+12));
-        func_021FC4DC(*(void **)(q+8));
+    if (!*(int *)&((struct Obj03338 *)p)->f1C) {
+        a=func_021FC20C(*(char * *)&((struct Obj05490 *)q)->fC);
+        b=func_021FC214(*(char * *)&((struct Obj05490 *)q)->fC);
+        func_021FC4DC(((struct Obj05490 *)q)->f8);
         func_02082BCC(&cfg,0,8);
         cfg.x=0x50;cfg.y=0xa8;cfg.z=0;cfg.a=1;
-        v=(void *)func_021FC4DC(*(void **)(q+8));
-        if (!func_021FC124(*(void **)(q+12),6,&triple)) func_02034714(d_021F90A0,0,d_021F90A0);
-        *(void **)(p+0x18)=func_021FB378(&cfg,4,0x60,1,(int)v,*(int *)(p+0x28),a,b,&triple,*(u16 *)(p+0x30));
-        *(void **)(p+0x1c)=func_021FC6A4(4,8,3,0x10,2,0xe,*(void **)(p+0x2c),*(u16 *)(p+0x30));
-        func_021FC754(*(char **)(p+0x1c),(void *)b,(void *)0x71,(void *)a,0x3da0);
-        func_021FB964((void *)(*(int *)(q+12)),0x16,*(u16 *)(p+0x30));
+        v=(void *)func_021FC4DC(((struct Obj05490 *)q)->f8);
+        if (!func_021FC124(((struct Obj05490 *)q)->fC,6,&triple)) func_02034714(d_021F90A0,0,d_021F90A0);
+        ((struct Obj03338 *)p)->f18=func_021FB378(&cfg,4,0x60,1,(int)v,((struct Obj03338 *)p)->f28,a,b,&triple,((struct Obj03338 *)p)->f30);
+        ((struct Obj03338 *)p)->f1C=func_021FC6A4(4,8,3,0x10,2,0xe,((struct Obj03338 *)p)->f2C,((struct Obj03338 *)p)->f30);
+        func_021FC754(*(char * *)&((struct Obj03338 *)p)->f1C,(void *)b,(void *)0x71,(void *)a,0x3da0);
+        func_021FB964((void *)(*(int *)&((struct Obj05490 *)q)->fC),0x16,((struct Obj03338 *)p)->f30);
     }
 }

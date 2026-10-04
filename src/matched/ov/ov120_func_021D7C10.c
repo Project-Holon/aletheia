@@ -11,6 +11,7 @@
  * symbols:
  *   func_02051C88 0x02051C88 arm
  */
+#include "../include/Obj22844.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -18,4 +19,4 @@ typedef unsigned int u32;
 typedef signed int     s32;
 struct Ctx;
 extern s32 func_02051C88(struct Ctx *c);
-int func_021D7C10(char *p) { return func_02051C88(*(void **)(p+8)); }
+int func_021D7C10(char *p) { return func_02051C88(((struct Obj22844 *)p)->f8); }

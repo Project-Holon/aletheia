@@ -9,4 +9,6 @@
  * isa: thumb
  * status: EXACT
  */
-int func_021F4450(unsigned char *p,unsigned char *q){return ((*(unsigned *)q-*(unsigned *)p)<=(*(unsigned *)(p+8)-*(unsigned *)p)) & ((*(unsigned *)(q+4)-*(unsigned *)(p+4))<=(*(unsigned *)(p+12)-*(unsigned *)(p+4)));}
+#include "../include/Obj05514.h"
+#include "../include/Obj14505.h"
+int func_021F4450(unsigned char *p,unsigned char *q){return ((((struct Obj14505 *)q)->f0-((struct Obj05514 *)p)->f0)<=(((struct Obj05514 *)p)->f8-((struct Obj05514 *)p)->f0)) & ((((struct Obj14505 *)q)->f4-((struct Obj05514 *)p)->f4)<=(((struct Obj05514 *)p)->fC-((struct Obj05514 *)p)->f4));}

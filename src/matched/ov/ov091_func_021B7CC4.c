@@ -50,6 +50,7 @@
  *   func_021BA098 0x021BA098 thumb ov091
  *   func_021B9EB0 0x021B9EB0 thumb ov091
  */
+#include "../include/Obj00009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -110,9 +111,9 @@ void func_021B7CC4(u8 *p)
         if (func_021BC17C((short unsigned int *)p,H(0x44)) == 1) {
             func_021B907C(p); func_021B8180(p); return;
         }
-        if (func_021BDD78(W(0x38),H(0x44),0,*(u16 *)p) == 1) {
+        if (func_021BDD78(W(0x38),H(0x44),0,((struct Obj00009 *)p)->f0) == 1) {
             r=func_021BC350(p,0);
-            func_021BE2B4(W(0x38),H(0x44),0,H(0x30),*(u16 *)p);
+            func_021BE2B4(W(0x38),H(0x44),0,H(0x30),((struct Obj00009 *)p)->f0);
             if (r == 2) func_021BB200(p,*(u32 *)((p+W(0x2c)*4)+0x160),W(0x38),0);
             else if (r == 19 || r == 13) {
                 func_021BB200(p,*(u32 *)((p+W(0x2c)*4)+0x160),W(0x38),0);
@@ -162,7 +163,7 @@ void func_021B7CC4(u8 *p)
         func_021BB98C(p,W(0x150)); return;
     case 14:
         if (func_02017E1C((void *)W(0x38),6,0) == 0) {
-            buf=(u32)func_02009050((void *)T(8),0,H(0x5c),*(u16 *)p);
+            buf=(u32)func_02009050((void *)T(8),0,H(0x5c),((struct Obj00009 *)p)->f0);
             func_02017E40((void *)W(0x38),0xa7,buf); func_020307B0((void *)buf);
             func_02017E40((void *)W(0x38),6,H(0x44));
             func_0200902C((void *)T(8),0,H(0x5c));

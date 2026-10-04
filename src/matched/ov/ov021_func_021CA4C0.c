@@ -22,6 +22,7 @@
  *   d_021DE58C  0x021DE58C  data ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,12 +48,12 @@ void func_021CA4C0(u8 *p, u32 unused, int flag)
     void *h;
 
     i = 0;
-    buf = func_02030734((u16)(((u16)*(u32 *)(p + 4) & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
+    buf = func_02030734((u16)(((u16)((struct Obj00116 *)p)->f4 & 0x7fff) | 0x8000), 0xb4, 0, d_021DE58C, 0x89a);
     func_02082BCC(buf, 0, 0xb4);
     h = func_021CA210(p);
     for (; i < 3; i++)
         func_021CA3B4(&buf[i], (u32)func_0201AB28(h, p[0x1e + i]));
-    func_0200DC50(*(u32 *)(p + 0x74), flag, buf);
+    func_0200DC50(((struct Obj00116 *)p)->f74, flag, buf);
     func_02082BCC(buf, 0, 0xb4);
     func_020307B0(buf);
 }

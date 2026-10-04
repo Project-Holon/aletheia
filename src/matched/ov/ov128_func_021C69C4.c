@@ -14,6 +14,7 @@
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_020457B0 0x020457B0 arm
  */
+#include "../include/Obj08126.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -30,8 +31,8 @@ void func_021C69C4(u8 *p,const u8 *q,u16 heap)
     func_0201F5BC(1,70,11,q[13],heap);
     func_02045088(heap);
     func_021C63AC(p,(u32 *)(p+12),1,1,0,24,3,10,100,0);
-    *(void **)(p+0x14)=func_020457B0(128,heap);
-    *(void **)(p+0x18)=func_020457B0(128,heap);
-    *(void **)(p+0x1c)=func_020457B0(128,heap);
-    *(void **)(p+0x20)=func_020457B0(128,heap);
+    ((struct Obj08126 *)p)->f14=func_020457B0(128,heap);
+    ((struct Obj08126 *)p)->f18=func_020457B0(128,heap);
+    ((struct Obj08126 *)p)->f1C=func_020457B0(128,heap);
+    ((struct Obj08126 *)p)->f20=func_020457B0(128,heap);
 }

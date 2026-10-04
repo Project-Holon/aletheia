@@ -30,6 +30,7 @@
  *   func_021B9E44 0x021B9E44 thumb ov091
  *   d_021BECE4 0x021BECE4 data ov091 a2
  */
+#include "../include/Obj00009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021BBE74(int);
@@ -67,7 +68,7 @@ int func_021BC350(u8 *p,int v)
     case 0:case 8:case 10:case 25:case 29:break;
     case 1:{
         int row=W(0x2c);
-        *(u8 *)(p+12)=10;
+        ((struct Obj00009 *)p)->fC=10;
         H(0x11c)=func_021BB464((int)p,(short unsigned int *)(*(int *)(p+row*4+0x160)));
         W(0x120)=(int)func_021BC5CC;
         break;
@@ -96,7 +97,7 @@ int func_021BC350(u8 *p,int v)
     case 9:func_021BCC40((int)p,0x33);break;
     case 11:case 12:{
         int row=W(0x2c);
-        *(u8 *)(p+12)=10;
+        ((struct Obj00009 *)p)->fC=10;
         H(0x11c)=func_021BB464((int)p,(short unsigned int *)(*(int *)(p+row*4+0x160)));
         W(0x120)=(int)func_021BC548;
         break;

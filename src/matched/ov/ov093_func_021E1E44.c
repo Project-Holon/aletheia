@@ -21,6 +21,7 @@
  * The tail after the pop (movs r1,#4; str r1,[r0]; ldr r0,[pc]; bx lr) is an
  * unlabelled follower stub.
  */
+#include "../include/Obj13506.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -43,7 +44,7 @@ void func_021E1E44(int u, int a, int b)
         if (func_021D5BDC(func_021C7CF4((int *)a, b), 9) == 0) {
             r = func_021C88A4(a, 0x17, b);
             r[8] = b;
-            *(int *)(r + 4) = 9;
+            ((struct Obj13506 *)r)->f4 = 9;
             func_021C88C8((void *)a, r);
             s = func_021C88A4(a, 4, b);
             func_021C8838(s + 4, 2, 0x411);

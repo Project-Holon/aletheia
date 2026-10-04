@@ -12,13 +12,14 @@
  * symbols:
  *   g_021C88EC 0x021C88EC data a4
  */
+#include "../include/Obj08260.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *g_021C88EC;
 void func_021BA098(void)
 {
     u8 *p = g_021C88EC;
-    if (*(u32 *)(p + 12) == 1) (*(u32 *)(p + 20))++;
+    if (((struct Obj08260 *)p)->fC == 1) (((struct Obj08260 *)p)->f14)++;
     p = g_021C88EC;
     if (p[16] < 180) p[16]++;
 }

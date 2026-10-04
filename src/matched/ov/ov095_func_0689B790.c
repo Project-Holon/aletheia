@@ -18,6 +18,7 @@
  *   d_0689D934      0x0689D934  data   ov095
  *   d_0689DEBC      0x0689DEBC  data   ov095
  */
+#include "../include/Obj21901.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,5 +30,5 @@ extern char d_0689DEBC[];
 
 void func_0689B790(void *p)
 {
-    func_02202DC4(*(void **)((char *)p + 0xb0), d_0689D934, d_0689DEBC);
+    func_02202DC4(((struct Obj21901 *)p)->fB0, d_0689D934, d_0689DEBC);
 }

@@ -15,15 +15,17 @@
  * symbols:
  *   func_021F36F8  0x021F36F8  thumb  ov051
  */
+#include "../include/Obj20555.h"
+#include "../include/Obj20556.h"
 
 int func_021F3718(int a)
 {
     void *func_021F36F8(int a);
-    return *(int *)((char *)func_021F36F8(a) + 8);
+    return ((struct Obj20555 *)((char *)func_021F36F8(a)))->f8;
 }
 
 int func_021F3724(int a)
 {
     void *func_021F36F8(int a);
-    return *(int *)((char *)func_021F36F8(a) + 4);
+    return ((struct Obj20556 *)((char *)func_021F36F8(a)))->f4;
 }

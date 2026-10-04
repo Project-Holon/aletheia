@@ -10,6 +10,7 @@
  * symbols:
  *   func_0202CF8C 0x0202CF8C thumb
  */
+#include "../include/Obj23947.h"
 typedef struct {
  unsigned char pad[0x1A6];
  unsigned char flag:1;
@@ -29,7 +30,7 @@ struct WinMgr;
 extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 int func_021E94AC(Obj *p,int a,int b) {
  p->work->flag=1;
- p->work->rest=func_0202CF8C(*(struct WinMgr **)((char *)p->work+0x74),7);
+ p->work->rest=func_0202CF8C(*(struct WinMgr * *)&((struct Obj23947 *)((char *)p->work))->f74,7);
  p->work->lo=13;
  p->work->hi=12;
  p->work->a=0;

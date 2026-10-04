@@ -13,6 +13,7 @@
  *   func_021BB270 0x021BB270 thumb ov100
  *   func_021BA290 0x021BA290 thumb ov100
  */
+#include "../include/Obj10218.h"
 struct Word { int x; };
 extern void func_021BA3A4(struct Word *,int);
 typedef unsigned int   u32;
@@ -22,9 +23,9 @@ extern void func_021BB270(void);
 extern void func_021BA290(int,int);
 void func_021BAE14(int a) {
  struct Word x;
- x.x=*(int *)(a+0xcb0);
+ x.x=((struct Obj10218 *)a)->fCB0;
  func_021BA3A4(&x,a);
  func_021B95B8((u8 *)a,(u32)func_021BB270);
- if(*(int *)(a+0x24c)==9 && *(int *)(a+0xce8)>0) { func_021BA290(a,1); return; }
+ if(((struct Obj10218 *)a)->f24C==9 && ((struct Obj10218 *)a)->fCE8>0) { func_021BA290(a,1); return; }
  func_021BA290(a,0);
 }

@@ -10,6 +10,7 @@
  * symbols:
 
  */
+#include "../include/Obj03818.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -17,13 +18,13 @@ int func_021FAE1C(char *p, int *out)
 {
     int start;
     int delta;
-    *(u16 *)(p + 0xe) += 1;
-    if (*(u16 *)(p + 0xe) >= *(u16 *)(p + 0xc)) {
-        *out = *(int *)(p + 8);
+    ((struct Obj03818 *)p)->fE += 1;
+    if (((struct Obj03818 *)p)->fE >= ((struct Obj03818 *)p)->fC) {
+        *out = ((struct Obj03818 *)p)->f8;
         return 1;
     }
-    start = *(int *)(p + 4);
-    delta = *(int *)(p + 8) - start;
-    *out = start + (delta * *(u16 *)(p + 0xe)) / *(u16 *)(p + 0xc);
+    start = ((struct Obj03818 *)p)->f4;
+    delta = ((struct Obj03818 *)p)->f8 - start;
+    *out = start + (delta * ((struct Obj03818 *)p)->fE) / ((struct Obj03818 *)p)->fC;
     return 0;
 }

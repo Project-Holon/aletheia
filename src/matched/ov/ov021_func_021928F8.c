@@ -16,6 +16,7 @@
  *   _s32_div_f     0x0209C0A4  arm
  *   d_021D3E58     0x021D3E58  data  a2
  */
+#include "../include/Obj02692.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,6 +56,6 @@ void func_021928F8(u8 *a, u32 b, u32 c)
     }
     x = func_020437DC((const struct Bmp *)b) - 8;
     y = func_020437E4((const struct Bmp *)b) - 8 - t.v[a[1]];
-    func_020439A0((struct Bmp *)(*(u32 *)(a + 4)), (struct Bmp *)b, 0, 0, x, y, 8, 8, 0);
+    func_020439A0((struct Bmp *)(((struct Obj02692 *)a)->f4), (struct Bmp *)b, 0, 0, x, y, 8, 8, 0);
     a[0] = 1;
 }

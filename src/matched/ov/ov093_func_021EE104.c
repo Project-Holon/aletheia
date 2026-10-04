@@ -17,6 +17,7 @@
  *   func_021D62A8 0x021D62A8 thumb ov093
  *   func_021D5B7C 0x021D5B7C thumb ov093
  */
+#include "../include/Obj00027.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -40,10 +41,10 @@ void func_021EE104(u8 *p, u32 *out, u32 a, u32 b, u32 flag)
     s8 slot;
     void *entry;
     func_02082BCC(out, 0, 28);
-    groups[0] = func_021B9AF8(*(void **)(p + 0x138), a);
+    groups[0] = func_021B9AF8(((struct Obj00027 *)p)->f138, a);
     counts[0] = func_021B9B94(groups[0]);
     if (b < 4) {
-        groups[1] = func_021B9AF8(*(void **)(p + 0x138), b);
+        groups[1] = func_021B9AF8(((struct Obj00027 *)p)->f138, b);
         counts[1] = func_021B9B94(groups[1]);
         if (counts[0] > 3) counts[0] = 3;
         if (counts[1] > 3) counts[1] = 3;

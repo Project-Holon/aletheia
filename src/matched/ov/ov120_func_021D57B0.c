@@ -23,6 +23,7 @@
  *   func_021D5758 0x021D5758 thumb ov120
  *   func_021D5334 0x021D5334 thumb ov120
  */
+#include "../include/Obj00532.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_02012F14(void **);
@@ -46,28 +47,28 @@ extern void func_021D5334(void);
 void func_021D57B0(u8 *p)
 {
     int flag = 1;
-    int n = func_02009E8C(func_02012F14(*(void ***)(p + 0x2c)));
-    *(int *)(p + 0x138) = flag;
+    int n = func_02009E8C(func_02012F14(*(void ** *)&((struct Obj00532 *)p)->f2C));
+    ((struct Obj00532 *)p)->f138 = flag;
     if (n == 0) {
-        func_021D79F4(*(void **)(p + 0x40), 0x1d);
-        *(int *)(p + 0x14) = 0x78;
+        func_021D79F4(((struct Obj00532 *)p)->f40, 0x1d);
+        ((struct Obj00532 *)p)->f14 = 0x78;
         func_021D4244((int)p, (int)func_021D5758, 0x7e7);
         return;
     }
-    *(int *)(p + 0x150) = n;
-    func_021D79F4(*(void **)(p + 0x40), 0x13);
+    ((struct Obj00532 *)p)->f150 = n;
+    func_021D79F4(((struct Obj00532 *)p)->f40, 0x13);
     if (func_020355C4() == 0)
-        func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x164));
+        func_021D69F4(((struct Obj00532 *)p)->f3C, 0, ((struct Obj00532 *)p)->f164);
     else
-        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
-    func_021D7D3C(*(void **)(p + 0x40));
+        func_021D69F4(((struct Obj00532 *)p)->f3C, 0, 9);
+    func_021D7D3C(((struct Obj00532 *)p)->f40);
     if (n <= 3) flag = 0;
-    func_021D6BB0(*(u8 **)(p + 0x3c), flag);
-    func_021D81E0(*(char **)(p + 0x40), *(void **)(p + 0x2c));
-    func_021D82A8(*(void **)(p + 0x40), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
-    func_021D72A0(*(void **)(p + 0x3c), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
-    func_021D6D10(*(void **)(p + 0x3c), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
-    *(void **)(p + 0x34) = func_021D7ECC(*(char **)(p + 0x40), 0x2c);
-    func_021D733C(*(void **)(p + 0x3c), *(int *)(p + 0x158) + *(int *)(p + 0x164) - 6, *(int *)(p + 0x150));
+    func_021D6BB0(*(u8 * *)&((struct Obj00532 *)p)->f3C, flag);
+    func_021D81E0(*(char * *)&((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C);
+    func_021D82A8(((struct Obj00532 *)p)->f40, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    func_021D72A0(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    func_021D6D10(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f2C, ((struct Obj00532 *)p)->f158 - 2);
+    ((struct Obj00532 *)p)->f34 = func_021D7ECC(*(char * *)&((struct Obj00532 *)p)->f40, 0x2c);
+    func_021D733C(((struct Obj00532 *)p)->f3C, ((struct Obj00532 *)p)->f158 + ((struct Obj00532 *)p)->f164 - 6, ((struct Obj00532 *)p)->f150);
     func_021D4244((int)p, (int)func_021D5334, 0x815);
 }

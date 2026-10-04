@@ -25,6 +25,8 @@
  * (add fp, r5, r2) where the image has add fp, r2, r5; that was the
  * last 4 bytes.
  */
+#include "../include/Obj04758.h"
+#include "../include/Obj11411.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -71,15 +73,15 @@ void func_020445F4(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16
                         odd = 1;
                     } else
                         odd = 0;
-                    c = *(u16 *)d;
+                    c = ((struct Obj04758 *)d)->f0;
                     hi = c >> 8;
                     lo = c & 0xff;
-                    v = (*(u8 *)s >> ((u32)(j << 31) >> 29)) & 0xf;
+                    v = (((struct Obj11411 *)s)->f0 >> ((u32)(j << 31) >> 29)) & 0xf;
                     sh = (u32)(dj << 31) >> 29;
                     if (odd == 0)
-                        *(u16 *)d = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
+                        ((struct Obj04758 *)d)->f0 = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
                     else
-                        *(u16 *)d = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
+                        ((struct Obj04758 *)d)->f0 = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
                 }
     } else {
         for (i = y, di = dy; i < yend; i++, di++)
@@ -96,16 +98,16 @@ void func_020445F4(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16
                         odd = 1;
                     } else
                         odd = 0;
-                    c = *(u16 *)d;
+                    c = ((struct Obj04758 *)d)->f0;
                     hi = c >> 8;
                     lo = c & 0xff;
-                    v = (*(u8 *)s >> ((u32)(j << 31) >> 29)) & 0xf;
+                    v = (((struct Obj11411 *)s)->f0 >> ((u32)(j << 31) >> 29)) & 0xf;
                     if (v != key) {
                         sh = (u32)(dj << 31) >> 29;
                         if (odd == 0)
-                            *(u16 *)d = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
+                            ((struct Obj04758 *)d)->f0 = (((0xf0 >> sh) & lo) | (v << sh)) | (hi << 8);
                         else
-                            *(u16 *)d = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
+                            ((struct Obj04758 *)d)->f0 = (((hi & (0xf0 >> sh)) | (v << sh)) << 8) | lo;
                     }
                 }
     }

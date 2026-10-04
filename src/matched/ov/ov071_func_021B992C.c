@@ -13,6 +13,7 @@
  *   func_02041300  0x02041300  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj20752.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -25,7 +26,7 @@ void func_021B992C(char *a)
     int x;
     int t;
 
-    x = *(u8 *)(a + 0x27c);
+    x = ((struct Obj20752 *)a)->f27C;
     if (x - 2 < 7) {
         t = (x - 1) * 32 / 8;
         func_02041300(6, 0, 0, (u8)t, 0x20, 0x20 - t, 0x11);

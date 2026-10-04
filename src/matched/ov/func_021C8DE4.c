@@ -16,6 +16,7 @@
  *   func_021ACBC8  0x021ACBC8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18342.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern u32 func_021ACBC8(u32, u32);
 
 int func_021C8DE4(u32 a)
 {
-return func_021ACBC8(func_021A2F98(*(u32 *)((u8 *)(a) + 8)), 1);
+return func_021ACBC8(func_021A2F98(((struct Obj18342 *)((u8 *)(a)))->f8), 1);
 }
 

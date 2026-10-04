@@ -21,6 +21,7 @@
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  */
+#include "../include/Obj04190.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,9 +48,9 @@ int func_0218466C(int ctx, int *state, u8 *p)
     int z;
     int y;
 
-    x = *(int *)(p + 0);
-    y = *(int *)(p + 4);
-    z = *(int *)(p + 8);
+    x = ((struct Obj04190 *)p)->f0;
+    y = ((struct Obj04190 *)p)->f4;
+    z = ((struct Obj04190 *)p)->f8;
     v = (int)func_02012A30((const struct BigObj *)y);
 
     switch (*state) {
@@ -62,12 +63,12 @@ int func_0218466C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 9:
-        func_02029D44(v, y, *(u16 *)(p + 0x14), (u8)*(u16 *)(p + 0x4a));
+        func_02029D44(v, y, ((struct Obj04190 *)p)->f14, (u8)((struct Obj04190 *)p)->f4A);
         func_02029D7C(v, y);
         (*state)++;
         break;
     case 10:
-        func_02012374((struct Evt *)ctx, func_02184360(p, *(u8 *)(p + 0x30)));
+        func_02012374((struct Evt *)ctx, func_02184360(p, ((struct Obj04190 *)p)->f30));
         (*state)++;
         break;
     case 11:
@@ -75,7 +76,7 @@ int func_0218466C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 12:
-        func_021BC550((void *)func_02188D20(z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20(z), *(s16 *)&((struct Obj04190 *)p)->f14);
         return 1;
     default:
         (*state)++;

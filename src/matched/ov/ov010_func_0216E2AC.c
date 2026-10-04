@@ -18,6 +18,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12404.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ typedef struct {
 
 void func_0216E2AC(void *p, u32 i, Rec *out)
 {
-    u16 *t = *(u16 **)((char *)p + 0x44);
+    u16 *t = *(u16 * *)&((struct Obj12404 *)p)->f44;
 
     if (i < t[0]) {
         u16 k = (t[0] + 1) / 2 * 2;

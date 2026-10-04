@@ -15,6 +15,8 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj26151.h"
+#include "../include/Obj26152.h"
 typedef unsigned char u8;
 struct Descriptor;
 struct Cfg;
@@ -30,7 +32,7 @@ void func_021BA240(char *p)
     u8 i;
     for(i=0;i<2;i++) {
         if(*(unsigned *)(p+i*4+0x18)!=0) {
-            if(func_0201C6C4(*(struct PrintSys **)(*(char **)p+0x18),func_02045770(*(struct Descriptor **)(p+i*4+0x10)))==0) {
+            if(func_0201C6C4(*(struct PrintSys * *)&((struct Obj26152 *)(*(char * *)&((struct Obj26151 *)p)->f0))->f18,func_02045770(*(struct Descriptor **)(p+i*4+0x10)))==0) {
                 struct Descriptor *d=*(struct Descriptor **)(p+i*4+0x10);
                 func_02045334(d);func_02045374((struct Cfg *)d);
                 func_02041B6C(func_02045730(d));

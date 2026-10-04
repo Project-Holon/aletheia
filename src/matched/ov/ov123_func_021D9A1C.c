@@ -23,6 +23,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000043 data
  */
+#include "../include/Obj03802.h"
 typedef unsigned char u8;
 typedef enum { C0=0 } Counter;
 extern u8 ov_id[];
@@ -46,18 +47,18 @@ void func_021D9A1C(u8 *p)
 {
     Counter i;
     func_021D9FB0((unsigned int)p);
-    if (*(void **)(p+8)) {
-        func_02030EAC(*(void **)(p+8));
-        *(void **)(p+8)=0;
-        *(void **)(p+12)=0;
+    if (((struct Obj03802 *)p)->f8) {
+        func_02030EAC(((struct Obj03802 *)p)->f8);
+        ((struct Obj03802 *)p)->f8=0;
+        ((struct Obj03802 *)p)->fC=0;
     }
     i=0;
     do { if (*(void **)(p+i*4+0x988)) func_0204ADA4(*(void **)(p+i*4+0x988)); i++; } while(i<3);
     for(;i<6;i++) if (*(void **)(p+i*4+0x988)) func_0204A8D4(*(void **)(p+i*4+0x988));
     for(;i<9;i++) if (*(void **)(p+i*4+0x988)) func_0204AFD8(*(void **)(p+i*4+0x988));
-    if (*(void **)(p+0x984)) func_02030EAC(*(void **)(p+0x984));
-    func_02030EAC(*(void **)(p+0x980));
-    func_0204B1CC(*(void **)(p+0x97c));
+    if (((struct Obj03802 *)p)->f984) func_02030EAC(((struct Obj03802 *)p)->f984);
+    func_02030EAC(((struct Obj03802 *)p)->f980);
+    func_0204B1CC(((struct Obj03802 *)p)->f97C);
     func_0204A5AC();
     func_02040DA8(1,1,0);
     func_02040DA8(6,1,0);

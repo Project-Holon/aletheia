@@ -18,6 +18,8 @@
  *   func_0200B91C 0x0200B91C thumb
  *   func_0200B4B8 0x0200B4B8 thumb
  */
+#include "../include/Obj10460.h"
+#include "../include/Obj22998.h"
 typedef unsigned short u16;
 extern char *func_021D7700(void);
 extern void func_0200B784(u16, int *, int *);
@@ -41,10 +43,10 @@ int func_021D7064(char *p, const u16 *s)
     int i;
     int *obj;
     int result;
-    if (s[2] == 0 && *(int *)(p + 0x5a0) != 0) {
+    if (s[2] == 0 && ((struct Obj10460 *)p)->f5A0 != 0) {
         r = func_021D7700();
         func_0200B490(r);
-        func_0200B784(*(u16 *)(r + 0xa6), &n, &m);
+        func_0200B784(((struct Obj22998 *)r)->fA6, &n, &m);
         i = 0;
         out = p + 0x498;
         base = r + 0xd00;
@@ -56,7 +58,7 @@ int func_021D7064(char *p, const u16 *s)
         func_0200B4B8();
     }
     obj = func_021D85E8();
-    result = func_021D75E8(*(int *)p, obj[1], obj[2], (u16 *)(s + 2), (int)(s + 3), (u16)*(int *)(p + 0x13c));
+    result = func_021D75E8(((struct Obj10460 *)p)->f0, obj[1], obj[2], (u16 *)(s + 2), (int)(s + 3), (u16)((struct Obj10460 *)p)->f13C);
     if (result == 2 || result == 3) return 1;
     return 0;
 }

@@ -21,6 +21,7 @@
  *   d_0689E650 0x0689E650 data a4
  *   d_0689E704 0x0689E704 data a4
  */
+#include "../include/Obj01913.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,24 +42,24 @@ int func_0689B1E4(int *state, u8 *s)
     int mode, stop, idx;
     const char *q, *r;
     if (*state == 0) {
-    mode = func_0689B304(*(void **)(s + 0xa0), func_0689B2F4(*(void **)(s + 0xa0), *(void **)(s + 0xa4), func_0689B2E4(*(void **)(s + 0x6c))));
+    mode = func_0689B304(((struct Obj01913 *)s)->fA0, func_0689B2F4(((struct Obj01913 *)s)->fA0, ((struct Obj01913 *)s)->fA4, func_0689B2E4(((struct Obj01913 *)s)->f6C)));
     i = s[0x8a];
     row = (mode - 2) / 2;
-    if (func_0689B314(*(void **)(s + 0xa0)) != 2) {
+    if (func_0689B314(((struct Obj01913 *)s)->fA0) != 2) {
         q = d_0689E5D8[row][i];
         r = d_0689E560[row][i];
         stop = 4;
     } else {
-        if (i == 0 && func_0689B324((*(Q **)(s + 0x70))->id, 0xb)) i = 14;
+        if (i == 0 && func_0689B324((*(Q * *)&((struct Obj01913 *)s)->f70)->id, 0xb)) i = 14;
         q = d_0689E650[row][i];
         r = d_0689E704[row][i];
         stop = 6;
     }
-    idx = func_0689B334(*(char **)(s + 0xb0), q, (int)r);
+    idx = func_0689B334(*(char * *)&((struct Obj01913 *)s)->fB0, q, (int)r);
     if (idx != -1) {
         if (idx != stop) {
-            if (func_0689ADDC((St *)(s + 0x80), idx, *(u32 *)(s + 0xa0), &out)) {
-                func_0689B344(*(Q **)(s + 0x70), (*(Q **)(s + 0x70))->id, out);
+            if (func_0689ADDC((St *)(s + 0x80), idx, *(u32 *)&((struct Obj01913 *)s)->fA0, &out)) {
+                func_0689B344(*(Q * *)&((struct Obj01913 *)s)->f70, (*(Q * *)&((struct Obj01913 *)s)->f70)->id, out);
                 s[0x89] = 1;
                 return 1;
             }

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj12850.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ int func_021B6EB0(u32 *o, int k)
     if (k != 2) {
         return 0;
     }
-    if (*(u16 *)((u8 *)o + 0xB0) != 0x7FE) {
+    if (((struct Obj12850 *)o)->fB0 != 0x7FE) {
         return 0;
     }
     if (o[0] == 0x23E) {

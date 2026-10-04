@@ -22,6 +22,7 @@
  *   func_0216D8C0  0x0216D8C0  thumb  ov010
  *   func_021A322C  0x021A322C  thumb  ov021
  */
+#include "../include/Obj09388.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -70,9 +71,9 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
             kind = has == 0 ? 3 : 4;
             flag = has;
         }
-        if (*(u16 *)(p + 0x88) == id)
+        if (((struct Obj09388 *)p)->f88 == id)
             return;
-        *(u16 *)(p + 0x88) = id;
+        ((struct Obj09388 *)p)->f88 = id;
         ((Fb *)(p + 0x8A))->lo = kind;
         ((Fb *)(p + 0x8A))->b4 = flag;
         p[0x900] = 1;

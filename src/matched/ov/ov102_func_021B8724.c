@@ -14,6 +14,8 @@
  *   func_020413B0 0x020413B0 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj07978.h"
+#include "../include/Obj22167.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,11 +30,11 @@ void func_021B8724(u8 *p)
     u8 palette;
     u8 a, b, c, d;
     u16 *row;
-    *(u16 *)(p + 0x34) = 0;
-    *(u16 *)(p + 0x32) = 0;
-    for (i = 0; i < *(u16 *)(p + 0x2c); i++) {
+    ((struct Obj07978 *)p)->f34 = 0;
+    ((struct Obj07978 *)p)->f32 = 0;
+    for (i = 0; i < ((struct Obj07978 *)p)->f2C; i++) {
         win = func_02045730((struct Descriptor *)(*(int *)(p + i * 4 + 4)));
-        row = (u16 *)(*(u8 **)(p + 0x28) + i * 12);
+        row = (u16 *)(*(u8 * *)&((struct Obj07978 *)p)->f28 + i * 12);
         a = row[1];
         b = row[2];
         c = row[3];
@@ -47,5 +49,5 @@ void func_021B8724(u8 *p)
 }
 void func_021B8794(u16 value, int flag, u8 *p)
 {
-    if (flag == 0) *(u16 *)(p + 0x30) = value;
+    if (flag == 0) ((struct Obj22167 *)p)->f30 = value;
 }

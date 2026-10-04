@@ -19,6 +19,7 @@
  *   func_0219C880  0x0219C880  thumb  ov021
  *   func_02050468  0x02050468  arm
  */
+#include "../include/Obj03119.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -54,7 +55,7 @@ void func_0219D208(int a, unsigned int id)
         return;
     }
     for (; i < 4; i++) {
-        if (*(int *)r == 0) {
+        if (((struct Obj03119 *)r)->f0 == 0) {
             break;
         }
     }
@@ -62,15 +63,15 @@ void func_0219D208(int a, unsigned int id)
         func_0216E204(a, id);
         return;
     }
-    *(int *)r = a;
-    *(unsigned short *)(r + 4) = h;
-    *(unsigned short *)(r + 6) = func_0216D598((void *)a);
-    *(unsigned short *)(r + 8) = id;
+    ((struct Obj03119 *)r)->f0 = a;
+    ((struct Obj03119 *)r)->f4 = h;
+    ((struct Obj03119 *)r)->f6 = func_0216D598((void *)a);
+    ((struct Obj03119 *)r)->f8 = id;
     func_0216E204(a, id);
     i = 0;
     if (func_0216D7A8((void *)a, 0) != 0xFFFF) {
-        func_0219C880(ctx, a, *(unsigned short *)(r + 4), *(unsigned short *)(r + 6));
-        func_02050468((struct BbActSys *)ctx[1], *(unsigned short *)(r + 4), 1);
-        *(int *)r = i;
+        func_0219C880(ctx, a, ((struct Obj03119 *)r)->f4, ((struct Obj03119 *)r)->f6);
+        func_02050468((struct BbActSys *)ctx[1], ((struct Obj03119 *)r)->f4, 1);
+        ((struct Obj03119 *)r)->f0 = i;
     }
 }

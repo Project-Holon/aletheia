@@ -13,6 +13,8 @@
  *   func_021C27F4  0x021C27F4  thumb  ov021
  *   func_021C2854  0x021C2854  thumb  ov021
  */
+#include "../include/Obj01213.h"
+#include "../include/Obj04273.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,16 +31,16 @@ int func_021C1D18(int a, char *b, int c, int d, int e, int f, int g)
     r = func_021C1CB0(a, b, 3);
     if (r == 0)
         return 0;
-    *(void **)(b + 0x128) = func_021C27F4;
-    *(void **)(b + 0x12c) = func_021C2854;
+    ((struct Obj01213 *)b)->f128 = func_021C27F4;
+    ((struct Obj01213 *)b)->f12C = func_021C2854;
     q = b + 0x9c;
-    *(int *)(q + 8) = e;
-    *(int *)(b + 0x9c) = c;
-    *(int *)(q + 0xc) = f;
-    *(int *)(q + 4) = d;
-    *(int *)(q + 0x10) = g;
-    *(u16 *)(q + 0x18) = 5;
-    *(int *)(q + 0x14) = 1;
-    *(u16 *)(q + 0x1a) = 0x1e;
+    ((struct Obj04273 *)q)->f8 = e;
+    ((struct Obj01213 *)b)->f9C = c;
+    ((struct Obj04273 *)q)->fC = f;
+    ((struct Obj04273 *)q)->f4 = d;
+    ((struct Obj04273 *)q)->f10 = g;
+    ((struct Obj04273 *)q)->f18 = 5;
+    ((struct Obj04273 *)q)->f14 = 1;
+    ((struct Obj04273 *)q)->f1A = 0x1e;
     return r;
 }

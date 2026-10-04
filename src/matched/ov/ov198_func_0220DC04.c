@@ -17,6 +17,7 @@
  *   func_0220D6DC 0x0220D6DC thumb ov198
  *   func_0220C694 0x0220C694 thumb ov198
  */
+#include "../include/Obj00507.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02211B06[];
@@ -33,7 +34,7 @@ void func_0220DC04(char *p)
     int index, offset;
     char *base, *rec;
     u16 value;
-    *(u8 **)(p + 0x253c) = d_02211B06;
+    *(u8 * *)&((struct Obj00507 *)p)->f253C = d_02211B06;
     func_0220BDA0((char *)p);
     func_0220BEB8((char *)p,0,(*(u8 **)p)[32],0,0);
     base = (char *)p + 0x30;

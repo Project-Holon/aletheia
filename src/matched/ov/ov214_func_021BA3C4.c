@@ -13,6 +13,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   d_021BB480 0x021BB480 data a1
  */
+#include "../include/Obj00182.h"
 typedef unsigned char u8;
 typedef struct {u8 a,b,c,d,e,f;} Rec;
 typedef struct {Rec r[4];} Table;
@@ -31,6 +32,6 @@ void func_021BA3C4(int unused,char*p)
         func_02043B5C(func_02045770(*(void**)(p+i*4+0x8c)),0);
         *(int*)(p+i*4+0x9c)=1;
     }
-    *(int*)(p+0xbc)=0;
-    *(unsigned short*)(p+0xc0)=0;
+    ((struct Obj00182 *)p)->fBC=0;
+    ((struct Obj00182 *)p)->fC0=0;
 }

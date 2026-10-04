@@ -21,6 +21,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B8F0C  0x021B8F0C  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -42,11 +43,11 @@ extern void func_021B8F0C(int p);
 
 void func_021B8EA8(int p)
 {
-    if (func_0204B98C((struct Actor *)(*(int *)((char *)p + 0x72C))) == 0) {
-        func_0204B878((struct Obj *)(*(int *)((char *)p + 0x72C)), 0);
+    if (func_0204B98C((struct Actor *)(*(int *)&((struct Obj00002 *)p)->f72C)) == 0) {
+        func_0204B878((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 0);
         func_021B809C((u8 *)p);
-        func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 0);
-        func_02045CAC((struct MsgBank *)(*(int *)((char *)p + 0x51C)), 0x8A, (void *)(*(int *)((char *)p + 0x528)));
+        func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 0);
+        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00002 *)p)->f51C), 0x8A, (void *)(*(int *)&((struct Obj00002 *)p)->f528));
         func_021BACF0(p, 0);
         func_021BB580((char *)p, 0);
         func_021BB3F4(p, 0);

@@ -17,6 +17,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj03069.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -31,15 +32,15 @@ extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0203D34C(u32 a, u32 b);
 int func_021FCED4(unsigned char *p)
 {
-    *(int *)(p + 0xec0) = 0;
+    ((struct Obj03069 *)p)->fEC0 = 0;
     func_021FD0F4(p);
     func_021FD2FC(p);
     func_021FD1E0(p);
     func_021FCFC8();
     func_022000E4(p);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 0);
+    func_0204B3DC((struct Obj *)((struct Obj03069 *)p)->fD38, 0);
     func_021F4EC8(p);
-    if (*(int *)(p + 0x12fc) == 0)
+    if (*(int *)&((struct Obj03069 *)p)->f12FC == 0)
         func_0203D34C(0, 0x48);
     return 0;
 }

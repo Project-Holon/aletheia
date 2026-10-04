@@ -25,6 +25,7 @@
  *   func_021CE73C  0x021CE73C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -104,9 +105,9 @@ void func_021CE41C(u32 *p)
         func_021CE36C(p);
         if (p[0x40] == 0) {
             if (func_021CE73C(p) > 1 && ((u8 *)p)[0x520] == 1) {
-                *(u16 *)((u8 *)p + 0x574) = 9;
+                ((struct Obj00011 *)p)->f574 = 9;
             } else {
-                *(u16 *)((u8 *)p + 0x574) = 8;
+                ((struct Obj00011 *)p)->f574 = 8;
             }
         }
         break;

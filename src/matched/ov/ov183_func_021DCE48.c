@@ -17,6 +17,9 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00050.h"
+#include "../include/Obj02893.h"
+#include "../include/Obj24572.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
@@ -32,24 +35,24 @@ void func_021DCE48(char *p,char *q)
 {
     int i;
     char *slot;
-    if(*(int *)(p+0xd4)) {
+    if(((struct Obj00050 *)p)->fD4) {
         for(i=0;i<12;i++) {
             slot=p+i*4;
-            if(*(void **)(slot+0x80)) {
-                func_0204B3DC(*(void **)(slot+0x80),0);
-                func_0204B3B4(*(void **)(slot+0x80));
-                *(int *)(slot+0x80)=0;
+            if(((struct Obj02893 *)slot)->f80) {
+                func_0204B3DC(((struct Obj02893 *)slot)->f80,0);
+                func_0204B3B4(((struct Obj02893 *)slot)->f80);
+                *(int *)&((struct Obj02893 *)slot)->f80=0;
             }
-            if(*(int *)(slot+0x50)!=-1) { func_0204A8D4(*(int *)(slot+0x50)); *(int *)(slot+0x50)=-1; }
+            if(((struct Obj02893 *)slot)->f50!=-1) { func_0204A8D4(((struct Obj02893 *)slot)->f50); ((struct Obj02893 *)slot)->f50=-1; }
         }
-        if(*(int *)(p+0x48)!=-1) { func_0204ADA4(*(int *)(p+0x48)); *(int *)(p+0x48)=-1; }
-        if(*(int *)(p+0x4c)!=-1) { func_0204AFD8(*(int *)(p+0x4c)); *(int *)(p+0x4c)=-1; }
+        if(((struct Obj00050 *)p)->f48!=-1) { func_0204ADA4(((struct Obj00050 *)p)->f48); ((struct Obj00050 *)p)->f48=-1; }
+        if(((struct Obj00050 *)p)->f4C!=-1) { func_0204AFD8(((struct Obj00050 *)p)->f4C); ((struct Obj00050 *)p)->f4C=-1; }
         for(i=0;i<5;i++) {
             slot=p+i*4;
-            if(*(void **)(slot+0x30)) { func_021FC734(*(void **)(slot+0x30)); *(int *)(slot+0x30)=0; }
+            if(((struct Obj02893 *)slot)->f30) { func_021FC734(((struct Obj02893 *)slot)->f30); *(int *)&((struct Obj02893 *)slot)->f30=0; }
         }
-        func_021FBDA4(*(int *)(q+0x10),6);
+        func_021FBDA4(((struct Obj24572 *)q)->f10,6);
         func_020409B4(1);
-        *(int *)(p+0xd4)=0;
+        ((struct Obj00050 *)p)->fD4=0;
     }
 }

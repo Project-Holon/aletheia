@@ -17,6 +17,8 @@
  *   func_021A16EC  0x021A16EC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07216.h"
+#include "../include/Obj17994.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,10 +35,10 @@ if (func_021A1780((a + 32), b, c, d) != 0) {
     func_021A1750((a + 32));
 }
 func_021A16EC((u8 *)(a + 32), (void *)b, (const u8 *)c, d);
-*(u8 *)((u8 *)(a) + 31) = *(u8 *)((u8 *)(c) + 8);
-*(u32 *)((u8 *)(a) + 20) = (1 << 12);
-*(u32 *)((u8 *)(a) + 24) = (1 << 12);
-*(u16 *)((u8 *)(a) + 28) = 0;
+((struct Obj07216 *)((u8 *)(a)))->f1F = ((struct Obj17994 *)((u8 *)(c)))->f8;
+((struct Obj07216 *)((u8 *)(a)))->f14 = (1 << 12);
+((struct Obj07216 *)((u8 *)(a)))->f18 = (1 << 12);
+((struct Obj07216 *)((u8 *)(a)))->f1C = 0;
 return 0;
 }
 

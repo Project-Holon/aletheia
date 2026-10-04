@@ -14,6 +14,8 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200BAC8 0x0200BAC8 thumb
  */
+#include "../include/Obj00013.h"
+#include "../include/Obj24305.h"
 extern int func_021E5548(int *);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
@@ -22,8 +24,8 @@ extern void *func_021E7E3C(void *, int, int, int, int, int, int);
 void func_021D9874(char *ctx)
 {
     int window;
-    if (*(void **)(ctx + 0x24) == 0) {
-        window = func_021E5548(*(int **)ctx);
-        *(void **)(ctx + 0x24) = func_021E7E3C(func_0200BAC8(func_02012EBC(**(void ***)(*(char **)(ctx + 0x104) + 8))), window, *(int *)(ctx + 4), *(int *)(ctx + 0xc), *(int *)(ctx + 0x10), *(int *)(ctx + 0x14), 87);
+    if (((struct Obj00013 *)ctx)->f24 == 0) {
+        window = func_021E5548(*(int * *)&((struct Obj00013 *)ctx)->f0);
+        ((struct Obj00013 *)ctx)->f24 = func_021E7E3C(func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj24305 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), window, *(int *)&((struct Obj00013 *)ctx)->f4, ((struct Obj00013 *)ctx)->fC, *(int *)&((struct Obj00013 *)ctx)->f10, *(int *)&((struct Obj00013 *)ctx)->f14, 87);
     }
 }

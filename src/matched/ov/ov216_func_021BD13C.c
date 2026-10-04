@@ -13,9 +13,10 @@
  *   func_02040618 0x02040618 arm
  *   func_021BCE8C 0x021BCE8C thumb ov216
  */
+#include "../include/Obj10948.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02040618(u32,u32,u32);
 extern void func_021BCE8C(void*,short,short,int);
-void func_021BD13C(u8*p,int a){func_02040618(p[0x7e],3,-a);func_021BCE8C(*(void**)(p+0x78),220,a+44,1);func_021BCE8C(*(void**)(p+0x74),200,a+80,1);}
+void func_021BD13C(u8*p,int a){func_02040618(p[0x7e],3,-a);func_021BCE8C(*(void* *)&((struct Obj10948 *)p)->f78,220,a+44,1);func_021BCE8C(*(void* *)&((struct Obj10948 *)p)->f74,200,a+80,1);}

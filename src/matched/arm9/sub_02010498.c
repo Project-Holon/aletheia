@@ -17,6 +17,7 @@
  * symbols:
  *   g_021461E0     0x021461E0  data
  */
+#include "../include/Obj01818.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,19 +30,19 @@ void sub_02010498(void)
 {
     u8 *o = g_021461E0;
 
-    if (o != 0 && *(u16 *)(o + 0x30C) != 0)
+    if (o != 0 && ((struct Obj01818 *)o)->f30C != 0)
         return;
     if (o == 0)
         return;
-    if (*(int *)(o + 0x318) > 0)
-        *(int *)(o + 0x318) = *(int *)(o + 0x318) - 1;
+    if (((struct Obj01818 *)o)->f318 > 0)
+        ((struct Obj01818 *)o)->f318 = ((struct Obj01818 *)o)->f318 - 1;
     o = g_021461E0;
-    if (*(int *)(o + 0x31C) > 0)
-        *(int *)(o + 0x31C) = *(int *)(o + 0x31C) - 1;
+    if (((struct Obj01818 *)o)->f31C > 0)
+        ((struct Obj01818 *)o)->f31C = ((struct Obj01818 *)o)->f31C - 1;
     o = g_021461E0;
-    if (*(int *)(o + 0x320) > 0)
-        *(int *)(o + 0x320) = *(int *)(o + 0x320) - 1;
+    if (((struct Obj01818 *)o)->f320 > 0)
+        ((struct Obj01818 *)o)->f320 = ((struct Obj01818 *)o)->f320 - 1;
     o = g_021461E0;
-    if (*(int *)(o + 0x324) > 0)
-        *(int *)(o + 0x324) = *(int *)(o + 0x324) - 1;
+    if (((struct Obj01818 *)o)->f324 > 0)
+        ((struct Obj01818 *)o)->f324 = ((struct Obj01818 *)o)->f324 - 1;
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_021CD64C  0x021CD64C  thumb  ov093
  */
+#include "../include/Obj21095.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -37,6 +38,6 @@ void func_021C4BAC(u8 *p, int k, int v)
     case 13: r = 0xae; break;
     }
     if (r >= 0) {
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, r, v, 0xffff0000);
+        func_021CD64C(((struct Obj21095 *)p)->fC, 0x5a, r, v, 0xffff0000);
     }
 }

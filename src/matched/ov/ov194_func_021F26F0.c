@@ -24,6 +24,8 @@
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F2614 0x021F2614 thumb ov194
  */
+#include "../include/Obj10808.h"
+#include "../include/Obj14500.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -52,8 +54,8 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
  u16 x,y;
  unsigned kind;
  text=func_020457B0(2,heap);
- for(xy.y=0;xy.y<func_021F4DA0(*(void **)p);xy.y++){
-  for(xy.x=0;xy.x<func_021F4D9C(*(void **)p);xy.x++){
+ for(xy.y=0;xy.y<func_021F4DA0(((struct Obj10808 *)p)->f0);xy.y++){
+  for(xy.x=0;xy.x<func_021F4D9C(((struct Obj10808 *)p)->f0);xy.x++){
    if(func_021F2818(p,&xy,&box)){
     kind=func_021F2614(p,(int *)&xy,codes);
     if(kind==1 || kind==10 || kind==11){
@@ -64,7 +66,7 @@ void func_021F26F0(char *p,char *target,void *window,void *font,u16 heap)
      y=box.y+(box.w-box.y)/2-40;
      x-=(u16)(func_0201D304(text,(u32)font,0)/2);
      y-=(u16)(func_0201D42C(text,font)/2);
-     func_0201C6FC(window,(u32)func_02045770(*(void **)target),(short)(x-1),(short)y,text,(u32)font);
+     func_0201C6FC(window,(u32)func_02045770(((struct Obj14500 *)target)->f0),(short)(x-1),(short)y,text,(u32)font);
      target[4]=1;
     }
    }

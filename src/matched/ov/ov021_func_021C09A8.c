@@ -13,6 +13,7 @@
  *
  * symbols:
  */
+#include "../include/Obj20159.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,5 +22,5 @@ typedef unsigned int   u32;
 void func_021C09A8(u8 *p, int *st, int v)
 {
     *st = v;
-    *(u16 *)(p + 0x16) = 0;
+    ((struct Obj20159 *)p)->f16 = 0;
 }

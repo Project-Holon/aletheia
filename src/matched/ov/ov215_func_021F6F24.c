@@ -12,15 +12,17 @@
  *   func_02048A18 0x02048A18 arm
  *   func_02047A60 0x02047A60 arm
  */
+#include "../include/Obj06708.h"
+#include "../include/Obj14714.h"
 struct Arg;
 extern unsigned func_02048A18(unsigned char *,int);
 extern void func_02047A60(void *,struct Arg *);
 void func_021F6F24(char *p)
 {
     unsigned short i;
-    for(i=0;i<*(unsigned short *)(p+0x50);i++) {
-        char *entry=*(char **)(p+0x54)+i*0x44;
-        if(*(int *)(entry+0x40))
-            func_02047A60((void *)func_02048A18(*(unsigned char **)(p+0x48),*(unsigned short *)entry),(struct Arg *)(entry+4));
+    for(i=0;i<((struct Obj06708 *)p)->f50;i++) {
+        char *entry=*(char * *)&((struct Obj06708 *)p)->f54+i*0x44;
+        if(((struct Obj14714 *)entry)->f40)
+            func_02047A60((void *)func_02048A18(*(unsigned char * *)&((struct Obj06708 *)p)->f48,((struct Obj14714 *)entry)->f0),(struct Arg *)(entry+4));
     }
 }

@@ -14,6 +14,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00001.h"
 extern void func_021E69A4(char *);
 extern void func_021E4810(char *, int);
 typedef unsigned int   u32;
@@ -25,14 +26,14 @@ void func_021E4888(char *p)
     int i;
     func_021E69A4(p);
     for (i = 0; i < 12; i++) func_021E4810(p, i);
-    if (*(int *)(p + 0x87c)) {
-        func_0204ADA4(*(int *)(p + 0x87c));
-        *(int *)(p + 0x87c) = 0;
+    if (((struct Obj00001 *)p)->f87C) {
+        func_0204ADA4(((struct Obj00001 *)p)->f87C);
+        ((struct Obj00001 *)p)->f87C = 0;
     }
-    if (*(int *)(p + 0x8ac)) {
-        func_0204AFD8(*(int *)(p + 0x8ac));
-        *(int *)(p + 0x8ac) = 0;
+    if (((struct Obj00001 *)p)->f8AC) {
+        func_0204AFD8(((struct Obj00001 *)p)->f8AC);
+        ((struct Obj00001 *)p)->f8AC = 0;
     }
-    if (*(void **)(p + 0x1184)) func_020307B0(*(void **)(p + 0x1184));
-    *(void **)(p + 0x1184) = 0;
+    if (((struct Obj00001 *)p)->f1184) func_020307B0(((struct Obj00001 *)p)->f1184);
+    ((struct Obj00001 *)p)->f1184 = 0;
 }

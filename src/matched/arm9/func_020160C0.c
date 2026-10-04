@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj15671.h"
 void func_020160C0(char *p, unsigned int v)
 {
-    *(unsigned int *)(p + 0x44) = v;
+    ((struct Obj15671 *)p)->f44 = v;
 }

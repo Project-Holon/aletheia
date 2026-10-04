@@ -17,6 +17,7 @@
  *   func_021C5A1C 0x021C5A1C thumb ov093
  *   func_021C5A34 0x021C5A34 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 value; } S;
@@ -34,11 +35,11 @@ int func_021C9178(u8 *p, const Ent *e)
     u8 *a;
     u8 f;
     u8 *b;
-    if (e->index != 31) a = func_021B9934(*(void **)(p + 8), e->index);
+    if (e->index != 31) a = func_021B9934(((struct Obj00003 *)p)->f8, e->index);
     else a = 0;
     f = func_021C8828(e->msg) == 0 && e->b == 0;
     if (func_021C9240(p + 0x1ab8, e->id)) {
-        b = func_021B9934(*(void **)(p + 8), e->id);
+        b = func_021B9934(((struct Obj00003 *)p)->f8, e->id);
         if (!func_021D5B68(b)) {
             if (!func_021C27A0(p, b, a, e->kind, e->value, e->d, e->a)) {
                 if (e->flag) func_021C5A1C(p, a);

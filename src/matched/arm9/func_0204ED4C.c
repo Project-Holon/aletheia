@@ -31,6 +31,7 @@
  * Writing the three stores straight from the array (no locals) interleaves
  * each load with its store and is eight bytes wrong.
  */
+#include "../include/Obj06987.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,11 +43,11 @@ void func_0204ED4C(u8 *a0, short *a1)
     short v1;
     short v0;
 
-    *(u32 *)(a0 + 0x2c) = 1;
+    ((struct Obj06987 *)a0)->f2C = 1;
     v2 = a1[2];
     v1 = a1[1];
     v0 = a1[0];
-    *(short *)(a0 + 0x30) = v0;
-    *(short *)(a0 + 0x32) = v1;
-    *(short *)(a0 + 0x34) = v2;
+    ((struct Obj06987 *)a0)->f30 = v0;
+    ((struct Obj06987 *)a0)->f32 = v1;
+    ((struct Obj06987 *)a0)->f34 = v2;
 }

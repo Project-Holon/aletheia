@@ -18,6 +18,7 @@
  *   func_02034714 0x02034714  arm
  *   func_020366FC 0x020366FC  arm
  */
+#include "../include/Obj11349.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -29,8 +30,8 @@ extern u32 func_020366FC(u8 *p);
 
 void func_020369F8(u8 *p)
 {
-    if (*(u32 *)(p + 0x10) != 0) {
-        *(u32 *)(p + 0x10) = 0;
+    if (((struct Obj11349 *)p)->f10 != 0) {
+        ((struct Obj11349 *)p)->f10 = 0;
         return;
     }
     if (func_020366FC(p) != 0) {

@@ -14,9 +14,10 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj24668.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_021FBDA4(int,unsigned);
 extern void func_020409B4(u32 index);
-void func_021E24C4(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){func_021FC734(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}func_020409B4(4);func_021FBDA4(*(int *)(q+12),30);}
+void func_021E24C4(char *p,char *q){int i;for(i=0;i<2;i++){if(*(void **)(p+i*4+12)){func_021FC734(*(void **)(p+i*4+12));*(void **)(p+i*4+12)=0;}}func_020409B4(4);func_021FBDA4(((struct Obj24668 *)q)->fC,30);}

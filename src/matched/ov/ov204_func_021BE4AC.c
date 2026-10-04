@@ -10,5 +10,6 @@
  * symbols:
  *   func_021BF2D4 0x021BF2D4 thumb ov204
  */
+#include "../include/Obj25352.h"
 extern void func_021BF2D4(char *);
-int func_021BE4AC(char *p,int *state,int *q){func_021BF2D4(*(char **)(p+24));return 1;}
+int func_021BE4AC(char *p,int *state,int *q){func_021BF2D4(*(char * *)&((struct Obj25352 *)p)->f18);return 1;}

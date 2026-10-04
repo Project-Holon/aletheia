@@ -12,6 +12,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj13069.h"
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned);
 extern void func_0204B3B4(struct Obj *);
@@ -21,7 +22,7 @@ void func_021F32D4(char *p)
     char *q;
     for (i = 0; i < 6; i++) {
         q = p + i * 4;
-        func_0204B3DC(*(struct Obj **)(q + 0x2bc), 0);
-        func_0204B3B4(*(struct Obj **)(q + 0x2bc));
+        func_0204B3DC(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC, 0);
+        func_0204B3B4(*(struct Obj * *)&((struct Obj13069 *)q)->f2BC);
     }
 }

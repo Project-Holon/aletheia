@@ -12,10 +12,12 @@
  * Unlabelled leaf (setter through the pointer at +0x20), filed as a blocker
  * of ov021 func_021C459C / func_021C4628.
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj18789.h"
 
 typedef unsigned int u32;
 
 void func_0215A644(void *p, u32 v)
 {
-    *(u32 *)(*(char **)((char *)p + 0x20) + 0x10) = v;
+    ((struct Obj18789 *)(*(char * *)&((struct Obj00005 *)p)->f20))->f10 = v;
 }

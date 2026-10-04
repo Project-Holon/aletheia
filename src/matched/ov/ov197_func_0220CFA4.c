@@ -12,17 +12,18 @@
  *   func_0220B520 0x0220B520 thumb ov197
  *   func_0220B584 0x0220B584 thumb ov197
  */
+#include "../include/Obj00314.h"
 typedef signed char s8;
 typedef unsigned char u8;
 extern void func_0220B520(char *);
 extern void func_0220B584(char *p);
 int func_0220CFA4(char *p)
 {
-    unsigned index = *(u8 *)(p + 0x533);
-    short *values = (short *)(*(char **)p + 0x38);
+    unsigned index = ((struct Obj00314 *)p)->f533;
+    short *values = (short *)(*(char * *)&((struct Obj00314 *)p)->f0 + 0x38);
     s8 value = (s8)values[index];
     u8 maximum;
-    value += *(s8 *)(p + 0x534);
+    value += ((struct Obj00314 *)p)->f534;
     maximum = *(u8 *)(p + index + 0x539);
     if (value > maximum) value = 0;
     else if (value < 0) {

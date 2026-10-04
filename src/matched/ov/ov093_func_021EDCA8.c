@@ -16,6 +16,7 @@
  *   func_021F86D4 0x021F86D4 thumb ov094
  *   func_02021ED8 0x02021ED8 thumb
  */
+#include "../include/Obj00341.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -41,27 +42,27 @@ int func_021EDCA8(u8 *p)
     u16 mask;
     switch (p[0xd]) {
     case 0:
-        func_02040B1C(p[0xb], *(void **)(p + 0x10), 0x900, *(u32 *)(p + 0x1c));
+        func_02040B1C(p[0xb], ((struct Obj00341 *)p)->f10, 0x900, ((struct Obj00341 *)p)->f1C);
         p[0xd]++;
         break;
     case 1:
         p[0x20] = 8;
         if (p[0xa] == 0) {
-            *(int *)(p + 0x14) = 0x90000;
-            *(int *)(p + 0x18) = -0x12000;
+            ((struct Obj00341 *)p)->f14 = 0x90000;
+            ((struct Obj00341 *)p)->f18 = -0x12000;
         } else {
-            *(int *)(p + 0x14) = -0x90000;
-            *(int *)(p + 0x18) = 0x12000;
+            ((struct Obj00341 *)p)->f14 = -0x90000;
+            ((struct Obj00341 *)p)->f18 = 0x12000;
         }
-        func_02040618(p[0xb], 0, *(int *)(p + 0x14) >> 12);
+        func_02040618(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
         func_02040618(p[0xb], 3, 0);
         func_020061E4(0x573);
         p[0xd]++;
         break;
     case 2:
         if (p[0x20] != 0) {
-            *(int *)(p + 0x14) += *(int *)(p + 0x18);
-            func_02040618(p[0xb], 0, *(int *)(p + 0x14) >> 12);
+            ((struct Obj00341 *)p)->f14 += ((struct Obj00341 *)p)->f18;
+            func_02040618(p[0xb], 0, ((struct Obj00341 *)p)->f14 >> 12);
             p[0x20]--;
         } else {
             func_02040618(p[0xb], 0, 0);
@@ -71,8 +72,8 @@ int func_021EDCA8(u8 *p)
         break;
     case 3:
         if (p[0x21] < 17) {
-            src = (u8 *)func_020437D4(*(void **)(p + 4));
-            dst = *(u32 *)(p + 0x1c) + p[0x21];
+            src = (u8 *)func_020437D4(((struct Obj00341 *)p)->f4);
+            dst = ((struct Obj00341 *)p)->f1C + p[0x21];
             src += p[0x21] * 32;
             for (i = 0; i < 4; i++) {
                 func_02040B1C(p[0xb], src + i * 0x240, 32, dst + i * 18);

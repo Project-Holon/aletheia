@@ -20,6 +20,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
+#include "../include/Obj03918.h"
 struct Rec; struct S020315D4;
 extern void func_021BFCD0(char *);
 extern void func_021BF5E0(char *);
@@ -36,14 +37,14 @@ extern const char ov067_id[];
 int func_021BDAE4(struct S020315D4 *owner, int unused1, int unused2, char *p)
 {
     unsigned short heap;
-    func_021BFCD0(*(char **)(p + 0x20));
-    func_021BF5E0(*(char **)(p + 0x18));
-    func_021BF9D0(*(char **)(p + 0x1C));
-    func_02045C04(*(struct Rec **)(p + 0x10));
-    func_0201D83C(*(void **)(p + 0xC));
-    func_021BEF74(*(char **)(p + 0x14));
-    func_021BDCF0(*(unsigned char **)(p + 8));
-    heap = *(unsigned short *)p;
+    func_021BFCD0(*(char * *)&((struct Obj03918 *)p)->f20);
+    func_021BF5E0(*(char * *)&((struct Obj03918 *)p)->f18);
+    func_021BF9D0(*(char * *)&((struct Obj03918 *)p)->f1C);
+    func_02045C04(*(struct Rec * *)&((struct Obj03918 *)p)->f10);
+    func_0201D83C(((struct Obj03918 *)p)->fC);
+    func_021BEF74(*(char * *)&((struct Obj03918 *)p)->f14);
+    func_021BDCF0(*(unsigned char * *)&((struct Obj03918 *)p)->f8);
+    heap = ((struct Obj03918 *)p)->f0;
     func_020315D4(owner);
     func_020306F0((unsigned)heap);
     func_02034A5C((unsigned)ov067_id);

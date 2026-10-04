@@ -14,6 +14,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021D73D8 0x021D73D8 thumb ov120
  */
+#include "../include/Obj00625.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,13 +25,13 @@ extern void func_02041B6C(u32);
 extern void func_021D73D8(u8 *);
 void func_021D7550(u8 *p)
 {
-    void *t=func_020490F4(144,*(u16 *)(p+0xf4));
-    func_02049990(t,14,2,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
-    func_02049990(t,13,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
-    func_02049990(t,16,3,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
+    void *t=func_020490F4(144,((struct Obj00625 *)p)->fF4);
+    func_02049990(t,14,2,0,((struct Obj00625 *)p)->f4,0,0,((struct Obj00625 *)p)->fF4);
+    func_02049990(t,13,0,0,((struct Obj00625 *)p)->f4,0,0,((struct Obj00625 *)p)->fF4);
+    func_02049990(t,16,3,0,((struct Obj00625 *)p)->f4,0,0,((struct Obj00625 *)p)->fF4);
     func_02049238(t);
     func_021D73D8(p);
     func_02041B6C(2); func_02041B6C(0); func_02041B6C(3);
-    *(u32 *)(p+0x110)=0;
-    *(u32 *)(p+0x114)=1;
+    ((struct Obj00625 *)p)->f110=0;
+    ((struct Obj00625 *)p)->f114=1;
 }

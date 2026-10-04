@@ -19,6 +19,7 @@
  *   d_0218360C     0x0218360C  data   a4
  *   d_0218362C     0x0218362C  data   a4
  */
+#include "../include/Obj12484.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -80,8 +81,8 @@ void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, T x)
     s.h[10] = e->b2;
     s.h[11] = e->b3;
     s.h[7] = o->f8 + a2;
-    s.h[8] = *(u32 *)p;
-    s.h[9] = *(u32 *)p >> 16;
+    s.h[8] = ((struct Obj12484 *)p)->f0;
+    s.h[9] = ((struct Obj12484 *)p)->f0 >> 16;
     t = &s.t;
     t->h0 = a3;
     t->h2 = x.h0;

@@ -24,6 +24,7 @@
  *   func_02045808 0x02045808 arm
  *   func_020437AC 0x020437AC arm
  */
+#include "../include/Obj01911.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -54,16 +55,16 @@ void func_022080F4(char *o, E *e, void *data)
     Struct36 buf;
     u8 c[3];
     enum { VRAM_BASE = 0x06400000 } vram;
-    v = func_020457B0(12, (*(u16 *)(o + 0x448) & 0x7fff) | 0x8000);
-    bmp = func_02043678(8, 2, 32, (*(u16 *)(o + 0x448) & 0x7fff) | 0x8000);
+    v = func_020457B0(12, (((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000);
+    bmp = func_02043678(8, 2, 32, (((struct Obj01911 *)o)->f448 & 0x7fff) | 0x8000);
     func_02043B5C(bmp, 0);
     func_02017E1C(data, 0x73, (u32)v);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 4, 0);
-    if (func_0201D304(v, *(void **)(o + 8), 0) > 48)
-        func_0201C7A4(bmp, 2, 5, v, *(void **)(o + 8));
+    if (func_0201D304(v, ((struct Obj01911 *)o)->f8, 0) > 48)
+        func_0201C7A4(bmp, 2, 5, v, ((struct Obj01911 *)o)->f8);
     else
-        func_0201C7A4(bmp, 8, 5, v, *(void **)(o + 8));
+        func_0201C7A4(bmp, 8, 5, v, ((struct Obj01911 *)o)->f8);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
     func_0204B7C8(e->f0, &buf);

@@ -15,6 +15,7 @@
  *
  * When the state word at +0x9B4 is 1, clears it and tears down the two sub-objects.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,12 +30,12 @@ extern void func_021B98F8(char *p, int b);
 
 void func_021C2408(char *p)
 {
-    if (*(u32 *)(p + 0x9B4) != 1) {
+    if (((struct Obj00008 *)p)->f9B4 != 1) {
         return;
     }
 
-    *(u32 *)(p + 0x9B4) = 0;
+    ((struct Obj00008 *)p)->f9B4 = 0;
     func_021BA8EC(p);
     func_021B98F8(p + 0x274, 0);
-    *(u32 *)(p + 0x135C) = 0;
+    ((struct Obj00008 *)p)->f135C = 0;
 }

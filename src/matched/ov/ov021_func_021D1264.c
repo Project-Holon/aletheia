@@ -30,6 +30,7 @@
  *   func_021D1430  0x021D1430  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01509.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -73,8 +74,8 @@ void func_021D1264(u8 *p)
     void *o;
     u32 cam;
 
-    o = func_02188CB4(*(void **)p);
-    cam = func_0218EC2C(func_02188C58((void *)(*(u32 *)p)));
+    o = func_02188CB4(((struct Obj01509 *)p)->f0);
+    cam = func_0218EC2C(func_02188C58((void *)(*(u32 *)&((struct Obj01509 *)p)->f0)));
     func_02048AD0((struct Light *)cam);
     func_02048B30(cam, &eye);
     func_02048AE8(cam, &at);
@@ -92,8 +93,8 @@ void func_021D1264(u8 *p)
     func_0206DF3C(&pos, &x, &y);
     x -= 0x10;
     y -= 0x18;
-    *(u16 *)(p + 8) = x % 8;
-    *(u16 *)(p + 10) = y % 8;
+    ((struct Obj01509 *)p)->f8 = x % 8;
+    ((struct Obj01509 *)p)->fA = y % 8;
     x /= 8;
     y /= 8;
     if (x < 0) {
@@ -108,8 +109,8 @@ void func_021D1264(u8 *p)
     if (y > 0x18) {
         y = 0x18;
     }
-    *(u32 *)(p + 4) = func_020450F0(3, x, y, 5, 5, 9, 1);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 4))), 0);
-    func_02045334((struct Descriptor *)*(u32 *)(p + 4));
+    ((struct Obj01509 *)p)->f4 = func_020450F0(3, x, y, 5, 5, 9, 1);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01509 *)p)->f4)), 0);
+    func_02045334((struct Descriptor *)((struct Obj01509 *)p)->f4);
     func_021D1430(p, 0);
 }

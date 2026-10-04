@@ -11,6 +11,7 @@
  *
  * Loads the 32-bit word at byte +0xbc of the object.
  */
+#include "../include/Obj17876.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 u32 func_02188D24(u8 *p)
 {
-    return *(u32 *)(p + 0xbc);
+    return ((struct Obj17876 *)p)->fBC;
 }
 

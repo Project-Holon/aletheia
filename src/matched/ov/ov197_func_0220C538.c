@@ -14,6 +14,8 @@
  *   func_0220C6F8 0x0220C6F8 thumb ov197
  *   d_0220DB7C 0x0220DB7C data a4
  */
+#include "../include/Obj01075.h"
+#include "../include/Obj25036.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -22,4 +24,4 @@ extern void func_0220C180(char *,u16,u32,u32);
 extern void func_0220C4D4(int,int);
 extern void func_0220C6F8(u8 *,u32,u32);
 extern const int d_0220DB7C[];
-void func_0220C538(char *p) { if(*(u16 *)(p+0x540)!=0) { func_0220C180(p,*(u16 *)(p+0x540),6,6); func_0220C4D4(*(int *)(p+0x43c),(int)d_0220DB7C); } if(*(int *)(*(char **)p+8)==2) func_0220C6F8((u8 *)p,192,24); }
+void func_0220C538(char *p) { if(((struct Obj01075 *)p)->f540!=0) { func_0220C180(p,((struct Obj01075 *)p)->f540,6,6); func_0220C4D4(((struct Obj01075 *)p)->f43C,(int)d_0220DB7C); } if(((struct Obj25036 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8==2) func_0220C6F8((u8 *)p,192,24); }

@@ -26,6 +26,7 @@
 
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00429.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,8 +44,8 @@ void func_0219C880(u8 *o, u32 a, u32 b, u32 c)
     u16 v[2];
     if (func_0219CBD4((u32)o, c, (u32)(&v[1]), (u32)(&v[0])) == 1) {
         if (v[0] & 2) {
-            u32 t = func_020508D8((u8 *)(*(u32 *)(o + 4)), b);
-            func_02050278((struct BbActSys *)(*(u32 *)(o + 4)), t, 1);
+            u32 t = func_020508D8((u8 *)(((struct Obj00429 *)o)->f4), b);
+            func_02050278((struct BbActSys *)(((struct Obj00429 *)o)->f4), t, 1);
         }
         if (v[0] & 1) {
             if (func_0216DFC4((void *)a, c) == 0)

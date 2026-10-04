@@ -15,6 +15,7 @@
  *   func_021EC000 0x021EC000 thumb ov170
  *   func_021E0190 0x021E0190 thumb ov170
  */
+#include "../include/Obj08236.h"
 extern int func_021EC01C(char *, int);
 extern void func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *, int);
@@ -25,24 +26,24 @@ extern int func_021E0190(unsigned char *);
 int func_021E0ED4(unsigned char *p)
 {
     char *b = W(p) + 0x58;
-    switch (*(unsigned short *)(b + 0xC)) {
+    switch (((struct Obj08236 *)b)->fC) {
     case 0:
         if (func_021EC01C(W(p), 10) == 1) {
             func_021ED108(W(p), 1);
             func_021EBFA8(W(p), 10, 2);
         }
-        (*(unsigned short *)(b + 0xC))++;
+        (((struct Obj08236 *)b)->fC)++;
         /* fall through */
     case 1:
         if (!func_021E0190(p))
-            (*(unsigned short *)(b + 0xC))++;
+            (((struct Obj08236 *)b)->fC)++;
         break;
     case 2:
         if (func_021EC01C(W(p), 10) == 1) {
             func_021ED108(W(p), 0);
             func_021EC000(W(p), 10, 0);
         }
-        *(unsigned short *)(b + 0xC) = 0;
+        ((struct Obj08236 *)b)->fC = 0;
         return 0;
     }
     return 1;

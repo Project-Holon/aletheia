@@ -9,10 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19848.h"
+#include "../include/Obj19849.h"
 
 typedef unsigned short u16;
 
 u16 func_021AAB48(char *p)
 {
-    return *(u16 *)(*(char **)(p + 0x10) + 0x5bc);
+    return ((struct Obj19849 *)(*(char * *)&((struct Obj19848 *)p)->f10))->f5BC;
 }

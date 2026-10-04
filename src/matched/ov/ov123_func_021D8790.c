@@ -18,6 +18,9 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D83A4 0x021D83A4 thumb ov123
  */
+#include "../include/Obj00063.h"
+#include "../include/Obj22974.h"
+#include "../include/Obj22975.h"
 extern int func_0203CD98(void);
 typedef unsigned char  u8;
 extern int func_021B99DC(u8 *p);
@@ -32,12 +35,12 @@ void func_021D8790(char *p)
 {
     char *q;
     if (func_0203CD98()) {
-        if (func_021D6E08(p,func_021B99DC(*(void **)(p+0x10)))) return;
-        if (func_021B9790(*(void **)(p+0x10))) return;
-        q=func_021B97F4(*(void **)(p+0x10));
-        func_02082D44(q+0x80,*(char **)(p+0x20)+0xc,0x44);
-        *(int *)(*(char **)(p+0x20)+0x50)=1;
-        func_021D8650(p,*(unsigned short *)(q+0x80),q);
+        if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
+        if (func_021B9790(((struct Obj00063 *)p)->f10)) return;
+        q=func_021B97F4(((struct Obj00063 *)p)->f10);
+        func_02082D44(q+0x80,*(char * *)&((struct Obj00063 *)p)->f20+0xc,0x44);
+        ((struct Obj22975 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f50=1;
+        func_021D8650(p,((struct Obj22974 *)q)->f80,q);
     } else {
         func_021D6EE0(p,(int)func_021D83A4,0x7d4);
     }

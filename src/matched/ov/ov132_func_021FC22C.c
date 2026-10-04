@@ -16,6 +16,8 @@
  *   func_021F9DE8 0x021F9DE8 thumb ov132
  *   func_021F95E8 0x021F95E8 thumb ov132
  */
+#include "../include/Obj08169.h"
+#include "../include/Obj14120.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,4 +28,4 @@ extern void *func_021F9DDC(void *,u8);
 extern void func_021F6EE4(void *,u8 *);
 extern void func_021F9DE8(void *,void *,u8);
 extern void func_021F95E8(char *p);
-int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char **)p; a=func_0201134C(*(struct Cursor **)(p+4)); ctx=func_021F9DD4(*(void **)(o+0x34)); func_021F6EE4(ctx,func_021F9DDC(*(void **)(o+0x34),a)); func_021F9DE8(*(void **)(o+0x34),0,a); func_021F95E8(*(void **)(o+0x34)); return 0; }
+int func_021FC22C(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14120 *)p)->f0; a=func_0201134C(*(struct Cursor * *)&((struct Obj14120 *)p)->f4); ctx=func_021F9DD4(((struct Obj08169 *)o)->f34); func_021F6EE4(ctx,func_021F9DDC(((struct Obj08169 *)o)->f34,a)); func_021F9DE8(((struct Obj08169 *)o)->f34,0,a); func_021F95E8(((struct Obj08169 *)o)->f34); return 0; }

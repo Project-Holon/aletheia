@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10368.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -26,9 +27,9 @@ void func_021DFB4C(void *p, void *a1, void *a2)
 {
     u8 buf[12];
 
-    func_02015C30((void *)(*(u32 *)p), (u32 *)buf);
-    *(u32 *)((char *)p + 8) = 0;
-    *(u32 *)((char *)p + 4) = (u32)a1;
+    func_02015C30((void *)(((struct Obj10368 *)p)->f0), (u32 *)buf);
+    ((struct Obj10368 *)p)->f8 = 0;
+    ((struct Obj10368 *)p)->f4 = (u32)a1;
     MI_CpuCopy8(a2, (char *)p + 0x28, 0xC);
     MI_CpuCopy8(buf, (char *)p + 0x1C, 0xC);
 }

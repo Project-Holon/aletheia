@@ -19,6 +19,8 @@
  *   func_0216D65C  0x0216D65C  thumb  ov010
  *   func_0216D668  0x0216D668  thumb  ov010
  */
+#include "../include/Obj00113.h"
+#include "../include/Obj02051.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,40 +42,40 @@ int func_0216CFC4(int a0, int a1)
     int t5;
 
 t4 = a1 + 0;
-a1 = *(u16 *)((char *)t4);
+a1 = ((struct Obj02051 *)((char *)t4))->f0;
 t5 = a0 + 0;
     a0 = func_0216D584(a0, a1);
 loc_0216CFD0:
-a1 = *(u16 *)((char *)t4 + 4);
+a1 = ((struct Obj02051 *)t4)->f4;
 a0 = t5 + 0;
     a0 = func_0216D59C(a0, a1);
 loc_0216CFD8:
-a1 = *(u16 *)((char *)t4 + 6);
+a1 = ((struct Obj02051 *)t4)->f6;
 a0 = t5 + 0;
     a0 = func_0216D5A4(a0, a1);
 loc_0216CFE0:
-a1 = *(u16 *)((char *)t4 + 8);
+a1 = ((struct Obj02051 *)t4)->f8;
 a0 = t5 + 0;
     a0 = func_0216D5AC(a0, a1);
 loc_0216CFE8:
-a1 = *(u16 *)((char *)t4 + 0xa);
+a1 = ((struct Obj02051 *)t4)->fA;
 a0 = t5 + 0;
     a0 = func_0216D5B4(a0, a1);
 loc_0216CFF0:
-a0 = *(u16 *)((char *)t4 + 0xc);
-a1 = *(u16 *)((char *)t4 + 0xe);
+a0 = ((struct Obj02051 *)t4)->fC;
+a1 = ((struct Obj02051 *)t4)->fE;
 a2 = 0;
 *(u16 *)((char *)t5 + 0x16) = a0;
-*(u16 *)((char *)t5 + 0x1a) = a0;
+((struct Obj00113 *)t5)->f1A = a0;
 a0 = t5 + 0;
     a0 = func_0216D620(a0, a1, a2);
 loc_0216D000:
-a1 = *(u16 *)((char *)t4 + 0x10);
+a1 = ((struct Obj02051 *)t4)->f10;
 a0 = t5 + 0;
 a2 = 1;
     a0 = func_0216D620(a0, a1, a2);
 loc_0216D00A:
-a1 = *(u16 *)((char *)t4 + 0x12);
+a1 = ((struct Obj02051 *)t4)->f12;
 a0 = t5 + 0;
 a2 = 2;
     a0 = func_0216D620(a0, a1, a2);

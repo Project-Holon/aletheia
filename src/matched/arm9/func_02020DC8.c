@@ -12,6 +12,7 @@
  * symbols:
  *   sub_0209E8CC_Obj  0x0209E8CC  data
  */
+#include "../include/Obj15729.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,5 +24,5 @@ extern u8 sub_0209E8CC_Obj[];
 
 void func_02020DC8(char *p, int a)
 {
-    *(u32 *)(p + 8) = (u32)func_020436FC((void *)((int)sub_0209E8CC_Obj), 1, 1, 0x20, a);
+    ((struct Obj15729 *)p)->f8 = (u32)func_020436FC((void *)((int)sub_0209E8CC_Obj), 1, 1, 0x20, a);
 }

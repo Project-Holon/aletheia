@@ -17,6 +17,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj05362.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -36,13 +37,13 @@ extern void func_02041B6C(u32 bit);
 void func_021D59E4(char *p)
 {
     void *q;
-    if (*(void **)(p+0x48)) func_020452E8(*(void **)(p+0x48));
+    if (((struct Obj05362 *)p)->f48) func_020452E8(((struct Obj05362 *)p)->f48);
     q=(void *)func_020450F0(6,1,9,30,6,11,1);
-    *(void **)(p+0x48)=q;
+    ((struct Obj05362 *)p)->f48=q;
     func_02043B5C(func_02045770(q),15);
     func_0201DD78(1,2,15);
-    func_0201C7A4(func_02045770(q),0,0,*(void **)(p+0x2c),*(void **)(p+0x28));
-    func_0201F73C(q,1,*(int *)(p+4),12);
+    func_0201C7A4(func_02045770(q),0,0,((struct Obj05362 *)p)->f2C,((struct Obj05362 *)p)->f28);
+    func_0201F73C(q,1,((struct Obj05362 *)p)->f4,12);
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(6);

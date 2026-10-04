@@ -15,6 +15,7 @@
  *   func_02049238  0x02049238  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ extern void func_02049238(u32 v);
 
 void func_021A2994(u8 *p)
 {
-    u32 v = *(u32 *)(p + 16);
+    u32 v = ((struct Obj12085 *)p)->f10;
     if (v != 0) {
         func_02049238(v);
-        *(u32 *)(p + 16) = 0;
+        ((struct Obj12085 *)p)->f10 = 0;
     }
 }

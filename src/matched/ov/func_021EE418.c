@@ -15,6 +15,7 @@
  *
  * Run the frame update, then release slot 4 with force 1.
  */
+#include "../include/Obj18526.h"
 
 
 extern void func_021EE408(char *p, int v);
@@ -22,5 +23,5 @@ extern void func_021EC000(char *p, int i, int v);
 void func_021EE418(char *p, int v)
 {
     func_021EE408(p, v);
-    func_021EC000((char *)(*(int *)(p + 0x2c)), 4, 1);
+    func_021EC000((char *)(((struct Obj18526 *)p)->f2C), 4, 1);
 }

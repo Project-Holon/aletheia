@@ -20,6 +20,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D7540  0x021D7540  thumb  ov093
  */
+#include "../include/Obj13317.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Bf { u8 pad[0x10]; u32 f : 1; };
@@ -42,7 +43,7 @@ int func_021BF78C(u8 *p, u8 *b, int c, u8 *d, u8 *e, void *f, void *g, int *h)
     func_021D74F8(4834);
     func_021D75EC(3, func_021D5440(d));
     func_021D75EC(4, func_021D5440(e));
-    func_021D75EC(0x12, *(u16 *)b);
+    func_021D75EC(0x12, ((struct Obj13317 *)b)->f0);
     func_021D75EC(0x16, b[6]);
     func_021D75EC(0x4e, ((struct Bf *)b)->f);
     func_021D75EC(0x3f, (u32)g);

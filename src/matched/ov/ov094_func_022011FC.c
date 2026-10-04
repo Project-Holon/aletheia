@@ -20,6 +20,7 @@
  * expression and it loads first (the twins' order); with distinct
  * spellings key is copy-propagated instead and c->w loads first.
  */
+#include "../include/Obj06319.h"
 typedef unsigned char u8;
 typedef int fx32;
 
@@ -62,5 +63,5 @@ void func_022011FC(void *h)
     Ctx *c = func_02030EE8(h);
 
     if (c->tag == c->w->tag[c->key])
-        c->w->mask &= func_021F935C(*(int *)((char *)c + 4)) ^ 0xFFFFFFFF;
+        c->w->mask &= func_021F935C(((struct Obj06319 *)c)->f4) ^ 0xFFFFFFFF;
 }

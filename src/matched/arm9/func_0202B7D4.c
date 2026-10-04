@@ -20,6 +20,7 @@
 
  * Closed by the `matched` class: 0x0202BECC -> 0x0202BF90, both filed this wave.
  */
+#include "../include/Obj15842.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -28,5 +29,5 @@ extern void func_0202BECC(u8 *p, u32 key);
 
 void func_0202B7D4(u8 *p, u32 key)
 {
-    func_0202BECC((u8 *)(*(u32 *)(p + 0x1c)), key);
+    func_0202BECC((u8 *)(((struct Obj15842 *)p)->f1C), key);
 }

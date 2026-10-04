@@ -67,6 +67,7 @@
  *    field promotes to `int` before the shift.  Writing the field as `u32`,
  *    or casting, gives `lsrs` and two bytes wrong in func_0200B214.
  */
+#include "../include/Obj17006.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -169,7 +170,7 @@ void func_0200AE18(struct Reg *p, void *dest)
 {
     void *g = func_02045B38(0, 2, 0xA6, 1);
 
-    func_02045CAC(g, *(u8 *)p, dest);
+    func_02045CAC(g, ((struct Obj17006 *)p)->f0, dest);
     func_02045C04(g);
 }
 

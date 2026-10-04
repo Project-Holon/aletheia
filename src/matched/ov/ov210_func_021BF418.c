@@ -15,6 +15,8 @@
  *   func_021BED98 0x021BED98 thumb ov210
  *   func_021BEE38 0x021BEE38 thumb ov210
  */
+#include "../include/Obj25626.h"
+#include "../include/Obj25627.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021BEDF0(u8 *, unsigned, unsigned);
@@ -28,7 +30,7 @@ unsigned func_021BF418(u8 *p)
     func_021BEDF0(p, 2, 1);
     func_021BEDF0(p, 3, 1);
     func_021BEDF0(p, 4, 1);
-    data = *(u8 **)(*(u8 **)p + 8);
+    data = *(u8 * *)&((struct Obj25627 *)(*(u8 * *)&((struct Obj25626 *)p)->f0))->f8;
     if (data[6] != 255) {
         func_021BED98((char *)p, 7, data[6]);
         func_021BEE38((char *)p, 7, 192, 116, 0);

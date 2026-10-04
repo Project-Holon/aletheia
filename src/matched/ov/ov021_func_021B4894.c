@@ -20,6 +20,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj01121.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,13 +50,13 @@ void func_021B4894(char *w, u32 b)
     u32 t;
     u32 win;
 
-    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), b);
-    func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)(*(u32 *)(w + 0x198)), (void *)t);
+    t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01121 *)w)->f188), b);
+    func_0201F250((struct WordSet *)(((struct Obj01121 *)w)->f190), (void *)(((struct Obj01121 *)w)->f198), (void *)t);
     func_02045808((struct U16Vec *)t);
-    *(u32 *)(w + 0x1B8) = (u32)func_0201CD10(*(u32 *)(w + 0x17C), 0, 0, *(u32 *)(w + 0x198),
-                                        *(u32 *)(w + 8), func_02012FFC(), *(u32 *)(w + 0x1B4), 0,
-                                        *(u16 *)(w + 4), 0xFFFF, 0);
-    win = *(u32 *)(w + 0x17C);
+    ((struct Obj01121 *)w)->f1B8 = (u32)func_0201CD10(((struct Obj01121 *)w)->f17C, 0, 0, ((struct Obj01121 *)w)->f198,
+                                        ((struct Obj01121 *)w)->f8, func_02012FFC(), ((struct Obj01121 *)w)->f1B4, 0,
+                                        ((struct Obj01121 *)w)->f4, 0xFFFF, 0);
+    win = ((struct Obj01121 *)w)->f17C;
     func_02045334((struct Descriptor *)win);
     func_02045374((struct Cfg *)win);
     func_020409B4(func_02045730((struct Descriptor *)win));

@@ -22,6 +22,8 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021BA15C 0x021BA15C thumb ov225
  */
+#include "../include/Obj06734.h"
+#include "../include/Obj26144.h"
 typedef unsigned short u16;
 extern const char ov067_id[];
 extern const char d_021BC014[];
@@ -39,9 +41,9 @@ void *func_021B9F24(char *owner)
 {
     char *p;
     func_02034AC4((int)ov067_id);
-    p=func_02030734(*(u16 *)(owner+4),0x4c,1,d_021BC014,235);
-    *(void **)p=owner;func_021BA160(p);func_021BA1C0(p);func_021BA1C4(p);func_021BA41C(p);
-    *(unsigned *)(p+8)=4;p[0xc]=0;p[0xd]=0;func_021BA068(p,0);func_021BA644(p);
-    *(void **)(p+0x48)=func_020056A0((unsigned)func_021BA15C,(unsigned)p,1);
+    p=func_02030734(((struct Obj26144 *)owner)->f4,0x4c,1,d_021BC014,235);
+    ((struct Obj06734 *)p)->f0=owner;func_021BA160(p);func_021BA1C0(p);func_021BA1C4(p);func_021BA41C(p);
+    ((struct Obj06734 *)p)->f8=4;p[0xc]=0;p[0xd]=0;func_021BA068(p,0);func_021BA644(p);
+    ((struct Obj06734 *)p)->f48=func_020056A0((unsigned)func_021BA15C,(unsigned)p,1);
     return p;
 }

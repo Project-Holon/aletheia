@@ -13,6 +13,8 @@
  *   func_021B8894  0x021B8894  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00454.h"
+#include "../include/Obj20083.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,13 +29,13 @@ void func_021B91F8(u8 *p, V3 *out)
 {
     Fn f;
 
-    if (*(u16 *)p == 0) {
-        *out = *(V3 *)(*(u8 **)(p + 4) + 0x30);
+    if (((struct Obj00454 *)p)->f0 == 0) {
+        *out = *(V3 *)(*(u8 * *)&((struct Obj00454 *)p)->f4 + 0x30);
         return;
     }
-    if (*(u16 *)p == 1) {
-        u32 *r = func_021B8848(*(void **)(p + 0x24), *(u32 *)(*(u8 **)(p + 4) + 0xc));
-        f = func_021B8894(*(void **)(p + 0x24), *r);
+    if (((struct Obj00454 *)p)->f0 == 1) {
+        u32 *r = func_021B8848(((struct Obj00454 *)p)->f24, ((struct Obj20083 *)(*(u8 * *)&((struct Obj00454 *)p)->f4))->fC);
+        f = func_021B8894(((struct Obj00454 *)p)->f24, *r);
         if (f)
             f(p, out);
     }

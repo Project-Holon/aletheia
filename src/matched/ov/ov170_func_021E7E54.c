@@ -17,6 +17,9 @@
  *   func_021E94AC 0x021E94AC thumb ov170
  *   func_021E8FD0 0x021E8FD0 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23925.h"
+#include "../include/Obj23926.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern unsigned func_02025DE8(void *);
@@ -29,7 +32,7 @@ extern int func_021E8FD0(u8 *, int);
 int func_021E7E54(u8 *p)
 {
     u8 mask;
-    switch (func_02025DE8(*(void **)(*(u8 **)(p + 44) + 112))) {
+    switch (func_02025DE8(((struct Obj23925 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70)) {
     case 0:
         func_020061E4(0x54c);
         func_021EA908((int)p, 0);
@@ -55,7 +58,7 @@ int func_021E7E54(u8 *p)
         func_021EA908((int)p, 5);
         break;
     case 6:
-        mask = *(u32 *)(*(u8 **)(p + 44) + 0xa174);
+        mask = ((struct Obj23926 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174;
         func_021DD2B4((int)p, p[22], p[20], 11, mask);
         func_021DF11C(p, mask);
         func_020061E4(0x54c);

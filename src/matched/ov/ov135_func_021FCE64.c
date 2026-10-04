@@ -13,6 +13,7 @@
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   func_021FFD1C 0x021FFD1C thumb ov135
  */
+#include "../include/Obj06515.h"
 typedef signed short s16;
 extern int (*const tbl_02203D14[])(void *);
 extern void func_021F4EA0(void *, int, int);
@@ -24,9 +25,9 @@ int func_021FCE64(char *p)
     int i;
     r = tbl_02203D14[*(int *)(p + 0x28)](p);
     for (i = 0; i < 8; i++) {
-        func_021F4EA0(*(void **)(p + i * 4 + 0xd0c), *(s16 *)(p + i * 4 + 0xec4), *(s16 *)(p + i * 4 + 0xec6) + *(int *)(p + 0xd3c) + 0x20);
+        func_021F4EA0(*(void **)(p + i * 4 + 0xd0c), *(s16 *)(p + i * 4 + 0xec4), *(s16 *)(p + i * 4 + 0xec6) + ((struct Obj06515 *)p)->fD3C + 0x20);
     }
-    func_021F4FF4(*(unsigned *)(p + 0xd08), 0xd0, 0x3a - *(int *)(p + 0xd3c));
-    func_021FFD1C(p, *(int *)(p + 0xd4), *(int *)(p + 0xd3c));
+    func_021F4FF4(((struct Obj06515 *)p)->fD08, 0xd0, 0x3a - ((struct Obj06515 *)p)->fD3C);
+    func_021FFD1C(p, ((struct Obj06515 *)p)->fD4, ((struct Obj06515 *)p)->fD3C);
     return r;
 }

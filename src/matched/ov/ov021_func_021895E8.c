@@ -14,6 +14,7 @@
  *   func_0218F14C  0x0218F14C  thumb  ov021
  *   func_0218F134  0x0218F134  thumb  ov021
  */
+#include "../include/Obj09444.h"
 
 unsigned short func_02013BD0(unsigned short id);
 typedef unsigned int   u32;
@@ -25,7 +26,7 @@ void func_021895E8(unsigned char *p, int id, int c)
 {
     int r = func_02013BD0(id);
     if (r != 0xFFFF)
-        func_0218F14C((u8 *)(*(int *)(p + 0x10)), r, c);
+        func_0218F14C((u8 *)(((struct Obj09444 *)p)->f10), r, c);
     else
-        func_0218F134((u8 *)(*(int *)(p + 0x10)));
+        func_0218F134((u8 *)(((struct Obj09444 *)p)->f10));
 }

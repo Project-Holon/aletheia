@@ -13,8 +13,9 @@
  *   movs r1,#0; str r1,[r0,#0x20]; bx lr
  * Clears the word at p+0x20.
  */
+#include "../include/Obj25852.h"
 
 void func_021BB998(void *p)
 {
-    *(unsigned int *)((char *)p + 0x20) = 0;
+    ((struct Obj25852 *)p)->f20 = 0;
 }

@@ -14,6 +14,7 @@
  * symbols:
  *   func_0204B838  0x0204B838  arm
  */
+#include "../include/Obj23015.h"
 
 typedef unsigned char u8;
 
@@ -21,5 +22,5 @@ extern int func_0204B838(void *);
 
 int func_021C4224(u8 *p)
 {
-    return func_0204B838(*(void **)(p + 4));
+    return func_0204B838(((struct Obj23015 *)p)->f4);
 }

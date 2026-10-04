@@ -12,6 +12,7 @@
  *   func_021C8BC4 0x021C8BC4 arm ov114
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj01161.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,25 +24,25 @@ extern void func_02082BCC(void *, int, u32);
 int func_021FE6A0(u8 *p)
 {
     Request q;
-    if (*(int *)(p + 0xf84) == 0) {
+    if (((struct Obj01161 *)p)->fF84 == 0) {
         func_021C8B18(p + 0xb56, 7, p + 0x20c);
     } else {
         func_02082BCC(&q, 0, 8);
-        q.id = *(short *)(p + 0xb56);
-        q.a = *(s8 *)(p + 0xb58);
+        q.id = *(short *)&((struct Obj01161 *)p)->fB56;
+        q.a = *(s8 *)&((struct Obj01161 *)p)->fB58;
         q.b = *(s8 *)(p + 0xb59);
-        q.c = *(s8 *)(p + 0xb5a);
+        q.c = *(s8 *)&((struct Obj01161 *)p)->fB5A;
         q.d = *(s8 *)(p + 0xb5b);
         q.mode = 7;
-        q.flag = *(int *)(p + 0xf84);
+        q.flag = ((struct Obj01161 *)p)->fF84;
         func_021C8BC4(&q, p + 0x20c);
     }
-    *(u16 *)(p + 0xb5c) = *(u16 *)(p + 0xb56);
-    *(u16 *)(p + 0xb5e) = *(u16 *)(p + 0xb58);
-    *(u16 *)(p + 0xb60) = *(u16 *)(p + 0xb5a);
-    *(u32 *)(p + 0xb64) = *(u32 *)(p + 0xf84);
-    *(int *)(p + 0xf8c) = 0;
-    *(int *)(p + 0x28) = 18;
-    *(u16 *)(p + 0xe1a) = 0;
+    ((struct Obj01161 *)p)->fB5C = ((struct Obj01161 *)p)->fB56;
+    ((struct Obj01161 *)p)->fB5E = ((struct Obj01161 *)p)->fB58;
+    ((struct Obj01161 *)p)->fB60 = ((struct Obj01161 *)p)->fB5A;
+    ((struct Obj01161 *)p)->fB64 = *(u32 *)&((struct Obj01161 *)p)->fF84;
+    ((struct Obj01161 *)p)->fF8C = 0;
+    ((struct Obj01161 *)p)->f28 = 18;
+    ((struct Obj01161 *)p)->fE1A = 0;
     return 2;
 }

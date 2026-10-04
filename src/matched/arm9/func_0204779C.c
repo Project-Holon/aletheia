@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16046.h"
 
-int func_0204779C(int *p){ return *(unsigned short *)((char *)p + 0xc); }
+int func_0204779C(int *p){ return ((struct Obj16046 *)p)->fC; }

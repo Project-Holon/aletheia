@@ -16,6 +16,7 @@
  *   g_020A76BC     0x020A76BC  data
  *   g_02146944     0x02146944  data
  */
+#include "../include/Obj11304.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ u32 *func_02029F14(u32 a0, u32 a1)
 {
     u32 *p = func_02030734(a0, 0xc, 1, g_020A76BC, 0x72);
 
-    *(u16 *)((char *)p + 4) = 0;
+    ((struct Obj11304 *)p)->f4 = 0;
     p[2] = a1;
     g_02146944 = p;
     func_02029F6C();

@@ -14,6 +14,7 @@
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  *   func_0202CD64 0x0202CD64 thumb
  */
+#include "../include/Obj05415.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -25,4 +26,4 @@ struct WinMgr;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021F4FF4(u32,u32,u32);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
-void func_021FADF0(u8 *p) {func_021FA9C8(p,4,32);func_0204B878(*(void **)(p+8),18);func_021F4FF4(*(u32 *)(p+8),144,40);func_0202CD64(*(void **)(p+24),0,-4,0,4);*(u32 *)(p+72)=1;*(u32 *)(p+76)=7;*(s16 *)(p+56)=-1;}
+void func_021FADF0(u8 *p) {func_021FA9C8(p,4,32);func_0204B878(((struct Obj05415 *)p)->f8,18);func_021F4FF4(*(u32 *)&((struct Obj05415 *)p)->f8,144,40);func_0202CD64(((struct Obj05415 *)p)->f18,0,-4,0,4);((struct Obj05415 *)p)->f48=1;((struct Obj05415 *)p)->f4C=7;((struct Obj05415 *)p)->f38=-1;}

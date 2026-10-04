@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26230.h"
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -22,6 +23,6 @@ extern void func_020307B0(void *);
 
 void func_021BB308(char *p)
 {
-    func_02030EAC((struct Node *)(*(int *)(p + 0x14)));
+    func_02030EAC((struct Node *)(((struct Obj26230 *)p)->f14));
     func_020307B0(p);
 }

@@ -21,6 +21,7 @@
  *   func_021C24A4  0x021C24A4  thumb  ov099
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  */
+#include "../include/Obj04414.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,9 +39,9 @@ int func_021BC7B4(char *p, int v)
     int r4;
     int sel;
 
-    func_021C282C(*(u8 **)(p + 8));
-    *(u8 *)(p + 0x1351) = 0;
-    sel = *(u16 *)(p + 0x132c);
+    func_021C282C(*(u8 * *)&((struct Obj04414 *)p)->f8);
+    ((struct Obj04414 *)p)->f1351 = 0;
+    sel = ((struct Obj04414 *)p)->f132C;
     switch (sel) {
     case 0x4b:
         r4 = 4;
@@ -58,18 +59,18 @@ int func_021BC7B4(char *p, int v)
         func_021BAADC(p, 0x7b, 0);
         func_021C18C8(p, 4, 4);
         func_021C24A4(p, 0);
-        *(u8 *)(p + 0x1355) = 0;
-        *(u32 *)(p + 0x1CC) = 0x10;
+        ((struct Obj04414 *)p)->f1355 = 0;
+        ((struct Obj04414 *)p)->f1CC = 0x10;
         break;
     case 0x4c:
         func_021BA8EC(p);
-        *(u32 *)(p + 0x1D0) = r4;
+        ((struct Obj04414 *)p)->f1D0 = r4;
         v = 2;
         break;
     case 0x4d:
         func_021BC104(p);
         func_021BA8EC(p);
-        *(u32 *)(p + 0x1D0) = r4;
+        ((struct Obj04414 *)p)->f1D0 = r4;
         v = 2;
         break;
     }

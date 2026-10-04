@@ -37,6 +37,8 @@
  * makes it a `||` inside a single `if` rather than two `if`s (two separate
  * guards would each need their own `pop`).
  */
+#include "../include/Obj03475.h"
+#include "../include/Obj07024.h"
 
 typedef unsigned int   u32;
 extern int func_02062F00(void *s, u32 i);
@@ -58,23 +60,23 @@ void func_02064AB4(char *self, unsigned int i)
     int kind;
     int item;
 
-    if (func_02062F00(self, i) == 0 || *(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+    if (func_02062F00(self, i) == 0 || *(unsigned short *)(((struct Obj07024 *)self)->f4 + 4) == 0)
         return;
     p = func_02062D40(self);
-    item = (int)func_020629E8((struct MultiCellBank *)(*(int *)(self + 0x44)), *(unsigned short *)p);
-    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    item = (int)func_020629E8((struct MultiCellBank *)(((struct Obj07024 *)self)->f44), ((struct Obj03475 *)p)->f0);
+    kind = *(int *)(((struct Obj07024 *)self)->f1C + 4) & 0xff;
     func_02064140(self + 0x48, 1);
     switch (kind) {
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x48, *(short *)(p + 4), *(short *)(p + 6));
+        func_020640DC(self + 0x48, *(short *)&((struct Obj03475 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x48, *(int *)(p + 4), *(int *)(p + 8));
-        func_02064100(self + 0x48, *(unsigned short *)(p + 2));
-        func_020640DC(self + 0x48, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        func_02064120(self + 0x48, ((struct Obj03475 *)p)->f4, ((struct Obj03475 *)p)->f8);
+        func_02064100(self + 0x48, ((struct Obj03475 *)p)->f2);
+        func_020640DC(self + 0x48, ((struct Obj03475 *)p)->fC, ((struct Obj03475 *)p)->fE);
         break;
     }
-    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)item, *(unsigned short *)(self + 0x30));
+    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)item, ((struct Obj07024 *)self)->f30);
 }

@@ -17,6 +17,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
  */
+#include "../include/Obj03805.h"
 typedef unsigned char  u8;
 struct Rec;
 struct U16Vec;
@@ -32,15 +33,15 @@ extern void func_02034A5C(int);
 extern char ov114_id[];
 void func_021D6770(char *p)
 {
-    if (*(void **)(p + 0x404)) {
-        func_021B99B8(*(void **)(p + 0x404));
-        func_021B9838(*(void **)(p + 0x404));
+    if (((struct Obj03805 *)p)->f404) {
+        func_021B99B8(((struct Obj03805 *)p)->f404);
+        func_021B9838(((struct Obj03805 *)p)->f404);
     }
     func_021D85B4();
-    *(int *)(p + 0x3b4) = 0;
-    func_02045808(*(void **)(p + 0x3ec));
-    func_0201ED04(*(void **)(p + 0x3e8));
-    func_02045C04(*(void **)(p + 0x3e4));
-    func_020307B0(*(void **)(p + 0x3ac));
+    ((struct Obj03805 *)p)->f3B4 = 0;
+    func_02045808(((struct Obj03805 *)p)->f3EC);
+    func_0201ED04(((struct Obj03805 *)p)->f3E8);
+    func_02045C04(((struct Obj03805 *)p)->f3E4);
+    func_020307B0(((struct Obj03805 *)p)->f3AC);
     func_02034A5C((int)ov114_id);
 }

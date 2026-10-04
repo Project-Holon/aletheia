@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021FA210(char *p) { if (*(unsigned *)(p+0x18)!=0) (*(unsigned *)(p+0x18))--; }
+#include "../include/Obj14451.h"
+void func_021FA210(char *p) { if (((struct Obj14451 *)p)->f18!=0) (((struct Obj14451 *)p)->f18)--; }

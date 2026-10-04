@@ -13,6 +13,7 @@
  *   func_02034714  0x02034714  arm
  *   func_02183BE8  0x02183BE8  thumb  ov022
  */
+#include "../include/Obj05918.h"
 
 typedef unsigned char u8;
 
@@ -22,12 +23,12 @@ extern int func_02183BE8(u8 *s, int i);
 
 void func_02173CCC(int a, int x, int y, u8 *p)
 {
-    if (*(int *)(p + 0x3528) == 0) {
+    if (((struct Obj05918 *)p)->f3528 == 0) {
         func_02034714((void *)0x02175624, 0, (void *)0x02175624);
         p[0x282D] |= (u8)(1 << a);
         return;
     }
-    if (func_02183BE8((u8 *)(*(int *)(p + 0x3528)), (u8)a) == 1) {
+    if (func_02183BE8((u8 *)(((struct Obj05918 *)p)->f3528), (u8)a) == 1) {
         p[0x282C] |= (u8)(1 << a);
         return;
     }

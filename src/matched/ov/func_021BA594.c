@@ -16,6 +16,7 @@
  * byte, byte) and hands it, with the pointer at +0x59C, to the ov127 routine
  * at 0x021C5F44.
  */
+#include "../include/Obj13682.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,5 +35,5 @@ void func_021BA594(char *p, u16 a, u8 b, u8 c)
     s.a = a;
     s.b = b;
     s.c = c;
-    func_021C5F44(*(void **)(p + 0x59C), &s);
+    func_021C5F44(((struct Obj13682 *)p)->f59C, &s);
 }

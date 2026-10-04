@@ -15,6 +15,9 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj00180.h"
+#include "../include/Obj24162.h"
+#include "../include/Obj24164.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,21 +34,21 @@ void func_021B7128(char *p)
     u32 i;
     u16 move;
     void *bank;
-    *(u8 *)(p + 0x1b8) = func_021B6FB4(p);
-    *(void **)(p + 0x58) = func_0201F81C(*(u8 *)(p + 0x1b8), 0x4f);
+    ((struct Obj00180 *)p)->f1B8 = func_021B6FB4(p);
+    ((struct Obj00180 *)p)->f58 = func_0201F81C(((struct Obj00180 *)p)->f1B8, 0x4f);
     i = 0;
     bank = func_02045B38(0, 2, 0xcb, 0x4f);
-    for (; i < *(u8 *)(p + 0x1b8); i++) {
-        move = ((u16 *)*(void **)(*(char **)p + 0x10))[i];
+    for (; i < ((struct Obj00180 *)p)->f1B8; i++) {
+        move = ((u16 *)((struct Obj24162 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f10)[i];
         if (move != 0xffff) {
-            func_0201F878(*(void **)(p + 0x58), (u32)bank, move, move, 0x4f);
+            func_0201F878(((struct Obj00180 *)p)->f58, (u32)bank, move, move, 0x4f);
         } else {
-            func_0201F878(*(void **)(p + 0x58), *(u32 *)(p + 0x44), 0x20, -2, 0x4f);
+            func_0201F878(((struct Obj00180 *)p)->f58, *(u32 *)&((struct Obj00180 *)p)->f44, 0x20, -2, 0x4f);
             break;
         }
     }
     func_02045C04(bank);
-    *(u8 *)(p + 0x1bb) = 0;
-    *(u8 *)(p + 0x1bc) = *(u16 *)(*(char **)p + 0x14);
+    ((struct Obj00180 *)p)->f1BB = 0;
+    ((struct Obj00180 *)p)->f1BC = ((struct Obj24164 *)(*(char * *)&((struct Obj00180 *)p)->f0))->f14;
     func_021B70D8(p);
 }

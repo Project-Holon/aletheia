@@ -28,6 +28,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020070C8.c  *       --func func_020070C8 --addr 0x020070C8 --thumb --cc 1.1p1
  */
+#include "../include/Obj00370.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -48,7 +49,7 @@ typedef enum { BIT_0, BIT_MAX = 9 } Bit;
 
 int func_020070C8(char *self)
 {
-    int t = func_02031AE0(*(struct State **)(self + 0x10), 1);
+    int t = func_02031AE0(*(struct State * *)&((struct Obj00370 *)self)->f10, 1);
     void *h;
     Bit i;
 
@@ -56,7 +57,7 @@ int func_020070C8(char *self)
         goto end;
     }
     {
-        *(u8 *)(self + 1) = 1;
+        ((struct Obj00370 *)self)->f1 = 1;
         h = func_0200A5F8(self);
         func_0200A7EC(h, 0);
         if (func_02008784(self, 6) == 1) {
@@ -68,9 +69,9 @@ int func_020070C8(char *self)
             func_0200A7EC(h, 1);
         }
 bits:
-        if (*(int *)(self + 0xc) != 0) {
+        if (*(int *)&((struct Obj00370 *)self)->fC != 0) {
             for (i = 0; i < 9; i++) {
-                if (*(int *)(self + 0xc) & (1 << (i + 2)))
+                if (*(int *)&((struct Obj00370 *)self)->fC & (1 << (i + 2)))
                     func_020087C0(self, i);
             }
         }

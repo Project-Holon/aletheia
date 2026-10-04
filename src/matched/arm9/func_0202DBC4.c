@@ -22,6 +22,7 @@
  * symbols:
  *   func_0202E0E0  0x0202E0E0  thumb
  */
+#include "../include/Obj04744.h"
 
 typedef unsigned char u8;
 typedef signed char   s8;
@@ -36,12 +37,12 @@ void func_0202DBC4(u8 *p)
 {
     s32 i;
 
-    *(u32 *)(p + 0x28) = 1;
-    for (i = 0; i < (s32)*(u8 *)(p + 0x30); i++) {
-        u8 *e = *(u8 **)(p + 0xc) + i * 0x28;
+    ((struct Obj04744 *)p)->f28 = 1;
+    for (i = 0; i < (s32)((struct Obj04744 *)p)->f30; i++) {
+        u8 *e = *(u8 * *)&((struct Obj04744 *)p)->fC + i * 0x28;
         if (((struct Ent *)e)->bit0 != 0) {
-            if (func_0202E0E0(e, *(void **)(p + 8), *(u32 *)(p + 0x2c)) != 0) {
-                *(u32 *)(p + 0x28) = 0;
+            if (func_0202E0E0(e, ((struct Obj04744 *)p)->f8, ((struct Obj04744 *)p)->f2C) != 0) {
+                ((struct Obj04744 *)p)->f28 = 0;
             }
         }
     }

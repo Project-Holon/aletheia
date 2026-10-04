@@ -16,6 +16,7 @@
  *   func_0216D81C  0x0216D81C  thumb  ov010
  *   func_021F4388  0x021F4388  thumb  ov055
  */
+#include "../include/Obj00204.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,8 +32,8 @@ int func_021F4318(const u8 *a, void *b, u16 c, u16 d)
 {
     int x0 = func_0216D83C(b);
     int y0 = func_0216D86C(b);
-    int x1 = func_0216D83C(*(void * const *)(a + 0xc));
-    int y1 = func_0216D86C(*(void * const *)(a + 0xc));
+    int x1 = func_0216D83C(*(void * const *)&((struct Obj00204 *)a)->fC);
+    int y1 = func_0216D86C(*(void * const *)&((struct Obj00204 *)a)->fC);
     int x2;
     int y2;
 

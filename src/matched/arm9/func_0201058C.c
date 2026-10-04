@@ -50,6 +50,7 @@
  *   python tools/match.py one --src src/pending/func_0201058C.c \
  *       --func func_0201058C --addr 0x0201058C --thumb
  */
+#include "../include/Obj03426.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -118,7 +119,7 @@ u32 func_0201058C(void *key)
             case 7: case 9:
                 break;
             }
-        } else if (*(u16 *)(rec + 0xA) != 0) {
+        } else if (((struct Obj03426 *)rec)->fA != 0) {
             if (func_0201057C((const struct Ctx *)rec) == 0)
                 *(int *)(g_021461E0 + 0x320) = 400;
             else

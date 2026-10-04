@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13906.h"
 
 typedef unsigned int u32;
 
@@ -27,8 +28,8 @@ void *func_021DFB84(void *a0, void *a1, void *a2, u32 heapId)
 {
     void *r = sub_02030734(heapId, 0x38, 1, (const char *)0x021E80F4, 0xD2);
 
-    *(void **)r = a0;
+    ((struct Obj13906 *)r)->f0 = a0;
     func_021DFB4C(r, a1, a2);
-    *(u32 *)((char *)r + 0xC) = 0;
+    ((struct Obj13906 *)r)->fC = 0;
     return r;
 }

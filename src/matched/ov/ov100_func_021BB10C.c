@@ -13,6 +13,7 @@
  *   func_021B9800 0x021B9800 thumb ov100
  *   func_021B974C 0x021B974C thumb ov100
  */
+#include "../include/Obj10220.h"
 typedef unsigned short u16;
 struct Obj;
 extern u16 func_0204B898(struct Obj *p);
@@ -20,13 +21,13 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021B9800(int a, int b, int c, int d);
 extern void func_021B974C(int,int,int,int,int);
 void func_021BB10C(int a) {
- switch(func_0204B898(*(void **)(a+0x2d0))) {
+ switch(func_0204B898(((struct Obj10220 *)a)->f2D0)) {
  case 9:
-  func_0204B878(*(void **)(a+0x2d0),10);
+  func_0204B878(((struct Obj10220 *)a)->f2D0,10);
   func_021B9800(a,57,154,2);
   func_021B974C(a,128,77,5,3);
   return;
  case 10: break;
- default: func_0204B878(*(void **)(a+0x2d0),9); break;
+ default: func_0204B878(((struct Obj10220 *)a)->f2D0,9); break;
  }
 }

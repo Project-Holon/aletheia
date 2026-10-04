@@ -14,6 +14,8 @@
  *   func_021A08CC  0x021A08CC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01498.h"
+#include "../include/Obj02080.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,19 +30,19 @@ void func_021A0A50(u8 *a, u8 *b, u32 c, u32 d)
 {
     s32 i;
 
-    *(u16 *)(a + 0xf0) = 0;
-    *(u16 *)(a + 0xf2) = d;
-    *(u16 *)a = *(u16 *)b;
-    *(s16 *)(a + 2) = *(s16 *)(b + 2);
+    ((struct Obj02080 *)a)->fF0 = 0;
+    ((struct Obj02080 *)a)->fF2 = d;
+    ((struct Obj02080 *)a)->f0 = ((struct Obj01498 *)b)->f0;
+    ((struct Obj02080 *)a)->f2 = ((struct Obj01498 *)b)->f2;
     for (i = 0; i < 4; i++) {
         func_021A0818(a + 8 + i * 12, *(u16 *)(b + 8 + i * 2), c);
         func_021A08CC((s32 *)(a + 0x38 + i * 0x1c), (const s16 *)(b + 0x10 + i * 6), (u32)(b + 0x10 + i * 6));
         a[4 + i] = b[4 + i];
     }
-    func_021A0818(a + 0xa8, *(u16 *)(b + 0x28), c);
-    func_021A0818(a + 0xb4, *(u16 *)(b + 0x2a), c);
-    func_021A0818(a + 0xc0, *(u16 *)(b + 0x2c), c);
-    func_021A0818(a + 0xcc, *(u16 *)(b + 0x2e), c);
-    func_021A0818(a + 0xd8, *(u16 *)(b + 0x30), c);
-    func_021A0818(a + 0xe4, *(u16 *)(b + 0x32), c);
+    func_021A0818(a + 0xa8, ((struct Obj01498 *)b)->f28, c);
+    func_021A0818(a + 0xb4, ((struct Obj01498 *)b)->f2A, c);
+    func_021A0818(a + 0xc0, ((struct Obj01498 *)b)->f2C, c);
+    func_021A0818(a + 0xcc, ((struct Obj01498 *)b)->f2E, c);
+    func_021A0818(a + 0xd8, ((struct Obj01498 *)b)->f30, c);
+    func_021A0818(a + 0xe4, ((struct Obj01498 *)b)->f32, c);
 }

@@ -17,6 +17,7 @@
  *   func_021A3044  0x021A3044  thumb  ov021
  *   func_0216DC18  0x0216DC18  thumb  ov010
  */
+#include "../include/Obj01881.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,16 +40,16 @@ void func_021F3CC4(u8 *p, int flag)
     VecFx32 v;
 
     if (flag) {
-        *(int *)(p + 0x5c) = 1;
-        func_0216DAC8(*(void **)(p + 0x68), 1);
+        ((struct Obj01881 *)p)->f5C = 1;
+        func_0216DAC8(((struct Obj01881 *)p)->f68, 1);
         return;
     }
-    *(int *)(p + 0x5c) = 0;
-    func_0216DAC8(*(void **)(p + 0x68), 0);
-    func_0216E084(*(void **)(p + 0x68), *(int *)(p + 0x6c), *(int *)(p + 0x70),
-                  *(int *)(p + 0x74), *(u16 *)(p + 0x78));
-    func_02164010((int)(*(void **)(p + 0x68)));
-    func_0216D88C(*(void **)(p + 0x68), &v);
-    func_021A3044(*(void **)(p + 0x64), &v);
-    func_0216DC18(*(void **)(p + 0x68), 0);
+    ((struct Obj01881 *)p)->f5C = 0;
+    func_0216DAC8(((struct Obj01881 *)p)->f68, 0);
+    func_0216E084(((struct Obj01881 *)p)->f68, ((struct Obj01881 *)p)->f6C, ((struct Obj01881 *)p)->f70,
+                  ((struct Obj01881 *)p)->f74, ((struct Obj01881 *)p)->f78);
+    func_02164010((int)(((struct Obj01881 *)p)->f68));
+    func_0216D88C(((struct Obj01881 *)p)->f68, &v);
+    func_021A3044(((struct Obj01881 *)p)->f64, &v);
+    func_0216DC18(((struct Obj01881 *)p)->f68, 0);
 }

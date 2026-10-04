@@ -12,9 +12,11 @@
  *   func_021B7118 0x021B7118 thumb ov071
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj02123.h"
+#include "../include/Obj07705.h"
 
 extern void *func_021B7118(void *, int, int, int);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021B9BE8(char *p, char *q) { *(void **)(q + 0x18) = func_021B7118(*(void **)(p + 4), 0x80, 0x1c, 9); *(void **)(q + 0x1c) = func_021B7118(*(void **)(p + 4), 0x80, 0xa4, 10); func_0204B3DC(*(void **)(q + 0x18), 0); func_0204B3DC(*(void **)(q + 0x1c), 0); }
+void func_021B9BE8(char *p, char *q) { ((struct Obj07705 *)q)->f18 = func_021B7118(((struct Obj02123 *)p)->f4, 0x80, 0x1c, 9); ((struct Obj07705 *)q)->f1C = func_021B7118(((struct Obj02123 *)p)->f4, 0x80, 0xa4, 10); func_0204B3DC(((struct Obj07705 *)q)->f18, 0); func_0204B3DC(((struct Obj07705 *)q)->f1C, 0); }

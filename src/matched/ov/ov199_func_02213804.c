@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj25300.h"
 unsigned char func_02213804(char *p)
 {
-    return *(unsigned char *)(p + 0x18);
+    return ((struct Obj25300 *)p)->f18;
 }

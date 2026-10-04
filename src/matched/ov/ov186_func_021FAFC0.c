@@ -11,5 +11,6 @@
  * symbols:
  *   func_021FB5C4 0x021FB5C4 thumb ov186
  */
+#include "../include/Obj24822.h"
 extern void func_021FB5C4(char *p, int n);
-void func_021FAFC0(char *p, unsigned value) { func_021FB5C4(*(void **)(p+8),value); }
+void func_021FAFC0(char *p, unsigned value) { func_021FB5C4(((struct Obj24822 *)p)->f8,value); }

@@ -22,6 +22,7 @@
  * Pool +B4 names 021C3150; no cross-overlay loading proof. Alignment-only
  * hint permits sole-ref/data validation of the original template address.
  */
+#include "../include/Obj25880.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct DispConfig;
@@ -51,5 +52,5 @@ void func_021BC9FC(char *p)
     func_02040588(3, 1);
     func_0207D63C(0x04001050, 2, 1, 16, 5);
     func_0207D63C(0x04000050, 4, 2, 16, 5);
-    func_02045088(*(u16 *)(p + 8));
+    func_02045088(((struct Obj25880 *)p)->f8);
 }

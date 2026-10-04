@@ -14,6 +14,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   d_02200CD0 0x02200CD0 data a1
  */
+#include "../include/Obj24879.h"
 extern int func_02035C08(const void *);
 extern void func_02035D20(int *, int *);
 extern void func_021FD860(int, int, int *);
@@ -29,7 +30,7 @@ int func_022000F0(char *p)
             func_02035D20(&x, &y);
             args[0] = x;
             args[1] = y;
-            func_021FD860(*(int *)(p + 0x78), 1, args);
+            func_021FD860(((struct Obj24879 *)p)->f78, 1, args);
             func_020061E4(0x703);
             return index;
         }

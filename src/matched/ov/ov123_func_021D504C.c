@@ -19,6 +19,7 @@
  *   func_021D5020 0x021D5020 thumb ov123
  *   func_021D4A04 0x021D4A04 thumb ov123
  */
+#include "../include/Obj00273.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Big;
@@ -42,25 +43,25 @@ extern void func_021D5020(char *);
 extern void func_021D4A04(char *);
 void func_021D504C(char *p)
 {
-    if (func_020279E8(*(void **)(p+0x238))) {
-        if (!func_02027A04(*(void **)(p+0x238))) {
-            if (func_020071F0(func_02012EBC(*(void **)(p+0x260)))) {
-                func_02045CAC(*(void **)(p+0x24),46,*(void **)(p+0x38));
+    if (func_020279E8(((struct Obj00273 *)p)->f238)) {
+        if (!func_02027A04(((struct Obj00273 *)p)->f238)) {
+            if (func_020071F0(func_02012EBC(((struct Obj00273 *)p)->f260))) {
+                func_02045CAC(((struct Obj00273 *)p)->f24,46,((struct Obj00273 *)p)->f38);
                 func_021D4FAC(p);
                 func_021D4244(p,func_021D4AFC,0x50d);
             } else {
-                func_02045CAC(*(void **)(p+0x24),6,*(void **)(p+0x38));
+                func_02045CAC(((struct Obj00273 *)p)->f24,6,((struct Obj00273 *)p)->f38);
                 func_021D4EF0(p,4,0);
                 func_021D4384(p);
                 func_021D4244(p,func_021D5020,0x519);
             }
         } else {
             func_020414EC(5);
-            *(int *)(p+8)=0;
+            ((struct Obj00273 *)p)->f8=0;
             func_021D4244(p,func_021D4A04,0x51f);
             func_021D4D40(p,0);
         }
-        func_02027858(*(void **)(p+0x238));
-        *(void **)(p+0x238)=0;
+        func_02027858(((struct Obj00273 *)p)->f238);
+        ((struct Obj00273 *)p)->f238=0;
     }
 }

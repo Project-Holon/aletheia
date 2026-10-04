@@ -14,6 +14,7 @@
  *   func_021DE618 0x021DE618 thumb ov121
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  */
+#include "../include/Obj13959.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -26,8 +27,8 @@ void *func_021DE2A0(void *arg,int heap)
     char *p;
     p=func_02030734(heap,0x17a8,0,d_021DFBC0,315);
     func_02082BCC(p,0,0x17a8);
-    *(u16 *)(p+0x58)=heap;
-    *(void **)(p+0x794)=arg;
+    ((struct Obj13959 *)p)->f58=heap;
+    ((struct Obj13959 *)p)->f794=arg;
     func_021DEE68(p,(int)p,func_021DE618);
     return p;
 }

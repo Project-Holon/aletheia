@@ -24,6 +24,21 @@
  *   d_021BBF8C 0x021BBF8C data ov225 a2
  *   d_021BBF94 0x021BBF94 data ov225 a2
  */
+#include "../include/Obj00074.h"
+#include "../include/Obj14804.h"
+#include "../include/Obj14805.h"
+#include "../include/Obj26185.h"
+#include "../include/Obj26186.h"
+#include "../include/Obj26187.h"
+#include "../include/Obj26188.h"
+#include "../include/Obj26189.h"
+#include "../include/Obj26190.h"
+#include "../include/Obj26191.h"
+#include "../include/Obj26192.h"
+#include "../include/Obj26193.h"
+#include "../include/Obj26194.h"
+#include "../include/Obj26195.h"
+#include "../include/Obj26196.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -47,23 +62,23 @@ void func_021BA898(char *p)
     struct Quad q[2];
     u8 i;
     char *parent;
-    func_02049B68(*(void **)(*(char **)(p+4)+0x24),0,4,0,0x40,*(u16 *)(*(char **)(p+4)+4));
-    func_02049658(*(void **)(*(char **)(p+4)+0x24),2,4,0,0,0,*(u16 *)(*(char **)(p+4)+4));
-    func_020499D4(*(void **)(*(char **)(p+4)+0x24),5,4,0,0,0,0,*(u16 *)(*(char **)(p+4)+4));
-    *(int *)(p+0x54)=func_0204AC18(*(void **)(*(char **)(p+4)+0x24),1,1,0,0,1,*(u16 *)(*(char **)(p+4)+4));
-    *(int *)(p+0x50)=func_0204A6C8(*(void **)(*(char **)(p+4)+0x24),3,0,1,*(u16 *)(*(char **)(p+4)+4));
-    *(int *)(p+0x58)=func_0204AF28(*(void **)(*(char **)(p+4)+0x24),7,8,*(u16 *)(*(char **)(p+4)+4));
+    func_02049B68(((struct Obj26185 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,0,4,0,0x40,((struct Obj26186 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    func_02049658(((struct Obj26187 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,2,4,0,0,0,((struct Obj26188 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    func_020499D4(((struct Obj26189 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,5,4,0,0,0,0,((struct Obj26190 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    *(int *)&((struct Obj00074 *)p)->f54=func_0204AC18(((struct Obj26191 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,1,1,0,0,1,((struct Obj26192 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    *(int *)&((struct Obj00074 *)p)->f50=func_0204A6C8(((struct Obj26193 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,3,0,1,((struct Obj26194 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    *(int *)&((struct Obj00074 *)p)->f58=func_0204AF28(((struct Obj26195 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f24,7,8,((struct Obj26196 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
     q[1]=d_021BBF8C;
-    parent=*(char **)(p+4);
-    *(void **)(p+0x5c)=func_0204B294((void *)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),&q[1],1,*(u16 *)(parent+4));
-    func_0204B3DC(*(void **)(p+0x5c),0);
-    func_0204B92C(*(void **)(p+0x5c),1);
+    parent=*(char * *)&((struct Obj00074 *)p)->f4;
+    ((struct Obj00074 *)p)->f5C=func_0204B294((void *)func_021B9A08(((struct Obj14804 *)parent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[1],1,((struct Obj14804 *)parent)->f4);
+    func_0204B3DC(((struct Obj00074 *)p)->f5C,0);
+    func_0204B92C(((struct Obj00074 *)p)->f5C,1);
     q[0]=d_021BBF94;
     for(i=0;i<8;i++) {
         char *loopparent;
         q[0].y=i*24-8;
-        loopparent=*(char **)(p+4);
-        *(void **)(p+i*4+0x60)=func_0204B294((void *)func_021B9A08(*(void **)(loopparent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),&q[0],1,*(u16 *)(loopparent+4));
+        loopparent=*(char * *)&((struct Obj00074 *)p)->f4;
+        *(void **)(p+i*4+0x60)=func_0204B294((void *)func_021B9A08(((struct Obj14805 *)loopparent)->f8),((struct Obj00074 *)p)->f50,((struct Obj00074 *)p)->f54,((struct Obj00074 *)p)->f58,&q[0],1,((struct Obj14805 *)loopparent)->f4);
         func_0204B3DC(*(void **)(p+i*4+0x60),0);
         func_0204B92C(*(void **)(p+i*4+0x60),1);
     }

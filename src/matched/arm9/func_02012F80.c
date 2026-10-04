@@ -16,8 +16,9 @@
  * symbols:
  *   func_02012F80  0x02012F80  thumb
  */
+#include "../include/Obj15637.h"
 
 int func_02012F80(char *base)
 {
-    return *(int *)(base + 0x6A8);
+    return ((struct Obj15637 *)base)->f6A8;
 }

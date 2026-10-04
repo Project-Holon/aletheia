@@ -13,9 +13,10 @@
  *   func_020452E8 0x020452E8 arm
  *   func_0201C4C0 0x0201C4C0 thumb
  */
+#include "../include/Obj13077.h"
 extern void func_0201D83C(void *);
 struct Descriptor;
 struct PrintSys;
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0201C4C0(struct PrintSys *p);
-void func_021F0700(char *p) { unsigned i; func_0201D83C(*(void **)(p+0x4c)); for(i=0;i<8;i++) func_020452E8(*(void **)(p+i*8+0xc)); func_0201C4C0(*(void **)(p+8)); }
+void func_021F0700(char *p) { unsigned i; func_0201D83C(((struct Obj13077 *)p)->f4C); for(i=0;i<8;i++) func_020452E8(*(void **)(p+i*8+0xc)); func_0201C4C0(((struct Obj13077 *)p)->f8); }

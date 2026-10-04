@@ -24,6 +24,8 @@
  *   python tools/match.py one --src src/matched/sub_0200EED8.c \
  *       --func sub_0200EED8 --addr 0x0200EED8 --cc 1.1p1
  */
+#include "../include/Obj00607.h"
+#include "../include/Obj00648.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,31 +39,31 @@ void sub_0200EED8(const void *item, void *record)
     const u8 *src = (const u8 *)item;
     u8 *dest = (u8 *)record;
 
-    *(u32 *)(dest + 0) = *(const u32 *)(src + 0);
+    ((struct Obj00648 *)dest)->f0 = *(const u32 *)&((struct Obj00607 *)src)->f0;
     dest[4] = src[0x7c];
     dest[5] = src[0x7d];
-    dest[8] = (u8)*(const u16 *)(src + 0x8);
-    *(u16 *)(dest + 0x10) = *(const u16 *)(src + 0xa);
-    *(u16 *)(dest + 0x12) = *(const u16 *)(src + 0xc);
-    dest[9] = (u8)*(const u16 *)(src + 0xe);
-    *(u16 *)(dest + 0x14) = *(const u16 *)(src + 0x10);
-    *(u16 *)(dest + 0x16) = *(const u16 *)(src + 0x12);
-    *(u16 *)(dest + 0x18) = *(const u16 *)(src + 0x14);
-    dest[0xc] = (u8)*(const u16 *)(src + 0x16);
-    dest[0xd] = (u8)*(const u16 *)(src + 0x18);
-    dest[0xe] = (u8)*(const u16 *)(src + 0x1a);
-    *(u16 *)(dest + 0x1a) = *(const u16 *)(src + 0x20);
-    *(u16 *)(dest + 0x1c) = *(const u16 *)(src + 0x22);
-    *(u16 *)(dest + 0x1e) = *(const u16 *)(src + 0x24);
-    dest[0xa] = (u8)*(const s16 *)(src + 0x2c);
-    dest[0xb] = (u8)*(const s16 *)(src + 0x2e);
-    *(u16 *)(dest + 0x20) = (u16)*(const s16 *)(src + 0x30);
-    *(u16 *)(dest + 0x22) = (u16)*(const s16 *)(src + 0x32);
-    *(u16 *)(dest + 0x24) = (u16)*(const s16 *)(src + 0x34);
-    *(u16 *)(dest + 0x26) = (u16)*(const s16 *)(src + 0x3c);
-    *(u16 *)(dest + 0x28) = (u16)*(const s16 *)(src + 0x3e);
-    *(u16 *)(dest + 0x2a) = (u16)*(const s16 *)(src + 0x40);
-    *(u32 *)(dest + 0x2c) = *(const u32 *)(src + 0x48);
+    dest[8] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f8;
+    ((struct Obj00648 *)dest)->f10 = *(const u16 *)&((struct Obj00607 *)src)->fA;
+    ((struct Obj00648 *)dest)->f12 = *(const u16 *)&((struct Obj00607 *)src)->fC;
+    dest[9] = (u8)*(const u16 *)&((struct Obj00607 *)src)->fE;
+    ((struct Obj00648 *)dest)->f14 = *(const u16 *)&((struct Obj00607 *)src)->f10;
+    ((struct Obj00648 *)dest)->f16 = *(const u16 *)&((struct Obj00607 *)src)->f12;
+    ((struct Obj00648 *)dest)->f18 = *(const u16 *)&((struct Obj00607 *)src)->f14;
+    dest[0xc] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f16;
+    dest[0xd] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f18;
+    dest[0xe] = (u8)*(const u16 *)&((struct Obj00607 *)src)->f1A;
+    ((struct Obj00648 *)dest)->f1A = *(const u16 *)&((struct Obj00607 *)src)->f20;
+    ((struct Obj00648 *)dest)->f1C = *(const u16 *)&((struct Obj00607 *)src)->f22;
+    ((struct Obj00648 *)dest)->f1E = *(const u16 *)&((struct Obj00607 *)src)->f24;
+    dest[0xa] = (u8)*(const s16 *)&((struct Obj00607 *)src)->f2C;
+    dest[0xb] = (u8)*(const s16 *)&((struct Obj00607 *)src)->f2E;
+    ((struct Obj00648 *)dest)->f20 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f30;
+    ((struct Obj00648 *)dest)->f22 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f32;
+    ((struct Obj00648 *)dest)->f24 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f34;
+    ((struct Obj00648 *)dest)->f26 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f3C;
+    ((struct Obj00648 *)dest)->f28 = (u16)*(const s16 *)&((struct Obj00607 *)src)->f3E;
+    ((struct Obj00648 *)dest)->f2A = (u16)*(const s16 *)&((struct Obj00607 *)src)->f40;
+    ((struct Obj00648 *)dest)->f2C = *(const u32 *)&((struct Obj00607 *)src)->f48;
 
     MI_CpuCopy8(src + 0x94, dest + 0x30, 0x10);
     MI_CpuCopy8(src + 0xa4, dest + 0x40, 0x10);

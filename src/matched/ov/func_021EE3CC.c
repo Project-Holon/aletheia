@@ -19,13 +19,14 @@
  * symbols:
  *   func_02025D14  0x02025D14  thumb
  */
+#include "../include/Obj00000.h"
 
 extern void func_02025D14(int);
 
 void func_021EE3CC(int *p)
 {
-    if (*(int *)(*(int *)((char *)p + 0x2c) + 0x70)) {
-        func_02025D14(*(int *)(*(int *)((char *)p + 0x2c) + 0x70));
-        *(int *)(*(int *)((char *)p + 0x2c) + 0x70) = 0;
+    if (*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70)) {
+        func_02025D14(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70));
+        *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x70) = 0;
     }
 }

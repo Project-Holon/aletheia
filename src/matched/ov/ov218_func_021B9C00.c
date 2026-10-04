@@ -21,6 +21,7 @@
  * Original consumes r0 from the legacy void 35C38/35C60 wrappers;
  * their final forwarding targets 357A0/357C0 return a halfword load.
  */
+#include "../include/Obj05563.h"
 
 typedef unsigned int u32;
 struct Rec3;
@@ -36,21 +37,21 @@ extern int func_02035C38(void);
 extern void func_020061E4(unsigned int);
 int func_021B9C00(char *p)
 {
-    if (*(void **)(p + 32) != 0) {
-        switch (func_0201CE30(*(void **)(p + 32))) {
+    if (((struct Obj05563 *)p)->f20 != 0) {
+        switch (func_0201CE30(((struct Obj05563 *)p)->f20)) {
         case 2:
-            func_0201CE48(*(struct Rec3 **)(p + 32));
-            *(void **)(p + 32) = 0;
+            func_0201CE48(*(struct Rec3 * *)&((struct Obj05563 *)p)->f20);
+            ((struct Obj05563 *)p)->f20 = 0;
             return 1;
         case 1:
             if (func_020362DC() == 1 || func_020362DC() == 2 || func_02035C60() != 0) {
-                func_0201CE38(*(void **)(p + 32));
+                func_0201CE38(((struct Obj05563 *)p)->f20);
                 func_020061E4(1356);
             }
             break;
         case 0:
             if (((unsigned int)func_0203630C() & 3) != 0 || func_02035C38() != 0)
-                func_0201CE5C(*(struct Rec **)(p + 32), 0);
+                func_0201CE5C(*(struct Rec * *)&((struct Obj05563 *)p)->f20, 0);
             break;
         }
         return 0;

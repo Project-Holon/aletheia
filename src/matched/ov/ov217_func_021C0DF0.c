@@ -13,6 +13,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25997.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,5 +22,5 @@ typedef signed int     s32;
 
 u32 func_021C0DF0(void *p)
 {
-    return *(u8 *)p;
+    return ((struct Obj25997 *)p)->f0;
 }

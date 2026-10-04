@@ -18,6 +18,7 @@
  *   func_021DE0DC 0x021DE0DC thumb ov121
  *   func_021DCFA4 0x021DCFA4 thumb ov121
  */
+#include "../include/Obj01153.h"
 typedef unsigned short u16;
 typedef struct Item { char raw[0xdc]; } Item;
 typedef struct Obj { char pad[0x28]; Item items[12]; char tail[0xacc-0x28-12*0xdc]; volatile int index; } Obj;
@@ -36,27 +37,27 @@ void func_021DAEF0(Obj *obj)
     int flag;
     u16 old;
     int angle;
-    func_021DA898(*(char **)(p+0xac4));
-    func_021DD240(*(void **)(p+0xab0));
-    if(*(int *)(p+0xa78)) {
+    func_021DA898(*(char * *)&((struct Obj01153 *)p)->fAC4);
+    func_021DD240(((struct Obj01153 *)p)->fAB0);
+    if(((struct Obj01153 *)p)->fA78) {
         flag=0;
-        if(*(char **)(p+0xaac)) {
-            func_021DDF84(*(char **)(p+0xaac));
-            *(char **)(p+0xaac)=0;
+        if(*(char * *)&((struct Obj01153 *)p)->fAAC) {
+            func_021DDF84(*(char * *)&((struct Obj01153 *)p)->fAAC);
+            *(char * *)&((struct Obj01153 *)p)->fAAC=0;
         }
-        if(obj->index<4 && func_021DBF04(&obj->items[obj->index+*(int *)(p+0xac8)*4])) {
+        if(obj->index<4 && func_021DBF04(&obj->items[obj->index+((struct Obj01153 *)p)->fAC8*4])) {
             flag=1;
-            func_021DE0AC(*(void **)(p+0xa7c+(*(int *)(p+0xacc)+*(int *)(p+0xac8)*4)*4),1);
+            func_021DE0AC(*(void **)(p+0xa7c+(((struct Obj01153 *)p)->fACC+((struct Obj01153 *)p)->fAC8*4)*4),1);
         }
-        if(flag==0) func_021DE0DC(*(void **)(p+0xab0));
-        *(int *)(p+0xa78)=0;
+        if(flag==0) func_021DE0DC(((struct Obj01153 *)p)->fAB0);
+        ((struct Obj01153 *)p)->fA78=0;
     }
-    old=*(u16 *)(p+0xbac);
+    old=((struct Obj01153 *)p)->fBAC;
     angle=old+0x400;
     if(angle>=0x10000)
-        *(u16 *)(p+0xbac)=old-0xfc00;
+        ((struct Obj01153 *)p)->fBAC=old-0xfc00;
     else
-        *(u16 *)(p+0xbac)=angle;
-    func_021DCFA4(p+0xbae,14,0,*(u16 *)(p+0xbac));
-    func_021DCFA4(p+0xc0e,14,2,*(u16 *)(p+0xbac));
+        ((struct Obj01153 *)p)->fBAC=angle;
+    func_021DCFA4(p+0xbae,14,0,((struct Obj01153 *)p)->fBAC);
+    func_021DCFA4(p+0xc0e,14,2,((struct Obj01153 *)p)->fBAC);
 }

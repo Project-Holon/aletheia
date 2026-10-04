@@ -20,6 +20,7 @@
  *   func_021BABEC  0x021BABEC  thumb  ov093
  *   func_021BAEF8  0x021BAEF8  thumb  ov093
  */
+#include "../include/Obj06222.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -44,15 +45,15 @@ int func_021BAE60(u8 *p, int *s)
         break;
     case 1:
         if (func_021BB798(p) != 0) {
-            u8 idx = func_021B8FF4(*(u8 **)(p + 0xc));
+            u8 idx = func_021B8FF4(*(u8 * *)&((struct Obj06222 *)p)->fC);
             int *q;
 
             func_021BB7D0(p);
             if (*((u8 *)func_021EEB64((struct QW *)(*(u32 *)(p + 0x14 + idx * 12)), 0)) == 0) {
                 func_021BABEC(p, (void *)func_021BAEF8);
             } else {
-                *(int *)(p + 0x48) = func_021BC360((u8 *)(*(int *)(p + 0x44)));
-                q = *(int **)(p + 0xcb0);
+                ((struct Obj06222 *)p)->f48 = func_021BC360((u8 *)(((struct Obj06222 *)p)->f44));
+                q = *(int * *)&((struct Obj06222 *)p)->fCB0;
                 func_021BB724(p, 8, (int)(q + 2), *q);
                 (*s)++;
             }
@@ -61,7 +62,7 @@ int func_021BAE60(u8 *p, int *s)
     case 2:
         if (func_021BB798(p) != 0) {
             func_021BB7D0(p);
-            if (*(int *)(p + 0x48) != 0)
+            if (((struct Obj06222 *)p)->f48 != 0)
                 return 1;
             func_021BABEC(p, (void *)func_021BAEF8);
         }

@@ -16,6 +16,7 @@
  *     lr save anywhere, so the compiler emitted the call as a pooled
  *     `ldr r3; bx r3` tail jump.
  */
+#include "../include/Obj24228.h"
 
 typedef unsigned long u32;
 
@@ -23,6 +24,6 @@ extern u32 func_021E64C8(u32 p);
 
 u32 func_021D63B0(char *obj)
 {
-    return func_021E64C8(*(u32 *)(obj + 0x18));
+    return func_021E64C8(((struct Obj24228 *)obj)->f18);
 }
 

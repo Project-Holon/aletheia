@@ -15,6 +15,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_0201235C  0x0201235C  thumb
  */
+#include "../include/Obj17623.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,6 +56,6 @@ loc_021587D2:
 a0 = t7 + 0;
     a0 = func_0201235C(a0, v0);
 loc_021587DC:
-a0 = *(int *)q;
+a0 = ((struct Obj17623 *)q)->f0;
     return a0;
 }

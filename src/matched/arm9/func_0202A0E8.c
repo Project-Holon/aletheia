@@ -12,6 +12,7 @@
  *   func_02029F8C  0x02029F8C  thumb
  *   func_0202A084  0x0202A084  thumb
  */
+#include "../include/Obj04055.h"
 
 typedef unsigned int u32;
 
@@ -22,7 +23,7 @@ void func_0202A0E8(u32 *p)
 {
     int r = func_02029F8C(p);
 
-    switch (*(u32 *)p) {
+    switch (((struct Obj04055 *)p)->f0) {
     case 0:
         break;
     case 1:

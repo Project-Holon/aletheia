@@ -13,6 +13,7 @@
  *   func_02021518  0x02021518  thumb
  *   func_0202155C  0x0202155C  thumb
  */
+#include "../include/Obj24050.h"
 
 typedef unsigned int   u32;
 struct PalAnmSlot;
@@ -23,6 +24,6 @@ void func_021DCB70(int *p)
 {
     int x = (int)func_02021518(0x8c);
 
-    *(int *)((char *)p + 0xB30) = x;
+    ((struct Obj24050 *)p)->fB30 = x;
     func_0202155C((struct PalAnmSlot *)x, 2, 0x200, 0x8c);
 }

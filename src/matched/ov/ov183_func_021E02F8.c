@@ -16,6 +16,7 @@
  *   func_021FC754 0x021FC754 thumb ov186
  *   d_021E37D8 0x021E37D8 data ov183
  */
+#include "../include/Obj01765.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Record { u8 a, b, c, d; int value; };
@@ -33,10 +34,10 @@ void func_021E02F8(char *p, int *q)
     const struct Record *r;
     first = func_021FC20C((char *)q[2]);
     second = func_021FC214((char *)q[2]);
-    func_021FB964((void *)q[2], 25, *(u16 *)(p + 0x54));
+    func_021FB964((void *)q[2], 25, ((struct Obj01765 *)p)->f54);
     for (i = 0; i < 6; i++) {
         r = &d_021E37D8[i];
-        *(void **)(p + i * 4 + 0x20) = func_021FC6A4(1, r->a, r->b, r->c, r->d, 14, *(void **)(p + 0x48), *(u16 *)(p + 0x54));
+        *(void **)(p + i * 4 + 0x20) = func_021FC6A4(1, r->a, r->b, r->c, r->d, 14, ((struct Obj01765 *)p)->f48, ((struct Obj01765 *)p)->f54);
         func_021FC868(*(void **)(p + i * 4 + 0x20), 0, 1, 0);
         func_021FC754(*(void **)(p + i * 4 + 0x20), (void *)second, (void *)r->value, (void *)first, 15776);
     }

@@ -9,6 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj23340.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
-u16 func_021BA250(char *p) { return *(u16 *)(p+28); }
+u16 func_021BA250(char *p) { return ((struct Obj23340 *)p)->f1C; }

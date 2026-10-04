@@ -22,6 +22,8 @@
  *   func_021BAEDC 0x021BAEDC thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj02803.h"
+#include "../include/Obj22058.h"
 typedef unsigned char u8;
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *, int);
@@ -45,18 +47,18 @@ int func_021C17F4(char *p, int state)
     result = func_021BA858(p);
     if (result == -1) return state;
     if (result == 0) {
-        func_021C27E8(*(void **)(p + 8), 1 - func_021C27E0(*(void **)(p + 8)));
-        func_021C2864(*(void **)(p + 8), func_021C27E0(*(void **)(p + 8)));
-        *(u8 *)(p + 0x1356) = 2 - *(u8 *)(*(char **)(p + 0x248) + 0x46);
-        *(int *)(p + 0x1cc) = 118;
+        func_021C27E8(((struct Obj02803 *)p)->f8, 1 - func_021C27E0(((struct Obj02803 *)p)->f8));
+        func_021C2864(((struct Obj02803 *)p)->f8, func_021C27E0(((struct Obj02803 *)p)->f8));
+        ((struct Obj02803 *)p)->f1356 = 2 - ((struct Obj22058 *)(*(char * *)&((struct Obj02803 *)p)->f248))->f46;
+        ((struct Obj02803 *)p)->f1CC = 118;
     } else {
-        *(int *)(p + 0x135c) = 0;
+        ((struct Obj02803 *)p)->f135C = 0;
         func_021C18C8(p, 1, 2);
-        *(int *)(p + 0x1f0) = -1;
+        ((struct Obj02803 *)p)->f1F0 = -1;
         if (selection != 0) func_021B9AE0(p + 0x274, selection);
         func_021C19A8(p);
         func_021BAEDC(p);
-        *(int *)(p + 0x1cc) = 11;
+        ((struct Obj02803 *)p)->f1CC = 11;
     }
     func_021BA8EC(p);
     return state;

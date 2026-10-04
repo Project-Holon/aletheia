@@ -15,6 +15,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_02011264  0x02011264  thumb
  */
+#include "../include/Obj17627.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ t4 = a0 + 0;
 loc_02158CBC:
     a0 = func_0215A5A4((int)p);
 loc_02158CC0:
-a0 = *(int *)((char *)t4 + 0x2c);
+a0 = ((struct Obj17627 *)t4)->f2C;
     a0 = func_020307B0(a0);
 loc_02158CC6:
 a0 = t4 + 0;

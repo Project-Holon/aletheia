@@ -17,6 +17,7 @@
  *   d_020A1448 0x020A1448 data a4
  *   d_021C77C4 0x021C77C4 data a4
  */
+#include "../include/Obj06526.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_020A1448[],d_021C77C4[];
@@ -30,10 +31,10 @@ extern void func_02043598(u32 mask, u32 enable);
 extern void func_0203D34C(int,u16);
 void func_021C5420(u8 *p)
 {
-    func_0204A48C(d_020A1448,d_021C77C4,*(int *)p);
-    *(void **)(p+160) = func_0204B100(4,0,*(int *)p);
-    func_0204B270(*(void **)(p+160));
+    func_0204A48C(d_020A1448,d_021C77C4,((struct Obj06526 *)p)->f0);
+    ((struct Obj06526 *)p)->fA0 = func_0204B100(4,0,((struct Obj06526 *)p)->f0);
+    func_0204B270(((struct Obj06526 *)p)->fA0);
     func_020434DC(16,1);
     func_02043598(16,1);
-    func_0203D34C(0,*(int *)p);
+    func_0203D34C(0,((struct Obj06526 *)p)->f0);
 }

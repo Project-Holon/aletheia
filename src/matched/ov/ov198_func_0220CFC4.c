@@ -16,6 +16,10 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj06650.h"
+#include "../include/Obj25164.h"
+#include "../include/Obj25165.h"
+#include "../include/Obj25166.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -38,11 +42,11 @@ void func_0220CFC4(char *p, int index)
     void *t;
     void *f;
     elem = p + 4 + func_022110D4((u8 *)p, index) * 0x4C;
-    bank = func_02045B38(0, 2, 0xB7, *(u16 *)(*(char **)p + 16));
-    t = func_02045EC0(bank, *(u16 *)(elem + 0x18));
-    f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F80)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x2120);
-    *(u8 *)(p + 0x1F84) = 1;
+    bank = func_02045B38(0, 2, 0xB7, ((struct Obj25164 *)(*(char * *)&((struct Obj06650 *)p)->f0))->f10);
+    t = func_02045EC0(bank, ((struct Obj25165 *)elem)->f18);
+    f = ((struct Obj06650 *)p)->f1EAC;
+    func_0201C724(f, (u32)func_02045770(((struct Obj06650 *)p)->f1F80), 0, 0, (u32)t, ((struct Obj25166 *)(*(char * *)&((struct Obj06650 *)p)->f0))->fC, 0x2120);
+    ((struct Obj06650 *)p)->f1F84 = 1;
     func_02045808(t);
     func_02045C04(bank);
 }

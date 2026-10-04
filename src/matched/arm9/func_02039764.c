@@ -58,6 +58,7 @@
  *   python tools/match.py one --src src/matched/func_02039764.c \
  *       --func func_02039764 --addr 0x02039764 --cc 1.1p1 --arm
  */
+#include "../include/Obj15944.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -105,7 +106,7 @@ struct Entry *func_02039764(u32 idx)
 
     if (idx == 0xff) {
         for (; i < 8; i++)
-            e->slot[i] = func_02030734(*(u16 *)(g + 0x56), 0x10, 1, file_020A7A68, 0xc7);
+            e->slot[i] = func_02030734(((struct Obj15944 *)g)->f56, 0x10, 1, file_020A7A68, 0xc7);
     }
 
     e->f4a = 0;

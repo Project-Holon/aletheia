@@ -20,6 +20,7 @@
  *   func_0216D9E4  0x0216D9E4  thumb ov010
  *   func_0217FD34  0x0217FD34  thumb ov018
  */
+#include "../include/Obj04178.h"
 
 typedef unsigned short u16;
 struct Ctx;
@@ -52,7 +53,7 @@ int func_0217FCAC(int x, int *st, int *obj)
             return 1;
         }
         func_0216D9A0(func_02188C7C((unsigned char *)obj[0]));
-        func_02012374((struct Evt *)x, func_0217FD34(v, obj[0], (u8 *)m, obj[1], obj[2], *(u16 *)(obj + 3)));
+        func_02012374((struct Evt *)x, func_0217FD34(v, obj[0], (u8 *)m, obj[1], obj[2], ((struct Obj04178 *)obj)->fC));
         *st = *st + 1;
         break;
     case 1:

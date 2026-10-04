@@ -19,6 +19,7 @@
  * Clear a 0x2A4-byte record, copy the pair of counts out of a and release
  *   each of the 0x70-byte subrecords through 0x21EE920.
  */
+#include "../include/Obj10803.h"
 
 
 typedef unsigned int u32;
@@ -36,8 +37,8 @@ void func_021EEED8(int a, char *p)
     func_02082BCC((int)p, 0, 0x2A4);
     if (func_0201AA18((void *)a) == 0)
         return;
-    *(unsigned short *)p = func_0201AA14((void *)a);
-    *(unsigned short *)(p + 2) = func_0201AA18((void *)a);
-    for (i = 0; i < *(unsigned short *)(p + 2); i++)
+    ((struct Obj10803 *)p)->f0 = func_0201AA14((void *)a);
+    ((struct Obj10803 *)p)->f2 = func_0201AA18((void *)a);
+    for (i = 0; i < ((struct Obj10803 *)p)->f2; i++)
         func_021EE920((struct Mon *)((int)func_0201AB28((void *)a, i)), p + 4 + i * 0x70);
 }

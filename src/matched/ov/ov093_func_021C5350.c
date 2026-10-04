@@ -17,6 +17,7 @@
  *   func_021D69B8 0x021D69B8 thumb ov093
  *   func_021BA1CC 0x021BA1CC thumb ov093
  */
+#include "../include/Obj05193.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,12 +47,12 @@ int func_021C5350(u8 *p, u8 *g, const struct Entry *q)
         value = entry->value;
         cmd = entry->flag ? 0x2b : 0x2a;
         k = func_021D5440(a);
-        func_021CD64C(*(void **)(p + 12), 0x5a, (u16)cmd, k, value, 0xffff0000);
-        func_021CD4B0(*(void **)(p + 12), 0x3e, k, q->a, q->b, q->c, q->d, q->e, q->f);
+        func_021CD64C(((struct Obj05193 *)p)->fC, 0x5a, (u16)cmd, k, value, 0xffff0000);
+        func_021CD4B0(((struct Obj05193 *)p)->fC, 0x3e, k, q->a, q->b, q->c, q->d, q->e, q->f);
         remaining = value;
         while (func_021D69B8(a, &remaining, p + 0x4c0)) {}
-        func_021CD4B0(*(void **)(p + 12), 0x45, k, value);
-        func_021BA1CC(*(void **)(p + 4), 0x1b, value);
+        func_021CD4B0(((struct Obj05193 *)p)->fC, 0x45, k, value);
+        func_021BA1CC(((struct Obj05193 *)p)->f4, 0x1b, value);
         result = 1;
     }
     return result;

@@ -12,6 +12,7 @@
  *   func_021D6D18 0x021D6D18 thumb ov131
  *   func_021D6064 0x021D6064 thumb ov131
  */
+#include "../include/Obj00436.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Personal;
@@ -27,11 +28,11 @@ void func_021D697C(unsigned char *p,int *q) {
  void *m=func_021D6064(p);
  void *t;
  int a,b;
- if((*(unsigned char **)(p+8))[12]==1) q[3]=func_0201ACC4(**(void ***)(p+8),*(unsigned short *)(p+24)); else q[3]=1;
- if(*(int *)(p+56)==0) {
+ if((*(unsigned char **)(p+8))[12]==1) q[3]=func_0201ACC4(**(void ** *)&((struct Obj00436 *)p)->f8,((struct Obj00436 *)p)->f18); else q[3]=1;
+ if(*(int *)&((struct Obj00436 *)p)->f38==0) {
  a=func_02017E88(m,5,0);
  b=func_02017E88(m,111,0);
- t=func_0201ADE4((unsigned short)a,(unsigned short)b,*(unsigned short *)p);
+ t=func_0201ADE4((unsigned short)a,(unsigned short)b,((struct Obj00436 *)p)->f0);
  if(func_0201AE1C(t,16)==1) q[4]=1; else q[4]=0;
  q[5]=func_0201AE1C(t,38);
  func_0201AE14(t);

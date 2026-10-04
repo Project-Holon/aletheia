@@ -16,6 +16,7 @@
  *
  * Enters state 9 with reason v.
  */
+#include "../include/Obj00000.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -32,7 +33,7 @@ int func_021E95CC(unsigned char *p, unsigned char v)
         func_020355D8(0);
     else
         func_020355D8(1);
-    *(int *)(p + 0x28) = 9;
+    ((struct Obj00000 *)p)->f28 = 9;
     p[0x12] = v;
     return func_021E8F90(p, 1);
 }

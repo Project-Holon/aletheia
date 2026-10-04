@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj04133.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ int func_021647F0(int a0, int a1)
 {
 
 a1 = 0;
-*(u16 *)((char *)a0) = a1;
-*(int *)((char *)a0 + 4) = a1;
-*(int *)((char *)a0 + 8) = a1;
+((struct Obj04133 *)((char *)a0))->f0 = a1;
+*(int *)&((struct Obj04133 *)a0)->f4 = a1;
+*(int *)&((struct Obj04133 *)a0)->f8 = a1;
     return a0;}

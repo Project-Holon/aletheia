@@ -12,6 +12,7 @@
  * symbols:
  *   func_02028484 0x02028484 thumb
  */
+#include "../include/Obj20751.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int     s32;
@@ -19,5 +20,5 @@ struct Blk;
 extern s32 func_02028484(struct Blk *blk, void *h);
 int func_021B98B4(u8 *a,u8 *b)
 {
-    return func_02028484((struct Blk *)(a+0x38),(void *)(*(u32 *)(b+0x294)));
+    return func_02028484((struct Blk *)(a+0x38),(void *)(((struct Obj20751 *)b)->f294));
 }

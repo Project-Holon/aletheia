@@ -11,5 +11,6 @@
  *   func_0220AF6C 0x0220AF6C thumb ov196
  *   func_0220AFDC 0x0220AFDC thumb ov196
  */
+#include "../include/Obj00315.h"
 extern void func_0220AF6C(char *,int,int,int,int),func_0220AFDC(char *,void *);
-void func_0220C68C(char *p){func_0220AF6C(*(char **)(p+0x148),*(int *)(p+0x420),*(int *)(p+0x564),*(int *)(p+0x588),*(int *)(p+0x594));func_0220AFDC(*(char **)(p+0x148),0);}
+void func_0220C68C(char *p){func_0220AF6C(*(char * *)&((struct Obj00315 *)p)->f148,*(int *)&((struct Obj00315 *)p)->f420,((struct Obj00315 *)p)->f564,((struct Obj00315 *)p)->f588,((struct Obj00315 *)p)->f594);func_0220AFDC(*(char * *)&((struct Obj00315 *)p)->f148,0);}

@@ -16,6 +16,8 @@
  *   func_021BBB0C 0x021BBB0C thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj06386.h"
+#include "../include/Obj07998.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021BF7FC(u8 *);
@@ -27,17 +29,17 @@ extern void func_021B9CBC(u8 *);
 void func_021BAA8C(void *unused,u8 *p) {
     u8 *q;
     u32 x;
-    q=*(u8 **)p;
-    x=func_021BF7FC(*(u8 **)(p+4));
-    switch(*(u32 *)(p+0x14)) {
+    q=*(u8 * *)&((struct Obj06386 *)p)->f0;
+    x=func_021BF7FC(*(u8 * *)&((struct Obj06386 *)p)->f4);
+    switch(((struct Obj06386 *)p)->f14) {
     case 0:
-        func_021BCD80(*(u8 **)(q+0x64));
-        func_021BB958(*(u8 **)(q+0x58));
-        func_021BB9C0(*(u8 **)(q+0x58),x!=0);
-        ++*(u32 *)(p+0x14);
+        func_021BCD80(*(u8 * *)&((struct Obj07998 *)q)->f64);
+        func_021BB958(*(u8 * *)&((struct Obj07998 *)q)->f58);
+        func_021BB9C0(*(u8 * *)&((struct Obj07998 *)q)->f58,x!=0);
+        ++((struct Obj06386 *)p)->f14;
         break;
     case 1:
-        if(func_021BBB0C(*(u8 **)(q+0x58),x!=0)) ++*(u32 *)(p+0x14);
+        if(func_021BBB0C(*(u8 * *)&((struct Obj07998 *)q)->f58,x!=0)) ++((struct Obj06386 *)p)->f14;
         break;
     case 2: func_021B9CBC(p); break;
     }

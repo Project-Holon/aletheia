@@ -14,6 +14,7 @@
  *   func_02165CB4 0x02165CB4 thumb ov010
  *   func_020215BC 0x020215BC thumb
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,6 +35,6 @@ void func_021F10D8(char *this, u8 *p, int a)
     } else {
         k = 0x35;
     }
-    func_020215BC(*(int *)(this + 0xac), *(u16 **)(this + 0x3c8) + 0x30, 3, (p[0] + 4) * 16 + 8, 10);
-    func_020215BC(*(int *)(this + 0xac), *(u16 **)(this + 0x3c8) + k, 3, (p[0] + 4) * 16 + 8, v * 2);
+    func_020215BC(*(int *)&((struct Obj00007 *)this)->fAC, *(u16 * *)&((struct Obj00007 *)this)->f3C8 + 0x30, 3, (p[0] + 4) * 16 + 8, 10);
+    func_020215BC(*(int *)&((struct Obj00007 *)this)->fAC, *(u16 * *)&((struct Obj00007 *)this)->f3C8 + k, 3, (p[0] + 4) * 16 + 8, v * 2);
 }

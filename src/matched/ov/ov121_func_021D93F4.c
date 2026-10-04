@@ -18,6 +18,8 @@
  *   func_021D6C58 0x021D6C58 thumb ov121
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj04492.h"
+#include "../include/Obj22870.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Pos;
@@ -35,13 +37,13 @@ void func_021D93F4(u8 *p,const void *q,int n,int k,int x,int y,int z,u16 heap)
 {
     Pos pos;
     func_02082BCC(p,0,12);
-    *(const void **)(p+8)=q;
-    *(void **)p=func_02025538(heap,(void *)n);
+    *(const void * *)&((struct Obj04492 *)p)->f8=q;
+    ((struct Obj04492 *)p)->f0=func_02025538(heap,(void *)n);
     func_02082BCC(&pos,0,8);
     pos.x=96; pos.y=169; pos.a=0; pos.b=0;
-    *(void **)(p+4)=func_021DA8CC(&pos,8,2,*(void *const *)q,3,0,*(void **)p,k,heap);
-    func_021DA9EC(*(void **)(p+4),1120);
-    func_021DA9F0(*(void **)(p+4),0,0,1);
-    func_021DA994(*(void **)(p+4),x,y,z);
+    ((struct Obj04492 *)p)->f4=func_021DA8CC(&pos,8,2,*(void *const *)&((struct Obj22870 *)q)->f0,3,0,((struct Obj04492 *)p)->f0,k,heap);
+    func_021DA9EC(((struct Obj04492 *)p)->f4,1120);
+    func_021DA9F0(((struct Obj04492 *)p)->f4,0,0,1);
+    func_021DA994(((struct Obj04492 *)p)->f4,x,y,z);
     func_0204B3DC(func_021D6C58(q,34),1);
 }

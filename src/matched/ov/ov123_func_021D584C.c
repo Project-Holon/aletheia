@@ -12,6 +12,7 @@
  *   func_020456F8 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj03265.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Descriptor;
@@ -23,17 +24,17 @@ extern void func_020456F8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 void func_021D584C(char *p)
 {
-    if (*(void **)(p+0x7c)) {
-        func_0202F038(*(void **)(p+0x7c));
-        *(void **)(p+0x7c)=0;
+    if (((struct Obj03265 *)p)->f7C) {
+        func_0202F038(((struct Obj03265 *)p)->f7C);
+        ((struct Obj03265 *)p)->f7C=0;
     }
-    if (*(void **)(p+0x80)) {
-        func_0201CE48(*(void **)(p+0x80));
-        *(void **)(p+0x80)=0;
+    if (((struct Obj03265 *)p)->f80) {
+        func_0201CE48(((struct Obj03265 *)p)->f80);
+        ((struct Obj03265 *)p)->f80=0;
     }
-    if (*(void **)(p+0x44)) {
-        func_0201F7A8(*(void **)(p+0x44),2);
-        func_020456F8(*(void **)(p+0x44));
+    if (((struct Obj03265 *)p)->f44) {
+        func_0201F7A8(((struct Obj03265 *)p)->f44,2);
+        func_020456F8(((struct Obj03265 *)p)->f44);
         func_02041B6C(5);
     }
 }

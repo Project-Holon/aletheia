@@ -17,6 +17,7 @@
  *
  * Allocate and clear a 0x10-byte record, attach a and b, and return it.
  */
+#include "../include/Obj24452.h"
 
 
 extern unsigned char d_021E8DD4[];
@@ -29,7 +30,7 @@ int *func_021E8A3C(int a, int b, int c)
     int *p;
     p = func_02030734(c, 0x10, 0, (const char *)d_021E8DD4, 0x246);
     func_02082BCC(p, 0, 0x10);
-    *(int *)((char *)p + 8) = a;
+    ((struct Obj24452 *)p)->f8 = a;
     func_021E8AA0(p, b);
     return p;
 }

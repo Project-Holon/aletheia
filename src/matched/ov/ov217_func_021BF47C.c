@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *a, unsigned int b);
 void func_021BF47C(char *p)
 {
-    if (*(u32 *)(p + 0x3c8) == 0 || func_021BF810(p) == 0) {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x39c), 0);
+    if (((struct Obj00021 *)p)->f3C8 == 0 || func_021BF810(p) == 0) {
+        func_0204B3DC((struct Obj *)((struct Obj00021 *)p)->f39C, 0);
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x39c), 1);
+        func_0204B3DC((struct Obj *)((struct Obj00021 *)p)->f39C, 1);
     }
 }

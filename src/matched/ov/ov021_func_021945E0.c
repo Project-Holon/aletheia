@@ -21,6 +21,7 @@
  *   func_020129B8  0x020129B8  thumb
  *   func_0216D9E4  0x0216D9E4  thumb  ov010
  */
+#include "../include/Obj02693.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -45,25 +46,25 @@ int func_021945E0(void *a, int b, u8 *c)
 
     switch (c[0x10]) {
     case 0:
-        if (func_021A0ED4(func_02188CCC(*(void **)(c + 8))) == 1) {
-            r6 = func_02188C7C(*(void **)(c + 8));
+        if (func_021A0ED4(func_02188CCC(((struct Obj02693 *)c)->f8)) == 1) {
+            r6 = func_02188C7C(((struct Obj02693 *)c)->f8);
             func_020124E4(a);
             r4 = func_020120F4();
             func_0216D9A0(r6);
             func_020129D0((struct BigObj *)r4, 1);
-            func_021A0F30(func_02188CCC(*(void **)(c + 8)), *(u32 *)(c + 0xc));
+            func_021A0F30(func_02188CCC(((struct Obj02693 *)c)->f8), ((struct Obj02693 *)c)->fC);
             c[0x10]++;
         }
         break;
     case 1:
-        if (func_021A0ED4(func_02188CCC(*(void **)(c + 8))) == 1) {
+        if (func_021A0ED4(func_02188CCC(((struct Obj02693 *)c)->f8)) == 1) {
             func_020124E4(a);
-            func_020129B8((struct BigObj *)func_020120F4(), *(u32 *)(c + 0xc) & 0xff);
+            func_020129B8((struct BigObj *)func_020120F4(), ((struct Obj02693 *)c)->fC & 0xff);
             c[0x10]++;
         }
         break;
     case 2:
-        func_0216D9E4(func_02188C7C(*(void **)(c + 8)));
+        func_0216D9E4(func_02188C7C(((struct Obj02693 *)c)->f8));
         return 1;
     }
     return 0;

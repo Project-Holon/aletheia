@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05448.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -27,9 +28,9 @@ extern u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e);
 
 void func_021BE318(char *a0, int a1)
 {
-    if (*(u32 *)(a0 + 0x1dc) != 0)
+    if (((struct Obj05448 *)a0)->f1DC != 0)
         func_021BE34C(a0);
 
-    *(u32 *)(a0 + 0x1dc) =
-        (u32)func_0202EE8C(*(u32 *)(a0 + 0x1d8), (void *)a1, 0xf, 0x10, *(u16 *)a0);
+    ((struct Obj05448 *)a0)->f1DC =
+        (u32)func_0202EE8C(((struct Obj05448 *)a0)->f1D8, (void *)a1, 0xf, 0x10, ((struct Obj05448 *)a0)->f0);
 }

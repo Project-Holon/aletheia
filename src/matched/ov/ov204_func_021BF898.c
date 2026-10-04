@@ -15,6 +15,7 @@
  *   func_021BF744 0x021BF744 thumb ov204
  *   _ull_mul 0x0209C054 arm
  */
+#include "../include/Obj06674.h"
 
 extern unsigned int func_0203F0A8(void);
 extern void func_02015E04(void *);
@@ -22,15 +23,15 @@ extern void func_021BF744(char *, unsigned int, unsigned int, unsigned int);
 
 void func_021BF898(char *p)
 {
-    if (*(unsigned int *)(p + 0x18) != 0)
+    if (((struct Obj06674 *)p)->f18 != 0)
     {
-        if (*(unsigned int *)(p + 0x68) == 0)
+        if (((struct Obj06674 *)p)->f68 == 0)
         {
-            *(unsigned int *)(p + 0x68) = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
+            ((struct Obj06674 *)p)->f68 = 20 * (unsigned int)(((unsigned long long)func_0203F0A8() * 5) >> 32) + 200;
             func_021BF744(p, 1, 0, 1);
             return;
         }
-        func_02015E04(*(void **)(p + 0x14));
-        --*(unsigned int *)(p + 0x68);
+        func_02015E04(((struct Obj06674 *)p)->f14);
+        --((struct Obj06674 *)p)->f68;
     }
 }

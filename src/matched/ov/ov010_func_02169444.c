@@ -13,6 +13,7 @@
  * entry idx of the table at +0x9C, or 0 if idx is out of range or the
  * entry is unused (first word -1).
  */
+#include "../include/Obj05901.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,9 +23,9 @@ u32 *func_02169444(u8 *base, u32 idx)
 {
     u32 *e;
 
-    if (idx >= *(u16 *)(base + 0xA4))
+    if (idx >= ((struct Obj05901 *)base)->fA4)
         return 0;
-    e = (u32 *)(*(u8 **)(base + 0x9C) + idx * 0x14);
+    e = (u32 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14);
     if (e[0] == -1)
         return 0;
     return e;

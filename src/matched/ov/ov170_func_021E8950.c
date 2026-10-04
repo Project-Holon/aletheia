@@ -23,6 +23,11 @@
  *   func_021EF670 0x021EF670 thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23935.h"
+#include "../include/Obj23936.h"
+#include "../include/Obj23937.h"
+#include "../include/Obj23938.h"
 typedef unsigned char u8;
 extern void func_021ED55C(char *, int);
 extern void func_021EBA5C(char *, int);
@@ -55,21 +60,21 @@ int func_021E8950(char *p)
         func_021ED888(W, 1);
         func_021EE038(p, 0, 0, 1);
         func_021ED508(p, 14, 1);
-        if (*(int *)(*(char **)p + 0x24) == 2) {
+        if (((struct Obj23935 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 2) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364(p, 3, 30);
             return 17;
-        } else if (*(int *)(*(char **)p + 0x24) == 1) {
+        } else if (((struct Obj23936 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 1) {
             func_021ECB20(p, 1, 0);
             func_021EE364(p, 2, 30);
             return 44;
-        } else if (*(int *)(*(char **)p + 0x24) == 3) {
+        } else if (((struct Obj23937 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3) {
             func_021ECB20(p, 0x81, 1);
             func_021EF670(W);
             func_021EE364(p, 7, 30);
             return 57;
-        } else if (*(int *)(*(char **)p + 0x24) == 4) {
+        } else if (((struct Obj23938 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 4) {
             func_021ECB20(p, 1, 0);
             func_021EF670(W);
             func_021EE364(p, 13, 30);

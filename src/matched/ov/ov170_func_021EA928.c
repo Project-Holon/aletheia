@@ -12,12 +12,14 @@
  *   func_021E8F50 0x021E8F50 thumb ov170
  *   func_021E949C 0x021E949C thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23959.h"
 #define WORK(p) (*(char **)((p)+0x2C))
 extern int func_02007A80(void *,unsigned);
 extern int func_021E8F50(unsigned char *,int);
 extern int func_021E949C(unsigned char *,int,int);
 int func_021EA928(unsigned char *p,int a) {
- if((unsigned char)WORK(p)[0xA17C]<=4 || ((unsigned char)WORK(p)[0xA17C]==5 && func_02007A80(*(void **)(*(char **)p+4),2)==0))
+ if((unsigned char)WORK(p)[0xA17C]<=4 || ((unsigned char)WORK(p)[0xA17C]==5 && func_02007A80(((struct Obj23959 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f4,2)==0))
   WORK(p)[0xA17B]=((unsigned char)WORK(p)[0xA17C]-1)*4+a-1;
  else WORK(p)[0xA17B]=((unsigned char)WORK(p)[0xA17C]-1)*4+a;
  return func_021E949C(p,a,func_021E8F50(p,0x66));

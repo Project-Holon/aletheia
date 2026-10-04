@@ -32,6 +32,7 @@
  *   func_0217B8E4  0x0217B8E4  thumb  ov019
  *   d_021807E8     0x021807E8  data  a4
  */
+#include "../include/Obj07385.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -128,17 +129,17 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
         q->f10 = 0;
         p->f20 = q;
         p->f08 = 0;
-        *(Rec30 **)(a + 0x3558) = p;
+        *(Rec30 * *)&((struct Obj07385 *)a)->f3558 = p;
         func_0217422C(a, 2, (int)p);
         (*d)++;
         break;
     case 4:
         if (func_02174268(a) == 0) {
-            p = *(Rec30 **)(a + 0x3558);
+            p = *(Rec30 * *)&((struct Obj07385 *)a)->f3558;
             func_020307B0(p->f20);
             func_020307B0((void *)p->f1c);
-            func_020307B0(*(Rec30 **)(a + 0x3558));
-            *(Rec30 **)(a + 0x3558) = 0;
+            func_020307B0(*(Rec30 * *)&((struct Obj07385 *)a)->f3558);
+            *(Rec30 * *)&((struct Obj07385 *)a)->f3558 = 0;
             (*d)++;
         }
         break;

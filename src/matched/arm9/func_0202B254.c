@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/func_0202B254.c \
  *       --func func_0202B254 --addr 0x0202B254 --thumb --cc 1.1p1
  */
+#include "../include/Obj03001.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -45,11 +46,11 @@ extern struct Vec12 *func_02012AA0(struct Rec44 *p);
 
 u32 func_0202B254(u8 *p)
 {
-    u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(*(u32 *)(p + 8)));
+    u32 *s = (u32 *)func_02012AA0((struct Rec44 *)(((struct Obj03001 *)p)->f8));
     int differ;
 
-    if (s[0] == *(u32 *)(p + 0xc) && s[1] == *(u32 *)(p + 0x10) &&
-        s[2] == *(u32 *)(p + 0x14)) {
+    if (s[0] == ((struct Obj03001 *)p)->fC && s[1] == ((struct Obj03001 *)p)->f10 &&
+        s[2] == ((struct Obj03001 *)p)->f14) {
         differ = 0;
     } else {
         differ = 1;

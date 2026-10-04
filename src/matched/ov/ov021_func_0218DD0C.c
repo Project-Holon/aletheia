@@ -13,11 +13,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19553.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_0218DD0C(u8 *p)
 {
-    return *(u32 *)(p + 0xC);
+    return ((struct Obj19553 *)p)->fC;
 }

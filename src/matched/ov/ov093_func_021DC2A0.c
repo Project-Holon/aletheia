@@ -19,6 +19,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21343.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -43,7 +44,7 @@ void func_021DC2A0(int u, void *a, u32 b)
             && func_0201C314(func_021D775C(0x12)) != 0
             && func_021D76BC(0x40, 1) != 0) {
             e = func_021C88A4(a, 4, b);
-            *(u32 *)e |= 1 << 23;
+            ((struct Obj21343 *)e)->f0 |= 1 << 23;
             func_021C8838(e + 4, 2, 0x1d5);
             func_021C8860((struct S *)(e + 4), b);
             func_021C88C8(a, e);

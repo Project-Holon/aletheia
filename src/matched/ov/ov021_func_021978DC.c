@@ -46,6 +46,7 @@
  *   func_0203D34C  0x0203D34C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00150.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -100,9 +101,9 @@ int func_021978DC(u32 a, u32 b, u32 c)
     func_0203064C(1, 0x1f, 0x18000);
     w = func_0203159C(a, 0x308, 0x1f);
     func_02082BCC(w, 0, 0x308);
-    *(u16 *)(w + 0x10) = 0x1f;
-    func_0203F8F4(*(u16 *)(w + 0x10));
-    func_02045088(*(u16 *)(w + 0x10));
+    ((struct Obj00150 *)w)->f10 = 0x1f;
+    func_0203F8F4(((struct Obj00150 *)w)->f10);
+    func_02045088(((struct Obj00150 *)w)->f10);
     func_0201DD60();
     func_020433E0(d_021DDB14);
     {
@@ -111,26 +112,26 @@ int func_021978DC(u32 a, u32 b, u32 c)
     }
     func_02043534(0);
     func_020435F4(0);
-    func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021DDB14, *(u16 *)(w + 0x10));
-    *(u32 *)(w + 0x26C) = (u32)func_0204B100(0x28, 0, *(u16 *)(w + 0x10));
-    *(u32 *)(w + 0x268) = func_020056A0(func_021978D4, w, 0);
+    func_0204A48C((const struct Cfg *)d_020A1448, (u32)d_021DDB14, ((struct Obj00150 *)w)->f10);
+    ((struct Obj00150 *)w)->f26C = (u32)func_0204B100(0x28, 0, ((struct Obj00150 *)w)->f10);
+    ((struct Obj00150 *)w)->f268 = func_020056A0(func_021978D4, w, 0);
     func_0219603C(w);
     func_02196538(w);
-    *(u32 *)(w + 0x2EC) = func_02030734(*(u16 *)(w + 0x10), 0x200, 0, d_021DDBC4, 0x829);
-    *(u32 *)(w + 0x2F0) = func_02030734(*(u16 *)(w + 0x10), 0x200, 0, d_021DDBC4, 0x82A);
-    *(u32 *)(w + 0x2B8) = (u32)func_0203101C(*(u16 *)(w + 0x10), *(u16 *)(w + 0x10), 2, 0);
-    *(u32 *)(w + 0x2A8) = func_02028590(0xf, 0, 1, *(u16 *)(w + 0x10));
-    *(u32 *)(w + 0x2BC) = func_0201C440((void *)(*(u16 *)(w + 0x10)));
-    *(u32 *)(w + 0x2DC) = (u32)func_02027F60(5, 9, *(u32 *)(w + 0x2C), *(u32 *)(w + 0x2BC), *(u16 *)(w + 0x10));
+    ((struct Obj00150 *)w)->f2EC = func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, d_021DDBC4, 0x829);
+    ((struct Obj00150 *)w)->f2F0 = func_02030734(((struct Obj00150 *)w)->f10, 0x200, 0, d_021DDBC4, 0x82A);
+    ((struct Obj00150 *)w)->f2B8 = (u32)func_0203101C(((struct Obj00150 *)w)->f10, ((struct Obj00150 *)w)->f10, 2, 0);
+    ((struct Obj00150 *)w)->f2A8 = func_02028590(0xf, 0, 1, ((struct Obj00150 *)w)->f10);
+    ((struct Obj00150 *)w)->f2BC = func_0201C440((void *)(((struct Obj00150 *)w)->f10));
+    ((struct Obj00150 *)w)->f2DC = (u32)func_02027F60(5, 9, *(u32 *)&((struct Obj00150 *)w)->f2C, ((struct Obj00150 *)w)->f2BC, ((struct Obj00150 *)w)->f10);
     func_02196FFC(w);
     func_0219749C(w, 0x39, 0x9a, 0, 10);
     func_0219749C(w, 0xc8, 0x26, 1, 11);
-    func_0202208C(0, 1, 1, 0, 6, 1, *(u16 *)(w + 0x10));
+    func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj00150 *)w)->f10);
     func_02196034(w, (void (*)(void))func_021966F0, 0x83B);
-    *(u32 *)(w + 0x2E4) = c;
-    *(u32 *)(w + 0x30) = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)*(u32 *)(w + 0x2E4)));
+    ((struct Obj00150 *)w)->f2E4 = c;
+    ((struct Obj00150 *)w)->f30 = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)((struct Obj00150 *)w)->f2E4));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
-    func_0203D34C(0, *(u16 *)(w + 0x10));
+    func_0203D34C(0, ((struct Obj00150 *)w)->f10);
     func_02043534(0x13);
     func_020435F4(0x17);
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);

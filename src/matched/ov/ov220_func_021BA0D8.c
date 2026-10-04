@@ -25,6 +25,7 @@
  *   d_021BA4F8 0x021BA4F8 data a4
  *   d_021BA428 0x021BA428 data a4
  */
+#include "../include/Obj26061.h"
 struct DispVram;
 extern char d_021BA4F8[];
 extern const struct DispVram d_021BA428;
@@ -61,6 +62,6 @@ void *func_021BA0D8(unsigned mode,unsigned heap)
     func_0201DD60();
     func_021BA200(p,heap);
     func_021BA2A4(p+4,(int)&d_021BA428,heap);
-    *(void **)(p+12)=func_020056A0((void *)func_021BA1EC,p,0);
+    ((struct Obj26061 *)p)->fC=func_020056A0((void *)func_021BA1EC,p,0);
     return p;
 }

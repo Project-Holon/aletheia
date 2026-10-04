@@ -18,6 +18,7 @@
  *   func_021ABE64  0x021ABE64  thumb  ov021
  *   func_021A35A0  0x021A35A0  thumb  ov021
  */
+#include "../include/Obj04271.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,13 +34,13 @@ int func_021C1670(u8 *p)
 {
     u32 o;
 
-    if (*(u32 *)(p + 0x48) != 0 && func_021AD5CC(*(u32 *)(p + 0x48)) == 1) {
-        o = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
-        func_021AC154(*(u32 *)(p + 0x48));
+    if (((struct Obj04271 *)p)->f48 != 0 && func_021AD5CC(((struct Obj04271 *)p)->f48) == 1) {
+        o = func_02188CD0((u8 *)(((struct Obj04271 *)p)->f40));
+        func_021AC154(((struct Obj04271 *)p)->f48);
         func_021ABE64(o, 9);
-        func_021A35A0((u32 *)(*(u32 *)(p + 0x3C)), 1);
-        *(u32 *)(p + 0x48) = 0;
-        *(u16 *)(p + 6) = 1;
+        func_021A35A0((u32 *)(((struct Obj04271 *)p)->f3C), 1);
+        ((struct Obj04271 *)p)->f48 = 0;
+        ((struct Obj04271 *)p)->f6 = 1;
     }
     return 0;
 }

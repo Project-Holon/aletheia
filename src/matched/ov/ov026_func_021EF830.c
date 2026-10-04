@@ -18,6 +18,7 @@
  *   func_021A2170  0x021A2170  thumb  ov021
  *   func_021A2180  0x021A2180  thumb  ov021
  */
+#include "../include/Obj00086.h"
 
 typedef signed short s16;
 
@@ -50,6 +51,6 @@ void func_021EF830(int a, s16 *p)
     func_021A21A0((unsigned char *)a, y - p[3], 0);
     func_021A2190((unsigned char *)a, -(p[4] + x), 1);
     func_021A21A0((unsigned char *)a, y - p[5], 1);
-    func_021A2170((unsigned char *)a, *(int *)(p + 14), 1);
-    func_021A2180((unsigned char *)a, *(int *)(p + 14), 1);
+    func_021A2170((unsigned char *)a, ((struct Obj00086 *)p)->f1C, 1);
+    func_021A2180((unsigned char *)a, ((struct Obj00086 *)p)->f1C, 1);
 }

@@ -12,6 +12,8 @@
  *   func_0204B688 0x0204B688 arm
  *   func_0207D63C 0x0207D63C arm
  */
+#include "../include/Obj10981.h"
+#include "../include/Obj26089.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Actor;
@@ -22,13 +24,13 @@ void func_021BA878(char *p)
     u8 i;
     int alpha;
     for(i=0;i<3;i++) func_0204B688(*(void **)(p+i*148+108),1);
-    *(int *)(p+528)=0;
-    *(int *)(p+532)=1;
-    alpha=*(int *)(p+528);
+    ((struct Obj10981 *)p)->f210=0;
+    ((struct Obj10981 *)p)->f214=1;
+    alpha=((struct Obj10981 *)p)->f210;
     func_0207D63C(0x04001050,0,63,alpha,16-alpha);
 }
 int func_021BA8BC(char *p)
 {
-    if(*(int *)(p+532)==0) return 1;
+    if(((struct Obj26089 *)p)->f214==0) return 1;
     return 0;
 }

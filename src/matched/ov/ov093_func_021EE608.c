@@ -12,6 +12,7 @@
  * symbols:
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj07866.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,12 +26,12 @@ void func_021EE608(u8 *p, const u8 *src, int n)
     u32 end;
 
     if (p[2] == 0) {
-        pos = *(u16 *)p;
+        pos = ((struct Obj07866 *)p)->f0;
         n = n - 1;
         end = pos + n;
         if (end <= 0xC00) {
             func_02082D44(src + 1, p + 8 + pos, n);
-            *(u16 *)p = end;
+            ((struct Obj07866 *)p)->f0 = end;
         } else {
             p[2] = 1;
         }

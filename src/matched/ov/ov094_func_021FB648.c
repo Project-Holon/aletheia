@@ -19,6 +19,7 @@
  *   func_021FE8AC  0x021FE8AC  thumb  ov094
  *   d_0220AE68     0x0220AE68  data   ov094  a1
  */
+#include "../include/Obj07879.h"
 typedef unsigned short u16;
 
 extern char d_0220AE68[];
@@ -36,7 +37,7 @@ int func_021FB648(int a, char *b)
 {
     int *p;
 
-    p = func_02030734((u16)((*(u16 *)(b + 0x238) & 0x7fff) | 0x8000), 0x28, 1, d_0220AE68, 0xd88);
+    p = func_02030734((u16)((((struct Obj07879 *)b)->f238 & 0x7fff) | 0x8000), 0x28, 1, d_0220AE68, 0xd88);
     p[0] = (int)b;
     p[2] = func_0201134C(a);
     p[3] = func_0201134C(a);
@@ -47,7 +48,7 @@ int func_021FB648(int a, char *b)
     p[9] = func_0201134C(a);
     func_02040588(1, 0);
     func_02040588(2, 0);
-    func_021F896C((void *)func_02030DA8(*(int *)(b + 8), (void (*)(void))func_021FE79C, p, 0), func_021FE8AC, 1);
-    *(unsigned int *)b |= 0x100;
-    return *(int *)(b + 0x23c);
+    func_021F896C((void *)func_02030DA8(((struct Obj07879 *)b)->f8, (void (*)(void))func_021FE79C, p, 0), func_021FE8AC, 1);
+    ((struct Obj07879 *)b)->f0 |= 0x100;
+    return ((struct Obj07879 *)b)->f23C;
 }

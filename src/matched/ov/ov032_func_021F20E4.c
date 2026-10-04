@@ -19,6 +19,9 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj06136.h"
+#include "../include/Obj06137.h"
+#include "../include/Obj20448.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -42,18 +45,18 @@ void func_021F20E4(void *task, char *q)
     u32 v;
     int *r;
 
-    v = *(u32 *)(*(char **)(q + 8) + 0xb4);
-    s = *(u8 **)(q + 4) + 8;
+    v = ((struct Obj20448 *)(*(char * *)&((struct Obj06136 *)q)->f8))->fB4;
+    s = *(u8 * *)&((struct Obj06136 *)q)->f4 + 8;
     if (s[4] != 0) {
-        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)s))) == 0) {
-            func_02045334((struct Descriptor *)*(u32 *)s);
+        if (func_0201C6C4((struct PrintSys *)v, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06137 *)s)->f0))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj06137 *)s)->f0);
             s[4] = 0;
         }
     }
     if (s[4] == 0) {
-        func_02045374((struct Cfg *)(**(u32 **)(q + 4)));
-        func_02041B6C(func_02045730((struct Descriptor *)(**(u32 **)(q + 4))));
-        r = *(int **)(q + 0xc);
+        func_02045374((struct Cfg *)(**(u32 * *)&((struct Obj06136 *)q)->f4));
+        func_02041B6C(func_02045730((struct Descriptor *)(**(u32 * *)&((struct Obj06136 *)q)->f4)));
+        r = *(int * *)&((struct Obj06136 *)q)->fC;
         if (r != 0)
             (*r)--;
         func_02031194(task);

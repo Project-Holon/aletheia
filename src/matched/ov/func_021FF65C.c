@@ -14,6 +14,7 @@
 
  * Answer 2, or set the 5/mode pair and answer 3 when the +0x12f4 word is clear.
  */
+#include "../include/Obj12221.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ u32 func_021FF65C(u8 *p)
 {
     u32 r = 2;
 
-    if (*(u32 *)(p + 0x12f4) == 0) {
-        func_021F4EC0(p, 5, *(u32 *)(p + 0x20));
+    if (((struct Obj12221 *)p)->f12F4 == 0) {
+        func_021F4EC0(p, 5, ((struct Obj12221 *)p)->f20);
         r = 3;
     }
     return r;

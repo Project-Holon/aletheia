@@ -19,15 +19,17 @@
  *   python tools/match.py tu --src src/matched/unit_0202AE60.c \
  *       --addr 0x0202AE60 --thumb
  */
+#include "../include/Obj11306.h"
+#include "../include/Obj17264.h"
 
 typedef unsigned int u32;
 
 void sub_0202AE60(void *obj, u32 value)
 {
-    *(u32 *)((char *)obj + 0x10) = value;
+    ((struct Obj17264 *)obj)->f10 = value;
 }
 
 u32 sub_0202AE64(void *obj)
 {
-    return *(u32 *)((char *)obj + 0xc);
+    return ((struct Obj11306 *)obj)->fC;
 }

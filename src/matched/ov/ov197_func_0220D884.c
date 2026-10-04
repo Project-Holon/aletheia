@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj25114.h"
+#include "../include/Obj25115.h"
+#include "../include/Obj25116.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,9 +22,9 @@ typedef signed int s32;
 
 int func_0220D884(char **p)
 {
-    if (*(int *)(*p + 0x20) == 1) {
-        *(u16 *)(*p + 0x16) = 0;
-        *(u8 *)(*p + 0x18) = 0;
+    if (((struct Obj25114 *)(*p))->f20 == 1) {
+        ((struct Obj25115 *)(*p))->f16 = 0;
+        ((struct Obj25116 *)(*p))->f18 = 0;
         return 1;
     }
     return 0;

@@ -16,6 +16,7 @@
  *   func_02013F2C  0x02013F2C  thumb
  *   func_021A0338  0x021A0338  thumb  ov021
  */
+#include "../include/Obj19498.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -30,5 +31,5 @@ void func_0218958C(unsigned char *p, int id)
     int a;
     func_021A0358(func_02188C68(p));
     a = func_02013EEC(id);
-    func_021A0338((u8 *)(*(int *)(p + 0x1C)), a, func_02013F2C(id), 1);
+    func_021A0338((u8 *)(((struct Obj19498 *)p)->f1C), a, func_02013F2C(id), 1);
 }

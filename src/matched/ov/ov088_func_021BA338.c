@@ -19,6 +19,7 @@
  *   func_0203633C  0x0203633C  arm
  *   func_021BB890  0x021BB890  thumb  ov088
  */
+#include "../include/Obj00271.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,40 +37,40 @@ extern int func_021BB890(char *p, int d);
 
 int func_021BA338(char *p)
 {
-    func_0202EA40(*(void **)(p + 0x11c));
+    func_0202EA40(((struct Obj00271 *)p)->f11C);
     if (func_020362DC() & 1) {
         func_020061E4(0x54c);
-        switch (*(u8 *)(p + *(u8 *)(p + 0x128) + 0x120)) {
+        switch (*(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120)) {
         case 0:
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 7);
         case 1:
             return func_021BC0AC(p, 8);
         case 2:
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 11);
         case 3:
-            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 1, 2);
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 1, 2);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 11);
         case 4:
-            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 2, 2);
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 2, 2);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 11);
         case 7:
-            func_0200C2F0((struct Blk34 *)(*(int *)(p + 8)), 3, 2);
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            func_0200C2F0((struct Blk34 *)(((struct Obj00271 *)p)->f8), 3, 2);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 11);
         case 5:
             return func_021BC0AC(p, 9);
         case 6:
-            *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+            ((struct Obj00271 *)p)->f129 = *(u8 *)(p + ((struct Obj00271 *)p)->f128 + 0x120);
             return func_021BC0AC(p, 11);
         }
     }
     if (func_020362DC() & 2) {
         func_020061E4(0x551);
-        *(u8 *)(p + 0x129) = 8;
+        ((struct Obj00271 *)p)->f129 = 8;
         return func_021BC080(p, 1);
     }
     if (func_0203633C() & 0x40) {

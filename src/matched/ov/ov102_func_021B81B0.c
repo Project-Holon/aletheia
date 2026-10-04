@@ -25,6 +25,9 @@
  * func_021B838C 0x021B838C thumb ov102
  * func_021B7F24 0x021B7F24 thumb ov102
  */
+#include "../include/Obj01917.h"
+#include "../include/Obj22149.h"
+#include "../include/Obj22150.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,34 +47,34 @@ void func_021B81B0(u8 *p,u16 *state)
 {
     switch(*state) {
     case 0:
-        *(u32 *)(p+0x494)=2;
-        *(u32 *)(p+0x4a0)=0;
-        *(u32 *)(p+0x490)=func_0209C2B0((u32)func_020870D0()<<6,33514);
+        ((struct Obj01917 *)p)->f494=2;
+        ((struct Obj01917 *)p)->f4A0=0;
+        ((struct Obj01917 *)p)->f490=func_0209C2B0((u32)func_020870D0()<<6,33514);
         *state=1;
         break;
     case 1:
         func_021B8624(p+0xc0);
-        if(func_021B86FC(p+0xc0)) func_021B72A0((int)(*(void **)(p+0x468)),0);
+        if(func_021B86FC(p+0xc0)) func_021B72A0((int)(((struct Obj01917 *)p)->f468),0);
         if(func_021B870C(p+0xc0,(u32 *)(p+0x494))) {
-            switch(*(u32 *)(p+0x494)) {
+            switch(((struct Obj01917 *)p)->f494) {
             case 0: *state=2; break;
             case 1:
-                *(u32 *)(*(u8 **)(p+0x48c)+12)=1;
+                ((struct Obj22149 *)(*(u8 * *)&((struct Obj01917 *)p)->f48C))->fC=1;
                 func_021B7F08((unsigned int)p,(unsigned int)func_021B82DC);
                 break;
             }
         }
-        *(u32 *)(p+0x498)=func_0209C2B0((u32)func_020870D0()<<6,33514)-*(u32 *)(p+0x490);
-        if(func_021B7254(*(void **)(p+0x468))) func_021B86F8(p+0xc0,0);
-        if(func_021B7250(*(void **)(p+0x468))==1) {
-            func_021B63BC(*(void **)(*(u8 **)(p+0x48c)+4));
+        ((struct Obj01917 *)p)->f498=func_0209C2B0((u32)func_020870D0()<<6,33514)-((struct Obj01917 *)p)->f490;
+        if(func_021B7254(((struct Obj01917 *)p)->f468)) func_021B86F8(p+0xc0,0);
+        if(func_021B7250(((struct Obj01917 *)p)->f468)==1) {
+            func_021B63BC(((struct Obj22150 *)(*(u8 * *)&((struct Obj01917 *)p)->f48C))->f4);
             func_021B7F08((unsigned int)p,(unsigned int)func_021B838C);
         }
         break;
     case 2:
         func_021B7DFC(p+0xac,p+0x9c,3,0,0);
-        func_021B72A8(*(void **)(p+0x468),1);
-        func_021B72A0((int)(*(void **)(p+0x468)),0);
+        func_021B72A8(((struct Obj01917 *)p)->f468,1);
+        func_021B72A0((int)(((struct Obj01917 *)p)->f468),0);
         func_021B7F08((unsigned int)p,(unsigned int)func_021B7F24);
         break;
     }

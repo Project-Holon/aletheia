@@ -22,6 +22,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_020439A0 0x020439A0 arm
  */
+#include "../include/Obj01533.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,9 +51,9 @@ void func_021BFF7C(u8 *p, u32 n, u32 y)
     struct Pt pos;
     u32 wrap, x;
     struct Bmp *dest;
-    font = func_021BAC44(*(u8 **)p);
-    if (n < 2 || n >= func_021BF734(*(u8 **)(p + 4))) return;
-    if (!func_021BF6DC(*(u8 **)(p + 4)) && func_021BF724(*(u8 **)(p + 4)) == 11) {
+    font = func_021BAC44(*(u8 * *)&((struct Obj01533 *)p)->f0);
+    if (n < 2 || n >= func_021BF734(*(u8 * *)&((struct Obj01533 *)p)->f4)) return;
+    if (!func_021BF6DC(*(u8 * *)&((struct Obj01533 *)p)->f4) && func_021BF724(*(u8 * *)&((struct Obj01533 *)p)->f4) == 11) {
         x = 24 + 112 * ((n - 2) & 1);
         n = (n - 2) * 4;
         pos.x = x;
@@ -62,18 +63,18 @@ void func_021BFF7C(u8 *p, u32 n, u32 y)
         func_0204B3DC(*(struct Obj **)(p + n), 1);
         return;
     }
-    func_021BF758(*(u8 **)(p + 4), n - 2, (int)(*(void **)(p + 72)));
+    func_021BF758(*(u8 * *)&((struct Obj01533 *)p)->f4, n - 2, (int)(((struct Obj01533 *)p)->f48));
     func_0201DD68();
     if (y <= 240) {
-        func_0201C7A4(func_02045770(*(struct Descriptor **)(p + 12)), 112 * ((n - 2) & 1), y, *(void **)(p + 72), (void *)font);
+        func_0201C7A4(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 112 * ((n - 2) & 1), y, ((struct Obj01533 *)p)->f48, (void *)font);
     } else {
         wrap = 256 - y;
-        func_02043B5C(func_02045770(*(struct Descriptor **)(p + 16)), 0);
-        func_0201C7A4(func_02045770(*(struct Descriptor **)(p + 16)), 0, 0, *(void **)(p + 72), (void *)font);
+        func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0);
+        func_0201C7A4(func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10), 0, 0, ((struct Obj01533 *)p)->f48, (void *)font);
         n = 112 * ((n - 2) & 1);
-        dest = func_02045770(*(struct Descriptor **)(p + 16));
-        func_020439A0(dest, func_02045770(*(struct Descriptor **)(p + 12)), 0, 0, n, y, 96, wrap, 65535);
-        dest = func_02045770(*(struct Descriptor **)(p + 16));
-        func_020439A0(dest, func_02045770(*(struct Descriptor **)(p + 12)), 0, wrap, n, 0, 96, 16 - wrap, 65535);
+        dest = func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10);
+        func_020439A0(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, 0, n, y, 96, wrap, 65535);
+        dest = func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->f10);
+        func_020439A0(dest, func_02045770(*(struct Descriptor * *)&((struct Obj01533 *)p)->fC), 0, wrap, n, 0, 96, 16 - wrap, 65535);
     }
 }

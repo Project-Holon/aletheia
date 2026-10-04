@@ -20,6 +20,7 @@
  *   func_021D5B48  0x021D5B48  thumb  ov093
  *   func_021CD64C  0x021CD64C  thumb  ov093
  */
+#include "../include/Obj09969.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -43,13 +44,13 @@ void func_021C3274(u8 *p, u32 q, u32 b, u32 c)
         u8 m = func_021D5440((u8 *)t);
         if (func_021C3370(p, (void *)t) == 0) {
             if (func_021C334C(p, (u8 *)t, (u16)func_021C79E0(p, q, (u8 *)t), 1) != 0) {
-                BF *f = *(BF **)(p + 0x4A8);
+                BF *f = *(BF * *)&((struct Obj09969 *)p)->f4A8;
                 if (!f->f)
                     f->f = 1;
-                func_021CD64C(*(void **)(p + 0xc), 0x5b, 387, m, 0xffff0000);
+                func_021CD64C(((struct Obj09969 *)p)->fC, 0x5b, 387, m, 0xffff0000);
             }
         } else if (func_021D5B48((u8 *)t) != 0) {
-            func_021CD64C(*(void **)(p + 0xc), 0x5b, 893, m, 0xffff0000);
+            func_021CD64C(((struct Obj09969 *)p)->fC, 0x5b, 893, m, 0xffff0000);
         }
     }
 }

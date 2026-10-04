@@ -16,6 +16,7 @@
  *   func_021F8054 0x021F8054 thumb ov112
  *   d_021FDBE0 0x021FDBE0 data a4
  */
+#include "../include/Obj01410.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,14 +35,14 @@ void func_021F8DC4(u8 *p)
     struct Vec pos;
     u8 i;
     pos = d_021FDBE0;
-    *(void **)(p+0x34)=func_021F5164(*(u16 *)p);
-    func_021F5438(*(void **)(p+0x34),0x20000);
-    *(void **)(p+0x38)=func_021F48C0(*(u32 *)(p+0xac),36,*(u16 *)p);
-    *(void **)(p+0x40)=func_021F709C(*(u16 *)p,p,*(void **)(p+0x34),*(void **)(p+0x38),*(u32 *)(p+0xac));
+    ((struct Obj01410 *)p)->f34=func_021F5164(((struct Obj01410 *)p)->f0);
+    func_021F5438(((struct Obj01410 *)p)->f34,0x20000);
+    ((struct Obj01410 *)p)->f38=func_021F48C0(((struct Obj01410 *)p)->fAC,36,((struct Obj01410 *)p)->f0);
+    ((struct Obj01410 *)p)->f40=func_021F709C(((struct Obj01410 *)p)->f0,p,((struct Obj01410 *)p)->f34,((struct Obj01410 *)p)->f38,((struct Obj01410 *)p)->fAC);
     for (i=0;i<4;i++) *(u32 *)(p+0x44+i*4)=0;
     for (i=0;i<4;i++) {
-        ((struct Slots *)p)->slots[i]=func_021F760C(*(void **)(p+0x40),*(void **)(*(u8 **)(p+0x30)+4+i*4));
-        func_021F8054(*(void **)(p+0x40),((struct Slots *)p)->slots[i],&pos);
+        ((struct Slots *)p)->slots[i]=func_021F760C(((struct Obj01410 *)p)->f40,*(void **)(*(u8 * *)&((struct Obj01410 *)p)->f30+4+i*4));
+        func_021F8054(((struct Obj01410 *)p)->f40,((struct Slots *)p)->slots[i],&pos);
         pos.z-=0x1e000;
     }
 }

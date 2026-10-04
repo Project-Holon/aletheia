@@ -19,6 +19,7 @@
  *   func_0200823C  0x0200823C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00030.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,39 +39,39 @@ void func_021B3370(char *w)
     u32 lim;
 
     n = func_021B3350(w);
-    k = func_02007FB8((u8 *)(*(u32 *)(w + 0x10)), *(u16 *)(w + 0x1FC), *(u16 *)(w + 4));
-    if (func_02007E3C((u8 *)(*(u32 *)(w + 0x10)), *(u16 *)(w + 0x1FC), 1, *(u16 *)(w + 4)) == 0) {
-        func_021B4714(w, 10, *(u16 *)(w + 0x1FC), 0);
+    k = func_02007FB8((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, ((struct Obj00030 *)w)->f4);
+    if (func_02007E3C((u8 *)(((struct Obj00030 *)w)->f10), ((struct Obj00030 *)w)->f1FC, 1, ((struct Obj00030 *)w)->f4) == 0) {
+        func_021B4714(w, 10, ((struct Obj00030 *)w)->f1FC, 0);
         w[0] = 10;
         w[1] = 4;
         return;
     }
-    lim = *(u32 *)(w + 0x200);
+    lim = ((struct Obj00030 *)w)->f200;
     if (n < lim) {
-        if (*(u8 *)(w + 0x163) == 0) {
-            func_021B4714(w, 3, *(u16 *)(w + 0x1FC), 0);
+        if (((struct Obj00030 *)w)->f163 == 0) {
+            func_021B4714(w, 3, ((struct Obj00030 *)w)->f1FC, 0);
         } else {
-            func_021B4714(w, 0x10, *(u16 *)(w + 0x1FC), 0);
+            func_021B4714(w, 0x10, ((struct Obj00030 *)w)->f1FC, 0);
         }
         w[0] = 10;
         w[1] = 4;
     } else if (n >= lim && n < lim * 2) {
-        func_021B4804(w, *(u8 *)(w + 0x162));
+        func_021B4804(w, ((struct Obj00030 *)w)->f162);
         w[0] = 10;
         w[1] = 5;
-    } else if (*(u8 *)(w + 0x162) == 0) {
-        func_021B4714(w, 4, *(u16 *)(w + 0x1FC), 0);
+    } else if (((struct Obj00030 *)w)->f162 == 0) {
+        func_021B4714(w, 4, ((struct Obj00030 *)w)->f1FC, 0);
         w[0] = 10;
         w[1] = 2;
-        *(u32 *)(w + 0x204) = n / *(u32 *)(w + 0x200);
-        if (*(u32 *)(w + 0x204) > 99) {
-            *(u32 *)(w + 0x204) = 99;
+        ((struct Obj00030 *)w)->f204 = n / ((struct Obj00030 *)w)->f200;
+        if (((struct Obj00030 *)w)->f204 > 99) {
+            ((struct Obj00030 *)w)->f204 = 99;
         }
-        if (*(u32 *)(w + 0x204) + k > func_0200823C(*(u16 *)(w + 0x1FC))) {
-            *(u32 *)(w + 0x204) = func_0200823C(*(u16 *)(w + 0x1FC)) - k;
+        if (((struct Obj00030 *)w)->f204 + k > func_0200823C(((struct Obj00030 *)w)->f1FC)) {
+            ((struct Obj00030 *)w)->f204 = func_0200823C(((struct Obj00030 *)w)->f1FC) - k;
         }
     } else {
-        func_021B4804(w, *(u8 *)(w + 0x162));
+        func_021B4804(w, ((struct Obj00030 *)w)->f162);
         w[0] = 10;
         w[1] = 6;
     }

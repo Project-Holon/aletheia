@@ -50,6 +50,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   func_021BB6E4  0x021BB6E4  thumb  ov072
  */
+#include "../include/Obj00433.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -124,26 +125,26 @@ int func_021B95A0(void *a, void *b, Arg *c)
     func_0203064C(1, 0x44, 0x60000);
     o = func_0203159C(a, 0x144, 0x44);
     func_02082BCC(o, 0, 0x144);
-    *(Arg **)(o + 0x130) = c;
-    flag = (*(Arg **)(o + 0x130))->f0 == 2;
-    *(void **)(o + 0x124) = func_0201D7EC(0x17, 0, 0, 0, 0x44);
-    *(int *)(o + 0x128) = (int)func_02045B38(0, 2, 0x59, 0x44);
-    *(int *)(o + 0x12c) = (int)func_02045B38(0, 2, 0xb9, 0x44);
-    *(u32 **)(o + 0) = func_021BB6E8(0x44);
-    *(int *)(o + 0x34) = func_021BBB24(0x44);
+    *(Arg * *)&((struct Obj00433 *)o)->f130 = c;
+    flag = (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0 == 2;
+    ((struct Obj00433 *)o)->f124 = func_0201D7EC(0x17, 0, 0, 0, 0x44);
+    ((struct Obj00433 *)o)->f128 = (int)func_02045B38(0, 2, 0x59, 0x44);
+    ((struct Obj00433 *)o)->f12C = (int)func_02045B38(0, 2, 0xb9, 0x44);
+    *(u32 * *)&((struct Obj00433 *)o)->f0 = func_021BB6E8(0x44);
+    ((struct Obj00433 *)o)->f34 = func_021BBB24(0x44);
     func_021B991C((int *)(o + 4), (int)o, (int)func_021B996C);
     v = (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5]));
-    if ((*(Arg **)(o + 0x130))->f0 != 1) {
-        func_021BB3E8(o + 0xc4, func_021BB764(*(u32 *)o, 1), *(int *)(o + 0x124), *(int *)(o + 0x12c), 0, 0x15, 0x18, 3, 0x44);
+    if ((*(Arg * *)&((struct Obj00433 *)o)->f130)->f0 != 1) {
+        func_021BB3E8(o + 0xc4, func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f12C, 0, 0x15, 0x18, 3, 0x44);
         func_0201DD78(0xf, 1, 0);
         func_021BB448(o + 0xc4, 0, 0x10, 0);
         func_0201DD68();
     }
-    func_021B9E38(o + 0x14, (*(Arg **)(o + 0x130))->f0, func_021BB778((char *)(*(u32 *)o), 0), func_021BB764(*(u32 *)o, 0), 0xf, 8, v, 0x44);
-    func_021BB4B4(o + 0xd4, func_021BB764(*(u32 *)o, 1), *(int *)(o + 0x124), *(int *)(o + 0x128), func_021BB784((char *)(*(u32 *)o), 0), 0x44);
-    func_02040618(func_021BB764(*(u32 *)o, 1), 3, -4);
-    func_021BA490(o + 0x50, c->f8, c->fA, *(int *)(o + 0x34), *(u32 *)o, (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
-    func_021BA04C(o + 0x38, func_021BB784((char *)(*(u32 *)o), 1), func_021BB784((char *)(*(u32 *)o), 2), 0x44);
+    func_021B9E38(o + 0x14, (*(Arg * *)&((struct Obj00433 *)o)->f130)->f0, func_021BB778((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 0), 0xf, 8, v, 0x44);
+    func_021BB4B4(o + 0xd4, func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 1), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f128, func_021BB784((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 0), 0x44);
+    func_02040618(func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 1), 3, -4);
+    func_021BA490(o + 0x50, c->f8, c->fA, ((struct Obj00433 *)o)->f34, *(u32 *)&((struct Obj00433 *)o)->f0, (u32)func_020120F4((const struct Ctx *)((*(u32 **)(o + 0x130))[5])), 0x44, flag);
+    func_021BA04C(o + 0x38, func_021BB784((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 1), func_021BB784((char *)(*(u32 *)&((struct Obj00433 *)o)->f0), 2), 0x44);
     e = func_021BA7F8(o + 0x50, c->f8, c->fA);
     if (e != 0) {
         pt.x = func_021BA774((char *)e, 4);
@@ -153,20 +154,20 @@ int func_021B95A0(void *a, void *b, Arg *c)
         pt.y = 0x60;
     }
     func_021BA3CC(o + 0x38, &pt);
-    func_021BAF74(o + 0x78, func_021BB764(*(u32 *)o, 3), func_021BB764(*(u32 *)o, 2), 0x44);
-    func_021BB1BC(o + 0xb0, func_021BB764(*(u32 *)o, 5), *(int *)(o + 0x124), *(int *)(o + 0x128), *(int *)(o + 0x12c), 0x44);
+    func_021BAF74(o + 0x78, func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 3), func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 2), 0x44);
+    func_021BB1BC(o + 0xb0, func_021BB764(*(u32 *)&((struct Obj00433 *)o)->f0, 5), *(int *)&((struct Obj00433 *)o)->f124, ((struct Obj00433 *)o)->f128, ((struct Obj00433 *)o)->f12C, 0x44);
     func_021BB5D4(o + 0xf4, 0x44);
     e = func_021BA6C8(o + 0x50, o + 0x38);
     if (e != 0) {
         func_021BB5AC(o + 0xd4, e);
         func_021BB220(o + 0xb0, e);
-        *(int *)(o + 0x134) = e;
+        ((struct Obj00433 *)o)->f134 = e;
         func_021BA69C(o + 0x50, &org);
         func_021BA3F4(o + 0x38, e, &org);
     }
     if (func_0203CD98()) {
         func_0203D34C(1, 0x44);
     }
-    *(u32 *)(o + 0x13c) = func_020056A0(func_021BB6E4, o, 0);
+    ((struct Obj00433 *)o)->f13C = func_020056A0(func_021BB6E4, o, 0);
     return 1;
 }

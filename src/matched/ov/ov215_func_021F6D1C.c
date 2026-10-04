@@ -12,8 +12,9 @@
  *   func_02015FAC 0x02015FAC thumb
  *   func_02015FBC 0x02015FBC thumb
  */
+#include "../include/Obj05551.h"
 typedef unsigned char u8;
 struct Data;
 extern u8 func_02015FAC(struct Data *);
 extern void func_02015FBC(char *,int);
-void func_021F6D1C(char *p){u8 n;if(*(unsigned *)(p+60)){n=func_02015FAC(*(struct Data **)(p+52));if(n>*(u8 *)(p+64))n--;else n++;func_02015FBC(*(char **)(p+52),n);if(n==*(u8 *)(p+64))*(unsigned *)(p+60)=0;}}
+void func_021F6D1C(char *p){u8 n;if(((struct Obj05551 *)p)->f3C){n=func_02015FAC(*(struct Data * *)&((struct Obj05551 *)p)->f34);if(n>((struct Obj05551 *)p)->f40)n--;else n++;func_02015FBC(*(char * *)&((struct Obj05551 *)p)->f34,n);if(n==((struct Obj05551 *)p)->f40)((struct Obj05551 *)p)->f3C=0;}}

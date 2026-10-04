@@ -11,6 +11,7 @@
  *
  * Scroll step: slides the BG by 0xC0/4 per frame and flags the end after 4.
  */
+#include "../include/Obj09688.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,13 +21,13 @@ extern void func_02040618(u32 layer, u32 a, u32 b);
 
 void func_021C59BC(void *a, u8 *p)
 {
-    u16 n = *(u16 *)(p + 0x72);
+    u16 n = ((struct Obj09688 *)p)->f72;
     int v = n * 0xC0 / 4 - 0xC0;
 
-    (*(u16 *)(p + 0x72))++;
+    (((struct Obj09688 *)p)->f72)++;
     if (n >= 4) {
         v = 0;
-        *(u32 *)(p + 0x80) = 1;
+        ((struct Obj09688 *)p)->f80 = 1;
     }
     func_02040618(1, 3, v);
 }

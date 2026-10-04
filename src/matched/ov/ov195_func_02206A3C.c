@@ -13,6 +13,7 @@
  *   func_020437AC 0x020437AC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10827.h"
 
 struct Obj020437AC;
 extern void func_020437AC(struct Obj020437AC *p);
@@ -20,8 +21,8 @@ extern void func_020307B0(void *);
 
 void func_02206A3C(char *p)
 {
-    func_020437AC(*(void **)(p + 0x10));
-    func_020307B0(*(void **)(p + 8));
-    func_020307B0(*(void **)(p + 0xc));
+    func_020437AC(((struct Obj10827 *)p)->f10);
+    func_020307B0(((struct Obj10827 *)p)->f8);
+    func_020307B0(((struct Obj10827 *)p)->fC);
     func_020307B0(p);
 }

@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23293.h"
 
 typedef unsigned int   u32;
 extern void func_021FCEA8(int unused, int kind, u32 value, u32 id);
 
 void func_021FD6DC(char *p)
 {
-    func_021FCEA8((int)p, 5, *(int *)(*(int *)(p + 0x140) + 0x24), 0xff);
+    func_021FCEA8((int)p, 5, *(int *)(((struct Obj23293 *)p)->f140 + 0x24), 0xff);
 }

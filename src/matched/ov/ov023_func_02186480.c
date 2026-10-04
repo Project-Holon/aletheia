@@ -11,12 +11,13 @@
  * symbols:
  *   func_02186694 0x02186694 thumb ov023
  */
+#include "../include/Obj00336.h"
 extern void func_02186694(char *);
 void func_02186480(char *p)
 {
-    if (*(int *)(p + 0x9e70) != 0) {
-        if (*(int *)(p + 0x178) != 0)
+    if (((struct Obj00336 *)p)->f9E70 != 0) {
+        if (((struct Obj00336 *)p)->f178 != 0)
             func_02186694(p);
-        *(int *)(p + 0x9e70) = 0;
+        ((struct Obj00336 *)p)->f9E70 = 0;
     }
 }

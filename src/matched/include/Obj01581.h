@@ -1,0 +1,17 @@
+#ifndef ALETHEIA_OBJ01581_H
+#define ALETHEIA_OBJ01581_H
+struct Obj01581 {
+    unsigned int f0;
+    unsigned char pad_4[7836];
+    void * f1EA0;
+    void * f1EA4;
+    unsigned char pad_1EA8[4];
+    unsigned int f1EAC;
+    unsigned char pad_1EB0[256];
+    void * f1FB0;
+    unsigned char f1FB4;
+    unsigned char pad_1FB5[67];
+    void * f1FF8;
+    unsigned char f1FFC;
+};
+#endif

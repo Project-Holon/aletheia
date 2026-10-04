@@ -13,6 +13,7 @@
  *   func_021C70E4 0x021C70E4 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,7 +23,7 @@ struct Msg;
 extern int func_021C99A0(void *, const struct Msg *);
 int func_021CA6FC(u8 *p, const u8 *q)
 {
-    if (q[11]) func_021CD4B0(*(void **)(p + 12), 86, 0);
+    if (q[11]) func_021CD4B0(((struct Obj00003 *)p)->fC, 86, 0);
     func_021C70E4(p, *(const u16 *)(q + 4), q[6], q[7], q[10], *(const u16 *)(q + 8));
     func_021C99A0(p, (const struct Msg *)(q + 12));
     return 1;

@@ -14,10 +14,11 @@
  *
  * Field setter, u32 at +0x2c (unlabelled; follows the getter func_021BE0D0).
  */
+#include "../include/Obj24135.h"
 
 typedef unsigned long u32;
 
 void func_021BE0D4(void *p, u32 v)
 {
-    *(u32 *)((char *)p + 0x2c) = v;
+    ((struct Obj24135 *)p)->f2C = v;
 }

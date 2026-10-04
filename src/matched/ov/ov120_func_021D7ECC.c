@@ -12,6 +12,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj02832.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -27,13 +28,13 @@ void *func_021D7ECC(char *p,u16 n)
     int width;
     void *result;
     void *text;
-    text=func_020457B0(100,*(u16 *)(p+0xc8));
-    *(void **)(p+0xa8)=text;
-    func_02045CAC(*(void **)(p+0xc),n,text);
-    *(u16 *)(p+0xac)=0x39e3;
-    *(int *)(p+0xb0)=0;
-    width=(func_0201D304(*(void **)(p+0xa8),*(int *)(p+0x14),0)+32)/16;
-    result=func_0202800C(*(void **)(p+0xc0),p+0xa8,16-width,21,width*2,3,0,1,*(u16 *)(p+0xc8));
-    func_02045808(*(void **)(p+0xa8));
+    text=func_020457B0(100,((struct Obj02832 *)p)->fC8);
+    ((struct Obj02832 *)p)->fA8=text;
+    func_02045CAC(((struct Obj02832 *)p)->fC,n,text);
+    ((struct Obj02832 *)p)->fAC=0x39e3;
+    ((struct Obj02832 *)p)->fB0=0;
+    width=(func_0201D304(((struct Obj02832 *)p)->fA8,((struct Obj02832 *)p)->f14,0)+32)/16;
+    result=func_0202800C(((struct Obj02832 *)p)->fC0,p+0xa8,16-width,21,width*2,3,0,1,((struct Obj02832 *)p)->fC8);
+    func_02045808(((struct Obj02832 *)p)->fA8);
     return result;
 }

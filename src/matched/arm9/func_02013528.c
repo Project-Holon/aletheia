@@ -28,6 +28,8 @@
  * as in the image. docs/idioms/a-u16-stack-parameter-passed-to-a-u16-callee-
  * stays-behind-a-spill-store.md is the same lever.
  */
+#include "../include/Obj00155.h"
+#include "../include/Obj06858.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -50,22 +52,22 @@ void func_02013528(u8 *o, void *a1, u32 a2, u8 a3, u32 a4, u8 a5, u8 a6, u16 a7)
     sub[1] = 1;
     func_02013360(o, a1, sub);
     func_0201333C(o, a1, a7);
-    *(u32 *)o = 3;
-    *(u32 *)(o + 4) = a2;
-    *(u32 *)(o + 0x1c) = a4;
+    ((struct Obj00155 *)o)->f0 = 3;
+    ((struct Obj00155 *)o)->f4 = a2;
+    ((struct Obj00155 *)o)->f1C = a4;
     *(o + 0x20) = a5;
     *(o + 0x22) = a3;
     *(o + 0x21) = a6;
-    *(u16 *)(o + 0x84) = 0xff;
-    *(u16 *)(o + 0x1a) = 0x47d;
+    ((struct Obj00155 *)o)->f84 = 0xff;
+    ((struct Obj00155 *)o)->f1A = 0x47d;
     i = 0;
     do {
         if (i != 0) {
             u8 *e = o + i * 4;
-            if (*(u32 *)(e + 0x34) == 0)
-                *(u32 *)(e + 0x34) = (u32)func_0200846C(a7);
-            if (*(u32 *)(e + 0x24) == 0)
-                *(u32 *)(e + 0x24) = func_0201A920(a7);
+            if (((struct Obj06858 *)e)->f34 == 0)
+                ((struct Obj06858 *)e)->f34 = (u32)func_0200846C(a7);
+            if (((struct Obj06858 *)e)->f24 == 0)
+                ((struct Obj06858 *)e)->f24 = func_0201A920(a7);
         }
         i++;
     } while (i < 4);

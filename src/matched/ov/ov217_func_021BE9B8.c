@@ -13,6 +13,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021BEB88 0x021BEB88 thumb ov217
  */
+#include "../include/Obj25909.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 x,y,w,h; u8 rest[32]; } E;
@@ -22,7 +23,7 @@ extern void func_020409B4(u32);
 extern u32 func_021BEB88(u32);
 void func_021BE9B8(u8 *p)
 {
-    switch (*(u32 *)(p + 52)) {
+    switch (((struct Obj25909 *)p)->f34) {
     case 0:
     case 2:
     case 3:

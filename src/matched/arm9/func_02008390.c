@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15571.h"
 
-unsigned int func_02008390(char *a0){ return (unsigned int)(*(unsigned short *)(a0) << 0x1a) >> 0x1e; }
+unsigned int func_02008390(char *a0){ return (unsigned int)(((struct Obj15571 *)a0)->f0 << 0x1a) >> 0x1e; }

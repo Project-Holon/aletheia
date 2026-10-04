@@ -17,6 +17,7 @@
  *   func_021B9B0C 0x021B9B0C thumb ov225
  *   func_021B9A88 0x021B9A88 thumb ov225
  */
+#include "../include/Obj26130.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Node;
@@ -36,7 +37,7 @@ static inline void GXS_SetVisibleWnd(int window) {
 }
 void func_021B99A0(char *p)
 {
-    func_02030EAC(*(void **)(p + 12));
+    func_02030EAC(((struct Obj26130 *)p)->fC);
     func_021B9B0C(p + 4);
     func_021B9A88(p);
     func_0201DD68();

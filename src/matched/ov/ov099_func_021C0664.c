@@ -14,10 +14,11 @@
  *   func_021C18C8 0x021C18C8 thumb ov099
  *   func_021C2408 0x021C2408 thumb ov099
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BA8EC(char *);
 extern void func_0203C554(u32 a);
 extern void func_021C18C8(char *,int,int);
 extern void func_021C2408(char *);
-int func_021C0664(char *p,int ret){func_021BA8EC(p);func_0203C554(1);func_021C18C8(p,1,2);*(int *)(p+0x1f0)=-1;func_021C2408(p);*(int *)(p+0x1cc)=11;return ret;}
+int func_021C0664(char *p,int ret){func_021BA8EC(p);func_0203C554(1);func_021C18C8(p,1,2);((struct Obj00008 *)p)->f1F0=-1;func_021C2408(p);((struct Obj00008 *)p)->f1CC=11;return ret;}

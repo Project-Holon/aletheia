@@ -21,6 +21,7 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/func_021F4FA4.c --func func_021F4FA4  *       --addr 0x021F4FA4 --region ov135 --thumb --cc dsi/1.1p1 --diff
  */
+#include "../include/Obj12194.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
 
 void func_021F4FA4(u8 *p)
 {
-    *(u32 *)(p + 0xdf8) = (u32)func_0202EE30((void *)func_020056BC(), (void *)(*(u32 *)(p + 0xd40)),
+    ((struct Obj12194 *)p)->fDF8 = (u32)func_0202EE30((void *)func_020056BC(), (void *)(((struct Obj12194 *)p)->fD40),
                                         0xf, 0x10, 0x48);
 }

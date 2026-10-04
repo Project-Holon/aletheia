@@ -11,9 +11,10 @@
  * symbols:
  *   func_021FD71C 0x021FD71C thumb ov186
  */
+#include "../include/Obj24845.h"
 typedef unsigned char  u8;
 extern void func_021FD71C(u8 *p);
 void func_021FD854(char *p)
 {
-    func_021FD71C((u8 *)(*(int *)(p+0x10)));
+    func_021FD71C((u8 *)(((struct Obj24845 *)p)->f10));
 }

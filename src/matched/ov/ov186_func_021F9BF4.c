@@ -9,6 +9,7 @@
  *   func_021F9C84 0x021F9C84 thumb
  *   d_02200D14 0x02200D14 data a1
  */
+#include "../include/Obj05498.h"
 typedef struct { unsigned words[4]; } Info;
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -19,7 +20,7 @@ void func_021F9BF4(unsigned *ctx, unsigned index)
     Info info;
     char *base = (char *)ctx[1];
     char *entry = base + index * 20;
-    if (index >= *(unsigned short *)((char *)ctx + 8))
+    if (index >= ((struct Obj05498 *)ctx)->f8)
         func_02034714(d_02200D14, 0, d_02200D14);
     func_021F9C84(&info, index, entry);
     if (ctx[25] >= 6)

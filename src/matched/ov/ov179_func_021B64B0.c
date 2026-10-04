@@ -12,6 +12,7 @@
  * symbols:
  *   func_021B66DC  0x021B66DC  thumb  ov179
  */
+#include "../include/Obj14388.h"
 typedef unsigned int u32;
 
 extern int func_021B66DC(char *p);
@@ -19,10 +20,10 @@ extern int func_021B66DC(char *p);
 u32 func_021B64B0(char *p)
 {
     do {
-        if (**(int **)(p + 0x601C) == 20) {
+        if (**(int * *)&((struct Obj14388 *)p)->f601C == 20) {
             (*(unsigned char **)p)[3] = 0;
             return 1;
         }
     } while (func_021B66DC(p) == 1);
-    return *(u32 *)(p + 0x6050);
+    return ((struct Obj14388 *)p)->f6050;
 }

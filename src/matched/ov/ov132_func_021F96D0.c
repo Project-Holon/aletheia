@@ -10,6 +10,7 @@
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj23190.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -18,7 +19,7 @@ void func_021F96D0(char *p)
 {
     u8 i;
     u8 min = 255;
-    char *a = *(char **)(p + 0x30);
+    char *a = *(char * *)&((struct Obj23190 *)p)->f30;
     for (i = 0; i < 4; i++) {
         u16 v = *(u16 *)(*(char **)(a + i * 4 + 4) + 0x4a) + *(u8 *)(p + i + 0xf7);
         if (min > v) min = v;

@@ -14,6 +14,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9D6C 0x021B9D6C thumb ov100
  */
+#include "../include/Obj13709.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
@@ -27,11 +28,11 @@ extern void func_021B9D6C(int a);
 void func_021B9DB8(int a) {
  if(func_02039CB4((struct Link *)func_020399A8(),0x7c,12)!=0) {
   int i=func_02039338();
-  int n=*(int *)(a+0x24c);
+  int n=((struct Obj13709 *)a)->f24C;
   switch(n) {
   case 1: case 2: case 3: case 4: {
    int v=*(int *)(a+(1-i)*4+0x250);
-   if(n>v) *(int *)(*(int *)(a+0x244)+0x1c)=v;
+   if(n>v) *(int *)(((struct Obj13709 *)a)->f244+0x1c)=v;
    break;
   }
   }

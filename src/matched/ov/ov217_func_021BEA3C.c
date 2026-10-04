@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14737.h"
 
 typedef unsigned char u8;
 
@@ -21,5 +22,5 @@ extern int _s32_div_f(int, int);
 
 void func_021BEA3C(char *p, int a)
 {
-    *(u8 *)(p + 0x2b8) = (u8)((*(u8 *)(p + 0x2b8) + a + 3) % 3);
+    ((struct Obj14737 *)p)->f2B8 = (u8)((((struct Obj14737 *)p)->f2B8 + a + 3) % 3);
 }

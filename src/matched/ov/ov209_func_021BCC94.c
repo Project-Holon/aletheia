@@ -34,6 +34,8 @@
  *   func_021BC298 0x021BC298 thumb ov209
  *   func_021BC2E4 0x021BC2E4 thumb ov209
  */
+#include "../include/Obj00123.h"
+#include "../include/Obj25546.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
@@ -78,7 +80,7 @@ int func_021BCC94(char *p)
     func_021BD7F8(p);
     func_021BC88C(p);
     func_021BC9A8(p);
-    if (*(u16 *)(*(char **)p + 8) == 0) func_021BD628(p);
+    if (((struct Obj25546 *)(*(char * *)&((struct Obj00123 *)p)->f0))->f8 == 0) func_021BD628(p);
     else func_021BD704(p);
     func_0203D34C(1, 0x6B);
     func_021BC7B8();

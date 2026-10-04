@@ -17,6 +17,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj02477.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,13 +39,13 @@ extern void func_02041B6C(u32 bit);
 void func_021D9514(char *p, int n)
 {
     void *q;
-    func_02045CAC(*(void **)(p+0x20),n,*(void **)(p+0x2c));
-    if (!*(void **)(p+0x48)) *(void **)(p+0x48)=(void *)func_020450F0(5,1,3,30,4,11,1);
-    q=*(void **)(p+0x48);
+    func_02045CAC(((struct Obj02477 *)p)->f20,n,((struct Obj02477 *)p)->f2C);
+    if (!((struct Obj02477 *)p)->f48) ((struct Obj02477 *)p)->f48=(void *)func_020450F0(5,1,3,30,4,11,1);
+    q=((struct Obj02477 *)p)->f48;
     func_02043B5C(func_02045770(q),15);
     func_0201DD78(1,2,15);
-    *(void **)(p+0x80)=func_0201CCE4(q,0,0,*(void **)(p+0x2c),*(void **)(p+0x28),func_02012FFC(),*(void **)(p+0x88),2,*(u16 *)(p+0xb0),15);
-    func_0201F73C(q,1,*(int *)(p+8),12);
+    ((struct Obj02477 *)p)->f80=func_0201CCE4(q,0,0,((struct Obj02477 *)p)->f2C,((struct Obj02477 *)p)->f28,func_02012FFC(),((struct Obj02477 *)p)->f88,2,((struct Obj02477 *)p)->fB0,15);
+    func_0201F73C(q,1,((struct Obj02477 *)p)->f8,12);
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(5);

@@ -19,6 +19,7 @@
  *   func_02051AB8  0x02051AB8  arm
  *   func_020513F8  0x020513F8  arm
  */
+#include "../include/Obj02319.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,24 +52,24 @@ void func_02051230(u8 *o, u32 a1, u32 a2, u32 a3)
     o[0x258] = (u8)f;
     if (f & 1) {
         func_0206164C(o + 0x58);
-        *(u32 *)(o + 0x18) = 0x02051A3C;
+        ((struct Obj02319 *)o)->f18 = 0x02051A3C;
     } else if (f & 2) {
         for (i = 0; i < 0x40; i++)
             *(u32 *)(o + 0x58 + i * 4) = z;
-        *(u32 *)(o + 0x18) = 0x02051A54;
+        ((struct Obj02319 *)o)->f18 = 0x02051A54;
         *(u16 *)(o + 0x200 + 0x5c) = z;
     }
     if (f & 4) {
         func_02061808(o + 0x158);
-        *(u32 *)(o + 0x1c) = 0x02051AA0;
+        ((struct Obj02319 *)o)->f1C = 0x02051AA0;
     } else if (f & 8) {
         for (i = 0; i < 0x40; i++)
             *(u32 *)(o + 0x158 + i * 4) = z;
-        *(u32 *)(o + 0x1c) = 0x02051AB8;
+        ((struct Obj02319 *)o)->f1C = 0x02051AB8;
         *(u16 *)(o + 0x200 + 0x5e) = z;
     }
-    v = *(u32 *)o;
-    *(u32 *)(o + 4) = a1;
+    v = ((struct Obj02319 *)o)->f0;
+    ((struct Obj02319 *)o)->f4 = a1;
     func_02052A50(v, a1);
     if (a2 == 1) {
         func_02051394(o);

@@ -36,6 +36,14 @@
  *   func_021BCF0C  0x021BCF0C  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05546.h"
+#include "../include/Obj25595.h"
+#include "../include/Obj25596.h"
+#include "../include/Obj25597.h"
+#include "../include/Obj25598.h"
+#include "../include/Obj25599.h"
+#include "../include/Obj25600.h"
+#include "../include/Obj25601.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -80,16 +88,16 @@ u32 func_021BCF8C(u8 *p)
     z = 0;
     func_02043534(0);
     func_020435F4(0);
-    *(volatile u16 *)ra = z;
-    *(volatile u16 *)rb = z;
+    *(volatile u16 *)&((struct Obj25595 *)ra)->f0 = z;
+    *(volatile u16 *)&((struct Obj25596 *)rb)->f0 = z;
     func_0204363C(0);
     m = -16;
     func_0207D534((volatile u16 *)(ra + 0x1c), m);
     func_0207D534((volatile u16 *)(rb + 0x1c), m);
-    if (func_0200CA70((struct Blk37 *)(*(u32 *)(*(u8 **)p + 4))) == 1) {
-        *(u8 *)(*(u8 **)(*(u8 **)p + 8)) = z;
+    if (func_0200CA70((struct Blk37 *)(((struct Obj25597 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f4)) == 1) {
+        ((struct Obj25599 *)(*(u8 * *)&((struct Obj25598 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = z;
     } else {
-        *(u8 *)(*(u8 **)(*(u8 **)p + 8)) = 1;
+        ((struct Obj25601 *)(*(u8 * *)&((struct Obj25600 *)(*(u8 * *)&((struct Obj05546 *)p)->f0))->f8))->f0 = 1;
     }
     func_021BC3D4();
     func_021BC3F0();

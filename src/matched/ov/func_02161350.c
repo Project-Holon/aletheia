@@ -19,6 +19,8 @@
  *   func_02188C54   0x02188C54  thumb
  *   func_02012374   0x02012374  thumb
  */
+#include "../include/Obj09158.h"
+#include "../include/Obj09159.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,11 +33,11 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_02161350(void *a0)
 {
-    char *r4 = *(char **)((char *)a0 + 0x18);
-    void *t = func_02188C54(*(void **)(r4 + 4));
+    char *r4 = *(char * *)&((struct Obj09158 *)a0)->f18;
+    void *t = func_02188C54(((struct Obj09159 *)r4)->f4);
 
-    func_02012374(*(void **)((char *)a0 + 0x14),
-                  func_021616A4(*(void **)r4, (int)(*(void **)(r4 + 4)),
-                                *(u16 *)a0, (int)t, (int)((char *)a0 + 0x10)));
+    func_02012374(((struct Obj09158 *)a0)->f14,
+                  func_021616A4(((struct Obj09159 *)r4)->f0, (int)(((struct Obj09159 *)r4)->f4),
+                                ((struct Obj09158 *)a0)->f0, (int)t, (int)((char *)a0 + 0x10)));
 }
 

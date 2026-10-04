@@ -9,5 +9,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj22249.h"
 
-void func_021B80CC(unsigned char *p) { *(unsigned int *)(p+0x194)=1; }
+void func_021B80CC(unsigned char *p) { ((struct Obj22249 *)p)->f194=1; }

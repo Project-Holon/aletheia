@@ -12,6 +12,7 @@
  *   func_0204B688 0x0204B688 arm
  *   func_021BC518 0x021BC518 thumb ov208
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,8 +28,8 @@ void func_021C3B14(void *unused, u8 *p)
     }
     for (i = 0; i < 6; i++)
         func_0204B688(*(struct Actor **)(p + i * 4 + 0x9c), 1);
-    func_021BC518(*(int **)(p + 0xc0));
-    func_021BC518(*(int **)(p + 0xc4));
+    func_021BC518(*(int * *)&((struct Obj00146 *)p)->fC0);
+    func_021BC518(*(int * *)&((struct Obj00146 *)p)->fC4);
 }
 void func_021C3B68(u16 *p, u16 value)
 {

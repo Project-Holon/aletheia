@@ -12,6 +12,7 @@
  * symbols:
  *   func_02030734 0x02030734 arm
  */
+#include "../include/Obj03938.h"
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 
@@ -19,12 +20,12 @@ void func_021C9428(int p, int b, int c)
 {
     unsigned char *q = func_02030734(c, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
-    *(int *)q = p;
-    *(int *)(q + 4) = b;
-    *(unsigned short *)(q + 8) = 0;
-    *(int *)(q + 0xc) = 0;
-    *(unsigned short *)(q + 0x10) = 0;
-    *(int *)(q + 0x3c) = 0;
-    *(unsigned short *)(q + 0x40) = 0;
-    *(int *)(q + 0x44) = 0;
+    ((struct Obj03938 *)q)->f0 = p;
+    ((struct Obj03938 *)q)->f4 = b;
+    ((struct Obj03938 *)q)->f8 = 0;
+    ((struct Obj03938 *)q)->fC = 0;
+    ((struct Obj03938 *)q)->f10 = 0;
+    ((struct Obj03938 *)q)->f3C = 0;
+    ((struct Obj03938 *)q)->f40 = 0;
+    ((struct Obj03938 *)q)->f44 = 0;
 }

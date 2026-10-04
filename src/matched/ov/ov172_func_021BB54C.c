@@ -21,6 +21,7 @@
  *   d_021C6FB6     0x021C6FB6  data
  *   d_021C6FB8     0x021C6FB8  data
  */
+#include "../include/Obj00024.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -43,30 +44,30 @@ void func_021BB54C(void *ctx, u8 *p)
 {
     int r;
 
-    func_0204B878(*(void **)(p + 0x58), d_021C6FB2[*(int *)(p + 0x28) == 0]);
-    func_0204B878(*(void **)(p + 0x5c), d_021C6FB4[*(int *)(p + 0x28) == 1]);
-    func_0204B878(*(void **)(p + 0x60), d_021C6FB6[*(int *)(p + 0x28) == 2]);
-    func_0204B878(*(void **)(p + 0x64), d_021C6FB8[*(int *)(p + 0x28) == 3]);
+    func_0204B878(((struct Obj00024 *)p)->f58, d_021C6FB2[((struct Obj00024 *)p)->f28 == 0]);
+    func_0204B878(((struct Obj00024 *)p)->f5C, d_021C6FB4[((struct Obj00024 *)p)->f28 == 1]);
+    func_0204B878(((struct Obj00024 *)p)->f60, d_021C6FB6[((struct Obj00024 *)p)->f28 == 2]);
+    func_0204B878(((struct Obj00024 *)p)->f64, d_021C6FB8[((struct Obj00024 *)p)->f28 == 3]);
     r = func_021BE0B4(ctx);
     if (r == 1) {
-        func_0204B878(*(void **)(p + 0x68), 12);
+        func_0204B878(((struct Obj00024 *)p)->f68, 12);
     } else {
-        func_0204B878(*(void **)(p + 0x68), 10);
+        func_0204B878(((struct Obj00024 *)p)->f68, 10);
     }
-    if (*(int *)(p + 0x28) != 0 && *(int *)(p + 0x10) == 1) {
-        *(int *)(p + 0x10) = 0;
-        func_0204B3DC(*(void **)(p + 0x84), 0);
-        func_0204B9A0(*(void **)(p + 0x84));
-        func_0204B8C4(*(void **)(p + 0x84), 0);
-        func_0204B92C(*(void **)(p + 0x84), 0);
-        func_0204B3DC(*(void **)(p + 0x90), 0);
+    if (((struct Obj00024 *)p)->f28 != 0 && ((struct Obj00024 *)p)->f10 == 1) {
+        ((struct Obj00024 *)p)->f10 = 0;
+        func_0204B3DC(((struct Obj00024 *)p)->f84, 0);
+        func_0204B9A0(((struct Obj00024 *)p)->f84);
+        func_0204B8C4(((struct Obj00024 *)p)->f84, 0);
+        func_0204B92C(((struct Obj00024 *)p)->f84, 0);
+        func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
     }
-    if (*(int *)(p + 0x28) != 3 && *(int *)(p + 0x14) == 1) {
-        *(int *)(p + 0x14) = 0;
-        func_0204B3DC(*(void **)(p + 0x88), 0);
-        func_0204B9A0(*(void **)(p + 0x88));
-        func_0204B8C4(*(void **)(p + 0x88), 0);
-        func_0204B92C(*(void **)(p + 0x88), 0);
-        func_0204B3DC(*(void **)(p + 0x90), 0);
+    if (((struct Obj00024 *)p)->f28 != 3 && ((struct Obj00024 *)p)->f14 == 1) {
+        ((struct Obj00024 *)p)->f14 = 0;
+        func_0204B3DC(((struct Obj00024 *)p)->f88, 0);
+        func_0204B9A0(((struct Obj00024 *)p)->f88);
+        func_0204B8C4(((struct Obj00024 *)p)->f88, 0);
+        func_0204B92C(((struct Obj00024 *)p)->f88, 0);
+        func_0204B3DC(((struct Obj00024 *)p)->f90, 0);
     }
 }

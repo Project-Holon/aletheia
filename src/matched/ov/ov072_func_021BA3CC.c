@@ -11,9 +11,10 @@
  * symbols:
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj09905.h"
 extern void func_0204B404(void *, void *, int);
 void func_021BA3CC(char *p, int *q) {
-    *(short *)(p + 8) = q[0];
-    *(short *)(p + 10) = q[1];
-    func_0204B404(*(void **)p, p + 8, 0);
+    ((struct Obj09905 *)p)->f8 = q[0];
+    ((struct Obj09905 *)p)->fA = q[1];
+    func_0204B404(((struct Obj09905 *)p)->f0, p + 8, 0);
 }

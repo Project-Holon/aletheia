@@ -14,13 +14,14 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D6264 0x021D6264 thumb ov093
  */
+#include "../include/Obj21200.h"
 typedef unsigned char u8;
 struct UtilSlots;
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6264(struct UtilSlots *, u8);
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char **)(p + 4), (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct Obj21200 *)p)->f4, (u8)a[0]);
     func_021D6264((struct UtilSlots *)obj, a[1]);
     return 1;
 }

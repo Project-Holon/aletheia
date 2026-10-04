@@ -12,6 +12,7 @@
  *   python tools/match.py one --src src/pending/func_0201FEBC.c \
  *       --func func_0201FEBC --addr 0x0201FEBC --cc 1.1p1 --thumb
  */
+#include "../include/Obj02590.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,11 +30,11 @@ extern void func_0201FEF4(u8 *o);
 u32 func_0201FEBC(u8 *p)
 {
     u32 r = func_0201FA04(p);
-    u32 t = func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 0x18)));
+    u32 t = func_0201C4E4((struct PrintSys *)(((struct Obj02590 *)p)->f18));
 
-    if (*(u32 *)(p + 0x20) == 0 && t != 0) {
-        func_02045334((struct Descriptor *)*(u32 *)(p + 4));
-        *(u32 *)(p + 0x20) = 1;
+    if (((struct Obj02590 *)p)->f20 == 0 && t != 0) {
+        func_02045334((struct Descriptor *)((struct Obj02590 *)p)->f4);
+        ((struct Obj02590 *)p)->f20 = 1;
     }
     if (r != 0xffffffff) {
         func_0201FEF4(p);

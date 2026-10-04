@@ -22,6 +22,9 @@
  *   func_021B78D4  0x021B78D4  thumb  ov071
  *   func_020315D4  0x020315D4  arm
  */
+#include "../include/Obj06184.h"
+#include "../include/Obj20691.h"
+#include "../include/Obj20692.h"
 
 typedef unsigned int u32;
 
@@ -43,14 +46,14 @@ extern void func_020315D4(struct S020315D4 *p);
 
 int func_021B7824(void *a, void *b, char *c, char *d)
 {
-    if (func_0201C6B4(*(void **)(*(char **)(c + 4) + 8)) == 0)
+    if (func_0201C6B4(((struct Obj20692 *)(*(char * *)&((struct Obj20691 *)c)->f4))->f8) == 0)
         return 0;
     func_020435F4(8);
-    if (*(void **)(d + 8) != 0)
-        func_0201CE48(*(void **)(d + 8));
-    if (*(void **)(d + 4) != 0)
-        func_02045808(*(void **)(d + 4));
-    func_021B7068(*(void **)(d + 0x7c));
+    if (((struct Obj06184 *)d)->f8 != 0)
+        func_0201CE48(((struct Obj06184 *)d)->f8);
+    if (((struct Obj06184 *)d)->f4 != 0)
+        func_02045808(((struct Obj06184 *)d)->f4);
+    func_021B7068(((struct Obj06184 *)d)->f7C);
     func_021B7BE4(d);
     func_021B7B9C(d);
     func_021B7AAC(d);

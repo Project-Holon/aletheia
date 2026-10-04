@@ -14,6 +14,7 @@
  *   func_0202590C 0x0202590C thumb
  *   func_021EE224 0x021EE224 thumb
  */
+#include "../include/Obj14282.h"
 
 typedef signed short   s16;
 struct Grid;
@@ -29,8 +30,8 @@ void func_021EE26C(char *p, int d)
     short y;
     for (i = 7; i <= 8; i++) {
         char *e = p + i * 8;
-        func_020258E8(*(void **)(e + 4), &x, &y);
-        func_0202590C(*(void **)(e + 4), x + d, y);
+        func_020258E8(((struct Obj14282 *)e)->f4, &x, &y);
+        func_0202590C(((struct Obj14282 *)e)->f4, x + d, y);
         if (x + d == -0x94 || x + d == 0xDC)
             func_021EE224(p, i, 0);
     }

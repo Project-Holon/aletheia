@@ -28,6 +28,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_021DE208 0x021DE208 thumb ov119
  */
+#include "../include/Obj00251.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct S S;
@@ -46,17 +47,17 @@ static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); ret
 void func_021DEA24(char *p)
 {
     int idx,sentinel;
-    func_021B63D0(*(S **)(p+0x9c0));
-    if(func_021B6448(*(u8 **)(p+0x9c0))==1) {
-        func_02045CAC(*(struct MsgBank **)(p+0x720),148,*(void **)(p+0x738));
+    func_021B63D0(*(S * *)&((struct Obj00251 *)p)->f9C0);
+    if(func_021B6448(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==1) {
+        func_02045CAC(*(struct MsgBank * *)&((struct Obj00251 *)p)->f720,148,((struct Obj00251 *)p)->f738);
         func_021E1024(p);
-        func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+        func_021B6548((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
         func_021DD09C(p);
         func_021D8E84(p,(int)func_021DE9E8);
         return;
     }
     sentinel=-1;
-    if(func_021B6470(*(u8 **)(p+0x9c0))==sentinel) {
+    if(func_021B6470(*(u8 * *)&((struct Obj00251 *)p)->f9C0)==sentinel) {
         idx=func_02035C08(d_021E80C4);
         if(idx!=sentinel) {
             func_020355D8(1);
@@ -65,17 +66,17 @@ void func_021DEA24(char *p)
             if(func_021DE754(p,idx)) return;
         }
         if(func_020355C4() && poll()) {
-            *(int *)(p+0x10a0)%=6;
-            if(*(int *)(p+0x10a0)<0) *(int *)(p+0x10a0)=0;
-            func_021E68F4((int)p,*(int *)(p+0x10a0));
+            ((struct Obj00251 *)p)->f10A0%=6;
+            if(((struct Obj00251 *)p)->f10A0<0) ((struct Obj00251 *)p)->f10A0=0;
+            func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
             func_020061E4(0x548);
             return;
         }
         if(poll()==1) {
-            if(func_021DE754(p,*(int *)(p+0x10a0))) return;
+            if(func_021DE754(p,((struct Obj00251 *)p)->f10A0)) return;
         }
         if(func_021DE208(p)) {
-            func_021E68F4((int)p,*(int *)(p+0x10a0));
+            func_021E68F4((int)p,((struct Obj00251 *)p)->f10A0);
             func_020061E4(0x548);
         }
     }

@@ -20,6 +20,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj00498.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -37,61 +38,61 @@ extern void func_020061E4(u32 a);
 void func_021D8D1C(u8 *p)
 {
     s16 y;
-    switch(*(u32 *)(p+32)) {
+    switch(((struct Obj00498 *)p)->f20) {
     case 0:
         func_02040588(2,0);
-        func_021D694C(*(void **)(p+36),2);
-        *(u32 *)(p+32)=1;
+        func_021D694C(((struct Obj00498 *)p)->f24,2);
+        ((struct Obj00498 *)p)->f20=1;
         return;
     case 1:
         func_0207D63C((void *)0x04000050,4,8,0,16);
         func_02040588(2,1);
-        *(u32 *)(p+24)=0;
-        *(u32 *)(p+32)=2;
+        ((struct Obj00498 *)p)->f18=0;
+        ((struct Obj00498 *)p)->f20=2;
         return;
     case 2: {
-        u32 n=(*(u32 *)(p+24)*16u)/120u;
+        u32 n=(((struct Obj00498 *)p)->f18*16u)/120u;
         *(volatile u16 *)0x04000052=(s16)n|((s16)(16-n)<<8);
-        *(u16 *)(p+48)=(*(u32 *)(p+24)*32767u)/120u;
-        func_021DAB50(15,p+50,*(u16 *)(p+48),0,p+114,p+146);
-        func_021DAB50(31,p+82,*(u16 *)(p+48),0,p+114,p+146);
-        if((*(u32 *)(p+24))++>120) {
+        ((struct Obj00498 *)p)->f30=(((struct Obj00498 *)p)->f18*32767u)/120u;
+        func_021DAB50(15,p+50,((struct Obj00498 *)p)->f30,0,p+114,p+146);
+        func_021DAB50(31,p+82,((struct Obj00498 *)p)->f30,0,p+114,p+146);
+        if((((struct Obj00498 *)p)->f18)++>120) {
             *(volatile u16 *)0x04000050=0;
-            func_021D9254(*(void **)(p+40),1);
-            *(u32 *)(p+24)=0;
-            *(u32 *)(p+32)=3;
+            func_021D9254(((struct Obj00498 *)p)->f28,1);
+            ((struct Obj00498 *)p)->f18=0;
+            ((struct Obj00498 *)p)->f20=3;
             return;
         }
         break;
     }
     case 3:
-        if((*(u32 *)(p+24))++>180) {
-            *(u32 *)(p+24)=0;
-            *(u32 *)(p+32)=4;
+        if((((struct Obj00498 *)p)->f18)++>180) {
+            ((struct Obj00498 *)p)->f18=0;
+            ((struct Obj00498 *)p)->f20=4;
             return;
         }
         break;
     case 4:
-        y=((214-*(s16 *)(p+296))**(u32 *)(p+24))/60u-96;
-        func_0204B49C(*(void **)(p+4),y,0,1);
-        if(y>=-48 && y<=192) func_0204B3DC(*(void **)(p+4),1);
-        if((*(u32 *)(p+24))++>=60) {
+        y=((214-((struct Obj00498 *)p)->f128)*((struct Obj00498 *)p)->f18)/60u-96;
+        func_0204B49C(((struct Obj00498 *)p)->f4,y,0,1);
+        if(y>=-48 && y<=192) func_0204B3DC(((struct Obj00498 *)p)->f4,1);
+        if((((struct Obj00498 *)p)->f18)++>=60) {
             func_020061E4(1649);
-            func_021D9254(*(void **)(p+40),0);
-            *(u32 *)(p+24)=0;
-            *(u32 *)(p+32)=5;
+            func_021D9254(((struct Obj00498 *)p)->f28,0);
+            ((struct Obj00498 *)p)->f18=0;
+            ((struct Obj00498 *)p)->f20=5;
             return;
         }
         break;
     case 5:
-        if((*(u32 *)(p+24))++>60) {
-            *(u32 *)(p+24)=0;
-            *(u32 *)(p+32)=6;
+        if((((struct Obj00498 *)p)->f18)++>60) {
+            ((struct Obj00498 *)p)->f18=0;
+            ((struct Obj00498 *)p)->f20=6;
             return;
         }
         break;
     case 6:
-        *(u32 *)(p+8)=1;
+        ((struct Obj00498 *)p)->f8=1;
         break;
     }
 }

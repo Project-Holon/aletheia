@@ -27,6 +27,7 @@
  * `cnt = *p; p++;` swaps the cursor and the scan counter between r2 and r3
  * for the whole tail, which is the 17-byte residue the note records.
  */
+#include "../include/Obj11722.h"
 typedef unsigned char  u8;
 typedef signed   char  s8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ struct Hdr0201DC88 {
 
 u8 sub_0201DC88(u8 *obj, u32 id)
 {
-    struct Hdr0201DC88 *h = *(struct Hdr0201DC88 **)(obj + 0x84);
+    struct Hdr0201DC88 *h = *(struct Hdr0201DC88 * *)&((struct Obj11722 *)obj)->f84;
     u32 i = id * 2;
     u8  b = ((u8 *)h + h->bits)[i >> 3];
     u8  k = (u8)((b >> (6 - (i & 7))) & 3);

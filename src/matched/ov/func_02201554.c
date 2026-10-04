@@ -14,6 +14,7 @@
 
  * State 0xc, slot cleared, then publish the 0xd/0xf pair.
  */
+#include "../include/Obj12232.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_0220251C(u8 *p, u16 a, u16 b);
 int func_02201554(u8 *p)
 {
     func_021C87FC(p + 0xe4);
-    *(u32 *)(p + 0x28) = 0xc;
-    *(u32 *)(p + 0xf8c) = 0;
+    ((struct Obj12232 *)p)->f28 = 0xc;
+    ((struct Obj12232 *)p)->fF8C = 0;
     func_0220251C(p, 0xd, 0xf);
     return 2;
 }

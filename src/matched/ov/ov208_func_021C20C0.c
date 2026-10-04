@@ -22,6 +22,7 @@
  *   func_021C0CC0  0x021C0CC0  thumb  ov208
  *   func_021C0C8C  0x021C0C8C  thumb  ov208
  */
+#include "../include/Obj00081.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,9 +51,9 @@ extern void func_021C0C8C(void *a0, u8 *st, void *a2, int on);
 
 void func_021C20C0(void *a0, u8 *st, void *a2)
 {
-    int res = func_0204B3F4((struct Obj *)(*(int *)(st + 0xc8)));
+    int res = func_0204B3F4((struct Obj *)(*(int *)&((struct Obj00081 *)st)->fC8));
 
-    if (*(u32 *)(st + 0x90) == 0) {
+    if (((struct Obj00081 *)st)->f90 == 0) {
         if (res == 0) {
             void *msg;
             u32 w;
@@ -60,25 +61,25 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
             int h;
             u32 t;
 
-            msg = func_02045EC0(*(void **)(st + 0xc), 0x80);
-            w = (u16)sub_0201D304(msg, *(u32 *)(st + 4), 0);
-            h = func_020437DC((const struct Bmp *)((u32)func_02045770(*(void **)(st + 0x20))));
-            t = (u32)func_02045770(*(void **)(st + 0x20));
+            msg = func_02045EC0(((struct Obj00081 *)st)->fC, 0x80);
+            w = (u16)sub_0201D304(msg, ((struct Obj00081 *)st)->f4, 0);
+            h = func_020437DC((const struct Bmp *)((u32)func_02045770(((struct Obj00081 *)st)->f20)));
+            t = (u32)func_02045770(((struct Obj00081 *)st)->f20);
             d = h - w;
-            sub_0201C724(*(void **)(st + 0x40), t, (s16)(u16)(d / 2), 1, (u32)msg, *(u32 *)(st + 4), 0x3c40);
+            sub_0201C724(((struct Obj00081 *)st)->f40, t, (s16)(u16)(d / 2), 1, (u32)msg, ((struct Obj00081 *)st)->f4, 0x3c40);
             func_02045808(msg);
-            *(u32 *)(st + 0x30) = 1;
+            ((struct Obj00081 *)st)->f30 = 1;
             func_021C0740(a0, st, a2, 3);
-            func_0204B3DC((struct Obj *)*(int *)(st + 0xc8), 1);
+            func_0204B3DC((struct Obj *)*(int *)&((struct Obj00081 *)st)->fC8, 1);
         }
     } else {
         u8 i;
         u8 v;
         u8 *tbl;
 
-        v = *(u32 *)(st + 0x8c) == 0 ? 0 : st[0x78];
+        v = ((struct Obj00081 *)st)->f8C == 0 ? 0 : st[0x78];
         for (i = 0; i < 0x3d; i++) {
-            tbl = *(u8 **)(st + 0x94);
+            tbl = *(u8 * *)&((struct Obj00081 *)st)->f94;
             if (tbl[v * 0x3e + st[0x3cc + i] + 2] != 0 && *(u32 *)(st + 0x1e0 + i * 8) != 1) {
                 func_0204B3DC((struct Obj *)*(int *)(st + 0xdc + i * 4), 1);
             }

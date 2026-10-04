@@ -14,6 +14,7 @@
  *   func_02033B68 0x02033B68  arm
  *   func_020335E8 0x020335E8  arm
  */
+#include "../include/Obj15882.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,7 +27,7 @@ extern int func_020335E8(u32 a, u32 b, u32 c, void (*d)(void));
 int func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
     u32 n = func_02031EAC(p, c + 1);
-    u32 m = func_02033B68(*(u8 **)(p + 0x2c), b);
+    u32 m = func_02033B68(*(u8 * *)&((struct Obj15882 *)p)->f2C, b);
 
     return func_020335E8(n + m, d, e, (void (*)(void))*(u32 *)(g_02146994 + 0x204));
 }

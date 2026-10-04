@@ -14,6 +14,7 @@
  *
  * Offset by four when the low nibble of 0x1c is set.
  */
+#include "../include/Obj00000.h"
 
 
 
@@ -23,5 +24,5 @@ void func_021ED544(char *p, int b)
 {
     if (((struct Slot *)p)->f)
         b += 4;
-    func_021EBFA8(*(char **)(p + 0x2c), 4, b);
+    func_021EBFA8(*(char * *)&((struct Obj00000 *)p)->f2C, 4, b);
 }

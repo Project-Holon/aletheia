@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04234.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ int func_021A5A68(u8 *p, u32 a, u32 b, u32 c, u32 d)
 {
     int r;
 
-    switch (func_021A3974(*(u32 *)(p + 0x14))) {
+    switch (func_021A3974(*(u32 *)&((struct Obj04234 *)p)->f14)) {
     case 0:
         r = func_021A5C3C(p, b, c, (u16)a, d);
         break;

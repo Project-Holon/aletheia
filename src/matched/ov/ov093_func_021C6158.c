@@ -13,6 +13,7 @@
  *   func_021B9D10 0x021B9D10 thumb ov093
  *   func_021CD4B0 0x021CD4B0 thumb ov093
  */
+#include "../include/Obj09972.h"
 typedef unsigned char u8;
 struct Arr;
 extern char *func_021B9AEC(char *, int);
@@ -24,8 +25,8 @@ void func_021C6158(u8 *p, u8 *a)
     unsigned int i;
     struct Arr *arr;
     for (i = 0; i < a[0]; i++) {
-        arr = (struct Arr *)func_021B9AEC(*(char **)(p + 8), a[i + 1]);
-        func_021CD4B0(*(void **)(p + 12), 0x2a, a[i + 1]);
-        func_021B9D10(*(char **)(p + 4), arr, a[i + 1]);
+        arr = (struct Arr *)func_021B9AEC(*(char * *)&((struct Obj09972 *)p)->f8, a[i + 1]);
+        func_021CD4B0(((struct Obj09972 *)p)->fC, 0x2a, a[i + 1]);
+        func_021B9D10(*(char * *)&((struct Obj09972 *)p)->f4, arr, a[i + 1]);
     }
 }

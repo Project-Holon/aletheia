@@ -15,6 +15,7 @@
  *   func_021B63B8 0x021B63B8 thumb ov172
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj04550.h"
 extern int func_0207C778(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern void func_020307B0(void *);
@@ -29,14 +30,14 @@ void func_021B70A8(int unused, char *q)
     matrix[1] = 0;
     matrix[2] = 0;
     func_0207D59C((void *)0x04000030, matrix, 0, 0, 0, 0);
-    func_020307B0(*(void **)(q + 4));
-    func_020307B0(*(void **)(q + 12));
-    func_020307B0(*(void **)(q + 8));
+    func_020307B0(((struct Obj04550 *)q)->f4);
+    func_020307B0(((struct Obj04550 *)q)->fC);
+    func_020307B0(((struct Obj04550 *)q)->f8);
     if (func_021BE100() == 1) {
-        func_020307B0(*(void **)(q + 0xb0));
-        func_020307B0(*(void **)(q + 0xa8));
-        func_020307B0(*(void **)(q + 0xac));
-        func_021B63B8(*(void **)(q + 0xa4));
+        func_020307B0(((struct Obj04550 *)q)->fB0);
+        func_020307B0(((struct Obj04550 *)q)->fA8);
+        func_020307B0(((struct Obj04550 *)q)->fAC);
+        func_021B63B8(((struct Obj04550 *)q)->fA4);
         func_020306F0(110);
     }
     func_020307B0(q);

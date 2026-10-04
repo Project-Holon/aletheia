@@ -52,6 +52,7 @@
  *   python tools/match.py one --src src/matched/func_0203A388.c \
  *       --func func_0203A388 --addr 0x0203A388 --cc 1.1p1 --arm
  */
+#include "../include/Obj15954.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -87,7 +88,7 @@ void func_0203A388(int id, u32 len, const void *src, u32 a3, void *obj)
     s = (struct Slot *)func_0203996C(id);
     if (s->buf != 0)
         func_020307B0(s->buf);
-    s->buf = func_02030734(*(u16 *)(g + 0x56), len, 1, file_020A7A68, 0x3D8);
+    s->buf = func_02030734(((struct Obj15954 *)g)->f56, len, 1, file_020A7A68, 0x3D8);
     s->len = len;
     MI_CpuCopy8(src, s->buf, len);
 }

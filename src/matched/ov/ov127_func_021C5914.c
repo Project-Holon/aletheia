@@ -11,8 +11,9 @@
  * symbols:
  *   func_021C4ADC 0x021C4ADC thumb ov127
  */
+#include "../include/Obj23055.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { short x,y; } Pos;
 extern Pos func_021C4ADC(char *);
-void func_021C5914(char *p,short *x,short *y) { Pos a=func_021C4ADC(*(char **)p); *x=a.x; *y=a.y; }
+void func_021C5914(char *p,short *x,short *y) { Pos a=func_021C4ADC(*(char * *)&((struct Obj23055 *)p)->f0); *x=a.x; *y=a.y; }

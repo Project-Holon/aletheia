@@ -13,6 +13,7 @@
  *   func_021B9F40 0x021B9F40 thumb ov181
  *   d_021BAB70 0x021BAB70 data a4
  */
+#include "../include/Obj14406.h"
 extern void func_021BA318(unsigned char *),func_021B9C80(char *),func_021B9F40(char *);
 extern int (*const d_021BAB70[])(char *);
-int func_021B95F8(char *p){func_021BA318((unsigned char *)p);*(unsigned *)(p+0x2e8)=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(*(unsigned *)(p+0x2e8)==5)return 0;func_021B9C80(p);func_021B9F40(p);return 1;}
+int func_021B95F8(char *p){func_021BA318((unsigned char *)p);((struct Obj14406 *)p)->f2E8=d_021BAB70[*(unsigned *)(p+0x2e8)](p);if(((struct Obj14406 *)p)->f2E8==5)return 0;func_021B9C80(p);func_021B9F40(p);return 1;}

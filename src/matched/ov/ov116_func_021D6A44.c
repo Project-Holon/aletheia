@@ -10,6 +10,7 @@
  * status: EXACT
  * leaf: blocks func_021D7550.
  */
+#include "../include/Obj22617.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021D6A44(u8 *p) { return *(u16 *)(p+10); }
+u16 func_021D6A44(u8 *p) { return ((struct Obj22617 *)p)->fA; }

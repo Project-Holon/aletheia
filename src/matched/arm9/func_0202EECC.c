@@ -32,6 +32,7 @@
  *   python tools/match.py one --src src/matched/func_0202EECC.c \
  *       --func func_0202EECC --addr 0x0202EECC --cc 1.1p1 --thumb
  */
+#include "../include/Obj03003.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,12 +59,12 @@ void func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4)
     u32 v6, v7;
     u32 v4;
 
-    *(u16 *)(p + 0x10) = a4;
-    *(u8 *)(p + 0x13) = 0;
-    *(u8 *)(p + 0x12) = a2;
-    *(u8 *)(p + 0x14) = a3;
-    *(u8 *)(p + 0x15) = func_020056EC(8);
-    *(u32 *)(p + 0xC) = (u32)func_0204384C(0xC6, 0, 1, *(u16 *)(p + 0x10));
+    ((struct Obj03003 *)p)->f10 = a4;
+    ((struct Obj03003 *)p)->f13 = 0;
+    ((struct Obj03003 *)p)->f12 = a2;
+    ((struct Obj03003 *)p)->f14 = a3;
+    ((struct Obj03003 *)p)->f15 = func_020056EC(8);
+    ((struct Obj03003 *)p)->fC = (u32)func_0204384C(0xC6, 0, 1, ((struct Obj03003 *)p)->f10);
 
     v0 = func_02045730((struct Descriptor *)((u32)a1));
     v6 = func_02045758(a1);
@@ -72,7 +73,7 @@ void func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4)
     v2 = func_02045740(a1);
     v4 = func_02045778(a1);
 
-    func_02045374((struct Cfg *)(*(u32 *)(p + 8) = func_020450F0(v0, (u8)((v6 + v7) - 2),
+    func_02045374((struct Cfg *)(((struct Obj03003 *)p)->f8 = func_020450F0(v0, (u8)((v6 + v7) - 2),
                                    (u8)((v3 + v2) - 2), 2, 2, v4, 1)));
-    func_02041B6C(func_02045730((struct Descriptor *)(*(u32 *)(p + 8))));
+    func_02041B6C(func_02045730((struct Descriptor *)(((struct Obj03003 *)p)->f8)));
 }

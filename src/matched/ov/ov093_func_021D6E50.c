@@ -9,13 +9,14 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj10052.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 int func_021D6E50(u8 *p, u8 *id, u16 *value)
 {
     if (p[0x1f6] != 0x1f) {
         *id = p[0x1f6];
-        *value = *(u16 *)(p + 0x1f4);
+        *value = ((struct Obj10052 *)p)->f1F4;
         return 1;
     }
     return 0;

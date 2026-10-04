@@ -33,6 +33,7 @@
  *   d_021BFD20     0x021BFD20  data  ov204  a4
  *   d_021BFD30     0x021BFD30  data  ov204  a4
  */
+#include "../include/Obj00964.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -70,15 +71,15 @@ int func_021BC12C(int a0)
 
     sys = func_020070A4();
     w = func_0203159C(a0, 0x5c, 1);
-    *(u32 *)(w + 0x2c) = (u32)func_021BD25C(1, (int)sys);
+    ((struct Obj00964 *)w)->f2C = (u32)func_021BD25C(1, (int)sys);
     func_02007220(sys);
-    *(u32 *)(w + 0x54) = (u32)func_0200846C(1);
-    *(u32 *)(w + 0x58) = (u32)func_020082EC(1);
-    *(u32 *)(w + 0x0) = 0;
-    *(u32 *)(w + 0x4) = *(u32 *)(w + 0x58);
-    *(u32 *)(w + 0x8) = *(u32 *)(w + 0x54);
-    *(u32 *)(w + 0x28) = (u32)func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
-    *(u32 *)(w + 0x30) = func_02031324(1);
+    ((struct Obj00964 *)w)->f54 = (u32)func_0200846C(1);
+    ((struct Obj00964 *)w)->f58 = (u32)func_020082EC(1);
+    ((struct Obj00964 *)w)->f0 = 0;
+    ((struct Obj00964 *)w)->f4 = ((struct Obj00964 *)w)->f58;
+    ((struct Obj00964 *)w)->f8 = ((struct Obj00964 *)w)->f54;
+    ((struct Obj00964 *)w)->f28 = (u32)func_0216BFD4(1, 0, 0, 0, 7, 0, 0);
+    ((struct Obj00964 *)w)->f30 = func_02031324(1);
 
     id = ov194_id;
     func_02034AC4((int)id);
@@ -93,13 +94,13 @@ int func_021BC12C(int a0)
         buf[n1 + i] = d_021BFD30[i];
     func_02034A5C((int)ov204_id);
 
-    *(u32 *)(w + 0x34) = (u32)func_02005A98(buf, n1 + n2);
+    ((struct Obj00964 *)w)->f34 = (u32)func_02005A98(buf, n1 + n2);
     r = func_020069D4(0x23c, 0, 0x40, 0, 0, 0, 0, 0);
-    *(u32 *)(w + 0x50) = r;
-    *(u32 *)(w + 0x10) = *(u32 *)(w + 0x54);
-    *(u32 *)(w + 0x14) = *(u32 *)(w + 0x58);
-    *(u32 *)(w + 0x18) = 1;
-    *(u32 *)(w + 0x1c) = *(u32 *)(w + 0x2c);
-    *(u32 *)(w + 0x20) = r;
+    ((struct Obj00964 *)w)->f50 = r;
+    ((struct Obj00964 *)w)->f10 = ((struct Obj00964 *)w)->f54;
+    ((struct Obj00964 *)w)->f14 = ((struct Obj00964 *)w)->f58;
+    ((struct Obj00964 *)w)->f18 = 1;
+    ((struct Obj00964 *)w)->f1C = ((struct Obj00964 *)w)->f2C;
+    ((struct Obj00964 *)w)->f20 = r;
     return 1;
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   func_0218A378  0x0218A378  thumb  ov096
  */
+#include "../include/Obj07924.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,11 +24,11 @@ extern int func_0218A378(int, u16, int);
 
 int func_02189524(int a, int b) {
     int t;
-    if (*(int *)(b + 0x38) != 0) {
-        t = func_0218A378(b, (u16)*(int *)(b + 0x38), 0x1c);
+    if (((struct Obj07924 *)b)->f38 != 0) {
+        t = func_0218A378(b, (u16)((struct Obj07924 *)b)->f38, 0x1c);
     } else {
         t = -1;
     }
-    *(int *)(b + 0x38) = t;
-    return *(int *)(b + 0xc4);
+    ((struct Obj07924 *)b)->f38 = t;
+    return ((struct Obj07924 *)b)->fC4;
 }

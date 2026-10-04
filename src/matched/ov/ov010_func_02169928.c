@@ -17,6 +17,7 @@
  *   func_0206A4AC  0x0206A4AC  arm
  *   func_02069D14  0x02069D14  arm
  */
+#include "../include/Obj12388.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ static inline u32 *Get(u8 *r, u32 idx)
 
     h = r + 8;
     if (h != 0 && idx < r[9])
-        return (u32 *)(h + *(u16 *)(r + 0xe) + 4 + idx * 4);
+        return (u32 *)(h + ((struct Obj12388 *)r)->fE + 4 + idx * 4);
     return 0;
 }
 

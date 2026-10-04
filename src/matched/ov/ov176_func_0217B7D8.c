@@ -18,6 +18,8 @@
  *   func_0200B1D4 0x0200B1D4 thumb
  *   func_021E88B0 0x021E88B0 thumb ov177
  */
+#include "../include/Obj01762.h"
+#include "../include/Obj24405.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -40,7 +42,7 @@ static inline void selected(Menu *rec,void *base,int index)
     mon=func_0200B1D4(base,index);
     rec->option0=7;
     rec->option1=5;
-    if((u8)(s8)(*(s8 *)(mon+0x15b)-1)<=1) rec->f14=13;
+    if((u8)(s8)(((struct Obj24405 *)mon)->f15B-1)<=1) rec->f14=13;
     else rec->f14=4;
     rec->f18=6;
     rec->count=4;
@@ -54,11 +56,11 @@ void func_0217B7D8(char *p,int index)
     int layout;
     u8 x,y,width;
     u32 height;
-    base=func_0200B358((void *)func_02012EBC(*(void **)(p+0x30)));
+    base=func_0200B358((void *)func_02012EBC(((struct Obj01762 *)p)->f30));
     func_02082BCC(&rec,0,48);
-    rec.f00=*(u32 *)(p+0x20);
-    rec.f04=*(u32 *)(p+0x1c);
-    rec.f08=*(u32 *)(p+0x24);
+    rec.f00=((struct Obj01762 *)p)->f20;
+    rec.f04=((struct Obj01762 *)p)->f1C;
+    rec.f08=((struct Obj01762 *)p)->f24;
     switch(index) {
     case 0:
         rec.option0=2;rec.option1=3;rec.f14=5;rec.f18=6;rec.count=4;rec.f28=1;rec.f2c=3;layout=0;break;
@@ -72,6 +74,6 @@ void func_0217B7D8(char *p,int index)
     case 0: width=28;height=(rec.count&127)*2;x=2;y=9-(height>>1);break;
     case 1: width=12;height=(rec.count&127)*2;x=19;y=17-height;break;
     }
-    *(void **)(p+4)=func_021E88B0(&rec,x,y,width,height,*(u16 *)(p+0x34));
-    *(int *)(p+8)=index;
+    ((struct Obj01762 *)p)->f4=func_021E88B0(&rec,x,y,width,height,((struct Obj01762 *)p)->f34);
+    ((struct Obj01762 *)p)->f8=index;
 }

@@ -23,6 +23,7 @@
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  * The original loads p[12] before the otherwise parameterless DA36C.
  */
+#include "../include/Obj08273.h"
 typedef unsigned char u8;
 extern void func_021E8738(int *, int, int, int);
 extern void func_021E8AB4(unsigned, unsigned);
@@ -46,11 +47,11 @@ void func_021D56D4(unsigned sys, int *state, int *p)
         *state = 7;
         break;
     case 1:
-        func_02012DAC(**(int **)(q + 8));
+        func_02012DAC(**(int * *)&((struct Obj08273 *)q)->f8);
         *state = 2;
         break;
     case 2:
-        if (func_02012DD0((u8 *)**(int **)(q + 8)) == 2) *state = 3;
+        if (func_02012DD0((u8 *)**(int * *)&((struct Obj08273 *)q)->f8) == 2) *state = 3;
         break;
     case 3:
         func_021E8738((int *)p[9], p[4], 37, 2);
@@ -58,7 +59,7 @@ void func_021D56D4(unsigned sys, int *state, int *p)
         func_021E8AB4(sys, 4);
         break;
     case 4:
-        if (**(int **)(q + 0x20) == 0) {
+        if (**(int * *)&((struct Obj08273 *)q)->f20 == 0) {
             func_021DBC04((char *)p[12], 2, 0);
             *state = 5;
         }
@@ -72,7 +73,7 @@ void func_021D56D4(unsigned sys, int *state, int *p)
         break;
     case 6:
         func_021DA36C(p[12]);
-        *(int *)(q + 4) = 0;
+        ((struct Obj08273 *)q)->f4 = 0;
         func_021E8AA0((int *)sys, (int)func_021D61CC);
         break;
     case 7:

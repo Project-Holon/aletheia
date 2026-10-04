@@ -21,6 +21,8 @@
  *   func_0204B95C 0x0204B95C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj06719.h"
+#include "../include/Obj06720.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,19 +40,19 @@ extern void func_0204B3DC(struct Obj *,u32);
 void func_021C21C4(u8 *p,int index)
 {
     u8 *record=p+0x28+index*24;
-    struct Obj *obj=*(struct Obj **)(record+0x14);
+    struct Obj *obj=*(struct Obj * *)&((struct Obj06720 *)record)->f14;
     struct Vec2 point;
     u16 palette;
     point.x=record[0xe];
     point.y=record[0xf];
-    *(u32 *)record=1;
-    switch (*(u32 *)(record+0x10)) {
-    case 0: palette=*(u16 *)(p+0x16); break;
-    case 1: palette=*(u16 *)(p+0x18); break;
-    case 2: palette=*(u16 *)(p+0x1a); break;
-    case 3: palette=*(u16 *)(p+0x1c); break;
+    ((struct Obj06720 *)record)->f0=1;
+    switch (((struct Obj06720 *)record)->f10) {
+    case 0: palette=((struct Obj06719 *)p)->f16; break;
+    case 1: palette=((struct Obj06719 *)p)->f18; break;
+    case 2: palette=((struct Obj06719 *)p)->f1A; break;
+    case 3: palette=((struct Obj06719 *)p)->f1C; break;
     }
-    func_0204B404(obj,&point,*(u16 *)(p+0x14));
+    func_0204B404(obj,&point,((struct Obj06719 *)p)->f14);
     func_0204B878(obj,palette);
     func_0204B8C4(obj,0);
     func_0204B9C4((struct Actor *)obj,1);

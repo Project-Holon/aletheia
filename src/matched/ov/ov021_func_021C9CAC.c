@@ -17,6 +17,7 @@
  *   func_0200D868  0x0200D868  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02733.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,14 +39,14 @@ void func_021C9CAC(u8 *p)
 {
     u8 v = p[9];
 
-    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &v);
-    func_0200DA14((struct Blk3C *)(*(u32 *)(p + 0x70)));
-    func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 5, p + 0x1e);
-    func_0200D868((struct Blk3C *)(*(u32 *)(p + 0x70)), 1);
+    func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 0, &v);
+    func_0200DA14((struct Blk3C *)(((struct Obj02733 *)p)->f70));
+    func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 5, p + 0x1e);
+    func_0200D868((struct Blk3C *)(((struct Obj02733 *)p)->f70), 1);
     if (p[9] == 2 || p[9] == 7) {
         v = ((Sel *)p)->sel;
-        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 9, &v);
-        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
-        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 7, p + 0x664 + ((Sel *)p)->sel);
+        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 9, &v);
+        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 6, p + 0x628 + ((Sel *)p)->sel * 0x14);
+        func_0200D914((struct Blk3C *)(((struct Obj02733 *)p)->f70), 7, p + 0x664 + ((Sel *)p)->sel);
     }
 }

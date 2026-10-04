@@ -19,6 +19,7 @@
  *   func_0203C064  0x0203C064  arm
  *   func_0203C05C  0x0203C05C  arm
  */
+#include "../include/Obj11369.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -36,7 +37,7 @@ extern void func_0203C05C(void);
 void func_0203C0F4(void *p)
 {
     u8 *net = func_0203D788();
-    u32 *obj = *(u32 **)(net + 0x340);
+    u32 *obj = *(u32 * *)&((struct Obj11369 *)net)->f340;
     s32 res = ((s32 (*)(int))obj[3])(0);
 
     if (res == 1000) {
@@ -44,7 +45,7 @@ void func_0203C0F4(void *p)
         return;
     }
 
-    obj = *(u32 **)(net + 0x340);
+    obj = *(u32 * *)&((struct Obj11369 *)net)->f340;
     if (((s32 (*)(void))obj[0xac / 4])() != 0) {
         func_0203AD80(g_021469DC, (int)func_0203C0B4, 0, 1407);
         return;

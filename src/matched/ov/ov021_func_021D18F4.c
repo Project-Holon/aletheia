@@ -21,6 +21,7 @@
  *   d_021DD5E0     0x021DD5E0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01673.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,18 +51,18 @@ void func_021D18F4(u32 a, u32 b, u8 *p)
         return;
     }
     if (p[0x19A] == 1) {
-        if (func_02011590((struct IcaAnime *)(*(u32 *)(p + 0x184)), 0x1000) == 0) {
-            func_021D1988(*(u32 *)(p + 0x184), *(u32 *)p, p + 0x18C);
+        if (func_02011590((struct IcaAnime *)(((struct Obj01673 *)p)->f184), 0x1000) == 0) {
+            func_021D1988(((struct Obj01673 *)p)->f184, ((struct Obj01673 *)p)->f0, p + 0x18C);
         } else {
-            func_02011558((struct IcaAnime *)(*(u32 *)(p + 0x184)));
-            *(u32 *)(p + 0x184) = 0;
+            func_02011558((struct IcaAnime *)(((struct Obj01673 *)p)->f184));
+            ((struct Obj01673 *)p)->f184 = 0;
             p[0x19A] = 0;
-            func_0216D88C((const struct Actor *)*(u32 *)p, (struct VecFx32 *)&v);
-            func_0216E014((void *)(*(u32 *)p), (int *)(&v), func_0216D5F8((void *)(*(u32 *)p)));
+            func_0216D88C((const struct Actor *)((struct Obj01673 *)p)->f0, (struct VecFx32 *)&v);
+            func_0216E014((void *)(((struct Obj01673 *)p)->f0), (int *)(&v), func_0216D5F8((void *)(((struct Obj01673 *)p)->f0)));
             if (d_021DD5E0[p[0x199]] != 0) {
-                func_0216D570((char *)(*(u32 *)p), 0x8000);
+                func_0216D570((char *)(((struct Obj01673 *)p)->f0), 0x8000);
             }
         }
-        func_0216D758((void *)(*(u32 *)p));
+        func_0216D758((void *)(((struct Obj01673 *)p)->f0));
     }
 }

@@ -12,6 +12,7 @@
  *   func_021BA858 0x021BA858 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj10205.h"
 extern void func_0201DD68(void);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
@@ -25,6 +26,6 @@ int func_021BD5FC(char *p, int ret)
     if (v == 0) p[0x1353] = 0x44;
     else p[0x1353] = 0x4a;
     func_021BA8EC(p);
-    *(int *)(p + 0x1cc) = 0x8a;
+    ((struct Obj10205 *)p)->f1CC = 0x8a;
     return ret;
 }

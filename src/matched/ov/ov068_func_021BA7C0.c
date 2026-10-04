@@ -32,6 +32,7 @@
  *   func_021BAD58  0x021BAD58  thumb  ov068
  *   d_021BB570     0x021BB570  data  a4
  */
+#include "../include/Obj00103.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -64,34 +65,34 @@ void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3)
     u32 t;
 
     r = func_021BA190(a1);
-    func_02040804(*(u16 *)(p + 2));
+    func_02040804(((struct Obj00103 *)p)->f2);
     switch (r) {
     case 14:
-        *(int *)(p + 4) = *(int *)(p + 4) > 6 ? 6 : (*(int *)(p + 4) < 0 ? 0 : *(int *)(p + 4));
+        ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
         func_021BAA0C(p, 1);
-        *(int *)(p + 0x50) = 1;
+        ((struct Obj00103 *)p)->f50 = 1;
         break;
     case 10:
-        if ((*(u32 *)(p + 0x38))++ < 10)
+        if ((((struct Obj00103 *)p)->f38)++ < 10)
             break;
     case 4:
-        *(u32 *)(p + 0x38) = 0;
-        *(int *)(p + 4) = *(int *)(p + 4) == 0 ? 6 : *(int *)(p + 4) - 1;
-        *(int *)(p + 0x50) = 1;
+        ((struct Obj00103 *)p)->f38 = 0;
+        ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 == 0 ? 6 : ((struct Obj00103 *)p)->f4 - 1;
+        ((struct Obj00103 *)p)->f50 = 1;
         func_020061E4(0x548);
         func_021BAA0C(p, 1);
         func_021B9964(a3);
         break;
     case 11:
-        if ((*(u32 *)(p + 0x38))++ < 10)
+        if ((((struct Obj00103 *)p)->f38)++ < 10)
             break;
     case 5:
-        *(u32 *)(p + 0x38) = 0;
-        if (*(int *)(p + 4) == 6)
-            *(int *)(p + 4) = 0;
+        ((struct Obj00103 *)p)->f38 = 0;
+        if (((struct Obj00103 *)p)->f4 == 6)
+            ((struct Obj00103 *)p)->f4 = 0;
         else
-            (*(int *)(p + 4))++;
-        *(int *)(p + 0x50) = 1;
+            (((struct Obj00103 *)p)->f4)++;
+        ((struct Obj00103 *)p)->f50 = 1;
         func_020061E4(0x548);
         func_021BAA0C(p, 1);
         func_021B9964(a3);
@@ -100,36 +101,36 @@ void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3)
         func_021BA194(a1, 0, pos);
         if (pos[1] < 0x18 || pos[1] > 0xA8)
             break;
-        *(int *)(p + 4) = func_021BAD38(p, pos);
+        ((struct Obj00103 *)p)->f4 = func_021BAD38(p, pos);
         func_021BAC70(p, pos);
         func_021BAA0C(p, 0);
         func_021B9964(a3);
-        *(int *)(p + 0x50) = 1;
+        ((struct Obj00103 *)p)->f50 = 1;
         if (func_020355C4() == 0)
             func_020355D8(1);
         break;
     case 6:
-        if (*(int *)(p + 4) < 5) {
+        if (((struct Obj00103 *)p)->f4 < 5) {
             func_020061E4(0x548);
             func_021BAD14(p, 1);
             func_021BAA0C(p, 1);
             func_021B9964(a3);
-        } else if (*(int *)(p + 4) == 5) {
-            (*(int *)(p + 4))++;
+        } else if (((struct Obj00103 *)p)->f4 == 5) {
+            (((struct Obj00103 *)p)->f4)++;
             func_020061E4(0x548);
-            *(int *)(p + 4) = *(int *)(p + 4) > 6 ? 6 : (*(int *)(p + 4) < 0 ? 0 : *(int *)(p + 4));
+            ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
         }
         break;
     case 7:
-        if (*(int *)(p + 4) < 5) {
+        if (((struct Obj00103 *)p)->f4 < 5) {
             func_020061E4(0x548);
             func_021BAD14(p, -1);
             func_021BAA0C(p, 1);
             func_021B9964(a3);
-        } else if (*(int *)(p + 4) == 6) {
-            (*(int *)(p + 4))--;
+        } else if (((struct Obj00103 *)p)->f4 == 6) {
+            (((struct Obj00103 *)p)->f4)--;
             func_020061E4(0x548);
-            *(int *)(p + 4) = *(int *)(p + 4) > 6 ? 6 : (*(int *)(p + 4) < 0 ? 0 : *(int *)(p + 4));
+            ((struct Obj00103 *)p)->f4 = ((struct Obj00103 *)p)->f4 > 6 ? 6 : (((struct Obj00103 *)p)->f4 < 0 ? 0 : ((struct Obj00103 *)p)->f4);
         }
         break;
     case 12:
@@ -144,12 +145,12 @@ void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3)
     case 0:
     case 1:
     case 2:
-        *(int *)(p + 0x50) = 1;
+        ((struct Obj00103 *)p)->f50 = 1;
         break;
     }
-    if (*(int *)(p + 0x50)) {
-        if (*(int *)(p + 4) >= 0 && *(int *)(p + 4) < 5) {
-            if (*(int *)(p + 4) == 0) {
+    if (((struct Obj00103 *)p)->f50) {
+        if (((struct Obj00103 *)p)->f4 >= 0 && ((struct Obj00103 *)p)->f4 < 5) {
+            if (((struct Obj00103 *)p)->f4 == 0) {
                 s = 1;
                 t = func_021BB0D0(p + 0x44);
             } else {
@@ -157,11 +158,11 @@ void func_021BA7C0(u8 *p, void *a1, void *a2, void *a3)
                 t = 0;
             }
             func_02040588(4, 1);
-            func_021BA278(a2, d_021BB570[*(int *)(p + 4)][0], t, s);
+            func_021BA278(a2, d_021BB570[((struct Obj00103 *)p)->f4][0], t, s);
         } else {
             func_02040588(4, 0);
         }
-        *(int *)(p + 0x50) = 0;
+        ((struct Obj00103 *)p)->f50 = 0;
     }
     func_021BA31C(a2);
     func_021BAD58(p);

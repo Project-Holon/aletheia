@@ -19,6 +19,7 @@
  *   func_021CE150  0x021CE150  thumb  ov093
  *   func_021CE4D0  0x021CE4D0  thumb  ov093
  */
+#include "../include/Obj03688.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -48,7 +49,7 @@ u32 func_021CE308(u8 *p)
         func_021D8434(p + 0x124 + i * 4);
     }
     for (i = 0; i < p[0x11c]; i++) {
-        w = func_021B990C(*(u32 *)(p + 4), p[0x1a6], i);
+        w = func_021B990C(((struct Obj03688 *)p)->f4, p[0x1a6], i);
         if (func_021CF470(p, (void *)w, 0) == 0) {
             p[0x11f] = i;
             break;

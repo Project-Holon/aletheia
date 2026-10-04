@@ -11,6 +11,11 @@
  *   func_02009050 0x02009050 thumb
  *   func_02008EF8 0x02008EF8 thumb
  */
+#include "../include/Obj04534.h"
+#include "../include/Obj08202.h"
+#include "../include/Obj23526.h"
+#include "../include/Obj23527.h"
+#include "../include/Obj23528.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -21,16 +26,16 @@ void func_021C5B40(u8 *p)
 {
     unsigned i;
     u8 *q;
-    *(u16 *)(*(u8 **)(p+8)+0x2fc)=0;
+    ((struct Obj23526 *)(*(u8 * *)&((struct Obj04534 *)p)->f8))->f2FC=0;
     for(i=0;i<20;i++) {
         (*(u8 **)(p+8))[0x2e8+i]=255;
-        *(void **)(*(u8 **)(p+8)+0x298+i*4)=func_02009050(*(void **)p,0,i,102);
-        if(func_02008EF8(*(void **)(*(u8 **)(p+8)+0x298+i*4))==1) {
-            (*(u8 **)(p+8))[0x2e8+*(u16 *)(*(u8 **)(p+8)+0x2fc)]=i;
-            ++*(u16 *)(*(u8 **)(p+8)+0x2fc);
+        *(void **)(*(u8 * *)&((struct Obj04534 *)p)->f8+0x298+i*4)=func_02009050(((struct Obj04534 *)p)->f0,0,i,102);
+        if(func_02008EF8(*(void **)(*(u8 * *)&((struct Obj04534 *)p)->f8+0x298+i*4))==1) {
+            (*(u8 **)(p+8))[0x2e8+((struct Obj23527 *)(*(u8 * *)&((struct Obj04534 *)p)->f8))->f2FC]=i;
+            ++((struct Obj23528 *)(*(u8 * *)&((struct Obj04534 *)p)->f8))->f2FC;
         }
     }
-    q=*(u8 **)(p+8);
-    if(*(u16 *)(q+0x2fc)==0) *(u16 *)(q+0x2fe)=0;
-    else *(u16 *)(q+0x2fe)=(*(u16 *)(q+0x2fc)-1)/10;
+    q=*(u8 * *)&((struct Obj04534 *)p)->f8;
+    if(((struct Obj08202 *)q)->f2FC==0) ((struct Obj08202 *)q)->f2FE=0;
+    else ((struct Obj08202 *)q)->f2FE=(((struct Obj08202 *)q)->f2FC-1)/10;
 }

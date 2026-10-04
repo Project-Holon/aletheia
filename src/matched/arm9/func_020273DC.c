@@ -15,9 +15,10 @@
  * symbols:
  *   func_020273DC  0x020273DC  thumb
  */
+#include "../include/Obj05717.h"
 
 void func_020273DC(char *p, unsigned short v)
 {
-    *(unsigned short *)(p + 0x48) = (*(unsigned short *)(p + 0x48) & ~0xff) | 1;
-    *(unsigned short *)(p + 0x4e) = v;
+    ((struct Obj05717 *)p)->f48 = (((struct Obj05717 *)p)->f48 & ~0xff) | 1;
+    ((struct Obj05717 *)p)->f4E = v;
 }

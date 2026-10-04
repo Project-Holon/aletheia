@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj00913.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,20 +37,20 @@ extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D9D44(char *p)
 {
     L s;
-    int h = *(int *)(p + 0x25C);
+    int h = ((struct Obj00913 *)p)->f25C;
     s.a = 0;
     s.b = 0;
     s.c = 0;
     s.d = 10;
     s.e = 0;
-    *(int *)(p + 0x1E8) = (int)func_0204B294((void *)h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
-    *(int *)(p + 0x204) = (int)func_0204B294((void *)h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
-    s.x = (*(u8 *)(p + 0x2F2) + *(u8 *)(p + 0x2F3)) / 2;
-    s.y = (*(u8 *)(p + 0x2F0) + *(u8 *)(p + 0x2F1)) / 2;
-    func_0204B404((struct Obj *)(*(int *)(p + 0x1E8)), (const struct Vec2 *)(&s), 0);
-    func_0204B878((struct Obj *)(*(int *)(p + 0x1E8)), 0);
-    s.x = (*(u8 *)(p + 0x2F6) + *(u8 *)(p + 0x2F7)) / 2;
-    s.y = (*(u8 *)(p + 0x2F4) + *(u8 *)(p + 0x2F5)) / 2;
-    func_0204B404((struct Obj *)(*(int *)(p + 0x204)), (const struct Vec2 *)(&s), 0);
-    func_0204B878((struct Obj *)(*(int *)(p + 0x204)), 0);
+    ((struct Obj00913 *)p)->f1E8 = (int)func_0204B294((void *)h, ((struct Obj00913 *)p)->f270, ((struct Obj00913 *)p)->f264, ((struct Obj00913 *)p)->f288, &s.a, 0, 0x32);
+    ((struct Obj00913 *)p)->f204 = (int)func_0204B294((void *)h, ((struct Obj00913 *)p)->f270, ((struct Obj00913 *)p)->f264, ((struct Obj00913 *)p)->f288, &s.a, 0, 0x32);
+    s.x = (((struct Obj00913 *)p)->f2F2 + ((struct Obj00913 *)p)->f2F3) / 2;
+    s.y = (((struct Obj00913 *)p)->f2F0 + ((struct Obj00913 *)p)->f2F1) / 2;
+    func_0204B404((struct Obj *)(((struct Obj00913 *)p)->f1E8), (const struct Vec2 *)(&s), 0);
+    func_0204B878((struct Obj *)(((struct Obj00913 *)p)->f1E8), 0);
+    s.x = (((struct Obj00913 *)p)->f2F6 + ((struct Obj00913 *)p)->f2F7) / 2;
+    s.y = (((struct Obj00913 *)p)->f2F4 + ((struct Obj00913 *)p)->f2F5) / 2;
+    func_0204B404((struct Obj *)(((struct Obj00913 *)p)->f204), (const struct Vec2 *)(&s), 0);
+    func_0204B878((struct Obj *)(((struct Obj00913 *)p)->f204), 0);
 }

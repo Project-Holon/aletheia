@@ -12,8 +12,9 @@
  *   func_021BF71C 0x021BF71C thumb ov110
  *   func_021BCFF0 0x021BCFF0 thumb ov110
  */
+#include "../include/Obj13776.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021BF71C(u8 *);
 extern int func_021BCFF0(u8 *,u8);
-int func_021BAC0C(u8 *p) { if(func_021BCFF0(*(u8 **)(p+0x64),func_021BF71C(*(u8 **)(p+0x18)))) return 1; return -1; }
+int func_021BAC0C(u8 *p) { if(func_021BCFF0(*(u8 * *)&((struct Obj13776 *)p)->f64,func_021BF71C(*(u8 * *)&((struct Obj13776 *)p)->f18))) return 1; return -1; }

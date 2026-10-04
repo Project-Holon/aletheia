@@ -15,6 +15,7 @@
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  */
+#include "../include/Obj06356.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,16 +36,16 @@ int func_021BCFB4(char *p, int v)
         return v;
     }
     if (r == 0) {
-        *(u32 *)(p + 0x1CC) = 0x62;
+        ((struct Obj06356 *)p)->f1CC = 0x62;
         func_021BA8EC(p);
     } else {
-        if ((unsigned)(*(int *)(p + 0x135C) - 1) <= 1) {
-            *(u8 *)(p + 0x1353) = 0x4A;
+        if ((unsigned)(((struct Obj06356 *)p)->f135C - 1) <= 1) {
+            ((struct Obj06356 *)p)->f1353 = 0x4A;
             func_021BAAB8(p, 0x4A, 0);
         } else {
-            *(u8 *)(p + 0x1353) = 0x90;
+            ((struct Obj06356 *)p)->f1353 = 0x90;
         }
-        *(u32 *)(p + 0x1CC) = 0x8A;
+        ((struct Obj06356 *)p)->f1CC = 0x8A;
     }
     return v;
 }

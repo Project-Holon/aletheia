@@ -15,6 +15,7 @@
  *   func_020362DC  0x020362DC  arm
  *   func_02035C60  0x02035C60  arm
  */
+#include "../include/Obj00084.h"
 
 typedef unsigned int u32;
 
@@ -32,23 +33,23 @@ int func_021BB0B0(char *a)
 {
     int r = 0;
 
-    switch (func_0201CE30((void *)(*(u32 *)(a + 0x250)))) {
+    switch (func_0201CE30((void *)(*(u32 *)&((struct Obj00084 *)a)->f250))) {
     case 0:
         if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-            func_0201CE5C((struct Rec *)(*(u32 *)(a + 0x250)), 0);
+            func_0201CE5C((struct Rec *)(*(u32 *)&((struct Obj00084 *)a)->f250), 0);
             if ((func_0203630C() & 3) != 0)
-                *(int *)(a + 8) = 0;
+                ((struct Obj00084 *)a)->f8 = 0;
             else
-                *(int *)(a + 8) = 1;
+                ((struct Obj00084 *)a)->f8 = 1;
         }
         break;
     case 1:
         if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
-            func_0201CE38((void *)(*(u32 *)(a + 0x250)));
+            func_0201CE38((void *)(*(u32 *)&((struct Obj00084 *)a)->f250));
             if ((func_020362DC() & 3) != 0)
-                *(int *)(a + 8) = 0;
+                ((struct Obj00084 *)a)->f8 = 0;
             else
-                *(int *)(a + 8) = 1;
+                ((struct Obj00084 *)a)->f8 = 1;
         }
         break;
     case 2:

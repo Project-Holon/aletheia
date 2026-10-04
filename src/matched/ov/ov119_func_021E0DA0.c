@@ -11,14 +11,15 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021B6284 0x021B6284 thumb ov067
  */
+#include "../include/Obj10373.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 extern void func_021B6284(void *);
 void func_021E0DA0(char *p)
 {
-    if (*(void **)(p + 0x10)) {
-        func_0204B3B4(*(void **)(p + 0x10));
-        *(int *)(p + 0x10) = 0;
+    if (((struct Obj10373 *)p)->f10) {
+        func_0204B3B4(((struct Obj10373 *)p)->f10);
+        *(int *)&((struct Obj10373 *)p)->f10 = 0;
         func_021B6284(p);
     }
 }

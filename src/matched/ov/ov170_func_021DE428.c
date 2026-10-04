@@ -17,6 +17,8 @@
  *   func_021DDFD4 0x021DDFD4 thumb
  *   func_0201AA18 0x0201AA18 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23843.h"
 
 typedef struct {
     unsigned short id;
@@ -45,7 +47,7 @@ extern unsigned func_0201AA18(void *party);
 
 void func_021DE428(unsigned char *p, unsigned a, unsigned b)
 {
-    Move *m = *(Move **)(*(char **)(p + 0x2C) + 0x60);
+    Move *m = *(Move * *)&((struct Obj23843 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
     unsigned i;
     unsigned n;
     unsigned short t;
@@ -73,7 +75,7 @@ void func_021DE428(unsigned char *p, unsigned a, unsigned b)
     }
     m->a = a;
     m->b = b;
-    n = func_0201AA18(((void **)*(void **)p)[2]);
+    n = func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]);
     if (b < 0x1E) {
         unsigned k = a - 0x1E;
         for (i = k + 1; i < n; i++) {

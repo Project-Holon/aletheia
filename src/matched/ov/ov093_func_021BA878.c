@@ -24,6 +24,8 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021B8B9C 0x021B8B9C thumb ov093
  */
+#include "../include/Obj01687.h"
+#include "../include/Obj09945.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,10 +57,10 @@ void func_021BA878(u8 *p)
     u32 count;
     u32 i;
     void *item;
-    if (*(void **)(p + 8) == 0)
+    if (((struct Obj09945 *)p)->f8 == 0)
         return;
-    a = (u8 *)func_021BB964(*(void **)(p + 8));
-    q = *(u8 **)p;
+    a = (u8 *)func_021BB964(((struct Obj09945 *)p)->f8);
+    q = *(u8 * *)&((struct Obj09945 *)p)->f0;
     q[0xb6] = func_021C8138((struct Q7 *)a);
     q[0xb7] = func_021C8140(a, 0);
     q[0xb8] = func_021C7CBC(a);
@@ -66,7 +68,7 @@ void func_021BA878(u8 *p)
     q[0xba] = func_021C7CD4(a);
     q[0xbb] = func_021C7CDC(a);
     q[0xbc] = func_021C7CE8(a);
-    if (*(int *)(q + 0x8c) == 1)
+    if (((struct Obj01687 *)q)->f8C == 1)
         q[0xbd] = 1;
     list = func_021B9AEC((char *)p + 0x1b0, 0);
     n = func_021B9B94((struct Q1 *)list);
@@ -74,7 +76,7 @@ void func_021BA878(u8 *p)
     for (i = 0; i < n; i++) {
         item = func_021B9BF0(list, i);
         q[0xc0] += func_021D54B4(item);
-        *(u16 *)(q + 0xb4) += (u16)func_021D59B4(item, 13);
+        ((struct Obj01687 *)q)->fB4 += (u16)func_021D59B4(item, 13);
     }
     q[0xbf] = n - count;
     list = func_021B9AEC((char *)p + 0x1b0, 1);

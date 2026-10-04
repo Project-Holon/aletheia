@@ -20,6 +20,7 @@
  *   func_02166B0C  0x02166B0C  thumb  ov010
  *   d_021D9F50     0x021D9F50  data  ov021  a4
  */
+#include "../include/Obj20152.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ int func_021BEF08(u32 p0, int *st, u8 *q)
     S16 loc;
 
     if (*st == 0) {
-        func_0204E720(*(u32 *)(q + 0xC), 0, 0x10, 0x10 - 0x11);
+        func_0204E720(((struct Obj20152 *)q)->fC, 0, 0x10, 0x10 - 0x11);
         func_0208068C(8);
         *(volatile u32 *)0x04000064 = 0x80330010;
         func_02087AE4();

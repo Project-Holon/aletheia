@@ -14,6 +14,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07818.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -25,7 +26,7 @@ void func_021DD9E8(void *a, int b, int c, int d)
     u8 *p;
     if (b == func_021D775C(2)) {
         p = func_021C88A4(a, 0xe, b);
-        *(int *)(p + 4) = c;
+        ((struct Obj07818 *)p)->f4 = c;
         p[0xc] = d;
         p[0xf] = 1;
         p[0x10] = b;

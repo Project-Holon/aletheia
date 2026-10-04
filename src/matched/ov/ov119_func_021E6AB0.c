@@ -16,6 +16,7 @@
  *   func_0204B84C 0x0204B84C arm
  *   func_0204047C 0x0204047C arm
  */
+#include "../include/Obj22816.h"
 typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
@@ -32,7 +33,7 @@ void func_021E6AB0(const char *p)
     for(i=0;i<8;i++) {
         tmp1=p+i*4;
         tmp1=tmp1+0x10cc;
-        func_0204B454(*(void **)tmp1,(struct PtS *)&a,1);
+        func_0204B454(((struct Obj22816 *)tmp1)->f0,(struct PtS *)&a,1);
         if(i/4) {
             a.x-=128;
             func_0204B84C(*(void **)(p+i*4+0x10cc),3);

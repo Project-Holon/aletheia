@@ -21,6 +21,7 @@
  *   func_021B9E08  0x021B9E08  thumb  ov099
  *   func_02082BCC  0x02082BCC  arm
  */
+#include "../include/Obj07938.h"
 
 typedef unsigned char  u8;
 extern void func_021C5F30(u8 *p);
@@ -36,14 +37,14 @@ extern void func_02082BCC(void *p, int v, int n);
 
 void func_021B9670(char *p)
 {
-    func_021C5F30((u8 *)(*(int *)(p + 0x59c)));
+    func_021C5F30((u8 *)(((struct Obj07938 *)p)->f59C));
     func_021B9DB0(p);
     func_021BA648((int)p, p + 0x574);
     func_021B9B80(p);
     func_021B9D5C(p);
-    func_021C48C0((u8 *)(*(int *)(p + 0x58c)));
-    func_021C47E4((u8 *)(*(int *)(p + 0x588)));
+    func_021C48C0((u8 *)(((struct Obj07938 *)p)->f58C));
+    func_021C47E4((u8 *)(((struct Obj07938 *)p)->f588));
     func_021B9DD4(p + 0x14);
-    func_021B9E08(*(int *)(p + 0x10));
+    func_021B9E08(((struct Obj07938 *)p)->f10);
     func_02082BCC(p, 0, 0x5a0);
 }

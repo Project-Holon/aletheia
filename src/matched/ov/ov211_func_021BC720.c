@@ -15,6 +15,7 @@
  *   func_020362DC   0x020362DC  arm
  *   func_021C93C4   0x021C93C4  thumb ov212
  */
+#include "../include/Obj06700.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ int func_021BC720(char *p)
 {
     u32 v = 1;
 
-    if (*(u16 *)(p + 8) == 0x12C)
+    if (((struct Obj06700 *)p)->f8 == 0x12C)
         return 5;
-    *(u16 *)(p + 8) = *(u16 *)(p + 8) + 1;
+    ((struct Obj06700 *)p)->f8 = ((struct Obj06700 *)p)->f8 + 1;
     if (func_02035C38() == 1) {
         func_020355D8(1);
         return 5;
@@ -43,13 +44,13 @@ int func_021BC720(char *p)
     if (func_020362DC() & 2) {
         func_020355D8(0);
         v = 0;
-        *(u32 *)(*(u32 *)p + 8) = v;
+        *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);
         return 3;
     }
     if (func_020362DC() & 0x400) {
         func_020355D8(0);
-        *(u32 *)(*(u32 *)p + 8) = v;
+        *(u32 *)(((struct Obj06700 *)p)->f0 + 8) = v;
         func_021C93C4(0x7E);
         return 3;
     }

@@ -20,6 +20,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   d_021B8F78 0x021B8F78 data a4
  */
+#include "../include/Obj22215.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -35,4 +36,4 @@ extern void func_021B7994(void *,int);
 extern void func_021B7980(u32 unused, u8 *p);
 extern void *func_020056A0(void (*)(void *),void *,int);
 extern const u8 d_021B8F78[];
-void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0(d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); *(void **)(p+0xb8)=func_020056A0((void (*)(void *))func_021B7980,p,0); }
+void func_021B78EC(u8 *p,int a) { func_02082BCC(p,0,0xbc); func_0204335C(0); func_020433E0(d_021B8F78); func_0204363C(0); func_0204361C(); func_020434CC(); func_021B7B2C(p+4,d_021B8F78,a); func_021B7994(p,a); ((struct Obj22215 *)p)->fB8=func_020056A0((void (*)(void *))func_021B7980,p,0); }

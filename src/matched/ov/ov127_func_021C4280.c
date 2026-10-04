@@ -11,10 +11,11 @@
  * symbols:
  *   func_0204B918 0x0204B918 arm
  */
+#include "../include/Obj23021.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B918(struct Obj *p);
-void func_021C4280(char *p) { func_0204B918(*(void **)(p+4)); }
+void func_021C4280(char *p) { func_0204B918(((struct Obj23021 *)p)->f4); }

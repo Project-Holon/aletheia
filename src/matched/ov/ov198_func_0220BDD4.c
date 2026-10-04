@@ -12,6 +12,7 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj25132.h"
 
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
@@ -19,7 +20,7 @@ extern void func_020452E8(struct Descriptor *d);
 void func_0220BDD4(char *p)
 {
     unsigned int i;
-    for (i = 0; i < *(unsigned char *)(p + 0x2174); i++)
+    for (i = 0; i < ((struct Obj25132 *)p)->f2174; i++)
     {
         func_020452E8(*(void **)(p + 0x1f70 + i * 8));
     }

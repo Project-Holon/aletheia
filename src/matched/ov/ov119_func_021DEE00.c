@@ -16,6 +16,7 @@
  *   func_021DEDBC 0x021DEDBC thumb ov119
  *   func_021DE8C0 0x021DE8C0 thumb ov119
  */
+#include "../include/Obj02171.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -38,8 +39,8 @@ void func_021DEE00(unsigned char *p) {
   else if((p[0x11e7]&0xf0)==0xf0) v=0xa1;
   else if(p[0x11e7]) v=0x8f;
   else v=0x90;
-  func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),v,(void *)(*(int *)(p+0x738)));
-  func_021E1024(p);p[0x11f1]=120;*(int *)(p+0xf2c)=0;
+  func_02045CAC((struct MsgBank *)(((struct Obj02171 *)p)->f720),v,(void *)(((struct Obj02171 *)p)->f738));
+  func_021E1024(p);p[0x11f1]=120;((struct Obj02171 *)p)->fF2C=0;
   func_021D8E84(p,(int)func_021DE8C0);
  }
 }

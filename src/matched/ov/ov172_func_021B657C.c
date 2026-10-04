@@ -15,6 +15,7 @@
  *   func_020862F0 0x020862F0 arm
  *   d_021C71C0 0x021C71C0 data a4
  */
+#include "../include/Obj01559.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B65C4(void *);
@@ -32,8 +33,8 @@ void func_021B657C(char *obj, int mode)
     func_021B65C4(p);
     which = (u16)which;
     size = func_020490A8(0xD4, which);
-    *(u32 *)(p + 0x4C) = size;
-    *(void **)(p + 0x48) = func_0203D7C8(*(u16 *)p, size, d_021C71C0, 0x13B);
-    func_02048F4C(*(void **)(p + 0x48), 0xD4, which);
-    func_020862F0(*(void **)(p + 0x48), *(u32 *)(p + 0x4C));
+    ((struct Obj01559 *)p)->f4C = size;
+    ((struct Obj01559 *)p)->f48 = func_0203D7C8(((struct Obj01559 *)p)->f0, size, d_021C71C0, 0x13B);
+    func_02048F4C(((struct Obj01559 *)p)->f48, 0xD4, which);
+    func_020862F0(((struct Obj01559 *)p)->f48, ((struct Obj01559 *)p)->f4C);
 }

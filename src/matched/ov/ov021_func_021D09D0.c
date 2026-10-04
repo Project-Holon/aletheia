@@ -23,6 +23,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021DE674     0x021DE674  data  a4
  */
+#include "../include/Obj20289.h"
 
 extern int d_021DE674;
 
@@ -63,5 +64,5 @@ void func_021D09D0(int a, char *out)
     }
     func_0200734C((struct Sub02007324Ctrl *)h, 5);
     func_020307B0(buf);
-    *(int *)(out + 0x150) = v;
+    ((struct Obj20289 *)out)->f150 = v;
 }

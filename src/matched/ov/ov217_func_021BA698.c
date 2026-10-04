@@ -20,6 +20,7 @@
  *   d_021C2F38 0x021C2F38 data a4
  *   d_021C2F58 0x021C2F58 data a4
  */
+#include "../include/Obj25834.h"
 typedef unsigned short u16;
 struct DispConfig;struct BgTemplate;
 extern struct DispConfig d_021C2EEC;
@@ -38,5 +39,5 @@ void func_021BA698(char *p)
     func_02040588(1,1);func_02040588(2,1);func_02040588(3,1);
     func_0207D63C((volatile unsigned *)0x04001050,2,1,7,15);
     func_0207D63C((volatile unsigned *)0x04000050,4,2,16,5);
-    func_02045088(*(u16 *)(p+4));
+    func_02045088(((struct Obj25834 *)p)->f4);
 }

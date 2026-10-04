@@ -14,6 +14,7 @@
 
  * State 9 with the slot cleared and the u16 at +0x32 set.
  */
+#include "../include/Obj09244.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern void func_021C8770(u8 *p);
 int func_022014B8(u8 *p)
 {
     func_021C8770(p);
-    *(u32 *)(p + 0x28) = 9;
-    *(u32 *)(p + 0xf8c) = 0;
-    *(u16 *)(p + 0x32) = 1;
+    ((struct Obj09244 *)p)->f28 = 9;
+    ((struct Obj09244 *)p)->fF8C = 0;
+    ((struct Obj09244 *)p)->f32 = 1;
     return 2;
 }

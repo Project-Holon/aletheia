@@ -12,6 +12,7 @@
  * symbols:
  *   func_021FC684  0x021FC684  thumb
  */
+#include "../include/Obj12042.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,12 +25,12 @@ void func_0215DE44(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 4);
+a0 = ((struct Obj12042 *)t4)->f4;
     if (a0 == 0) goto loc_0215DE56;
 loc_0215DE4E:
     a0 = func_021FC684(a0);
 loc_0215DE52:
 a0 = 0;
-*(int *)((char *)t4 + 4) = a0;
+((struct Obj12042 *)t4)->f4 = a0;
 loc_0215DE56:
     return;}

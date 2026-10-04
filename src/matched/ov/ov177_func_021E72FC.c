@@ -19,6 +19,7 @@
  *   func_0204B6F4 0x0204B6F4 arm
  *   d_021E8CBE 0x021E8CBE data a1
  */
+#include "../include/Obj02224.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void *func_0204B294(unsigned, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
@@ -43,14 +44,14 @@ void func_021E72FC(unsigned char *p, unsigned idx, unsigned owner, unsigned heap
     void *handle;
     Request req;
     handle = func_020490F4(0x20, heap);
-    *(unsigned *)(p + 0x1e8) = func_0204AC18(handle, 0, *(unsigned *)(p + 0x234), p[0x233] * 32, d_021E8CBE[idx], 1, heap);
-    *(unsigned *)(p + 0x1ec) = func_0204A6C8(handle, idx + 0x31, 0, *(unsigned *)(p + 0x234), heap);
-    *(unsigned *)(p + 0x1f0) = func_0204AF28(handle, 0x41, 0x42, heap);
+    ((struct Obj02224 *)p)->f1E8 = func_0204AC18(handle, 0, ((struct Obj02224 *)p)->f234, p[0x233] * 32, d_021E8CBE[idx], 1, heap);
+    ((struct Obj02224 *)p)->f1EC = func_0204A6C8(handle, idx + 0x31, 0, ((struct Obj02224 *)p)->f234, heap);
+    ((struct Obj02224 *)p)->f1F0 = func_0204AF28(handle, 0x41, 0x42, heap);
     func_02049238(handle);
     func_02082BCC(&req, 0, 8);
     req.y = 0;
     req.x = 0;
     req.flag = 1;
-    *(void **)(p + 0x188) = func_0204B294(owner, *(unsigned *)(p + 0x1ec), *(unsigned *)(p + 0x1e8), *(unsigned *)(p + 0x1f0), &req, *(unsigned *)(p + 0x234), heap);
-    func_0204B6F4(*(void **)(p + 0x188), 0, 1);
+    ((struct Obj02224 *)p)->f188 = func_0204B294(owner, ((struct Obj02224 *)p)->f1EC, ((struct Obj02224 *)p)->f1E8, ((struct Obj02224 *)p)->f1F0, &req, ((struct Obj02224 *)p)->f234, heap);
+    func_0204B6F4(((struct Obj02224 *)p)->f188, 0, 1);
 }

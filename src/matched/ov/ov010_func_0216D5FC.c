@@ -12,7 +12,8 @@
  * Unlabelled leaf (halfword getter at +0x1c), filed as the only blocker of
  * func_021BBDD4 (ov021).
  */
+#include "../include/Obj19126.h"
 
 typedef unsigned short u16;
 
-u16 func_0216D5FC(void *p) { return *(u16 *)((char *)p + 0x1c); }
+u16 func_0216D5FC(void *p) { return ((struct Obj19126 *)p)->f1C; }

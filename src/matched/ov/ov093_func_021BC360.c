@@ -15,6 +15,7 @@
  *   func_021B990C 0x021B990C thumb ov093
  *   func_021BD584 0x021BD584 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021B8FF4(u8 *);
@@ -26,10 +27,10 @@ int func_021BC360(u8 *p)
     u32 side;
     int result;
     u32 *out;
-    side = func_021B8FF4(*(u8 **)(p + 4));
+    side = func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4);
     result = 0;
-    a = func_021B990C(*(char **)(p + 8), side, 0);
-    out = *(u32 **)(p + 12);
+    a = func_021B990C(*(char * *)&((struct Obj00003 *)p)->f8, side, 0);
+    out = *(u32 * *)&((struct Obj00003 *)p)->fC;
     out[0] = 0;
     out[1] = 0;
     if (func_021BD584(p, a)) result = 1;

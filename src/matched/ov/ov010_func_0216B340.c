@@ -18,6 +18,7 @@
  *   func_021767A0  0x021767A0  thumb  ov011
  *   func_0216B3EC  0x0216B3EC  thumb  ov010
  */
+#include "../include/Obj05904.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,11 +47,11 @@ struct Desc *func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
     p = func_020124E8(r);
     func_02082BCC(p, 0, 0x24);
     *(V12 *)(p + 8) = *a2;
-    *(u16 *)(p + 0x14) = a3;
-    *(u32 *)p = 0;
+    ((struct Obj05904 *)p)->f14 = a3;
+    ((struct Obj05904 *)p)->f0 = 0;
     p[0x16] = a4;
-    *(int *)(p + 0x1c) = a1;
+    ((struct Obj05904 *)p)->f1C = a1;
     if (func_021767A0((void *)((int)func_02012138((const struct Ctx *)a0)), h) == 4)
-        *(u32 *)(p + 0x20) = 1;
+        ((struct Obj05904 *)p)->f20 = 1;
     return r;
 }

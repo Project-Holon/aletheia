@@ -10,9 +10,10 @@
  * symbols:
  *   func_021FD640 0x021FD640 thumb ov186
  */
+#include "../include/Obj00050.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void func_021FD640(int *);
-void func_021DCE28(char *p,char *unused) { if(*(int *)(p+220) && *(int **)(p+68)) { func_021FD640(*(int **)(p+68)); *(int *)(p+68)=0; *(int *)(p+220)=0; } }
+void func_021DCE28(char *p,char *unused) { if(((struct Obj00050 *)p)->fDC && *(int * *)&((struct Obj00050 *)p)->f44) { func_021FD640(*(int * *)&((struct Obj00050 *)p)->f44); *(int *)&((struct Obj00050 *)p)->f44=0; ((struct Obj00050 *)p)->fDC=0; } }

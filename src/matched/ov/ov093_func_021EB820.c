@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BA1A8  0x021BA1A8  thumb  ov093
  */
+#include "../include/Obj07851.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,16 +21,16 @@ extern int func_021BA1A8(char **p, int m);
 
 int func_021EB820(u8 *a)
 {
-    if (func_021BA1A8(*(void **)(a + 0x134), 4) != 0) {
+    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 4) != 0) {
         return 6;
     }
-    if (func_021BA1A8(*(void **)(a + 0x134), 8) != 0) {
+    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 8) != 0) {
         return 3;
     }
-    if (func_021BA1A8(*(void **)(a + 0x134), 0x80) != 0) {
+    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 0x80) != 0) {
         return 4;
     }
-    if (func_021BA1A8(*(void **)(a + 0x134), 0x10) != 0) {
+    if (func_021BA1A8(((struct Obj07851 *)a)->f134, 0x10) != 0) {
         return 5;
     }
     return 1;

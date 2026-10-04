@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/func_020073B0.c \
  *       --func func_020073B0 --addr 0x020073B0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj15569.h"
 
 typedef unsigned int u32;
 
@@ -38,5 +39,5 @@ void func_020073B0(char *a0, u32 a1)
     if (slot[a1] == 0) {
         func_02034714(g_020A7064, 0, g_020A7064);
     }
-    func_02031C30((struct Obj *)*(u32 *)(a0 + 0x10), (struct Obj *)slot[a1]);
+    func_02031C30((struct Obj *)((struct Obj15569 *)a0)->f10, (struct Obj *)slot[a1]);
 }

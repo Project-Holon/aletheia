@@ -16,6 +16,8 @@
  * counter for the signed %4 and /4); the masked value is a local declared
  * before the counter (mask in r3, counter in r4).
  */
+#include "../include/Obj07944.h"
+#include "../include/Obj22032.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,12 +30,12 @@ void func_021BCC58(char *p, u32 x)
     u32 m;
     int i;
 
-    *(u8 *)(*(char **)(p + 0x248) + 0x48) = (x & 0x80000000) != 0;
+    ((struct Obj22032 *)(*(char * *)&((struct Obj07944 *)p)->f248))->f48 = (x & 0x80000000) != 0;
     m = x & 0x0fffffff;
     for (i = 0; i < 8u; i++) {
         if (m == d_021C3A30[i]) {
-            *(u16 *)(p + 0x134c) = i % 4;
-            *(u16 *)(p + 0x134e) = i / 4;
+            ((struct Obj07944 *)p)->f134C = i % 4;
+            ((struct Obj07944 *)p)->f134E = i / 4;
         }
     }
 }

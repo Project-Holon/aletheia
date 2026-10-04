@@ -12,6 +12,7 @@
  * symbols:
  *   func_0201EC64  0x0201EC64  thumb
  */
+#include "../include/Obj00565.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,8 +28,8 @@ struct WordSet *func_021671DC(int a0)
     struct WordSet *ws;
 
 t4 = a0 + 0;
-a0 = *(u16 *)((char *)t4);
+a0 = ((struct Obj00565 *)((char *)t4))->f0;
     ws = func_0201EC64(a0);
 loc_021671E6:
-*(struct WordSet **)((char *)t4 + 0x1c) = ws;
+*(struct WordSet * *)&((struct Obj00565 *)t4)->f1C = ws;
     return ws;}

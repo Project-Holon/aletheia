@@ -46,6 +46,7 @@
  *   func_021E60BC 0x021E60BC thumb ov119
  *   func_021E0E68 0x021E0E68 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -100,7 +101,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
     int i;
     flag76=func_02017E1C(mon,76,0);
     func_021E2054(p,mon,side,flag);
-    func_02049B40(23,5,0,448,32,*(u16 *)(p+0x5f4));
+    func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
     if(Q[side]==0)
         func_021E35A0(p,side,1,mon,0);
     else if(flag!=0)
@@ -135,7 +136,7 @@ void func_021E219C(char *p,void *mon,int side,int flag)
         func_021E198C((int)mon,(int)P(0x6b4),152,128,p);
         func_021E2140(p,(int)mon);
         func_021E5DFC(p,2,mon);
-        func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,*(u16 *)(p+0x5f4),12);
+        func_021E0E68(p+0x8c4,mon,I(0x9c4),12,7,0,((struct Obj00001 *)p)->f5F4,12);
     } else {
         if(P(0x960)) func_0204B3DC(P(0x960),i);
         func_021E1CC8(p);

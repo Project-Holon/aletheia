@@ -13,6 +13,7 @@
  * func_021F00D4 (a blocker of its MATCH). Same +0x2830 block as
  * func_021736A0.
  */
+#include "../include/Obj09360.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,6 +22,6 @@ void func_021736C8(u8 *a, int v)
 {
     u8 *p = a + 0x2830;
     p[0xf] = v;
-    (*(u16 *)(p + 0xc))++;
+    (((struct Obj09360 *)p)->fC)++;
     p[0xe] = 1;
 }

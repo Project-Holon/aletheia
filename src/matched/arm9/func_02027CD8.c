@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00059.h"
 
-int func_02027CD8(int a0, int a1, int a2, int a3){ int t0, t1; *(int *)(((char *)((a0 + 0)) + 16)) = (int)a1; if ((unsigned int)(a1) == (unsigned int)(1)) { t0 = func_020355D8((int)1); t1 = func_02027B30((int)*(int *)(((char *)(*(int *)(((char *)((a0 + 0)) + 24))) + ((int)((*(unsigned char *)((char *)((a0 + 0))) << 2)) << 0))), (int)*(int *)(((char *)((a0 + 0)) + 52)), (int)0); } else {  return a0; } }
+int func_02027CD8(int a0, int a1, int a2, int a3){ int t0, t1; *(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f10 = (int)a1; if ((unsigned int)(a1) == (unsigned int)(1)) { t0 = func_020355D8((int)1); t1 = func_02027B30((int)*(int *)(((char *)(*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f18) + ((int)((*(unsigned char *)&((struct Obj00059 *)((char *)((a0 + 0))))->f0 << 2)) << 0))), (int)*(int *)&((struct Obj00059 *)((char *)((a0 + 0))))->f34, (int)0); } else {  return a0; } }

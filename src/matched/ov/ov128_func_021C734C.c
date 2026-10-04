@@ -17,6 +17,7 @@
  *   func_021CA154 0x021CA154 thumb ov128
  *   func_021CA184 0x021CA184 thumb ov128
  */
+#include "../include/Obj00329.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -56,7 +57,7 @@ int func_021C734C(u32 *p, int *q, u8 *ctx)
     }
     if (func_020362DC() & 1) {
         func_020061E4(0x54c);
-        func_0202EB04(*(void **)(ctx + 0x184));
+        func_0202EB04(((struct Obj00329 *)ctx)->f184);
         return 1;
     }
     if (func_0203633C() & 64) {

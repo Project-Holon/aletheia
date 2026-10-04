@@ -16,6 +16,7 @@
  * symbols:
  *   d_021F3B88  0x021F3B88  data
  */
+#include "../include/Obj12141.h"
 
 typedef struct {
     int w[8];
@@ -27,8 +28,8 @@ void func_021D43E0(int unused0, int unused1, S32 *src)
 {
     char *p = (char *)d_021F3B88;
 
-    if (*(unsigned char *)(p + 0xa) == 0) {
+    if (((struct Obj12141 *)p)->fA == 0) {
         *(S32 *)(p + 0x18) = *src;
-        *(unsigned char *)(p + 0xa) = 1;
+        ((struct Obj12141 *)p)->fA = 1;
     }
 }

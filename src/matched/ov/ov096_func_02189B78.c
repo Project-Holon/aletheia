@@ -19,6 +19,7 @@
  * Lever: the second parameter is a struct pointer; with an int base the
  * loop-invariant b+0xbc/b+0xc0 addresses were hoisted and b spilled.
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ int func_02189B78(int a, Obj *b) {
         c7 = func_021D5440(b->fbc);
         c2 = func_021D5440(b->fc0);
         if ((u32)(func_021C7DAC((u8 *)b->fb4, c7, c2, c6) - 4) <= 1) {
-            func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + r);
+            func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r);
             break;
         }
     }

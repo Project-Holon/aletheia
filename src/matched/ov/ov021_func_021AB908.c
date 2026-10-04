@@ -26,6 +26,7 @@
  *   func_0218ECF4  0x0218ECF4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04239.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -62,20 +63,20 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
 
     obj = func_021AB760((u8 *)a0);
     func_0218E124((u8 *)obj, 2);
-    a.x = *(const s32 *)(p + 0x10);
-    a.y = *(const s32 *)(p + 0x14);
-    a.z = *(const s32 *)(p + 0x18);
+    a.x = *(const s32 *)&((struct Obj04239 *)p)->f10;
+    a.y = *(const s32 *)&((struct Obj04239 *)p)->f14;
+    a.z = *(const s32 *)&((struct Obj04239 *)p)->f18;
     y = a.y;
     a.y = 0;
     b = *q;
     b.y = 0;
     func_0207CA00(&b, &a, &b);
     func_0207CCA4(&b, &n);
-    t0 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2];
+    t0 = tbl_020A1B38[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2];
     a.y = y;
-    out.y = FX_Mul(t0, *(const s32 *)(p + 0x20));
-    t1 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2 + 1];
-    c = FX_Mul(t1, *(const s32 *)(p + 0x20));
+    out.y = FX_Mul(t0, *(const s32 *)&((struct Obj04239 *)p)->f20);
+    t1 = tbl_020A1B38[(*(const s32 *)&((struct Obj04239 *)p)->f1C >> 4) * 2 + 1];
+    c = FX_Mul(t1, *(const s32 *)&((struct Obj04239 *)p)->f20);
     out.x = FX_Mul(n.x, c);
     out.z = FX_Mul(n.z, c);
     out.x += a.x;

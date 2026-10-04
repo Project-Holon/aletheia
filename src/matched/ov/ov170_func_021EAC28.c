@@ -19,6 +19,7 @@
  * Expands message idx of bank into the work string buffer and prints it into
  * message window i; marks the window dirty.
  */
+#include "../include/Obj00414.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -38,9 +39,9 @@ void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, 
     u32 print;
     void *s;
     s = func_02045EC0(bank, idx);
-    func_0201F250(*(void **)(w + 0x84), (void *)(*(u32 *)(w + 0x88)), s);
-    print = *(u32 *)(w + 0x8C);
-    func_0201C724(print, func_02045770(*(void **)(w + i * 8 + 0x94)), x, y, *(u32 *)(w + 0x88), font, color);
+    func_0201F250(((struct Obj00414 *)w)->f84, (void *)(*(u32 *)&((struct Obj00414 *)w)->f88), s);
+    print = ((struct Obj00414 *)w)->f8C;
+    func_0201C724(print, func_02045770(*(void **)(w + i * 8 + 0x94)), x, y, *(u32 *)&((struct Obj00414 *)w)->f88, font, color);
     *(unsigned char *)(w + i * 8 + 0x98) = 1;
     func_02045808(s);
 }

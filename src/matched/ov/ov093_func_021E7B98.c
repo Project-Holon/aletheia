@@ -22,6 +22,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   d_021F2AE8 0x021F2AE8 data a4
  */
+#include "../include/Obj07837.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,11 +56,11 @@ void func_021E7B98(int a, int b, int c)
             && func_021E8638(func_021D5444(x), h) == 0) {
             p = func_021C88A4(b, 0x20, c);
             p[6] = c;
-            *(u16 *)(p + 4) = 0;
+            ((struct Obj07837 *)p)->f4 = 0;
             func_021C88C8((void *)b, p);
             p = func_021C88A4(b, 0x20, c);
             p[6] = k;
-            *(u16 *)(p + 4) = h;
+            ((struct Obj07837 *)p)->f4 = h;
             func_021C8838(p + 12, 2, 0x457);
             func_021C8860((struct S *)(p + 12), k);
             func_021C8860((struct S *)(p + 12), c);

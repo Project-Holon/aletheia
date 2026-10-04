@@ -67,6 +67,7 @@
  *   python tools/match.py one --src src/matched/func_0201347C.c \
  *       --func func_0201347C --addr 0x0201347C --cc 1.1p1 --thumb
  */
+#include "../include/Obj00155.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -98,14 +99,14 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     func_02013360(a0, a1, (const void *)a3);
     func_0201333C(a0, a1, a5);
     r = (u32)func_0201A920(a5);
-    *(u32 *)(a0 + 0x28) = r;
+    ((struct Obj00155 *)a0)->f28 = r;
     if (a2 != 0) {
         func_0201AC2C((const struct Rec534 *)a2, (struct Rec534 *)r);
     }
-    *(u32 *)(a0 + 4) = a4;
-    *(u32 *)a0 = 0;
-    t = func_0201AA18((void *)*(u32 *)(a0 + 0x24));
-    if (t != func_0201AA14((void *)(*(u32 *)(a0 + 0x24)))) {
+    ((struct Obj00155 *)a0)->f4 = a4;
+    ((struct Obj00155 *)a0)->f0 = 0;
+    t = func_0201AA18((void *)((struct Obj00155 *)a0)->f24);
+    if (t != func_0201AA14((void *)(((struct Obj00155 *)a0)->f24))) {
         return;
     }
     u = func_0201293C(a1);

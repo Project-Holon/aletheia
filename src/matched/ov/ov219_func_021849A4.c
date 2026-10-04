@@ -30,6 +30,7 @@
  *   d_02185E78 0x02185E78 data a4
  *   d_02185DBD 0x02185DBD data a1
  */
+#include "../include/Obj01012.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -50,35 +51,35 @@ struct Descriptor;
 extern void func_0201F73C(void *,int,int,int),func_02045334(struct Descriptor *),func_0204044C(u32),func_02184BAC(char *);
 void func_021849A4(char *p,void *arc)
 {
-    *(void **)(p+0xc06c)=func_0201D7EC(0x17,0,0,0,*(u32 *)p);
+    ((struct Obj01012 *)p)->fC06C=func_0201D7EC(0x17,0,0,0,((struct Obj01012 *)p)->f0);
     func_0201DE00((u8 *)p+0xc084,(u8 *)p+0xc085,(u8 *)p+0xc086);
     func_0201DD78(1,2,0xf);
     func_0203FCA0(6,&d_02185E58,0);
     func_020414EC(6);
     func_0203FCA0(7,&d_02185E78,0);
-    func_02049658(arc,5,7,0,0,0,*(u32 *)p);
-    func_02049B68(arc,6,4,0,0x80,*(u32 *)p);
-    func_020498F4(arc,7,7,0,0,0,*(u32 *)p);
-    func_0201F5BC(6,4,6,0,*(u32 *)p);
-    func_0201F5BC(6,0x22,7,0,*(u32 *)p);
-    func_02049B40(0x17,5,4,0x80,0x20,*(u32 *)p);
-    func_02040B94(6,0x20,0,*(u32 *)p);
+    func_02049658(arc,5,7,0,0,0,((struct Obj01012 *)p)->f0);
+    func_02049B68(arc,6,4,0,0x80,((struct Obj01012 *)p)->f0);
+    func_020498F4(arc,7,7,0,0,0,((struct Obj01012 *)p)->f0);
+    func_0201F5BC(6,4,6,0,((struct Obj01012 *)p)->f0);
+    func_0201F5BC(6,0x22,7,0,((struct Obj01012 *)p)->f0);
+    func_02049B40(0x17,5,4,0x80,0x20,((struct Obj01012 *)p)->f0);
+    func_02040B94(6,0x20,0,((struct Obj01012 *)p)->f0);
     func_02040EBC(6,0x4753);
-    *(void **)(p+0xc01c)=(void *)func_02184968(d_02185DBD,1);
-    func_0201F73C(*(void **)(p+0xc01c),0,4,6);
-    func_02045334(*(void **)(p+0xc01c));
-    *(u32 *)(p+0xc0b0)=0;
+    ((struct Obj01012 *)p)->fC01C=(void *)func_02184968(d_02185DBD,1);
+    func_0201F73C(((struct Obj01012 *)p)->fC01C,0,4,6);
+    func_02045334(((struct Obj01012 *)p)->fC01C);
+    ((struct Obj01012 *)p)->fC0B0=0;
     func_0203FCA0(2,&d_02185E58,0);
     func_020414EC(2);
     func_0204044C(1);
     func_0203FCA0(3,&d_02185E78,0);
-    func_02049658(arc,5,3,0,0,0,*(u32 *)p);
-    func_02049B68(arc,6,0,0,0x80,*(u32 *)p);
-    func_020498F4(arc,7,3,0,0,0,*(u32 *)p);
-    func_0201F5BC(2,0x22,7,0,*(u32 *)p);
-    func_02049B40(0x17,5,0,0x80,0x20,*(u32 *)p);
-    func_02049B40(0x17,5,0,0x100,0x20,*(u32 *)p);
-    func_02040B94(2,0x20,0,*(u32 *)p);
+    func_02049658(arc,5,3,0,0,0,((struct Obj01012 *)p)->f0);
+    func_02049B68(arc,6,0,0,0x80,((struct Obj01012 *)p)->f0);
+    func_020498F4(arc,7,3,0,0,0,((struct Obj01012 *)p)->f0);
+    func_0201F5BC(2,0x22,7,0,((struct Obj01012 *)p)->f0);
+    func_02049B40(0x17,5,0,0x80,0x20,((struct Obj01012 *)p)->f0);
+    func_02049B40(0x17,5,0,0x100,0x20,((struct Obj01012 *)p)->f0);
+    func_02040B94(2,0x20,0,((struct Obj01012 *)p)->f0);
     func_02040EBC(2,0);
     func_02184BAC(p);
 }

@@ -15,6 +15,7 @@
  *
  * Clear the two ten-entry u16 tables at +4 and +0x18 and the two header words.
  */
+#include "../include/Obj12203.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ void func_021F8990(u8 *p)
         *(u16 *)(p + i * 2 + 4) = z;
         *(u16 *)(p + i * 2 + 0x18) = z;
     }
-    *(u16 *)(p + 0) = z;
-    *(u16 *)(p + 2) = z;
+    ((struct Obj12203 *)p)->f0 = z;
+    ((struct Obj12203 *)p)->f2 = z;
 }

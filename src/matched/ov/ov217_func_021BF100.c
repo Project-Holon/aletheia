@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14738.h"
 
 extern unsigned char d_021C3628[];
 typedef unsigned int   u32;
@@ -25,5 +26,5 @@ extern u32 func_021C0F5C(u32 a0, u32 a1);
 
 void func_021BF100(char *p)
 {
-    func_021C0F5C(*(int *)(p + 0x348), d_021C3628[*(unsigned char *)(p + 0x38)]);
+    func_021C0F5C(((struct Obj14738 *)p)->f348, d_021C3628[((struct Obj14738 *)p)->f38]);
 }

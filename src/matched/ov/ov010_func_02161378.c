@@ -17,6 +17,7 @@
  *   func_02030734  0x02030734  arm
  *   d_02172978     0x02172978  data  a1
  */
+#include "../include/Obj18938.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,6 +34,6 @@ u32 *func_02161378(char *c)
     u32 *r;
 
     r = func_02030734(4, 8, 1, d_02172978, 0x74C);
-    r[0] = (u32)func_020120F4(**(void ***)(c + 0x18));
+    r[0] = (u32)func_020120F4(**(void ** *)&((struct Obj18938 *)c)->f18);
     return r;
 }

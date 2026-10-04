@@ -16,6 +16,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj24927.h"
 struct Node;
 extern void func_02030EAC(struct Node *);
 extern void func_021F4CF0(unsigned char *);
@@ -29,7 +30,7 @@ static inline void GX_SetVisibleWnd(int window) { *(volatile unsigned *)0x040000
 static inline void GXS_SetVisibleWnd(int window) { *(volatile unsigned *)0x04001000 = (*(volatile unsigned *)0x04001000 & ~0xE000) | (window << 13); }
 void func_021F4B84(unsigned char *p)
 {
-    func_02030EAC(*(struct Node **)(p + 0xC));
+    func_02030EAC(*(struct Node * *)&((struct Obj24927 *)p)->fC);
     func_021F4CF0(p + 4);
     func_021F4C6C(p);
     func_0201DD68();

@@ -15,6 +15,7 @@
  *   func_0200C29C  0x0200C29C  thumb
  *   func_0200DA98  0x0200DA98  thumb
  */
+#include "../include/Obj05049.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,11 +31,11 @@ extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 void func_021B3568(u8 *w, u32 b)
 {
     if (w[0x163] == 0) {
-        func_0200C29C((struct Blk34 *)(*(u32 *)(w + 0xC)), b);
-        func_02008DAC((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x16, b);
+        func_0200C29C((struct Blk34 *)(((struct Obj05049 *)w)->fC), b);
+        func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x16, b);
     } else {
-        func_0200DA98(*(u32 *)(w + 0x18), b);
-        func_02008DAC((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x22, b);
+        func_0200DA98(((struct Obj05049 *)w)->f18, b);
+        func_02008DAC((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x22, b);
     }
-    func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(w + 0x14)), 0x15);
+    func_02008DF0((struct Sub02008C20Obj *)(((struct Obj05049 *)w)->f14), 0x15);
 }

@@ -17,6 +17,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0201BBE8 0x0201BBE8 thumb
  */
+#include "../include/Obj24001.h"
+#include "../include/Obj24002.h"
 
 typedef unsigned int   u32;
 extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
@@ -35,13 +37,13 @@ void func_021EC35C(char **p, int box)
     for (i = 0; i < 0x1E; i++) {
         if (func_020079BC(((void **)p[0])[1], box, i, 0xA9, 0) == 0) {
             *(int *)(p[11] + i * 4 + 0x3DF8) = 0;
-        } else if (*(int *)(p[0] + 0x24) != 3 && ((unsigned char *)p)[0x14] == ((unsigned char *)p)[0x17]
+        } else if (((struct Obj24001 *)(p[0]))->f24 != 3 && ((unsigned char *)p)[0x14] == ((unsigned char *)p)[0x17]
                    && ((unsigned char *)p)[0x16] == i) {
             *(int *)(p[11] + i * 4 + 0x3DF8) = 0;
         } else {
             m = (void *)func_021DD2D0((void ***)p, box, i);
             r = func_021EC338(p[11], m, &buf);
-            MIi_CpuCopy32(*(void **)((char *)buf + 0x14), p[11] + 0x1B4 + i * 0x200, 0x200);
+            MIi_CpuCopy32(((struct Obj24002 *)buf)->f14, p[11] + 0x1B4 + i * 0x200, 0x200);
             func_020307B0(r);
             *(unsigned char *)(p[11] + i + 0x3DB4) = func_0201BBE8(m);
             *(int *)(p[11] + i * 4 + 0x3DF8) = 1;

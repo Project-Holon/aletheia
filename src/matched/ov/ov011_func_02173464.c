@@ -23,6 +23,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19161.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -76,7 +77,7 @@ void func_02173464(u8 *a0, Obj *p, int a2)
     if (p == 0) {
         return;
     }
-    h = func_02026478((void *)(*(int *)(a0 + 4)));
+    h = func_02026478((void *)(((struct Obj19161 *)a0)->f4));
     me = func_02012B58((const struct BigObj *)h);
     if (func_02012B70((const struct BigObj *)h) == 0) {
         if (func_0217C11C(func_02188C9C((u8 *)a2)) == 1) {

@@ -16,6 +16,7 @@
  *   func_021B9464  0x021B9464  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18100.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u32 func_021B9464(u32);
 
 int func_021B7954(u32 a, u32 b, u32 c, u32 d)
 {
-*(u16 *)((u8 *)(a) + 2) = 0;
+((struct Obj18100 *)((u8 *)(a)))->f2 = 0;
 func_021B87BC((a + 32), b, c, d);
 return func_021B9464((a + 80));
 }

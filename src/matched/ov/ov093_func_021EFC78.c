@@ -19,6 +19,7 @@
  *   func_021EFCD4  0x021EFCD4  thumb  ov093
  *   func_021EF83C  0x021EF83C  thumb  ov093
  */
+#include "../include/Obj06299.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,12 +45,12 @@ void func_021EFC78(char *a, void (*cb)(u32, u32), u32 arg)
         lim = func_021E8AFC(*(Slot *)(e + 0x28));
         if (lim == 0)
             continue;
-        *(u32 *)(e + 0x48) += 1;
-        if (*(u32 *)(e + 0x48) < lim)
+        ((struct Obj06299 *)e)->f48 += 1;
+        if (((struct Obj06299 *)e)->f48 < lim)
             continue;
-        if (*(u32 *)(e + 8) != 0) {
-            func_021EFCD4(*(u32 *)(e + 8));
-            *(u32 *)(e + 8) = 0;
+        if (((struct Obj06299 *)e)->f8 != 0) {
+            func_021EFCD4(((struct Obj06299 *)e)->f8);
+            ((struct Obj06299 *)e)->f8 = 0;
         }
         func_021EF83C(a, k);
         if (cb != 0)

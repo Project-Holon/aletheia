@@ -27,6 +27,7 @@
  *   func_02030DA8  0x02030DA8  arm
  *   func_0202EECC  0x0202EECC  thumb
  */
+#include "../include/Obj06927.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,11 +47,11 @@ u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap)
     p = (u8 *)func_02030734(heap, 0x1c, 0, g_020A7814, 0x49);
     func_0202EECC(p, a1, a2, a3, heap);
     if (owner != 0) {
-        *(u32 *)p = func_02030DA8(owner, unk_0202F099, p, 0);
+        ((struct Obj06927 *)p)->f0 = func_02030DA8(owner, unk_0202F099, p, 0);
     } else {
-        *(u32 *)p = 0;
+        ((struct Obj06927 *)p)->f0 = 0;
     }
-    *(u32 *)(p + 4) = 0;
-    *(u32 *)(p + 0x18) = 1;
+    ((struct Obj06927 *)p)->f4 = 0;
+    ((struct Obj06927 *)p)->f18 = 1;
     return p;
 }

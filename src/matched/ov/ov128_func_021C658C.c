@@ -28,6 +28,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj03812.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,7 +55,7 @@ void func_021C658C(char *p,void *q,int heap)
     *(volatile u16 *)0x04000050=0; *(volatile u16 *)0x04001050=0;
     func_0207D534((void *)0x0400006c,-16); func_0207D534((void *)0x0400106c,-16);
     func_0204363C(0);
-    *(void **)(p+8)=func_020490F4(63,heap); *(u16 *)(p+0x180)=heap;
+    ((struct Obj03812 *)p)->f8=func_020490F4(63,heap); ((struct Obj03812 *)p)->f180=heap;
     func_021C6698((void *)0x180);
     func_021C66A8(p,heap); func_021C67A8(p,heap); func_021C692C(p,heap);
     func_021C69C4(p,q,heap); func_021C6CB0(p,heap); func_021C6A84(p,heap); func_021CA0BC(p,heap);

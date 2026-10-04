@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19771.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ extern int func_021A39E4(u8 *p);
 
 int func_021A34F8(u8 *p)
 {
-    return func_021A39E4(*(u8 **)(p + 0x4));
+    return func_021A39E4(*(u8 * *)&((struct Obj19771 *)p)->f4);
 }

@@ -30,6 +30,7 @@
  *   d_021B6E74 0x021B6E74 data a4
  *   d_021B6E24 0x021B6E24 data a4
  */
+#include "../include/Obj01704.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -65,22 +66,22 @@ u8 *func_021B67D4(void *a, void *b, void *c, u32 heap)
     u32 idx;
     p = func_02030734(heap, 0x48, 1, d_021B6E74, 0x82);
     func_0203FCA0(1, &d_021B6E24, 0);
-    *(u16 *)(p + 0x44) = heap;
-    *(void **)(p + 0x28) = c;
-    *(struct MsgBank **)(p + 0x20) = func_02045B38(0, 2, 0x56, *(u16 *)(p + 0x44));
-    *(void **)(p + 0x24) = a;
-    *(int *)(p + 0x34) = func_02013080(func_02008374((int)b));
-    *(struct U16Vec **)(p + 0x2c) = func_020457B0(0x100, heap);
-    *(struct WordSet **)(p + 0x30) = func_0201EC64(heap);
+    ((struct Obj01704 *)p)->f44 = heap;
+    ((struct Obj01704 *)p)->f28 = c;
+    *(struct MsgBank * *)&((struct Obj01704 *)p)->f20 = func_02045B38(0, 2, 0x56, ((struct Obj01704 *)p)->f44);
+    ((struct Obj01704 *)p)->f24 = a;
+    ((struct Obj01704 *)p)->f34 = func_02013080(func_02008374((int)b));
+    *(struct U16Vec * *)&((struct Obj01704 *)p)->f2C = func_020457B0(0x100, heap);
+    *(struct WordSet * *)&((struct Obj01704 *)p)->f30 = func_0201EC64(heap);
     func_02041300(1, 0, 0, 0, 32, 32, 17);
     func_02040C14(1, 0, 1, 0);
-    idx = func_020496E4(11, 89, 1, 0, 0, *(u16 *)(p + 0x44));
-    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 11, 90, *(u16 *)(p + 0x44), 0, 32, 0, 0);
-    *(u32 *)(p + 0x1c) = func_020450F0(1, 1, 19, 30, 4, 0, 0);
-    func_02045374(*(struct Cfg **)(p + 0x1c));
-    func_020454E0(*(struct Cfg **)(p + 0x1c), idx, 0);
+    idx = func_020496E4(11, 89, 1, 0, 0, ((struct Obj01704 *)p)->f44);
+    func_020215EC((struct PalAnmSlot *)func_021F86E0(), 11, 90, ((struct Obj01704 *)p)->f44, 0, 32, 0, 0);
+    *(u32 *)&((struct Obj01704 *)p)->f1C = func_020450F0(1, 1, 19, 30, 4, 0, 0);
+    func_02045374(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C);
+    func_020454E0(*(struct Cfg * *)&((struct Obj01704 *)p)->f1C, idx, 0);
     func_020409B4(1);
     func_02040588(1, 0);
-    func_021B6C34((char *)p + 4, *(int *)(p + 0x1c));
+    func_021B6C34((char *)p + 4, *(int *)&((struct Obj01704 *)p)->f1C);
     return p;
 }

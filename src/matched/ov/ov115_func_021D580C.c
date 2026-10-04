@@ -10,15 +10,16 @@
  * symbols:
  *   func_0204A600 0x0204A600 arm
  */
+#include "../include/Obj03765.h"
 typedef unsigned char u8;
 typedef short s16;
 extern void func_0204A600(void);
 void func_021D580C(u8 *p) {
-    ++*(s16 *)(p + 0x9c8);
-    if (*(s16 *)(p + 0x9c8) >= 192) *(s16 *)(p + 0x9c8) = 0;
-    if (*(s16 *)(p + 0xb4a)) {
-        ++*(s16 *)(p + 0xb4a);
-        if (*(s16 *)(p + 0xb4a) >= 257) *(s16 *)(p + 0xb4a) = 1;
+    ++((struct Obj03765 *)p)->f9C8;
+    if (((struct Obj03765 *)p)->f9C8 >= 192) ((struct Obj03765 *)p)->f9C8 = 0;
+    if (((struct Obj03765 *)p)->fB4A) {
+        ++((struct Obj03765 *)p)->fB4A;
+        if (((struct Obj03765 *)p)->fB4A >= 257) ((struct Obj03765 *)p)->fB4A = 1;
     }
     func_0204A600();
 }

@@ -20,6 +20,7 @@
  *   func_0202020C 0x0202020C thumb
  *   func_0201F868 0x0201F868 thumb
  */
+#include "../include/Obj00008.h"
 extern void func_021B9B64(char *);
 extern int func_021BA928(char *);
 typedef signed int     s32;
@@ -41,7 +42,7 @@ int func_021C0698(char *p,int ret) {
     Off o=K274;
     func_021B9B64(p+o);
     if(!func_021BA928(p))return ret;
-    r=func_020200CC((struct Obj *)(*(int *)(p+0xbc)));
+    r=func_020200CC((struct Obj *)(*(int *)&((struct Obj00008 *)p)->fBC));
     switch(r) {
     case -1: return ret;
     case -2:
@@ -55,9 +56,9 @@ int func_021C0698(char *p,int ret) {
         func_021BA8EC(p);
         break;
     }
-    if(*(int *)(p+0x1cc)==11){func_021C23C8(p,(void *)(-1));func_021C23D8(p,1);}
-    *(void **)(p+0x1a4)=(void *)func_021BA8BC(*(void **)(p+0x1a4));
-    func_0202020C((struct Obj *)(*(int *)(p+0xbc)),0,(u16 *)(p+0x234+2* *(unsigned short *)(p+0x240)));
-    func_0201F868((void *)(*(int *)(p+0xb8)));
+    if(((struct Obj00008 *)p)->f1CC==11){func_021C23C8(p,(void *)(-1));func_021C23D8(p,1);}
+    ((struct Obj00008 *)p)->f1A4=(void *)func_021BA8BC(((struct Obj00008 *)p)->f1A4);
+    func_0202020C((struct Obj *)(*(int *)&((struct Obj00008 *)p)->fBC),0,(u16 *)(p+0x234+2* ((struct Obj00008 *)p)->f240));
+    func_0201F868((void *)(*(int *)&((struct Obj00008 *)p)->fB8));
     return ret;
 }

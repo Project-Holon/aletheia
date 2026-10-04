@@ -15,6 +15,7 @@
  *   d_021C0B60 0x021C0B60 data a4
  *   d_021C0B14 0x021C0B14 data a4
  */
+#include "../include/Obj10923.h"
 extern const unsigned d_021C0B60[], d_021C0B14[];
 extern unsigned char func_020355C4(void);
 typedef unsigned short u16;
@@ -28,10 +29,10 @@ extern void func_02025D1C(struct Struct_02025D1C *obj);
 void func_021BFEAC(char *ctx, int index)
 {
     if (func_020355C4() == 1) {
-        *(void **)(ctx + 0x2b0) = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 0, index, 123);
+        ((struct Obj10923 *)ctx)->f2B0 = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 0, index, 123);
     } else {
-        *(void **)(ctx + 0x2b0) = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 1, index, 123);
+        ((struct Obj10923 *)ctx)->f2B0 = func_02025CD0((unsigned)d_021C0B60, (unsigned)d_021C0B14, (unsigned)ctx, 1, index, 123);
         func_021BFF30((int)ctx, index, 3);
     }
-    func_02025D1C(*(void **)(ctx + 0x2b0));
+    func_02025D1C(((struct Obj10923 *)ctx)->f2B0);
 }

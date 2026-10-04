@@ -12,6 +12,8 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj24942.h"
+#include "../include/Obj24943.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,9 +24,9 @@ extern void func_02005E30(u32);
 
 void func_02204DC4(u8 *p, u8 *q)
 {
-    if (*(u32 *)(p + 0xc) != 0) {
+    if (((struct Obj24942 *)p)->fC != 0) {
         func_02005E30(0x1e);
     }
-    *(u32 *)(q + 0x30) = 1;
+    ((struct Obj24943 *)q)->f30 = 1;
 }
 

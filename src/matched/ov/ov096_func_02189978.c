@@ -16,6 +16,7 @@
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   func_021D5B40  0x021D5B40  thumb  ov093
  */
+#include "../include/Obj10187.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,10 +39,10 @@ int func_02189978(int a, int b) {
     int s;
     r = func_0201134C(a);
     t = func_0218A160((u8 *)b, r);
-    *(int *)(b + 0x38) = 0;
+    ((struct Obj10187 *)b)->f38 = 0;
     if (func_021D62C4(func_0218A2FC((u8 *)b, t), 0x13) == 0) {
         s = func_021D5B40((struct QI *)func_0218A2FC((u8 *)b, t));
-        *(int *)(b + 0x38) = func_0218A3F4(b, s, 10);
+        ((struct Obj10187 *)b)->f38 = func_0218A3F4(b, s, 10);
     }
-    return *(int *)(b + 0xc4);
+    return ((struct Obj10187 *)b)->fC4;
 }

@@ -21,6 +21,7 @@
  *   func_021AB75C  0x021AB75C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19578.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ void func_02190000(u32 *p)
     u32 b = p[1];
     u8 *r = (u8 *)func_021901E8((u8 *)p);
     func_021AB75C((u8 *)func_02189A18((u8 *)a), 1);
-    if (*(u32 *)(r + 0x48) != 0)
+    if (((struct Obj19578 *)r)->f48 != 0)
         func_0218F1AC(b, p[5]);
     if (p[7] != 0)
         func_0218EC30(b, p[6]);

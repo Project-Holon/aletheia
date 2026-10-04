@@ -19,6 +19,8 @@
  *   func_021FC754 0x021FC754 thumb ov186
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj00730.h"
+#include "../include/Obj03329.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -35,31 +37,31 @@ extern void func_02082BCC(void *,int,u32);
 void func_021DCEE4(char *p,char *q)
 {
     int a,b;
-    if(!*(int *)(p+0xd8)) {
-        *(int *)(p+0xd8)=1;
-        func_021FB964((void *)(*(int *)(q+0x10)),5,*(u16 *)(p+0xb4));
-        func_021FBE54(*(char **)(q+0x10),6,*(u16 *)(p+0xb4));
-        a=func_021FC20C(*(char **)(q+0x10));
-        b=func_021FC214(*(char **)(q+0x10));
-        if(*(int *)(p+0xcc)) {
+    if(!((struct Obj00730 *)p)->fD8) {
+        ((struct Obj00730 *)p)->fD8=1;
+        func_021FB964((void *)(*(int *)&((struct Obj03329 *)q)->f10),5,((struct Obj00730 *)p)->fB4);
+        func_021FBE54(*(char * *)&((struct Obj03329 *)q)->f10,6,((struct Obj00730 *)p)->fB4);
+        a=func_021FC20C(*(char * *)&((struct Obj03329 *)q)->f10);
+        b=func_021FC214(*(char * *)&((struct Obj03329 *)q)->f10);
+        if(((struct Obj00730 *)p)->fCC) {
             Desc d;
             Triple t;
             func_02082BCC(&d,0,8);
             d.x=24;d.y=168;d.n=0;d.flag=1;
-            func_021FC124(*(void **)(q+0x10),6,&t);
-            *(void **)(p+0x1c)=func_021FB378(&d,4,96,1,*(int *)(q+0x18),*(int *)p,a,b,&t,*(u16 *)(p+0xb4));
+            func_021FC124(((struct Obj03329 *)q)->f10,6,&t);
+            ((struct Obj00730 *)p)->f1C=func_021FB378(&d,4,96,1,((struct Obj03329 *)q)->f18,((struct Obj00730 *)p)->f0,a,b,&t,((struct Obj00730 *)p)->fB4);
             d.x=136;d.n=3;
-            *(void **)(p+0x20)=func_021FB378(&d,84,96,1,*(int *)(q+0x18),*(int *)p,a,b,&t,*(u16 *)(p+0xb4));
+            ((struct Obj00730 *)p)->f20=func_021FB378(&d,84,96,1,((struct Obj03329 *)q)->f18,((struct Obj00730 *)p)->f0,a,b,&t,((struct Obj00730 *)p)->fB4);
         } else {
             Desc d;
             Triple t;
             func_02082BCC(&d,0,8);
             d.x=80;d.y=168;d.n=0;d.flag=1;
-            func_021FC124(*(void **)(q+0x10),6,&t);
-            *(void **)(p+0x1c)=func_021FB378(&d,4,96,1,*(int *)(q+0x18),*(int *)p,a,b,&t,*(u16 *)(p+0xb4));
+            func_021FC124(((struct Obj03329 *)q)->f10,6,&t);
+            ((struct Obj00730 *)p)->f1C=func_021FB378(&d,4,96,1,((struct Obj03329 *)q)->f18,((struct Obj00730 *)p)->f0,a,b,&t,((struct Obj00730 *)p)->fB4);
         }
-        *(void **)(p+0x28)=func_021FC6A4(4,8,3,16,2,14,*(void **)(p+4),*(u16 *)(p+0xb4));
-        if(*(int *)(p+0xb0)) func_021FC754(*(char **)(p+0x28),(void *)b,(void *)0x72,(void *)a,0x3da0);
-        else func_021FC754(*(char **)(p+0x28),(void *)b,(void *)0x71,(void *)a,0x3da0);
+        ((struct Obj00730 *)p)->f28=func_021FC6A4(4,8,3,16,2,14,((struct Obj00730 *)p)->f4,((struct Obj00730 *)p)->fB4);
+        if(((struct Obj00730 *)p)->fB0) func_021FC754(*(char * *)&((struct Obj00730 *)p)->f28,(void *)b,(void *)0x72,(void *)a,0x3da0);
+        else func_021FC754(*(char * *)&((struct Obj00730 *)p)->f28,(void *)b,(void *)0x71,(void *)a,0x3da0);
     }
 }

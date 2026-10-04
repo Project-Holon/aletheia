@@ -15,6 +15,7 @@
  *   func_021ABE30  0x021ABE30  thumb  ov021
  *   d_021F3AC0     0x021F3AC0  data  ov052  a4
  */
+#include "../include/Obj13111.h"
 
 extern int func_02188CD0(int);
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ void func_021F3844(char *a, int b)
     int n;
     int r4 = func_02188CD0(b);
 
-    *(void **)(a + 0x24) = func_02030734(*(unsigned short *)(a + 0xc), 4, 1, d_021F3AC0, 0x112);
+    ((struct Obj13111 *)a)->f24 = func_02030734(((struct Obj13111 *)a)->fC, 4, 1, d_021F3AC0, 0x112);
     n = 0xe;
     func_021ABE30(r4, &n, 1);
 }

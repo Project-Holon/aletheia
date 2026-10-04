@@ -18,6 +18,7 @@
  *   func_021C3318 0x021C3318 thumb ov208
  *   data_020A7370 0x020A7370 data a4
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -38,10 +39,10 @@ void func_021C3280(u16 *heap,u8 *p,struct Key *key)
     u16 width;
     u16 available;
     text=func_02045EC0(data_020A7370,func_021BC3C0(key));
-    width=func_0201D304(text,*(u32 *)(p+4),0);
-    available=func_020437DC(func_02045770(*(struct Descriptor **)(p+0xc)));
-    func_0201C724(*(void **)(p+8),(u32)func_02045770(*(struct Descriptor **)(p+0xc)),(u16)((available-width)/2),1,(u32)text,*(u32 *)(p+4),0x3c40);
+    width=func_0201D304(text,((struct Obj00146 *)p)->f4,0);
+    available=func_020437DC(func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->fC));
+    func_0201C724(((struct Obj00146 *)p)->f8,(u32)func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->fC),(u16)((available-width)/2),1,(u32)text,((struct Obj00146 *)p)->f4,0x3c40);
     func_02045808((struct U16Vec *)text);
-    *(u32 *)(p+0x10)=1;
+    ((struct Obj00146 *)p)->f10=1;
     func_021C3318(heap,p,(int)key);
 }

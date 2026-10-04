@@ -16,6 +16,7 @@
  *   func_02012EC4  0x02012EC4  thumb
  *   func_0200B3A4  0x0200B3A4  thumb
  */
+#include "../include/Obj13080.h"
 
 typedef unsigned char  u8;
 struct Big;
@@ -29,7 +30,7 @@ void func_021F36C0(unsigned int a0, int a1, int a2)
     char *p = func_0200B3A4((unsigned int)func_02012EC4(func_020120F4((const struct Ctx *)a0)), 2);
 
     if (a1)
-        *(unsigned short *)(p + 0x14) = 1;
+        ((struct Obj13080 *)p)->f14 = 1;
     if (a2)
-        *(unsigned short *)(p + 0x16) = 1;
+        ((struct Obj13080 *)p)->f16 = 1;
 }

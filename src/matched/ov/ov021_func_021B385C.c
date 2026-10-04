@@ -18,6 +18,7 @@
  *   func_0201F898 0x0201F898 thumb
  *   func_0201F878 0x0201F878 thumb
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned short u16;
 
@@ -34,11 +35,11 @@ extern void func_0201F878(void *, int, int, int, int);
 void func_021B385C(char *p, int idx, int mode, int val, int arg)
 {
     if (mode == 1) {
-        func_0201EFA4(*(void **)(p + 400), 0, val - 327, 2, 2, 1);
-        func_0201EF34(*(void **)(p + 400), 1, func_020212B0(val));
-        func_0201F250(*(void **)(p + 400), *(void **)(p + 408), *(void **)(p + 412));
-        func_0201F898((struct Slot *)(*(char **)(p + 384) + idx * 8), (u32)(*(void **)(p + 408)), idx, *(u16 *)(p + 4));
+        func_0201EFA4(((struct Obj00037 *)p)->f190, 0, val - 327, 2, 2, 1);
+        func_0201EF34(((struct Obj00037 *)p)->f190, 1, func_020212B0(val));
+        func_0201F250(((struct Obj00037 *)p)->f190, ((struct Obj00037 *)p)->f198, ((struct Obj00037 *)p)->f19C);
+        func_0201F898((struct Slot *)(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8), (u32)(((struct Obj00037 *)p)->f198), idx, ((struct Obj00037 *)p)->f4);
     } else {
-        func_0201F878(*(char **)(p + 384) + idx * 8, arg, val, idx, *(u16 *)(p + 4));
+        func_0201F878(*(char * *)&((struct Obj00037 *)p)->f180 + idx * 8, arg, val, idx, ((struct Obj00037 *)p)->f4);
     }
 }

@@ -15,6 +15,7 @@
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FF4C0  0x021FF4C0  thumb  ov094
  */
+#include "../include/Obj21660.h"
 extern int func_0201134C(int a);
 extern int func_021F84D0(int a);
 extern int func_021F8694(void);
@@ -36,5 +37,5 @@ int func_021FB328(int a, char *b)
     t6 = func_0201134C(a);
     t7 = func_0201134C(a);
     func_021FF4C0((void *)func_021F8694(), t0, t1, arr, t5, t6, t7);
-    return *(int *)(b + 0x23c);
+    return ((struct Obj21660 *)b)->f23C;
 }

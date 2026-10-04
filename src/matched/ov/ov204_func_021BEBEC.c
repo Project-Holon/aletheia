@@ -20,6 +20,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   init 0x021BFFCC data a2
  */
+#include "../include/Obj00550.h"
+#include "../include/Obj06672.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 v[12];} Init;
@@ -43,28 +45,28 @@ int func_021BEBEC(char *p)
     void *arc;
     u32 i;
     char *row;
-    arc=func_020490F4(170,*(u16 *)p);
-    if(func_02008550(**(void ***)(p+4))==0){
-        *(void **)(p+0x10b4)=(void *)func_0204A6C8(arc,6,0,0,*(u16 *)p);
-        *(void **)(p+0x10c0)=func_0204ABF0(arc,7,0,0,*(u16 *)p);
-        *(void **)(p+0x10cc)=(void *)func_0204AF28(arc,5,4,*(u16 *)p);
+    arc=func_020490F4(170,((struct Obj00550 *)p)->f0);
+    if(func_02008550(**(void ** *)&((struct Obj00550 *)p)->f4)==0){
+        ((struct Obj00550 *)p)->f10B4=(void *)func_0204A6C8(arc,6,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10C0=func_0204ABF0(arc,7,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10CC=(void *)func_0204AF28(arc,5,4,((struct Obj00550 *)p)->f0);
     }else{
-        *(void **)(p+0x10b4)=(void *)func_0204A6C8(arc,10,0,0,*(u16 *)p);
-        *(void **)(p+0x10c0)=func_0204ABF0(arc,11,0,0,*(u16 *)p);
-        *(void **)(p+0x10cc)=(void *)func_0204AF28(arc,9,8,*(u16 *)p);
+        ((struct Obj00550 *)p)->f10B4=(void *)func_0204A6C8(arc,10,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10C0=func_0204ABF0(arc,11,0,0,((struct Obj00550 *)p)->f0);
+        ((struct Obj00550 *)p)->f10CC=(void *)func_0204AF28(arc,9,8,((struct Obj00550 *)p)->f0);
     }
-    *(void **)(p+0x10b8)=(void *)func_0204A6C8(arc,17,0,0,*(u16 *)p);
-    *(void **)(p+0x10c4)=func_0204ABF0(arc,18,0,32,*(u16 *)p);
-    *(void **)(p+0x10d0)=(void *)func_0204AF28(arc,16,15,*(u16 *)p);
-    *(void **)(p+0x10bc)=(void *)func_0204A6C8(arc,21,0,0,*(u16 *)p);
-    *(void **)(p+0x10c8)=func_0204ABF0(arc,22,0,64,*(u16 *)p);
-    *(void **)(p+0x10d4)=(void *)func_0204AF28(arc,20,19,*(u16 *)p);
+    ((struct Obj00550 *)p)->f10B8=(void *)func_0204A6C8(arc,17,0,0,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10C4=func_0204ABF0(arc,18,0,32,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10D0=(void *)func_0204AF28(arc,16,15,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10BC=(void *)func_0204A6C8(arc,21,0,0,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10C8=func_0204ABF0(arc,22,0,64,((struct Obj00550 *)p)->f0);
+    ((struct Obj00550 *)p)->f10D4=(void *)func_0204AF28(arc,20,19,((struct Obj00550 *)p)->f0);
     func_02049238(arc);
     local=init;
     for(i=0;i<3;i++){
         row=p+i*4;
-        *(void **)(row+0x10a8)=func_0204B294((void *)func_021BDD78(*(void **)(p+20)),(unsigned int)*(void **)(row+0x10b4),(unsigned int)*(void **)(row+0x10c0),(unsigned int)*(void **)(row+0x10cc),(char *)&local+i*8,0,*(u16 *)p);
-        func_0204B3DC(*(void **)(row+0x10a8),0);
+        ((struct Obj06672 *)row)->f10A8=func_0204B294((void *)func_021BDD78(((struct Obj00550 *)p)->f14),(unsigned int)((struct Obj06672 *)row)->f10B4,(unsigned int)((struct Obj06672 *)row)->f10C0,(unsigned int)((struct Obj06672 *)row)->f10CC,(char *)&local+i*8,0,((struct Obj00550 *)p)->f0);
+        func_0204B3DC(((struct Obj06672 *)row)->f10A8,0);
     }
     return 1;
 }

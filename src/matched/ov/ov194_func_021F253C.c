@@ -11,7 +11,8 @@
  * symbols:
 
  */
+#include "../include/Obj14497.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021F253C(u8 *p) {int i,spaces,n;n=*(volatile u16 *)(p+30);if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)(p+30);i++;}return i!=spaces;}
+int func_021F253C(u8 *p) {int i,spaces,n;n=*(volatile u16 *)&((struct Obj14497 *)p)->f1E;if(!n) return 0;spaces=0;i=0;while(i<n) {if(*(u16 *)(p+i*2)==32) spaces++;n=*(volatile u16 *)&((struct Obj14497 *)p)->f1E;i++;}return i!=spaces;}

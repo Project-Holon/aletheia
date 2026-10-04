@@ -16,6 +16,7 @@
  *   func_0219CFB0  0x0219CFB0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03118.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ int func_0219C928(u32 a, const u8 *b, u16 *c, V3 *d, u32 s0, u32 s1)
 {
     u16 v;
     u32 t = func_0216D520((void *)a);
-    func_0219CBD4(t, *(const u16 *)b, (u32)(&v), (u32)c);
+    func_0219CBD4(t, *(const u16 *)&((struct Obj03118 *)b)->f0, (u32)(&v), (u32)c);
     if (!(*c & 2)) {
         c[1] = func_0219C6B8(a, d, b[7], b[9], v);
         return 1;

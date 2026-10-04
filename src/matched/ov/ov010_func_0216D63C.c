@@ -12,6 +12,7 @@
  * Recursive MATCH unblocker: dependency of func_0217C294 (ov018 tail-call
  * thunk), which unblocks func_0216AC90 and func_0216ACCC.
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,11 +22,11 @@ int func_0216D63C(char *a0, int a1)
 {
     switch (a1) {
     case 0:
-        return *(u16 *)(a0 + 0x20);
+        return ((struct Obj00113 *)a0)->f20;
     case 1:
-        return *(u16 *)(a0 + 0x22);
+        return ((struct Obj00113 *)a0)->f22;
     case 2:
-        return *(u16 *)(a0 + 0x24);
+        return ((struct Obj00113 *)a0)->f24;
     default:
         return 0;
     }

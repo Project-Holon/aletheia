@@ -18,6 +18,7 @@
  *   func_0204B974 0x0204B974 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00778.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,18 +38,18 @@ void func_021F7878(u8 *p)
     func_02082BCC(&pos,0,8);
     pos.x=0xA0;
     pos.y=0x20;
-    *(void **)(p+0xBF8)=func_0204B294(*(void **)(p+0xBC0),(unsigned int)*(void **)(p+0xBE8),(unsigned int)*(void **)(p+0xBC8),(unsigned int)*(void **)(p+0xBF0),&pos,0,0x48);
-    func_0204B878(*(void **)(p+0xBF8),12);
-    func_0204B92C(*(void **)(p+0xBF8),1);
-    func_0204B974(*(void **)(p+0xBF8));
-    func_0204B3DC(*(void **)(p+0xBF8),0);
+    ((struct Obj00778 *)p)->fBF8=func_0204B294(((struct Obj00778 *)p)->fBC0,(unsigned int)((struct Obj00778 *)p)->fBE8,(unsigned int)((struct Obj00778 *)p)->fBC8,(unsigned int)((struct Obj00778 *)p)->fBF0,&pos,0,0x48);
+    func_0204B878(((struct Obj00778 *)p)->fBF8,12);
+    func_0204B92C(((struct Obj00778 *)p)->fBF8,1);
+    func_0204B974(((struct Obj00778 *)p)->fBF8);
+    func_0204B3DC(((struct Obj00778 *)p)->fBF8,0);
     pos.x=0xE4;
     pos.y=0x75;
-    *(void **)(p+0xD2C)=func_0204B294(*(void **)(p+0xBC0),(unsigned int)*(void **)(p+0xBC4),(unsigned int)*(void **)(p+0xBC8),(unsigned int)*(void **)(p+0xBCC),&pos,0,0x48);
-    func_0204B878(*(void **)(p+0xD2C),0x26);
-    func_0204B3DC(*(void **)(p+0xD2C),0);
+    ((struct Obj00778 *)p)->fD2C=func_0204B294(((struct Obj00778 *)p)->fBC0,(unsigned int)((struct Obj00778 *)p)->fBC4,(unsigned int)((struct Obj00778 *)p)->fBC8,(unsigned int)((struct Obj00778 *)p)->fBCC,&pos,0,0x48);
+    func_0204B878(((struct Obj00778 *)p)->fD2C,0x26);
+    func_0204B3DC(((struct Obj00778 *)p)->fD2C,0);
     pos.x=0x8C;
-    *(void **)(p+0xD30)=func_0204B294(*(void **)(p+0xBC0),(unsigned int)*(void **)(p+0xBC4),(unsigned int)*(void **)(p+0xBC8),(unsigned int)*(void **)(p+0xBCC),&pos,0,0x48);
-    func_0204B878(*(void **)(p+0xD30),0x27);
-    func_0204B3DC(*(void **)(p+0xD30),0);
+    ((struct Obj00778 *)p)->fD30=func_0204B294(((struct Obj00778 *)p)->fBC0,(unsigned int)((struct Obj00778 *)p)->fBC4,(unsigned int)((struct Obj00778 *)p)->fBC8,(unsigned int)((struct Obj00778 *)p)->fBCC,&pos,0,0x48);
+    func_0204B878(((struct Obj00778 *)p)->fD30,0x27);
+    func_0204B3DC(((struct Obj00778 *)p)->fD30,0);
 }

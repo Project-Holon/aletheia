@@ -17,6 +17,7 @@
  *   func_021F3734  0x021F3734  thumb  ov056
  *   func_021F36E4  0x021F36E4  thumb  ov056
  */
+#include "../include/Obj07668.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,6 +44,6 @@ void *func_021F36F0(void *a, u8 *b, u32 c)
     t[0] = (u32)b;
     t[1] = (u32)a;
     t[2] = c;
-    *(void **)((u8 *)t + 0xd0) = func_020056A0((void (*)(void))func_021F36E4, t, 0);
+    ((struct Obj07668 *)t)->fD0 = func_020056A0((void (*)(void))func_021F36E4, t, 0);
     return r;
 }

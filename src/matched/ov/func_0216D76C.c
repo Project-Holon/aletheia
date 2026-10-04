@@ -15,6 +15,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ typedef unsigned int u32;
 
 void func_0216D76C(void *a0)
 {
-    void (*fn)(void *) = *(void (**)(void *))((char *)*(void **)((char *)a0 + 0x90) + 0x8);
+    void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj00113 *)a0)->f90 + 0x8);
 
     if (fn != 0)
         fn(a0);

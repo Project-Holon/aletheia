@@ -18,6 +18,7 @@
  *   func_021DE950 0x021DE950 thumb ov119
  *   func_021DEA24 0x021DEA24 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
@@ -33,11 +34,11 @@ extern void func_021DEA24(char *p);
 void func_021DE988(char *p)
 {
     int v;
-    if(func_020279E8((struct TaskMenu *)(*(int *)(p+0x64c)))) {
-        v=func_02027A04((const u8 *)(*(int *)(p+0x64c)));
+    if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
+        v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
         func_021E12F8(p);
         func_021E1098(p);
-        *(int *)(p+0x64c)=0;
+        *(int *)&((struct Obj00001 *)p)->f64C=0;
         if(v==0) {
             func_021D8E84(p,(int)func_021DE950);
             return;

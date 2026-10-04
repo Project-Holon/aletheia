@@ -23,6 +23,9 @@
  *   func_021EF68C 0x021EF68C thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23895.h"
+#include "../include/Obj23896.h"
 struct WinMgr;
 extern void func_021DF0BC(unsigned char *);
 extern void func_021DD14C(unsigned char *);
@@ -51,7 +54,7 @@ int func_021E36A8(unsigned char *p)
         func_021EF34C(*(struct WinMgr **)(W(p) + 0x74));
         func_021EF36C(*(struct WinMgr **)(W(p) + 0x74));
         func_021EC5A0((char **)p, 0);
-        if (*(int *)(*(char **)p + 0x24) == 3)
+        if (((struct Obj23895 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3)
             func_021ECB20(p, 0x82, 1);
         func_020061E4(0x669);
         (*(int *)(W(p) + 0xA194))++;
@@ -60,7 +63,7 @@ int func_021E36A8(unsigned char *p)
         *(int *)(W(p) + 0xA194) = 0;
         func_021DEFEC(p, 0x1E);
         func_021EF68C(W(p));
-        if (*(int *)(*(char **)p + 0x24) == 3) {
+        if (((struct Obj23896 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24 == 3) {
             func_021EE364(p, 8, 0);
             return 0x46;
         } else {

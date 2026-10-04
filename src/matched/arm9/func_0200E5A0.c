@@ -15,6 +15,7 @@
  * bytes wrong.  EXACT*: the listing extent runs to the next label at
  * 0x0200E688, over three unlabelled followers.
  */
+#include "../include/Obj11237.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 int func_0200E5A0(void *a0)
 {
-    if (*(u16 *)((u8 *)a0 + 0x5c6) == func_0203F1FC(a0, 0x5c6) &&
-        *(u16 *)((u8 *)a0 + 0x5c2) == 0xd68)
+    if (((struct Obj11237 *)a0)->f5C6 == func_0203F1FC(a0, 0x5c6) &&
+        ((struct Obj11237 *)a0)->f5C2 == 0xd68)
         return 1;
     return 0;
 }

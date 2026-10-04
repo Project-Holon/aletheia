@@ -18,6 +18,7 @@
  *   func_021E4420 0x021E4420 thumb ov119
  *   func_021E4E64 0x021E4E64 thumb ov119
  */
+#include "../include/Obj10356.h"
 typedef unsigned short u16;
 extern void func_021E4068(char *p);extern void func_02049B40(int,int,int,int,int,int);extern void func_021DF904(void *);extern void func_021E58A0(void *);extern void func_021E467C(void *);extern void func_021E3F74(void *);extern void func_021E3E80(void *);extern void func_021E4420(void *);extern void func_021E4E64(int,void *,int);
-void func_021DC494(char *p) {func_021E4068(p);func_02049B40(23,5,4,448,32,*(u16 *)(p+0x5f4));func_021DF904(p);if(*(int *)(p+0x118c)<4)func_021E58A0(p);func_021E467C(p);func_021E3F74(p);func_021E3E80(p);func_021E4420(p);func_021E4E64(*(int *)(p+0x828),p,0);}
+void func_021DC494(char *p) {func_021E4068(p);func_02049B40(23,5,4,448,32,((struct Obj10356 *)p)->f5F4);func_021DF904(p);if(((struct Obj10356 *)p)->f118C<4)func_021E58A0(p);func_021E467C(p);func_021E3F74(p);func_021E3E80(p);func_021E4420(p);func_021E4E64(((struct Obj10356 *)p)->f828,p,0);}

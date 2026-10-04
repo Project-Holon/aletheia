@@ -16,10 +16,14 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj20610.h"
+#include "../include/Obj20611.h"
+#include "../include/Obj20612.h"
+#include "../include/Obj20613.h"
 
 int func_021B69B8(void *p)
 {
-    return *(int *)((char *)p + 0x18);
+    return ((struct Obj20610 *)p)->f18;
 }
 
 typedef unsigned int   u32;
@@ -27,7 +31,7 @@ struct Obj;
 void func_021B69BC(void *p, unsigned int v)
 {
     void func_0204B3DC(struct Obj *p, u32 v);
-    func_0204B3DC(*(void **)p, v);
+    func_0204B3DC(((struct Obj20611 *)p)->f0, v);
 }
 
 int func_021B69C8(void *p, int a)
@@ -37,10 +41,10 @@ int func_021B69C8(void *p, int a)
 
 void func_021B69D0(void *p, int v)
 {
-    *(int *)((char *)p + 0x34) = v;
+    ((struct Obj20612 *)p)->f34 = v;
 }
 
 void func_021B69D4(void *p, int v)
 {
-    *(int *)((char *)p + 0x30) = v;
+    ((struct Obj20613 *)p)->f30 = v;
 }

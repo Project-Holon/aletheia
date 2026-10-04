@@ -20,6 +20,7 @@
  *
  * Starts a profanity check of the string in window a1: copies it into the 20-character buffer at +0x1468 (the terminator code 0x02045A98 returns becomes 0), and submits it with DWC_CheckProfanityExAsync (one word, results at +0x1484/+0x1488, region 0x80).
  */
+#include "../include/Obj06576.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,10 +42,10 @@ void func_021DCA28(char *obj, u32 win, u16 tag)
     u16 *src;
     u32 i;
 
-    *(u32 *)(obj + 0x1490) = win;
-    str = (u32)func_02008510((void *)win, *(u16 *)(obj + 0x124));
+    ((struct Obj06576 *)obj)->f1490 = win;
+    str = (u32)func_02008510((void *)win, ((struct Obj06576 *)obj)->f124);
     MI_CpuFill8(obj + 0x1468, 0, 0x28);
-    *(u16 *)(obj + 0x148c) = tag;
+    ((struct Obj06576 *)obj)->f148C = tag;
     src = func_02045A90((struct U16Vec *)str);
     for (i = 0; i < func_020458F8((struct U16Vec *)str) + 1; i++) {
         u16 c = src[i];
@@ -53,8 +54,8 @@ void func_021DCA28(char *obj, u32 win, u16 tag)
         else
             *(u16 *)(obj + 0x1468 + i * 2) = c;
     }
-    *(u16 **)(obj + 0x1480) = (u16 *)(obj + 0x1468);
-    *(int *)(obj + 0x1488) = 0;
+    *(u16 * *)&((struct Obj06576 *)obj)->f1480 = (u16 *)(obj + 0x1468);
+    ((struct Obj06576 *)obj)->f1488 = 0;
     DWC_CheckProfanityExAsync((u16 **)(obj + 0x1480), 1, 0, 0, obj + 0x1484, (int *)(obj + 0x1488), 0x80);
     func_02045808((struct U16Vec *)str);
 }

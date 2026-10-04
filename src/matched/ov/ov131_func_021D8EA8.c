@@ -11,10 +11,11 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021D8ED0 0x021D8ED0 thumb ov131
  */
+#include "../include/Obj00091.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021D8ED0(u8 *,u8 *,u8);
 void func_021D8EA8(u8 *a,u8 *p)
 {
-    func_021D8ED0(a,p,(u8)(((*(u32 *)(p+0x14)+23)/24)%10));
+    func_021D8ED0(a,p,(u8)(((((struct Obj00091 *)p)->f14+23)/24)%10));
 }

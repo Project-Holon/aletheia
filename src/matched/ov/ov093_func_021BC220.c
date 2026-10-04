@@ -21,6 +21,7 @@
  * (a u32 return with shifts and masks gives a different frame) is what
  * matches.
  */
+#include "../include/Obj00003.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -47,7 +48,7 @@ void func_021BC220(u8 *p, u8 *o)
     Bf v;
 
     for (i = 0; i < 4; i++) {
-        if (func_021BB85C(*(int *)p, i) != 0) {
+        if (func_021BB85C(*(int *)&((struct Obj00003 *)p)->f0, i) != 0) {
             n = func_021BB8A8(o, i);
             for (j = 0; j < n; j++) {
                 v = func_021BB8B0(o, i, j);

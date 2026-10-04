@@ -13,6 +13,7 @@
  *   func_0218A378 0x0218A378 thumb ov096
  *   func_0218A0F4 0x0218A0F4 thumb ov096
  */
+#include "../include/Obj21950.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,5 +26,5 @@ void func_0218908C(u8 *a, int b, int c)
     int t0, t1;
     t0 = func_0201134C((struct Cursor *)a);
     t1 = func_0201134C((struct Cursor *)a);
-    func_0218A0F4(a, c, func_0218A378(b, *(u16 *)(b + 2), 28), t0, t1);
+    func_0218A0F4(a, c, func_0218A378(b, ((struct Obj21950 *)b)->f2, 28), t0, t1);
 }

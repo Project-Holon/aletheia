@@ -19,6 +19,7 @@
  *   func_021B87C8 0x021B87C8 thumb ov102
  *   func_021B842C 0x021B842C thumb ov102
  */
+#include "../include/Obj22139.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,7 +55,7 @@ int func_021B7798(void *unused, u32 *state, int unused2, char *p)
         func_021B89F0((u8 *)(p + 0x118));
         func_021B87C8(p + 0xfc);
         (*(void (**)(char *, char *))(p + 0x480))(p, p + 0x484);
-        if (*(u32 *)(p + 0x488) != 0) *state = 4;
+        if (((struct Obj22139 *)p)->f488 != 0) *state = 4;
         break;
     case 4:
         func_0204E720(3, 0, 16, 0);

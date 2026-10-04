@@ -15,6 +15,7 @@
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021DEB34  0x021DEB34  thumb  ov119
  */
+#include "../include/Obj10363.h"
 
 typedef unsigned int   u32;
 struct MsgBank;
@@ -25,7 +26,7 @@ extern void func_021DEB34(void *p);
 
 void func_021DEBA0(char *p)
 {
-    func_02045CAC(*(void **)(p + 0x720), 0x91, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj10363 *)p)->f720, 0x91, ((struct Obj10363 *)p)->f738);
     func_021E1024(p);
     *(p + 0x11F1) = 0x78;
     func_021D8E84(p, (int)func_021DEB34);

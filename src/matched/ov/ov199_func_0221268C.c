@@ -18,6 +18,7 @@
  *   func_020306F0 0x020306F0 arm
  *   func_02005D28 0x02005D28 thumb
  */
+#include "../include/Obj03352.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct S020315D4;
@@ -32,16 +33,16 @@ extern void func_020306F0(u32);
 extern void func_02005D28(void);
 int func_0221268C(void *sys, int unused, void *data, char *p)
 {
-    func_0221372C(*(void **)(p + 0x18));
+    func_0221372C(((struct Obj03352 *)p)->f18);
     func_022133D0(p);
     func_0200B424();
-    func_020307B0(*(void **)(p + 0x3c));
-    func_020307B0(*(void **)(p + 0x38));
-    func_020307B0(*(void **)(p + 0x34));
-    func_020307B0(*(void **)(p + 0x30));
-    if (*(int *)p) func_02012704(*(void **)(p + 4));
-    if (*(int *)(p + 0xc) != 1) func_02087BCC(0);
-    if (*(int *)(p + 0x14)) func_020307B0(data);
+    func_020307B0(((struct Obj03352 *)p)->f3C);
+    func_020307B0(((struct Obj03352 *)p)->f38);
+    func_020307B0(((struct Obj03352 *)p)->f34);
+    func_020307B0(((struct Obj03352 *)p)->f30);
+    if (((struct Obj03352 *)p)->f0) func_02012704(((struct Obj03352 *)p)->f4);
+    if (((struct Obj03352 *)p)->fC != 1) func_02087BCC(0);
+    if (((struct Obj03352 *)p)->f14) func_020307B0(data);
     func_020315D4(sys);
     func_020306F0(0x56);
     func_02005D28();

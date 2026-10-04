@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -40,8 +41,8 @@ void func_021BF2FC(char *p)
     u32 x;
     void *a, *b;
     void *c;
-    if (*(u32 *)(p + 0x3c8) != 0) {
-        switch (*(u32 *)(p + 0x2cc)) {
+    if (((struct Obj00021 *)p)->f3C8 != 0) {
+        switch (((struct Obj00021 *)p)->f2CC) {
         case 0:
             k = 0xf;
             break;
@@ -50,7 +51,7 @@ void func_021BF2FC(char *p)
             break;
         }
     } else {
-        switch (*(u32 *)(p + 0x2cc)) {
+        switch (((struct Obj00021 *)p)->f2CC) {
         case 0:
             k = 0x10;
             break;
@@ -60,12 +61,12 @@ void func_021BF2FC(char *p)
         }
     }
     x = func_021BF810(p);
-    c = *(void **)(p + 0x18);
-    a = func_02045EC0(*(void **)(p + 0xc), k);
-    b = func_020457B0(0x80, *(u16 *)(p + 4));
+    c = ((struct Obj00021 *)p)->f18;
+    a = func_02045EC0(((struct Obj00021 *)p)->fC, k);
+    b = func_020457B0(0x80, ((struct Obj00021 *)p)->f4);
     func_0201EFA4(c, 0, x, 6, 1, 1);
     func_0201F250(c, b, a);
-    func_021C0F78(*(u32 *)(p + 0x35c), b);
+    func_021C0F78(((struct Obj00021 *)p)->f35C, b);
     func_02045808(a);
     func_02045808(b);
 }

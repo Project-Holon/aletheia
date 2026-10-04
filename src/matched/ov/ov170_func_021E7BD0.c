@@ -18,6 +18,8 @@
  *   func_021E9B74 0x021E9B74 thumb ov170
  *   func_021E22B8 0x021E22B8 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23912.h"
 extern void func_021DEF98(unsigned char *p, int a, int b);
 extern void func_021DEFEC(unsigned char *p, int b);
 extern void func_021ED544(unsigned char *p, int b);
@@ -41,7 +43,7 @@ int func_021E7BD0(unsigned char *p)
         func_021ED508(p, 0xE, 1);
     else
         func_021ED508(p, 0xD, 1);
-    switch (*(unsigned *)(*(char **)p + 0x24)) {
+    switch (((struct Obj23912 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 0:
         *(int *)(WORK(p) + 0xA198) = func_021E9968(p);
         break;

@@ -12,6 +12,8 @@
  * symbols:
  *   func_020307B0            0x020307B0  arm
  */
+#include "../include/Obj14197.h"
+#include "../include/Obj14198.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -22,9 +24,9 @@ struct Bf7 {
 extern void func_020307B0(void *);
 int func_021C74C8(u8 *p)
 {
-    u8 *q = *(u8 **)(p + 0x10);
-    ((struct Bf7 *)(p + 0x21))->v = *(u32 *)(q + 0x3C);
-    p[0x20] = *(u32 *)(q + 0x40);
+    u8 *q = *(u8 * *)&((struct Obj14197 *)p)->f10;
+    ((struct Bf7 *)(p + 0x21))->v = ((struct Obj14198 *)q)->f3C;
+    p[0x20] = ((struct Obj14198 *)q)->f40;
     func_020307B0(q);
     return 0;
 }

@@ -16,6 +16,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj03681.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned char  u8;
@@ -27,4 +28,4 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 typedef unsigned int   u32;
 extern void func_02041B6C(u32 bit);
-void func_021BBA28(int a,int b) {unsigned int q; func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4))),15); q=*(unsigned int *)(b+4); func_02045334((struct Descriptor *)q);func_02045374((struct Cfg *)q);func_02041B6C(func_02045730((struct Descriptor *)q));}
+void func_021BBA28(int a,int b) {unsigned int q; func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj03681 *)b)->f4)),15); q=((struct Obj03681 *)b)->f4; func_02045334((struct Descriptor *)q);func_02045374((struct Cfg *)q);func_02041B6C(func_02045730((struct Descriptor *)q));}

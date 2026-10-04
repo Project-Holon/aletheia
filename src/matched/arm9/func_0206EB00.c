@@ -28,6 +28,9 @@
  * byte of the selected word becomes the low half of one output halfword
  * with 0x100 set.
  */
+#include "../include/Obj07050.h"
+#include "../include/Obj16618.h"
+#include "../include/Obj16619.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,15 +43,15 @@ void func_0206EB00(char *dst, char *src, char *tbl)
 {
     u8 n;
 
-    *(char **)(dst + 8) = src;
-    *(u32 *)(dst + 0xC) = g_020A8224;
-    n = *(u8 *)(tbl + 0x17);
-    *(u8 *)(dst + 0x19) = n;
+    *(char * *)&((struct Obj07050 *)dst)->f8 = src;
+    ((struct Obj07050 *)dst)->fC = g_020A8224;
+    n = ((struct Obj16618 *)tbl)->f17;
+    ((struct Obj07050 *)dst)->f19 = n;
     func_02082A48(0, dst + 0x1A, (u32)n << 1);
     {
         u32 i = 0;
         char *ix = src + 0x14;
-        while (i < *(u16 *)(src + 6)) {
+        while (i < ((struct Obj16619 *)src)->f6) {
             ((u16 *)(dst + 0x1A))[i] =
                 (u16)((*(u32 *)(src + ((u16 *)ix)[i]) >> 24) | 0x100);
             i = i + 1;

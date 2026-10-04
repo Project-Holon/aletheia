@@ -46,6 +46,7 @@
  *   python3 tools/match.py one --src src/matched/func_02014C08.c \
  *       --func func_02014C08 --addr 0x02014C08 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01459.h"
 extern void func_020649D4(char *member, int value);
 extern void func_02016374(void *obj);
 extern void func_020169E8(char *self, char *entry);
@@ -56,18 +57,18 @@ void func_02014C08(char *self)
 {
     int i;
 
-    for (i = 0; i < *(int *)(self + 0x10); i++) {
-        if (*(int *)(*(int *)(self + 0x14) + i * 4) == 0)
+    for (i = 0; i < ((struct Obj01459 *)self)->f10; i++) {
+        if (*(int *)(((struct Obj01459 *)self)->f14 + i * 4) == 0)
             continue;
-        if (((*(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x140) << 0x15) >> 0x1e) == 0)
-            func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34),
-                          *(int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x174));
-        if (((*(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
-            func_020169E8(self, (char *)(*(int *)(*(int *)(self + 0x14) + i * 4)));
-        if (((B1 *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x144))->b0 == 1) {
-            func_02016374((char *)(*(int *)(*(int *)(self + 0x14) + i * 4)));
-            func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34), 0);
-            *(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x144) &= ~1u;
+        if (((*(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x140) << 0x15) >> 0x1e) == 0)
+            func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34),
+                          *(int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x174));
+        if (((*(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
+            func_020169E8(self, (char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
+        if (((B1 *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x144))->b0 == 1) {
+            func_02016374((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4)));
+            func_020649D4((char *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x34), 0);
+            *(unsigned int *)(*(int *)(((struct Obj01459 *)self)->f14 + i * 4) + 0x144) &= ~1u;
         }
     }
 }

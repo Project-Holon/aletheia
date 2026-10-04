@@ -22,6 +22,7 @@
  *   func_02029620  0x02029620  thumb
  *   func_02012374  0x02012374  thumb
  */
+#include "../include/Obj00707.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ int func_021C0844(u32 a, int *st, u8 *p)
 {
     switch (*st) {
     case 0:
-        if ((int)*(u16 *)(p + 0x16) % 15 == 0) {
+        if ((int)((struct Obj00707 *)p)->f16 % 15 == 0) {
             func_021C09B0(p);
             if (p[0x14] <= p[0x15]) {
                 func_021C09A8(p, st, 1);
@@ -51,9 +52,9 @@ int func_021C0844(u32 a, int *st, u8 *p)
         }
         break;
     case 1:
-        if (*(u16 *)(p + 0x16) > 10) {
+        if (((struct Obj00707 *)p)->f16 > 10) {
             func_021C0A10(p);
-            func_02012374((struct Evt *)a, func_02029830(func_02188C80((void *)(*(u32 *)(p + 4))), 0x514));
+            func_02012374((struct Evt *)a, func_02029830(func_02188C80((void *)(((struct Obj00707 *)p)->f4)), 0x514));
             func_021C09A8(p, st, 2);
         }
         break;
@@ -64,13 +65,13 @@ int func_021C0844(u32 a, int *st, u8 *p)
         }
         break;
     case 3:
-        func_02012374((struct Evt *)a, func_02029620(func_02188C80((void *)(*(u32 *)(p + 4))), 0, 6));
+        func_02012374((struct Evt *)a, func_02029620(func_02188C80((void *)(((struct Obj00707 *)p)->f4)), 0, 6));
         func_021C09A8(p, st, 4);
         break;
     case 4:
         func_021C0988(p);
         return 1;
     }
-    *(u16 *)(p + 0x16) = *(u16 *)(p + 0x16) + 1;
+    ((struct Obj00707 *)p)->f16 = ((struct Obj00707 *)p)->f16 + 1;
     return 0;
 }

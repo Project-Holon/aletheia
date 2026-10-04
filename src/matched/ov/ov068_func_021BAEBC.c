@@ -11,11 +11,12 @@
  *
  * Unlabelled leaf (halfword getter) found while matching func_021BB418.
  */
+#include "../include/Obj20648.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 u16 func_021BAEBC(u8 *p)
 {
-    return *(u16 *)(p + 0x54);
+    return ((struct Obj20648 *)p)->f54;
 }

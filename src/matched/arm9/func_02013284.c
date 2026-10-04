@@ -68,6 +68,7 @@
  *   python tools/match.py one --src src/matched/func_02013284.c \
  *       --func func_02013284 --addr 0x02013284 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00155.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -106,22 +107,22 @@ void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
     switch (func_0202A3FC(*(u32 *)(*(u32 *)(base + off) + 4))) {
     case 2:
     case 3:
-        *(u16 *)(o + 0x1a) = 0x47e;
+        ((struct Obj00155 *)o)->f1A = 0x47e;
         break;
     case 7:
     case 8:
-        *(u16 *)(o + 0x1a) = 0x47f;
+        ((struct Obj00155 *)o)->f1A = 0x47f;
         break;
     case 4:
     case 11:
-        *(u16 *)(o + 0x1a) = 0x480;
+        ((struct Obj00155 *)o)->f1A = 0x480;
         break;
     case 6:
     case 9:
-        *(u16 *)(o + 0x1a) = 0x491;
+        ((struct Obj00155 *)o)->f1A = 0x491;
         break;
     default:
-        *(u16 *)(o + 0x1a) = 0x47d;
+        ((struct Obj00155 *)o)->f1A = 0x47d;
         break;
     }
 }

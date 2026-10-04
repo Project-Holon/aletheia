@@ -23,6 +23,8 @@
  *   func_0204B974 0x0204B974 arm
  *   d_021B7481 0x021B7481 data a1
  */
+#include "../include/Obj00476.h"
+#include "../include/Obj01422.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,29 +47,29 @@ void func_021B7004(u8 *p, u8 *q)
     int step;
     int base;
     Request req;
-    if (*(int *)(p + 8) == 2) { step = 0x6000; base = 0; }
+    if (((struct Obj01422 *)p)->f8 == 2) { step = 0x6000; base = 0; }
     else { step = 0x3000; base = 0x1c00; }
     func_021B7180(p, q, (d_021B7481 + 4)[q[2] * 3]);
     func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x10000, step);
-    func_020307B0(*(void **)(q + 16));
-    func_021B7180(p, q, d_021B7481[q[3] * 2] + *(int *)(p + 16) * 2);
+    func_020307B0(((struct Obj00476 *)q)->f10);
+    func_021B7180(p, q, d_021B7481[q[3] * 2] + ((struct Obj01422 *)p)->f10 * 2);
     func_021B71A0((int)p, (int *)q, base, step * q[0] + 0x28000, step);
-    func_020307B0(*(void **)(q + 16));
-    *(int *)(q + 28) = func_0204ACEC(*(void **)(p + 24), (d_021B7481 + 5)[q[2] * 3], 0, (u16)((q[0] * 2 + 4) << 5), *(u16 *)p);
-    *(int *)(q + 32) = func_0204A6C8(*(void **)(p + 24), (d_021B7481 + 5)[q[2] * 3] + 1, 0, 0, *(u16 *)p);
-    *(int *)(q + 36) = func_0204AF28(*(void **)(p + 24), (d_021B7481 + 5)[q[2] * 3] + 2, (d_021B7481 + 5)[q[2] * 3] + 3, *(u16 *)p);
+    func_020307B0(((struct Obj00476 *)q)->f10);
+    *(int *)&((struct Obj00476 *)q)->f1C = func_0204ACEC(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3], 0, (u16)((q[0] * 2 + 4) << 5), ((struct Obj01422 *)p)->f0);
+    *(int *)&((struct Obj00476 *)q)->f20 = func_0204A6C8(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3] + 1, 0, 0, ((struct Obj01422 *)p)->f0);
+    *(int *)&((struct Obj00476 *)q)->f24 = func_0204AF28(((struct Obj01422 *)p)->f18, (d_021B7481 + 5)[q[2] * 3] + 2, (d_021B7481 + 5)[q[2] * 3] + 3, ((struct Obj01422 *)p)->f0);
     req.a = 10; req.b = 1;
     req.x = (q[0] % 2) * 128 + 64;
     req.y = (q[0] / 2) * 96 + 48;
-    if (*(int *)(p + 8) == 2) req.y += 56;
+    if (((struct Obj01422 *)p)->f8 == 2) req.y += 56;
     req.id = 0;
-    *(u32 *)(q + 40) = (u32)func_0204B294((void *)*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), &req, 0, *(u16 *)p);
-    func_0204B3DC(*(void **)(q + 40), 1);
-    func_0204B92C(*(void **)(q + 40), 1);
-    func_0204B974(*(void **)(q + 40));
+    *(u32 *)&((struct Obj00476 *)q)->f28 = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
+    func_0204B3DC(((struct Obj00476 *)q)->f28, 1);
+    func_0204B92C(((struct Obj00476 *)q)->f28, 1);
+    func_0204B974(((struct Obj00476 *)q)->f28);
     req.id = 1;
-    *(u32 *)(q + 44) = (u32)func_0204B294((void *)*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), &req, 0, *(u16 *)p);
-    func_0204B3DC(*(void **)(q + 44), 1);
-    func_0204B92C(*(void **)(q + 44), 1);
-    func_0204B974(*(void **)(q + 44));
+    *(u32 *)&((struct Obj00476 *)q)->f2C = (u32)func_0204B294((void *)((struct Obj01422 *)p)->f50, ((struct Obj00476 *)q)->f20, ((struct Obj00476 *)q)->f1C, ((struct Obj00476 *)q)->f24, &req, 0, ((struct Obj01422 *)p)->f0);
+    func_0204B3DC(((struct Obj00476 *)q)->f2C, 1);
+    func_0204B92C(((struct Obj00476 *)q)->f2C, 1);
+    func_0204B974(((struct Obj00476 *)q)->f2C);
 }

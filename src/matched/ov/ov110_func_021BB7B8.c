@@ -15,6 +15,7 @@
  *   func_021BC93C 0x021BC93C thumb ov110
  *   func_02040618 0x02040618 arm
  */
+#include "../include/Obj13779.h"
 typedef unsigned char u8;
 extern int func_021BC7DC(u8 *p);
 extern void func_021BC8FC(u8 *p, int a, int start, int end, int n);
@@ -22,11 +23,11 @@ extern int func_021BC93C(u8 *p);
 extern void func_02040618(unsigned, unsigned, unsigned);
 int func_021BB7B8(u8 *p)
 {
-    switch (*(int *)(p + 0x10)) {
+    switch (((struct Obj13779 *)p)->f10) {
     case 0:
         if (func_021BC7DC(p + 0x38)) {
             func_021BC8FC(p + 0x18, 2, 0, -10, 16);
-            ++*(int *)(p + 0x10);
+            ++((struct Obj13779 *)p)->f10;
         }
         break;
     case 1:

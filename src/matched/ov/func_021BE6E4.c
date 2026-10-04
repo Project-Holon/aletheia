@@ -14,6 +14,7 @@
  *
  * Hands the pointer at +0x08 to the ov009 routine with selector 0x20.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern int func_0215683C(char *a, int b);
 
 void func_021BE6E4(char *s)
 {
-    func_0215683C(*(void **)(s + 8), 0x20);
+    func_0215683C(((struct Obj00008 *)s)->f8, 0x20);
 }

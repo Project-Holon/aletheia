@@ -23,6 +23,7 @@
  * Three-state step over the object at *(p+0x30): submit on 0, poll on 1,
  *   finish through 0x21FD73C on 2.
  */
+#include "../include/Obj14447.h"
 
 
 extern void func_021F8670(int a, int b, char *p);
@@ -34,11 +35,11 @@ void func_021F85DC(int a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_021FE784(*(int *)(*(int *)(p + 0x30)), 4, 3, 0);
+        func_021FE784(*(int *)(((struct Obj14447 *)p)->f30), 4, 3, 0);
         *state = 1;
         break;
     case 1:
-        if (func_021FE7B0(*(int *)(*(int *)(p + 0x30))))
+        if (func_021FE7B0(*(int *)(((struct Obj14447 *)p)->f30)))
             *state = 2;
         break;
     case 2:

@@ -12,6 +12,7 @@
  * symbols:
  *   func_020221A4  0x020221A4  thumb
  */
+#include "../include/Obj20813.h"
 
 typedef unsigned int   u32;
 extern u32 func_020221A4(void);
@@ -19,7 +20,7 @@ extern u32 func_020221A4(void);
 int func_021BA218(char *p)
 {
     if (func_020221A4() == 1) {
-        return *(int *)(p + 0x144);
+        return ((struct Obj20813 *)p)->f144;
     }
     return 2;
 }

@@ -22,6 +22,7 @@
  *   func_02010EB4  0x02010EB4  thumb
  *   func_02010EC0  0x02010EC0  thumb
  */
+#include "../include/Obj00815.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,17 +52,17 @@ void func_021F55D4(char *p)
     u8 n;
     u8 t;
 
-    x = func_0200BE48(func_02012EBC(*(void **)(p + 0xC)));
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 4, (void *)(*(u32 *)(p + 0x34)));
-    func_02190844((struct Slot **)(*(u32 *)(p + 0x18)), 0, 0, *(u32 *)(p + 0x34));
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 6, (void *)(*(u32 *)(p + 0x34)));
+    x = func_0200BE48(func_02012EBC(((struct Obj00815 *)p)->fC));
+    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 4, (void *)(((struct Obj00815 *)p)->f34));
+    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0, ((struct Obj00815 *)p)->f34);
+    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 6, (void *)(((struct Obj00815 *)p)->f34));
     c = func_0200BF10(x);
     if (c != 0x30) {
-        func_021F556C(p, *(u32 *)(p + 0x34), c, 0, 1);
+        func_021F556C(p, ((struct Obj00815 *)p)->f34, c, 0, 1);
     }
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 5, (void *)(*(u32 *)(p + 0x34)));
-    func_02190844((struct Slot **)(*(u32 *)(p + 0x18)), 0, 0x30, *(u32 *)(p + 0x34));
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 7, (void *)(*(u32 *)(p + 0x34)));
+    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 5, (void *)(((struct Obj00815 *)p)->f34));
+    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 0, 0x30, ((struct Obj00815 *)p)->f34);
+    func_02045CAC((struct MsgBank *)(((struct Obj00815 *)p)->f28), 7, (void *)(((struct Obj00815 *)p)->f34));
 
     for (i = 0, n = 0; i < 13; i++) {
         order[i] = i;
@@ -84,6 +85,6 @@ void func_021F55D4(char *p)
     }
 
     for (i = 0; i < n; i++) {
-        func_021F556C(p, *(u32 *)(p + 0x34), vals[order[i]], keys[order[i]], i + 4);
+        func_021F556C(p, ((struct Obj00815 *)p)->f34, vals[order[i]], keys[order[i]], i + 4);
     }
 }

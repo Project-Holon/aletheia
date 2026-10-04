@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00024.h"
 
 typedef unsigned int u32;
 
@@ -32,17 +33,17 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021BB9E4(void *a0, char *a1)
 {
-    *(u32 *)(a1 + 0x10) = 0;
-    *(u32 *)(a1 + 0x14) = 0;
-    func_0204B9A0(*(void **)(a1 + 0x84));
-    func_0204B9A0(*(void **)(a1 + 0x88));
-    func_0204B9A0(*(void **)(a1 + 0x8c));
-    func_0204B8C4(*(void **)(a1 + 0x84), 0);
-    func_0204B8C4(*(void **)(a1 + 0x88), 0);
-    func_0204B92C(*(void **)(a1 + 0x84), 0);
-    func_0204B92C(*(void **)(a1 + 0x88), 0);
-    func_0204B3DC(*(void **)(a1 + 0x84), 0);
-    func_0204B3DC(*(void **)(a1 + 0x88), 0);
-    func_0204B3DC(*(void **)(a1 + 0x8c), 0);
-    func_0204B3DC(*(void **)(a1 + 0x90), 0);
+    *(u32 *)&((struct Obj00024 *)a1)->f10 = 0;
+    *(u32 *)&((struct Obj00024 *)a1)->f14 = 0;
+    func_0204B9A0(((struct Obj00024 *)a1)->f84);
+    func_0204B9A0(((struct Obj00024 *)a1)->f88);
+    func_0204B9A0(((struct Obj00024 *)a1)->f8C);
+    func_0204B8C4(((struct Obj00024 *)a1)->f84, 0);
+    func_0204B8C4(((struct Obj00024 *)a1)->f88, 0);
+    func_0204B92C(((struct Obj00024 *)a1)->f84, 0);
+    func_0204B92C(((struct Obj00024 *)a1)->f88, 0);
+    func_0204B3DC(((struct Obj00024 *)a1)->f84, 0);
+    func_0204B3DC(((struct Obj00024 *)a1)->f88, 0);
+    func_0204B3DC(((struct Obj00024 *)a1)->f8C, 0);
+    func_0204B3DC(((struct Obj00024 *)a1)->f90, 0);
 }

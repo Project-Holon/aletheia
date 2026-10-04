@@ -16,6 +16,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9CC4 0x021B9CC4 thumb ov100
  */
+#include "../include/Obj22079.h"
 typedef unsigned short u16;
 
 struct Entry;
@@ -33,7 +34,7 @@ extern void func_021B9CC4(int a);
 void func_021B9D6C(int a) {
  int p=(int)func_020399A8();
  int k=func_02008468();
- int v=(int)func_02012944((void *)(**(int **)(a+0x244)));
+ int v=(int)func_02012944((void *)(**(int * *)&((struct Obj22079 *)a)->f244));
  if(func_0203D3A8((void *)p,0xc01,k,v)!=0) {
   func_02039C68((struct Link *)func_020399A8(),0x7b,12);
   func_021B95B8(a,(void (*)(void))func_021B9CC4);

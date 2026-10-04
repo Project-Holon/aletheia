@@ -24,6 +24,8 @@
  *   func_02041EE4  0x02041EE4  arm
  *   func_021BB9DC  0x021BB9DC  thumb  ov088
  */
+#include "../include/Obj06204.h"
+#include "../include/Obj13234.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,22 +48,22 @@ extern void func_021BB9DC(char *, int);
 
 static inline void print_line(char *p, u32 id, u32 y, u16 color)
 {
-    u32 s = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x5c)), id);
-    u32 a = *(u32 *)(p + 0x68);
-    func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xf0)), 0, y, s, *(u32 *)(p + 0x58), color);
-    *(u8 *)(p + 0xf4) = 1;
+    u32 s = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06204 *)p)->f5C), id);
+    u32 a = ((struct Obj06204 *)p)->f68;
+    func_0201C724(a, (u32)func_02045770((struct Descriptor *)((struct Obj06204 *)p)->fF0), 0, y, s, ((struct Obj06204 *)p)->f58, color);
+    ((struct Obj06204 *)p)->fF4 = 1;
     func_02045808((struct U16Vec *)s);
 }
 
 void func_021BBBAC(char *p)
 {
-    *(u32 *)(p + 0xf0) = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
+    ((struct Obj13234 *)p)->fF0 = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
     print_line(p, 0x16, 0, 0x14c0);
     print_line(p, 0x17, 0x18, 0x440);
     print_line(p, 0x18, 0x80, 0x440);
     print_line(p, 0x19, 0x90, 0x440);
 
-    func_02045374((struct Cfg *)(*(u32 *)(p + 0xf0)));
+    func_02045374((struct Cfg *)(((struct Obj13234 *)p)->fF0));
     func_02041B6C(0);
     func_021BBA64(0x20, 1, 0x20, 0x16, 2);
     func_02041EE4(1, 0, 0x100);

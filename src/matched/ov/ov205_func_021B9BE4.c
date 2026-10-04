@@ -37,6 +37,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_021B9DAC 0x021B9DAC thumb ov205
  */
+#include "../include/Obj01293.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -83,16 +84,16 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
     switch(*state){
     case 0:
         func_0208068C(511);func_02082AC0(0,0x6800000,0xa4000);func_02080B98();
-        func_021B9D58(*(u16 *)p);
-        *(void **)(p+24)=func_0201D7EC(23,0,0,0,*(u16 *)p);
-        *(void **)(p+12)=func_02045B38(0,2,37,*(u16 *)p);
-        *(void **)(p+16)=func_0201EC64(*(u16 *)p);
-        *(void **)(p+20)=(void *)func_020450F0(0,2,7,27,15,13,1);
-        if(*(u32 *)(p+4)==0)func_021B9DB8(p,3,6,0);
+        func_021B9D58(((struct Obj01293 *)p)->f0);
+        ((struct Obj01293 *)p)->f18=func_0201D7EC(23,0,0,0,((struct Obj01293 *)p)->f0);
+        ((struct Obj01293 *)p)->fC=func_02045B38(0,2,37,((struct Obj01293 *)p)->f0);
+        ((struct Obj01293 *)p)->f10=func_0201EC64(((struct Obj01293 *)p)->f0);
+        ((struct Obj01293 *)p)->f14=(void *)func_020450F0(0,2,7,27,15,13,1);
+        if(((struct Obj01293 *)p)->f4==0)func_021B9DB8(p,3,6,0);
         else func_021B9DB8(p,2,6,0);
-        obj=*(void **)(p+20);
+        obj=((struct Obj01293 *)p)->f14;
         func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
-        func_0203D34C(1,*(u16 *)p);func_020434DC(16,1);
+        func_0203D34C(1,((struct Obj01293 *)p)->f0);func_020434DC(16,1);
         (*state)++;break;
     case 1:
         func_0204E720(3,16,0,0);*(u16 *)0x04000050=0;
@@ -104,12 +105,12 @@ int func_021B9BE4(void *input,u32 *state,u32 unused,char *p)
         if((keys&1)||(keys&2)){func_0204E720(3,0,16,0);(*state)++;}
         break;
     case 4:
-        if(!func_0204E804()){func_02043B5C(func_02045770(*(void **)(p+20)),0);(*state)++;}
+        if(!func_0204E804()){func_02043B5C(func_02045770(((struct Obj01293 *)p)->f14),0);(*state)++;}
         break;
     case 5:
-        func_0201F7A8(*(void **)(p+20),0);func_020452E8(*(void **)(p+20));
-        func_0201ED04(*(void **)(p+16));func_02045C04(*(void **)(p+12));
-        func_020403F4(0);func_0201D83C(*(void **)(p+24));func_021B9DAC();return 1;
+        func_0201F7A8(((struct Obj01293 *)p)->f14,0);func_020452E8(((struct Obj01293 *)p)->f14);
+        func_0201ED04(((struct Obj01293 *)p)->f10);func_02045C04(((struct Obj01293 *)p)->fC);
+        func_020403F4(0);func_0201D83C(((struct Obj01293 *)p)->f18);func_021B9DAC();return 1;
     }
     return 0;
 }

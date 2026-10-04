@@ -8,5 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj20887.h"
 typedef unsigned int u32;
-int func_021BB7D8(void *unused, u32 p) { if (*(u32 *)p != 4) return 1; return 0; }
+int func_021BB7D8(void *unused, u32 p) { if (((struct Obj20887 *)p)->f0 != 4) return 1; return 0; }

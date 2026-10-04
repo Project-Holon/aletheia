@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj07416.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,9 +24,9 @@ extern void func_02046EFC(struct Tagged *p);
 
 void func_0218D13C(u8 *a)
 {
-    if (*(u32 *)(a + 0x60) != 0) {
-        func_020470D0((u32 *)(*(u32 *)(a + 0x60)));
-        func_02046EFC((struct Tagged *)(*(u32 *)(a + 0x60)));
-        *(u32 *)(a + 0x60) = 0;
+    if (((struct Obj07416 *)a)->f60 != 0) {
+        func_020470D0((u32 *)(((struct Obj07416 *)a)->f60));
+        func_02046EFC((struct Tagged *)(((struct Obj07416 *)a)->f60));
+        ((struct Obj07416 *)a)->f60 = 0;
     }
 }

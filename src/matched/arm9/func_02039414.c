@@ -26,6 +26,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02039414.c  *       --func func_02039414 --addr 0x02039414 --cc 1.1p1 --arm
  */
+#include "../include/Obj15941.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -38,7 +39,7 @@ u32 func_02039414(void)
     u8 *p = func_0203D788();
     u32 r = 0;
 
-    if (p != 0 && *(u32 *)(p + 0x340) != 0)
+    if (p != 0 && ((struct Obj15941 *)p)->f340 != 0)
         r = ((u32 (*)(void))*(u32 *)(*(u32 *)(p + 0x340) + 0x88))();
     if (r == 0) {
         u8 *q = *(u8 **)(0x21469D0);

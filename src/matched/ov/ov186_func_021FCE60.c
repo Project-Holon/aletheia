@@ -14,6 +14,7 @@
  *   func_021FCF54 0x021FCF54 thumb ov186
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj00048.h"
 typedef struct { char pad[0x8C];int bitmap[1]; } View;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
@@ -25,12 +26,12 @@ extern void func_021FCF54(int,int,int,int,unsigned short,unsigned short,unsigned
 void func_021FCE60(char *p,int start)
 {
     int i,height;
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p+0x38))),0);
-    for(i=start;i<start+*(unsigned short *)(p+0x44);i++) {
-        if((unsigned)i<*(unsigned *)(p+4) && ((View *)p)->bitmap[i]) {
-            height=*(unsigned char *)(p+0xE);
-            func_021FCF54(((View *)p)->bitmap[i],(int)func_02045770((struct Descriptor *)*(int *)(p+0x38)),0,0,0,(i-start)*height,*(unsigned char *)(p+0xA),height);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38)),0);
+    for(i=start;i<start+((struct Obj00048 *)p)->f44;i++) {
+        if((unsigned)i<((struct Obj00048 *)p)->f4 && ((View *)p)->bitmap[i]) {
+            height=((struct Obj00048 *)p)->fE;
+            func_021FCF54(((View *)p)->bitmap[i],(int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38),0,0,0,(i-start)*height,((struct Obj00048 *)p)->fA,height);
         }
     }
-    func_02045334((struct Descriptor *)*(int *)(p+0x38));
+    func_02045334((struct Descriptor *)*(int *)&((struct Obj00048 *)p)->f38);
 }

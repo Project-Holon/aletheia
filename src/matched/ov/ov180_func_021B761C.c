@@ -26,6 +26,7 @@
  *   func_02049238 0x02049238 arm
  *   func_021B75A4 0x021B75A4 thumb ov180
  */
+#include "../include/Obj02516.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -43,22 +44,22 @@ void func_021B761C(char *p)
     int bank;
     void *mon;
     u32 lock;
-    if(*(int *)(p+0x9048)) {
+    if(((struct Obj02516 *)p)->f9048) {
         func_021B75E8(p,0);func_021B7510(p,0);func_021B7530(p,0);func_021B7550(p,0);
     }
-    if(*(int *)(p+0x904C)) {
+    if(((struct Obj02516 *)p)->f904C) {
         func_021B75E8(p,1);func_021B7510(p,1);func_021B7530(p,1);func_021B7550(p,1);
     }
     bank=func_0202D7C8(141);
-    mon=func_020185F0(*(void **)((u32)p+*(u8 *)(p+0x915D)*4+0x9140));
+    mon=func_020185F0(*(void **)((u32)p+((struct Obj02516 *)p)->f915D*4+0x9140));
     lock=func_02017DBC(mon);
-    *(int *)(p+0x90CC)=func_0202D934(bank,mon,0,0,141);
-    *(int *)(p+0x90E4)=func_0202D8D0(bank,mon,0,0,96,141);
-    *(u32 *)(p+0x9100)=func_0202D9A4((u32)mon,0,2,0,141);
-    *(int *)(p+0x90D0)=func_0202D934(bank,mon,1,0,141);
-    *(int *)(p+0x90E8)=func_0202D8D0(bank,mon,1,0,128,141);
-    *(u32 *)(p+0x9104)=func_0202D9A4((u32)mon,1,2,0,141);
+    ((struct Obj02516 *)p)->f90CC=func_0202D934(bank,mon,0,0,141);
+    ((struct Obj02516 *)p)->f90E4=func_0202D8D0(bank,mon,0,0,96,141);
+    ((struct Obj02516 *)p)->f9100=func_0202D9A4((u32)mon,0,2,0,141);
+    ((struct Obj02516 *)p)->f90D0=func_0202D934(bank,mon,1,0,141);
+    ((struct Obj02516 *)p)->f90E8=func_0202D8D0(bank,mon,1,0,128,141);
+    ((struct Obj02516 *)p)->f9104=func_0202D9A4((u32)mon,1,2,0,141);
     func_02017DE4(mon,lock);func_02049238((u8 *)bank);
-    *(int *)(p+0x9048)=func_021B75A4(p,d_021B8174);
-    *(int *)(p+0x904C)=func_021B75A4(p,d_021B818C);
+    ((struct Obj02516 *)p)->f9048=func_021B75A4(p,d_021B8174);
+    ((struct Obj02516 *)p)->f904C=func_021B75A4(p,d_021B818C);
 }

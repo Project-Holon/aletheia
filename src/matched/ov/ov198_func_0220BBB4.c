@@ -9,6 +9,7 @@
  * status: EXACT
  * leaf: sole unresolved blocker of func_0220B848.
  */
+#include "../include/Obj25128.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,7 +19,7 @@ u8 func_0220BBB4(u8 *p)
  u16 i,count=0;
  for(i=0;i<6;i++){
   u8 *rec=(u8 *)((u32)p+i*0x4c);
-  if(*(u16 *)(rec+8)!=0 && !((Bits *)(rec+0x1b))->high) count++;
+  if(((struct Obj25128 *)rec)->f8!=0 && !((Bits *)(rec+0x1b))->high) count++;
  }
  return count>=2;
 }

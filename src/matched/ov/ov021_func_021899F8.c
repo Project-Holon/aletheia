@@ -12,11 +12,12 @@
  * Unlabelled leaf setter: the word at +0x12C.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19502.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 void func_021899F8(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x12c) = v;
+    ((struct Obj19502 *)p)->f12C = v;
 }

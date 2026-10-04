@@ -14,6 +14,7 @@
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
  *   func_021A4598  0x021A4598  thumb  ov021
  */
+#include "../include/Obj01657.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,12 +27,12 @@ extern int func_021A4598(u8 *a, void *b, u8 *c);
 int func_021A4544(u8 *p, u32 r, u8 *q)
 {
     if (func_0216D3CC(r) == 1) {
-        if (*(u16 *)(q + 8) != 9) {
-            if (*(u16 *)(q + 8) != func_0216D5F8((void *)r) && *(u32 *)(q + 0x10) == 0) {
-                if ((*(u32 *)(q + 0xc) & 1) == 0) {
+        if (((struct Obj01657 *)q)->f8 != 9) {
+            if (((struct Obj01657 *)q)->f8 != func_0216D5F8((void *)r) && ((struct Obj01657 *)q)->f10 == 0) {
+                if ((((struct Obj01657 *)q)->fC & 1) == 0) {
                     return 3;
                 }
-                if ((2 & *(u32 *)(q + 4)) == 0) {
+                if ((2 & ((struct Obj01657 *)q)->f4) == 0) {
                     return 3;
                 }
             }

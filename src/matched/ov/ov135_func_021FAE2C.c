@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0204B898 0x0204B898 arm
  */
+#include "../include/Obj00246.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,17 +28,17 @@ int func_021FAE2C(u8 *p)
     u32 sel = func_021F9A88(p, p + 96);
     if (sel != -2) {
         if (sel <= 8) {
-            func_0204B3DC(*(void **)(p + 8), 1);
-            func_0204B878(*(void **)(p + 8), 19);
-            *(int *)(p + 72) = 8;
-            *(s16 *)(p + 56) = sel;
+            func_0204B3DC(((struct Obj00246 *)p)->f8, 1);
+            func_0204B878(((struct Obj00246 *)p)->f8, 19);
+            ((struct Obj00246 *)p)->f48 = 8;
+            ((struct Obj00246 *)p)->f38 = sel;
         }
     } else {
-        func_0204B3DC(*(void **)(p + 8), 1);
-        func_0204B878(*(void **)(p + 8), func_0204B898(*(void **)(p + 8)) + 9);
-        *(int *)(p + 72) = 3;
-        *(int *)(p + 76) = 8;
-        *(s16 *)(p + 56) = -1;
+        func_0204B3DC(((struct Obj00246 *)p)->f8, 1);
+        func_0204B878(((struct Obj00246 *)p)->f8, func_0204B898(((struct Obj00246 *)p)->f8) + 9);
+        ((struct Obj00246 *)p)->f48 = 3;
+        ((struct Obj00246 *)p)->f4C = 8;
+        ((struct Obj00246 *)p)->f38 = -1;
     }
     return -1;
 }

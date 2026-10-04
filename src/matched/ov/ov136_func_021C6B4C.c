@@ -10,6 +10,12 @@
  * symbols:
  *   d_021C7D68 0x021C7D68 data a4
  */
+#include "../include/Obj06530.h"
+#include "../include/Obj23612.h"
+#include "../include/Obj23613.h"
+#include "../include/Obj23614.h"
+#include "../include/Obj23615.h"
+#include "../include/Obj23616.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Row { int (*a)(u8 *); int (*b)(u8 *); };
@@ -21,14 +27,14 @@ extern u8 func_02027A04(const u8 *);
 extern void func_02027858(struct TaskMenu *m);
 int func_021C6B4C(u8 *p)
 {
-    func_02027974(*(void **)(*(u8 **)(p + 8) + 0x310));
-    if (func_020279E8(*(void **)(*(u8 **)(p + 8) + 0x310)) == 0) return 4;
-    switch (func_02027A04(*(u8 **)(*(u8 **)(p + 8) + 0x310))) {
+    func_02027974(((struct Obj23612 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310);
+    if (func_020279E8(((struct Obj23613 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310) == 0) return 4;
+    switch (func_02027A04(*(u8 * *)&((struct Obj23614 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310)) {
     case 0:
-        func_02027858(*(void **)(*(u8 **)(p + 8) + 0x310));
+        func_02027858(((struct Obj23615 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310);
         return d_021C7D68[*(int *)(*(u8 **)(p + 8) + 0x1E0)].a(p);
     case 1:
-        func_02027858(*(void **)(*(u8 **)(p + 8) + 0x310));
+        func_02027858(((struct Obj23616 *)(*(u8 * *)&((struct Obj06530 *)p)->f8))->f310);
         return d_021C7D68[*(int *)(*(u8 **)(p + 8) + 0x1E0)].b(p);
     }
     return 4;

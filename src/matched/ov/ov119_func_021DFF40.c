@@ -21,6 +21,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DFFE0 0x021DFFE0 thumb ov119
  */
+#include "../include/Obj01252.h"
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
 typedef unsigned int   u32;
@@ -36,7 +37,7 @@ extern void func_021DFFE0(char *p);
 void func_021DFF40(char *p)
 {
     void *a;
-    if (*(int *)(p + 0xF2C) < 0xC8) {
+    if (((struct Obj01252 *)p)->fF2C < 0xC8) {
         return;
     }
     if (func_021D8AA8(p)) {
@@ -44,16 +45,16 @@ void func_021DFF40(char *p)
     } else {
         a = func_021D8FA4(p, 1);
     }
-    func_0201EEF4(*(void **)(p + 0x724), 1, a);
-    func_0201F02C(*(void **)(p + 0x724), 0, (void *)(*(int *)(p + 0x834)));
-    if (*(int *)(p + 0x118C) != 7 && *(int *)(p + 0x118C) != 8) {
-        if (*(unsigned char *)(p + 0x11EE)) {
-            func_02045CAC(*(void **)(p + 0x720), 0x84, *(void **)(p + 0x73C));
-            func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x738), *(void **)(p + 0x73C));
+    func_0201EEF4(((struct Obj01252 *)p)->f724, 1, a);
+    func_0201F02C(((struct Obj01252 *)p)->f724, 0, (void *)(((struct Obj01252 *)p)->f834));
+    if (((struct Obj01252 *)p)->f118C != 7 && ((struct Obj01252 *)p)->f118C != 8) {
+        if (((struct Obj01252 *)p)->f11EE) {
+            func_02045CAC(((struct Obj01252 *)p)->f720, 0x84, ((struct Obj01252 *)p)->f73C);
+            func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         } else {
-            func_02045CAC(*(void **)(p + 0x720), 0x31, *(void **)(p + 0x73C));
-            func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x738), *(void **)(p + 0x73C));
+            func_02045CAC(((struct Obj01252 *)p)->f720, 0x31, ((struct Obj01252 *)p)->f73C);
+            func_0201F250(((struct Obj01252 *)p)->f724, ((struct Obj01252 *)p)->f738, ((struct Obj01252 *)p)->f73C);
             func_021E0FF4(p, 1, 0);
         }
     }

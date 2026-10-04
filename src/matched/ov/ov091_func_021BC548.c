@@ -17,6 +17,7 @@
  *   func_021BB98C  0x021BB98C  thumb  ov091
  *   func_021B9E44  0x021B9E44  thumb  ov091
  */
+#include "../include/Obj03682.h"
 
 typedef unsigned short u16;
 
@@ -34,16 +35,16 @@ void func_021BC548(int p)
 {
     u16 h;
     u16 v;
-    h = func_021BB464(p, (short unsigned int *)(*(int *)(p + *(int *)(p + 0x2c) * 4 + 0x160)));
-    *(int *)(*(int *)(p + 0x280) + 0x40) = 10;
-    func_021BB97C((u16 *)p, *(int *)(p + 0x150));
-    func_021BB99C(p, *(int *)(p + 0x150), 0, *(int *)(p + 0x38));
-    v = *(u16 *)(p + 0x11c);
+    h = func_021BB464(p, (short unsigned int *)(*(int *)(p + ((struct Obj03682 *)p)->f2C * 4 + 0x160)));
+    *(int *)(((struct Obj03682 *)p)->f280 + 0x40) = 10;
+    func_021BB97C((u16 *)p, ((struct Obj03682 *)p)->f150);
+    func_021BB99C(p, ((struct Obj03682 *)p)->f150, 0, ((struct Obj03682 *)p)->f38);
+    v = ((struct Obj03682 *)p)->f11C;
     if (v != 0) {
-        func_021BB9EC(p, *(int *)(p + 0x150), 1, h - v, 3);
+        func_021BB9EC(p, ((struct Obj03682 *)p)->f150, 1, h - v, 3);
         func_021B9788((u8 *)p, 0x2c, 1, (int)func_021B9E44);
     } else {
         func_021B9788((u8 *)p, 0x32, 1, (int)func_021B9E44);
     }
-    func_021BB98C((void *)p, *(int *)(p + 0x150));
+    func_021BB98C((void *)p, ((struct Obj03682 *)p)->f150);
 }

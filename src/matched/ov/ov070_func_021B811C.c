@@ -11,6 +11,7 @@
  * symbols:
 
  */
+#include "../include/Obj20667.h"
 
 typedef unsigned char u8;
-int func_021B811C(u8 *p) { int v = *(int *)(p+0x10); if (v==0 || v==1 || v==3) return 1; return 0; }
+int func_021B811C(u8 *p) { int v = ((struct Obj20667 *)p)->f10; if (v==0 || v==1 || v==3) return 1; return 0; }

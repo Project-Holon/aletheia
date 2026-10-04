@@ -14,6 +14,7 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj05338.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 struct Obj020437AC;
@@ -33,6 +34,6 @@ void func_021E6DEC(int p) {
             *(int *)(p+i*4+0x1114)=0;
         }
     }
-    if (*(int *)(p+0x10ec)) {func_0204ADA4(*(int *)(p+0x10ec));*(int *)(p+0x10ec)=0;}
-    if (*(int *)(p+0x10ec)) {func_0204AFD8(*(int *)(p+0x111c));*(int *)(p+0x10ec)=0;}
+    if (((struct Obj05338 *)p)->f10EC) {func_0204ADA4(((struct Obj05338 *)p)->f10EC);((struct Obj05338 *)p)->f10EC=0;}
+    if (((struct Obj05338 *)p)->f10EC) {func_0204AFD8(((struct Obj05338 *)p)->f111C);((struct Obj05338 *)p)->f10EC=0;}
 }

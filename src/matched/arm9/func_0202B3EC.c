@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B3EC.c \
  *       --func func_0202B3EC --addr 0x0202B3EC --thumb --cc 1.1p1
  */
+#include "../include/Obj15834.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -27,6 +28,6 @@ extern void func_020307B0(void *p);
 void func_0202B3EC(u8 *p)
 {
     func_0202B42C(p);
-    func_0202B360(*(u8 **)(p + 0x14));
+    func_0202B360(*(u8 * *)&((struct Obj15834 *)p)->f14);
     func_020307B0(p);
 }

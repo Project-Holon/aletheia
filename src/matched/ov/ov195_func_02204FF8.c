@@ -13,15 +13,16 @@
  *   func_02005E9C 0x02005E9C thumb
  *   func_02005D28 0x02005D28 thumb
  */
+#include "../include/Obj14527.h"
 
 extern void func_02005E9C(void);
 extern void func_02005D28(void);
 
 void func_02204FF8(int a, char *b)
 {
-    if (*(int *)(b + 0x30) == 5) {
+    if (((struct Obj14527 *)b)->f30 == 5) {
         func_02005E9C();
         func_02005D28();
-        *(int *)(b + 0x30) = 0;
+        ((struct Obj14527 *)b)->f30 = 0;
     }
 }

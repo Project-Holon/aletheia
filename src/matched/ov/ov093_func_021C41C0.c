@@ -16,6 +16,7 @@
  *   func_021D6D70  0x021D6D70  thumb  ov093
  *   func_021CD4B0  0x021CD4B0  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,6 +32,6 @@ void func_021C41C0(u8 *p, u8 *a)
     int r = func_021C4208(p + 0x1ab8, i);
     func_021C5D88(p, a, 0x31a);
     func_021D6D70(a);
-    func_021CD4B0(*(void **)(p + 0xc), 0x28, i);
-    func_021CD4B0(*(void **)(p + 0xc), 0x52, r);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x28, i);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x52, r);
 }

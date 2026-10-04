@@ -19,6 +19,8 @@
  *   func_0202C9B4 0x0202C9B4 thumb
  *   func_0202CA3C 0x0202CA3C thumb
  */
+#include "../include/Obj01558.h"
+#include "../include/Obj24042.h"
 typedef unsigned int u32;
 struct WinMgr;
 extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
@@ -33,14 +35,14 @@ extern void func_021EF4C0(struct WinMgr *mgr);
 #define MGR(w) (*(struct WinMgr **)((w)+0x74))
 void func_021EF274(char *p)
 {
-    char *w=*(char **)(p+0x2c);
+    char *w=*(char * *)&((struct Obj01558 *)p)->f2C;
     MGR(w)=func_0202C9B4(2,12,0x4c);
     func_021EB744(w);
     func_021EF630(p);
     func_021EB79C(p);
     func_021EB7C8(p);
     func_0202CA3C(MGR(w),8,1,11,15);
-    if(*(int *)(*(char **)p+0x24)==4) func_021EF31C(MGR(w),8,8);
+    if(((struct Obj24042 *)(*(char * *)&((struct Obj01558 *)p)->f0))->f24==4) func_021EF31C(MGR(w),8,8);
     else func_021EF31C(MGR(w),8,9);
     func_0202CA3C(MGR(w),7,1,11,15);
     func_021EF31C(MGR(w),7,10);

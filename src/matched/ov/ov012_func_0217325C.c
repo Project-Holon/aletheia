@@ -29,6 +29,7 @@
  *   func_02009CB0  0x02009CB0  thumb
  *   func_021840C8  0x021840C8  thumb  ov022
  */
+#include "../include/Obj02671.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -129,22 +130,22 @@ void func_0217325C(u8 *self, Rec *out)
     out->fA = l->f1;
     out->b7hi = l->f2;
     out->fB = l->f0;
-    func_020084F8((*(Save **)self)->f0, (u32)out->fC, 8);
-    out->b6hi = func_02008554((*(Save **)self)->f0);
-    out->b7bit = func_02008550((*(Save **)self)->f0);
-    out->f5C = func_02008530((*(Save **)self)->f0);
+    func_020084F8((*(Save * *)&((struct Obj02671 *)self)->f0)->f0, (u32)out->fC, 8);
+    out->b6hi = func_02008554((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
+    out->b7bit = func_02008550((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
+    out->f5C = func_02008530((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->b7lo = l->fF;
     out->f1C = l->f4;
     out->f1E = l->f6;
     out->f20 = l->f8;
     out->f22 = l->fA;
     out->f24 = l->fC;
-    out->f26 = func_0200856C((*(Save **)self)->f0);
-    out->f27 = func_02008570((*(Save **)self)->f0);
+    out->f26 = func_0200856C((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
+    out->f27 = func_02008570((*(Save * *)&((struct Obj02671 *)self)->f0)->f0);
     out->f28 = l->f30;
-    func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save **)self)->fC))), out->f50);
-    if (*(void **)(self + 0x3528) != 0)
-        out->b6bit = func_021840C8(*(void **)(self + 0x3528));
+    func_02009CB0(func_0201283C(func_020120F4((const struct Ctx *)((*(Save * *)&((struct Obj02671 *)self)->f0)->fC))), out->f50);
+    if (((struct Obj02671 *)self)->f3528 != 0)
+        out->b6bit = func_021840C8(((struct Obj02671 *)self)->f3528);
     else
         out->b6bit = 0;
     out->used = 1;

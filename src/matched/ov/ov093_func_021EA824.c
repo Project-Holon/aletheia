@@ -13,11 +13,12 @@
  *   func_021F8A78  0x021F8A78  thumb  ov094
  *   func_021EE224  0x021EE224  thumb  ov093
  */
+#include "../include/Obj21567.h"
 extern void func_021F8A78(void);
 extern void func_021EE224(char *p);
 
 void func_021EA824(char *p)
 {
     func_021F8A78();
-    func_021EE224(*(char **)(p + 0x17c));
+    func_021EE224(*(char * *)&((struct Obj21567 *)p)->f17C);
 }

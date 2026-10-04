@@ -11,6 +11,7 @@
  * symbols:
  *   func_02189A60 0x02189A60 thumb ov021
  */
+#include "../include/Obj13225.h"
 typedef unsigned char u8;
 extern u8 **func_02189A60(u8 *p);
-void func_021F558C(u8 *p) { u8 *w = *func_02189A60(p); *(int *)(w+0x1c)=0; *(int *)(w+0x74)=1; }
+void func_021F558C(u8 *p) { u8 *w = *func_02189A60(p); ((struct Obj13225 *)w)->f1C=0; ((struct Obj13225 *)w)->f74=1; }

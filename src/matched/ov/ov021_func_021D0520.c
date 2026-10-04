@@ -17,6 +17,7 @@
  *   func_021AC1CC  0x021AC1CC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09745.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,12 +42,12 @@ void func_021D0520(u32 a, u8 *b)
     int h;
     Vec3 v;
 
-    if (func_0216E1C4(*(u32 *)(b + 8), (int)((u16 *)(b + 0x10))) == 0) {
+    if (func_0216E1C4(((struct Obj09745 *)b)->f8, (int)((u16 *)(b + 0x10))) == 0) {
         func_021AC154(a);
         return;
     }
-    func_0216D88C((const struct Actor *)*(u32 *)(b + 8), (struct VecFx32 *)&v);
-    if (func_02163E58(*(u32 *)(b + 8), &v, &h) == 1) {
+    func_0216D88C((const struct Actor *)((struct Obj09745 *)b)->f8, (struct VecFx32 *)&v);
+    if (func_02163E58(((struct Obj09745 *)b)->f8, &v, &h) == 1) {
         v.y = h;
     }
     func_021AC1CC(a, &v);

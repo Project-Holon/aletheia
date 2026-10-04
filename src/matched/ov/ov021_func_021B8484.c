@@ -14,6 +14,7 @@
  *   func_021B91F8  0x021B91F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03135.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,15 +36,15 @@ void func_021B8484(u8 *p, u32 a, u32 b, int c)
     q.c = 0;
     q.d = b;
     func_021B7EE4(p, &q);
-    q.c = c - *(int *)(p + 0x18) / 16;
+    q.c = c - ((struct Obj03135 *)p)->f18 / 16;
     func_021B91F8(p, (V *)(p + 0x38));
-    *(u16 *)(p + 0x5c) = q.a;
-    *(u16 *)(p + 0x5e) = q.b;
-    *(u16 *)(p + 0x60) = q.c;
-    *(u16 *)(p + 0x62) = q.d;
-    *(u16 *)(p + 0x64) = q.a;
-    *(u16 *)(p + 0x66) = q.b;
-    *(u16 *)(p + 0x68) = q.c;
-    *(u16 *)(p + 0x6a) = q.d;
+    ((struct Obj03135 *)p)->f5C = q.a;
+    ((struct Obj03135 *)p)->f5E = q.b;
+    ((struct Obj03135 *)p)->f60 = q.c;
+    ((struct Obj03135 *)p)->f62 = q.d;
+    ((struct Obj03135 *)p)->f64 = q.a;
+    ((struct Obj03135 *)p)->f66 = q.b;
+    ((struct Obj03135 *)p)->f68 = q.c;
+    ((struct Obj03135 *)p)->f6A = q.d;
     *(V *)(p + 0x44) = *(V *)(p + 0x38);
 }

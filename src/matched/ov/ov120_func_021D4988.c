@@ -30,6 +30,7 @@
  *   func_0203D7BC  0x0203D7BC  arm
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj05343.h"
 
 typedef unsigned int u32;
 
@@ -51,9 +52,9 @@ extern void func_021D8648(int);
 
 void func_021D4988(int a)
 {
-    func_021D7C10((char *)(*(int *)(a + 0x40)));
+    func_021D7C10((char *)(((struct Obj05343 *)a)->f40));
     if (func_020362DC() == 2) {
-        func_021D8638(*(int *)(a + 0x40));
+        func_021D8638(((struct Obj05343 *)a)->f40);
         if (func_0203CD98() != 0)
             func_0203C554(1);
         func_020355D8(0);
@@ -69,9 +70,9 @@ void func_021D4988(int a)
         func_0203D7B0(1);
         func_0203D7BC(1);
     }
-    func_021D7B38((char *)(*(int *)(a + 0x40)));
-    func_021D7A74(*(int *)(a + 0x40), 0x10);
-    *(int *)(a + 0x14) = 0xb4;
-    func_021D8648(*(int *)(a + 0x40));
+    func_021D7B38((char *)(((struct Obj05343 *)a)->f40));
+    func_021D7A74(((struct Obj05343 *)a)->f40, 0x10);
+    ((struct Obj05343 *)a)->f14 = 0xb4;
+    func_021D8648(((struct Obj05343 *)a)->f40);
     func_021D4244(a, 0x021D4931, 0x377);
 }

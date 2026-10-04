@@ -15,6 +15,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12136.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ typedef signed char    s8;
 
 int func_021C8D08(u32 a)
 {
-if (*(u32 *)((u8 *)(a) + 20) != 0) {
-    return *(u16 *)((u8 *)(*(u32 *)((u8 *)(a) + 20)) + 2);
+if (((struct Obj12136 *)((u8 *)(a)))->f14 != 0) {
+    return *(u16 *)((u8 *)(((struct Obj12136 *)((u8 *)(a)))->f14) + 2);
 }
 return 0;
 }

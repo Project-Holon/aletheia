@@ -20,6 +20,7 @@
  *   func_021BD114 0x021BD114 thumb ov110
  *   func_021BD2F0 0x021BD2F0 thumb ov110
  */
+#include "../include/Obj01249.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C3C68[];
@@ -43,12 +44,12 @@ u8 *func_021BC990(u8 *a,u8 *b,void *c)
     int i;
     unsigned x;
     p=func_02030734(42,188,1,d_021C3C68,309);
-    *(u8 **)p=a; *(u8 **)(p+4)=b; *(void **)(p+8)=c;
-    *(u8 **)(p+0xc)=func_021BF6D4(b);
-    *(void **)(p+0x30)=func_02045B38(0,2,146,42);
+    *(u8 * *)&((struct Obj01249 *)p)->f0=a; *(u8 * *)&((struct Obj01249 *)p)->f4=b; ((struct Obj01249 *)p)->f8=c;
+    *(u8 * *)&((struct Obj01249 *)p)->fC=func_021BF6D4(b);
+    ((struct Obj01249 *)p)->f30=func_02045B38(0,2,146,42);
     for (i=0;i<3;i++) {
-        x=func_021BAC44(*(u8 **)p);
-        *(void **)(p+0x34+i*4)=func_02027F60(0,8,x,func_021BAC4C(*(u8 **)p),42);
+        x=func_021BAC44(*(u8 * *)&((struct Obj01249 *)p)->f0);
+        *(void **)(p+0x34+i*4)=func_02027F60(0,8,x,func_021BAC4C(*(u8 * *)&((struct Obj01249 *)p)->f0),42);
     }
     func_02049B40(43,9,0,448,64,42);
     func_021BD194(p);func_021BD044(p);func_021BD114(p);func_021BD2F0(p);

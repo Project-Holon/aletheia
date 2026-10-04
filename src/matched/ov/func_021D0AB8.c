@@ -16,8 +16,9 @@
  * +0x130 of the first.  Matched to supply the `matched` witness for the
  * pending ov010 caller func_0216A594.
  */
+#include "../include/Obj18370.h"
 
 void func_021D0AB8(int *p, int v)
 {
-    *(int *)((char *)p + 0x130) = v;
+    ((struct Obj18370 *)p)->f130 = v;
 }

@@ -15,6 +15,7 @@
  *   func_0217B4A0  0x0217B4A0  thumb  ov176
  *   func_0217B6AC  0x0217B6AC  thumb  ov176
  */
+#include "../include/Obj24404.h"
 
 extern void func_021E8AA0(int *p, int v);
 extern void func_0217B3C0(int p, unsigned *state, int *q);
@@ -23,7 +24,7 @@ extern void func_0217B6AC(int p, unsigned *state, int *q);
 
 void func_0217B380(int a, int b, int *p)
 {
-    switch (*(int *)((char *)p + 0x14)) {
+    switch (((struct Obj24404 *)p)->f14) {
     case 0:
         func_021E8AA0((int *)a, (int)func_0217B3C0);
         break;

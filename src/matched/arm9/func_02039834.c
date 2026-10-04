@@ -54,6 +54,7 @@
  *   python tools/match.py one --src src/matched/func_02039834.c \
  *       --func func_02039834 --addr 0x02039834 --cc 1.1p1 --arm
  */
+#include "../include/Obj15945.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -83,5 +84,5 @@ void func_02039834(void)
     if (g_021469D4 != 0) {
         func_02034714(file_020A7A68, 0xe3, msg_020A7A7C);
     }
-    g_021469D4 = func_02030734(*(u16 *)(p + 0x56), 0x20, 1, file_020A7A68, 0xe5);
+    g_021469D4 = func_02030734(((struct Obj15945 *)p)->f56, 0x20, 1, file_020A7A68, 0xe5);
 }

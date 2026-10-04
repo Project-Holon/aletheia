@@ -19,6 +19,7 @@
  *   func_0218654C  0x0218654C  thumb  ov023
  *   func_02185354  0x02185354  thumb  ov023
  */
+#include "../include/Obj00336.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -39,7 +40,7 @@ int func_02185974(char *p, int a1)
     func_020061E4(0x54c);
     if (func_02039338() == 0)
         func_02186304(p, 0);
-    *(int *)(p + 0x927c) = func_0218654C(p);
+    ((struct Obj00336 *)p)->f927C = func_0218654C(p);
     func_02185354(p);
     return a1;
 }

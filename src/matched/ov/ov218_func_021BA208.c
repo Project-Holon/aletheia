@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26047.h"
 
 extern int func_021B9C00(char *p);
 
 int func_021BA208(void *unused, char *p)
 {
-    return func_021B9C00((char *)(*(int *)(p + 0x28))) != 0;
+    return func_021B9C00((char *)(((struct Obj26047 *)p)->f28)) != 0;
 }

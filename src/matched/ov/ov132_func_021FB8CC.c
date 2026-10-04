@@ -16,6 +16,7 @@
  *   _ll_mul 0x0209C054 arm
  *   d_020A1B38 0x020A1B38 data a2
  */
+#include "../include/Obj03823.h"
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -27,20 +28,20 @@ extern const s16 d_020A1B38[];
 void func_021FB8CC(int unused, char *p)
 {
     void *ctx;
-    ctx = func_021F9DA0(*(void **)p);
+    ctx = func_021F9DA0(((struct Obj03823 *)p)->f0);
     if (func_021FAEE8(p) == 2) {
         Vec zero = { 0, 0, 0 };
-        func_021F8084(ctx, *(void **)(p + 0x10), &zero);
-        func_021FADF8(*(void **)(p + 0x18), *(void **)(p + 0x1C));
+        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, &zero);
+        func_021FADF8(((struct Obj03823 *)p)->f18, ((struct Obj03823 *)p)->f1C);
         return;
     }
     else {
         Vec v;
         int sine;
         v.x = 0;
-        sine = d_020A1B38[((int)(((u32)*(int *)(p + 4) << 15) / (u32)*(int *)(p + 8)) >> 4) * 2];
-        v.y = -(int)(((long long)sine * *(int *)(p + 0x14) + 0x800) >> 12);
+        sine = d_020A1B38[((int)(((u32)((struct Obj03823 *)p)->f4 << 15) / (u32)((struct Obj03823 *)p)->f8) >> 4) * 2];
+        v.y = -(int)(((long long)sine * ((struct Obj03823 *)p)->f14 + 0x800) >> 12);
         v.z = 0;
-        func_021F8084(ctx, *(void **)(p + 0x10), &v);
+        func_021F8084(ctx, ((struct Obj03823 *)p)->f10, &v);
     }
 }

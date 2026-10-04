@@ -14,6 +14,7 @@
  *   func_021F4FC4 0x021F4FC4 thumb ov135
  *   func_021FFBC8 0x021FFBC8 thumb ov135
  */
+#include "../include/Obj00018.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,7 +25,7 @@ extern void func_021F4FC4(u8 *);
 extern void func_021FFBC8(u8 *);
 int func_02201ED4(u8 *p)
 {
-    func_021F90A0((u32)p, (u32)(*(void **)(p + 0xb6c)), 0x99, 1, 0xf0f);
+    func_021F90A0((u32)p, (u32)(((struct Obj00018 *)p)->fB6C), 0x99, 1, 0xf0f);
     func_021F4E98(p, 0x2a, 0x28);
     func_021F4EC0(p, 1, 0);
     func_021F4FC4(p);

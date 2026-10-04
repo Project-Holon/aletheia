@@ -12,15 +12,16 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj09768.h"
 extern void func_020307B0(void *p);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 void func_02184B04(char *p)
 {
     int i;
-    func_020307B0(*(void **)(p + 0x4288));
+    func_020307B0(((struct Obj09768 *)p)->f4288);
     for (i = 0; i < 5; i++)
         func_02045808(*(void **)(p + 0x18 + i * 4));
-    func_02045808(*(void **)(p + 0x30));
-    func_02045808(*(void **)(p + 0x2c));
+    func_02045808(((struct Obj09768 *)p)->f30);
+    func_02045808(((struct Obj09768 *)p)->f2C);
 }

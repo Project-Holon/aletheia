@@ -14,6 +14,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj03240.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -24,4 +25,4 @@ extern void *func_021BAC78(void *,Triple *,int,int,int,int);
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B3DC(struct Obj *p, u32 v);
-void func_021BB61C(u8 *p) { Triple t; func_021BAC64(*(void **)p,&t,0,0); *(void **)(p+84)=func_021BAC78(*(void **)p,&t,48,64,3,1); func_0204B878(*(void **)(p+84),4); func_0204B3DC(*(void **)(p+84),0); }
+void func_021BB61C(u8 *p) { Triple t; func_021BAC64(((struct Obj03240 *)p)->f0,&t,0,0); ((struct Obj03240 *)p)->f54=func_021BAC78(((struct Obj03240 *)p)->f0,&t,48,64,3,1); func_0204B878(((struct Obj03240 *)p)->f54,4); func_0204B3DC(((struct Obj03240 *)p)->f54,0); }

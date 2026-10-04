@@ -24,6 +24,7 @@
  *   func_02025774  0x02025774  thumb
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -85,30 +86,30 @@ void func_021F32F8(char *p, u8 idx)
     r->f00 = idx;
     r->f01 = 0xff;
     r->f02 = 0;
-    r->f28 = *(u32 *)(p + 0xb4);
+    r->f28 = ((struct Obj00007 *)p)->fB4;
     r->x = idx * 13;
     r->y = idx * 0x28;
-    r->f0c = func_021F3214(p, **(u32 **)(p + 0x140), **(u32 **)(p + 0x138), **(u32 **)(p + 0x148),
+    r->f0c = func_021F3214(p, **(u32 * *)&((struct Obj00007 *)p)->f140, **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f148,
                            r->x, r->y, 0, 3, idx + 0x14);
     func_0204B6F4(r->f0c, idx, 0);
-    r->f10 = func_021F3214(p, (*(u32 **)(p + 0x158))[idx], **(u32 **)(p + 0x138), **(u32 **)(p + 0x160),
+    r->f10 = func_021F3214(p, (*(u32 **)(p + 0x158))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f160,
                            r->x + 0x20, r->y + 0x18, 0, 3, idx + 10);
     func_0204B6F4(r->f10, idx + 9, 1);
-    r->f14 = func_021F3214(p, (*(u32 **)(p + 0x170))[idx], **(u32 **)(p + 0x138), **(u32 **)(p + 0x178),
+    r->f14 = func_021F3214(p, (*(u32 **)(p + 0x170))[idx], **(u32 * *)&((struct Obj00007 *)p)->f138, **(u32 * *)&((struct Obj00007 *)p)->f178,
                            r->x + 0x3c, r->y + 0x18, 0, 3, idx + 5);
-    r->f1c = func_02043678(0xc, 2, 0x20, *(u16 *)(p + 0x98));
+    r->f1c = func_02043678(0xc, 2, 0x20, ((struct Obj00007 *)p)->f98);
     t.bmp = r->f1c;
     t.x = r->x + 0x48;
     t.y = r->y + 0x10;
-    t.f08 = **(u32 **)(p + 0x138);
+    t.f08 = **(u32 * *)&((struct Obj00007 *)p)->f138;
     t.f0c = 3;
     t.f10 = 0;
     t.f11 = 3;
     t.f12 = 0;
     t.f14 = 1;
-    r->f18 = func_020255A0(*(void **)(p + 0x124), &t);
-    r->f20 = func_020457B0(0xb, *(u16 *)(p + 0x98));
-    r->f24 = func_020457B0(8, *(u16 *)(p + 0x98));
+    r->f18 = func_020255A0(((struct Obj00007 *)p)->f124, &t);
+    r->f20 = func_020457B0(0xb, ((struct Obj00007 *)p)->f98);
+    r->f24 = func_020457B0(8, ((struct Obj00007 *)p)->f98);
     func_02043B5C(r->f1c, 0);
     func_020257D0(r->f18);
     func_02025774(r->f18, 0);

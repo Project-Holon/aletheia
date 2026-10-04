@@ -25,6 +25,7 @@
  *   d_021DFB8C 0x021DFB8C data a1
  *   d_021DF604 0x021DF604 data a4
  */
+#include "../include/Obj13944.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021DFB8C[];
@@ -48,7 +49,7 @@ u8 *func_021D9624(int arg,u16 heap)
     u8 *p;
     p=func_02030734(heap,28,0,d_021DFB8C,448);
     func_02082BCC(p,0,28);
-    *(u16 *)(p+24)=heap;
+    ((struct Obj13944 *)p)->f18=heap;
     *(volatile u16 *)0x04000050=0;
     *(volatile u16 *)0x04001050=0;
     *(volatile unsigned *)0x04000000 &=0xFFFF1FFF;
@@ -62,6 +63,6 @@ u8 *func_021D9624(int arg,u16 heap)
     func_0201DD60();
     func_021D97C8(p,heap);
     func_021D986C((void **)(p+4),(u32)d_021DF604,heap);
-    *(void **)(p+20)=func_020056A0(func_021D97B4,p,0);
+    ((struct Obj13944 *)p)->f14=func_020056A0(func_021D97B4,p,0);
     return p;
 }

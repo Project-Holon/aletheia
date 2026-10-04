@@ -27,6 +27,8 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   func_021BB724  0x021BB724  thumb  ov070
  */
+#include "../include/Obj00002.h"
+#include "../include/Obj04334.h"
 
 typedef unsigned short u16;
 typedef signed short s16;
@@ -49,19 +51,19 @@ void func_021BACF0(int p, int mode)
 {
     int win;
 
-    if (*(int *)(p + 0x4FC) == 0) {
-        *(int *)(p + 0x4FC) = func_020450F0(3, 1, 1, 0x1E, 4, 0xC, 1);
+    if (((struct Obj00002 *)p)->f4FC == 0) {
+        ((struct Obj00002 *)p)->f4FC = func_020450F0(3, 1, 1, 0x1E, 4, 0xC, 1);
     }
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x4FC))), 0xF);
-    func_02045334((struct Descriptor *)*(int *)(p + 0x4FC));
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj00002 *)p)->f4FC)), 0xF);
+    func_02045334((struct Descriptor *)((struct Obj00002 *)p)->f4FC);
     win = p + 0x4FC;
     if (mode == 1) {
-        *(int *)(p + 0x510) = func_0201CCE4(*(int *)(p + 0x4FC), 0, 0, *(int *)(p + 0x528),
-                                            *(int *)(p + 0x530), func_02012FFC(),
-                                            *(int *)(p + 0x730), 2, *(u16 *)(p + 0x544), 0xF);
+        ((struct Obj00002 *)p)->f510 = func_0201CCE4(((struct Obj00002 *)p)->f4FC, 0, 0, *(int *)&((struct Obj00002 *)p)->f528,
+                                            ((struct Obj00002 *)p)->f530, func_02012FFC(),
+                                            ((struct Obj00002 *)p)->f730, 2, ((struct Obj00002 *)p)->f544, 0xF);
     } else {
-        func_021BB6E0(p, (u32 *)win, *(int *)(p + 0x528), 0, 0, 0x44F);
+        func_021BB6E0(p, (u32 *)win, *(int *)&((struct Obj00002 *)p)->f528, 0, 0, 0x44F);
     }
-    func_0201F73C((void *)(*(int *)win), 1, (u16)*(int *)(p + 0x838), 0xD);
+    func_0201F73C((void *)(*(int *)&((struct Obj04334 *)win)->f0), 1, (u16)((struct Obj00002 *)p)->f838, 0xD);
     func_021BB724((void **)win);
 }

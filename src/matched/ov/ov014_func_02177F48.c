@@ -18,6 +18,7 @@
  *   func_0217727C  0x0217727C  thumb
  *   func_02177EFC  0x02177EFC  thumb
  */
+#include "../include/Obj04956.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ void func_02177F48(u8 *a)
         if (a[0xCF1] >= 3)
             a[0xCF1] = 0;
         func_0217778C();
-        if (func_02179288(0, *(u16 *)(a + 0xC68), tab[a[0xCF1]], 1) != 0) {
+        if (func_02179288(0, ((struct Obj04956 *)a)->fC68, tab[a[0xCF1]], 1) != 0) {
             a[0xCF2] = func_020056EC(0x98) + 0x3C;
             func_0217727C((u32 *)g_021797A4, (u32)func_02177EFC);
         }

@@ -12,6 +12,8 @@
  *   func_02049F34 0x02049F34 arm
  *   d_021C2878 0x021C2878 data ov099 a2
  */
+#include "../include/Obj06351.h"
+#include "../include/Obj22018.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,8 +23,8 @@ extern const u16 d_021C2878[];
 void func_021BA60C(char *a, char *p, u32 unused, u32 arc)
 {
     func_02082BCC(p, 0, 20);
-    *(void **)p = func_02049F34(arc, 9, p + 4, *(u32 *)(a + 4));
+    ((struct Obj06351 *)p)->f0 = func_02049F34(arc, 9, p + 4, ((struct Obj22018 *)a)->f4);
     p[9] = 0;
     p[8] = 15;
-    *(u16 *)(p + 10) = d_021C2878[(u8)p[9]];
+    ((struct Obj06351 *)p)->fA = d_021C2878[(u8)p[9]];
 }

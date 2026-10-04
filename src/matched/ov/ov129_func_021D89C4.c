@@ -13,6 +13,7 @@
  *   func_021D8950 0x021D8950 thumb ov129
  *   d_021DA744 0x021DA744 data a4
  */
+#include "../include/Obj01938.h"
 typedef unsigned short u16;
 typedef struct { int rows[2][3]; } Table;
 extern const Table d_021DA744;
@@ -23,21 +24,21 @@ void func_021D89C4(char *p)
     Table t;
     Table copy;
     const int *q;
-    *(int *)(p+0x2fc)=1;
-    *(u16 *)(p+0x21c)=0;
-    n=*(int *)(p+0x330);
-    *(u16 *)(p+0x21e)=n;
-    *(u16 *)(p+0x220)=n;
-    n+=*(int *)(p+0x334);
-    *(u16 *)(p+0x222)=n;
-    *(u16 *)(p+0x224)=n;
-    *(u16 *)(p+0x226)=*(int *)(p+0x338)+n;
+    ((struct Obj01938 *)p)->f2FC=1;
+    ((struct Obj01938 *)p)->f21C=0;
+    n=((struct Obj01938 *)p)->f330;
+    ((struct Obj01938 *)p)->f21E=n;
+    ((struct Obj01938 *)p)->f220=n;
+    n+=((struct Obj01938 *)p)->f334;
+    ((struct Obj01938 *)p)->f222=n;
+    ((struct Obj01938 *)p)->f224=n;
+    ((struct Obj01938 *)p)->f226=((struct Obj01938 *)p)->f338+n;
     func_021D8950(p,1);
-    for(i=0;i<3;i++) *(int *)(p+0x23c)+=*(int *)(p+i*4+0x330);
+    for(i=0;i<3;i++) ((struct Obj01938 *)p)->f23C+=*(int *)(p+i*4+0x330);
     t=d_021DA744;
     n=0;
     copy=t;
-    if(*(int *)(p+0x330)!=4) n=1;
+    if(((struct Obj01938 *)p)->f330!=4) n=1;
     i=0;
     q=copy.rows[n];
     for(;i<3;i++) *(u16 *)(p+i*2+0x214)=copy.rows[n][i];
@@ -55,5 +56,5 @@ void func_021D89C4(char *p)
             n++;
         }
         i++;
-    } while(n<*(int *)(p+0x23c));
+    } while(n<((struct Obj01938 *)p)->f23C);
 }

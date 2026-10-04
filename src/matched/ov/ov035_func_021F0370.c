@@ -15,6 +15,7 @@
  *   func_021F0370 0x021F0370 thumb
  *   func_020279E8 0x020279E8 thumb
  */
+#include "../include/Obj20483.h"
 
 typedef unsigned int u32;
 
@@ -23,5 +24,5 @@ extern u32 func_020279E8(struct TaskMenu *m);
 
 u32 func_021F0370(char *p)
 {
-    return func_020279E8(*(void **)(p + 0x44));
+    return func_020279E8(((struct Obj20483 *)p)->f44);
 }

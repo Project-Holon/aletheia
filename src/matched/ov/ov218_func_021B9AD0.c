@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14771.h"
 
 typedef unsigned int   u32;
 struct PrintSys;
@@ -24,6 +25,6 @@ extern void func_020310C4(struct Tcbl *p);
 
 void func_021B9AD0(char *p)
 {
-    func_0201C4E4((struct PrintSys *)(*(int *)(p + 0x10)));
-    func_020310C4((struct Tcbl *)(*(int *)(p + 4)));
+    func_0201C4E4((struct PrintSys *)(((struct Obj14771 *)p)->f10));
+    func_020310C4((struct Tcbl *)(((struct Obj14771 *)p)->f4));
 }

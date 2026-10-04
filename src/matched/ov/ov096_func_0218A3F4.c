@@ -20,6 +20,7 @@
  *   func_02021014  0x02021014  thumb
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj13672.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,8 +38,8 @@ int func_0218A3F4(int a, int b, int c) {
     u16 h;
     int p;
     int q;
-    h = *(u16 *)(a + 0xa0);
-    p = func_02020F20(*(int *)(a + 0xa8), b, h);
+    h = ((struct Obj13672 *)a)->fA0;
+    p = func_02020F20(((struct Obj13672 *)a)->fA8, b, h);
     q = func_02021014((struct Rec *)p, c);
     func_020307B0((void *)p);
     return q;

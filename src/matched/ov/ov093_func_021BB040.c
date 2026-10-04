@@ -16,6 +16,7 @@
  *   func_021B9AEC  0x021B9AEC  thumb  ov093
  *   func_021B9B98  0x021B9B98  thumb  ov093
  */
+#include "../include/Obj01235.h"
 
 typedef unsigned char u8;
 
@@ -29,12 +30,12 @@ int func_021BB040(u8 *p)
 {
     unsigned i;
 
-    if (func_021B85A8(*(u8 **)(p + 0xc)) != 0 && p[0xcba] != 0) {
+    if (func_021B85A8(*(u8 * *)&((struct Obj01235 *)p)->fC) != 0 && p[0xcba] != 0) {
         for (i = 0; i < p[0xcba]; i++) {
-            if (func_021B8DE4(*(u8 **)(p + 0xc), p[0xcb4 + i]) == 0)
+            if (func_021B8DE4(*(u8 * *)&((struct Obj01235 *)p)->fC, p[0xcb4 + i]) == 0)
                 return 0;
         }
-        if (func_021B9B98(func_021B9AEC(*(char **)(p + 0x10), func_021B8FF4(*(u8 **)(p + 0xc)))) < 2)
+        if (func_021B9B98(func_021B9AEC(*(char * *)&((struct Obj01235 *)p)->f10, func_021B8FF4(*(u8 * *)&((struct Obj01235 *)p)->fC))) < 2)
             return 0;
         return 1;
     }

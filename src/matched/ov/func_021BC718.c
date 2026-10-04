@@ -15,6 +15,7 @@
 
  * Runs the idle transition with 0x10 twice and marks state 1.
  */
+#include "../include/Obj18189.h"
 
 
 extern int func_021BC6C8(char *);
@@ -25,6 +26,6 @@ void func_021BC718(char *p)
     if (func_021BC6C8(p))
         return;
     func_021BC7B4(p, 0, 0x10, 0x10);
-    *(int *)(p + 0x10) = 1;
+    ((struct Obj18189 *)p)->f10 = 1;
 }
 

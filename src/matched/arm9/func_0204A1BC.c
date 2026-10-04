@@ -23,6 +23,7 @@
  * each is the fifth argument of a func_02030734 call whose fourth
  * argument is the file-name word at 0x020A7F30 ("arc_util.c").
  */
+#include "../include/Obj16074.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -49,7 +50,7 @@ int func_0204A1BC(int a0, int a1, int a2, int a3)
     }
     func_02048F4C((void *)r, a0, a1);
     if (a2 != 0) {
-        t2 = (int)func_02030734(a3, *(u32 *)r >> 8, 0, sArcUtil3730, 1611);
+        t2 = (int)func_02030734(a3, ((struct Obj16074 *)r)->f0 >> 8, 0, sArcUtil3730, 1611);
         func_020834C0(r, t2);
         func_020307B0((void *)r);
         r = t2;

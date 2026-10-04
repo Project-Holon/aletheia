@@ -10,7 +10,8 @@
  * symbols:
  *   func_02005B04 0x02005B04 thumb
  */
+#include "../include/Obj05469.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_02005B04(const u32 *arg);
-void func_021B64D0(char *p) {func_02005B04(*(void **)(p+12));}
+void func_021B64D0(char *p) {func_02005B04(((struct Obj05469 *)p)->fC);}

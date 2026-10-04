@@ -14,6 +14,7 @@
  *   func_020056A0  0x020056A0  thumb
  *   func_02192EB8  0x02192EB8  thumb
  */
+#include "../include/Obj12600.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,6 +30,6 @@ extern void func_02192EB8(u32 a, u8 *b);
 void func_0219027C(u8 *a)
 {
     func_02192CF0(a, 0);
-    if (*(void **)(a + 0x16c) == 0)
-        *(void **)(a + 0x16c) = func_020056A0((void (*)(void *, void *))func_02192EB8, a, 0);
+    if (((struct Obj12600 *)a)->f16C == 0)
+        ((struct Obj12600 *)a)->f16C = func_020056A0((void (*)(void *, void *))func_02192EB8, a, 0);
 }

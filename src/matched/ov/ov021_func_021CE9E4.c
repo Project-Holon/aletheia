@@ -17,6 +17,7 @@
  *   func_02190EB8  0x02190EB8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,9 +41,9 @@ void func_021CE9E4(S *p, u32 m)
 {
     u32 n;
 
-    if (m == 8 && *(u16 *)((u8 *)p + 0x57a) == 8)
+    if (m == 8 && ((struct Obj00011 *)p)->f57A == 8)
         return;
-    *(u16 *)((u8 *)p + 0x57a) = m;
+    ((struct Obj00011 *)p)->f57A = m;
     n = (u32)func_02045EC0((struct MsgBank *)p->f8, m);
     func_0201F250((struct WordSet *)p->f4, (void *)p->f18, (void *)n);
     func_02045808((struct U16Vec *)n);

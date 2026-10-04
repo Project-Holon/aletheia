@@ -13,6 +13,7 @@
  *   func_021D4C60  0x021D4C60  thumb  ov093
  *   func_021D4C6C  0x021D4C6C  thumb  ov093
  */
+#include "../include/Obj21627.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ u8 func_021EEBE8(W *p)
     if (p->hi != 0) {
         if (func_021D4C60() != 0) {
             func_021D4C6C(&q);
-            return *(u16 *)q;
+            return ((struct Obj21627 *)q)->f0;
         }
         return 0;
     }

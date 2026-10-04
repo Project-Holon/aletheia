@@ -20,10 +20,11 @@
  *   python tools/match.py one --src src/matched/func_0216D7F0.c \
  *       --func func_0216D7F0 --addr 0x0216D7F0 --region ov010 --cc dsi/1.1p1 --thumb
  */
+#include "../include/Obj17833.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-void func_0216D7F0(void *p, u16 v) { *(u16 *)((char *)p + 48) = v; }
+void func_0216D7F0(void *p, u16 v) { ((struct Obj17833 *)p)->f30 = v; }

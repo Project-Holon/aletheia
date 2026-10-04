@@ -11,12 +11,14 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj08251.h"
+#include "../include/Obj24058.h"
 typedef unsigned short u16;
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 void func_021DE290(char *p, const char *q)
 {
-    func_0204B294((void *)*(int *)(p + 0xb70), *(int *)(p + 0xbb4 + *(int *)(q + 8) * 4),
-        *(int *)(p + 0xbe8 + *(int *)(q + 12) * 4), *(int *)(p + 0xc1c + *(int *)(q + 16) * 4),
-        q, *(u16 *)(q + 22), 0x8c);
+    func_0204B294((void *)((struct Obj24058 *)p)->fB70, *(int *)(p + 0xbb4 + ((struct Obj08251 *)q)->f8 * 4),
+        *(int *)(p + 0xbe8 + ((struct Obj08251 *)q)->fC * 4), *(int *)(p + 0xc1c + ((struct Obj08251 *)q)->f10 * 4),
+        q, ((struct Obj08251 *)q)->f16, 0x8c);
 }

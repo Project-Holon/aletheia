@@ -21,6 +21,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj05274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -43,4 +44,4 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02045808(struct U16Vec *vec);
-void func_021B8030(u8 *p,void *a,int b,u8 *c,s16 x,s16 y) { int set; int bank; void *text; int font; int tag; func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); set=func_021B7DEC(a); bank=func_021B7DE8(a); func_0201F02C((struct WordSet *)set,0,c+0xc); text=func_02045EC0((struct MsgBank *)bank,b); func_0201F250((struct WordSet *)set,*(void **)(p+0xc),text); func_02045808(text); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_0201C6FC((struct PrintSys *)font,(u32)func_02045770(*(void **)(p+4)),x,y,*(void **)(p+0xc),tag); p[8]=1; }
+void func_021B8030(u8 *p,void *a,int b,u8 *c,s16 x,s16 y) { int set; int bank; void *text; int font; int tag; func_02043B5C(func_02045770(((struct Obj05274 *)p)->f0),((struct Obj05274 *)p)->f10); set=func_021B7DEC(a); bank=func_021B7DE8(a); func_0201F02C((struct WordSet *)set,0,c+0xc); text=func_02045EC0((struct MsgBank *)bank,b); func_0201F250((struct WordSet *)set,((struct Obj05274 *)p)->fC,text); func_02045808(text); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_0201C6FC((struct PrintSys *)font,(u32)func_02045770(((struct Obj05274 *)p)->f4),x,y,((struct Obj05274 *)p)->fC,tag); p[8]=1; }

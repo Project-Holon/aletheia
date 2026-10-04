@@ -13,6 +13,7 @@
  *   func_02205620 0x02205620 thumb ov195
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj03903.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,10 +25,10 @@ extern void func_02045808(struct U16Vec *vec);
 void func_022055BC(char *a, u32 a1, u32 a2, u32 k0, u32 v0, u32 k1, u32 v1,
                    u32 b1, u32 b2, u32 m0, u32 w0, u32 m1, u32 w1)
 {
-    if (*(u32 *)(a + 0x94) != 0)
-        func_02045808((struct U16Vec *)(*(u32 *)(a + 0x94)));
-    if (*(u32 *)(a + 0x98) != 0)
-        func_02045808((struct U16Vec *)(*(u32 *)(a + 0x98)));
-    *(u32 *)(a + 0x94) = func_02205620(*(u16 *)(a + 2), a1, a2, k0, v0, k1, v1);
-    *(u32 *)(a + 0x98) = func_02205620(*(u16 *)(a + 2), b1, b2, m0, w0, m1, w1);
+    if (((struct Obj03903 *)a)->f94 != 0)
+        func_02045808((struct U16Vec *)(((struct Obj03903 *)a)->f94));
+    if (((struct Obj03903 *)a)->f98 != 0)
+        func_02045808((struct U16Vec *)(((struct Obj03903 *)a)->f98));
+    ((struct Obj03903 *)a)->f94 = func_02205620(((struct Obj03903 *)a)->f2, a1, a2, k0, v0, k1, v1);
+    ((struct Obj03903 *)a)->f98 = func_02205620(((struct Obj03903 *)a)->f2, b1, b2, m0, w0, m1, w1);
 }

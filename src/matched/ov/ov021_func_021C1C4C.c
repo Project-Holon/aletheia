@@ -15,6 +15,7 @@
  *   func_02048A18  0x02048A18  arm
  *   func_02047A60  0x02047A60  arm
  */
+#include "../include/Obj03141.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,15 +35,15 @@ void func_021C1C4C(char *p)
     int i;
     u8 k;
 
-    if (*(int *)(p + 0xc) == 0)
-        func_02048AD0((struct Light *)(*(int *)(p + 4)));
+    if (((struct Obj03141 *)p)->fC == 0)
+        func_02048AD0((struct Light *)(((struct Obj03141 *)p)->f4));
     else
-        func_02048AD0((struct Light *)(*(int *)(p + 8)));
-    if (*(int *)(p + 0x18) != -1) {
-        a = func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18));
-        n = func_02048A00(*(int *)(p + 0x14), *(int *)(p + 0x18));
+        func_02048AD0((struct Light *)(((struct Obj03141 *)p)->f8));
+    if (((struct Obj03141 *)p)->f18 != -1) {
+        a = func_020489F4(((struct Obj03141 *)p)->f14, ((struct Obj03141 *)p)->f18);
+        n = func_02048A00(((struct Obj03141 *)p)->f14, ((struct Obj03141 *)p)->f18);
         for (k = 0; k < n; k++) {
-            i = func_02048A18(*(int *)(p + 0x14), a + k);
+            i = func_02048A18(((struct Obj03141 *)p)->f14, a + k);
             func_02047A60((void *)i, (struct Arg *)(p + 0x1c));
         }
     }

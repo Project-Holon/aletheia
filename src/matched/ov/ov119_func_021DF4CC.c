@@ -17,6 +17,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DF490 0x021DF490 thumb ov119
  */
+#include "../include/Obj00001.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
@@ -33,7 +34,7 @@ void func_021DF4CC(char *p)
 {
     func_0203D1A4((struct Link *)((unsigned)func_020399A8()));
     if (func_021E12AC(p) && func_021DD140(p)) {
-        func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),0x89,(void *)(*(int *)(p+0x738)));
+        func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),0x89,(void *)(*(int *)&((struct Obj00001 *)p)->f738));
         func_021E1024(p);
         func_021D8E84(p,(int)func_021DF490);
     }

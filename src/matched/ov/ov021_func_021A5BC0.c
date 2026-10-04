@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01119.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -32,7 +33,7 @@ extern void func_021A5F74(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
 
 void func_021A5BC0(u8 *p, u32 k, u32 b, u32 c, u32 d, u32 e)
 {
-    void *a = *(void **)(p + 0x1c);
+    void *a = ((struct Obj01119 *)p)->f1C;
 
     switch (k) {
     case 0:

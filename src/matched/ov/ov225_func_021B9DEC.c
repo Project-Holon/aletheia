@@ -20,6 +20,7 @@
  *   func_021B99A0 0x021B99A0 thumb ov225
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01787.h"
 struct Rec;struct PrintSys;
 extern void func_021B9F8C(char *p);
 extern void func_021B9E80(char *,unsigned);
@@ -34,11 +35,11 @@ extern void func_021B99A0(char *);
 extern void func_020307B0(void *);
 void func_021B9DEC(char *p)
 {
-    func_021B9F8C(*(void **)(p+0x34));func_021B9E80(p,0xffff);func_021B9F20(p);
-    func_021B9BA4(*(void **)(p+0x2c));func_02049238(*(void **)(p+0x24));func_02049238(*(void **)(p+0x28));
-    func_02045C04(*(struct Rec **)(p+0x1c));func_02045C04(*(struct Rec **)(p+0x20));
-    func_0201C6EC(*(struct PrintSys **)(p+0x10));func_0201C4C0(*(struct PrintSys **)(p+0x10));
-    func_0201C6EC(*(struct PrintSys **)(p+0x14));func_0201C4C0(*(struct PrintSys **)(p+0x14));
-    func_0201C6EC(*(struct PrintSys **)(p+0x18));func_0201C4C0(*(struct PrintSys **)(p+0x18));
-    func_0201D83C(*(void **)(p+0xc));func_021B99A0(*(char **)(p+8));func_020307B0(p);
+    func_021B9F8C(((struct Obj01787 *)p)->f34);func_021B9E80(p,0xffff);func_021B9F20(p);
+    func_021B9BA4(((struct Obj01787 *)p)->f2C);func_02049238(((struct Obj01787 *)p)->f24);func_02049238(((struct Obj01787 *)p)->f28);
+    func_02045C04(*(struct Rec * *)&((struct Obj01787 *)p)->f1C);func_02045C04(*(struct Rec * *)&((struct Obj01787 *)p)->f20);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);func_0201C4C0(*(struct PrintSys * *)&((struct Obj01787 *)p)->f10);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);func_0201C4C0(*(struct PrintSys * *)&((struct Obj01787 *)p)->f14);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);func_0201C4C0(*(struct PrintSys * *)&((struct Obj01787 *)p)->f18);
+    func_0201D83C(((struct Obj01787 *)p)->fC);func_021B99A0(*(char * *)&((struct Obj01787 *)p)->f8);func_020307B0(p);
 }

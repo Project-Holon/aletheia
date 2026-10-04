@@ -28,6 +28,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
+#include "../include/Obj00085.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ extern void func_02034A5C(int);
 extern const char ov067_id[];
 int func_021BD064(char *p)
 {
-    if (func_021BCE58(p) == 1 || func_02021ED8(*(char **)(p + 12)) != 0) return 1;
+    if (func_021BCE58(p) == 1 || func_02021ED8(*(char * *)&((struct Obj00085 *)p)->fC) != 0) return 1;
     func_021BC330(p);
     func_021BC92C(func_021BC2AC(p));
     func_021BCC1C((u8 *)p);

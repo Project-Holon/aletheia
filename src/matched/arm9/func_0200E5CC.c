@@ -12,12 +12,13 @@
  * Unlabelled arm9 leaf: true when bit 15 of the halfword at +0x5C4 is clear.
  * Filed as the relocation witness for ov021 func_021D09D0 (wave A1).
  */
+#include "../include/Obj15607.h"
 
 typedef unsigned short u16;
 
 int func_0200E5CC(void *p)
 {
-    if (*(u16 *)((char *)p + 0x5C4) & 0x8000) {
+    if (((struct Obj15607 *)p)->f5C4 & 0x8000) {
         return 0;
     }
     return 1;

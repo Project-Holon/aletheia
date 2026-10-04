@@ -16,6 +16,7 @@
  *   func_0204A648  0x0204A648  arm
  *   func_021D31AC  0x021D31AC  thumb  ov021
  */
+#include "../include/Obj04980.h"
 
 int func_02005C8C(void);
 void func_0216CD78(int h);
@@ -26,12 +27,12 @@ void func_021D31AC(int h);
 void func_02189108(int unused, unsigned char *p)
 {
     if (func_02005C8C() == 0) {
-        if (*(int *)(p + 0x38) != 0)
-            func_0216CD78(*(int *)(p + 0x38));
-        if (*(int *)(p + 0x130) != 0)
-            func_021C6470(*(int *)(p + 0x130));
+        if (((struct Obj04980 *)p)->f38 != 0)
+            func_0216CD78(((struct Obj04980 *)p)->f38);
+        if (((struct Obj04980 *)p)->f130 != 0)
+            func_021C6470(((struct Obj04980 *)p)->f130);
     }
     func_0204A648();
-    if (*(int *)(p + 0x14C) != 0)
-        func_021D31AC(*(int *)(p + 0x14C));
+    if (((struct Obj04980 *)p)->f14C != 0)
+        func_021D31AC(((struct Obj04980 *)p)->f14C);
 }

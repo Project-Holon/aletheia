@@ -11,6 +11,7 @@
  *   func_02045770 0x02045770 arm
  *   func_0201C6FC 0x0201C6FC thumb
  */
+#include "../include/Obj02934.h"
 typedef unsigned char u8;
 struct Descriptor;struct PrintSys;
 struct Record {struct Descriptor *descriptor;u8 active;};
@@ -20,7 +21,7 @@ void func_02184D30(char *p,struct Record *out,struct Descriptor *d,void *text,u8
 {
     struct PrintSys *print;
     out->descriptor=d;out->active=0;
-    print=*(struct PrintSys **)(p+0xc080);
-    func_0201C6FC(print,(unsigned)func_02045770(d),x,y,text,*(unsigned *)(p+0xc06c));
+    print=*(struct PrintSys * *)&((struct Obj02934 *)p)->fC080;
+    func_0201C6FC(print,(unsigned)func_02045770(d),x,y,text,((struct Obj02934 *)p)->fC06C);
     out->active=1;
 }

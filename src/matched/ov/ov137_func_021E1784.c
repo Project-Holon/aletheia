@@ -16,6 +16,7 @@
  *   func_0202F190 0x0202F190 thumb
  *   func_02019CE0 0x02019CE0 thumb
  */
+#include "../include/Obj14255.h"
 typedef unsigned char u8;
 extern int func_021DCE00(char *p, int i);
 extern void *func_0201AB28(void *, unsigned);
@@ -34,8 +35,8 @@ void func_021E1784(char *p, int i)
     void *a;
     void *b;
     void *q;
-    party = *(void **)(p + 0x24);
-    other = (void *)func_021DCE00(*(char **)(p + 0xdc), i);
+    party = ((struct Obj14255 *)p)->f24;
+    other = (void *)func_021DCE00(*(char * *)&((struct Obj14255 *)p)->fDC, i);
     slot = *(int *)(p + 0x44 + i * 4);
     a = func_0201AB28(party, (*(int **)(p + 0xd8))[1]);
     b = func_0201AB28(other, slot);

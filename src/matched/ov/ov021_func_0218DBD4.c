@@ -13,6 +13,7 @@
  *   func_021694FC  0x021694FC  thumb ov010
  *   func_021697E0  0x021697E0  thumb ov010
  */
+#include "../include/Obj01846.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -21,9 +22,9 @@ extern int func_021697E0(char *p);
 
 int func_0218DBD4(char *p, int i)
 {
-    if (*(int *)(p + 0x1c) == 0)
+    if (((struct Obj01846 *)p)->f1C == 0)
         return 0;
-    if (func_021694FC((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28))) == 0)
+    if (func_021694FC((u8 *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28))) == 0)
         return 0;
-    return func_021697E0((char *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)));
+    return func_021697E0((char *)(*(int *)(*(char * *)&((struct Obj01846 *)p)->f24 + i * 0x28)));
 }

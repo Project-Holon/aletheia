@@ -21,6 +21,7 @@
  *
  * If the lead handle is live, flush the two sub-slots and clear them.
  */
+#include "../include/Obj04581.h"
 
 
 extern void func_021FC0C8(int, int);
@@ -31,8 +32,8 @@ void func_021F89D0(int *a, char *p)
 {
     int i;
     if (a[1] != 0) {
-        func_021FC0C8(*(int *)(p + 0xC), 6);
-        func_021FBDA4(*(int *)(p + 0xC), 0x17);
+        func_021FC0C8(((struct Obj04581 *)p)->fC, 6);
+        func_021FBDA4(((struct Obj04581 *)p)->fC, 0x17);
         for (i = 0; i < 2; i++) {
             func_021FB494(a[i + 1]);
             a[i + 1] = 0;

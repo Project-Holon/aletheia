@@ -19,6 +19,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05005.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ int func_02198C4C(u32 a, u32 *b)
     s16 *p;
 
     p = func_0216D6D4((void *)a);
-    func_02163FC0(a, *(u16 *)p, b[p[3]]);
+    func_02163FC0(a, ((struct Obj05005 *)p)->f0, b[p[3]]);
     func_02164010(a);
     p[3] = p[3] + 1;
     if (p[3] < p[2]) {

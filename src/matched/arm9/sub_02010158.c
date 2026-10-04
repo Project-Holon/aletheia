@@ -23,6 +23,7 @@
  * 0x020109D0; the words are 0x0214617C / 0x0209DEB0 / 0x0209DED0, and the
  * case 0x3F7 arm shares case 0x3EE's block (both table slots 0x12).
  */
+#include "../include/Obj16724.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ u32 sub_02010158(u8 *obj)
 {
     u32 v;
 
-    switch (*(u32 *)(obj + 0xc)) {
+    switch (((struct Obj16724 *)obj)->fC) {
     case 0x3ee:
     case 0x3f7:
         return 0xd;

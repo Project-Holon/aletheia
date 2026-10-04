@@ -15,6 +15,7 @@
  * The extent runs long because the follower func_021B91E4 has no label
  * (already filed as ov093_func_021B91E4.c).
  */
+#include "../include/Obj06219.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,10 +38,10 @@ u32 func_021B919C(u8 *p)
 {
     if (((B *)p)->d == 0) {
         if (((B *)p)->g) {
-            *(u32 *)(p + 0x430) = *(u32 *)(p + 0x430) << 1;
+            ((struct Obj06219 *)p)->f430 = ((struct Obj06219 *)p)->f430 << 1;
         }
-        *(u32 *)(p + 0x430) = func_0201119C(*(u32 *)(p + 0x430));
+        ((struct Obj06219 *)p)->f430 = func_0201119C(((struct Obj06219 *)p)->f430);
         ((B *)p)->d = 1;
     }
-    return *(u32 *)(p + 0x430);
+    return ((struct Obj06219 *)p)->f430;
 }

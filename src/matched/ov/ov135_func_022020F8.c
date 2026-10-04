@@ -15,6 +15,8 @@
  *   func_021F90A0 0x021F90A0 thumb ov135
  *   func_021F4E98 0x021F4E98 thumb ov135
  */
+#include "../include/Obj00018.h"
+#include "../include/Obj23459.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -27,10 +29,10 @@ extern void func_021F90A0(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_022020F8(u8 *p)
 {
-    if (func_02012DD0(func_020120F4(*(void **)(*(u8 **)p + 0x40))) == 2) {
+    if (func_02012DD0(func_020120F4(((struct Obj23459 *)(*(u8 * *)&((struct Obj00018 *)p)->f0))->f40)) == 2) {
         func_021F4EC0(p, 1, 0);
         func_021F4FC4(p);
-        func_021F90A0((u32)p, (u32)(*(void **)(p + 0xB6C)), *(unsigned *)(p + 0x24), 1, 0xF0F);
+        func_021F90A0((u32)p, (u32)(((struct Obj00018 *)p)->fB6C), ((struct Obj00018 *)p)->f24, 1, 0xF0F);
         func_021F4E98(p, 0x2A, 0x20);
     }
     return 2;

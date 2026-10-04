@@ -12,6 +12,7 @@
  *   func_020056EC  0x020056EC  thumb
  *   func_02168878  0x02168878  thumb  ov010
  */
+#include "../include/Obj13002.h"
 
 typedef unsigned short u16;
 
@@ -53,6 +54,6 @@ void func_021D0AE4(char *p, int mode)
         break;
     }
     s = a + func_020056EC(b);
-    v = *(u16 *)(p + 0x120);
-    func_02168878(p, s, *(int *)(p + 0x124), 0, 0, 0, (v & 0x7FFF) | 0x8000);
+    v = ((struct Obj13002 *)p)->f120;
+    func_02168878(p, s, ((struct Obj13002 *)p)->f124, 0, 0, 0, (v & 0x7FFF) | 0x8000);
 }

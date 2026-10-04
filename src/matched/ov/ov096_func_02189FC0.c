@@ -15,6 +15,8 @@
  *   func_021895AC  0x021895AC  thumb  ov096
  *   func_0218A378  0x0218A378  thumb  ov096
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj13669.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,10 +42,10 @@ int func_02189FC0(u8 *a, u8 *b)
     t = func_0201134C(a);
     u = func_0201134C(a);
     w = func_0201134C(a);
-    base = (u16 *)(*(u8 **)(a + 0x14) + w);
+    base = (u16 *)(*(u8 * *)&((struct Obj00005 *)a)->f14 + w);
     flag = 0;
     if (t == 0) {
-        m = func_0218A378(b, *(u16 *)(b + 2), 0x1c) * 2;
+        m = func_0218A378(b, ((struct Obj13669 *)b)->f2, 0x1c) * 2;
         if (m / 2 > u)
             flag = 1;
     } else {
@@ -52,5 +54,5 @@ int func_02189FC0(u8 *a, u8 *b)
     if (flag == 1)
         return func_021895AC(a, b);
     func_020113B0((struct Cur *)a, (u32)((u8 *)base + (base[m] | (base[m + 1] << 16))));
-    return *(int *)(b + 0xc4);
+    return ((struct Obj13669 *)b)->fC4;
 }

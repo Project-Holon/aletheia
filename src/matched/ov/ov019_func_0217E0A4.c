@@ -25,6 +25,7 @@
  *   func_0216D480  0x0216D480  thumb  ov010
  *   func_0217B8E4  0x0217B8E4  thumb  ov019
  */
+#include "../include/Obj19424.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ extern int func_0217B8E4(char *p, char v);
 
 int func_0217E0A4(void *ctx, Obj *obj, int a2, u8 *state)
 {
-    void *w = *(void **)((u8 *)ctx + 0x355c);
+    void *w = ((struct Obj19424 *)ctx)->f355C;
     void *h;
     unsigned out;
 

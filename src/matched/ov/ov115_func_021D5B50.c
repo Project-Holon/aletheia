@@ -12,6 +12,7 @@
  * symbols:
  *   func_021D5B5C  0x021D5B5C  thumb  ov115
  */
+#include "../include/Obj22602.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021D5B5C(void *, u32, int);
-void func_021D5B50(void *p, int b) { func_021D5B5C(p, *(u32 *)((u8 *)p + 0x1c), b); }
+void func_021D5B50(void *p, int b) { func_021D5B5C(p, ((struct Obj22602 *)p)->f1C, b); }

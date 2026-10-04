@@ -31,6 +31,8 @@
  * d4 0x021BB080 data ov213
  * d5 0x021BB098 data a4
  */
+#include "../include/Obj01295.h"
+#include "../include/Obj25690.h"
 typedef unsigned int u32;
 struct V {int x,y,z;};
 extern const struct V d0,d1,d2,d3,d4,d5;
@@ -58,28 +60,28 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
         func_021BA480(p);func_021B6200(state);break;
     case 1:
         if(func_021BA9D0(p+0x24)==0){
-            if(*(int*)(p+0x49cc)==2)return 1;
-            *(int*)(p+0x49d0)=0;
+            if(((struct Obj01295 *)p)->f49CC==2)return 1;
+            ((struct Obj01295 *)p)->f49D0=0;
             func_021BA81C(p+0x24,0xc);func_021B6200(state);
         }break;
     case 2:
-        if(*(int*)(p+0x49d0)==15){
-            index=*(int*)(p+0x49cc)!=0;
-            func_020061E4(func_021B98DC(2,*(int*)(*(unsigned char**)(p+4)+0x50)));
+        if(((struct Obj01295 *)p)->f49D0==15){
+            index=((struct Obj01295 *)p)->f49CC!=0;
+            func_020061E4(func_021B98DC(2,((struct Obj25690 *)(*(unsigned char* *)&((struct Obj01295 *)p)->f4))->f50));
             func_021BA68C(p+0x498c,index,0);
-        }else if(*(int*)(p+0x49d0)==24){
-            index=*(int*)(p+0x49cc)!=0;
+        }else if(((struct Obj01295 *)p)->f49D0==24){
+            index=((struct Obj01295 *)p)->f49CC!=0;
             func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
-        }else if(*(int*)(p+0x49d0)==45){
-            index=*(int*)(p+0x49cc)!=1;
+        }else if(((struct Obj01295 *)p)->f49D0==45){
+            index=((struct Obj01295 *)p)->f49CC!=1;
             func_021BA68C(p+0x498c,index,1);
-        }else if(*(int*)(p+0x49d0)==54){
-            index=*(int*)(p+0x49cc)!=1;
+        }else if(((struct Obj01295 *)p)->f49D0==54){
+            index=((struct Obj01295 *)p)->f49CC!=1;
             func_0204B3DC(*(void**)((u32)p+(u32)index*4+0x499c),0);
-        }else if(*(int*)(p+0x49d0)==120)func_0204E720(3,0,16,-3);
-        else if(*(int*)(p+0x49d0)==128)return 1;
-        if(*(int*)(p+0x49d0)%180==0){
-            if(*(int*)(p+0x49cc)==1){x=-0x2800;y=0x2000;}
+        }else if(((struct Obj01295 *)p)->f49D0==120)func_0204E720(3,0,16,-3);
+        else if(((struct Obj01295 *)p)->f49D0==128)return 1;
+        if(((struct Obj01295 *)p)->f49D0%180==0){
+            if(((struct Obj01295 *)p)->f49CC==1){x=-0x2800;y=0x2000;}
             else{x=0x2800;y=-0x1800;}
             v0=d0;v0.x=x;v0.y=y;func_021BA8E8(p+0x24,0,&v0);
             v1=d1;v1.x=x;v1.y=y;func_021BA8E8(p+0x24,1,&v1);
@@ -88,7 +90,7 @@ int func_021B9B0C(unsigned char *state,unsigned char *p)
             v4=d4;v4.x=x;v4.y=y;func_021BA8E8(p+0x24,4,&v4);
             v5=d5;v5.x=x;v5.y=y;func_021BA8E8(p+0x24,5,&v5);
         }
-        (*(int*)(p+0x49d0))++;break;
+        (((struct Obj01295 *)p)->f49D0)++;break;
     }
     return 0;
 }

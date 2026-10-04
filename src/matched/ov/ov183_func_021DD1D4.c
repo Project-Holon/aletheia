@@ -14,6 +14,9 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  */
+#include "../include/Obj00050.h"
+#include "../include/Obj06598.h"
+#include "../include/Obj10731.h"
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_020409B4(unsigned int);
@@ -23,20 +26,20 @@ void func_021DD1D4(char *p, char *q)
 {
     int i;
     char *slot;
-    if (*(int *)(p + 0xe4)) {
+    if (((struct Obj00050 *)p)->fE4) {
         for (i = 0; i < 2; i++) {
             slot = p + i * 4;
-            if (*(void **)(slot + 0x28)) {
-                func_021FC734(*(void **)(slot + 0x28));
-                *(int *)(slot + 0x28) = 0;
+            if (((struct Obj10731 *)slot)->f28) {
+                func_021FC734(((struct Obj10731 *)slot)->f28);
+                *(int *)&((struct Obj10731 *)slot)->f28 = 0;
             }
         }
         func_020409B4(4);
-        func_021FBDA4(*(int *)(q + 0x10), 30);
-        if (*(void **)(p + 0x18)) {
-            func_021FD15C(*(void **)(p + 0x18), *(int *)(q + 0x10));
-            *(int *)(p + 0x18) = 0;
+        func_021FBDA4(((struct Obj06598 *)q)->f10, 30);
+        if (((struct Obj00050 *)p)->f18) {
+            func_021FD15C(((struct Obj00050 *)p)->f18, ((struct Obj06598 *)q)->f10);
+            *(int *)&((struct Obj00050 *)p)->f18 = 0;
         }
-        *(int *)(p + 0xe4) = 0;
+        ((struct Obj00050 *)p)->fE4 = 0;
     }
 }

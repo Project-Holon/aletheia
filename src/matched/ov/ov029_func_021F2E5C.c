@@ -13,11 +13,12 @@
  *   func_021F2E5C 0x021F2E5C thumb
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj20399.h"
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
 void func_021F2E5C(char *p)
 {
-    func_0204B3B4((struct Obj *)(*(int *)(p + 8)));
+    func_0204B3B4((struct Obj *)(((struct Obj20399 *)p)->f8));
 }

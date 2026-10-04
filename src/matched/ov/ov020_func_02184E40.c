@@ -15,6 +15,7 @@
  *   func_02184730  0x02184730  thumb  ov020
  *   func_02184CEC  0x02184CEC  thumb  ov020
  */
+#include "../include/Obj00248.h"
 typedef short s16;
 typedef struct { int x, y, z; } Vec;
 typedef unsigned int   u32;
@@ -37,6 +38,6 @@ void *func_02184E40(void *p, int u, const Vec *v, s16 b, const int *s)
     func_02184CEC(r4, p);
     func_02014184(r4 + 0x10, b, 1, s[0], s[1], s[2]);
     vset((Vec *)(r4 + 0x34), v->x, v->y, v->z);
-    *(int *)(r4 + 0x2c) = 0;
+    ((struct Obj00248 *)r4)->f2C = 0;
     return r0v;
 }

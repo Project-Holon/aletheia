@@ -15,6 +15,7 @@
  *   func_02041300 0x02041300 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj10914.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct WinMgr;
@@ -27,9 +28,9 @@ extern void func_02041B6C(u32);
 void func_021BCA20(char *p)
 {
     u32 base = func_0204162C(0);
-    *(struct WinMgr **)(p + 0x20) = func_0202C9B4(2, 1, 123);
-    func_0202CA3C(*(struct WinMgr **)(p + 0x20), 0, 0, 32, 3);
-    func_0202CAC4(*(struct WinMgr **)(p + 0x20), 0, (void *)(base + 0x540));
+    *(struct WinMgr * *)&((struct Obj10914 *)p)->f20 = func_0202C9B4(2, 1, 123);
+    func_0202CA3C(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, 0, 32, 3);
+    func_0202CAC4(*(struct WinMgr * *)&((struct Obj10914 *)p)->f20, 0, (void *)(base + 0x540));
     func_02041300(0, 0, 0, 21, 32, 3, 0);
     func_02041B6C(0);
 }

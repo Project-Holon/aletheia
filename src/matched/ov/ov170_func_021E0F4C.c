@@ -15,6 +15,7 @@
  *   func_021EC000 0x021EC000 thumb ov170
  *   func_021E0190 0x021E0190 thumb ov170
  */
+#include "../include/Obj10652.h"
 extern int func_021EC01C(char *, int);
 extern int func_021EBFEC(char *, int);
 extern void func_021ED108(char *, int);
@@ -25,20 +26,20 @@ extern int func_021E0190(char *p);
 int func_021E0F4C(unsigned char *p)
 {
     char *b = W(p) + 0x58;
-    switch (*(unsigned short *)(b + 0xC)) {
+    switch (((struct Obj10652 *)b)->fC) {
     case 0:
         if (func_021EC01C(W(p), 10) == 1) {
             func_021ED108(W(p), 1);
             func_021EBFA8(W(p), 10, 2);
         }
-        (*(unsigned short *)(b + 0xC))++;
+        (((struct Obj10652 *)b)->fC)++;
         break;
     case 1:
         if (!func_021EBFEC(W(p), 10)) {
             func_021ED108(W(p), 0);
             func_021EC000(W(p), 10, 0);
         }
-        *(unsigned short *)(b + 0xC) = 0;
+        ((struct Obj10652 *)b)->fC = 0;
         return 0;
     }
     return 1;

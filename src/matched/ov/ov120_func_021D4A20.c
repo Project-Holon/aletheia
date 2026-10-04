@@ -15,6 +15,8 @@
  *   func_02012944 0x02012944 thumb
  *   func_02008530 0x02008530 thumb
  */
+#include "../include/Obj10386.h"
+#include "../include/Obj22828.h"
 typedef unsigned char u8;
 extern int func_0216CB30(int, int, int);
 extern void *func_02009EC8(void *);
@@ -34,7 +36,7 @@ int func_021D4A20(int a, u8 *p)
     int id;
     int group;
     int i;
-    u8 *q = *(u8 **)(p + 0x48);
+    u8 *q = *(u8 * *)&((struct Obj10386 *)p)->f48;
     mode = func_0216CB30(a, (int)(p + 0x76), -1);
     x = func_0216CB30(a, (int)(p + 0x8e), -1);
     y = func_0216CB30(a, (int)(p + 0x82), -1);
@@ -43,15 +45,15 @@ int func_021D4A20(int a, u8 *p)
     if (I(0x138) == 1) {
         if (mode == 4) {
             if (I(0x148) == -1) {
-                if (func_02009E74(func_02009EC8(*(void **)(p + 0x30)), id) != 0)
+                if (func_02009E74(func_02009EC8(((struct Obj10386 *)p)->f30), id) != 0)
                     score = 100;
             } else {
                 if (I(0x18) == id) score = 100;
             }
         } else {
-            if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(*(int *)q)))) {
+            if (group == func_02008530((const struct Sub0200852CObj *)func_02012944((void *)(((struct Obj22828 *)q)->f0)))) {
                 if (I(0x148) == -1) {
-                    if (func_02009E74(func_02009EC8(*(void **)(p + 0x30)), id) != 0)
+                    if (func_02009E74(func_02009EC8(((struct Obj10386 *)p)->f30), id) != 0)
                         score = 100;
                 } else {
                     if (I(0x18) == id) score = 100;

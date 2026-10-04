@@ -17,6 +17,7 @@
  *   func_0204F5A8 0x0204F5A8 arm
  *   func_0204F150 0x0204F150 arm
  */
+#include "../include/Obj00777.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -30,23 +31,23 @@ void func_021B7498(u8 *p)
 {
     u8 *e,*next;
     int i;
-    e=func_021BA184(*(void **)(p+0x181c));
-    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
-    e=func_021BA184(*(void **)(p+0x1820));
-    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
-    e=func_021BA184(*(void **)(p+0x1824));
-    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
-    e=func_021BA184(*(void **)(p+0x1828));
-    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,*(void **)(p+0x1884));e=next;}
-    for(i=0;i<14;i++)func_0204F5A8(*(void **)(p+0x188c),*(unsigned int *)(p+i*4+0x5c));
-    func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+0x58));
-    func_021F4D40((u8 *)(*(int *)(p+0x1884)),(u8 *)(*(int *)(p+0x4c)));
-    func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+0x54));
-    for(i=0;i<*(u16 *)(p+0xa8);i++){
+    e=func_021BA184(((struct Obj00777 *)p)->f181C);
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
+    e=func_021BA184(((struct Obj00777 *)p)->f1820);
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
+    e=func_021BA184(((struct Obj00777 *)p)->f1824);
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
+    e=func_021BA184(((struct Obj00777 *)p)->f1828);
+    while(e){next=(u8 *)func_021BA208(e);func_021BA1D8(e,((struct Obj00777 *)p)->f1884);e=next;}
+    for(i=0;i<14;i++)func_0204F5A8(((struct Obj00777 *)p)->f188C,*(unsigned int *)(p+i*4+0x5c));
+    func_0204F150(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f58);
+    func_021F4D40((u8 *)(*(int *)&((struct Obj00777 *)p)->f1884),(u8 *)(((struct Obj00777 *)p)->f4C));
+    func_0204F150(*(u8 * *)&((struct Obj00777 *)p)->f188C,((struct Obj00777 *)p)->f54);
+    for(i=0;i<((struct Obj00777 *)p)->fA8;i++){
         func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb0));
         func_0204F150(*(u8 **)(p+0x188c),*(int *)(p+i*20+0xb4));
     }
-    func_021BA0F8(*(void **)(p+0x181c));func_021BA0F8(*(void **)(p+0x1820));
-    func_021BA0F8(*(void **)(p+0x1824));func_021BA0F8(*(void **)(p+0x1828));
+    func_021BA0F8(((struct Obj00777 *)p)->f181C);func_021BA0F8(((struct Obj00777 *)p)->f1820);
+    func_021BA0F8(((struct Obj00777 *)p)->f1824);func_021BA0F8(((struct Obj00777 *)p)->f1828);
     func_021F4948(*(u8 **)(p+0x1884));
 }

@@ -21,6 +21,7 @@
  *   d_02209E1C 0x02209E1C data a4
  *   d_02209D90 0x02209D90 data a4
  */
+#include "../include/Obj00325.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -43,7 +44,7 @@ int func_021FA458(void *a, char *s)
     int slot;
     int arg;
 
-    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7b6);
+    p = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7b6);
     slot = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     arg = func_0201134C(a);
     p[0] = (int)a;
@@ -78,9 +79,9 @@ int func_021FA458(void *a, char *s)
         desc.v[6] = 0x200000;
         desc.v[7] = 0x1000;
         if (func_02051788(*(void **)(s + 12 + slot * 4)) == 0)
-            func_02051648(*(void **)(s + 12 + slot * 4), &desc, 0x2000, &zero, &v1, &v2, (u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000));
+            func_02051648(*(void **)(s + 12 + slot * 4), &desc, 0x2000, &zero, &v1, &v2, (u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000));
         func_021FDD60(s, p, slot, arg);
     }
     func_020307B0(p);
-    return *(int *)(s + 0x23c);
+    return ((struct Obj00325 *)s)->f23C;
 }

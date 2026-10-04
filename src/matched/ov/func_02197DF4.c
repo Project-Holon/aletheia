@@ -15,6 +15,7 @@
  *   func_0216D3CC  0x0216D3CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12072.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,10 +26,10 @@ extern int func_0216D3CC(int a0);
 
 int func_02197DF4(u32 a)
 {
-if (func_0216D3CC(*(u32 *)((u8 *)(a) + 12)) == 0) {
+if (func_0216D3CC(((struct Obj12072 *)((u8 *)(a)))->fC) == 0) {
     return 0;
 }
-*(u32 *)((u8 *)(a)) = 2;
+((struct Obj12072 *)((u8 *)(a)))->f0 = 2;
 return 1;
 }
 

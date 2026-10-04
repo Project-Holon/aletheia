@@ -14,6 +14,8 @@
  *   func_021B9E7C  0x021B9E7C  thumb  ov093
  *   func_021B6954  0x021B6954  thumb  ov093
  */
+#include "../include/Obj00661.h"
+#include "../include/Obj06216.h"
 
 struct A;
 struct B;
@@ -23,9 +25,9 @@ extern void func_021B6954(int, int);
 
 void func_021B69FC(int a, char *b)
 {
-    if (*(unsigned char *)(b + 0x23) == 0) {
-        func_021B9E38((char *)(a + 0x20), *(unsigned short *)((char *)a + 0x468), *(int *)((char *)a + 0xc0));
-        func_021B9E7C((struct A *)(a + 0x48), (struct B *)(*(int *)(b + 0x4c)));
+    if (((struct Obj00661 *)b)->f23 == 0) {
+        func_021B9E38((char *)(a + 0x20), ((struct Obj06216 *)a)->f468, ((struct Obj06216 *)a)->fC0);
+        func_021B9E7C((struct A *)(a + 0x48), (struct B *)(((struct Obj00661 *)b)->f4C));
     } else {
         func_021B6954(a, 0);
         func_021B6954(a, 1);

@@ -13,6 +13,7 @@
  *   func_0204A1BC  0x0204A1BC  arm
  *   func_0204968C  0x0204968C  arm
  */
+#include "../include/Obj17354.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -20,7 +21,7 @@ typedef unsigned char  u8;
 
 u16 func_0204961C(void *obj)
 {
-    return *(u16 *)((u8 *)obj + 0x4E);
+    return ((struct Obj17354 *)obj)->f4E;
 }
 
 extern int func_0204A1BC(int a0, int a1, int a2, int a3);

@@ -11,9 +11,10 @@
  * symbols:
  *   func_021F62B0 0x021F62B0 thumb ov112
  */
+#include "../include/Obj22540.h"
 typedef unsigned int u32;
 extern void func_021F62B0(char *, u32);
 void func_021F53CC(int a, u32 n)
 {
-    func_021F62B0(*(char **)(a + 8), n);
+    func_021F62B0(*(char * *)&((struct Obj22540 *)a)->f8, n);
 }

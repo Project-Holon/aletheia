@@ -15,11 +15,12 @@
  *   func_020515CC  0x020515CC  arm
  *   func_021C24BC  0x021C24BC  thumb  ov021
  */
+#include "../include/Obj20162.h"
 
 void func_021C24BC(char *p);
 int func_020515CC(int *p, int a, int b, int c);
 
 void func_021C24A8(char *p, int k)
 {
-    func_020515CC((int *)(*(int *)(p + 0x58)), k, (int)func_021C24BC, 0);
+    func_020515CC((int *)(((struct Obj20162 *)p)->f58), k, (int)func_021C24BC, 0);
 }

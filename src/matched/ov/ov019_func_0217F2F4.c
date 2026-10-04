@@ -11,14 +11,15 @@
  * symbols:
  *   func_021909BC 0x021909BC thumb ov021
  */
+#include "../include/Obj00033.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021909BC(u32 a);
 void func_0217F2F4(u8 *p)
 {
-    if (*(void **)(p + 0x2810) != 0) {
-        func_021909BC((u32)(*(void **)(p + 0x2810)));
-        *(void **)(p + 0x2810) = 0;
+    if (((struct Obj00033 *)p)->f2810 != 0) {
+        func_021909BC((u32)(((struct Obj00033 *)p)->f2810));
+        ((struct Obj00033 *)p)->f2810 = 0;
     }
 }

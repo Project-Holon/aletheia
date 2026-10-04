@@ -17,6 +17,7 @@
  *   func_021D54C0  0x021D54C0  thumb  ov093
  *   func_021CF5B0  0x021CF5B0  thumb  ov093
  */
+#include "../include/Obj21136.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -40,7 +41,7 @@ void func_021CECB4(u8 *p, Ent *out)
     u32 k;
     Ent *e;
     for (i = 0; i < 3; i++) {
-        q = func_021B9C00(*(void **)(p + 0x118), (u8)i);
+        q = func_021B9C00(((struct Obj21136 *)p)->f118, (u8)i);
         e = out + i;
         e->q = q;
         for (j = 0; j < 4; j++) {

@@ -25,6 +25,8 @@
  *   python tools/match.py one --src src/matched/func_020261E4.c \
  *       --func func_020261E4 --addr 0x020261E4 --cc 1.1p1 --thumb
  */
+#include "../include/Obj06910.h"
+#include "../include/Obj15758.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -46,15 +48,15 @@ void *func_020261E4(u32 a0, void *a1)
     u8 *q;
 
     p = func_02030734(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
-    *(void **)p = a1;
+    ((struct Obj15758 *)p)->f0 = a1;
     q = func_02012944(a1);
     base = p + 0x3c;
     for (i = 0; i < 6; i++) {
         e = base + i * 0xc;
-        *(struct U16Vec **)(e + 4) = func_020457B0(8, a0);
-        *(struct U16Vec **)(e + 8) = func_020457B0(8, a0);
-        func_02008500(q, *(struct U16Vec **)(e + 4));
-        func_02008500(q, *(struct U16Vec **)(e + 8));
+        *(struct U16Vec * *)&((struct Obj06910 *)e)->f4 = func_020457B0(8, a0);
+        *(struct U16Vec * *)&((struct Obj06910 *)e)->f8 = func_020457B0(8, a0);
+        func_02008500(q, *(struct U16Vec * *)&((struct Obj06910 *)e)->f4);
+        func_02008500(q, *(struct U16Vec * *)&((struct Obj06910 *)e)->f8);
     }
     return p;
 }

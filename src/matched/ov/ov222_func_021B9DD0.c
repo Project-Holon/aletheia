@@ -14,6 +14,8 @@
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj02560.h"
+#include "../include/Obj26080.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef struct {s16 x,y;} Pt;
@@ -25,17 +27,17 @@ void func_021B9DD0(char*p)
 {
     int v;
     Pt pos;
-    if(*(int*)(*(char**)(p+4)+4)==0){
+    if(((struct Obj26080 *)(*(char* *)&((struct Obj02560 *)p)->f4))->f4==0){
         v=func_02040804(1);
         if(v!=0){
-            if(*(u8*)(p+0x44)==0){
+            if(((struct Obj02560 *)p)->f44==0){
                 if(v>=2)v=2;
                 func_02041EE4(1,5,v);func_02041EE4(2,5,v);
-                func_0204B454(*(void**)(p+0x54),&pos,0);
+                func_0204B454(*(void* *)&((struct Obj02560 *)p)->f54,&pos,0);
                 pos.y=pos.y+(s16)v;
-                func_0204B404(*(void**)(p+0x54),&pos,0);
-                *(u8*)(p+0x44)=0;
-            }else --*(u8*)(p+0x44);
+                func_0204B404(*(void* *)&((struct Obj02560 *)p)->f54,&pos,0);
+                ((struct Obj02560 *)p)->f44=0;
+            }else --((struct Obj02560 *)p)->f44;
         }
     }
 }

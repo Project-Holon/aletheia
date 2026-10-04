@@ -11,11 +11,12 @@
  *   func_0201A570 0x0201A570 thumb
  *   func_021BA8BC 0x021BA8BC thumb ov099
  */
+#include "../include/Obj04412.h"
 extern void func_0201A570(void *);
 extern int func_021BA8BC(void *);
 void func_021BC06C(char *p)
 {
-    func_0201A570(*(void **)(p + 0x1344));
-    *(int *)(p + 0x1344) = 0;
-    *(int *)(p + 0x19C) = func_021BA8BC(*(void **)(p + 0x19C));
+    func_0201A570(((struct Obj04412 *)p)->f1344);
+    *(int *)&((struct Obj04412 *)p)->f1344 = 0;
+    *(int *)&((struct Obj04412 *)p)->f19C = func_021BA8BC(((struct Obj04412 *)p)->f19C);
 }

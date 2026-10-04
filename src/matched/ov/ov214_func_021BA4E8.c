@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj01588.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor; struct PrintSys;
@@ -35,7 +36,7 @@ void func_021BA4E8(void *unused,struct S *p)
     struct Descriptor *d;
     for (i=0;i<=1;i++) {
         if (p->flags[i]==0) {
-            if (func_0201C6C4(*(struct PrintSys **)((char *)p+0x10),func_02045770(p->descriptors[i]))==0) {
+            if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f10,func_02045770(p->descriptors[i]))==0) {
                 d=p->descriptors[i];
                 func_02045334(d);
                 func_02045374((struct Cfg *)d);
@@ -44,22 +45,22 @@ void func_021BA4E8(void *unused,struct S *p)
             }
         }
     }
-    if (*(u32 *)((char *)p+0xA4)==0) {
-        if (func_0201C6C4(*(struct PrintSys **)((char *)p+0x14),func_02045770(p->other1))==0) {
+    if (((struct Obj01588 *)p)->fA4==0) {
+        if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f14,func_02045770(p->other1))==0) {
             d=p->other1;
             func_02045334(d);
             func_02045374((struct Cfg *)d);
             func_02041B6C(func_02045730(d));
-            *(u32 *)((char *)p+0xA4)=1;
+            ((struct Obj01588 *)p)->fA4=1;
         }
     }
-    if (*(u32 *)((char *)p+0xA8)==0) {
-        if (func_0201C6C4(*(struct PrintSys **)((char *)p+0x18),func_02045770(p->other2))==0) {
+    if (((struct Obj01588 *)p)->fA8==0) {
+        if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj01588 *)p)->f18,func_02045770(p->other2))==0) {
             d=p->other2;
             func_02045334(d);
             func_02045374((struct Cfg *)d);
             func_02041B6C(func_02045730(d));
-            *(u32 *)((char *)p+0xA8)=1;
+            ((struct Obj01588 *)p)->fA8=1;
         }
     }
 }

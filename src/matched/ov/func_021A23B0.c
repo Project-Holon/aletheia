@@ -16,6 +16,7 @@
  *   func_021A2CF8  0x021A2CF8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18002.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u8 func_021A2CF8(char *p);
 
 int func_021A23B0(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021A0244(*(u32 *)((u8 *)(a) + 4), b, c, d) != 0) {
+if (func_021A0244(((struct Obj18002 *)((u8 *)(a)))->f4, b, c, d) != 0) {
     return 0;
 }
 if (func_021A2CF8((char *)a) == 0) {

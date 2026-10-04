@@ -26,6 +26,7 @@
  *   func_0218AD80  0x0218AD80  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00705.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ int func_0218ACD0(u8 *p, void *a, void *arg)
 
     if (id == 0xFFFF)
         return 0;
-    obj = func_021625CC(*(void **)(p + 0xC), id);
+    obj = func_021625CC(((struct Obj00705 *)p)->fC, id);
     if (func_021626EC(obj) == 1 || !func_0218AEAC(obj))
         return 0;
     func_0218ADC8(p, id, arg);

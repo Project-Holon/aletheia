@@ -16,6 +16,7 @@
  *   func_021B6284 0x021B6284 thumb ov067
  *   d_021BB4C4 0x021BB4C4 data a1
  */
+#include "../include/Obj08422.h"
 typedef unsigned char u8;
 typedef struct {u8 a,b;} Pair;
 extern const Pair d_021BB4C4[];
@@ -29,9 +30,9 @@ void func_021BABA4(void*p,void*actor)
 }
 void func_021BABB8(int unused,char*p)
 {
-    u8 i=*(unsigned*)(p+0x2b0);
+    u8 i=((struct Obj08422 *)p)->f2B0;
     if(i>=0x29)i=0;
-    *(unsigned*)(p+0x2a4)=d_021BB4C4[i].a;
-    if(d_021BB4C4[i].b==0)*(unsigned*)(p+0x2a8)=1;
-    else *(unsigned*)(p+0x2a8)=0;
+    ((struct Obj08422 *)p)->f2A4=d_021BB4C4[i].a;
+    if(d_021BB4C4[i].b==0)((struct Obj08422 *)p)->f2A8=1;
+    else ((struct Obj08422 *)p)->f2A8=0;
 }

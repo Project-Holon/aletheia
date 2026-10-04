@@ -15,6 +15,7 @@
  *   func_021F8694  0x021F8694  thumb  ov094
  *   func_021FF470  0x021FF470  thumb  ov094
  */
+#include "../include/Obj00177.h"
 typedef unsigned char u8;
 
 extern int func_0201134C(int a);
@@ -35,5 +36,5 @@ int func_021FB1C4(int a, char *b)
         for (i = 0; i < n; i++)
             func_021FF470((void *)func_021F8694(), buf[i], v);
     }
-    return *(int *)(b + 0x23c);
+    return ((struct Obj00177 *)b)->f23C;
 }

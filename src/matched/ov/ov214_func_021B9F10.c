@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj14698.h"
 
 void func_021B9F10(int unused, char *b, int c, int d)
 {
-    *(int *)(b + 0x40) = c;
-    *(int *)(b + 0x44) = d;
+    ((struct Obj14698 *)b)->f40 = c;
+    ((struct Obj14698 *)b)->f44 = d;
 }

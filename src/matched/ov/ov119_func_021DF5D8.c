@@ -15,6 +15,7 @@
  *   func_021DF59C 0x021DF59C thumb ov119
  *   func_021E26AC 0x021E26AC thumb ov119
  */
+#include "../include/Obj10366.h"
 typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -25,9 +26,9 @@ extern void func_021DF59C(void *);
 extern void func_021E26AC(void *);
 void func_021DF5D8(char *p)
 {
-    func_02045CAC(*(void **)(p + 0x720), 0x87, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj10366 *)p)->f720, 0x87, ((struct Obj10366 *)p)->f738);
     func_021E1024(p);
-    func_021B6548(*(void **)(p + 0x9C0), 1, 0);
+    func_021B6548(((struct Obj10366 *)p)->f9C0, 1, 0);
     func_021D8E84(p, (int)func_021DF59C);
     func_021E26AC(p);
 }

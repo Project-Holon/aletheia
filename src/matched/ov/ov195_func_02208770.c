@@ -15,6 +15,7 @@
  *   func_02208994 0x02208994 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj05518.h"
 
 extern void func_02208B54(char *a);
 extern void func_02208A6C(char *p);
@@ -25,6 +26,6 @@ void func_02208770(char *a)
 {
     func_02208B54(a);
     func_02208A6C(a);
-    func_02208994((char *)(*(int *)(a + 0x10)));
+    func_02208994((char *)(((struct Obj05518 *)a)->f10));
     func_020307B0(a);
 }

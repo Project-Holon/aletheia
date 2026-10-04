@@ -17,6 +17,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21331.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -37,7 +38,7 @@ void func_021DB7E8(void *a, void *p, int id)
         if (t == 0x10f || t == 0x19f) {
             if (func_021D76BC(0x40, 1) != 0) {
                 r = (u8 *)func_021C88A4(p, 4, id);
-                *(u32 *)r |= 0x800000;
+                ((struct Obj21331 *)r)->f0 |= 0x800000;
                 func_021C8838(r + 4, 2, 0xd2);
                 func_021C8860((struct S *)(r + 4), id);
                 func_021C88C8(p, r);

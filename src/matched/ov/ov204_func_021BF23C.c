@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj02540.h"
 
 extern signed char func_02012FFC(void);
 typedef unsigned int   u32;
@@ -42,12 +43,12 @@ extern void func_02041B6C(u32 bit);
 void func_021BF23C(char *p, void *a, int flag)
 {
     unsigned int value = func_02012FFC();
-    void *desc = *(void **)(p + 28);
+    void *desc = ((struct Obj02540 *)p)->f1C;
     func_02043B5C(func_02045770(desc), 15);
     func_0201DD78(1, 2, 15);
-    func_02045CAC(*(void **)(p + 12), (unsigned int)a, *(void **)(p + 60));
-    func_0201F250(*(void **)(p + 8), *(void **)(p + 64), *(void **)(p + 60));
-    *(void **)(p + 20) = func_0201CCE4((unsigned int)desc, 4, 0, *(unsigned int *)(p + 64), *(unsigned int *)(p + 16), value, *(unsigned int *)(p + 24), 0xFFFF, *(unsigned short *)p, 15);
+    func_02045CAC(((struct Obj02540 *)p)->fC, (unsigned int)a, ((struct Obj02540 *)p)->f3C);
+    func_0201F250(((struct Obj02540 *)p)->f8, ((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f3C);
+    ((struct Obj02540 *)p)->f14 = func_0201CCE4((unsigned int)desc, 4, 0, *(unsigned int *)&((struct Obj02540 *)p)->f40, ((struct Obj02540 *)p)->f10, value, ((struct Obj02540 *)p)->f18, 0xFFFF, ((struct Obj02540 *)p)->f0, 15);
     if (flag == 0)
         func_0201F73C(desc, 1, 7, 9);
     else

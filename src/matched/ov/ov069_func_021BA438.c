@@ -17,6 +17,7 @@
  *   func_020260E0 0x020260E0 thumb
  *   func_021B9FF0 0x021B9FF0 thumb ov069
  */
+#include "../include/Obj00432.h"
 extern void func_021BA384(char *o, int i, int n);
 extern void func_021BA480(void *o);
 typedef unsigned char  u8;
@@ -25,8 +26,8 @@ extern u8 func_020260E0(struct Sound *obj);
 extern void func_021B9FF0(void *p, void *list, int idx);
 void func_021BA438(char *p, int i)
 {
-    *(unsigned short *)(p + 0x160) = i;
-    func_021BA384(p, i, *(unsigned short *)(p + 0x162));
+    ((struct Obj00432 *)p)->f160 = i;
+    func_021BA384(p, i, ((struct Obj00432 *)p)->f162);
     func_021BA480(p);
-    func_021B9FF0(p, *(void **)(p + 8), *(unsigned short *)(p + 0x160) * 10 + func_020260E0(*(void **)(p + 0x14C)));
+    func_021B9FF0(p, ((struct Obj00432 *)p)->f8, ((struct Obj00432 *)p)->f160 * 10 + func_020260E0(((struct Obj00432 *)p)->f14C));
 }

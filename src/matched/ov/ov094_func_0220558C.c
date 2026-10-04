@@ -26,6 +26,7 @@
  *   func_02021728 0x02021728 thumb
  *   func_020215BC 0x020215BC thumb
  */
+#include "../include/Obj02440.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,26 +56,26 @@ void func_0220558C(char *s, const int *b)
     void *w;
     void *extra;
     u8 c[3];
-    h = (int)func_0201EC64(*(u16 *)(s + 0x240));
-    v = func_020457B0(8, *(u16 *)(s + 0x240));
-    w = func_02045EC0(*(void **)(s + 0x5c), 6);
+    h = (int)func_0201EC64(((struct Obj02440 *)s)->f240);
+    v = func_020457B0(8, ((struct Obj02440 *)s)->f240);
+    w = func_02045EC0(((struct Obj02440 *)s)->f5C, 6);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(9, 10, 0);
     func_0201EFA4(h, 0, b[2], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x8c, 8, v, (void *)(*(int *)(s + 0x224)));
+    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x8c, 8, v, (void *)(((struct Obj02440 *)s)->f224));
     if (b[0] != b[1])
         func_0201DD78(7, 8, 0);
     func_0201EFA4(h, 0, b[1], 3, 2, 1);
     func_0201F250((void *)h, v, w);
-    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x60, 8, v, (void *)(*(int *)(s + 0x224)));
+    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x60, 8, v, (void *)(((struct Obj02440 *)s)->f224));
     func_0201DD78(1, 2, 0);
-    extra = func_02045EC0(*(void **)(s + 0x5c), 7);
-    func_0201C7A4((void *)(*(int *)(s + 0x22c)), 0x7c, 8, extra, (void *)(*(int *)(s + 0x224)));
+    extra = func_02045EC0(((struct Obj02440 *)s)->f5C, 7);
+    func_0201C7A4((void *)(((struct Obj02440 *)s)->f22C), 0x7c, 8, extra, (void *)(((struct Obj02440 *)s)->f224));
     func_02045808(extra);
     func_0201DD78(c[2], c[1], c[0]);
     func_0201ED04((struct WordSet *)h);
     func_02045808(w);
     func_02045808(v);
-    func_020215BC((struct PalAnmSlot *)(*(int *)(s + 0x64)), (u16 *)(func_02021728((char *)func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
+    func_020215BC((struct PalAnmSlot *)(((struct Obj02440 *)s)->f64), (u16 *)(func_02021728((char *)func_021F86E0(), 1) + 0x40), 1, 0x70, 0x20);
 }

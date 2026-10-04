@@ -14,6 +14,8 @@
  *   func_02210EFC 0x02210EFC thumb ov198
  *   d_02212550 0x02212550 data a1
  */
+#include "../include/Obj02915.h"
+#include "../include/Obj06654.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_02212550[];
@@ -28,13 +30,13 @@ void func_0220F3E8(u8 *p)
 {
     u8 *q;
     if (p[0x20]>5) p[0x20]=0;
-    q=func_02030734(*(u16 *)(p+0x10),0x2544,1,d_02212550,0x130);
-    func_02030DA8(*(void **)(p+0x28),(unsigned)func_0220F478,(unsigned)q,100);
-    *(u8 **)q=p;
+    q=func_02030734(((struct Obj02915 *)p)->f10,0x2544,1,d_02212550,0x130);
+    func_02030DA8(((struct Obj02915 *)p)->f28,(unsigned)func_0220F478,(unsigned)q,100);
+    *(u8 * *)&((struct Obj06654 *)q)->f0=p;
     if (p[0x1f]!=5) p[0x4b]=0;
     else if (func_02210EFC((char **)((unsigned)q))==1 && p[0x1c]==1) p[0x20]++;
-    *(void **)(q+0x1d8)=*(void **)(p+0x2c);
-    *(int *)(q+0x2178)=0;
+    ((struct Obj06654 *)q)->f1D8=((struct Obj02915 *)p)->f2C;
+    ((struct Obj06654 *)q)->f2178=0;
     q[0x2176]=p[0x20];
-    *(int *)(q+0x2540)=0;
+    ((struct Obj06654 *)q)->f2540=0;
 }

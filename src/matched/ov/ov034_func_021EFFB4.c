@@ -23,6 +23,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj07644.h"
 
 extern int func_0201C6B4(int);
 typedef unsigned int   u32;
@@ -55,10 +56,10 @@ void func_021EFFB4(int *p)
     for (i = 0; i < 8; i++) {
         h = p[2];
         s = (char *)p + i * 8;
-        if (*(unsigned char *)(s + 0x10)) {
-            if (func_0201C6C4(h, (int)func_02045770((struct Descriptor *)*(int *)(s + 0xC))) == 0) {
-                func_02045334((struct Descriptor *)*(int *)(s + 0xC));
-                *(unsigned char *)(s + 0x10) = 0;
+        if (((struct Obj07644 *)s)->f10) {
+            if (func_0201C6C4(h, (int)func_02045770((struct Descriptor *)((struct Obj07644 *)s)->fC)) == 0) {
+                func_02045334((struct Descriptor *)((struct Obj07644 *)s)->fC);
+                ((struct Obj07644 *)s)->f10 = 0;
             }
         }
     }

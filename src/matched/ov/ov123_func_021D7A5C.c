@@ -18,6 +18,7 @@
  *   d_021DAB90 0x021DAB90 data a1
  *   d_021DAB9C 0x021DAB9C data a1
  */
+#include "../include/Obj01934.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern int func_021D5C0C(char *p);
@@ -29,35 +30,35 @@ extern void func_021D7A18(int a);
 extern const char d_021DAB88[], d_021DAB90[], d_021DAB9C[];
 void func_021D7A5C(u8 *p)
 {
-    if (func_021D5C0C(*(void **)(p + 8))) {
-        if (func_021D5C2C(*(void **)(p + 8))) {
-            *(int *)(p + 128) = 0xfff0;
+    if (func_021D5C0C(((struct Obj01934 *)p)->f8)) {
+        if (func_021D5C2C(((struct Obj01934 *)p)->f8)) {
+            ((struct Obj01934 *)p)->f80 = 0xfff0;
             func_021D6EE0(p, (int)func_021D6FF0, 0x424);
             return;
         }
         switch (p[0xa7]) {
         case 0:
-            if (func_021D5C64(*(void **)(p+8), d_021DAB88, p[0xa5])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB88, p[0xa5])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x42b);
                 return;
             }
-            *(int *)(p+128) = 0xfff0;
+            ((struct Obj01934 *)p)->f80 = 0xfff0;
             func_021D6EE0(p, (int)func_021D6FF0, 0x42f);
             return;
         case 1:
-            if (func_021D5C64(*(void **)(p+8), d_021DAB90, p[0xa4])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB90, p[0xa4])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x434);
                 return;
             }
-            *(int *)(p+128) = 0xfff0;
+            ((struct Obj01934 *)p)->f80 = 0xfff0;
             func_021D6EE0(p, (int)func_021D6FF0, 0x438);
             return;
         case 2:
-            if (func_021D5C64(*(void **)(p+8), d_021DAB9C, p[0xa6])) {
+            if (func_021D5C64(((struct Obj01934 *)p)->f8, d_021DAB9C, p[0xa6])) {
                 func_021D6EE0(p, (int)func_021D7A18, 0x43d);
                 return;
             }
-            *(int *)(p+128) = 0xfff0;
+            ((struct Obj01934 *)p)->f80 = 0xfff0;
             func_021D6EE0(p, (int)func_021D6FF0, 0x441);
             return;
         }

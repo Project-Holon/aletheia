@@ -12,6 +12,8 @@
  *   func_02213808 0x02213808 thumb ov199
  *   func_0221380C 0x0221380C thumb ov199
  */
+#include "../include/Obj14575.h"
+#include "../include/Obj25293.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020307B0(void *);
@@ -19,15 +21,15 @@ extern void func_02213808(char *, int);
 extern void func_0221380C(void *);
 int func_0221303C(char *p, char *q, char *work)
 {
-    int mode = *(int *)(q + 0x1c);
+    int mode = ((struct Obj25293 *)q)->f1C;
     func_020307B0(q);
     switch (mode) {
     case 0:
-        *(int *)(work + 0x20) = 0;
+        ((struct Obj14575 *)work)->f20 = 0;
         func_02213808(p, 1);
         break;
     case 1:
-        if (*(int *)(work + 0xc) == 0) func_02213808(p, 0);
+        if (((struct Obj14575 *)work)->fC == 0) func_02213808(p, 0);
         else func_0221380C(p);
         break;
     }

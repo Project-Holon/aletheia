@@ -21,6 +21,7 @@
  *   func_021ABFA8  0x021ABFA8  thumb  ov021
  *   d_021D9AF8     0x021D9AF8  data  a4
  */
+#include "../include/Obj20103.h"
 
 typedef unsigned short u16;
 
@@ -73,7 +74,7 @@ void func_021BBDD4(int a, int b, int c)
         v.z -= 0x2000;
     }
     if (c == 4) {
-        v.y -= *(int *)(x + 0x3c);
+        v.y -= ((struct Obj20103 *)x)->f3C;
     }
     s.h = w;
     func_021ABFA8(b, &d_021D9AF8, &v, 0, &s, 0);

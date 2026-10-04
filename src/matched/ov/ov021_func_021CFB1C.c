@@ -18,6 +18,8 @@
  *   d_021DB834  0x021DB834  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12993.h"
+#include "../include/Obj20274.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,7 +50,7 @@ void func_021CFB1C(Slots *base, int i, Slot *dst)
     for (i++; i < 20; i++) {
         base->slot[i - 1] = base->slot[i];
     }
-    *(u16 *)((u8 *)base + 0x19c) = 0;
+    ((struct Obj20274 *)base)->f19C = 0;
 }
 
 const Row *func_021CFB68(u8 *base, int *idx)
@@ -58,7 +60,7 @@ const Row *func_021CFB68(u8 *base, int *idx)
     if (i < 20) {
         do {
             u8 *p = base + i * 0x14;
-            if (*(u16 *)(p + 0x20) != 0) {
+            if (((struct Obj12993 *)p)->f20 != 0) {
                 const Row *r = &d_021DB834[p[0x22]];
                 (*idx)++;
                 return r;

@@ -15,6 +15,8 @@
  *   func_0203D798  0x0203D798  arm
  *   func_0203D650  0x0203D650  arm
  */
+#include "../include/Obj18656.h"
+#include "../include/Obj18657.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,10 +35,10 @@ void func_02156CF4(void)
     for (; i < 32; i++) {
         if (*(int *)(g_021A8264 + i * 4 + 0x17c) != -1) {
             u8 *p = func_0203D798();
-            if (*(u32 *)(p + 0x3c) != 0) {
+            if (((struct Obj18656 *)p)->f3C != 0) {
                 u8 *q = g_021A8264 + i * 4;
                 u32 r = func_0203D650();
-                ((void (*)(u32, u32, u32))*(u32 *)(p + 0x3c))(*(u32 *)(q + 0x17c), *(u32 *)(q + off2), r);
+                ((void (*)(u32, u32, u32))*(u32 *)(p + 0x3c))(((struct Obj18657 *)q)->f17C, *(u32 *)(q + off2), r);
             }
             *(int *)(g_021A8264 + i * 4 + 0x17c) = -1;
         }

@@ -23,6 +23,7 @@
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  */
+#include "../include/Obj13934.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,8 +44,8 @@ void func_021D6328(u8 *p,int bank,int *offset,int *size,int count)
     int i;
     void *obj;
     u8 *buffer;
-    obj=func_02021518(*(u16 *)(p+0xf4));
-    func_0202155C(obj,bank,0x200,*(u16 *)(p+0xf4));
+    obj=func_02021518(((struct Obj13934 *)p)->fF4);
+    func_0202155C(obj,bank,0x200,((struct Obj13934 *)p)->fF4);
     func_020216D4(obj,bank,0,0x200);
     func_02021FD8(obj,bank,0,0x100,6,0);
     buffer=(u8 *)func_02021730(obj,bank);

@@ -14,6 +14,7 @@
  *   func_021C211C  0x021C211C  thumb  ov217
  *   func_021C2188  0x021C2188  thumb  ov217
  */
+#include "../include/Obj06717.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -28,10 +29,10 @@ extern void func_021C2188(void *p);
 
 void func_021C20EC(void *p)
 {
-    switch (*(u32 *)((char *)p + 0x20)) {
+    switch (((struct Obj06717 *)p)->f20) {
     case 0: func_021C2118(p); break;
     case 1: func_021C211C(p); break;
     case 2: func_021C2188(p); break;
     }
-    (*(u32 *)((char *)p + 0x24))++;
+    (((struct Obj06717 *)p)->f24)++;
 }

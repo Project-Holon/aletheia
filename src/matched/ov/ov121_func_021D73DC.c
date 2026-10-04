@@ -34,6 +34,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203F4E4 0x0203F4E4 arm
  */
+#include "../include/Obj13939.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -140,11 +141,11 @@ void func_021D73DC(void *task,u32 *state,u8 *p)
             func_021D8198((char *)p);
             if(v==0) {
                 func_021D8380(p);
-                if(((Flag *)(p+1152))->bit && func_0200A1A8(P(956),*(u16 *)(p+1148))) {*state=11;break;}
+                if(((Flag *)(p+1152))->bit && func_0200A1A8(P(956),((struct Obj13939 *)p)->f47C)) {*state=11;break;}
                 func_0203F4E4(&date);
                 W(1144)=(((u32)date.y+2000)<<16)|(((u32)date.m<<24)>>16)|(u8)date.d;
                 func_0200A034(P(956),p+972);
-                func_0200A1E4(P(956),*(u16 *)(p+1148));
+                func_0200A1E4(P(956),((struct Obj13939 *)p)->f47C);
                 func_021DA8B0(task,(u32)func_021D7814);
             } else if(v==1) *state=5;
         }

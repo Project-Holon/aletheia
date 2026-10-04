@@ -13,6 +13,7 @@
  *   func_02208A78 0x02208A78 thumb
  *   func_02208A24 0x02208A24 thumb
  */
+#include "../include/Obj08350.h"
 
 extern void func_02208A78(void *);
 extern void func_02208A24(int);
@@ -20,5 +21,5 @@ extern void func_02208A24(int);
 void func_02208804(char *a)
 {
     func_02208A78(a);
-    func_02208A24(*(int *)(a + 0x10));
+    func_02208A24(((struct Obj08350 *)a)->f10);
 }

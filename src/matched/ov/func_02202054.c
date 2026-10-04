@@ -14,6 +14,7 @@
 
  * Latch state 0x23 and publish the +2 tick of the 0x3c query into +0xdfc.
  */
+#include "../include/Obj09248.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern u32 func_020056EC(u32 v);
 
 int func_02202054(u8 *p)
 {
-    func_02012DAC((int)func_020120F4((const struct Ctx *)(*(u32 *)(*(u32 *)p + 0x40))));
-    *(u32 *)(p + 0x28) = 0x23;
-    *(u32 *)(p + 0xdfc) = func_020056EC(0x3c) + 2;
+    func_02012DAC((int)func_020120F4((const struct Ctx *)(*(u32 *)(((struct Obj09248 *)p)->f0 + 0x40))));
+    ((struct Obj09248 *)p)->f28 = 0x23;
+    ((struct Obj09248 *)p)->fDFC = func_020056EC(0x3c) + 2;
     return 2;
 }

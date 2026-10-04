@@ -15,6 +15,7 @@
  *   func_0218E358  0x0218E358  thumb
  *   func_0218E404  0x0218E404  thumb
  */
+#include "../include/Obj00428.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ extern void func_0218E404(u8 *a);
 
 void func_0218E73C(u8 *a)
 {
-    u32 s = *(u32 *)(a + 0x14);
+    u32 s = ((struct Obj00428 *)a)->f14;
     if (s == 0) {
         func_0218E284(a);
         func_0218E358(a);

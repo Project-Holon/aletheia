@@ -27,6 +27,7 @@
  *   ov067_id 0x00000043 data
  *   ov072_id 0x00000048 data
  */
+#include "../include/Obj00366.h"
 struct Obj0203159C;
 extern unsigned char ov067_id[],ov072_id[];
 extern int func_02034AC4(int);
@@ -53,17 +54,17 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     func_0203064C(1,119,3<<16);
     p=func_0203159C(obj,620,119);
     func_02082BCC(p,0,620);
-    *(void **)(p+0x14)=config;
-    *(unsigned short *)p=119;
-    *(unsigned short *)(p+2)=0x8077;
-    *(void **)(p+0x50)=func_021BC930(0,*(unsigned short *)p);
+    ((struct Obj00366 *)p)->f14=config;
+    ((struct Obj00366 *)p)->f0=119;
+    ((struct Obj00366 *)p)->f2=0x8077;
+    ((struct Obj00366 *)p)->f50=func_021BC930(0,((struct Obj00366 *)p)->f0);
     func_021BBFEC(p);
     func_021BC0C8(p);
-    func_021BC1E4(p,*(unsigned short *)p);
+    func_021BC1E4(p,((struct Obj00366 *)p)->f0);
     func_021BC6D8(p);
-    func_021BC454(p,(u32)(*(void **)(p+0x54)));
+    func_021BC454(p,(u32)(((struct Obj00366 *)p)->f54));
     func_021BC650(p);
     func_021BC70C(p);
-    *(void **)(p+0x124)=func_021BC398(func_021BCA38(*(void **)(p+0x50)),*(unsigned short *)p);
+    ((struct Obj00366 *)p)->f124=func_021BC398(func_021BCA38(((struct Obj00366 *)p)->f50),((struct Obj00366 *)p)->f0);
     return 1;
 }

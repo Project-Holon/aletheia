@@ -10,6 +10,7 @@
  * status:   EXACT
 
  */
+#include "../include/Obj08809.h"
 
 typedef signed char    s8;
 typedef unsigned char  u8;
@@ -29,7 +30,7 @@ void func_0202DC08(struct Obj *p)
 {
     int i;
 
-    for (i = 0; i < *(u8 *)((u8 *)p + 0x30); i++) {
+    for (i = 0; i < ((struct Obj08809 *)p)->f30; i++) {
         func_0202E0C8(p->f0C + i * 0x28);
     }
 

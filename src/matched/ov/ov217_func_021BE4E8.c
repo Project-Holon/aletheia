@@ -18,6 +18,7 @@
  *   func_021BEBA4 0x021BEBA4 thumb ov217
  *   func_021BEFF8 0x021BEFF8 thumb ov217
  */
+#include "../include/Obj00021.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BE9B8(u8 *);
@@ -36,13 +37,13 @@ void func_021BE4E8(u8 *p)
     func_021BE9B8(p);
     func_021BE91C((char *)p,-1);
     do {
-        u32 index=*(u32 *)(p+52);
+        u32 index=((struct Obj00021 *)p)->f34;
         if (index-1<=1) {
-            if (*(u32 *)(p+968)==0 || func_021BF810(p)==0) {
+            if (((struct Obj00021 *)p)->f3C8==0 || func_021BF810(p)==0) {
                 func_021BE91C((char *)p,-1);
             } else repeat=0;
         } else if (index==4) {
-            if (*(u32 *)(p+968)==1 || func_021BF810(p)==0) {
+            if (((struct Obj00021 *)p)->f3C8==1 || func_021BF810(p)==0) {
                 func_021BE91C((char *)p,-1);
             } else repeat=0;
         } else repeat=0;
@@ -51,7 +52,7 @@ void func_021BE4E8(u8 *p)
     func_021BF3D8(p);
     func_021BF4AC(p);
     func_021BF594(p,1);
-    if (*(u32 *)(p+52)==4) func_021BEBA4((u32)p);
+    if (((struct Obj00021 *)p)->f34==4) func_021BEBA4((u32)p);
     func_020061E4(1352);
     func_021BEFF8(p);
 }

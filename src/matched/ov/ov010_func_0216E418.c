@@ -9,6 +9,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj19137.h"
 
 typedef unsigned short u16;
-int func_0216E418(void *a) { if (*(u16 *)((char *)a+10)==65535) return 1; return 0; }
+int func_0216E418(void *a) { if (((struct Obj19137 *)a)->fA==65535) return 1; return 0; }

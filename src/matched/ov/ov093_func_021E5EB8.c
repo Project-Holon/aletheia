@@ -17,6 +17,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13529.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -35,7 +36,7 @@ void func_021E5EB8(u8 *p, void *a, int b)
         return;
     q = func_021C88A4(a, 0xc, b);
     q[0xf] = b;
-    *(int *)(q + 4) = 0x1e;
+    ((struct Obj13529 *)q)->f4 = 0x1e;
     *(Word *)(q + 8) = func_021E8940(5);
     func_021C8838(q + 0x14, 2, 0x292);
     func_021C8860((struct S *)(q + 0x14), b);

@@ -16,6 +16,7 @@
  *   func_021B7DC0  0x021B7DC0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17973.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern u32 func_021B7DC0(u32, u32);
 
 int func_0219E334(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021B7DC0(*(u32 *)((u8 *)(func_0216D69C(a, b, c, d))), b);
+return func_021B7DC0(((struct Obj17973 *)((u8 *)(func_0216D69C(a, b, c, d))))->f0, b);
 }
 

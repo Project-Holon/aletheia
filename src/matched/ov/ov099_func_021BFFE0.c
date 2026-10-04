@@ -21,6 +21,7 @@
  *   func_021BAEDC 0x021BAEDC thumb ov099
  *   func_021C2408 0x021C2408 thumb ov099
  */
+#include "../include/Obj00008.h"
 extern int func_021B97F4(char *);
 extern void *func_021BE2A8(char *,int);
 typedef unsigned int   u32;
@@ -36,19 +37,19 @@ extern void func_021C19A8(char *);
 extern void func_021BAEDC(char *);
 extern void func_021C2408(char *);
 int func_021BFFE0(char *p,int ret) {
-    if(++*(int *)(p+0x1e0)<=240)return ret;
+    if(++((struct Obj00008 *)p)->f1E0<=240)return ret;
     func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
     func_021BA8EC(p);
     func_021C18C8(p,1,2);
     func_0203C554(1);
     func_021BDD0C(p,0);
     if(!func_021B96CC(p+0x274)){
-        *(int *)(p+0x1cc)=func_021BE4F0(p,0);
+        ((struct Obj00008 *)p)->f1CC=func_021BE4F0(p,0);
     } else {
         func_021C19A8(p);
         func_021BAEDC(p);
-        *(int *)(p+0x1f0)=-1;
-        *(int *)(p+0x1cc)=11;
+        ((struct Obj00008 *)p)->f1F0=-1;
+        ((struct Obj00008 *)p)->f1CC=11;
         func_021C2408(p);
     }
     return ret;

@@ -14,6 +14,7 @@
  *   func_021F23F8 0x021F23F8 thumb
  *   func_021F253C 0x021F253C thumb
  */
+#include "../include/Obj24919.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -23,7 +24,7 @@ extern int func_021F253C(u8 *p);
 
 int func_021F45A8(int p)
 {
-    int *q = *(int **)(p + 0x2c4);
+    int *q = *(int * *)&((struct Obj24919 *)p)->f2C4;
 
     if (*q == 0 || *q == 3) {
         if (func_021F23F4((const u8 *)(p + 0x68)) == 0 && func_021F23F8((const u8 *)(p + 0x68)) == 0) {

@@ -24,6 +24,7 @@
  *  func_021CD4B0 0x021CD4B0 thumb ov093
  *  func_021C5200 0x021C5200 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 value; } Word;
@@ -62,7 +63,7 @@ void func_021C493C(u8 *p, u8 *a)
         q = func_021C4A44(k++);
         if (q == 0) break;
         for (i = 0; i < n; i++) {
-            m = func_021B9934(*(char **)(p + 8), list[i]);
+            m = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, list[i]);
             if (func_021D5B68(m) == 0) {
                 if (func_021D6064(m, q, &y, &x)) {
                     s = func_021CC8D8(p + 0x1d74, 9719);
@@ -73,6 +74,6 @@ void func_021C493C(u8 *p, u8 *a)
         }
         if (func_021BC2B0(p)) break;
     }
-    func_021CD4B0(*(void **)(p + 12), 0x15, (u8)n, (u8)k, func_021D806C(list));
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x15, (u8)n, (u8)k, func_021D806C(list));
     func_021C5200(p);
 }

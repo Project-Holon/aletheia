@@ -16,6 +16,7 @@
  * Enum-typed local offset keeps 0x2830 and the +0x5d field add separate;
  * raw/nested pointer arithmetic and an inline setter folded to 0x288d.
  */
+#include "../include/Obj19253.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Link;
@@ -31,6 +32,6 @@ void func_02173B78(u32 a, u32 b, const void *c, u8 *p)
         enum { OFFSET = 0x2830 } off = OFFSET;
         Sub *q = (Sub *)(p + off);
         q->flag = 1;
-        func_02082D44((void *)c, *(void **)(p + 0x3544), b);
+        func_02082D44((void *)c, ((struct Obj19253 *)p)->f3544, b);
     }
 }

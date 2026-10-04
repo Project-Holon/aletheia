@@ -12,6 +12,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj05358.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -19,4 +20,4 @@ struct PrintSys;
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 struct Obj;
 extern void func_020257D0(struct Obj *o);
-int func_021DA9F8(u8 *p) { if(*(u32 *)(p+8)) { if(func_0201C6C4((struct PrintSys *)(*(u32 *)(p+32)),(void *)(*(u32 *)p))==0) { func_020257D0(*(void **)(p+28)); *(u32 *)(p+8)=0; } } if(*(u32 *)(p+8)==0) return 1; return 0; }
+int func_021DA9F8(u8 *p) { if(((struct Obj05358 *)p)->f8) { if(func_0201C6C4((struct PrintSys *)(((struct Obj05358 *)p)->f20),(void *)(((struct Obj05358 *)p)->f0))==0) { func_020257D0(((struct Obj05358 *)p)->f1C); ((struct Obj05358 *)p)->f8=0; } } if(((struct Obj05358 *)p)->f8==0) return 1; return 0; }

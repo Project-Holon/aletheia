@@ -20,6 +20,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj00466.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,37 +46,37 @@ int func_021B6A3C(u8 *p)
             p[0x39] = 6;
             break;
         }
-        if (*(void **)p) func_0201CE20(*(void **)p);
+        if (((struct Obj00466 *)p)->f0) func_0201CE20(((struct Obj00466 *)p)->f0);
         p[0x39]++;
     case 2:
-        if (*(void **)p) {
-            *(u32 *)(p + 0x3c) = func_0201CE30(*(void **)p);
-            if (*(u32 *)(p + 0x3c)) {
+        if (((struct Obj00466 *)p)->f0) {
+            ((struct Obj00466 *)p)->f3C = func_0201CE30(((struct Obj00466 *)p)->f0);
+            if (((struct Obj00466 *)p)->f3C) {
                 p[0x39] = 3;
-                if (*(u32 *)(p + 0x3c) == 2) p[0x3a] = 1;
+                if (((struct Obj00466 *)p)->f3C == 2) p[0x3a] = 1;
             }
         } else return 1;
         break;
     case 3:
-        if ((func_020362DC() & 3) || func_02035C60()) *(u16 *)(p + 0x40) = 0;
-        if (*(u16 *)(p + 0x40)) (*(u16 *)(p + 0x40))--;
+        if ((func_020362DC() & 3) || func_02035C60()) ((struct Obj00466 *)p)->f40 = 0;
+        if (((struct Obj00466 *)p)->f40) (((struct Obj00466 *)p)->f40)--;
         else p[0x39] = 5;
         break;
     case 4:
-        if (*(u16 *)(p + 0x40)) (*(u16 *)(p + 0x40))--;
+        if (((struct Obj00466 *)p)->f40) (((struct Obj00466 *)p)->f40)--;
         else p[0x39] = 5;
         break;
     case 5:
-        if (*(u32 *)(p + 0x3c) == 2) {
+        if (((struct Obj00466 *)p)->f3C == 2) {
             func_0201DD68();
-            func_0201CE48(*(struct Rec3 **)p);
-            *(void **)p = 0;
+            func_0201CE48(*(struct Rec3 * *)&((struct Obj00466 *)p)->f0);
+            ((struct Obj00466 *)p)->f0 = 0;
             p[0x39] = 6;
             return 1;
         } else {
-            func_0201CE38(*(void **)p);
+            func_0201CE38(((struct Obj00466 *)p)->f0);
             p[0x39] = 2;
-            *(u16 *)(p + 0x40) = *(u16 *)(p + 0x42);
+            ((struct Obj00466 *)p)->f40 = ((struct Obj00466 *)p)->f42;
         }
         break;
     case 6:

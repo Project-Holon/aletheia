@@ -23,6 +23,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   ov208_func_021BC34C 0x021BC34C thumb ov208
  */
+#include "../include/Obj02547.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,9 +62,9 @@ int ov208_func_021C3C70(void *proc, int *seq, u16 *heap, u8 *p, int key)
     void *sys;
     u8 i;
     sys = ov208_func_021BC3B4(key);
-    ov208_func_021BC97C(*(u32 *)(p + 0x5bc));
-    ov208_func_021BC97C(*(u32 *)(p + 0x5b8));
-    ov208_func_021BCA54(7, *(u32 *)(p + 0x5b4));
+    ov208_func_021BC97C(((struct Obj02547 *)p)->f5BC);
+    ov208_func_021BC97C(((struct Obj02547 *)p)->f5B8);
+    ov208_func_021BCA54(7, ((struct Obj02547 *)p)->f5B4);
     ov208_func_021C66C8(heap, p, key);
     for (i = 0; i < 2; i++) {
         if (((struct Ov208Menu *)p)->obj[i] != 0)
@@ -73,11 +74,11 @@ int ov208_func_021C3C70(void *proc, int *seq, u16 *heap, u8 *p, int key)
     ov208_func_021C533C(heap, p, key);
     ov208_func_021C4A48(heap, p, key);
     ov208_func_021BDCA4(sys, 0);
-    ov208_func_021BC61C(*(u32 *)(p + 0x6ac));
-    ov208_func_021BC464(*(u32 *)(p + 0x6a8));
-    ov208_func_021BC464(*(u32 *)(p + 0x6a4));
+    ov208_func_021BC61C(((struct Obj02547 *)p)->f6AC);
+    ov208_func_021BC464(((struct Obj02547 *)p)->f6A8);
+    ov208_func_021BC464(((struct Obj02547 *)p)->f6A4);
     ov208_func_021C4AF4(heap, p, key);
-    func_02030EAC((struct Node *)(*(u32 *)(p + 0x6a0)));
+    func_02030EAC((struct Node *)(((struct Obj02547 *)p)->f6A0));
     ov208_func_021BC34C(proc);
     return 1;
 }

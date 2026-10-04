@@ -14,6 +14,7 @@
 
  * Publish the u32 at +0xde4, the 0xffff sentinel at +0xbc and latch state 0xc.
  */
+#include "../include/Obj09232.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,8 +24,8 @@ extern void func_021F9968(u8 *p, int mode);
 
 int func_021F7DA8(u8 *p)
 {
-    func_021F9968((u8 *)(*(u32 *)(p + 0xde4)), 2);
-    *(u16 *)(p + 0xbc) = 0xffff;
-    *(u32 *)(p + 0x28) = 0xc;
+    func_021F9968((u8 *)(((struct Obj09232 *)p)->fDE4), 2);
+    ((struct Obj09232 *)p)->fBC = 0xffff;
+    ((struct Obj09232 *)p)->f28 = 0xc;
     return 2;
 }

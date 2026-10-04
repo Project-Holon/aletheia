@@ -17,6 +17,7 @@
  * Two-way: with flag 1 run the pair update, otherwise release slot 3
  *   and post 0 to the p+0x2c+4 object.
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021EB85C(char *, int);
@@ -32,6 +33,6 @@ void func_021EE008(char *p, int a, int b)
         func_021EDFC4(p, a);
         return;
     }
-    func_021EC000((char *)(*(int *)(p + 0x2c)), 3, 0);
-    func_02025774((u8 *)(*(int *)(*(int *)(p + 0x2c) + 4)), 0);
+    func_021EC000((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 3, 0);
+    func_02025774((u8 *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 4)), 0);
 }

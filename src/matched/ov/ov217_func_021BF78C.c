@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08436.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ typedef signed int     s32;
 extern int func_021C11F4(u8 *p);
 u32 func_021BF78C(u32 a0)
 {
-    if (func_021C11F4(*(u8 **)(((u8*)a0) + 700)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 704)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 708)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 712)) != 0) {
+    if (func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2BC) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C0) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C4) != 0 || func_021C11F4(*(u8 * *)&((struct Obj08436 *)(((u8*)a0)))->f2C8) != 0) {
     return 0;
     }
     return 1;

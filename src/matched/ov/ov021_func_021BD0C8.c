@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj20124.h"
 
 typedef unsigned char u8;
 
 void func_021BD0C8(char *p)
 {
-    *(u8 *)(p + 0x40) = 0;
+    ((struct Obj20124 *)p)->f40 = 0;
 }

@@ -20,6 +20,7 @@
  * Kind 3 or 6 teardown of the +0x121c sub-object: its handle is unregistered
  * from both pools, the slot cleared, and the object recomputed.
  */
+#include "../include/Obj03320.h"
 
 typedef unsigned int u32;
 
@@ -32,10 +33,10 @@ void func_021DC5C8(void *p, int unused, int kind)
 {
     if (kind != 3 && kind != 6)
         return;
-    if (*(u32 *)((char *)p + 0x121c) != 0) {
-        func_021B9774((u8 *)(*(u32 *)((char *)p + 0x121c)));
-        func_021B9838((u8 *)(*(u32 *)((char *)p + 0x121c)));
-        *(u32 *)((char *)p + 0x121c) = 0;
+    if (((struct Obj03320 *)p)->f121C != 0) {
+        func_021B9774((u8 *)(((struct Obj03320 *)p)->f121C));
+        func_021B9838((u8 *)(((struct Obj03320 *)p)->f121C));
+        ((struct Obj03320 *)p)->f121C = 0;
     }
     func_021DAE18(p);
 }

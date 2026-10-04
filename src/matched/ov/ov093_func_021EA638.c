@@ -13,6 +13,7 @@
  *   func_021EA55C  0x021EA55C  thumb  ov093
  *   func_021EA730  0x021EA730  thumb  ov093
  */
+#include "../include/Obj01899.h"
 typedef unsigned char u8;
 
 struct H {
@@ -27,6 +28,6 @@ extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA638(char *p, struct H *h, int c)
 {
-    func_021EA55C(h, *(int *)(p + 0xac));
-    func_021EA730(p, *(int *)(p + 0xac), h->b2, c);
+    func_021EA55C(h, ((struct Obj01899 *)p)->fAC);
+    func_021EA730(p, ((struct Obj01899 *)p)->fAC, h->b2, c);
 }

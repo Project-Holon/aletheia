@@ -16,6 +16,7 @@
  *   func_021F6888  0x021F6888  thumb
  *   func_0215716C  0x0215716C  thumb  ov010
  */
+#include "../include/Obj02657.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,41 +33,41 @@ int func_02155F4C(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x2c);
+a0 = ((struct Obj02657 *)t4)->f2C;
     if (a0 == 0) goto loc_02155F5A;
 loc_02155F56:
     a0 = func_02156CD8(a0);
 loc_02155F5A:
-a0 = *(int *)((char *)t4 + 0x30);
+a0 = ((struct Obj02657 *)t4)->f30;
     if (a0 == 0) goto loc_02155F64;
 loc_02155F60:
     a0 = func_02156F98(a0);
 loc_02155F64:
-a0 = *(int *)((char *)t4 + 0x34);
+a0 = ((struct Obj02657 *)t4)->f34;
     if (a0 == 0) goto loc_02155F76;
 loc_02155F6A:
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj02657 *)a0)->f8;
     a0 = func_020307B0(a0);
 loc_02155F70:
-a0 = *(int *)((char *)t4 + 0x34);
+a0 = ((struct Obj02657 *)t4)->f34;
     a0 = func_020307B0(a0);
 loc_02155F76:
-a0 = *(int *)((char *)t4 + 0x24);
+a0 = ((struct Obj02657 *)t4)->f24;
     if (a0 == 0) goto loc_02155F80;
 loc_02155F7C:
     a0 = func_021F6888(a0);
 loc_02155F80:
-a0 = *(int *)((char *)t4 + 0x3c);
+a0 = ((struct Obj02657 *)t4)->f3C;
     if (a0 == 0) goto loc_02155F8A;
 loc_02155F86:
     a0 = func_020307B0(a0);
 loc_02155F8A:
-a0 = *(int *)((char *)t4 + 0x38);
+a0 = ((struct Obj02657 *)t4)->f38;
     if (a0 == 0) goto loc_02155F94;
 loc_02155F90:
     a0 = func_0215716C(a0);
 loc_02155F94:
-a0 = *(int *)((char *)t4 + 8);
+a0 = ((struct Obj02657 *)t4)->f8;
 a1 = 0;
-*(int *)((char *)a0) = a1;
+((struct Obj02657 *)((char *)a0))->f0 = a1;
     return a0;}

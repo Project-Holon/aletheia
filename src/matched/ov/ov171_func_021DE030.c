@@ -12,6 +12,7 @@
  *   func_0204B8D4 0x0204B8D4 arm
  *   func_0204A600 0x0204A600 arm
  */
+#include "../include/Obj10660.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -26,8 +27,8 @@ void func_021DE030(u8 *p)
     u8 *element;
     for(i=0;i<16;i++) {
         element=p+i*4;
-        if(*(void **)(element+0xb74)!=0 && func_0204B944(*(struct Obj **)(element+0xb74))!=1)
-            func_0204B8D4(*(struct Obj **)(element+0xb74),4096);
+        if(((struct Obj10660 *)element)->fB74!=0 && func_0204B944(*(struct Obj * *)&((struct Obj10660 *)element)->fB74)!=1)
+            func_0204B8D4(*(struct Obj * *)&((struct Obj10660 *)element)->fB74,4096);
     }
     func_0204A600();
 }

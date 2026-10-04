@@ -16,6 +16,7 @@
  *   func_021E0E4C 0x021E0E4C thumb ov119
  *   func_021E5EF8 0x021E5EF8 thumb ov119
  */
+#include "../include/Obj05331.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned char  u8;
@@ -32,13 +33,13 @@ void func_021E2484(char *p,int a)
     func_021E5EF8(p+0x950);
     func_021E5EF8(p+0x964);
     func_021E5EF8(p+0x978);
-    if (*(int *)(p+0x6b4)) {
-        func_02043B5C(func_02045770((struct Descriptor *)*(int *)(p+0x6b4)),0);
+    if (((struct Obj05331 *)p)->f6B4) {
+        func_02043B5C(func_02045770((struct Descriptor *)((struct Obj05331 *)p)->f6B4),0);
         if(a) {
-            func_020456F8((struct Descriptor *)(*(int *)(p+0x6b4)));
-            func_02045334((struct Descriptor *)*(int *)(p+0x6b4));
+            func_020456F8((struct Descriptor *)(((struct Obj05331 *)p)->f6B4));
+            func_02045334((struct Descriptor *)((struct Obj05331 *)p)->f6B4);
         }
-        func_020452E8((struct Descriptor *)(*(int *)(p+0x6b4)));
-        *(int *)(p+0x6b4)=0;
+        func_020452E8((struct Descriptor *)(((struct Obj05331 *)p)->f6B4));
+        ((struct Obj05331 *)p)->f6B4=0;
     }
 }

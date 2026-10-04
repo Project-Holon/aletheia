@@ -10,14 +10,15 @@
  * symbols:
  *   func_021BF6D8 0x021BF6D8 thumb ov110
  */
+#include "../include/Obj02817.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021BF6D8(u8 *);
 void func_021BC120(u8 *p)
 {
-    switch (func_021BF6D8(*(u8 **)(p+4))) {
-    case 0: *(u16 *)(p+0x38)=104; *(u16 *)(p+0x3a)=16; *(int *)(p+0x44)=1; break;
-    case 1: *(u16 *)(p+0x38)=48; *(u16 *)(p+0x3a)=16; *(u16 *)(p+0x3c)=160; *(u16 *)(p+0x3e)=16; *(int *)(p+0x44)=2; break;
-    case 2: *(int *)(p+0x44)=0; break;
+    switch (func_021BF6D8(*(u8 * *)&((struct Obj02817 *)p)->f4)) {
+    case 0: ((struct Obj02817 *)p)->f38=104; ((struct Obj02817 *)p)->f3A=16; ((struct Obj02817 *)p)->f44=1; break;
+    case 1: ((struct Obj02817 *)p)->f38=48; ((struct Obj02817 *)p)->f3A=16; ((struct Obj02817 *)p)->f3C=160; ((struct Obj02817 *)p)->f3E=16; ((struct Obj02817 *)p)->f44=2; break;
+    case 2: ((struct Obj02817 *)p)->f44=0; break;
     }
 }

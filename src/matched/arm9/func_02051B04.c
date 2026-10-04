@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj16194.h"
 
 typedef unsigned short u16;
 
 u16 func_02051B04(void *res)
 {
-    return *(u16 *)((char *)res + 8);
+    return ((struct Obj16194 *)res)->f8;
 }

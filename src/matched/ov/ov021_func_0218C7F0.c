@@ -19,6 +19,8 @@
  *   d_021DD9CC     0x021DD9CC  data   ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04199.h"
+#include "../include/Obj09456.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,14 +38,14 @@ extern u8 d_021DD9CC[];
 
 u8 *func_0218C7F0(u8 *owner, u32 x, Blk *src)
 {
-    u8 *p = func_02030734(*(u16 *)owner, 0x60, 0, (const char *)d_021DD9CC, 0x825);
+    u8 *p = func_02030734(((struct Obj04199 *)owner)->f0, 0x60, 0, (const char *)d_021DD9CC, 0x825);
 
-    *(u8 **)p = owner;
-    *(u32 *)(p + 8) = 0;
-    *(u32 *)(p + 4) = 0xFFFF;
+    *(u8 * *)&((struct Obj09456 *)p)->f0 = owner;
+    ((struct Obj09456 *)p)->f8 = 0;
+    ((struct Obj09456 *)p)->f4 = 0xFFFF;
     *(Blk *)(p + 0x24) = *src;
     func_0218BFB4(owner, p + 0xC,
-                  *(u8 **)(owner + 0x1CC) + func_0218BBD0(owner, x) * 0x18);
+                  *(u8 * *)&((struct Obj04199 *)owner)->f1CC + func_0218BBD0(owner, x) * 0x18);
     func_0218BA70(owner, p);
     return p;
 }

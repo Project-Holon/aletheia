@@ -21,6 +21,7 @@
  *   ov208_func_021C3840 0x021C3840 thumb ov208
  *   ov208_func_021C31CC 0x021C31CC thumb ov208
  */
+#include "../include/Obj06684.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ void ov208_func_021C3514(u16 *heap, u8 *p, int key)
     u32 o2;
     void *pd;
     hit = 0;
-    if (*(u32 *)(p + 0xd0) != 0) {
+    if (((struct Obj06684 *)p)->fD0 != 0) {
         if (func_020362DC() & 1) {
             func_020355D8(0);
             hit = 1;
@@ -65,10 +66,10 @@ void ov208_func_021C3514(u16 *heap, u8 *p, int key)
         pd = func_0200CA1C((void *)ov208_func_021BC3A4(key));
         species = ov208_func_021BC3C0(key);
         func_0200CC40(pd, species, &o1, &o2, &form, *heap);
-        *(u32 *)(p + 0x64) = func_02006984(species, form, 0x40, 0, 0, 0, 0, 0);
-        *(u16 *)(p + 0x74) = 0;
+        ((struct Obj06684 *)p)->f64 = func_02006984(species, form, 0x40, 0, 0, 0, 0, 0);
+        ((struct Obj06684 *)p)->f74 = 0;
         *(u64 *)(p + 0x6c) = func_020870D0();
-        *(u32 *)(p + 0x68) = 1;
+        ((struct Obj06684 *)p)->f68 = 1;
         ov208_func_021C3840(heap, p, key, species, form);
         ov208_func_021C31CC(heap, p, key);
     }

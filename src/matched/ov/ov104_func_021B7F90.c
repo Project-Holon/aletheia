@@ -22,6 +22,7 @@
  *   func_0201D42C 0x0201D42C thumb
  *   func_0201C724 0x0201C724 thumb
  */
+#include "../include/Obj02812.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -44,4 +45,4 @@ extern u8 func_02045740(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C724(int,void *,s16,s16,void *,int,u16);
-void func_021B7F90(u8 *p,void *a,int b,u16 c) { int bank; int font; int tag; u16 x; u16 y; bank=func_021B7DE8(a); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); func_02045CAC((struct MsgBank *)bank,b,*(void **)(p+0xc)); x=func_02045738(*(void **)p)*4; y=func_02045740(*(void **)p)*4; x-=(u16)(func_0201D304(*(void **)(p+0xc),tag,0)/2); y-=(u16)(func_0201D42C(*(void **)(p+0xc),(void *)tag)/2); func_0201C724(font,func_02045770(*(void **)(p+4)),(s16)x,(s16)y,*(void **)(p+0xc),tag,c); p[8]=1; }
+void func_021B7F90(u8 *p,void *a,int b,u16 c) { int bank; int font; int tag; u16 x; u16 y; bank=func_021B7DE8(a); font=func_021B7DE4(a); tag=func_021B7DE0(a); func_02043B5C(func_02045770(((struct Obj02812 *)p)->f0),((struct Obj02812 *)p)->f10); func_02045CAC((struct MsgBank *)bank,b,((struct Obj02812 *)p)->fC); x=func_02045738(((struct Obj02812 *)p)->f0)*4; y=func_02045740(((struct Obj02812 *)p)->f0)*4; x-=(u16)(func_0201D304(((struct Obj02812 *)p)->fC,tag,0)/2); y-=(u16)(func_0201D42C(((struct Obj02812 *)p)->fC,(void *)tag)/2); func_0201C724(font,func_02045770(((struct Obj02812 *)p)->f4),(s16)x,(s16)y,((struct Obj02812 *)p)->fC,tag,c); p[8]=1; }

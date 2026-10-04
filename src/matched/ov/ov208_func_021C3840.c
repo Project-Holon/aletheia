@@ -23,6 +23,7 @@
  *   _fmul 0x0209C77C arm
  *   _ffixu 0x0209C4C8 arm
  */
+#include "../include/Obj01010.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,31 +53,31 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     int v;
     s16 w;
     int t;
-    *(s8 **)(p + 0x34) = (s8 *)func_02006B5C(*(u32 *)(p + 0x64));
-    *(u16 *)(p + 0x32) = 0;
-    if (a == *(u16 *)(p + 0x26) && b == *(u16 *)(p + 0x28))
+    *(s8 * *)&((struct Obj01010 *)p)->f34 = (s8 *)func_02006B5C(((struct Obj01010 *)p)->f64);
+    ((struct Obj01010 *)p)->f32 = 0;
+    if (a == ((struct Obj01010 *)p)->f26 && b == ((struct Obj01010 *)p)->f28)
         return;
-    *(u16 *)(p + 0x26) = a;
-    *(u16 *)(p + 0x28) = b;
-    ca = func_02006B94(*(u32 *)(p + 0x64));
-    cb = func_02006B3C(*(u32 *)(p + 0x64));
-    *(u32 *)(p + 0x38) = (u32)(1000.0f * (32768.0f * (float)func_02006B78(*(u32 *)(p + 0x64))
+    ((struct Obj01010 *)p)->f26 = a;
+    ((struct Obj01010 *)p)->f28 = b;
+    ca = func_02006B94(((struct Obj01010 *)p)->f64);
+    cb = func_02006B3C(((struct Obj01010 *)p)->f64);
+    ((struct Obj01010 *)p)->f38 = (u32)(1000.0f * (32768.0f * (float)func_02006B78(((struct Obj01010 *)p)->f64)
                                            / (float)(int)ca
                                            / (float)(int)cb) + 0.5f);
-    func_02043B5C(*(struct Bmp **)(p + 0x2c), 0);
+    func_02043B5C(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C, 0);
     k = 0;
     i = 0;
-    while (i < func_02006B78(*(u32 *)(p + 0x64))) {
-        cb = func_02006B3C(*(u32 *)(p + 0x64));
-        ca = func_02006B94(*(u32 *)(p + 0x64));
+    while (i < func_02006B78(((struct Obj01010 *)p)->f64)) {
+        cb = func_02006B3C(((struct Obj01010 *)p)->f64);
+        ca = func_02006B94(((struct Obj01010 *)p)->f64);
         end = (u32)((float)(k + 1) * ((float)(int)ca * (float)(int)cb / 32768.0f / 60.0f / 2.0f));
-        if (end > func_02006B78(*(u32 *)(p + 0x64)))
-            end = func_02006B78(*(u32 *)(p + 0x64));
+        if (end > func_02006B78(((struct Obj01010 *)p)->f64))
+            end = func_02006B78(((struct Obj01010 *)p)->f64);
         if (k < 0x3c0) {
             lo = 500;
             hi = -500;
             for (; i < end; i++) {
-                t = (*(s8 **)(p + 0x34))[i] * 0x2f * func_02006B20(*(u32 *)(p + 0x64)) / 128;
+                t = (*(s8 **)(p + 0x34))[i] * 0x2f * func_02006B20(((struct Obj01010 *)p)->f64) / 128;
                 v = (s16)(t / 128);
                 if (v > 500)
                     v = 500;
@@ -93,7 +94,7 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
                     lo = -55;
                 if (hi > 0x37)
                     hi = 0x37;
-                func_02043AF4(*(struct Bmp **)(p + 0x2c), (s16)k, (s16)(0x37 - hi), 1, (u16)(hi - lo + 1), 0xf);
+                func_02043AF4(*(struct Bmp * *)&((struct Obj01010 *)p)->f2C, (s16)k, (s16)(0x37 - hi), 1, (u16)(hi - lo + 1), 0xf);
             }
         }
         k++;
@@ -101,6 +102,6 @@ void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 a, u16 b)
     }
     if (k > 0x3c0)
         k = 0x3c0;
-    *(u16 *)(p + 0x30) = k;
+    ((struct Obj01010 *)p)->f30 = k;
 }
 

@@ -11,6 +11,7 @@
  *
  * Starts the fade sequence once (state 0 to 1).
  */
+#include "../include/Obj07562.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -20,10 +21,10 @@ extern void func_02040588(u32 which, u32 enable);
 
 void func_021C5348(u8 *p)
 {
-    if (*(u16 *)(p + 0x70) == 0) {
-        *(u32 *)(p + 0x74) = 0;
-        *(u32 *)(p + 0x78) = 0x19;
+    if (((struct Obj07562 *)p)->f70 == 0) {
+        ((struct Obj07562 *)p)->f74 = 0;
+        ((struct Obj07562 *)p)->f78 = 0x19;
         func_02040588(1, 1);
-        *(u16 *)(p + 0x70) = 1;
+        ((struct Obj07562 *)p)->f70 = 1;
     }
 }

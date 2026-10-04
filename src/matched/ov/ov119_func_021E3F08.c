@@ -12,6 +12,7 @@
  * symbols:
  *   func_0203FB44  0x0203FB44  arm
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,8 +23,8 @@ void func_021E3F08(char *p)
 {
     u32 v;
 
-    v = *(u32 *)(p + 0x86C);
+    v = ((struct Obj00001 *)p)->f86C;
     if (v != 0)
         func_0203FB44(2, v, v >> 16);
-    *(u32 *)(p + 0x86C) = 0;
+    ((struct Obj00001 *)p)->f86C = 0;
 }

@@ -13,6 +13,7 @@
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_02158F58  0x02158F58  thumb  ov010
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,5 +30,5 @@ int func_0215A5FC(int a0)
 loc_0215A602:
     a0 = func_02158F58((int)v0);
 loc_0215A606:
-a0 = *(int *)((char *)a0);
+a0 = *(int *)&((struct Obj00005 *)((char *)a0))->f0;
     return a0;}

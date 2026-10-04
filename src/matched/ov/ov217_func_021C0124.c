@@ -17,6 +17,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj14749.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -33,8 +34,8 @@ void func_021C0124(char *p)
     void *out;
     void *h;
     void *blob;
-    h = func_020490F4(192, *(u16 *)(p + 4));
-    blob = func_02049250((struct ArcFile *)h, 7, *(u16 *)(p + 4));
+    h = func_020490F4(192, ((struct Obj14749 *)p)->f4);
+    blob = func_02049250((struct ArcFile *)h, 7, ((struct Obj14749 *)p)->f4);
     func_02062B30(blob, &out);
     func_02041090(2, (u32)((char *)out + 12), 0, 0, 32, 32);
     func_020409B4(2);

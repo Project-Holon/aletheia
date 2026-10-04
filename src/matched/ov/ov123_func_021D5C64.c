@@ -13,7 +13,8 @@
  *   d_021DAA74 0x021DAA74 data a1
  *   d_021DAA54 0x021DAA54 data ov123 a1
  */
+#include "../include/Obj22946.h"
 extern const char d_021DAA74[],d_021DAA54[];
 extern int OS_SNPrintf(char *,int,const char *,...);
 extern int func_021C5C04(void *,const char *,const char *);
-int func_021D5C64(char *p,void *arg,int value){char buf[20];int ok=0;*(int *)(p+0xb0)=0;OS_SNPrintf(buf,20,d_021DAA74,value);if(func_021C5C04(arg,buf,d_021DAA54))ok=1;return ok;}
+int func_021D5C64(char *p,void *arg,int value){char buf[20];int ok=0;((struct Obj22946 *)p)->fB0=0;OS_SNPrintf(buf,20,d_021DAA74,value);if(func_021C5C04(arg,buf,d_021DAA54))ok=1;return ok;}

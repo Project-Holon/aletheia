@@ -11,7 +11,8 @@
  * status: EXACT*
  * symbols:
  */
+#include "../include/Obj22947.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-void *func_021D5D8C(u8 *p){return *(void **)(p+0xac);}
+void *func_021D5D8C(u8 *p){return ((struct Obj22947 *)p)->fAC;}

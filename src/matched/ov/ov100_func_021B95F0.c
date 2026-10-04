@@ -26,6 +26,7 @@
  *   func_0207E5D0  0x0207E5D0  arm
  *   func_0207E468  0x0207E468  arm
  */
+#include "../include/Obj13704.h"
 
 typedef unsigned short u16;
 
@@ -50,8 +51,8 @@ int func_021B95F0(int a, int b, int c)
     int t;
     int r7;
 
-    r4 = (int)func_02021518(*(u16 *)(a + 0x278));
-    func_0202155C((struct PalAnmSlot *)r4, b, 0x200, *(u16 *)(a + 0x278));
+    r4 = (int)func_02021518(((struct Obj13704 *)a)->f278);
+    func_0202155C((struct PalAnmSlot *)r4, b, 0x200, ((struct Obj13704 *)a)->f278);
     t = c << 5;
     func_020216D4((struct PalAnmSlot *)r4, b, 0, t);
     func_02021FD8((struct Chan02021FD8 *)r4, b, 0, (u16)(c << 4), 6, 0);

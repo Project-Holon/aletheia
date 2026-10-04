@@ -12,24 +12,25 @@
  *   func_02040588 0x02040588 arm
  *   func_02021D50 0x02021D50 thumb
  */
+#include "../include/Obj04594.h"
 typedef unsigned int   u32;
 struct S02021D50;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02021D50(struct S02021D50 *p);
 void func_022051A8(int task, char *p)
 {
-    switch (*(int *)(p + 0x88)) {
+    switch (((struct Obj04594 *)p)->f88) {
     case 1:
         func_02040588(1, 1);
-        *(int *)(p + 0x8c) = 1;
-        *(int *)(p + 0x88) = 0;
+        ((struct Obj04594 *)p)->f8C = 1;
+        ((struct Obj04594 *)p)->f88 = 0;
         break;
     case 2:
         func_02040588(1, 0);
-        *(int *)(p + 0x8c) = 0;
-        *(int *)(p + 0x88) = 0;
+        ((struct Obj04594 *)p)->f8C = 0;
+        ((struct Obj04594 *)p)->f88 = 0;
         break;
     }
-    if (*(void **)(p + 0xa8))
-        func_02021D50(*(void **)(p + 0xa8));
+    if (((struct Obj04594 *)p)->fA8)
+        func_02021D50(((struct Obj04594 *)p)->fA8);
 }

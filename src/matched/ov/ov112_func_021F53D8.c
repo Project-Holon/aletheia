@@ -12,6 +12,7 @@
  *   func_021F62FC  0x021F62FC  thumb  ov112
  *   func_021F62DC  0x021F62DC  thumb  ov112
  */
+#include "../include/Obj01717.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,15 +25,15 @@ extern void func_021F62FC(int, int);
 extern void func_021F62DC(char *p);
 
 void func_021F53D8(int a) {
-    if (*(int *)(a + 4) == 1) {
-        func_021F62FC(*(int *)(a + 0xc), *(int *)(a + 0x10));
-        *(int *)(a + 8) = *(int *)(a + 0x10);
-        *(int *)(a + 4) = 0;
-        func_021F62DC((char *)(*(int *)(a + 0xc)));
+    if (((struct Obj01717 *)a)->f4 == 1) {
+        func_021F62FC(((struct Obj01717 *)a)->fC, ((struct Obj01717 *)a)->f10);
+        ((struct Obj01717 *)a)->f8 = ((struct Obj01717 *)a)->f10;
+        ((struct Obj01717 *)a)->f4 = 0;
+        func_021F62DC((char *)(((struct Obj01717 *)a)->fC));
     } else {
-        func_021F62FC(*(int *)(a + 0x10), *(int *)(a + 0xc));
-        *(int *)(a + 8) = *(int *)(a + 0xc);
-        *(int *)(a + 4) = 1;
-        func_021F62DC((char *)(*(int *)(a + 0x10)));
+        func_021F62FC(((struct Obj01717 *)a)->f10, ((struct Obj01717 *)a)->fC);
+        ((struct Obj01717 *)a)->f8 = ((struct Obj01717 *)a)->fC;
+        ((struct Obj01717 *)a)->f4 = 1;
+        func_021F62DC((char *)(((struct Obj01717 *)a)->f10));
     }
 }

@@ -20,6 +20,7 @@
  *   func_021B6290 0x021B6290 thumb ov179
  *   d_021B6A1C 0x021B6A1C data a4
  */
+#include "../include/Obj14386.h"
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
@@ -40,8 +41,8 @@ int func_021B63D4(char *p)
  *(volatile unsigned short *)0x04000050=0;
  *(volatile unsigned short *)0x04001050=0;
  func_0204363C(1);func_021B615C();func_021B616C(p);
- *(void **)(p+4)=func_020490F4(d_021B6A1C[**(unsigned short **)p].value,0x7F);
+ ((struct Obj14386 *)p)->f4=func_020490F4(d_021B6A1C[**(unsigned short **)p].value,0x7F);
  func_021B622C(p);func_021B624C((int *)p);func_021B6290(p,1,1,5);
- *(int *)(p+0x6058)=1;
+ ((struct Obj14386 *)p)->f6058=1;
  return 2;
 }

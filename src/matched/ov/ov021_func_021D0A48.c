@@ -12,6 +12,8 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj20290.h"
+#include "../include/Obj20291.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,8 +24,8 @@ extern void func_020307B0(void *);
 void func_021D0A48(void *a, u8 **pp)
 {
     if (*pp != 0) {
-        func_020307B0(*(void **)(*pp + 0x14c));
-        func_020307B0(*(void **)(*pp + 0x128));
+        func_020307B0(((struct Obj20290 *)(*pp))->f14C);
+        func_020307B0(((struct Obj20291 *)(*pp))->f128);
         func_020307B0(*pp);
         *pp = 0;
     }

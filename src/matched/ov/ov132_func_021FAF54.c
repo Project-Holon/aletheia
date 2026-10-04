@@ -14,13 +14,14 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10543.h"
 
 extern int func_0201134C(void *);
 
 int func_021FAF54(int a, char *b)
 {
-    func_0201134C(*(void **)(b + 4));
-    if (*(unsigned short *)(b + 0x16) & 2)
-        *(unsigned short *)(b + 0x16) |= 4;
+    func_0201134C(((struct Obj10543 *)b)->f4);
+    if (((struct Obj10543 *)b)->f16 & 2)
+        ((struct Obj10543 *)b)->f16 |= 4;
     return 1;
 }

@@ -20,6 +20,7 @@
  *   func_021C91CC 0x021C91CC thumb ov128
  *   func_021C9154 0x021C9154 thumb ov128
  */
+#include "../include/Obj03813.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021C8E24(void *, void *, void *, int);
@@ -58,7 +59,7 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 2:
-        if (func_0204B98C(*(void **)(r + 0x164)) != 1) {
+        if (func_0204B98C(((struct Obj03813 *)r)->f164) != 1) {
             func_021C6438(q, 0, 2);
             func_021C91CC(p, r);
             func_021C8F24(p, q, r);
@@ -66,7 +67,7 @@ int func_021C8E2C(void *p, u8 *q, u8 *r, int heap)
         }
         break;
     case 3:
-        if (func_0204B98C(*(void **)(r + 0x168)) != 1) q[8] = 4;
+        if (func_0204B98C(((struct Obj03813 *)r)->f168) != 1) q[8] = 4;
         break;
     case 4:
         func_0202208C(0, 0, 0, 0, 6, 1, heap);

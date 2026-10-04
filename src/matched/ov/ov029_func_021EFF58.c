@@ -20,6 +20,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj05112.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -71,7 +72,7 @@ void func_021EFF58(u8 *p, int a, int c)
         func_0204B49C(sl->obj, s.x, 0, 0);
         func_0204B49C(sl->obj, s.y, 0, 1);
     } else {
-        sl->obj = func_0204B294((void *)*(u32 *)(p + 0x34), *(u32 *)(p + 0x2c), *(u32 *)(p + 0x28), *(u32 *)(p + 0x30), &s, 0, *(u16 *)(p + 0xc));
+        sl->obj = func_0204B294((void *)((struct Obj05112 *)p)->f34, ((struct Obj05112 *)p)->f2C, ((struct Obj05112 *)p)->f28, ((struct Obj05112 *)p)->f30, &s, 0, ((struct Obj05112 *)p)->fC);
         func_0204B92C(sl->obj, 1);
         func_0204B3DC(sl->obj, 1);
     }

@@ -11,7 +11,8 @@
  * symbols:
  *   func_021C4010 0x021C4010 thumb ov127
  */
+#include "../include/Obj23044.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021C4010(u8 *p);
-void func_021C5658(void *p) { func_021C4010(*(void **)p); }
+void func_021C5658(void *p) { func_021C4010(((struct Obj23044 *)p)->f0); }

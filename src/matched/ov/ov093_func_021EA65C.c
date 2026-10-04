@@ -13,6 +13,7 @@
  *   func_021EA55C  0x021EA55C  thumb  ov093
  *   func_021EA758  0x021EA758  thumb  ov093
  */
+#include "../include/Obj13561.h"
 typedef unsigned int u32;
 
 struct H;
@@ -22,6 +23,6 @@ extern void func_021EA758(u32 *p, u32 a2);
 
 void func_021EA65C(char *p, struct H *h)
 {
-    func_021EA55C(h, *(int *)(p + 0xac));
-    func_021EA758((u32 *)p, *(u32 *)(p + 0xac));
+    func_021EA55C(h, *(int *)&((struct Obj13561 *)p)->fAC);
+    func_021EA758((u32 *)p, ((struct Obj13561 *)p)->fAC);
 }

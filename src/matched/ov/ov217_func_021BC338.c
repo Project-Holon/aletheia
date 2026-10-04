@@ -12,6 +12,7 @@
  *   func_021BC3E0 0x021BC3E0 thumb ov217
  *   func_02041EE4 0x02041EE4 arm
  */
+#include "../include/Obj25856.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_021BC3D4(void);
@@ -22,7 +23,7 @@ void func_021BC338(u8 *p)
     int position;
     int low;
     int high;
-    position=*(int *)(p+0x34);
+    position=((struct Obj25856 *)p)->f34;
     low=func_021BC3D4();
     high=func_021BC3E0();
     if(position<low) {

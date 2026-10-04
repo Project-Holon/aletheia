@@ -17,6 +17,7 @@
  *   func_020092F8 0x020092F8 thumb
  *   func_020093D4 0x020093D4 thumb
  */
+#include "../include/Obj01736.h"
 typedef unsigned short u16;
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -44,29 +45,29 @@ void func_021D7224(char *p)
     void *q;
     int size;
     int n;
-    g=func_02009448(*(void **)(p+0x28));
-    if (*(void **)(p+0xc)) {
-        func_020307B0(*(void **)(p+0xc));
-        *(void **)(p+0xc)=0;
+    g=func_02009448(((struct Obj01736 *)p)->f28);
+    if (((struct Obj01736 *)p)->fC) {
+        func_020307B0(((struct Obj01736 *)p)->fC);
+        ((struct Obj01736 *)p)->fC=0;
     }
-    if (func_020076D0(*(void **)(p+0x24),p+0x48,p+0x4c)) {
-        q=func_02030734(*(u16 *)p,func_020173EC(),1,d_021DAB78,0x245);
+    if (func_020076D0(((struct Obj01736 *)p)->f24,p+0x48,p+0x4c)) {
+        q=func_02030734(((struct Obj01736 *)p)->f0,func_020173EC(),1,d_021DAB78,0x245);
         size=func_020173EC();
         func_02082D44(func_02009290(g),q,size);
-        if (*(int *)(p+0x6c)) {
+        if (((struct Obj01736 *)p)->f6C) {
             n=func_02017E1C(q,158,0);
-            if (n==100) *(int *)(p+0x6c)=0;
-            if (n+*(int *)(p+0x6c)>100) {
-                *(int *)(p+0x6c)=100-n;
+            if (n==100) ((struct Obj01736 *)p)->f6C=0;
+            if (n+((struct Obj01736 *)p)->f6C>100) {
+                ((struct Obj01736 *)p)->f6C=100-n;
                 n=100;
             } else {
-                n+=*(int *)(p+0x6c);
+                n+=((struct Obj01736 *)p)->f6C;
             }
             func_02019CA0(q,n);
         }
-        func_020074D8(*(void **)(p+0x24),(const struct Sub02007454Entry *)((int)func_020185F4(q)));
-        *(void **)(p+0xc)=q;
+        func_020074D8(((struct Obj01736 *)p)->f24,(const struct Sub02007454Entry *)((int)func_020185F4(q)));
+        ((struct Obj01736 *)p)->fC=q;
         func_020092F8(g,0);
-        func_020093D4(g,*(int *)(p+0x7c));
+        func_020093D4(g,((struct Obj01736 *)p)->f7C);
     }
 }

@@ -12,12 +12,13 @@
  * Unlabelled Thumb leaf (no lr save, prints as .word data in the listing),
  * called from ov020 func_021871F8.
  */
+#include "../include/Obj18951.h"
 
 typedef unsigned short u16;
 
 int func_0216208C(char *p, int unused)
 {
-    if (*(u16 *)(p + 2) & 8)
+    if (((struct Obj18951 *)p)->f2 & 8)
         return 1;
     return 0;
 }

@@ -10,6 +10,8 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj00172.h"
+#include "../include/Obj25220.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {short x,y,z; u8 a,b;} Point;
@@ -23,5 +25,5 @@ unsigned func_0220E684(char *p,const int *q)
     point.z=0;
     point.a=q[4];
     point.b=q[3];
-    return (unsigned)func_0204B294((void *)*(unsigned *)(p+0x1eb8),*(unsigned *)(p+q[0]*4+0x24a4),*(unsigned *)(p+q[1]*4+0x250c),*(unsigned *)(p+q[2]*4+0x2524),&point,1,*(u16 *)(*(char **)p+0x10));
+    return (unsigned)func_0204B294((void *)((struct Obj00172 *)p)->f1EB8,*(unsigned *)(p+q[0]*4+0x24a4),*(unsigned *)(p+q[1]*4+0x250c),*(unsigned *)(p+q[2]*4+0x2524),&point,1,((struct Obj25220 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
 }

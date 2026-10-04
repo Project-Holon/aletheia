@@ -13,6 +13,7 @@
  *   func_02045A98 0x02045A98 arm
  *   func_021F23FC 0x021F23FC thumb
  */
+#include "../include/Obj01574.h"
 
 extern unsigned short func_02045A98(void);
 typedef unsigned char  u8;
@@ -20,14 +21,14 @@ extern int func_021F23FC(u8 *p, int direction);
 
 int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
 {
-    if (*(unsigned short *)(p + 0x1e) < *(unsigned short *)(p + 0x22) &&
-        *(unsigned short *)(p + 0x20) < 3) {
-        *(unsigned short *)(p + 0x16 + *(unsigned short *)(p + 0x20) * 2) = a;
-        *(unsigned short *)(p + 0x20) += 1;
-        *(unsigned short *)(p + 0x16 + *(unsigned short *)(p + 0x20) * 2) =
+    if (((struct Obj01574 *)p)->f1E < ((struct Obj01574 *)p)->f22 &&
+        ((struct Obj01574 *)p)->f20 < 3) {
+        *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) = a;
+        ((struct Obj01574 *)p)->f20 += 1;
+        *(unsigned short *)(p + 0x16 + ((struct Obj01574 *)p)->f20 * 2) =
             func_02045A98();
         func_021F23FC(p, b);
-        *(int *)(p + 0x28) = 1;
+        ((struct Obj01574 *)p)->f28 = 1;
         return 1;
     }
     return 0;

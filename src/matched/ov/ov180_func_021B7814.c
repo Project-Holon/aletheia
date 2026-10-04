@@ -18,6 +18,7 @@
  *   func_02045808 0x02045808 arm
  *   func_021B77DC 0x021B77DC thumb ov180
  */
+#include "../include/Obj00547.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -35,18 +36,18 @@ void func_021B7814(char *p) {
     Param d;
     struct U16Vec *s;
     Holder *h;
-    d.f8=*(u32 *)(p+0x90f0); d.fc=0;
+    d.f8=*(u32 *)&((struct Obj00547 *)p)->f90F0; d.fc=0;
     d.f10=4; d.f11=0; d.f12=0xffff; d.f14=0;
     h=(Holder *)(p+0x9120);
     h->bmp=func_02043678(22,2,32,141);
     d.bmp=h->bmp; d.x=-184; d.y=16;
-    *(struct Grid **)(p+0x9120)=func_020255A0(*(struct Sys **)(p+0x911c),&d);
-    func_02043B5C(*(struct CharBuf **)(p+0x9124),0);
-    s=func_02045EC0(*(struct MsgBank **)(p+0x9038),0);
-    func_021B77DC(p,0,*(void **)(p+0x9030),s,12,0);
+    *(struct Grid * *)&((struct Obj00547 *)p)->f9120=func_020255A0(*(struct Sys * *)&((struct Obj00547 *)p)->f911C,&d);
+    func_02043B5C(*(struct CharBuf * *)&((struct Obj00547 *)p)->f9124,0);
+    s=func_02045EC0(*(struct MsgBank * *)&((struct Obj00547 *)p)->f9038,0);
+    func_021B77DC(p,0,((struct Obj00547 *)p)->f9030,s,12,0);
     func_02045808(s);
     h=(Holder *)(p+0x9128);
     h->bmp=func_02043678(22,2,32,141);
     d.bmp=h->bmp; d.x=264; d.y=160;
-    *(struct Grid **)(p+0x9128)=func_020255A0(*(struct Sys **)(p+0x911c),&d);
+    *(struct Grid * *)&((struct Obj00547 *)p)->f9128=func_020255A0(*(struct Sys * *)&((struct Obj00547 *)p)->f911C,&d);
 }

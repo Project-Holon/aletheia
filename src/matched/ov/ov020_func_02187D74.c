@@ -11,12 +11,13 @@
  * symbols:
  *   func_02187D20 0x02187D20 thumb ov020
  */
+#include "../include/Obj12552.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_02187D20(char *);
 int func_02187D74(char *p)
 {
     if (func_02187D20(p) == 1) return 120;
-    if (*(u8 *)(p + 0x15) == *(u8 *)(p + 0x14)) return 60;
+    if (((struct Obj12552 *)p)->f15 == ((struct Obj12552 *)p)->f14) return 60;
     return 30;
 }

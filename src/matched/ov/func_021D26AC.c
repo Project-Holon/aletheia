@@ -19,6 +19,7 @@
  *   func_0204B1CC  0x0204B1CC  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04899.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,10 +34,10 @@ extern u32 func_0204B3B4(u32, u32, u32, u32);
 
 int func_021D26AC(u32 a, u32 b, u32 c, u32 d)
 {
-func_0204B3B4(*(u32 *)((u8 *)(a) + 8), b, c, d);
-func_0204A8D4(*(u32 *)((u8 *)(a) + 12));
-func_0204ADA4(*(u32 *)((u8 *)(a) + 16));
-func_0204AFD8(*(u32 *)((u8 *)(a) + 20));
-return func_0204B1CC(*(u32 *)((u8 *)(a) + 4));
+func_0204B3B4(((struct Obj04899 *)((u8 *)(a)))->f8, b, c, d);
+func_0204A8D4(((struct Obj04899 *)((u8 *)(a)))->fC);
+func_0204ADA4(((struct Obj04899 *)((u8 *)(a)))->f10);
+func_0204AFD8(((struct Obj04899 *)((u8 *)(a)))->f14);
+return func_0204B1CC(((struct Obj04899 *)((u8 *)(a)))->f4);
 }
 

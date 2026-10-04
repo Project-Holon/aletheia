@@ -10,6 +10,7 @@
  * symbols:
  *   func_02161E78 0x02161E78 thumb ov010
  */
+#include "../include/Obj12329.h"
 typedef unsigned short u16;
 extern void func_02161E78(void *a0);
 void func_02161D98(char *p)
@@ -17,8 +18,8 @@ void func_02161D98(char *p)
     int i;
     char *b;
     char *a;
-    *(u16 *)p = 0;
-    *(u16 *)(p + 2) = 2;
+    ((struct Obj12329 *)p)->f0 = 0;
+    ((struct Obj12329 *)p)->f2 = 2;
     a = p + 8;
     b = p + 0xF8;
     for (i = 0; i < 10; i++) {

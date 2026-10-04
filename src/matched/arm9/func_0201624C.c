@@ -14,6 +14,8 @@
  *   data_020A72CC  0x020A72CC  data
  *   func_0201691C  0x0201691C  thumb
  */
+#include "../include/Obj01613.h"
+#include "../include/Obj06865.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,36 +57,36 @@ void func_0201624C(u8 *a0, u8 *a1)
     void *ret;
 
     flag = 1;
-    p = (struct Obj *)func_02030734((u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000), 0x2C, 1, data_020A72CC, 1942);
+    p = (struct Obj *)func_02030734((u16)(((u16)((struct Obj01613 *)a1)->f14C & 0x7FFF) | 0x8000), 0x2C, 1, data_020A72CC, 1942);
     p->f20 = a0;
-    if (*(void **)(a0 + 8) == 0) {
+    if (((struct Obj06865 *)a0)->f8 == 0) {
         flag = 0;
     }
     p->f28 = flag;
     p->f24 = a1;
     p->f0c = a1 + 0xC0;
-    p->f1c = *(u32 *)(a0 + 0x34) + (*(u32 *)(a1 + 0x148) << 5);
+    p->f1c = ((struct Obj06865 *)a0)->f34 + (((struct Obj01613 *)a1)->f148 << 5);
 
     flag = 0;
     p->f04 = (struct Inner *)func_02030734((u16)(((u16)*((u32 *)(a1 + 0x148) + 1) & 0x7FFF) | 0x8000), 0x10, 0, data_020A72CC, 1950);
-    p->f04->f00 = *(u32 *)(a1 + 0xC0);
+    p->f04->f00 = ((struct Obj01613 *)a1)->fC0;
     p->f04->f04 = flag;
-    p->f04->f08 = *(u32 *)(a1 + 0xDC);
+    p->f04->f08 = ((struct Obj01613 *)a1)->fDC;
 
-    p->f04->f0c = func_02030734((u16)(((u16)*((u32 *)(a1 + 0x148) + 1) & 0x7FFF) | 0x8000), *(u32 *)(a1 + 0xDC), 0, data_020A72CC, 1950 + 5);
-    MIi_CpuCopy16(*(void **)(a1 + 0xD4), p->f04->f0c, *(u32 *)(a1 + 0xDC));
+    p->f04->f0c = func_02030734((u16)(((u16)*((u32 *)(a1 + 0x148) + 1) & 0x7FFF) | 0x8000), ((struct Obj01613 *)a1)->fDC, 0, data_020A72CC, 1950 + 5);
+    MIi_CpuCopy16(((struct Obj01613 *)a1)->fD4, p->f04->f0c, ((struct Obj01613 *)a1)->fDC);
 
-    if (*(void **)(a1 + 8) != 0) {
-        func_02016C38((int)(*(void **)(a1 + 8)));
-        *(void **)(a1 + 8) = (void *)flag;
+    if (((struct Obj01613 *)a1)->f8 != 0) {
+        func_02016C38((int)(((struct Obj01613 *)a1)->f8));
+        ((struct Obj01613 *)a1)->f8 = (void *)flag;
     }
 
-    if (*(void **)(a0 + 8) != 0) {
-        ret = func_02030DA8(*(void **)(a0 + 8), func_0201691C, p, 0);
+    if (((struct Obj06865 *)a0)->f8 != 0) {
+        ret = func_02030DA8(((struct Obj06865 *)a0)->f8, func_0201691C, p, 0);
     } else {
         ret = func_020056A0(func_0201691C, p, 0);
     }
-    *(void **)(a1 + 8) = ret;
+    ((struct Obj01613 *)a1)->f8 = ret;
 
     *(u32 *)(a1 + (5 << 6)) &= 0xEFFFFFFF;
 }

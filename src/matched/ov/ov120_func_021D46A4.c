@@ -22,6 +22,8 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4608 0x021D4608 thumb ov120
  */
+#include "../include/Obj05341.h"
+#include "../include/Obj22824.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,19 +46,19 @@ void func_021D46A4(u8 *p)
     void *str;
     u16 *chars;
     u32 i;
-    void *value = *(void **)(*(u8 **)(p + 0x48) + 0x18);
+    void *value = ((struct Obj22824 *)(*(u8 * *)&((struct Obj05341 *)p)->f48))->f18;
     if (func_02039CB4((struct Link *)func_020399A8(), 3, 0x22) != 0) {
         str = func_02008510(value, 31);
         func_02082BCC(p + 0x188, 0, 40);
-        *(u16 *)(p + 0x1ac) = 31;
+        ((struct Obj05341 *)p)->f1AC = 31;
         chars = func_02045A90(str);
         for (i = 0; i < func_020458F8(str) + 1u; i++) {
             u16 c = chars[i];
             if (c == func_02045A98()) ((u16 *)(p + 0x188))[i] = 0;
             else ((u16 *)(p + 0x188))[i] = c;
         }
-        *(void **)(p + 0x1a0) = p + 0x188;
-        *(u32 *)(p + 0x1a8) = 0;
+        ((struct Obj05341 *)p)->f1A0 = p + 0x188;
+        ((struct Obj05341 *)p)->f1A8 = 0;
         func_0217BC44((u16 **)(p + 0x1a0), 1, 0, 0, (char *)(p + 0x1a4), (int *)(p + 0x1a8), 128);
         func_02045808(str);
         func_021D4244((int)p, func_021D4608, 0x29c);

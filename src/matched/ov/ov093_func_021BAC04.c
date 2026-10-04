@@ -21,6 +21,7 @@
  *   func_021BB724  0x021BB724  thumb  ov093
  *   func_021BB280  0x021BB280  thumb  ov093
  */
+#include "../include/Obj09946.h"
 
 extern void func_021BB718(int a, int b);
 extern int func_021BB798(void *);
@@ -45,8 +46,8 @@ int func_021BAC04(char *p, int *st)
     case 1:
         if (func_021BB798(p)) {
             func_021BB7D0(p);
-            if (func_021B86B8(*(void ****)(p + 0xc)) != (void *)4) {
-                func_021BB5FC(p, func_021BBB60(*(int *)(p + 0x44)));
+            if (func_021B86B8(*(void *** *)&((struct Obj09946 *)p)->fC) != (void *)4) {
+                func_021BB5FC(p, func_021BBB60(((struct Obj09946 *)p)->f44));
                 (*st)++;
             } else {
                 func_021BABEC(p, (void *)func_021BB280);
@@ -60,7 +61,7 @@ int func_021BAC04(char *p, int *st)
         }
         break;
     case 3:
-        q = *(int **)(p + 0xcb0);
+        q = *(int * *)&((struct Obj09946 *)p)->fCB0;
         func_021BB724(p, 8, (int)(q + 2), *q);
         (*st)++;
         break;

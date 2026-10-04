@@ -32,6 +32,23 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DBC68 0x021DBC68 thumb ov183
  */
+#include "../include/Obj00050.h"
+#include "../include/Obj24555.h"
+#include "../include/Obj24556.h"
+#include "../include/Obj24557.h"
+#include "../include/Obj24558.h"
+#include "../include/Obj24559.h"
+#include "../include/Obj24560.h"
+#include "../include/Obj24561.h"
+#include "../include/Obj24562.h"
+#include "../include/Obj24563.h"
+#include "../include/Obj24564.h"
+#include "../include/Obj24565.h"
+#include "../include/Obj24566.h"
+#include "../include/Obj24567.h"
+#include "../include/Obj24568.h"
+#include "../include/Obj24569.h"
+#include "../include/Obj24571.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef struct S S;
@@ -53,14 +70,14 @@ void func_021DC638(int *a,int *state,char *p)
 {
     u32 x,y;
     switch(*state) {
-    case 0: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=2;break;
+    case 0: func_021FE784((int)(*(int * *)&((struct Obj24555 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);*state=1;break;
+    case 1: if(func_021FE7B0(*(int * *)&((struct Obj24556 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=2;break;
     case 2:
-        if(*(int *)(p+0xb0)) func_021DCE28(p,*(char **)(p+0xd0));
-        else func_021DCE48(p,*(char **)(p+0xd0));
-        func_021DD054(p,*(char **)(p+0xd0));func_021DD128(p,*(char **)(p+0xd0));*state=3;break;
-    case 3: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);++*state;break;
-    case 4: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) ++*state;break;
+        if(((struct Obj00050 *)p)->fB0) func_021DCE28(p,*(char * *)&((struct Obj00050 *)p)->fD0);
+        else func_021DCE48(p,*(char * *)&((struct Obj00050 *)p)->fD0);
+        func_021DD054(p,*(char * *)&((struct Obj00050 *)p)->fD0);func_021DD128(p,*(char * *)&((struct Obj00050 *)p)->fD0);*state=3;break;
+    case 3: func_021FE784((int)(*(int * *)&((struct Obj24557 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,0);++*state;break;
+    case 4: if(func_021FE7B0(*(int * *)&((struct Obj24558 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) ++*state;break;
     case 5: ++*state;break;
     case 6:
         if(func_02035D20(&x,&y)) {
@@ -68,29 +85,29 @@ void func_021DC638(int *a,int *state,char *p)
             else if(func_021DD33C(p,x,y)) *state=10;
         }
         break;
-    case 7: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);++*state;break;
-    case 8: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) ++*state;break;
-    case 9: func_021DD1D4(p,*(char **)(p+0xd0));*state=13;break;
-    case 10: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);++*state;break;
-    case 11: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) ++*state;break;
-    case 12: func_021DD1D4(p,*(char **)(p+0xd0));func_021FD73C(a,(int)func_021DBC68);break;
-    case 13: func_021DD0AC(p,*(char **)(p+0xd0));*state=14;break;
+    case 7: func_021FE784((int)(*(int * *)&((struct Obj24559 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);++*state;break;
+    case 8: if(func_021FE7B0(*(int * *)&((struct Obj24560 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) ++*state;break;
+    case 9: func_021DD1D4(p,*(char * *)&((struct Obj00050 *)p)->fD0);*state=13;break;
+    case 10: func_021FE784((int)(*(int * *)&((struct Obj24561 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);++*state;break;
+    case 11: if(func_021FE7B0(*(int * *)&((struct Obj24562 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) ++*state;break;
+    case 12: func_021DD1D4(p,*(char * *)&((struct Obj00050 *)p)->fD0);func_021FD73C(a,(int)func_021DBC68);break;
+    case 13: func_021DD0AC(p,*(char * *)&((struct Obj00050 *)p)->fD0);*state=14;break;
     case 14:
-        func_021FD170(*(void **)(p+0x18),(char *)(*(int *)(*(char **)(p+0xd0)+0x10)),(void *)0x152);
-        func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,0);*state=15;break;
-    case 15: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=16;break;
+        func_021FD170(((struct Obj00050 *)p)->f18,(char *)(((struct Obj24563 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f10),(void *)0x152);
+        func_021FE784((int)(*(int * *)&((struct Obj24564 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,0);*state=15;break;
+    case 15: if(func_021FE7B0(*(int * *)&((struct Obj24565 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=16;break;
     case 16: *state=17;break;
-    case 17: func_02012DAC(*(int *)(*(char **)(p+0xd0)+0x28));*state=18;break;
+    case 17: func_02012DAC(((struct Obj24566 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28);*state=18;break;
     case 18:
-        if(func_02012DD0(*(u8 **)(*(char **)(p+0xd0)+0x28))==2) {func_021FD860(*(int *)(p+12),0,0);*state=19;}
+        if(func_02012DD0(*(u8 * *)&((struct Obj24567 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f28)==2) {func_021FD860(*(int *)&((struct Obj00050 *)p)->fC,0,0);*state=19;}
         break;
-    case 19: func_021FE784((int)(*(int **)(*(char **)(p+0xd0)+12)),2,3,1);*state=20;break;
-    case 20: if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+12))) *state=21;break;
+    case 19: func_021FE784((int)(*(int * *)&((struct Obj24568 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC),2,3,1);*state=20;break;
+    case 20: if(func_021FE7B0(*(int * *)&((struct Obj24569 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->fC)) *state=21;break;
     case 21:
         if(!func_02006254(0x701)) {
-            func_021DD0F4(p,*(char **)(p+0xd0));
-            **(int **)(p+0xd0)=1;
-            func_021F9C50(*(S **)(*(char **)(p+0xd0)+0x14));
+            func_021DD0F4(p,*(char * *)&((struct Obj00050 *)p)->fD0);
+            **(int * *)&((struct Obj00050 *)p)->fD0=1;
+            func_021F9C50(*(S * *)&((struct Obj24571 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f14);
             func_021FD744((int)a);
         }
         break;

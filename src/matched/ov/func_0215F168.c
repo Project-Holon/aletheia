@@ -18,6 +18,8 @@
  *   func_02189734  0x02189734  thumb
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj17702.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,7 +57,7 @@ t6 = a0 + 0;
 loc_0215F18A:
     p = func_02158FB4(v1);
 loc_0215F190:
-t4 = *(int *)((char *)p);
+t4 = ((struct Obj17702 *)((char *)p))->f0;
 a0 = t6 + 0;
     a0 = func_02189734(a0);
 loc_0215F198:
@@ -76,9 +78,9 @@ loc_0215F1B0:
 a0 = 1;
     return a0;
 loc_0215F1B4:
-a0 = *(int *)((char *)t4);
+a0 = *(int *)&((struct Obj00005 *)((char *)t4))->f0;
 a1 = 2;
-*(u16 *)((char *)a0) = a1;
+*(u16 *)&((struct Obj00005 *)((char *)a0))->f0 = a1;
 a0 = t4 + 0;
     a0 = func_020307B0(a0);
 loc_0215F1C0:

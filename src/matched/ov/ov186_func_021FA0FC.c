@@ -18,6 +18,7 @@
  *   func_021FB514 0x021FB514 thumb ov186
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj01277.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -34,15 +35,15 @@ void func_021FA0FC(u8 *p,int section,const int *pos)
 {
  int i,bank;
  void *rec,*text;
- for(i=0;i<p[0x38];i++)func_021FACE0(*(u8 **)(p+0x40)+i*0x44);
- bank=func_021FC214(*(char **)(p+4));
- p[0x39]=func_021FB760(*(void **)(p+0x44),section);
+ for(i=0;i<p[0x38];i++)func_021FACE0(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44);
+ bank=func_021FC214(*(char * *)&((struct Obj01277 *)p)->f4);
+ p[0x39]=func_021FB760(((struct Obj01277 *)p)->f44,section);
  for(i=0;i<p[0x39];i++){
-  rec=func_021FB704(*(char **)(p+0x44),section,i);
-  text=func_021FB7D0(*(unsigned *const **)(p+0x44),rec,bank,(*(u16 *)p&0x7fff)|0x8000);
-  func_021FAC20((struct Fields *)(*(u8 **)(p+0x40)+i*0x44),(u32)rec,*(u32 *)(p+8),*(u32 *)(p+0x48),*(void **)(p+4),text,*(u32 *)(p+0x10),*(u16 *)p);
+  rec=func_021FB704(*(char * *)&((struct Obj01277 *)p)->f44,section,i);
+  text=func_021FB7D0(*(unsigned *const * *)&((struct Obj01277 *)p)->f44,rec,bank,(((struct Obj01277 *)p)->f0&0x7fff)|0x8000);
+  func_021FAC20((struct Fields *)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44),(u32)rec,((struct Obj01277 *)p)->f8,((struct Obj01277 *)p)->f48,((struct Obj01277 *)p)->f4,text,((struct Obj01277 *)p)->f10,((struct Obj01277 *)p)->f0);
   func_02045808(text);
-  func_021FAFA0(*(u8 **)(p+0x40)+i*0x44,3);
-  if(pos)func_021FB514(*(void **)(*(u8 **)(p+0x40)+i*0x44+8),pos[0],pos[1]);
+  func_021FAFA0(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44,3);
+  if(pos)func_021FB514(*(void **)(*(u8 * *)&((struct Obj01277 *)p)->f40+i*0x44+8),pos[0],pos[1]);
  }
 }

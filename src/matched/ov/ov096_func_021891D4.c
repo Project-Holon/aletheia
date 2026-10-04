@@ -10,10 +10,11 @@
  * symbols:
  *   func_021891F4 0x021891F4 thumb ov096
  */
+#include "../include/Obj21957.h"
 typedef struct Obj Obj;
 extern int func_021891F4(int, Obj *, int);
 int func_021891D4(int a, Obj * b)
 {
     func_021891F4(a, b, 2);
-    return *(int *)((unsigned int)b + 0xc4);
+    return ((struct Obj21957 *)((unsigned int)b))->fC4;
 }

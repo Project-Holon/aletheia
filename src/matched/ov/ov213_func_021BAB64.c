@@ -28,6 +28,7 @@
  * arity: 434CC full body/4349C/434B4 read no incoming inputs;
  * own 4361C and 43588 units prove void, overriding stale caller externs.
  */
+#include "../include/Obj25714.h"
 struct DispVram;
 extern char d_021BB33C[];
 extern const struct DispVram d_021BB1C8;
@@ -66,6 +67,6 @@ void *func_021BAB64(unsigned mode,unsigned heap)
     func_021BACB4(p,heap);
     func_021BAD58((int *)(p+4),(int)&d_021BB1C8,heap);
     func_021BADC8((unsigned **)(p+8),heap);
-    *(void **)(p+12)=func_020056A0((void *)func_021BACA0,p,0);
+    ((struct Obj25714 *)p)->fC=func_020056A0((void *)func_021BACA0,p,0);
     return p;
 }

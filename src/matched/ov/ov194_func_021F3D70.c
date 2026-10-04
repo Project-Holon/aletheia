@@ -15,6 +15,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_0201C6FC 0x0201C6FC thumb
  */
+#include "../include/Obj02239.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 typedef unsigned int   u32;
@@ -29,11 +30,11 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void func_021F3D70(char *p,int value) {
     int window;
-    while (func_0201C6C4((struct PrintSys *)(*(int *)(p+16)),(void *)((int)func_02045770((struct Descriptor *)*(int *)(p+20)))))
-        func_0201C4E4((struct PrintSys *)(*(int *)(p+16)));
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p+20))),*(unsigned short *)(p+32));
-    func_02045CAC((struct MsgBank *)(*(unsigned *)p),value,(void *)(*(unsigned *)(p+28)));
-    window=*(int *)(p+16);
-    func_0201C6FC((struct PrintSys *)window,(int)func_02045770((struct Descriptor *)*(int *)(p+8)),0,0,(void *)(*(int *)(p+28)),*(int *)(p+4));
-    *(unsigned char *)(p+12)=1;
+    while (func_0201C6C4((struct PrintSys *)(((struct Obj02239 *)p)->f10),(void *)((int)func_02045770((struct Descriptor *)((struct Obj02239 *)p)->f14))))
+        func_0201C4E4((struct PrintSys *)(((struct Obj02239 *)p)->f10));
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj02239 *)p)->f14)),((struct Obj02239 *)p)->f20);
+    func_02045CAC((struct MsgBank *)(((struct Obj02239 *)p)->f0),value,(void *)(((struct Obj02239 *)p)->f1C));
+    window=((struct Obj02239 *)p)->f10;
+    func_0201C6FC((struct PrintSys *)window,(int)func_02045770((struct Descriptor *)((struct Obj02239 *)p)->f8),0,0,(void *)(*(int *)&((struct Obj02239 *)p)->f1C),((struct Obj02239 *)p)->f4);
+    ((struct Obj02239 *)p)->fC=1;
 }

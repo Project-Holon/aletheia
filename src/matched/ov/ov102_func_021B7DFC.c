@@ -16,6 +16,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_0201C6FC 0x0201C6FC thumb
  */
+#include "../include/Obj05269.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -36,8 +37,8 @@ void func_021B7DFC(u8 *p, void *q, int n, int x, s16 y)
     a = func_021B7CC4(q);
     b = func_021B7CC0(q);
     c = func_021B7CBC(q);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), *(u16 *)(p + 16));
-    func_02045CAC((struct MsgBank *)a, n, (void *)(*(int *)(p + 12)));
-    func_0201C6FC(b, (int)func_02045770((struct Descriptor *)*(int *)(p + 4)), x, y, *(int *)(p + 12), c);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj05269 *)p)->f0)), ((struct Obj05269 *)p)->f10);
+    func_02045CAC((struct MsgBank *)a, n, (void *)(((struct Obj05269 *)p)->fC));
+    func_0201C6FC(b, (int)func_02045770((struct Descriptor *)((struct Obj05269 *)p)->f4), x, y, ((struct Obj05269 *)p)->fC, c);
     p[8] = 1;
 }

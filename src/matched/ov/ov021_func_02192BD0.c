@@ -25,6 +25,7 @@
  *   d_021D3E78     0x021D3E78  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00952.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,32 +51,32 @@ void func_02192BD0(char *p, int flag)
     B32 tmp2;
     Req r;
 
-    *(u16 *)(p + 2) = 1;
+    ((struct Obj00952 *)p)->f2 = 1;
     tmp1 = d_021D3E98;
-    func_0203FCA0(*(u16 *)(p + 2) & 0xff, &tmp1, 0);
-    *(u16 *)(p + 4) = 2;
+    func_0203FCA0(((struct Obj00952 *)p)->f2 & 0xff, &tmp1, 0);
+    ((struct Obj00952 *)p)->f4 = 2;
     tmp2 = d_021D3E78;
-    func_0203FCA0(*(u16 *)(p + 4) & 0xff, &tmp2, 0);
-    func_02040C14(*(u16 *)(p + 2), 0, 1, 0);
-    func_02041300(*(u16 *)(p + 2) & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_02041300(*(u16 *)(p + 4) & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(*(u16 *)(p + 2) & 0xff);
-    func_020409B4(*(u16 *)(p + 4) & 0xff);
+    func_0203FCA0(((struct Obj00952 *)p)->f4 & 0xff, &tmp2, 0);
+    func_02040C14(((struct Obj00952 *)p)->f2, 0, 1, 0);
+    func_02041300(((struct Obj00952 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_02041300(((struct Obj00952 *)p)->f4 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_020409B4(((struct Obj00952 *)p)->f2 & 0xff);
+    func_020409B4(((struct Obj00952 *)p)->f4 & 0xff);
     if (flag)
-        func_02192FA4(*(u16 *)(p + 2), *(u16 *)p);
-    if (*(int *)(p + 0x168) != 0) {
-        r.a = *(u16 *)p;
-        r.b = *(int *)(p + 0x168);
-        r.c = *(int *)(p + 8);
+        func_02192FA4(((struct Obj00952 *)p)->f2, ((struct Obj00952 *)p)->f0);
+    if (((struct Obj00952 *)p)->f168 != 0) {
+        r.a = ((struct Obj00952 *)p)->f0;
+        r.b = ((struct Obj00952 *)p)->f168;
+        r.c = ((struct Obj00952 *)p)->f8;
         r.d = 0xb;
         r.e = 1;
         r.f = 0xc;
         r.g = 0xb;
-        *(int *)(p + 0x15c) = (int)func_02194670((u16 *)(&r));
-        func_02194704(*(int *)(p + 0x15c));
+        ((struct Obj00952 *)p)->f15C = (int)func_02194670((u16 *)(&r));
+        func_02194704(((struct Obj00952 *)p)->f15C);
     }
     func_0207D63C(0x04000050, 4, 0x1b, 0x10, 4);
-    func_02040588(*(u16 *)(p + 2) & 0xff, 1);
-    func_02040588(*(u16 *)(p + 4) & 0xff, 1);
-    *(u16 *)(p + 6) = 0xe;
+    func_02040588(((struct Obj00952 *)p)->f2 & 0xff, 1);
+    func_02040588(((struct Obj00952 *)p)->f4 & 0xff, 1);
+    ((struct Obj00952 *)p)->f6 = 0xe;
 }

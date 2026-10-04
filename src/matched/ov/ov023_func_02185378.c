@@ -18,6 +18,7 @@
  *   func_0207D658  0x0207D658  arm
  *   func_02185354  0x02185354  thumb  ov023
  */
+#include "../include/Obj00336.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -31,7 +32,7 @@ extern void func_02185354(char *p);
 
 int func_02185378(char *p, int x)
 {
-    if (*(int *)(p + 0x1b4) == func_02039338())
+    if (((struct Obj00336 *)p)->f1B4 == func_02039338())
         func_021861C4(p, 0xd, 0);
     else
         func_021861C4(p, 0, 0);

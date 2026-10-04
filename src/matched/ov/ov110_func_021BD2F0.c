@@ -13,6 +13,8 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22376.h"
+#include "../include/Obj22377.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3);
@@ -23,10 +25,10 @@ void func_021BD2F0(u8 *p) {
     void *handle;
     u8 *data;
     handle = func_02049F34(43, 7, (u32)(&obj), 42);
-    data = *(u8 **)((u8 *)obj + 12);
+    data = *(u8 * *)&((struct Obj22377 *)obj)->fC;
     func_02082D44(data + 0x96, p + 0x98, 10);
     func_02082D44(data + 0x76, p + 0xa2, 10);
     func_020307B0(handle);
     func_02082D44(p + 0x98, p + 0xac, 10);
-    *(int *)(p + 0xb8) = 0;
+    ((struct Obj22376 *)p)->fB8 = 0;
 }

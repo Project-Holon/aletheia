@@ -19,6 +19,8 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   func_021C7D34 0x021C7D34 thumb ov093
  */
+#include "../include/Obj07838.h"
+#include "../include/Obj21548.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -77,7 +79,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
         }
         if (mode != 14) {
             p = func_021C88A4(b, 25, c);
-            *(int *)(p + 4) = mode;
+            ((struct Obj07838 *)p)->f4 = mode;
             p[12] = selected;
             *(Word *)(p + 8) = func_021E8940(4);
             func_021C8838(p + 16, 1, message);
@@ -91,7 +93,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
                     p[6] = slot;
                     p[7] = 6;
                     tmp1 = p + 4;
-                    *(u16 *)tmp1 = code;
+                    ((struct Obj21548 *)tmp1)->f0 = code;
                     func_021C88C8((void *)b, p);
                 }
             }

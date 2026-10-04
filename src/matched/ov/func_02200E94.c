@@ -14,6 +14,7 @@
 
  * Tear down the +0xfa0 sub-object, then release the +0xd40 resource.
  */
+#include "../include/Obj18609.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ extern void func_020452E8(struct Descriptor *d);
 void func_02200E94(u8 *p)
 {
     func_02202940(p + 0xfa0);
-    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0xd40)));
+    func_020452E8((struct Descriptor *)(((struct Obj18609 *)p)->fD40));
 }

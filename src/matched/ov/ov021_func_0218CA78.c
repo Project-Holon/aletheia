@@ -19,6 +19,7 @@
  *   func_0216932C  0x0216932C  thumb ov010
  *   sub_0207C768   0x0207C768  arm
  */
+#include "../include/Obj00806.h"
 
 typedef unsigned short u16;
 
@@ -41,29 +42,29 @@ void func_0218CA78(char *p)
     int a;
     int b;
 
-    if (*(int *)(p + 0x1c) == 0)
+    if (((struct Obj00806 *)p)->f1C == 0)
         return;
-    for (i = 0; i < *(u16 *)(p + 0x2e); i++)
-        func_0218DD70(*(char **)(p + 0x28) + i * 16);
-    switch (*(unsigned int *)(p + 0xc)) {
+    for (i = 0; i < ((struct Obj00806 *)p)->f2E; i++)
+        func_0218DD70(*(char * *)&((struct Obj00806 *)p)->f28 + i * 16);
+    switch (((struct Obj00806 *)p)->fC) {
     case 0:
-        func_0218D1D0(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D1D0(p, p + 0x34, ((struct Obj00806 *)p)->f28);
         break;
     case 1:
     default:
-        func_0218D304(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D304(p, p + 0x34, ((struct Obj00806 *)p)->f28);
         break;
     case 2:
-        func_0218D444(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D444(p, p + 0x34, ((struct Obj00806 *)p)->f28);
         break;
     case 3:
-        func_0218D570(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D570(p, p + 0x34, ((struct Obj00806 *)p)->f28);
         break;
     }
-    func_0218D7A8((struct Obj *)p, *(void **)(p + 0x28));
-    for (i = 0; i < *(u16 *)(p + 0x2e); i++)
-        func_0216932C(*(int *)(*(char **)(p + 0x24) + i * 0x28));
-    a = sub_0207C768(*(int *)(p + 0x34), *(int *)(p + 4));
-    b = sub_0207C768(*(int *)(p + 0x3c), *(int *)(p + 4));
-    *(int *)(p + 0x30) = (a >> 12) + (b >> 12) * *(u16 *)(p + 0x14);
+    func_0218D7A8((struct Obj *)p, ((struct Obj00806 *)p)->f28);
+    for (i = 0; i < ((struct Obj00806 *)p)->f2E; i++)
+        func_0216932C(*(int *)(*(char * *)&((struct Obj00806 *)p)->f24 + i * 0x28));
+    a = sub_0207C768(((struct Obj00806 *)p)->f34, ((struct Obj00806 *)p)->f4);
+    b = sub_0207C768(((struct Obj00806 *)p)->f3C, ((struct Obj00806 *)p)->f4);
+    ((struct Obj00806 *)p)->f30 = (a >> 12) + (b >> 12) * ((struct Obj00806 *)p)->f14;
 }

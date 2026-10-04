@@ -16,6 +16,7 @@
  *   data_021DB498  0x021DB498  data   ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03619.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,10 +35,10 @@ void func_021CE7AC(u32 *p)
 
     h = func_02188C54((u8 *)p[0]);
     k = 0x10;
-    if (*(u8 *)((u8 *)p + 0x51f)) {
+    if (((struct Obj03619 *)p)->f51F) {
         k = 0xe;
     }
     p[3] = (u32)func_02190708((struct Fx *)h, p[2], 2, 6, 0x12, k - 6);
     p[4] = (u32)func_02190708((struct Fx *)h, p[2], 2, 1, 0x1c, 2);
-    func_02190740(p[4], 0, 0, *(u16 *)(data_021DB498 + *(u8 *)((u8 *)p + 0x520) * 12));
+    func_02190740(p[4], 0, 0, *(u16 *)(data_021DB498 + ((struct Obj03619 *)p)->f520 * 12));
 }

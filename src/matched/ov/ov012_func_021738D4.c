@@ -13,6 +13,9 @@
  *   func_0217505C  0x0217505C  thumb  ov012
  *   func_02167688  0x02167688  thumb  ov010
  */
+#include "../include/Obj07339.h"
+#include "../include/Obj12444.h"
+#include "../include/Obj19239.h"
 
 typedef unsigned char u8;
 
@@ -31,10 +34,10 @@ void func_021738D4(int a, T *p)
     o = p->b;
     if (o != 0) {
         if (o->g == 1) {
-            func_0217505C(o, *(int *)(*(u8 **)p + 0xc));
+            func_0217505C(o, ((struct Obj19239 *)(*(u8 * *)&((struct Obj07339 *)p)->f0))->fC);
             p->b = 0;
         } else if (((S0 *)o)->f == 1) {
-            func_02167688(*(void **)o);
+            func_02167688(((struct Obj12444 *)o)->f0);
         }
     }
     p->a = 0;

@@ -34,6 +34,8 @@
  *   func_0202208C 0x0202208C thumb
  *   func_021DE820 0x021DE820 thumb ov119
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj00252.h"
 
 typedef unsigned short u16;
 extern int func_020221A4(void *);
@@ -61,11 +63,11 @@ void func_021DE820(char *p)
 {
     if(func_020221A4(p)) {
         func_021DC720(p); func_021E57E8(0); func_021E5680(p);
-        *(void **)(p+0x9c4)=func_0204B100(0x154,0,*(u16 *)(p+0x5f4));
+        ((struct Obj00252 *)p)->f9C4=func_0204B100(0x154,0,((struct Obj00252 *)p)->f5F4);
         func_021E10D8(p); func_021E58A0((int)p); func_021E467C(p);
         func_021E3E80(p); func_021E3FE4(p); func_021E3F74(p);
         func_021E3208(p,0); func_02043534(31); func_020435F4(30);
-        func_021E3C20(p); func_0203D34C(0,*(u16 *)(p+0x5f4));
+        func_021E3C20(p); func_0203D34C(0,((struct Obj00252 *)p)->f5F4);
         *(volatile unsigned *)0x04001000 &= 0xffff1fff;
         func_021D8E84(p,(int)func_021DACE4);
     }
@@ -79,8 +81,8 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 void func_021DE8C0(char *p)
 {
     func_020399A8();
-    if(func_021E12AC(p) && func_021DD140(p) && *(int *)(p+0xf2c)>=120) {
-        func_0202208C(0,0,0,0,6,1,*(u16 *)(p+0x5f4));
+    if(func_021E12AC(p) && func_021DD140(p) && ((struct Obj00001 *)p)->fF2C>=120) {
+        func_0202208C(0,0,0,0,6,1,((struct Obj00001 *)p)->f5F4);
         func_021D8E84(p,(int)func_021DE820);
     }
 }

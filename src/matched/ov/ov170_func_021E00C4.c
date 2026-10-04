@@ -18,6 +18,12 @@
  *   func_021EE26C 0x021EE26C thumb
  *   func_021EF5C4 0x021EF5C4 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23868.h"
+#include "../include/Obj23869.h"
+#include "../include/Obj23870.h"
+#include "../include/Obj23871.h"
+#include "../include/Obj23872.h"
 
 struct WinMgr;
 extern void func_021ED55C(char *p, int flag);
@@ -30,17 +36,17 @@ extern int func_021EF5C4(struct WinMgr *mgr);
 
 int func_021E00C4(char *p)
 {
-    if (*(unsigned short *)(*(char **)(p + 0x2C) + 0x66) == 0x17) {
+    if (((struct Obj23868 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 == 0x17) {
         func_021ED55C(p, 1);
-        if (func_021EF770(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 1)
+        if (func_021EF770(*(struct WinMgr * *)&((struct Obj23869 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 1)
             func_021EDF5C(p);
-        *(unsigned short *)(*(char **)(p + 0x2C) + 0x66) = 0;
+        ((struct Obj23870 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66 = 0;
         return 0;
     }
     func_02041EE4(3, 2, 8);
     func_021EC804(p, 8);
-    func_021EE26C(*(char **)(p + 0x2C), 8);
-    func_021EF5C4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74));
-    (*(unsigned short *)(*(char **)(p + 0x2C) + 0x66))++;
+    func_021EE26C(*(char * *)&((struct Obj00000 *)p)->f2C, 8);
+    func_021EF5C4(*(struct WinMgr * *)&((struct Obj23871 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74);
+    (((struct Obj23872 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f66)++;
     return 1;
 }

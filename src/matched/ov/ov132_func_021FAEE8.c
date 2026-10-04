@@ -12,16 +12,18 @@
  * symbols:
 
  */
+#include "../include/Obj05400.h"
+#include "../include/Obj14098.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 int func_021FAEE8(char *p)
 {
-    *(unsigned *)(p + 4) += 1;
-    if (*(unsigned *)(p + 4) >= *(unsigned *)(p + 8)) {
-        *(unsigned *)(p + 0xc) -= 1;
-        *(unsigned *)(p + 4) = 0;
-        if (*(unsigned *)(p + 0xc) == 0) return 2;
+    ((struct Obj05400 *)p)->f4 += 1;
+    if (((struct Obj05400 *)p)->f4 >= ((struct Obj05400 *)p)->f8) {
+        ((struct Obj05400 *)p)->fC -= 1;
+        ((struct Obj05400 *)p)->f4 = 0;
+        if (((struct Obj05400 *)p)->fC == 0) return 2;
         return 1;
     }
     return 0;
@@ -29,6 +31,6 @@ int func_021FAEE8(char *p)
 
 int func_021FAF10(void *unused, char *p)
 {
-    *(u16 *)(p + 0x16) = 1 | *(u16 *)(p + 0x16);
+    ((struct Obj14098 *)p)->f16 = 1 | ((struct Obj14098 *)p)->f16;
     return 1;
 }

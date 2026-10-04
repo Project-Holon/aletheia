@@ -12,8 +12,9 @@
  * symbols:
  *   func_02047910 0x02047910 arm
  */
+#include "../include/Obj13837.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02047910(void *,int,int);
-void func_021F6F64(u8 *p) { u8 i; if(*(u32 *)(p+28)) { for(i=0;i<3;i++) func_02047910(*(void **)(p+60),i,4096); } }
+void func_021F6F64(u8 *p) { u8 i; if(((struct Obj13837 *)p)->f1C) { for(i=0;i<3;i++) func_02047910(((struct Obj13837 *)p)->f3C,i,4096); } }

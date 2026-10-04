@@ -30,6 +30,8 @@
  *   d_021D95DE 0x021D95DE data
  *   d_021DE1A8 0x021DE1A8 data
  */
+#include "../include/Obj00037.h"
+#include "../include/Obj12843.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,7 +56,7 @@ extern u16 *d_021DE1A8[];
 void func_021B38E0(char *p, int a, int b, int c)
 {
     int n;
-    void *q = func_02045B38(0, 2, 54, *(u16 *)(p + 4));
+    void *q = func_02045B38(0, 2, 54, ((struct Obj00037 *)p)->f4);
     int idx;
     int k;
     int v;
@@ -68,20 +70,20 @@ void func_021B38E0(char *p, int a, int b, int c)
     }
     off = idx * 4;
     if (func_02021288(**(u16 **)((char *)d_021DE1A8 + off))) {
-        *(u8 *)(p + 354) = 1;
+        ((struct Obj00037 *)p)->f162 = 1;
         off = idx * 4;
     }
     n = d_021D95DE[idx];
-    *(void **)(p + 384) = func_0201F81C(n + 1, *(u16 *)(p + 4));
+    ((struct Obj00037 *)p)->f180 = func_0201F81C(n + 1, ((struct Obj00037 *)p)->f4);
     for (k = 0; k < n; k++) {
         v = (*(u16 **)((char *)d_021DE1A8 + off))[k];
-        func_021B385C(p, k, *(u8 *)(p + 354), v, (int)q);
+        func_021B385C(p, k, ((struct Obj00037 *)p)->f162, v, (int)q);
         e = p + k * 8;
-        *(u16 *)(e + 32) = v;
-        *(int *)(e + 36) = func_0201102C(func_02020FE4((void *)v, 0, *(u16 *)(p + 4)));
+        ((struct Obj12843 *)e)->f20 = v;
+        ((struct Obj12843 *)e)->f24 = func_0201102C(func_02020FE4((void *)v, 0, ((struct Obj00037 *)p)->f4));
     }
-    *(u16 *)(p + 352) = k;
-    func_021B3834(p + 32, *(u16 *)(p + 352));
-    func_0201F878(*(char **)(p + 384) + k * 8, *(void **)(p + 392), 11, -2, *(u16 *)(p + 4));
+    ((struct Obj00037 *)p)->f160 = k;
+    func_021B3834(p + 32, ((struct Obj00037 *)p)->f160);
+    func_0201F878(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8, ((struct Obj00037 *)p)->f188, 11, -2, ((struct Obj00037 *)p)->f4);
     func_02045C04(q);
 }

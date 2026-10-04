@@ -14,6 +14,7 @@
  *   func_02026474 0x02026474 thumb
  *   func_0217413C 0x0217413C thumb ov012
  */
+#include "../include/Obj12521.h"
 struct Ctx;
 extern unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
@@ -27,6 +28,6 @@ int func_0217B80C(int a, int b)
     p = (char *)func_02026474((void *)func_02012138((const struct Ctx *)a));
     result = 0;
     q = p + 0x3548;
-    if (*(int *)(q + 4) != 0 && *(int *)q == 0) result = func_0217413C(a, b, (unsigned char *)p);
+    if (((struct Obj12521 *)q)->f4 != 0 && ((struct Obj12521 *)q)->f0 == 0) result = func_0217413C(a, b, (unsigned char *)p);
     return result;
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   func_021B8874 0x021B8874 thumb ov102
  */
+#include "../include/Obj05270.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,11 +19,11 @@ extern void func_021B8874(u32 *);
 void func_021B89F0(u8 *p)
 {
     int i;
-    for (i = 0; i < *(u16 *)(p + 0x34c); i++)
+    for (i = 0; i < ((struct Obj05270 *)p)->f34C; i++)
         func_021B8874((u32 *)(p + i * 0x1c));
-    if ((*(u32 *)(p + 0x348))++ > 30) {
-        *(u32 *)(p + 0x348) = 0;
-        if (*(u16 *)(p + 0x34c) < *(u16 *)(p + 0x34e))
-            (*(u16 *)(p + 0x34c))++;
+    if ((((struct Obj05270 *)p)->f348)++ > 30) {
+        ((struct Obj05270 *)p)->f348 = 0;
+        if (((struct Obj05270 *)p)->f34C < ((struct Obj05270 *)p)->f34E)
+            (((struct Obj05270 *)p)->f34C)++;
     }
 }

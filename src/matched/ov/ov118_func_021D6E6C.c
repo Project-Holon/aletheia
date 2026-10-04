@@ -16,6 +16,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13882.h"
+#include "../include/Obj22692.h"
+#include "../include/Obj22693.h"
 
 typedef int s32;
 
@@ -37,12 +40,12 @@ void func_021D6E6C(void *obj, int on)
 
     if (on != 0 && obj != 0) {
         w = (void *)func_02051A34(obj);
-        if (*(void **)(*(char **)((char *)w + 0xc) + 0x98) != 0) {
+        if (((struct Obj22692 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98 != 0) {
             v = (Vec *)buf;
             v->x = 0;
             v->y = 0;
             v->z = 0;
-            func_02011610(*(void **)(*(char **)((char *)w + 0xc) + 0x98), (struct Rec12 *)v);
+            func_02011610(((struct Obj22693 *)(*(char * *)&((struct Obj13882 *)w)->fC))->f98, (struct Rec12 *)v);
             func_02051838(obj, v);
         }
     }

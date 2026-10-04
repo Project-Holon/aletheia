@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj16754.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -20,7 +21,7 @@ extern void func_02029364(u8 *p);
 
 void func_020290F0(u8 *p)
 {
-    switch (*(u32 *)(p + 0x1c)) {
+    switch (((struct Obj16754 *)p)->f1C) {
     case 0:
         break;
     case 1:

@@ -9,8 +9,9 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj01396.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021F4ED4(u32 unused,u32 p,u16 v) { *(u16 *)(p+2)=v; *(u16 *)p |=2; }
+void func_021F4ED4(u32 unused,u32 p,u16 v) { ((struct Obj01396 *)p)->f2=v; ((struct Obj01396 *)p)->f0 |=2; }

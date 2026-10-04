@@ -24,6 +24,9 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D588C 0x021D588C thumb ov120
  */
+#include "../include/Obj01401.h"
+#include "../include/Obj06435.h"
+#include "../include/Obj22836.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,23 +62,23 @@ int func_021D5C60(void *a, int unused, u8 *q)
     func_0202223C(1, 0);
     p = func_0203159C(a, 0x1b8, 0x1f);
     func_02082BCC(p, 0, 0x1b8);
-    *(u16 *)(p + 0xc) = 0x1f;
-    *(u8 **)(p + 0x48) = q;
-    *(void **)(p + 0x3c) = func_021D5E88(*(u16 *)(p + 0xc), *(void **)q);
-    *(void **)(p + 0x40) = func_021D7724(*(u16 *)(p + 0xc), 0x28);
-    *(void **)(p + 0x2c) = *(void **)q;
-    *(void **)(p + 0x30) = func_02012EBC(*(void **)q);
-    *(u32 *)(p + 0x44) = func_0201283C(*(void **)q);
-    *(int *)(*(u8 **)(p + 0x48) + 0x1b0) = 1;
-    *(int *)(p + 0x15c) = zero;
-    *(int *)(p + 0x160) = 2;
-    *(int *)(p + 0x164) = 6;
-    *(u32 *)(p + 0x14c) = func_02008530(func_02012944(*(void **)q));
+    ((struct Obj01401 *)p)->fC = 0x1f;
+    *(u8 * *)&((struct Obj01401 *)p)->f48 = q;
+    ((struct Obj01401 *)p)->f3C = func_021D5E88(((struct Obj01401 *)p)->fC, ((struct Obj06435 *)q)->f0);
+    ((struct Obj01401 *)p)->f40 = func_021D7724(((struct Obj01401 *)p)->fC, 0x28);
+    ((struct Obj01401 *)p)->f2C = ((struct Obj06435 *)q)->f0;
+    ((struct Obj01401 *)p)->f30 = func_02012EBC(((struct Obj06435 *)q)->f0);
+    ((struct Obj01401 *)p)->f44 = func_0201283C(((struct Obj06435 *)q)->f0);
+    ((struct Obj22836 *)(*(u8 * *)&((struct Obj01401 *)p)->f48))->f1B0 = 1;
+    ((struct Obj01401 *)p)->f15C = zero;
+    ((struct Obj01401 *)p)->f160 = 2;
+    ((struct Obj01401 *)p)->f164 = 6;
+    ((struct Obj01401 *)p)->f14C = func_02008530(func_02012944(((struct Obj06435 *)q)->f0));
     if (func_0203CD98())
         func_0203A574(0x2200, (u32)d_021D88EC, 3, (u32)p);
-    func_0202208C(0, 1, 1, 0, 6, 1, *(u16 *)(p + 0xc));
+    func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj01401 *)p)->fC);
     func_02005D90(0x486, 0xffff);
-    func_0203D34C(1, *(u16 *)(p + 0xc));
+    func_0203D34C(1, ((struct Obj01401 *)p)->fC);
     func_0200F7E8(1);
     func_021D4244((int)p, (int)func_021D588C, 0x96a);
     return 1;

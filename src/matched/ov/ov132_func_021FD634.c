@@ -8,6 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj04521.h"
+#include "../include/Obj05408.h"
+#include "../include/Obj10567.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 void func_021FD634(int a,int b,int c,char *p)
@@ -15,16 +18,16 @@ void func_021FD634(int a,int b,int c,char *p)
     char *q;
     char *s;
     u32 v;
-    (*(u8 *)(p+0x14c))++;
-    *(int *)(p+0x154)=0;
-    q=*(char **)(p+0x140);
-    if((u32)(*(u8 *)(p+0x14c)*0x3800)>=*(u32 *)(q+0x2c)) {
-        s=*(char **)(q+0x10);
-        *(void **)(q+0x14)=s+0xc;
-        q=*(char **)(p+0x140);
-        *(void **)(q+0x18)=*(char **)(q+0x10)+0xc+*(u32 *)s;
-        q=*(char **)(p+0x140);
-        v=*(u32 *)(s+4);
-        *(u32 *)(q+0x1c)=v+(*(u32 *)(q+0x10)+0xc+*(u32 *)s);
+    (((struct Obj05408 *)p)->f14C)++;
+    ((struct Obj05408 *)p)->f154=0;
+    q=*(char * *)&((struct Obj05408 *)p)->f140;
+    if((u32)(((struct Obj05408 *)p)->f14C*0x3800)>=((struct Obj04521 *)q)->f2C) {
+        s=*(char * *)&((struct Obj04521 *)q)->f10;
+        ((struct Obj04521 *)q)->f14=s+0xc;
+        q=*(char * *)&((struct Obj05408 *)p)->f140;
+        ((struct Obj04521 *)q)->f18=*(char * *)&((struct Obj04521 *)q)->f10+0xc+((struct Obj10567 *)s)->f0;
+        q=*(char * *)&((struct Obj05408 *)p)->f140;
+        v=((struct Obj10567 *)s)->f4;
+        ((struct Obj04521 *)q)->f1C=v+(*(u32 *)&((struct Obj04521 *)q)->f10+0xc+((struct Obj10567 *)s)->f0);
     }
 }

@@ -20,6 +20,7 @@
  *   func_02184560  0x02184560  thumb  ov023
  *   func_02185354  0x02185354  thumb  ov023
  */
+#include "../include/Obj05108.h"
 
 typedef unsigned int u32;
 
@@ -39,22 +40,22 @@ int func_02185764(char *p, int x)
     int m;
 
     m = func_02186660(p);
-    if (*(int *)(p + 0x1ac) != func_02186164(p) || *(int *)(p + 0x9280) != 0) {
+    if (((struct Obj05108 *)p)->f1AC != func_02186164(p) || ((struct Obj05108 *)p)->f9280 != 0) {
         func_02185354(p);
         return x;
     }
     switch (m) {
     case 0:
         func_02186444(p, 0x11);
-        func_02184114((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
+        func_02184114((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj05108 *)p)->f4));
         break;
     case 1:
         func_02186444(p, 4);
-        func_021852F4((void *)(*(u32 *)(p + 0x100)), 0);
-        func_0201F7A8((void *)(*(u32 *)(p + 0x11c)), 2);
+        func_021852F4((void *)(((struct Obj05108 *)p)->f100), 0);
+        func_0201F7A8((void *)(((struct Obj05108 *)p)->f11C), 2);
         if (func_02039338() == 0) {
             func_02184560(p, 1);
-            *(int *)(p + 0x9e6c) = 1;
+            ((struct Obj05108 *)p)->f9E6C = 1;
         }
         break;
     }

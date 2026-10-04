@@ -14,6 +14,7 @@
  *   d_021BB320 0x021BB320 data a4
  * width: 47910 index u16: original narrows at 021BA9FA-021BAA00.
  */
+#include "../include/Obj08420.h"
 typedef unsigned short u16;
 typedef struct Util Util;
 extern int d_021BB320;
@@ -26,7 +27,7 @@ int func_021BA9D0(unsigned char *p)
     int *object;
     int count,i;
     if(p[14]) return 0;
-    object=func_02048A18(*(Util **)(p+8), *(u16 *)(p+12));
+    object=func_02048A18(*(Util * *)&((struct Obj08420 *)p)->f8, ((struct Obj08420 *)p)->fC);
     count=func_0204779C(object);
     for(i=0;i<count;i++) {
         result=func_02047910(object,i,d_021BB320<<12);

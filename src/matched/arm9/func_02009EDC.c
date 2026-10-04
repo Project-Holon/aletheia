@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj11227.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -22,8 +23,8 @@ void func_02009EDC(void *a0)
     u8 buf[12];
 
     func_02082BCC(buf, 0, 0xc);
-    *(void **)buf = a0;
-    *(u32 *)(buf + 4) = 1;
+    ((struct Obj11227 *)buf)->f0 = a0;
+    ((struct Obj11227 *)buf)->f4 = 1;
     func_02082BCC(a0, 0, 0xa94);
     func_0200A480((struct Obj *)buf);
 }

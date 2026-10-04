@@ -17,6 +17,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj06439.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,7 +39,7 @@ void func_021D6EF4(u8 *p,int flag)
     for(i=0;i<3;i++) {
         if(flag || i!=0) {
             r.x=x.a[i]; r.y=y.a[i]; r.z=z.a[i]; r.a=i; r.b=b.a[i];
-            *(void **)(p+i*4+0x140)=func_0204B294((void *)*(u32 *)(p+0x10),*(u32 *)(p+0x28),*(u32 *)(p+0x18),*(u32 *)(p+0x74),&r,1,*(u16 *)(p+0xf4));
+            *(void **)(p+i*4+0x140)=func_0204B294((void *)((struct Obj06439 *)p)->f10,((struct Obj06439 *)p)->f28,((struct Obj06439 *)p)->f18,((struct Obj06439 *)p)->f74,&r,1,((struct Obj06439 *)p)->fF4);
             func_0204B92C(*(void **)(p+i*4+0x140),1);
             func_0204B3DC(*(void **)(p+i*4+0x140),1);
         }

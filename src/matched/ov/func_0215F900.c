@@ -16,6 +16,7 @@
  *   func_02012944   0x02012944  thumb
  *   func_02012FCC   0x02012FCC  thumb
  */
+#include "../include/Obj04883.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,8 +31,8 @@ void func_0215F900(void *a0)
 {
     char *p = (char *)a0;
 
-    *(void **)(p + 0x1C) = func_02012934(*(void **)(p + 4));
-    *(int *)(p + 0x20) = (int)func_02012944(*(void **)(p + 4));
-    *(int *)(p + 0x24) = func_02012FCC((int)(*(void **)(p + 4)));
+    ((struct Obj04883 *)p)->f1C = func_02012934(((struct Obj04883 *)p)->f4);
+    ((struct Obj04883 *)p)->f20 = (int)func_02012944(((struct Obj04883 *)p)->f4);
+    ((struct Obj04883 *)p)->f24 = func_02012FCC((int)(((struct Obj04883 *)p)->f4));
 }
 

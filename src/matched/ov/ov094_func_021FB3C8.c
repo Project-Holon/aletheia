@@ -15,11 +15,12 @@
  *   func_0201134C 0x0201134C thumb
  *   func_021F8010 0x021F8010 thumb ov094
  */
+#include "../include/Obj21662.h"
 extern int func_0201134C(void *);
 extern void func_021F8010(int);
 
 int func_021FB3C8(void *a, char *s)
 {
     func_021F8010(func_0201134C(a));
-    return *(int *)(s + 0x23c);
+    return ((struct Obj21662 *)s)->f23C;
 }

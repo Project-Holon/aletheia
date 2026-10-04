@@ -17,6 +17,8 @@
  * selector.  The if/else on a named local is the form the image has - the
  * ternary comes out with its arms swapped.
  */
+#include "../include/Obj12117.h"
+#include "../include/Obj18241.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +31,7 @@ extern void func_021BAAB8(char *p, int a, int b);
 
 int func_021BD838(char *p, int v)
 {
-    u8 b = *(u8 *)(*(char **)(p + 0x248) + 0x45);
+    u8 b = ((struct Obj18241 *)(*(char * *)&((struct Obj12117 *)p)->f248))->f45;
     int a;
 
     if (b != 0) {
@@ -39,6 +41,6 @@ int func_021BD838(char *p, int v)
     }
 
     func_021BAAB8(p, a, 0);
-    *(u32 *)(p + 0x1CC) = 0x7E;
+    ((struct Obj12117 *)p)->f1CC = 0x7E;
     return v;
 }

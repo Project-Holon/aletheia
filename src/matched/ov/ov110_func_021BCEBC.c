@@ -15,6 +15,7 @@
  *   func_021BF6DC 0x021BF6DC thumb ov110
  *   func_021BCFF0 0x021BCFF0 thumb ov110
  */
+#include "../include/Obj06390.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021BF6DC(u8 *);
@@ -29,7 +30,7 @@ static inline int Check(char *p, int zero)
 }
 int func_021BCEBC(char *p)
 {
-    if (func_021BF6DC(*(u8 **)(p+4))==1) {
+    if (func_021BF6DC(*(u8 * *)&((struct Obj06390 *)p)->f4)==1) {
         return Check(p, 0);
     }
     return 1;

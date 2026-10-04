@@ -16,6 +16,7 @@
  *   func_02005E30  0x02005E30  thumb
  *   func_0204E804  0x0204E804  arm
  */
+#include "../include/Obj03730.h"
 
 typedef unsigned char  u8;
 extern void func_021B6A00(u8 *p, u8 *q);
@@ -28,16 +29,16 @@ extern int func_0204E804(void);
 
 int func_021B6750(char *p)
 {
-    switch (*(int *)(p + 0x60)) {
+    switch (((struct Obj03730 *)p)->f60) {
     case 0:
-        func_021B6A00((u8 *)(*(int *)(p + 0x14)), (u8 *)(*(int *)p));
-        *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+        func_021B6A00((u8 *)(((struct Obj03730 *)p)->f14), (u8 *)(((struct Obj03730 *)p)->f0));
+        ((struct Obj03730 *)p)->f60 = ((struct Obj03730 *)p)->f60 + 1;
         break;
     case 1:
-        if (func_021B6A3C((u8 *)(*(int *)(p + 0x14))) != 0) {
+        if (func_021B6A3C((u8 *)(((struct Obj03730 *)p)->f14)) != 0) {
             func_0204E720(3, 0, 0x10, 2);
             func_02005E30(8);
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+            ((struct Obj03730 *)p)->f60 = ((struct Obj03730 *)p)->f60 + 1;
         }
         break;
     case 2:

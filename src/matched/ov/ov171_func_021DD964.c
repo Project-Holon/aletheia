@@ -18,6 +18,8 @@
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  *   func_021DD94C 0x021DD94C thumb ov171
  */
+#include "../include/Obj00210.h"
+#include "../include/Obj24055.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -42,27 +44,27 @@ void func_021DD964(u8 *p)
     u8 *group;
     void *s0,*s1,*s2;
     u32 width;
-    offset=*(s8 *)(p+0xc5e)*0xbc;
+    offset=((struct Obj00210 *)p)->fC5E*0xbc;
     group=p+0xc;
-    func_02043B5C(func_02045770(*(void **)(p+0xb48)),0);
-    if(*(u16 *)(*(u8 **)p+4)==0) {
-        s0=func_02045EC0(*(void **)(p+0xb60),0);
-        func_021B6AE4(p+0xb48,*(u32 *)(p+0xb6c),0,0,(u32)s0,*(u32 *)(p+0xb58),0x440,0);
+    func_02043B5C(func_02045770(((struct Obj00210 *)p)->fB48),0);
+    if(((struct Obj24055 *)(*(u8 * *)&((struct Obj00210 *)p)->f0))->f4==0) {
+        s0=func_02045EC0(((struct Obj00210 *)p)->fB60,0);
+        func_021B6AE4(p+0xb48,((struct Obj00210 *)p)->fB6C,0,0,(u32)s0,*(u32 *)&((struct Obj00210 *)p)->fB58,0x440,0);
         func_02045808(s0);
     } else {
-        s1=func_02045EC0(*(void **)(p+0xb60),1);
-        func_0201EFA4(*(void **)(p+0xb64),0,*(u16 *)(group+offset+0xba),4,0,1);
-        func_0201F250(*(void **)(p+0xb64),*(void **)(p+0xb68),s1);
-        func_021B6AE4(p+0xb48,*(u32 *)(p+0xb6c),0,0,*(u32 *)(p+0xb68),*(u32 *)(p+0xb58),0x440,0);
+        s1=func_02045EC0(((struct Obj00210 *)p)->fB60,1);
+        func_0201EFA4(((struct Obj00210 *)p)->fB64,0,*(u16 *)(group+offset+0xba),4,0,1);
+        func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s1);
+        func_021B6AE4(p+0xb48,((struct Obj00210 *)p)->fB6C,0,0,*(u32 *)&((struct Obj00210 *)p)->fB68,*(u32 *)&((struct Obj00210 *)p)->fB58,0x440,0);
         func_02045808(s1);
     }
-    s2=func_02045EC0(*(void **)(p+0xb60),2);
-    func_0201EFA4(*(void **)(p+0xb64),0,*(u32 *)(group+offset+0xa8),2,2,1);
-    func_0201EFA4(*(void **)(p+0xb64),1,*(u32 *)(group+offset+0xac),2,2,1);
-    func_0201EFA4(*(void **)(p+0xb64),2,*(u32 *)(group+offset+0xb0),2,2,1);
-    func_0201F250(*(void **)(p+0xb64),*(void **)(p+0xb68),s2);
-    width=func_02045748(*(void **)(p+0xb48));
-    func_021B6AE4(p+0xb48,*(u32 *)(p+0xb6c),width<<3,0,*(u32 *)(p+0xb68),*(u32 *)(p+0xb58),0x14c0,1);
+    s2=func_02045EC0(((struct Obj00210 *)p)->fB60,2);
+    func_0201EFA4(((struct Obj00210 *)p)->fB64,0,*(u32 *)(group+offset+0xa8),2,2,1);
+    func_0201EFA4(((struct Obj00210 *)p)->fB64,1,*(u32 *)(group+offset+0xac),2,2,1);
+    func_0201EFA4(((struct Obj00210 *)p)->fB64,2,*(u32 *)(group+offset+0xb0),2,2,1);
+    func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
+    width=func_02045748(((struct Obj00210 *)p)->fB48);
+    func_021B6AE4(p+0xb48,((struct Obj00210 *)p)->fB6C,width<<3,0,*(u32 *)&((struct Obj00210 *)p)->fB68,*(u32 *)&((struct Obj00210 *)p)->fB58,0x14c0,1);
     func_02045808(s2);
     func_021DD94C((int *)(p+0xb48));
 }

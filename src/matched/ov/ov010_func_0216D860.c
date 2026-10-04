@@ -12,8 +12,9 @@
  * Unlabelled leaf (no lr save, prints as .word data in the listing),
  * filed as a blocker of ov021 func_0219912C.
  */
+#include "../include/Obj19130.h"
 
 void func_0216D860(char *p, short v)
 {
-    *(short *)(p + 0x3e) += v;
+    ((struct Obj19130 *)p)->f3E += v;
 }

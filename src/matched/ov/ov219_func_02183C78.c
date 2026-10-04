@@ -14,6 +14,7 @@
  *   func_02183CEC 0x02183CEC thumb ov219
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj10973.h"
 typedef unsigned int   u32;
 struct PrintSys;
 struct Tcbl;
@@ -25,11 +26,11 @@ extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_02183C78(void *unused, char *state, int unused2, char *ctx)
 {
     int result;
-    func_020310C4(*(void **)(ctx + 0xc0a4));
+    func_020310C4(((struct Obj10973 *)ctx)->fC0A4);
     result = func_02183D14(ctx, state);
-    if (*(int *)(ctx + 0xc3a4) != 0)
+    if (((struct Obj10973 *)ctx)->fC3A4 != 0)
         func_02185B74(ctx);
     func_02183CEC(ctx);
-    func_0201C4E4(*(void **)(ctx + 0xc080));
+    func_0201C4E4(((struct Obj10973 *)ctx)->fC080);
     return result;
 }

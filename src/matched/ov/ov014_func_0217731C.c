@@ -13,6 +13,9 @@
  *   func_0203D798  0x0203D798  arm
  *   func_0203F1FC  0x0203F1FC  arm
  */
+#include "../include/Obj03087.h"
+#include "../include/Obj05922.h"
+#include "../include/Obj19327.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -36,22 +39,22 @@ int func_0217731C(u8 *obj)
     NotifyFn nf;
 
     v67 = st[0x67];
-    v50 = *(u32 *)(st + 0x50);
+    v50 = ((struct Obj05922 *)st)->f50;
     p = obj + 0x50;
     if (p[7] != 0)
         return 0;
     if (p[5] != 0)
         return 0;
-    if (*(u16 *)p != func_0203F1FC(p + 2, 0x6e))
+    if (((struct Obj03087 *)p)->f0 != func_0203F1FC(p + 2, 0x6e))
         return 0;
-    if (*(u16 *)(p + 2) != v50)
+    if (((struct Obj03087 *)p)->f2 != v50)
         return 0;
     nf = *(NotifyFn *)(g_021797A4 + 0xC38);
     if (nf != 0)
         nf(*(u32 *)(g_021797A4 + 0xC3C), obj, p[4], p[6]);
-    fn = *(CheckFn *)(st + 0x20);
+    fn = *(CheckFn *)&((struct Obj05922 *)st)->f20;
     if (fn != 0) {
-        if (fn(v67, p[4], *(u32 *)(base + 0xC64)) == 0)
+        if (fn(v67, p[4], ((struct Obj19327 *)base)->fC64) == 0)
             return 0;
     } else if (v67 != p[4]) {
         return 0;

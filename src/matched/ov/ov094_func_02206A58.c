@@ -12,6 +12,7 @@
  * symbols:
  *   func_021F86E0  0x021F86E0  thumb  ov094
  */
+#include "../include/Obj21803.h"
 
 typedef unsigned short u16;
 extern int func_021F86E0(void);
@@ -21,6 +22,6 @@ extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u3
 
 void func_02206A58(char *p)
 {
-    if (*(int *)(p + 0x23c) == 1)
+    if (((struct Obj21803 *)p)->f23C == 1)
         func_020215BC((struct PalAnmSlot *)func_021F86E0(), (u16 *)(p + 0x284), 1, 0x20, 0x20);
 }

@@ -14,6 +14,7 @@
  *   func_0200853C 0x0200853C thumb
  *   func_021B9800 0x021B9800 thumb ov114
  */
+#include "../include/Obj06575.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -24,7 +25,7 @@ extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *func_021B9800(int a, int b, int c);
 void func_021DC738(char *p,unsigned heap)
 {
-    if(*(int *)(p+0x121c)!=0) func_02034714(d_021E2EF8,0,d_021E2EF8);
-    *(int *)(p+0x12c)=0;
-    *(void **)(p+0x121c)=func_021B9800(heap,func_0200853C((const struct Sub0200852CObj *)func_02012944(*(void **)(p+8))),*(unsigned *)(p+0x10));
+    if(*(int *)&((struct Obj06575 *)p)->f121C!=0) func_02034714(d_021E2EF8,0,d_021E2EF8);
+    ((struct Obj06575 *)p)->f12C=0;
+    ((struct Obj06575 *)p)->f121C=func_021B9800(heap,func_0200853C((const struct Sub0200852CObj *)func_02012944(((struct Obj06575 *)p)->f8)),((struct Obj06575 *)p)->f10);
 }

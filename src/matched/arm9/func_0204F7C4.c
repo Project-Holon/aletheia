@@ -18,6 +18,7 @@
  * 0x0204F7C4 in layout/function_starts.txt turns that EXACT* into EXACT; that
  * file is the integrator's, not this packet's.
  */
+#include "../include/Obj16149.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ struct Ent {
 
 void func_0204F7C4(u8 *a0, int i, u16 *src)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj16149 *)a0)->f8)[i];
 
     e->f16 = *src;
 }

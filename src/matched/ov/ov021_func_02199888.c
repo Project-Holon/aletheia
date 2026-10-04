@@ -28,6 +28,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04222.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,11 +59,11 @@ void func_02199888(u32 a, int b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u8 i)
     dir = 1;
     q = func_0216D6BC(a, 16);
     q[0] = e;
-    *(int *)(q + 4) = b;
+    ((struct Obj04222 *)q)->f4 = b;
     q[2] = g;
     q[1] = h;
     q[3] = i;
-    *(u16 *)(q + 14) = 0x1000 / q[0];
+    ((struct Obj04222 *)q)->fE = 0x1000 / q[0];
     func_0216D5E0(a, (u16)c);
     func_0216D600(a, (u16)d);
     func_0216D674((void *)a, f);

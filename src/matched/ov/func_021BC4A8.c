@@ -16,6 +16,7 @@
  *
  * Re-arms, then runs the setup and stamps 0xA7 when the guard answers true.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ int func_021BC4A8(char *p, int v)
 
     if (func_021BA928(p) != 0) {
         func_021BA828(p);
-        *(u32 *)(p + 0x1CC) = 0xA7;
+        *(u32 *)&((struct Obj00008 *)p)->f1CC = 0xA7;
     }
 
     return v;

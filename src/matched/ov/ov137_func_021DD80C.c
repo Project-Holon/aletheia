@@ -19,6 +19,10 @@
  *   func_021DE4B4 0x021DE4B4 thumb ov137
  *   func_021DD93C 0x021DD93C thumb ov137
  */
+#include "../include/Obj06534.h"
+#include "../include/Obj08211.h"
+#include "../include/Obj23713.h"
+#include "../include/Obj23714.h"
 extern unsigned func_021DE7F4(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -36,8 +40,8 @@ void func_021DD80C(char *p) {
     char *q;
     if (func_021DE7F4()&1) {
         if (func_02039338()==0) {
-            q=*(char **)(p+0x10);
-            if (*(unsigned *)(q+0x2c)==func_021DE354(p) && *(unsigned *)(q+0x30)==0) {
+            q=*(char * *)&((struct Obj06534 *)p)->f10;
+            if (((struct Obj08211 *)q)->f2C==func_021DE354(p) && ((struct Obj08211 *)q)->f30==0) {
                 if (func_02184114(func_021DCF50(p))) {
                     func_020061E4(0x54c);
                     func_021DE4B4(p,3,0);
@@ -47,13 +51,13 @@ void func_021DD80C(char *p) {
         }
     } else if (func_021DE7F4()&2) {
         if (func_02039338()!=0) {
-            if (*(unsigned *)(*(char **)(p+0x10)+0x28)==0) {
+            if (((struct Obj23713 *)(*(char * *)&((struct Obj06534 *)p)->f10))->f28==0) {
                 func_021DE4B4(p,4,0);
                 func_021DD93C(p,4);
             } else func_020061E4(0x548);
         } else {
-            q=*(char **)(p+0x10);
-            if (*(unsigned *)(q+0x2c)==func_021841A4(func_021DCF50(p)) && *(unsigned *)(q+0x30)==0) {
+            q=*(char * *)&((struct Obj06534 *)p)->f10;
+            if (((struct Obj08211 *)q)->f2C==func_021841A4(func_021DCF50(p)) && ((struct Obj08211 *)q)->f30==0) {
                 if (func_02184114(func_021DCF50(p))) {
                     func_021DE4B4(p,4,0);
                     func_021DD93C(p,4);
@@ -62,8 +66,8 @@ void func_021DD80C(char *p) {
             } else func_020061E4(0x548);
         }
     } else {
-        if (*(unsigned *)(p+0x4808)==0 && func_02039338()==0 &&
-            *(unsigned *)(*(char **)(p+0x10)+0x2c)==func_021841A4(func_021DCF50(p)))
+        if (((struct Obj06534 *)p)->f4808==0 && func_02039338()==0 &&
+            ((struct Obj23714 *)(*(char * *)&((struct Obj06534 *)p)->f10))->f2C==func_021841A4(func_021DCF50(p)))
             func_02184134(func_021DCF50(p));
     }
 }

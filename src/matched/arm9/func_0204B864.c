@@ -10,11 +10,12 @@
  * status:   EXACT
  *
  */
+#include "../include/Obj16083.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_0204B864(u8 *a0)
 {
-    return (u8)((*(u32 *)(a0 + 0x60) << 14) >> 30);
+    return (u8)((((struct Obj16083 *)a0)->f60 << 14) >> 30);
 }

@@ -28,6 +28,7 @@
  *   func_02028590 0x02028590 thumb
  *   func_0202EF60 0x0202EF60 thumb
  */
+#include "../include/Obj01008.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -62,22 +63,22 @@ char *func_021BF0A0(u32 heap)
     char *p;
     void *obj;
     p=func_02030734(heap,72,1,site,129);
-    *(u16 *)p=heap;
-    *(void **)(p+8)=func_0201EC64(heap);
-    *(void **)(p+4)=(void *)func_0201C440((void *)heap);
-    *(void **)(p+24)=func_0203101C(*(u16 *)p,*(u16 *)p,2,0);
+    ((struct Obj01008 *)p)->f0=heap;
+    ((struct Obj01008 *)p)->f8=func_0201EC64(heap);
+    ((struct Obj01008 *)p)->f4=(void *)func_0201C440((void *)heap);
+    ((struct Obj01008 *)p)->f18=func_0203101C(((struct Obj01008 *)p)->f0,((struct Obj01008 *)p)->f0,2,0);
     func_02049B40(23,5,0,320,32,heap);
     func_0201F5BC(1,7,9,0,heap);
     func_0201F5BC(1,16,8,1,heap);
-    *(void **)(p+16)=func_0201D7EC(23,0,1,0,*(u16 *)p);
-    *(void **)(p+60)=func_020457B0(1600,*(u16 *)p);
-    *(void **)(p+64)=func_020457B0(1600,*(u16 *)p);
-    *(void **)(p+56)=(void *)func_020450F0(1,22,13,9,4,10,1);
-    func_02043B5C(func_02045770(*(void **)(p+56)),0);
-    obj=*(void **)(p+56);
+    ((struct Obj01008 *)p)->f10=func_0201D7EC(23,0,1,0,((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f3C=func_020457B0(1600,((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f40=func_020457B0(1600,((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f38=(void *)func_020450F0(1,22,13,9,4,10,1);
+    func_02043B5C(func_02045770(((struct Obj01008 *)p)->f38),0);
+    obj=((struct Obj01008 *)p)->f38;
     func_02045334(obj);func_02045374(obj);func_02041B6C(func_02045730(obj));
-    *(void **)(p+28)=(void *)func_020450F0(1,1,19,30,4,10,1);
-    *(void **)(p+32)=func_02028590(15,1,1,*(u16 *)p);
-    *(void **)(p+68)=func_0202EF60(*(u16 *)p);
+    ((struct Obj01008 *)p)->f1C=(void *)func_020450F0(1,1,19,30,4,10,1);
+    ((struct Obj01008 *)p)->f20=func_02028590(15,1,1,((struct Obj01008 *)p)->f0);
+    ((struct Obj01008 *)p)->f44=func_0202EF60(((struct Obj01008 *)p)->f0);
     return p;
 }

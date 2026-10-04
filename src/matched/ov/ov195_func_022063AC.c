@@ -13,6 +13,7 @@
  *   func_02015C30 0x02015C30 thumb
  *   func_02015C48 0x02015C48 thumb
  */
+#include "../include/Obj10822.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -27,10 +28,10 @@ void func_022063AC(char *a, u32 v)
 
     for (i = 0; i < 2; i++) {
         char *p = a + i * 4;
-        if (*(u32 *)(p + 0x50) != 0) {
-            func_02015C30((void *)(*(u32 *)(p + 0x50)), buf);
+        if (((struct Obj10822 *)p)->f50 != 0) {
+            func_02015C30((void *)(((struct Obj10822 *)p)->f50), buf);
             buf[0] = v;
-            func_02015C48((void *)(*(u32 *)(p + 0x50)), buf);
+            func_02015C48((void *)(((struct Obj10822 *)p)->f50), buf);
         }
     }
 }

@@ -19,6 +19,7 @@
  *   func_0201CE38 0x0201CE38 thumb
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj05048.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,19 +37,19 @@ extern void func_020061E4(u32 a);
 
 u8 func_021B34F4(u8 *p)
 {
-    int r = func_0201CE30(*(void **)(p + 440));
+    int r = func_0201CE30(((struct Obj05048 *)p)->f1B8);
 
     if (r == 2) {
-        func_0201CE48(*(void **)(p + 440));
+        func_0201CE48(((struct Obj05048 *)p)->f1B8);
         return p[1];
     }
     if (r == 0) {
         if ((func_0203630C() & 1) || (func_0203630C() & 2)) {
-            func_0201CE5C(*(void **)(p + 440), 0);
+            func_0201CE5C(((struct Obj05048 *)p)->f1B8, 0);
         }
     } else if (r == 1) {
         if ((func_020362DC() & 1) || (func_020362DC() & 2)) {
-            func_0201CE38(*(void **)(p + 440));
+            func_0201CE38(((struct Obj05048 *)p)->f1B8);
             func_020061E4(1351);
         }
     }

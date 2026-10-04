@@ -14,6 +14,7 @@
  *   func_021F1F34 0x021F1F34 thumb ov032
  *   func_021F0DD8 0x021F0DD8 thumb ov032
  */
+#include "../include/Obj13066.h"
 
 typedef unsigned char u8;
 extern int func_021659F0(u8 *q, int delta);
@@ -24,7 +25,7 @@ void func_021F1F00(char *p, int a)
 {
     u8 *q;
     u8 index;
-    index = func_021659F0(*(u8 **)(p + 0x3c), a + *(u8 *)(p + 0x7c));
+    index = func_021659F0(*(u8 * *)&((struct Obj13066 *)p)->f3C, a + ((struct Obj13066 *)p)->f7C);
     q = func_021F0F44((u8 *)p, index);
     func_021F1F34(p, q, (int *)(p + 0xa8));
     func_021F0DD8(0x54c);

@@ -22,6 +22,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
  */
+#include "../include/Obj00990.h"
 extern int func_020221A4(void *);
 typedef unsigned char  u8;
 struct S020315D4;
@@ -42,22 +43,22 @@ extern char ov114_id[];
 int func_021D920C(void *a, int b, int c, char *p)
 {
     if (!func_020221A4(a)) return 0;
-    if (*(void **)(p+0x1c)) func_02027858(*(void **)(p+0x1c));
-    if (*(void **)(p+0x38)) {
-        func_020307B0(*(void **)(p+0x38));
-        *(void **)(p+0x38)=0;
+    if (((struct Obj00990 *)p)->f1C) func_02027858(((struct Obj00990 *)p)->f1C);
+    if (((struct Obj00990 *)p)->f38) {
+        func_020307B0(((struct Obj00990 *)p)->f38);
+        ((struct Obj00990 *)p)->f38=0;
     }
-    func_021D5644(*(void **)(p+0x18));
-    func_021D5E8C(*(void **)(p+0x14));
-    func_021D5B70(*(void **)(p+8));
-    if (*(void **)(p+0x30)) func_020307B0(*(void **)(p+0x30));
-    if (*(void **)(p+0x3c)) func_020307B0(*(void **)(p+0x3c));
-    if (*(void **)(p+0x40)) func_020307B0(*(void **)(p+0x40));
-    if (*(void **)(p+0xc)) func_020307B0(*(void **)(p+0xc));
-    if (*(void **)(p+0x44)) func_020307B0(*(void **)(p+0x44));
+    func_021D5644(((struct Obj00990 *)p)->f18);
+    func_021D5E8C(((struct Obj00990 *)p)->f14);
+    func_021D5B70(((struct Obj00990 *)p)->f8);
+    if (((struct Obj00990 *)p)->f30) func_020307B0(((struct Obj00990 *)p)->f30);
+    if (((struct Obj00990 *)p)->f3C) func_020307B0(((struct Obj00990 *)p)->f3C);
+    if (((struct Obj00990 *)p)->f40) func_020307B0(((struct Obj00990 *)p)->f40);
+    if (((struct Obj00990 *)p)->fC) func_020307B0(((struct Obj00990 *)p)->fC);
+    if (((struct Obj00990 *)p)->f44) func_020307B0(((struct Obj00990 *)p)->f44);
     if (func_0203CD98()) func_02156DE0(0,0);
-    if (*(void **)(p+0x10)) {
-        func_021B9838(*(void **)(p+0x10));
+    if (((struct Obj00990 *)p)->f10) {
+        func_021B9838(((struct Obj00990 *)p)->f10);
         func_02156DC4(0,0);
     }
     func_020315D4(a);

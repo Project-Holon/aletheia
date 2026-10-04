@@ -22,6 +22,7 @@
  *   func_02045770 0x02045770 arm
  *   func_0201C7D0 0x0201C7D0 thumb
  */
+#include "../include/Obj10668.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -39,13 +40,13 @@ u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
     switch (align) {
     case 0: x = 0; break;
     case 1:
-        width = (u8)func_0201D304(*(void **)(p + 0x4c), font, 0);
+        width = (u8)func_0201D304(((struct Obj10668 *)p)->f4C, font, 0);
         x = (u8)((u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - width);
         break;
     case 2:
-        width = (u8)func_0201D304(*(void **)(p + 0x4c), font, 0);
+        width = (u8)func_0201D304(((struct Obj10668 *)p)->f4C, font, 0);
         x = (u8)(((int)(u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - width) / 2);
         break;
     }
-    return func_0201C7D0(func_02045770(*(void **)(p + index * 4 + 4)), x, y, *(void **)(p + 0x4c), font, w);
+    return func_0201C7D0(func_02045770(*(void **)(p + index * 4 + 4)), x, y, ((struct Obj10668 *)p)->f4C, font, w);
 }

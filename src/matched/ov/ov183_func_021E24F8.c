@@ -11,6 +11,7 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj24669.h"
 extern void func_021FD860(int obj, int one, int *args);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -23,7 +24,7 @@ int func_021E24F8(char *p, int a, int b)
         int args[2];
         args[0] = a;
         args[1] = b;
-        func_021FD860(*(int *)(p + 0x18), 1, args);
+        func_021FD860(((struct Obj24669 *)p)->f18, 1, args);
         func_020061E4(0x703);
     }
     return ok;

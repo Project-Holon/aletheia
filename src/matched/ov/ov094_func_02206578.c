@@ -18,6 +18,7 @@
  *   func_02206710  0x02206710  thumb  ov094
  *   d_0220AEB0     0x0220AEB0  data   ov094
  */
+#include "../include/Obj00823.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -48,11 +49,11 @@ int func_02206578(char *s, int a, int b)
 
     if (b < 0)
         return a;
-    if ((func_0203630C() & 0x200) && a < 4 && (*(int *)(s + 0x58) == 2 || *(int *)(s + 0x58) == 5))
-        *(int *)(s + 0x70) = a | 0x8000;
+    if ((func_0203630C() & 0x200) && a < 4 && (((struct Obj00823 *)s)->f58 == 2 || ((struct Obj00823 *)s)->f58 == 5))
+        ((struct Obj00823 *)s)->f70 = a | 0x8000;
     else
-        *(int *)(s + 0x70) = a;
-    c = func_02030734((u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
+        ((struct Obj00823 *)s)->f70 = a;
+    c = func_02030734((u16)((((struct Obj00823 *)s)->f240 & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
     flag = 0;
     if ((0x10000 & b) == 0)
         flag = 1;
@@ -60,10 +61,10 @@ int func_02206578(char *s, int a, int b)
     c->s = s;
     c->f4 = 0;
     c->f8 = (u16)b;
-    if (*(int *)(s + 0x220) == 1 && c->f8 == 0)
+    if (((struct Obj00823 *)s)->f220 == 1 && c->f8 == 0)
         c->fc = 1;
     else
         c->fc = 0;
-    func_0220684C(s, (int)func_02030DA8(*(void **)s, (void *)func_0220663C, c, 0), (int)((void *)func_02206710));
+    func_0220684C(s, (int)func_02030DA8(((struct Obj00823 *)s)->f0, (void *)func_0220663C, c, 0), (int)((void *)func_02206710));
     return -1;
 }

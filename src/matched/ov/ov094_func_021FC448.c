@@ -36,6 +36,7 @@
  *   func_02048F60 0x02048F60 arm
  *   func_021FF374 0x021FF374 thumb ov094
  */
+#include "../include/Obj13598.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef union {
@@ -185,7 +186,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, p + *(int *)(p + 4));
+        func_0201127C(a, p + ((struct Obj13598 *)p)->f4);
         return 1;
     }
     id2 = s->h258;
@@ -199,7 +200,7 @@ int func_021FC448(void *a, State *s)
         s->flags.bit.b6 = 1;
         s->f4 = 0;
         s->flags.bit.b17 = 0;
-        func_0201127C(a, p + *(int *)(p + 4));
+        func_0201127C(a, p + ((struct Obj13598 *)p)->f4);
         return 1;
     }
     if (id2 != 0x27e) {

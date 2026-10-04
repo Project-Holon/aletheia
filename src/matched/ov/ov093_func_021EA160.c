@@ -16,6 +16,8 @@
  *   func_021ED250  0x021ED250  thumb  ov093
  *   func_021EA32C  0x021EA32C  thumb  ov093
  */
+#include "../include/Obj10108.h"
+#include "../include/Obj10109.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,12 +36,12 @@ int func_021EA160(int *st, char *ctx)
     t = func_021E9100((u8 *)ctx, 0xc);
     switch (*st) {
     case 0:
-        func_021ED208(*(char **)(ctx + 0x17c), t[0xa], *(u16 *)t, func_021CD9E0(*(u8 **)(ctx + 4)));
-        func_021EA32C(ctx, *(int *)(t + 4));
+        func_021ED208(*(char * *)&((struct Obj10108 *)ctx)->f17C, t[0xa], ((struct Obj10109 *)t)->f0, func_021CD9E0(*(u8 * *)&((struct Obj10108 *)ctx)->f4));
+        func_021EA32C(ctx, ((struct Obj10109 *)t)->f4);
         *st = *st + 1;
         break;
     case 1:
-        if (func_021ED250(*(char **)(ctx + 0x17c)) != 0) {
+        if (func_021ED250(*(char * *)&((struct Obj10108 *)ctx)->f17C) != 0) {
             return 1;
         }
         break;

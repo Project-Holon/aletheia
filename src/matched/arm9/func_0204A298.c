@@ -22,6 +22,7 @@
  * func_020490A8 returns is written through the fifth (stack) argument and
  * the same three arc_util.c line numbers appear, shifted by 43.
  */
+#include "../include/Obj16075.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -46,7 +47,7 @@ int func_0204A298(int a0, int a1, int a2, int a3, u32 *out)
     }
     func_02048F4C((void *)r, a0, a1);
     if (a2 != 0) {
-        *out = *(u32 *)r >> 8;
+        *out = ((struct Obj16075 *)r)->f0 >> 8;
         t = (int)func_02030734(a3, *out, 0, sArcUtil3730, 1656);
         func_020834C0(r, t);
         func_020307B0((void *)r);

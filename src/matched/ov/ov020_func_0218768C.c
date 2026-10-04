@@ -12,17 +12,18 @@
  * symbols:
  *   func_021876B0 0x021876B0 thumb ov020
  */
+#include "../include/Obj07404.h"
 typedef struct { int index; char *base; } Pair;
 extern void func_021876B0(Pair *p, int tick);
 void func_0218768C(char *p)
 {
     Pair pair;
     char *base;
-    (*(int *)(p + 0x18))++;
-    base = *(char **)(p + 0x14);
+    (((struct Obj07404 *)p)->f18)++;
+    base = *(char * *)&((struct Obj07404 *)p)->f14;
     if (base != (char *)-1) {
-        pair.index = *(int *)(p + 0xc);
+        pair.index = ((struct Obj07404 *)p)->fC;
         pair.base = base;
-        func_021876B0(&pair, *(int *)(p + 0x18));
+        func_021876B0(&pair, ((struct Obj07404 *)p)->f18);
     }
 }

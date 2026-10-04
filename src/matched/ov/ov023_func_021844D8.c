@@ -20,6 +20,7 @@
  *   func_0203996C  0x0203996C  arm
  *   func_0203AA94  0x0203AA94  arm
  */
+#include "../include/Obj01674.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -43,14 +44,14 @@ void func_021844D8(char *p, int x)
     u32 sum;
     u8 c;
 
-    t = (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x118))));
+    t = (u32)func_020437D4((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj01674 *)p)->f118)));
     func_02082B0C(t + x * 1000, p + 0x7ad0, 1000);
     q = (u32 *)(p + 0x7ad0);
     sum = 0;
     for (i = 0; i < 250; i++)
         sum ^= q[i];
-    *(u32 *)(p + 0x7eb8) = sum;
-    *(u8 *)(p + 0x7ebc) = x;
-    c = func_021841A0(*(u32 *)*(u32 **)(p + 4));
+    ((struct Obj01674 *)p)->f7EB8 = sum;
+    ((struct Obj01674 *)p)->f7EBC = x;
+    c = func_021841A0(*(u32 *)*(u32 * *)&((struct Obj01674 *)p)->f4);
     func_0203AA94((u32)func_0203996C(0xff), c, 0x2900, 0x3f0, (u32)(p + 0x7ad0));
 }

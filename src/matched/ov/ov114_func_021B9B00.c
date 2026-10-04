@@ -12,6 +12,7 @@
  *
  * Fills the 0x64-byte header: type 0x15, sub-type 2, the four date fields from `a`, an 8-byte owner string and the three zero slots.
  */
+#include "../include/Obj03764.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,9 +32,9 @@ void func_021B9B00(u8 *p, int a)
     p[1] = 2;
     p[2] = func_0200856C((const struct Sub0200852CObj *)a);
     p[3] = func_02008570((const struct Sub0200852CObj *)a);
-    *(u32 *)(p + 4) = func_02008530((const struct Sub0200852CObj *)a);
+    ((struct Obj03764 *)p)->f4 = func_02008530((const struct Sub0200852CObj *)a);
     func_0201F41C((const u16 *)func_020084F4(a), (u16 *)(p + 8), 8);
-    *(u32 *)(p + 0x18) = 0;
-    *(u8 *)(p + 0x24) = 0;
-    *(u32 *)(p + 0x5c) = 0;
+    ((struct Obj03764 *)p)->f18 = 0;
+    ((struct Obj03764 *)p)->f24 = 0;
+    ((struct Obj03764 *)p)->f5C = 0;
 }

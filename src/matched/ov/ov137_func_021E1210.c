@@ -10,10 +10,11 @@
  * symbols:
 
  */
+#include "../include/Obj23796.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 int func_021E1210(char *p)
 {
-    return *(int *)(p + 0xc7c);
+    return ((struct Obj23796 *)p)->fC7C;
 }

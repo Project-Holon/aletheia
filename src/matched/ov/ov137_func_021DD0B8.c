@@ -22,6 +22,10 @@
  * func_020315D4 0x020315D4 arm
  * func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj02207.h"
+#include "../include/Obj23709.h"
+#include "../include/Obj23710.h"
+#include "../include/Obj23711.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -46,15 +50,15 @@ extern u32 func_021DE354(void *),func_021DE37C(void *);
 extern void func_021DD380(void *),func_020315D4(void *),func_020306F0(unsigned int);
 int func_021DD0B8(void *a,int b,void *c,u8 *p)
 {
-    func_0203115C((struct Tcbl *)(*(u32 *)(p+244))); func_02031140((struct S02031140 *)(*(u32 *)(p+244)));
-    func_0201C6EC((struct PrintSys *)(*(u32 *)(p+236))); func_0201C4C0((struct PrintSys *)(*(u32 *)(p+236)));
+    func_0203115C((struct Tcbl *)(((struct Obj02207 *)p)->fF4)); func_02031140((struct S02031140 *)(((struct Obj02207 *)p)->fF4));
+    func_0201C6EC((struct PrintSys *)(((struct Obj02207 *)p)->fEC)); func_0201C4C0((struct PrintSys *)(((struct Obj02207 *)p)->fEC));
     func_021DD570(p); func_021DD3B0(func_021DD760(p));
-    func_02045C04((struct Rec *)(*(u32 *)(p+64))); func_0201ED04((struct WordSet *)(*(u32 *)(p+60))); func_0201D83C((void *)(*(u32 *)(p+56)));
+    func_02045C04((struct Rec *)(((struct Obj02207 *)p)->f40)); func_0201ED04((struct WordSet *)(((struct Obj02207 *)p)->f3C)); func_0201D83C((void *)(((struct Obj02207 *)p)->f38));
     *(volatile u16 *)0x04000304 |= 0x8000;
-    func_02030EAC((struct Node *)(*(u32 *)(p+48)));
-    *(u32 *)(*(u8 **)(p+12)+16)=*(u32 *)(p+8);
-    *(u32 *)(*(u8 **)(p+12)+8)=func_021DE354(p);
-    *(u32 *)(*(u8 **)(p+12)+12)=func_021DE37C(p);
+    func_02030EAC((struct Node *)(((struct Obj02207 *)p)->f30));
+    ((struct Obj23709 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f10=((struct Obj02207 *)p)->f8;
+    ((struct Obj23710 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->f8=func_021DE354(p);
+    ((struct Obj23711 *)(*(u8 * *)&((struct Obj02207 *)p)->fC))->fC=func_021DE37C(p);
     func_021DD380(p); func_020315D4(a); func_020306F0(114);
     return 1;
 }

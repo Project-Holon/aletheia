@@ -12,10 +12,11 @@
  * symbols:
  *   func_021B6448 0x021B6448 thumb ov067
  */
+#include "../include/Obj13193.h"
 extern int func_021B6448(unsigned char *);
 int func_021BA028(char *p) {
     int n;
-    n = func_021B6448(*(unsigned char **)(p + 12));
-    if (n == -1) n = *(int *)(p + 24);
+    n = func_021B6448(*(unsigned char * *)&((struct Obj13193 *)p)->fC);
+    if (n == -1) n = ((struct Obj13193 *)p)->f18;
     return n;
 }

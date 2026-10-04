@@ -14,6 +14,7 @@
  *   func_02012E40  0x02012E40  thumb
  *   func_02175060  0x02175060  thumb ov011
  */
+#include "../include/Obj01838.h"
 
 typedef unsigned char u8;
 
@@ -32,7 +33,7 @@ void func_02175004(u8 *p)
 {
     u8 i;
 
-    if (func_02012E40((const u8 *)func_02026478((void *)(*(int *)(p + 4)))) == 1) {
+    if (func_02012E40((const u8 *)func_02026478((void *)(((struct Obj01838 *)p)->f4))) == 1) {
         return;
     }
     if (((Fl *)(p + 0x904))->b1 == 1) {

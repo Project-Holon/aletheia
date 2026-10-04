@@ -17,14 +17,15 @@
  *   python tools/match.py one --src src/matched/sub_0202C118.c \
  *       --func sub_0202C118 --addr 0x0202C118 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04107.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 void sub_0202C118(void *obj)
 {
-    *(u32 *)obj = 0;
-    *(u8 *)((char *)obj + 4) = 0;
-    *(u32 *)((char *)obj + 8) = 0;
-    *(u32 *)((char *)obj + 0xc) = 0;
+    ((struct Obj04107 *)obj)->f0 = 0;
+    ((struct Obj04107 *)obj)->f4 = 0;
+    ((struct Obj04107 *)obj)->f8 = 0;
+    ((struct Obj04107 *)obj)->fC = 0;
 }

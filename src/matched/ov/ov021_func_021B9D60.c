@@ -39,6 +39,7 @@
  *   d_021D9A60     0x021D9A60  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09633.h"
 
 typedef unsigned char  u8;
 typedef long long      s64;
@@ -88,9 +89,9 @@ void func_021B9D60(void *p, V *out)
     b = (V *)(tb + 0x30);
     s = func_0207C768(func_021B82F8(p) << 12, func_021B82FC(p) << 12);
     q = func_021B835C(p);
-    c.x = *(int *)(q + 4);
-    c.y = *(int *)(q + 8);
-    c.z = *(int *)(q + 0xc);
+    c.x = ((struct Obj09633 *)q)->f4;
+    c.y = ((struct Obj09633 *)q)->f8;
+    c.z = ((struct Obj09633 *)q)->fC;
     func_0207CA00(a, &c, &d);
     func_0207CA00(b, &c, &e);
     func_0207CA00(&e, &d, &f);

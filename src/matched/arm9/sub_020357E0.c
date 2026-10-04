@@ -29,6 +29,7 @@
  *   TP_GetUserInfo       0x0208A998  arm
  *   TP_SetCalibrateParam 0x0208AA2C  arm
  */
+#include "../include/Obj07103.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,8 +50,8 @@ void *sub_020357E0(u32 id)
     void *p = func_02030734(id, 0x7c, 0, str_020A798C, 0x83);
 
     MI_CpuFill8(p, 0, 0x7c);
-    *(u16 *)((u8 *)p + 0x58) = 0;
-    *(u16 *)((u8 *)p + 0x5a) = 0;
+    ((struct Obj07103 *)p)->f58 = 0;
+    ((struct Obj07103 *)p)->f5A = 0;
     TP_Init();
     if (TP_GetUserInfo(info) == 1) {
         TP_SetCalibrateParam(info);
@@ -61,8 +62,8 @@ void *sub_020357E0(u32 id)
         info[3] = 0x1208;
         TP_SetCalibrateParam(info);
     }
-    *(u8 *)((u8 *)p + 0x75) = 4;
-    *(u8 *)((u8 *)p + 0x76) = 0;
+    ((struct Obj07103 *)p)->f75 = 4;
+    ((struct Obj07103 *)p)->f76 = 0;
     g_021469C4 = p;
     return p;
 }

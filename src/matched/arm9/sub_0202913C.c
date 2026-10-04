@@ -12,6 +12,7 @@
  * symbols:
  *   sub_02029344  0x02029344  thumb
  */
+#include "../include/Obj16755.h"
 
 typedef unsigned int u32;
 
@@ -19,7 +20,7 @@ extern void sub_02029344(void *obj, u32 value);
 
 void func_0202913C(void *obj)
 {
-    switch (*(u32 *)((char *)obj + 0x1c)) {
+    switch (((struct Obj16755 *)obj)->f1C) {
     case 0:
     case 5:
         break;

@@ -20,6 +20,7 @@
  *   func_0217DB0C 0x0217DB0C thumb ov176
  *   func_0217DBE0 0x0217DBE0 thumb ov176
  */
+#include "../include/Obj14366.h"
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200B358(void *sys);
@@ -41,7 +42,7 @@ void func_0217D458(int a, int unused, char *p)
     void *m;
     unsigned x;
     unsigned y;
-    m = func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 0x30))), *(int *)(p + 0x14));
+    m = func_0200B1D4(func_0200B358(func_02012EBC(((struct Obj14366 *)p)->f30)), ((struct Obj14366 *)p)->f14);
     x = func_0200B078(m, 2);
     y = func_0200B078(m, 10);
     if (x && y == 1) {

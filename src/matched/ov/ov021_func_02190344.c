@@ -12,6 +12,7 @@
  * symbols:
  *   func_02194798  0x02194798  thumb
  */
+#include "../include/Obj04205.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,13 +27,13 @@ extern void func_020403F4(u8 a);
 
 void func_02190344(u8 *a)
 {
-    if (*(void **)(a + 0x15c) != 0) {
-        func_02194798(*(void **)(a + 0x15c));
-        *(void **)(a + 0x15c) = 0;
+    if (((struct Obj04205 *)a)->f15C != 0) {
+        func_02194798(((struct Obj04205 *)a)->f15C);
+        ((struct Obj04205 *)a)->f15C = 0;
     }
-    if (*(u16 *)(a + 2) != 0xff) {
-        func_02040DA8(*(u16 *)(a + 2), 1, 0);
-        func_020403F4(*(u16 *)(a + 2));
-        *(u16 *)(a + 2) = 0xff;
+    if (((struct Obj04205 *)a)->f2 != 0xff) {
+        func_02040DA8(((struct Obj04205 *)a)->f2, 1, 0);
+        func_020403F4(((struct Obj04205 *)a)->f2);
+        ((struct Obj04205 *)a)->f2 = 0xff;
     }
 }

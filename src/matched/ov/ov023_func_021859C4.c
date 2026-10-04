@@ -16,6 +16,7 @@
  *   func_02186444  0x02186444  thumb  ov023
  *   func_02185354  0x02185354  thumb  ov023
  */
+#include "../include/Obj06119.h"
 
 extern int  func_0218654C(char *p);
 extern int  func_02186558(char *p);
@@ -26,12 +27,12 @@ extern void func_02185354(char *p);
 
 int func_021859C4(char *p, int a1)
 {
-    if (!((*(int *)(p + 0x927c) == 0 || *(int *)(p + 0x927c) == func_0218654C(p))
-          && (func_02186558(p) & *(int *)(p + 0x9280))))
-        *(int *)(p + 0x927c) = 0;
+    if (!((((struct Obj06119 *)p)->f927C == 0 || ((struct Obj06119 *)p)->f927C == func_0218654C(p))
+          && (func_02186558(p) & ((struct Obj06119 *)p)->f9280)))
+        ((struct Obj06119 *)p)->f927C = 0;
     if (func_021862B0(p)) {
         func_02186444(p, 0x1a);
-        *(int *)(p + 0x1a4) = 0;
+        ((struct Obj06119 *)p)->f1A4 = 0;
     }
     func_02185354(p);
     return a1;

@@ -26,6 +26,8 @@
  *   func_021F0EF4  0x021F0EF4  thumb  ov031
  *   func_02173934  0x02173934  thumb  ov012
  */
+#include "../include/Obj01128.h"
+#include "../include/Obj07628.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,7 +59,7 @@ void func_021F00D4(char *p, int mode)
     u8 *r;
     int res;
 
-    s = (void *)func_02012138(*(void **)p);
+    s = (void *)func_02012138(((struct Obj01128 *)p)->f0);
     q = (u8 *)func_02026474(s);
     if (q != 0) {
         r = q + 0x2830;
@@ -66,13 +68,13 @@ void func_021F00D4(char *p, int mode)
             r[0xe] = 0;
         }
         func_021F0680(p, q + 0x30E0);
-        if (*(int *)(q + 0x351C) >= 3)
-            func_0204B3DC((struct Obj *)*(int *)(p + 0x2C), 1);
+        if (((struct Obj07628 *)q)->f351C >= 3)
+            func_0204B3DC((struct Obj *)((struct Obj01128 *)p)->f2C, 1);
     }
     if (mode == 1) {
         res = func_021F0584(p, q);
         if (q != 0 && res == 1) {
-            switch (*(u8 *)(p + 0x30)) {
+            switch (((struct Obj01128 *)p)->f30) {
             case 0:
                 break;
             case 1:
@@ -91,10 +93,10 @@ void func_021F00D4(char *p, int mode)
                 break;
             }
         }
-        *(u8 *)(p + 0x31) = func_021F0B98(p);
-        if (*(u8 *)(p + 0x31) == 0)
-            *(u8 *)(p + 0x31) = func_021F0D64(p);
-        if (*(u8 *)(p + 0x31) == 0 && q != 0)
+        ((struct Obj01128 *)p)->f31 = func_021F0B98(p);
+        if (((struct Obj01128 *)p)->f31 == 0)
+            ((struct Obj01128 *)p)->f31 = func_021F0D64(p);
+        if (((struct Obj01128 *)p)->f31 == 0 && q != 0)
             func_021F0FE0(p, q);
     }
     if (q != 0) {
@@ -104,5 +106,5 @@ void func_021F00D4(char *p, int mode)
         func_021F0EF4(p, q + 0x30E0);
     }
     if (func_02026454(s) == 3 && q != 0)
-        func_02173934(q, *(u8 *)(p + 0x30));
+        func_02173934(q, ((struct Obj01128 *)p)->f30);
 }

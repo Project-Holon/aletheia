@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj01753.h"
+#include "../include/Obj23803.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,5 +21,5 @@ typedef signed int s32;
 
 int func_021E16C4(char *p, int mask)
 {
-    return (*(u16 *)(*(char **)(p + 0xDC) + 0x40) & mask) != 0;
+    return (((struct Obj23803 *)(*(char * *)&((struct Obj01753 *)p)->fDC))->f40 & mask) != 0;
 }

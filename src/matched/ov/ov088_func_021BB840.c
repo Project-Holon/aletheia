@@ -11,10 +11,11 @@
  *
  * Screen row of a menu row top y: y plus the scroll offset at +0x130 / 8.
  */
+#include "../include/Obj20820.h"
 
 typedef signed char s8;
 
 int func_021BB840(char *p, int y)
 {
-    return (s8)(y + *(int *)(p + 0x130) / 8);
+    return (s8)(y + ((struct Obj20820 *)p)->f130 / 8);
 }

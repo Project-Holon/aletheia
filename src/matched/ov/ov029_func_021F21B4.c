@@ -14,6 +14,7 @@
  *   func_021EFEF8  0x021EFEF8  thumb  ov029
  *   func_021F2180  0x021F2180  thumb  ov029
  */
+#include "../include/Obj00042.h"
 
 extern int func_021F1060(void *);
 extern void func_021F0300(void *);
@@ -27,9 +28,9 @@ void func_021F21B4(char *p)
     if (func_021F1060(p) == 0) {
         f = *(void (**)(int))(p + 0x1fc);
         if (f)
-            f(*(int *)(p + 0x200));
-        *(int *)(p + 0x1fc) = 0;
-        *(int *)(p + 0x200) = 0;
+            f(*(int *)&((struct Obj00042 *)p)->f200);
+        *(int *)&((struct Obj00042 *)p)->f1FC = 0;
+        *(int *)&((struct Obj00042 *)p)->f200 = 0;
         return;
     }
     func_021F0300(p);

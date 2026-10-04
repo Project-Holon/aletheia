@@ -14,6 +14,8 @@
  *   func_0201F5BC  0x0201F5BC  thumb
  *   func_02049B40  0x02049B40  arm
  */
+#include "../include/Obj00029.h"
+#include "../include/Obj17747.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,10 +47,10 @@ a3 = 0x1e;
 t4 = 6;
     a0 = func_020450F0(a0, a1, a2, a3, o4, o5, o6);
 loc_02169E6C:
-a1 = *(int *)((char *)t5 + 0x18);
+a1 = *(int *)&((struct Obj00029 *)t5)->f18;
 a2 = 0xd;
-*(int *)((char *)a1 + 8) = a0;
-a0 = *(u16 *)((char *)t5 + 0x10);
+((struct Obj17747 *)a1)->f8 = a0;
+a0 = ((struct Obj00029 *)t5)->f10;
 a1 = 1;
 a3 = 0;
     o4 = a0;
@@ -57,7 +59,7 @@ a0 = 6;
 loc_02169E80:
 a0 = 0x20;
     o4 = a0;
-a0 = *(u16 *)((char *)t5 + 0x10);
+a0 = ((struct Obj00029 *)t5)->f10;
 a1 = 5;
 a2 = 4;
     o5 = a0;

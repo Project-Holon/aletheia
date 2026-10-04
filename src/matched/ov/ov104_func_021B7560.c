@@ -39,6 +39,7 @@
  *   func_021B817C 0x021B817C thumb ov104
  *   func_021B8198 0x021B8198 thumb ov104
  */
+#include "../include/Obj07986.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -85,7 +86,7 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  func_021B7D28(p+0xbc,0,0x38);
  if(*(void **)CTX(p)) func_02012138(*(struct Ctx **)CTX(p));
  func_021B7DF0(p+0xcc,5,1,18,30,5,8,0x38);
- func_0201F73C(*(void **)(p+0xcc),0,*(u32 *)p,6);
+ func_0201F73C(((struct Obj07986 *)p)->fCC,0,((struct Obj07986 *)p)->f0,6);
  func_021B8E90(p+0x7cc,0x38);
  if(*(void **)CTX(p)) func_021B8030(p+0xcc,p+0xbc,0,*(u8 **)(CTX(p)+8),0,0,0x38);
  else func_021B7F1C(p+0xcc,p+0xbc,0,0,0);
@@ -103,10 +104,10 @@ int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  bank=func_021B7974(p);
  tag=func_021B7DE0(p+0xbc);
  font=func_021B7DE4(p+0xbc);
- *(void **)(p+0x7ac)=func_021B70DC(2,bank,0,14,13,2,tag,font,0x38);
+ ((struct Obj07986 *)p)->f7AC=func_021B70DC(2,bank,0,14,13,2,tag,font,0x38);
  func_021B63CC(*(int **)(CTX(p)+4),1);
  func_0207D658(0x04000050,0x22,-8);
- *(void **)(p+0x8a4)=func_020056A0((u32)func_021B8F08,(u32)p,0);
+ ((struct Obj07986 *)p)->f8A4=func_020056A0((u32)func_021B8F08,(u32)p,0);
  func_021B817C(p,func_021B8198);
  return 1;
 }

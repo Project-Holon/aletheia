@@ -20,6 +20,7 @@
  *   func_0200E8F8  0x0200E8F8  thumb
  *   func_02168EB0  0x02168EB0  thumb
  */
+#include "../include/Obj04944.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -47,7 +48,7 @@ int func_02168E5C(int a, int b, int c)
     int *p = func_020124E8((struct Obj *)h);
     p[0] = a;
     p[1] = (int)func_0201210C((void *)a); /* int-typed on purpose: field is int in record */
-    *(u8 *)(p + 2) = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)x));
+    ((struct Obj04944 *)p)->f8 = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)x));
     p[3] = (int)func_0200E8F8(func_02012EBC((struct Big *)x));
     p[4] = b;
     p[5] = c;

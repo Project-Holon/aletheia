@@ -17,6 +17,7 @@
  *   func_02029D7C  0x02029D7C  thumb
  *   func_02184360  0x02184360  thumb  ov020
  */
+#include "../include/Obj04972.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,9 +40,9 @@ int func_02184504(int a, int *state, u8 *p)
     int z;
     int y;
 
-    x = *(int *)(p + 0);
-    z = *(int *)(p + 8);
-    y = *(int *)(p + 4);
+    x = ((struct Obj04972 *)p)->f0;
+    z = ((struct Obj04972 *)p)->f8;
+    y = ((struct Obj04972 *)p)->f4;
     v = func_02012A30((const struct BigObj *)y);
 
     switch (*state) {
@@ -51,12 +52,12 @@ int func_02184504(int a, int *state, u8 *p)
         (*state)++;
         break;
     case 1:
-        func_02029D44(v, y, *(u16 *)(p + 0x14), (u8)*(u16 *)(p + 0x4a));
+        func_02029D44(v, y, ((struct Obj04972 *)p)->f14, (u8)((struct Obj04972 *)p)->f4A);
         func_02029D7C(v, y);
         (*state)++;
         break;
     case 2:
-        r = (int)func_02184360(p, *(u8 *)(p + 0x30));
+        r = (int)func_02184360(p, ((struct Obj04972 *)p)->f30);
         func_02012374((struct Evt *)a, (struct Evt **)r);
         (*state)++;
         break;

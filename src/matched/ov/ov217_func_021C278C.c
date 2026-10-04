@@ -17,6 +17,8 @@
  *   func_021C28A4  0x021C28A4  thumb  ov217
  *   func_021C2894  0x021C2894  thumb  ov217
  */
+#include "../include/Obj03957.h"
+#include "../include/Obj03958.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -42,40 +44,40 @@ extern u32 func_021C2894(void *p);
 void func_021C278C(u8 *p)
 {
     u32 z = 0;
-    void *h = *(void **)(p + 0x10);
+    void *h = ((struct Obj03957 *)p)->f10;
     u8 *q = p + 0x20;
     u16 pos[2];
 
-    pos[0] = *(u32 *)(p + 4);
-    pos[1] = *(u32 *)(p + 8);
+    pos[0] = ((struct Obj03957 *)p)->f4;
+    pos[1] = ((struct Obj03957 *)p)->f8;
 
-    func_0204B404(h, pos, *(u16 *)(q + 0xc));
-    func_0204B878(h, *(u16 *)(q + 0x10));
+    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_0204B878(h, ((struct Obj03958 *)q)->f10);
 
     func_0204B8C4(h, 0);
     func_0204B974(h);
     func_0204B3DC(h, 0);
 
-    h = *(void **)(p + 0x14);
+    h = ((struct Obj03957 *)p)->f14;
     func_021C28EC(p, pos, pos + 1);
-    func_0204B404(h, pos, *(u16 *)(q + 0xc));
-    func_0204B878(h, *(u16 *)(q + 0xe));
+    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_0204B878(h, ((struct Obj03958 *)q)->fE);
     func_0204B8C4(h, func_021C28BC(p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, 0);
 
-    h = *(void **)(p + 0x18);
+    h = ((struct Obj03957 *)p)->f18;
     func_021C28DC(p, pos, pos + 1);
-    func_0204B404(h, pos, *(u16 *)(q + 0xc));
-    func_0204B878(h, *(u16 *)(q + 0xe));
+    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_0204B878(h, ((struct Obj03958 *)q)->fE);
     func_0204B8C4(h, func_021C28A4(p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, 0);
 
-    h = *(void **)(p + 0x1c);
+    h = ((struct Obj03957 *)p)->f1C;
     func_021C28CC(p, pos, pos + 1);
-    func_0204B404(h, pos, *(u16 *)(q + 0xc));
-    func_0204B878(h, *(u16 *)(q + 0xe));
+    func_0204B404(h, pos, ((struct Obj03958 *)q)->fC);
+    func_0204B878(h, ((struct Obj03958 *)q)->fE);
     func_0204B8C4(h, func_021C2894(p) << 12);
     func_0204B974(h);
     func_0204B3DC(h, z);

@@ -34,6 +34,7 @@
  *   func_02045808 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj06644.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -80,10 +81,10 @@ void func_022056E8(u32 *a, char *b)
     save = func_0201292C((const struct BigObj *)a[0]);
     if ((int)func_0201AA18((void *)a[1]) >= func_0201AA14(a[1]))
         return;
-    if (func_02007F68(save, 4, 1, *(u16 *)b) == 0)
+    if (func_02007F68(save, 4, 1, ((struct Obj06644 *)b)->f0) == 0)
         return;
-    p = (u32)func_02030734(*(u16 *)b, func_020173EC(), 1, (const char *)d_02208F40, 0xaf5);
-    func_02019CE0((const struct RecDC *)(*(u32 *)(b + 0x10)), (struct RecDC *)p);
+    p = (u32)func_02030734(((struct Obj06644 *)b)->f0, func_020173EC(), 1, (const char *)d_02208F40, 0xaf5);
+    func_02019CE0((const struct RecDC *)(((struct Obj06644 *)b)->f10), (struct RecDC *)p);
     func_020178D8((void *)p, 0x124);
     func_02017E40((void *)p, 0x98, 4);
     func_02017E40((void *)p, 6, 0);
@@ -98,12 +99,12 @@ void func_022056E8(u32 *a, char *b)
     func_02017E40((void *)p, 0x73, v);
     func_02045808((struct U16Vec *)v);
     func_02017E40((void *)p, 0x9d, 0);
-    v = (u32)func_02008F08(*(u16 *)b);
+    v = (u32)func_02008F08(((struct Obj06644 *)b)->f0);
     func_02017E40((void *)p, 0xa7, v);
     func_020307B0((void *)v);
     func_02017E40((void *)p, 0x9f, 0);
     func_0201A98C((void *)a[1], (void *)p);
-    func_02007F1C(save, 4, 1, *(u16 *)b);
+    func_02007F1C(save, 4, 1, ((struct Obj06644 *)b)->f0);
     func_020307B0((void *)p);
     q = (u32)func_0200CA1C((void *)a[0]);
     func_0200CFA0((struct Blk37 *)q, (void *)p);

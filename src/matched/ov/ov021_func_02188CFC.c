@@ -15,6 +15,7 @@
  *   func_021A6DC0  0x021A6DC0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,10 +30,10 @@ extern u32 func_021A6DC0(u8 *p);
 u32 func_02188CFC(u8 *p)
 {
     u32 r;
-    u32 k = data_021D35A8[**(u32 **)(p + 0x108)];
+    u32 k = data_021D35A8[**(u32 * *)&((struct Obj00020 *)p)->f108];
 
     if (k == 2)
-        k = func_021A6DC0(*(void **)(p + 0x10C));
+        k = func_021A6DC0(((struct Obj00020 *)p)->f10C);
     r = k;
     return r;
 }

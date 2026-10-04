@@ -11,6 +11,7 @@
  *
  * Stores v at +0xf2c (pooled field offset).
  */
+#include "../include/Obj22690.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,4 +20,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D6738(u8 *p, u32 v) { *(u32 *)(p + 0xf2c) = v; }
+void func_021D6738(u8 *p, u32 v) { ((struct Obj22690 *)p)->fF2C = v; }

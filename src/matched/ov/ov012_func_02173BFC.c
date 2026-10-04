@@ -16,6 +16,8 @@
  *   func_02012944  0x02012944  thumb
  *   func_021CD624  0x021CD624  thumb  ov021
  */
+#include "../include/Obj12447.h"
+#include "../include/Obj19256.h"
 
 typedef unsigned char u8;
 
@@ -33,8 +35,8 @@ void func_02173BFC(int a, int x, u8 *b, u8 *p)
     int r7;
     int buf[2];
 
-    r4 = *(int **)(p + 0x355C);
-    r7 = (int)func_020120F4((const struct Ctx *)(*(int *)(*(u8 **)p + 0xc)));
+    r4 = *(int * *)&((struct Obj12447 *)p)->f355C;
+    r7 = (int)func_020120F4((const struct Ctx *)(((struct Obj19256 *)(*(u8 * *)&((struct Obj12447 *)p)->f0))->fC));
     if (r4 == 0 || r4[0] == 0 || r4[0x5a] == 0) {
         func_02034714((void *)0x02175624, 0, (void *)0x02175624);
         return;

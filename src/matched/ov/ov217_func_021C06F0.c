@@ -14,6 +14,7 @@
  *   func_02025774 0x02025774 thumb
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj25967.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -41,7 +42,7 @@ void func_021C06F0(u8 *p)
     uploadOff=0x3B0; uploadOff=0x3A8;
     for(i=0;i<2;i++) {
         dest=p+i*4;
-        param.bmp=*(void **)(dest+0x3B0);
+        param.bmp=((struct Obj25967 *)dest)->f3B0;
         q=&d_021C377C[i];
         param.x=q->x; param.y=q->y;
         param.f8=func_021BF9F0(p,q->f8);

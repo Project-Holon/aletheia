@@ -14,6 +14,7 @@
  *   func_02190938  0x02190938  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19589.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,5 +34,5 @@ extern Handle *func_02190938(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u32 g, u3
 
 Handle *func_02190960(u16 *a, const u8 *b, u32 c, u16 d, u16 e)
 {
-    return func_02190938(a, b, c, d, e, 0, *(u32 *)(b + 0x1c), 0);
+    return func_02190938(a, b, c, d, e, 0, ((struct Obj19589 *)b)->f1C, 0);
 }

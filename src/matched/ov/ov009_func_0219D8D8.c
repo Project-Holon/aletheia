@@ -24,8 +24,9 @@
  *       --func func_0219D8D8 --addr 0x0219D8D8 --region ov009 --arm \
  *       --cc 1.1p1 --lang c99
  */
+#include "../include/Obj18670.h"
 
 void func_0219D8D8(int *engine, int publicip)
 {
-    *(int *)((char *)engine + 0x28) = publicip;
+    ((struct Obj18670 *)engine)->f28 = publicip;
 }

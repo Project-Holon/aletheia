@@ -25,6 +25,7 @@
  *   func_02045808 0x02045808 arm
  *   d_020A7370 0x020A7370 data
  */
+#include "../include/Obj00031.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,12 +48,12 @@ extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, void *text, u32 f, u16 c
 extern void func_02045808(struct U16Vec *vec);
 void func_021BAA4C(char *p)
 {
-    int l2c = *(int *)(p+0x1e0);
-    int l28 = *(int *)(p+0x1e4);
-    int l24 = *(int *)(p+0x1e8);
-    int l20 = *(int *)(p+0x1ec);
-    int l1c = *(int *)(p+0x1f0);
-    u16 t = *(u16 *)(p+0xc);
+    int l2c = ((struct Obj00031 *)p)->f1E0;
+    int l28 = ((struct Obj00031 *)p)->f1E4;
+    int l24 = ((struct Obj00031 *)p)->f1E8;
+    int l20 = ((struct Obj00031 *)p)->f1EC;
+    int l1c = ((struct Obj00031 *)p)->f1F0;
+    u16 t = ((struct Obj00031 *)p)->fC;
     u16 i = 0;
     u32 h2;
     u16 r7;
@@ -60,49 +61,49 @@ void func_021BAA4C(char *p)
     u16 m;
     void *name;
     u8 k;
-    if (*(u16 *)(p+0xe) != 0) {
-        u16 *arr = *(u16 **)(p+0x2b0);
+    if (((struct Obj00031 *)p)->fE != 0) {
+        u16 *arr = *(u16 * *)&((struct Obj00031 *)p)->f2B0;
         do {
             t = arr[t];
             if (t == 0) break;
             i = (u16)(i + 1);
-        } while (i != *(u16 *)(p+0xe));
+        } while (i != ((struct Obj00031 *)p)->fE);
     }
-    if (t == 0) t = *(u16 *)(p+0xc);
-    if (*(int *)(p+0x18) != 2) {
-        func_021BAA08(*(u16 *)p, *(int *)(p+0x6c), l2c, *(int *)(p+0x2c), *(int *)(p+0x28), 0x90, 0, 5, 0x3c40, 2, 0);
+    if (t == 0) t = ((struct Obj00031 *)p)->fC;
+    if (((struct Obj00031 *)p)->f18 != 2) {
+        func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f6C, l2c, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, 0x90, 0, 5, 0x3c40, 2, 0);
     }
-    r7 = *(u16 *)(p+0xc);
-    if (*(int *)(p+4) == 0) {
-        u16 *tab = func_0201AF80(*(u16 *)p, 0);
-        r7 = tab[*(u16 *)(p+0xc)];
+    r7 = ((struct Obj00031 *)p)->fC;
+    if (((struct Obj00031 *)p)->f4 == 0) {
+        u16 *tab = func_0201AF80(((struct Obj00031 *)p)->f0, 0);
+        r7 = tab[((struct Obj00031 *)p)->fC];
         func_020307B0(tab);
     }
     if (r7 != 0x3e7) {
-        h2 = (u32)func_0201EC64(*(u16 *)p);
+        h2 = (u32)func_0201EC64(((struct Obj00031 *)p)->f0);
         func_0201EFA4((struct WordSet *)h2, 0, r7, 3, 2, 1);
-        func_021BA960(*(u16 *)p, *(int *)(p+0x70), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x270), 8, 5, 0x3e7 + 0x59, 0, h2);
+        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f270, 8, 5, 0x3e7 + 0x59, 0, h2);
         func_0201ED04((struct WordSet *)h2);
     } else {
-        func_021BA960(*(u16 *)p, *(int *)(p+0x70), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x274), 8, 5, 0x3e7 + 0x59, 0, 0);
+        func_021BA960(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f274, 8, 5, 0x3e7 + 0x59, 0, 0);
     }
-    name = func_02045EC0(d_020A7370, *(u16 *)(p+0xc));
-    func_0201C724(*(int *)(p+0x2c), (u32)func_02045770(*(void **)(p+0x70)), 0x30, 5, name, *(int *)(p+0x28), 0x440);
+    name = func_02045EC0(d_020A7370, ((struct Obj00031 *)p)->fC);
+    func_0201C724(((struct Obj00031 *)p)->f2C, (u32)func_02045770(((struct Obj00031 *)p)->f70), 0x30, 5, name, ((struct Obj00031 *)p)->f28, 0x440);
     func_02045808(name);
     m = 0;
-    if (*(int *)(p+8) != 0) m = *(u16 *)(p+0xc);
-    func_021BAA08(*(u16 *)p, *(int *)(p+0x70), l28, *(int *)(p+0x2c), *(int *)(p+0x28), m, 0, 0x16, 0x440, 2, 0);
-    func_021BA960(*(u16 *)p, *(int *)(p+0x74), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x278), 0, 4, 0x440, 0, 0);
-    func_021BA960(*(u16 *)p, *(int *)(p+0x74), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x27c), 0, 0x14, 0x440, 0, 0);
+    if (((struct Obj00031 *)p)->f8 != 0) m = ((struct Obj00031 *)p)->fC;
+    func_021BAA08(((struct Obj00031 *)p)->f0, *(int *)&((struct Obj00031 *)p)->f70, l28, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, m, 0, 0x16, 0x440, 2, 0);
+    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f278, 0, 4, 0x440, 0, 0);
+    func_021BA960(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, ((struct Obj00031 *)p)->f27C, 0, 0x14, 0x440, 0, 0);
     r6 = 0;
-    if (*(int *)(p+8) != 0) r6 = t;
-    func_021BAA08(*(u16 *)p, *(int *)(p+0x74), l24, *(int *)(p+0x2c), *(int *)(p+0x28), r6, 0x65, 4, 0x440, 1, 0);
+    if (((struct Obj00031 *)p)->f8 != 0) r6 = t;
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, l24, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, r6, 0x65, 4, 0x440, 1, 0);
     r6 = 0;
-    if (*(int *)(p+8) != 0) r6 = t;
-    func_021BAA08(*(u16 *)p, *(int *)(p+0x74), l20, *(int *)(p+0x2c), *(int *)(p+0x28), r6, 0x66, 0x14, 0x440, 1, 0);
+    if (((struct Obj00031 *)p)->f8 != 0) r6 = t;
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f74, l20, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, r6, 0x66, 0x14, 0x440, 1, 0);
     t = 0;
-    if (*(int *)(p+8) != 0) t = *(u16 *)(p+0xc);
-    func_021BAA08(*(u16 *)p, *(int *)(p+0x78), l1c, *(int *)(p+0x2c), *(int *)(p+0x28), t, 4, 5, 0x3c40, 0, 0);
+    if (((struct Obj00031 *)p)->f8 != 0) t = ((struct Obj00031 *)p)->fC;
+    func_021BAA08(((struct Obj00031 *)p)->f0, ((struct Obj00031 *)p)->f78, l1c, ((struct Obj00031 *)p)->f2C, ((struct Obj00031 *)p)->f28, t, 4, 5, 0x3c40, 0, 0);
     for (k = 0; k < 4; k++) {
         *(int *)(p + k * 4 + 0x7c) = 0;
     }

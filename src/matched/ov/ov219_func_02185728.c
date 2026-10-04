@@ -15,6 +15,7 @@
  *   d_02185DF4 0x02185DF4 data a4
  *   d_020A1EB8 0x020A1EB8 data a4
  */
+#include "../include/Obj10975.h"
 typedef unsigned short u16;
 typedef struct {unsigned x,y,z;} Vec3;
 typedef struct {Vec3 vec;short x,y;} Config;
@@ -27,8 +28,8 @@ void func_02185728(char *p)
 {
     Vec3 vec;
     u16 heap;
-    heap=*(unsigned *)p;
+    heap=((struct Obj10975 *)p)->f0;
     vec=d_02185F00;
-    *(void **)(p+0xC36C)=func_02048A24(0,d_020A1EB8.x,d_020A1EB8.y,5461,0,4096,4194304,0,&d_02185E0C,&vec,&d_02185DF4,heap);
-    func_02048AD0(*(void **)(p+0xC36C));
+    ((struct Obj10975 *)p)->fC36C=func_02048A24(0,d_020A1EB8.x,d_020A1EB8.y,5461,0,4096,4194304,0,&d_02185E0C,&vec,&d_02185DF4,heap);
+    func_02048AD0(((struct Obj10975 *)p)->fC36C);
 }

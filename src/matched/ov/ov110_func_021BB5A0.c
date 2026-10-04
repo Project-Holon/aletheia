@@ -14,6 +14,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj22359.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
@@ -27,6 +28,6 @@ u8 *func_021BB5A0(u8 *p,u8 *q) {
     a=func_020450F0(1,10,3,11,2,12,1);
     func_02043B5C(func_02045770((struct Descriptor *)a),1);
     func_02045334((struct Descriptor *)a);
-    *(u32 *)(p+0x94)=a;
+    ((struct Obj22359 *)p)->f94=a;
     return q+0x16;
 }

@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10401.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern void func_02051C6C(void *);
 
 void func_021D7710(u8 *p)
 {
-    if (*(void **)(p + 8)) {
-        func_02051C6C(*(void **)(p + 8));
-        *(u32 *)(p + 8) = 0;
+    if (((struct Obj10401 *)p)->f8) {
+        func_02051C6C(((struct Obj10401 *)p)->f8);
+        *(u32 *)&((struct Obj10401 *)p)->f8 = 0;
     }
 }

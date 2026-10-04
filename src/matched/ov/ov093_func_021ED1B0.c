@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj04385.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -18,18 +19,18 @@ int func_021ED1B0(char *p)
 {
     Cb f;
 
-    f = *(Cb *)(p + 0xe0);
+    f = *(Cb *)&((struct Obj04385 *)p)->fE0;
     if (f != 0) {
-        if (f(p + 0xec, *(u32 *)(p + 0xe8)) != 0) {
-            *(u32 *)(p + 0xe0) = 0;
-            *(u32 *)(p + 0xec) = 0;
+        if (f(p + 0xec, ((struct Obj04385 *)p)->fE8) != 0) {
+            *(u32 *)&((struct Obj04385 *)p)->fE0 = 0;
+            ((struct Obj04385 *)p)->fEC = 0;
         }
         return 0;
     }
-    f = *(Cb *)(p + 0xe4);
+    f = *(Cb *)&((struct Obj04385 *)p)->fE4;
     if (f != 0) {
-        if (f(p + 0xec, *(u32 *)(p + 0xe8)) != 0) {
-            *(u32 *)(p + 0xe4) = 0;
+        if (f(p + 0xec, ((struct Obj04385 *)p)->fE8) != 0) {
+            *(u32 *)&((struct Obj04385 *)p)->fE4 = 0;
             return 1;
         }
         return 0;

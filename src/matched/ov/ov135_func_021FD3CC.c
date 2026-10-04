@@ -21,6 +21,7 @@
  *   tbl_02203608 0x02203608 data a1
  *   tbl_022035FC 0x022035FC data a1
  */
+#include "../include/Obj01063.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u8 left,right;} Pair;
@@ -43,18 +44,18 @@ int func_021FD3CC(u8 *p)
         func_020061E4(0x54C);
     } else if(func_020362DC()&2) {
         func_0202208C(0,0,0,0,16,1,0x48);
-        *(int *)(p+0x28)=8;
+        ((struct Obj01063 *)p)->f28=8;
         func_020061E4(0x551);
     } else if(func_020362DC()&32) {
         next=tbl_02203608[(u32)*(int *)(p+0xD4)].left;
-        if(*(int *)(p+0xD4)!=next && *(int *)(p+0xD0)>=next+1)
+        if(((struct Obj01063 *)p)->fD4!=next && ((struct Obj01063 *)p)->fD0>=next+1)
             func_021FD368(p,next);
     } else if(func_020362DC()&16) {
         next=tbl_02203608[(u32)*(int *)(p+0xD4)].right;
-        if(*(int *)(p+0xD4)!=next && *(int *)(p+0xD0)>=next+1)
+        if(((struct Obj01063 *)p)->fD4!=next && ((struct Obj01063 *)p)->fD0>=next+1)
             func_021FD368(p,next);
     } else {
-        r=func_021FFB00(*(int *)(p+0xD0));
+        r=func_021FFB00(((struct Obj01063 *)p)->fD0);
         if(r!=-1) func_021FD368(p,r);
         r=func_02035C08(tbl_022035FC);
         if(r==0) {
@@ -63,7 +64,7 @@ int func_021FD3CC(u8 *p)
             func_020061E4(0x54C);
         } else if(r==1) {
             func_0202208C(0,0,0,0,16,1,0x48);
-            *(int *)(p+0x28)=8;
+            ((struct Obj01063 *)p)->f28=8;
             func_020061E4(0x551);
         }
     }

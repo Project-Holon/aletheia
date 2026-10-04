@@ -12,17 +12,19 @@
  * symbols:
  *   func_021FC240  0x021FC240  thumb  ov186
  */
+#include "../include/Obj08309.h"
+#include "../include/Obj14420.h"
 
 extern void func_021FC240(char *p, void *owner, unsigned short heap);
 
 void func_021DB924(int a0, char *p)
 {
-    int v = *(int *)(p + 0x10);
-    char *q = *(char **)(p + 0xc);
+    int v = ((struct Obj08309 *)p)->f10;
+    char *q = *(char * *)&((struct Obj08309 *)p)->fC;
 
     if (v == 0) {
-        func_021FC240((char *)(*(int *)(q + 0x18)), (void *)(*(int *)(q + 0x10)),
-                      *(unsigned short *)(p + 0x14));
+        func_021FC240((char *)(((struct Obj14420 *)q)->f18), (void *)(((struct Obj14420 *)q)->f10),
+                      ((struct Obj08309 *)p)->f14);
     }
-    *(int *)(p + 0x10) = 1;
+    ((struct Obj08309 *)p)->f10 = 1;
 }

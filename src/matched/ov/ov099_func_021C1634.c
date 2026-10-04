@@ -14,6 +14,7 @@
  *   func_021BA8EC 0x021BA8EC thumb ov099
  *   func_021C2408 0x021C2408 thumb ov099
  */
+#include "../include/Obj00008.h"
 extern int func_021BA928(char *, int);
 typedef unsigned int   u32;
 extern u32 func_021BA858(char *p);
@@ -27,14 +28,14 @@ int func_021C1634(char *p, int ret)
     choice = func_021BA858(p);
     if (choice == -1) return ret;
     if (choice == 0) {
-        *(int *)(p + 0x108) = 0;
+        *(int *)&((struct Obj00008 *)p)->f108 = 0;
         func_021BAAB8(p, 26, 1);
-        *(int *)(p + 0x1cc) = 51;
-        *(int *)(p + 0x1e0) = 1;
+        ((struct Obj00008 *)p)->f1CC = 51;
+        ((struct Obj00008 *)p)->f1E0 = 1;
     } else {
-        *(int *)(p + 0x108) = 0;
+        *(int *)&((struct Obj00008 *)p)->f108 = 0;
         func_021BA8EC(p);
-        *(int *)(p + 0x1cc) = 11;
+        ((struct Obj00008 *)p)->f1CC = 11;
         func_021C2408(p);
     }
     return ret;

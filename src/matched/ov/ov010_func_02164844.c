@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18978.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,6 +41,6 @@ u8 func_02164844(u8 *a, u32 b, int c, int d)
         return func_02013C10(b);
     }
     s = t + func_021648CC(c, d);
-    func_0204944C((struct ArcFile *)*(u32 *)(a + 8), 0, s, 1, &out);
+    func_0204944C((struct ArcFile *)((struct Obj18978 *)a)->f8, 0, s, 1, &out);
     return out;
 }

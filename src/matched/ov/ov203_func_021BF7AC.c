@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj03917.h"
+#include "../include/Obj25328.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -21,7 +23,7 @@ struct Q { char pad[6]; unsigned short flag : 1; };
 
 int func_021BF7AC(char *p, int v)
 {
-    struct Q *q = *(struct Q **)(*(char **)(p + 0x1C) + 0x74);
+    struct Q *q = *(struct Q * *)&((struct Obj25328 *)(*(char * *)&((struct Obj03917 *)p)->f1C))->f74;
     int flag = q->flag;
 
     if (flag == 1)

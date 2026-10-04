@@ -12,13 +12,15 @@
  *   func_021ED888 0x021ED888 thumb ov170
  *   func_021EF480 0x021EF480 thumb ov170
  */
+#include "../include/Obj23960.h"
+#include "../include/Obj23961.h"
 #define WORK(p) (*(char **)((p)+0x2C))
 struct WinMgr;
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED888(char *,int);
 extern int func_021EF480(struct WinMgr *mgr);
 void func_021EA984(unsigned char *p) {
- switch(*(unsigned *)(*(char **)p+0x24)) {
+ switch(((struct Obj23961 *)(*(char * *)&((struct Obj23960 *)p)->f0))->f24) {
  case 0: func_021ECB20(p,2,1); return;
  case 1: case 3: func_021ED888(WORK(p),0); func_021ECB20(p,1,1); return;
  case 2: case 4: case 5:

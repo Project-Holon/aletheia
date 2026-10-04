@@ -31,6 +31,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DACE4 0x021DACE4 thumb ov119
  */
+#include "../include/Obj02828.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -56,19 +57,19 @@ extern void func_021D8E84(void *,int);
 extern void func_021DACE4(char *p);
 void func_021E0CC0(char *p)
 {
-    if(*(int *)(p+0xf2c)>=6 && func_020221A4()) {
-        if(*(u32 *)(p+0x644)) func_0203FB44(6,*(u32 *)(p+0x644),(u16)(*(u32 *)(p+0x644)>>16));
-        *(int *)(p+0x644)=0;
+    if(((struct Obj02828 *)p)->fF2C>=6 && func_020221A4()) {
+        if(((struct Obj02828 *)p)->f644) func_0203FB44(6,((struct Obj02828 *)p)->f644,(u16)(((struct Obj02828 *)p)->f644>>16));
+        *(int *)&((struct Obj02828 *)p)->f644=0;
         func_02043534(0);func_020435F4(0);
-        func_0204B1CC(*(void **)(p+0x9c4));
-        *(void **)(p+0x9c4)=func_0204B100(0x154,0,*(u16 *)(p+0x5f4));
+        func_0204B1CC(((struct Obj02828 *)p)->f9C4);
+        ((struct Obj02828 *)p)->f9C4=func_0204B100(0x154,0,((struct Obj02828 *)p)->f5F4);
         func_021E106C(p);func_021E57A4((int)p);func_021E53CC((int)p);
         func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
         func_021E467C(p);func_021E4420(p);func_021E3E80(p);
         func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);
         func_02043534(31);func_020435F4(30);func_021E3C20(p);
-        func_0203D34C(1,*(u16 *)(p+0x5f4));
-        *(unsigned char *)(p+0x11fa)=0;
+        func_0203D34C(1,((struct Obj02828 *)p)->f5F4);
+        ((struct Obj02828 *)p)->f11FA=0;
         func_021D8E84(p,(int)func_021DACE4);
     }
 }

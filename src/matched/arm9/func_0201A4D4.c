@@ -21,6 +21,9 @@
  * every use (the allocator's first argument included); declared u32 it stays
  * in r2 and is copied, which was the whole parameter-homing residue.
  */
+#include "../include/Obj06868.h"
+#include "../include/Obj11261.h"
+#include "../include/Obj15718.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,19 +46,19 @@ u8 *func_0201A4D4(u8 *a0, u32 a1, u16 a2, u32 a3)
     u32 f;
 
     v7 = (u8 *)func_02030734(a2, 0x38, 1, (const char *)0x020A72F0, 0x312);
-    *(u32 *)v7 = (u32)func_02045B38(0, 2, 0xa5, a2);
+    ((struct Obj06868 *)v7)->f0 = (u32)func_02045B38(0, 2, 0xa5, a2);
     v10 = (u32)func_020457B0(0x40, a2);
-    f = *(u8 *)(a0 + 0xab);
+    f = ((struct Obj15718 *)a0)->fAB;
     if (f == 2)
-        *(u8 *)(v7 + 0x34) = a3;
+        ((struct Obj06868 *)v7)->f34 = a3;
     else
-        *(u8 *)(v7 + 0x34) = f;
+        ((struct Obj06868 *)v7)->f34 = f;
     for (i = 0; i < 6; i++) {
         int off = i * 4;
         u8 *q = v7 + off;
 
-        *(u32 *)(q + 4) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)v7), i);
-        *(u32 *)(q + 0x1c) =
+        ((struct Obj11261 *)q)->f4 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06868 *)v7)->f0), i);
+        ((struct Obj11261 *)q)->f1C =
             ((u32 (*)(u8 *, u32, u8 *, u32, u32))
                  (*(u32 *)(tbl_0209E444 + off)))(a0, a1, v7, v10, a2);
     }

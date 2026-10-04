@@ -16,6 +16,7 @@
  * stamps 0x6E in the byte at +0x1353 and selector 0x8A.  Returns the second
  * argument.  The predicate takes only the block.
  */
+#include "../include/Obj12114.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,8 +31,8 @@ extern u32 func_020362DC(void);
 int func_021BD014(char *p, int v)
 {
     if (func_020362DC() != 0) {
-        *(u8 *)(p + 0x1353) = 0x6E;
-        *(u32 *)(p + 0x1CC) = 0x8A;
+        ((struct Obj12114 *)p)->f1353 = 0x6E;
+        ((struct Obj12114 *)p)->f1CC = 0x8A;
     }
     return v;
 }

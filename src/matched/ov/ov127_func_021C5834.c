@@ -15,10 +15,11 @@
  * symbols:
  *   func_021C425C  0x021C425C  thumb  ov127
  */
+#include "../include/Obj23049.h"
 
 extern int func_021C425C(char *p);
 
 int func_021C5834(char *p)
 {
-    return func_021C425C(*(void **)(p + 4));
+    return func_021C425C(((struct Obj23049 *)p)->f4);
 }

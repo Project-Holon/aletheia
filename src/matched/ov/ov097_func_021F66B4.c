@@ -19,6 +19,7 @@
  *   func_021F7308 0x021F7308 thumb ov097
  *   func_021F67F0 0x021F67F0 thumb ov097
  */
+#include "../include/Obj00111.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -34,33 +35,33 @@ extern int func_021F67F0(u8 *, int);
 int func_021F66B4(u8 *p)
 {
     u32 i;
-    switch (*(int *)(p + 0x110)) {
+    switch (((struct Obj00111 *)p)->f110) {
     case 0:
-        if (func_0201C6B4(*(void **)(p + 0x1c)) == 0) break;
-        if (*(int *)(*(int *)p + 8) == 0) {
+        if (func_0201C6B4(((struct Obj00111 *)p)->f1C) == 0) break;
+        if (*(int *)(*(int *)&((struct Obj00111 *)p)->f0 + 8) == 0) {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(struct WinMgr **)(p + 8), i + 3, -1, 0, 16);
-                func_0202CD64(*(struct WinMgr **)(p + 8), i + 9, -1, 0, 16);
+                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 3, -1, 0, 16);
+                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 9, -1, 0, 16);
             }
         } else {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(struct WinMgr **)(p + 8), i, 1, 0, 16);
-                func_0202CD64(*(struct WinMgr **)(p + 8), i + 6, 1, 0, 16);
+                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i, 1, 0, 16);
+                func_0202CD64(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, i + 6, 1, 0, 16);
             }
         }
         func_020061E4(0x642);
-        (*(int *)(p + 0x110))++;
+        (((struct Obj00111 *)p)->f110)++;
     case 1:
-        if (*(int *)(*(int *)p + 8) == 0) {
-            if (func_0202CE40(*(struct WinMgr **)(p + 8), 3) == 0) {
-                (*(int *)(p + 0x110))++;
+        if (*(int *)(*(int *)&((struct Obj00111 *)p)->f0 + 8) == 0) {
+            if (func_0202CE40(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 3) == 0) {
+                (((struct Obj00111 *)p)->f110)++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }
             func_021F7308((int)p, 3, -8);
         } else {
-            if (func_0202CE40(*(struct WinMgr **)(p + 8), 0) == 0) {
-                (*(int *)(p + 0x110))++;
+            if (func_0202CE40(*(struct WinMgr * *)&((struct Obj00111 *)p)->f8, 0) == 0) {
+                (((struct Obj00111 *)p)->f110)++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }

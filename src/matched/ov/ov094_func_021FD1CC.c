@@ -61,6 +61,7 @@
  *   d_0220AE68 0x0220AE68 data
  *   d_020A1B38 0x020A1B38 data
  */
+#include "../include/Obj07881.h"
 typedef signed short s16;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -265,11 +266,11 @@ void func_021FD1CC(void *p)
     b.y += r->ofs.y;
     if (r->kind != 0) {
         s = func_02011324((struct ScriptVm *)r->vm);
-        *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
-        o = *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4);
+        *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj07881 *)s)->f238 & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
+        o = *(Obj **)(s + 0x1f4 + ((struct Obj07881 *)s)->f234 * 4);
         func_02051A2C(p, o);
         func_02051A24(p, (int)func_021FD8CC);
-        *(int *)(s + 0x234) += 1;
+        ((struct Obj07881 *)s)->f234 += 1;
         o->f38 = 0;
         o->f50 = 0;
         o->f54 = 0;

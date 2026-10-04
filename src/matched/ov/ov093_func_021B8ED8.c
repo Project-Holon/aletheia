@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj07744.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,7 +18,7 @@ typedef unsigned int u32;
 u8 func_021B8ED8(u8 *p, u8 k)
 {
     u8 par = k & 1;
-    u32 mode = *(u32 *)(*(u32 *)p + 4);
+    u32 mode = *(u32 *)(((struct Obj07744 *)p)->f0 + 4);
     u8 t;
     int r;
     if (mode == 0) {

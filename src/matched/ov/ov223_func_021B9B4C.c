@@ -12,12 +12,13 @@
  * symbols:
  *   table 0x021BC78C data a4
  */
+#include "../include/Obj10978.h"
 typedef unsigned short u16;
 extern u16 table[][5];
 int func_021B9B4C(char *p)
 {
     int select=0;
-    if(*(int *)(p+72)==0) select=1;
-    if(*(int *)(p+76)==table[*(int *)(p+68)][select]) return 1;
+    if(((struct Obj10978 *)p)->f48==0) select=1;
+    if(((struct Obj10978 *)p)->f4C==table[((struct Obj10978 *)p)->f44][select]) return 1;
     return 0;
 }

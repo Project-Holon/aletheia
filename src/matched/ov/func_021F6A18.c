@@ -14,9 +14,10 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj18549.h"
 
 int func_021F6A18(char *p)
 {
-    return *(unsigned char *)(p + 0xac) != 0;
+    return ((struct Obj18549 *)p)->fAC != 0;
 }
 

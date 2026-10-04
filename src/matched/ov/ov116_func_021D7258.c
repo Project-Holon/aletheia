@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13865.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021D7258(u8 *p) { *(u16 *)(p + 8) = 0; *(u16 *)(p + 0xa) = 0; }
+void func_021D7258(u8 *p) { ((struct Obj13865 *)p)->f8 = 0; ((struct Obj13865 *)p)->fA = 0; }

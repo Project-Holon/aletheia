@@ -16,6 +16,7 @@
  *   func_02012138 0x02012138 thumb
  *   func_02158344 0x02158344 thumb ov010
  */
+#include "../include/Obj12499.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 *func_02159AE8(void *, void *);
@@ -30,10 +31,10 @@ int func_0217F8A0(void *a, void *vm)
     int v;
     out = func_02159AE8(a, vm);
     p = (u8 *)func_02158344((int)((void *)func_02012138(func_0215A5DC(vm))));
-    if (p == 0 || *(u16 *)(p + 0x88) == 0) {
+    if (p == 0 || ((struct Obj12499 *)p)->f88 == 0) {
         *out = 0;
     } else {
-        *out = *(u16 *)(p + 0x88);
+        *out = ((struct Obj12499 *)p)->f88;
     }
     return 0;
 }

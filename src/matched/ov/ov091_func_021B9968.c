@@ -11,7 +11,8 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00009.h"
 extern void func_020061E4(unsigned);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
-void func_021B9968(unsigned char *p) { p[12]=5; p[14]=3; p[260]=0; func_020061E4(0x641); func_0204B3DC((struct Obj *)*(int *)(p+472),0); func_0204B3DC((struct Obj *)*(int *)(p+476),0); }
+void func_021B9968(unsigned char *p) { p[12]=5; p[14]=3; p[260]=0; func_020061E4(0x641); func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1D8,0); func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1DC,0); }

@@ -11,11 +11,12 @@
  *
  * Word accessor: p + 8.
  */
+#include "../include/Obj22381.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 u32 func_021BEDE0(u8 *p)
 {
-    return *(u32 *)(p + 8);
+    return ((struct Obj22381 *)p)->f8;
 }

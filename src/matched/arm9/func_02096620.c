@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj11699.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ void func_02096620(u8 *p, int idx)
         }
         if (cur == base) {
             *cur = 1;
-            *(short *)(p + 2) = *(short *)(p + 2) + 1;
+            ((struct Obj11699 *)p)->f2 = ((struct Obj11699 *)p)->f2 + 1;
             return;
         }
         *cur = 0;

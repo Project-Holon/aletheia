@@ -30,6 +30,8 @@
  *   func_02007F1C 0x02007F1C thumb
  *   func_021ED55C 0x021ED55C thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23950.h"
 struct WinMgr;
 extern void func_021EF670(char *);
 extern void func_021EA75C(int p);
@@ -79,7 +81,7 @@ int func_021E9848(unsigned char *p)
             func_021DD8A8(p,p[0x16]);
             func_021EC48C(p,p[0x14],p[0x16],*(unsigned char *)(WORK+p[0x16]+0x3dd2));
         }
-        func_02007F1C(*(void **)(*(char **)p+0xc),ITEM,1,0x804c);
+        func_02007F1C(((struct Obj23950 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,ITEM,1,0x804c);
     }
     func_021DEFEC(p,p[0x16]); func_021ED55C(p,0);
     return 0x54;

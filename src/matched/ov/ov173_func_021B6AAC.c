@@ -15,6 +15,7 @@
  *   func_021B81B0 0x021B81B0 thumb ov173
  *   d_021B8228 0x021B8228 data a4
  */
+#include "../include/Obj08264.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int (*Callback)(u8 *);
@@ -29,14 +30,14 @@ extern void func_021B81B0(int);
 int func_021B6AAC(u8 *p)
 {
     int result=4;
-    if (func_020279E8((struct TaskMenu *)(*(u32 *)(p+0x1e0)))) {
-        if (func_02027A04((const u8 *)(*(u32 *)(p+0x1e0))) == 0)
+    if (func_020279E8((struct TaskMenu *)(((struct Obj08264 *)p)->f1E0))) {
+        if (func_02027A04((const u8 *)(((struct Obj08264 *)p)->f1E0)) == 0)
             result=d_021B8228[p[0x1ba]].a(p);
         else
             result=d_021B8228[p[0x1ba]].b(p);
         func_021B81B0(0);
     }
-    func_02027974(*(u32 *)(p+0x1e0));
-    if (result != 4) func_02027858((struct TaskMenu *)(*(u32 *)(p+0x1e0)));
+    func_02027974(((struct Obj08264 *)p)->f1E0);
+    if (result != 4) func_02027858((struct TaskMenu *)(((struct Obj08264 *)p)->f1E0));
     return result;
 }

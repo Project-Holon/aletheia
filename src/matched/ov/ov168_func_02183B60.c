@@ -32,6 +32,7 @@
  *   func_02005E30 0x02005E30 thumb
  *   d_02184A20 0x02184A20 data a4
  */
+#include "../include/Obj02210.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,18 +69,18 @@ enum Result func_02183B60(void *obj)
     size=OBJECT_SIZE;
     p=func_0203159C(obj,size,73);
     func_02082BCC(p,0,size);
-    *(int *)((unsigned)p+0x14c)=73;
+    ((struct Obj02210 *)((unsigned)p))->f14C=73;
     func_02183ED4(73);
     func_02183F30();
-    *(void **)(p+0x140)=func_02030734((u16)*(int *)((unsigned)p+0x14c),func_02030CB0(5),0,d_02184A20,0x21d);
-    *(void **)((unsigned)p+0x144)=func_02030CBC(5,*(void **)(p+0x140));
-    *(void **)((unsigned)p+0x148)=func_020056A0((u32)func_02183F40,(u32)p,1);
-    func_0218414C((char *)p+0xe4,*(int *)((unsigned)p+0x14c));
-    func_021841F8(p+0xe4,*(int *)((unsigned)p+0x14c));
-    func_021842BC((void **)(p+0xe4),*(int *)((unsigned)p+0x14c));
-    func_02183F6C((int)p,*(u32 *)((unsigned)p+0x14c));
-    func_02183FC4((char *)p,*(int *)((unsigned)p+0x14c));
-    func_02184398((int *)(p+0xf8),*(int *)((unsigned)p+0x14c),(int)func_021844C8,(int)p);
+    ((struct Obj02210 *)p)->f140=func_02030734((u16)((struct Obj02210 *)((unsigned)p))->f14C,func_02030CB0(5),0,d_02184A20,0x21d);
+    ((struct Obj02210 *)((unsigned)p))->f144=func_02030CBC(5,((struct Obj02210 *)p)->f140);
+    ((struct Obj02210 *)((unsigned)p))->f148=func_020056A0((u32)func_02183F40,(u32)p,1);
+    func_0218414C((char *)p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
+    func_021841F8(p+0xe4,((struct Obj02210 *)((unsigned)p))->f14C);
+    func_021842BC((void **)(p+0xe4),((struct Obj02210 *)((unsigned)p))->f14C);
+    func_02183F6C((int)p,*(u32 *)&((struct Obj02210 *)((unsigned)p))->f14C);
+    func_02183FC4((char *)p,((struct Obj02210 *)((unsigned)p))->f14C);
+    func_02184398((int *)(p+0xf8),((struct Obj02210 *)((unsigned)p))->f14C,(int)func_021844C8,(int)p);
     func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
     func_02005E30(10);
     return result;

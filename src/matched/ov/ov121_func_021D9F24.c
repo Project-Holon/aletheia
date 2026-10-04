@@ -15,6 +15,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_021DA010 0x021DA010 thumb ov121
  */
+#include "../include/Obj00236.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,36 +38,36 @@ extern void *func_0201CCE4(void *,u32,u32,u32,u32,int,void *,u32,u16,u16);
 void func_021D9F24(u8 *p,int mode)
 {
     u32 q;
-    func_02043B5C(func_02045770(*(void **)(p+0x10)),*(u16 *)(p+0x18));
-    if(*(void **)(p+8)) {
-        func_0201CE48(*(void **)(p+8));
-        *(void **)(p+8)=0;
+    func_02043B5C(func_02045770(((struct Obj00236 *)p)->f10),((struct Obj00236 *)p)->f18);
+    if(((struct Obj00236 *)p)->f8) {
+        func_0201CE48(((struct Obj00236 *)p)->f8);
+        ((struct Obj00236 *)p)->f8=0;
     }
-    if(*(void **)(p+0x30)) {
-        func_02028604((int)(*(void **)(p+0x30)));
-        *(void **)(p+0x30)=0;
+    if(((struct Obj00236 *)p)->f30) {
+        func_02028604((int)(((struct Obj00236 *)p)->f30));
+        ((struct Obj00236 *)p)->f30=0;
     }
     func_021DA010(p);
     switch(mode) {
     case 2:
-        *(void **)(p+0x3c)=func_0202EE30((void *)func_020056BC(),*(void **)(p+0x10),*(u16 *)(p+0x18),16,*(u16 *)(p+0x1a));
-        q=*(u32 *)(p+0x24);
-        func_0201C6FC((struct PrintSys *)q,(u32)func_02045770(*(void **)(p+0x1c)),0,0,*(void **)(p+0x14),*(u32 *)(p+4));
+        ((struct Obj00236 *)p)->f3C=func_0202EE30((void *)func_020056BC(),((struct Obj00236 *)p)->f10,((struct Obj00236 *)p)->f18,16,((struct Obj00236 *)p)->f1A);
+        q=((struct Obj00236 *)p)->f24;
+        func_0201C6FC((struct PrintSys *)q,(u32)func_02045770(((struct Obj00236 *)p)->f1C),0,0,((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4);
         p[0x20]=1;
-        *(u32 *)(p+0x28)=0;
+        ((struct Obj00236 *)p)->f28=0;
         break;
     case 0:
-        q=*(u32 *)(p+0x24);
-        func_0201C6FC((struct PrintSys *)q,(u32)func_02045770(*(void **)(p+0x1c)),0,0,*(void **)(p+0x14),*(u32 *)(p+4));
+        q=((struct Obj00236 *)p)->f24;
+        func_0201C6FC((struct PrintSys *)q,(u32)func_02045770(((struct Obj00236 *)p)->f1C),0,0,((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4);
         p[0x20]=1;
-        *(u32 *)(p+0x28)=0;
+        ((struct Obj00236 *)p)->f28=0;
         break;
     case 1:
         func_02028470(p+0x34,2);
-        *(void **)(p+0x30)=func_02028590(*(u16 *)(p+0x18),1,0,*(u16 *)(p+0x1a));
-        *(void **)(p+8)=func_0201CCE4(*(void **)(p+0x10),0,0,*(u32 *)(p+0x14),*(u32 *)(p+4),func_02012FFC(),*(void **)(p+0xc),0,*(u16 *)(p+0x1a),*(u16 *)(p+0x18));
-        *(u32 *)(p+0x28)=1;
+        ((struct Obj00236 *)p)->f30=func_02028590(((struct Obj00236 *)p)->f18,1,0,((struct Obj00236 *)p)->f1A);
+        ((struct Obj00236 *)p)->f8=func_0201CCE4(((struct Obj00236 *)p)->f10,0,0,*(u32 *)&((struct Obj00236 *)p)->f14,((struct Obj00236 *)p)->f4,func_02012FFC(),((struct Obj00236 *)p)->fC,0,((struct Obj00236 *)p)->f1A,((struct Obj00236 *)p)->f18);
+        ((struct Obj00236 *)p)->f28=1;
         break;
     }
-    *(u32 *)(p+0x2c)=0;
+    ((struct Obj00236 *)p)->f2C=0;
 }

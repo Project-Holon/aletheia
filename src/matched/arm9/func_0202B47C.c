@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B47C.c \
  *       --func func_0202B47C --addr 0x0202B47C --thumb --cc 1.1p1
  */
+#include "../include/Obj02009.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_0202B49C(u8 *p, u32 id);
 
 void func_0202B47C(u8 *p)
 {
-    if (*(u32 *)(p + 0xc) == 0) {
-        *(u32 *)(p + 0xc) = 1;
-        func_0202B49C(p, *(u16 *)(p + 0x10));
+    if (((struct Obj02009 *)p)->fC == 0) {
+        ((struct Obj02009 *)p)->fC = 1;
+        func_0202B49C(p, ((struct Obj02009 *)p)->f10);
     }
 }

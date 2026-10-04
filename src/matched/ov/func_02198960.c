@@ -21,6 +21,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17951.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern u32 func_0216D7CC(u32);
 
 int func_02198960(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(func_0216D6BC(a, 4, c, d))) = b;
+((struct Obj17951 *)((u8 *)(func_0216D6BC(a, 4, c, d))))->f0 = b;
 return func_0216D7CC(a);
 }
 

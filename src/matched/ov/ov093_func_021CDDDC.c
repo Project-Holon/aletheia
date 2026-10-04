@@ -28,6 +28,7 @@
  *   func_021D3FA8  0x021D3FA8  thumb  ov093
  *   func_021EAEA8  0x021EAEA8  thumb  ov093
  */
+#include "../include/Obj01689.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -49,28 +50,28 @@ int func_021CDDDC(u8 *p, int *st)
 {
     switch (*st) {
     case 0:
-        if ((int)func_021B86B8(*(void ****)p) != 4) {
-            func_021E90A0(*(void **)(p + 0x54), 0);
+        if ((int)func_021B86B8(*(void *** *)&((struct Obj01689 *)p)->f0) != 4) {
+            func_021E90A0(((struct Obj01689 *)p)->f54, 0);
         } else {
-            func_021E90A0(*(void **)(p + 0x54), 1);
+            func_021E90A0(((struct Obj01689 *)p)->f54, 1);
         }
         *st = *st + 1;
         break;
     case 1:
-        if (func_021E90D0(*(void **)(p + 0x54)) == 0) {
+        if (func_021E90D0(((struct Obj01689 *)p)->f54) == 0) {
             break;
         }
-        *(u16 *)(p + 0xe4) = func_021BA5C4(*(void **)p);
-        *(u16 *)(p + 0xe6) = func_021BA5D0(*(void **)p);
-        if (*(u16 *)(p + 0xe4) != 0 || *(u16 *)(p + 0xe6) != 0) {
-            func_021F84E8(*(u16 *)(p + 0xe6), *(u16 *)(p + 0xe4));
-            if (*(u16 *)(p + 0xe6) != 0) {
+        ((struct Obj01689 *)p)->fE4 = func_021BA5C4(((struct Obj01689 *)p)->f0);
+        ((struct Obj01689 *)p)->fE6 = func_021BA5D0(((struct Obj01689 *)p)->f0);
+        if (((struct Obj01689 *)p)->fE4 != 0 || ((struct Obj01689 *)p)->fE6 != 0) {
+            func_021F84E8(((struct Obj01689 *)p)->fE6, ((struct Obj01689 *)p)->fE4);
+            if (((struct Obj01689 *)p)->fE6 != 0) {
                 func_021F8504(0, 1, 1);
             }
         }
         func_021CDECC(p);
         if (func_021CD9E0(p) != 0) {
-            func_021EAEA8(*(void **)(p + 0x54), func_021D3FA8(p + 0x18));
+            func_021EAEA8(((struct Obj01689 *)p)->f54, func_021D3FA8(p + 0x18));
         }
         return 1;
     }

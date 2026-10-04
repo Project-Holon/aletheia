@@ -17,6 +17,7 @@
  *   func_0216DB98  0x0216DB98  thumb  ov010
  *   func_0216D4B4  0x0216D4B4  thumb  ov010
  */
+#include "../include/Obj19119.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_0216D4B4(void *p);
 
 void func_0216D1C8(u8 *p, u32 a, u32 b)
 {
-    *(u32 *)(p + 0x88) = a;
+    ((struct Obj19119 *)p)->f88 = a;
     func_0216D58C(p, (u16)b);
     func_0216D548(p, 1);
     func_0216D568(p, 0x1800);

@@ -21,6 +21,7 @@
  *   d_021D9A00     0x021D9A00  data   a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20053.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -71,7 +72,7 @@ int func_021B7A84(u8 *p, const VecFx32 *pa, const VecFx32 *pb, Rect4 *r, VecFx32
     a = *pa;
     b = *pb;
     found = 0;
-    for (i = 0; i < *(u16 *)(p + 0x22); i++) {
+    for (i = 0; i < ((struct Obj20053 *)p)->f22; i++) {
         t = func_021B9510(p + 0x50, p + 0x20, i);
         if (t == 0) {
             continue;

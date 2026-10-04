@@ -14,6 +14,10 @@
  *   func_02045808 0x02045808 arm
  *   func_0201D304 0x0201D304 thumb
  */
+#include "../include/Obj05524.h"
+#include "../include/Obj25173.h"
+#include "../include/Obj25174.h"
+#include "../include/Obj25175.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -32,13 +36,13 @@ void func_0220D628(char *p, int i)
     void *t;
     void *f;
     u32 width;
-    if (*(u8 *)(*(char **)p + 0x4B) == 4)
-        t = func_02045EC0(*(void **)(p + 0x1EA0), 0x45);
+    if (((struct Obj25173 *)(*(char * *)&((struct Obj05524 *)p)->f0))->f4B == 4)
+        t = func_02045EC0(((struct Obj05524 *)p)->f1EA0, 0x45);
     else
-        t = func_02045EC0(*(void **)(p + 0x1EA0), 0x44);
-    width = func_0201D304(t, *(u32 *)(*(char **)p + 12), 0);
-    f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), (s16)((96 - width) >> 1), 5, (u32)t, *(u32 *)(*(char **)p + 12), 0x3DC0);
+        t = func_02045EC0(((struct Obj05524 *)p)->f1EA0, 0x44);
+    width = func_0201D304(t, ((struct Obj25174 *)(*(char * *)&((struct Obj05524 *)p)->f0))->fC, 0);
+    f = ((struct Obj05524 *)p)->f1EAC;
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), (s16)((96 - width) >> 1), 5, (u32)t, ((struct Obj25175 *)(*(char * *)&((struct Obj05524 *)p)->f0))->fC, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);
 }

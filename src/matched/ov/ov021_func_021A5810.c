@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00262.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -54,8 +55,8 @@ int func_021A5810(u8 *p, int dir)
     int i;
     Vec3 pos;
 
-    a = func_021A3960(*(u8 **)(p + 0xc));
-    h = func_02012844(func_020120F4(func_02188C80(*(u8 **)(p + 0x10))));
+    a = func_021A3960(*(u8 * *)&((struct Obj00262 *)p)->fC);
+    h = func_02012844(func_020120F4(func_02188C80(*(u8 * *)&((struct Obj00262 *)p)->f10)));
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&pos);
     func_02164208(dir, &pos, 0x10000);
     i = func_02162564(h, &pos);

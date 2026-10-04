@@ -12,6 +12,7 @@
  * symbols:
  *   func_0203FB44  0x0203FB44  arm
  */
+#include "../include/Obj25499.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,6 +22,6 @@ extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
 void func_021C0950(void *unused, u8 *p)
 {
-    u32 v = *(u32 *)(p + 0x68);
+    u32 v = ((struct Obj25499 *)p)->f68;
     func_0203FB44(7, (u16)v, (u16)(v >> 16));
 }

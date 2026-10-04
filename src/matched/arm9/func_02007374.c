@@ -27,6 +27,7 @@
  *   python tools/match.py one --src src/matched/func_02007374.c \
  *       --func func_02007374 --addr 0x02007374 --cc 1.1p1 --thumb
  */
+#include "../include/Obj15568.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -45,5 +46,5 @@ void func_02007374(char *a0, u32 a1)
         func_02034714(g_020A7064, 0, g_020A7064);
     }
     func_020087A8(a0, a1);
-    func_02031C10((u8 *)*(u32 *)(a0 + 0x10), (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
+    func_02031C10((u8 *)((struct Obj15568 *)a0)->f10, (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
 }

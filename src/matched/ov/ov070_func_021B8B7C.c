@@ -17,6 +17,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B7128  0x021B7128  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned int   u32;
 struct Obj;
@@ -31,32 +32,32 @@ extern void func_021B7128(struct Obj *o);
 
 void func_021B8B7C(int p)
 {
-    switch (*(unsigned short *)((char *)p + 0x864)) {
+    switch (((struct Obj00002 *)p)->f864) {
     case 0:
         func_020061E4(0x54C);
     case 3:
         func_021BB398(p, 0);
-        *(unsigned short *)((char *)p + 0x864) += 1;
+        ((struct Obj00002 *)p)->f864 += 1;
         return;
     case 1:
     case 4:
     case 6:
-        *(unsigned short *)((char *)p + 0x866) += 1;
-        if (*(unsigned short *)((char *)p + 0x866) == 4) {
-            *(unsigned short *)((char *)p + 0x866) = 0;
-            *(unsigned short *)((char *)p + 0x864) += 1;
+        ((struct Obj00002 *)p)->f866 += 1;
+        if (((struct Obj00002 *)p)->f866 == 4) {
+            ((struct Obj00002 *)p)->f866 = 0;
+            ((struct Obj00002 *)p)->f864 += 1;
         }
         return;
     case 2:
     case 5:
         func_021BB398(p, 2);
-        *(unsigned short *)((char *)p + 0x864) += 1;
+        ((struct Obj00002 *)p)->f864 += 1;
         return;
     case 7:
-        *(unsigned short *)((char *)p + 0x864) = 0;
+        ((struct Obj00002 *)p)->f864 = 0;
         func_021BB398(p, 1);
-        func_0202EB04((struct CodeIn *)(*(int *)((char *)p + 0x850)));
-        func_0202EA40((struct Row *)(*(int *)((char *)p + 0x850)));
+        func_0202EB04((struct CodeIn *)(*(int *)&((struct Obj00002 *)p)->f850));
+        func_0202EA40((struct Row *)(*(int *)&((struct Obj00002 *)p)->f850));
         func_021B6100((char *)p, (int)func_021B7128);
         return;
     }

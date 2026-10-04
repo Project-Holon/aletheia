@@ -22,6 +22,7 @@
  *   _u32_div_f     0x0209C2B0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07605.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,8 +67,8 @@ void func_021D3478(u8 *a, u32 id, int c, int d, u16 heap)
     if (!found) {
         i = 0;
     }
-    *(void **)(a + 8) = func_02030734(heap, 0x20, 0, (const char *)0x021DE6D4, 0xd4);
-    func_02082D44(p[i].data, *(void **)(a + 8), 0x20);
+    ((struct Obj07605 *)a)->f8 = func_02030734(heap, 0x20, 0, (const char *)0x021DE6D4, 0xd4);
+    func_02082D44(p[i].data, ((struct Obj07605 *)a)->f8, 0x20);
     func_020307B0(p);
     func_02049238(h);
 }

@@ -20,6 +20,7 @@
  *   func_0207F9B4 0x0207F9B4 arm
  *   func_021E3B2C 0x021E3B2C thumb ov119
  */
+#include "../include/Obj10376.h"
 extern void func_0207F7A0(void);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,7 +39,7 @@ void func_021E3838(char *p, int count)
     char *v;
     int i;
     func_0207F7A0();
-    v = func_02030734(*(unsigned short *)(p + 0x5F4), 0x200, 1, d_021E81C0, 0x510);
+    v = func_02030734(((struct Obj10376 *)p)->f5F4, 0x200, 1, d_021E81C0, 0x510);
     for (i = 0; i < count; i++) {
         func_02082BCC(v, 0, 0x200);
         if (i == 0)

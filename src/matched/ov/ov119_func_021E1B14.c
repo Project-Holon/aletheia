@@ -32,6 +32,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -67,7 +68,7 @@ void func_021E1B14(char *p,int i,void *mon)
     u32 index;
     char *tmp;
     flag=func_02017E1C(mon,76,0);
-    func_02049B40(23,5,0,448,32,*(u16 *)(p+0x5f4));
+    func_02049B40(23,5,0,448,32,((struct Obj00001 *)p)->f5F4);
     old=p;
     old=old+0x5bc;
     index=i*4;
@@ -86,7 +87,7 @@ void func_021E1B14(char *p,int i,void *mon)
         func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(items+index)),16,19,p);
         func_021E1778((int)mon,*(int *)(items+index),16,128,p);
         i++;
-        func_021E0E68(p+0x8c4+i*20,mon,*(int *)(p+0x9c4),*(int *)((char *)&b+index)+16,16,0,*(u16 *)(p+0x5f4),*(int *)((char *)&c+index));
+        func_021E0E68(p+0x8c4+i*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
         func_0204B84C(*(void **)(p+i*20+0x8d4),1);
     } else {
         tmp=p+0x8c4;

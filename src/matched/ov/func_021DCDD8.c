@@ -20,6 +20,7 @@
  *   func_020215A0  0x020215A0  thumb
  *   func_02021540  0x02021540  thumb
  */
+#include "../include/Obj00000.h"
 
 typedef unsigned int   u32;
 struct PalAnmSlot;
@@ -28,6 +29,6 @@ extern void func_02021540(int);
 
 void func_021DCDD8(int *p)
 {
-    func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c)), 0);
-    func_02021540(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c));
+    func_020215A0((struct PalAnmSlot *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c)), 0);
+    func_02021540(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x6c));
 }

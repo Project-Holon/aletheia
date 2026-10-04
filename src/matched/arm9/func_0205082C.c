@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj02611.h"
+#include "../include/Obj16157.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,7 +20,7 @@ extern void func_020500A0(char *e);
 
 void func_0205082C(void *p, int idx, u16 h)
 {
-    char *e = (char *)(*(u32 *)((char *)p + 24) + idx * 40);
-    *(u16 *)(e + 14) = h;
+    char *e = (char *)(((struct Obj16157 *)p)->f18 + idx * 40);
+    ((struct Obj02611 *)e)->fE = h;
     func_020500A0(e);
 }

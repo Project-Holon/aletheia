@@ -11,6 +11,7 @@
  *   func_021FD73C 0x021FD73C thumb
  *   func_021FA284 0x021FA284 thumb
  */
+#include "../include/Obj03340.h"
 extern int func_021FAF24(char *ctx, int kind);
 typedef unsigned short u16;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
@@ -24,7 +25,7 @@ void func_021FAA74(void *p, int *state, unsigned *ctx)
     case 0:
         value = func_021FAF24((char *)ctx[16] + ctx[11] * 0x44, 6);
         if (ctx[20] == 0)
-            ctx[20] = (unsigned)func_021FD12C((int)((void *)ctx[1]), (void *)ctx[19], *(unsigned short *)ctx);
+            ctx[20] = (unsigned)func_021FD12C((int)((void *)ctx[1]), (void *)ctx[19], ((struct Obj03340 *)ctx)->f0);
         func_021FD170((void *)ctx[20], (void *)ctx[1], (void *)value);
         *state = 1;
         break;

@@ -21,6 +21,9 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_0200616C 0x0200616C thumb
  */
+#include "../include/Obj00091.h"
+#include "../include/Obj03816.h"
+#include "../include/Obj08147.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -46,7 +49,7 @@ void func_021D92B0(u8 *a,u8 *p)
     entries=p;
     entries+=0x70;
     for(i=0;i<10;i++) {
-        if(*(u32 *)(p+12)==1) {
+        if(((struct Obj00091 *)p)->fC==1) {
             y=func_021D9440(p,i);
             func_021DBE2C(*(u8 **)((p+i*20)+0x80),8,y);
             value=func_021D9428(p,i);
@@ -61,20 +64,20 @@ void func_021D92B0(u8 *a,u8 *p)
             }
         }
         entry=p+i*20;
-        if(*(u32 *)(entry+0x78)==1 && func_0201C6C4(*(void **)(a+0x84),*(void **)(entry+0x7c))==0) {
-            *(u32 *)(entry+0x78)=0;
-            func_021DBCF4(*(void **)(entry+0x80));
+        if(((struct Obj08147 *)entry)->f78==1 && func_0201C6C4(((struct Obj03816 *)a)->f84,((struct Obj08147 *)entry)->f7C)==0) {
+            ((struct Obj08147 *)entry)->f78=0;
+            func_021DBCF4(((struct Obj08147 *)entry)->f80);
         }
     }
     if(changed==1 && p[0x60]==0) {
         func_0200616C((void *)1605,1);
         p[0x60]=3;
     }
-    if(*(u32 *)(p+0x68)==1) {
+    if(((struct Obj00091 *)p)->f68==1) {
         if(p[0x58]<10) func_021D91F0(a,p,(p+0x70)+p[0x58]*20);
         if(p[0x5a]<10) func_021D91F0(a,p,(p+0x70)+p[0x5a]*20);
         p[0x5a]=p[0x58];
-        *(u32 *)(p+0x68)=0;
+        ((struct Obj00091 *)p)->f68=0;
     }
-    *(u32 *)(p+12)=0;
+    ((struct Obj00091 *)p)->fC=0;
 }

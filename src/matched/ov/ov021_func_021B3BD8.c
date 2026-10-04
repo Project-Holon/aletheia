@@ -20,6 +20,7 @@
  *   func_020414EC 0x020414EC arm
  *   func_0204047C 0x0204047C arm
  */
+#include "../include/Obj06037.h"
 
 typedef unsigned short u16;
 
@@ -38,12 +39,12 @@ void func_021B3BD8(char *p)
     void *q;
 
     *(volatile u16 *)0x04000050 = 0;
-    q = func_020490F4(54, *(u16 *)(p + 4));
-    func_02049B68(q, 1, 0, 0, 96, *(u16 *)(p + 4));
-    func_02049658(q, 0, 2, 100, 0, 0, *(u16 *)(p + 4));
-    func_02049990(q, 2, 2, 0, 100, 0, 0, *(u16 *)(p + 4));
+    q = func_020490F4(54, ((struct Obj06037 *)p)->f4);
+    func_02049B68(q, 1, 0, 0, 96, ((struct Obj06037 *)p)->f4);
+    func_02049658(q, 0, 2, 100, 0, 0, ((struct Obj06037 *)p)->f4);
+    func_02049990(q, 2, 2, 0, 100, 0, 0, ((struct Obj06037 *)p)->f4);
     func_02049238(q);
-    func_0201F5BC(1, 228, 9, 0, *(u16 *)(p + 4));
+    func_0201F5BC(1, 228, 9, 0, ((struct Obj06037 *)p)->f4);
     func_020414EC(1);
     func_0204047C(2, 1);
 }

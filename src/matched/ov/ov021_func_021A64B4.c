@@ -18,6 +18,7 @@
  *   func_021A661C  0x021A661C  thumb  ov021
  *   func_021A666C  0x021A666C  thumb  ov021
  */
+#include "../include/Obj04234.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern u32 func_021A666C(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
 
 int func_021A64B4(int *a, int b, int c, int d, int e)
 {
-    void *x = func_021A3960(*(unsigned char **)(a + 5));
+    void *x = func_021A3960(*(unsigned char * *)&((struct Obj04234 *)a)->f14);
     int r = 0;
     switch (a[0]) {
     case 0: r = func_021A652C(a, x, b, c, d, e); break;

@@ -14,6 +14,8 @@
  *   func_020604AC 0x020604AC arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  */
+#include "../include/Obj10542.h"
+#include "../include/Obj14095.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_021FDCEC[];
@@ -26,10 +28,10 @@ extern void func_020604AC(void *, void *);
 void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key)
 {
     char *q;
-    q = func_02030734(*(u16 *)p, 16, 0, d_021FDCEC, 0x115);
-    *(void **)(q + 12) = func_02030DA8(*(void **)(p + 4), fn, arg, key);
-    if (*(void **)(q + 12) != 0) {
-        *(u32 *)(q + 8) = arg;
+    q = func_02030734(((struct Obj14095 *)p)->f0, 16, 0, d_021FDCEC, 0x115);
+    ((struct Obj10542 *)q)->fC = func_02030DA8(((struct Obj14095 *)p)->f4, fn, arg, key);
+    if (((struct Obj10542 *)q)->fC != 0) {
+        ((struct Obj10542 *)q)->f8 = arg;
         func_020604AC(p + 0x38, q);
         return q;
     }

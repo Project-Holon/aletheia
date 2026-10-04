@@ -13,13 +13,14 @@
  * symbols:
  *   func_0215932C 0x0215932C thumb ov010
  */
+#include "../include/Obj12274.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0215932C(unsigned int, unsigned int);
 static inline int ReadByte(u8 *p)
 {
-    int v = **(u8 **)(p + 20);
-    (*(u8 **)(p + 20))++;
+    int v = **(u8 * *)&((struct Obj12274 *)p)->f14;
+    (*(u8 * *)&((struct Obj12274 *)p)->f14)++;
     return v;
 }
 int func_02159340(u8 *p)

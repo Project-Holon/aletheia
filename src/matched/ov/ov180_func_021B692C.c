@@ -14,6 +14,7 @@
  *   func_02015CAC 0x02015CAC thumb
  *   func_02015E04 0x02015E04 thumb
  */
+#include "../include/Obj06586.h"
 typedef struct { int x,y,z; } Vec;
 typedef struct { unsigned words[9]; } Params;
 extern const Vec d_021B80C0;
@@ -24,8 +25,8 @@ extern void func_02015E04(void *p);
 void func_021B692C(char *p) {
     Params params;
     Vec pos=d_021B80C0;
-    func_02017100(*(int *)(p+0x9140+*(unsigned char *)(p+0x915d)*4),&params,0);
-    *(int *)(p+28)=func_020159C8(*(int *)(p+24),0xb0000,-196608,0,&params);
-    func_02015CAC(*(int *)(p+28),&pos);
-    func_02015E04((void *)(*(int *)(p+28)));
+    func_02017100(*(int *)(p+0x9140+((struct Obj06586 *)p)->f915D*4),&params,0);
+    ((struct Obj06586 *)p)->f1C=func_020159C8(((struct Obj06586 *)p)->f18,0xb0000,-196608,0,&params);
+    func_02015CAC(((struct Obj06586 *)p)->f1C,&pos);
+    func_02015E04((void *)(((struct Obj06586 *)p)->f1C));
 }

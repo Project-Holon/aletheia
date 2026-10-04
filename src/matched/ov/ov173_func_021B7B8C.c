@@ -15,6 +15,9 @@
  *   func_020120B4 0x020120B4 thumb
  *   d_021DC800 0x021DC800 data a4 ov131
  */
+#include "../include/Obj02217.h"
+#include "../include/Obj10670.h"
+#include "../include/Obj24187.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,18 +34,18 @@ int func_021B7B8C(char *p)
     char *q;
     u32 zero;
     func_021B6460(p);
-    q = *(char **)p;
-    *(u32 *)(p + 0x180) = *(u32 *)q;
-    *(u32 *)(p + 0x184) = *(u32 *)(q + 8);
-    *(void **)(p + 0x188) = func_020120F4(*(void **)(q + 0xc));
+    q = *(char * *)&((struct Obj02217 *)p)->f0;
+    ((struct Obj02217 *)p)->f180 = ((struct Obj10670 *)q)->f0;
+    ((struct Obj02217 *)p)->f184 = ((struct Obj10670 *)q)->f8;
+    ((struct Obj02217 *)p)->f188 = func_020120F4(((struct Obj10670 *)q)->fC);
     zero = 0;
-    *(u8 *)(p + 0x18c) = zero;
-    *(u8 *)(p + 0x18f) = zero;
-    *(u8 *)(p + 0x18e) = 1;
-    *(u16 *)(p + 0x194) = func_021B7438((char **)p);
-    *(u8 *)(p + 0x18d) = 2;
-    *(u8 *)(p + 0x190) = zero;
-    *(u32 *)(p + 0x198) = zero;
-    func_020120B4(*(void **)(*(char **)p + 0xc), (u32)k_83, d_021DC800, p + 0x180);
+    ((struct Obj02217 *)p)->f18C = zero;
+    ((struct Obj02217 *)p)->f18F = zero;
+    ((struct Obj02217 *)p)->f18E = 1;
+    ((struct Obj02217 *)p)->f194 = func_021B7438((char **)p);
+    ((struct Obj02217 *)p)->f18D = 2;
+    ((struct Obj02217 *)p)->f190 = zero;
+    ((struct Obj02217 *)p)->f198 = zero;
+    func_020120B4(((struct Obj24187 *)(*(char * *)&((struct Obj02217 *)p)->f0))->fC, (u32)k_83, d_021DC800, p + 0x180);
     return 12;
 }

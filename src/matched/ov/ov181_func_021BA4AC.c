@@ -13,6 +13,8 @@
  *   func_0201C7D0 0x0201C7D0 thumb
  *   d_021BAB40 0x021BAB40 data a2
  */
+#include "../include/Obj01071.h"
+#include "../include/Obj06590.h"
 typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -24,15 +26,15 @@ void func_021BA4AC(char *p, unsigned char *q, void *s, int y)
 {
     int x;
     unsigned w;
-    func_02045CAC(*(void **)(p + 0xb0), *(unsigned *)q, *(void **)(p + 0xb4));
-    if (*(unsigned short *)(q + 0xa) == 0) {
-        x = *(short *)(q + 0xc) + *(short *)(q + 0xe);
-    } else if (*(unsigned short *)(q + 0xa) == 1) {
-        w = func_0201D304(*(void **)(p + 0xb4), (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
-        x = *(short *)(q + 0xc) + *(short *)(q + 0xe) - w;
-    } else if (*(unsigned short *)(q + 0xa) == 2) {
-        w = func_0201D304(*(void **)(p + 0xb4), (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
-        x = *(short *)(q + 0xc) + *(short *)(q + 0xe) - w / 2;
+    func_02045CAC(((struct Obj06590 *)p)->fB0, ((struct Obj01071 *)q)->f0, ((struct Obj06590 *)p)->fB4);
+    if (((struct Obj01071 *)q)->fA == 0) {
+        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE;
+    } else if (((struct Obj01071 *)q)->fA == 1) {
+        w = func_0201D304(((struct Obj06590 *)p)->fB4, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE - w;
+    } else if (((struct Obj01071 *)q)->fA == 2) {
+        w = func_0201D304(((struct Obj06590 *)p)->fB4, (u32)(*(void **)(p + q[9] * 4 + 0xa8)), 0);
+        x = ((struct Obj01071 *)q)->fC + ((struct Obj01071 *)q)->fE - w / 2;
     }
-    func_0201C7D0(s, x, y, *(void **)(p + 0xb4), *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
+    func_0201C7D0(s, x, y, ((struct Obj06590 *)p)->fB4, *(void **)(p + q[9] * 4 + 0xa8), d_021BAB40[q[8]]);
 }

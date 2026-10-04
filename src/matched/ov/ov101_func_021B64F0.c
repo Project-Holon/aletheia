@@ -12,8 +12,9 @@
  * symbols:
  *   func_0203A574 0x0203A574 arm
  */
+#include "../include/Obj22093.h"
 typedef unsigned int u32;
 extern void func_0203A574(u32,u32,u32,u32);
 void func_021B64F0(u32 p,u32 a,u32 b,u32 c,u32 d) {
-    if(*(u32 *)(p+0x78)==0) func_0203A574(a,b,c,d);
+    if(((struct Obj22093 *)p)->f78==0) func_0203A574(a,b,c,d);
 }

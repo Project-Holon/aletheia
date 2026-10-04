@@ -19,6 +19,8 @@
  *   func_02175B34  0x02175B34  thumb  ov011
  *   func_0217C070  0x0217C070  thumb  ov018
  */
+#include "../include/Obj00399.h"
+#include "../include/Obj12492.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,7 +54,7 @@ void func_0217F008(char *p, char *q)
     int i;
 
     o = (O *)(p + 0xd8);
-    h = (int)func_020120F4((const struct Ctx *)(*(int *)p));
+    h = (int)func_020120F4((const struct Ctx *)(*(int *)&((struct Obj00399 *)p)->f0));
     if (q == 0) {
         func_02082BCC(p + 0xd8, 0, 0x14);
         *(p + 0x11e) = 1;
@@ -60,9 +62,9 @@ void func_0217F008(char *p, char *q)
     }
     n = func_02012B58((const struct BigObj *)h);
     o->a = ((Bf *)(q + 0x86))->lo;
-    o->b = *(u8 *)(q + 0x8fb);
+    o->b = ((struct Obj12492 *)q)->f8FB;
     o->c = func_02080D24(o->b);
-    o->d = *(u8 *)(q + 0x910);
+    o->d = ((struct Obj12492 *)q)->f910;
     o->e = func_0217F5A0(q + 0x1ac);
     o->f = func_021758C8(q + 0x1ac);
     o->g = func_02175B34(q + 0x1ac);

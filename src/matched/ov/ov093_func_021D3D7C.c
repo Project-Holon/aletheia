@@ -13,8 +13,10 @@
  * symbols:
  *   func_021EF9A8 0x021EF9A8 thumb ov093
  */
+#include "../include/Obj21206.h"
+#include "../include/Obj21207.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021D3D7C(u8 *p) { return *(u32 *)(p+0x118); }
+u32 func_021D3D7C(u8 *p) { return ((struct Obj21206 *)p)->f118; }
 extern u8 func_021EF9A8(u32 *);
-u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 **)(p+0x34)); }
+u8 func_021D3D84(u8 *p) { return func_021EF9A8(*(u32 * *)&((struct Obj21207 *)p)->f34); }

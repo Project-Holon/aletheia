@@ -18,6 +18,7 @@
  *   func_0201F878 0x0201F878 thumb
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,13 +36,13 @@ extern void func_02045C04(struct Rec *rec);
 void func_021B3A64(char *p, int i)
 {
     int k = 0;
-    void *q = func_02045B38(0, 2, 54, *(u16 *)(p + 4));
+    void *q = func_02045B38(0, 2, 54, ((struct Obj00037 *)p)->f4);
 
-    func_02186670(*(void **)(p + 28), p + 32, (u16 *)(p + 352), i - 247, *(u16 *)(p + 4));
-    *(void **)(p + 384) = func_0201F81C(*(u16 *)(p + 352) + 1, *(u16 *)(p + 4));
-    for (; k < *(u16 *)(p + 352); k++) {
-        func_021B385C(p, k, *(u8 *)(p + 354), *(u16 *)(p + 32 + k * 8), (int)q);
+    func_02186670(((struct Obj00037 *)p)->f1C, p + 32, (u16 *)(p + 352), i - 247, ((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f180 = func_0201F81C(((struct Obj00037 *)p)->f160 + 1, ((struct Obj00037 *)p)->f4);
+    for (; k < ((struct Obj00037 *)p)->f160; k++) {
+        func_021B385C(p, k, ((struct Obj00037 *)p)->f162, *(u16 *)(p + 32 + k * 8), (int)q);
     }
-    func_0201F878(*(char **)(p + 384) + k * 8, *(void **)(p + 392), 11, -2, *(u16 *)(p + 4));
+    func_0201F878(*(char * *)&((struct Obj00037 *)p)->f180 + k * 8, ((struct Obj00037 *)p)->f188, 11, -2, ((struct Obj00037 *)p)->f4);
     func_02045C04(q);
 }

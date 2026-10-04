@@ -12,6 +12,7 @@
  *   func_0204B49C 0x0204B49C arm
  *   func_0204B5D4 0x0204B5D4 arm
  */
+#include "../include/Obj05508.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -20,4 +21,4 @@ struct Actor;
 extern void func_0204B49C(struct Actor*,s16,u16,u32);
 extern void func_0204B5D4(struct Actor*,u32,u32);
 /* Space is explicitly truncated to u16 at the original call. */
-void func_021FF074(u8*p){*(u32*)(p+20)=410;func_0204B49C(*(struct Actor**)(p+4),*(s16*)(p+60),*(u32*)(p+68),0);func_0204B5D4(*(struct Actor**)(p+4),*(u32*)(p+20),0);}
+void func_021FF074(u8*p){((struct Obj05508 *)p)->f14=410;func_0204B49C(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f3C,((struct Obj05508 *)p)->f44,0);func_0204B5D4(*(struct Actor* *)&((struct Obj05508 *)p)->f4,((struct Obj05508 *)p)->f14,0);}

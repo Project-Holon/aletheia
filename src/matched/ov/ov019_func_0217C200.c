@@ -20,6 +20,7 @@
  *   func_02173B4C  0x02173B4C  thumb  ov012
  *   func_02080D24  0x02080D24  arm
  */
+#include "../include/Obj05947.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,15 +45,15 @@ int func_0217C200(u8 *a, u8 *b, int c, u8 *d)
     if (func_0217BB04(a) == 1)
         return 1;
     if (b[0x70] == 10) {
-        *(u16 *)(b + 0x6e) = 1;
+        ((struct Obj05947 *)b)->f6E = 1;
         return 1;
     }
-    *(u16 *)(b + 0x6e) = 0;
+    ((struct Obj05947 *)b)->f6E = 0;
     switch (*d) {
     case 0:
         func_02173518(b + 0x14);
         func_021734A8(a, 4, 1);
-        func_021735FC(b + 0x14, (const struct Entry *)(*(int *)(b + 0x20)));
+        func_021735FC(b + 0x14, (const struct Entry *)(((struct Obj05947 *)b)->f20));
         r = (int)func_020399A8();
         func_02039C68((struct Link *)r, 2, 0x14);
         (*d)++;

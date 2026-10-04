@@ -12,9 +12,10 @@
  * symbols:
  *   d_021EFA2C 0x021EFA2C data a4
  */
+#include "../include/Obj10654.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { void (*callback)(u8 *); u32 value; u32 next; } Dispatch;
 extern Dispatch d_021EFA2C;
-int func_021E216C(u8 *p){if(*(int *)(p+8)!=1){(*(void (**)(u8 *))((u32)&d_021EFA2C.callback+p[0x12]*12))(p);*(u32 *)(p+0x28)=*(u32 *)((u32)&d_021EFA2C.value+p[0x12]*12);return 0;}return 10;}
+int func_021E216C(u8 *p){if(((struct Obj10654 *)p)->f8!=1){(*(void (**)(u8 *))((u32)&d_021EFA2C.callback+p[0x12]*12))(p);((struct Obj10654 *)p)->f28=*(u32 *)((u32)&d_021EFA2C.value+p[0x12]*12);return 0;}return 10;}

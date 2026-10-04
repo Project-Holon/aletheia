@@ -13,6 +13,7 @@
  *   func_021CD9E0  0x021CD9E0  thumb  ov093
  *   func_021F7A28  0x021F7A28  thumb  ov094
  */
+#include "../include/Obj21561.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -21,7 +22,7 @@ extern void func_021F7A28(int a, u32 b);
 
 void func_021EA3B8(char *ctx, int a, int b)
 {
-    if (func_021CD9E0(*(u8 **)(ctx + 4)) == 0) {
+    if (func_021CD9E0(*(u8 * *)&((struct Obj21561 *)ctx)->f4) == 0) {
         func_021F7A28(a, b);
     }
 }

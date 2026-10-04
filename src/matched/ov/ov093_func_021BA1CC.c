@@ -13,11 +13,13 @@
  * symbols:
  *   sub_02008DAC 0x02008DAC thumb
  */
+#include "../include/Obj21001.h"
+#include "../include/Obj21002.h"
 typedef unsigned int u32;
 struct Sub02008C20Obj;
 extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
 void func_021BA1CC(char **p, int i, u32 delta)
 {
-    if (*(unsigned char *)(*p + 0x23) == 0)
-        sub_02008DAC(*(struct Sub02008C20Obj **)(*p + 0x6c), i, delta);
+    if (((struct Obj21001 *)(*p))->f23 == 0)
+        sub_02008DAC(*(struct Sub02008C20Obj * *)&((struct Obj21002 *)(*p))->f6C, i, delta);
 }

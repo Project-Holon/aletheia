@@ -12,8 +12,9 @@
  * Unlabelled leaf (no lr save): returns the selection func_021C553C
  * stores at +0x18. Called from func_021C5224.
  */
+#include "../include/Obj20207.h"
 
 int func_021C5768(char *p)
 {
-    return *(int *)(p + 0x18);
+    return ((struct Obj20207 *)p)->f18;
 }

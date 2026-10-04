@@ -23,6 +23,7 @@
  *   func_0203D378 0x0203D378 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj02155.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,36 +45,36 @@ int func_021BDB30(char *p, int v)
 {
     u16 state;
     int out;
-    state = (u16)func_021BDD54(p, *(void **)(p + 8));
+    state = (u16)func_021BDD54(p, ((struct Obj02155 *)p)->f8);
     switch (state) {
     case 4:
         func_0203D798();
         func_021BC104(p);
         func_021C24A4(p, 0);
         func_021BAADC(p, 0x7b, 0);
-        *(u8 *)(p + 0x1355) = 0;
-        *(u32 *)(p + 0x1cc) = 0x10;
+        ((struct Obj02155 *)p)->f1355 = 0;
+        ((struct Obj02155 *)p)->f1CC = 0x10;
         return v;
     case 5:
-        *(u32 *)(p + 0x1d0) = state;
+        ((struct Obj02155 *)p)->f1D0 = state;
         return 2;
     case 6:
         func_021BC104(p);
-        *(u32 *)(p + 0x1d0) = state;
+        ((struct Obj02155 *)p)->f1D0 = state;
         return 2;
     default:
         func_0203D1E8((u32)func_020399A8(), 0);
         if (func_0203D378()) {
-            if (func_021BCB70(*(int *)(p + 0x1348), *(int *)(p + 0xc4), &out) &&
-                func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xcc), &out)) {
+            if (func_021BCB70(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fC4, &out) &&
+                func_021BCBBC(((struct Obj02155 *)p)->f1348, ((struct Obj02155 *)p)->fCC, &out)) {
                 func_021BAAB8(p, 0x68, 0);
-                *(u32 *)(p + 0x1cc) = 0x74;
+                ((struct Obj02155 *)p)->f1CC = 0x74;
                 return v;
             }
-            *(u32 *)(p + 0x1cc) = 0x5b;
+            ((struct Obj02155 *)p)->f1CC = 0x5b;
         } else {
             func_02039C68((void *)func_020399A8(), 0x1b, 0xa);
-            *(u32 *)(p + 0x1cc) = 0x49;
+            ((struct Obj02155 *)p)->f1CC = 0x49;
         }
         return v;
     }

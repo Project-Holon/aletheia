@@ -22,6 +22,7 @@
  *   func_021CC95C 0x021CC95C thumb ov093
  *   func_021C7820 0x021C7820 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,7 +47,7 @@ int func_021C3008(u8 *p, u8 b, u8 *a, enum Kind kind, int value, u8 f, u16 g, u3
     if (!func_021D5D14(a, kind, value)) {
         if (i) {
             func_021C5A4C(p, a, kind, value);
-            *(u8 *)(p + 0x78a) |= 0x10;
+            ((struct Obj00003 *)p)->f78A |= 0x10;
         }
         return 0;
     }
@@ -54,7 +55,7 @@ int func_021C3008(u8 *p, u8 b, u8 *a, enum Kind kind, int value, u8 f, u16 g, u3
         u8 id;
         id = func_021D5440(a);
         if (b != id) {
-            if (i) func_021CD64C(*(void **)(p + 12), 0x5b, 0xd2, id, 0xffff0000);
+            if (i) func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0xd2, id, 0xffff0000);
             return 0;
         }
     }

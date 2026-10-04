@@ -23,6 +23,7 @@
  *   func_0218ED48  0x0218ED48  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07529.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,13 +59,13 @@ void func_021BA9B4(u8 *p)
     func_0218EC60(func_021B821C(p));
     func_021B79D4(p, &v);
     v.y = 0;
-    w.x = *(int *)(q + 12);
+    w.x = ((struct Obj07529 *)q)->fC;
     w.y = 0;
-    w.z = *(int *)(q + 16);
+    w.z = ((struct Obj07529 *)q)->f10;
     func_0207CA00(&v, &w, &v);
     func_0207CCA4(&v, &v);
     h = func_0207CFB8(v.x, v.z);
-    func_0218ED34((u8 *)o, *(u32 *)(q + 4));
-    func_0218ED58((u8 *)o, *(u32 *)(q + 8));
+    func_0218ED34((u8 *)o, ((struct Obj07529 *)q)->f4);
+    func_0218ED58((u8 *)o, ((struct Obj07529 *)q)->f8);
     func_0218ED48(o, h);
 }

@@ -28,6 +28,7 @@
  *   d_021D65E4 0x021D65E4 data a4
  *   d_021D65D4 0x021D65D4 data a4
  */
+#include "../include/Obj00198.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,18 +53,18 @@ extern void func_021D532C(void *);
 u8 *func_021D4D38(u16 heap, u32 mode) {
     u8 *p;
     p=func_02030734(heap,0x14bc,1,(const char *)d_021D6614,146);
-    *(u16 *)(p+0xc)=heap;
-    *(u32 *)(p+8)=mode;
+    ((struct Obj00198 *)p)->fC=heap;
+    ((struct Obj00198 *)p)->f8=mode;
     func_02043534(0);
     func_020435F4(0);
     *(volatile u16 *)0x04000050=0;
     func_0204363C(1);
     *(volatile u32 *)0x04001000 |= 0x10000;
     func_0207D46C();
-    func_0203F8F4(*(u16 *)(p+0xc));
+    func_0203F8F4(((struct Obj00198 *)p)->fC);
     func_020433E0(d_021D65E4);
     func_0203FC28(d_021D65D4);
-    switch (*(u32 *)(p+8)) {
+    switch (((struct Obj00198 *)p)->f8) {
     case 1:
         func_021D4FA4(p,0);
         func_021D5214(p,4);

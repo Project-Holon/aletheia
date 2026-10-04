@@ -13,6 +13,9 @@
  *   func_021FC0C8 0x021FC0C8 thumb ov186
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  */
+#include "../include/Obj08312.h"
+#include "../include/Obj10744.h"
+#include "../include/Obj10745.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
@@ -24,15 +27,15 @@ void func_021DE8FC(char *p, char *q)
     int i;
     for (i = 0; i < 3; i++) {
         char *slot = p + i * 4;
-        if (*(void **)(slot + 0x10)) {
-            func_021FC734(*(void **)(slot + 0x10));
-            *(void **)(slot + 0x10) = 0;
+        if (((struct Obj10745 *)slot)->f10) {
+            func_021FC734(((struct Obj10745 *)slot)->f10);
+            ((struct Obj10745 *)slot)->f10 = 0;
         }
     }
-    if (*(void **)(p + 0xc)) {
-        func_021FB494(*(void **)(p + 0xc));
-        *(void **)(p + 0xc) = 0;
+    if (((struct Obj10744 *)p)->fC) {
+        func_021FB494(((struct Obj10744 *)p)->fC);
+        ((struct Obj10744 *)p)->fC = 0;
     }
-    func_021FC0C8((char *)(*(int *)(q + 8)), 6);
-    func_021FBDA4(*(int *)(q + 8), 15);
+    func_021FC0C8((char *)(((struct Obj08312 *)q)->f8), 6);
+    func_021FBDA4(((struct Obj08312 *)q)->f8, 15);
 }

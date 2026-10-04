@@ -23,6 +23,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03770.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -46,17 +47,17 @@ extern const Vec d_021D7CA8;
 void func_021D59B0(u8 *p)
 {
     func_021D56F0(p);
-    *(u32 *)(p + 0x854) = 1;
-    func_02016028((void *)(*(u32 *)(p + 0x844)), 0);
-    func_02015EA0((void *)(*(u32 *)(p + 0x844)));
-    func_02015EA0((void *)(*(u32 *)(p + 0x848)));
-    if (*(u32 *)(p + 0x118C) == 6) {
+    ((struct Obj03770 *)p)->f854 = 1;
+    func_02016028((void *)(((struct Obj03770 *)p)->f844), 0);
+    func_02015EA0((void *)(((struct Obj03770 *)p)->f844));
+    func_02015EA0((void *)(((struct Obj03770 *)p)->f848));
+    if (((struct Obj03770 *)p)->f118C == 6) {
         Vec v = d_021D7CA8;
-        func_02015C48(*(u32 *)(p + 0x844), &v);
+        func_02015C48(((struct Obj03770 *)p)->f844, &v);
     }
     func_021E71F0(p, 0x11);
     func_021E7208(p, 0);
-    func_021D54F0(p, p + 0x11ED, p + 0x11EF, *(u32 *)(p + 0x834), 1);
-    func_021D54F0(p, p + 0x11EE, p + 0x11F0, *(u32 *)(p + 0x830), 0);
+    func_021D54F0(p, p + 0x11ED, p + 0x11EF, ((struct Obj03770 *)p)->f834, 1);
+    func_021D54F0(p, p + 0x11EE, p + 0x11F0, ((struct Obj03770 *)p)->f830, 0);
     func_021D8E84(p, (int)func_021D5A60);
 }

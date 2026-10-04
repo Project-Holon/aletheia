@@ -16,6 +16,7 @@
  *   func_021C3810  0x021C3810  thumb  ov093
  *   func_021C5718  0x021C5718  thumb  ov093
  */
+#include "../include/Obj21090.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -36,7 +37,7 @@ void func_021C376C(u8 *p, u16 a1, int b, int it)
     r = func_021C37F0(it);
     while (r) {
         if (func_021C3810(p, (u8 *)b, (u8 *)r, 0, &v, 0, 0, 0)) {
-            Q *q = *(Q **)(p + 0x4a8);
+            Q *q = *(Q * *)&((struct Obj21090 *)p)->f4A8;
             if (!q->f)
                 q->f = 1;
         } else if (v == 0) {

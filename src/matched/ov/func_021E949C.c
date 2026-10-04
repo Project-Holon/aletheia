@@ -14,6 +14,7 @@
  *
  * Forward, then store the third argument at 0x28.
  */
+#include "../include/Obj00000.h"
 
 
 
@@ -21,6 +22,6 @@ extern void func_021DD090(char *, int);
 int func_021E949C(char *p, int a, int b)
 {
     func_021DD090(p, a);
-    *(int *)(p + 0x28) = b;
+    ((struct Obj00000 *)p)->f28 = b;
     return 8;
 }

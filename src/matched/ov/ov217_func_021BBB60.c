@@ -15,6 +15,7 @@
  *   func_021BC3E0 0x021BC3E0 thumb ov217
  *   func_021BC2CC 0x021BC2CC thumb ov217
  */
+#include "../include/Obj01084.h"
 typedef unsigned char u8;
 extern unsigned func_021BC41C(void *);
 extern int func_021BC40C(void *p);
@@ -24,7 +25,7 @@ extern void func_021BC2CC(void *, unsigned, unsigned, unsigned);
 void func_021BBB60(u8 *p)
 {
     int start, end, step, low, high, low2, high2;
-    start = *(int *)(p + 0x34);
+    start = ((struct Obj01084 *)p)->f34;
     end = start;
     if ((int)func_021BC41C(p) < start) end = func_021BC40C(p) + 24;
     else if (start < 0) end = 144;

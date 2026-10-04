@@ -27,6 +27,7 @@
  *   func_0200B078 0x0200B078 thumb
  *   func_021E6118 0x021E6118 thumb ov177
  */
+#include "../include/Obj00053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -58,28 +59,28 @@ void func_0217D028(u8 *p)
     Record rec;
     void *base;
     int box, aux, x, table, a, b, c, d;
-    if (*(int *)(p + 0x10)) return;
-    base = func_02012EBC(*(void **)(p + 0x1B8));
+    if (*(int *)&((struct Obj00053 *)p)->f10) return;
+    base = func_02012EBC(((struct Obj00053 *)p)->f1B8);
     func_0200BAC8(base);
-    box = func_0200AE14(*(void **)(p + 0x38));
+    box = func_0200AE14(((struct Obj00053 *)p)->f38);
     aux = (int)func_0200B204(func_0200B358(base), 1);
-    x = (int)func_02012944(*(void **)(p + 0x1B8));
-    table = func_021E5548(*(int **)(p + 0x1B4));
+    x = (int)func_02012944(((struct Obj00053 *)p)->f1B8);
+    table = func_021E5548(*(int * *)&((struct Obj00053 *)p)->f1B4);
     func_02082BCC(&rec, 0, 0xAC);
-    rec.fa0 = func_0200E918(*(u8 **)(p + 0x34), 1);
-    rec.fa2 = func_0200E918(*(u8 **)(p + 0x34), 2);
-    rec.fa4 = func_0200E918(*(u8 **)(p + 0x34), 0);
+    rec.fa0 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 1);
+    rec.fa2 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 2);
+    rec.fa4 = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
     rec.fa6 = func_0200AE54((struct Reg *)box, 0x16);
     rec.f9c = func_02008554((const struct Sub0200852CObj *)x);
-    func_02082D44((int)func_0200B074(*(void **)(p + 0x38)), &rec, 0x92);
-    a = func_0200B078(*(void **)(p + 0x38), 6);
-    b = func_0200B078(*(void **)(p + 0x38), 5);
-    c = func_0200B078(*(void **)(p + 0x38), 4);
+    func_02082D44((int)func_0200B074(((struct Obj00053 *)p)->f38), &rec, 0x92);
+    a = func_0200B078(((struct Obj00053 *)p)->f38, 6);
+    b = func_0200B078(((struct Obj00053 *)p)->f38, 5);
+    c = func_0200B078(((struct Obj00053 *)p)->f38, 4);
     rec.f94 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
-    a = func_0200B078(*(void **)(p + 0x38), 9);
-    b = func_0200B078(*(void **)(p + 0x38), 8);
-    c = func_0200B078(*(void **)(p + 0x38), 7);
+    a = func_0200B078(((struct Obj00053 *)p)->f38, 9);
+    b = func_0200B078(((struct Obj00053 *)p)->f38, 8);
+    c = func_0200B078(((struct Obj00053 *)p)->f38, 7);
     rec.f98 = ((u32)c << 24) | (((u32)b << 24) >> 8) | (((u32)a << 24) >> 16);
-    rec.fa8 = func_0200B078(*(void **)(p + 0x38), 11);
-    *(int *)(p + 0x10) = func_021E6118(&rec, x, table, *(int *)(p + 0x1B0), *(int *)(p + 0x1A8), *(int *)(p + 0x1AC), *(int *)(p + 0x24), *(int *)(p + 0x2C), aux, 0, *(u16 *)(p + 0x1C8));
+    rec.fa8 = func_0200B078(((struct Obj00053 *)p)->f38, 11);
+    *(int *)&((struct Obj00053 *)p)->f10 = func_021E6118(&rec, x, table, ((struct Obj00053 *)p)->f1B0, ((struct Obj00053 *)p)->f1A8, *(int *)&((struct Obj00053 *)p)->f1AC, *(int *)&((struct Obj00053 *)p)->f24, ((struct Obj00053 *)p)->f2C, aux, 0, ((struct Obj00053 *)p)->f1C8);
 }

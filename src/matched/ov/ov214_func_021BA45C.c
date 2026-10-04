@@ -15,6 +15,7 @@
  *   func_021BA794 0x021BA794 thumb ov214
  *   func_021BA6F0 0x021BA6F0 thumb ov214
  */
+#include "../include/Obj00202.h"
 typedef unsigned short u16;
 typedef struct {int a,b,c;} Obj;
 typedef unsigned char  u8;
@@ -25,14 +26,14 @@ void func_021BA45C(Obj*obj,char*p)
 {
     unsigned threshold;
     if(func_02035630()==30)threshold=30;else threshold=60;
-    if(obj->c && !*(int*)(p+0xb4) && (*(unsigned*)(p+0xac)>=threshold || *(int*)(p+0xb0))){
-        func_021BA794(obj,p,*(unsigned*)(p+0xac)/threshold);
-        if(*(unsigned*)(p+0xac)>=threshold){
-            --*(unsigned*)(p+0xac);
-            if(*(unsigned*)(p+0xac)==threshold-1)*(int*)(p+0xb8)=1;
+    if(obj->c && !((struct Obj00202 *)p)->fB4 && (((struct Obj00202 *)p)->fAC>=threshold || *(int *)&((struct Obj00202 *)p)->fB0)){
+        func_021BA794(obj,p,((struct Obj00202 *)p)->fAC/threshold);
+        if(((struct Obj00202 *)p)->fAC>=threshold){
+            --((struct Obj00202 *)p)->fAC;
+            if(((struct Obj00202 *)p)->fAC==threshold-1)((struct Obj00202 *)p)->fB8=1;
         }else{
-            --*(unsigned*)(p+0xb0);
-            if(!*(unsigned*)(p+0xb0))func_021BA6F0(obj,p);
+            --((struct Obj00202 *)p)->fB0;
+            if(!((struct Obj00202 *)p)->fB0)func_021BA6F0(obj,p);
         }
     }
 }

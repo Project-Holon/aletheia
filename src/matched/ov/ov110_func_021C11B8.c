@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj10286.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,7 +39,7 @@ extern void func_02041B6C(unsigned);
 void func_021C11B8(u8 *p,int index,int unused,int flag) {
     void *str;
     u16 color;
-    str=func_02045EC0(*(void **)(p+0x60),17);
+    str=func_02045EC0(((struct Obj10286 *)p)->f60,17);
     func_021C080C(p+0x24,index,6,flag);
     if (flag) {
         func_02043B5C(func_02045770(*(void **)(p+0x6c+index*4)),14);
@@ -47,7 +48,7 @@ void func_021C11B8(u8 *p,int index,int unused,int flag) {
         func_02043B5C(func_02045770(*(void **)(p+0x6c+index*4)),13);
         color=0x44d;
     }
-    func_0201C724(*(void **)(p+0x5c),func_02045770(*(void **)(p+0x6c+index*4)),0,0,str,*(unsigned *)(p+0x58),color);
+    func_0201C724(((struct Obj10286 *)p)->f5C,func_02045770(*(void **)(p+0x6c+index*4)),0,0,str,((struct Obj10286 *)p)->f58,color);
     func_02045808(str);
     func_02045374(*(void **)(p+0x6c+index*4));
     func_02041B6C(func_02045730(*(void **)(p+0x6c+index*4)));

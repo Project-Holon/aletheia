@@ -16,6 +16,7 @@
  *   func_0207ADC4  0x0207ADC4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03528.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,14 +28,14 @@ extern u32 func_0207ADC4(u32);
 
 int func_021C1C24(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(a) + 24) = func_02047E88(*(u32 *)((u8 *)(a) + 20), b, c, d);
-*(u32 *)((u8 *)(a) + 40) = (1 << 12);
-*(u32 *)((u8 *)(a) + 44) = (1 << 12);
-*(u32 *)((u8 *)(a) + 48) = (1 << 12);
+((struct Obj03528 *)((u8 *)(a)))->f18 = func_02047E88(((struct Obj03528 *)((u8 *)(a)))->f14, b, c, d);
+((struct Obj03528 *)((u8 *)(a)))->f28 = (1 << 12);
+((struct Obj03528 *)((u8 *)(a)))->f2C = (1 << 12);
+((struct Obj03528 *)((u8 *)(a)))->f30 = (1 << 12);
 func_0207ADC4((a + 52));
-*(u32 *)((u8 *)(a) + 28) = 0;
-*(u32 *)((u8 *)(a) + 32) = 0;
-*(u32 *)((u8 *)(a) + 36) = 0;
+((struct Obj03528 *)((u8 *)(a)))->f1C = 0;
+((struct Obj03528 *)((u8 *)(a)))->f20 = 0;
+((struct Obj03528 *)((u8 *)(a)))->f24 = 0;
 return 0;
 }
 

@@ -21,6 +21,8 @@
  *   func_021F513C 0x021F513C thumb ov194
  *   d_021F57A8 0x021F57A8 data ov194 a1
  */
+#include "../include/Obj14518.h"
+#include "../include/Obj14519.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -44,8 +46,8 @@ extern const char d_021F57A8[];
 static inline u8 *entry(u8 *p,u32 i) {
     if(p) {
         u8 *q=p+0x3c;
-        if(q && i<*(u8 *)(p+0x3d)) {
-                u16 off=*(u16 *)(p+0x42);
+        if(q && i<((struct Obj14518 *)p)->f3D) {
+                u16 off=((struct Obj14518 *)p)->f42;
                 u16 stride=*(u16 *)(q+off);
                 return q+off+4+stride*i;
         } else return 0;
@@ -62,12 +64,12 @@ void func_021F51E4(u8 *dst,unsigned arc,u32 member,u32 index,u16 width,u16 heigh
     u8 *pixels;
     u32 offset;
     offset=(*(u32 *)entry(tex,index)&0xffff)*8;
-    pixels=tex+*(u32 *)(tex+20);
+    pixels=tex+((struct Obj14519 *)tex)->f14;
     void *buf=func_02030734((u16)((heap&0x7fff)|0x8000),size,0,d_021F57A8,95);
     func_021F513C(pixels+offset,width,0,0,width,height,buf);
     func_0204AA94(func_0204B7F0(dst),buf,size,pos,mode);
     func_020307B0(buf);
-    u32 poff=*(u32 *)(tex+56);
+    u32 poff=((struct Obj14519 *)tex)->f38;
     func_020862F0(tex+poff,32);
     func_0204B764((const char *)dst,&pal);
     if(mode==0 || mode==2) func_0207E51C(tex+poff,func_02063800((char *)&pal,1),32);

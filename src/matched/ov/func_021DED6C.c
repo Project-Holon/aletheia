@@ -26,6 +26,7 @@
  * two-string tail as func_021DD908.  The second argument lives on the stack
  * because all six saved registers are taken.
  */
+#include "../include/Obj12154.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,8 +62,8 @@ void func_021DED6C(void *a, int b, int c)
     if (v == 0)
         v = 1;
     p = func_021C88A4(b, 5, c);
-    *(u8 *)(p + 6) = c;
-    *(u16 *)(p + 4) = v;
+    ((struct Obj12154 *)p)->f6 = c;
+    ((struct Obj12154 *)p)->f4 = v;
     func_021C8838(p + 8, 2, 0x392);
     func_021C8860((struct S *)(p + 8), c);
     func_021C8860((struct S *)(p + 8), func_021D70A8(a));

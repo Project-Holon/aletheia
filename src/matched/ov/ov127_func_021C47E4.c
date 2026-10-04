@@ -13,9 +13,10 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj23033.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_020307B0(void *);
-void func_021C47E4(u8 *p) { func_020307B0(*(void **)(p+4));func_020307B0(p); }
+void func_021C47E4(u8 *p) { func_020307B0(((struct Obj23033 *)p)->f4);func_020307B0(p); }

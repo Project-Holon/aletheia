@@ -15,8 +15,9 @@
  * Blocker target of ov210's func_021BF728 (pkt_021BF728), reached across the
  * ov210/ov067 overlay pair.
  */
+#include "../include/Obj20629.h"
 
 int func_021B93B0(char *p)
 {
-    return *(signed short *)(p + 0x5c);
+    return ((struct Obj20629 *)p)->f5C;
 }

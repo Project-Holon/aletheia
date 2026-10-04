@@ -14,10 +14,11 @@
  * symbols:
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj19134.h"
 
 extern void func_02049238(void *p);
 
 void func_0216E290(char *p)
 {
-    func_02049238(*(void **)(p + 0x14));
+    func_02049238(((struct Obj19134 *)p)->f14);
 }

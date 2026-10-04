@@ -14,6 +14,8 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_021DB468 0x021DB468 thumb ov131
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj23169.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,7 +37,7 @@ void func_021DB3F0(u8 *a,u8 *b) {
         if(i<0) i=b[43]-1;
         else if(i>b[43]-1) i=0;
         if(i<4) v=(u16)func_02017E88(p,i+54,0);
-        else v=*(u16 *)(*(u8 **)(a+8)+20);
+        else v=((struct Obj23169 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f14;
     } while(v==0);
     func_021DB468(a,b,i,0);
 }

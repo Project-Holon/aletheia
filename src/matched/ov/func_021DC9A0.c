@@ -13,13 +13,14 @@
  *
  * Clear the two halfword fields at +0x64/+0x66, store v at +0x58 and zero +0x5c.
  */
+#include "../include/Obj05868.h"
 
 
 void func_021DC9A0(char *p, int v)
 {
-    *(short *)(p + 0x64) = 0;
-    *(short *)(p + 0x66) = 0;
-    *(int *)(p + 0x58) = v;
-    *(int *)(p + 0x5c) = 0;
+    ((struct Obj05868 *)p)->f64 = 0;
+    ((struct Obj05868 *)p)->f66 = 0;
+    ((struct Obj05868 *)p)->f58 = v;
+    ((struct Obj05868 *)p)->f5C = 0;
 }
 

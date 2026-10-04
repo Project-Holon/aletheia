@@ -12,6 +12,7 @@
  * symbols:
  *   d_021DDA0C  0x021DDA0C  data  ov021  a4
  */
+#include "../include/Obj19556.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern StateFunc d_021DDA0C[];
 
 void func_0218E124(u8 *a, u32 s)
 {
-    *(u32 *)(a + 0x14) = s;
+    ((struct Obj19556 *)a)->f14 = s;
     d_021DDA0C[s](a);
 }

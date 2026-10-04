@@ -18,6 +18,7 @@
  *   func_02008DF0  0x02008DF0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,18 +38,18 @@ extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 u32 func_02188BF8(u8 *a)
 {
     u32 r = 0;
-    u32 t = func_021A3098(*(u32 *)(a + 0x8C));
+    u32 t = func_021A3098(*(u32 *)&((struct Obj00020 *)a)->f8C);
 
     if (t == 1) {
         r = 1;
-        func_021A2F48(*(u32 *)(a + 0x8C), 1);
+        func_021A2F48(*(u32 *)&((struct Obj00020 *)a)->f8C, 1);
     } else if (t == 0) {
         r = 1;
         func_020061E4(0x55F);
-        func_021A2F48(*(u32 *)(a + 0x8C), 2);
-        func_02008DF0(func_02012F2C((int *)(*(u32 *)(a + 8))), 3);
+        func_021A2F48(*(u32 *)&((struct Obj00020 *)a)->f8C, 2);
+        func_02008DF0(func_02012F2C((int *)(*(u32 *)&((struct Obj00020 *)a)->f8)), 3);
     }
     if (r == 1)
-        func_021A2F54((u8 *)(*(u32 *)(a + 0x8C)));
+        func_021A2F54((u8 *)(*(u32 *)&((struct Obj00020 *)a)->f8C));
     return r;
 }

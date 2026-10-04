@@ -15,6 +15,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_02040618 0x02040618 arm
  */
+#include "../include/Obj05337.h"
 typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
@@ -26,7 +27,7 @@ int func_021E69C0(char *p)
 {
     Pt a,b,c;
     int i;
-    if(*(short *)(p+0x11de)<128) *(short *)(p+0x11de)+=4;
+    if(((struct Obj05337 *)p)->f11DE<128) ((struct Obj05337 *)p)->f11DE+=4;
     else return 1;
     for(i=0;i<8;i++) {
         func_0204B454(*(void **)(p+i*4+0x10cc),(struct PtS *)&a,1);
@@ -47,7 +48,7 @@ int func_021E69C0(char *p)
             func_0204B404(*(void **)(p+i*4+0x1014),&c,1);
         }
     }
-    func_02040618(5,0,-*(short *)(p+0x11de));
-    func_02040618(4,0,*(short *)(p+0x11de)-128);
+    func_02040618(5,0,-((struct Obj05337 *)p)->f11DE);
+    func_02040618(4,0,((struct Obj05337 *)p)->f11DE-128);
     return 0;
 }

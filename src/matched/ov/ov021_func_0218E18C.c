@@ -19,6 +19,7 @@
  *   func_02048B94  0x02048B94  arm
  *   tbl_020A1B38   0x020A1B38  data
  */
+#include "../include/Obj01347.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -59,10 +60,10 @@ void func_0218E18C(char *p, Vec *src)
     Info info;
 
     func_0218E260(p, &info);
-    *(int *)(p + 0x7c) = info.a << 12;
-    *(u16 *)(p + 0x78) = info.b;
-    *(u16 *)(p + 0x7a) = info.c;
-    *(u16 *)(p + 0x80) = info.ang;
+    ((struct Obj01347 *)p)->f7C = info.a << 12;
+    ((struct Obj01347 *)p)->f78 = info.b;
+    ((struct Obj01347 *)p)->f7A = info.c;
+    ((struct Obj01347 *)p)->f80 = info.ang;
     func_0218EC7C(p, info.g);
     func_0218EC68(p, info.f);
     switch (info.mode) {
@@ -73,18 +74,18 @@ void func_0218E18C(char *p, Vec *src)
         func_02046BE0(0, 1);
         break;
     }
-    if (func_02048B78(*(int *)(p + 0xc)) == 0) {
-        func_02048B80(*(int *)(p + 0xc), tbl_020A1B38[(*(u16 *)(p + 0x80) >> 4) * 2]);
-        func_02048B94(*(int *)(p + 0xc), tbl_020A1B38[(*(u16 *)(p + 0x80) >> 4) * 2 + 1]);
+    if (func_02048B78(((struct Obj01347 *)p)->fC) == 0) {
+        func_02048B80(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2]);
+        func_02048B94(((struct Obj01347 *)p)->fC, tbl_020A1B38[(((struct Obj01347 *)p)->f80 >> 4) * 2 + 1]);
     }
     if (info.has != 0) {
-        *(Vec **)(p + 0x18) = src;
-        *(Vec **)(p + 0x1c) = src;
+        *(Vec * *)&((struct Obj01347 *)p)->f18 = src;
+        *(Vec * *)&((struct Obj01347 *)p)->f1C = src;
         *(Vec *)(p + 0x48) = *src;
         *(Vec *)(p + 0x60) = info.v;
     } else {
-        *(Vec **)(p + 0x18) = 0;
-        *(Vec **)(p + 0x1c) = 0;
+        *(Vec * *)&((struct Obj01347 *)p)->f18 = 0;
+        *(Vec * *)&((struct Obj01347 *)p)->f1C = 0;
         *(Vec *)(p + 0x48) = info.v;
         ((Vec *)(p + 0x60))->x = 0;
         ((Vec *)(p + 0x60))->y = 0;

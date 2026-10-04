@@ -18,6 +18,7 @@
  *   func_021FC804  0x021FC804  thumb
  *   func_021CD5A4  0x021CD5A4  thumb
  */
+#include "../include/Obj02658.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,7 +48,7 @@ loc_0215DFC4:
     a0 = func_02012F80(v1);
 loc_0215DFC8:
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 8);
+a0 = ((struct Obj02658 *)t4)->f8;
     a0 = func_021CD688(a0);
 loc_0215DFD0:
 t5 = 0;
@@ -59,31 +60,31 @@ loc_0215DFDA:
 loc_0215DFDE:
     goto loc_0215DFFC;
 loc_0215DFE0:
-a0 = *(int *)((char *)t4 + 0x30);
-*(u16 *)((char *)a0) = t5;
-a0 = *(int *)((char *)t4 + 4);
+a0 = ((struct Obj02658 *)t4)->f30;
+((struct Obj02658 *)((char *)a0))->f0 = t5;
+a0 = ((struct Obj02658 *)t4)->f4;
     a0 = func_021FC804(a0);
 loc_0215DFEA:
     goto loc_0215DFFA;
 loc_0215DFEC:
-a0 = *(int *)((char *)t4 + 0x30);
+a0 = ((struct Obj02658 *)t4)->f30;
 t5 = 1;
-*(u16 *)((char *)a0) = t5;
+((struct Obj02658 *)((char *)a0))->f0 = t5;
     goto loc_0215DFFC;
 loc_0215DFF4:
-a0 = *(int *)((char *)t4 + 0x30);
+a0 = ((struct Obj02658 *)t4)->f30;
 a1 = 2;
-*(u16 *)((char *)a0) = a1;
+((struct Obj02658 *)((char *)a0))->f0 = a1;
 loc_0215DFFA:
 t5 = 1;
 loc_0215DFFC:
     if (t5 != 1) goto loc_0215E00A;
 loc_0215E000:
-a0 = *(int *)((char *)t4 + 8);
+a0 = ((struct Obj02658 *)t4)->f8;
     a0 = func_021CD5A4(a0);
 loc_0215E006:
 a0 = 0;
-*(int *)((char *)t4 + 8) = a0;
+((struct Obj02658 *)t4)->f8 = a0;
 loc_0215E00A:
 a0 = t5 + 0;
     return a0;}

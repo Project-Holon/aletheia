@@ -14,6 +14,7 @@
  *   func_021E9728  0x021E9728  thumb  ov093
  *   func_021E96C4  0x021E96C4  thumb  ov093
  */
+#include "../include/Obj10105.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -23,8 +24,8 @@ extern int func_021E96C4(char *p, int *st);
 
 void func_021E98BC(char *p, u8 *a, int b)
 {
-    *(u8 **)(p + 0xbc) = a;
-    *(u32 *)(p + 0xc0) = func_021D5440(a);
-    *(int *)(p + 0xb8) = b;
+    *(u8 * *)&((struct Obj10105 *)p)->fBC = a;
+    ((struct Obj10105 *)p)->fC0 = func_021D5440(a);
+    ((struct Obj10105 *)p)->fB8 = b;
     func_021E9728(p, (u32)func_021E96C4);
 }

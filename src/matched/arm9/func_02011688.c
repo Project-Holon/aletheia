@@ -36,6 +36,7 @@
  *   python tools/match.py one --src src/matched/func_02011688.c \
  *       --func func_02011688 --addr 0x02011688 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11246.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -62,8 +63,8 @@ u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
         u32 base = (u32)p->f1c;
         dst->a = *(s32 *)(base + off);
         base += off;
-        dst->b = *(s32 *)(base + 4);
-        dst->c = *(s32 *)(base + 8);
+        dst->b = ((struct Obj11246 *)base)->f4;
+        dst->c = ((struct Obj11246 *)base)->f8;
         return 1;
     }
     return 0;

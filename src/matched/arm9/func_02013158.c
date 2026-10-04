@@ -14,8 +14,9 @@
  * symbols:
  *   func_02013158  0x02013158  thumb
  */
+#include "../include/Obj15643.h"
 
 int func_02013158(char *base, int m)
 {
-    return *(unsigned short *)(base + 0x82) & m;
+    return ((struct Obj15643 *)base)->f82 & m;
 }

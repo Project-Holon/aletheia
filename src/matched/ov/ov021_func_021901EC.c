@@ -15,6 +15,7 @@
  *   func_021931F4  0x021931F4  thumb
  *   d_021DDA50  0x021DDA50  data  ov021  a4
  */
+#include "../include/Obj01849.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,15 +39,15 @@ extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
 u8 *func_021901EC(u16 heap, u32 b)
 {
     u8 *o = func_02030734(heap, 0x17c, 1, d_021DDA50, 0x1a4);
-    *(u16 *)o = heap;
-    *(u16 *)(o + 2) = 0xff;
-    *(u16 *)(o + 4) = 0xff;
-    *(u32 *)(o + 0x168) = b;
-    *(u32 *)(o + 8) = (u32)func_0201D7EC(0x17, 0, 0, 0, *(u16 *)o);
-    *(u32 *)(o + 0xc) = func_0201C440((void *)(*(u16 *)o));
-    *(u32 *)(o + 0x164) = (u32)func_0203101C(*(u16 *)o, *(u16 *)o, 1, 4);
+    ((struct Obj01849 *)o)->f0 = heap;
+    ((struct Obj01849 *)o)->f2 = 0xff;
+    ((struct Obj01849 *)o)->f4 = 0xff;
+    ((struct Obj01849 *)o)->f168 = b;
+    ((struct Obj01849 *)o)->f8 = (u32)func_0201D7EC(0x17, 0, 0, 0, ((struct Obj01849 *)o)->f0);
+    ((struct Obj01849 *)o)->fC = func_0201C440((void *)(((struct Obj01849 *)o)->f0));
+    ((struct Obj01849 *)o)->f164 = (u32)func_0203101C(((struct Obj01849 *)o)->f0, ((struct Obj01849 *)o)->f0, 1, 4);
     func_021931F4((u32)(o + 0x160));
-    *(u32 *)(o + 0x174) = func_0204A1BC(5, 0xc, 0, heap);
-    func_02062A4C((struct NitroFileHeader *)(*(u32 *)(o + 0x174)), (void **)(o + 0x178));
+    ((struct Obj01849 *)o)->f174 = func_0204A1BC(5, 0xc, 0, heap);
+    func_02062A4C((struct NitroFileHeader *)(((struct Obj01849 *)o)->f174), (void **)(o + 0x178));
     return o;
 }

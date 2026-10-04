@@ -15,6 +15,7 @@
  *   func_021CD4B0  0x021CD4B0  thumb  ov093
  *   func_021CD63C  0x021CD63C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -39,8 +40,8 @@ void func_021C5798(u8 *p, u16 *a, u32 n, int *arr, u8 **ptrs, u16 *vals)
     if (hi) k = 2;
     else if (lo) k = 3;
     else k = 1;
-    func_021CD4B0(*(void **)(p + 0xc), 0x33, (u8)n, (u8)k, *a);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x33, (u8)n, (u8)k, *a);
     for (i = 0; i < n; i++) {
-        func_021CD63C(*(void **)(p + 0xc), func_021D5440(ptrs[i]));
+        func_021CD63C(((struct Obj00003 *)p)->fC, func_021D5440(ptrs[i]));
     }
 }

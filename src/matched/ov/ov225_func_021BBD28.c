@@ -15,6 +15,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj06736.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -33,13 +34,13 @@ void func_021BBD28(u8 *p)
     struct Descriptor *descriptor;
     for(index=0;index<3;index++) {
         slot=p+index*4;
-        if(*(u32 *)(slot+0x28)!=0) {
-            if(func_0201C6C4(*(struct PrintSys **)(slot+0x1C),func_02045770(*(struct Descriptor **)(slot+0x10)))==0) {
-                descriptor=*(struct Descriptor **)(slot+0x10);
+        if(((struct Obj06736 *)slot)->f28!=0) {
+            if(func_0201C6C4(*(struct PrintSys * *)&((struct Obj06736 *)slot)->f1C,func_02045770(*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10))==0) {
+                descriptor=*(struct Descriptor * *)&((struct Obj06736 *)slot)->f10;
                 func_02045334(descriptor);
                 func_02045374((struct Cfg *)descriptor);
                 func_02041B6C(func_02045730(descriptor));
-                *(u32 *)(slot+0x28)=0;
+                ((struct Obj06736 *)slot)->f28=0;
             }
         }
     }

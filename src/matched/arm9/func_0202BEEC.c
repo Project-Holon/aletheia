@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0202BEEC.c \
  *       --func func_0202BEEC --addr 0x0202BEEC --thumb --cc 1.1p1
  */
+#include "../include/Obj08807.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,12 +45,12 @@ void func_0202BEEC(u8 *p, u32 id)
     int   i;
 
     p[4] = (u8)n;
-    *(u32 *)(p + 8) = (u32)func_02030734(id, (u32)(n << 3), 0,
+    ((struct Obj08807 *)p)->f8 = (u32)func_02030734(id, (u32)(n << 3), 0,
                                          (const void *)0x020A7748, 0xd2);
 
     for (i = 0; i < n; i++) {
         func_0204944C(h, (u32)i, 0, 8,
-                      (void *)(*(u32 *)(p + 8) + ((u32)i << 3)));
+                      (void *)(((struct Obj08807 *)p)->f8 + ((u32)i << 3)));
     }
     func_02049238(h);
 }

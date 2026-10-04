@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22148.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B7F18(u8 *p) { *(u32 *)(p + 0x488) = 1; }
+void func_021B7F18(u8 *p) { ((struct Obj22148 *)p)->f488 = 1; }

@@ -15,11 +15,12 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj22013.h"
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021B9FD0(void *p)
 {
-    func_0204B3DC((struct Obj *)*(int *)((char *)p + 0x2c), 0);
+    func_0204B3DC((struct Obj *)((struct Obj22013 *)p)->f2C, 0);
 }

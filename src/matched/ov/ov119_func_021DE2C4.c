@@ -27,6 +27,7 @@
  *   func_021D8980 0x021D8980 thumb ov119
  *   func_0202208C 0x0202208C thumb
  */
+#include "../include/Obj06426.h"
 typedef unsigned short u16;
 extern unsigned func_020221A4(void);
 typedef unsigned int   u32;
@@ -55,8 +56,8 @@ void func_021DE2C4(char *p)
         func_02040588(3,zero);
         func_021E6440((int)p,-1,-1);
         func_021E1CE8(p,0);
-        resource=func_020490F4(102,*(u16 *)(p+0x5f4));
-        func_02049990(resource,11,2,0,(u16)*(int *)(p+0x86c),zero,zero,*(u16 *)(p+0x5f4));
+        resource=func_020490F4(102,((struct Obj06426 *)p)->f5F4);
+        func_02049990(resource,11,2,0,(u16)((struct Obj06426 *)p)->f86C,zero,zero,((struct Obj06426 *)p)->f5F4);
         func_02049238(resource);
         func_021E3208(p,0);
         func_02041B6C(3);
@@ -75,6 +76,6 @@ void func_021DE2C4(char *p)
         func_021DD09C(p);
         func_021D8E84(p,(int)func_021DEA24);
         func_021D8980(p);
-        func_0202208C((void *)3,1,1,0,6,1,*(u16 *)(p+0x5f4));
+        func_0202208C((void *)3,1,1,0,6,1,((struct Obj06426 *)p)->f5F4);
     }
 }

@@ -20,6 +20,7 @@
  *   func_021BB3F4  0x021BB3F4  thumb  ov070
  *   func_021B8AF4  0x021B8AF4  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,11 +44,11 @@ void func_021B6A14(u8 *p)
     if ((func_020362DC() & 3) == 0 && func_02035C60() == 0)
         return;
     func_020414EC(3);
-    *(u32 *)(p + 0x818) = 0xFFFF;
+    *(u32 *)&((struct Obj00002 *)p)->f818 = 0xFFFF;
     func_021B6138(p);
-    *(u16 *)(p + 0x83E) = 1;
+    ((struct Obj00002 *)p)->f83E = 1;
     func_021BA6A4(p);
-    func_0204B92C(*(void **)(p + 0x6A8), 1);
+    func_0204B92C(((struct Obj00002 *)p)->f6A8, 1);
     func_021BB3F4((int)p, 1);
     func_021B8AF4(p);
 }

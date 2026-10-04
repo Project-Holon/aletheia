@@ -16,11 +16,13 @@
  * symbols:
  *   func_02082D44   0x02082D44  arm
  */
+#include "../include/Obj12594.h"
+#include "../include/Obj19570.h"
 
 extern void func_02082D44(void *, void *, int);
 
 void func_0218F114(char *arg0, char *arg1)
 {
-    func_02082D44(arg1 + 4, arg0 + 0x88, 0x18 * *(int *)arg1);
-    *(unsigned char *)(arg0 + 0xe8) = *(int *)arg1;
+    func_02082D44(arg1 + 4, arg0 + 0x88, 0x18 * ((struct Obj12594 *)arg1)->f0);
+    ((struct Obj19570 *)arg0)->fE8 = ((struct Obj12594 *)arg1)->f0;
 }

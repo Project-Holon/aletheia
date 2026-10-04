@@ -17,10 +17,11 @@
  * symbols:
  *   func_0216D5E0  0x0216D5E0  thumb  ov010
  */
+#include "../include/Obj19776.h"
 
 extern void func_0216D5E0(int, int);
 
 void func_021A392C(void *p, int b)
 {
-    func_0216D5E0(*(int *)((char *)p + 0x1c), b);
+    func_0216D5E0(((struct Obj19776 *)p)->f1C, b);
 }

@@ -26,6 +26,7 @@
  *   func_021C70E4 0x021C70E4 thumb ov093
  *   func_021C5200 0x021C5200 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021EF8B8(void);
@@ -55,7 +56,7 @@ int func_021C4D1C(u8 *p, void *it)
     int line;
     r = func_021EF8B8();
     if (r) {
-        func_021CD4B0(*(void **)(p + 12), 0x40, r);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 0x40, r);
         func_021C3BE0(p, 0);
         return 0;
     }

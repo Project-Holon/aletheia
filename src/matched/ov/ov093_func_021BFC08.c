@@ -25,6 +25,7 @@
  *   func_021D5FC0 0x021D5FC0 thumb ov093
  *   func_021BFE60 0x021BFE60 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,7 +49,7 @@ int func_021BFC08(u8 *p, u8 *q, u8 *d, u16 c)
 {
     int result;
     if (func_021D62C4(q, 26) == 0) {
-        int n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(q));
+        int n = func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, func_021D5440(q));
         if (func_021C66AC(p, q, (u32)d)) {
             func_021C5718(p, q, c);
             return 1;

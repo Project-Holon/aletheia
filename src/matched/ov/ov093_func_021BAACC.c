@@ -15,6 +15,7 @@
  *   func_021BB840  0x021BB840  thumb  ov093
  *   func_021BB848  0x021BB848  thumb  ov093
  */
+#include "../include/Obj13288.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,8 +32,8 @@ void func_021BAACC(char *p, int a, int b, int c, u8 d)
     char *q;
     int off;
 
-    x = func_021B9AEC(*(char **)(p + 0x10), c);
-    y = func_021EEA58(b, c, 1, *(u16 *)(p + 0xcc0));
+    x = func_021B9AEC(*(char * *)&((struct Obj13288 *)p)->f10, c);
+    y = func_021EEA58(b, c, 1, ((struct Obj13288 *)p)->fCC0);
     q = p + 0x14;
     off = c * 12;
     func_021BB840(q + off, c, y, 0);

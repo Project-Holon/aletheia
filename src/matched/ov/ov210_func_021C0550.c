@@ -14,6 +14,7 @@
  *   func_02045808 0x02045808 arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14683.h"
 
 struct S;
 struct U16Vec;
@@ -24,8 +25,8 @@ void func_021C0550(int p)
 {
     unsigned i;
 
-    func_021B796C((struct S *)(*(int *)(p + 0x1e0)));
-    *(int *)(p + 0x1e0) = 0;
+    func_021B796C((struct S *)(((struct Obj14683 *)p)->f1E0));
+    ((struct Obj14683 *)p)->f1E0 = 0;
     for (i = 0; i < 0x32; i++) {
         int *q = (int *)(p + i * 4);
 

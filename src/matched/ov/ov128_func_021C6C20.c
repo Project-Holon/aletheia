@@ -12,6 +12,8 @@
  *   func_02009864 0x02009864 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  */
+#include "../include/Obj10483.h"
+#include "../include/Obj23069.h"
 typedef unsigned char u8;
 extern void *func_0201283C(const void *);
 typedef unsigned int   u32;
@@ -24,14 +26,14 @@ int func_021C6C20(u8 *p,u8 *q,int idx)
     void *base;
     unsigned v;
     int result;
-    base=func_0201283C(*(void **)(q+4));
+    base=func_0201283C(((struct Obj23069 *)q)->f4);
     result=1;
     v=func_02009864(base,idx,7);
     if(v==0) result=0;
-    func_0201EFA4(*(void **)p,2,v,2,0,1);
+    func_0201EFA4(((struct Obj10483 *)p)->f0,2,v,2,0,1);
     v=func_02009864(base,idx,5);
-    func_0201EFA4(*(void **)p,0,v,4,1,1);
+    func_0201EFA4(((struct Obj10483 *)p)->f0,0,v,4,1,1);
     v=func_02009864(base,idx,6);
-    func_0201EFA4(*(void **)p,1,v,2,0,1);
+    func_0201EFA4(((struct Obj10483 *)p)->f0,1,v,2,0,1);
     return result;
 }

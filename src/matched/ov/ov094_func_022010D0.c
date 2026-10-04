@@ -22,6 +22,7 @@
  *   _ll_mul 0x0209C054 arm
  *   func_02015C78 0x02015C78 thumb
  */
+#include "../include/Obj02439.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef short s16;
@@ -34,9 +35,9 @@ extern void func_02015C78(void *, u32 *);
 #define FIX(x) ((int)(((x) > 0.0f) ? ((x) * 4096.0f + 0.5f) : ((x) * 4096.0f - 0.5f)))
 void func_022010D0(void *task, char *q)
 {
-    char *p = *(char **)q;
+    char *p = *(char * *)&((struct Obj02439 *)q)->f0;
     Vec v = {0, 0, 0};
-    int i = func_022019F4(p, *(int *)(q + 4));
+    int i = func_022019F4(p, ((struct Obj02439 *)q)->f4);
     char *e;
     int off;
     int n, f;
@@ -50,19 +51,19 @@ void func_022010D0(void *task, char *q)
         func_021F89BC(task);
         return;
     }
-    if (*(int *)(q + 0x28) != *(u8 *)(p + *(int *)(q + 4) + 0x542)) {
+    if (((struct Obj02439 *)q)->f28 != *(u8 *)(p + ((struct Obj02439 *)q)->f4 + 0x542)) {
         func_021F89BC(task);
         return;
     }
-    *(int *)(q + 0x18) += *(int *)(q + 0x1c);
-    n = d_020A1B38[((*(int *)(q + 0x18) & 0x0ffff000) >> 16) * 2];
+    ((struct Obj02439 *)q)->f18 += ((struct Obj02439 *)q)->f1C;
+    n = d_020A1B38[((((struct Obj02439 *)q)->f18 & 0x0ffff000) >> 16) * 2];
     f = FIX((float)n / 4096.0f);
-    f = (int)(((s64)f * *(int *)(q + 0x20) + 0x800) >> 12);
-    if (*(int *)(q + 0x14) != 0) v.y = f;
+    f = (int)(((s64)f * ((struct Obj02439 *)q)->f20 + 0x800) >> 12);
+    if (((struct Obj02439 *)q)->f14 != 0) v.y = f;
     else v.x = f;
     func_02015C78(*(void **)(e + off), (u32 *)&v);
-    *(int *)(q + 0x24) -= 1;
-    if (*(int *)(q + 0x24) == 0) {
+    ((struct Obj02439 *)q)->f24 -= 1;
+    if (((struct Obj02439 *)q)->f24 == 0) {
         v.x = 0;
         v.y = 0;
         v.z = 0;

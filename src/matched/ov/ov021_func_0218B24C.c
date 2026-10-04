@@ -19,6 +19,7 @@
  *   func_021C46F8  0x021C46F8  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09449.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -35,12 +36,12 @@ int func_0218B24C(char *p, void *q, void *x)
 {
     void *a = func_02188CB4(x);
     void *o = func_021A3074(a);
-    int r = func_021A2FA4(a, *(int *)(p + 0x2C));
+    int r = func_021A2FA4(a, ((struct Obj09449 *)p)->f2C);
 
     if (r == 1) {
-        int t = *(int *)(p + 0x1C);
+        int t = ((struct Obj09449 *)p)->f1C;
         if (t == 0 || t == 3) {
-            if (func_021BB188(func_021AB0F0(*(int *)(p + 0x38)))) {
+            if (func_021BB188(func_021AB0F0(((struct Obj09449 *)p)->f38))) {
                 if (func_0219E418(o, r) & 3)
                     return func_021C46F8((u32)q, (u32)x, r);
             }

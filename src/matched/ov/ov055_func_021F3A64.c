@@ -15,6 +15,7 @@
  *   func_021F3F20  0x021F3F20  thumb  ov055
  *   func_021F4430  0x021F4430  thumb  ov055
  */
+#include "../include/Obj13119.h"
 
 extern void func_02189A68(char *a, int b);
 extern void func_021F3CE4(char *);
@@ -30,6 +31,6 @@ void func_021F3A64(int a, int b, char *c)
         func_021F3CE4(c + 8 + i * 0x18);
     func_021F3F20(c + 0x308);
     func_021F4430(c + 0x348);
-    *(int *)c = 0;
-    *(int *)(c + 4) = 0;
+    ((struct Obj13119 *)c)->f0 = 0;
+    ((struct Obj13119 *)c)->f4 = 0;
 }

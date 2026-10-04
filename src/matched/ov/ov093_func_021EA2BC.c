@@ -17,6 +17,8 @@
  *   func_021ECF68  0x021ECF68  thumb  ov093
  *   func_021EA32C  0x021EA32C  thumb  ov093
  */
+#include "../include/Obj04377.h"
+#include "../include/Obj07844.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,18 +38,18 @@ int func_021EA2BC(char *ctx)
     u32 i;
 
     t = func_021E9100((u8 *)ctx, 0x14);
-    switch (*(u16 *)(t + 8)) {
+    switch (((struct Obj04377 *)t)->f8) {
     case 0:
-        f = func_021CD9E0(*(u8 **)(ctx + 4));
+        f = func_021CD9E0(*(u8 * *)&((struct Obj07844 *)ctx)->f4);
         for (i = 0; i < t[6]; i++) {
-            func_021ED208(*(char **)(ctx + 0x17c), t[i], *(u16 *)(t + 0x10), f);
+            func_021ED208(*(char * *)&((struct Obj07844 *)ctx)->f17C, t[i], ((struct Obj04377 *)t)->f10, f);
         }
-        func_021EA32C(ctx, *(int *)(t + 0xc));
-        *(u16 *)(t + 8) = *(u16 *)(t + 8) + 1;
+        func_021EA32C(ctx, ((struct Obj04377 *)t)->fC);
+        ((struct Obj04377 *)t)->f8 = ((struct Obj04377 *)t)->f8 + 1;
         break;
     case 1:
-        if (func_021ED250(*(char **)(ctx + 0x17c)) != 0) {
-            if (func_021ECF68(*(char **)(ctx + 0x17c)) != 0) {
+        if (func_021ED250(*(char * *)&((struct Obj07844 *)ctx)->f17C) != 0) {
+            if (func_021ECF68(*(char * *)&((struct Obj07844 *)ctx)->f17C) != 0) {
                 return 1;
             }
         }

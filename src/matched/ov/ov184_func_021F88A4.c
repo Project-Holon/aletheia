@@ -16,6 +16,8 @@
  *   func_021FC610  0x021FC610  thumb  ov186
  *   func_021F3AF0  0x021F3AF0  thumb  ov112
  */
+#include "../include/Obj06618.h"
+#include "../include/Obj08319.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -27,11 +29,11 @@ extern u32 func_021F3AF0(u32 a, u16 b);
 
 void func_021F88A4(char *p, char *q)
 {
-    if (*(u32 *)p != 0)
+    if (((struct Obj06618 *)p)->f0 != 0)
         return;
-    func_021FEEC0((char *)(*(u32 *)(q + 4)), 0, 0);
-    func_021FBDA4(*(u32 *)(q + 0xc), 0);
-    func_021FC1F8((int *)(*(u32 *)(q + 0xc)), 0);
-    func_021FC610(*(u32 *)(q + 8), *(u16 *)(p + 0x24));
-    *(u32 *)p = func_021F3AF0(*(u32 *)(p + 0x28), *(u16 *)(p + 0x24));
+    func_021FEEC0((char *)(((struct Obj08319 *)q)->f4), 0, 0);
+    func_021FBDA4(((struct Obj08319 *)q)->fC, 0);
+    func_021FC1F8((int *)(((struct Obj08319 *)q)->fC), 0);
+    func_021FC610(((struct Obj08319 *)q)->f8, ((struct Obj06618 *)p)->f24);
+    ((struct Obj06618 *)p)->f0 = func_021F3AF0(((struct Obj06618 *)p)->f28, ((struct Obj06618 *)p)->f24);
 }

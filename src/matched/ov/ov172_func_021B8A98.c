@@ -13,6 +13,7 @@
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_021B6E88 0x021B6E88 thumb ov172
  */
+#include "../include/Obj24086.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ void func_021B8A98(int a, u32 b, char *list, char *q)
 {
     char *p;
     u8 n, i;
-    p = (char *)func_021BDFFC(*(void **)(q + 0x3dc));
+    p = (char *)func_021BDFFC(((struct Obj24086 *)q)->f3DC);
     n = (b >> 3) & 0xff;
     func_0203D1A4((struct Link *)((u32)func_020399A8()));
     for (i = 0; i < n; i++)

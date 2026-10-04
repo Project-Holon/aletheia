@@ -23,6 +23,9 @@
  *   d_021DC24C 0x021DC24C data
  *   d_021DC264 0x021DC264 data
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj01547.h"
+#include "../include/Obj23146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -109,16 +112,16 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
     fl2 = func_0202F498(mon, 2);
     fl3 = func_0202F498(mon, 3);
     flags = fl0 | fl1 | fl2 | fl3;
-    known = func_02018488(mon, func_02012944(*(void **)(*(u8 **)(a + 8) + 8)));
+    known = func_02018488(mon, func_02012944(((struct Obj23146 *)(*(u8 * *)&((struct Obj00112 *)a)->f8))->f8));
 
     if (isEgg == 0) {
-        t = func_02045EC0(*(void **)(p + 0x38), v5c);
-        func_0201C724(*(void **)(a + 0x84), func_02045770(*(void **)(p + 0x34)), 1, 1, t, *(void **)(a + 0x80), 0x440);
+        t = func_02045EC0(((struct Obj01547 *)p)->f38, v5c);
+        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, 1, t, ((struct Obj00112 *)a)->f80, 0x440);
         func_02045808(t);
         y = 0x10;
     }
-    str = func_020457B0(0x100, *(u16 *)a);
-    ws = func_0201EC74(10, 0x20, *(u16 *)a);
+    str = func_020457B0(0x100, ((struct Obj00112 *)a)->f0);
+    ws = func_0201EC74(10, 0x20, ((struct Obj00112 *)a)->f0);
     if (isEgg == 0) {
         if (f96 == 0x7531) {
             msgAlt = 0x29;
@@ -204,9 +207,9 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
     func_0201EFA4(ws, 6, v44, 2, best, 1);
     func_0201EFA4(ws, 7, v40, 2, best, 1);
     func_0201EE0C(ws, 8, s68, best, 1, 2);
-    t = func_02045EC0(*(void **)(p + 0x38), msg);
+    t = func_02045EC0(((struct Obj01547 *)p)->f38, msg);
     func_0201F250(ws, str, t);
-    func_0201C724(*(void **)(a + 0x84), func_02045770(*(void **)(p + 0x34)), 1, y + 1, str, *(void **)(a + 0x80), 0x440);
+    func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, str, ((struct Obj00112 *)a)->f80, 0x440);
     func_0201ED04(ws);
     y += sub_0201D2C8(str) << 4;
     func_02045808(s68);
@@ -232,8 +235,8 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
                 best = row[i];
             }
         }
-        t = func_02045EC0(*(void **)(p + 0x38), best * 5 + 0x35 + max % 5);
-        func_0201C724(*(void **)(a + 0x84), func_02045770(*(void **)(p + 0x34)), 1, y + 1, t, *(void **)(a + 0x80), 0x440);
+        t = func_02045EC0(((struct Obj01547 *)p)->f38, best * 5 + 0x35 + max % 5);
+        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, t, ((struct Obj00112 *)a)->f80, 0x440);
         func_02045808(t);
     } else {
         u32 id;
@@ -246,8 +249,8 @@ void func_021D8288(u8 *a, u8 *p, void *mon)
         } else {
             id = 0x5a;
         }
-        t = func_02045EC0(*(void **)(p + 0x38), id);
-        func_0201C724(*(void **)(a + 0x84), func_02045770(*(void **)(p + 0x34)), 1, y + 1, t, *(void **)(a + 0x80), 0x440);
+        t = func_02045EC0(((struct Obj01547 *)p)->f38, id);
+        func_0201C724(((struct Obj00112 *)a)->f84, func_02045770(((struct Obj01547 *)p)->f34), 1, y + 1, t, ((struct Obj00112 *)a)->f80, 0x440);
         func_02045808(t);
     }
 }

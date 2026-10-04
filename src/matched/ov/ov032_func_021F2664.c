@@ -11,10 +11,11 @@
  * symbols:
  *   func_02021D50 0x02021D50 thumb
  */
+#include "../include/Obj13067.h"
 struct S02021D50;
 extern void func_02021D50(struct S02021D50 *);
 void func_021F2664(int a, char *p)
 {
-    if (*(struct S02021D50 **)(p + 0xac))
-        func_02021D50(*(struct S02021D50 **)(p + 0xac));
+    if (*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC)
+        func_02021D50(*(struct S02021D50 * *)&((struct Obj13067 *)p)->fAC);
 }

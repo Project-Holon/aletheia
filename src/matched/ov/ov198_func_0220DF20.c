@@ -24,6 +24,14 @@
  *   sub_0201BD28 0x0201BD28 thumb
  *   sub_0201C1F4 0x0201C1F4 thumb
  */
+#include "../include/Obj00507.h"
+#include "../include/Obj25185.h"
+#include "../include/Obj25186.h"
+#include "../include/Obj25187.h"
+#include "../include/Obj25188.h"
+#include "../include/Obj25189.h"
+#include "../include/Obj25190.h"
+#include "../include/Obj25191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02211B2C[];
@@ -42,7 +50,7 @@ extern u32 sub_0201C1F4(u16 id);
 void func_0220DF20(char *p) {
     unsigned index,offset,type;
     char *base,*rec;
-    *(u8 **)(p+0x253c)=d_02211B2C;
+    *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B2C;
     func_0220BDA0(p);
     func_0220BEB8(p,0,(*(u8 **)p)[32],0,0);
     func_0220C5AC(p,2,0,0);
@@ -61,13 +69,13 @@ void func_0220DF20(char *p) {
         func_0220D418(p,10,(u8)rec[5]);
         func_0220D494(p,3,(u8)rec[2],(u8)rec[3]);
     } else {
-        type=sub_0201BD28(*(u16 *)(*(char **)p+0x26),5);
-        func_0220C4DC(p,*(u16 *)(*(char **)p+0x26),1,0x53,0,0,0x3dc0);
-        func_0220D348(p,8,*(u16 *)(*(char **)p+0x26));
-        if(sub_0201C1F4(*(u16 *)(*(char **)p+0x26))==1) func_0220D090(p,6,0);
-        else func_0220D090(p,6,sub_0201BD28(*(u16 *)(*(char **)p+0x26),4));
-        func_0220D218(p,7,sub_0201BD28(*(u16 *)(*(char **)p+0x26),3));
-        func_0220D418(p,10,sub_0201BD28(*(u16 *)(*(char **)p+0x26),2));
+        type=sub_0201BD28(((struct Obj25185 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
+        func_0220C4DC(p,((struct Obj25186 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,1,0x53,0,0,0x3dc0);
+        func_0220D348(p,8,((struct Obj25187 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26);
+        if(sub_0201C1F4(((struct Obj25188 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26)==1) func_0220D090(p,6,0);
+        else func_0220D090(p,6,sub_0201BD28(((struct Obj25189 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,4));
+        func_0220D218(p,7,sub_0201BD28(((struct Obj25190 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,3));
+        func_0220D418(p,10,sub_0201BD28(((struct Obj25191 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,2));
         func_0220D494(p,3,type,type);
     }
     func_0220D628(p,11);

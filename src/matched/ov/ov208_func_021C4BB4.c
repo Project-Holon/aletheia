@@ -26,6 +26,7 @@
  *   ov208_func_021C4B60 0x021C4B60 thumb ov208
  *   data_020A7370 0x020A7370 data a4
  */
+#include "../include/Obj01179.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -89,17 +90,17 @@ void ov208_func_021C4BB4(u16 *heap, struct Ov208Menu *p, int key)
     func_02045808((struct U16Vec *)text);
     bmp2 = func_02045770(p->win[1]);
     ws = func_0201EC64(*heap);
-    src = *(void **)((u8 *)p + 0x59c);
+    src = ((struct Obj01179 *)p)->f59C;
     str = func_020457B0(8, *heap);
-    func_0201EFA4(ws, 0, *(u16 *)((u8 *)p + 0x54a), 2, 1, 1);
+    func_0201EFA4(ws, 0, ((struct Obj01179 *)p)->f54A, 2, 1, 1);
     func_0201F250(ws, str, src);
     func_0201C724(p->print[1], bmp2, 0, 1, str, p->font, 0x3c40);
     func_02045808(str);
     func_0201ED04(ws);
     ws2 = func_0201EC64(*heap);
-    src2 = *(void **)((u8 *)p + 0x5a0);
+    src2 = ((struct Obj01179 *)p)->f5A0;
     str = func_020457B0(8, *heap);
-    func_0201EFA4(ws2, 0, *(u16 *)((u8 *)p + 0x54c), 2, 1, 1);
+    func_0201EFA4(ws2, 0, ((struct Obj01179 *)p)->f54C, 2, 1, 1);
     func_0201F250(ws2, str, src2);
     func_0201C724(p->print[1], bmp2, 0, 0x11, str, p->font, 0x3c40);
     func_02045808(str);

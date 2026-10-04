@@ -20,6 +20,7 @@
  *   func_020456F8  0x020456F8  arm
  *   func_020452E8  0x020452E8  arm
  */
+#include "../include/Obj00001.h"
 
 extern void func_021E1CA8(char *p);
 extern void func_021E1CC8(char *p);
@@ -50,8 +51,8 @@ void func_021E1CE8(void *p, int a1)
     func_021E5BE4((int)p);
     func_021E36D8(p, 0);
     func_021E36D8(p, 1);
-    func_020456F8((struct Descriptor *)(*(int *)((char *)p + 0x6b4)));
-    func_020452E8((struct Descriptor *)(*(int *)((char *)p + 0x6b4)));
-    *(int *)((char *)p + 0x6b4) = 0;
+    func_020456F8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f6B4));
+    func_020452E8((struct Descriptor *)(*(int *)&((struct Obj00001 *)p)->f6B4));
+    *(int *)&((struct Obj00001 *)p)->f6B4 = 0;
     func_021E3F70(p);
 }

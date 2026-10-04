@@ -22,6 +22,7 @@
  *   func_021CD688  0x021CD688  thumb  ov021
  *   func_021CD5A4  0x021CD5A4  thumb  ov021
  */
+#include "../include/Obj06094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,17 +62,17 @@ int func_021CB7E8(u32 unused, u32 a)
     z = 0;
     func_0200D884(func_020071CC(h, 0x39), 0, 0);
     func_020071CC(h, 0x3A);
-    r = func_021CD688((u8 *)(*(u32 *)(p + 0x71C)));
+    r = func_021CD688((u8 *)(((struct Obj06094 *)p)->f71C));
     if (r != 0) {
-        func_021CD5A4((u32 *)(*(u32 *)(p + 0x71C)));
-        *(u32 *)(p + 0x71C) = z;
+        func_021CD5A4((u32 *)(((struct Obj06094 *)p)->f71C));
+        ((struct Obj06094 *)p)->f71C = z;
         switch (r) {
         case 1:
-            **(u16 **)(p + 0x720) = z;
+            **(u16 * *)&((struct Obj06094 *)p)->f720 = z;
             return 1;
         case 2:
         default:
-            **(u16 **)(p + 0x720) = 1;
+            **(u16 * *)&((struct Obj06094 *)p)->f720 = 1;
             return 1;
         }
     }

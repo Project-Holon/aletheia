@@ -15,5 +15,7 @@
  *   func_0204A648 0x0204A648 arm
  *   func_02021D50 0x02021D50 thumb
  */
+#include "../include/Obj25534.h"
+#include "../include/Obj25535.h"
 struct S02021D50;extern void func_020419E4(void),func_0204A648(void);extern void func_02021D50(struct S02021D50 *);
-void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();func_0204A648();func_02021D50(*(struct S02021D50 **)(p+12));base=DTCM_BASE;*(volatile unsigned *)(base+0x3ff8)|=1;}
+void func_021BC2BC(void *unused,char *p){enum Base { DTCM_BASE=0x02fe0000 } base;func_020419E4();func_0204A648();func_02021D50(*(struct S02021D50 * *)&((struct Obj25534 *)p)->fC);base=DTCM_BASE;*(volatile unsigned *)&((struct Obj25535 *)base)->f3FF8|=1;}

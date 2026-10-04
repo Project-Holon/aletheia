@@ -19,6 +19,7 @@
  *   func_021D7B74  0x021D7B74  thumb  ov093
  *   d_021F0870     0x021F0870  data   ov093  a4
  */
+#include "../include/Obj10058.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,9 +42,9 @@ void func_021D9B40(int a, void *b, int c)
         q = func_021C7CF4(b, c);
         func_021D76BC(0x32, 0);
         p = func_021C88A4(b, 5, c);
-        *(u16 *)(p + 4) = func_021D7B74(q, 8);
+        ((struct Obj10058 *)p)->f4 = func_021D7B74(q, 8);
         p[6] = c;
-        *(u32 *)p |= 0x800000;
+        ((struct Obj10058 *)p)->f0 |= 0x800000;
         func_021C88C8(b, p);
     }
 }

@@ -16,6 +16,8 @@
  *   func_0206E0C4  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17945.h"
+#include "../include/Obj17946.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +30,6 @@ extern u32 func_0206E0C4(u32, u32, u32, u32);
 int func_02194E74(u32 a, u32 b, u32 c, u32 d)
 {
 func_0206DF3C(a, b, c, d);
-return func_0206E0C4(*(u32 *)((u8 *)(b)), *(u32 *)((u8 *)(c)), d, 0);
+return func_0206E0C4(((struct Obj17945 *)((u8 *)(b)))->f0, ((struct Obj17946 *)((u8 *)(c)))->f0, d, 0);
 }
 

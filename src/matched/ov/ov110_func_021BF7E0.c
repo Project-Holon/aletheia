@@ -11,7 +11,8 @@
  * symbols:
  *   func_021BAFE4 0x021BAFE4 thumb ov110
  */
+#include "../include/Obj22396.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_021BAFE4(u32 p);
-void func_021BF7E0(u8 *p) { func_021BAFE4((u32)(*(u8 **)(p+0x1c))); }
+void func_021BF7E0(u8 *p) { func_021BAFE4((u32)(*(u8 * *)&((struct Obj22396 *)p)->f1C)); }

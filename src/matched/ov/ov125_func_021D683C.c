@@ -14,6 +14,8 @@
  *   func_021D71CC 0x021D71CC thumb ov125
  *   func_0200B910 0x0200B910 thumb
  */
+#include "../include/Obj06472.h"
+#include "../include/Obj22996.h"
 typedef unsigned short u16;
 extern char *func_021D7700(int);
 typedef unsigned int   u32;
@@ -34,18 +36,18 @@ int func_021D683C(char *p, void *dst)
     int i;
     r = func_021D7700((int)p);
     if (!func_021D730C(p)) return 0;
-    func_0200B784(*(u16 *)(r + 0xa6), &n, &m);
+    func_0200B784(((struct Obj22996 *)r)->fA6, &n, &m);
     base = r + 0xd00;
     out = p + 0x498;
     for (i = 0; i < 12; i++) {
         if (!func_021D7154((int)p, i, &outer, &inner)) break;
         func_021D71CC(base + outer * 676 + inner * 112 + 50, out + i * 22, 11);
     }
-    *(int *)(p + 0x5a0) = 0;
+    ((struct Obj06472 *)p)->f5A0 = 0;
     p[0x403] = 0;
-    *(char **)(p + 0x174) = r;
+    *(char * *)&((struct Obj06472 *)p)->f174 = r;
     func_02082D44(dst, func_0200B910(), 128);
     p[0x401] = 60;
-    *(int *)(p + 0x3d8) = 0x55f0;
+    ((struct Obj06472 *)p)->f3D8 = 0x55f0;
     return 1;
 }

@@ -13,6 +13,10 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0201BD28 0x0201BD28 thumb
  */
+#include "../include/Obj03857.h"
+#include "../include/Obj24182.h"
+#include "../include/Obj24183.h"
+#include "../include/Obj24184.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,10 +37,10 @@ void func_021B7968(char *p)
         rect[0] = 0x2f;
         rect[1] = i * 24 + 0x50;
         func_0204B404(*(void **)(p + i * 4 + 0x114), rect, 1);
-        if (*(u16 *)(*(char **)p + 0x16) + i >= *(u8 *)(p + off)) {
+        if (((struct Obj24182 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i >= *(u8 *)(p + off)) {
             func_0204B3DC(*(void **)(p + i * 4 + 0x114), 0);
         } else {
-            value = func_0201BD28(*(u16 *)(*(char **)(*(char **)p + 0x10) + (*(u16 *)(*(char **)p + 0x16) + i) * 2), 0);
+            value = func_0201BD28(*(u16 *)(*(char * *)&((struct Obj24183 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f10 + (((struct Obj24184 *)(*(char * *)&((struct Obj03857 *)p)->f0))->f16 + i) * 2), 0);
             func_0204B3DC(*(void **)(p + i * 4 + 0x114), 1);
             func_0204B878(*(void **)(p + i * 4 + 0x114), value);
         }

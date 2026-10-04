@@ -15,6 +15,7 @@
  *   func_0216D95C  0x0216D95C  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19116.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,6 +24,6 @@ extern void func_0216D95C(u8 *p, u32 v);
 
 void func_0216CDB8(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x40) = v;
+    ((struct Obj19116 *)p)->f40 = v;
     func_0216D95C(p, 1);
 }

@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj05393.h"
 
 void func_021D8F0C(void *unused, unsigned char *p, int delta)
 {
@@ -16,9 +17,9 @@ void func_021D8F0C(void *unused, unsigned char *p, int delta)
     if (max < 0) max = 0;
     if (delta > 24) delta = 24;
     if (delta < -24) delta = -24;
-    old = *(unsigned int *)(p + 0x14);
-    if ((short)old + delta < 0) *(unsigned int *)(p + 0x14) = 0;
-    else if (old + delta > (unsigned int)max) *(unsigned int *)(p + 0x14) = max;
-    else *(unsigned int *)(p + 0x14) = old + delta;
-    if (delta != 0) *(unsigned int *)(p + 0xc) = 1;
+    old = ((struct Obj05393 *)p)->f14;
+    if ((short)old + delta < 0) ((struct Obj05393 *)p)->f14 = 0;
+    else if (old + delta > (unsigned int)max) ((struct Obj05393 *)p)->f14 = max;
+    else ((struct Obj05393 *)p)->f14 = old + delta;
+    if (delta != 0) ((struct Obj05393 *)p)->fC = 1;
 }

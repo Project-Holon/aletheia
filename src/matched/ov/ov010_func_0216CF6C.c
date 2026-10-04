@@ -17,6 +17,7 @@
  *   func_0216D508  0x0216D508  thumb  ov010
  *   func_0216E180  0x0216E180  thumb  ov010
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ void func_0216CF6C(u32 x)
         if (func_0216D948(x) == 1)
             func_0216D76C(o);
         func_0216D55C((int)o, k);
-        func_0216D508(*(u32 *)(o + 0x88));
+        func_0216D508(*(u32 *)&((struct Obj00113 *)o)->f88);
         func_0216E180(o);
     }
 }

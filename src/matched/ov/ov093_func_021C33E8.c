@@ -15,6 +15,7 @@
  *   func_021CD4B0  0x021CD4B0  thumb  ov093
  *   func_021C5B74  0x021C5B74  thumb  ov093
  */
+#include "../include/Obj00003.h"
 
 typedef unsigned char u8;
 extern u8 func_021D5440(u8 *p);
@@ -27,6 +28,6 @@ void func_021C33E8(int a, int b, int c)
 {
     int v = func_021C3428(a + 0x1ab8, func_021D5440((u8 *)b));
     if (v != 6)
-        func_021CD4B0((void *)(*(int *)(a + 0xc)), 0x4d, v, 0x263);
+        func_021CD4B0((void *)(*(int *)&((struct Obj00003 *)a)->fC), 0x4d, v, 0x263);
     func_021C5B74((u8 *)a, (u8 *)b, c, 1);
 }

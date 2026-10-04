@@ -20,6 +20,8 @@
  * The window id is an int local: as unsigned char the load is scheduled after
  * the table address and 34 bytes move.
  */
+#include "../include/Obj24007.h"
+#include "../include/Obj24008.h"
 
 typedef struct {
     short x;
@@ -37,7 +39,7 @@ extern const Pos d_021EFD4C[];
 
 void func_021EC61C(unsigned char *p)
 {
-    unsigned n = func_0201AA18(*(void **)(*(char **)p + 8));
+    unsigned n = func_0201AA18(((struct Obj24008 *)(*(char * *)&((struct Obj24007 *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);

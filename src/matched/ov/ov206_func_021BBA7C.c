@@ -13,6 +13,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
+#include "../include/Obj00173.h"
 extern void func_021BBBD8(char *, int);
 typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
@@ -23,7 +24,7 @@ void func_021BBA7C(char *p)
     for (i = 0; i < 2; i++) {
         func_021BBBD8(p, i);
     }
-    func_0204AFD8((u32)(*(void **)(p + 0x184)));
-    func_0204AFD8((u32)(*(void **)(p + 0x180)));
-    func_0204ADA4((u32)(*(void **)(p + 0x17c)));
+    func_0204AFD8((u32)(((struct Obj00173 *)p)->f184));
+    func_0204AFD8((u32)(((struct Obj00173 *)p)->f180));
+    func_0204ADA4((u32)(((struct Obj00173 *)p)->f17C));
 }

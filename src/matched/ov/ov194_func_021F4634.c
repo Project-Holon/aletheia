@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F4634(unsigned char *p){*(unsigned *)(p+4)=1;}
+#include "../include/Obj24922.h"
+void func_021F4634(unsigned char *p){((struct Obj24922 *)p)->f4=1;}

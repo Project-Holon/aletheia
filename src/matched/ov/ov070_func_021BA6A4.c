@@ -15,6 +15,7 @@
  *   func_0204B404  0x0204B404  arm
  *   func_0202EE0C  0x0202EE0C  thumb
  */
+#include "../include/Obj00002.h"
 
 typedef struct {
     unsigned short a, b;
@@ -33,8 +34,8 @@ void func_021BA6A4(char *p)
     Pt pt;
     int n = func_021B61C8(p);
     if (n >= 7) {
-        func_0204B454((struct Actor *)*(int *)(p + 0x6A8), (struct PtS *)&pt, 0xFFFF);
-        pt.b = func_0202EE0C(n - 6, *(int *)(p + 0x814) + 1, 0x1A, 0x8E, 0);
-        func_0204B404(*(int *)(p + 0x6A8), &pt, 0xFFFF);
+        func_0204B454((struct Actor *)*(int *)&((struct Obj00002 *)p)->f6A8, (struct PtS *)&pt, 0xFFFF);
+        pt.b = func_0202EE0C(n - 6, ((struct Obj00002 *)p)->f814 + 1, 0x1A, 0x8E, 0);
+        func_0204B404(*(int *)&((struct Obj00002 *)p)->f6A8, &pt, 0xFFFF);
     }
 }

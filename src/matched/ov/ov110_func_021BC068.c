@@ -15,6 +15,7 @@
  *   func_020862F0 0x020862F0 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22369.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -30,7 +31,7 @@ void func_021BC068(u8 *p, void *a)
     func_02049B68(a, 3, 0, 0, 448, 42);
     func_02049B68(a, 4, 4, 0, 160, 42);
     handle = func_02049F78(a, 6, (u32)((void **)&data), 42);
-    func_02082A60(*(void **)(data + 0xc), p + 0x58, 320);
+    func_02082A60(((struct Obj22369 *)data)->fC, p + 0x58, 320);
     func_020862F0(p + 0x58, 320);
     func_020307B0(handle);
 }

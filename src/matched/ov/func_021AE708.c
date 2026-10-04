@@ -16,6 +16,7 @@
  *   func_0216E0E8  0x0216E0E8  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09183.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,9 +28,9 @@ extern int func_0216E0E8(int a0, int a1);
 
 int func_021AE708(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D480(*(u32 *)((u8 *)(a) + 8), b, c, d);
-func_0216E0E8(*(u32 *)((u8 *)(a) + 8), 0);
-*(u32 *)((u8 *)(a)) = 17;
+func_0216D480(((struct Obj09183 *)((u8 *)(a)))->f8, b, c, d);
+func_0216E0E8(((struct Obj09183 *)((u8 *)(a)))->f8, 0);
+((struct Obj09183 *)((u8 *)(a)))->f0 = 17;
 return 1;
 }
 

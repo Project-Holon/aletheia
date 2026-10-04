@@ -16,6 +16,7 @@
  *   func_021F8118  0x021F8118  thumb  ov094
  *   func_021F80FC  0x021F80FC  thumb  ov094
  */
+#include "../include/Obj13567.h"
 typedef unsigned char u8;
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
@@ -25,8 +26,8 @@ extern void func_021F8118(u32 a, u32 b);
 extern void func_021F80FC(u32 a, u32 b);
 void func_021ED494(u8 *p, u8 k, int x)
 {
-    int d = func_021D59B4(func_021B98AC(*(char *const **)(p + 0x138), k), 0xd);
-    u8 r = func_021B8E70(*(u8 **)(p + 0x134), k);
+    int d = func_021D59B4(func_021B98AC(*(char *const * *)&((struct Obj13567 *)p)->f138, k), 0xd);
+    u8 r = func_021B8E70(*(u8 * *)&((struct Obj13567 *)p)->f134, k);
     if (x != 0)
         func_021F8118(r, d);
     else

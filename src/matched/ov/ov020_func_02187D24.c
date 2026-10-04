@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19483.h"
 
 typedef unsigned int u32;
 
 u32 func_02187D24(char *p)
 {
-    return *(u32 *)(p + 0x10);
+    return ((struct Obj19483 *)p)->f10;
 }

@@ -10,8 +10,9 @@
  * symbols:
  *   func_02027F60 0x02027F60 thumb
  */
+#include "../include/Obj00739.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct R;extern struct R *func_02027F60(u16,u16,u32,u32,u16);
-void func_021BB38C(char *p) {*(struct R **)(p+0x25c)=func_02027F60(3,11,*(u32 *)(p+24),*(u32 *)(p+28),*(u16 *)p);}
+void func_021BB38C(char *p) {*(struct R * *)&((struct Obj00739 *)p)->f25C=func_02027F60(3,11,*(u32 *)&((struct Obj00739 *)p)->f18,((struct Obj00739 *)p)->f1C,((struct Obj00739 *)p)->f0);}

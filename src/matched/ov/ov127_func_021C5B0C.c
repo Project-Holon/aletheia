@@ -12,6 +12,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02041EE4 0x02041EE4 arm
  */
+#include "../include/Obj02840.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,11 +24,11 @@ void func_021C5B0C(char *p,int x,int y)
 {
     s16 tx,ty,rx,ry;
     tx=x/8; ty=y/8; rx=x%8; ry=y%8;
-    if(tx!=*(u16 *)(p+24)||ty!=*(u16 *)(p+26)) {
-        *(u16 *)(p+26)=ty; *(u16 *)(p+24)=tx;
-        func_021C5B98(*(void **)(p+4),*(int *)(p+20),(unsigned int)(*(void **)(p+12)),-tx,-ty);
-        func_02041B6C(*(int *)(p+20));
+    if(tx!=((struct Obj02840 *)p)->f18||ty!=((struct Obj02840 *)p)->f1A) {
+        ((struct Obj02840 *)p)->f1A=ty; ((struct Obj02840 *)p)->f18=tx;
+        func_021C5B98(((struct Obj02840 *)p)->f4,((struct Obj02840 *)p)->f14,(unsigned int)(((struct Obj02840 *)p)->fC),-tx,-ty);
+        func_02041B6C(((struct Obj02840 *)p)->f14);
     }
-    func_02041EE4(*(int *)(p+20),0,rx);
-    func_02041EE4(*(int *)(p+20),3,ry);
+    func_02041EE4(((struct Obj02840 *)p)->f14,0,rx);
+    func_02041EE4(((struct Obj02840 *)p)->f14,3,ry);
 }

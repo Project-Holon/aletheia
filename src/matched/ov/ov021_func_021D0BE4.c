@@ -18,6 +18,7 @@
  *   func_021D0C58  0x021D0C58  thumb  ov021
  *   d_0209DF0C     0x0209DF0C  data  a1
  */
+#include "../include/Obj20294.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,7 +62,7 @@ void *func_021D0BE4(int a, u8 *b, u16 *c)
     w->f8C = 0;
     w->f00 = 0x2E;
     w->f08 = func_0200E588();
-    w->f0C = *(int *)(b + 0x14C);
+    w->f0C = ((struct Obj20294 *)b)->f14C;
     w->f10 = d_0209DF0C;
     w->f14 = 0x200000;
     w->f78 = 1;

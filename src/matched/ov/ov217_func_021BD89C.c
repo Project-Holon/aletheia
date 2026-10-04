@@ -33,6 +33,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -67,8 +68,8 @@ void func_021BD89C(u8 *p)
     func_0203630C();
     keys = func_020362DC();
     hit = func_02035C08(p + 0x2FE);
-    sub = func_02035C08(func_021C09B8(*(void **)p));
-    if (*(int *)(p + 0x3C8) != 0 && *(int *)(p + 0x3D8) != 0 && *(int *)(p + 0x3D4) != 0) {
+    sub = func_02035C08(func_021C09B8(((struct Obj00021 *)p)->f0));
+    if (*(int *)&((struct Obj00021 *)p)->f3C8 != 0 && ((struct Obj00021 *)p)->f3D8 != 0 && *(int *)&((struct Obj00021 *)p)->f3D4 != 0) {
         func_021BE448(p);
         func_021BE498(p, 8);
         func_021BE498(p, 6);
@@ -94,8 +95,8 @@ void func_021BD89C(u8 *p)
         func_021BE498(p, 3);
         return;
     }
-    if (hit == 6 && *(int *)(p + 0x3C8) == 0 && func_021BF810(p) != 0) {
-        *(int *)(p + 0x3CC) = 1;
+    if (hit == 6 && *(int *)&((struct Obj00021 *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
+        ((struct Obj00021 *)p)->f3CC = 1;
         func_021BEB40((u32)p);
         func_021BE448(p);
         func_021BE498(p, 4);
@@ -104,8 +105,8 @@ void func_021BD89C(u8 *p)
         func_021BE498(p, 5);
         func_021BE498(p, 2);
     } else if (hit == 7) {
-        if (*(int *)(p + 0x3C8) == 0 && func_021BF810(p) != 0) {
-            *(int *)(p + 0x3CC) = 1;
+        if (*(int *)&((struct Obj00021 *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
+            ((struct Obj00021 *)p)->f3CC = 1;
             func_021BEB40((u32)p);
             func_021BE448(p);
             func_021BE498(p, 4);
@@ -117,8 +118,8 @@ void func_021BD89C(u8 *p)
             func_020061E4(0x557);
         }
     } else if (hit == 2) {
-        if (*(int *)(p + 0x3C8) == 0 && func_021BF810(p) != 0) {
-            *(int *)(p + 0x3CC) = 1;
+        if (*(int *)&((struct Obj00021 *)p)->f3C8 == 0 && func_021BF810(p) != 0) {
+            ((struct Obj00021 *)p)->f3CC = 1;
             func_021BEB40((u32)p);
             func_021BE448(p);
             func_021BE498(p, 4);
@@ -129,13 +130,13 @@ void func_021BD89C(u8 *p)
         } else {
             func_021BE614((u32)p, 0);
         }
-    } else if (*(int *)(p + 0x3C8) != 0 && func_021BF810(p) != 0 && hit == 3) {
+    } else if (*(int *)&((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0 && hit == 3) {
         func_021BE614((u32)p, 1);
         func_021BE934(p);
         func_021BEAF8(p);
         func_021BE448(p);
         func_021BE498(p, 3);
-    } else if (*(int *)(p + 0x3C8) != 0 && func_021BF810(p) != 0 && hit == 4) {
+    } else if (*(int *)&((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0 && hit == 4) {
         func_021BE614((u32)p, 2);
         func_021BE934(p);
         func_021BEAF8(p);
@@ -152,7 +153,7 @@ void func_021BD89C(u8 *p)
         func_021BEAF8(p);
         func_021BE448(p);
         func_021BE498(p, 3);
-        switch (*(int *)(p + 0x34)) {
+        switch (*(int *)&((struct Obj00021 *)p)->f34) {
         case 0: func_021BE704(p); break;
         case 1: func_021BE7B4((u32)p); break;
         case 3: func_021BE808(p); break;
@@ -162,7 +163,7 @@ void func_021BD89C(u8 *p)
         func_021BEAF8(p);
         func_021BE448(p);
         func_021BE498(p, 3);
-        switch (*(int *)(p + 0x34)) {
+        switch (*(int *)&((struct Obj00021 *)p)->f34) {
         case 0: func_021BE678(p); break;
         case 1: func_021BE790((u32)p); break;
         case 3: func_021BE808(p); break;

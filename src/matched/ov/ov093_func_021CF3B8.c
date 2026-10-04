@@ -14,6 +14,7 @@
  *   func_021B8FF4 0x021B8FF4 thumb ov093
  *   func_021B90BC 0x021B90BC thumb ov093
  */
+#include "../include/Obj05200.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern u8 func_021B8FF4(u8 *p);
@@ -21,12 +22,12 @@ extern void func_021B90BC(u8 *p, u8 k, u32 v);
 void func_021CF3B8(u8 *p, u32 i)
 {
     if (p[0x1aa] == 0) {
-        if (p[0x1a6] == func_021B8FF4(*(u8 **)p)) {
+        if (p[0x1a6] == func_021B8FF4(*(u8 * *)&((struct Obj05200 *)p)->f0)) {
             u16 *a = (u16 *)(p + 0x1a0);
             u32 v = a[i];
             if (v != 0) {
                 a[i] = 0;
-                func_021B90BC(*(u8 **)p, p[0x1a6], v);
+                func_021B90BC(*(u8 * *)&((struct Obj05200 *)p)->f0, p[0x1a6], v);
             }
         }
     }

@@ -18,6 +18,7 @@
  *   func_021B96B8 0x021B96B8 thumb ov100
  *   func_021B9BE4 0x021B9BE4 thumb ov100
  */
+#include "../include/Obj22077.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Entry;
@@ -36,7 +37,7 @@ void func_021B9C50(int a)
  u8 x[6];
  int k=12;
  if(func_02039CB4((struct Link *)func_020399A8(),0x79,k)!=0) {
-  int t=*(int *)(a+0x24c);
+  int t=((struct Obj22077 *)a)->f24C;
   switch(t) {
   case 9: case 10: case 11:
    func_021B95B8((u8 *)a,(u32)func_021B96B8);

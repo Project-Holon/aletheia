@@ -29,6 +29,7 @@
  *   d_021C3804 0x021C3804 data a4
  *   d_021C3818 0x021C3818 data a4
  */
+#include "../include/Obj06358.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -75,7 +76,7 @@ int func_021C0750(char *p, int ret)
         message = 0x59;
         break;
     case 1:
-        *(int *)(p + 0x1cc) = 11;
+        ((struct Obj06358 *)p)->f1CC = 11;
         func_021C08F8(p);
         return ret;
     case 2:
@@ -95,6 +96,6 @@ int func_021C0750(char *p, int ret)
         break;
     }
     func_021BAAB8(p, message, 0);
-    *(int *)(p + 0x1cc) = 0x23;
+    ((struct Obj06358 *)p)->f1CC = 0x23;
     return ret;
 }

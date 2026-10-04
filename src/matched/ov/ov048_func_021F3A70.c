@@ -13,6 +13,7 @@
  *   func_021F3A98  0x021F3A98  thumb
  *   func_021F3AB4  0x021F3AB4  thumb
  */
+#include "../include/Obj20530.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern int func_021F3AB4(void *p);
 int func_021F3A70(u8 *p)
 {
     if (func_021F3A98(p) == 1 || func_021F3AB4(p) == 1) {
-        if (*(u16 *)(p + 0x64) != 0) {
+        if (((struct Obj20530 *)p)->f64 != 0) {
             return 1;
         }
     }

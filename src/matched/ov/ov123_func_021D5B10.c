@@ -14,6 +14,7 @@
  *   d_021DAA54 0x021DAA54 data ov123 a1
  *   g_021DAC20 0x021DAC20 data ov123 a4
  */
+#include "../include/Obj13974.h"
 typedef unsigned short u16;
 extern char d_021DAA40[], d_021DAA54[];
 extern char *g_021DAC20;
@@ -26,7 +27,7 @@ char *func_021D5B10(int heap,int size)
     p=func_02030734(heap,0xd4,1,d_021DAA40,0x88);
     if (g_021DAC20) func_02034714(d_021DAA54,0,d_021DAA54);
     g_021DAC20=p;
-    *(void **)(p+0xb8)=func_02030734(heap,size+0x40,0,d_021DAA40,0x8c);
-    *(int *)(p+0xbc)=size;
+    ((struct Obj13974 *)p)->fB8=func_02030734(heap,size+0x40,0,d_021DAA40,0x8c);
+    ((struct Obj13974 *)p)->fBC=size;
     return p;
 }

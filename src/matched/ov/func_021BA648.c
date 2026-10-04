@@ -16,6 +16,7 @@
  * Releases the pointer the block starts with, then clears its first 0x14 bytes;
  * the first argument is dead (r1 is homed straight to r4).
  */
+#include "../include/Obj18161.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ extern void sub_02082BCC(void *p, int c, u32 n);
 
 void func_021BA648(int unused, void *p)
 {
-    sub_020307B0(*(void **)p);
+    sub_020307B0(((struct Obj18161 *)p)->f0);
     sub_02082BCC(p, 0, 0x14);
 }

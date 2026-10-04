@@ -13,10 +13,11 @@
  * Called from ov175 at 0x021D5550 and from the root func_021D7E18
  * (0x021D8858).
  */
+#include "../include/Obj08290.h"
 
 typedef unsigned int u32;
 
 void func_021E8AB8(u32 sys)
 {
-    *(u32 *)(sys + 4) = *(u32 *)(sys + 0xc);
+    ((struct Obj08290 *)sys)->f4 = ((struct Obj08290 *)sys)->fC;
 }

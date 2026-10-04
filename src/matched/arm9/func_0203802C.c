@@ -37,6 +37,7 @@
  *   python tools/match.py one --src src/matched/func_0203802C.c \
  *       --func func_0203802C --addr 0x0203802C --cc 1.1p1 --arm
  */
+#include "../include/Obj15934.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -63,7 +64,7 @@ void func_0203802C(void)
     if (func_020366A8(g_021469D0 + 0xCC) != 0)
         func_0203D3A8(func_020399A8(), 0x10, 0, 0);
 
-    v = *(u32 *)(*(u32 *)(p + 0x340) + 0x9C);
+    v = *(u32 *)(((struct Obj15934 *)p)->f340 + 0x9C);
     if (v != 0)
         ((void (*)(void))v)();
     if (((u32 (*)(void)) * (u32 *)(*(u32 *)(p + 0x340) + 0x6C))() != 1)

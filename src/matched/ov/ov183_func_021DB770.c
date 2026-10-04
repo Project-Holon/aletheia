@@ -30,6 +30,8 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E3280 0x021E3280 data a4
  */
+#include "../include/Obj01004.h"
+#include "../include/Obj02891.h"
 typedef unsigned int u32;
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
@@ -51,38 +53,38 @@ int func_021DB770(int *task,int *state,char *p,char *q)
 {
     u32 x,y;
     switch(*state) {
-    case 0: func_021FE784(*(int *)(p+0x10),*(int *)(p+0xc),3,0);*state=1;break;
-    case 1: if(func_021FE7B0(*(int **)(p+0x10)))*state=2;break;
+    case 0: func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,((struct Obj01004 *)p)->fC,3,0);*state=1;break;
+    case 1: if(func_021FE7B0(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     case 2:
-        if(*(int *)p<=4 && !func_021FA018(*(char **)q) && func_02035D20(&x,&y)) {
+        if(((struct Obj01004 *)p)->f0<=4 && !func_021FA018(*(char * *)&((struct Obj02891 *)q)->f0) && func_02035D20(&x,&y)) {
             if(x<8 || x>248) {func_020061E4(0x703);*state=6;break;}
         }
-        func_021F9FE8(*(char **)q);
-        if(func_021FA004(*(char **)q,(int *)(p+4),(int *)(p+8))) *state=3;
+        func_021F9FE8(*(char * *)&((struct Obj02891 *)q)->f0);
+        if(func_021FA004(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) *state=3;
         break;
     case 3:
-        if(*(int *)(p+4)==12)func_021FE784(*(int *)(p+0x10),4,3,1);
-        else func_021FE784(*(int *)(p+0x10),2,3,1);
+        if(((struct Obj01004 *)p)->f4==12)func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,4,3,1);
+        else func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,2,3,1);
         *state=4;break;
-    case 4: if(func_021FE7B0(*(int **)(p+0x10)))*state=5;break;
+    case 4: if(func_021FE7B0(*(int * *)&((struct Obj01004 *)p)->f10))*state=5;break;
     case 5:
-        switch(func_021FA004(*(char **)q,(int *)(p+4),(int *)(p+8))) {
-        case 1: func_021F9BF4(*(unsigned **)(p+0x1c),(unsigned short)*(int *)(p+4));return 1;
-        case 2: func_021F9BA0(*(void **)(p+0x1c));**(int **)(p+0x28)=func_021FA01C(*(char **)q);return 1;
+        switch(func_021FA004(*(char * *)&((struct Obj02891 *)q)->f0,(int *)(p+4),(int *)(p+8))) {
+        case 1: func_021F9BF4(*(unsigned * *)&((struct Obj01004 *)p)->f1C,(unsigned short)((struct Obj01004 *)p)->f4);return 1;
+        case 2: func_021F9BA0(((struct Obj01004 *)p)->f1C);**(int * *)&((struct Obj01004 *)p)->f28=func_021FA01C(*(char * *)&((struct Obj02891 *)q)->f0);return 1;
         }
         break;
     case 6: {
-        int v=func_021FC238(*(char **)(p+0x18));u32 i;
+        int v=func_021FC238(*(char * *)&((struct Obj01004 *)p)->f18);u32 i;
         for(i=0;i<7;i++) {if(v==d_021E3280[i]) {v=d_021E3280[(i+1)%7];break;}}
-        func_021FC230(*(char **)(p+0x18),v);
-        func_021FE7F4(*(int **)(p+0x10),func_021FC224(*(char **)(p+0x18)));
-        func_021FE784(*(int *)(p+0x10),3,3,1);*state=7;break;
+        func_021FC230(*(char * *)&((struct Obj01004 *)p)->f18,v);
+        func_021FE7F4(*(int * *)&((struct Obj01004 *)p)->f10,func_021FC224(*(char * *)&((struct Obj01004 *)p)->f18));
+        func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,3,3,1);*state=7;break;
     }
-    case 7: if(func_021FE7B0(*(int **)(p+0x10)))*state=8;break;
-    case 8: *(void **)(q+8)=func_020056A0((void (*)(void))func_021DB924,q,0);*(int *)(q+0x10)=0;*state=9;break;
-    case 9: if(*(int *)(q+0x10)) {func_02030EAC(*(void **)(q+8));*state=10;}break;
-    case 10: func_021FE784(*(int *)(p+0x10),3,3,0);*state=11;break;
-    case 11: if(func_021FE7B0(*(int **)(p+0x10)))*state=2;break;
+    case 7: if(func_021FE7B0(*(int * *)&((struct Obj01004 *)p)->f10))*state=8;break;
+    case 8: ((struct Obj02891 *)q)->f8=func_020056A0((void (*)(void))func_021DB924,q,0);((struct Obj02891 *)q)->f10=0;*state=9;break;
+    case 9: if(((struct Obj02891 *)q)->f10) {func_02030EAC(((struct Obj02891 *)q)->f8);*state=10;}break;
+    case 10: func_021FE784(*(int *)&((struct Obj01004 *)p)->f10,3,3,0);*state=11;break;
+    case 11: if(func_021FE7B0(*(int * *)&((struct Obj01004 *)p)->f10))*state=2;break;
     }
-    func_021FD854(*(char **)(q+4));return 0;
+    func_021FD854(*(char * *)&((struct Obj02891 *)q)->f4);return 0;
 }

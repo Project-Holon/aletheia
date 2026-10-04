@@ -15,6 +15,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8958 0x021D8958 thumb ov123
  */
+#include "../include/Obj10447.h"
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -30,8 +31,8 @@ extern void func_021D8958(char *p);
 void func_021D83C8(char *p)
 {
     if (func_020362DC() != 0 || func_02035C60() != 0) {
-        func_021D5A60(*(char **)(p + 0x18));
-        func_020092E0((struct Sub02009210Obj *)func_02009448(*(void **)(p + 0x28)), 1);
+        func_021D5A60(*(char * *)&((struct Obj10447 *)p)->f18);
+        func_020092E0((struct Sub02009210Obj *)func_02009448(((struct Obj10447 *)p)->f28), 1);
         p[0xaf] = 1;
         func_021D6EE0(p, (int)func_021D8958, 0x6a2);
     }

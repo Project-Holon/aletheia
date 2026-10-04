@@ -22,6 +22,7 @@
  *   d_021F7340 0x021F7340 data a4
  *   d_021F7314 0x021F7314 data a4
  */
+#include "../include/Obj00317.h"
 typedef unsigned short u16;
 extern const char d_021F73F4[];
 extern const unsigned d_021F7340[],d_021F7314[];
@@ -39,23 +40,23 @@ char *func_021F6720(unsigned heap,void *mon)
 {
     char *p;
     p=func_02030734(heap,96,1,d_021F73F4,433);
-    *(u16 *)p=heap;
-    *(void **)(p+4)=mon;
-    *(u16 *)(p+8)=func_02017E1C(mon,5,0);
-    *(int *)(p+12)=0;
-    *(int *)(p+16)=0;
-    *(int *)(p+20)=0;
-    *(int *)(p+24)=0;
-    *(int *)(p+28)=0;
-    *(int *)(p+36)=0;
-    *(int *)(p+40)=0;
-    *(void **)(p+44)=func_020056A0(func_021F6AB4,p,1);
+    ((struct Obj00317 *)p)->f0=heap;
+    ((struct Obj00317 *)p)->f4=mon;
+    ((struct Obj00317 *)p)->f8=func_02017E1C(mon,5,0);
+    ((struct Obj00317 *)p)->fC=0;
+    ((struct Obj00317 *)p)->f10=0;
+    ((struct Obj00317 *)p)->f14=0;
+    ((struct Obj00317 *)p)->f18=0;
+    ((struct Obj00317 *)p)->f1C=0;
+    ((struct Obj00317 *)p)->f24=0;
+    ((struct Obj00317 *)p)->f28=0;
+    ((struct Obj00317 *)p)->f2C=func_020056A0(func_021F6AB4,p,1);
     func_021F6AB8(p);
     func_021F6AEC(p);
-    if(*(u16 *)(p+8)==490)
-        *(void **)(p+68)=func_021F6DB4(*(u16 *)p,5,d_021F7340);
+    if(((struct Obj00317 *)p)->f8==490)
+        ((struct Obj00317 *)p)->f44=func_021F6DB4(((struct Obj00317 *)p)->f0,5,d_021F7340);
     else
-        *(void **)(p+68)=func_021F6DB4(*(u16 *)p,3,d_021F7314);
+        ((struct Obj00317 *)p)->f44=func_021F6DB4(((struct Obj00317 *)p)->f0,3,d_021F7314);
     func_021F6EF8(p);
     func_021F6F64(p);
     return p;

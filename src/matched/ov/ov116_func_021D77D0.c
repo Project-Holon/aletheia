@@ -38,6 +38,7 @@
  *   func_0204E720 0x0204E720 arm
  *   func_0204E804 0x0204E804 arm
  */
+#include "../include/Obj00470.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,46 +60,46 @@ int func_021D77D0(u8 *p,int heap)
 {
     int v;
     u32 n;
-    switch(*(u32 *)(p+0xb6c)) {
-    case 0: func_021D81B4(p+4); func_021D8010(p+4,5); ++*(u32 *)(p+0xb6c); break;
-    case 1: if(func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
-    case 2: func_0204E720(3,0,16,1); ++*(u32 *)(p+0xb6c); break;
-    case 3: if(func_0204E804()==0) { func_021D7C58(p+4); ++*(u32 *)(p+0xb6c); } break;
-    case 4: func_021D72D0(p,heap); ++*(u32 *)(p+0xb6c); break;
-    case 5: *(u32 *)(p+0xb70)=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720(3,16,0,1); ++*(u32 *)(p+0xb6c); break;
+    switch(((struct Obj00470 *)p)->fB6C) {
+    case 0: func_021D81B4(p+4); func_021D8010(p+4,5); ++((struct Obj00470 *)p)->fB6C; break;
+    case 1: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 2: func_0204E720(3,0,16,1); ++((struct Obj00470 *)p)->fB6C; break;
+    case 3: if(func_0204E804()==0) { func_021D7C58(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 4: func_021D72D0(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
+    case 5: ((struct Obj00470 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 6:
         if(func_0204E804()==0) {
-            n=*(u32 *)(p+0xb70);
+            n=((struct Obj00470 *)p)->fB70;
             if(n>=1 && n<=10) {
-                func_021D69A8(p+0xb74,p+0x182c,n); func_021D8010(p+4,26); func_021D8190(p+4); ++*(u32 *)(p+0xb6c);
-            } else *(u32 *)(p+0xb6c)=19;
+                func_021D69A8(p+0xb74,p+0x182c,n); func_021D8010(p+4,26); func_021D8190(p+4); ++((struct Obj00470 *)p)->fB6C;
+            } else ((struct Obj00470 *)p)->fB6C=19;
         } break;
     case 7:
         if(func_021D69C0(p+0xb74,p+0x182c)!=0) {
-            func_021D81B4(p+4); v=func_021D6A48(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); func_021D8010(p+4,6); ++*(u32 *)(p+0xb6c);
+            func_021D81B4(p+4); v=func_021D6A48(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74)); func_021D8010(p+4,6); ++((struct Obj00470 *)p)->fB6C;
         } break;
-    case 8: if(func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
-    case 9: func_0204E720(3,0,16,1); ++*(u32 *)(p+0xb6c); break;
-    case 10: if(func_0204E804()==0) { func_021D7C58(p+4); ++*(u32 *)(p+0xb6c); } break;
-    case 11: func_021D7278(p,heap); ++*(u32 *)(p+0xb6c); break;
-    case 12: *(u32 *)(p+0xb70)=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720(3,16,0,1); ++*(u32 *)(p+0xb6c); break;
+    case 8: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 9: func_0204E720(3,0,16,1); ++((struct Obj00470 *)p)->fB6C; break;
+    case 10: if(func_0204E804()==0) { func_021D7C58(p+4); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 11: func_021D7278(p,heap); ++((struct Obj00470 *)p)->fB6C; break;
+    case 12: ((struct Obj00470 *)p)->fB70=func_021D7324(p); func_021D730C(p); func_021D7B70(p+4,heap); func_0204E720(3,16,0,1); ++((struct Obj00470 *)p)->fB6C; break;
     case 13:
         if(func_0204E804()==0) {
-            v=func_021D6A48(p+0xb74); n=*(u32 *)(p+0xb70);
-            if(n<1 || n>(u32)v) { *(u32 *)(p+0xb6c)=19; break; }
+            v=func_021D6A48(p+0xb74); n=((struct Obj00470 *)p)->fB70;
+            if(n<1 || n>(u32)v) { ((struct Obj00470 *)p)->fB6C=19; break; }
             func_021D69EC(p+0xb74,p+0x182c,n);
             v=func_021D6A44(p+0xb74); func_021D8118(p+4,0,v,(u32)func_021D6A4C(p+0xb74));
-            func_021D8118(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); func_021D8010(p+4,1); func_021D8190(p+4); ++*(u32 *)(p+0xb6c);
+            func_021D8118(p+4,1,func_021D6A40(p+0xb74),(u32)((void *)2)); func_021D8010(p+4,1); func_021D8190(p+4); ++((struct Obj00470 *)p)->fB6C;
         } break;
-    case 14: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
-    case 15: func_021D6A5C(p+0xb74); func_021D6B30(p+0xb74,*(void **)(p+0x1854)); func_021D81D0(p); ++*(u32 *)(p+0xb6c); break;
-    case 16: if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,3); ++*(u32 *)(p+0xb6c); } break;
-    case 17: if(func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
+    case 14: if(func_021D6A10(p+0xb74,p+0x182c)!=0 && func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 15: func_021D6A5C(p+0xb74); func_021D6B30(p+0xb74,((struct Obj00470 *)p)->f1854); func_021D81D0(p); ++((struct Obj00470 *)p)->fB6C; break;
+    case 16: if(func_021D81EC(p)!=0) { func_021D81B4(p+4); func_021D8010(p+4,3); ++((struct Obj00470 *)p)->fB6C; } break;
+    case 17: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
     case 18: return 1;
-    case 19: func_021D8010(p+4,9); ++*(u32 *)(p+0xb6c); break;
-    case 20: if(func_021D80CC(p+4)!=0) ++*(u32 *)(p+0xb6c); break;
-    case 21: func_021D8134(p+4); ++*(u32 *)(p+0xb6c); break;
-    case 22: v=func_021D8168(p+4); if(v==0) return 2; if(v==-2) { func_021D6998(p+0xb74); *(u32 *)(p+0xb6c)=0; } break;
+    case 19: func_021D8010(p+4,9); ++((struct Obj00470 *)p)->fB6C; break;
+    case 20: if(func_021D80CC(p+4)!=0) ++((struct Obj00470 *)p)->fB6C; break;
+    case 21: func_021D8134(p+4); ++((struct Obj00470 *)p)->fB6C; break;
+    case 22: v=func_021D8168(p+4); if(v==0) return 2; if(v==-2) { func_021D6998(p+0xb74); ((struct Obj00470 *)p)->fB6C=0; } break;
     }
     return 0;
 }

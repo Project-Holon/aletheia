@@ -13,6 +13,7 @@
  * its own Payload pointer preserves the parent base and explicit +8 copy.
  * domain: unsigned index comparison and modular word address arithmetic.
  */
+#include "../include/Obj18964.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,7 +23,7 @@ typedef struct { u8 pad[18]; u16 n; u8 pad14[8]; Rec *r; } Ctx;
 static inline void set(Rec *r, u32 a, u32 b, u16 d)
 {
     Payload *p = &r->data;
-    *(u32 *)((u8 *)r + 8) = a;
+    ((struct Obj18964 *)r)->f8 = a;
     p->f = d;
     p->g = b << 4;
 }

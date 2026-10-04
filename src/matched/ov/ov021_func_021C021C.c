@@ -19,6 +19,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_02012374  0x02012374  thumb
  */
+#include "../include/Obj05073.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -39,7 +40,7 @@ int func_021C021C(u32 a, int *st, u8 *p)
 
     u32 q;
 
-    q = func_02188D38((u8 *)(*(u32 *)(p + 4)));
+    q = func_02188D38((u8 *)(((struct Obj05073 *)p)->f4));
     switch (*st) {
     case 0:
         func_021C029C(p);
@@ -48,8 +49,8 @@ int func_021C021C(u32 a, int *st, u8 *p)
         *st = *st + 1;
         break;
     case 1:
-        n = *(int *)(p + 0x74);
-        *(int *)(p + 0x74) = n + 1;
+        n = ((struct Obj05073 *)p)->f74;
+        ((struct Obj05073 *)p)->f74 = n + 1;
         if (n > 0x23) {
             func_02012374((struct Evt *)a, (struct Evt **)func_021C0374(p));
             *st = *st + 1;

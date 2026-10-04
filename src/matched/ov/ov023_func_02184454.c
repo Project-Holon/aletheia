@@ -12,6 +12,7 @@
  * symbols:
  *   func_02039338  0x02039338  arm
  */
+#include "../include/Obj20339.h"
 
 typedef unsigned short u16;
 extern u16 func_02039338(void);
@@ -20,5 +21,5 @@ void func_02184454(int a0, int a1, int a2, char *a3)
 {
     if (func_02039338())
         return;
-    *(unsigned int *)(a3 + 0x9280) |= 1 << a0;
+    ((struct Obj20339 *)a3)->f9280 |= 1 << a0;
 }

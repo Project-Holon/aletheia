@@ -12,10 +12,12 @@
  * symbols:
  *   func_021B8714  0x021B8714  thumb  ov093
  */
+#include "../include/Obj18335.h"
+#include "../include/Obj18336.h"
 
 char *func_021B8714(char **p);
 
 int func_021C8174(int *p)
 {
-    return *(int *)((char *)func_021B8714((char **)(*(int *)((char *)p + 4))) + 4);
+    return ((struct Obj18336 *)((char *)func_021B8714((char **)(((struct Obj18335 *)p)->f4))))->f4;
 }

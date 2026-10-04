@@ -18,6 +18,7 @@
  *
  * Flush the object, dispatch on the p+0xB0 flag, then chain to 0x21FD73C.
  */
+#include "../include/Obj00730.h"
 
 
 extern void func_021DBCA8(int *task, int *state, char *p);
@@ -28,10 +29,10 @@ extern void func_021FD73C(int, void *);
 
 void func_021DBC68(int a, int b, char *p)
 {
-    func_021DCEE4(p, (char *)(*(int *)(p + 0xD0)));
-    if (*(int *)(p + 0xB0) != 0)
-        func_021DCDD8(p, *(int *)(p + 0xD0));
+    func_021DCEE4(p, (char *)(((struct Obj00730 *)p)->fD0));
+    if (((struct Obj00730 *)p)->fB0 != 0)
+        func_021DCDD8(p, ((struct Obj00730 *)p)->fD0);
     else
-        func_021DC8EC(p, *(int *)(p + 0xD0));
+        func_021DC8EC(p, ((struct Obj00730 *)p)->fD0);
     func_021FD73C(a, func_021DBCA8);
 }

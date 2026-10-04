@@ -12,12 +12,13 @@
  * symbols:
  *   func_0217814C 0x0217814C thumb ov014
  */
+#include "../include/Obj12476.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef void (*Cb)(int);
 extern void func_0217814C(int);
 void func_02178D74(u8 *p) {
- int v = *(u16 *)(p + 2);
+ int v = ((struct Obj12476 *)p)->f2;
  if (v != 0 && v != 15) { func_0217814C(v); }
- else { Cb cb = *(Cb *)(p + 0x20); if (cb != 0) cb(v == 0); }
+ else { Cb cb = *(Cb *)&((struct Obj12476 *)p)->f20; if (cb != 0) cb(v == 0); }
 }

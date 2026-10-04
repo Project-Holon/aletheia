@@ -9,5 +9,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj13753.h"
 
-void func_021B80BC(unsigned char *p, unsigned int v) { *(unsigned int *)(p+0x18C)=v; *(unsigned short *)(p+0x190)=0; }
+void func_021B80BC(unsigned char *p, unsigned int v) { ((struct Obj13753 *)p)->f18C=v; ((struct Obj13753 *)p)->f190=0; }

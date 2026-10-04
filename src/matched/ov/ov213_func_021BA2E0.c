@@ -12,11 +12,12 @@
  * symbols:
  *   func_021BA330 0x021BA330 thumb
  */
+#include "../include/Obj08419.h"
 
 extern void func_021BA330(void *, int);
 
 void func_021BA2E0(char *a)
 {
-    if (*(int *)(a + 0x50) == 0x2d)
-        func_021BA330(a, *(int *)(a + 0xc));
+    if (*(int *)&((struct Obj08419 *)a)->f50 == 0x2d)
+        func_021BA330(a, ((struct Obj08419 *)a)->fC);
 }

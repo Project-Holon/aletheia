@@ -18,6 +18,7 @@
  *   d_021D90C0     0x021D90C0  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05039.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,16 +33,16 @@ extern u8 d_021D90C0[];
 
 int func_021AC9D8(u8 *p)
 {
-    u32 a = *(u32 *)(p + 8);
+    u32 a = ((struct Obj05039 *)p)->f8;
     u32 x = func_0216D83C((void *)a);
     u32 y = func_0216D86C((void *)a);
-    u32 f = d_021D90C0[*(u32 *)(p + 0x24)];
-    if (*(u32 *)(p + 0xc) == x && *(u32 *)(p + 0x10) == y)
+    u32 f = d_021D90C0[((struct Obj05039 *)p)->f24];
+    if (((struct Obj05039 *)p)->fC == x && ((struct Obj05039 *)p)->f10 == y)
         goto yes;
     if (f == 0 && func_0216D608((void *)a) == 0) {
         x = func_0216D804((void *)a);
         y = func_0216D81C((void *)a);
-        if (*(u32 *)(p + 0xc) == x && *(u32 *)(p + 0x10) == y)
+        if (((struct Obj05039 *)p)->fC == x && ((struct Obj05039 *)p)->f10 == y)
             return 1;
     }
     return 0;

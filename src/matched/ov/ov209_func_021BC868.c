@@ -15,5 +15,6 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj00088.h"
 struct U16Vec;struct PrintSys;struct WordSet;struct Rec;extern void func_02045808(struct U16Vec *);extern void func_0201C4C0(struct PrintSys *);extern void func_0201ED04(struct WordSet *);extern void func_0201D83C(void *);extern void func_02045C04(struct Rec *);
-void func_021BC868(char *p){func_02045808(*(struct U16Vec **)(p+68));func_0201C4C0(*(struct PrintSys **)(p+72));func_0201ED04(*(struct WordSet **)(p+64));func_0201D83C(*(void **)(p+56));func_02045C04(*(struct Rec **)(p+60));}
+void func_021BC868(char *p){func_02045808(*(struct U16Vec * *)&((struct Obj00088 *)p)->f44);func_0201C4C0(*(struct PrintSys * *)&((struct Obj00088 *)p)->f48);func_0201ED04(*(struct WordSet * *)&((struct Obj00088 *)p)->f40);func_0201D83C(((struct Obj00088 *)p)->f38);func_02045C04(*(struct Rec * *)&((struct Obj00088 *)p)->f3C);}

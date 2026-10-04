@@ -12,6 +12,7 @@
  *   func_021BC06C 0x021BC06C thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj04412.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -22,7 +23,7 @@ int func_021BD558(char *p, int v)
     if (func_020362DC() != 0) {
         func_021BC06C(p);
         func_021BAAB8(p, 0x71, 0);
-        *(u32 *)(p + 0x1cc) = 0x65;
+        ((struct Obj04412 *)p)->f1CC = 0x65;
     }
     return v;
 }

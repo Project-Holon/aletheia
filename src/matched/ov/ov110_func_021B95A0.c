@@ -14,6 +14,7 @@
  *   func_021B98A0 0x021B98A0 thumb ov110
  *   d_021C3B80 0x021C3B80 data a1
  */
+#include "../include/Obj05283.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,8 +29,8 @@ void *func_021B95A0(u32 heap,void *save)
     char *p;
     int i;
     p=func_02030734((u16)heap,0x1E50,0,d_021C3B80,88);
-    *(void **)p=save;
-    *(void **)(p+4)=func_020247A8(heap);
+    ((struct Obj05283 *)p)->f0=save;
+    ((struct Obj05283 *)p)->f4=func_020247A8(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;
     func_021B9608(p);
     func_021B98A0(p);

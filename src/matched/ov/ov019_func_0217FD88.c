@@ -12,6 +12,7 @@
  * symbols:
  *   func_0217FCA4  0x0217FCA4  thumb  ov019
  */
+#include "../include/Obj04188.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,9 +27,9 @@ u8 *func_0217FD88(u8 *base)
 
     for (i = 0; i < 10; i++) {
         e = base + i * 20;
-        if (*(int *)(e + 12) == 0)
+        if (*(int *)&((struct Obj04188 *)e)->fC == 0)
             return e;
-        if (*(u16 *)(e + 16) < *(u16 *)(base + best * 20 + 16))
+        if (((struct Obj04188 *)e)->f10 < *(u16 *)(base + best * 20 + 16))
             best = i;
     }
     e = base + best * 20;

@@ -19,6 +19,8 @@
  *   func_0201F73C  0x0201F73C  thumb
  *   d_021BABFC     0x021BABFC  data  a4
  */
+#include "../include/Obj00044.h"
+#include "../include/Obj09896.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -37,11 +39,11 @@ extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 void func_021B9798(char *a, char *b, u32 c)
 {
-    if (*(void **)(a + 0x294) != 0)
+    if (((struct Obj00044 *)a)->f294 != 0)
         func_02034714(d_021BABFC, 0, d_021BABFC);
     func_0201DD78(1, 2, 0xf);
-    *(void **)(a + 0x290) = func_02045EC0(*(void **)(b + 0x28), c);
-    *(void **)(a + 0x294) = func_0201CCE4(*(void **)(a + 0x280), 0, 0, *(void **)(a + 0x290), *(u32 *)(b + 0xc), func_02012FFC(), *(u32 *)(b + 0x18), 0xa, 0x61, 0xf);
-    func_02045374(*(void **)(a + 0x280));
-    func_0201F73C(*(void **)(a + 0x280), 1, 1, 0xb);
+    ((struct Obj00044 *)a)->f290 = func_02045EC0(((struct Obj09896 *)b)->f28, c);
+    ((struct Obj00044 *)a)->f294 = func_0201CCE4(((struct Obj00044 *)a)->f280, 0, 0, ((struct Obj00044 *)a)->f290, ((struct Obj09896 *)b)->fC, func_02012FFC(), ((struct Obj09896 *)b)->f18, 0xa, 0x61, 0xf);
+    func_02045374(((struct Obj00044 *)a)->f280);
+    func_0201F73C(((struct Obj00044 *)a)->f280, 1, 1, 0xb);
 }

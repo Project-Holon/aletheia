@@ -23,6 +23,7 @@
  *   func_021B9EA4  0x021B9EA4  thumb  ov100
  *   func_021B9DB8  0x021B9DB8  thumb  ov100
  */
+#include "../include/Obj00060.h"
 
 typedef unsigned short u16;
 
@@ -46,11 +47,11 @@ extern void func_021B9DB8(int a);
 
 void func_021B9EF8(int a)
 {
-    if (*(int *)(a + 0xcc0) != 0) {
-        if (func_020279E8(*(int *)(a + 0xcc0)) != 0) {
-            func_02027A04((const u8 *)(*(int *)(a + 0xcc0)));
-            func_02027858((struct TaskMenu *)(*(int *)(a + 0xcc0)));
-            *(int *)(a + 0xcc0) = 0;
+    if (((struct Obj00060 *)a)->fCC0 != 0) {
+        if (func_020279E8(((struct Obj00060 *)a)->fCC0) != 0) {
+            func_02027A04((const u8 *)(((struct Obj00060 *)a)->fCC0));
+            func_02027858((struct TaskMenu *)(((struct Obj00060 *)a)->fCC0));
+            ((struct Obj00060 *)a)->fCC0 = 0;
             func_02041B6C(6);
             func_021B95B8(a, (void (*)(void))func_021B9EA4);
             return;

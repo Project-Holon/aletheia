@@ -27,6 +27,7 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  */
+#include "../include/Obj01361.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -57,33 +58,33 @@ int func_021847C8(u32 a, int *seq, u8 *c, u8 *d)
 {
     switch (*seq) {
     case 0:
-        func_02030EAC((struct Node *)(*(u32 *)(d + 0x08)));
-        func_0204A8D4(*(u32 *)(d + 0x58));
-        func_0204ADA4(*(u32 *)(d + 0x54));
-        func_0204AFD8(*(u32 *)(d + 0x5C));
-        func_0204A8D4(*(u32 *)(d + 0x4C));
-        func_0204ADA4(*(u32 *)(d + 0x48));
-        func_0204AFD8(*(u32 *)(d + 0x50));
-        func_0204A8D4(*(u32 *)(d + 0x40));
-        func_0204ADA4(*(u32 *)(d + 0x3C));
-        func_0204AFD8(*(u32 *)(d + 0x44));
-        func_0204B1CC((struct Bank *)(*(u32 *)(d + 0x38)));
+        func_02030EAC((struct Node *)(((struct Obj01361 *)d)->f8));
+        func_0204A8D4(((struct Obj01361 *)d)->f58);
+        func_0204ADA4(((struct Obj01361 *)d)->f54);
+        func_0204AFD8(((struct Obj01361 *)d)->f5C);
+        func_0204A8D4(((struct Obj01361 *)d)->f4C);
+        func_0204ADA4(((struct Obj01361 *)d)->f48);
+        func_0204AFD8(((struct Obj01361 *)d)->f50);
+        func_0204A8D4(((struct Obj01361 *)d)->f40);
+        func_0204ADA4(((struct Obj01361 *)d)->f3C);
+        func_0204AFD8(((struct Obj01361 *)d)->f44);
+        func_0204B1CC((struct Bank *)(((struct Obj01361 *)d)->f38));
         func_0204A5AC();
-        if (*(u32 *)(d + 0x178) != 0) {
+        if (((struct Obj01361 *)d)->f178 != 0) {
             func_02186694(d);
         }
         func_02185004(d);
         func_02184B34();
-        func_02045C04((struct Rec *)(*(u32 *)(d + 0x14)));
-        func_0201ED04((struct WordSet *)(*(u32 *)(d + 0x10)));
-        func_0201D83C((void *)(*(u32 *)(d + 0x0C)));
+        func_02045C04((struct Rec *)(((struct Obj01361 *)d)->f14));
+        func_0201ED04((struct WordSet *)(((struct Obj01361 *)d)->f10));
+        func_0201D83C((void *)(((struct Obj01361 *)d)->fC));
         (*seq)++;
         break;
     case 1:
         (*seq)++;
         break;
     case 2:
-        if (*(u32 *)(d + 0x9E78) != 0) {
+        if (((struct Obj01361 *)d)->f9E78 != 0) {
             if (func_02186558(d) == 1) {
                 (*seq)++;
             }

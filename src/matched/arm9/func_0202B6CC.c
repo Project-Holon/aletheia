@@ -16,6 +16,7 @@
 
  * Closed by the `matched` class: 0x0202B1F4 -> 0x0202B230 -> 0x0202B254, all filed this wave.
  */
+#include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -24,7 +25,7 @@ extern void func_0202B1F4(u32 v);
 
 void func_0202B6CC(u8 *o)
 {
-    if ((*(u32 *)(o + 0xc) & 1) == 0) {
-        func_0202B1F4(*(u32 *)(o + 0x14));
+    if ((((struct Obj02010 *)o)->fC & 1) == 0) {
+        func_0202B1F4(((struct Obj02010 *)o)->f14);
     }
 }

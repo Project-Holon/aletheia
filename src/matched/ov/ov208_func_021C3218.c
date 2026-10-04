@@ -13,6 +13,7 @@
  *   func_021C32FC 0x021C32FC thumb ov208
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,8 +25,8 @@ extern void func_02045334(struct Descriptor *);
 void func_021C3218(u16 *heap,u8 *p,int key)
 {
     func_02049B90(23,5,4,0,0,32,*heap);
-    *(u32 *)(p+12)=func_020450F0(6,10,5,12,4,0,1);
-    *(u32 *)(p+16)=0;
+    *(u32 *)&((struct Obj00146 *)p)->fC=func_020450F0(6,10,5,12,4,0,1);
+    ((struct Obj00146 *)p)->f10=0;
     func_021C32FC(heap,p,key);
-    func_02045334((struct Descriptor *)*(u32 *)(p+12));
+    func_02045334((struct Descriptor *)*(u32 *)&((struct Obj00146 *)p)->fC);
 }

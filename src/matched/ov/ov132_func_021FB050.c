@@ -16,6 +16,9 @@
  *   func_021FB0DC 0x021FB0DC thumb ov132
  *   d_021FDD00 0x021FDD00 data ov132 a4
  */
+#include "../include/Obj03819.h"
+#include "../include/Obj06490.h"
+#include "../include/Obj08159.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_021FDD00[];
@@ -32,23 +35,23 @@ int func_021FB050(void *unused, char *ctx)
     int time;
     int target;
     int wait;
-    owner = *(char **)ctx;
-    time = func_0201134C(*(void **)(ctx + 4));
-    target = func_0201134C(*(void **)(ctx + 4));
-    wait = func_0201134C(*(void **)(ctx + 4));
+    owner = *(char * *)&((struct Obj06490 *)ctx)->f0;
+    time = func_0201134C(((struct Obj06490 *)ctx)->f4);
+    target = func_0201134C(((struct Obj06490 *)ctx)->f4);
+    wait = func_0201134C(((struct Obj06490 *)ctx)->f4);
     if (time == 0) {
-        func_021F9E00(*(void **)(owner + 0x34), target);
+        func_021F9E00(((struct Obj08159 *)owner)->f34, target);
     } else {
-        p = func_02030734(*(u16 *)owner, 0x18, 0, d_021FDD00, 0x1e9);
-        *(char **)(p + 0x10) = owner;
-        *(void **)p = *(void **)(owner + 0x34);
-        *(u16 *)(p + 0xe) = 0;
-        *(int *)(p + 4) = func_021F9DFC(*(void **)(owner + 0x34));
-        *(int *)(p + 8) = target;
-        *(u16 *)(p + 0xc) = time;
-        *(void **)(p + 0x14) = func_021FADA0(owner, (u32)func_021FB0DC, (u32)p, 10);
+        p = func_02030734(((struct Obj08159 *)owner)->f0, 0x18, 0, d_021FDD00, 0x1e9);
+        *(char * *)&((struct Obj03819 *)p)->f10 = owner;
+        ((struct Obj03819 *)p)->f0 = ((struct Obj08159 *)owner)->f34;
+        ((struct Obj03819 *)p)->fE = 0;
+        ((struct Obj03819 *)p)->f4 = func_021F9DFC(((struct Obj08159 *)owner)->f34);
+        ((struct Obj03819 *)p)->f8 = target;
+        ((struct Obj03819 *)p)->fC = time;
+        ((struct Obj03819 *)p)->f14 = func_021FADA0(owner, (u32)func_021FB0DC, (u32)p, 10);
         if (wait == 1) {
-            *(u16 *)(ctx + 0x14) = *(u16 *)(p + 0xc);
+            ((struct Obj06490 *)ctx)->f14 = ((struct Obj03819 *)p)->fC;
             return 1;
         }
     }

@@ -15,6 +15,7 @@
 
  * Runs the idle transition when func_021BC6C8 is false and marks state 2.
  */
+#include "../include/Obj18187.h"
 
 
 extern int func_021BC6C8(char *);
@@ -25,6 +26,6 @@ void func_021BC6D8(char *p)
     if (func_021BC6C8(p))
         return;
     func_021BC7B4(p, -1, 0x10, 0);
-    *(int *)(p + 0x10) = 2;
+    ((struct Obj18187 *)p)->f10 = 2;
 }
 

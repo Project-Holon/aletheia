@@ -25,6 +25,7 @@
  * func_021D59B4; then build and publish the record.  Two live calls with no
  * free saved register is what puts the first result on the stack.
  */
+#include "../include/Obj07235.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,9 +61,9 @@ void func_021DC57C(void *a, int b, int c)
     if (n > m)
         n = m;
     p = func_021C88A4(b, 8, c);
-    *(u8 *)(p + 7) = c;
-    *(u32 *)(p + 0x10) = n;
-    *(u8 *)(p + 4) = 1;
-    *(u8 *)(p + 5) = 1;
+    ((struct Obj07235 *)p)->f7 = c;
+    ((struct Obj07235 *)p)->f10 = n;
+    ((struct Obj07235 *)p)->f4 = 1;
+    ((struct Obj07235 *)p)->f5 = 1;
     func_021C88C8((void *)b, p);
 }

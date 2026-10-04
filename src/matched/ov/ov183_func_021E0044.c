@@ -13,6 +13,8 @@
  *   func_021FFE5C 0x021FFE5C thumb ov186
  *   func_021FFE34 0x021FFE34 thumb ov186
  */
+#include "../include/Obj04573.h"
+#include "../include/Obj08315.h"
 typedef unsigned short u16;
 extern void *func_0200CA1C(void *);
 extern char *func_021FFBD4(void *, void *, int, int, int, int, int, u16);
@@ -20,7 +22,7 @@ extern void func_021FFE5C(char *);
 extern unsigned func_021FFE34(char *p);
 void func_021E0044(char *p, char *q)
 {
-    *(char **)(p + 0x1c) = func_021FFBD4(func_0200CA1C(*(void **)(q + 0x10)), *(void **)(q + 8), *(int *)(q + 4), *(int *)(p + 0x44), *(int *)q, *(int *)(p + 0x3c), *(int *)(p + 0x40), *(u16 *)(p + 0x54));
-    func_021FFE5C(*(char **)(p + 0x1c));
-    func_021FFE34(*(char **)(p + 0x1c));
+    *(char * *)&((struct Obj04573 *)p)->f1C = func_021FFBD4(func_0200CA1C(((struct Obj08315 *)q)->f10), ((struct Obj08315 *)q)->f8, ((struct Obj08315 *)q)->f4, ((struct Obj04573 *)p)->f44, ((struct Obj08315 *)q)->f0, ((struct Obj04573 *)p)->f3C, ((struct Obj04573 *)p)->f40, ((struct Obj04573 *)p)->f54);
+    func_021FFE5C(*(char * *)&((struct Obj04573 *)p)->f1C);
+    func_021FFE34(*(char * *)&((struct Obj04573 *)p)->f1C);
 }

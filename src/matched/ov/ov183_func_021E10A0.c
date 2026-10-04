@@ -12,11 +12,12 @@
  * symbols:
  *   func_02025538  0x02025538  thumb
  */
+#include "../include/Obj00143.h"
 
 extern void *func_02025538(unsigned int a0, void *a1);
 
 void func_021E10A0(char *p)
 {
-    *(void **)(p + 0x300) =
-        func_02025538(*(unsigned short *)(p + 0x34c), *(void **)(p + 0x25c));
+    ((struct Obj00143 *)p)->f300 =
+        func_02025538(((struct Obj00143 *)p)->f34C, ((struct Obj00143 *)p)->f25C);
 }

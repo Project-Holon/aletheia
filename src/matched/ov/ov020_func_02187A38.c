@@ -27,6 +27,7 @@
  *   func_0207D63C  0x0207D63C  arm
  *   func_0207D534  0x0207D534  arm
  */
+#include "../include/Obj01651.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -42,16 +43,16 @@ void func_02187A38(const char *o, int st)
 
     if (st == 2) {
         func_0207D658(0x04000050, 8,
-            (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)) + -16.0f));
+            (int)(16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C) + -16.0f));
     } else if (st == 4) {
-        if (*(const u8 *)(o + 0x15) == *(const u8 *)(o + 0x14)) {
-            v = (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)));
+        if (*(const u8 *)&((struct Obj01651 *)o)->f15 == *(const u8 *)&((struct Obj01651 *)o)->f14) {
+            v = (int)(16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C));
             func_0207D63C(0x04000050, 8, 0x11, 16 - v, v);
             func_0207D534((volatile u16 *)0x0400106C,
-                (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)) + -16.0f));
+                (int)(16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C) + -16.0f));
         } else {
             func_0207D658(0x04000050, 8,
-                (int)(0.0f - 16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c))));
+                (int)(0.0f - 16.0f * ((float)*(const u32 *)&((struct Obj01651 *)o)->f18 / (float)*(const u32 *)&((struct Obj01651 *)o)->f1C)));
         }
     }
 }

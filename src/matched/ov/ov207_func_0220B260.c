@@ -17,6 +17,7 @@
  *   func_02049238 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00162.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_020414EC(u32 i);
@@ -34,10 +35,10 @@ void func_0220B260(unsigned *p)
     func_020414EC(3);
     func_0204047C(1,3);
     func_0204047C(3,0);
-    r=func_020490F4(159,*(u16 *)p);
-    func_02049B68(r,7,0,0,32,*(u16 *)p);
-    p[12]=func_02049740(r,17,1,2048,0,*(u16 *)p);
-    func_020498F4(r,39,1,p[12],1536,0,*(u16 *)p);
+    r=func_020490F4(159,((struct Obj00162 *)p)->f0);
+    func_02049B68(r,7,0,0,32,((struct Obj00162 *)p)->f0);
+    p[12]=func_02049740(r,17,1,2048,0,((struct Obj00162 *)p)->f0);
+    func_020498F4(r,39,1,p[12],1536,0,((struct Obj00162 *)p)->f0);
     func_02049238(r);
     func_020409B4(1);
 }

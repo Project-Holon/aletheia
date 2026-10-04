@@ -13,6 +13,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_021B8A28 0x021B8A28 thumb ov106
  */
+#include "../include/Obj01390.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,20 +28,20 @@ void func_021B8524(u8 *p) {
     int i, y;
     func_02041300(p[0x548],0,0,0,32,24,0);
     func_02041300(p[0x54a],0,0,0,32,24,0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x568))),0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x56c))),0);
-    for (i=*(s16 *)(p+0x55c)-1; i<*(s16 *)(p+0x55c)+10; i++) {
-        if (i>=0 && i<*(u16 *)(p+0x554)) {
-            y=(i-*(s16 *)(p+0x55c))*3+4;
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f568)),0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01390 *)p)->f56C)),0);
+    for (i=((struct Obj01390 *)p)->f55C-1; i<((struct Obj01390 *)p)->f55C+10; i++) {
+        if (i>=0 && i<((struct Obj01390 *)p)->f554) {
+            y=(i-((struct Obj01390 *)p)->f55C)*3+4;
             if (y>=0 && y<=24)
-                func_021B8A28((u32 *)(p+0x188+i*32),*(u32 *)(p+0x568),p[0x548],(u16)y);
+                func_021B8A28((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f568,p[0x548],(u16)y);
         }
     }
-    for (i=*(s16 *)(p+0x55c)+4; i<*(s16 *)(p+0x55c)+17; i++) {
-        if (i>=0 && i<*(u16 *)(p+0x554)) {
-            y=(i-(*(s16 *)(p+0x55c)+4))*3;
+    for (i=((struct Obj01390 *)p)->f55C+4; i<((struct Obj01390 *)p)->f55C+17; i++) {
+        if (i>=0 && i<((struct Obj01390 *)p)->f554) {
+            y=(i-(((struct Obj01390 *)p)->f55C+4))*3;
             if (y>=0 && y<=24)
-                func_021B8A28((u32 *)(p+0x188+i*32),*(u32 *)(p+0x56c),p[0x54a],(u16)y);
+                func_021B8A28((u32 *)(p+0x188+i*32),((struct Obj01390 *)p)->f56C,p[0x54a],(u16)y);
         }
     }
 }

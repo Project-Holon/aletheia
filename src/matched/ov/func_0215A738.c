@@ -12,6 +12,7 @@
  * symbols:
  *   func_02197DAC  0x02197DAC  thumb
  */
+#include "../include/Obj04882.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,17 +31,17 @@ t4 = 0;
 t5 = a0 + 0;
 t7 = t4 + 0;
 loc_0215A740:
-a0 = *(int *)((char *)t5 + 0x20);
+a0 = ((struct Obj04882 *)t5)->f20;
 t6 = t4 << 2;
 a0 = a0 + t6;
-a0 = *(int *)((char *)a0 + 0x14);
+a0 = ((struct Obj04882 *)a0)->f14;
     if (a0 == 0) goto loc_0215A756;
 loc_0215A74C:
     a0 = func_02197DAC(a0);
 loc_0215A750:
-a0 = *(int *)((char *)t5 + 0x20);
+a0 = ((struct Obj04882 *)t5)->f20;
 a0 = a0 + t6;
-*(int *)((char *)a0 + 0x14) = t7;
+((struct Obj04882 *)a0)->f14 = t7;
 loc_0215A756:
 t4 = t4 + 1;
     if (t4 < 8) goto loc_0215A740;

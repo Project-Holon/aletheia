@@ -13,6 +13,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204BA20 0x0204BA20 arm
  */
+#include "../include/Obj23997.h"
 
 typedef struct {
     int pad0;
@@ -31,7 +32,7 @@ extern void func_0204BA20(struct Actor *a, u32 v);
 
 void *func_021EBEE0(char *w, const Desc *s)
 {
-    void *r = func_0204B294(*(void **)(w + 0x9E70), (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
+    void *r = func_0204B294(((struct Obj23997 *)w)->f9E70, (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
                             (unsigned int)*(void **)(w + s->b * 4 + 0xA108), (unsigned int)*(void **)(w + s->c * 4 + 0xA134),
                             s, s->d, 0x4C);
     func_0204BA20(r, 0);

@@ -11,9 +11,10 @@
  * symbols:
 
  */
+#include "../include/Obj23019.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 
-u32 func_021C4270(char *p) { return *(u32 *)(p+12); }
+u32 func_021C4270(char *p) { return ((struct Obj23019 *)p)->fC; }

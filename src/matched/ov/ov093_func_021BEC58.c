@@ -66,6 +66,7 @@
  * by Bits78A. EE44 branches directly to EE6C, skipping C5718 at EE68;
  * only BF02C's true path performs that call before BF27C.
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -139,17 +140,17 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
         case 4: break;
         }
     }
-    func_021BEFEC(*(void **)(p + 0x860));
-    pos = func_021CD4FC(*(struct Buf **)(p + 0xc), 0x30);
-    func_021BD200(*(struct State **)(p + 0x4a8), p, a, (int)d);
+    func_021BEFEC(((struct Obj00003 *)p)->f860);
+    pos = func_021CD4FC(*(struct Buf * *)&((struct Obj00003 *)p)->fC, 0x30);
+    func_021BD200(*(struct State * *)&((struct Obj00003 *)p)->f4A8, p, a, (int)d);
     lock = func_021CC8D8(p + 0x1d74, 0x10a8);
     result = func_021C65A8(p, a, key, d);
     func_021CC95C((u32 *)(p + 0x1d74), lock, 0x10aa);
     if (result != 0) {
-        s = *(struct State **)(p + 0x4a8);
+        s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a == 0) s->a = 1;
         if (result == 2) {
-            func_021BFBD0(p, key, *(u8 **)(p + 0x4a8), pos);
+            func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
             return 1;
         }
     }
@@ -163,24 +164,24 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
         break;
     }
     func_021BEFFC((struct S *)d);
-    func_021BF04C(p, *(u16 **)(p + 0x1ab0), (int)a, (int)d);
-    func_021BF0E4((int)p, a, (int)d, *(u8 **)(p + 0x1ab0), execute);
+    func_021BF04C(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d);
+    func_021BF0E4((int)p, a, (int)d, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, execute);
     if (func_021BF00C((struct S *)d)) {
         if (((struct Bits78A *)(p + 0x78a))->skip == 0) func_021C5718(p, a, key);
         active = 0;
     }
     if (active != 0) {
-        if (action != 9) func_021BF83C(p, *(u16 **)(p + 0x1ab0), a, (int)d);
+        if (action != 9) func_021BF83C(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
         func_021CC8A0(p + 0x1f88);
-        if (forced != 0 || func_021BF168(p, *(u16 **)(p + 0x1ab0), a))
-            func_021BF3D8(p, *(int *)(p + 0x1ab0), a, (int)d, p + 0x1f88);
-        func_021BF4AC(p, *(u8 **)(p + 0x1ab0), a, d, p + 0x1f88);
-        if (action != 9) func_021BF8D4(p, *(u16 **)(p + 0x1ab0), a, (int)d);
+        if (forced != 0 || func_021BF168(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a))
+            func_021BF3D8(p, *(int *)&((struct Obj00003 *)p)->f1AB0, a, (int)d, p + 0x1f88);
+        func_021BF4AC(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, p + 0x1f88);
+        if (action != 9) func_021BF8D4(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, (int)d);
         if (func_021BF01C((struct S *)d)) {
             func_021BF27C(p, id, key);
             active = 0;
         } else {
-            func_021BF1B4((int)p, *(u16 **)(p + 0x1ab0), (int)a, (int)d, forced);
+            func_021BF1B4((int)p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (int)a, (int)d, forced);
             if (func_021BF02C((struct S *)d)) {
                 func_021C5718(p, a, key);
                 func_021BF27C(p, id, key);
@@ -190,22 +191,22 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
     }
     if (active != 0) {
         if (execute != 0) {
-            func_021C091C(p, *(u8 **)(p + 0x1ab0), a, d, (u32)(p + 0x1f88), 0);
+            func_021C091C(p, *(u8 * *)&((struct Obj00003 *)p)->f1AB0, a, d, (u32)(p + 0x1f88), 0);
         } else {
             switch (action) {
-            case 2: func_021C2DC4(p, *(u32 *)(p + 0x1ab0), (u32)a, (u32)d); break;
+            case 2: func_021C2DC4(p, *(u32 *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
             case 1: func_021C2488(p, key, a, (u32)d); break;
-            case 5: func_021C3184(p, *(u16 **)(p + 0x1ab0), (u32)a, (u32)d); break;
-            case 9: func_021C3438(p, *(u16 **)(p + 0x1ab0), a, d); break;
+            case 5: func_021C3184(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, (u32)a, (u32)d); break;
+            case 9: func_021C3438(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
             case 12: func_021C376C(p, key, (int)a, (int)d); break;
             case 3: func_021C3274(p, key, (u32)a, (u32)d); break;
-            case 10: func_021C3AA8(p, *(u16 **)(p + 0x1ab0), a); break;
-            case 11: case 13: func_021C3D08(p, *(u16 **)(p + 0x1ab0), a, d); break;
+            case 10: func_021C3AA8(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a); break;
+            case 11: case 13: func_021C3D08(p, *(u16 * *)&((struct Obj00003 *)p)->f1AB0, a, d); break;
             }
         }
-        s = *(struct State **)(p + 0x4a8);
+        s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a != 0) {
-            if (s->b == 0) func_021BFBD0(p, key, *(u8 **)(p + 0x4a8), pos);
+            if (s->b == 0) func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
             func_021BF03C((struct O *)(p + 0x1c));
             if (!func_021D5B68(a) && func_0201BEB8(key, 2)) func_021C60EC(p, a, 12);
             func_021BF244(p, id, key);
@@ -214,8 +215,8 @@ int func_021BEC58(u8 *p, u8 *a, u16 key, u8 *d)
             active = 0;
         }
     } else {
-        s = *(struct State **)(p + 0x4a8);
-        if (s->a != 0) func_021BFBD0(p, key, *(u8 **)(p + 0x4a8), pos);
+        s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
+        if (s->a != 0) func_021BFBD0(p, key, *(u8 * *)&((struct Obj00003 *)p)->f4A8, pos);
     }
     func_021BF2B4(p, id, key);
     func_021C4F64(p, a);

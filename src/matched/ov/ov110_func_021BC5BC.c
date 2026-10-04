@@ -33,6 +33,7 @@
  *   func_02045770 0x02045770 arm
  *   func_0201C7A4 0x0201C7A4 thumb
  */
+#include "../include/Obj10277.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -64,7 +65,7 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
     u32 font;
     u32 index;
     u32 layer;
-    font=func_021BAC44(*(u8 **)p);
+    font=func_021BAC44(*(u8 * *)&((struct Obj10277 *)p)->f0);
     if(id==0xffff) return;
     func_021BC564(input,&base);
     if(func_02024508(id)!=0) {
@@ -78,8 +79,8 @@ void func_021BC5BC(u8 *p,struct Descriptor *window,const Vec2 *input,u32 id,stru
         func_0204B3DC(sprite,1);
         func_0204B84C(sprite,func_020416D4(func_02045730(window)));
     } else {
-        func_02024838(id,*(void **)(p+0x30),42);
+        func_02024838(id,((struct Obj10277 *)p)->f30,42);
         func_0201DD78(3,4,14);
-        func_0201C7A4(func_02045770(window),base.x,base.y,*(void **)(p+0x30),(void *)font);
+        func_0201C7A4(func_02045770(window),base.x,base.y,((struct Obj10277 *)p)->f30,(void *)font);
     }
 }

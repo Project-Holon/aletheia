@@ -13,12 +13,13 @@
  *   func_021B99A4 0x021B99A4 thumb ov110
  *   func_021BB1CC 0x021BB1CC thumb ov110
  */
+#include "../include/Obj08009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B99A4(u32,u32,u32,int);
 extern void func_021BB1CC(u8 *,u8,int);
 void func_021BF758(u8 *p,u32 a,int b) {
-    if(p[0x69]==0) func_021B99A4(*(u32 *)(p+0x18),*(u16 *)(p+0x4c),a,b);
-    else func_021BB1CC(*(u8 **)(p+0x1c),a,b);
+    if(p[0x69]==0) func_021B99A4(((struct Obj08009 *)p)->f18,((struct Obj08009 *)p)->f4C,a,b);
+    else func_021BB1CC(*(u8 * *)&((struct Obj08009 *)p)->f1C,a,b);
 }

@@ -20,6 +20,7 @@
  *   func_020215A0 0x020215A0 thumb
  *   func_02021540 0x02021540 thumb
  */
+#include "../include/Obj13970.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct PalAnmSlot;
@@ -38,8 +39,8 @@ void func_021D4CBC(char *p, int n, int count)
     void *obj;
     void *buffer;
     int bytes;
-    obj = func_02021518(*(u16 *)(p + 12));
-    func_0202155C(obj, n, 0x200, *(u16 *)(p + 12));
+    obj = func_02021518(((struct Obj13970 *)p)->fC);
+    func_0202155C(obj, n, 0x200, ((struct Obj13970 *)p)->fC);
     bytes = count * 32;
     func_020216D4(obj, n, 0, bytes);
     func_02021FD8(obj, n, 0, count * 16, 6, 0);

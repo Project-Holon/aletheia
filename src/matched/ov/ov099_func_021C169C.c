@@ -15,6 +15,7 @@
  *   func_0203CEAC 0x0203CEAC arm
  *   func_0203CD98 0x0203CD98 arm
  */
+#include "../include/Obj00008.h"
 extern int func_021BA928(char *, int);
 extern void func_021BAAB8(char *, int, int);
 struct Sub020097BCObj;
@@ -24,15 +25,15 @@ extern void func_02009B3C(struct Sub020097BCObj *obj);
 int func_021C169C(char *p, int ret)
 {
     if (func_021BA928(p, ret) == 0) return ret;
-    if (*(int *)(p + 0x1e0) == 1) {
-        *(int *)(p + 0x1e0) = 0;
+    if (((struct Obj00008 *)p)->f1E0 == 1) {
+        ((struct Obj00008 *)p)->f1E0 = 0;
         func_0203CEAC(0);
     }
     if (func_0203CD98() == 0) {
-        func_02009B3C(*(void **)(p + 4));
+        func_02009B3C(((struct Obj00008 *)p)->f4);
         func_021BAAB8(p, 27, 1);
-        *(int *)(p + 0x1cc) = 52;
-        *(int *)(p + 0x1e0) = 30;
+        ((struct Obj00008 *)p)->f1CC = 52;
+        ((struct Obj00008 *)p)->f1E0 = 30;
     }
     return ret;
 }

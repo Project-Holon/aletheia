@@ -13,6 +13,7 @@
  *   func_0203633C 0x0203633C arm
  *   func_021BD3F8 0x021BD3F8 thumb ov208
  */
+#include "../include/Obj03931.h"
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -23,9 +24,9 @@ void func_021BE6A8(char *p)
     unsigned held=func_020362DC();
     unsigned keys=func_0203633C();
     if(!(held&0x3f0)) {
-        if(keys&0x40) func_021BD3F8(*(void **)(p+0x30),**(int **)(p+0x94));
-        else if(keys&0x80) func_021BD3F8(*(void **)(p+0x30),**(int **)(p+0x8c));
-        else if(keys&0x220) func_021BD3F8(*(void **)(p+0x30),**(int **)(p+0x7c));
-        else if(keys&0x110) func_021BD3F8(*(void **)(p+0x30),**(int **)(p+0x74));
+        if(keys&0x40) func_021BD3F8(((struct Obj03931 *)p)->f30,**(int * *)&((struct Obj03931 *)p)->f94);
+        else if(keys&0x80) func_021BD3F8(((struct Obj03931 *)p)->f30,**(int * *)&((struct Obj03931 *)p)->f8C);
+        else if(keys&0x220) func_021BD3F8(((struct Obj03931 *)p)->f30,**(int * *)&((struct Obj03931 *)p)->f7C);
+        else if(keys&0x110) func_021BD3F8(((struct Obj03931 *)p)->f30,**(int * *)&((struct Obj03931 *)p)->f74);
     }
 }

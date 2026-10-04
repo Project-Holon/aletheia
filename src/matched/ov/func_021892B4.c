@@ -16,6 +16,7 @@
  *   func_0216CD50  0x0216CD50  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09172.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,9 +28,9 @@ extern u32 func_0216D2AC(u32, u32, u32, u32);
 
 int func_021892B4(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216D2AC(*(u32 *)((u8 *)(a) + 56), b, c, d);
-func_0216CD50(*(u32 *)((u8 *)(a) + 56));
-*(u32 *)((u8 *)(a) + 56) = 0;
+func_0216D2AC(((struct Obj09172 *)((u8 *)(a)))->f38, b, c, d);
+func_0216CD50(((struct Obj09172 *)((u8 *)(a)))->f38);
+((struct Obj09172 *)((u8 *)(a)))->f38 = 0;
 return 0;
 }
 

@@ -18,6 +18,7 @@
  *   func_021EA710  0x021EA710  thumb  ov093
  *   d_021EFFAE     0x021EFFAE  data   ov093  a2
  */
+#include "../include/Obj10019.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct { u16 a; u16 b; } Pair16;
@@ -36,7 +37,7 @@ int func_021D2490(u8 *p, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        func_021EF9C0(*(void **)(p + 0x34), id, c[1]);
+        func_021EF9C0(((struct Obj10019 *)p)->f34, id, c[1]);
         if (func_021CD9E0(p))
             return 1;
         if (id < 5)
@@ -45,12 +46,12 @@ int func_021D2490(u8 *p, int *st, u32 *c)
         break;
     case 1:
         if (!func_021F7EB4()) {
-            func_021EA678(*(void **)(p + 0x54), d_021EFFAE[id].a, 0);
+            func_021EA678(((struct Obj10019 *)p)->f54, d_021EFFAE[id].a, 0);
             (*st)++;
         }
         break;
     case 2:
-        if (func_021EA710(*(void **)(p + 0x54)))
+        if (func_021EA710(((struct Obj10019 *)p)->f54))
             return 1;
         break;
     }

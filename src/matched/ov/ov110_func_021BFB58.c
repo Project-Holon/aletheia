@@ -12,11 +12,12 @@
  * symbols:
  *   func_021BC898 0x021BC898 thumb ov110
  */
+#include "../include/Obj22402.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BC898(u8 *p);
 int func_021BFB58(u8 *p) {
-    if(*(u32 *)(p+0x88)==0) {
+    if(((struct Obj22402 *)p)->f88==0) {
         if(func_021BC898(p+0x4c)) return 1;
         else return 0;
     } else return 1;

@@ -15,6 +15,7 @@
  *
  * Same forward as func_021EA83C but after restarting the queue.
  */
+#include "../include/Obj00000.h"
 
 
 struct WinMgr;
@@ -22,6 +23,6 @@ extern void func_021EF75C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *p, int a, int b);
 void func_021EA858(char *p, int a)
 {
-    func_021EF75C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF75C(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
     func_021E8FC0(p, 0x021E01E1, a);
 }

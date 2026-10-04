@@ -13,6 +13,7 @@
  *   func_02041300 0x02041300 arm
  *   func_021C5C8C 0x021C5C8C thumb ov127
  */
+#include "../include/Obj14033.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
@@ -20,8 +21,8 @@ extern void func_02041300(u8,int,int,int,u8,u8,u8);
 extern void func_021C5C8C(void *,u8,u8,u8,u8,u8,void *,u8,u8,u8,u8);
 void func_021C5B98(void *p,int layer,unsigned int q,s16 x,s16 y)
 {
-    s16 width=*(u16 *)q/8;
-    s16 height=*(u16 *)(q+2)/8;
+    s16 width=((struct Obj14033 *)q)->f0/8;
+    s16 height=((struct Obj14033 *)q)->f2/8;
     s16 sx,sy,w,h;
     if(x<0) sx=-x; else sx=0;
     if(y<0) sy=-y; else sy=0;

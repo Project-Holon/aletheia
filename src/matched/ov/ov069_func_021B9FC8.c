@@ -13,6 +13,7 @@
  *   func_0202616C 0x0202616C thumb
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj09876.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Point { u16 x, y; } Point;
@@ -25,8 +26,8 @@ void func_021B9FC8(char *p, int i)
 {
     Point pt;
     u8 *v;
-    v = func_0202616C(*(void **)(p + 0x14C), i);
+    v = func_0202616C(((struct Obj09876 *)p)->f14C, i);
     pt.x = v[0];
     pt.y = v[1];
-    func_0204B404(*(void **)(p + 0x124), (const struct Vec2 *)(&pt), 0);
+    func_0204B404(((struct Obj09876 *)p)->f124, (const struct Vec2 *)(&pt), 0);
 }

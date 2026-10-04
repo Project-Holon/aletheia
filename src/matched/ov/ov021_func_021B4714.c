@@ -28,6 +28,7 @@
  *   func_021B4710  0x021B4710  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01503.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -69,18 +70,18 @@ void func_021B4714(u8 *p, u32 sel, u32 c, u32 d)
         flag = 1;
     else
         flag = 0;
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x17c))), 0xf);
-    func_0201F73C((void *)(*(u32 *)(p + 0x17c)), 0, 0xe4, 9);
-    func_0201EF6C((struct WordSet *)(*(u32 *)(p + 0x190)), 0, c, flag, 0);
-    func_0201F14C((struct WordSet *)(*(u32 *)(p + 0x190)), 1, func_02020FE4((void *)c, 5, *(u16 *)(p + 4)));
-    v = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x188)), sel);
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x190)), (void *)(*(u32 *)(p + 0x198)), (void *)v);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01503 *)p)->f17C)), 0xf);
+    func_0201F73C((void *)(((struct Obj01503 *)p)->f17C), 0, 0xe4, 9);
+    func_0201EF6C((struct WordSet *)(((struct Obj01503 *)p)->f190), 0, c, flag, 0);
+    func_0201F14C((struct WordSet *)(((struct Obj01503 *)p)->f190), 1, func_02020FE4((void *)c, 5, ((struct Obj01503 *)p)->f4));
+    v = (u32)func_02045EC0((struct MsgBank *)(((struct Obj01503 *)p)->f188), sel);
+    func_0201F250((struct WordSet *)(((struct Obj01503 *)p)->f190), (void *)(((struct Obj01503 *)p)->f198), (void *)v);
     func_02045808((struct U16Vec *)v);
-    *(u32 *)(p + 0x1b8) = (u32)func_0201CD10(*(u32 *)(p + 0x17c), 0, 0, *(u32 *)(p + 0x198),
-                                        *(u32 *)(p + 8), func_02012FFC(),
-                                        *(u32 *)(p + 0x1b4), 0, *(u16 *)(p + 4), 0xffff,
+    ((struct Obj01503 *)p)->f1B8 = (u32)func_0201CD10(((struct Obj01503 *)p)->f17C, 0, 0, ((struct Obj01503 *)p)->f198,
+                                        ((struct Obj01503 *)p)->f8, func_02012FFC(),
+                                        ((struct Obj01503 *)p)->f1B4, 0, ((struct Obj01503 *)p)->f4, 0xffff,
                                         (u32)func_021B4710);
-    h = *(u32 *)(p + 0x17c);
+    h = ((struct Obj01503 *)p)->f17C;
     func_02045334((struct Descriptor *)h);
     func_02045374((struct Cfg *)h);
     func_020409B4(func_02045730((struct Descriptor *)h));

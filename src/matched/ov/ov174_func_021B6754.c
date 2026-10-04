@@ -11,5 +11,6 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj24200.h"
 struct Obj;extern void func_0204B3DC(struct Obj *,unsigned);
-void func_021B6754(char *p) {func_0204B3DC(*(struct Obj **)(p+84),0);}
+void func_021B6754(char *p) {func_0204B3DC(*(struct Obj * *)&((struct Obj24200 *)p)->f54,0);}

@@ -15,6 +15,7 @@
  *   func_0216D83C  0x0216D83C  thumb  ov010
  *   func_0216D86C  0x0216D86C  thumb  ov010
  */
+#include "../include/Obj05998.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ int func_0219B9D8(u32 a, u8 *s)
     if (o != 0) {
         x = func_0216D83C((void *)o);
         y = func_0216D86C((void *)o);
-        if (x != *(s16 *)(s + 2) || y != *(s16 *)(s + 4)) {
+        if (x != *(s16 *)&((struct Obj05998 *)s)->f2 || y != *(s16 *)&((struct Obj05998 *)s)->f4) {
             return 1;
         }
     }

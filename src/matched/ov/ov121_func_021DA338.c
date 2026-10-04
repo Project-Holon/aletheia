@@ -18,6 +18,8 @@
  *   func_02043678 0x02043678 arm
  *   d_021DFBA0 0x021DFBA0 data a4
  */
+#include "../include/Obj13952.h"
+#include "../include/Obj13953.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern char d_021DFBA0[];
@@ -34,12 +36,12 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 void *func_021DA338(char *p,u16 heap)
 {
     u32 i;
-    int size=*(u32 *)(p+4)*4+8;
+    int size=((struct Obj13952 *)p)->f4*4+8;
     char *out=func_02030734(heap,size,0,d_021DFBA0,0x42e);
     func_02082BCC(out,0,size);
-    *(char **)(out+4)=p;
-    *(u16 *)out=heap;
-    for(i=0;i<*(u32 *)(p+4);i++) {
+    *(char * *)&((struct Obj13953 *)out)->f4=p;
+    ((struct Obj13953 *)out)->f0=heap;
+    for(i=0;i<((struct Obj13952 *)p)->f4;i++) {
         void *win=func_02045770(*(void **)(*(char **)(p+16+i*4)+12));
         u32 x=func_020437DC(win);
         u32 y=func_020437E4(win);

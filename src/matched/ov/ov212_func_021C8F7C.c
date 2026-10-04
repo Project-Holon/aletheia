@@ -8,12 +8,13 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj08416.h"
 typedef unsigned char u8;
 extern void func_020307B0(void *);
 void func_021C8F7C(u8 *p)
 {
-    if (*(void **)(p + 12) != 0) {
-        func_020307B0(*(void **)(p + 12));
-        *(void **)(p + 12) = 0;
+    if (((struct Obj08416 *)p)->fC != 0) {
+        func_020307B0(((struct Obj08416 *)p)->fC);
+        ((struct Obj08416 *)p)->fC = 0;
     }
 }

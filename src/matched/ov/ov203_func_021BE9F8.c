@@ -16,6 +16,7 @@
  *   func_021BEAF8 0x021BEAF8 thumb ov203
  *   func_021BEB48 0x021BEB48 thumb ov203
  */
+#include "../include/Obj10864.h"
 typedef struct Config { unsigned words[11]; } Config;
 extern void func_021BEAB8(void *, void *);
 struct S02030FB4;
@@ -32,9 +33,9 @@ void *func_021BE9F8(void *manager, const Config *source)
     task = func_020311B8(manager, func_021BEAB8, 56, 5);
     ctx = func_02031290(task);
     *(Config *)(ctx + 4) = *source;
-    *(void **)(ctx + 0x34) = task;
-    *(unsigned *)(ctx + 0x30) = 0;
-    *(unsigned *)ctx = func_02080C54();
+    ((struct Obj10864 *)ctx)->f34 = task;
+    ((struct Obj10864 *)ctx)->f30 = 0;
+    ((struct Obj10864 *)ctx)->f0 = func_02080C54();
     func_021BEB48((Config *)(ctx + 4));
     func_020056A0((unsigned)func_021BEAF8, (unsigned)ctx, 0);
     return ctx;

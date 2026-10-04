@@ -21,6 +21,9 @@
  *   func_0217B440  0x0217B440  thumb  ov019
  *   func_021676E4  0x021676E4  thumb  ov010
  */
+#include "../include/Obj07338.h"
+#include "../include/Obj19237.h"
+#include "../include/Obj19238.h"
 
 typedef unsigned char u8;
 
@@ -41,15 +44,15 @@ void func_02173874(int a, u8 *p, void *q)
 {
     S *r4;
 
-    r4 = *(S **)(p + 0x355C);
+    r4 = *(S * *)&((struct Obj07338 *)p)->f355C;
     p[0x282A] = 1;
     if (p[0x3563] == 1) {
         func_021A2E44(q, 1);
     }
     if (func_02013CC8(func_02188C9C(q)) == 1) {
-        func_0217B440(p, (int)func_020120F4((const struct Ctx *)(*(int *)(*(u8 **)p + 0xc))), q);
+        func_0217B440(p, (int)func_020120F4((const struct Ctx *)(((struct Obj19238 *)(*(u8 * *)&((struct Obj07338 *)p)->f0))->fC)), q);
     }
     if (r4 != 0 && r4->f == 1) {
-        func_021676E4(*(void **)r4);
+        func_021676E4(((struct Obj19237 *)r4)->f0);
     }
 }

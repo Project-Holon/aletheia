@@ -21,6 +21,7 @@
  *   d_021F2D20 0x021F2D20 data a4
  *   d_021F2888 0x021F2888 data a4
  */
+#include "../include/Obj06271.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D775C(int);
@@ -57,7 +58,7 @@ void func_021E4340(int unused, void *s, int k)
                         p = func_021C88A4(s, 14, k);
                         p[16] = v;
                         p[15] = 1;
-                        *(u32 *)(p + 4) = d_021F2D20[i];
+                        ((struct Obj06271 *)p)->f4 = d_021F2D20[i];
                         p[12] = 2;
                         p[14] = 0;
                         func_021C88C8(s, p);

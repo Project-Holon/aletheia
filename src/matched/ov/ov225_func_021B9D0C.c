@@ -10,4 +10,5 @@
  * symbols:
 
  */
-unsigned short func_021B9D0C(char *p,unsigned i){return *(unsigned short *)(*(unsigned *)(p+12)+i*2+2);}
+#include "../include/Obj26143.h"
+unsigned short func_021B9D0C(char *p,unsigned i){return *(unsigned short *)(((struct Obj26143 *)p)->fC+i*2+2);}

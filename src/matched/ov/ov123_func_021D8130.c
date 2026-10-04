@@ -12,10 +12,11 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D80B8 0x021D80B8 thumb ov123
  */
+#include "../include/Obj22964.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D580C(char *);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D80B8(char *p);
-void func_021D8130(char *p) { if(func_021D580C(*(char **)(p+24))) func_021D6EE0(p,(int)func_021D80B8,0x5b3); }
+void func_021D8130(char *p) { if(func_021D580C(*(char * *)&((struct Obj22964 *)p)->f18)) func_021D6EE0(p,(int)func_021D80B8,0x5b3); }

@@ -16,6 +16,8 @@
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  *   func_021CA4B4 0x021CA4B4 thumb ov128
  */
+#include "../include/Obj00329.h"
+#include "../include/Obj05378.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -32,10 +34,10 @@ extern void func_021B6AE4(u8 *p, u32 a, u16 b, u16 c, u32 s0, u32 s1, u16 s2, u3
 extern void func_021CA4B4(char *p);
 void func_021C6ADC(u8 *p,u8 *q,unsigned v)
 {
-    func_02043B5C(func_02045770(*(void **)q),0);
-    func_02045334(*(void **)q);
-    func_02045CAC(*(void **)(p+4),v,*(void **)(p+0x18));
-    func_0201F250(*(void **)p,*(void **)(p+0x14),*(void **)(p+0x18));
-    func_021B6AE4(q,(u32)(*(void **)(p+0x34)),0,4,(u32)(*(void **)(p+0x14)),(u32)(*(void **)(p+0x17c)),0x3c40,0);
-    func_021CA4B4(*(void **)q);
+    func_02043B5C(func_02045770(((struct Obj05378 *)q)->f0),0);
+    func_02045334(((struct Obj05378 *)q)->f0);
+    func_02045CAC(((struct Obj00329 *)p)->f4,v,((struct Obj00329 *)p)->f18);
+    func_0201F250(((struct Obj00329 *)p)->f0,((struct Obj00329 *)p)->f14,((struct Obj00329 *)p)->f18);
+    func_021B6AE4(q,(u32)(((struct Obj00329 *)p)->f34),0,4,(u32)(((struct Obj00329 *)p)->f14),(u32)(((struct Obj00329 *)p)->f17C),0x3c40,0);
+    func_021CA4B4(((struct Obj05378 *)q)->f0);
 }

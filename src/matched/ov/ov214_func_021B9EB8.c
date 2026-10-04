@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj05548.h"
+#include "../include/Obj25721.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,11 +21,11 @@ typedef signed int s32;
 
 void func_021B9EB8(char *a, int b, char *c, int d, int e, int f, int g, int h, int i)
 {
-    *(int *)a = 0;
-    *(int *)(c + 0x1C) = d;
-    *(int *)(c + 0x20) = e;
-    *(int *)(c + 0x24) = f;
-    *(int *)(c + 0x28) = g;
-    *(int *)(c + 0x2C) = h;
-    *(int *)(c + 0x30) = i;
+    ((struct Obj25721 *)a)->f0 = 0;
+    ((struct Obj05548 *)c)->f1C = d;
+    ((struct Obj05548 *)c)->f20 = e;
+    ((struct Obj05548 *)c)->f24 = f;
+    ((struct Obj05548 *)c)->f28 = g;
+    ((struct Obj05548 *)c)->f2C = h;
+    ((struct Obj05548 *)c)->f30 = i;
 }

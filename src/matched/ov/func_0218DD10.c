@@ -11,6 +11,7 @@
  *
  * Loads the 16-bit halfword at +0x10 of the object.
  */
+#include "../include/Obj17899.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 u16 func_0218DD10(u8 *p)
 {
-    return *(u16 *)(p + 0x10);
+    return ((struct Obj17899 *)p)->f10;
 }
 

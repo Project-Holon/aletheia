@@ -10,6 +10,7 @@
  * layout: 021FC862..021FC93E initializes four 48-byte records at +0x60.
  * padding: two zero bytes at 021FD3EE before 021FD3F0.
  */
+#include "../include/Obj23285.h"
 struct Record { int f0; int flag; char pad8[0x14]; char *data; char pad20[0x10]; };
 struct Context { char pad0[0x60]; struct Record rec[4]; };
 void func_021FD3D8(long i,int b,int c,struct Context *p)
@@ -17,5 +18,5 @@ void func_021FD3D8(long i,int b,int c,struct Context *p)
     char *s;
     p->rec[i].flag=1;
     s=p->rec[i].data;
-    *(void **)(s+4)=s+0x7c;
+    ((struct Obj23285 *)s)->f4=s+0x7c;
 }

@@ -10,14 +10,15 @@
  * symbols:
  *   func_021DB4B4 0x021DB4B4 thumb ov119
  */
+#include "../include/Obj13893.h"
 extern int func_021DB4B4(int);
 int func_021DB4EC(char *p, int index)
 {
     int position = func_021DB4B4(index);
-    int start = *(short *)(p + 0x107c);
+    int start = ((struct Obj13893 *)p)->f107C;
     if (start < position && start + 0xe0 > position)
         return 1;
-    position += *(int *)(p + 0x63c);
+    position += ((struct Obj13893 *)p)->f63C;
     if (start < position && start + 0xe0 > position)
         return 1;
     return 0;

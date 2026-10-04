@@ -12,11 +12,12 @@
  * Unlabelled leaf (a .word run in asm/overlays/ov022.s): sets the word at
  * 0x20. Blocker of ov023 func_02184674.
  */
+#include "../include/Obj20329.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 void func_02184174(u8 *p)
 {
-    *(u32 *)(p + 0x20) = 1;
+    ((struct Obj20329 *)p)->f20 = 1;
 }

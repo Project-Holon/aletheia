@@ -35,6 +35,9 @@
  *   func_0204B604 0x0204B604 arm
  *   func_020216D4 0x020216D4 thumb
  */
+#include "../include/Obj08410.h"
+#include "../include/Obj25576.h"
+#include "../include/Obj25577.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -99,9 +102,9 @@ void func_021BDD7C(char *p,u16 species)
     } else {
         void *arc;
         unsigned personality;
-        func_0200CC40(*(u8 **)(*(char **)p+4),species,&out1,&out2,&outForm,0x806b);
+        func_0200CC40(*(u8 * *)&((struct Obj25576 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
         arc=func_0202D7C8(0x806b);
-        personality=species==0x147?func_0200D288(*(void **)(*(char **)p+4),0):0;
+        personality=species==0x147?func_0200D288(((struct Obj25577 *)(*(char * *)&((struct Obj08410 *)p)->f0))->f4,0):0;
         *(unsigned *)(p+t.w8*4+0xb64)=func_0202D81C((u32)arc,species,outForm,out1,out2,0,0,personality,0,0x6b);
         *(unsigned *)(p+t.wC*4+0xbf4)=func_0202D7D8((int)arc,species,outForm,out1,out2,0,0,0,base,0x6b);
         *(unsigned *)(p+t.w10*4+0xc0c)=func_0202D898(species,outForm,out1,out2,0,0,2,0,0x6b);
@@ -111,13 +114,13 @@ void func_021BDD7C(char *p,u16 species)
     t.w8=*(unsigned *)(p+t.w8*4+0xb64);
     t.wC=*(unsigned *)(p+t.wC*4+0xbf4);
     t.w10=*(unsigned *)(p+t.w10*4+0xc0c);
-    *(void **)(p+0xa74+index*4)=func_021C940C(*(void **)(p+0xa70),&t,0x6b);
+    *(void **)(p+0xa74+index*4)=func_021C940C(((struct Obj08410 *)p)->fA70,&t,0x6b);
     func_0204BA20(*(void **)(p+0xa74+index*4),0);
     personal=func_0201ADE4(species,(u16)outForm,0x806b);
     if (species!=0 && func_0201AE1C(personal,0x22)==0)
         func_0204B604(*(void **)(p+0xa74+index*4),1,1);
     func_0201AE14(personal);
     func_021BD8D8(p,other,0);
-    func_020216D4(*(void **)(p+12),2,(base>>5)<<4,0x20);
+    func_020216D4(((struct Obj08410 *)p)->fC,2,(base>>5)<<4,0x20);
     ((Flags *)(p+0xc24))->side^=1;
 }

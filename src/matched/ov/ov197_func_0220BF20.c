@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj08355.h"
 
 void func_0220BF20(char *p, int v)
 {
-    *(unsigned char *)(p + 0x524) = 0;
-    *(unsigned char *)(p + 0x525) = 0;
-    *(unsigned char *)(p + 0x526) = v;
-    *(unsigned char *)(p + 0x527) = 1;
+    ((struct Obj08355 *)p)->f524 = 0;
+    ((struct Obj08355 *)p)->f525 = 0;
+    ((struct Obj08355 *)p)->f526 = v;
+    ((struct Obj08355 *)p)->f527 = 1;
 }

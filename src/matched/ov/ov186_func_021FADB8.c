@@ -19,6 +19,7 @@
  *   func_021FC214 0x021FC214 thumb ov186
  *   func_021FB3BC 0x021FB3BC thumb ov186
  */
+#include "../include/Obj00080.h"
 typedef struct Placement { short x, y; unsigned short animation; unsigned char priority, attr; } Placement;
 typedef struct Config { int words[3]; } Config;
 extern void *memset(void *, int, unsigned);
@@ -40,23 +41,23 @@ void func_021FADB8(char *ctx, int mode)
     int attr;
     int shift;
     unsigned resource;
-    if (*(int *)(ctx + 4) == mode) return;
-    *(int *)(ctx + 4) = mode;
-    func_021FB548(*(void **)(ctx + 8), &x, &y);
-    priority = func_021FB594(*(void **)(ctx + 8));
-    attr = func_021FB5B8(*(void **)(ctx + 8));
-    func_021FB494(*(void **)(ctx + 8));
-    *(int *)(ctx + 0x2c) = 0;
+    if (((struct Obj00080 *)ctx)->f4 == mode) return;
+    ((struct Obj00080 *)ctx)->f4 = mode;
+    func_021FB548(((struct Obj00080 *)ctx)->f8, &x, &y);
+    priority = func_021FB594(((struct Obj00080 *)ctx)->f8);
+    attr = func_021FB5B8(((struct Obj00080 *)ctx)->f8);
+    func_021FB494(((struct Obj00080 *)ctx)->f8);
+    ((struct Obj00080 *)ctx)->f2C = 0;
     shift = mode == 0 ? 512 : -512;
     memset(&placement, 0, sizeof(placement));
     placement.x = x;
     placement.y = y + shift;
-    placement.animation = func_021FB7B0(*(void **)(ctx + 0xc), 4);
+    placement.animation = func_021FB7B0(((struct Obj00080 *)ctx)->fC, 4);
     placement.priority = priority;
     placement.attr = attr;
-    func_021FC124(*(void **)(ctx + 0x30), *(int *)(ctx + 0x28) + mode, &config);
-    resource = func_021FC20C(*(void **)(ctx + 0x30));
-    func_021FC214(*(char **)(ctx + 0x30));
-    func_021FB7B0(*(void **)(ctx + 0xc), 3);
-    *(void **)(ctx + 8) = func_021FB3BC(&placement, *(void **)(ctx + 0x40), 160, mode, *(int *)(ctx + 0x38), *(int *)(ctx + 0x3c), resource, &config, *(unsigned short *)(ctx + 0x34));
+    func_021FC124(((struct Obj00080 *)ctx)->f30, ((struct Obj00080 *)ctx)->f28 + mode, &config);
+    resource = func_021FC20C(((struct Obj00080 *)ctx)->f30);
+    func_021FC214(*(char * *)&((struct Obj00080 *)ctx)->f30);
+    func_021FB7B0(((struct Obj00080 *)ctx)->fC, 3);
+    ((struct Obj00080 *)ctx)->f8 = func_021FB3BC(&placement, ((struct Obj00080 *)ctx)->f40, 160, mode, ((struct Obj00080 *)ctx)->f38, ((struct Obj00080 *)ctx)->f3C, resource, &config, ((struct Obj00080 *)ctx)->f34);
 }

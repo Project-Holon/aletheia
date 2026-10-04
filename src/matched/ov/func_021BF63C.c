@@ -14,6 +14,7 @@
 
  * Frees the 0x14-byte record at the index held in +0x98.
  */
+#include "../include/Obj00442.h"
 
 
 typedef unsigned int   u32;
@@ -22,11 +23,11 @@ extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_021BF63C(int unused, char *p)
 {
-    int i = *(int *)(p + 0x98);
+    int i = ((struct Obj00442 *)p)->f98;
 
     if (i == 6)
         return;
     func_0204B6F4((struct Obj *)(*(int *)(p + i * 0x14 + 0x1c)), 0, 0);
-    *(int *)(p + 0x10c) = 0;
+    ((struct Obj00442 *)p)->f10C = 0;
 }
 

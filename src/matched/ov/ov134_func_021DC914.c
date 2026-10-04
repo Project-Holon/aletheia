@@ -15,6 +15,7 @@
  *   func_0203133C 0x0203133C arm
  *   func_020315D4 0x020315D4 arm
  */
+#include "../include/Obj23343.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,4 +26,4 @@ struct S020315D4;
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern const char ov90_id[];
-int func_021DC914(void *p,u32 a,u32 b,char *ctx) { func_021B6108(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(*(void **)(ctx+0xcc)); func_020315D4(p); return 1; }
+int func_021DC914(void *p,u32 a,u32 b,char *ctx) { func_021B6108(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(((struct Obj23343 *)ctx)->fCC); func_020315D4(p); return 1; }

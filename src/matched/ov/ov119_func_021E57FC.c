@@ -14,6 +14,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj03782.h"
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
@@ -25,11 +26,11 @@ extern void func_02049238(void *);
 void func_021E57FC(int p)
 {
     void *a;
-    if (*(int *)(p + 0x898) == 0) {
-        a = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
-        *(int *)(p + 0x898) = func_0204A6C8(a, 0x15, 0, 0, *(u16 *)(p + 0x5f4));
-        *(int *)(p + 0x884) = func_0204AC18(a, 0x12, 0, 0xc0, 0, 6, *(u16 *)(p + 0x5f4));
-        *(int *)(p + 0x8b4) = func_0204AF28(a, 0x14, 0x13, *(u16 *)(p + 0x5f4));
+    if (((struct Obj03782 *)p)->f898 == 0) {
+        a = func_020490F4(0x66, ((struct Obj03782 *)p)->f5F4);
+        ((struct Obj03782 *)p)->f898 = func_0204A6C8(a, 0x15, 0, 0, ((struct Obj03782 *)p)->f5F4);
+        ((struct Obj03782 *)p)->f884 = func_0204AC18(a, 0x12, 0, 0xc0, 0, 6, ((struct Obj03782 *)p)->f5F4);
+        ((struct Obj03782 *)p)->f8B4 = func_0204AF28(a, 0x14, 0x13, ((struct Obj03782 *)p)->f5F4);
         func_02049238(a);
     }
 }

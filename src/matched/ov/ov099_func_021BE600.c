@@ -20,6 +20,9 @@
  *   func_02005C4C 0x02005C4C thumb
  *   func_02005D90 0x02005D90 thumb
  */
+#include "../include/Obj03733.h"
+#include "../include/Obj22044.h"
+#include "../include/Obj22045.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -39,22 +42,22 @@ extern u32 func_02005C4C(void);
 extern void func_02005D90(int, int);
 int func_021BE600(char *p, int ret)
 {
-    if (*(int *)(*(char **)(p + 0x248) + 0xc)) {
+    if (((struct Obj22044 *)(*(char * *)&((struct Obj03733 *)p)->f248))->fC) {
         func_021C24D4(p, 4);
-        func_02009B80(*(void **)(p + 4), func_02156A3C());
-        if ((unsigned)(*(int *)(p + 0x135c) - 3) <= 1 && !func_02156D84()) {
+        func_02009B80(((struct Obj03733 *)p)->f4, func_02156A3C());
+        if ((unsigned)(((struct Obj03733 *)p)->f135C - 3) <= 1 && !func_02156D84()) {
             func_021563D0();
             func_021BEEBC(p);
-            *(u16 *)(p + 0x242) = *(u8 *)(*(char **)(p + 0x248) + 0x47);
+            ((struct Obj03733 *)p)->f242 = ((struct Obj22045 *)(*(char * *)&((struct Obj03733 *)p)->f248))->f47;
             func_021C18C8(p, 4, 3);
             func_02039C68((struct Link *)func_020399A8(), 0x18, 0xa);
-            *(int *)(p + 0x1cc) = 0xac;
+            ((struct Obj03733 *)p)->f1CC = 0xac;
         } else {
             func_02039C68((struct Link *)func_020399A8(), 0x12, 0xa);
-            *(int *)(p + 0x1cc) = 0x93;
+            ((struct Obj03733 *)p)->f1CC = 0x93;
         }
     } else {
-        *(int *)(p + 0x1cc) = 9;
+        ((struct Obj03733 *)p)->f1CC = 9;
         func_021C24D4(p, 1);
     }
     if (func_02005C4C() != 0x424) func_02005D90(0x424, 0xffff);

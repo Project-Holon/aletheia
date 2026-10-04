@@ -17,6 +17,9 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00013.h"
+#include "../include/Obj24310.h"
+#include "../include/Obj24311.h"
 extern void func_02082BCC(void *, int, int);
 struct Big;
 extern void *func_02012EBC(struct Big *p);
@@ -30,8 +33,8 @@ void func_021D9A50(char *dest, char *ctx)
 {
     void *records;
     func_02082BCC(dest, 0, 212);
-    records = func_0200BAF4((int)func_0200BAC8(func_02012EBC(**(void ***)(*(char **)(ctx + 0x104) + 8))), 87);
+    records = func_0200BAF4((int)func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj24311 *)(*(char * *)&((struct Obj00013 *)ctx)->f104))->f8)), 87);
     func_02082D44(records, dest + 212, func_0201A918(func_0201A948(dest + 212)));
     func_020307B0(records);
-    *(int *)(dest + 0x44) = 100;
+    ((struct Obj24310 *)dest)->f44 = 100;
 }

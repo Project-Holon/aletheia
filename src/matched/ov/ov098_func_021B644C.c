@@ -24,6 +24,7 @@
  *   func_021B6364  0x021B6364  thumb  ov098
  *   func_021B6504  0x021B6504  thumb  ov098
  */
+#include "../include/Obj00381.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -46,37 +47,37 @@ int func_021B644C(char *p)
 {
     int r;
 
-    switch (*(int *)(p + 0x60)) {
+    switch (((struct Obj00381 *)p)->f60) {
     case 0:
-        func_021B6B5C((char *)(*(int *)(p + 0x14)));
-        *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+        func_021B6B5C((char *)(((struct Obj00381 *)p)->f14));
+        ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         break;
     case 1:
-        if (func_021B6B68((char *)(*(int *)(p + 0x14))) != 0) {
-            func_021F7EE8(*(void **)(p + 4), 1);
+        if (func_021B6B68((char *)(((struct Obj00381 *)p)->f14)) != 0) {
+            func_021F7EE8(((struct Obj00381 *)p)->f4, 1);
             func_021F7998(0x231);
             func_021B67A4(2);
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+            ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }
         break;
     case 2:
         if (func_021F7EB4() == 0) {
-            func_021B6910(*(int *)(p + 0x14), *(int *)p);
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+            func_021B6910(((struct Obj00381 *)p)->f14, *(int *)&((struct Obj00381 *)p)->f0);
+            ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }
         break;
     case 3:
-        if (func_021B6A3C((u8 *)(*(int *)(p + 0x14))) != 0) {
-            r = func_021B6154(*(void **)p);
-            func_021F8090(r, func_021B6140(*(void **)p), 1);
-            func_021B6B5C((char *)(*(int *)(p + 0x14)));
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+        if (func_021B6A3C((u8 *)(((struct Obj00381 *)p)->f14)) != 0) {
+            r = func_021B6154(((struct Obj00381 *)p)->f0);
+            func_021F8090(r, func_021B6140(((struct Obj00381 *)p)->f0), 1);
+            func_021B6B5C((char *)(((struct Obj00381 *)p)->f14));
+            ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }
         break;
     case 4:
-        if (func_021B6B68((char *)(*(int *)(p + 0x14))) != 0) {
+        if (func_021B6B68((char *)(((struct Obj00381 *)p)->f14)) != 0) {
             func_021F7998(0x23e);
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+            ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }
         break;
     case 5:

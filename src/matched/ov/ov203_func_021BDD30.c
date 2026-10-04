@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj25308.h"
 
 void func_021BDD30(char *a)
 {
-    void **p = *(void ***)(a + 0xc);
+    void **p = *(void ** *)&((struct Obj25308 *)a)->fC;
 
     if (p)
         ((void (*)(void *))p[1])(a);

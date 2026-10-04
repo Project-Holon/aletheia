@@ -23,6 +23,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F26D4     0x021F26D4  data   a4
  */
+#include "../include/Obj13544.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -47,7 +48,7 @@ void func_021E78B0(int a, int b, int c)
             p = func_021C88A4(b, 0x2d, c);
             v = (n > 0x3e9) ? n - 0x3e8 : 1;
             p[4] = c;
-            *(u16 *)(p + 6) = v;
+            ((struct Obj13544 *)p)->f6 = v;
             func_021C8838(p + 8, 2, 0x44e);
             func_021C8860((struct S *)(p + 8), c);
             func_021C88C8((void *)b, p);

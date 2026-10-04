@@ -15,13 +15,14 @@
  *   func_020113D0 0x020113D0 thumb
  *   func_021FC9E4 0x021FC9E4 thumb ov094
  */
+#include "../include/Obj13597.h"
 extern void func_020113D0(char *p, int val);
 extern int func_021FC9E4(void *, void *);
 
 int func_021FC354(void *a, char *s)
 {
-    *(unsigned *)s |= 0x80;
+    ((struct Obj13597 *)s)->f0 |= 0x80;
     func_020113D0(a, (int)func_021FC9E4);
-    *(int *)(s + 0x23c) = 1;
+    ((struct Obj13597 *)s)->f23C = 1;
     return 1;
 }

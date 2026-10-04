@@ -11,8 +11,9 @@
  * symbols:
  *   func_02012DAC 0x02012DAC thumb
  */
+#include "../include/Obj13870.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02012DAC(int);
-void func_021D81D0(u8 *p) { func_02012DAC(*(int *)(p+0x1844)); *(u16 *)(p+0xb6a)=1; }
+void func_021D81D0(u8 *p) { func_02012DAC(((struct Obj13870 *)p)->f1844); ((struct Obj13870 *)p)->fB6A=1; }

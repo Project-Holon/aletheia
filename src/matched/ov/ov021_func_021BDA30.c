@@ -15,6 +15,7 @@
  *   func_021BDC80  0x021BDC80  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20137.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ u32 func_021BDA30(u32 a, int *st, u32 *ctx)
 
     switch (*st) {
     case 0:
-        if (*(u32 *)(p + 0x48) != 0)
+        if (((struct Obj20137 *)p)->f48 != 0)
             func_021BDBF8((u32)ctx);
         func_021BDC2C(ctx, a);
         (*st)++;

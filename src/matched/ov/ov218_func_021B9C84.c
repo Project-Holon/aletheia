@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj26042.h"
 typedef unsigned char u8;
 void *func_021B9C84(u8 *p)
 {
-    return *(void **)(p+16);
+    return ((struct Obj26042 *)p)->f10;
 }

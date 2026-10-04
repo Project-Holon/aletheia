@@ -15,6 +15,7 @@
  *   func_020142E8  0x020142E8  thumb
  *   func_021F4DF4  0x021F4DF4  thumb
  */
+#include "../include/Obj03647.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ int *func_021F3CB0(int *p)
 
     if (p[8] == 0)
         return 0;
-    for (i = 0; i < *(u8 *)((u8 *)p + 0x24); i++) {
+    for (i = 0; i < ((struct Obj03647 *)p)->f24; i++) {
         int off = i * 0x24;
         int t = func_020142E8((void *)b, (u16)((int *)(p[8] + off))[1]);
         int r = func_021F4DF4((int *)(p[8] + off), a);

@@ -16,6 +16,7 @@
  *   func_0216786C  0x0216786C  thumb ov010
  *   func_02012FB0  0x02012FB0  thumb
  */
+#include "../include/Obj09349.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,10 +49,10 @@ int func_021752DC(u8 *p)
     int k;
     Hd *h;
 
-    ctx = func_02026478((void *)(*(int *)(p + 4)));
+    ctx = func_02026478((void *)(((struct Obj09349 *)p)->f4));
     v = func_02012AC8(func_020127A4((struct SaveBlock *)ctx));
     h = (Hd *)(p + 0x70);
-    r = func_0216786C((struct Work *)(*(int *)(p + 8)), (struct Report *)h);
+    r = func_0216786C((struct Work *)(((struct Obj09349 *)p)->f8), (struct Report *)h);
     if (h->f14 != v) {
         h->f14 = v;
         r = 1;

@@ -16,6 +16,8 @@
  *   func_02045770  0x02045770  arm
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj09884.h"
+#include "../include/Obj20678.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
@@ -27,7 +29,7 @@ extern void func_02045334(struct Descriptor *d);
 
 static inline void clean(u8 *p, int off)
 {
-    void *t = *(void **)(p + 0x50C);
+    void *t = ((struct Obj09884 *)p)->f50C;
     if (p[off] != 0) {
         if (func_0201C6C4(t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + off - 4)))) == 0) {
             func_02045334((struct Descriptor *)*(u32 *)(p + off - 4));
@@ -38,7 +40,7 @@ static inline void clean(u8 *p, int off)
 
 void func_021BB73C(u8 *p)
 {
-    func_0201C4E4(*(struct PrintSys **)(p + 0x50C));
+    func_0201C4E4(*(struct PrintSys * *)&((struct Obj20678 *)p)->f50C);
     clean(p, 0x738);
     clean(p, 0x740);
     clean(p, 0x748);

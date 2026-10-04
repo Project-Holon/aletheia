@@ -47,6 +47,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02013360.c  *       --func func_02013360 --addr 0x02013360 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00155.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -78,16 +79,16 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     u32 t;
     u32 u;
 
-    *(u16 *)(o + 0x84) = 0xffff;
+    ((struct Obj00155 *)o)->f84 = 0xffff;
     *(o + 0x20) = 0;
     *(o + 0x21) = 0;
     *(o + 0x22) = 0;
-    *(u32 *)(o + 0x94) = 0;
+    ((struct Obj00155 *)o)->f94 = 0;
     *(o + 0x23) = 0;
     *(o + 0xc1) = *(o + 0xc1) & ~1;
-    *(u32 *)(o + 0x1c) = 0;
+    ((struct Obj00155 *)o)->f1C = 0;
     *(o + 0xc1) = *(o + 0xc1) & ~2;
-    *(u32 *)(o + 0x58) = (u32)a1;
+    ((struct Obj00155 *)o)->f58 = (u32)a1;
     for (; i < 4; i++) {
         *(u32 *)(o + i * 4 + 0x24) = 0;
         *(u32 *)(o + i * 4 + 0x34) = 0;
@@ -99,20 +100,20 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     for (i = 0; i < 7; i++) {
         *(o + i + 0x78) = 0;
     }
-    *(u32 *)(o + 0x34) = (u32)func_02012944(a1);
-    *(void **)(o + 0x60) = func_0201292C(a1);
-    *(u32 *)(o + 0x64) = func_02012924(a1);
-    *(u32 *)(o + 0x68) = (u32)func_0200CA1C(a1);
-    *(u32 *)(o + 0x70) = func_02012F20(a1);
-    *(u32 *)(o + 0x6c) = (u32)func_02012F2C(a1);
+    ((struct Obj00155 *)o)->f34 = (u32)func_02012944(a1);
+    ((struct Obj00155 *)o)->f60 = func_0201292C(a1);
+    ((struct Obj00155 *)o)->f64 = func_02012924(a1);
+    ((struct Obj00155 *)o)->f68 = (u32)func_0200CA1C(a1);
+    ((struct Obj00155 *)o)->f70 = func_02012F20(a1);
+    ((struct Obj00155 *)o)->f6C = (u32)func_02012F2C(a1);
     t = (u32)func_02012EBC(a1);
     u = (u32)func_0200C0E8((void *)t);
-    *(u32 *)(o + 0x5c) = (u32)func_0200873C((void *)t);
+    ((struct Obj00155 *)o)->f5C = (u32)func_0200873C((void *)t);
     *(o + 0x80) = (u8)func_0200C258((struct Blk34 *)u);
     func_02082D44(a2, o + 8, 0x10);
-    *(u16 *)(o + 0x18) = 0x468;
-    *(u16 *)(o + 0x1a) = 0x468 + 0x14;
-    *(u32 *)(o + 0x8c) = 1;
+    ((struct Obj00155 *)o)->f18 = 0x468;
+    ((struct Obj00155 *)o)->f1A = 0x468 + 0x14;
+    ((struct Obj00155 *)o)->f8C = 1;
     if (func_020142E8((void *)func_0201296C(a1), 0x96d) != 0) {
         func_02013144(o, 2);
     }

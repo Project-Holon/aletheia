@@ -17,6 +17,7 @@
  *   func_021589D0   0x021589D0  thumb  ov010
  *   func_02012374   0x02012374  thumb
  */
+#include "../include/Obj17617.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_02156888(void *a0, void *a1, int a2)
 {
-    void *r4 = func_02158768(*(u32 *)a1, a2, 0, 0x15);
+    void *r4 = func_02158768(((struct Obj17617 *)a1)->f0, a2, 0, 0x15);
 
     func_021589D0((int)r4);
     func_02012374(a0, r4);

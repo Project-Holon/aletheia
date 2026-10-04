@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj21992.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,4 +20,4 @@ typedef int s32;
 
 struct Node;
 extern void func_02030EAC(struct Node *n);
-void func_021F69FC(u8 *p) { func_02030EAC((struct Node *)(*(u32 *)(p + 4))); }
+void func_021F69FC(u8 *p) { func_02030EAC((struct Node *)(((struct Obj21992 *)p)->f4)); }

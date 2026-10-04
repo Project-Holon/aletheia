@@ -12,6 +12,7 @@
  * symbols:
  *   func_020480E4  0x020480E4  arm
  */
+#include "../include/Obj10375.h"
 
 typedef unsigned short u16;
 
@@ -23,8 +24,8 @@ void func_021E32C4(char *p)
 {
     u16 v;
 
-    v = *(u16 *)(p + 0x824);
+    v = ((struct Obj10375 *)p)->f824;
     if (v != 0xFFFF)
-        func_020480E4(*(void **)(p + 0x820), v);
-    *(u16 *)(p + 0x824) = 0xFFFF;
+        func_020480E4(((struct Obj10375 *)p)->f820, v);
+    ((struct Obj10375 *)p)->f824 = 0xFFFF;
 }

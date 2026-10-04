@@ -18,6 +18,7 @@
  *     is re-read from the field after the first call, which is why the listing
  *     reloads +0x14.  func_021D9EEC is the same shape for the flush path.
  */
+#include "../include/Obj14331.h"
 
 typedef unsigned long u32;
 
@@ -28,7 +29,7 @@ extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 
 void func_021D9ED4(char *obj, u32 v)
 {
-    *(u32 *)(obj + 0x14) = v;
-    func_02039C68((struct Link *)func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
+    ((struct Obj14331 *)obj)->f14 = v;
+    func_02039C68((struct Link *)func_020399A8(), (unsigned char)((struct Obj14331 *)obj)->f14, 0x24);
 }
 

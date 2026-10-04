@@ -21,6 +21,12 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202EB7C 0x0202EB7C thumb
  */
+#include "../include/Obj06521.h"
+#include "../include/Obj08195.h"
+#include "../include/Obj23452.h"
+#include "../include/Obj23453.h"
+#include "../include/Obj23454.h"
+#include "../include/Obj23455.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,21 +59,21 @@ void func_02201B44(u8 *p, void *mon, u8 *r, void *old)
     void *copy;
     Record rec;
     u16 species;
-    func_02008DF0(*(void **)(*(u8 **)p + 0x24), 0x10);
-    func_0200ED54(func_0200ED48(*(void **)(*(u8 **)p + 0x3c)), *(u32 *)(r + 0x10c));
+    func_02008DF0(((struct Obj23452 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f24, 0x10);
+    func_0200ED54(func_0200ED48(((struct Obj23453 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), ((struct Obj06521 *)r)->f10C);
     copy = func_021F72C4(r);
-    func_02009DE8(func_02009EC8(*(void **)(*(u8 **)p + 0x3c)), copy);
+    func_02009DE8(func_02009EC8(((struct Obj23454 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f3C), copy);
     func_020307B0(copy);
     copy = func_021F72C4(r);
     memset(&rec, 0, sizeof(rec));
     func_02008494(copy, &rec);
     if (old != 0) species = func_02017E1C(old, 5, 0);
-    else species = *(u16 *)(r + 0xec);
+    else species = ((struct Obj06521 *)r)->fEC;
     rec.old_species = species;
     rec.new_species = func_02017E1C(mon, 5, 0);
-    rec.x = *(u8 *)(r + 0x126);
-    rec.flags = (rec.flags & ~7) | (*(u8 *)(r + 0xf7) & 7);
-    rec.y = *(u8 *)(r + 0x127);
-    func_0202EB7C(*(void **)(*(u8 **)p + 0x18), &rec);
+    rec.x = ((struct Obj06521 *)r)->f126;
+    rec.flags = (rec.flags & ~7) | (((struct Obj06521 *)r)->fF7 & 7);
+    rec.y = ((struct Obj06521 *)r)->f127;
+    func_0202EB7C(((struct Obj23455 *)(*(u8 * *)&((struct Obj08195 *)p)->f0))->f18, &rec);
     func_020307B0(copy);
 }

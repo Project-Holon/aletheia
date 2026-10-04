@@ -67,6 +67,7 @@
  *   d_021BAAFC 0x021BAAFC data a4
  *   d_021BABFC 0x021BABFC data a4
  */
+#include "../include/Obj13181.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { FALSE, TRUE } Bool;
@@ -232,7 +233,7 @@ write10:
             func_0200BF08((u32)func_0200BE48(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)CP(0))))),*(u32 *)(o+(W(0x300)<<2)+0xec));
             save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
-            func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(*(u32 *)handle))),*(u8 *)(handle+0x3c));
+            func_020266AC(save,func_02012B58(func_020120F4((const struct Ctx *)(((struct Obj13181 *)handle)->f0))),((struct Obj13181 *)handle)->f3C);
             W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3);
             if (func_02035C60()!=0) *state=16;
             else *state=17;

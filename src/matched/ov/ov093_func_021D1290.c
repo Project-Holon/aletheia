@@ -23,6 +23,7 @@
  *   func_02005E50 0x02005E50 thumb
  *   func_02005D28 0x02005D28 thumb
  */
+#include "../include/Obj00066.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,10 +51,10 @@ int func_021D1290(u8 *p, int *state)
     case 0:
         if (((Flags *)p)->flag != 0)
             return 1;
-        idx = func_021B904C(*(void **)p, 0);
+        idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
         mode = func_021D13A4(p);
-        flag = func_021B86C8(*(u8 **)p);
-        func_021B916C(*(void **)p, mode);
+        flag = func_021B86C8(*(u8 * *)&((struct Obj00066 *)p)->f0);
+        func_021B916C(((struct Obj00066 *)p)->f0, mode);
         switch (mode) {
         case 1: msg = flag != 0 ? 0x31 : 0x30; break;
         case 0: msg = flag != 0 ? 0x33 : 0x32; break;
@@ -63,10 +64,10 @@ int func_021D1290(u8 *p, int *state)
         func_021EAF18(p + 0x58, 1, msg);
         func_021EAF50(p + 0x58, idx);
         if (flag != 0)
-            func_021EAF50(p + 0x58, func_021B904C(*(void **)p, 1));
-        func_021EA614(*(void **)(p + 0x54), p + 0x58);
+            func_021EAF50(p + 0x58, func_021B904C(((struct Obj00066 *)p)->f0, 1));
+        func_021EA614(((struct Obj00066 *)p)->f54, p + 0x58);
         if (mode == 1) {
-            func_02005D90(func_021B86DC(*(void **)p), 0xFFFF);
+            func_02005D90(func_021B86DC(((struct Obj00066 *)p)->f0), 0xFFFF);
             (*state)++;
         } else {
             func_02005E30(0x1E);
@@ -74,11 +75,11 @@ int func_021D1290(u8 *p, int *state)
         }
         break;
     case 1:
-        if (func_021EA710(*(void **)(p + 0x54)) != 0)
+        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0)
             return 1;
         break;
     case 2:
-        if (func_021EA710(*(void **)(p + 0x54)) != 0)
+        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0)
             (*state)++;
         break;
     case 3:

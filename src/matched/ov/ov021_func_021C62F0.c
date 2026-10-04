@@ -19,6 +19,7 @@
  *   func_021D325C  0x021D325C  thumb  ov021
  *   func_021D3244  0x021D3244  thumb  ov021
  */
+#include "../include/Obj00458.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,6 +51,6 @@ void func_021C62F0(u8 *p)
     func_02040C14(p[0], 1, 1, 0x100);
     func_02041300(p[0], 0x100, 0, 0, 0x20, 0x20, 1);
     func_020409B4(p[0]);
-    func_021D325C(*(void **)(p + 4), 8, 0x37, p[1], 0x10 - p[1]);
-    func_021D3244(*(void **)(p + 4), p[0], 1);
+    func_021D325C(((struct Obj00458 *)p)->f4, 8, 0x37, p[1], 0x10 - p[1]);
+    func_021D3244(((struct Obj00458 *)p)->f4, p[0], 1);
 }

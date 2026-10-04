@@ -16,6 +16,7 @@
  *   func_02012B30  0x02012B30  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18034.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021A3AD8(u8 *p, int a);
 int func_021A3938(u32 a, u32 b)
 {
 func_021A3AD8((u8 *)a, b);
-return func_02012B30(*(u32 *)((u8 *)(a) + 12), b);
+return func_02012B30(((struct Obj18034 *)((u8 *)(a)))->fC, b);
 }
 

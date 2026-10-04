@@ -17,6 +17,7 @@
  * symbols:
  *   func_0200BCA0  0x0200BCA0  thumb
  */
+#include "../include/Obj18300.h"
 
 typedef int s32;
 
@@ -24,5 +25,5 @@ extern int func_0200BCA0(int);
 
 int func_021C3400(void *a)
 {
-    return func_0200BCA0(*(int *)((char *)a + 8));
+    return func_0200BCA0(((struct Obj18300 *)a)->f8);
 }

@@ -11,5 +11,6 @@
  * symbols:
  *   func_0201F7A8 0x0201F7A8 thumb
  */
+#include "../include/Obj20673.h"
 extern void func_0201F7A8(void *, unsigned);
-void func_021BA9AC(char *p) { func_0201F7A8(*(void **)(p + 0x4FC), 1); }
+void func_021BA9AC(char *p) { func_0201F7A8(((struct Obj20673 *)p)->f4FC, 1); }

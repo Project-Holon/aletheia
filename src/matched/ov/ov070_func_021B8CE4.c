@@ -21,6 +21,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B8D88  0x021B8D88  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 extern void func_021B6288();
 extern void func_021B80BC(void *p);
@@ -41,10 +42,10 @@ extern void func_021B8D88(char *p);
 void func_021B8CE4(int p, int u, int a, int b)
 {
     int x;
-    func_021B6288(p, u, *(int *)((char *)p + 0x80C), b);
+    func_021B6288(p, u, ((struct Obj00002 *)p)->f80C, b);
     func_021B80BC((void *)p);
     func_021B81F4((u8 *)p);
-    *(int *)((char *)p + 0x818) = 0xFFFF;
+    ((struct Obj00002 *)p)->f818 = 0xFFFF;
     func_021B6138((char *)p);
     if (a == 1) {
         func_020061E4(0x7D9);
@@ -53,11 +54,11 @@ void func_021B8CE4(int p, int u, int a, int b)
         func_020061E4(0x7D9);
         x = 0xC;
     }
-    *(unsigned short *)((char *)p + 0x864) = a;
-    *(unsigned short *)((char *)p + 0x866) = 6;
-    func_0204B8C4(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 0);
-    func_0204B878((struct Obj *)(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710)), (unsigned short)x);
-    func_0204B92C((struct Obj *)*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 1);
-    *(int *)((char *)p + 0x868) = b;
+    ((struct Obj00002 *)p)->f864 = a;
+    ((struct Obj00002 *)p)->f866 = 6;
+    func_0204B8C4(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 0);
+    func_0204B878((struct Obj *)(*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710)), (unsigned short)x);
+    func_0204B92C((struct Obj *)*(int *)((char *)p + ((struct Obj00002 *)p)->f864 * 4 + 0x710), 1);
+    *(int *)&((struct Obj00002 *)p)->f868 = b;
     func_021B6100((char *)p, (int)func_021B8D88);
 }

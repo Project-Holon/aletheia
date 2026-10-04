@@ -10,7 +10,8 @@
  * symbols:
 
  */
+#include "../include/Obj03750.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021BAFE4(u32 p) { int i; for(i=0;i<13;i++) *(u16 *)(p+i*2+0xad4)=255; *(u8 *)(p+0xaf0)=0; *(u8 *)(p+0xaf1)=0; }
+void func_021BAFE4(u32 p) { int i; for(i=0;i<13;i++) *(u16 *)(p+i*2+0xad4)=255; ((struct Obj03750 *)p)->fAF0=0; ((struct Obj03750 *)p)->fAF1=0; }

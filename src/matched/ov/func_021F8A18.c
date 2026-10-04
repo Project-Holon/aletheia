@@ -16,6 +16,7 @@
 
  * Run the three teardown steps, then report 4 while the +0x10 handle is gone.
  */
+#include "../include/Obj00287.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ u32 func_021F8A18(u8 *p)
     func_021F8A40(p);
     func_021F5074(p);
     func_021F4EC8(p);
-    if (*(u32 *)(p + 0x10) == 0) {
+    if (((struct Obj00287 *)p)->f10 == 0) {
         return 4;
     }
     return 0;

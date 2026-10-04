@@ -29,6 +29,7 @@
  *   func_0202EB0C 0x0202EB0C thumb
  *   func_021C23D8 0x021C23D8 thumb ov099
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,46 +55,46 @@ int func_021C02C8(char *p, int ret)
 {
     u32 choice;
     u8 *q;
-    func_0201AC80(*(void **)(p + 0xc8));
+    func_0201AC80(((struct Obj00008 *)p)->fC8);
     func_021B9B64(p + 0x274);
     if (!func_021BA928((struct W *)p)) return ret;
-    choice = func_020200CC(*(struct Obj **)(p + 0xbc));
+    choice = func_020200CC(*(struct Obj * *)&((struct Obj00008 *)p)->fBC);
     switch (choice) {
     case (u32)-1:
         return ret;
     case (u32)-2:
-        *(int *)(p + 0x1cc) = 11;
+        ((struct Obj00008 *)p)->f1CC = 11;
         func_021C0290(p);
         func_021C2408(p);
         return ret;
     case 7:
         func_021C0290(p);
-        q = *(u8 **)(p + 0x248);
-        *(u16 *)(p + 0x134c) = q[0x21];
-        *(u16 *)(p + 0x134e) = q[0x22];
+        q = *(u8 * *)&((struct Obj00008 *)p)->f248;
+        ((struct Obj00008 *)p)->f134C = q[0x21];
+        ((struct Obj00008 *)p)->f134E = q[0x22];
         q[0x48] = q[0x20];
         func_021BB954(p, 1);
-        *(int *)(p + 0x1cc) = 0x54;
+        ((struct Obj00008 *)p)->f1CC = 0x54;
         return ret;
     case 4:
         if ((*(u8 **)(p + 0x248))[0x46] == 0) return ret;
         func_021C0290(p);
         func_021C23C8(p, (void *)-1);
-        *(int *)(p + 0x1cc) = 0x9e;
+        ((struct Obj00008 *)p)->f1CC = 0x9e;
         break;
     case 6:
         if (func_021BDDD0(p) == 0) {
-            *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
-            func_0202020C(*(struct Obj **)(p + 0xbc), 0, (u16 *)(p + 0x23c));
-            func_0201F868(*(void **)(p + 0xb8));
+            *(int *)&((struct Obj00008 *)p)->f1A4 = func_021BA8BC(((struct Obj00008 *)p)->f1A4);
+            func_0202020C(*(struct Obj * *)&((struct Obj00008 *)p)->fBC, 0, (u16 *)(p + 0x23c));
+            func_0201F868(((struct Obj00008 *)p)->fB8);
             func_021BA8EC(p);
             func_021BAAB8(p, 0x79, 0);
-            *(int *)(p + 0x1cc) = 0x71;
+            ((struct Obj00008 *)p)->f1CC = 0x71;
             return ret;
         } else {
             func_021C0290(p);
             func_021C23C8(p, (void *)-1);
-            *(int *)(p + 0x1cc) = 0x9e;
+            ((struct Obj00008 *)p)->f1CC = 0x9e;
         }
         break;
     case 5:
@@ -101,20 +102,20 @@ int func_021C02C8(char *p, int ret)
         if (func_0202EB14() == 0 && func_0202EB0C() != 0) {
             func_021C0290(p);
             func_021BAAB8(p, 0x95, 0);
-            *(int *)(p + 0x1cc) = 0xa0;
+            ((struct Obj00008 *)p)->f1CC = 0xa0;
             return ret;
         } else {
             func_021C0290(p);
             func_021C23C8(p, (void *)-1);
-            *(int *)(p + 0x1cc) = 0x9e;
+            ((struct Obj00008 *)p)->f1CC = 0x9e;
         }
         break;
     case 0: case 1: case 2: case 3: default:
         break;
     }
     func_021C23D8(p, 1);
-    *(int *)(p + 0x1e0) = 0;
-    *(u16 *)(p + 0x246) = choice;
-    *(int *)(p + 0x1cc) = 0xad;
+    ((struct Obj00008 *)p)->f1E0 = 0;
+    ((struct Obj00008 *)p)->f246 = choice;
+    ((struct Obj00008 *)p)->f1CC = 0xad;
     return ret;
 }

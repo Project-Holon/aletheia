@@ -20,6 +20,7 @@
  *   func_021B7B98  0x021B7B98  thumb  ov091
  *   func_021B9E20  0x021B9E20  thumb  ov091
  */
+#include "../include/Obj00009.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,20 +38,20 @@ extern void func_021B9E20(u8 *p);
 
 void func_021BA454(u8 *a, int k)
 {
-    func_021BB7A4(a, (u32 *)(*(int *)(a + 0x150)));
+    func_021BB7A4(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
     if (k == 0xe) {
-        int v = func_02017E1C((void *)*(int *)(a + 0x38), 6, 0);
+        int v = func_02017E1C((void *)*(int *)&((struct Obj00009 *)a)->f38, 6, 0);
 
         if (func_021BA65C(a, v) == 0x3e7) {
             func_021B9788(a, 0x3f, 1, (int)func_021B9E20);
             return;
         }
         func_021BA688(a, v);
-        func_02017E40((void *)(*(int *)(a + 0x38)), 6, 0);
-        func_021BB2C0(a, (u8 *)(*(int *)(a + *(int *)(a + 0x2c) * 4 + 0x160)));
+        func_02017E40((void *)(*(int *)&((struct Obj00009 *)a)->f38), 6, 0);
+        func_021BB2C0(a, (u8 *)(*(int *)(a + ((struct Obj00009 *)a)->f2C * 4 + 0x160)));
         func_021B9788(a, 0x1f, 1, (int)func_021B9E20);
     } else {
-        func_021BB7A4(a, (u32 *)(*(int *)(a + 0x150)));
+        func_021BB7A4(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150));
         a[0xc] = 2;
         func_021B7B98(a);
     }

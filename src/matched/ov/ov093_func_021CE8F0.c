@@ -27,6 +27,7 @@
  *   func_021B9B98 0x021B9B98 thumb ov093
  *   d_021EFF78 0x021EFF78 data ov093 a2
  */
+#include "../include/Obj03689.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -64,16 +65,16 @@ int func_021CE8F0(const u8 *p,u16 *out)
     u8 *mon;
     u8 *row;
     int skip,ok0,ok1,ok2,ok3,invalid;
-    if ((u32)func_021B86B8(*(void ****)p) != 1) goto fail;
-    id = func_021B904C(*(void **)p,0);
-    k = func_021BA004(*(void **)p,id);
+    if ((u32)func_021B86B8(*(void *** *)&((struct Obj03689 *)p)->f0) != 1) goto fail;
+    id = func_021B904C(((struct Obj03689 *)p)->f0,0);
+    k = func_021BA004(((struct Obj03689 *)p)->f0,id);
     if (!k) goto fail;
-    entry = (u32)func_021B9AEC(*(char **)(p+4),id);
-    mon = func_021B990C(*(void **)(p+4),id,0);
+    entry = (u32)func_021B9AEC(*(char * *)&((struct Obj03689 *)p)->f4,id);
+    mon = func_021B990C(((struct Obj03689 *)p)->f4,id,0);
     if (func_021D5B68(mon)) {
-        count = func_021B99B8(*(void **)p,id);
+        count = func_021B99B8(((struct Obj03689 *)p)->f0,id);
         for (i=1;i<count;i++) {
-            mon = func_021B990C(*(void **)(p+4),id,i);
+            mon = func_021B990C(((struct Obj03689 *)p)->f4,id,i);
             if (!func_021D5B68(mon)) break;
         }
     }
@@ -88,7 +89,7 @@ int func_021CE8F0(const u8 *p,u16 *out)
         row = (u8 *)p + i;
         if (!row[skip]) {
             key = d_021EFF78[i];
-            if (func_0202A298(k,key,*(u16 *)(p+0x19a))) {
+            if (func_0202A298(k,key,((struct Obj03689 *)p)->f19A)) {
                 switch (key - 0x11) {
                 case 1:
                     a = func_021D59B4(mon,13);

@@ -26,6 +26,7 @@
  *   func_02012204 0x02012204 thumb
  *   func_0202223C 0x0202223C thumb
  */
+#include "../include/Obj00208.h"
 typedef unsigned int u32;
 extern void func_02027974(void *);
 extern void func_021D5110(char *);
@@ -54,23 +55,23 @@ int func_021D5514(void *a, void *b, void *c, char *p)
         (*(void (**)(char *))p)(p);
         result = 0;
     }
-    if (*(void **)(p + 0x324)) func_02027974(*(void **)(p + 0x324));
-    if (*(int *)(p + 8) != 1) func_021D5110(p);
+    if (((struct Obj00208 *)p)->f324) func_02027974(((struct Obj00208 *)p)->f324);
+    if (((struct Obj00208 *)p)->f8 != 1) func_021D5110(p);
     func_021D5310(p);
     func_0204A600();
     if (func_0203CD98()) {
-        *(u32 *)(p + 0x368) = *(u32 *)(p + 0x364);
-        *(u32 *)(p + 0x364) = func_0201058C((void *)func_0201283C(*(void **)(p + 0x350)));
-        *(u32 *)(p + 0x370) = *(u32 *)(p + 0x36c);
-        *(u32 *)(p + 0x36c) = func_021D533C(p);
+        ((struct Obj00208 *)p)->f368 = ((struct Obj00208 *)p)->f364;
+        ((struct Obj00208 *)p)->f364 = func_0201058C((void *)func_0201283C(((struct Obj00208 *)p)->f350));
+        ((struct Obj00208 *)p)->f370 = ((struct Obj00208 *)p)->f36C;
+        ((struct Obj00208 *)p)->f36C = func_021D533C(p);
     }
-    func_020310C4(*(void **)(p + 0x31c));
-    func_0201C4E4(*(void **)(p + 0x320));
-    func_02040618(4, 3, *(u32 *)(p + 0x358));
-    *(u32 *)(p + 0x358) = *(u32 *)(p + 0x358) - 1;
-    if (func_020221A4() && *(int *)(p + 0x38c) == 0) func_020121CC(*(void **)(p + 0x354));
-    if (func_020221A4() && func_02012204(*(void **)(p + 0x354))) {
-        *(int *)(p + 8) = 2;
+    func_020310C4(((struct Obj00208 *)p)->f31C);
+    func_0201C4E4(((struct Obj00208 *)p)->f320);
+    func_02040618(4, 3, ((struct Obj00208 *)p)->f358);
+    ((struct Obj00208 *)p)->f358 = ((struct Obj00208 *)p)->f358 - 1;
+    if (func_020221A4() && ((struct Obj00208 *)p)->f38C == 0) func_020121CC(((struct Obj00208 *)p)->f354);
+    if (func_020221A4() && func_02012204(((struct Obj00208 *)p)->f354)) {
+        ((struct Obj00208 *)p)->f8 = 2;
         result = 1;
         func_0202223C(0, 0);
         func_0202223C(1, 0);

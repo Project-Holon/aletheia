@@ -22,19 +22,21 @@
  *   python tools/match.py tu --src src/matched/unit_02029344.c \
  *       --addr 0x02029344 --thumb
  */
+#include "../include/Obj01618.h"
+#include "../include/Obj17256.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 void sub_02029344(void *obj, u32 value)
 {
-    *(u32 *)((char *)obj + 4) = value;
+    ((struct Obj17256 *)obj)->f4 = value;
 }
 
 void sub_02029348(void *obj)
 {
-    *(u32 *)((char *)obj + 0x1c) = 0;
-    *(u32 *)((char *)obj + 0xc) = 0;
-    *(u16 *)((char *)obj + 0x18) = 0;
-    *(u16 *)((char *)obj + 0x1a) = 0;
+    ((struct Obj01618 *)obj)->f1C = 0;
+    ((struct Obj01618 *)obj)->fC = 0;
+    ((struct Obj01618 *)obj)->f18 = 0;
+    ((struct Obj01618 *)obj)->f1A = 0;
 }

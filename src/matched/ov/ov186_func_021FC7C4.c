@@ -15,6 +15,7 @@
  *   func_021FC870 0x021FC870 thumb ov186
  *   func_0201C724 0x0201C724 thumb
  */
+#include "../include/Obj02903.h"
 typedef struct Pair {int x,y;} Pair;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -29,10 +30,10 @@ void func_021FC7C4(char *p,void *text,void *font,unsigned short value)
 {
     Pair xy;
     void *owner;
-    func_02043B5C(func_02045770(*(void **)(p+12)),*(unsigned short *)(p+20));
-    func_02045838(*(void **)(p+16),text);
-    func_021FC870(*(int *)(p+24),(Pair *)(p+28),func_02045770(*(void **)(p+12)),*(void **)(p+16),font,&xy);
-    owner=*(void **)(p+8);
-    func_0201C724(owner,func_02045770(*(void **)p),xy.x,xy.y,*(void **)(p+16),font,value);
+    func_02043B5C(func_02045770(((struct Obj02903 *)p)->fC),((struct Obj02903 *)p)->f14);
+    func_02045838(((struct Obj02903 *)p)->f10,text);
+    func_021FC870(((struct Obj02903 *)p)->f18,(Pair *)(p+28),func_02045770(((struct Obj02903 *)p)->fC),((struct Obj02903 *)p)->f10,font,&xy);
+    owner=((struct Obj02903 *)p)->f8;
+    func_0201C724(owner,func_02045770(((struct Obj02903 *)p)->f0),xy.x,xy.y,((struct Obj02903 *)p)->f10,font,value);
     p[4]=1;
 }

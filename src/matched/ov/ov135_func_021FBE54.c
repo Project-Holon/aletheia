@@ -14,6 +14,7 @@
  *   func_021F9660 0x021F9660 thumb ov135
  *   func_0201F868 0x0201F868 thumb
  */
+#include "../include/Obj00098.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -25,4 +26,4 @@ extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021F9660(void *,u32);
 extern void func_0201F868(void *);
-int func_021FBE54(u8 *p) { if(func_0204B98C(*(void **)(p+8)))return -1;func_0204B3DC(*(void **)(p+8),0);func_021F9660(p,2);func_0201F868(*(void **)(p+48));return *(s8 *)(p+65); }
+int func_021FBE54(u8 *p) { if(func_0204B98C(((struct Obj00098 *)p)->f8))return -1;func_0204B3DC(((struct Obj00098 *)p)->f8,0);func_021F9660(p,2);func_0201F868(((struct Obj00098 *)p)->f30);return ((struct Obj00098 *)p)->f41; }

@@ -20,6 +20,7 @@
  *   func_0206E0C4  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01494.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,12 +50,12 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
     u16 yb;
     u16 v[2];
 
-    x = (func_02045758((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
-    y = (func_02045760((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
-    w = (func_02045748((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
-    h = (func_02045750((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
-    y += func_02040804(func_02045730((struct Descriptor *)(*(u32 *)(e + 0xC))));
-    switch (*(u32 *)(e + 4)) {
+    x = (func_02045758((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
+    y = (func_02045760((struct Descriptor *)(((struct Obj01494 *)e)->fC)) - 1) << 3;
+    w = (func_02045748((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
+    h = (func_02045750((struct Descriptor *)(((struct Obj01494 *)e)->fC)) + 2) << 3;
+    y += func_02040804(func_02045730((struct Descriptor *)(((struct Obj01494 *)e)->fC)));
+    switch (((struct Obj01494 *)e)->f4) {
     case 0:
     default:
         if (w >= 16 && h >= 16) {
@@ -95,7 +96,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
         break;
     case 1:
         yb = ya =y + h - 4;
-        if (*(int *)(e + 0x58) == 0) {
+        if (((struct Obj01494 *)e)->f58 == 0) {
             if (b < 0x80) {
                 side = 0;
                 r = 7;
@@ -103,7 +104,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
                 side = 1;
                 r = 8;
             }
-        } else if (*(int *)(e + 0x58) == 7) {
+        } else if (((struct Obj01494 *)e)->f58 == 7) {
             side = 0;
             r = 7;
         } else {
@@ -114,7 +115,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
         break;
     case 2:
         yb = ya =y + 4;
-        if (*(int *)(e + 0x58) == 0) {
+        if (((struct Obj01494 *)e)->f58 == 0) {
             if (b < 0x80) {
                 side = 0;
                 r = 5;
@@ -122,7 +123,7 @@ int func_02194F84(u8 *e, int b, int c, void *d, void *f)
                 side = 1;
                 r = 6;
             }
-        } else if (*(int *)(e + 0x58) == 5) {
+        } else if (((struct Obj01494 *)e)->f58 == 5) {
             side = 0;
             r = 5;
         } else {

@@ -11,7 +11,8 @@
  * symbols:
  *   func_021BEDC4 0x021BEDC4 thumb ov110
  */
+#include "../include/Obj10283.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021BEDC4(u8 *);
-unsigned func_021BEDD0(u8 *p) { return *(u16 *)p*2+func_021BEDC4(p); }
+unsigned func_021BEDD0(u8 *p) { return ((struct Obj10283 *)p)->f0*2+func_021BEDC4(p); }

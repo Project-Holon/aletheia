@@ -13,6 +13,7 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj13802.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef struct { s16 x,y; } Vec2;
@@ -36,5 +37,5 @@ void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
     goto apply;
 low: pos.y=18;
 apply:
-    func_0204B404(*(void **)(p+28),&pos,0);
+    func_0204B404(((struct Obj13802 *)p)->f1C,&pos,0);
 }

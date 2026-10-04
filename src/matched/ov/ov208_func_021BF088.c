@@ -19,6 +19,7 @@
  *   func_020355D8 0x020355D8 arm
  *   func_021BDC48 0x021BDC48 thumb ov208
  */
+#include "../include/Obj00442.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,37 +42,37 @@ int func_021BF088(void *first,char *p,int key)
     u8 i,next;
     scene=(void *)func_021BC3B4((int *)key);
     changed=0;
-    if(*(int *)(p+0x94)==6) {
+    if(((struct Obj00442 *)p)->f94==6) {
         buttons=func_0203633C();
         press=func_020362DC();
-        if(*(int *)(p+0x98)==6) {
+        if(((struct Obj00442 *)p)->f98==6) {
             if((buttons&0x300)||(press&1)) {
                 for(i=0;i<6;i++) {
                     if(func_0204B3F4(*(struct Obj **)((u32)p+(u32)i*20+0x1c))!=0) {
-                        *(int *)(p+0x94)=i; changed=1; break;
+                        ((struct Obj00442 *)p)->f94=i; changed=1; break;
                     }
                 }
             }
         } else if((buttons&0x100)||(press&1)) {
             for(i=1;i<6;i++) {
-                next=(*(int *)(p+0x98)+i)%6;
+                next=(((struct Obj00442 *)p)->f98+i)%6;
                 if(func_0204B3F4(*(struct Obj **)((u32)p+(u32)next*20+0x1c))!=0) {
-                    *(int *)(p+0x94)=next; changed=1; break;
+                    ((struct Obj00442 *)p)->f94=next; changed=1; break;
                 }
             }
         } else if(buttons&0x200) {
             for(i=1;i<6;i++) {
-                next=(*(int *)(p+0x98)+6-i)%6;
+                next=(((struct Obj00442 *)p)->f98+6-i)%6;
                 if(func_0204B3F4(*(struct Obj **)((u32)p+(u32)next*20+0x1c))!=0) {
-                    *(int *)(p+0x94)=next; changed=1; break;
+                    ((struct Obj00442 *)p)->f94=next; changed=1; break;
                 }
             }
         }
     }
     if(changed!=0) {
-        func_021BF280(first,p,(void *)key,*(int *)(p+0x94));
-        *(u32 *)((u32)p+*(u32 *)(p+0x94)*20+0x2c)=1;
-        func_0204B878(*(struct Obj **)((u32)p+*(u32 *)(p+0x94)*20+0x1c),*(u16 *)((u32)p+*(u32 *)(p+0x94)*20+0x26));
+        func_021BF280(first,p,(void *)key,((struct Obj00442 *)p)->f94);
+        *(u32 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x2c)=1;
+        func_0204B878(*(struct Obj **)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x1c),*(u16 *)((u32)p+*(u32 *)&((struct Obj00442 *)p)->f94*20+0x26));
         func_020061E4(0x54a);
         func_020355D8(0);
         func_021BDC48(scene,0);

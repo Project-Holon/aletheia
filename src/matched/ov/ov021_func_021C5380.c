@@ -11,6 +11,7 @@
  *
  * Returns 1 in states 2 and 5.
  */
+#include "../include/Obj12941.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ int func_021C5380(u8 *p)
 {
     int r = 1;
 
-    if (*(u16 *)(p + 0x70) != 2 && *(u16 *)(p + 0x70) != 5)
+    if (((struct Obj12941 *)p)->f70 != 2 && ((struct Obj12941 *)p)->f70 != 5)
         r = 0;
     return r;
 }

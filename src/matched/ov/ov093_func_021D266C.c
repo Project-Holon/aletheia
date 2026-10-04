@@ -17,6 +17,7 @@
  *   func_021EA904  0x021EA904  thumb  ov093
  *   func_021EA950  0x021EA950  thumb  ov093
  */
+#include "../include/Obj04364.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8DEC(void *p, u32 k);
@@ -33,17 +34,17 @@ int func_021D266C(u8 *p, int *st, u32 *c)
         u8 a = c[0];
         u32 b = (u8)c[1];
         u32 d = (u8)c[2];
-        int x = func_021B8DEC(*(void **)p, b);
-        int y = func_021B8DEC(*(void **)p, d);
-        u32 m = func_021B8E70(*(void **)p, b);
-        u32 n = func_021B8E70(*(void **)p, d);
-        func_021B9C10(func_021B9AEC(*(void **)(p + 4), a), x, y);
-        func_021EA904(*(void **)(p + 0x54), a, m, n, x, y);
+        int x = func_021B8DEC(((struct Obj04364 *)p)->f0, b);
+        int y = func_021B8DEC(((struct Obj04364 *)p)->f0, d);
+        u32 m = func_021B8E70(((struct Obj04364 *)p)->f0, b);
+        u32 n = func_021B8E70(((struct Obj04364 *)p)->f0, d);
+        func_021B9C10(func_021B9AEC(((struct Obj04364 *)p)->f4, a), x, y);
+        func_021EA904(((struct Obj04364 *)p)->f54, a, m, n, x, y);
         (*st)++;
         break;
     }
     case 1:
-        if (func_021EA950(*(void **)(p + 0x54)))
+        if (func_021EA950(((struct Obj04364 *)p)->f54))
             return 1;
         break;
     }

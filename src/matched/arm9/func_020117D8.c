@@ -19,6 +19,7 @@
  *   python tools/match.py one --src src/matched/func_020117D8.c \
  *       --func func_020117D8 --addr 0x020117D8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00064.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -32,30 +33,30 @@ int func_020117D8(u8 *a0, int a1, u8 *a2, int a3)
     total = 0;
     step = a1 * 0xc;
     k = 0;
-    if (*(u32 *)(a0 + 0x28) != 0) {
+    if (((struct Obj00064 *)a0)->f28 != 0) {
         total += step;
     }
-    if (*(u32 *)(a0 + 0x2c) != 0) {
+    if (((struct Obj00064 *)a0)->f2C != 0) {
         total += step;
     }
-    if (*(u32 *)(a0 + 0x30) != 0) {
+    if (((struct Obj00064 *)a0)->f30 != 0) {
         total += step;
     }
     if (a3 < total) {
         return 0;
     }
-    if (*(u32 *)(a0 + 0x28) != 0) {
-        *(u8 **)(a0 + 0x1c) = a2;
+    if (((struct Obj00064 *)a0)->f28 != 0) {
+        *(u8 * *)&((struct Obj00064 *)a0)->f1C = a2;
         k++;
     }
-    if (*(u32 *)(a0 + 0x2c) != 0) {
-        *(u8 **)(a0 + 0x20) = a2 + step * k;
+    if (((struct Obj00064 *)a0)->f2C != 0) {
+        *(u8 * *)&((struct Obj00064 *)a0)->f20 = a2 + step * k;
         k++;
     }
-    if (*(u32 *)(a0 + 0x30) != 0) {
-        *(u8 **)(a0 + 0x24) = a2 + step * k;
+    if (((struct Obj00064 *)a0)->f30 != 0) {
+        *(u8 * *)&((struct Obj00064 *)a0)->f24 = a2 + step * k;
         k++;
     }
-    *(u32 *)(a0 + 0x18) = a1;
+    *(u32 *)&((struct Obj00064 *)a0)->f18 = a1;
     return 1;
 }

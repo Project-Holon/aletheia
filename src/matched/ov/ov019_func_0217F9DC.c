@@ -14,6 +14,7 @@
  *   func_0217FB30 0x0217FB30 thumb ov019
  *   func_0217FA10 0x0217FA10 thumb ov019
  */
+#include "../include/Obj09420.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_0217FA10(char *p, u32 *out, u32 a, u16 b);
 void func_0217F9DC(char *p, u32 a)
 {
     struct E *e;
-    if (*(u32 *)(p+0x14) == 0) func_02034714(d_02180814,0,d_02180814);
+    if (((struct Obj09420 *)p)->f14 == 0) func_02034714(d_02180814,0,d_02180814);
     e=func_0217FB30((struct E *)p);
-    func_0217FA10(p,(u32 *)e,a,*(u16 *)(p+0x1c));
-    (*(u16 *)(p+0x1c))++;
+    func_0217FA10(p,(u32 *)e,a,((struct Obj09420 *)p)->f1C);
+    (((struct Obj09420 *)p)->f1C)++;
 }

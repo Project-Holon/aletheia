@@ -12,6 +12,7 @@
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_0203D210 0x0203D210 arm
  */
+#include "../include/Obj04563.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02157E78(u8 *p);
@@ -19,15 +20,15 @@ extern int func_02157E8C(int a0);
 extern u32 func_0203D210(void);
 int func_0217E414(char *p)
 {
-    if (*(void **)(p + 0x1018))
-        func_02157E78(*(void **)(p + 0x1018));
-    switch (*(int *)p) {
+    if (((struct Obj04563 *)p)->f1018)
+        func_02157E78(((struct Obj04563 *)p)->f1018);
+    switch (((struct Obj04563 *)p)->f0) {
     case 0:
-        if (*(void **)(p + 0x1018)) {
-            func_02157E8C((int)(*(void **)(p + 0x1018)));
-            *(void **)(p + 0x1018) = 0;
+        if (((struct Obj04563 *)p)->f1018) {
+            func_02157E8C((int)(((struct Obj04563 *)p)->f1018));
+            ((struct Obj04563 *)p)->f1018 = 0;
         }
-        (*(int *)p)++;
+        (((struct Obj04563 *)p)->f0)++;
         break;
     case 1:
         if (func_0203D210())

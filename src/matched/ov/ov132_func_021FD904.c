@@ -16,8 +16,9 @@
  * Matched to supply the `matched` witness for the pending ov010 caller
  * func_02155F24.
  */
+#include "../include/Obj23300.h"
 
 int func_021FD904(int *p)
 {
-    return *(int *)((char *)p + 0x48);
+    return ((struct Obj23300 *)p)->f48;
 }

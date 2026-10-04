@@ -23,6 +23,7 @@
  *   func_0218B2E8  0x0218B2E8  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04982.h"
 
 typedef unsigned short u16;
 
@@ -44,10 +45,10 @@ int func_0218B0CC(char *p, void *unused, void *x)
     void *r6;
 
     func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    r4 = func_02162598(*(void **)(p + 0xC), buf);
+    r4 = func_02162598(((struct Obj04982 *)p)->fC, buf);
     if (r4 == 0xFFFF)
         return 0;
-    r6 = func_021625CC(*(void **)(p + 0xC), r4);
+    r6 = func_021625CC(((struct Obj04982 *)p)->fC, r4);
     if (func_021626EC(r6) == 1 || func_0218AEAC(r6) == 0)
         return 0;
     func_0218B2A8(p, r4, buf);

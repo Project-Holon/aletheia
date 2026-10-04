@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02184.h"
 
 typedef unsigned char  u8;
 extern void func_021C4044(u8 *p, int a, int b, int c, int d);
 
 void func_021C5664(char *p, int a, int b)
 {
-    func_021C4044(*(void **)p, *(unsigned char *)(p + 0xb), a, 0, b);
+    func_021C4044(((struct Obj02184 *)p)->f0, ((struct Obj02184 *)p)->fB, a, 0, b);
 }

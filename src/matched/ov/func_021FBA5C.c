@@ -15,6 +15,7 @@
  *
  * State select before the notify call.
  */
+#include "../include/Obj05872.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,13 +31,13 @@ int func_021FBA5C(u8 *p)
     u32 v;
     int n;
 
-    *(u32 *)(p + 0x48) = 0x16;
-    *(u32 *)(p + 0x44) = *(s16 *)(p + 0x3a);
+    ((struct Obj05872 *)p)->f48 = 0x16;
+    ((struct Obj05872 *)p)->f44 = ((struct Obj05872 *)p)->f3A;
     if (func_020355C4() == 1) {
-        v = *(u32 *)(p + 8);
+        v = ((struct Obj05872 *)p)->f8;
         n = 0;
     } else {
-        v = *(u32 *)(p + 8);
+        v = ((struct Obj05872 *)p)->f8;
         n = 1;
     }
     func_0204B3DC((struct Obj *)v, n);

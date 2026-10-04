@@ -11,6 +11,7 @@
  * symbols:
  *   func_021E777C 0x021E777C thumb ov177
  */
+#include "../include/Obj24424.h"
 typedef unsigned char u8;
 extern int func_021E777C(void *);
-int func_0217D238(u8 *p){return func_021E777C(*(void **)(p+20));}
+int func_0217D238(u8 *p){return func_021E777C(((struct Obj24424 *)p)->f14);}

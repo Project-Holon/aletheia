@@ -18,6 +18,7 @@
  *   and this file turns EXACT untouched.
  *   All 68 bytes concrete-identical; 7 of 9 relocation sites resolved.
  */
+#include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -36,7 +37,7 @@ void func_0202B500(u8 *p)
 {
     if (func_0202B834(p) == 1) {
         func_0202B84C(p);
-        *(u32 *)(p + 8) = func_0202B810();
+        ((struct Obj02010 *)p)->f8 = func_0202B810();
     }
     func_0202B6CC(p);
     func_0202B6DC(p);
@@ -44,5 +45,5 @@ void func_0202B500(u8 *p)
     func_0202B6F8(p);
     func_0202B704(p);
     func_0202B710(p);
-    *(u32 *)(p + 0xc) = *(u32 *)(p + 0xc) + 1;
+    ((struct Obj02010 *)p)->fC = ((struct Obj02010 *)p)->fC + 1;
 }

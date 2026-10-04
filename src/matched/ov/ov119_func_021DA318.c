@@ -55,6 +55,7 @@
  *   func_021E12F8 0x021E12F8 thumb ov119
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj04475.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct TaskMenu;
@@ -102,7 +103,7 @@ void func_021DA318(char *p)
         if(func_021B6470(P(0x9c0))==9 && func_020355C4()) func_02027A08(P(0x64c),0);
         if(func_021B6448(P(0x9c0))==9) {
             changed=1;
-            *(u32 *)(p+0x10a0)=1U-*(u32 *)(p+0x10a0);
+            ((struct Obj04475 *)p)->f10A0=1U-((struct Obj04475 *)p)->f10A0;
         }
         if(func_02035D20(&x,&y)==1) {
             func_020355D8(1);
@@ -110,8 +111,8 @@ void func_021DA318(char *p)
             if(func_021D9EBC(p,(int *)(p+0xf98),(int *)(p+0xf94),&slot,&column)) {
                 I(0xf78)=column;
                 I(0xf74)=slot;
-                *(u32 *)(p+0xf54)=x;
-                *(u32 *)(p+0xf58)=y;
+                ((struct Obj04475 *)p)->fF54=x;
+                ((struct Obj04475 *)p)->fF58=y;
                 func_020061E4(0x548);
                 changed=1;
             } else if(y>=16 && y<144) active=1;

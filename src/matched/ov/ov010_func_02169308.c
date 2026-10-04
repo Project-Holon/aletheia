@@ -13,8 +13,9 @@
  * symbols:
 
  */
+#include "../include/Obj04162.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef void (*Cb)(u8 *, u32);
-void func_02169308(u8 *p) { Cb cb; if (*(u16 *)(p+0xb0)) { cb = *(Cb *)(*(u32 *)(p+0x28)+*(u32 *)(p+0x18)*16u+4u); if(cb) cb(p,*(u32 *)(p+0xd8)); } }
+void func_02169308(u8 *p) { Cb cb; if (((struct Obj04162 *)p)->fB0) { cb = *(Cb *)(((struct Obj04162 *)p)->f28+((struct Obj04162 *)p)->f18*16u+4u); if(cb) cb(p,((struct Obj04162 *)p)->fD8); } }

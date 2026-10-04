@@ -39,6 +39,7 @@
  *   python tools/match.py one --src src/matched/sub_02010E14.c \
  *       --func sub_02010E14 --addr 0x02010E14 --cc 1.1p1 --thumb
  */
+#include "../include/Obj08965.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,7 +62,7 @@ void sub_02010E14(int slot, u8 *rec, int select)
     k = rec[0xa];
     g_0214621C[k] = (u8)slot;
     g_021461E8[k] = rec[0xb] * 0xe10;
-    *(u16 *)(g_0214622A + k * 2) = *(u16 *)(rec + 8);
+    *(u16 *)(g_0214622A + k * 2) = ((struct Obj08965 *)rec)->f8;
     if (g_02146228[0x1c] == k) {
         g_02146228[0x1c] = 0xd;
     }

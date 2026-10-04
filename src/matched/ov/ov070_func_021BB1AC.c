@@ -11,6 +11,7 @@
  * symbols:
  *   func_02027858 0x02027858 thumb
  */
+#include "../include/Obj13159.h"
 struct TaskMenu;
 extern void func_02027858(struct TaskMenu *m);
-void func_021BB1AC(char *p) { func_02027858(*(void **)(p + 0x77C)); *(void **)(p + 0x77C) = 0; }
+void func_021BB1AC(char *p) { func_02027858(((struct Obj13159 *)p)->f77C); ((struct Obj13159 *)p)->f77C = 0; }

@@ -33,6 +33,9 @@
  *   func_0204B294 0x0204B294 arm
  *   d_021CA640 0x021CA640 data a2
  */
+#include "../include/Obj00329.h"
+#include "../include/Obj00773.h"
+#include "../include/Obj00992.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -66,36 +69,36 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     u32 i,base,id,archive,offset;
     int pos;
     Bounds bounds;
-    base=func_0201283C(*(void **)(q+4));
-    func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+*(s8 *)(q+11)+24),9);
+    base=func_0201283C(((struct Obj00992 *)q)->f4);
+    func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),9);
     for(i=0;i<10;i++) func_02043B5C(func_02045770(*(void **)(p+i*8+0x128)),0);
     offset=0x128;
     pos=func_02045748(*(void **)(p+offset));
-    func_021B6B2C((u32)(p+offset),*(u32 *)(ctx+0x34),*(u32 *)(ctx+0x17C),
+    func_021B6B2C((u32)(p+offset),*(u32 *)&((struct Obj00329 *)ctx)->f34,*(u32 *)&((struct Obj00329 *)ctx)->f17C,
         (int)((u32)pos*8)/2,0,0x3C40,
-        *(u8 *)((u32)q+*(s8 *)(q+11)+0x38)+1,*(u32 *)(q+0x14),heap);
+        *(u8 *)((u32)q+((struct Obj00992 *)q)->fB+0x38)+1,((struct Obj00992 *)q)->f14,heap);
     func_021C9FC8(p+(offset+8),q,ctx,19,0,0,0x3C40);
     func_021C9FC8(p+(offset+16),q,ctx,20,0,0,0x3C40);
     func_021C9FC8(p+0x140,q,ctx,21,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+*(s8 *)(q+11)+24),2));
+    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),2));
     func_021C9FC8(p+(offset+32),q,ctx,22,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+*(s8 *)(q+11)+24),3));
+    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),3));
     func_021C9FC8(p+0x150,q,ctx,22,0,0,0x3C40);
     func_021C9FC8(p+(offset+48),q,ctx,23,0,0,0x3C40);
-    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+*(s8 *)(q+11)+24),4));
+    func_021C6C94((char **)ctx,func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),4));
     func_021C9FC8(p+0x160,q,ctx,24,0,0,0x3C40);
     func_021C9FC8(p+(offset+=64),q,ctx,27,0,0,0x3C40);
-    if(func_021C6C20(ctx,q,*(u8 *)((u32)q+*(s8 *)(q+11)+24))!=0)
+    if(func_021C6C20(ctx,q,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24))!=0)
         func_021C9FC8(p+0x170,q,ctx,28,0,0,0x3C40);
-    else func_02045334(*(void **)(p+0x170));
+    else func_02045334(((struct Obj00773 *)p)->f170);
     for(i=0;i<10;i++) func_021CA4B4(*(char **)(p+i*8+0x128));
     bounds=d_021CA640;
-    id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+*(s8 *)(q+11)+24),8));
+    id=func_02025C88(func_02009864((const struct Sub020097BCObj *)base,*(u8 *)((u32)q+((struct Obj00992 *)q)->fB+24),8));
     archive=func_0202DA04(heap);
-    *(u32 *)(p+0x17C)=func_0202DA48(archive,id,0,heap);
-    *(u32 *)(p+0x180)=func_0202DA18(archive,id,0,192,heap);
-    *(u32 *)(p+0x184)=func_0202DA6C(id,2,0,heap);
+    ((struct Obj00773 *)p)->f17C=func_0202DA48(archive,id,0,heap);
+    ((struct Obj00773 *)p)->f180=func_0202DA18(archive,id,0,192,heap);
+    ((struct Obj00773 *)p)->f184=func_0202DA6C(id,2,0,heap);
     func_02049238((void *)archive);
-    *(u32 *)(p+0x178)=(u32)func_0204B294((void *)*(u32 *)(ctx+0x138),*(u32 *)(p+0x17C),
-        *(u32 *)(p+0x180),*(u32 *)(p+0x184),&bounds,0,heap);
+    ((struct Obj00773 *)p)->f178=(u32)func_0204B294((void *)((struct Obj00329 *)ctx)->f138,((struct Obj00773 *)p)->f17C,
+        ((struct Obj00773 *)p)->f180,((struct Obj00773 *)p)->f184,&bounds,0,heap);
 }

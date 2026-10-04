@@ -17,6 +17,7 @@
  *   func_02192FA4  0x02192FA4  thumb  ov021
  *   func_02195588  0x02195588  thumb  ov021
  */
+#include "../include/Obj04209.h"
 
 typedef unsigned short u16;
 
@@ -31,10 +32,10 @@ extern void func_02195588(u8 *p);
 
 void func_02193068(char *p)
 {
-    func_02040DA8(*(u16 *)(p + 2), 1, 0);
-    func_02040C14(*(u16 *)(p + 2), 0, 1, 0);
-    func_02041300(*(u16 *)(p + 2) & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
-    func_020409B4(*(u16 *)(p + 2) & 0xff);
-    func_02192FA4(*(u16 *)(p + 2), *(u16 *)p);
-    func_02195588((u8 *)(*(int *)(p + 0x15c)));
+    func_02040DA8(((struct Obj04209 *)p)->f2, 1, 0);
+    func_02040C14(((struct Obj04209 *)p)->f2, 0, 1, 0);
+    func_02041300(((struct Obj04209 *)p)->f2 & 0xff, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_020409B4(((struct Obj04209 *)p)->f2 & 0xff);
+    func_02192FA4(((struct Obj04209 *)p)->f2, ((struct Obj04209 *)p)->f0);
+    func_02195588((u8 *)(((struct Obj04209 *)p)->f15C));
 }

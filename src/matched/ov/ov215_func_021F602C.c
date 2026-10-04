@@ -11,6 +11,8 @@
  * symbols:
  *   func_02005E30 0x02005E30 thumb
  */
+#include "../include/Obj25745.h"
+#include "../include/Obj25746.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -18,11 +20,11 @@ extern void func_02005E30(u32 a);
 void func_021F602C(void *unused, char *p)
 {
     func_02005E30(0x3c);
-    *(int *)(p + 0x18) = 7;
+    ((struct Obj25745 *)p)->f18 = 7;
 }
 
 int func_021F603C(void *unused, char *p)
 {
-    if (*(int *)(p + 0x18) == 7) return 1;
+    if (((struct Obj25746 *)p)->f18 == 7) return 1;
     return 0;
 }

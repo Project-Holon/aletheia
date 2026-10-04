@@ -23,6 +23,7 @@
  *   func_02188DB0  0x02188DB0  thumb  ov021
  *   func_02187D94  0x02187D94  thumb  ov020
  */
+#include "../include/Obj01207.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,23 +50,23 @@ void func_02187C20(char *o, int *p, int st)
         func_02187860(o);
         break;
     case 1:
-        *(u8 *)(o + 0x15) = func_0202E8A4(*(u8 *)(o + 0x15));
-        func_0218794C(*(u8 *)(o + 0x15), *(u16 *)(o + 8));
+        ((struct Obj01207 *)o)->f15 = func_0202E8A4(((struct Obj01207 *)o)->f15);
+        func_0218794C(((struct Obj01207 *)o)->f15, ((struct Obj01207 *)o)->f8);
         break;
     case 2:
         func_02040588(3, 1);
         func_02040588(0, 0);
         func_0207D534((volatile u16 *)0x0400006C, 0);
         func_0207D658(0x04000050, 8, -16);
-        *(int *)(o + 0x1c) = func_02187D40(o);
+        ((struct Obj01207 *)o)->f1C = func_02187D40(o);
         break;
     case 3:
-        *(int *)(o + 0x1c) = func_02187D74(o);
+        ((struct Obj01207 *)o)->f1C = func_02187D74(o);
         break;
     case 4:
-        *(int *)(o + 0x1c) = func_02187D54(o);
-        if (func_02187D20(o) == 0 && *(u8 *)(o + 0x15) == *(u8 *)(o + 0x14)) {
-            func_02188DB0((u8 *)(*(int *)(o + 4)));
+        ((struct Obj01207 *)o)->f1C = func_02187D54(o);
+        if (func_02187D20(o) == 0 && ((struct Obj01207 *)o)->f15 == ((struct Obj01207 *)o)->f14) {
+            func_02188DB0((u8 *)(((struct Obj01207 *)o)->f4));
             func_02040588(3, 1);
             func_02187D94(o);
         }
@@ -74,5 +75,5 @@ void func_02187C20(char *o, int *p, int st)
         break;
     }
     *p = st;
-    *(int *)(o + 0x18) = 0;
+    *(int *)&((struct Obj01207 *)o)->f18 = 0;
 }

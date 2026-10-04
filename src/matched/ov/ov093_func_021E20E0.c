@@ -18,6 +18,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj05220.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -36,7 +37,7 @@ void func_021E20E0(int u, int a, int b)
 
     if (b == func_021D775C(4) && func_021D775C(0x46) == 0 && func_021D5B68(func_021C7CF4((int *)a, b)) == 0) {
         r = func_021C88A4(a, 0xe, b);
-        *(int *)(r + 4) = 1;
+        ((struct Obj05220 *)r)->f4 = 1;
         r[0xc] = 1;
         r[0xe] = 0;
         r[0xf] = 1;

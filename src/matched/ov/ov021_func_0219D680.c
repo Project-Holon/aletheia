@@ -17,6 +17,7 @@
  *   func_0216DFC4  0x0216DFC4  thumb  ov010
  *   func_0219D604  0x0219D604  thumb  ov021
  */
+#include "../include/Obj07479.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ void func_0219D680(u32 a, u32 b)
 {
     u8 *s = (u8 *)func_0216D528(func_0216D67C((void *)a));
     u16 v = func_0216D598((void *)a);
-    func_021C6628(*(u32 *)(s + 4), b);
+    func_021C6628(((struct Obj07479 *)s)->f4, b);
     if (func_0216DFC4((void *)a, v) == 0) {
         func_0219D604(s, v);
     }

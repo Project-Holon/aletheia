@@ -21,6 +21,8 @@
  *   func_0218FB1C  0x0218FB1C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01117.h"
+#include "../include/Obj12597.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,34 +52,34 @@ void func_0218FA40(u8 *p, u16 v)
 
     if (p) {
         q = p + 0xf0;
-        if (*(u32 *)(q + 0x98) != 0 && v != 0) {
+        if (((struct Obj01117 *)q)->f98 != 0 && v != 0) {
             func_0218E13C(p, 0);
             func_0218F780(p, q + 0x34);
             func_0218E260(p, &loc);
-            *(u16 *)(q + 0x88) = loc.b;
-            *(u16 *)(q + 0x8a) = loc.c;
-            *(u32 *)(q + 0x8c) = loc.a << 12;
-            *(u16 *)(q + 0x90) = loc.h12;
+            ((struct Obj01117 *)q)->f88 = loc.b;
+            ((struct Obj01117 *)q)->f8A = loc.c;
+            ((struct Obj01117 *)q)->f8C = loc.a << 12;
+            ((struct Obj01117 *)q)->f90 = loc.h12;
             if (loc.flag != 0) {
                 *(B12 *)(q + 0x7c) = loc.v;
-                *(B12 *)(q + 0x70) = **(B12 **)(p + 0x18);
+                *(B12 *)(q + 0x70) = **(B12 * *)&((struct Obj12597 *)p)->f18;
             } else {
-                *(u32 *)(q + 0x7c) = 0;
-                *(u32 *)(q + 0x80) = 0;
-                *(u32 *)(q + 0x84) = 0;
+                ((struct Obj01117 *)q)->f7C = 0;
+                ((struct Obj01117 *)q)->f80 = 0;
+                ((struct Obj01117 *)q)->f84 = 0;
                 *(B12 *)(q + 0x70) = loc.v;
             }
-            *(u16 *)(q + 0x96) = 0;
-            *(u16 *)(q + 0x94) = v;
-            *(u32 *)(q + 0xa0) = 1;
-            *(u32 *)(q + 0xa4) = 1;
-            *(u32 *)(q + 0xa8) = 1;
-            *(u32 *)(q + 0xac) = 1;
-            *(u32 *)(q + 0xb0) = 1;
-            *(u32 *)(q + 0xb4) = 1;
-            *(void **)(p + 0x1ac) = (void *)func_0218FB1C;
-            *(u32 *)(q + 0xb8) = 0;
-            *(u32 *)(q + 0x9c) = 1;
+            ((struct Obj01117 *)q)->f96 = 0;
+            ((struct Obj01117 *)q)->f94 = v;
+            ((struct Obj01117 *)q)->fA0 = 1;
+            ((struct Obj01117 *)q)->fA4 = 1;
+            ((struct Obj01117 *)q)->fA8 = 1;
+            ((struct Obj01117 *)q)->fAC = 1;
+            ((struct Obj01117 *)q)->fB0 = 1;
+            ((struct Obj01117 *)q)->fB4 = 1;
+            ((struct Obj12597 *)p)->f1AC = (void *)func_0218FB1C;
+            ((struct Obj01117 *)q)->fB8 = 0;
+            ((struct Obj01117 *)q)->f9C = 1;
         }
     }
 }

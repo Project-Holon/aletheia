@@ -11,10 +11,11 @@
  * symbols:
  *   func_0218875C 0x0218875C thumb ov096
  */
+#include "../include/Obj21919.h"
 typedef unsigned char u8;
 extern void func_0218875C(u8 *, int, int);
 int func_0218874C(u8 *a, u8 *b)
 {
     func_0218875C(a, (int)b, 3);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21919 *)b)->fC4;
 }

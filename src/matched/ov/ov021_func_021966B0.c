@@ -15,6 +15,7 @@
  *   func_02049238  0x02049238  arm
  *   func_02040588  0x02040588  arm
  */
+#include "../include/Obj00093.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ void func_021966B0(u8 *p, u32 a)
 {
     void *h;
 
-    h = func_020490F4(0x1D, *(u16 *)(p + 0x10));
-    func_02049990(h, a, 6, 0, (u16)*(u32 *)(p + 0x40), 0, 0, *(u16 *)(p + 0x10));
+    h = func_020490F4(0x1D, ((struct Obj00093 *)p)->f10);
+    func_02049990(h, a, 6, 0, (u16)((struct Obj00093 *)p)->f40, 0, 0, ((struct Obj00093 *)p)->f10);
     func_02049238(h);
     func_02040588(6, 1);
 }

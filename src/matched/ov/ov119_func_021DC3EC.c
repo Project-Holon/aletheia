@@ -13,6 +13,7 @@
  *   func_02016020 0x02016020 thumb
  *   func_02015BF0 0x02015BF0 thumb
  */
+#include "../include/Obj08058.h"
 extern void func_021E55BC(char *p);
 extern void *func_02014B08(int, unsigned short);
 extern void func_02016020(void *, unsigned int);
@@ -20,7 +21,7 @@ extern void func_02015BF0(void *);
 void func_021DC3EC(char *p)
 {
     func_021E55BC(p);
-    *(void **)(p + 0x840) = func_02014B08(4, (*(unsigned short *)(p + 0x5F4) & 0x7FFF) | 0x8000);
-    func_02016020(*(void **)(p + 0x840), 3 << 16);
-    func_02015BF0(*(void **)(p + 0x840));
+    ((struct Obj08058 *)p)->f840 = func_02014B08(4, (((struct Obj08058 *)p)->f5F4 & 0x7FFF) | 0x8000);
+    func_02016020(((struct Obj08058 *)p)->f840, 3 << 16);
+    func_02015BF0(((struct Obj08058 *)p)->f840);
 }

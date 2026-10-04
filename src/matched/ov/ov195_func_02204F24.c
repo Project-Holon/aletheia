@@ -13,15 +13,16 @@
  *   func_02005DE4 0x02005DE4 thumb
  *   func_02005E64 0x02005E64 thumb
  */
+#include "../include/Obj08346.h"
 
 extern void func_02005DE4(void *p);
 extern void func_02005E64(void);
 
 void func_02204F24(int a, char *b)
 {
-    if (*(int *)(b + 0x30) == 4) {
+    if (((struct Obj08346 *)b)->f30 == 4) {
         func_02005DE4((void *)1);
         func_02005E64();
-        *(int *)(b + 0x30) = 5;
+        ((struct Obj08346 *)b)->f30 = 5;
     }
 }

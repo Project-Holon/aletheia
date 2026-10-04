@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/func_0203A118.c \
  *       --func func_0203A118 --addr 0x0203A118 --cc 1.1p1 --arm
  */
+#include "../include/Obj15952.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -31,7 +32,7 @@ extern void *func_0203D788(void);
 
 void func_0203A118(u8 *p)
 {
-    if (*(u8 *)((char *)func_0203D788() + 0x352) == 0) {
+    if (((struct Obj15952 *)((char *)func_0203D788()))->f352 == 0) {
         if (p[0x4A] != 5)
             p[0x4A] = 7;
     } else {

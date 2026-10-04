@@ -16,6 +16,7 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj18616.h"
 
 extern void func_0220687C(char *p, void *q);
 
@@ -28,7 +29,7 @@ int func_022068C4(char *p)
             break;
     }
     if (i == 8) {
-        func_0220687C(p, (void *)(*(int *)(p + 8)));
+        func_0220687C(p, (void *)(((struct Obj18616 *)p)->f8));
         i = 0;
     }
     return i;

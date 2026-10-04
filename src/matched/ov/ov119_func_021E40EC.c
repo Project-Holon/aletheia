@@ -16,6 +16,7 @@
  *   func_02040588 0x02040588 arm
  *   d_021E7DD0 0x021E7DD0 data a4
  */
+#include "../include/Obj00001.h"
 typedef struct { unsigned int w[2]; } Tbl2;
 typedef unsigned short u16;
 
@@ -32,14 +33,14 @@ void func_021E40EC(char *p, int a1, int a2)
 {
     Tbl2 tbl = d_021E7DD0;
     void *v;
-    v = func_020490F4(0x66, *(unsigned short *)(p + 0x5F4));
-    func_02049990(v, tbl.w[a2], 4, 0, (unsigned short)*(unsigned int *)(p + 0x870), 0, 0, *(unsigned short *)(p + 0x5F4));
+    v = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
+    func_02049990(v, tbl.w[a2], 4, 0, (unsigned short)((struct Obj00001 *)p)->f870, 0, 0, ((struct Obj00001 *)p)->f5F4);
     if (a1 != 0) {
         func_02040618(4, 0, 0x80);
     } else {
         func_02040618(4, 0, 0);
     }
-    func_0204B3DC((struct Obj *)*(int *)(p + 0xF04), 0);
+    func_0204B3DC((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04, 0);
     func_02049238(v);
     func_02040588(4, 1);
 }

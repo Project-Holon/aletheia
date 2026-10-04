@@ -21,6 +21,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_021A12D4 0x021A12D4 thumb ov021
  */
+#include "../include/Obj04315.h"
 
 extern int func_0201D7EC(int, int, int, int, int);
 extern void func_0201DD68(void);
@@ -35,13 +36,13 @@ extern void func_021A12D4(int, int);
 
 void func_021EFF78(char *p, int a1)
 {
-    *(int *)(p + 0x34) = func_0201D7EC(0x17, 0, 0, 0, a1);
+    *(int *)&((struct Obj04315 *)p)->f34 = func_0201D7EC(0x17, 0, 0, 0, a1);
     func_0201DD68();
-    *(int *)(p + 0x38) = func_02045B38(0, 2, 0x16, a1);
-    *(int *)(p + 0x3C) = func_0201C440(a1);
+    ((struct Obj04315 *)p)->f38 = func_02045B38(0, 2, 0x16, a1);
+    *(int *)&((struct Obj04315 *)p)->f3C = func_0201C440(a1);
     func_021F000C(p, a1);
     func_021F0140(p, a1);
     func_021F0168(p, a1);
     func_0203D34C(0, a1);
-    func_021A12D4(*(int *)(p + 0xC), a1);
+    func_021A12D4(((struct Obj04315 *)p)->fC, a1);
 }

@@ -20,6 +20,8 @@
  *   func_0216E190  0x0216E190  thumb  ov010
  *   func_0216E114  0x0216E114  thumb  ov010
  */
+#include "../include/Obj00113.h"
+#include "../include/Obj05908.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -46,11 +48,11 @@ void func_0216E204(char *a, u16 v)
     func_0216D594(a, v);
     func_0216E39C((int)ctx, v, (int)a);
     p = a + 0xe4;
-    *(u8 *)(a + 0x7c) = *(u8 *)(p + 0xb);
-    *(u8 *)(a + 0x7d) = *(u8 *)(p + 0xc);
-    *(s8 *)(a + 0x7e) = *(s8 *)(p + 0xd);
-    *(s8 *)(a + 0x7f) = *(s8 *)(p + 0xe);
-    *(s8 *)(a + 0x80) = *(s8 *)(p + 0xf);
+    ((struct Obj00113 *)a)->f7C = ((struct Obj05908 *)p)->fB;
+    ((struct Obj00113 *)a)->f7D = ((struct Obj05908 *)p)->fC;
+    *(s8 *)&((struct Obj00113 *)a)->f7E = ((struct Obj05908 *)p)->fD;
+    *(s8 *)&((struct Obj00113 *)a)->f7F = ((struct Obj05908 *)p)->fE;
+    *(s8 *)&((struct Obj00113 *)a)->f80 = ((struct Obj05908 *)p)->fF;
     func_0216DA94(a);
     func_0216E190(a);
     func_0216E114(a);

@@ -15,6 +15,7 @@
  *   func_02188C7C  0x02188C7C  thumb  ov021
  *   func_0219E570  0x0219E570  thumb  ov021
  */
+#include "../include/Obj19511.h"
 
 void *func_021A3074(unsigned char *p);
 int func_0219E634(void *a, int *buf);
@@ -25,7 +26,7 @@ u32 func_0219E570(u32 o, u32 k, u32 flag);
 int func_0218B53C(unsigned char *p, void *b)
 {
     int buf[2];
-    if (func_0219E634(func_021A3074(*(void **)(p + 0x18)), buf) != 0)
+    if (func_0219E634(func_021A3074(((struct Obj19511 *)p)->f18), buf) != 0)
         return func_0219E570((u32)func_02188C7C(b), (u32)buf, 0);
     return 0;
 }

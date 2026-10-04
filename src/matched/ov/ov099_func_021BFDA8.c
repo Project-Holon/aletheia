@@ -14,12 +14,13 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj22052.h"
 extern int func_021563EC(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
 extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 int func_021BFDA8(char *p, int ret) {
- if (!func_021563EC()) { func_02039C68((struct Link *)func_020399A8(),24,10); *(int *)(p+0x1cc)=172; }
+ if (!func_021563EC()) { func_02039C68((struct Link *)func_020399A8(),24,10); ((struct Obj22052 *)p)->f1CC=172; }
  return ret;
 }

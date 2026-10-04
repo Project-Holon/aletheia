@@ -22,6 +22,7 @@
  *   func_021BB1E8  0x021BB1E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19808.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ extern int func_021BB1E8(int x);
 
 u32 func_021A67A4(u8 *p)
 {
-    u32 r4 = func_0216D7DC((void *)(*(u32 *)(p + 0x1C)));
+    u32 r4 = func_0216D7DC((void *)(((struct Obj19808 *)p)->f1C));
 
     if (!func_021A66F8(p, 2)) {
         r4 = func_021AB0F0(r4);

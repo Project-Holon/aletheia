@@ -15,6 +15,7 @@
  *   func_021BE680 0x021BE680  thumb  ov208
 
  */
+#include "../include/Obj01081.h"
 
 extern void func_021BDFA8(char *);
 extern void func_021BE4DC(char *);
@@ -22,7 +23,7 @@ extern void func_021BE680(char *);
 
 void func_021BDD24(char *p)
 {
-    switch (*(int *)(p + 0xc)) {
+    switch (((struct Obj01081 *)p)->fC) {
     case 0:
         func_021BDFA8(p);
         break;

@@ -16,10 +16,11 @@
  *   func_02051C6C 0x02051C6C arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10751.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021E08E4(char *);
 extern void func_02049238(void *);
 extern void func_02051C6C(void *);
 extern void func_020307B0(void *);
-void func_021E0774(char *p){func_02030EAC(*(void **)(p+0x314));func_021E08E4(p);func_02049238(*(void **)(p+0x258));func_02051C6C(*(void **)(p+0x294));func_020307B0(p);}
+void func_021E0774(char *p){func_02030EAC(((struct Obj10751 *)p)->f314);func_021E08E4(p);func_02049238(((struct Obj10751 *)p)->f258);func_02051C6C(((struct Obj10751 *)p)->f294);func_020307B0(p);}

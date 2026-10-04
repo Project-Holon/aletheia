@@ -20,6 +20,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj05348.h"
 typedef unsigned char u8;
 extern void func_0200F7F4(void);
 extern unsigned int func_020221A4(void);
@@ -38,10 +39,10 @@ int func_021D5E30(void *p, int a, int b, u8 *q)
     func_0200F7F4();
     if (!func_020221A4()) return 0;
     if (func_0203CD98()) func_0203A5E4(0x2200);
-    if (*(void **)(q + 0x34)) func_02028148(*(void **)(q + 0x34));
-    if (*(void **)(q + 0x38)) func_02027858(*(void **)(q + 0x38));
-    func_021D7898(*(void **)(q + 0x40));
-    func_021D5FC4(*(void **)(q + 0x3c));
+    if (((struct Obj05348 *)q)->f34) func_02028148(((struct Obj05348 *)q)->f34);
+    if (((struct Obj05348 *)q)->f38) func_02027858(((struct Obj05348 *)q)->f38);
+    func_021D7898(((struct Obj05348 *)q)->f40);
+    func_021D5FC4(((struct Obj05348 *)q)->f3C);
     func_020315D4(p);
     func_020306F0(31);
     return 1;

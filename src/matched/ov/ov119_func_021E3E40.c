@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22799.h"
 
 typedef unsigned int   u32;
 struct Cfg;
@@ -29,5 +30,5 @@ extern const char d_021E7D40[];
 
 void func_021E3E40(char *p)
 {
-    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, *(unsigned short *)(p + 0x5F4));
+    func_0204A48C((const struct Cfg *)d_021E7CE4, (u32)d_021E7D40, ((struct Obj22799 *)p)->f5F4);
 }

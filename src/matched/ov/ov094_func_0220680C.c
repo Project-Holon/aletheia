@@ -15,6 +15,7 @@
  *   func_02207D78  0x02207D78  thumb  ov094
  *   func_022005C4  0x022005C4  thumb  ov094
  */
+#include "../include/Obj10159.h"
 
 extern int func_021F86B4(void);
 extern int func_021F8694(void);
@@ -23,12 +24,12 @@ extern int func_022005C4(void *w, int key);
 
 void func_0220680C(char *p)
 {
-    int a = func_02207D78((char *)func_021F86B4(), *(int *)(p + 0x278));
-    int b = func_022005C4((void *)func_021F8694(), *(int *)(p + 0x278));
+    int a = func_02207D78((char *)func_021F86B4(), ((struct Obj10159 *)p)->f278);
+    int b = func_022005C4((void *)func_021F8694(), ((struct Obj10159 *)p)->f278);
     int i;
 
     if ((b | a) == 1) {
         for (i = 0; i < 8; i++)
-            *(char *)(p + *(int *)(p + 0x27c) * 8 + i + 0x242) = 0;
+            *(char *)(p + ((struct Obj10159 *)p)->f27C * 8 + i + 0x242) = 0;
     }
 }

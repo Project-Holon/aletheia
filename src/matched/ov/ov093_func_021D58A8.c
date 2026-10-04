@@ -13,6 +13,7 @@
  *   func_021D587C  0x021D587C  thumb  ov093
  *   func_021D59B4  0x021D59B4  thumb  ov093
  */
+#include "../include/Obj00041.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -25,15 +26,15 @@ int func_021D58A8(u8 *p, int k)
     int v = func_021D587C(p, k);
     switch (v) {
     case 8:
-        return *(u16 *)(p + 0xee);
+        return ((struct Obj00041 *)p)->fEE;
     case 9:
-        return *(u16 *)(p + 0xf0);
+        return ((struct Obj00041 *)p)->fF0;
     case 10:
-        return *(u16 *)(p + 0xf2);
+        return ((struct Obj00041 *)p)->fF2;
     case 11:
-        return *(u16 *)(p + 0xf4);
+        return ((struct Obj00041 *)p)->fF4;
     case 12:
-        return *(u16 *)(p + 0xf6);
+        return ((struct Obj00041 *)p)->fF6;
     case 6:
         return 6;
     case 7:

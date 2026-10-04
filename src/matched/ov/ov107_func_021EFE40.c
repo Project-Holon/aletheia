@@ -29,6 +29,7 @@
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
  */
+#include "../include/Obj01529.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021F1B08(void *),func_021F1B14(void *);
@@ -73,6 +74,6 @@ void func_021EFE40(u8 *p)
         if(func_021F10EC(OBJ)==1 && func_021F11F0(OBJ,4,0)==1) p[0x24]=19;
         break;
     case 18: break;
-    case 19: if(func_021F1104(OBJ)==1) *(u32 *)(p+0x20)=22; break;
+    case 19: if(func_021F1104(OBJ)==1) ((struct Obj01529 *)p)->f20=22; break;
     }
 }

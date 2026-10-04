@@ -23,6 +23,8 @@
  *   func_021B963C  0x021B963C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00010.h"
+#include "../include/Obj02052.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,21 +43,21 @@ int func_021B854C(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7
 {
     int res;
 
-    if (func_021B95C0(*(u8 **)(p + 0x28), a, arg4, arg5,
-                      *(u8 **)(p + 0x24), *(u32 *)(p + 0x1c)) == 0)
+    if (func_021B95C0(*(u8 * *)&((struct Obj00010 *)p)->f28, a, arg4, arg5,
+                      *(u8 * *)&((struct Obj00010 *)p)->f24, *(u32 *)&((struct Obj00010 *)p)->f1C) == 0)
         return 0;
     if ((arg5 < 0 ? -arg5 : arg5) > arg7)
         return 0;
     if (arg4 < arg6 && arg4 >= 0)
         goto tail;
     if (arg4 >= arg6) {
-        u8 *row = func_021B87D8(*(u8 **)(p + 0x24), *(u32 *)(a + 4));
-        res = (int)func_021B8514(row, *(u32 *)(a + 8),
-                                  *(u8 **)(p + 0x24), *(u16 **)(p + 0x28), 1);
+        u8 *row = func_021B87D8(*(u8 * *)&((struct Obj00010 *)p)->f24, ((struct Obj02052 *)a)->f4);
+        res = (int)func_021B8514(row, ((struct Obj02052 *)a)->f8,
+                                  *(u8 * *)&((struct Obj00010 *)p)->f24, *(u16 * *)&((struct Obj00010 *)p)->f28, 1);
     } else {
-        u8 *row = func_021B87D8(*(u8 **)(p + 0x24), *(u32 *)a);
-        res = (int)func_021B8514(row, func_021B93D4(*(u32 *)(a + 8)),
-                                  *(u8 **)(p + 0x24), *(u16 **)(p + 0x28), 1);
+        u8 *row = func_021B87D8(*(u8 * *)&((struct Obj00010 *)p)->f24, ((struct Obj02052 *)a)->f0);
+        res = (int)func_021B8514(row, func_021B93D4(((struct Obj02052 *)a)->f8),
+                                  *(u8 * *)&((struct Obj00010 *)p)->f24, *(u16 * *)&((struct Obj00010 *)p)->f28, 1);
     }
     if (res == 0) {
         if (arg4 > arg6)
@@ -65,12 +67,12 @@ int func_021B854C(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7
     a = (u8 *)res;
     if (arg4 >= arg6) {
         arg4 -= arg6;
-        arg6 = func_021B9278(res, *(u32 *)(p + 0x1c), *(u32 *)(p + 0x24));
-        arg7 = (u32)func_021B9280((u8 *)res, arg4, arg6, *(u8 **)(p + 0x24));
+        arg6 = func_021B9278(res, *(u32 *)&((struct Obj00010 *)p)->f1C, *(u32 *)&((struct Obj00010 *)p)->f24);
+        arg7 = (u32)func_021B9280((u8 *)res, arg4, arg6, *(u8 * *)&((struct Obj00010 *)p)->f24);
     } else if (arg4 < 0) {
-        arg6 = func_021B9278(res, *(u32 *)(p + 0x1c), *(u32 *)(p + 0x24));
+        arg6 = func_021B9278(res, *(u32 *)&((struct Obj00010 *)p)->f1C, *(u32 *)&((struct Obj00010 *)p)->f24);
         arg4 += arg6;
-        arg7 = (u32)func_021B9280((u8 *)res, arg4, arg6, *(u8 **)(p + 0x24));
+        arg7 = (u32)func_021B9280((u8 *)res, arg4, arg6, *(u8 * *)&((struct Obj00010 *)p)->f24);
     }
     if (arg4 >= arg6)
         return 0;
@@ -78,6 +80,6 @@ int func_021B854C(u8 *p, u8 *a, u32 arg3, int arg4, int arg5, int arg6, int arg7
         return 0;
 tail:
     func_021B8658(p, (u32)a, arg3, arg4, arg5, arg6, (int)arg7);
-    func_021B963C(a, *(u8 **)(p + 0x24));
+    func_021B963C(a, *(u8 * *)&((struct Obj00010 *)p)->f24);
     return arg3;
 }

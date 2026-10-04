@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj07292.h"
 typedef unsigned short u16;
 void func_02162278(char *p, int index, u16 a, u16 b)
 {
     *(int *)(p + 0x30 + index * 8) = index;
     *(u16 *)(p + 0x34 + index * 8) = a;
     *(u16 *)(p + 0x36 + index * 8) = b;
-    *(u16 *)(p + 2) = (u16)(*(u16 *)(p + 2) | (1 << (index + 5)));
+    ((struct Obj07292 *)p)->f2 = (u16)(((struct Obj07292 *)p)->f2 | (1 << (index + 5)));
 }

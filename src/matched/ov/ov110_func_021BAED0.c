@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BFC20  0x021BFC20  thumb  ov110
  */
+#include "../include/Obj22352.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BFC20(u8 *p, unsigned visible);
-void func_021BAED0(u8 *p) { func_021BFC20((u8 *)(*(u32 *)(p + 0x5c)), 1); }
+void func_021BAED0(u8 *p) { func_021BFC20((u8 *)(((struct Obj22352 *)p)->f5C), 1); }

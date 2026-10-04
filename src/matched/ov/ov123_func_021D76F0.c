@@ -19,6 +19,8 @@
  *   func_02009108 0x02009108 thumb
  *   d_021DAB78 0x021DAB78 data ov123 a1
  */
+#include "../include/Obj02475.h"
+#include "../include/Obj22960.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Big;
@@ -46,20 +48,20 @@ void func_021D76F0(int a)
     u8 *p;
     int x;
     u16 checksum;
-    b=(int)func_02012EBC((struct Big *)(*(int *)(a+0x2c)));
-    p=(u8 *)func_021D5BA0((char *)(*(int *)(a+8)));
+    b=(int)func_02012EBC((struct Big *)(((struct Obj02475 *)a)->f2C));
+    p=(u8 *)func_021D5BA0((char *)(((struct Obj02475 *)a)->f8));
     checksum=func_0203F1FC(p,0x6200);
-    if(checksum!=*(u16 *)(p+0x6200)) {
-        *(int *)(a+0x80)=0xfff0;
+    if(checksum!=((struct Obj22960 *)p)->f6200) {
+        ((struct Obj02475 *)a)->f80=0xfff0;
         func_021D6EE0(a,(int)func_021D6FF0,0x378);
         return;
     }
-    *(u8 *)(a+0xae)=1;
-    x=(int)func_02030734(*(u16 *)a,0x6800,0,d_021DAB78,0x37d);
-    *(int *)(a+0x3c)=x;
-    func_020072CC(b,7,*(u16 *)a,*(int *)(a+0x3c),0x6800);
-    func_02082D44(p,*(void **)(a+0x3c),0x6200);
-    func_0200E8E0(*(int *)(a+0x3c),1);
-    func_02012E4C((u8 *)*(int *)(a+0x2c),7);
+    ((struct Obj02475 *)a)->fAE=1;
+    x=(int)func_02030734(((struct Obj02475 *)a)->f0,0x6800,0,d_021DAB78,0x37d);
+    *(int *)&((struct Obj02475 *)a)->f3C=x;
+    func_020072CC(b,7,((struct Obj02475 *)a)->f0,*(int *)&((struct Obj02475 *)a)->f3C,0x6800);
+    func_02082D44(p,((struct Obj02475 *)a)->f3C,0x6200);
+    func_0200E8E0(*(int *)&((struct Obj02475 *)a)->f3C,1);
+    func_02012E4C((u8 *)((struct Obj02475 *)a)->f2C,7);
     func_021D6EE0(a,(int)func_021D76B8,0x383);
 }

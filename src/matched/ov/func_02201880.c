@@ -14,6 +14,7 @@
 
  * State setter: hand over the object, latch the state word at +0x28 and clear the slot.
  */
+#include "../include/Obj12235.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ extern void func_021C887C(u8 *p);
 int func_02201880(u8 *p)
 {
     func_021C887C(p + 0xe4);
-    *(u32 *)(p + 0x28) = 0x1d;
-    *(u32 *)(p + 0xf8c) = 0x0;
+    ((struct Obj12235 *)p)->f28 = 0x1d;
+    ((struct Obj12235 *)p)->fF8C = 0x0;
     return 0x2;
 }

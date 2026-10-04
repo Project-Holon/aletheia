@@ -13,6 +13,7 @@
  *   func_02027FEC  0x02027FEC  thumb
  *   func_02045808  0x02045808  arm
  */
+#include "../include/Obj00009.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,14 +35,14 @@ int func_021BBDEC(int p, int unused, int id, int r3, u8 a4, int a5)
 {
     S s;
     int r;
-    s.a = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x134)), id);
+    s.a = (int)func_02045EC0((struct MsgBank *)(((struct Obj00009 *)p)->f134), id);
     s.b = 0x39e3;
     if (a5 == 0) {
         s.flag = 0;
     } else {
         s.flag = 1;
     }
-    r = func_02027FEC(*(int *)(p + 0x254), (u32)(&s), r3, a4, 10, *(u16 *)p);
+    r = func_02027FEC(((struct Obj00009 *)p)->f254, (u32)(&s), r3, a4, 10, ((struct Obj00009 *)p)->f0);
     func_02045808((struct U16Vec *)s.a);
     return r;
 }

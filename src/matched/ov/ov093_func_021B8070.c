@@ -20,6 +20,8 @@
  *   func_021BAB10 0x021BAB10 thumb ov093
  *   func_021CD960 0x021CD960 thumb ov093
  */
+#include "../include/Obj01233.h"
+#include "../include/Obj05183.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,7 +45,7 @@ int func_021B8070(u8 *p)
     u8 idx;
     int t;
     u32 i, flag;
-    q = *(u8 **)p;
+    q = *(u8 * *)&((struct Obj01233 *)p)->f0;
     idx = p[0x46c];
     t = func_021B6818((int *)q);
     if (func_021D4270()) {
@@ -51,20 +53,20 @@ int func_021B8070(u8 *p)
         return 1;
     }
     if (p[0x46e]) {
-        *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
-        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, 3, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
-        func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(((int *)(p + 0x10))[idx])), idx, 3);
+        ((struct Obj01233 *)p)->f8 = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, ((struct Obj01233 *)p)->f468);
+        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], ((struct Obj05183 *)q)->f1C, idx, 3, 0, t, 0, p + 0x3f0, ((struct Obj01233 *)p)->f468);
+        func_021BAA94((char *)(((struct Obj01233 *)p)->f8), func_021CD978((struct QB *)(((int *)(p + 0x10))[idx])), idx, 3);
         flag = 0;
         if (idx == 0) flag = 1;
-        func_021BAACC(*(int *)(p + 8), q[0x20], *(int *)(q + 0x1c), flag, 3);
+        func_021BAACC(((struct Obj01233 *)p)->f8, q[0x20], ((struct Obj05183 *)q)->f1C, flag, 3);
     } else {
-        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, 3, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
-        *(int *)(p + 0xc) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
+        ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], ((struct Obj05183 *)q)->f1C, idx, 3, 0, t, 0, p + 0x3f0, ((struct Obj01233 *)p)->f468);
+        ((struct Obj01233 *)p)->fC = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, ((struct Obj01233 *)p)->f468);
         for (i = 0; i < 4; i++) {
             if (func_021B8B9C(p, i))
-                func_021BAB10(*(int *)(p + 0xc), i, func_021B6994(p, i));
+                func_021BAB10(((struct Obj01233 *)p)->fC, i, func_021B6994(p, i));
         }
-        func_021CD960(((int *)(p + 0x10))[idx], *(int *)(p + 0xc));
+        func_021CD960(((int *)(p + 0x10))[idx], ((struct Obj01233 *)p)->fC);
     }
     return 1;
 }

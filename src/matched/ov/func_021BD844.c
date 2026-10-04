@@ -14,10 +14,11 @@
 
  * Stores the second argument at +0x2C.
  */
+#include "../include/Obj18242.h"
 
 
 void func_021BD844(char *p, int v)
 {
-    *(int *)(p + 0x2c) = v;
+    ((struct Obj18242 *)p)->f2C = v;
 }
 

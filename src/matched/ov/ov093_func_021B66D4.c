@@ -22,6 +22,7 @@
  *   func_021B7488 0x021B7488 thumb ov093
  *   func_021B6C08 0x021B6C08 thumb ov093
  */
+#include "../include/Obj07741.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { void (*first)(void); u32 second; u8 *object; u32 state; } Callback;
@@ -37,7 +38,7 @@ void func_021B66D4(Callback *a, u8 *p, u8 *q)
     u32 i;
     for (i = 0; i < 6; i++) p[0x428 + i] = 4;
     if (!q[0x20]) {
-        switch (*(u32 *)(q + 4)) {
+        switch (((struct Obj07741 *)q)->f4) {
         case 0: INIT(func_021B6AAC); return;
         case 1:
             if (!q[0x22]) { INIT(func_021B6C5C); return; }
@@ -47,7 +48,7 @@ void func_021B66D4(Callback *a, u8 *p, u8 *q)
         default: INIT(func_021B6AAC); return;
         }
     } else {
-        switch (*(u32 *)(q + 4)) {
+        switch (((struct Obj07741 *)q)->f4) {
         case 0: INIT(func_021B734C); return;
         case 1: INIT(func_021B73C4); return;
         case 2: INIT(func_021B7518); return;

@@ -13,6 +13,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
+#include "../include/Obj13478.h"
 
 extern int func_021D775C(int);
 typedef unsigned int   u32;
@@ -22,8 +23,8 @@ void func_021DB734(int a, int b, int c, int d)
 {
     if (c == func_021D775C(2)) {
         unsigned short t = (unsigned short)func_021D775C(0x12);
-        *(int *)(d + 8) = 0;
+        ((struct Obj13478 *)d)->f8 = 0;
         if (t == 0x16b && c == func_021D775C(2))
-            *(int *)(d + 8) = func_021D76BC(0x22, 0x13);
+            ((struct Obj13478 *)d)->f8 = func_021D76BC(0x22, 0x13);
     }
 }

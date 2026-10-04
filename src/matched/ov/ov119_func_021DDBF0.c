@@ -25,6 +25,7 @@
  *   func_021E1024  0x021E1024  thumb  ov119
  *   func_021DDB90  0x021DDB90  thumb  ov119
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 
@@ -76,7 +77,7 @@ void func_021DDBF0(char *p)
     else if (c == 6) m = 0x6F;
     else if (d == 14) m = 0x97;
     else if (c == 14) m = 0x96;
-    func_02045CAC(*(void **)(p + 0x720), m, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj00001 *)p)->f720, m, ((struct Obj00001 *)p)->f738);
     func_021E1024(p);
     p[0x11E0] = 0;
     p[0x11E1] = 0;

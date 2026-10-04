@@ -20,6 +20,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14083.h"
+#include "../include/Obj23181.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,6 +33,6 @@ extern void func_021F6FB0(void *, int);
 
 void func_021F8D88(u8 *p)
 {
-    int v = func_02157364(*(void **)((u8 *)*(void **)(p + 0x30) + 0x14));
-    func_021F6FB0(*(void **)(p + 0x3c), v);
+    int v = func_02157364(((struct Obj23181 *)((u8 *)((struct Obj14083 *)p)->f30))->f14);
+    func_021F6FB0(((struct Obj14083 *)p)->f3C, v);
 }

@@ -19,6 +19,7 @@
  *   func_0218ED9C  0x0218ED9C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00428.h"
 
 typedef unsigned char u8;
 
@@ -30,16 +31,16 @@ extern void func_0218ED9C(int a, void *b, void *c, void *d, void *e);
 
 void func_0218F004(u8 *a)
 {
-    if (*(int *)(a + 0x1C) != 0) {
+    if (*(int *)&((struct Obj00428 *)a)->f1C != 0) {
         u8 d[12];
         u8 v[12];
         u8 c[12];
         u8 b[12];
 
-        func_02048B30(*(int *)(a + 0xC), v);
-        func_02048AE8(*(int *)(a + 0xC), d);
-        func_0218ED9C(*(int *)(a + 0xEC), v, d, b, c);
-        func_02048B44(*(int *)(a + 0xC), b);
-        func_02048AFC(*(int *)(a + 0xC), c);
+        func_02048B30(((struct Obj00428 *)a)->fC, v);
+        func_02048AE8(((struct Obj00428 *)a)->fC, d);
+        func_0218ED9C(((struct Obj00428 *)a)->fEC, v, d, b, c);
+        func_02048B44(((struct Obj00428 *)a)->fC, b);
+        func_02048AFC(((struct Obj00428 *)a)->fC, c);
     }
 }

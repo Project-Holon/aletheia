@@ -14,6 +14,7 @@
  *   func_0218682C  0x0218682C  thumb
  *   func_02186804  0x02186804  thumb
  */
+#include "../include/Obj12331.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ void func_02161F14(u16 *out, u8 *in, int c)
 {
     int h;
     u16 *q;
-    if (*(u16 *)(in + 2) == 1) {
+    if (((struct Obj12331 *)in)->f2 == 1) {
         h = func_021867C4(in[9], (u16)((c & 0x7FFF) | 0x8000));
         q = func_0218682C(h);
         out[0] = q[0x24 / 2];

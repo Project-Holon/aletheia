@@ -14,6 +14,7 @@
  *   func_0204A6C8 0x0204A6C8 arm
  *   func_0204AC18 0x0204AC18 arm
  */
+#include "../include/Obj03277.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,13 +28,13 @@ void func_021C4494(u8 *p, u32 a, u32 heap)
     int i;
     i = 16;
     if (func_021C447C(p, 16) == 1) {
-        *(u32 *)(p + 816) = i;
+        ((struct Obj03277 *)p)->f330 = i;
     } else {
         i = 17;
         if (func_021C447C(p, 17) == 1)
-        *(u32 *)(p + 816) = i;
+        ((struct Obj03277 *)p)->f330 = i;
     }
-    *(u32 *)(p + 744) = func_0204AF28(*(u32 *)(p + 760), 9, 8, heap);
-    *(u32 *)(p + 736) = func_0204A6C8((void *)(*(u32 *)(p + 760)), 11, 0, a, heap);
-    *(u32 *)(p + 740) = func_0204AC18((void *)(*(u32 *)(p + 760)), 10, a, 320, 0, 1, heap);
+    ((struct Obj03277 *)p)->f2E8 = func_0204AF28(((struct Obj03277 *)p)->f2F8, 9, 8, heap);
+    ((struct Obj03277 *)p)->f2E0 = func_0204A6C8((void *)(((struct Obj03277 *)p)->f2F8), 11, 0, a, heap);
+    ((struct Obj03277 *)p)->f2E4 = func_0204AC18((void *)(((struct Obj03277 *)p)->f2F8), 10, a, 320, 0, 1, heap);
 }

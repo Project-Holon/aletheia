@@ -15,6 +15,7 @@
  *   func_021A3960  0x021A3960  thumb  ov021
  *   func_0216D608  0x0216D608  thumb  ov010
  */
+#include "../include/Obj12730.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ u16 func_021A3BB4(u8 *p, u32 keys)
         return a;
     }
     c = func_0216D608(func_021A3960(p));
-    h1 = *(u16 *)(p + 0x20);
-    h2 = *(u16 *)(p + 0x22);
+    h1 = ((struct Obj12730 *)p)->f20;
+    h2 = ((struct Obj12730 *)p)->f22;
     if (c != 9) {
         if (a == h1 && b == h2) {
             if (b == c) {

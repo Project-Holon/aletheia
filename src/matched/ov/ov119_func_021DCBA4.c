@@ -16,6 +16,8 @@
  *   func_0203D34C 0x0203D34C arm
  *   func_0204E720 0x0204E720 arm
  */
+#include "../include/Obj01728.h"
+#include "../include/Obj03256.h"
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
@@ -27,13 +29,13 @@ extern void func_0203D34C(u32 a, u32 b);
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 void func_021DCBA4(char *a, char *p)
 {
-    func_02082D44(*(void **)(a+0x34),*(void **)(p+0x5dc),func_020173EC());
-    func_02082D44(*(void **)(a+0x38),*(void **)(p+0x5e0),func_020173EC());
-    func_021E36C8(p,0,1,*(void **)(a+0x34),1);
-    func_021E36C8(p,1,1,*(void **)(a+0x38),1);
+    func_02082D44(((struct Obj01728 *)a)->f34,((struct Obj03256 *)p)->f5DC,func_020173EC());
+    func_02082D44(((struct Obj01728 *)a)->f38,((struct Obj03256 *)p)->f5E0,func_020173EC());
+    func_021E36C8(p,0,1,((struct Obj01728 *)a)->f34,1);
+    func_021E36C8(p,1,1,((struct Obj01728 *)a)->f38,1);
     func_02015EA0((void *)(*(unsigned *)(p+(func_021D8AA8(p) == 0 ? 0x848 : 0x844))));
-    *(int *)(p+0x830)=*(int *)(a+0x3c);
-    *(int *)(p+0x834)=*(int *)(a+0x40);
-    func_0203D34C(0,*(unsigned short *)(p+0x5f4));
+    ((struct Obj03256 *)p)->f830=((struct Obj01728 *)a)->f3C;
+    ((struct Obj03256 *)p)->f834=((struct Obj01728 *)a)->f40;
+    func_0203D34C(0,((struct Obj03256 *)p)->f5F4);
     func_0204E720(3,16,0,2);
 }

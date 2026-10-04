@@ -14,6 +14,7 @@
  *   func_020056BC  0x020056BC  thumb
  *   func_02051360  0x02051360  arm
  */
+#include "../include/Obj13911.h"
 
 typedef unsigned int u32;
 
@@ -27,6 +28,6 @@ void func_021E3004(char *p)
 
     for (i = 4; i < 9; i++) {
         func_02087A3C(1, 1);
-        func_02051360(((void **)p)[i], (unsigned int)(*(void **)(p + 0xB4)), 1, func_020056BC());
+        func_02051360(((void **)p)[i], (unsigned int)(((struct Obj13911 *)p)->fB4), 1, func_020056BC());
     }
 }

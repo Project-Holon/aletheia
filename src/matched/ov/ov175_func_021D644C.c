@@ -20,6 +20,7 @@
  * Release path for the ov175 object's 0x1c pointer: free it through
  *     0x021E7710 and clear the field, null-safe.
  */
+#include "../include/Obj14327.h"
 
 typedef unsigned long u32;
 
@@ -27,11 +28,11 @@ extern void func_021E7710(u32 p);
 
 void func_021D644C(char *obj)
 {
-    u32 p = *(u32 *)(obj + 0x1c);
+    u32 p = ((struct Obj14327 *)obj)->f1C;
 
     if (p != 0) {
         func_021E7710(p);
-        *(u32 *)(obj + 0x1c) = 0;
+        ((struct Obj14327 *)obj)->f1C = 0;
     }
 }
 

@@ -19,6 +19,7 @@
  *   func_021D694C 0x021D694C thumb ov121
  *   d_021DF544 0x021DF544 data a4
  */
+#include "../include/Obj06446.h"
 typedef unsigned char u8;
 typedef struct { int w[12]; } Config;
 extern const Config d_021DF544;
@@ -36,13 +37,13 @@ extern void func_021D694C(void *,int);
 void func_021D83DC(u8 *p,int heap)
 {
     Config c;
-    if(*(void **)(p+652)==0) {
+    if(((struct Obj06446 *)p)->f28C==0) {
         c=d_021DF544;
         c.w[2]=(int)func_020457B0(37,heap);
         func_02045994((struct Strbuf *)c.w[2],(const unsigned short *)(p+1068),37);
         c.w[8]=(int)func_020457B0(253,heap);
         func_02045994((struct Strbuf *)c.w[8],(const unsigned short *)(p+1180),253);
-        *(void **)(p+652)=func_021DA1BC(0,&c,2,4,15,*(void **)(p+924),*(void **)(p+932),*(void **)(p+920),heap);
+        ((struct Obj06446 *)p)->f28C=func_021DA1BC(0,&c,2,4,15,((struct Obj06446 *)p)->f39C,((struct Obj06446 *)p)->f3A4,((struct Obj06446 *)p)->f398,heap);
         func_02045808((void *)c.w[2]);
         func_02045808((void *)c.w[8]);
         func_021D694C(p+912,1);

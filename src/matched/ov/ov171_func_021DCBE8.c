@@ -12,10 +12,11 @@
  *   func_02021ED8 0x02021ED8 thumb
  *   func_02021EE4 0x02021EE4 thumb
  */
+#include "../include/Obj14284.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02021ED8(const char*);
 struct Obj02021EE4;
 extern void func_02021EE4(struct Obj02021EE4 *o, int v);
-int func_021DCBE8(u8*p){if(func_02021ED8(*(char**)(p+0xb30)))return 1;func_02021EE4((struct Obj02021EE4 *)(*(u32*)(p+0xb30)),0);return 0;}
+int func_021DCBE8(u8*p){if(func_02021ED8(*(char* *)&((struct Obj14284 *)p)->fB30))return 1;func_02021EE4((struct Obj02021EE4 *)(*(u32 *)&((struct Obj14284 *)p)->fB30),0);return 0;}

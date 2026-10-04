@@ -12,12 +12,13 @@
  * symbols:
  *   func_021E8A00  0x021E8A00  thumb  ov177
  */
+#include "../include/Obj00348.h"
 
 extern int func_021E8A00(int);
 
 int func_0217DFBC(int *p)
 {
-    if (*(int *)((char *)p + 0xc))
-        return func_021E8A00(*(int *)((char *)p + 0xc));
+    if (*(int *)&((struct Obj00348 *)p)->fC)
+        return func_021E8A00(*(int *)&((struct Obj00348 *)p)->fC);
     return -1;
 }

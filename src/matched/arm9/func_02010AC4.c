@@ -59,6 +59,7 @@
  * Wave 13: the earlier DIFF read both small pool words as distinct symbols
  * and the size argument as 0x1A8; they are the arguments (0x73, proc, arg).
  */
+#include "../include/Obj00562.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -76,46 +77,46 @@ extern int  func_0203CD98(void);
 
 int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
 {
-    switch (*(u32 *)(ctx + 0x1d4)) {
+    switch (((struct Obj00562 *)ctx)->f1D4) {
     case 0:
-        *(u32 *)(ctx + 0x00) = *(u32 *)(ctx + 0x44);
-        *(u32 *)(ctx + 0x04) = 0;
-        *(u32 *)(ctx + 0x08) = 1;
-        *(u32 *)(ctx + 0x0c) = 0x32;
-        *(u8 **)(ctx + 0x10) = ctx + 0x5c;
+        ((struct Obj00562 *)ctx)->f0 = ((struct Obj00562 *)ctx)->f44;
+        ((struct Obj00562 *)ctx)->f4 = 0;
+        ((struct Obj00562 *)ctx)->f8 = 1;
+        ((struct Obj00562 *)ctx)->fC = 0x32;
+        *(u8 * *)&((struct Obj00562 *)ctx)->f10 = ctx + 0x5c;
         func_020312CC((u32)ov115_id, (u32)d_021D6338, (u32)ctx);
-        *(u32 *)(ctx + 0x1d4) += 1;
+        ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 1:
-        if (*(u32 *)(ctx + 0x1c) == 1) {
-            *(u32 *)(ctx + 0x1d4) = 4;
+        if (((struct Obj00562 *)ctx)->f1C == 1) {
+            ((struct Obj00562 *)ctx)->f1D4 = 4;
             break;
         }
-        *(u32 *)(ctx + 0x48) = *(u32 *)(ctx + 0x44);
-        *(u16 *)(ctx + 0x50) = *(u16 *)(ctx + 0x1d0);
-        *(u8 **)(ctx + 0x4c) = ctx + 0x5c;
+        ((struct Obj00562 *)ctx)->f48 = ((struct Obj00562 *)ctx)->f44;
+        ((struct Obj00562 *)ctx)->f50 = ((struct Obj00562 *)ctx)->f1D0;
+        *(u8 * *)&((struct Obj00562 *)ctx)->f4C = ctx + 0x5c;
         func_020312CC((u32)ov123_id, (u32)d_021DA9A8, (u32)(ctx + 0x48));
-        *(u32 *)(ctx + 0x1d4) += 1;
+        ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 2:
-        if (*(u32 *)(ctx + 0x54) == 1) {
-            *(u32 *)(ctx + 0x1d4) = 4;
+        if (((struct Obj00562 *)ctx)->f54 == 1) {
+            ((struct Obj00562 *)ctx)->f1D4 = 4;
             break;
         }
         func_0200F7B8(0);
-        *(u32 *)(ctx + 0x1d4) += 1;
+        ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     case 3:
-        if (func_0203CD98() == 0 || *(u32 *)(ctx + 0x58) == 1) {
-            *(u32 *)(ctx + 0x14) = 1;
-            *(u32 *)(ctx + 0x1d4) = 0;
+        if (func_0203CD98() == 0 || ((struct Obj00562 *)ctx)->f58 == 1) {
+            ((struct Obj00562 *)ctx)->f14 = 1;
+            ((struct Obj00562 *)ctx)->f1D4 = 0;
             break;
         }
-        *(u32 *)(ctx + 0x28) = *(u32 *)(ctx + 0x44);
-        *(u32 *)(ctx + 0x2c) = 0;
-        *(u32 *)(ctx + 0x30) = 1;
+        ((struct Obj00562 *)ctx)->f28 = ((struct Obj00562 *)ctx)->f44;
+        ((struct Obj00562 *)ctx)->f2C = 0;
+        ((struct Obj00562 *)ctx)->f30 = 1;
         func_020312CC((u32)ov115_id, (u32)d_021D654C, (u32)(ctx + 0x28));
-        *(u32 *)(ctx + 0x1d4) += 1;
+        ((struct Obj00562 *)ctx)->f1D4 += 1;
         break;
     default:
         return 1;

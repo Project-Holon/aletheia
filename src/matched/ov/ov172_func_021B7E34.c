@@ -32,6 +32,7 @@
  *   func_0203A5E4 0x0203A5E4 arm
  *   func_0200FB24 0x0200FB24 thumb
  */
+#include "../include/Obj00289.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -71,103 +72,103 @@ void func_021B7E34(void *p, char *q)
     u8 i;
     u8 j;
     func_021BE00C(p);
-    switch (*(u32 *)(q + 8)) {
+    switch (((struct Obj00289 *)q)->f8) {
     case 0:
-        if (*(u32 *)(q + 0x178) == 0)
+        if (((struct Obj00289 *)q)->f178 == 0)
             break;
-        if (*(u32 *)(q + 0x178) == 5) {
+        if (((struct Obj00289 *)q)->f178 == 5) {
             func_0203D644(0);
-            *(u32 *)(q + 8) = 5;
-            *(u32 *)(q + 0x174) = *(u32 *)(q + 0x178);
+            ((struct Obj00289 *)q)->f8 = 5;
+            ((struct Obj00289 *)q)->f174 = ((struct Obj00289 *)q)->f178;
         } else {
-            *(u32 *)(q + 8) = 1;
+            ((struct Obj00289 *)q)->f8 = 1;
         }
         break;
     case 1:
         func_021B8050(p, q);
-        *(u32 *)(q + 8) = 2;
+        ((struct Obj00289 *)q)->f8 = 2;
         break;
     case 2:
         if (func_0203CD98() != 1)
             break;
-        switch (*(u32 *)(q + 0x178)) {
+        switch (((struct Obj00289 *)q)->f178) {
         case 2:
             func_0203D010();
-            *(u32 *)(q + 8) = 7;
+            ((struct Obj00289 *)q)->f8 = 7;
             break;
         case 3:
             func_0203D01C();
             func_02179328(func_021B8130);
-            *(u32 *)(q + 8) = 3;
+            ((struct Obj00289 *)q)->f8 = 3;
             break;
         case 4:
-            if (*(u32 *)(q + 0x174) == 2)
+            if (((struct Obj00289 *)q)->f174 == 2)
                 func_021B8614((int)p, (int)q, q + 0x64);
             func_0203CFF0(q + 0x17c);
-            *(u32 *)(q + 8) = 3;
+            ((struct Obj00289 *)q)->f8 = 3;
             break;
         }
-        *(u32 *)(q + 0x174) = *(u32 *)(q + 0x178);
+        ((struct Obj00289 *)q)->f174 = ((struct Obj00289 *)q)->f178;
         break;
     case 3:
         if (func_02039ACC() == 1)
-            *(u32 *)(q + 8) = 4;
-        if (*(u32 *)(q + 0x174) != *(u32 *)(q + 0x178))
-            *(u32 *)(q + 8) = 8;
+            ((struct Obj00289 *)q)->f8 = 4;
+        if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
+            ((struct Obj00289 *)q)->f8 = 8;
         break;
     case 4:
         if (func_020399B8((u8 *)func_020399A8()) == 1)
-            *(u32 *)(q + 8) = 7;
-        if (*(u32 *)(q + 0x174) != *(u32 *)(q + 0x178))
-            *(u32 *)(q + 8) = 8;
+            ((struct Obj00289 *)q)->f8 = 7;
+        if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
+            ((struct Obj00289 *)q)->f8 = 8;
         break;
     case 5:
         h = (u32)func_020399A8();
         func_0203A574(0x2000, (u32)d_021C6ED4, 4, (u32)q);
         func_02039C68((struct Link *)h, 8, 0x20);
-        *(u32 *)(q + 8) = 6;
+        ((struct Obj00289 *)q)->f8 = 6;
         break;
     case 6:
         if (func_02039CB4((struct Link *)func_020399A8(), 8, 0x20) == 1)
-            *(u32 *)(q + 8) = 7;
+            ((struct Obj00289 *)q)->f8 = 7;
         break;
     case 7:
         func_021B8154(p, q);
-        if (*(u32 *)(q + 0x174) != *(u32 *)(q + 0x178))
-            *(u32 *)(q + 8) = 8;
-        if (*(u32 *)(q + 0x174) == 2)
+        if (((struct Obj00289 *)q)->f174 != ((struct Obj00289 *)q)->f178)
+            ((struct Obj00289 *)q)->f8 = 8;
+        if (((struct Obj00289 *)q)->f174 == 2)
             func_021B8448(p, q);
         break;
     case 8:
         func_0203CEAC(0);
-        *(u32 *)(q + 8) = 11;
+        ((struct Obj00289 *)q)->f8 = 11;
         break;
     case 11:
         if (func_0203CDBC() != 1)
             break;
-        if (*(u32 *)(q + 0x178) == 1)
-            *(u32 *)(q + 8) = 12;
+        if (((struct Obj00289 *)q)->f178 == 1)
+            ((struct Obj00289 *)q)->f8 = 12;
         else
-            *(u32 *)(q + 8) = 1;
+            ((struct Obj00289 *)q)->f8 = 1;
         break;
     case 9:
         func_02039C68((struct Link *)func_020399A8(), 9, 0x20);
-        *(u32 *)(q + 8) = 10;
+        ((struct Obj00289 *)q)->f8 = 10;
         break;
     case 10:
         if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x20) == 1) {
             func_0203A5E4(0x2000);
-            *(u32 *)(q + 8) = 12;
+            ((struct Obj00289 *)q)->f8 = 12;
         }
         if (func_0200FB24() != 0) {
             func_0203A5E4(0x2000);
-            *(u32 *)(q + 8) = 12;
+            ((struct Obj00289 *)q)->f8 = 12;
         }
         break;
     }
-    if (*(u16 *)(q + 0x3d0) != 0) {
-        (*(u16 *)(q + 0x3d0))--;
-        if (*(u16 *)(q + 0x3d0) == 0) {
+    if (((struct Obj00289 *)q)->f3D0 != 0) {
+        (((struct Obj00289 *)q)->f3D0)--;
+        if (((struct Obj00289 *)q)->f3D0 == 0) {
             for (i = 0; i < 3; i++)
                 for (j = 0; j < 6; j++)
                     *(u8 *)(q + i * 6 + j + 0x2e) = 0xff;

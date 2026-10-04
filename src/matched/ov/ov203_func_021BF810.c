@@ -14,6 +14,7 @@
  *   func_021BF924 0x021BF924 thumb ov203
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj02250.h"
 typedef struct { int kind;int values[9]; } Record;
 extern Record *func_021BE9A4(int);
 extern void func_021BF9B8(char *,int,Record *),func_020310C4(void *),func_021BF924(char *),func_020307B0(void *);
@@ -21,11 +22,11 @@ void func_021BF810(char *p)
 {
     Record *r;
     int owner,i;
-    owner=*(int *)(p+0x1C);r=func_021BE9A4(*(int *)(p+4));
+    owner=((struct Obj02250 *)p)->f1C;r=func_021BE9A4(((struct Obj02250 *)p)->f4);
     for(i=0;i<9999;i++,r++) {
         if(r->kind==18) break;
         func_021BF9B8(p,owner,r);
     }
-    *(int *)(p+0xC)=1;
-    func_020310C4(*(void **)(p+0x20));func_021BF924(p);func_020307B0(p);
+    ((struct Obj02250 *)p)->fC=1;
+    func_020310C4(((struct Obj02250 *)p)->f20);func_021BF924(p);func_020307B0(p);
 }

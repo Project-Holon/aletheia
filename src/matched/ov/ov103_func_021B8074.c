@@ -26,6 +26,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj03231.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -33,4 +34,4 @@ extern int func_021B8004(void *); extern int func_021B8000(void *); extern int f
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *); extern void func_02043B5C(int,u8); extern void func_02045CAC(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
 extern void func_02082BCC(void *,int,int); extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,u8,u8,u8); extern int func_020457B0(int,u16); extern void func_02045334(struct Descriptor *); extern void func_02045374(int); extern int func_02045730(int); extern void func_020409B4(int);
-void func_021B8074(u8 *p,int a,int b,u8 c,u8 d,u8 e,u8 f,u16 g,u8 h,u16 i) {int q; func_02082BCC(p,0,20); *(u16 *)(p+16)=g; *(int *)p=func_020450F0(a,b,c,d,e,f,h); *(int *)(p+12)=func_020457B0(255,i); *(int *)(p+4)=*(int *)p; p[8]=0; func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p),*(u16 *)(p+16)); q=*(int *)p; func_02045334((struct Descriptor *)q); func_02045374(q); func_020409B4(func_02045730(q)); }
+void func_021B8074(u8 *p,int a,int b,u8 c,u8 d,u8 e,u8 f,u16 g,u8 h,u16 i) {int q; func_02082BCC(p,0,20); ((struct Obj03231 *)p)->f10=g; ((struct Obj03231 *)p)->f0=func_020450F0(a,b,c,d,e,f,h); ((struct Obj03231 *)p)->fC=func_020457B0(255,i); ((struct Obj03231 *)p)->f4=((struct Obj03231 *)p)->f0; p[8]=0; func_02043B5C((int)func_02045770((struct Descriptor *)((struct Obj03231 *)p)->f0),((struct Obj03231 *)p)->f10); q=((struct Obj03231 *)p)->f0; func_02045334((struct Descriptor *)q); func_02045374(q); func_020409B4(func_02045730(q)); }

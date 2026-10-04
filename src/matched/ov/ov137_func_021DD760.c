@@ -13,6 +13,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj05425.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
@@ -20,4 +21,4 @@ struct Descriptor;
 extern void func_0201FEF4(u8 *o);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
-void func_021DD760(u8 *p) {if(*(void **)(p+232)!=0)func_0201FEF4(*(void **)(p+232));func_020452E8(*(void **)(p+208));func_020452E8(*(void **)(p+220));func_020452E8(*(void **)(p+216));func_020452E8(*(void **)(p+212));func_020450C8();}
+void func_021DD760(u8 *p) {if(((struct Obj05425 *)p)->fE8!=0)func_0201FEF4(((struct Obj05425 *)p)->fE8);func_020452E8(((struct Obj05425 *)p)->fD0);func_020452E8(((struct Obj05425 *)p)->fDC);func_020452E8(((struct Obj05425 *)p)->fD8);func_020452E8(((struct Obj05425 *)p)->fD4);func_020450C8();}

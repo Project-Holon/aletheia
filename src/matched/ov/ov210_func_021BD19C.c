@@ -25,6 +25,10 @@
  * exists, re-verify; this should then be EXACT and move to src/matched/ov/.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
+#include "../include/Obj25602.h"
+#include "../include/Obj25603.h"
+#include "../include/Obj25604.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +50,7 @@ extern void func_0202EA40(struct Row *p);
 
 u32 func_021BD19C(u8 *p)
 {
-    if (func_021BCE58(p) == 1 || func_02021ED8((const char *)(*(u32 *)(p + 0xc))) != 0) {
+    if (func_021BCE58(p) == 1 || func_02021ED8((const char *)(*(u32 *)&((struct Obj00085 *)p)->fC)) != 0) {
         return 4;
     }
     switch (func_021BFF68(p)) {
@@ -77,13 +81,13 @@ u32 func_021BD19C(u8 *p)
         break;
     case 8:
         func_020061E4(0x556);
-        *(u32 *)(*(u8 **)p + 0xc) = 2;
+        ((struct Obj25602 *)(*(u8 * *)&((struct Obj00085 *)p)->f0))->fC = 2;
         func_021BEDB8((int)p, 3, 8);
         return func_021BE2F4(p, 1, 3, 0x1a);
     case 9:
         func_020061E4(0x551);
         func_021BCF38(p);
-        *(u32 *)(*(u8 **)p + 0xc) = 1;
+        ((struct Obj25603 *)(*(u8 * *)&((struct Obj00085 *)p)->f0))->fC = 1;
         func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 0x1a);
     case (u32)-4:
@@ -95,10 +99,10 @@ u32 func_021BD19C(u8 *p)
     case (u32)-2:
         func_020061E4(0x551);
         func_021BCF38(p);
-        *(u32 *)(*(u8 **)p + 0xc) = 1;
+        ((struct Obj25604 *)(*(u8 * *)&((struct Obj00085 *)p)->f0))->fC = 1;
         func_021BEDB8((int)p, 2, 9);
         return func_021BE2F4(p, 1, 2, 0x1a);
     }
-    func_0202EA40((struct Row *)(*(u32 *)(p + 0x2b4)));
+    func_0202EA40((struct Row *)(((struct Obj00085 *)p)->f2B4));
     return 4;
 }

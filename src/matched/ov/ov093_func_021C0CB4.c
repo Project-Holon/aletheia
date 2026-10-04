@@ -15,6 +15,7 @@
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
  */
+#include "../include/Obj21064.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,6 +34,6 @@ u32 func_021C0CB4(u8 *p, const struct Q *q, u32 *out)
 {
     u32 i = 0;
     for (; i < q->n; i++)
-        out[i] = (u32)func_021B9934(*(char **)(p + 8), (u8)q->e[i].lo);
+        out[i] = (u32)func_021B9934(*(char * *)&((struct Obj21064 *)p)->f8, (u8)q->e[i].lo);
     return q->n;
 }

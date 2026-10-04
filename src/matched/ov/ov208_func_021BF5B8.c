@@ -13,6 +13,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02061CA4 0x02061CA4 arm
  */
+#include "../include/Obj25493.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,7 +32,7 @@ void func_021BF5B8(u16 *heap, u8 *p)
     func_02082D44(data + 0x20, p + 0xa8, 32);
     func_02082D44(data + 0x60, p + 0xc8, 32);
     func_020307B0((void *)file);
-    *(u32 *)(p + 0x108) = 0;
+    ((struct Obj25493 *)p)->f108 = 0;
     func_02082D44(p + 0xa8, p + 0xe8, 32);
     func_02061CA4((void *)14, 192, (u32)(p + 0xe8), 32);
 }

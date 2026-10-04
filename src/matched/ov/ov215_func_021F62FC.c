@@ -13,8 +13,10 @@
  * symbols:
  *   func_0201FDA0 0x0201FDA0 thumb
  */
+#include "../include/Obj06706.h"
+#include "../include/Obj25748.h"
 struct WinDat;
 struct BmpMenu;
 extern struct BmpMenu *func_0201FDA0(const struct WinDat *,unsigned short,unsigned char,unsigned char,unsigned short);
-int func_021F62FC(int a,char *p){*(struct BmpMenu **)(p+0x78)=func_0201FDA0((const struct WinDat *)(p+0x70),*(unsigned *)(p+0x60),2,0,*(unsigned short *)p);*(int *)(p+0x7c)=2;*(int *)(p+0x20)=1;return 1;}
-int func_021F6324(int a,char *p){return *(int *)(p+0x7c);}
+int func_021F62FC(int a,char *p){*(struct BmpMenu * *)&((struct Obj06706 *)p)->f78=func_0201FDA0((const struct WinDat *)(p+0x70),((struct Obj06706 *)p)->f60,2,0,((struct Obj06706 *)p)->f0);((struct Obj06706 *)p)->f7C=2;((struct Obj06706 *)p)->f20=1;return 1;}
+int func_021F6324(int a,char *p){return ((struct Obj25748 *)p)->f7C;}

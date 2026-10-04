@@ -16,6 +16,9 @@
  *   func_021BA528  0x021BA528  thumb  ov071
  *   func_021BA5D4  0x021BA5D4  thumb  ov071
  */
+#include "../include/Obj06192.h"
+#include "../include/Obj09900.h"
+#include "../include/Obj13188.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -42,8 +45,8 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
         t = (*(u32 **)(o + 4))[2];
         e = c + i * 8;
         if (e[0x10] != 0) {
-            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(e + 0xc)))) == 0) {
-                func_02045334((struct Descriptor *)*(u32 *)(e + 0xc));
+            if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06192 *)e)->fC))) == 0) {
+                func_02045334((struct Descriptor *)((struct Obj06192 *)e)->fC);
                 e[0x10] = 0;
             }
         }
@@ -51,12 +54,12 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
     }
     if (*b == 0) {
         if ((*(u8 **)(o + 8))[3] == 1 && f[1] == 1) {
-            func_021BA528(o, *(void **)(o + 4), c);
+            func_021BA528(o, ((struct Obj09900 *)o)->f4, c);
             (*(u8 **)(o + 8))[3] = 0;
         }
-        if ((*(u8 **)(o + 8))[1] != *(u32 *)(c + 0x24) && f[2] == 1) {
-            func_021BA5D4(o, *(void **)(o + 4), c);
-            *(u32 *)(c + 0x24) = (*(u8 **)(o + 8))[1];
+        if ((*(u8 **)(o + 8))[1] != ((struct Obj13188 *)c)->f24 && f[2] == 1) {
+            func_021BA5D4(o, ((struct Obj09900 *)o)->f4, c);
+            ((struct Obj13188 *)c)->f24 = (*(u8 **)(o + 8))[1];
         }
         return 0;
     }

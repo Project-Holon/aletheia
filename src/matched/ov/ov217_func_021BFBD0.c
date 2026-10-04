@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25954.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern void func_0201ED04(struct WordSet *p);
 
 void func_021BFBD0(u8 *a0)
 {
-    func_0201ED04((struct WordSet *)((u32)(*(u32*)(a0 + 24))));
+    func_0201ED04((struct WordSet *)((u32)(((struct Obj25954 *)a0)->f18)));
 }
 

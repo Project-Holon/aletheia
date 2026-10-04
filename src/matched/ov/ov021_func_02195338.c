@@ -18,6 +18,7 @@
  *   func_0219518C  0x0219518C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01494.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,17 +47,17 @@ u32 func_02195338(u8 *p, u8 *e)
     int c;
     int r;
 
-    if (*(u32 *)(e + 0x10) != 0) {
-        func_0207CA00(*(u32 *)(e + 0x10), p + 0xCB8, &v1);
+    if (((struct Obj01494 *)e)->f10 != 0) {
+        func_0207CA00(((struct Obj01494 *)e)->f10, p + 0xCB8, &v1);
         func_02194E74(&v1, &b, &c, &v8);
     } else {
-        func_02194E90(e, p + 0x18 + *(u16 *)(e + 0x1A) * 100, &b, &c, &v8);
+        func_02194E90(e, p + 0x18 + ((struct Obj01494 *)e)->f1A * 100, &b, &c, &v8);
     }
     r = func_02194F84(e, b, c, &v7, &v6);
     func_02195128(e, &v5, &v4, &v3, &v2);
     func_0219518C(p, e, &v8, &v7, &v6, &v5, &v4, &v3, &v2);
-    if (*(int *)(e + 0x58) != r) {
-        *(int *)(e + 0x58) = r;
+    if (((struct Obj01494 *)e)->f58 != r) {
+        ((struct Obj01494 *)e)->f58 = r;
         return 1;
     }
     return 0;

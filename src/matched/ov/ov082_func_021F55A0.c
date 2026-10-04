@@ -18,6 +18,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_021F5648  0x021F5648  thumb  ov082
  */
+#include "../include/Obj05164.h"
 
 typedef unsigned int u32;
 
@@ -44,7 +45,7 @@ int func_021F55A0(void *a0, int *st)
     w = *(char **)func_02189A60(obj);
     switch (*st) {
     case 0:
-        if (*(int *)(w + 0x70) != 0)
+        if (((struct Obj05164 *)w)->f70 != 0)
             func_0204E720(3, 0, 0x10, -8);
         else
             func_0204E720(1, 0, 0x10, 0);
@@ -53,16 +54,16 @@ int func_021F55A0(void *a0, int *st)
     case 1:
         if (func_0204E804() != 0)
             break;
-        func_02030EAC((struct Node *)(*(int *)(w + 0x14)));
+        func_02030EAC((struct Node *)(((struct Obj05164 *)w)->f14));
         (*st)++;
         break;
     case 2:
-        if (*(int *)(w + 0x2C) != 0)
+        if (((struct Obj05164 *)w)->f2C != 0)
             break;
-        if (*(int *)(w + 0x50) != 0)
+        if (((struct Obj05164 *)w)->f50 != 0)
             break;
-        func_02030EAC((struct Node *)(*(int *)(w + 0x18)));
-        t = *(int *)(w + 0x70);
+        func_02030EAC((struct Node *)(((struct Obj05164 *)w)->f18));
+        t = ((struct Obj05164 *)w)->f70;
         func_021F5648(obj, w);
         if (t != 0)
             return 1;

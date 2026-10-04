@@ -26,6 +26,7 @@
  * symbols:
  *   func_0206DDA4  0x0206DDA4  arm
  */
+#include "../include/Obj08939.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -37,7 +38,7 @@ void func_02070D18(u8 *a)
     u32 f;
     u32 first;
 
-    f = *(u32 *)a;
+    f = ((struct Obj08939 *)a)->f0;
     first = 0;
     if ((f & 4) == 0)
         first = 1;
@@ -48,7 +49,7 @@ void func_02070D18(u8 *a)
         }
         func_0206DDA4(0x1b, a + 0x10, 3);
     }
-    f = *(u32 *)a;
+    f = ((struct Obj08939 *)a)->f0;
     if ((f & 2) == 0) {
         if (first != 0)
             func_0206DDA4(0x19, a + 0x28, 0xc);
@@ -58,7 +59,7 @@ void func_02070D18(u8 *a)
         if (first != 0)
             func_0206DDA4(0x1c, a + 0x4c, 3);
     }
-    f = *(u32 *)a;
+    f = ((struct Obj08939 *)a)->f0;
     if ((f & 1) == 0)
         func_0206DDA4(0x1b, a + 4, 3);
 }

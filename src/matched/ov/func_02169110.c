@@ -13,6 +13,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_02008B14  0x02008B14  thumb
  */
+#include "../include/Obj17740.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,5 +35,5 @@ int func_02169110(int a0)
 loc_02169116:
     s = func_02008B14(big);
 loc_0216911A:
-a0 = *(int *)((char *)s + 0x18);
+a0 = ((struct Obj17740 *)s)->f18;
     return a0;}

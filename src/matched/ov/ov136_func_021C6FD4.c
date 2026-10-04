@@ -17,6 +17,8 @@
  *   func_021C71BC 0x021C71BC thumb ov136
  *   func_020260E0 0x020260E0 thumb
  */
+#include "../include/Obj01066.h"
+#include "../include/Obj23628.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
@@ -32,11 +34,11 @@ extern int func_021C71BC(char *, int);
 int func_021C6FD4(u8 *p)
 {
     func_021C7360(p);
-    func_021C76D0(p, func_020260E0(*(void **)(*(u8 **)(p + 8) + 0x294)));
-    func_021C61D0(*(void **)(p + 8));
-    func_0202CC70(**(void ***)(p + 8), 10);
-    func_021C66B8(*(void **)(p + 8), 2, 1);
-    func_021C7298(*(void **)(p + 8), 0);
+    func_021C76D0(p, func_020260E0(((struct Obj23628 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
+    func_021C61D0(((struct Obj01066 *)p)->f8);
+    func_0202CC70(**(void ** *)&((struct Obj01066 *)p)->f8, 10);
+    func_021C66B8(((struct Obj01066 *)p)->f8, 2, 1);
+    func_021C7298(((struct Obj01066 *)p)->f8, 0);
     return 9;
 }
 int func_021C7018(char *p)

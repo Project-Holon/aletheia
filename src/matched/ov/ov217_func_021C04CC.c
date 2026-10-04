@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25964.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,5 +36,5 @@ void func_021C04CC(u8 *p)
 {
     int i;
     for (i = 0; i < 2; i++)
-        *(int *)(p + i * 4 + 0x3B0) = (int)func_02043678(d_021C37A4[i].a, d_021C37A4[i].b, d_021C37A4[i].c, *(u16 *)(p + 4));
+        *(int *)(p + i * 4 + 0x3B0) = (int)func_02043678(d_021C37A4[i].a, d_021C37A4[i].b, d_021C37A4[i].c, ((struct Obj25964 *)p)->f4);
 }

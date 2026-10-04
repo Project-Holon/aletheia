@@ -15,6 +15,7 @@
  *
  * Store two words into the object at +0x28 and +0x2c.
  */
+#include "../include/Obj00018.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,6 +23,6 @@ typedef unsigned int u32;
 typedef signed int s32;
 void func_021F4E98(u8 *p, u32 a, u32 b)
 {
-    *(u32 *)(p + 0x28) = a;
-    *(u32 *)(p + 0x2c) = b;
+    ((struct Obj00018 *)p)->f28 = a;
+    ((struct Obj00018 *)p)->f2C = b;
 }

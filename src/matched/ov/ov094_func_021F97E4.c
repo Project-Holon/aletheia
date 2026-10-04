@@ -16,6 +16,7 @@
  *   func_021FC448 0x021FC448 thumb ov094
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10136.h"
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021FC448(void *, char *);
@@ -25,9 +26,9 @@ void func_021F97E4(void *a)
 {
     char *s = func_02011324(a);
 
-    if (*(void **)(s + 0x1e8) != 0) {
+    if (((struct Obj10136 *)s)->f1E8 != 0) {
         func_021FC448(a, func_02011324(a));
-        func_020307B0(*(void **)(s + 0x1e8));
-        *(void **)(s + 0x1e8) = 0;
+        func_020307B0(((struct Obj10136 *)s)->f1E8);
+        ((struct Obj10136 *)s)->f1E8 = 0;
     }
 }

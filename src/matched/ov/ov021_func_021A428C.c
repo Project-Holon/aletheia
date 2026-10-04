@@ -27,6 +27,7 @@
  * Addresses are Black-image addresses.
  * d_021D8A2C carries no ov021 token: with it the hint reads as contested.
  */
+#include "../include/Obj00656.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -62,16 +63,16 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
     sel = 0x546;
     lim = 0;
     mode = 0;
-    if (func_021A3974(*(u32 *)(o + 0xc)) == 1) {
+    if (func_021A3974(*(u32 *)&((struct Obj00656 *)o)->fC) == 1) {
         mode = 2;
     } else if (func_021A5318(o, 0x20) != 0) {
         mode = 1;
     }
     if (mode == 0) {
-        *(u16 *)(o + 0x18) = 0x546;
-        *(u16 *)(o + 0x1a) = 0;
+        ((struct Obj00656 *)o)->f18 = 0x546;
+        ((struct Obj00656 *)o)->f1A = 0;
     }
-    if (func_02163E34(func_021A3960(*(void **)(o + 0xc)), c, &id) == 1) {
+    if (func_02163E34(func_021A3960(((struct Obj00656 *)o)->fC), c, &id) == 1) {
         bits = func_021AB0F8(id);
         if (flag == 0) {
             t = d_021D8A00;
@@ -108,20 +109,20 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
         }
         if (sel == 0x546) {
             if (flag == 1) {
-                *(u16 *)(o + 0x1a) = 0;
+                ((struct Obj00656 *)o)->f1A = 0;
             }
         } else if (mode != 0) {
-            if (*(u16 *)(o + 0x18) != sel) {
-                *(u16 *)(o + 0x1a) = 0;
+            if (((struct Obj00656 *)o)->f18 != sel) {
+                ((struct Obj00656 *)o)->f1A = 0;
             }
-            if (*(u16 *)(o + 0x1a) != 0 && *(u16 *)(o + 0x1a) < lim) {
+            if (((struct Obj00656 *)o)->f1A != 0 && ((struct Obj00656 *)o)->f1A < lim) {
                 sel = 0x546;
             }
-            if (*(u16 *)(o + 0x1a) >= lim) {
-                *(u16 *)(o + 0x1a) = 0;
+            if (((struct Obj00656 *)o)->f1A >= lim) {
+                ((struct Obj00656 *)o)->f1A = 0;
             }
-            *(u16 *)(o + 0x18) = sel;
-            *(u16 *)(o + 0x1a) = *(u16 *)(o + 0x1a) + 1;
+            ((struct Obj00656 *)o)->f18 = sel;
+            ((struct Obj00656 *)o)->f1A = ((struct Obj00656 *)o)->f1A + 1;
         }
         if (sel != 0x546) {
             func_020061E4(sel);

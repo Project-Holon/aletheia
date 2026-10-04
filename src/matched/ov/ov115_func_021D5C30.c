@@ -14,6 +14,7 @@
  *   func_020056BC 0x020056BC thumb
  *   func_0202EE30 0x0202EE30 thumb
  */
+#include "../include/Obj04466.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021D5B5C(void *, unsigned int, int);
@@ -22,9 +23,9 @@ extern unsigned int func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 void func_021D5C30(u8 *p, unsigned int a, int b) {
     func_021D5B5C(p, a, b);
-    if (*(void **)(p + 0x80)) {
-        func_0202F038(*(void **)(p + 0x80));
-        *(void **)(p + 0x80) = 0;
+    if (((struct Obj04466 *)p)->f80) {
+        func_0202F038(((struct Obj04466 *)p)->f80);
+        ((struct Obj04466 *)p)->f80 = 0;
     }
-    *(void **)(p + 0x80) = func_0202EE30((void *)func_020056BC(), *(void **)(p + 0x2c), 15, 16, *(u16 *)(p + 0x4c));
+    ((struct Obj04466 *)p)->f80 = func_0202EE30((void *)func_020056BC(), ((struct Obj04466 *)p)->f2C, 15, 16, ((struct Obj04466 *)p)->f4C);
 }

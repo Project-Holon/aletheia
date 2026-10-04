@@ -12,6 +12,7 @@
  *   func_021CA25C 0x021CA25C thumb ov128
  * Extent ends with two bytes of zero alignment padding.
  */
+#include "../include/Obj23113.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -24,7 +25,7 @@ void func_021CA2DC(char *p)  {
     }
     else  {
         for(i=0;i<8;i++)  {
-            if(i==*(short *)(p+4)) func_021CA25C(i,3);
+            if(i==((struct Obj23113 *)p)->f4) func_021CA25C(i,3);
             else func_021CA25C(i,1);
         }
     }

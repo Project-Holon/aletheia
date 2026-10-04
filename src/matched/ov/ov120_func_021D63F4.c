@@ -25,6 +25,7 @@
  *   d_021D8944 0x021D8944 data a4
  *   d_021D8964 0x021D8964 data a4
  */
+#include "../include/Obj05350.h"
 typedef unsigned char u8;
 typedef struct Pair { int a,b; } Pair;
 typedef struct Word { int a; } Word;
@@ -38,8 +39,8 @@ extern void func_0207E468(void *,int,int);
 void func_021D63F4(u8 *p,int flag,int mode)
 {
     if(flag) {
-        func_02082D44((void *)0x05000600,*(void **)(p+0x124),0x200);
-        func_02082D44((void *)0x05000400,*(void **)(p+0x128),0x200);
+        func_02082D44((void *)0x05000600,((struct Obj05350 *)p)->f124,0x200);
+        func_02082D44((void *)0x05000400,((struct Obj05350 *)p)->f128,0x200);
         switch(mode) {
         case 2: {
             Word a={0};
@@ -75,9 +76,9 @@ void func_021D63F4(u8 *p,int flag,int mode)
         }
         }
     } else {
-        func_020862F0(*(void **)(p+0x124),0x200);
-        func_0207E5D0(*(void **)(p+0x124),0,0x200);
-        func_020862F0(*(void **)(p+0x128),0x200);
-        func_0207E468(*(void **)(p+0x128),0,0x200);
+        func_020862F0(((struct Obj05350 *)p)->f124,0x200);
+        func_0207E5D0(((struct Obj05350 *)p)->f124,0,0x200);
+        func_020862F0(((struct Obj05350 *)p)->f128,0x200);
+        func_0207E468(((struct Obj05350 *)p)->f128,0,0x200);
     }
 }

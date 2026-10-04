@@ -53,6 +53,9 @@
  *   python3 tools/match.py one --src src/matched/func_02031FE0.c \
  *       --func func_02031FE0 --addr 0x02031FE0 --arm
  */
+#include "../include/Obj08817.h"
+#include "../include/Obj08818.h"
+#include "../include/Obj15881.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -73,7 +76,7 @@ extern struct SaveMain *g_02146994;
 extern const char str_020A7848[];
 
 extern void  func_020333F8(Save *self);
-static inline u16 cnt16(u8 *p){ return *(u16 *)p; }
+static inline u16 cnt16(u8 *p){ return ((struct Obj15881 *)p)->f0; }
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02031EAC(Save *self, u32 sel);
 extern int func_020335E8(u32 a0, u32 a1, u32 a2, void (*a3)(void));
@@ -194,17 +197,17 @@ int func_02031FE0(Save *self, u32 heap, u32 mode, u32 gen)
             pa = h + AB;
             pb = buf + AB;
             func_0203331C(self, i, 0);
-            if (*(u16 *)(pa + 2) != tbl[i]
-                && *(u16 *)(pb + 2) != tbl[i])
+            if (((struct Obj08817 *)pa)->f2 != tbl[i]
+                && ((struct Obj08818 *)pb)->f2 != tbl[i])
                 break;
-            if (*(u16 *)(pa + 2) == tbl[i]) {
-                if (*(u16 *)(pa + 2) != func_02081B8C((u8 *)g_02146994 + 4, h + A, B))
+            if (((struct Obj08817 *)pa)->f2 == tbl[i]) {
+                if (((struct Obj08817 *)pa)->f2 != func_02081B8C((u8 *)g_02146994 + 4, h + A, B))
                     func_0203331C(self, i, 1);
             } else {
                 func_0203331C(self, i, 1);
             }
-            if (*(u16 *)(pb + 2) == tbl[i]) {
-                if (*(u16 *)(pb + 2) != func_02081B8C((u8 *)g_02146994 + 4, buf + A, B)) {
+            if (((struct Obj08818 *)pb)->f2 == tbl[i]) {
+                if (((struct Obj08818 *)pb)->f2 != func_02081B8C((u8 *)g_02146994 + 4, buf + A, B)) {
                     if (func_020332FC(self, i) == 1)
                         break;
                     func_0203331C(self, i, 2);

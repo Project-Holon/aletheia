@@ -12,6 +12,7 @@
  *   func_020061E4 0x020061E4 thumb
  * Extent past 021F9088 contains three callback pointers and zero rodata.
  */
+#include "../include/Obj24763.h"
 extern void func_021FD860(void *,int,int *);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -22,7 +23,7 @@ int func_021F9048(char *p,unsigned x,unsigned y)
         int pair[2];
         pair[0]=x;
         pair[1]=y;
-        func_021FD860(*(void **)(p+0x3c),1,pair);
+        func_021FD860(((struct Obj24763 *)p)->f3C,1,pair);
         func_020061E4(0x703);
     }
     return inside;

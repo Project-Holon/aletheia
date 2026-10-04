@@ -21,6 +21,7 @@
  *   func_021D62A8  0x021D62A8  thumb  ov093
  *   func_021B9AF8  0x021B9AF8  thumb  ov070
  */
+#include "../include/Obj10180.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -46,9 +47,9 @@ void func_02188FCC(int a, int b, int c)
 
     t0 = func_0201134C(a);
     t1 = func_0201134C(a);
-    n = func_021B8DE4((char *)(*(int *)(b + 0xb0)), func_0218A160((u8 *)b, t0));
-    handle = func_021B9AF8(*(char **)(b + 0xb8), n);
-    for (i = func_021B99B8((void *)(*(int *)(b + 0xb0)), n);
+    n = func_021B8DE4((char *)(((struct Obj10180 *)b)->fB0), func_0218A160((u8 *)b, t0));
+    handle = func_021B9AF8(*(char * *)&((struct Obj10180 *)b)->fB8, n);
+    for (i = func_021B99B8((void *)(((struct Obj10180 *)b)->fB0), n);
          i < func_021B9B94((struct Q1 *)handle); i++) {
         u8 *t = func_0218A308(handle, (unsigned char)i);
 

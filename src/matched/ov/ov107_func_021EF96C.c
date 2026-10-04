@@ -17,6 +17,7 @@
  *   func_021F0754 0x021F0754 thumb ov107
  *   func_021F080C 0x021F080C thumb ov107
  */
+#include "../include/Obj00072.h"
 typedef unsigned char u8;
 typedef struct { int a,b; } Pair;
 typedef struct { int words[15]; } Config;
@@ -32,8 +33,8 @@ void func_021EF96C(u8 *p) {
  Config cfg=d_021F6C40;
  int v=func_02179024();
  func_02082D44(&cfg,p+128,60);
- *(int *)(p+128)=p[40]==0?a.a:a.b;
- *(int *)(p+140)=b.b;*(int *)(p+144)=c.b;
- *(int *)(p+132)=*(int *)(p+80);*(int *)(p+136)=*(int *)(p+84);
+ ((struct Obj00072 *)p)->f80=p[40]==0?a.a:a.b;
+ ((struct Obj00072 *)p)->f8C=b.b;((struct Obj00072 *)p)->f90=c.b;
+ ((struct Obj00072 *)p)->f84=((struct Obj00072 *)p)->f50;((struct Obj00072 *)p)->f88=((struct Obj00072 *)p)->f54;
  func_021F0754(4992,65536);func_021F080C(p+128,v);
 }

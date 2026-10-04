@@ -33,6 +33,7 @@
  *   g_021EE724_ref 0x021EE724  data  a2
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20016.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -94,7 +95,7 @@ int func_021B5A18(void *a, void *b)
     func_0216CDB8(snd, (u32)&g_021EE724_ref);
     q = func_0218FE70(obj);
     p->f0 = g_021EE724;
-    v = *(u16 *)(q + 0x26);
+    v = ((struct Obj20016 *)q)->f26;
     p->f4 = v;
     m = v % 0x4000;
     if (m >= 0x2000) {

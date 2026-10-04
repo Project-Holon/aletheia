@@ -17,6 +17,12 @@
  *   func_0220C6F8 0x0220C6F8 thumb ov197
  *   d_0220DB88 0x0220DB88 data a4
  */
+#include "../include/Obj01075.h"
+#include "../include/Obj25037.h"
+#include "../include/Obj25038.h"
+#include "../include/Obj25039.h"
+#include "../include/Obj25040.h"
+#include "../include/Obj25041.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Pair { short x, y; };
@@ -38,11 +44,11 @@ void func_0220C574(char *p)
             func_0220C180(p, item, i, i);
             func_0220C220(p, item, i);
             func_0220C4D4(*(int *)(p + i * 4 + 0x424), (int)&d_0220DB88[i]);
-            if (*(int *)(*(char **)p + 8) == 1)
+            if (((struct Obj25037 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
                 func_0220C724(p, i * 8 + 7, func_0220BBD8(item), 0, &d_0220DB88[i + 6]);
         }
     }
-    if (*(int *)(*(char **)p + 8) == 1)
-        func_0220C724(p, 55, *(u8 *)(*(char **)p + 0x14), *(u8 *)(*(char **)p + 0x15), &d_0220DB88[i + 6]);
-    if (*(int *)(*(char **)p + 8) == 2) func_0220C6F8((u8 *)p, 64, 16);
+    if (((struct Obj25038 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 1)
+        func_0220C724(p, 55, ((struct Obj25039 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f14, ((struct Obj25040 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f15, &d_0220DB88[i + 6]);
+    if (((struct Obj25041 *)(*(char * *)&((struct Obj01075 *)p)->f0))->f8 == 2) func_0220C6F8((u8 *)p, 64, 16);
 }

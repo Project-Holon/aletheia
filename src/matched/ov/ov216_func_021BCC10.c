@@ -15,6 +15,7 @@
  *   func_021BCD00 0x021BCD00 thumb ov216
  *   func_021BD6F0 0x021BD6F0 thumb ov216
  */
+#include "../include/Obj05554.h"
 
 typedef unsigned int u32;
 extern int func_021B6470(unsigned char *);
@@ -28,9 +29,9 @@ extern void func_021BCD00(int);
 extern void func_021BD6F0(void *);
 int func_021BCC10(unsigned char *p)
 {
-    int state=func_021B6470(*(void **)(p+0x124));
+    int state=func_021B6470(((struct Obj05554 *)p)->f124);
     unsigned keys=func_020362DC();
-    if(func_02012204((const struct Ctx *)**(void ***)(p+0x14))) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
+    if(func_02012204((const struct Ctx *)**(void ** *)&((struct Obj05554 *)p)->f14)) { (*(unsigned char **)(p+0x14))[9]=1; return 4; }
     if(state==1) { (*(unsigned char **)(p+0x14))[9]=0; return 4; }
     if(state==3 && p[0x30]) { func_021BD89C(p,1); return 3; }
     if(state==2 && p[0x30]<p[0x2f]-1) { func_021BD89C(p,0); return 3; }

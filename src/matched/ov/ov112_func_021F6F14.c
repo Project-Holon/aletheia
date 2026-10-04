@@ -8,10 +8,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj08025.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 void func_021F6F14(void *a,char *p,u16 b,u8 c)
 {
-    *(u16 *)(p+4)=b;
-    *(u8 *)(p+6)=c;
+    ((struct Obj08025 *)p)->f4=b;
+    ((struct Obj08025 *)p)->f6=c;
 }

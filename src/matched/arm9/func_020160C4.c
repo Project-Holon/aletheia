@@ -15,8 +15,9 @@
  * symbols:
  *   func_020160C4  0x020160C4  thumb
  */
+#include "../include/Obj15672.h"
 
 void func_020160C4(char *p, int v)
 {
-    *(int *)(p + 0x174) = v;
+    ((struct Obj15672 *)p)->f174 = v;
 }

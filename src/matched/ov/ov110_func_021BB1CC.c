@@ -10,8 +10,9 @@
  * symbols:
  *   func_021B9A3C 0x021B9A3C thumb ov110
  */
+#include "../include/Obj22356.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021B9A3C(u8 *,u16,int);
-int func_021BB1CC(u32 p,u32 i,int c) { return func_021B9A3C(*(u8 **)(p+4),*(u16 *)(p+i*2+0x8bc),c); }
+int func_021BB1CC(u32 p,u32 i,int c) { return func_021B9A3C(*(u8 * *)&((struct Obj22356 *)p)->f4,*(u16 *)(p+i*2+0x8bc),c); }

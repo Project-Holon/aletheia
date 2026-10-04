@@ -14,6 +14,7 @@
  *   func_02034714 0x02034714 arm
  *   d_02200D00 0x02200D00 data
  */
+#include "../include/Obj10774.h"
 extern int func_021FC4DC(int);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -28,12 +29,12 @@ void func_021F9810(int *out,int *source,const char *ctx,int type)
     out[3]=source[5];
     out[4]=source[2];
     result=func_021FC4DC(source[0]);
-    a=*(unsigned *)(ctx+0x20);
+    a=((struct Obj10774 *)ctx)->f20;
     out[1]=result;
-    b=*(int *)(ctx+0x1c);
+    b=((struct Obj10774 *)ctx)->f1C;
     out[8]=a;
     out[7]=b;
     out[5]=(*(int **)((char *)source[6]+0xc))[1];
     out[6]=*(int *)((char *)source[6]+8)+0x1748;
-    out[9]=*(int *)(ctx+4);
+    out[9]=((struct Obj10774 *)ctx)->f4;
 }

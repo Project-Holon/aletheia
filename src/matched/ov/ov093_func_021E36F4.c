@@ -20,6 +20,7 @@
  *   func_021C8860 0x021C8860 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
+#include "../include/Obj10083.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D775C(int);
@@ -54,7 +55,7 @@ void func_021E36F4(void *a, void *b, int c, int *d)
     func_021C8860((struct S *)(p + 8), func_021D5B40(m));
     func_021C88C8(b, p);
     p = func_021C88A4(b, 58, c);
-    *(u32 *)p |= 0x1000000;
+    ((struct Obj10083 *)p)->f0 |= 0x1000000;
     p[4] = 1;
     func_021C88C8(b, p);
 }

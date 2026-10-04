@@ -26,6 +26,8 @@
  *   d_021DC178 0x021DC178 data a4
  *   d_021DC168 0x021DC168 data a4
  */
+#include "../include/Obj00200.h"
+#include "../include/Obj05385.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,7 +48,7 @@ extern const s16 d_020A1B38[];
 extern const Vec d_021DC234,d_021DC228,d_021DC198,d_021DC210;
 extern const Pair d_021DC170,d_021DC178,d_021DC168;
 void func_021D6614(u8 *a,u8 *p) {
-    u32 st=*(u32 *)(p+8);
+    u32 st=((struct Obj00200 *)p)->f8;
     if(st==0 || st==2) {
         func_021D7460(a,p);
         func_021D6F54(a,p);
@@ -58,28 +60,28 @@ void func_021D6614(u8 *a,u8 *p) {
         Vec v30={0,0,0};
         u8 c;
         p[0x9b]=p[0x9b]+1;
-        if(p[0x9b]>5 && *(u32 *)(p+0xc)==0) {
-            func_02015EB0(*(void **)p);
-            func_02015EA0(*(void **)(p+4));
-            *(u32 *)(p+0xc)=1;
+        if(p[0x9b]>5 && ((struct Obj00200 *)p)->fC==0) {
+            func_02015EB0(((struct Obj00200 *)p)->f0);
+            func_02015EA0(((struct Obj00200 *)p)->f4);
+            ((struct Obj00200 *)p)->fC=1;
         }
         c=p[0x9b];
         if(c>=10) {
             func_021D79A8(a,p,0);
-            *(u32 *)(p+8)=0;
+            ((struct Obj00200 *)p)->f8=0;
         } else {
             u16 ang;
             v48.x=c*0x19000/10-0x42000;
             ang=(p[0x9b]<<15)/10;
             v30.y=d_020A1B38[(ang>>4)*2]<<5;
-            if(*(u32 *)(p+0x10)==1) v30.y=0;
+            if(((struct Obj00200 *)p)->f10==1) v30.y=0;
             func_021D79A8(a,p,v30.y);
         }
-        func_02015C78(*(void **)p,&v30);
-        func_02015C78(*(void **)(p+4),&v30);
-        func_02015D30(*(void **)p,&v3c);
-        func_02048AFC(*(void **)(a+0x70),&v48);
-        func_02048AD0(*(void **)(a+0x70));
+        func_02015C78(((struct Obj00200 *)p)->f0,&v30);
+        func_02015C78(((struct Obj00200 *)p)->f4,&v30);
+        func_02015D30(((struct Obj00200 *)p)->f0,&v3c);
+        func_02048AFC(((struct Obj05385 *)a)->f70,&v48);
+        func_02048AD0(((struct Obj05385 *)a)->f70);
     } else if(st==1) {
         Vec v24=d_021DC198;
         Vec v18=d_021DC210;
@@ -94,18 +96,18 @@ void func_021D6614(u8 *a,u8 *p) {
             v18.x=t1.v[k];
             v18.y=t2.v[k];
             v24.x=t3.v[k];
-            func_02048AFC(*(void **)(a+0x70),&v24);
-            func_02048AD0(*(void **)(a+0x70));
-            func_02015D30(*(void **)p,&v18);
+            func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
+            func_02048AD0(((struct Obj05385 *)a)->f70);
+            func_02015D30(((struct Obj00200 *)p)->f0,&v18);
         } else {
-            func_02015EA0(*(void **)p);
-            func_02015EB0(*(void **)(p+4));
-            func_02015D30(*(void **)(p+4),&v18);
-            func_02048AFC(*(void **)(a+0x70),&v24);
-            func_02048AD0(*(void **)(a+0x70));
-            *(u32 *)(p+0xc)=0;
-            *(u32 *)(p+8)=2;
-            *(u32 *)(p+0x6c)=0;
+            func_02015EA0(((struct Obj00200 *)p)->f0);
+            func_02015EB0(((struct Obj00200 *)p)->f4);
+            func_02015D30(((struct Obj00200 *)p)->f4,&v18);
+            func_02048AFC(((struct Obj05385 *)a)->f70,&v24);
+            func_02048AD0(((struct Obj05385 *)a)->f70);
+            ((struct Obj00200 *)p)->fC=0;
+            ((struct Obj00200 *)p)->f8=2;
+            ((struct Obj00200 *)p)->f6C=0;
         }
     }
 }

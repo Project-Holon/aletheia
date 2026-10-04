@@ -12,13 +12,14 @@
  * symbols:
  *   func_02021ED8 0x02021ED8 thumb
  */
+#include "../include/Obj25090.h"
 
 typedef unsigned int   u32;
 extern u32 func_02021ED8(const char *ptr);
 
 int func_0220D39C(char *a)
 {
-    if (func_02021ED8((const char *)(*(int *)(a + 8))) == 0)
+    if (func_02021ED8((const char *)(((struct Obj25090 *)a)->f8)) == 0)
         return 0x14;
     return 0x13;
 }

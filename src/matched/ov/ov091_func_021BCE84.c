@@ -11,8 +11,9 @@
  * symbols:
  *   func_0204B100 0x0204B100 arm
  */
+#include "../include/Obj13261.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Bank;
 extern struct Bank *func_0204B100(int,u8,unsigned int);
-void func_021BCE84(char *p) { *(struct Bank **)(p+0x1EC)=func_0204B100(36,8,*(u16 *)p); }
+void func_021BCE84(char *p) { *(struct Bank * *)&((struct Obj13261 *)p)->f1EC=func_0204B100(36,8,((struct Obj13261 *)p)->f0); }

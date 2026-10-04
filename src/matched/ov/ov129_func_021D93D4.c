@@ -12,6 +12,7 @@
  *   func_0204B878 0x0204B878 arm
  * Lever: subscript each record field; clear_record binds the element before its store.
  */
+#include "../include/Obj00912.h"
 
 extern int func_021DA158(int x, int flag);
 typedef unsigned short u16;
@@ -28,30 +29,30 @@ static inline unsigned clear_record(Record *q)  {
 }
 void func_021D93D4(const Record *p)  {
     int i, v, next;
-    *(int *)((char *)p+0x1dc)=1;
-    *(unsigned char *)((char *)p+0x1f4)=0;
-    if(*(int *)((char *)p+0x240)==0)  {
-        i=*(int *)((char *)p+0x23c)-1;
-        *(int *)((char *)p+0x188)=i;
+    ((struct Obj00912 *)p)->f1DC=1;
+    ((struct Obj00912 *)p)->f1F4=0;
+    if(((struct Obj00912 *)p)->f240==0)  {
+        i=((struct Obj00912 *)p)->f23C-1;
+        ((struct Obj00912 *)p)->f188=i;
         next=p[i].value;
-        *(int *)((char *)p+0x31c)=1;
-        *(int *)((char *)p+0x320)=next;
-        *(int *)((char *)p+0x324)=1;
+        ((struct Obj00912 *)p)->f31C=1;
+        ((struct Obj00912 *)p)->f320=next;
+        ((struct Obj00912 *)p)->f324=1;
         return;
     }
-    i=*(int *)((char *)p+0x188);
+    i=((struct Obj00912 *)p)->f188;
     func_0204B878((struct Obj *)p[i].handle,clear_record(&((Record *)p)[i]));
     v=p[i].value;
     if(i>0)  {
         func_0204B878((struct Obj *)p[i-1].handle,func_021DA158(p[i-1].state,p[i-1].flag));
         next=p[i-1].value;
         if(v!=next)  {
-            *(int *)((char *)p+0x31c)=1;
-            *(int *)((char *)p+0x320)=next;
-            *(int *)((char *)p+0x324)=1;
+            ((struct Obj00912 *)p)->f31C=1;
+            ((struct Obj00912 *)p)->f320=next;
+            ((struct Obj00912 *)p)->f324=1;
             return;
         }
-        *(int *)((char *)p+0x31c)=2;
-        *(int *)((char *)p+0x320)=i-1;
+        ((struct Obj00912 *)p)->f31C=2;
+        ((struct Obj00912 *)p)->f320=i-1;
     }
 }

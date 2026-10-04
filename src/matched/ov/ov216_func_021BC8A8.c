@@ -12,6 +12,8 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj01437.h"
+#include "../include/Obj05553.h"
 typedef unsigned int   u32;
 struct Descriptor;
 struct Obj;
@@ -25,12 +27,12 @@ void func_021BC8A8(char *p)
     char *base=p+0x15c;
     for(;i<2;i++) {
         char *q=base+i*128;
-        func_0204B3DC(*(void **)(q+0x78),0); func_0204B3B4(*(void **)(q+0x78));
-        func_0204B3DC(*(void **)(q+0x74),0); func_0204B3B4(*(void **)(q+0x74));
-        func_020452E8(*(void **)(q+0x60));
+        func_0204B3DC(((struct Obj05553 *)q)->f78,0); func_0204B3B4(((struct Obj05553 *)q)->f78);
+        func_0204B3DC(((struct Obj05553 *)q)->f74,0); func_0204B3B4(((struct Obj05553 *)q)->f74);
+        func_020452E8(((struct Obj05553 *)q)->f60);
         for(j=0;j<2;j++) func_020452E8(*(void **)(q+0x40+j*16));
         for(j=0;j<4;j++) func_020452E8(*(void **)(q+j*16));
-        func_020452E8(*(void **)(q+0x70));
+        func_020452E8(((struct Obj05553 *)q)->f70);
     }
-    func_0202DC08(*(void **)(p+0x158));
+    func_0202DC08(((struct Obj01437 *)p)->f158);
 }

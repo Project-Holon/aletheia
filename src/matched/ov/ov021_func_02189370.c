@@ -15,6 +15,8 @@
  *   func_02159C48  0x02159C48  thumb  ov010
  *   func_02159BD4  0x02159BD4  thumb  ov010
  */
+#include "../include/Obj05698.h"
+#include "../include/Obj19497.h"
 
 typedef struct Vec { int x, y, z; } Vec;
 
@@ -33,11 +35,11 @@ int func_02189370(char *p)
     int r;
 
     q = p + 0xd4;
-    m = (void *)func_02012974(*(void **)(p + 8));
+    m = (void *)func_02012974(((struct Obj19497 *)p)->f8);
     func_020141E0(q, &v);
     if (func_02159C48((int)m, v.x, v.z) == 1) {
         r = func_02159BD4((int)m, v.x, v.z);
-        if (r != 0xFFFF && r != *(short *)(q + 4))
+        if (r != 0xFFFF && r != ((struct Obj05698 *)q)->f4)
             return 1;
     }
     return 0;

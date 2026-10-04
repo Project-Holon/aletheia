@@ -15,6 +15,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_0201D83C  0x0201D83C  thumb
  */
+#include "../include/Obj03869.h"
 typedef unsigned int u32;
 
 extern void func_021E8628(u32 a);
@@ -26,8 +27,8 @@ extern void func_0201D83C(void *ptr);
 
 void func_0217AF9C(char *p)
 {
-    func_021E8628(*(u32 *)(p + 8));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x14)));
-    func_02045C04((struct Rec *)(*(u32 *)(p + 0x10)));
-    func_0201D83C((void *)(*(u32 *)(p + 0xc)));
+    func_021E8628(((struct Obj03869 *)p)->f8);
+    func_0201C4C0((struct PrintSys *)(((struct Obj03869 *)p)->f14));
+    func_02045C04((struct Rec *)(((struct Obj03869 *)p)->f10));
+    func_0201D83C((void *)(((struct Obj03869 *)p)->fC));
 }

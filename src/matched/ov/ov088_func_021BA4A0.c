@@ -16,6 +16,7 @@
  *   func_021BB810  0x021BB810  thumb  ov088
  *   func_021BB858  0x021BB858  thumb  ov088
  */
+#include "../include/Obj01228.h"
 
 struct CodeIn;
 extern void func_0202EB04(struct CodeIn *p);
@@ -27,22 +28,22 @@ extern void func_021BB858(char *p, int d);
 
 int func_021BA4A0(char *p)
 {
-    if (*(int *)(p + 0x134) == 3) {
-        *(int *)(p + 0x134) = 0;
-        *(int *)(p + 0x138) = 0;
-        func_0202EB04((struct CodeIn *)(*(int *)(p + 0x11c)));
-        func_021BB810(p, *(unsigned char *)(p + *(unsigned char *)(p + 0x128) + 0x120),
-                      func_021BB840(p, *(signed char *)(p + 0x12f)), 2);
+    if (((struct Obj01228 *)p)->f134 == 3) {
+        ((struct Obj01228 *)p)->f134 = 0;
+        ((struct Obj01228 *)p)->f138 = 0;
+        func_0202EB04((struct CodeIn *)(((struct Obj01228 *)p)->f11C));
+        func_021BB810(p, *(unsigned char *)(p + ((struct Obj01228 *)p)->f128 + 0x120),
+                      func_021BB840(p, ((struct Obj01228 *)p)->f12F), 2);
         return 5;
     }
-    *(int *)(p + 0x130) += *(int *)(p + 0x138);
-    if (*(int *)(p + 0x130) < 0)
-        *(int *)(p + 0x130) += 0x200;
-    else if (*(int *)(p + 0x130) >= 0x200)
-        *(int *)(p + 0x130) -= 0x200;
-    func_02041EE4(1, 3, *(int *)(p + 0x130));
-    func_02041EE4(2, 3, *(int *)(p + 0x130));
-    func_021BB858(p, -*(int *)(p + 0x138));
-    *(int *)(p + 0x134) = *(int *)(p + 0x134) + 1;
+    ((struct Obj01228 *)p)->f130 += ((struct Obj01228 *)p)->f138;
+    if (((struct Obj01228 *)p)->f130 < 0)
+        ((struct Obj01228 *)p)->f130 += 0x200;
+    else if (((struct Obj01228 *)p)->f130 >= 0x200)
+        ((struct Obj01228 *)p)->f130 -= 0x200;
+    func_02041EE4(1, 3, ((struct Obj01228 *)p)->f130);
+    func_02041EE4(2, 3, ((struct Obj01228 *)p)->f130);
+    func_021BB858(p, -((struct Obj01228 *)p)->f138);
+    ((struct Obj01228 *)p)->f134 = ((struct Obj01228 *)p)->f134 + 1;
     return 6;
 }

@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08115.h"
 
 typedef unsigned int u32;
 
@@ -24,9 +25,9 @@ extern void func_021B9838(u8 *p);
 
 void func_021D8F3C(char *p)
 {
-    if (*(u32 *)(p + 0x10) != 0) {
-        func_021B9774(*(void **)(p + 0x10));
-        func_021B9838(*(void **)(p + 0x10));
-        *(u32 *)(p + 0x10) = 0;
+    if (*(u32 *)&((struct Obj08115 *)p)->f10 != 0) {
+        func_021B9774(((struct Obj08115 *)p)->f10);
+        func_021B9838(((struct Obj08115 *)p)->f10);
+        *(u32 *)&((struct Obj08115 *)p)->f10 = 0;
     }
 }

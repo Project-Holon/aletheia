@@ -15,6 +15,7 @@
  *   func_02082C60  0x02082C60  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01866.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,15 +33,15 @@ void func_021C6940(u8 *p)
 
     p[0x29] = 0;
     if (f == 1) {
-        if (*(u32 *)(p + 4) != 0)
-            func_020470D0((u32 *)(*(u32 *)(p + 4)));
-        else if (*(u32 *)p != 0)
-            func_020470D0((u32 *)(*(u32 *)p));
+        if (((struct Obj01866 *)p)->f4 != 0)
+            func_020470D0((u32 *)(((struct Obj01866 *)p)->f4));
+        else if (((struct Obj01866 *)p)->f0 != 0)
+            func_020470D0((u32 *)(((struct Obj01866 *)p)->f0));
     }
-    if (*(u32 *)(p + 4) != 0)
-        func_02046EFC((struct Tagged *)(*(u32 *)(p + 4)));
-    if (*(u32 *)p != 0)
-        func_02046EFC((struct Tagged *)(*(u32 *)p));
+    if (((struct Obj01866 *)p)->f4 != 0)
+        func_02046EFC((struct Tagged *)(((struct Obj01866 *)p)->f4));
+    if (((struct Obj01866 *)p)->f0 != 0)
+        func_02046EFC((struct Tagged *)(((struct Obj01866 *)p)->f0));
     if (p[0x28] != 0) {
         for (i = 0; i < p[0x28]; i++)
             func_02046EFC((struct Tagged *)(*(u32 *)(p + 8 + i * 4)));

@@ -21,6 +21,7 @@
  *   func_021C10B4  0x021C10B4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05075.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,10 +43,10 @@ void func_021C1024(u32 a, u16 b, u32 c, u32 d)
 
     r = func_02030734((u16)(0x8000 | (d & 0x7fff)), 0x18, 1, (const char *)&d_021DE3AC, 0x1e6);
     r[3] = func_021A3068(a);
-    *(u16 *)((u8 *)r + 6) = b;
+    ((struct Obj05075 *)r)->f6 = b;
     r[4] = a;
     r[5] = func_021A36E0((u8 *)a);
     if (func_021AB2E8(func_021AB0F0(c)) == 1)
-        *(u16 *)((u8 *)r + 8) = 1;
+        ((struct Obj05075 *)r)->f8 = 1;
     func_02030DA8(func_02188D30((u8 *)r[3]), func_021C10B4, r, 0);
 }

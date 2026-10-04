@@ -12,13 +12,14 @@
  * symbols:
  *   func_021B7460  0x021B7460  thumb  ov173
  */
+#include "../include/Obj14318.h"
 
 extern void func_021B7460(int *, int);
 
 int func_021B7618(int *p)
 {
     func_021B7460(p, 4);
-    *(unsigned char *)((char *)p + 0x1BA) = 2;
-    *(int *)((char *)p + 0x1B0) = 3;
+    ((struct Obj14318 *)p)->f1BA = 2;
+    ((struct Obj14318 *)p)->f1B0 = 3;
     return 2;
 }

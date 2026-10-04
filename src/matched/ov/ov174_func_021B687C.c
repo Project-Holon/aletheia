@@ -17,6 +17,7 @@
  *   func_02045808 0x02045808 arm
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj00152.h"
 typedef unsigned char u8;
 extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045808(void *);
 extern unsigned func_0201CE30(void *);
@@ -24,17 +25,17 @@ extern void func_021B7364(char *p, int v);
 extern int func_02028484(void *,void *),func_0201C4E4(void *);
 void func_021B687C(u8 *p)
 {
-    func_020310C4(*(void **)(p+88));
-    if(*(void **)(p+100)) {
-        func_020286C4(*(void **)(p+124),*(void **)(p+100),*(void **)(p+92));
-        if(func_0201CE30(*(void **)(p+100))!=0) func_021B7364(*(void **)(p+28+*(u8 *)(p+136)*4),0);
-        else func_021B7364(*(void **)(p+28+*(u8 *)(p+136)*4),1);
-        if(func_02028484(p+128,*(void **)(p+100))==1) {
-            func_0201CE48(*(void **)(p+100));
-            *(void **)(p+100)=0;
-            func_02045808(*(void **)(p+112));
-            *(void **)(p+112)=0;
+    func_020310C4(((struct Obj00152 *)p)->f58);
+    if(((struct Obj00152 *)p)->f64) {
+        func_020286C4(((struct Obj00152 *)p)->f7C,((struct Obj00152 *)p)->f64,((struct Obj00152 *)p)->f5C);
+        if(func_0201CE30(((struct Obj00152 *)p)->f64)!=0) func_021B7364(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),0);
+        else func_021B7364(*(void **)(p+28+((struct Obj00152 *)p)->f88*4),1);
+        if(func_02028484(p+128,((struct Obj00152 *)p)->f64)==1) {
+            func_0201CE48(((struct Obj00152 *)p)->f64);
+            ((struct Obj00152 *)p)->f64=0;
+            func_02045808(((struct Obj00152 *)p)->f70);
+            ((struct Obj00152 *)p)->f70=0;
         }
     }
-    func_0201C4E4(*(void **)(p+120));
+    func_0201C4E4(((struct Obj00152 *)p)->f78);
 }

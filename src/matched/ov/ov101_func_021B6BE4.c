@@ -12,9 +12,10 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_02031324 0x02031324 arm
  */
+#include "../include/Obj22112.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,u32);
 extern void *func_02031324(int);
-void func_021B6BE4(u8 *p,int heap) { func_02082BCC(p,0,12); *(void **)p=func_02031324(heap); }
+void func_021B6BE4(u8 *p,int heap) { func_02082BCC(p,0,12); ((struct Obj22112 *)p)->f0=func_02031324(heap); }

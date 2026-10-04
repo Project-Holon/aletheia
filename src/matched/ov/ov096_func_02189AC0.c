@@ -22,6 +22,7 @@
  *
  * Lever: the second parameter is a struct pointer (see 02189B78).
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,7 +64,7 @@ int func_02189AC0(int a, Obj *b) {
         func_021D5440(r6);
         if (func_021D5B68(r6) == 0) {
             if (func_0218A390((int)b, r6, b->fc0, c) > base) {
-                func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + x);
+                func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + x);
                 break;
             }
         }

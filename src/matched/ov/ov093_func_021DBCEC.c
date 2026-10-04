@@ -21,6 +21,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13481.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -51,7 +52,7 @@ void func_021DBCEC(int u, void *a, int b)
             y = func_021C7CF4(a, t);
             if (func_021D5B40(x) == 0 && func_021D5B40(y) != 0) {
                 e = func_021C88A4(a, 0x24, b);
-                *(u32 *)e |= 2 << 22;
+                ((struct Obj13481 *)e)->f0 |= 2 << 22;
                 e[4] = t;
                 func_021C8838(e + 8, 2, 0x1cc);
                 func_021C8860((struct S *)(e + 8), t);

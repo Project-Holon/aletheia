@@ -21,6 +21,7 @@
  *   func_021BE0FC 0x021BE0FC thumb ov172
  *   d_021C71F0 0x021C71F0 data a4
  */
+#include "../include/Obj06552.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,11 +55,11 @@ void func_021B75AC(char *src, void *p)
     me = func_021BE0A4(p);
     if (func_021BE0AC(p) == 1 || func_021BE054(p) < 2)
         return;
-    if (*(u8 *)(base + 0x10) & (1 << me))
+    if (((struct Obj06552 *)base)->f10 & (1 << me))
         return;
     if (func_021BE0B4(p) == 0) {
         for (i = 0; i < 0xc0; i++)
-            MIi_CpuCopy32(src + i * 0x200 + 0x80, *(char **)(base + 0xb0) + i * 0x100, 0x100);
+            MIi_CpuCopy32(src + i * 0x200 + 0x80, *(char * *)&((struct Obj06552 *)base)->fB0 + i * 0x100, 0x100);
     }
     if (sub == 0) {
         func_02034714(d_021C71F0, 0, d_021C71F0);
@@ -82,8 +83,8 @@ void func_021B75AC(char *src, void *p)
         return;
     func_021BE0FC(p, 1);
     for (i = 0; i < h; i++)
-        MIi_CpuCopy32((void *)(*(u32 *)(base + 0xb0) + (y + i) * 0x100 + x * 2),
-                      (void *)(*(u32 *)(base + 4) + w * h * 2 * n + w * i * 2), w * 2);
+        MIi_CpuCopy32((void *)(*(u32 *)&((struct Obj06552 *)base)->fB0 + (y + i) * 0x100 + x * 2),
+                      (void *)(((struct Obj06552 *)base)->f4 + w * h * 2 * n + w * i * 2), w * 2);
     func_021BE0FC(p, 0);
-    *(u8 *)(base + 0x10) |= (u8)(1 << me);
+    ((struct Obj06552 *)base)->f10 |= (u8)(1 << me);
 }

@@ -14,11 +14,12 @@
  *
  * Two-word setter: stores the caller's word at +4 and hard-codes 2 at +0x1c.
  */
+#include "../include/Obj14351.h"
 
 typedef unsigned long u32;
 
 void func_021DCE40(char *ctx, u32 v)
 {
-    *(u32 *)(ctx + 4) = v;
-    *(u32 *)(ctx + 0x1c) = 2;
+    ((struct Obj14351 *)ctx)->f4 = v;
+    ((struct Obj14351 *)ctx)->f1C = 2;
 }

@@ -12,10 +12,11 @@
  *   func_02028218 0x02028218 thumb
  *   func_0202822C 0x0202822C thumb
  */
+#include "../include/Obj14775.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_02028218(struct Obj*,u32);
 extern void func_0202822C(char*,int);
-void func_02183CBC(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){func_02028218(*(struct Obj**)(p+0xc05c),1);return;}if(i==1)func_0202822C(*(char**)(p+0xc060),1);}}
+void func_02183CBC(u8 *p,u32 i){if(*(void**)(p+i*4+0xc05c)){if(i==0){func_02028218(*(struct Obj* *)&((struct Obj14775 *)p)->fC05C,1);return;}if(i==1)func_0202822C(*(char* *)&((struct Obj14775 *)p)->fC060,1);}}

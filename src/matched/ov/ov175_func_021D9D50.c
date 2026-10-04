@@ -18,6 +18,13 @@
  * Both callees 0x0200DFD8 and 0x0200DFE4 resolve since seeds_2 labelled and
  *     matched them (src/matched/unit_0200DFD8.c).
  */
+#include "../include/Obj00013.h"
+#include "../include/Obj24320.h"
+#include "../include/Obj24321.h"
+#include "../include/Obj24322.h"
+#include "../include/Obj24323.h"
+#include "../include/Obj24324.h"
+#include "../include/Obj24325.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,12 +37,12 @@ int func_021D9D50(char *obj, u32 *rec)
 {
     int changed = 0;
 
-    if (rec[4] != func_0200DFD8(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 0)
-        || rec[2] != func_0200DFD8(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 1)
-        || rec[3] != func_0200DFD8(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 2))
+    if (rec[4] != func_0200DFD8(((struct Obj24320 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0)
+        || rec[2] != func_0200DFD8(((struct Obj24321 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1)
+        || rec[3] != func_0200DFD8(((struct Obj24322 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2))
         changed = 1;
-    func_0200DFE4(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 0, rec[4]);
-    func_0200DFE4(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 1, rec[2]);
-    func_0200DFE4(*(u32 *)(*(char **)(obj + 0x104) + 0x10), 10, 2, rec[3]);
+    func_0200DFE4(((struct Obj24323 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 0, rec[4]);
+    func_0200DFE4(((struct Obj24324 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 1, rec[2]);
+    func_0200DFE4(((struct Obj24325 *)(*(char * *)&((struct Obj00013 *)obj)->f104))->f10, 10, 2, rec[3]);
     return changed;
 }

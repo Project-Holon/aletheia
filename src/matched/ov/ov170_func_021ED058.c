@@ -14,6 +14,7 @@
  *   func_0204ABF0 0x0204ABF0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj02214.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ extern void *func_020490F4(unsigned,u16);
 extern unsigned func_02020E60(unsigned,unsigned);
 extern void *func_0204ABF0(void*,unsigned,int,unsigned,unsigned);
 extern void func_02049238(void*);
-void func_021ED058(u8*p){void*h;h=func_020490F4(25,76);*(void**)(p+0xa114)=func_0204ABF0(h,func_02020E60(0,2),0,0x180,76);func_02049238(h);}
+void func_021ED058(u8*p){void*h;h=func_020490F4(25,76);*(void* *)&((struct Obj02214 *)p)->fA114=func_0204ABF0(h,func_02020E60(0,2),0,0x180,76);func_02049238(h);}

@@ -16,6 +16,7 @@
  *   func_02021D50  0x02021D50  thumb
  *   SDK_AUTOLOAD_MAIN_TWL_START  0x02FE0000  data
  */
+#include "../include/Obj12145.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -28,9 +29,9 @@ extern u32 SDK_AUTOLOAD_MAIN_TWL_START[];
 
 void func_021DC970(u32 a, char *p)
 {
-    func_021EAB04((unsigned char *)(*(u32 *)(p + 0x2c)));
+    func_021EAB04((unsigned char *)(((struct Obj12145 *)p)->f2C));
     func_020419E4();
     func_0204A648();
-    func_02021D50((struct S02021D50 *)(*(u32 *)(*(u32 *)(p + 0x2c) + 0x6c)));
+    func_02021D50((struct S02021D50 *)(*(u32 *)(((struct Obj12145 *)p)->f2C + 0x6c)));
     *(u32 *)((u8 *)SDK_AUTOLOAD_MAIN_TWL_START + 0x3ff8) |= 1;
 }

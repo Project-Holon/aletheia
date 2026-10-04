@@ -18,6 +18,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00084.h"
 typedef unsigned char u8;
 struct Descriptor;
 struct CharBuf;
@@ -35,15 +36,15 @@ extern void func_02045808(struct U16Vec *);
 void func_021BB134(char *p)
 {
     struct Descriptor *d;
-    func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0x23C)), 0);
-    d = *(struct Descriptor **)(p + 0x23C);
+    func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj00084 *)p)->f23C), 0);
+    d = *(struct Descriptor * *)&((struct Obj00084 *)p)->f23C;
     func_02045334(d);
     func_02045374((struct Cfg *)d);
     func_02041B6C(func_02045730(d));
-    if (*(struct Rec3 **)(p + 0x250))
-        func_0201CE48(*(struct Rec3 **)(p + 0x250));
-    *(int *)(p + 0x250) = 0;
-    if (*(struct U16Vec **)(p + 0x258))
-        func_02045808(*(struct U16Vec **)(p + 0x258));
-    *(int *)(p + 0x258) = 0;
+    if (*(struct Rec3 * *)&((struct Obj00084 *)p)->f250)
+        func_0201CE48(*(struct Rec3 * *)&((struct Obj00084 *)p)->f250);
+    *(int *)&((struct Obj00084 *)p)->f250 = 0;
+    if (*(struct U16Vec * *)&((struct Obj00084 *)p)->f258)
+        func_02045808(*(struct U16Vec * *)&((struct Obj00084 *)p)->f258);
+    *(int *)&((struct Obj00084 *)p)->f258 = 0;
 }

@@ -17,6 +17,8 @@
  *   func_0206E0C4  0x0206E0C4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07453.h"
+#include "../include/Obj07454.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,14 +42,14 @@ void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d)
     int w2;
     int h2;
 
-    x1 = (func_02045758((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
-    y1 = (func_02045760((struct Descriptor *)(*(u32 *)(e + 0xC))) - 1) << 3;
-    w1 = (func_02045748((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
-    h1 = (func_02045750((struct Descriptor *)(*(u32 *)(e + 0xC))) + 2) << 3;
-    x2 = (func_02045758((struct Descriptor *)(*(u32 *)(ent + 0xC))) - 1) << 3;
-    y2 = (func_02045760((struct Descriptor *)(*(u32 *)(ent + 0xC))) - 1) << 3;
-    w2 = (func_02045748((struct Descriptor *)(*(u32 *)(ent + 0xC))) + 2) << 3;
-    h2 = (func_02045750((struct Descriptor *)(*(u32 *)(ent + 0xC))) + 2) << 3;
+    x1 = (func_02045758((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
+    y1 = (func_02045760((struct Descriptor *)(((struct Obj07453 *)e)->fC)) - 1) << 3;
+    w1 = (func_02045748((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
+    h1 = (func_02045750((struct Descriptor *)(((struct Obj07453 *)e)->fC)) + 2) << 3;
+    x2 = (func_02045758((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
+    y2 = (func_02045760((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) - 1) << 3;
+    w2 = (func_02045748((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
+    h2 = (func_02045750((struct Descriptor *)(((struct Obj07454 *)ent)->fC)) + 2) << 3;
     if (x1 + w1 < x2) {
         *b = x2;
     } else if (x1 > x2 + w2) {

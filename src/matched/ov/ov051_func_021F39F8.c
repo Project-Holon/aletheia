@@ -20,6 +20,7 @@
  *   func_0216D480  0x0216D480  thumb
  *   func_021C909C  0x021C909C  thumb
  */
+#include "../include/Obj01876.h"
 
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
@@ -40,7 +41,7 @@ int func_021F39F8(int a, int *s, int *t)
     switch (*s) {
     case 0:
         if (func_0216D3CC(r6) == 1) {
-            func_0216D410(r6, func_02197E7C(*(unsigned short *)t, 0x1c));
+            func_0216D410(r6, func_02197E7C(((struct Obj01876 *)t)->f0, 0x1c));
             func_020061E4(0x6ce);
             *s = *s + 1;
         }
@@ -55,7 +56,7 @@ int func_021F39F8(int a, int *s, int *t)
                     v = 0x10;
                 else if (t[1] <= 4)
                     v = 0xc;
-                func_0216D410(*(void **)t[2], func_02197E7C(*(unsigned short *)t, v));
+                func_0216D410(*(void **)t[2], func_02197E7C(((struct Obj01876 *)t)->f0, v));
                 t[1] = t[1] - 1;
             } else {
                 func_020061E4(0x6a3);

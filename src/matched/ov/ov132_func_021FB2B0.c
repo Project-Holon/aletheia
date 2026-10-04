@@ -21,6 +21,9 @@
  *   func_021FB528 0x021FB528 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
+#include "../include/Obj02192.h"
+#include "../include/Obj03821.h"
+#include "../include/Obj08162.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,37 +48,37 @@ int func_021FB2B0(int unused,char *p)
     u32 wait,z,y,x,rate;
     char *ctx;
     u8 i;
-    owner=*(char **)p;
-    mask=func_021FB1F4(p,func_0201134C(*(void **)(p+4)));
-    rate=func_0201134C(*(void **)(p+4));
-    x=func_0201134C(*(void **)(p+4));
-    y=func_0201134C(*(void **)(p+4));
-    z=func_0201134C(*(void **)(p+4));
-    wait=func_0201134C(*(void **)(p+4));
-    ctx=func_021F9DA0(*(void **)(owner+52));
+    owner=*(char * *)&((struct Obj03821 *)p)->f0;
+    mask=func_021FB1F4(p,func_0201134C(((struct Obj03821 *)p)->f4));
+    rate=func_0201134C(((struct Obj03821 *)p)->f4);
+    x=func_0201134C(((struct Obj03821 *)p)->f4);
+    y=func_0201134C(((struct Obj03821 *)p)->f4);
+    z=func_0201134C(((struct Obj03821 *)p)->f4);
+    wait=func_0201134C(((struct Obj03821 *)p)->f4);
+    ctx=func_021F9DA0(((struct Obj08162 *)owner)->f34);
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
-            target=func_021F9DA4(*(void **)(owner+52),i);
+            target=func_021F9DA4(((struct Obj08162 *)owner)->f34,i);
             if (rate==0) {
                 pos.x=x;pos.y=y;pos.z=z;
                 func_021F8054(ctx,target,&pos);
             } else {
-                q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x2DA);
-                *(char **)(q+48)=owner;
-                *(char **)q=target;
-                *(void **)(q+4)=*(void **)(owner+52);
-                *(u16 *)(q+46)=0;
+                q=func_02030734(((struct Obj08162 *)owner)->f0,56,0,d_021FDD00,0x2DA);
+                *(char * *)&((struct Obj02192 *)q)->f30=owner;
+                *(char * *)&((struct Obj02192 *)q)->f0=target;
+                ((struct Obj02192 *)q)->f4=((struct Obj08162 *)owner)->f34;
+                ((struct Obj02192 *)q)->f2E=0;
                 func_021F8044(ctx,target,(Vec *)(q+8));
-                *(u32 *)(q+20)=x;*(u32 *)(q+24)=y;*(u32 *)(q+28)=z;
-                *(u16 *)(q+44)=rate;
+                ((struct Obj02192 *)q)->f14=x;((struct Obj02192 *)q)->f18=y;((struct Obj02192 *)q)->f1C=z;
+                ((struct Obj02192 *)q)->f2C=rate;
                 func_0207CA00(q+20,q+8,delta);
-                *(int *)(q+32)=delta[0]/(int)rate;
-                *(int *)(q+36)=delta[1]/(int)rate;
-                *(int *)(q+40)=delta[2]/(int)rate;
-                *(void **)(q+52)=func_021FADA0(owner,(u32)func_021FB528,(u32)q,10);
+                ((struct Obj02192 *)q)->f20=delta[0]/(int)rate;
+                ((struct Obj02192 *)q)->f24=delta[1]/(int)rate;
+                ((struct Obj02192 *)q)->f28=delta[2]/(int)rate;
+                ((struct Obj02192 *)q)->f34=func_021FADA0(owner,(u32)func_021FB528,(u32)q,10);
             }
         }
     }
-    if(wait==1) {*(u16 *)(p+20)=rate;return 1;}
+    if(wait==1) {((struct Obj03821 *)p)->f14=rate;return 1;}
     return 0;
 }

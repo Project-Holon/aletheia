@@ -11,8 +11,9 @@
  *
  * Sets the byte field at +0x19B of the object to 1.
  */
+#include "../include/Obj12431.h"
 
 void func_0217592C(void *p)
 {
-    *(char *)((char *)p + 0x19B) = 1;
+    *(char *)&((struct Obj12431 *)p)->f19B = 1;
 }

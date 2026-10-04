@@ -19,10 +19,11 @@
  * symbols:
  *   func_02025D14  0x02025D14  thumb
  */
+#include "../include/Obj24188.h"
 
 extern int func_02025D14(int);
 
 int func_021B7C7C(int *p)
 {
-    return func_02025D14(*(int *)((char *)p + 0x1C8));
+    return func_02025D14(((struct Obj24188 *)p)->f1C8);
 }

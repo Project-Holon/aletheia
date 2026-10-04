@@ -12,6 +12,7 @@
  * symbols:
  *   func_02047204  0x02047204  arm
  */
+#include "../include/Obj09852.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -21,8 +22,8 @@ extern u32 func_02047204(struct Tagged *p);
 
 void func_021F3D2C(u8 *p)
 {
-    if (*(u32 *)(p + 0xc) != 0) {
-        func_02047204((struct Tagged *)(*(u32 *)p));
-        *(u32 *)(p + 0xc) = 0;
+    if (((struct Obj09852 *)p)->fC != 0) {
+        func_02047204((struct Tagged *)(((struct Obj09852 *)p)->f0));
+        ((struct Obj09852 *)p)->fC = 0;
     }
 }

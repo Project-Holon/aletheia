@@ -14,6 +14,7 @@
  *   func_020456F8  0x020456F8  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj20672.h"
 
 extern void func_021B97E8(char *, int);
 struct Descriptor;
@@ -26,7 +27,7 @@ void func_021B9AAC(char *p)
     unsigned i;
     unsigned j;
     func_021B97E8(p, 0);
-    func_020456F8((struct Descriptor *)(*(int *)(p + 0x734)));
+    func_020456F8((struct Descriptor *)(((struct Obj20672 *)p)->f734));
     for (i = 0; i < 3; i++) {
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     }

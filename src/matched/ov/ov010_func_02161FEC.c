@@ -11,10 +11,11 @@
  *
  * Unlabelled leaf, four bytes: strh r1, [r0, #4]; bx lr.
  */
+#include "../include/Obj18948.h"
 
 typedef unsigned short u16;
 
 void func_02161FEC(char *p, u16 v)
 {
-    *(u16 *)(p + 4) = v;
+    ((struct Obj18948 *)p)->f4 = v;
 }

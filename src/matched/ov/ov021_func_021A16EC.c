@@ -20,6 +20,8 @@
  * `const u8 *s` is what schedules the second (u16)n truncation ahead of the
  * store of the allocation to d+8.
  */
+#include "../include/Obj02379.h"
+#include "../include/Obj04231.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,10 +47,10 @@ void func_021A16EC(u8 *d, void *a, const u8 *s, u32 n)
     d[3] = s[5];
     d[4] = s[6];
     d[5] = s[7];
-    *(void **)(d + 8) = func_02030734((u16)n, func_02046C94(), 1, d_021DDE5C, 0x2ad);
-    r = func_02049250(a, *(const u16 *)s, n);
-    func_02046CE0(*(void **)(d + 8), r);
-    func_02047180(*(void **)(d + 8));
+    ((struct Obj02379 *)d)->f8 = func_02030734((u16)n, func_02046C94(), 1, d_021DDE5C, 0x2ad);
+    r = func_02049250(a, *(const u16 *)&((struct Obj04231 *)s)->f0, n);
+    func_02046CE0(((struct Obj02379 *)d)->f8, r);
+    func_02047180(((struct Obj02379 *)d)->f8);
     d[6] = 1;
     d[7] = 1;
 }

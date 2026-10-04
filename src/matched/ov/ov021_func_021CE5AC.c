@@ -23,6 +23,7 @@
  *   data_021DB498  0x021DB498  data   ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -105,9 +106,9 @@ u32 func_021CE5AC(u32 *p)
         break;
     case 100:
         if (func_021CE73C(p) > 1 && ((u8 *)p)[0x520] == 1) {
-            *(u16 *)((u8 *)p + 0x574) = 9;
+            ((struct Obj00011 *)p)->f574 = 9;
         } else {
-            *(u16 *)((u8 *)p + 0x574) = 8;
+            ((struct Obj00011 *)p)->f574 = 8;
         }
         q->state = 0xff;
         break;

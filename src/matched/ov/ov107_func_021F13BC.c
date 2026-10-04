@@ -13,16 +13,19 @@
  *   d_021F6E28 0x021F6E28 data ov107 a1
  *   d_021F6EE8 0x021F6EE8 data a4
  */
+#include "../include/Obj07995.h"
+#include "../include/Obj22300.h"
+#include "../include/Obj22301.h"
 typedef unsigned short u16;
 extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
 extern const char d_021F6E28[];
 extern int d_021F6EE8[];
 void *func_021F13BC(void *a,char *p)
 {
-    if(!*(void **)(p+0x14)) *(void **)(p+0x14)=func_02030734(*(u16 *)p,8,1,d_021F6E28,862);
-    return *(void **)(p+0x14);
+    if(!((struct Obj07995 *)p)->f14) ((struct Obj07995 *)p)->f14=func_02030734(((struct Obj07995 *)p)->f0,8,1,d_021F6E28,862);
+    return ((struct Obj07995 *)p)->f14;
 }
-void func_021F13E8(int a,int b,int c,char *p){*(u16 *)(p+0x18)|=2;}
-void *func_021F13F4(int a,char *p){return *(void **)(p+0x10);}
+void func_021F13E8(int a,int b,int c,char *p){((struct Obj22300 *)p)->f18|=2;}
+void *func_021F13F4(int a,char *p){return ((struct Obj22301 *)p)->f10;}
 int *func_021F13F8(void){return d_021F6EE8;}
 int func_021F1400(void){return 2;}

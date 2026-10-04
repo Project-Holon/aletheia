@@ -16,6 +16,7 @@
  *   func_0216D548  0x0216D548  thumb  ov010
  *   _u32_div_f     0x0209C2B0  arm
  */
+#include "../include/Obj00876.h"
 
 typedef unsigned int   u32;
 extern int func_021C8A9C(u32 a);
@@ -27,11 +28,11 @@ void func_021C8AD0(char *p)
 {
     int d = func_021C8A9C((u32)p);
 
-    *(unsigned *)(p + 0x18) = *(unsigned *)(p + 0x18) + 1;
-    if (*(unsigned *)(p + 0x18) % d == 0) {
-        *(unsigned short *)(p + 0x14) = (*(unsigned short *)(p + 0x14) + 1) % 4;
-        func_0216D550((u32 *)(*(int *)(p + 0xc)), 8);
-        func_0216D5E0(*(int *)(p + 0xc), *(unsigned short *)(p + 0x14));
-        func_0216D548((u32 *)(*(int *)(p + 0xc)), 8);
+    ((struct Obj00876 *)p)->f18 = ((struct Obj00876 *)p)->f18 + 1;
+    if (((struct Obj00876 *)p)->f18 % d == 0) {
+        ((struct Obj00876 *)p)->f14 = (((struct Obj00876 *)p)->f14 + 1) % 4;
+        func_0216D550((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
+        func_0216D5E0(*(int *)&((struct Obj00876 *)p)->fC, ((struct Obj00876 *)p)->f14);
+        func_0216D548((u32 *)(*(int *)&((struct Obj00876 *)p)->fC), 8);
     }
 }

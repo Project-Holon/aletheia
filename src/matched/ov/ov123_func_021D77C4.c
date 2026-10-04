@@ -14,6 +14,7 @@
  *   func_021D7798 0x021D7798 thumb ov123
  *   func_0203F1FC 0x0203F1FC arm
  */
+#include "../include/Obj02837.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021D5BA0(char *p);
@@ -28,21 +29,21 @@ void func_021D77C4(int a,int n)
     u8 *p;
     int h;
     u16 checksum;
-    *(u8 *)(a+0xa4)=0;
-    p=(u8 *)func_021D5BA0((char *)(*(int *)(a+8)));
+    ((struct Obj02837 *)a)->fA4=0;
+    p=(u8 *)func_021D5BA0((char *)(((struct Obj02837 *)a)->f8));
     h=n/2;
     if(n>0x1fc0e) {
-        *(int *)(a+0x80)=0xfff0;
+        ((struct Obj02837 *)a)->f80=0xfff0;
         func_021D6EE0(a,(int)func_021D6FF0,0x39d);
         return;
     }
     checksum=func_0203F1FC(p,n);
     if(checksum!=*(u16 *)(p+h*2)) {
-        *(int *)(a+0x80)=0xfff0;
+        ((struct Obj02837 *)a)->f80=0xfff0;
         func_021D6EE0(a,(int)func_021D6FF0,0x3a3);
         return;
     }
-    *(u8 *)(a+0xae)=1;
-    *(int *)(a+0x30)=func_0200C5C8(*(int *)(a+0x2c),p,n,*(u16 *)a);
+    ((struct Obj02837 *)a)->fAE=1;
+    ((struct Obj02837 *)a)->f30=func_0200C5C8(((struct Obj02837 *)a)->f2C,p,n,((struct Obj02837 *)a)->f0);
     func_021D6EE0(a,(int)func_021D7798,0x3a9);
 }

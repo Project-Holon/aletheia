@@ -14,8 +14,9 @@
  * symbols:
  *   func_021A16E4 0x021A16E4 thumb ov021
  */
+#include "../include/Obj19722.h"
 
 void func_021A16E4(unsigned char *p, unsigned int v)
 {
-    *(unsigned int *)(p + 0x14) = v;
+    ((struct Obj19722 *)p)->f14 = v;
 }

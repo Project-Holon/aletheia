@@ -14,6 +14,7 @@
  *   func_021B8FA8 0x021B8FA8 thumb ov133
  *   func_021B765C 0x021B765C thumb ov133
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021B8A30(u8 *);
@@ -23,14 +24,14 @@ extern void func_021B8FA8(u8 *);
 extern void func_021B765C(u8 *, u16, int, int, int);
 void func_021B75E0(u8 *p)
 {
-    if (*(int *)(p + 0x98) == 1) func_021B8A30(p);
+    if (((struct Obj00004 *)p)->f98 == 1) func_021B8A30(p);
     else { func_021B7A70(p); func_021B8AC8(p); }
     func_021B8FA8(p);
-    ++*(u16 *)(p + 0x94);
-    if (*(u16 *)(p + 0x94) >= 90) {
-        *(u16 *)(p + 0x94) = 0;
-        func_021B765C(p, *(u16 *)(p + 0x182c), 0, 72, 48);
+    ++((struct Obj00004 *)p)->f94;
+    if (((struct Obj00004 *)p)->f94 >= 90) {
+        ((struct Obj00004 *)p)->f94 = 0;
+        func_021B765C(p, ((struct Obj00004 *)p)->f182C, 0, 72, 48);
     }
-    if (*(u16 *)(p + 0x94) == 45)
-        func_021B765C(p, *(u16 *)(p + 0x182c), 0, 72, 48);
+    if (((struct Obj00004 *)p)->f94 == 45)
+        func_021B765C(p, ((struct Obj00004 *)p)->f182C, 0, 72, 48);
 }

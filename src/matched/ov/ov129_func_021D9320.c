@@ -12,9 +12,10 @@
  * symbols:
  *   func_021D92E4 0x021D92E4 thumb ov129
  */
+#include "../include/Obj14053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_021D92E4(u8 *);
-int func_021D9320(u8 *p) { if(!*(int *)(p+0x328)) return 1; if(func_021D92E4(p)<=*(int *)(p+0x344)) return 1; return 0; }
+int func_021D9320(u8 *p) { if(!((struct Obj14053 *)p)->f328) return 1; if(func_021D92E4(p)<=((struct Obj14053 *)p)->f344) return 1; return 0; }

@@ -19,6 +19,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201EF8C 0x0201EF8C thumb
  */
+#include "../include/Obj04598.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,14 +40,14 @@ extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 void func_0220C0D0(u8 *p,int slot,int index,u16 value,u8 extra)
 {
     char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
-    void *text=func_02045EC0(*(void **)(p+0x1EA0),11);
+    void *text=func_02045EC0(((struct Obj04598 *)p)->f1EA0,11);
     u32 context;
     u32 surface;
-    func_0201EFA4(*(void **)(p+0x1EA4),0,((Bits *)(elem+0x16))->low,3,0,1);
-    func_0201F250(*(void **)(p+0x1EA4),(void *)(*(u32 *)(p+0x1EA8)),text);
-    context=*(u32 *)(p+0x1EAC);
+    func_0201EFA4(((struct Obj04598 *)p)->f1EA4,0,((Bits *)(elem+0x16))->low,3,0,1);
+    func_0201F250(((struct Obj04598 *)p)->f1EA4,(void *)(((struct Obj04598 *)p)->f1EA8),text);
+    context=((struct Obj04598 *)p)->f1EAC;
     surface=(u32)func_02045770(*(void **)(p+slot*8+0x1F70));
-    func_0201C724(context,surface,value,extra,*(u32 *)(p+0x1EA8),*(u32 *)(p+0x1E9C),0x3DC0);
+    func_0201C724(context,surface,value,extra,((struct Obj04598 *)p)->f1EA8,((struct Obj04598 *)p)->f1E9C,0x3DC0);
     (p+slot*8)[0x1F74]=1;
     func_02045808(text);
 }

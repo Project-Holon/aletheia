@@ -12,6 +12,7 @@
  * symbols:
  *   func_021D8394  0x021D8394  thumb  ov093
  */
+#include "../include/Obj13365.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -23,6 +24,6 @@ void func_021D0B6C(u8 *g, u8 *s)
 
     for (i = 0; i < s[6]; i++)
         func_021D8394(g + 0x124 + i * 4, s[i + 3], s[i]);
-    *(u8 **)(g + 0xd8) = g + 0x124;
-    *(u32 *)(g + 0xdc) = s[6] << 2;
+    *(u8 * *)&((struct Obj13365 *)g)->fD8 = g + 0x124;
+    ((struct Obj13365 *)g)->fDC = s[6] << 2;
 }

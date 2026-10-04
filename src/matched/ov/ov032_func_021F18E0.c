@@ -18,6 +18,8 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_02045838 0x02045838 arm
  */
+#include "../include/Obj00007.h"
+#include "../include/Obj09798.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -35,12 +37,12 @@ void func_021F18E0(char *p, u32 a, int *c)
 {
     u8 *r;
 
-    r = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1930, 0x10, 0));
+    r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)p)->fA0, (void *)func_021F1930, 0x10, 0));
     func_02082BCC(r, 0, 0x10);
-    func_02045838((struct U16Vec *)(*(u32 *)(p + 0x120)), (struct U16Vec *)a);
-    *(char **)(r + 8) = p;
+    func_02045838((struct U16Vec *)(*(u32 *)&((struct Obj00007 *)p)->f120), (struct U16Vec *)a);
+    *(char * *)&((struct Obj09798 *)r)->f8 = p;
     r[1] = 0x5a;
     func_021F05E8(p, 4, 2);
-    *(int **)(r + 0xc) = c;
+    *(int * *)&((struct Obj09798 *)r)->fC = c;
     (*c)++;
 }

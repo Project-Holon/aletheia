@@ -14,12 +14,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10533.h"
 
 typedef unsigned int   u32;
 extern int func_02006448(u32 a0, u32 a1, u32 a2);
 
 void func_021F9664(char *p, int a)
 {
-    *(int *)(p + 0x24) = 1;
-    func_02006448(*(int *)(p + 0x1dc), *(int *)(p + 0x1e0), a);
+    ((struct Obj10533 *)p)->f24 = 1;
+    func_02006448(((struct Obj10533 *)p)->f1DC, ((struct Obj10533 *)p)->f1E0, a);
 }

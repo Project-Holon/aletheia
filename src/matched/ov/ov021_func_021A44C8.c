@@ -19,6 +19,7 @@
  *   func_021A4664  0x021A4664  thumb  ov021
  *   func_021A4698  0x021A4698  thumb  ov021
  */
+#include "../include/Obj09565.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,12 +39,12 @@ int func_021A44C8(u8 *p, u32 s)
     void *a;
     int r;
 
-    a = func_021A3960(*(void **)(p + 0xc));
+    a = func_021A3960(((struct Obj09565 *)p)->fC);
     r = 0;
     if (func_021A5610(p) == 1 || func_021A53BC(p) == 1) {
         return func_021A46F0(p, s);
     }
-    switch (*(u32 *)p) {
+    switch (((struct Obj09565 *)p)->f0) {
     case 0:
         r = func_021A4544(p, (u32)a, (u8 *)s);
         break;

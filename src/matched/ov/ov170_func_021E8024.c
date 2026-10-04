@@ -29,6 +29,8 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_021E8FE8 0x021E8FE8 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23928.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct WinMgr;
@@ -64,34 +66,34 @@ int func_021E8024(char *p)
         S++;
         return func_021E8FC0(p, (int)func_021E0190, 0x59);
     case 1:
-        if (*(u8 *)(p + 0x16) >= 30) {
+        if (((struct Obj00000 *)p)->f16 >= 30) {
             func_021ECB20(p, 2, 1);
-            func_021ECB60(W, *(u8 *)(p + 0x16), 0);
-            slot = *(u8 *)(p + 0x16) - 30;
+            func_021ECB60(W, ((struct Obj00000 *)p)->f16, 0);
+            slot = ((struct Obj00000 *)p)->f16 - 30;
             if (func_021DD694((void ***)p, slot) == 0) {
                 func_020061E4(0x557);
                 func_021EBBC8((u8 *)p, 6, 24);
                 *(u8 *)(W + 0xA170) = 1;
-                *(int *)(p + 0x28) = 14;
+                ((struct Obj00000 *)p)->f28 = 14;
                 return func_021E8F50(p, 6);
             }
-            if (func_0202136C(func_02017E1C(func_0201AB28(*(void **)(*(char **)p + 8), slot), 6, 0)) == 1) {
+            if (func_0202136C(func_02017E1C(func_0201AB28(((struct Obj23928 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, slot), 6, 0)) == 1) {
                 func_020061E4(0x557);
                 func_021EBC58((u8 *)p, 0, 5, 24);
                 *(u8 *)(W + 0xA170) = 1;
-                *(int *)(p + 0x28) = 14;
+                ((struct Obj00000 *)p)->f28 = 14;
                 return func_021E8F50(p, 6);
             }
         } else {
             func_021ED888(W, 0);
             func_021ECB20(p, 1, 1);
-            func_021ECB60(W, *(u8 *)(p + 0x16), 0);
+            func_021ECB60(W, ((struct Obj00000 *)p)->f16, 0);
         }
-        if (func_02017E88((void *)func_021DD2D0((void ***)p, *(u8 *)(p + 0x14), *(u8 *)(p + 0x16)), 0x4c, 0) != 0) {
+        if (func_02017E88((void *)func_021DD2D0((void ***)p, ((struct Obj00000 *)p)->f14, ((struct Obj00000 *)p)->f16), 0x4c, 0) != 0) {
             func_020061E4(0x557);
             func_021EBBC8((u8 *)p, 3, 24);
             *(u8 *)(W + 0xA170) = 1;
-            *(int *)(p + 0x28) = 14;
+            ((struct Obj00000 *)p)->f28 = 14;
             return func_021E8F50(p, 6);
         }
         func_021EBBC8((u8 *)p, 0, 24);

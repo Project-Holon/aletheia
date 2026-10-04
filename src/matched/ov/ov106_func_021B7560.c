@@ -37,6 +37,7 @@
  *   func_021B9380 0x021B9380 thumb ov106
  *   d_021B94D4 0x021B94D4 data a4
  */
+#include "../include/Obj00978.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -78,30 +79,30 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     func_0203064C(1,67,6<<16);
     p=func_0203159C(sys,0x648,67);
     fill(p,0,0x648);
-    if(*args)*(void **)(p+0x628)=func_020120F4(*args);
-    else *(void **)(p+0x628)=func_020124F4(1);
-    *(u32 *)(p+0x61c)=func_0201C440((void *)67);
-    *(u32 *)(p+0x618)=(u32)func_0201D7EC(23,0,0,0,67);
-    *(void **)(p+0x620)=func_02045B38(0,2,50,67);
-    *(u32 *)(p+0x63c)=func_021B8B9C(*(void **)(p+0x628),67);
-    func_021B7FF8(p,*(void **)(p+0x628),67);
-    *(void **)(p+0x624)=func_02025538(67,func_021B80B0(p));
+    if(*args)((struct Obj00978 *)p)->f628=func_020120F4(*args);
+    else ((struct Obj00978 *)p)->f628=func_020124F4(1);
+    *(u32 *)&((struct Obj00978 *)p)->f61C=func_0201C440((void *)67);
+    ((struct Obj00978 *)p)->f618=(u32)func_0201D7EC(23,0,0,0,67);
+    ((struct Obj00978 *)p)->f620=func_02045B38(0,2,50,67);
+    ((struct Obj00978 *)p)->f63C=func_021B8B9C(((struct Obj00978 *)p)->f628,67);
+    func_021B7FF8(p,((struct Obj00978 *)p)->f628,67);
+    ((struct Obj00978 *)p)->f624=func_02025538(67,func_021B80B0(p));
     func_021B7890(p+0x28,(unsigned int)p,(u32)func_021B78E0);
     func_021B8D90(p+0x5d4,67);func_021B8FB8(p+0x600);
     e=func_021B80AC(p);
-    func_021B80D0(p+0x38,1,2,5,6,e,func_021B80B0(p),*(void **)(p+0x620),*(u32 *)(p+0x63c),67);
-    *(void **)(p+0x614)=func_021B70DC(2,(u32)func_021B80B0(p),4,13,0,2,*(u32 *)(p+0x618),*(u32 *)(p+0x61c),67);
+    func_021B80D0(p+0x38,1,2,5,6,e,func_021B80B0(p),((struct Obj00978 *)p)->f620,((struct Obj00978 *)p)->f63C,67);
+    ((struct Obj00978 *)p)->f614=func_021B70DC(2,(u32)func_021B80B0(p),4,13,0,2,((struct Obj00978 *)p)->f618,*(u32 *)&((struct Obj00978 *)p)->f61C,67);
     arc=func_020490F4(23,67);
-    *(u32 *)(p+0x644)=func_0204ACEC(arc,5,0,448,67);
+    ((struct Obj00978 *)p)->f644=func_0204ACEC(arc,5,0,448,67);
     func_02049238(arc);
     fill(&pos,0,8);
     pos.x=8;pos.y=41;pos.a=0;pos.b=0;
     for(i=0;i<4;i++) {
         pos.x=d_021B94D4[i].x;pos.y=d_021B94D4[i].y;
-        SLOT(p,i)=func_021B92D4((u8 *)&pos,d_021B94D4[i].a,d_021B94D4[i].b,*(int *)(p+0x644),3,0,*(void **)(p+0x624),*(void **)(p+0x61c),67);
+        SLOT(p,i)=func_021B92D4((u8 *)&pos,d_021B94D4[i].a,d_021B94D4[i].b,*(int *)&((struct Obj00978 *)p)->f644,3,0,((struct Obj00978 *)p)->f624,((struct Obj00978 *)p)->f61C,67);
         func_021B93D8(SLOT(p,i),1088);
         func_021B93DC(SLOT(p,i),0,0,1);
-        func_021B9380(SLOT(p,i),*(void **)(p+0x620),(void *)(i+1),*(int *)(p+0x618));
+        func_021B9380(SLOT(p,i),((struct Obj00978 *)p)->f620,(void *)(i+1),*(int *)&((struct Obj00978 *)p)->f618);
     }
     return 1;
 }

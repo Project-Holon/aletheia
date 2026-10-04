@@ -14,6 +14,7 @@
  *
  * Thunk: hands the +0x20 block to 0x021E777C (ov177) and returns its result.
  */
+#include "../include/Obj24304.h"
 
 typedef unsigned long u32;
 
@@ -21,5 +22,5 @@ extern u32 func_021E777C(u32 p);
 
 u32 func_021D9868(char *obj)
 {
-    return func_021E777C(*(u32 *)(obj + 0x20));
+    return func_021E777C(((struct Obj24304 *)obj)->f20);
 }

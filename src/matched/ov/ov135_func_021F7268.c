@@ -13,22 +13,23 @@
  *   func_021F5074 0x021F5074 thumb ov135
  *   func_021F4EC8 0x021F4EC8 thumb ov135
  */
+#include "../include/Obj03829.h"
 typedef unsigned char u8;
 extern void func_020307B0(void *p);
 extern void func_021F5074(void *p);
 extern void func_021F4EC8(u8 *p);
 int func_021F7268(u8 *p)
 {
-    if (*(void **)(p + 0xD8)) {
-        func_020307B0(*(void **)(p + 0xD8));
-        *(void **)(p + 0xD8) = 0;
+    if (((struct Obj03829 *)p)->fD8) {
+        func_020307B0(((struct Obj03829 *)p)->fD8);
+        ((struct Obj03829 *)p)->fD8 = 0;
     }
-    func_020307B0(*(void **)(p + 0xEA4));
-    if (*(void **)(p + 0x10DC)) {
-        func_020307B0(*(void **)(p + 0x10DC));
-        *(void **)(p + 0x10DC) = 0;
+    func_020307B0(((struct Obj03829 *)p)->fEA4);
+    if (((struct Obj03829 *)p)->f10DC) {
+        func_020307B0(((struct Obj03829 *)p)->f10DC);
+        ((struct Obj03829 *)p)->f10DC = 0;
     }
-    *(unsigned *)(p + 0x12F8) = 0;
+    ((struct Obj03829 *)p)->f12F8 = 0;
     func_021F5074(p);
     func_021F4EC8(p);
     *(volatile unsigned short *)0x04000050 = 0;

@@ -15,6 +15,9 @@
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
  *   func_021D7FF8  0x021D7FF8  thumb  ov093
  */
+#include "../include/Obj04354.h"
+#include "../include/Obj20982.h"
+#include "../include/Obj20983.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -32,16 +35,16 @@ u32 func_021B9244(char *p)
     u32 c;
 
     r = 0;
-    if (((u32)*(u8 *)(p + 0x473) << 27 >> 31) == 0) {
-        if (**(u32 **)p <= 1) {
-            m = func_0200C274(func_02012F08(*(void **)(*(char **)p + 0x58)));
-            c = func_021D7FF8(*(u8 *)(*(char **)p + 0x80), func_021B9AF8(p + 0x1b0, *(u8 *)(p + 0x46c)));
+    if (((u32)((struct Obj04354 *)p)->f473 << 27 >> 31) == 0) {
+        if (**(u32 * *)&((struct Obj04354 *)p)->f0 <= 1) {
+            m = func_0200C274(func_02012F08(((struct Obj20982 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f58));
+            c = func_021D7FF8(((struct Obj20983 *)(*(char * *)&((struct Obj04354 *)p)->f0))->f80, func_021B9AF8(p + 0x1b0, ((struct Obj04354 *)p)->f46C));
             if (c > m)
                 c = m;
             r = c;
-            *(u32 *)(p + 0x438) = r;
+            ((struct Obj04354 *)p)->f438 = r;
         }
-        *(u8 *)(p + 0x473) |= 0x10;
+        ((struct Obj04354 *)p)->f473 |= 0x10;
     }
     return r;
 }

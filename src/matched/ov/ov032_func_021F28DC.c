@@ -14,15 +14,16 @@
  *   func_02010F8C 0x02010F8C thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj05123.h"
 extern void func_02165940(unsigned char *p);
 extern void func_02010F8C(void *);
 extern void func_020307B0(void *);
 void func_021F28DC(char *p)
 {
-    func_02165940(*(void **)(p + 0x38));
-    func_02010F8C(*(void **)(p + 0x24));
-    func_020307B0(*(void **)(p + 0x4c));
-    func_020307B0(*(void **)(p + 0x44));
-    func_020307B0(*(void **)(p + 0x40));
-    func_020307B0(*(void **)(p + 0x38));
+    func_02165940(((struct Obj05123 *)p)->f38);
+    func_02010F8C(((struct Obj05123 *)p)->f24);
+    func_020307B0(((struct Obj05123 *)p)->f4C);
+    func_020307B0(((struct Obj05123 *)p)->f44);
+    func_020307B0(((struct Obj05123 *)p)->f40);
+    func_020307B0(((struct Obj05123 *)p)->f38);
 }

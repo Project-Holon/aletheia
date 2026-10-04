@@ -11,5 +11,6 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021B99F4 0x021B99F4 thumb ov225
  */
+#include "../include/Obj08467.h"
 struct PrintSys;extern unsigned func_0201C4E4(struct PrintSys *);extern void func_021B99F4(char *);
-void func_021B9E60(char *p){func_0201C4E4(*(struct PrintSys **)(p+16));func_0201C4E4(*(struct PrintSys **)(p+20));func_0201C4E4(*(struct PrintSys **)(p+24));func_021B99F4(*(char **)(p+8));}
+void func_021B9E60(char *p){func_0201C4E4(*(struct PrintSys * *)&((struct Obj08467 *)p)->f10);func_0201C4E4(*(struct PrintSys * *)&((struct Obj08467 *)p)->f14);func_0201C4E4(*(struct PrintSys * *)&((struct Obj08467 *)p)->f18);func_021B99F4(*(char * *)&((struct Obj08467 *)p)->f8);}

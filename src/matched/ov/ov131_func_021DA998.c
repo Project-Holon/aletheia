@@ -33,6 +33,8 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B9A0 0x0204B9A0 arm
  */
+#include "../include/Obj00026.h"
+#include "../include/Obj00132.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -57,8 +59,8 @@ extern void func_0204B9A0(struct Actor *);
 int func_021DA998(u8 *a,u8 *b)
 {
     struct Vec2 point;
-    if (*(int *)(b+28)==1) return 0;
-    if (*(int *)(a+68)==1) {
+    if (((struct Obj00026 *)b)->f1C==1) return 0;
+    if (((struct Obj00132 *)a)->f44==1) {
         if (func_020362DC()!=1) goto out;
             b[41]=0;
             a[28]=0;
@@ -68,11 +70,11 @@ int func_021DA998(u8 *a,u8 *b)
             func_020061E4(1356);
             return 1;
     } else {
-        if (func_020362DC()==2 && *(int *)(b+20)==0) {
+        if (func_020362DC()==2 && ((struct Obj00026 *)b)->f14==0) {
             func_021D5A9C((char *)a,1);
-            func_0204B878(*(struct Obj **)(a+404),9);
+            func_0204B878(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
             func_021DBA78(b+176+b[41]*24,0);
-            func_0204B3DC(*(struct Obj **)(b+152),0);
+            func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f98,0);
             func_021D9E30(a,(int)b);
             a[28]=0;
             func_020061E4(1361);
@@ -88,36 +90,36 @@ int func_021DA998(u8 *a,u8 *b)
         } else {
             if (func_020362DC()==1) {
                 if ((*(u8 **)(a+8))[13]==6) goto out;
-                if (*(int *)(b+20)==0) {
+                if (((struct Obj00026 *)b)->f14==0) {
                     u8 selected;
-                    *(int *)(b+20)=1;
+                    ((struct Obj00026 *)b)->f14=1;
                     selected=b[41];
                     b[42]=selected;
                     func_021DBA78(b+176+selected*24,2);
                     func_021DBA54(b+176+b[42]*24,(u8 *)&point);
-                    func_0204B404(*(struct Obj **)(b+156),&point,0);
-                    func_0204B3DC(*(struct Obj **)(b+156),1);
-                    func_0204B9A0(*(struct Actor **)(b+156));
+                    func_0204B404(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,&point,0);
+                    func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,1);
+                    func_0204B9A0(*(struct Actor * *)&((struct Obj00026 *)b)->f9C);
                     func_020061E4(1356);
                 } else {
                     if (b[42]!=b[41]) {
                         func_021DB508(a,b,b[42],b[41]);
                         func_020061E4(1357);
                     } else {
-                        *(int *)(b+20)=0;
+                        ((struct Obj00026 *)b)->f14=0;
                         func_021DB468(a,b,b[41],0);
-                        func_0204B3DC(*(struct Obj **)(b+156),0);
+                        func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
                         func_020061E4(1356);
                     }
                 }
                 return 1;
             }
-            if (func_020362DC()==2 && *(int *)(b+20)==1) {
+            if (func_020362DC()==2 && ((struct Obj00026 *)b)->f14==1) {
                 func_021DBA78(b+176+b[42]*24,0);
                 func_021DB468(a,b,b[41],0);
-                func_0204B878(*(struct Obj **)(a+404),9);
-                func_0204B3DC(*(struct Obj **)(b+156),0);
-                *(int *)(b+20)=0;
+                func_0204B878(*(struct Obj * *)&((struct Obj00132 *)a)->f194,9);
+                func_0204B3DC(*(struct Obj * *)&((struct Obj00026 *)b)->f9C,0);
+                ((struct Obj00026 *)b)->f14=0;
                 b[42]=5;
                 func_020061E4(1361);
                 return 1;

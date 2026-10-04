@@ -19,6 +19,7 @@
  *   func_021D57FC  0x021D57FC  thumb  ov093
  *   func_021D799C  0x021D799C  thumb  ov093
  */
+#include "../include/Obj03197.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -39,11 +40,11 @@ int func_021D05C4(u8 *g, u8 a, int b, u8 *out)
     u32 i;
     u8 *m;
 
-    n = func_021B9B94(*(void **)(g + 0x118));
-    i = func_021D7F2C(func_021B8588(*(void **)g), g[0x11c]);
+    n = func_021B9B94(((struct Obj03197 *)g)->f118);
+    i = func_021D7F2C(func_021B8588(((struct Obj03197 *)g)->f0), g[0x11c]);
     for (; i < n; i++) {
         if (func_021CFBBC(g, i) == 0) {
-            m = func_021B9C00(*(void **)(g + 0x118), (u8)i);
+            m = func_021B9C00(((struct Obj03197 *)g)->f118, (u8)i);
             if (func_021D5B7C(m) != 0 && func_021D799C(a, func_021D57FC(m)) <= b) {
                 *out = i;
                 return 1;

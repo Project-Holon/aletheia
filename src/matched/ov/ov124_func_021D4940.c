@@ -14,6 +14,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00068.h"
 typedef short s16;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -30,14 +31,14 @@ extern void func_0201C724(void *,void *,s16,s16,void *,void *,u16);
 void func_021D4940(char *p,int n)
 {
     void *q;
-    func_02043B5C(func_02045770(*(void **)(p + 0x24)),1);
-    func_02043B5C(func_02045770(*(void **)(p + 0x20)),0);
-    q = func_02045EC0(*(void **)(p + 0x2c),n);
-    func_0201C724(*(void **)(p + 0x30),func_02045770(*(void **)(p + 0x24)),40,8,q,*(void **)(p + 0x28),0x3c40);
+    func_02043B5C(func_02045770(((struct Obj00068 *)p)->f24),1);
+    func_02043B5C(func_02045770(((struct Obj00068 *)p)->f20),0);
+    q = func_02045EC0(((struct Obj00068 *)p)->f2C,n);
+    func_0201C724(((struct Obj00068 *)p)->f30,func_02045770(((struct Obj00068 *)p)->f24),40,8,q,((struct Obj00068 *)p)->f28,0x3c40);
     func_02045808(q);
     n += 12;
-    q = func_02045EC0(*(void **)(p + 0x2c),n);
-    func_0201C724(*(void **)(p + 0x30),func_02045770(*(void **)(p + 0x20)),0,0,q,*(void **)(p + 0x28),0x3c40);
+    q = func_02045EC0(((struct Obj00068 *)p)->f2C,n);
+    func_0201C724(((struct Obj00068 *)p)->f30,func_02045770(((struct Obj00068 *)p)->f20),0,0,q,((struct Obj00068 *)p)->f28,0x3c40);
     func_02045808(q);
-    *(int *)(p + 0x1c) = 1;
+    ((struct Obj00068 *)p)->f1C = 1;
 }

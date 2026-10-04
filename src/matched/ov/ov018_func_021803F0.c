@@ -18,6 +18,7 @@
  *   func_02175B8C  0x02175B8C  thumb  ov011
  *   func_0217620C  0x0217620C  thumb  ov011
  */
+#include "../include/Obj19375.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -64,7 +65,7 @@ int func_021803F0(u8 *a, u8 *b)
     int kind;
     int r;
 
-    cur = func_02012B58((int)func_020120F4(func_02188C80(*(void **)(a + 0xC))));
+    cur = func_02012B58((int)func_020120F4(func_02188C80(((struct Obj19375 *)a)->fC)));
     kind = func_02175DCC(b + 0x1AC);
     r = state(a, b, cur);
     if (r >= 3) {

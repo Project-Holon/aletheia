@@ -16,6 +16,8 @@
  *   func_02185824 0x02185824 thumb ov219
  *   d_02185E18 0x02185E18 data a2
  */
+#include "../include/Obj04645.h"
+#include "../include/Obj04646.h"
 typedef unsigned short u16;
 typedef struct {u16 index,member;} Entry;
 extern const Entry d_02185E18[];
@@ -26,16 +28,16 @@ void func_02185580(char *p)
 {
     unsigned i;
     char *row;
-    *(void **)(p+0xC374)=func_02046DB8(197,0);
-    func_02046FF8(*(int **)(p+0xC374));
-    *(void **)(p+0xC38C)=func_02047400(*(void **)(p+0xC374),0,*(void **)(p+0xC374));
-    *(void **)(p+0xC3A4)=func_0204767C(*(unsigned *)(p+0xC38C),0,0);
+    ((struct Obj04645 *)p)->fC374=func_02046DB8(197,0);
+    func_02046FF8(*(int * *)&((struct Obj04645 *)p)->fC374);
+    ((struct Obj04645 *)p)->fC38C=func_02047400(((struct Obj04645 *)p)->fC374,0,((struct Obj04645 *)p)->fC374);
+    ((struct Obj04645 *)p)->fC3A4=func_0204767C(*(unsigned *)&((struct Obj04645 *)p)->fC38C,0,0);
     for(i=0;i<4;i++) {
         row=p+d_02185E18[i].index*4;
-        *(void **)(row+0xC378)=func_02046DB8(197,d_02185E18[i].member);
-        func_02046FF8(*(int **)(row+0xC378));
-        *(void **)(row+0xC390)=func_02047400(*(void **)(row+0xC378),0,*(void **)(row+0xC378));
-        *(void **)(row+0xC3A8)=func_0204767C(*(unsigned *)(row+0xC390),0,0);
+        ((struct Obj04646 *)row)->fC378=func_02046DB8(197,d_02185E18[i].member);
+        func_02046FF8(*(int * *)&((struct Obj04646 *)row)->fC378);
+        ((struct Obj04646 *)row)->fC390=func_02047400(((struct Obj04646 *)row)->fC378,0,((struct Obj04646 *)row)->fC378);
+        ((struct Obj04646 *)row)->fC3A8=func_0204767C(*(unsigned *)&((struct Obj04646 *)row)->fC390,0,0);
     }
     func_02185728(p);
     func_02185824(p);

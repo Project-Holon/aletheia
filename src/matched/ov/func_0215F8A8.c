@@ -22,6 +22,7 @@
  *   func_0215F920  0x0215F920  thumb  ov010
  *   func_0215F948  0x0215F948  thumb  ov010
  */
+#include "../include/Obj04132.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,13 +47,13 @@ void *func_0215F8A8(void *p, int a1)
     void *r0v = func_020122C0(p, 0, func_0215F734, 0x7C);
     char *r4 = func_020124E8(r0v);
 
-    *(int *)r4 = (int)p;
-    *(int *)(r4 + 4) = r7;
-    *(int *)(r4 + 8) = a1;
-    *(int *)(r4 + 0x10) = (int)func_02012944((void *)r7);
-    *(int *)(r4 + 0x78) = 0;
-    *(int *)(r4 + 0x14) = (int)p;
-    *(int *)(r4 + 0x18) = a1;
+    ((struct Obj04132 *)r4)->f0 = (int)p;
+    ((struct Obj04132 *)r4)->f4 = r7;
+    ((struct Obj04132 *)r4)->f8 = a1;
+    ((struct Obj04132 *)r4)->f10 = (int)func_02012944((void *)r7);
+    ((struct Obj04132 *)r4)->f78 = 0;
+    ((struct Obj04132 *)r4)->f14 = (int)p;
+    ((struct Obj04132 *)r4)->f18 = a1;
     func_0215E580((void *)r7);
     func_0215F900(r4);
     func_0215F920((int)r4);

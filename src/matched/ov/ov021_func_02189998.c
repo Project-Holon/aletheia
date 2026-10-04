@@ -14,6 +14,7 @@
  *   func_021C1AEC  0x021C1AEC  thumb  ov021
  *   func_021C1C4C  0x021C1C4C  thumb  ov021
  */
+#include "../include/Obj19499.h"
 
 typedef unsigned short u16;
 void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
@@ -24,5 +25,5 @@ void func_02189998(unsigned char *p)
 {
     func_0207DD24(0, 0, 0x7FFF, 0, 0);
     func_021C1AEC();
-    func_021C1C4C((char *)(*(int *)(p + 0x124)));
+    func_021C1C4C((char *)(((struct Obj19499 *)p)->f124));
 }

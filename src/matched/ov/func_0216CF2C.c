@@ -19,6 +19,7 @@
  *   func_0216D508  0x0216D508  thumb  ov010
  *   func_0216E180  0x0216E180  thumb  ov010
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,7 +62,7 @@ a0 = t4 + 0;
 loc_0216CF5A:
 a0 = t4 + 0;
 a0 = a0 + 0x88;
-a0 = *(int *)((char *)a0);
+a0 = *(int *)&((struct Obj00113 *)((char *)a0))->f0;
     a0 = func_0216D508(a0);
 loc_0216CF64:
 a0 = t4 + 0;

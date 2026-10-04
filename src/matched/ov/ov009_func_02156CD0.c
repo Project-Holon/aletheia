@@ -16,6 +16,7 @@
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009
  */
+#include "../include/Obj18655.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ int func_02156CD0(void)
     int *p = (int *)g_021A8264;
 
     if (p != 0) {
-        if ((u32)(*(int *)((char *)p + 0x754) - 9) <= 1)
+        if ((u32)(((struct Obj18655 *)p)->f754 - 9) <= 1)
             return 1;
     }
     return 0;

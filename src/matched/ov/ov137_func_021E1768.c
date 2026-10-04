@@ -12,6 +12,8 @@
  * The `&` operand order names the temporary: `field & (1 << i)` (field into
  * r2, mask into r0) reproduces the original; `(1 << i) & field` rotates them.
  */
+#include "../include/Obj03304.h"
+#include "../include/Obj23808.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -22,7 +24,7 @@ typedef signed int s32;
 
 int func_021E1768(char *p, int i)
 {
-    if (i != 0 && (*(u16 *)(*(char **)(p + 0xDC) + 0x42) & (1 << i)) == 0)
+    if (i != 0 && (((struct Obj23808 *)(*(char * *)&((struct Obj03304 *)p)->fDC))->f42 & (1 << i)) == 0)
         return 0;
     return 1;
 }

@@ -32,6 +32,7 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  *   func_021D8244 0x021D8244 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -79,7 +80,7 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
     if (force) mode = M1;
     else mode = func_021C39CC(p);
     if (mode == M2) return 0;
-    position = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(b));
+    position = func_021B8D8C(((struct Obj00003 *)p)->f4, ((struct Obj00003 *)p)->f8, func_021D5440(b));
     if (position == 6) return 0;
     if (func_021D5B68(b)) return 0;
     if (func_021D62C4(b, 33)) return 0;
@@ -89,16 +90,16 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
     if (blocked && func_021C88E4(p)) *out = 1;
     func_021CC95C(p + 0x1d74, lock, 8740);
     if (blocked) return 0;
-    func_021B8E28(*(u8 **)(p + 4), position, &pair.id, &pair.count);
+    func_021B8E28(*(u8 * *)&((struct Obj00003 *)p)->f4, position, &pair.id, &pair.count);
     if (mode == M1) {
         u8 id;
-        mode = func_021C39F4(p, func_021BB85C(*(u8 **)p, pair.id));
+        mode = func_021C39F4(p, func_021BB85C(*(u8 * *)&((struct Obj00003 *)p)->f0, pair.id));
         if (mode >= 0) {
-            id = func_021D5440((u8 *)func_021B990C((char *)(*(u32 *)(p + 8)), pair.id, (u8)mode));
+            id = func_021D5440((u8 *)func_021B990C((char *)(*(u32 *)&((struct Obj00003 *)p)->f8), pair.id, (u8)mode));
             func_021BDD7C(p, b, move);
             if (msg) func_021C99A0(p, msg);
             func_021BD9D4(p, pair.id, pair.count, (u8)mode, 0);
-            func_021CD64C(*(void **)(p + 12), 0x5b, 845, id, 0xffff0000);
+            func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 845, id, 0xffff0000);
             func_021BDA00(p);
         } else return 0;
     } else {
@@ -111,7 +112,7 @@ int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int ignore
         }
         func_021D8244(p + 0x4b8, slot);
         func_021BDD7C(p, b, move);
-        *(u32 *)(p + 20) = 5;
+        *(u32 *)&((struct Obj00003 *)p)->f14 = 5;
     }
     return 1;
 }

@@ -19,6 +19,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_021BAA5C 0x021BAA5C thumb
  */
+#include "../include/Obj00211.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Request {u16 x,y,z;u8 a,b;};
@@ -38,14 +39,14 @@ void func_021BA984(char *p)
 {
     void *object;
     struct Request request;
-    object=func_020490F4(205,*(u16 *)p);
-    *(int *)(p+540)=func_0204AC18(object,11,0,0,0,1,*(u16 *)p);
-    *(int *)(p+536)=func_0204A6C8(object,17,0,0,*(u16 *)p);
-    *(int *)(p+544)=func_0204AF28(object,24,28,*(u16 *)p);
+    object=func_020490F4(205,((struct Obj00211 *)p)->f0);
+    ((struct Obj00211 *)p)->f21C=func_0204AC18(object,11,0,0,0,1,((struct Obj00211 *)p)->f0);
+    ((struct Obj00211 *)p)->f218=func_0204A6C8(object,17,0,0,((struct Obj00211 *)p)->f0);
+    ((struct Obj00211 *)p)->f220=func_0204AF28(object,24,28,((struct Obj00211 *)p)->f0);
     func_02049238(object);
     func_02082BCC(&request,0,8);
     request.x=66;request.y=39;request.z=0;request.a=0;request.b=2;
-    *(void **)(p+548)=func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(int *)(p+536),*(int *)(p+540),*(int *)(p+544),&request,0,*(u16 *)p);
-    func_0204B92C(*(void **)(p+548),1);
+    ((struct Obj00211 *)p)->f224=func_0204B294((void *)func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj00211 *)p)->f218,((struct Obj00211 *)p)->f21C,((struct Obj00211 *)p)->f220,&request,0,((struct Obj00211 *)p)->f0);
+    func_0204B92C(((struct Obj00211 *)p)->f224,1);
     func_021BAA5C(p,0);
 }

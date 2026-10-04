@@ -12,11 +12,12 @@
  * symbols:
  *   func_021BE9E8 0x021BE9E8 thumb
  */
+#include "../include/Obj14599.h"
 
 extern void func_021BE9E8(int);
 
 void func_021BF79C(char *a)
 {
-    func_021BE9E8(*(int *)(a + 0x2c));
-    *(int *)(a + 0x2c) = 0;
+    func_021BE9E8(((struct Obj14599 *)a)->f2C);
+    ((struct Obj14599 *)a)->f2C = 0;
 }

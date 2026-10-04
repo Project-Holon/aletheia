@@ -17,6 +17,7 @@
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj12334.h"
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
-void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); *(u16 *)(p+2) = *(u16 *)(p+2) & ~(1<<(i+5)); }
+void func_02162330(char *p, unsigned i) { func_02082BCC(p+0x30+i*8,0,8); ((struct Obj12334 *)p)->f2 = ((struct Obj12334 *)p)->f2 & ~(1<<(i+5)); }

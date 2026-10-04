@@ -16,6 +16,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj08409.h"
 struct PrintSys;
 struct Descriptor;
 extern unsigned func_0201C4E4(struct PrintSys *);
@@ -33,10 +34,10 @@ void func_021BD3FC(const struct Context *p)
     for (i = 0; i < 3u; i++) {
         ps = p->ps;
         entry = (char *)p + i * 8;
-        if (*(unsigned char *)(entry + 36)) {
-            if (func_0201C6C4((struct PrintSys *)ps, func_02045770(*(struct Descriptor **)(entry + 32))) == 0) {
-                func_02045334(*(struct Descriptor **)(entry + 32));
-                *(unsigned char *)(entry + 36) = 0;
+        if (((struct Obj08409 *)entry)->f24) {
+            if (func_0201C6C4((struct PrintSys *)ps, func_02045770(*(struct Descriptor * *)&((struct Obj08409 *)entry)->f20)) == 0) {
+                func_02045334(*(struct Descriptor * *)&((struct Obj08409 *)entry)->f20);
+                ((struct Obj08409 *)entry)->f24 = 0;
             }
         }
     }

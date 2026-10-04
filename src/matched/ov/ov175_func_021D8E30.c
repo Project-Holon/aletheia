@@ -19,6 +19,7 @@
  *   func_021D8FA8 0x021D8FA8 thumb ov175
  *   func_021D8CF0 0x021D8CF0 thumb ov175
  */
+#include "../include/Obj00013.h"
 typedef unsigned long u32;
 extern void func_021E8738(int *p, int a, int b, int c);
 extern void func_021E8AB4(u32, u32);
@@ -35,7 +36,7 @@ void func_021D8E30(u32 sys, int *state, char *ctx)
     int result;
     switch (*state) {
     case 0:
-        func_021E8738((int *)(*(u32 *)(ctx + 0x2c)), *(u32 *)(ctx + 0x14), 0x4e, 1);
+        func_021E8738((int *)(((struct Obj00013 *)ctx)->f2C), ((struct Obj00013 *)ctx)->f14, 0x4e, 1);
         *state = 3;
         func_021E8AB4(sys, 1);
         break;
@@ -54,7 +55,7 @@ void func_021D8E30(u32 sys, int *state, char *ctx)
         }
         break;
     case 3:
-        if (func_021E8844((const int *)(*(u32 *)(ctx + 0x2c)))) func_021E8AB8(sys);
+        if (func_021E8844((const int *)(((struct Obj00013 *)ctx)->f2C))) func_021E8AB8(sys);
         break;
     }
 }

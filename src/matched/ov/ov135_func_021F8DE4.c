@@ -18,6 +18,8 @@
  *   tbl_021D654C 0x021D654C data ov115 a4
  *   ov115_id 0x00000073 data
  */
+#include "../include/Obj04527.h"
+#include "../include/Obj23403.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {
@@ -42,16 +44,16 @@ extern u8 ov115_id[];
 int func_021F8DE4(u8 *p)
 {
     Req *r;
-    *(Req **)(p + 0x10dc) = func_02030734(72, 28, 0, str_02203C34, 689);
-    func_02082BCC(*(Req **)(p + 0x10dc), 0, 28);
-    r = *(Req **)(p + 0x10dc);
-    r->save = func_020120F4(*(void **)(*(u8 **)p + 64));
+    *(Req * *)&((struct Obj04527 *)p)->f10DC = func_02030734(72, 28, 0, str_02203C34, 689);
+    func_02082BCC(*(Req * *)&((struct Obj04527 *)p)->f10DC, 0, 28);
+    r = *(Req * *)&((struct Obj04527 *)p)->f10DC;
+    r->save = func_020120F4(((struct Obj23403 *)(*(u8 * *)&((struct Obj04527 *)p)->f0))->f40);
     r->zero = 0;
     r->enabled = 1;
     r->callback = (void (*)(void))func_021F8F5C;
     r->context = p;
-    func_02031348(*(void **)(p + 0x12f0), (u32)ov115_id, tbl_021D654C, *(Req **)(p + 0x10dc));
-    *(int *)(p + 40) = 5;
+    func_02031348(((struct Obj04527 *)p)->f12F0, (u32)ov115_id, tbl_021D654C, *(Req * *)&((struct Obj04527 *)p)->f10DC);
+    ((struct Obj04527 *)p)->f28 = 5;
     func_0200F7B8(0);
     return 2;
 }

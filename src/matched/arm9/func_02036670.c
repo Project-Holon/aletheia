@@ -21,6 +21,7 @@
  *   python tools/match.py one --src src/matched/func_02036670.c \
  *       --func func_02036670 --addr 0x02036670 --cc 1.1p1 --arm
  */
+#include "../include/Obj15902.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ u8 *func_02036670(u32 *p)
     q = (u8 *)p[6];
     n = (s32)p[7];
     for (i = 0; i < n; i++) {
-        if (*(u16 *)(q + 0x0E) == 0)
+        if (((struct Obj15902 *)q)->fE == 0)
             return q;
         q += 0x14;
     }

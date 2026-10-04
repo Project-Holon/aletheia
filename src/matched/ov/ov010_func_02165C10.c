@@ -9,13 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj18996.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 int func_02165C10(u8 *p)
 {
-    switch (*(u16 *)(p + 0x30)) {
+    switch (((struct Obj18996 *)p)->f30) {
     case 0x19:
     case 0x1A:
     case 0x1B:

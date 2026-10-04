@@ -9,10 +9,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj14029.h"
 char *func_021C4954(unsigned *p, unsigned id)
 {
  unsigned i=0;
  if (i<p[1]) { char *base=(char *)p[0]; char *e;
- do { e=base+i*24; if (*(unsigned *)e==1 && id==*(unsigned short *)(e+12)) return e; i++; } while(i<p[1]); }
+ do { e=base+i*24; if (((struct Obj14029 *)e)->f0==1 && id==((struct Obj14029 *)e)->fC) return e; i++; } while(i<p[1]); }
  return 0;
 }

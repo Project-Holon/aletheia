@@ -20,10 +20,11 @@
  *   python tools/match.py one --src src/matched/func_0215A610.c \
  *       --func func_0215A610 --addr 0x0215A610 --region ov010 --cc dsi/1.1p1 --thumb
  */
+#include "../include/Obj17662.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-u16 func_0215A610(void *p) { return *(u16 *)((char *)p + 24); }
+u16 func_0215A610(void *p) { return ((struct Obj17662 *)p)->f18; }

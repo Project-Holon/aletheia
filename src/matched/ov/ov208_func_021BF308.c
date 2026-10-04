@@ -23,6 +23,8 @@
  *   func_0204B688 0x0204B688 arm
  *   d_021C851C 0x021C851C data ov208 a1
  */
+#include "../include/Obj02254.h"
+#include "../include/Obj05538.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,9 +58,9 @@ void func_021BF308(u16 *heap, char *p, int key)
     owner = func_021BCF4C((char *)func_021BC3A8((int *)key));
     i = 0;
     arc = func_020490F4(0x9f, *heap);
-    *(u32 *)(p + 0x9c) = func_021BDC80(scene);
-    *(u32 *)(p + 0xa0) = func_0204A6C8(arc, 0xd, 0, 0, *heap);
-    *(u32 *)(p + 0xa4) = func_0204AF28(arc, 0x1b, 0x2c, *heap);
+    ((struct Obj05538 *)p)->f9C = func_021BDC80(scene);
+    ((struct Obj05538 *)p)->fA0 = func_0204A6C8(arc, 0xd, 0, 0, *heap);
+    ((struct Obj05538 *)p)->fA4 = func_0204AF28(arc, 0x1b, 0x2c, *heap);
     func_02049238(arc);
     flag = (u16)i;
     do {
@@ -71,16 +73,16 @@ void func_021BF308(u16 *heap, char *p, int key)
         q[0x21] = t[3];
         q[0x22] = t[4];
         q[0x23] = t[5];
-        *(u16 *)(q + 0x24) = t[6];
-        *(u16 *)(q + 0x26) = t[7];
+        ((struct Obj02254 *)q)->f24 = t[6];
+        ((struct Obj02254 *)q)->f26 = t[7];
         q[0x28] = t[8];
-        *(u32 *)(q + 0x2c) = 0;
+        ((struct Obj02254 *)q)->f2C = 0;
         pos.x = t[0];
         pos.y = t[1];
-        pos.z = *(u16 *)(q + 0x24);
-        *(u32 *)(q + 0x1c) = func_0204B294(owner, *(u32 *)(p + 0xa0), *(u32 *)(p + 0x9c), *(u32 *)(p + 0xa4), &pos, flag, *heap);
-        func_0204B92C((struct Obj *)*(u32 *)(q + 0x1c), 1);
-        func_0204B688((struct Actor *)(*(u32 *)(q + 0x1c)), 1);
+        pos.z = ((struct Obj02254 *)q)->f24;
+        ((struct Obj02254 *)q)->f1C = func_0204B294(owner, ((struct Obj05538 *)p)->fA0, ((struct Obj05538 *)p)->f9C, ((struct Obj05538 *)p)->fA4, &pos, flag, *heap);
+        func_0204B92C((struct Obj *)((struct Obj02254 *)q)->f1C, 1);
+        func_0204B688((struct Actor *)(((struct Obj02254 *)q)->f1C), 1);
         i = (u8)(i + 1);
     } while ((u32)i < 6);
 }

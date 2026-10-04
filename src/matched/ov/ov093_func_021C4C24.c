@@ -16,6 +16,7 @@
  *   func_021CD4B0 0x021CD4B0 thumb ov093
  *   func_021C4C40 0x021C4C40 thumb ov093
  */
+#include "../include/Obj21096.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021EF934(int, int);
@@ -24,5 +25,5 @@ extern void func_021C4C40(int, void *);
 void func_021C4C24(u8 *p)
 {
     func_021EF934((int)func_021C4C40, (int)p);
-    func_021CD4B0(*(void **)(p + 12), 47, 0);
+    func_021CD4B0(((struct Obj21096 *)p)->fC, 47, 0);
 }

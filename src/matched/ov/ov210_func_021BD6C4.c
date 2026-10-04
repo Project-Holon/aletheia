@@ -24,6 +24,7 @@
  *   func_021BF6E0  0x021BF6E0  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ extern void func_021BF6E0(u8 *p);
 u32 func_021BD6C4(u8 *p)
 {
     u32 ret = 13;
-    u32 r5 = func_021B7AB0((struct S *)(*(u32 *)(p + 0x1e0)));
+    u32 r5 = func_021B7AB0((struct S *)(*(u32 *)&((struct Obj00085 *)p)->f1E0));
 
     switch (r5) {
     case 0:
@@ -74,15 +75,15 @@ u32 func_021BD6C4(u8 *p)
     case (u32)-7:
         func_021BEDB8((int)p, 6, 12);
         p[0x2c1] = 6;
-        *(u32 *)(p + 0x14) = 0;
-        *(u32 *)(p + 0x18) = ret;
+        ((struct Obj00085 *)p)->f14 = 0;
+        ((struct Obj00085 *)p)->f18 = ret;
         ret = 0x18;
         break;
     case (u32)-6:
         func_021BEDB8((int)p, 5, 13);
         p[0x2c1] = 5;
-        *(u32 *)(p + 0x14) = 0;
-        *(u32 *)(p + 0x18) = ret;
+        ((struct Obj00085 *)p)->f14 = 0;
+        ((struct Obj00085 *)p)->f18 = ret;
         ret = 0x18;
         break;
     case (u32)-5:
@@ -94,10 +95,10 @@ u32 func_021BD6C4(u8 *p)
     case (u32)-3:
     case (u32)-2:
         func_021BF81C(p);
-        func_021BFABC(p, 0, (*(u8 **)(*(u8 **)p + 8))[2]);
+        func_021BFABC(p, 0, (*(u8 **)(*(u8 * *)&((struct Obj00085 *)p)->f0 + 8))[2]);
         p[0x2c1] = 0x39;
-        *(u32 *)(p + 0x14) = 1;
-        *(u32 *)(p + 0x18) = ret;
+        ((struct Obj00085 *)p)->f14 = 1;
+        ((struct Obj00085 *)p)->f18 = ret;
         ret = 0x18;
         break;
     case (u32)-1:

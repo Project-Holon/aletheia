@@ -43,6 +43,7 @@
  *   python3 tools/match.py one --src src/pending/func_0202EE8C.c \
  *       --func func_0202EE8C --addr 0x0202EE8C --cc 1.1p1 --thumb
  */
+#include "../include/Obj08812.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -62,8 +63,8 @@ u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)
     v = func_020311B8(a, unk_0202F0A5, 0x1c, 0);
     r = func_02031290(v);
     func_0202EECC(r, b, c, d, e);
-    *(u32 *)(r + 4) = (u32)v;
-    *(u32 *)r = 0;
-    *(u32 *)(r + 0x18) = 1;
+    ((struct Obj08812 *)r)->f4 = (u32)v;
+    ((struct Obj08812 *)r)->f0 = 0;
+    ((struct Obj08812 *)r)->f18 = 1;
     return r;
 }

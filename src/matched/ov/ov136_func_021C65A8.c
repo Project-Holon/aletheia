@@ -18,6 +18,7 @@
  *   d_021C78E0 0x021C78E0 data a4
  *   d_021C7BA0 0x021C7BA0 data a4
  */
+#include "../include/Obj23593.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,7 +37,7 @@ void func_021C65A8(u8 *p)
 
     func_0204A48C((const struct Cfg *)d_021C7BA0, (u32)d_021C78E0, 0x66);
     bank = func_0204B100(8, 0, 0x66);
-    *(void **)(p + 0x1EC) = bank;
+    ((struct Obj23593 *)p)->f1EC = bank;
     func_0204B270(bank);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);

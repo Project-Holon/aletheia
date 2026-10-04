@@ -14,6 +14,10 @@
  * func_02082BCC 0x02082BCC arm
  * d_021B753C 0x021B753C data a1
  */
+#include "../include/Obj10228.h"
+#include "../include/Obj10229.h"
+#include "../include/Obj10230.h"
+#include "../include/Obj10231.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern char d_021B753C[];
@@ -24,14 +28,14 @@ int func_021B6D5C(unsigned a,int p) {
  int q;
  q=(int)func_02030734(a,0x18,0,d_021B753C,0x3e4);
  func_02082BCC(q,0,0x18);
- *(int *)q=**(int **)(p+0x10);
- *(int *)(q+4)=*(int *)p;
- *(int *)(q+8)=*(int *)(p+0x3c);
+ ((struct Obj10229 *)q)->f0=**(int * *)&((struct Obj10228 *)p)->f10;
+ ((struct Obj10229 *)q)->f4=((struct Obj10228 *)p)->f0;
+ ((struct Obj10229 *)q)->f8=((struct Obj10228 *)p)->f3C;
  return q;
 }
 void func_021B6D90(int p,int q) {
- *(int *)(q+0x28)=*(int *)(p+0xc);
- *(u8 *)(q+0x2c)=*(u8 *)(p+0x10);
- *(u8 *)(q+0x2d)=*(int *)(p+0x14);
+ ((struct Obj10231 *)q)->f28=((struct Obj10230 *)p)->fC;
+ ((struct Obj10231 *)q)->f2C=((struct Obj10230 *)p)->f10;
+ ((struct Obj10231 *)q)->f2D=((struct Obj10230 *)p)->f14;
  func_020307B0((void *)p);
 }

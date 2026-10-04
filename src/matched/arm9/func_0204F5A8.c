@@ -17,6 +17,7 @@
  * symbols:
  *   none (no external calls; 0x3fff is a plain literal)
  */
+#include "../include/Obj16135.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ struct Rec {
 
 void func_0204F5A8(void *p, u32 idx)
 {
-    struct Rec *r = (struct Rec *)(*(u8 **)((u8 *)p + 8) + idx * 0x1c);
+    struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj16135 *)p)->f8 + idx * 0x1c);
 
     if (r->lo != 0x3fff) {
         r->lo = 0x3fff;

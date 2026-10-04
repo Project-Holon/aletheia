@@ -20,6 +20,7 @@
  *   func_021D5854  0x021D5854  thumb  ov093
  *   func_021D6C24  0x021D6C24  thumb  ov093
  */
+#include "../include/Obj20995.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -60,7 +61,7 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
                 func_021D5848(m, func_021D5844(arr->e[j]));
             } else {
                 h = func_021D5864(m);
-                if (h != *(void **)(a + 0x2c0))
+                if (h != ((struct Obj20995 *)a)->f2C0)
                     func_021D5854(m);
             }
         }

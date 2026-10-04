@@ -21,6 +21,7 @@
  *   func_02185C84 0x02185C84 thumb ov219
  *   d_02185DCB 0x02185DCB data a1
  */
+#include "../include/Obj02934.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern const u8 d_02185DCB[];
@@ -36,16 +37,16 @@ extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
 void func_02185254(char *p,unsigned key,unsigned member)
 {
     void *first,*second,*object;
-    first=func_020457B0(64,*(unsigned *)p);
-    second=func_020457B0(64,*(unsigned *)p);
-    *(void **)(p+0xC040)=(void *)func_02184968(d_02185DCB,1);
-    func_02185C84(key,member,first,second,*(unsigned *)p);
-    if(member!=0) func_02184D30(p,p+0xC044,*(void **)(p+0xC040),second,0,16);
-    func_02184D30(p,p+0xC044,*(void **)(p+0xC040),first,0,0);
+    first=func_020457B0(64,((struct Obj02934 *)p)->f0);
+    second=func_020457B0(64,((struct Obj02934 *)p)->f0);
+    ((struct Obj02934 *)p)->fC040=(void *)func_02184968(d_02185DCB,1);
+    func_02185C84(key,member,first,second,((struct Obj02934 *)p)->f0);
+    if(member!=0) func_02184D30(p,p+0xC044,((struct Obj02934 *)p)->fC040,second,0,16);
+    func_02184D30(p,p+0xC044,((struct Obj02934 *)p)->fC040,first,0,0);
     func_02045808(second);
     func_02045808(first);
-    func_0201F73C(*(void **)(p+0xC040),0,34,7);
-    object=*(void **)(p+0xC040);
+    func_0201F73C(((struct Obj02934 *)p)->fC040,0,34,7);
+    object=((struct Obj02934 *)p)->fC040;
     func_02045334(object);
     func_02045374(object);
     func_02041B6C(func_02045730(object));

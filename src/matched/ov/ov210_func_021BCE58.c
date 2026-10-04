@@ -14,6 +14,7 @@
  *   func_021BEE38 0x021BEE38 thumb ov210
  * BEE38 parameters widened: original call uses signed full-width loads.
  */
+#include "../include/Obj00085.h"
 typedef unsigned short u16;
 typedef signed short s16;
 struct WinMgr;
@@ -27,17 +28,17 @@ int func_021BCE58(char *p)
     unsigned int i;
     short x, y;
     int magnitude;
-    if (*(u16 *)(p + 0x2c8) == 0) return 0;
-    func_0202CD94(*(struct WinMgr **)(p + 0x20));
-    func_02041EE4(4, 4, *(s16 *)(p + 0x2ca));
-    func_02041EE4(7, 4, *(s16 *)(p + 0x2ca));
+    if (((struct Obj00085 *)p)->f2C8 == 0) return 0;
+    func_0202CD94(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
+    func_02041EE4(4, 4, ((struct Obj00085 *)p)->f2CA);
+    func_02041EE4(7, 4, ((struct Obj00085 *)p)->f2CA);
     for (i = 2; i <= 4; i++) {
         func_021BEE58(p, i, &x, &y, 0);
-        y += *(s16 *)(p + 0x2ca);
+        y += ((struct Obj00085 *)p)->f2CA;
         func_021BEE38(p, i, x, y, 0);
     }
-    magnitude = *(s16 *)(p + 0x2ca);
+    magnitude = ((struct Obj00085 *)p)->f2CA;
     if (magnitude < 0) magnitude = -magnitude;
-    *(u16 *)(p + 0x2c8) -= (u16)magnitude;
+    ((struct Obj00085 *)p)->f2C8 -= (u16)magnitude;
     return 1;
 }

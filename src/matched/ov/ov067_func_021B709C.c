@@ -16,6 +16,7 @@
  *   func_0203FB44  0x0203FB44  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj07677.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,9 +39,9 @@ void func_021B709C(u8 *p)
         func_0204B3B4((struct Obj *)(*(u32 *)(p + i * 4 + 0xa0)));
     }
     func_021B6284(p + 0xb0);
-    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x88)));
-    func_020452E8((struct Descriptor *)(*(u32 *)(p + 0x8c)));
-    v = *(u32 *)(p + 0x84);
+    func_020452E8((struct Descriptor *)(((struct Obj07677 *)p)->f88));
+    func_020452E8((struct Descriptor *)(((struct Obj07677 *)p)->f8C));
+    v = ((struct Obj07677 *)p)->f84;
     func_0203FB44(p[0x14], (u16)v, (u16)(v >> 16));
     func_020307B0(p);
 }

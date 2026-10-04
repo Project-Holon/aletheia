@@ -15,10 +15,11 @@
  * function at 0x021B9C8C; four-byte word getter.  Blocker target of
  * func_021BA0B0 (pkt_021BA0B0), whose ov218 hint then covers it.
  */
+#include "../include/Obj26043.h"
 
 typedef unsigned int u32;
 
 u32 func_021B9C88(char *p)
 {
-    return *(u32 *)(p + 8);
+    return ((struct Obj26043 *)p)->f8;
 }

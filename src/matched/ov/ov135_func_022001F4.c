@@ -16,6 +16,7 @@
  *   func_0203D34C 0x0203D34C arm
  *   d_022038E0 0x022038E0 data a2
  */
+#include "../include/Obj02862.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,14 +38,14 @@ void func_022001F4(u8 *p)
     pos.z = 0;
     pos.pri = 0;
     pos.f7 = 1;
-    *(void **)(p + 0xBF4) = func_0204B294(*(void **)(p + 0xBC0), (unsigned int)*(void **)(p + 0xBE8), (unsigned int)*(void **)(p + 0xBC8), (unsigned int)*(void **)(p + 0xBF0), &pos, 0, 0x48);
-    func_0204B92C(*(void **)(p + 0xBF4), 1);
-    func_0204B878(*(void **)(p + 0xBF4), 0);
+    ((struct Obj02862 *)p)->fBF4 = func_0204B294(((struct Obj02862 *)p)->fBC0, (unsigned int)((struct Obj02862 *)p)->fBE8, (unsigned int)((struct Obj02862 *)p)->fBC8, (unsigned int)((struct Obj02862 *)p)->fBF0, &pos, 0, 0x48);
+    func_0204B92C(((struct Obj02862 *)p)->fBF4, 1);
+    func_0204B878(((struct Obj02862 *)p)->fBF4, 0);
     if (func_020355C4() == 1) {
-        func_0204B3DC(*(void **)(p + 0xBF4), 0);
+        func_0204B3DC(((struct Obj02862 *)p)->fBF4, 0);
     } else {
-        func_0204B878(*(void **)(p + 0xBF4), 0);
-        func_0204B3DC(*(void **)(p + 0xBF4), 1);
+        func_0204B878(((struct Obj02862 *)p)->fBF4, 0);
+        func_0204B3DC(((struct Obj02862 *)p)->fBF4, 1);
     }
     func_0203D34C(0, 0x48);
 }

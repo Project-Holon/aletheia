@@ -17,6 +17,7 @@
  *   func_020091AC  0x020091AC  thumb
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj00042.h"
 
 extern int func_021F2B9C(void *, int, int);
 extern int func_021F2BB8(void *, int, int);
@@ -58,7 +59,7 @@ int func_021F133C(char *p, int v, int *o1, int *o2)
     }
     if (found) {
         func_021F0D14(a, b, o1, o2);
-        func_020091AC((struct Sub020090B0Obj *)(*(int *)(p + 0x20)), a, b, v, 1, 0);
+        func_020091AC((struct Sub020090B0Obj *)(*(int *)&((struct Obj00042 *)p)->f20), a, b, v, 1, 0);
         func_021F1290(p, a, b, v);
         func_020409B4(4);
         return 1;

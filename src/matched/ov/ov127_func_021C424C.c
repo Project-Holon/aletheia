@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14015.h"
 
 typedef unsigned int   u32;
 struct Obj;
@@ -21,6 +22,6 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021C424C(char *p, int a)
 {
-    if (*(void **)(p + 8) != 0)
-        func_0204B3DC(*(void **)(p + 8), a);
+    if (((struct Obj14015 *)p)->f8 != 0)
+        func_0204B3DC(((struct Obj14015 *)p)->f8, a);
 }

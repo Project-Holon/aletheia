@@ -22,6 +22,9 @@
  *   func_020355D8 0x020355D8 arm
  *   func_02035D20 0x02035D20 arm
  */
+#include "../include/Obj02558.h"
+#include "../include/Obj26065.h"
+#include "../include/Obj26066.h"
 typedef unsigned int u32;
 extern int func_021B9B64(unsigned char*);
 extern int func_021B9DAC(unsigned char*);
@@ -50,14 +53,14 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 0:
   ready=1;
   if(func_021B9B64(p)==0) ready=0;
-  if(ready && *(int*)(*(char**)(p+4)+4)==0) {
+  if(ready && ((struct Obj26065 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4==0) {
    if(func_02005E50()) ready=0;
    else {func_02005DE4((void*)1);func_02005E64();func_02005D90(0x524,0xffff);}
   }
   if(ready) {func_0204E720(3,16,0,0);*state=1;}
   break;
  case 1:
-  if(!func_0204E804()) {if(*(int*)(*(char**)(p+4)+4)!=0) *state=4;else *state=2;}
+  if(!func_0204E804()) {if(((struct Obj26066 *)(*(char* *)&((struct Obj02558 *)p)->f4))->f4!=0) *state=4;else *state=2;}
   break;
  case 2: if(func_021B9DAC(p)) *state=3; break;
  case 3:
@@ -72,10 +75,10 @@ int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
  case 5: if(!func_0204E804()) *state=6; break;
  case 6: return 1;
  }
- func_0201C4E4(*(void**)(p+16));
+ func_0201C4E4(*(void* *)&((struct Obj02558 *)p)->f10);
  func_021B9B18(p);
  if(*state>=1 && *state<=5) func_021B9D38(p);
- func_021B9F7C(*(void**)(p+8));
+ func_021B9F7C(*(void* *)&((struct Obj02558 *)p)->f8);
  return 0;
 }
 void func_021B98FC(void) {}

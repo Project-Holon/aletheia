@@ -18,6 +18,8 @@
  *   func_021FB8CC 0x021FB8CC thumb ov132
  *   d_021FDD00 0x021FDD00 data a1
  */
+#include "../include/Obj04517.h"
+#include "../include/Obj08165.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,20 +38,20 @@ int func_021FB808(int unused, char *p)
     int mask, wait, amplitude, duration, count;
     u8 i;
     TaskData *data;
-    obj = *(char **)p;
-    mask = func_021FB1F4(p, func_0201134C(*(void **)(p + 4)));
-    duration = func_0201134C(*(void **)(p + 4));
-    count = func_0201134C(*(void **)(p + 4));
-    amplitude = func_0201134C(*(void **)(p + 4));
-    wait = func_0201134C(*(void **)(p + 4));
-    func_021F9DA0(*(void **)(obj + 0x34));
+    obj = *(char * *)&((struct Obj04517 *)p)->f0;
+    mask = func_021FB1F4(p, func_0201134C(((struct Obj04517 *)p)->f4));
+    duration = func_0201134C(((struct Obj04517 *)p)->f4);
+    count = func_0201134C(((struct Obj04517 *)p)->f4);
+    amplitude = func_0201134C(((struct Obj04517 *)p)->f4);
+    wait = func_0201134C(((struct Obj04517 *)p)->f4);
+    func_021F9DA0(((struct Obj08165 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            data = func_02030734(*(u16 *)obj, 0x20, 0, d_021FDD00, 0x443);
+            data = func_02030734(((struct Obj08165 *)obj)->f0, 0x20, 0, d_021FDD00, 0x443);
             data->owner = obj;
-            data->slot = func_021F9DA4(*(void **)(obj + 0x34), i);
+            data->slot = func_021F9DA4(((struct Obj08165 *)obj)->f34, i);
             data->amplitude = amplitude;
-            data->context = *(void **)(obj + 0x34);
+            data->context = ((struct Obj08165 *)obj)->f34;
             data->tick = 0;
             data->duration = duration;
             data->count = count;
@@ -60,7 +62,7 @@ int func_021FB808(int unused, char *p)
         int product;
         product = count;
         product *= duration;
-        *(u16 *)(p + 0x14) = product;
+        ((struct Obj04517 *)p)->f14 = product;
         return 1;
     }
     return 0;

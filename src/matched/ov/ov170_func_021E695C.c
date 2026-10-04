@@ -29,6 +29,14 @@
  *   func_021EF670 0x021EF670 thumb ov170
  *   func_021EF68C 0x021EF68C thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23905.h"
+#include "../include/Obj23906.h"
+#include "../include/Obj23907.h"
+#include "../include/Obj23908.h"
+#include "../include/Obj23909.h"
+#include "../include/Obj23910.h"
+#include "../include/Obj23911.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
@@ -54,43 +62,43 @@ int func_021E695C(u8 *p)
 {
     u8 index;
     u8 selection;
-    switch (*(u32 *)(*(u8 **)(p + 44) + 0xa194)) {
+    switch (((struct Obj23905 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194) {
     case 0:
         func_021DF040((char *)p);
-        func_021EC000(*(char **)(p + 44), 4, 0);
+        func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 4, 0);
         if (p[30] == 0) {
-            func_021EF3A0(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
+            func_021EF3A0(*(struct WinMgr * *)&((struct Obj23906 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
         } else {
-            func_021ED888(*(char **)(p + 44), 0);
+            func_021ED888(*(char * *)&((struct Obj00000 *)p)->f2C, 0);
             func_021ECB20(p, 1, 1);
-            func_021EF3EC(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
+            func_021EF3EC(*(struct WinMgr * *)&((struct Obj23907 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
         }
         func_020061E4(0x669);
-        (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
+        (((struct Obj23908 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194)++;
         return func_021E8FC0(p, func_021E01B0, 65);
     case 1:
-        *(u32 *)(*(u8 **)(p + 44) + 0xa194) = 0;
+        ((struct Obj23909 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194 = 0;
         func_021ED544(p, 6);
         func_021ED508(p, 14, 1);
         func_021EE038(p, 0, 0, 1);
         if (p[30] == 0) {
-            index = func_020260E0(*(void **)(*(u8 **)(p + 44) + 112));
+            index = func_020260E0(((struct Obj23910 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
             if (index >= 36)
                 index = 0;
             else if (index >= 30)
                 index = 0;
             func_021EE364((char **)p, 7, index);
             func_021DEFEC(p, index);
-            func_021EF670(*(char **)(p + 44));
+            func_021EF670(*(char * *)&((struct Obj00000 *)p)->f2C);
             return 57;
         } else {
-            index = func_020260E0(*(void **)(*(u8 **)(p + 44) + 112));
+            index = func_020260E0(((struct Obj23911 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
             selection = 0;
             if (index < 36 && index >= 30)
                 selection = index - 30;
             func_021EE364((char **)p, 8, selection);
             func_021DEFEC(p, selection + 30);
-            func_021EF68C(*(char **)(p + 44));
+            func_021EF68C(*(char * *)&((struct Obj00000 *)p)->f2C);
             return 70;
         }
     }

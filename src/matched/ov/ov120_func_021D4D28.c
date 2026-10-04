@@ -30,6 +30,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021D588C 0x021D588C thumb ov120
  */
+#include "../include/Obj00495.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021D6988(u8 *p);
@@ -60,12 +61,12 @@ void func_021D4D28(u8 *p)
 {
     int changed = 0;
     int done = 0;
-    u8 *q = (u8 *)func_021D6988(*(void **)(p + 0x3c));
-    if (func_021D7AF4(*(void **)(p + 0x40))) {
+    u8 *q = (u8 *)func_021D6988(((struct Obj00495 *)p)->f3C);
+    if (func_021D7AF4(((struct Obj00495 *)p)->f40)) {
         if (func_021B6498(q) == 0) {
-            func_021D7C10((char *)(*(int *)(p + 0x40)));
+            func_021D7C10((char *)(*(int *)&((struct Obj00495 *)p)->f40));
             if (func_020362DC() != 0 && func_020355C4() == 1) {
-                func_021D69F4(*(void **)(p + 0x3c), *(void **)(p + 0x34), *(int *)(p + 0x160));
+                func_021D69F4(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f34, ((struct Obj00495 *)p)->f160);
                 func_020355D8(changed);
                 return;
             }
@@ -74,40 +75,40 @@ void func_021D4D28(u8 *p)
             if (func_020362DC() == 0x40) {
                 func_020061E4(0x548);
                 changed = 1;
-                if (*(int *)(p + 0x160) != 2) --*(int *)(p + 0x160);
+                if (((struct Obj00495 *)p)->f160 != 2) --((struct Obj00495 *)p)->f160;
             }
             if (func_020362DC() == 0x80) {
                 func_020061E4(0x548);
                 changed = 1;
-                if (*(int *)(p + 0x160) != 5) ++*(int *)(p + 0x160);
+                if (((struct Obj00495 *)p)->f160 != 5) ++((struct Obj00495 *)p)->f160;
             }
-            if (func_020362DC() == 1 && *(int *)(p + 0x160) == 5) {
+            if (func_020362DC() == 1 && ((struct Obj00495 *)p)->f160 == 5) {
                 func_020061E4(0x54c);
-                func_021D6A9C(*(void **)(p + 0x3c), *(int *)(p + 0x160));
-                func_0202822C(*(void **)(p + 0x34), 1);
+                func_021D6A9C(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f160);
+                func_0202822C(((struct Obj00495 *)p)->f34, 1);
                 func_021D4244((int)p, (int)func_021D4CC4, 0x4ca);
                 return;
             }
             if (changed)
-                func_021D69F4(*(void **)(p + 0x3c), *(void **)(p + 0x34), *(int *)(p + 0x160));
+                func_021D69F4(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f34, ((struct Obj00495 *)p)->f160);
             if (func_02035C08(d_021D88D0) == 0) {
                 func_020355D8(1);
                 func_020061E4(0x54c);
-                func_0202822C(*(void **)(p + 0x34), 1);
+                func_0202822C(((struct Obj00495 *)p)->f34, 1);
                 func_021D4244((int)p, (int)func_021D4CC4, 0x4f2);
                 return;
             }
         }
-        func_021B63D0((u8 *)func_021D6988(*(void **)(p + 0x3c)));
-        if (func_021B6448((u8 *)func_021D6988(*(void **)(p + 0x3c))) == 1) done = 1;
+        func_021B63D0((u8 *)func_021D6988(((struct Obj00495 *)p)->f3C));
+        if (func_021B6448((u8 *)func_021D6988(((struct Obj00495 *)p)->f3C)) == 1) done = 1;
         if (done) {
             int zero = 0;
             func_02040588(4, 0);
-            func_021D69F4(*(void **)(p + 0x3c), *(void **)(p + 0x34), 9);
-            func_021D7EC4(*(void **)(p + 0x40));
-            func_021D68C4(*(u8 **)(p + 0x3c));
-            func_02028148(*(void **)(p + 0x34));
-            *(int *)(p + 0x34) = zero;
+            func_021D69F4(((struct Obj00495 *)p)->f3C, ((struct Obj00495 *)p)->f34, 9);
+            func_021D7EC4(((struct Obj00495 *)p)->f40);
+            func_021D68C4(*(u8 * *)&((struct Obj00495 *)p)->f3C);
+            func_02028148(((struct Obj00495 *)p)->f34);
+            *(int *)&((struct Obj00495 *)p)->f34 = zero;
             func_02041B6C(5);
             func_021D4244((int)p, (int)func_021D588C, 0x50b);
         }

@@ -19,6 +19,7 @@
  *   func_021EB874 0x021EB874 thumb
  *   func_021EC01C 0x021EC01C thumb
  */
+#include "../include/Obj00000.h"
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
@@ -43,28 +44,28 @@ void func_021EDD38(char *p, int d)
     if (d < 0)
         step *= -1;
     for (i = 0; i < 6u; i++) {
-        func_021EC0B0(*(char **)(p + 0x2C), i + 0x2D, &t[3], &t[2], 0);
+        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, &t[3], &t[2], 0);
         x = t[2] + step;
-        func_021EC08C(*(char **)(p + 0x2C), i + 0x2D, t[3], x, 0);
-        func_020258E8(*(void **)(*(char **)(p + 0x2C) + i * 8 + 0xC), &t[1], &t[0]);
+        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x, 0);
+        func_020258E8(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), &t[1], &t[0]);
         y = t[0] + step;
-        func_0202590C(*(void **)(*(char **)(p + 0x2C) + i * 8 + 0xC), t[1], y);
+        func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y);
         if (x < -0x10) {
             k = func_021DEB14(p, 4);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char **)(p + 0x2C), i + 0x2D, t[3], x + 0xCC, 0);
+            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x + 0xCC, 0);
             func_021EB874(p, k, i + 1);
-            func_0202590C(*(void **)(*(char **)(p + 0x2C) + i * 8 + 0xC), t[1], y + 0xCC);
+            func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y + 0xCC);
         } else if (x >= 0xBA) {
             k = func_021DEB14(p, -1);
             func_021EDB64(p, k, i + 0x2D);
-            func_021EC08C(*(char **)(p + 0x2C), i + 0x2D, t[3], x - 0xCC, 0);
+            func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, i + 0x2D, t[3], x - 0xCC, 0);
             func_021EB874(p, k, i + 1);
-            func_0202590C(*(void **)(*(char **)(p + 0x2C) + i * 8 + 0xC), t[1], y - 0xCC);
+            func_0202590C(*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C + i * 8 + 0xC), t[1], y - 0xCC);
         }
     }
-    if (func_021EC01C(*(char **)(p + 0x2C), 2) == 1) {
-        func_021EC0B0(*(char **)(p + 0x2C), 2, &t[3], &t[2], 0);
-        func_021EC08C(*(char **)(p + 0x2C), 2, t[3], t[2] + step, 0);
+    if (func_021EC01C(*(char * *)&((struct Obj00000 *)p)->f2C, 2) == 1) {
+        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 2, &t[3], &t[2], 0);
+        func_021EC08C(*(char * *)&((struct Obj00000 *)p)->f2C, 2, t[3], t[2] + step, 0);
     }
 }

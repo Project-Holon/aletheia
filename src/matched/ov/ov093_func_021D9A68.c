@@ -20,6 +20,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F05A8     0x021F05A8  data   a4
  */
+#include "../include/Obj07809.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -42,10 +43,10 @@ void func_021D9A68(int a, void *b, int c)
         if (func_021D62A8(func_021C7CF4(b, c))) {
             func_021C88B4(b, 2, c);
             p = func_021C88A4(b, 0xb, c);
-            *(int *)(p + 4) = 0x24;
+            ((struct Obj07809 *)p)->f4 = 0x24;
             p[8] = c;
             p[0x14] = 1;
-            *(u32 *)p |= 0x2000000;
+            ((struct Obj07809 *)p)->f0 |= 0x2000000;
             func_021C88C8(b, p);
             func_021C88B4(b, 3, c);
         }

@@ -20,6 +20,7 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_021BA640 0x021BA640 thumb ov100
  */
+#include "../include/Obj05267.h"
 typedef unsigned int   u32;
 struct Rec;
 struct TaskMenuState;
@@ -40,16 +41,16 @@ void func_021BAC08(int a) {
  func_021BA5F4(a);
  func_02040DA8(5,1,0);
  {
-  unsigned int v=*(int *)(a+0x304);
+  unsigned int v=((struct Obj05267 *)a)->f304;
   unsigned int w=v>>16;
   func_0203FB44(5,(unsigned short)v,(unsigned short)w);
  }
  func_020403F4(5);
- func_02045C04((struct Rec *)(*(int *)(a+0x288)));
- func_0201D83C((void *)(*(int *)(a+0x290)));
- func_02045808((struct U16Vec *)(*(int *)(a+0x294)));
- func_02045808((struct U16Vec *)(*(int *)(a+0x298)));
+ func_02045C04((struct Rec *)(((struct Obj05267 *)a)->f288));
+ func_0201D83C((void *)(((struct Obj05267 *)a)->f290));
+ func_02045808((struct U16Vec *)(((struct Obj05267 *)a)->f294));
+ func_02045808((struct U16Vec *)(((struct Obj05267 *)a)->f298));
  func_02040588(5,0);
- func_02027FD8((struct TaskMenuState *)(*(int *)(a+0xcc4)));
+ func_02027FD8((struct TaskMenuState *)(((struct Obj05267 *)a)->fCC4));
  func_021BA640(a);
 }

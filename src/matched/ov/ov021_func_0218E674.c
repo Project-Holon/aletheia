@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218E610  0x0218E610  thumb
  */
+#include "../include/Obj01848.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ void func_0218E674(u8 *a, u32 b)
 {
     struct { u16 y, x; u32 z; } t;
     func_0218E610(b, &t.x, &t.y, &t.z);
-    *(u16 *)(a + 0x78) = t.x;
-    *(u16 *)(a + 0x7a) = t.y;
-    *(u32 *)(a + 0x7c) = t.z;
+    ((struct Obj01848 *)a)->f78 = t.x;
+    ((struct Obj01848 *)a)->f7A = t.y;
+    ((struct Obj01848 *)a)->f7C = t.z;
 }

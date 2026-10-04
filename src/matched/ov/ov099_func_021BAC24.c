@@ -25,6 +25,7 @@
  *   are retained despite legacy bodies not reading them; caller truncations
  *   fix 450F0 x/y/width/height and F73C tile parameters as u8/u16.
  */
+#include "../include/Obj00976.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,30 +52,30 @@ void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 wid
 {
     int i;
     int y;
-    func_0201C6EC(*(struct PrintSys **)(p + 0x1b4));
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4);
     func_0201DD68();
-    *(struct Slot **)(p + 0xb8) = func_0201F81C(count, 0x21);
+    *(struct Slot * *)&((struct Obj00976 *)p)->fB8 = func_0201F81C(count, 0x21);
     for (i = 0; i < count; i++)
-        func_0201F878(*(struct Slot **)(p + 0xb8), *(u32 *)(p + 0xe0), items[i].a, items[i].b, 0x21);
-    *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
+        func_0201F878(*(struct Slot * *)&((struct Obj00976 *)p)->fB8, ((struct Obj00976 *)p)->fE0, items[i].a, items[i].b, 0x21);
+    *(int *)&((struct Obj00976 *)p)->f1A4 = func_021BA8BC(((struct Obj00976 *)p)->f1A4);
     y = 5;
     if (kind == 5)
         y = 13;
-    *(u32 *)(p + 0x1a4) = func_020450F0(2, 31 - width, y, width, (u32)count * 2, 15, 1);
-    func_02045374(*(struct Cfg **)(p + 0x1a4));
-    func_0201F73C(*(void **)(p + 0x1a4), 2, *(u32 *)(p + 0x1330), 14);
-    out->w[0] = *(u32 *)(p + 0xb8);
-    out->w[3] = *(u32 *)(p + 0x1a4);
-    out->w[11] = *(u32 *)(p + 0x1b4);
+    *(u32 *)&((struct Obj00976 *)p)->f1A4 = func_020450F0(2, 31 - width, y, width, (u32)count * 2, 15, 1);
+    func_02045374(*(struct Cfg * *)&((struct Obj00976 *)p)->f1A4);
+    func_0201F73C(((struct Obj00976 *)p)->f1A4, 2, ((struct Obj00976 *)p)->f1330, 14);
+    out->w[0] = *(u32 *)&((struct Obj00976 *)p)->fB8;
+    out->w[3] = *(u32 *)&((struct Obj00976 *)p)->f1A4;
+    out->w[11] = *(u32 *)&((struct Obj00976 *)p)->f1B4;
     out->w[10] = (u32)(p + 0x1ac);
-    out->w[12] = *(u32 *)(p + 0xe8);
+    out->w[12] = ((struct Obj00976 *)p)->fE8;
     out->w[7] = (u32)p;
-    *(struct Obj **)(p + 0xbc) = func_0201FF30(out, 0, *(u16 *)(p + 0x234 + kind * 2), 0x21);
-    if (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0) {
+    *(struct Obj * *)&((struct Obj00976 *)p)->fBC = func_0201FF30(out, 0, *(u16 *)(p + 0x234 + kind * 2), 0x21);
+    if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4) == 0) {
         do {
-            func_0201C4E4(*(struct PrintSys **)(p + 0x1b4));
-        } while (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0);
+            func_0201C4E4(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4);
+        } while (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00976 *)p)->f1B4) == 0);
     }
-    func_02020CF8(*(struct Obj **)(p + 0xbc), 0x21);
+    func_02020CF8(*(struct Obj * *)&((struct Obj00976 *)p)->fBC, 0x21);
     func_02041B6C(2);
 }

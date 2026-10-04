@@ -13,6 +13,7 @@
  *   func_020124E8 0x020124E8 thumb
  *   func_021841C0 0x021841C0 thumb ov020
  */
+#include "../include/Obj00082.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Desc;
@@ -24,7 +25,7 @@ void *func_02184360(u8 *p, int value)
 {
     void *task;
     void **w;
-    task = func_020122C0(*(void **)p, 0, (void *)func_021841C0, 4);
+    task = func_020122C0(((struct Obj00082 *)p)->f0, 0, (void *)func_021841C0, 4);
     w = func_020124E8(task);
     *w = p;
     p[0x30] = value;

@@ -11,6 +11,7 @@
  * symbols:
  *   func_0204B3F4 0x0204B3F4 arm
  */
+#include "../include/Obj13786.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -20,6 +21,6 @@ struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 int func_021BD028(u8 *p)
 {
-    if(func_0204B3F4(*(void **)(p+0x28)) && *(int *)(p+0x2c)!=3) return 0;
+    if(func_0204B3F4(((struct Obj13786 *)p)->f28) && ((struct Obj13786 *)p)->f2C!=3) return 0;
     return 1;
 }

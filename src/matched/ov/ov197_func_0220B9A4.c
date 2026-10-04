@@ -12,9 +12,11 @@
  * symbols:
  *   sub_02007F68 0x02007F68 thumb
  */
+#include "../include/Obj06648.h"
+#include "../include/Obj14544.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern u32 sub_02007F68(u8 *,u16,u16,u16);
-int func_0220B9A4(char *p) { char *q; if(*(u16 *)(p+0x540)==0) return 0; q=*(char **)p; if(sub_02007F68(*(u8 **)q,*(u16 *)(p+0x540),1,*(u16 *)(q+0xc))==0) { *(u16 *)(p+0x540)=0; *(u8 *)(p+0x542)=0; return 0; } return 1; }
+int func_0220B9A4(char *p) { char *q; if(((struct Obj06648 *)p)->f540==0) return 0; q=*(char * *)&((struct Obj06648 *)p)->f0; if(sub_02007F68(*(u8 * *)&((struct Obj14544 *)q)->f0,((struct Obj06648 *)p)->f540,1,((struct Obj14544 *)q)->fC)==0) { ((struct Obj06648 *)p)->f540=0; ((struct Obj06648 *)p)->f542=0; return 0; } return 1; }

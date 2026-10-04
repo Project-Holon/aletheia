@@ -33,6 +33,7 @@
  *   func_02072F88  0x02072F88  arm
  *   func_020730B8  0x020730B8  arm
  */
+#include "../include/Obj16686.h"
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -69,7 +70,7 @@ u32 func_02075698(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u32 s1)
         func_020733DC(h);
         return 0;
     }
-    func_020733E8(h, (u32 *)(blk + *(u32 *)(blk + 0x18)), 0, (const void *)slot);
+    func_020733E8(h, (u32 *)(blk + ((struct Obj16686 *)blk)->f18), 0, (const void *)slot);
     func_02072F48((struct Obj *)a0, s0[6]);
     func_02072F88((struct Obj *)a0, s0[7]);
     func_020730B8(a0, s1);

@@ -14,6 +14,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021D5FC4 0x021D5FC4 thumb ov115
  */
+#include "../include/Obj08045.h"
 typedef unsigned char u8;typedef unsigned int u32;
 extern void func_0201F7A8(void *,u32),func_020456F8(void *),func_02041B6C(u32);extern u32 func_021D5FC4(u32);
-void func_021D5F7C(u8 *p) { if(*(void **)(p+48)){func_0201F7A8(*(void **)(p+48),2);func_020456F8(*(void **)(p+48));func_02041B6C(func_021D5FC4(*(u32 *)(p+80)));} }
+void func_021D5F7C(u8 *p) { if(((struct Obj08045 *)p)->f30){func_0201F7A8(((struct Obj08045 *)p)->f30,2);func_020456F8(((struct Obj08045 *)p)->f30);func_02041B6C(func_021D5FC4(((struct Obj08045 *)p)->f50));} }

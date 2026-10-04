@@ -11,8 +11,9 @@
  *
  * Returns the word at offset 0x68 as a short. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16175.h"
 
 short func_02051808(char *p)
 {
-    return *(int *)(p + 0x68);
+    return ((struct Obj16175 *)p)->f68;
 }

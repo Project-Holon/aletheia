@@ -18,6 +18,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj06259.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,11 +45,11 @@ void func_021DC170(int a, void *b, int c)
             if (buf[i] != c) {
                 if (func_021D62A8(func_021C7CF4(b, buf[i])) && func_021D85C0((int)b, 0x1e)) {
                     p = func_021C88A4(b, 0xb, c);
-                    *(u32 *)p |= 2 << 22;
-                    *(u32 *)p |= 2 << 24;
+                    ((struct Obj06259 *)p)->f0 |= 2 << 22;
+                    ((struct Obj06259 *)p)->f0 |= 2 << 24;
                     p[0x14] = 1;
                     p[8] = buf[i];
-                    *(u32 *)(p + 4) = 0x24;
+                    ((struct Obj06259 *)p)->f4 = 0x24;
                     func_021C88C8(b, p);
                 }
             }

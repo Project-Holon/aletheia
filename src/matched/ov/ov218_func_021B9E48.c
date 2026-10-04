@@ -37,6 +37,7 @@
  *   func_02005624 0x02005624 thumb
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj00243.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -73,8 +74,8 @@ char *func_021B9E48(void *owner,char *input)
     func_0203064C(1,122,0x30000);
     p=func_0203159C(owner,0x330,122);
     func_02082BCC(p,0,0x330);
-    *(u16 *)p=122;
-    *(char **)(p+0x20)=input;
+    ((struct Obj00243 *)p)->f0=122;
+    *(char * *)&((struct Obj00243 *)p)->f20=input;
     for(i=0;i<130;i++) {
         if(*(u8 *)(input+0x2f+tbl_021BAC80[i]))*(u32 *)(p+0x34+i*4)=1;
         else *(u32 *)(p+0x34+i*4)=0;
@@ -87,20 +88,20 @@ char *func_021B9E48(void *owner,char *input)
     }
     func_0207D534((u16 *)0x0400006c,-16);
     func_0207D534((u16 *)0x0400106c,-16);
-    *(void **)(p+4)=func_021BA848(0,*(u16 *)p);
-    *(void **)(p+0x24)=func_021B6100(*(u16 *)p,d_021BAB20,3,0,p);
-    func_021B96CC(p,*(u16 *)p);
-    *(void **)(p+0x28)=func_021B9964(*(u16 *)p);
-    *(void **)(p+8)=func_021B9820(func_021BA960(*(void **)(p+4)),*(u16 *)p);
-    a=(u32)func_021B9C80(*(void **)(p+0x28));
-    b=(u32)func_021B9C84(*(void **)(p+0x28));
-    *(void **)(p+0x18)=func_02027F60(1,11,a,b,*(u16 *)p);
+    ((struct Obj00243 *)p)->f4=func_021BA848(0,((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f24=func_021B6100(((struct Obj00243 *)p)->f0,d_021BAB20,3,0,p);
+    func_021B96CC(p,((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f28=func_021B9964(((struct Obj00243 *)p)->f0);
+    ((struct Obj00243 *)p)->f8=func_021B9820(func_021BA960(((struct Obj00243 *)p)->f4),((struct Obj00243 *)p)->f0);
+    a=(u32)func_021B9C80(((struct Obj00243 *)p)->f28);
+    b=(u32)func_021B9C84(((struct Obj00243 *)p)->f28);
+    ((struct Obj00243 *)p)->f18=func_02027F60(1,11,a,b,((struct Obj00243 *)p)->f0);
     func_021BA290(p);
     func_021B9D48(p);
     func_021BA328(p);
     func_021BA61C(p);
     func_0207D63C((u32 *)0x04001050,4,8,6,10);
-    *(void **)(p+0x23c)=func_02005624((u32)func_021BA238,(u32)p,0);
-    func_0203D34C(1,*(u16 *)p);
+    ((struct Obj00243 *)p)->f23C=func_02005624((u32)func_021BA238,(u32)p,0);
+    func_0203D34C(1,((struct Obj00243 *)p)->f0);
     return p;
 }

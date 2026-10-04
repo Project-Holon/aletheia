@@ -18,6 +18,7 @@
  *   func_021BC5C8 0x021BC5C8 thumb ov210
  *   func_021BCD30 0x021BCD30 thumb ov210
  */
+#include "../include/Obj06694.h"
 typedef unsigned char u8;
 extern void func_021BC8B4(int);
 extern void func_021BE83C(u8 *);
@@ -38,7 +39,7 @@ int func_021BD500(u8 *p)
         func_021C0234(p);
         p[0x2BA]++;
     case 1:
-        if (func_021B7A64(*(void **)(p + 0x1E0)) == 0) {
+        if (func_021B7A64(((struct Obj06694 *)p)->f1E0) == 0) {
             func_021BF480((int)p);
             func_021BCAC8(p);
             func_021BC5C8();

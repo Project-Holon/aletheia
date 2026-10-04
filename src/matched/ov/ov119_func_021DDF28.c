@@ -16,6 +16,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DDED4 0x021DDED4 thumb ov119
  */
+#include "../include/Obj22741.h"
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E76E4;
 typedef unsigned int   u32;
@@ -31,7 +32,7 @@ void func_021DDF28(char *p)
         Pair t=d_021E76E4;
         func_021E1410(p,&t,2);
         func_02043534(31);
-        func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+        func_021B6558((unsigned char *)(((struct Obj22741 *)p)->f9C0),1,0);
         func_021D8E84(p,(int)func_021DDED4);
     }
 }

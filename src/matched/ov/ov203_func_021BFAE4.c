@@ -14,6 +14,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   d_021C3BD0 0x021C3BD0 data a2
  */
+#include "../include/Obj04607.h"
+#include "../include/Obj14600.h"
 struct Obj; struct Vec2 { short x, y; };
 extern int func_021BE620(void *);
 extern void func_0204B404(struct Obj *, const struct Vec2 *, unsigned);
@@ -21,12 +23,12 @@ extern void func_0204B3DC(struct Obj *, unsigned);
 extern const struct Vec2 d_021C3BD0[];
 void func_021BFAE4(char *p)
 {
-    unsigned char *a = *(unsigned char **)(p + 0x10);
-    int progress = func_021BE620(*(void **)(p + 8)) >> 12;
+    unsigned char *a = *(unsigned char * *)&((struct Obj14600 *)p)->f10;
+    int progress = func_021BE620(((struct Obj14600 *)p)->f8) >> 12;
     if (*a < 54 && *a * 100 <= progress) {
-        func_0204B404(*(struct Obj **)(a + 0x14), d_021C3BD0 + *a, 1);
+        func_0204B404(*(struct Obj * *)&((struct Obj04607 *)a)->f14, d_021C3BD0 + *a, 1);
         ++*a;
-        if (*(volatile unsigned char *)a == 54)
-            func_0204B3DC(*(struct Obj **)(a + 0x14), 0);
+        if (*(volatile unsigned char *)&((struct Obj04607 *)a)->f0 == 54)
+            func_0204B3DC(*(struct Obj * *)&((struct Obj04607 *)a)->f14, 0);
     }
 }

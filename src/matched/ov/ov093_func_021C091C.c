@@ -21,6 +21,8 @@
  *   func_021C1A54 0x021C1A54 thumb ov093
  *   func_021BFBD0 0x021BFBD0 thumb ov093
  */
+#include "../include/Obj00003.h"
+#include "../include/Obj04358.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,25 +46,25 @@ void func_021C091C(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 d)
     u32 out;
     p[0x1fe9] = 0;
     func_021C19D8(p, a, q);
-    func_021C0A1C(*(u8 **)(p + 0x860));
-    func_021C71E0(p, a, *(u16 *)q, *(u8 **)(p + 0x4b4));
+    func_021C0A1C(*(u8 * *)&((struct Obj00003 *)p)->f860);
+    func_021C71E0(p, a, ((struct Obj04358 *)q)->f0, *(u8 * *)&((struct Obj00003 *)p)->f4B4);
     func_021C14E0(p, a, (int)q, b);
     if (func_021C0A2C(b) != 0) {
-        if (func_021C1194(*(u8 **)(p + 0x4b4)) != 0 && func_021C0A3C(b) == 1) {
+        if (func_021C1194(*(u8 * *)&((struct Obj00003 *)p)->f4B4) != 0 && func_021C0A3C(b) == 1) {
             result = func_021C0F24(p, q, a, b, c);
         } else {
             result = func_021C0D90(p, q, a, b, c, &out, d);
             flag = 1;
         }
-        func_021C2048(p, a, *(u16 *)q, result);
+        func_021C2048(p, a, ((struct Obj04358 *)q)->f0, result);
     }
-    func_021C1A54(p, q, a, *(u8 **)(p + 0x860), result, d);
+    func_021C1A54(p, q, a, *(u8 * *)&((struct Obj00003 *)p)->f860, result, d);
     if (flag != 0) {
-        struct State *s = *(struct State **)(p + 0x4a8);
+        struct State *s = *(struct State * *)&((struct Obj00003 *)p)->f4A8;
         if (s->a == 0) {
             s->a = 1;
             s->b = 1;
         }
-        func_021BFBD0(p, *(u16 *)q, *(u8 **)(p + 0x4a8), out);
+        func_021BFBD0(p, ((struct Obj04358 *)q)->f0, *(u8 * *)&((struct Obj00003 *)p)->f4A8, out);
     }
 }

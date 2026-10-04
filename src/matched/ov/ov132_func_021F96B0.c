@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23188.h"
 
 extern void func_02005D90(int, int);
 
 void func_021F96B0(char *p, int a)
 {
-    *(int *)(p + 0x2c) = 1;
+    ((struct Obj23188 *)p)->f2C = 1;
     func_02005D90(a, 0xffff);
 }

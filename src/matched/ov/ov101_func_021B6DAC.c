@@ -25,6 +25,8 @@
  * func_021B6ECC 0x021B6ECC thumb ov101
  * d_021B753C 0x021B753C data a1
  */
+#include "../include/Obj01387.h"
+#include "../include/Obj07971.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,20 +55,20 @@ void *func_021B6DAC(u32 heap,char *p)
     u32 id;
     out=func_02030734(heap,16,0,d_021B753C,0x418);
     func_02082BCC(out,0,16);
-    *(u32 *)out=**(u32 **)(p+0x10);
-    *(u32 *)(out+4)=*(u32 *)p;
-    *(u32 *)(out+8)=*(u32 *)(p+0x3c);
-    if(*(u8 *)(p+0x2c) && *(u8 *)(p+0x2e)) {
-        name=*(char **)(p+0x3c)+12;
-        func_020120F4(**(void ***)(p+0x10));
-        token=func_0200A8A0(func_02012EBC(func_020120F4(**(void ***)(p+0x10))));
+    ((struct Obj07971 *)out)->f0=**(u32 * *)&((struct Obj01387 *)p)->f10;
+    ((struct Obj07971 *)out)->f4=((struct Obj01387 *)p)->f0;
+    ((struct Obj07971 *)out)->f8=*(u32 *)&((struct Obj01387 *)p)->f3C;
+    if(((struct Obj01387 *)p)->f2C && ((struct Obj01387 *)p)->f2E) {
+        name=*(char * *)&((struct Obj01387 *)p)->f3C+12;
+        func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10);
+        token=func_0200A8A0(func_02012EBC(func_020120F4(**(void ** *)&((struct Obj01387 *)p)->f10)));
         if(func_0200A9D4(token,func_02008530(name))==0) flag=1;
         both=0;
-        if(*(u32 *)(p+0x30) && flag) both=1;
-        func_021B658C(**(void ***)(p+0x10),&data);
+        if(((struct Obj01387 *)p)->f30 && flag) both=1;
+        func_021B658C(**(void ** *)&((struct Obj01387 *)p)->f10,&data);
         if(func_0203D378()) id=data.f00;
-        else id=**(u32 **)(p+0x3c);
-        *(u8 *)(out+12)=func_021B6ECC(*(u8 *)(p+0x2c),*(u8 *)(p+0x2e),*(u8 *)(p+0x2d),*(u8 *)(p+0x2f),&data,*(void **)(p+0x3c),both,id,58);
+        else id=**(u32 * *)&((struct Obj01387 *)p)->f3C;
+        ((struct Obj07971 *)out)->fC=func_021B6ECC(((struct Obj01387 *)p)->f2C,((struct Obj01387 *)p)->f2E,((struct Obj01387 *)p)->f2D,((struct Obj01387 *)p)->f2F,&data,((struct Obj01387 *)p)->f3C,both,id,58);
     }
     return out;
 }

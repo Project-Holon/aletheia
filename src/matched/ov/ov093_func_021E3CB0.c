@@ -19,6 +19,7 @@
  *   func_021C83DC  0x021C83DC  thumb  ov093
  *   func_021E3F08  0x021E3F08  thumb  ov093
  */
+#include "../include/Obj13515.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ void func_021E3CB0(int u, void *a, int c, int *w)
         switch (w[0]) {
         case 0:
             p = func_021C88A4(a, 0xc, c);
-            *(int *)(p + 4) = 0x19;
+            ((struct Obj13515 *)p)->f4 = 0x19;
             *(Word *)(p + 8) = func_021E89D4(func_021D70A8((void *)u));
             p[0xf] = c;
             func_021C88C8(a, p);

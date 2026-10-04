@@ -12,6 +12,8 @@
  * Unlabelled leaf (blocker of ov021 func_0218C4A0).  Stores a 0x14-byte
  * record (word, 12 bytes, halfword) into entry idx of the table at +0x9C.
  */
+#include "../include/Obj05901.h"
+#include "../include/Obj12385.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,7 +25,7 @@ typedef struct V3 {
 
 void func_021693D4(u8 *base, u8 *src, u32 idx)
 {
-    *(u32 *)(*(u8 **)(base + 0x9C) + idx * 0x14) = *(u32 *)src;
-    *(V3 *)(*(u8 **)(base + 0x9C) + idx * 0x14 + 4) = *(V3 *)(src + 4);
-    *(u16 *)(*(u8 **)(base + 0x9C) + idx * 0x14 + 0x10) = *(u16 *)(src + 0x10);
+    *(u32 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14) = ((struct Obj12385 *)src)->f0;
+    *(V3 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14 + 4) = *(V3 *)(src + 4);
+    *(u16 *)(*(u8 * *)&((struct Obj05901 *)base)->f9C + idx * 0x14 + 0x10) = ((struct Obj12385 *)src)->f10;
 }

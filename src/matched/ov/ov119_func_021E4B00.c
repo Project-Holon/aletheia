@@ -30,6 +30,7 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_021E4A84 0x021E4A84 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef short s16;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -67,8 +68,8 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
     u16 pos[2];
     Pt pt;
     enum { VRAM_BASE = 0x06600000 } vram;
-    if (a == *(int *)(p + 0xf74) && func_020355C4() == 0) {
-        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[*(int *)(p + 0xf78)], 1);
+    if (a == ((struct Obj00001 *)p)->fF74 && func_020355C4() == 0) {
+        func_0204B3DC(((void **)(p + row * 20 + 0xbb0))[((struct Obj00001 *)p)->fF78], 1);
     }
     for (j = 0; j < 5; j++) {
         rec = func_021E4984(v, a, j, p, &kind);
@@ -108,7 +109,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
                 }
             } else {
                 vram = VRAM_BASE;
-                func_02082D44(*(int *)(p + 0x1184) + idx * 0x200, vram + info.c, 0x200);
+                func_02082D44(*(int *)&((struct Obj00001 *)p)->f1184 + idx * 0x200, vram + info.c, 0x200);
             }
             func_021E4AD0(p, a, j, rec, kind, row);
             func_0204B6F4(*(void **)(p + row * 20 + (u32)j * 4 + 0xac0), func_0201BBE8(rec), 1);

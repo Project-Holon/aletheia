@@ -17,6 +17,7 @@
  *   func_0216D9A0  0x0216D9A0  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18377.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ extern void *func_02188C7C(unsigned char *p);
 
 int func_021D1F50(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0216D9A0(func_02188C7C(func_0201210C((const struct Ctx *)*(u32 *)((u8 *)(a) + 4))));
+return func_0216D9A0(func_02188C7C(func_0201210C((const struct Ctx *)((struct Obj18377 *)((u8 *)(a)))->f4)));
 }
 

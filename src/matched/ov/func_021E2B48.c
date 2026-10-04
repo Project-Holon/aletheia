@@ -25,6 +25,7 @@
  *   (see func_021E3BF8 / func_021E498C / func_021E4E6C / func_021E62BC /
  *   func_021E7258): only the mid call, the selector and the state differ.
  */
+#include "../include/Obj00000.h"
 
 
 struct WinMgr;
@@ -38,10 +39,10 @@ extern int func_021E8FE0(char *, int);
 extern int func_021E8FC0(char *p, int a, int b);
 void func_021E2B48(char *p)
 {
-    func_021EF57C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)&((struct Obj00000 *)p)->f2C + 0x74));
     func_021ED6E4(p, 0);
-    func_021EBA5C((char *)(*(int *)(p + 0x2c)), 0x18);
+    func_021EBA5C((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x18);
     func_021DD14C(p);
-    func_021EF670((char *)(*(int *)(p + 0x2c)));
+    func_021EF670((char *)(*(int *)&((struct Obj00000 *)p)->f2C));
     func_021E8FC0(p, 0x21E070D, func_021E8FE0(p, 0x11));
 }

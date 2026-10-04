@@ -17,6 +17,7 @@
  *   func_021C6B38 0x021C6B38 thumb ov128
  *   func_021CA4C8 0x021CA4C8 thumb ov128
  */
+#include "../include/Obj00773.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,7 +37,7 @@ void func_021C987C(u8 *p,u8 *q)
     func_021C9BC4((u32)p);
     func_02041300(2,0,0,0,32,32,0);
     func_02041B6C(2);
-    t=*(u16 **)(p+0x10c);
+    t=*(u16 * *)&((struct Obj00773 *)p)->f10C;
     func_02041090(0,(u32)((u8 *)t+12),0,0,(u32)t[0]>>3,(u32)t[1]>>3);
     func_02041B6C(0);
     func_021C6B38(q);

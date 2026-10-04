@@ -16,6 +16,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10071.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ void func_021E0C8C(int unused, void *q, int id)
         t = func_021D62A8(func_021C7CF4(q, id));
         if (t == 5 || t == 1 || t == 4) {
             r = (u8 *)func_021C88A4(q, 0xb, id);
-            *(int *)(r + 4) = t;
+            ((struct Obj10071 *)r)->f4 = t;
             r[8] = id;
             r[0x14] = 1;
             func_021C88C8(q, r);

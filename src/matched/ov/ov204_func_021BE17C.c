@@ -14,6 +14,7 @@
  *   func_021BF538 0x021BF538 thumb ov204
  *   func_021BE138 0x021BE138 thumb ov204
  */
+#include "../include/Obj04608.h"
 typedef struct { int a, b; } Pair;
 typedef struct { Pair first, second; } Request;
 extern void func_021BF384(char *, const Request *, unsigned, int);
@@ -30,12 +31,12 @@ int func_021BE17C(char *p, int *state, int *values)
         request.first.b = 0;
         request.second.a = values[1];
         request.second.b = 1;
-        func_021BF384(*(char **)(p + 0x18), &request, 2, values[2]);
+        func_021BF384(*(char * *)&((struct Obj04608 *)p)->f18, &request, 2, values[2]);
         ++*state;
         break;
     case 1:
-        func_021BF528(*(char **)(p + 0x18));
-        result = func_021BF538(*(char **)(p + 0x18), &choice);
+        func_021BF528(*(char * *)&((struct Obj04608 *)p)->f18);
+        result = func_021BF538(*(char * *)&((struct Obj04608 *)p)->f18, &choice);
         if (result == 1) { func_021BE138(p, choice); return 1; }
         if (result == 2) { func_021BE138(p, 1); return 1; }
         break;

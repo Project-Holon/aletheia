@@ -28,6 +28,10 @@
  * func_0200FB24 0x0200FB24 thumb
  * d_021E1C20 0x021E1C20 data a4
  */
+#include "../include/Obj00170.h"
+#include "../include/Obj23706.h"
+#include "../include/Obj23707.h"
+#include "../include/Obj23708.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,34 +55,34 @@ extern void func_0203A5E4(unsigned),func_0204A600(void);
 int func_021DCF80(int a,int b,int c,u8 *p)
 {
     int v;
-    if(func_02039338()==0 && *(u32 *)(*(u8 **)(p+16)+48)!=0)
-        *(u32 *)(*(u8 **)(p+16)+48)&=func_021841A0(func_021DCF50(p));
-    switch(*(u32 *)p) {
+    if(func_02039338()==0 && ((struct Obj23706 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f30!=0)
+        ((struct Obj23707 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f30&=func_021841A0(func_021DCF50(p));
+    switch(((struct Obj00170 *)p)->f0) {
     case 0:
         if(func_020221A4()) {
-            *(u32 *)p=1;
+            ((struct Obj00170 *)p)->f0=1;
             func_02184134(func_021DCF50(p));
             func_021840FC(func_021DCF50(p),(Cb)func_021DCF58,func_021DCF7C,p);
         }
         break;
     case 1:
-        if(d_021E1C20[*(u32 *)(p+280)]) *(u32 *)p=d_021E1C20[*(u32 *)(p+280)](p,*(u32 *)p);
-        if(*(u32 *)(*(u8 **)(p+16)+36)==0) func_021DE248(*(void **)(p+208),0,1152,p);
+        if(d_021E1C20[((struct Obj00170 *)p)->f118]) ((struct Obj00170 *)p)->f0=d_021E1C20[*(u32 *)(p+280)](p,((struct Obj00170 *)p)->f0);
+        if(((struct Obj23708 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f24==0) func_021DE248(((struct Obj00170 *)p)->fD0,0,1152,p);
         func_021DE5D0(p);
         if(func_02039338()==0) {
             v=func_021DE738(p,1);
-            if(*(u32 *)p==1) *(u32 *)p=v;
+            if(((struct Obj00170 *)p)->f0==1) ((struct Obj00170 *)p)->f0=v;
         }
         break;
     case 2:
-        if(d_021E1C20[*(u32 *)(p+280)]) *(u32 *)p=d_021E1C20[*(u32 *)(p+280)](p,*(u32 *)p);
+        if(d_021E1C20[((struct Obj00170 *)p)->f118]) ((struct Obj00170 *)p)->f0=d_021E1C20[*(u32 *)(p+280)](p,((struct Obj00170 *)p)->f0);
         break;
     case 3:
         if(func_020221A4()) {
-            if(*(u32 *)(p+8)) return 1;
+            if(((struct Obj00170 *)p)->f8) return 1;
             func_0203A5E4(10240);
             func_02184174(func_021DCF50(p));
-            *(u32 *)p=4;
+            ((struct Obj00170 *)p)->f0=4;
         }
         break;
     case 4:

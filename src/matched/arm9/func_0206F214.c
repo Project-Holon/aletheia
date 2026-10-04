@@ -50,6 +50,7 @@
  *   python3 tools/match.py one --src src/matched/func_0206F214.c \
  *       --func func_0206F214 --addr 0x0206F214 --cc ../2.0/sp2p2 --arm
  */
+#include "../include/Obj16634.h"
 typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef signed short   s16;
@@ -121,7 +122,7 @@ two:
         a = (a + b) >> 1;
     } else {
         int *w = p + k;
-        b = *(int *)((u8 *)w + 4);
+        b = ((struct Obj16634 *)w)->f4;
         a = p[k];
         a = (a >> 1) + (b >> 1);
     }

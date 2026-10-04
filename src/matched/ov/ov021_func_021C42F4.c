@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj02093.h"
 
 typedef unsigned int u32;
 
@@ -19,14 +20,14 @@ void func_021C42F4(u32 *p, u32 v)
 
     if (v == 0)
         return;
-    n = *(u32 *)((char *)p + 0x38);
+    n = ((struct Obj02093 *)p)->f38;
     for (i = 0; i < n; i++) {
         if (v == *(u32 *)((char *)p + i * 4 + 0x3c))
             return;
     }
     if (n < 4) {
         *(u32 *)((char *)p + n * 4 + 0x3c) = v;
-        *(u32 *)((char *)p + 0x38) = *(u32 *)((char *)p + 0x38) + 1;
+        ((struct Obj02093 *)p)->f38 = ((struct Obj02093 *)p)->f38 + 1;
         return;
     }
     for (i = 0; i < 3; i++)

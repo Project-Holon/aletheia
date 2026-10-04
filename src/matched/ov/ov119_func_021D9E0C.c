@@ -13,6 +13,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9DC4 0x021D9DC4 thumb ov119
  */
+#include "../include/Obj13890.h"
 
 typedef unsigned short u16;
 
@@ -25,7 +26,7 @@ extern void func_021D9DC4(void *);
 void func_021D9E0C(char *p)
 {
     int v = 0;
-    if (*(int *)(p+0xF88) == *(int *)(p+0x630)) v=1;
+    if (((struct Obj13890 *)p)->fF88 == ((struct Obj13890 *)p)->f630) v=1;
     if (func_0203D3A8(func_020399A8(),0xC16,1,(u32)(&v)))
         func_021D8E84(p,(int)func_021D9DC4);
 }

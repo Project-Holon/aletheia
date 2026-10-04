@@ -13,6 +13,7 @@
  *   func_0218EC2C  0x0218EC2C  thumb  ov021
  *   func_02048B30  0x02048B30  arm
  */
+#include "../include/Obj02702.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -30,8 +31,8 @@ void func_021A2424(u8 *p)
 {
     Vec021A2424 v;
 
-    if (*(u32 *)(p + 0x14) != 0) {
-        func_02048B30(func_0218EC2C((u8 *)(*(u32 *)(p + 0x14))), &v);
+    if (((struct Obj02702 *)p)->f14 != 0) {
+        func_02048B30(func_0218EC2C((u8 *)(((struct Obj02702 *)p)->f14)), &v);
         *(Vec021A2424 *)(p + 0x68) = v;
     }
 }

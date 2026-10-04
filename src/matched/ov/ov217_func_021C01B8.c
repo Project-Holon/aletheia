@@ -14,6 +14,7 @@
  *   func_021C0F5C 0x021C0F5C thumb ov217
  *   d_021C3B7C 0x021C3B7C data ov217
  */
+#include "../include/Obj14750.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,7 +42,7 @@ void func_021C01B8(char *p)
         args.j = d_021C3B7C[i].j;
         args.k = d_021C3B7C[i].k;
         args.extra = d_021C3B7C[i].extra;
-        *(u32 *)(p + i * 4 + 0x344) = (u32)func_021C0EF4(&args, *(u32 *)(p + 8), *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), *(u16 *)(p + 4));
+        *(u32 *)(p + i * 4 + 0x344) = (u32)func_021C0EF4(&args, ((struct Obj14750 *)p)->f8, *(u32 *)(p + d_021C3B7C[i].index * 4 + 12), ((struct Obj14750 *)p)->f4);
         handle = *(u32 *)(p + i * 4 + 0x344);
         func_021C0F5C(handle, d_021C3B7C[i].mode);
     }

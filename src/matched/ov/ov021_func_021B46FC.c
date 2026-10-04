@@ -12,6 +12,7 @@
  * symbols:
  *   func_0202020C  0x0202020C  thumb
  */
+#include "../include/Obj19998.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,5 +26,5 @@ void func_021B46FC(u8 *w)
     u16 a;
     u16 b;
 
-    func_0202020C((struct Obj *)(*(u32 *)(w + 0x1A4)), &a, &b);
+    func_0202020C((struct Obj *)(((struct Obj19998 *)w)->f1A4), &a, &b);
 }

@@ -16,6 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   d_021BB658 0x021BB658 data a1
  */
+#include "../include/Obj04633.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021BB658[];
@@ -31,11 +32,11 @@ void func_021BA2F4(int unused,char*p)
     u16*colors;
     off=func_0203FA08(1,0x500,1);
     func_0203FB44(1,off,0x500);
-    func_02049B40(0x17,5,0,0x160,0x20,*(u16*)p);
-    colors=func_02030734(*(u16*)p,6,1,d_021BB658,0x6f9);
+    func_02049B40(0x17,5,0,0x160,0x20,((struct Obj04633 *)p)->f0);
+    colors=func_02030734(((struct Obj04633 *)p)->f0,6,1,d_021BB658,0x6f9);
     colors[0]=0x294b;colors[1]=0x5694;colors[2]=0x7fff;
     func_02040E78(2,colors,6,0x17a);
     func_020307B0(colors);
-    *(u8*)(p+0x80)=1;*(u8*)(p+0x81)=0x18;*(u8*)(p+0x82)=0xd;*(u8*)(p+0x83)=0xb;
-    *(u16*)(p+0x84)=off;
+    ((struct Obj04633 *)p)->f80=1;((struct Obj04633 *)p)->f81=0x18;((struct Obj04633 *)p)->f82=0xd;((struct Obj04633 *)p)->f83=0xb;
+    ((struct Obj04633 *)p)->f84=off;
 }

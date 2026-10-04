@@ -14,6 +14,7 @@
  *   func_02027CD8 0x02027CD8 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00626.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,7 +29,7 @@ extern void func_02045808(struct U16Vec *vec);
 void func_021D4DA4(char *p)
 {
     Descriptor desc;
-    desc.heap = *(u16 *)(p + 12);
+    desc.heap = ((struct Obj00626 *)p)->fC;
     desc.mode = 2;
     desc.data = p + 0x23c;
     desc.flag = 1;
@@ -36,14 +37,14 @@ void func_021D4DA4(char *p)
     desc.b = 14;
     desc.c = 13;
     desc.d = 3;
-    *(void **)(p + 0x23c) = func_020457B0(100, *(u16 *)(p + 12));
-    func_02045CAC(*(void **)(p + 0x24), 4, *(void **)(p + 0x23c));
-    *(u16 *)(p + 0x240) = 0x39e0;
-    *(void **)(p + 0x248) = func_020457B0(100, *(u16 *)(p + 12));
-    func_02045CAC(*(void **)(p + 0x24), 5, *(void **)(p + 0x248));
-    *(u16 *)(p + 0x24c) = 0x39e0;
-    *(void **)(p + 0x238) = func_02027778(&desc, *(void **)(p + 0x254));
-    func_02027CD8(*(void **)(p + 0x238), 1);
-    func_02045808(*(void **)(p + 0x23c));
-    func_02045808(*(void **)(p + 0x248));
+    ((struct Obj00626 *)p)->f23C = func_020457B0(100, ((struct Obj00626 *)p)->fC);
+    func_02045CAC(((struct Obj00626 *)p)->f24, 4, ((struct Obj00626 *)p)->f23C);
+    ((struct Obj00626 *)p)->f240 = 0x39e0;
+    ((struct Obj00626 *)p)->f248 = func_020457B0(100, ((struct Obj00626 *)p)->fC);
+    func_02045CAC(((struct Obj00626 *)p)->f24, 5, ((struct Obj00626 *)p)->f248);
+    ((struct Obj00626 *)p)->f24C = 0x39e0;
+    ((struct Obj00626 *)p)->f238 = func_02027778(&desc, ((struct Obj00626 *)p)->f254);
+    func_02027CD8(((struct Obj00626 *)p)->f238, 1);
+    func_02045808(((struct Obj00626 *)p)->f23C);
+    func_02045808(((struct Obj00626 *)p)->f248);
 }

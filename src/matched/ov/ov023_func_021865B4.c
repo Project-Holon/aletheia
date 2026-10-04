@@ -14,6 +14,7 @@
  *   func_02027778  0x02027778  thumb
  *   d_02186ABC     0x02186ABC  data
  */
+#include "../include/Obj02742.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,10 +48,10 @@ int func_021865B4(char *p)
     Ent *t;
     Arg s;
 
-    *(u32 *)(p + 0x174) = (u32)func_02027F60(0, 2, *(u32 *)(p + 0xC), *(u32 *)(p + 0x168), 0x28);
+    ((struct Obj02742 *)p)->f174 = (u32)func_02027F60(0, 2, ((struct Obj02742 *)p)->fC, ((struct Obj02742 *)p)->f168, 0x28);
     for (i = 0; i < 2; i++) {
         t = &d_02186ABC[i];
-        *(u32 *)(p + i * 12 + 0x17C) = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x14)), d_02186ABC[i].a);
+        *(u32 *)(p + i * 12 + 0x17C) = (u32)func_02045EC0((struct MsgBank *)(((struct Obj02742 *)p)->f14), d_02186ABC[i].a);
         *(u16 *)(p + i * 12 + 0x180) = 0x39E3;
         *(u32 *)(p + i * 12 + 0x184) = t->b;
     }
@@ -62,7 +63,7 @@ int func_021865B4(char *p)
     s.e[1] = 7;
     s.e[2] = 10;
     s.e[3] = 3;
-    r = func_02027778(&s, *(u32 *)(p + 0x174));
-    *(u32 *)(p + 0x9E70) = 1;
+    r = func_02027778(&s, ((struct Obj02742 *)p)->f174);
+    ((struct Obj02742 *)p)->f9E70 = 1;
     return r;
 }

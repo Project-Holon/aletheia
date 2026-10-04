@@ -13,6 +13,7 @@
  *   func_0201134C  0x0201134C  thumb
  *   func_020113B4  0x020113B4  thumb
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ t4 = a0 + 0;
     a0 = func_0201134C(a0);
 loc_0215928C:
 a2 = a0 + 0;
-a1 = *(int *)((char *)t4 + 0x14);
+a1 = *(int *)&((struct Obj00005 *)t4)->f14;
 a0 = t4 + 0;
 a1 = a1 + a2;
     a0 = func_020113B4(a0, a1, a2);

@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj08354.h"
 
 void func_0220BB78(char *p)
 {
-    *(unsigned short *)(p + 0x270) = 4;
-    *(unsigned short *)(p + 0x272) = 0x1e;
-    *(unsigned char *)(p + 0x537) = 1;
-    *(unsigned char *)(p + 0x53b) = 0;
+    ((struct Obj08354 *)p)->f270 = 4;
+    ((struct Obj08354 *)p)->f272 = 0x1e;
+    ((struct Obj08354 *)p)->f537 = 1;
+    ((struct Obj08354 *)p)->f53B = 0;
 }

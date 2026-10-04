@@ -19,6 +19,7 @@
  *   func_021C0DE4 0x021C0DE4 thumb ov110
  *   func_021C12F8 0x021C12F8 thumb ov110
  */
+#include "../include/Obj00217.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 lo:1; u8 hi:7; } Flags;
@@ -45,7 +46,7 @@ int func_021C0F14(u8 *p)
             else p[0x95]=p[0x96];
             p[0x94]=255;
             proceed=0;
-            *(u32 *)(p+0xa8)=0;
+            ((struct Obj00217 *)p)->fA8=0;
             func_020061E4(1352);
             func_021C0C50(p);
         }
@@ -54,7 +55,7 @@ int func_021C0F14(u8 *p)
         if(func_020362DC()&1) {
             result=1;
             proceed=0;
-            *(u32 *)(p+0xa8)=0;
+            ((struct Obj00217 *)p)->fA8=0;
         } else if(func_0203633C()&64) {
             if(p[0x95]!=0) {
                 p[0x94]=p[0x95];
@@ -65,7 +66,7 @@ int func_021C0F14(u8 *p)
                 func_020061E4(1352);
             }
             proceed=0;
-            *(u32 *)(p+0xa8)=0;
+            ((struct Obj00217 *)p)->fA8=0;
         } else if(func_0203633C()&128) {
             if(p[0x95]<p[0x98]-1) {
                 p[0x94]=p[0x95];
@@ -76,7 +77,7 @@ int func_021C0F14(u8 *p)
                 func_020061E4(1352);
             }
             proceed=0;
-            *(u32 *)(p+0xa8)=0;
+            ((struct Obj00217 *)p)->fA8=0;
         }
     }
     if(proceed) {
@@ -85,7 +86,7 @@ int func_021C0F14(u8 *p)
                 func_021C0C50(p);
                 func_020061E4(1352);
             }
-            *(u32 *)(p+0xa8)=1;
+            ((struct Obj00217 *)p)->fA8=1;
         } else {
             hit=func_021C12F8();
             if(hit!=-1 && hit>p[0x98]-1) hit=-1;
@@ -94,7 +95,7 @@ int func_021C0F14(u8 *p)
                 p[0x95]=p[0x96]+hit;
                 func_021C0C50(p);
                 result=1;
-                *(u32 *)(p+0xa8)=1;
+                ((struct Obj00217 *)p)->fA8=1;
             } else {
                 if(!((Flags *)(p+0x99))->lo) func_021C0DE4((char *)p);
                 if(((Flags *)(p+0x99))->lo==1) {
@@ -104,7 +105,7 @@ int func_021C0F14(u8 *p)
                         func_021C0C50(p);
                     }
                     func_020061E4(1352);
-                    *(u32 *)(p+0xa8)=1;
+                    ((struct Obj00217 *)p)->fA8=1;
                 }
             }
         }

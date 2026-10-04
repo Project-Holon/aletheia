@@ -16,6 +16,9 @@
  *   func_021D4BB4 0x021D4BB4 thumb ov115
  *   func_021D4AB0 0x021D4AB0 thumb ov115
  */
+#include "../include/Obj08038.h"
+#include "../include/Obj22586.h"
+#include "../include/Obj22587.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D4240(u8 *);
@@ -28,10 +31,10 @@ extern void func_021D4AB0(int a);
 void func_021D4310(u8 *p)
 {
     if (func_021D4240(p)) {
-        func_021D5F7C((u8 *)(*(int *)(p + 0x38)));
-        if (*(int *)(*(u8 **)(p + 0x40) + 4) == 0)
-            func_021D5CCC((u8 *)(*(int *)(p + 0x38)), 0x23);
-        if (*(int *)(*(u8 **)(p + 0x40) + 0x10) != 0)
+        func_021D5F7C((u8 *)(((struct Obj08038 *)p)->f38));
+        if (((struct Obj22586 *)(*(u8 * *)&((struct Obj08038 *)p)->f40))->f4 == 0)
+            func_021D5CCC((u8 *)(((struct Obj08038 *)p)->f38), 0x23);
+        if (((struct Obj22587 *)(*(u8 * *)&((struct Obj08038 *)p)->f40))->f10 != 0)
             func_021D426C(p, (u32)func_021D4BB4);
         else
             func_021D426C(p, (u32)func_021D4AB0);

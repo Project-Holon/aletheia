@@ -19,6 +19,7 @@
  *   func_0203D7BC 0x0203D7BC arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj07958.h"
 struct Entry;
 struct Link;
 extern struct Entry *func_020399A8(void);
@@ -32,19 +33,19 @@ extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern void func_02039C68(struct Link *,unsigned,unsigned);
 int func_021BFDD0(char *p,int ret) {
-    *(unsigned char *)(p+0x1355)=0;
+    ((struct Obj07958 *)p)->f1355=0;
     if(func_02039CB4((struct Link *)func_020399A8(),18,10) || func_020399EC()!=2) {
-        if((unsigned)(*(int *)(p+0x135c)-3)<=1){
+        if((unsigned)(((struct Obj07958 *)p)->f135C-3)<=1){
             func_021563D0();
             func_021C24A4(p,127);
             func_021BA8EC(p);
             func_021C18C8(p,3,3);
-            *(int *)(p+0x1cc)=154;
+            ((struct Obj07958 *)p)->f1CC=154;
         } else {
             func_021C18C8(p,1,2);
             func_0203D7B0(0); func_0203D7BC(0);
             func_02039C68((struct Link *)func_020399A8(),21,10);
-            *(int *)(p+0x1cc)=159;
+            ((struct Obj07958 *)p)->f1CC=159;
         }
     }
     return ret;

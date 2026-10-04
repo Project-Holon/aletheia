@@ -14,6 +14,7 @@
 
  * When the mode query answers 1, publish the u16 at +0xe0c.
  */
+#include "../include/Obj09249.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern int func_02012DD0(u8 *p);
 
 int func_02202094(u8 *p)
 {
-    if (func_02012DD0(func_020120F4((const struct Ctx *)(*(u32 *)(*(u32 *)p + 0x40)))) == 1) {
-        *(u32 *)(p + 0x28) = *(u16 *)(p + 0xe0c);
+    if (func_02012DD0(func_020120F4((const struct Ctx *)(*(u32 *)(((struct Obj09249 *)p)->f0 + 0x40)))) == 1) {
+        ((struct Obj09249 *)p)->f28 = ((struct Obj09249 *)p)->fE0C;
     }
     return 2;
 }

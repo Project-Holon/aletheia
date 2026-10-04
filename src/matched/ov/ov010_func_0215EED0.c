@@ -13,6 +13,7 @@
  *   func_0215F0E8 0x0215F0E8 thumb ov010
  *   func_0215EEF8 0x0215EEF8 thumb ov010
  */
+#include "../include/Obj02057.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct C;
@@ -26,7 +27,7 @@ extern int func_0215EEF8(void *p, void *unused, struct C *ctx);
 void *func_0215EED0(void *p, void *ctx)
 {
     void *task;
-    task = func_020122C0(*(void **)((u8 *)ctx + 8), 0, (void *)func_0215EEF8, 20);
+    task = func_020122C0(((struct Obj02057 *)ctx)->f8, 0, (void *)func_0215EEF8, 20);
     func_0215F0E8(func_020124E8(task), p, ctx);
     return task;
 }

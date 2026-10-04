@@ -21,6 +21,8 @@
  *   func_02027CFC 0x02027CFC thumb
  *   func_021D5FE8 0x021D5FE8 thumb ov115
  */
+#include "../include/Obj01535.h"
+#include "../include/Obj05321.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,10 +46,10 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
 {
     u8 *q = p + 0x54;
     Template t;
-    *(u32 *)q = *(u32 *)(p + 0x50);
-    switch (*(u32 *)q) {
+    ((struct Obj01535 *)q)->f0 = ((struct Obj05321 *)p)->f50;
+    switch (((struct Obj01535 *)q)->f0) {
     case 0:
-        t.heap = *(u16 *)(p + 0x4c);
+        t.heap = ((struct Obj05321 *)p)->f4C;
         t.count = 2;
         t.items = q + 4;
         switch (mode) {
@@ -56,21 +58,21 @@ void *func_021D5D5C(u8 *p, int mode, int flag, int selected)
         }
         t.a = 13;
         t.b = 3;
-        *(void **)(q + 4) = func_020457B0(100, *(u16 *)(p + 0x4c));
-        func_02045CAC(*(void **)(p + 0x1c), 28, *(void **)(q + 4));
-        *(u16 *)(q + 8) = 0x39e0;
-        *(void **)(q + 0x10) = func_020457B0(100, *(u16 *)(p + 0x4c));
-        func_02045CAC(*(void **)(p + 0x1c), 29, *(void **)(q + 0x10));
-        *(u16 *)(q + 0x14) = 0x39e0;
-        *(void **)(q + 0x20) = func_02027778(&t, *(void **)(q + 0x1c));
-        func_02045808(*(void **)(q + 4));
-        func_02045808(*(void **)(q + 0x10));
+        ((struct Obj01535 *)q)->f4 = func_020457B0(100, ((struct Obj05321 *)p)->f4C);
+        func_02045CAC(((struct Obj05321 *)p)->f1C, 28, ((struct Obj01535 *)q)->f4);
+        ((struct Obj01535 *)q)->f8 = 0x39e0;
+        ((struct Obj01535 *)q)->f10 = func_020457B0(100, ((struct Obj05321 *)p)->f4C);
+        func_02045CAC(((struct Obj05321 *)p)->f1C, 29, ((struct Obj01535 *)q)->f10);
+        ((struct Obj01535 *)q)->f14 = 0x39e0;
+        ((struct Obj01535 *)q)->f20 = func_02027778(&t, ((struct Obj01535 *)q)->f1C);
+        func_02045808(((struct Obj01535 *)q)->f4);
+        func_02045808(((struct Obj01535 *)q)->f10);
         if (flag != 0) func_0207D658(0x04001050, 17, -8);
-        func_02027CFC(*(u8 **)(q + 0x20), selected);
+        func_02027CFC(*(u8 * *)&((struct Obj01535 *)q)->f20, selected);
         break;
     case 1:
-        *(void **)(q + 0x24) = func_021D5FE8(p, mode, selected);
-        *(int *)(q + 0x28) = -1;
+        ((struct Obj01535 *)q)->f24 = func_021D5FE8(p, mode, selected);
+        ((struct Obj01535 *)q)->f28 = -1;
         break;
     }
     return q;

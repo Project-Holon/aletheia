@@ -14,6 +14,7 @@
  *   func_021D5BDC  0x021D5BDC  thumb  ov093
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj13661.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,6 +40,6 @@ int func_0218945C(int a, int b) {
     if (func_021D5BDC((struct UtilWork *)t, 0) == 0) {
         r = 1;
     }
-    *(int *)(b + 0x38) = r;
-    return *(int *)(b + 0xc4);
+    ((struct Obj13661 *)b)->f38 = r;
+    return ((struct Obj13661 *)b)->fC4;
 }

@@ -20,6 +20,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   d_021F2AA8     0x021F2AA8  data   ov093  a4
  */
+#include "../include/Obj13532.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ void func_021E6278(int u, void *a, u32 b)
         if (func_021D5BB0(func_021C7CF4(a, k), 7) != 0) {
             e = func_021C88A4(a, 0x16, b);
             e[8] = k;
-            *(u32 *)(e + 4) = 7;
+            ((struct Obj13532 *)e)->f4 = 7;
             func_021C88C8(a, e);
             e = func_021C88A4(a, 4, b);
             func_021C8838(e + 4, 2, 0x208);

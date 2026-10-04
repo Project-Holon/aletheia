@@ -13,6 +13,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj13997.h"
 
 typedef unsigned int u32;
 extern void func_021D6EE0(char *, int, int);
@@ -22,8 +23,8 @@ extern int func_02035C60(void);
 extern void func_020061E4(u32 a);
 void func_021D8A38(char *p)
 {
-    if (*(int *)(p+0x64) % 110 == 0) func_020061E4(0x659);
-    ++*(int *)(p+0x64);
+    if (((struct Obj13997 *)p)->f64 % 110 == 0) func_020061E4(0x659);
+    ++((struct Obj13997 *)p)->f64;
     if (func_020362DC() || func_02035C60())
         func_021D6EE0(p, (int)func_021D706C, 0x88e);
 }

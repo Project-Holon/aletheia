@@ -22,6 +22,7 @@
  * seeded in layout/function_starts.txt from this pointer word, the only
  * reference; it attests as sole-ref/code from ov021's own listing.
  */
+#include "../include/Obj18170.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,5 +32,5 @@ extern void func_021BB13C();
 
 void func_021BB3C4(u8 *p)
 {
-    func_021BB13C(*(u32 *)(p + 0x8));
+    func_021BB13C(((struct Obj18170 *)p)->f8);
 }

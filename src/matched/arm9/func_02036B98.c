@@ -26,17 +26,19 @@
  *   python tools/match.py one --src src/matched/func_02036B98.c \
  *       --func func_02036B98 --addr 0x02036B98 --cc 1.1p1 --arm
  */
+#include "../include/Obj11350.h"
+#include "../include/Obj15907.h"
 
 typedef unsigned short u16;
 
 int func_02036B98(char *p, int v)
 {
     int   i;
-    char *e = *(char **)(p + 0x18);
-    int   n = *(int *)(p + 0x1C);
+    char *e = *(char * *)&((struct Obj11350 *)p)->f18;
+    int   n = ((struct Obj11350 *)p)->f1C;
 
     for (i = 0; i < n; i++, e += 0x14) {
-        if (*(u16 *)(e + 0x0E) == v)
+        if (((struct Obj15907 *)e)->fE == v)
             return 1;
     }
     return 0;

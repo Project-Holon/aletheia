@@ -13,6 +13,7 @@
  *   func_02024584 0x02024584 thumb
  *   func_02024598 0x02024598 thumb
  */
+#include "../include/Obj05295.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern void func_02024598(void *,int,int);
 void func_021BD740(u8 *p,void *out,int v)
 {
     p[2]=0;
-    *(s16 *)p=v;
-    p[3]=func_02024584(*(s16 *)p);
-    func_02024598(out,*(s16 *)p,*(s8 *)(p+2));
+    ((struct Obj05295 *)p)->f0=v;
+    p[3]=func_02024584(((struct Obj05295 *)p)->f0);
+    func_02024598(out,((struct Obj05295 *)p)->f0,*(s8 *)&((struct Obj05295 *)p)->f2);
 }

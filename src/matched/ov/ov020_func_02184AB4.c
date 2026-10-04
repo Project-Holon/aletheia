@@ -20,6 +20,7 @@
  *   func_021BE8D4  0x021BE8D4  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  */
+#include "../include/Obj09424.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_02184AB4(int ctx, int *state, u8 *p)
 {
-    int x = *(int *)(p + 0);
-    int z = *(int *)(p + 8);
+    int x = ((struct Obj09424 *)p)->f0;
+    int z = ((struct Obj09424 *)p)->f8;
     int r;
     S9C *o;
 
@@ -68,7 +69,7 @@ int func_02184AB4(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 4:
-        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20((u8 *)z), ((struct Obj09424 *)p)->f14);
         return 1;
     }
     return 0;

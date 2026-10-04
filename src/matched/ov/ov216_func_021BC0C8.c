@@ -17,6 +17,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_020457B0 0x020457B0 arm
  */
+#include "../include/Obj00366.h"
 typedef unsigned short u16;
 
 struct Tcbl; struct GfFont; struct WordSet; struct MsgBank; struct U16Vec;
@@ -30,15 +31,15 @@ extern struct MsgBank *func_02045B38(unsigned,unsigned,unsigned,unsigned);
 extern struct U16Vec *func_020457B0(unsigned,unsigned);
 void func_021BC0C8(char *p)
 {
-    *(struct Tcbl **)(p+0x18)=func_0203101C(*(unsigned short *)p,*(unsigned short *)p,64,128);
-    *(void **)(p+0x54)=func_020490F4(173,*(unsigned short *)p);
+    *(struct Tcbl * *)&((struct Obj00366 *)p)->f18=func_0203101C(((struct Obj00366 *)p)->f0,((struct Obj00366 *)p)->f0,64,128);
+    ((struct Obj00366 *)p)->f54=func_020490F4(173,((struct Obj00366 *)p)->f0);
     func_0201DD78(7,8,15);
-    *(void **)(p+0x12c)=func_0201C450(2048,*(unsigned short *)p);
-    *(struct GfFont **)(p+0x128)=func_0201D7EC(23,0,0,0,*(unsigned short *)p);
-    *(struct WordSet **)(p+0x138)=func_0201EC74(8,64,*(unsigned short *)p);
-    *(struct MsgBank **)(p+0x130)=func_02045B38(0,2,7,*(unsigned short *)p);
-    *(struct MsgBank **)(p+0x134)=func_02045B38(0,2,231,*(unsigned short *)p);
-    *(struct U16Vec **)(p+0x13c)=func_020457B0(109,*(unsigned short *)p);
-    *(struct U16Vec **)(p+0x140)=func_020457B0(109,*(unsigned short *)p);
-    *(struct U16Vec **)(p+0x144)=func_020457B0(109,*(unsigned short *)p);
+    ((struct Obj00366 *)p)->f12C=func_0201C450(2048,((struct Obj00366 *)p)->f0);
+    *(struct GfFont * *)&((struct Obj00366 *)p)->f128=func_0201D7EC(23,0,0,0,((struct Obj00366 *)p)->f0);
+    *(struct WordSet * *)&((struct Obj00366 *)p)->f138=func_0201EC74(8,64,((struct Obj00366 *)p)->f0);
+    *(struct MsgBank * *)&((struct Obj00366 *)p)->f130=func_02045B38(0,2,7,((struct Obj00366 *)p)->f0);
+    *(struct MsgBank * *)&((struct Obj00366 *)p)->f134=func_02045B38(0,2,231,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f13C=func_020457B0(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f140=func_020457B0(109,((struct Obj00366 *)p)->f0);
+    *(struct U16Vec * *)&((struct Obj00366 *)p)->f144=func_020457B0(109,((struct Obj00366 *)p)->f0);
 }

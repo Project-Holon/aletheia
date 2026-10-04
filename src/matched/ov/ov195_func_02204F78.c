@@ -12,14 +12,15 @@
  * symbols:
  *   func_02005E30 0x02005E30 thumb
  */
+#include "../include/Obj14525.h"
 
 typedef unsigned int   u32;
 extern void func_02005E30(u32 a);
 
 void func_02204F78(int a, char *b)
 {
-    if (*(int *)(b + 0x30) == 4) {
+    if (((struct Obj14525 *)b)->f30 == 4) {
         func_02005E30(0x3c);
-        *(int *)(b + 0x30) = 6;
+        ((struct Obj14525 *)b)->f30 = 6;
     }
 }

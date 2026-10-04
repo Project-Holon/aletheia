@@ -19,6 +19,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021E4A08  0x021E4A08  thumb  ov093
  */
+#include "../include/Obj10091.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -58,7 +59,7 @@ void func_021E4958(int a0, u8 *s, int k, int a3, u16 x)
             e2[0x14] = n;
             for (i = 0; i < n; i++)
                 e2[8 + i] = p[i];
-            *(int *)(e2 + 4) = 0x24;
+            ((struct Obj10091 *)e2)->f4 = 0x24;
             func_021C88C8(s, e2);
         }
     }

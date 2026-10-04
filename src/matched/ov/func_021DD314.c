@@ -15,6 +15,8 @@
  * The tested field is unsigned: a signed `b` compiles the inverted
  * branch as blo where the image has bhs.
  */
+#include "../include/Obj18443.h"
+#include "../include/Obj18444.h"
 
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -25,7 +27,7 @@ extern u32 func_0201A9C8(struct Party *p, s32 idx);
 void func_021DD314(char **p, int a, unsigned b)
 {
     if (b < 0x1eU)
-        func_02007664((void *)(*(int *)(*p + 4)), a, b);
+        func_02007664((void *)(((struct Obj18443 *)(*p))->f4), a, b);
     else
-        func_0201A9C8((struct Party *)(*(int *)(*p + 8)), b - 0x1eU);
+        func_0201A9C8((struct Party *)(((struct Obj18444 *)(*p))->f8), b - 0x1eU);
 }

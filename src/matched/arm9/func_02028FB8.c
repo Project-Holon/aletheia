@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/pending/func_02028FB8.c \
  *       --func func_02028FB8 --addr 0x02028FB8 --thumb --cc 1.1p1
  */
+#include "../include/Obj00354.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ extern int func_02028FD0(u8 *p, u32 kind);
 void func_02028FB8(u8 *p, u32 a)
 {
     if (func_02028FD0(p, 7) != 0) {
-        *(u32 *)(p + 0x1c) = (u32)7;
-        *(u32 *)(p + 0xc) = (u32)a;
+        ((struct Obj00354 *)p)->f1C = (u32)7;
+        ((struct Obj00354 *)p)->fC = (u32)a;
     }
 }

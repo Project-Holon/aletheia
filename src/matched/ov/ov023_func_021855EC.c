@@ -13,6 +13,7 @@
  *   func_02185354  0x02185354  thumb  ov023
  *   func_02186444  0x02186444  thumb  ov023
  */
+#include "../include/Obj09769.h"
 
 extern void func_02185354(char *p);
 typedef unsigned int   u32;
@@ -27,10 +28,10 @@ struct bf4210 {
 int func_021855EC(unsigned char *p, int a1)
 {
     ((struct bf4210 *)(p + 0x4210))->b = 0;
-    *(short *)(p + 0x9286) += 1;
-    if (*(short *)(p + 0x9286) > 0x1e) {
+    ((struct Obj09769 *)p)->f9286 += 1;
+    if (((struct Obj09769 *)p)->f9286 > 0x1e) {
         func_02186444((char *)p, 0xa);
-        *(short *)(p + 0x9286) = 0;
+        ((struct Obj09769 *)p)->f9286 = 0;
     }
     func_02185354((char *)p);
     return a1;

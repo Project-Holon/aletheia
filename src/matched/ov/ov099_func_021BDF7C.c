@@ -30,6 +30,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_0204A648 0x0204A648 arm
  */
+#include "../include/Obj00008.h"
 struct Bank;
 struct Node;
 struct Rec;
@@ -56,25 +57,25 @@ extern void func_0201D83C(void *p);
 extern void func_0204A648(void);
 void func_021BDF7C(char *p)
 {
-    if (*(void **)p != 0) func_02030EAC(*(void **)p);
+    if (((struct Obj00008 *)p)->f0 != 0) func_02030EAC(((struct Obj00008 *)p)->f0);
     func_021BB42C(p);
     func_021BB4D0(p);
     func_021BB4EC(p);
     if (func_021B96CC((int *)(p + 0x274)) == 1) func_021BE26C(p);
     if (func_021C1A44(p) == 1) func_021C1AC0(p);
     func_021BE384(p + 0x898);
-    func_0204B084(*(void **)(p + 0x114));
-    func_0204B1CC(*(void **)(p + 0x110));
+    func_0204B084(((struct Obj00008 *)p)->f114);
+    func_0204B1CC(((struct Obj00008 *)p)->f110);
     func_0204A5AC();
     func_021BB0B4(p);
     func_021BE538(p);
     func_020450C8();
     func_0203F9B4();
-    func_02045C04(*(void **)(p + 0xe4));
-    func_02045C04(*(void **)(p + 0xe0));
-    func_0201ED04(*(void **)(p + 0xdc));
-    func_0201D83C(*(void **)(p + 0xec));
-    func_0201D83C(*(void **)(p + 0xe8));
+    func_02045C04(((struct Obj00008 *)p)->fE4);
+    func_02045C04(((struct Obj00008 *)p)->fE0);
+    func_0201ED04(((struct Obj00008 *)p)->fDC);
+    func_0201D83C(((struct Obj00008 *)p)->fEC);
+    func_0201D83C(((struct Obj00008 *)p)->fE8);
 }
 void func_021BE028(void)
 {

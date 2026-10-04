@@ -13,6 +13,7 @@
  *   func_02169A68  0x02169A68  thumb  ov010
  *   func_02169928  0x02169928  thumb  ov010
  */
+#include "../include/Obj00281.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ int func_02169580(int a0, int a1, int a2)
 t4 = a0 + 0;
     p = func_02169A68(a0);
 loc_02169588:
-a0 = *(int *)((char *)t4 + 0x2c);
+a0 = ((struct Obj00281 *)t4)->f2C;
 t4 = t4 + 0x84;
-a1 = *(int *)((char *)t4);
+a1 = ((struct Obj00281 *)((char *)t4))->f0;
     a0 = func_02169928(a0, a1, p);
 loc_02169594:
     return a0;}

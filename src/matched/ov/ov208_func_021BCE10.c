@@ -26,6 +26,7 @@
  *   d_021C8DC0 0x021C8DC0 data a1
  *   d_021C8184 0x021C8184 data a4
  */
+#include "../include/Obj04613.h"
 extern const char d_021C8DC0[];
 extern const unsigned d_021C8184[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
@@ -57,10 +58,10 @@ char *func_021BCE10(unsigned display,unsigned heap,int threeD)
     func_020434CC();
     func_02043588();
     func_0201DD60();
-    *(int *)(p+0x10)=0;
+    ((struct Obj04613 *)p)->f10=0;
     func_021BCF98(p,heap);
     func_021BD03C((unsigned char *)p+4,(int)d_021C8184,heap);
     if(threeD)func_021BCF58(p,heap);
-    *(void **)(p+0xc)=func_020056A0((unsigned)func_021BCF84,(unsigned)p,0);
+    ((struct Obj04613 *)p)->fC=func_020056A0((unsigned)func_021BCF84,(unsigned)p,0);
     return p;
 }

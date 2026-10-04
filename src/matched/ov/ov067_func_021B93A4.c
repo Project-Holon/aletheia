@@ -11,7 +11,8 @@
  * Caller ov209 021BCE98 reads the signed sum. ov067 is loaded by
  * ov209 021BCC94 and unloaded by 021BCD48. Following code starts at 021B93B0.
  */
+#include "../include/Obj13135.h"
 int func_021B93A4(char *p)
 {
-    return *(short *)(p + 0x5c) + *(short *)(p + 0x62);
+    return ((struct Obj13135 *)p)->f5C + ((struct Obj13135 *)p)->f62;
 }

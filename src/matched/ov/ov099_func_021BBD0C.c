@@ -20,6 +20,7 @@
  *   func_021BBE50  0x021BBE50  thumb  ov099
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj03731.h"
 
 typedef unsigned short u16;
 
@@ -41,9 +42,9 @@ void func_021BBD0C(char *p, int a, int b)
     int t;
 
     o = func_020490F4(7, 0x21);
-    *(void **)(p + 0x148) = (void *)func_0204ACEC(o, func_0201BC3C(), 0, 0x160, 0x21);
+    ((struct Obj03731 *)p)->f148 = (void *)func_0204ACEC(o, func_0201BC3C(), 0, 0x160, 0x21);
     t = func_0201BC78();
-    *(void **)(p + 0x14C) = (void *)func_0204AF28(o, t, func_0201BCB4(), 0x21);
+    ((struct Obj03731 *)p)->f14C = (void *)func_0204AF28(o, t, func_0201BCB4(), 0x21);
     func_021BBC34(p, (void *)a, 0, (u32)o);
     func_021BBC34(p, (void *)b, 6, (u32)o);
     func_021BBE50(p);

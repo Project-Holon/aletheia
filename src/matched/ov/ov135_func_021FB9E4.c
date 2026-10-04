@@ -15,6 +15,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_021F9660 0x021F9660 thumb ov135
  */
+#include "../include/Obj00098.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -32,18 +33,18 @@ extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 int func_021FB9E4(u8 *p)
 {
-    if (func_0204B98C(*(void **)(p + 8)) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
+    if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;
+    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
     func_021F9660(p, 5);
-    if (*(s16 *)(p + 0x3a) < 0) {
-        *(int *)(p + 0x48) = 21;
+    if (((struct Obj00098 *)p)->f3A < 0) {
+        ((struct Obj00098 *)p)->f48 = 21;
     } else {
-            func_0202CD64(*(void **)(p + 0x18), 0, -4, 0, 3);
-            if (*(u32 *)(p + 0x14) != 0) func_0204B3DC((struct Obj *)*(u32 *)(p + 0x14), 0);
-            func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 7);
-            *(int *)(p + 0x48) = 2;
-            func_0202CAE4(*(void **)(p + 0x18), 0, 0x60, 0x18, 1);
-            *(int *)(p + 0x4c) = 26;
+            func_0202CD64(((struct Obj00098 *)p)->f18, 0, -4, 0, 3);
+            if (((struct Obj00098 *)p)->f14 != 0) func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f14, 0);
+            func_0204B878((struct Obj *)(*(u32 *)&((struct Obj00098 *)p)->f8), 7);
+            ((struct Obj00098 *)p)->f48 = 2;
+            func_0202CAE4(((struct Obj00098 *)p)->f18, 0, 0x60, 0x18, 1);
+            ((struct Obj00098 *)p)->f4C = 26;
     }
     return -1;
 }

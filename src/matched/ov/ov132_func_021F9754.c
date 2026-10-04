@@ -12,6 +12,7 @@
  * lever: An enum-typed one stays in r3 while unsigned address/index reuse
  * stays in r1.
  */
+#include "../include/Obj14085.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -26,6 +27,6 @@ void func_021F9754(char *p, u32 i, int v)
     Enabled one;
     one = ENABLED;
     i = (u32)p + i * 4;
-    *(int *)(i + 0xFC) = one;
-    *(int *)(i + 0x10C) = v;
+    ((struct Obj14085 *)i)->fFC = one;
+    ((struct Obj14085 *)i)->f10C = v;
 }

@@ -15,6 +15,7 @@
  *   func_021F4BF0  0x021F4BF0  thumb  ov048
  *   func_021F4B54  0x021F4B54  thumb  ov048
  */
+#include "../include/Obj01678.h"
 
 extern void func_0218768C(char *p);
 extern int func_020478B8(void *a, int idx, int amount);
@@ -32,7 +33,7 @@ void func_021F4B7C(int *a, int *b, int c)
         b[6] = t;
         if (b[7] < t) {
             if (b[2] != 1) {
-                ((int *)a[3])[(*(unsigned char *)b + 1) % *((unsigned char *)a + 2)] = 1;
+                ((int *)a[3])[(((struct Obj01678 *)b)->f0 + 1) % *((unsigned char *)a + 2)] = 1;
                 b[2] = 1;
             }
         }
@@ -41,9 +42,9 @@ void func_021F4B7C(int *a, int *b, int c)
             return;
         }
     } else {
-        if (((int *)a[3])[*(unsigned char *)b] == 1) {
+        if (((int *)a[3])[((struct Obj01678 *)b)->f0] == 1) {
             func_021F4B54(b);
-            ((int *)a[3])[*(unsigned char *)b] = 0;
+            ((int *)a[3])[((struct Obj01678 *)b)->f0] = 0;
         }
     }
 }

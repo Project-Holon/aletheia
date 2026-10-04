@@ -14,6 +14,7 @@
 
  * Releases the two handles held at +0 and +4.
  */
+#include "../include/Obj04897.h"
 
 
 extern void func_021C5078(int, int);
@@ -21,11 +22,11 @@ extern void func_020307B0(void *p);
 
 void func_021C51A0(char *p, int a)
 {
-    if (*(int *)p != 0)
-        func_021C5078(a, *(int *)p);
-    *(int *)p = 0;
-    if (*(int *)(p + 4) != 0)
-        func_020307B0((void *)(*(int *)(p + 4)));
-    *(int *)(p + 4) = 0;
+    if (((struct Obj04897 *)p)->f0 != 0)
+        func_021C5078(a, ((struct Obj04897 *)p)->f0);
+    ((struct Obj04897 *)p)->f0 = 0;
+    if (((struct Obj04897 *)p)->f4 != 0)
+        func_020307B0((void *)(((struct Obj04897 *)p)->f4));
+    ((struct Obj04897 *)p)->f4 = 0;
 }
 

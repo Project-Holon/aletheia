@@ -19,6 +19,8 @@
  *   func_021DBF2C 0x021DBF2C thumb ov131
  *   func_021DBF94 0x021DBF94 thumb ov131
  */
+#include "../include/Obj00136.h"
+#include "../include/Obj03815.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,14 +38,14 @@ void func_021D949C(u8 *a,u8 *p)
 {
     u8 index;
     void *text;
-    *(u32 *)(p+0x20)=func_020450F0(4,5,7,22,2,14,1);
-    *(u32 *)(p+0x24)=func_020450F0(4,1,16,30,4,14,1);
+    *(u32 *)&((struct Obj03815 *)p)->f20=func_020450F0(4,5,7,22,2,14,1);
+    *(u32 *)&((struct Obj03815 *)p)->f24=func_020450F0(4,1,16,30,4,14,1);
     index=(p+p[0x59]*8)[0x13c];
-    text=func_02045EC0(*(void **)(p+0x50),func_021DBF2C(index,3));
-    func_0201C724(*(void **)(a+0x84),(u32)func_02045770(*(void **)(p+0x20)),1,1,(u32)text,*(u32 *)(a+0x80),1088);
+    text=func_02045EC0(((struct Obj03815 *)p)->f50,func_021DBF2C(index,3));
+    func_0201C724(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f20),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     func_02045808(text);
-    text=func_02045EC0(*(void **)(p+0x50),func_021DBF94(index));
-    func_0201C724(*(void **)(a+0x84),(u32)func_02045770(*(void **)(p+0x24)),1,1,(u32)text,*(u32 *)(a+0x80),1088);
+    text=func_02045EC0(((struct Obj03815 *)p)->f50,func_021DBF94(index));
+    func_0201C724(((struct Obj00136 *)a)->f84,(u32)func_02045770(((struct Obj03815 *)p)->f24),1,1,(u32)text,((struct Obj00136 *)a)->f80,1088);
     func_02045808(text);
-    *(u32 *)(p+8)=1;
+    ((struct Obj03815 *)p)->f8=1;
 }

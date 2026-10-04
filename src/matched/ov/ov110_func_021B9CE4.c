@@ -44,6 +44,20 @@
  *   func_02049238 0x02049238 arm
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj00135.h"
+#include "../include/Obj22315.h"
+#include "../include/Obj22316.h"
+#include "../include/Obj22317.h"
+#include "../include/Obj22318.h"
+#include "../include/Obj22319.h"
+#include "../include/Obj22320.h"
+#include "../include/Obj22321.h"
+#include "../include/Obj22322.h"
+#include "../include/Obj22323.h"
+#include "../include/Obj22324.h"
+#include "../include/Obj22325.h"
+#include "../include/Obj22326.h"
+#include "../include/Obj22327.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -95,33 +109,33 @@ void func_021B9CE4(void *unused,u8 *p) {
     h=func_020490F4(43,42);
     func_021BA070(p);
     func_021B9F34(p,(int)h);
-    *(u8 **)(*(u8 **)p+0x54)=func_021BBC5C(*(u8 **)p,*(u8 **)(p+4),*(void **)(p+8));
-    func_021BBD60(*(u8 **)(*(u8 **)p+0x54),(u32)h);
-    *(u8 **)(*(u8 **)p+0x58)=func_021BB290((u32)(*(u8 **)p),*(u8 **)(p+4),(u32)(*(void **)(p+8)));
-    func_021BB328(*(u8 **)(*(u8 **)p+0x58),(u32)h);
-    *(u8 **)(*(u8 **)p+0x5c)=func_021BF844(*(u8 **)p,*(u8 **)(p+4),*(void **)(p+8));
-    func_021BF8F4(*(u8 **)(*(u8 **)p+0x5c));
+    *(u8 * *)&((struct Obj22315 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f54=func_021BBC5C(*(u8 * *)&((struct Obj00135 *)p)->f0,*(u8 * *)&((struct Obj00135 *)p)->f4,((struct Obj00135 *)p)->f8);
+    func_021BBD60(*(u8 * *)&((struct Obj22316 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f54,(u32)h);
+    *(u8 * *)&((struct Obj22317 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f58=func_021BB290((u32)(*(u8 * *)&((struct Obj00135 *)p)->f0),*(u8 * *)&((struct Obj00135 *)p)->f4,(u32)(((struct Obj00135 *)p)->f8));
+    func_021BB328(*(u8 * *)&((struct Obj22318 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f58,(u32)h);
+    *(u8 * *)&((struct Obj22319 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f5C=func_021BF844(*(u8 * *)&((struct Obj00135 *)p)->f0,*(u8 * *)&((struct Obj00135 *)p)->f4,((struct Obj00135 *)p)->f8);
+    func_021BF8F4(*(u8 * *)&((struct Obj22320 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f5C);
     func_020498F4((void *)((u32)h),30,5,0,0,0,42);
     func_02049658((void *)((u32)h),18,5,0,0,0,42);
     func_020498F4((void *)((u32)h),31,6,0,0,0,42);
     func_02049658((void *)((u32)h),18,6,0,0,0,42);
     func_02040588(6,0);
     func_02049BDC((void *)((u32)h),4,4,128,160,32,42);
-    *(u16 *)(*(u8 **)p+0x68)=0x294b;
-    func_02061CA4((void *)31,188,(u32)(*(u8 **)p+0x68),2);
-    *(u16 *)(*(u8 **)p+0x6a)=0x5694;
-    func_02061CA4((void *)31,190,(u32)(*(u8 **)p+0x6a),2);
+    ((struct Obj22321 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f68=0x294b;
+    func_02061CA4((void *)31,188,(u32)(*(u8 * *)&((struct Obj00135 *)p)->f0+0x68),2);
+    ((struct Obj22322 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6A=0x5694;
+    func_02061CA4((void *)31,190,(u32)(*(u8 * *)&((struct Obj00135 *)p)->f0+0x6a),2);
     func_02049658((void *)((u32)h),18,7,0,0,0,42);
     func_020498F4((void *)((u32)h),24,7,0,0,0,42);
     func_020413B0(7,0,0,32,32,5);
-    *(u32 *)(*(u8 **)p+0x6c)=func_020450F0(7,3,5,26,7,5,1);
-    func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(*(u8 **)p+0x6c)),7);
-    *(u32 *)(*(u8 **)p+0x70)=0;
-    if(func_021BF7C4(*(u8 **)(p+4)) || func_021BF6D8(*(u8 **)(p+4))!=2) func_021BAD68(p,1);
+    ((struct Obj22323 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C=func_020450F0(7,3,5,26,7,5,1);
+    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj22324 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f6C),7);
+    ((struct Obj22325 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f70=0;
+    if(func_021BF7C4(*(u8 * *)&((struct Obj00135 *)p)->f4) || func_021BF6D8(*(u8 * *)&((struct Obj00135 *)p)->f4)!=2) func_021BAD68(p,1);
     else func_021BAD68(p,0);
-    func_021BAD2C(*(u8 **)p,0);
-    *(u8 **)(*(u8 **)p+0x64)=func_021BC990(*(u8 **)p,*(u8 **)(p+4),*(void **)(p+8));
-    func_021BCB50(*(u8 **)(*(u8 **)p+0x64));
+    func_021BAD2C(*(u8 * *)&((struct Obj00135 *)p)->f0,0);
+    *(u8 * *)&((struct Obj22326 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f64=func_021BC990(*(u8 * *)&((struct Obj00135 *)p)->f0,*(u8 * *)&((struct Obj00135 *)p)->f4,((struct Obj00135 *)p)->f8);
+    func_021BCB50(*(u8 * *)&((struct Obj22327 *)(*(u8 * *)&((struct Obj00135 *)p)->f0))->f64);
     func_02040588(0,1);
     func_020434DC(16,1);
     func_02043598(16,1);

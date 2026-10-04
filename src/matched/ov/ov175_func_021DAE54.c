@@ -22,6 +22,9 @@
  *
  * One exchange round: bails with the first nonzero status of the four session checks, sends the local record (mode from the peer kind), runs the callback, optionally sends the peer's record back and runs the callback again, then closes with the flag.
  */
+#include "../include/Obj02887.h"
+#include "../include/Obj14337.h"
+#include "../include/Obj24332.h"
 
 typedef unsigned long u32;
 
@@ -46,17 +49,17 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
 
     if ((r = func_021DF23C(1, 2, 0, (u32)(ctx + 4))) != 0)
         return r;
-    if ((r = func_021DF298(*(u32 *)(ctx + 4))) != 0)
+    if ((r = func_021DF298(((struct Obj02887 *)ctx)->f4)) != 0)
         return r;
-    if ((r = func_021DF2C8(*(u32 *)(ctx + 4))) != 0)
+    if ((r = func_021DF2C8(((struct Obj02887 *)ctx)->f4)) != 0)
         return r;
-    if ((r = func_021DF328(*(u32 *)(ctx + 4))) != 0)
+    if ((r = func_021DF328(((struct Obj02887 *)ctx)->f4)) != 0)
         return r;
 
     if (flag != 0 || have == 0) {
         mode = 5;
     } else {
-        switch (*(u32 *)(peer + 4)) {
+        switch (((struct Obj14337 *)peer)->f4) {
         case 1:
         case 4:
             mode = 0;
@@ -73,11 +76,11 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
             break;
         }
     }
-    if ((r = func_021DF358(*(u32 *)(ctx + 4), 0, (s32)(ctx + 0x30), 0, mode, (char *)(*(u32 *)ctx), (s32)(ctx + 0x58))) != 0)
+    if ((r = func_021DF358(((struct Obj02887 *)ctx)->f4, 0, (s32)(ctx + 0x30), 0, mode, (char *)(((struct Obj02887 *)ctx)->f0), (s32)(ctx + 0x58))) != 0)
         return r;
     if ((r = cb(ctx, peer, 1, flag)) != 0)
         return r;
-    if ((r = func_021DF328(*(u32 *)(ctx + 4))) != 0)
+    if ((r = func_021DF328(((struct Obj02887 *)ctx)->f4)) != 0)
         return r;
 
     if (twoway == 1) {
@@ -86,7 +89,7 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
         } else if (flag != 0) {
             mode2 = 3;
         } else {
-            switch (*(u32 *)(peer + 4)) {
+            switch (((struct Obj14337 *)peer)->f4) {
             case 1:
             case 4:
                 mode2 = 1;
@@ -103,14 +106,14 @@ int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int fl
                 break;
             }
         }
-        if ((r = func_021DF358(*(u32 *)(ctx + 4), 1, (s32)(other + 0x30), 0, mode2, (char *)(*(u32 *)other), (s32)(other + 0x58))) != 0)
+        if ((r = func_021DF358(((struct Obj02887 *)ctx)->f4, 1, (s32)(other + 0x30), 0, mode2, (char *)(((struct Obj24332 *)other)->f0), (s32)(other + 0x58))) != 0)
             return r;
         if ((r = cb(ctx, peer, 0, flag)) != 0)
             return r;
     }
-    if ((r = func_021DF2F8(*(u32 *)(ctx + 4))) != 0)
+    if ((r = func_021DF2F8(((struct Obj02887 *)ctx)->f4)) != 0)
         return r;
     if (flag != 0)
-        return func_021DF3B0(*(u32 *)(ctx + 4), a3, 1);
-    return func_021DF3B0(*(u32 *)(ctx + 4), a3, 0);
+        return func_021DF3B0(((struct Obj02887 *)ctx)->f4, a3, 1);
+    return func_021DF3B0(((struct Obj02887 *)ctx)->f4, a3, 0);
 }

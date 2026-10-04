@@ -23,6 +23,8 @@
  *   func_02174E14 0x02174E14 thumb ov011
  *   func_02175368 0x02175368 thumb ov011
  */
+#include "../include/Obj00566.h"
+#include "../include/Obj03562.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -44,11 +46,11 @@ void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
 {
     enum Local { LOCAL_ZERO } loc;
 
-    *(u16 *)c = g;
-    *(int *)(c + 4) = e;
+    ((struct Obj03562 *)c)->f0 = g;
+    ((struct Obj03562 *)c)->f4 = e;
     loc = f;
-    *(int *)(c + 8) = func_02167A14((struct Work *)(*(int *)(b + 8)), loc);
-    *(int *)(c + 0xc) = d;
+    ((struct Obj03562 *)c)->f8 = func_02167A14((struct Work *)(((struct Obj00566 *)b)->f8), loc);
+    ((struct Obj03562 *)c)->fC = d;
     c[0x40] = (u8)f;
     c[0x42] = func_0217F5F0(b, (u8)f);
     func_02008494((void *)func_021583EC(func_020120F4((const struct Ctx *)a), loc), c + 0x78);

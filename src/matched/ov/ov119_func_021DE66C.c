@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DE5C4 0x021DE5C4 thumb ov119
  */
+#include "../include/Obj22744.h"
 typedef struct { int a,b,c; } Triple;
 extern const Triple d_021E770C;
 extern void func_021E1410(void *,Triple *,int);
@@ -24,6 +25,6 @@ void func_021DE66C(char *p)
 {
     Triple t=d_021E770C;
     func_021E1410(p,&t,3);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+    func_021B6558((unsigned char *)(((struct Obj22744 *)p)->f9C0),1,0);
     func_021D8E84(p,(int)func_021DE5C4);
 }

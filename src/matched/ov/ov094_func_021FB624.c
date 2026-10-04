@@ -15,6 +15,7 @@
  *   func_0201134C 0x0201134C thumb
  *   func_021F839C 0x021F839C thumb ov094
  */
+#include "../include/Obj21667.h"
 extern int func_0201134C(void *);
 typedef unsigned int   u32;
 extern void func_021F839C(u32 a, u32 b);
@@ -23,5 +24,5 @@ int func_021FB624(void *a, char *s)
 {
     int x = func_0201134C(a);
     func_021F839C(x, func_0201134C(a));
-    return *(int *)(s + 0x23c);
+    return ((struct Obj21667 *)s)->f23C;
 }

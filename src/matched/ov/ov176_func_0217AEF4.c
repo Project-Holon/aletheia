@@ -12,10 +12,11 @@
  * symbols:
  *   func_021E5440  0x021E5440  thumb  ov177
  */
+#include "../include/Obj14355.h"
 
 extern int *func_021E5440(unsigned swap, int heap);
 
 void func_0217AEF4(int *p)
 {
-    *(int *)((char *)p + 0x24) = (int)func_021E5440(1, *(unsigned short *)p);
+    ((struct Obj14355 *)p)->f24 = (int)func_021E5440(1, ((struct Obj14355 *)p)->f0);
 }

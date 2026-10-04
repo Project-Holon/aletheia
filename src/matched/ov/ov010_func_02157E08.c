@@ -13,6 +13,7 @@
  *   d_02172868 0x02172868 data a1
  *   d_02172808 0x02172808 data a1
  */
+#include "../include/Obj18744.h"
 typedef unsigned char u8;
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
@@ -24,7 +25,7 @@ int func_02157E08(void *p)
 {
     if (func_0203CD98() != 0)
         return 0;
-    d_02172868[7] = *(int *)p;
+    d_02172868[7] = ((struct Obj18744 *)p)->f0;
     func_0203CBAC((struct Req *)d_02172808, 0, (u32)p);
     return 1;
 }

@@ -20,6 +20,7 @@
  *   func_0218ED58  0x0218ED58  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09635.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,9 +52,9 @@ void func_021BA2B4(u8 *p)
     func_0218E124((u8 *)o, 0);
     func_0218EC60(func_021B821C(p));
     func_021B79D4(p, &v);
-    x = *(u32 *)(q + 4);
-    y = *(u32 *)(q + 8);
-    z = *(u32 *)(q + 12);
+    x = ((struct Obj09635 *)q)->f4;
+    y = ((struct Obj09635 *)q)->f8;
+    z = ((struct Obj09635 *)q)->fC;
     func_0218ED48((u8 *)o, y);
     func_0218ED34((u8 *)o, x);
     func_0218ED58((u8 *)o, z);

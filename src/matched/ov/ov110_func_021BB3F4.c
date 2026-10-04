@@ -25,6 +25,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj03240.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
@@ -58,13 +59,13 @@ u8 *func_021BB3F4(u8 *p, u8 *q)
     int i;
     void *str, *win;
     u32 width;
-    font = func_021BAC44(*(u8 **)p);
+    font = func_021BAC44(*(u8 * *)&((struct Obj03240 *)p)->f0);
     bank = func_02045B38(0, 2, 145, 42);
     x = 1;
     y = 9;
     for (i = 0; i < 12; i++) {
         if (i != 0 && i % 3 == 0) { x = 1; y += 3; }
-        if (func_021B999C(*(u8 **)(p + 8), i)) {
+        if (func_021B999C(*(u8 * *)&((struct Obj03240 *)p)->f8, i)) {
             str = func_02045EC0(bank, d_021C38C4[i]);
             func_0201DD78(1, 2, 15);
         } else {

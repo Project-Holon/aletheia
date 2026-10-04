@@ -21,6 +21,8 @@
  *   func_021EF670 0x021EF670 thumb
  *   func_021EF68C 0x021EF68C thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23944.h"
 struct WinMgr;
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(unsigned char *);
@@ -43,7 +45,7 @@ int func_021E92A8(unsigned char *p)
     if(func_020355C4()==1) func_020260F4(*(void **)(WORK+0x70),0);
     else func_020260F4(*(void **)(WORK+0x70),1);
     func_021ED508(p,0xe,1);
-    switch(*(unsigned *)(*(char **)p+0x24)) {
+    switch(((struct Obj23944 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 0: func_021ECB20(p,2,0); return 0x31;
     case 1: func_021ED888(WORK,1); func_021ECB20(p,1,0); return 0x2c;
     case 2:

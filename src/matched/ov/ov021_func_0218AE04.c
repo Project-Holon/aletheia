@@ -19,6 +19,7 @@
  *   func_0218AECC  0x0218AECC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00705.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,13 +33,13 @@ extern int func_0218AECC(char *a0, int a1);
 
 u32 func_0218AE04(u8 *p, void *arg)
 {
-    u32 id = func_02162564(*(void **)(p + 0xC));
+    u32 id = func_02162564(((struct Obj00705 *)p)->fC);
     void *obj;
 
     if (id == 0xFFFF)
         return 0xFFFF;
-    obj = func_021625CC(*(void **)(p + 0xC), id);
-    if (!func_0218AEAC(obj) && !func_0218AECC(obj, *(u16 *)(p + 0x24)))
+    obj = func_021625CC(((struct Obj00705 *)p)->fC, id);
+    if (!func_0218AEAC(obj) && !func_0218AECC(obj, ((struct Obj00705 *)p)->f24))
         return 0xFFFF;
     return id;
 }

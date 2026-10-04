@@ -11,6 +11,7 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj10394.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -22,9 +23,9 @@ void func_021D6FB4(u8 *p)
     u32 element;
     for (i = 0; i < 3; i++) {
         element = (u32)p + (u32)i * 4;
-        if (*(void **)(element + 0x140) != 0) {
-            func_0204B3B4(*(void **)(element + 0x140));
-            *(void **)(element + 0x140) = 0;
+        if (((struct Obj10394 *)element)->f140 != 0) {
+            func_0204B3B4(((struct Obj10394 *)element)->f140);
+            ((struct Obj10394 *)element)->f140 = 0;
         }
     }
 }

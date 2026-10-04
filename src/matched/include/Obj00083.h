@@ -1,0 +1,50 @@
+#ifndef ALETHEIA_OBJ00083_H
+#define ALETHEIA_OBJ00083_H
+struct Obj00083 {
+    signed char f0;
+    unsigned char pad_1[71];
+    void * f48;
+    void * f4C;
+    unsigned char pad_50[20];
+    void * f64;
+    unsigned int f68;
+    unsigned char pad_6C[152];
+    int f104;
+    int f108;
+    int f10C;
+    unsigned int f110;
+    int f114;
+    int f118;
+    unsigned char pad_11C[96];
+    int f17C;
+    unsigned char pad_180[68];
+    int f1C4;
+    unsigned char pad_1C8[24];
+    int f1E0;
+    unsigned char pad_1E4[12];
+    int f1F0;
+    int f1F4;
+    int f1F8;
+    unsigned char pad_1FC[16];
+    int f20C;
+    unsigned char pad_210[8];
+    int f218;
+    unsigned char pad_21C[12];
+    void * f228;
+    void * f22C;
+    void * f230;
+    void * f234;
+    void * f238;
+    int f23C;
+    unsigned short f240;
+    unsigned char pad_242[24];
+    signed char f25A;
+    signed char f25B;
+    unsigned char pad_25C[16];
+    unsigned short f26C;
+    unsigned char pad_26E[54];
+    int f2A4;
+    unsigned char pad_2A8[8];
+    int f2B0;
+};
+#endif

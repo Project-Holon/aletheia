@@ -10,5 +10,6 @@
  * symbols:
 
  */
+#include "../include/Obj26138.h"
 typedef unsigned short u16;
-u16 func_021B9C50(const char *p) {return **(u16 **)(p+12);}
+u16 func_021B9C50(const char *p) {return **(u16 * *)&((struct Obj26138 *)p)->fC;}

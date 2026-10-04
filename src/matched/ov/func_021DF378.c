@@ -14,14 +14,16 @@
  *
  * Mirror a word into a halfword field, forward, return 0.
  */
+#include "../include/Obj12156.h"
+#include "../include/Obj18460.h"
 
 extern void func_020307B0(void *);
 
 int func_021DF378(char *p)
 {
-    char *q = *(char **)(p + 0xc);
+    char *q = *(char * *)&((struct Obj12156 *)p)->fC;
 
-    *(short *)(p + 0x10) = *(int *)(q + 0x38);
+    ((struct Obj12156 *)p)->f10 = ((struct Obj18460 *)q)->f38;
     func_020307B0(q);
     return 0;
 }

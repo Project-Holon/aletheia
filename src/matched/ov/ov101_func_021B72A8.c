@@ -16,6 +16,7 @@
  * func_02045808 0x02045808 arm
  * func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj03228.h"
 typedef unsigned short u16;
 typedef struct { unsigned data; u16 tag,pad; unsigned flag; } Desc;
 typedef unsigned int   u32;
@@ -35,12 +36,12 @@ void func_021B72A8(unsigned *p,unsigned b) {
  Desc t;
  if(b==p[21]) return;
  func_02028148((u8 *)p[0]);
- q=(unsigned int)func_02045B38(0,2,0x31,*(u16 *)((char *)p+0x58));
+ q=(unsigned int)func_02045B38(0,2,0x31,((struct Obj03228 *)p)->f58);
  func_02082BCC(&t,0,12);
  t.tag=0x39e3;
  t.data=(unsigned int)func_02045EC0((struct MsgBank *)q,b+8);
  t.flag=1;
- p[0]=func_02027FEC(p[1],&t,0x13,0x15,0xd,*(u16 *)((char *)p+0x58));
+ p[0]=func_02027FEC(p[1],&t,0x13,0x15,0xd,((struct Obj03228 *)p)->f58);
  func_02045808((struct U16Vec *)t.data);
  func_02045C04((struct Rec *)q);
  p[21]=b; p[20]=0; p[17]=-1;

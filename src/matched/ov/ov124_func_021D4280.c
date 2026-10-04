@@ -14,6 +14,7 @@
  *   func_021D4698 0x021D4698 thumb ov124
  *   func_021D4504 0x021D4504 thumb ov124
  */
+#include "../include/Obj00991.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,4 +23,4 @@ extern void func_02030EAC(struct Node *);
 extern void func_021D485C(char *);
 extern void func_021D4698(char *);
 extern void func_021D4504(char *);
-void func_021D4280(char *p) {func_02030EAC(*(struct Node **)(p+0x14));func_021D485C(p);func_021D4698(p);func_021D4504(p);}
+void func_021D4280(char *p) {func_02030EAC(*(struct Node * *)&((struct Obj00991 *)p)->f14);func_021D485C(p);func_021D4698(p);func_021D4504(p);}

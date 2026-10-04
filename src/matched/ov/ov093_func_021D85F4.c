@@ -20,6 +20,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07807.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,10 +53,10 @@ void func_021D85F4(void *a, int b, int c)
         return;
     func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0xe, c);
-    *(u32 *)(p + 4) = 1;
-    *(s8 *)(p + 0xc) = -1;
-    *(u8 *)(p + 0xe) = 1;
-    *(u8 *)(p + 0xf) = w;
+    ((struct Obj07807 *)p)->f4 = 1;
+    ((struct Obj07807 *)p)->fC = -1;
+    ((struct Obj07807 *)p)->fE = 1;
+    ((struct Obj07807 *)p)->fF = w;
     for (i = 0; i < (u32)w; i++)
         *(u8 *)(p + 0x10 + i) = ((u8 *)v)[i];
     func_021C88C8((void *)b, p);

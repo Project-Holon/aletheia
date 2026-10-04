@@ -13,6 +13,7 @@
  *   func_0204ADA4  0x0204ADA4  arm
  *   func_0204AFD8  0x0204AFD8  arm
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int   u32;
 extern void func_0204ADA4(u32 i);
@@ -20,12 +21,12 @@ extern void func_0204AFD8(u32 i);
 
 void func_021DD588(char *p)
 {
-    if (*(void **)(p + 0x890) != 0) {
-        func_0204ADA4((u32)(*(void **)(p + 0x890)));
-        *(void **)(p + 0x890) = 0;
+    if (((struct Obj00001 *)p)->f890 != 0) {
+        func_0204ADA4((u32)(((struct Obj00001 *)p)->f890));
+        ((struct Obj00001 *)p)->f890 = 0;
     }
-    if (*(void **)(p + 0x8C0) != 0) {
-        func_0204AFD8((u32)(*(void **)(p + 0x8C0)));
-        *(void **)(p + 0x8C0) = 0;
+    if (((struct Obj00001 *)p)->f8C0 != 0) {
+        func_0204AFD8((u32)(((struct Obj00001 *)p)->f8C0));
+        ((struct Obj00001 *)p)->f8C0 = 0;
     }
 }

@@ -18,6 +18,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D7F9C 0x021D7F9C thumb ov123
  */
+#include "../include/Obj05368.h"
 extern int func_021D6E70(char *);
 extern int func_021D6EBC(char *);
 extern int func_021D6EA4(char *);
@@ -31,17 +32,17 @@ extern void func_021D7F9C(char *p);
 void func_021D80B8(char *p)
 {
     if (func_021D6E70(p) && !func_021D6EBC(p)) {
-        if (func_021B95D4(2, *(void **)(p + 0x10)) && !func_021B9748(*(void **)(p + 0x10))) {
+        if (func_021B95D4(2, ((struct Obj05368 *)p)->f10) && !func_021B9748(((struct Obj05368 *)p)->f10)) {
             func_021D6EE0(p, (int)func_021D7F9C, 0x59d);
             return;
         }
     } else {
         if (func_021D6EA4(p)) {
-            *(int *)(p + 0x74) = 0;
-            func_021D5950(*(char **)(p + 0x18), 42);
-            func_021D59E4(*(char **)(p + 0x18));
+            ((struct Obj05368 *)p)->f74 = 0;
+            func_021D5950(*(char * *)&((struct Obj05368 *)p)->f18, 42);
+            func_021D59E4(*(char * *)&((struct Obj05368 *)p)->f18);
         } else {
-            *(int *)(p + 0x74) = 0x42e;
+            ((struct Obj05368 *)p)->f74 = 0x42e;
         }
         func_021D6EE0(p, (int)func_021D7F9C, 0x5aa);
     }

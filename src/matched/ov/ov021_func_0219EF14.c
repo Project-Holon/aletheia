@@ -16,6 +16,7 @@
  *   d_021DDDAC     0x021DDDAC  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05014.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,10 +31,10 @@ extern void func_02082BCC(void *, int, int);
 void func_0219EF14(u8 *p)
 {
     func_02082BCC(p, 0, 0x30);
-    *(u16 *)(p + 8) = 0x14;
-    *(u16 *)(p + 0xa) = 3;
-    *(u16 *)(p + 0xc) = 3;
-    *(void **)(p + 0x20) = d_021DDDB8;
-    *(void **)(p + 0x24) = d_021DDDA0;
-    *(void **)(p + 0x28) = d_021DDDAC;
+    ((struct Obj05014 *)p)->f8 = 0x14;
+    ((struct Obj05014 *)p)->fA = 3;
+    ((struct Obj05014 *)p)->fC = 3;
+    ((struct Obj05014 *)p)->f20 = d_021DDDB8;
+    ((struct Obj05014 *)p)->f24 = d_021DDDA0;
+    ((struct Obj05014 *)p)->f28 = d_021DDDAC;
 }

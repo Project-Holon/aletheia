@@ -27,6 +27,7 @@
  * (`s + 0x150 + i * 4`), which is what this function was parked with, pulls
  * the whole offset up into the loop head and is a different allocation.
  */
+#include "../include/Obj09193.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ void func_021BBD80(char *s)
 {
     int i;
 
-    if (*(void **)(s + 0x150) != 0) {
+    if (((struct Obj09193 *)s)->f150 != 0) {
         for (i = 0; i < 12; i++) {
             if (*(void **)(s + i * 4 + 0x150) != 0) {
                 func_0204B3B4(*(void **)(s + i * 4 + 0x150));
@@ -54,7 +55,7 @@ void func_021BBD80(char *s)
             }
             *(u32 *)(s + i * 4 + 0x150) = 0;
         }
-        func_0204ADA4((u32)(*(void **)(s + 0x148)));
-        func_0204AFD8((u32)(*(void **)(s + 0x14C)));
+        func_0204ADA4((u32)(((struct Obj09193 *)s)->f148));
+        func_0204AFD8((u32)(((struct Obj09193 *)s)->f14C));
     }
 }

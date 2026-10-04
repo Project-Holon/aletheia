@@ -15,10 +15,11 @@
  * ARM leaf getter: returns the word at +0x48 of the ov175 object (the
  * handle func_021DD2D4 stashes there from its callback).
  */
+#include "../include/Obj24398.h"
 
 typedef unsigned long u32;
 
 u32 func_021DD2CC(char *obj)
 {
-    return *(u32 *)(obj + 0x48);
+    return ((struct Obj24398 *)obj)->f48;
 }

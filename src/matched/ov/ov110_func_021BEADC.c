@@ -15,6 +15,7 @@
  *   func_021BE580 0x021BE580 thumb ov110
  *   func_021BE934 0x021BE934 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BD808(u8 *,void *);
@@ -26,13 +27,13 @@ extern void func_021BE934(u8 *p, u32 *q);
 void func_021BEADC(u8 *p,void *q) {
     if(func_021BD808(p,q)) {
         if(p[105]==0) {
-            if(*(u32 *)(p+112)==0 && !(func_020362DC()&2)) { func_020061E4(1352); return; }
+            if(*(u32 *)&((struct Obj00012 *)p)->f70==0 && !(func_020362DC()&2)) { func_020061E4(1352); return; }
         } else {
-            if(*(u32 *)(p+112)==0) { func_020061E4(1352); return; }
+            if(*(u32 *)&((struct Obj00012 *)p)->f70==0) { func_020061E4(1352); return; }
         }
     }
-    if(func_021B9C90((unsigned int)(*(void **)(p+20)),30)) {
-        if(*(u32 *)(p+112)==0) func_021BE580(p,q);
+    if(func_021B9C90((unsigned int)(((struct Obj00012 *)p)->f14),30)) {
+        if(*(u32 *)&((struct Obj00012 *)p)->f70==0) func_021BE580(p,q);
         else func_021BE934(p,q);
     }
 }

@@ -16,10 +16,11 @@
  *   func_020479D8 0x020479D8 arm
  *   func_02047970 0x02047970 arm
  */
+#include "../include/Obj25755.h"
 struct Light;
 extern void func_02047964(void *);
 extern void func_02048AD0(struct Light *);
 extern void func_020479D8(void);
 extern void func_02047970(void);
-void func_021F66AC(void *p){func_02047964(p);func_02048AD0(*(struct Light **)p);func_020479D8();}
+void func_021F66AC(void *p){func_02047964(p);func_02048AD0(*(struct Light * *)&((struct Obj25755 *)p)->f0);func_020479D8();}
 void func_021F66C0(void *p){func_02047970();}

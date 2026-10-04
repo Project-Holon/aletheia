@@ -15,6 +15,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02041300 0x02041300 arm
  */
+#include "../include/Obj03282.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -29,9 +30,9 @@ static inline int ab(int v) {return v<0?-v:v;}
 void func_021C89C4(char *p,void *q) {
  void *v;
  func_021C8A50(p,(int)q);
- v=**(void ***)(p+8);func_020456F8(v);func_02041B6C(func_02045730(v));
- func_02041300(2,0,ab(*(s16 *)p),ab(*(s16 *)(p+2)),p[4],p[5],0);
+ v=**(void ** *)&((struct Obj03282 *)p)->f8;func_020456F8(v);func_02041B6C(func_02045730(v));
+ func_02041300(2,0,ab(((struct Obj03282 *)p)->f0),ab(((struct Obj03282 *)p)->f2),p[4],p[5],0);
  func_02041B6C(2);
- func_02041300(3,0,ab(*(s16 *)p),ab(*(s16 *)(p+2)),p[4],p[5],0);
+ func_02041300(3,0,ab(((struct Obj03282 *)p)->f0),ab(((struct Obj03282 *)p)->f2),p[4],p[5],0);
  func_02041B6C(3);
 }

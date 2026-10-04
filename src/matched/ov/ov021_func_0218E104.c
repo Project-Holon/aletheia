@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218E58C  0x0218E58C  thumb
  */
+#include "../include/Obj01653.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ void func_0218E104(u8 *a, u32 b)
 {
     void (*fp)(void *, u32) = *(void (**)(void *, u32))(a + 0x1ac);
     if (fp != 0)
-        fp(a, *(u32 *)(a + 0x1a8));
+        fp(a, ((struct Obj01653 *)a)->f1A8);
     func_0218E58C(a, b);
 }

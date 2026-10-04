@@ -26,6 +26,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_021B77DC 0x021B77DC thumb ov180
  */
+#include "../include/Obj01273.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -46,22 +47,22 @@ void func_021B78E0(char *p) {
     struct Sav *mon;
     u32 lock,width;
     struct StrObj *str;
-    mon=func_020185F0(*(struct Sav **)((u32)p+*(u8 *)(p+0x915d)*4+0x9140));
+    mon=func_020185F0(*(struct Sav **)((u32)p+((struct Obj01273 *)p)->f915D*4+0x9140));
     lock=func_02017DBC(mon);
-    func_02043B5C(*(struct CharBuf **)(p+0x912c),0);
-    str=func_02045EC0(*(struct MsgBank **)(p+0x9038),1);
-    func_0201EF14(*(struct WordSet **)(p+0x903c),0,mon);
-    func_0201F250(*(struct WordSet **)(p+0x903c),*(void **)(p+0x9040),str);
-    func_021B77DC(p,1,*(void **)(p+0x9030),*(struct StrObj **)(p+0x9040),8,0);
+    func_02043B5C(*(struct CharBuf * *)&((struct Obj01273 *)p)->f912C,0);
+    str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,1);
+    func_0201EF14(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,mon);
+    func_0201F250(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
+    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,8,0);
     func_02045808(str);
-    str=func_02045EC0(*(struct MsgBank **)(p+0x9038),2);
-    width=func_0201D304(str,*(u32 *)(p+0x9030),0);
-    func_021B77DC(p,1,*(void **)(p+0x9030),str,112,0);
+    str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,2);
+    width=func_0201D304(str,*(u32 *)&((struct Obj01273 *)p)->f9030,0);
+    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,str,112,0);
     func_02045808(str);
-    str=func_02045EC0(*(struct MsgBank **)(p+0x9038),3);
-    func_0201EFA4(*(struct WordSet **)(p+0x903c),0,func_02017E88(mon,158,0),3,0,1);
-    func_0201F250(*(struct WordSet **)(p+0x903c),*(void **)(p+0x9040),str);
-    func_021B77DC(p,1,*(void **)(p+0x9030),*(struct StrObj **)(p+0x9040),width+112,0);
+    str=func_02045EC0(*(struct MsgBank * *)&((struct Obj01273 *)p)->f9038,3);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,0,func_02017E88(mon,158,0),3,0,1);
+    func_0201F250(*(struct WordSet * *)&((struct Obj01273 *)p)->f903C,((struct Obj01273 *)p)->f9040,str);
+    func_021B77DC(p,1,((struct Obj01273 *)p)->f9030,*(struct StrObj * *)&((struct Obj01273 *)p)->f9040,width+112,0);
     func_02045808(str);
     func_02017DE4(mon,lock);
 }

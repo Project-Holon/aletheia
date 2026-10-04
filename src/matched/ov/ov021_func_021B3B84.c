@@ -16,6 +16,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj03599.h"
 
 struct Rec;
 struct S02031140;
@@ -28,12 +29,12 @@ extern void func_02045C04(struct Rec *rec);
 
 void func_021B3B84(char *p)
 {
-    func_02031140(*(void **)(p + 436));
-    func_0201ED04(*(void **)(p + 400));
-    func_02045808(*(void **)(p + 412));
-    func_02045808(*(void **)(p + 408));
-    func_02045808(*(void **)(p + 416));
-    func_02045808(*(void **)(p + 404));
-    func_02045C04(*(void **)(p + 392));
-    func_02045C04(*(void **)(p + 396));
+    func_02031140(((struct Obj03599 *)p)->f1B4);
+    func_0201ED04(((struct Obj03599 *)p)->f190);
+    func_02045808(((struct Obj03599 *)p)->f19C);
+    func_02045808(((struct Obj03599 *)p)->f198);
+    func_02045808(((struct Obj03599 *)p)->f1A0);
+    func_02045808(((struct Obj03599 *)p)->f194);
+    func_02045C04(((struct Obj03599 *)p)->f188);
+    func_02045C04(((struct Obj03599 *)p)->f18C);
 }

@@ -22,6 +22,7 @@
  *   abs_id_C2      0x000000C2  data
  *   d_021F5580     0x021F5580  data  ov075  a4
  */
+#include "../include/Obj03150.h"
 
 typedef unsigned char u8;
 
@@ -41,13 +42,13 @@ int func_021CD348(int a, int *st, u8 *c)
 
     switch (*st) {
     case 0:
-        r = (int)func_020146F8((char *)(*(int *)c), *(int *)(c + 0x10), (int)abs_id_C2, (int)(&d_021F5580), (int)(c + 0x1c));
+        r = (int)func_020146F8((char *)(((struct Obj03150 *)c)->f0), ((struct Obj03150 *)c)->f10, (int)abs_id_C2, (int)(&d_021F5580), (int)(c + 0x1c));
         func_02012374((struct Evt *)a, (struct Evt **)r);
         (*st)++;
         break;
     case 1:
         func_021CD3A4(c, c + 0x1c);
-        func_02045808((struct U16Vec *)(*(int *)(c + 0x3c)));
+        func_02045808((struct U16Vec *)(((struct Obj03150 *)c)->f3C));
         return 1;
     }
     return 0;

@@ -13,6 +13,9 @@
  * d_021C7E40 0x021C7E40 data a4
  * d_021C7E1C 0x021C7E1C data a4
  */
+#include "../include/Obj06533.h"
+#include "../include/Obj23659.h"
+#include "../include/Obj23660.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,9 +26,9 @@ extern const u8 d_021C7E40[],d_021C7E1C[];
 void func_021C7658(u8 *p)
 {
     int v;
-    u16 n=*(u16 *)(*(u8 **)(p+8)+0x2fe);
-    if (*(u16 *)(p+0x1c)>n) { *(u16 *)(p+0x1c)=n; v=0; }
+    u16 n=((struct Obj23659 *)(*(u8 * *)&((struct Obj06533 *)p)->f8))->f2FE;
+    if (((struct Obj06533 *)p)->f1C>n) { ((struct Obj06533 *)p)->f1C=n; v=0; }
     else v=p[0x1e];
-    *(u32 *)(*(u8 **)(p+8)+0x294)=(u32)func_02025CD0((u32)d_021C7E40,(u32)d_021C7E1C,(u32)p,1,v,102);
+    ((struct Obj23660 *)(*(u8 * *)&((struct Obj06533 *)p)->f8))->f294=(u32)func_02025CD0((u32)d_021C7E40,(u32)d_021C7E1C,(u32)p,1,v,102);
     func_021C76D0(p,v);
 }

@@ -14,6 +14,7 @@
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_0204AF28  0x0204AF28  arm
  */
+#include "../include/Obj09791.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021F0490(char *p, u32 heap)
 {
-    *(u32 *)(p + 0xC) = func_0204AC18((void *)heap, 0x13, 1, 0, 0, 3, 0x15);
-    *(u32 *)(p + 8) = func_0204A6C8((void *)heap, 0xE, 0, 1, 0x15);
-    *(u32 *)(p + 0x10) = func_0204AF28((void *)heap, 0xC, 0xD, 0x15);
+    ((struct Obj09791 *)p)->fC = func_0204AC18((void *)heap, 0x13, 1, 0, 0, 3, 0x15);
+    ((struct Obj09791 *)p)->f8 = func_0204A6C8((void *)heap, 0xE, 0, 1, 0x15);
+    ((struct Obj09791 *)p)->f10 = func_0204AF28((void *)heap, 0xC, 0xD, 0x15);
 }

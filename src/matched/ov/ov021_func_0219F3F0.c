@@ -26,6 +26,7 @@
  *   func_021A000C  0x021A000C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03121.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -54,7 +55,7 @@ void func_0219F3F0(u32 a)
     u32 x;
     u32 y;
     q = (u8 *)func_0216D6F0((void *)a);
-    if (*(u16 *)q != 0xFFFF) {
+    if (((struct Obj03121 *)q)->f0 != 0xFFFF) {
         r = func_0219C9DC((u8 *)func_0216D910(a));
         x = func_0216D678((void *)a);
         if (x >= 10) {
@@ -63,15 +64,15 @@ void func_0219F3F0(u32 a)
                 q[4] = y;
                 q[5] = x;
                 q[6] = 0;
-                func_0205082C((void *)r, *(u16 *)q, (u16)(x + 0x1e));
+                func_0205082C((void *)r, ((struct Obj03121 *)q)->f0, (u16)(x + 0x1e));
             }
-            func_021A000C(a, r, *(u16 *)q, 1, 0);
+            func_021A000C(a, r, ((struct Obj03121 *)q)->f0, 1, 0);
         } else {
-            func_0219FEB0((u8 *)((u16 *)(q + 4)), a, r, *(u16 *)q);
+            func_0219FEB0((u8 *)((u16 *)(q + 4)), a, r, ((struct Obj03121 *)q)->f0);
         }
     func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
     r = func_02050080((u32 *)r);
-    func_0204F638((u8 *)r, *(u16 *)q, (struct Trip *)buf);
+    func_0204F638((u8 *)r, ((struct Obj03121 *)q)->f0, (struct Trip *)buf);
     }
 }

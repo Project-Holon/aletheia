@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BB00C  0x021BB00C  thumb  ov110
  */
+#include "../include/Obj22395.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BB00C(void *p, void *q);
-void func_021BF7D4(u8 *p, void *q) { func_021BB00C(*(void **)(p + 0x1c), q); }
+void func_021BF7D4(u8 *p, void *q) { func_021BB00C(((struct Obj22395 *)p)->f1C, q); }

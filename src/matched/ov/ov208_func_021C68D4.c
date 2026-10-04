@@ -12,6 +12,7 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj05545.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,19 +25,19 @@ void ov208_func_021C68D4(void *unused, u8 *p)
 {
     int on = 0;
 
-    switch (*(u32 *)(p + 0x6b8)) {
+    switch (((struct Obj05545 *)p)->f6B8) {
     case 0:
-        if (*(u16 *)(p + 0x548) >= 2)
+        if (((struct Obj05545 *)p)->f548 >= 2)
             on = 1;
         break;
     case 4:
         break;
     }
     if (on) {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668), 1);
+        func_0204B3DC((struct Obj *)((struct Obj05545 *)p)->f668, 1);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 1);
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668), 0);
+        func_0204B3DC((struct Obj *)((struct Obj05545 *)p)->f668, 0);
         func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 0);
     }
 }

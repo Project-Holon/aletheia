@@ -22,6 +22,7 @@
  *   d_0220BBEC     0x0220BBEC  data  ov207
  *   d_0220BBF8     0x0220BBF8  data  ov207
  */
+#include "../include/Obj00181.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -60,7 +61,7 @@ void func_0220B9E0(int *a)
     case 1:
         ((u8 *)a)[0x50] = (func_020355C4() == 0) ? 1 : 0;
         {
-            int r5 = (int)func_02045B38(0, 2, 0xe9, *(u16 *)a);
+            int r5 = (int)func_02045B38(0, 2, 0xe9, ((struct Obj00181 *)a)->f0);
             s.v0 = (int)func_02045EC0((struct MsgBank *)r5, 0);
             s.v1 = (int)func_02045EC0((struct MsgBank *)r5, 1);
             s.v2 = 1;

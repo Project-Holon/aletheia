@@ -16,6 +16,7 @@
  * symbols:
  *   d_021F3B88  0x021F3B88  data
  */
+#include "../include/Obj18400.h"
 
 typedef struct {
     int w[8];
@@ -27,7 +28,7 @@ int func_021D440C(S32 *dst)
 {
     char *p = (char *)d_021F3B88;
 
-    if (*(unsigned char *)(p + 0xa) != 0) {
+    if (((struct Obj18400 *)p)->fA != 0) {
         *dst = *(S32 *)(p + 0x18);
         return 1;
     }

@@ -12,21 +12,22 @@
  *   d_021E7954 0x021E7954 data a4
  *   d_021E7964 0x021E7964 data a4
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef struct { int a,b,c,d; } Quad;
 extern const Quad d_021E7954,d_021E7964;
 extern void func_021E2070(void *,int,Quad *);
 void func_021E2140(char *p,int a)
 {
-    if(*(u16 *)(p+0x1098)) {
+    if(((struct Obj00001 *)p)->f1098) {
         Quad t;
         t=d_021E7954;
         func_021E2070(p,a,&t);
-        *(u16 *)(p+0x1098)=0;
+        ((struct Obj00001 *)p)->f1098=0;
     } else {
         Quad t;
         t=d_021E7964;
         func_021E2070(p,a,&t);
-        *(u16 *)(p+0x1098)=1;
+        ((struct Obj00001 *)p)->f1098=1;
     }
 }

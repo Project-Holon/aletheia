@@ -15,6 +15,7 @@
  *   func_0202E940  0x0202E940  thumb
  *   func_0202E9AC  0x0202E9AC  thumb
  */
+#include "../include/Obj00014.h"
 
 typedef unsigned short u16;
 
@@ -30,7 +31,7 @@ void func_021BAC24(char *p)
 {
     void *h;
     h = func_020490F4(0x23, 0x800B);
-    *(int *)(p + 0x11c) = (int)func_0202E940(0x20, 0x10, 2, 0xb);
-    func_0202E9AC((struct CodeIn *)(*(int *)(p + 0x11c)), h, 4, 0x20, 0x30);
+    ((struct Obj00014 *)p)->f11C = (int)func_0202E940(0x20, 0x10, 2, 0xb);
+    func_0202E9AC((struct CodeIn *)(((struct Obj00014 *)p)->f11C), h, 4, 0x20, 0x30);
     func_02049238(h);
 }

@@ -9,4 +9,5 @@
  * status: EXACT
  * follower: unlabelled timer inside handed 021DF6A4 extent, followed by 2-byte zero padding.
  */
-int func_021DF6B8(char *p){if(++*(int *)(p+12)>=180){*(int *)(p+12)=0;*(int *)p=47;return 1;}return 0;}
+#include "../include/Obj10623.h"
+int func_021DF6B8(char *p){if(++((struct Obj10623 *)p)->fC>=180){((struct Obj10623 *)p)->fC=0;((struct Obj10623 *)p)->f0=47;return 1;}return 0;}

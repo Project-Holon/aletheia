@@ -17,6 +17,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_02184FC8 0x02184FC8 thumb ov219
  */
+#include "../include/Obj01013.h"
 typedef unsigned short u16;
 struct Src;struct Descriptor;struct MsgBank;struct Rec;struct Slot;
 typedef struct {const void *str;unsigned param;} BmpMenuWork;
@@ -31,10 +32,10 @@ void func_021850EC(char *p,const unsigned char *descriptor,const struct Src *cfg
 {
     struct MsgBank *bank;
     unsigned i;
-    *(struct Descriptor **)(p+0xc018)=(struct Descriptor *)func_02184968(descriptor,1);
-    bank=func_02045B38(0,2,file,*(unsigned *)p);
-    *(BmpMenuWork **)(p+0xc050)=func_0201F81C(130,*(unsigned *)p);
-    for(i=0;i<count;i++)func_0201F878(*(struct Slot **)(p+0xc050),(unsigned)bank,ids[i],ids[i],(u16)*(unsigned *)p);
+    *(struct Descriptor * *)&((struct Obj01013 *)p)->fC018=(struct Descriptor *)func_02184968(descriptor,1);
+    bank=func_02045B38(0,2,file,((struct Obj01013 *)p)->f0);
+    *(BmpMenuWork * *)&((struct Obj01013 *)p)->fC050=func_0201F81C(130,((struct Obj01013 *)p)->f0);
+    for(i=0;i<count;i++)func_0201F878(*(struct Slot **)(p+0xc050),(unsigned)bank,ids[i],ids[i],(u16)((struct Obj01013 *)p)->f0);
     func_02045C04((struct Rec *)bank);
     func_02184FC8(p,cfg,count);
 }

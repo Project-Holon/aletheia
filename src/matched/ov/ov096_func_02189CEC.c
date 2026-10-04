@@ -22,6 +22,10 @@
  *   func_0218A2FC  0x0218A2FC  thumb  ov096
  *   func_021D59B4  0x021D59B4  thumb  ov093
  */
+#include "../include/Obj10192.h"
+#include "../include/Obj21973.h"
+#include "../include/Obj21974.h"
+#include "../include/Obj21975.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,18 +50,18 @@ int func_02189CEC(int a, int b) {
     s = func_0218A160((u8 *)b, r6);
     t = func_0218A2FC((u8 *)b, s);
     x = func_021D59B4(t, r4);
-    *(int *)(b + 0x38) = x - func_021D59B4(*(u8 **)(b + 0xbc), r4);
-    return *(int *)(b + 0xc4);
+    ((struct Obj10192 *)b)->f38 = x - func_021D59B4(*(u8 * *)&((struct Obj10192 *)b)->fBC, r4);
+    return ((struct Obj10192 *)b)->fC4;
 }
 
 int func_02189D30(int a, int b) {
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21973 *)b)->fC4;
 }
 
 int func_02189D38(int a, int b) {
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21974 *)b)->fC4;
 }
 
 int func_02189D40(int a, int b) {
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21975 *)b)->fC4;
 }

@@ -14,12 +14,13 @@
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
  */
+#include "../include/Obj23500.h"
 typedef unsigned char u8;
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021C5470(u8 *p)
 {
-    func_0204B1CC(*(void **)(p + 0xa0));
+    func_0204B1CC(((struct Obj23500 *)p)->fA0);
     func_0204A5AC();
 }

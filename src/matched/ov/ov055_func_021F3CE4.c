@@ -11,6 +11,7 @@
  * symbols:
  *   func_0216CF2C 0x0216CF2C thumb ov010
  */
+#include "../include/Obj13122.h"
 
 extern void func_0216CF2C(unsigned char *);
-void func_021F3CE4(char *p) { func_0216CF2C(*(unsigned char **)(p+12)); *(void **)(p+12)=0; }
+void func_021F3CE4(char *p) { func_0216CF2C(*(unsigned char * *)&((struct Obj13122 *)p)->fC); ((struct Obj13122 *)p)->fC=0; }

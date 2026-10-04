@@ -17,6 +17,7 @@
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
  */
+#include "../include/Obj13690.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,10 +42,10 @@ int func_021BD318(char *p, int v)
     }
     h = (u32)func_020399A8();
     if (func_0203D3F8(h, 0xFF, 0xA07, func_0201A918(),
-                      *(u32 *)(*(char **)(p + 0x248) + t * 4 + 0x14), 0, 0, 1) != 0) {
+                      *(u32 *)(*(char * *)&((struct Obj13690 *)p)->f248 + t * 4 + 0x14), 0, 0, 1) != 0) {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
-        *(u32 *)(p + 0x1CC) = 0x98;
+        ((struct Obj13690 *)p)->f1CC = 0x98;
     }
     return v;
 }

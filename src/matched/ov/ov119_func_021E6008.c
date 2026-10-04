@@ -17,6 +17,8 @@
  *   func_021B6208 0x021B6208 thumb ov067
  *   func_021B629C 0x021B629C thumb ov067
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj08074.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { int f0,f4,f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
@@ -37,9 +39,9 @@ void func_021E6008(char *p, int b, int c)
     In in;
     int a = func_0201B280(c);
     if (a == 0) return;
-    if (*(int *)(q + 0x10)) {
-        if (a == 0) func_0204B3DC((struct Obj *)*(int *)(q + 0x10), 0);
-        else func_0204B3DC((struct Obj *)*(int *)(q + 0x10), 1);
+    if (((struct Obj08074 *)q)->f10) {
+        if (a == 0) func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 0);
+        else func_0204B3DC((struct Obj *)((struct Obj08074 *)q)->f10, 1);
         return;
     }
     in.f0 = 1; in.b1c = 14; in.f4 = 0;
@@ -49,6 +51,6 @@ void func_021E6008(char *p, int b, int c)
     in.f14 = func_02027750(2);
     in.f18 = func_02027754(2);
     in.b1d = 0; in.b1e = 1;
-    func_021B6208(q, &in, *(int *)(p + 0x9c4), *(u16 *)(p + 0x5f4));
-    *(int *)(q + 0x10) = func_021B629C(q, *(int *)(p + 0x9c4), 108 + b * 128, 20, 13, *(u16 *)(p + 0x5f4));
+    func_021B6208(q, &in, ((struct Obj00001 *)p)->f9C4, ((struct Obj00001 *)p)->f5F4);
+    ((struct Obj08074 *)q)->f10 = func_021B629C(q, ((struct Obj00001 *)p)->f9C4, 108 + b * 128, 20, 13, ((struct Obj00001 *)p)->f5F4);
 }

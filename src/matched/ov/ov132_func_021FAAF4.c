@@ -14,6 +14,7 @@
  *   func_02060468 0x02060468 arm
  *   d_021FDCEC 0x021FDCEC data ov132 a4
  */
+#include "../include/Obj05398.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -29,10 +30,10 @@ void *func_021FAAF4(u32 heap, void *owner)
     char *p;
     i = 0;
     p = func_02030734(heap, 0x44, 0, d_021FDCEC, 0x3f);
-    *(u16 *)p = heap;
-    *(void **)(p + 0x34) = owner;
-    *(void **)(p + 8) = func_02030734(*(u16 *)p, func_02030CB0(16), 0, d_021FDCEC, 0x43);
-    *(void **)(p + 4) = func_02030CBC(16, *(void **)(p + 8));
+    ((struct Obj05398 *)p)->f0 = heap;
+    ((struct Obj05398 *)p)->f34 = owner;
+    ((struct Obj05398 *)p)->f8 = func_02030734(((struct Obj05398 *)p)->f0, func_02030CB0(16), 0, d_021FDCEC, 0x43);
+    ((struct Obj05398 *)p)->f4 = func_02030CBC(16, ((struct Obj05398 *)p)->f8);
     func_02060468(p + 0x38, 0);
     for (; i < 10; i++) *(void **)(p + 0xc + i * 4) = 0;
     return p;

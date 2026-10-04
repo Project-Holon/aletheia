@@ -11,9 +11,10 @@
  * symbols:
  *   func_021C85D4 0x021C85D4 thumb ov093
  */
+#include "../include/Obj00294.h"
 extern void func_021C85D4(unsigned char *, int, int);
 void func_021C8588(unsigned char *p)
 {
-    *(int *)(p + 0x1a64) = 0;
+    *(int *)&((struct Obj00294 *)p)->f1A64 = 0;
     func_021C85D4(p, 0, 1);
 }

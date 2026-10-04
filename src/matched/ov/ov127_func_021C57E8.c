@@ -15,11 +15,12 @@
  * symbols:
  *   func_021C42C4  0x021C42C4  thumb  ov127
  */
+#include "../include/Obj23047.h"
 
 typedef unsigned char  u8;
 extern void func_021C42C4(u8 *p);
 
 void func_021C57E8(char *p)
 {
-    func_021C42C4(*(void **)(p + 4));
+    func_021C42C4(((struct Obj23047 *)p)->f4);
 }

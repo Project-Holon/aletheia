@@ -11,6 +11,7 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj09882.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
-void func_021BAF10(char *p) { func_020452E8(*(void **)(p + 0x504)); func_020452E8(*(void **)(p + 0x764)); func_020452E8(*(void **)(p + 0x75C)); }
+void func_021BAF10(char *p) { func_020452E8(((struct Obj09882 *)p)->f504); func_020452E8(((struct Obj09882 *)p)->f764); func_020452E8(((struct Obj09882 *)p)->f75C); }

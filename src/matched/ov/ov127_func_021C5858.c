@@ -15,6 +15,7 @@
  * symbols:
  *   func_021C4224  0x021C4224  thumb  ov127
  */
+#include "../include/Obj23052.h"
 
 typedef unsigned char u8;
 
@@ -22,5 +23,5 @@ extern int func_021C4224(u8 *p);
 
 int func_021C5858(u8 *p)
 {
-    return func_021C4224(*(void **)(p + 4));
+    return func_021C4224(((struct Obj23052 *)p)->f4);
 }

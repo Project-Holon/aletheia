@@ -35,6 +35,7 @@
  *   func_020306F0  0x020306F0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19637.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -80,7 +81,7 @@ int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
     }
     func_02196768(d);
     func_02155A8C(c, d[2]);
-    *(u32 *)(c + 0x58) = d[3];
+    ((struct Obj19637 *)c)->f58 = d[3];
     if (d[0xBA] != 0) {
         func_0202F038((u8 *)d[0xBA]);
         d[0xBA] = 0;

@@ -12,5 +12,6 @@
  *   func_021B9E80 0x021B9E80 thumb ov213
  *   func_021BA2E0 0x021BA2E0 thumb ov213
  */
+#include "../include/Obj08419.h"
 extern void func_021BA14C(char *,unsigned),func_021BA2E0(char *);extern int func_021B9E80(unsigned);
-void func_021BA30C(char *p,unsigned limit){func_021BA14C(p+32,limit);if(func_021B9E80(*(unsigned char *)(p+16)))func_021BA2E0(p);(*(unsigned *)(p+80))++;}
+void func_021BA30C(char *p,unsigned limit){func_021BA14C(p+32,limit);if(func_021B9E80(((struct Obj08419 *)p)->f10))func_021BA2E0(p);(((struct Obj08419 *)p)->f50)++;}

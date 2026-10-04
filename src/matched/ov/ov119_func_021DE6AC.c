@@ -15,6 +15,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DE66C 0x021DE66C thumb ov119
  */
+#include "../include/Obj10361.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x11fb]; u8 state:4; u8 other:4; } Flags;
@@ -32,7 +33,7 @@ void func_021DE6AC(char *p)
     if(((Flags *)p)->state==1) return;
     if(func_021D8A24(p)!=0) {
         id=(unsigned)func_020399A8();
-        if(!func_0203D3A8((void *)id,0xc01,func_020173EC(),(u32)(*(void **)(p+0x106c)))) return;
+        if(!func_0203D3A8((void *)id,0xc01,func_020173EC(),(u32)(((struct Obj10361 *)p)->f106C))) return;
     }
     p[0x11fb]=((u8)p[0x11fb]&~15)|1;
     func_021D8E84(p,(int)func_021DE66C);

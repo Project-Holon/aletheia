@@ -17,6 +17,7 @@
  *   func_021BD0F8 0x021BD0F8 thumb ov110
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj01249.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -37,8 +38,8 @@ void func_021BD044(Object *p) {
     s16 x;
     h=func_020490F4(43,42);
     func_021BAC64(p->root,(u8 *)p+0x10,0,0);
-    *(void **)((u8 *)p+0x14)=func_0204A6C8(h,13,0,0,42);
-    *(void **)((u8 *)p+0x18)=func_0204AF28(h,35,41,42);
+    ((struct Obj01249 *)p)->f14=func_0204A6C8(h,13,0,0,42);
+    ((struct Obj01249 *)p)->f18=func_0204AF28(h,35,41,42);
     func_02049238(h);
     for(i=0;i<8;i++) {
         x=24*i;

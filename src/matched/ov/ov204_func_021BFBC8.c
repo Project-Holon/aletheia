@@ -15,6 +15,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj14629.h"
 typedef unsigned short u16;
 extern void *func_02048A18(void *,int);
 typedef signed int     s32;
@@ -26,7 +27,7 @@ void func_021BFBC8(char *p,unsigned value)
     void *ctl;
     int frame;
     float f;
-    ctl=func_02048A18(*(void **)(p+8),*(u16 *)(p+16));
+    ctl=func_02048A18(((struct Obj14629 *)p)->f8,((struct Obj14629 *)p)->f10);
     if(value!=0) f=0.5f+(float)(value<<12);
     else f=(float)(value<<12)-0.5f;
     frame=(int)f;

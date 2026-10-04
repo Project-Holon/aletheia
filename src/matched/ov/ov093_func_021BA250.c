@@ -16,6 +16,8 @@
  *   func_021B8714  0x021B8714  thumb  ov093
  *   func_0201B7B4  0x0201B7B4  thumb
  */
+#include "../include/Obj13284.h"
+#include "../include/Obj13285.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,6 +44,6 @@ void func_021BA250(char *p, u8 *a, int b)
     xv = func_021D5844(x);
     yv = func_021D5844(y);
     q = func_021B8714((char **)p);
-    func_0201B7B4(xv, b, *(u16 *)(q + 0xa), (*(u16 *)(p + 0x468) & 0x7fff) | 0x8000);
-    func_0201B7B4(yv, b, *(u16 *)(q + 0xa), (*(u16 *)(p + 0x468) & 0x7fff) | 0x8000);
+    func_0201B7B4(xv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
+    func_0201B7B4(yv, b, ((struct Obj13285 *)q)->fA, (((struct Obj13284 *)p)->f468 & 0x7fff) | 0x8000);
 }

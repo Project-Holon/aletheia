@@ -23,6 +23,7 @@
  *   func_021E2A98 0x021E2A98 thumb ov119
  *   func_021B6558 0x021B6558 thumb ov067
  */
+#include "../include/Obj03775.h"
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02043534(u32 planes);
@@ -57,5 +58,5 @@ void func_021E1D68(char *p,void *a)
         p[0x11f9]=1;
         func_020056A0(func_021E2A98,p,0);
     }
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,1);
+    func_021B6558((unsigned char *)(((struct Obj03775 *)p)->f9C0),1,1);
 }

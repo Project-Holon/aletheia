@@ -19,6 +19,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F0878     0x021F0878  data   ov093  a4
  */
+#include "../include/Obj06251.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -40,9 +41,9 @@ void func_021D9ADC(int a, void *b, int c)
         if (func_021D62A8(func_021C7CF4(b, c))) {
             if (func_021D85C0((int)b, 0x21)) {
                 p = func_021C88A4(b, 0xb, c);
-                *(u32 *)p |= 0x800000;
-                *(u32 *)p |= 0x2000000;
-                *(int *)(p + 4) = 0x24;
+                ((struct Obj06251 *)p)->f0 |= 0x800000;
+                ((struct Obj06251 *)p)->f0 |= 0x2000000;
+                ((struct Obj06251 *)p)->f4 = 0x24;
                 p[8] = c;
                 p[0x14] = 1;
                 func_021C88C8(b, p);

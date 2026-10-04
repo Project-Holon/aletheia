@@ -11,10 +11,11 @@
  * symbols:
  *   func_021F3FEC 0x021F3FEC thumb ov041
  */
+#include "../include/Obj20502.h"
 
 extern void func_021F3FEC(unsigned char *);
 void func_021F3FD8(unsigned char *p)
 {
     func_021F3FEC(p + 0x720);
-    *(int *)(p + 0x720) = 1;
+    ((struct Obj20502 *)p)->f720 = 1;
 }

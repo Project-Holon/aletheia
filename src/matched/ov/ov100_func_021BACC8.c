@@ -14,6 +14,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021BB270 0x021BB270 thumb ov100
  */
+#include "../include/Obj10217.h"
 struct Word { int x; };
 extern void func_021BA5F4(unsigned a);
 extern void func_021BA3A4(struct Word *,int);
@@ -25,9 +26,9 @@ extern void func_021BB270(void);
 void func_021BACC8(int a) {
  struct Word x;
  func_021BA5F4(a);
- x.x=*(int *)(a+0xcb0);
+ x.x=((struct Obj10217 *)a)->fCB0;
  func_021BA3A4(&x,a);
- if(*(int *)(a+0x24c)==9 && *(int *)(a+0xce8)>0) {
+ if(((struct Obj10217 *)a)->f24C==9 && ((struct Obj10217 *)a)->fCE8>0) {
   func_021BA290(a,1);
   func_021B95B8((u8 *)a,(u32)func_021BB270);
   return;

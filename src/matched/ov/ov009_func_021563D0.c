@@ -16,6 +16,7 @@
  *   func_021AF13C  0x021AF13C  thumb  ov013
 
  */
+#include "../include/Obj18651.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ void func_021563D0(void)
 {
     extern char *g_021A8264;
     void func_021AF13C(void);
-    if (*(u32 *)(g_021A8264 + 0x76c)) func_021AF13C();
+    if (((struct Obj18651 *)g_021A8264)->f76C) func_021AF13C();
 }

@@ -15,6 +15,7 @@
  *   func_021D5EFC   0x021D5EFC  thumb
  * Leaf with no calls and no pool; 9 instructions, 22 bytes: push {r3, lr}; ldr r1, [r2]; ldr r0, [r0, #4]; lsls r1, r1, #0x18; lsrs r1, r1, #0x18; bl func_021B9934; bl func_021D5EFC; movs r0, #1; pop {r3, pc}.
  */
+#include "../include/Obj18383.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern void func_021D5EFC(void *p);
 
 int func_021D3894(u8 *p, int b, u32 *q)
 {
-    func_021D5EFC(func_021B9934(*(char **)(p + 4), (u8)*q));
+    func_021D5EFC(func_021B9934(*(char * *)&((struct Obj18383 *)p)->f4, (u8)*q));
     return 1;
 }
 

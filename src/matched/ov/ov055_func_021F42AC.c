@@ -19,6 +19,7 @@
  *   func_0216DAB4  0x0216DAB4  thumb  ov010
  *   func_021F4318  0x021F4318  thumb  ov055
  */
+#include "../include/Obj00204.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ int func_021F42AC(u8 *a, void *b, u32 *c, u16 d, u16 e)
     u32 cur;
 
     while (func_0216DD1C(b, &cur, &iter) == 1) {
-        if (*(u32 *)(a + 0xc) != cur && func_0216D55C(cur, 0x80) == 0 &&
+        if (*(u32 *)&((struct Obj00204 *)a)->fC != cur && func_0216D55C(cur, 0x80) == 0 &&
             func_0216DAB4((void *)cur) == 0 && func_021F4318(a, (void *)cur, d, e) != 0) {
             *c = cur;
             return 1;

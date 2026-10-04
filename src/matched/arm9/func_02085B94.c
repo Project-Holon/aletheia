@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16692.h"
 
 void func_02085B94(char *p, int v)
 {
-    *(int *)(p + 0xb4) = v;
+    ((struct Obj16692 *)p)->fB4 = v;
 }

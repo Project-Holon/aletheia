@@ -12,13 +12,15 @@
  * symbols:
  *   func_021FD15C  0x021FD15C  thumb  ov186
  */
+#include "../include/Obj10773.h"
+#include "../include/Obj24760.h"
 
 extern void func_021FD15C(void *p, int a1);
 
 void func_021F8FB0(char *p, char *a1)
 {
-    if (*(int *)(p + 4) != 0) {
-        func_021FD15C((void *)(*(int *)(p + 4)), *(int *)(a1 + 0xc));
-        *(int *)(p + 4) = 0;
+    if (((struct Obj10773 *)p)->f4 != 0) {
+        func_021FD15C((void *)(((struct Obj10773 *)p)->f4), ((struct Obj24760 *)a1)->fC);
+        ((struct Obj10773 *)p)->f4 = 0;
     }
 }

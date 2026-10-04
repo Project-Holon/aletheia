@@ -12,6 +12,8 @@
  * symbols:
  *   func_021DA1EC 0x021DA1EC thumb ov123
  */
+#include "../include/Obj03804.h"
+#include "../include/Obj22984.h"
 extern void func_021DA1EC(char *p);
 void func_021DA030(char *, int, int);
 void func_021DA034(char *, int, int);
@@ -19,16 +21,16 @@ int func_021D9FD4(char *p, int n)
 {
     switch (n) {
     case 503:
-        *(int *)(p+0x70)=0xfff1;
+        ((struct Obj03804 *)p)->f70=0xfff1;
         func_021DA034(p,(int)func_021DA1EC,0x99);
         return 1;
     case 502:
-        *(int *)(p+0x70)=0xfff2;
+        ((struct Obj03804 *)p)->f70=0xfff2;
         func_021DA034(p,(int)func_021DA1EC,0x9d);
         return 1;
     default:
         if (n>=400) {
-            *(int *)(p+0x70)=0xfff3;
+            ((struct Obj03804 *)p)->f70=0xfff3;
             func_021DA034(p,(int)func_021DA1EC,0xa3);
             return 1;
         }
@@ -37,7 +39,7 @@ int func_021D9FD4(char *p, int n)
 }
 void func_021DA030(char *p, int n, int unused)
 {
-    *(int *)(p+0x30)=n;
+    ((struct Obj22984 *)p)->f30=n;
 }
 void func_021DA034(char *p, int n, int unused)
 {

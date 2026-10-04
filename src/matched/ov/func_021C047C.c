@@ -17,6 +17,7 @@
  * branches on the subs flags themselves (bpl), so the condition is the
  * decremented value, written as a prefix -- on the dereference.
  */
+#include "../include/Obj09203.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ extern void func_021C18C8(char *p, int a, int b);
 
 int func_021C047C(char *p, int v)
 {
-    if (--*(s32 *)(p + 0x1E0) < 0) {
-        func_021C18C8(p, 2, *(u16 *)(p + 0x246));
-        *(u32 *)(p + 0x1CC) = 0x9E;
+    if (--((struct Obj09203 *)p)->f1E0 < 0) {
+        func_021C18C8(p, 2, ((struct Obj09203 *)p)->f246);
+        ((struct Obj09203 *)p)->f1CC = 0x9E;
     }
 
     return v;

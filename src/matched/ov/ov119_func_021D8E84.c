@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22706.h"
 
 void func_021D8E84(void *p, int v)
 {
-    *(int *)((char *)p + 0x5EC) = v;
+    ((struct Obj22706 *)p)->f5EC = v;
 }

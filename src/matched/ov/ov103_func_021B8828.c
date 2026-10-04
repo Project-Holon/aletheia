@@ -26,6 +26,7 @@
  *   func_02008530 0x02008530 thumb
  *   func_0200A9D4 0x0200A9D4 thumb
  */
+#include "../include/Obj03232.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -58,7 +59,7 @@ extern void func_020061E4(u32);
 #define CTX (*(u8 **)(p+0xb0c))
 void func_021B8828(u8 *p,u16 *state) {
  Block ref; Block cur;
- if(*state<5 && func_021B7250(*(int **)(p+0xa38))==1) {
+ if(*state<5 && func_021B7250(*(int * *)&((struct Obj03232 *)p)->fA38)==1) {
   *(u32 *)(CTX+12)=1; func_021B8358(p); return;
  }
  switch(*state) {
@@ -69,7 +70,7 @@ void func_021B8828(u8 *p,u16 *state) {
   ref.end=*(Pair *)(p+0xa44);
   ref.a=*(Line *)(p+0xa4c);
   ref.b=*(Line *)(p+0xaac);
-  ref.tail[0]=*(u32 *)(p+0x738);
+  ref.tail[0]=((struct Obj03232 *)p)->f738;
   if(*(void **)CTX) {
    void *src;
    src=func_0200A8A0(func_02012EBC(func_020120F4(*(void **)CTX)));
@@ -81,22 +82,22 @@ void func_021B8828(u8 *p,u16 *state) {
   if(func_021B6424(*(int *)(CTX+4))) *state=4; break;
  case 4:
   if(func_021B630C(*(int **)(CTX+4),5)) {
-   func_021B72A0(*(int *)(p+0xa38),0); *state=5;
+   func_021B72A0(*(int *)&((struct Obj03232 *)p)->fA38,0); *state=5;
   } break;
  case 5:
-  if(*(u16 *)(p+0x72e)>=60) {
+  if(((struct Obj03232 *)p)->f72E>=60) {
    func_020061E4(0x64b);func_021B8138(p+0x184,p+0x174,5,0,0);
-   *(u32 *)(p+0x73c)=0; *state=6;
+   ((struct Obj03232 *)p)->f73C=0; *state=6;
   } break;
  case 6:
-  if((*(u32 *)(p+0x73c))++<30) return;
+  if((((struct Obj03232 *)p)->f73C)++<30) return;
   CTX[0x10]=func_021B8DE4(p);
   func_021B8BC0(p+0x75c,&cur);
-  CTX[0x11]=*(u32 *)(p+0x738)+cur.tail[0];
+  CTX[0x11]=((struct Obj03232 *)p)->f738+cur.tail[0];
   CTX[0x12]=cur.tail[1];
   *(u32 *)(CTX+12)=0;*state=7;return;
  case 7:func_021B8358(p);return;
  }
  if(*state<3 && func_021B6480(*(int **)(CTX+4))) func_021B8338((u32)p,(u32)func_021B8A44);
- if(*state>=1 && *state<=5) { if(*(u16 *)(p+0x72e)<=60) ++*(u16 *)(p+0x72e); }
+ if(*state>=1 && *state<=5) { if(((struct Obj03232 *)p)->f72E<=60) ++((struct Obj03232 *)p)->f72E; }
 }

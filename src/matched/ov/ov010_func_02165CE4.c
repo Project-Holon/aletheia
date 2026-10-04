@@ -11,11 +11,12 @@
  *
  * Unlabelled leaf, filed as a blocker of ov032 func_021F1144.
  */
+#include "../include/Obj19000.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 u16 func_02165CE4(u8 *r)
 {
-    return *(u16 *)(r + 0x10);
+    return ((struct Obj19000 *)r)->f10;
 }

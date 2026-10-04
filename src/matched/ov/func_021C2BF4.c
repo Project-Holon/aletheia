@@ -14,6 +14,7 @@
 
  * Leaves state 2 and moves the object at +0xB8 to state 3.
  */
+#include "../include/Obj00146.h"
 
 
 extern void func_02005E9C(int);
@@ -23,10 +24,10 @@ extern void func_02005DF8(u32 a);
 
 void func_021C2BF4(int unused, char *p)
 {
-    if (*(int *)(p + 0xb8) == 2) {
-        func_02005E9C(*(int *)(p + 0xb8));
+    if (((struct Obj00146 *)p)->fB8 == 2) {
+        func_02005E9C(((struct Obj00146 *)p)->fB8);
         func_02005DE4(0);
     }
     func_02005DF8(0x3c);
-    *(int *)(p + 0xb8) = 3;
+    ((struct Obj00146 *)p)->fB8 = 3;
 }

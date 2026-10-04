@@ -16,6 +16,7 @@
  * symbols:
  *   func_0204A648  0x0204A648  arm
  */
+#include "../include/Obj20854.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,7 +32,7 @@ extern void func_0204A648(void);
 
 void func_021B6D64(void *tcb, u8 *p)
 {
-    if (*(int *)(p + 0x10) == 1)
+    if (((struct Obj20854 *)p)->f10 == 1)
         GX_SetVisibleWnd(1);
     else
         GX_SetVisibleWnd(0);

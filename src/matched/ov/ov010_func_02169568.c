@@ -11,9 +11,10 @@
  * symbols:
  *   func_02046C9C 0x02046C9C arm
  */
+#include "../include/Obj00306.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec;
 extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
-void func_02169568(char *p) { func_02046C9C(*(void **)(p + 0x88), 2, 0); }
+void func_02169568(char *p) { func_02046C9C(((struct Obj00306 *)p)->f88, 2, 0); }

@@ -12,6 +12,7 @@
  *   func_021C9450 0x021C9450 thumb ov128
  *   func_020355D8 0x020355D8 arm
  */
+#include "../include/Obj23105.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -23,7 +24,7 @@ extern int func_021C9450(void *, int *, void *);
 extern void func_020355D8(u8 v);
 int func_021C9544(void *p,int *q,char *r) {
  int flag=0; int ret;
- if(!func_0201C6B4(*(void **)(r+0x34))) return 2;
+ if(!func_0201C6B4(((struct Obj23105 *)r)->f34)) return 2;
  ret=func_021C94DC(p,q,r,&flag);
  if(flag) {func_020355D8(1); *q=1; return ret;}
  return func_021C9450(p,q,r);

@@ -20,13 +20,14 @@
  *   func_021E8A80  0x021E8A80  thumb  ov177
  *   func_021E64C0  0x021E64C0  thumb  ov177
  */
+#include "../include/Obj08285.h"
 
 extern void func_021E8A80(int);
 extern int func_021E64C0(unsigned char *, void *);
 
 void func_0217D434(int *p)
 {
-    func_021E8A80(*(int *)((char *)p + 0x10));
-    if (*(int *)((char *)p + 8))
-        func_021E64C0((unsigned char *)*(int *)((char *)p + 8), (void *)*(int *)((char *)p + 0x24));
+    func_021E8A80(((struct Obj08285 *)p)->f10);
+    if (((struct Obj08285 *)p)->f8)
+        func_021E64C0((unsigned char *)((struct Obj08285 *)p)->f8, (void *)((struct Obj08285 *)p)->f24);
 }

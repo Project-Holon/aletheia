@@ -13,6 +13,7 @@
  *   func_0204B908  0x0204B908  arm
  *   func_0204A600  0x0204A600  arm
  */
+#include "../include/Obj09869.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,12 +27,12 @@ void func_021B9FC0(u8 *p)
     int i;
     u16 t;
 
-    t = (*(u16 *)(p + 0x50))++;
+    t = (((struct Obj09869 *)p)->f50)++;
     if (t > 0x60) {
-        *(u16 *)(p + 0x50) = 0;
+        ((struct Obj09869 *)p)->f50 = 0;
     }
     for (i = 2; i < 13; i++) {
-        func_0204B908(*(u32 *)(p + i * 4 + 0x18), (u16)(*(u16 *)(p + 0x50) / 12));
+        func_0204B908(*(u32 *)(p + i * 4 + 0x18), (u16)(((struct Obj09869 *)p)->f50 / 12));
     }
     func_0204A600();
 }

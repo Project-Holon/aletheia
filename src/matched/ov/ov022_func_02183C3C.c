@@ -24,6 +24,7 @@
  *   func_02183E48  0x02183E48  thumb  ov022
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00660.h"
 
 typedef unsigned char u8;
 
@@ -46,19 +47,19 @@ void func_02183C3C(u8 *s, u8 *c)
     if (func_0200FB24() != 0) {
         return;
     }
-    if (*(int *)(s + 0x28) == 1) {
+    if (((struct Obj00660 *)s)->f28 == 1) {
         return;
     }
-    if (*(int *)(s + 0x20) == 1) {
+    if (((struct Obj00660 *)s)->f20 == 1) {
         func_02172D38(c);
-        *(int *)(s + 0x20) = 0;
-        *(int *)(s + 0x24) = 1;
+        ((struct Obj00660 *)s)->f20 = 0;
+        ((struct Obj00660 *)s)->f24 = 1;
         return;
     }
-    if (*(int *)(s + 0x24) == 1) {
+    if (((struct Obj00660 *)s)->f24 == 1) {
         if (func_02172D68(c) == 0) {
-            *(int *)(s + 0x24) = 0;
-            *(int *)(s + 0x28) = 1;
+            ((struct Obj00660 *)s)->f24 = 0;
+            ((struct Obj00660 *)s)->f28 = 1;
         }
         return;
     }

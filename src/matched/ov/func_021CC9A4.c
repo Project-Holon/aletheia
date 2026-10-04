@@ -14,6 +14,7 @@
  *
  * Bit 29 of the word at *p, extracted as lsls #2 / lsrs #31.
  */
+#include "../include/Obj18356.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u32 func_021CC9A4(u32 *p)
 {
-    return (*(u32 *)p << 2) >> 31;
+    return (((struct Obj18356 *)p)->f0 << 2) >> 31;
 }

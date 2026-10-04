@@ -16,6 +16,8 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  */
+#include "../include/Obj10749.h"
+#include "../include/Obj14433.h"
 extern void func_021E037C(char *, char *);
 extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FD820(char *);
@@ -29,11 +31,11 @@ int func_021DF9C8(void *p, int unused, char *q, char *data)
 {
     int i;
     func_021E037C(data, q);
-    func_021FC0C8((char *)(*(int *)(q + 8)), 6);
+    func_021FC0C8((char *)(((struct Obj14433 *)q)->f8), 6);
     for (i = 0; i < 2; i++) func_021FD820(*(char **)(data + i * 4 + 0x3c));
-    func_021FD15C(*(void **)(data + 0x38), *(int *)(q + 8));
-    func_02025588(*(void **)(data + 0x44));
-    func_0201C4C0(*(void **)(data + 0x48));
+    func_021FD15C(((struct Obj10749 *)data)->f38, ((struct Obj14433 *)q)->f8);
+    func_02025588(((struct Obj10749 *)data)->f44);
+    func_0201C4C0(((struct Obj10749 *)data)->f48);
     func_020315D4(p);
     return 1;
 }

@@ -16,6 +16,8 @@
  *   func_021BA194 0x021BA194 thumb ov172
  *   d_021C6EC0 0x021C6EC0 data a2
  */
+#include "../include/Obj03854.h"
+#include "../include/Obj05444.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,20 +36,20 @@ void func_021B8978(int a, int b, int c, char *q)
     void *p;
     char *data, *input;
     Table table;
-    p = func_021BDFEC(*(void **)(q + 0x3dc));
-    data = *(char **)(q + 0x1a4);
+    p = func_021BDFEC(((struct Obj03854 *)q)->f3DC);
+    data = *(char * *)&((struct Obj03854 *)q)->f1A4;
     input = data + 8;
     func_0203D1A4((struct Link *)((u32)func_020399A8()));
-    if (*(u8 *)(data + 5) == 0) {
+    if (((struct Obj05444 *)data)->f5 == 0) {
         func_021B69F0();
-        func_02082A7C(0, *(void **)(q + 0x1a8), 0xc800);
+        func_02082A7C(0, ((struct Obj03854 *)q)->f1A8, 0xc800);
     }
-    func_021BA194((int)p, (int)input, *(char **)(q + 0x1a8) + (*(u8 *)(data + 5) << 11), *(u16 *)data);
-    if (*(u8 *)(data + 4) == 1) {
+    func_021BA194((int)p, (int)input, *(char * *)&((struct Obj03854 *)q)->f1A8 + (((struct Obj05444 *)data)->f5 << 11), ((struct Obj05444 *)data)->f0);
+    if (((struct Obj05444 *)data)->f4 == 1) {
         table = d_021C6EC0;
-        *(int *)(q + 0x1a0) = table.a[*(u8 *)(data + 6)];
-        *(int *)(q + 0x198) = 1;
-        *(u16 *)(q + 0x19c) = *(u16 *)(data + 2);
+        ((struct Obj03854 *)q)->f1A0 = table.a[((struct Obj05444 *)data)->f6];
+        ((struct Obj03854 *)q)->f198 = 1;
+        ((struct Obj03854 *)q)->f19C = ((struct Obj05444 *)data)->f2;
     }
-    *(int *)(q + 0x194) = 0;
+    ((struct Obj03854 *)q)->f194 = 0;
 }

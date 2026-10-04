@@ -23,6 +23,8 @@
  *   func_02204C98  0x02204C98  thumb  ov094
  *   func_021F88F4  0x021F88F4  thumb  ov094
  */
+#include "../include/Obj05249.h"
+#include "../include/Obj21799.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,15 +57,15 @@ void func_02206728(char *s, char *b)
 
     if (func_021F88F4() == 0)
         return;
-    h = (int)func_0201EC64(*(u16 *)(s + 0x240));
-    v = func_020457B0(6, *(u16 *)(s + 0x240));
-    w = func_02045EC0(*(void **)(s + 0x5c), 8);
+    h = (int)func_0201EC64(((struct Obj05249 *)s)->f240);
+    v = func_020457B0(6, ((struct Obj05249 *)s)->f240);
+    w = func_02045EC0(((struct Obj05249 *)s)->f5C, 8);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(1, 2, 0);
-    func_0201EFA4((struct WordSet *)h, 0, *(u8 *)(b + 0xc4), 2, 0, 1);
+    func_0201EFA4((struct WordSet *)h, 0, ((struct Obj21799 *)b)->fC4, 2, 0, 1);
     func_0201F250((struct WordSet *)h, v, w);
-    func_02204C98((int)v, *(int *)(s + 0x224), &v18, &v14);
-    func_0201C7A4((void *)(*(int *)(s + 0x234)), 12 - v18 / 2, 0, v, (void *)(*(int *)(s + 0x224)));
+    func_02204C98((int)v, ((struct Obj05249 *)s)->f224, &v18, &v14);
+    func_0201C7A4((void *)(((struct Obj05249 *)s)->f234), 12 - v18 / 2, 0, v, (void *)(((struct Obj05249 *)s)->f224));
     func_0201DD78(c[2], c[1], c[0]);
     func_0201ED04((struct WordSet *)h);
     func_02045808(w);

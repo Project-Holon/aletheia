@@ -11,5 +11,6 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj24507.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-void func_021BA2A8(u8 *p,u32 a){*(u32 *)(p+0x7c)=a;}
+void func_021BA2A8(u8 *p,u32 a){((struct Obj24507 *)p)->f7C=a;}

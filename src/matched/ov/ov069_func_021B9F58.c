@@ -14,10 +14,11 @@
  * symbols:
  *   func_02025D14 0x02025D14 thumb
  */
+#include "../include/Obj01132.h"
 extern int func_02025D14(void *p);
 int func_021B9F58(char *p)
 {
-    return func_02025D14(*(void **)(p + 0x14C));
+    return func_02025D14(((struct Obj01132 *)p)->f14C);
 }
 void func_021B9F68(void) {}
 void func_021B9F6C(void) {}

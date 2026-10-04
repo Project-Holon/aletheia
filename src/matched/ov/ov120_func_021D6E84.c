@@ -13,6 +13,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj01540.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,7 +27,7 @@ void func_021D6E84(u8 *p)
 {
     Record r;
     r.x = 128; r.y = 200; r.z = 0; r.a = 1; r.b = 1;
-    *(void **)(p + 0x138) = func_0204B294((void *)*(u32 *)(p + 0x10), *(u32 *)(p + 0x70), *(u32 *)(p + 0x24), *(u32 *)(p + 0xbc), &r, 1, *(u16 *)(p + 0xf4));
-    func_0204B92C(*(void **)(p + 0x138), 1);
-    func_0204B3DC(*(void **)(p + 0x138), 1);
+    ((struct Obj01540 *)p)->f138 = func_0204B294((void *)((struct Obj01540 *)p)->f10, ((struct Obj01540 *)p)->f70, ((struct Obj01540 *)p)->f24, ((struct Obj01540 *)p)->fBC, &r, 1, ((struct Obj01540 *)p)->fF4);
+    func_0204B92C(((struct Obj01540 *)p)->f138, 1);
+    func_0204B3DC(((struct Obj01540 *)p)->f138, 1);
 }

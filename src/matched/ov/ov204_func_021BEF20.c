@@ -12,6 +12,8 @@
  *   func_021BF0A0 0x021BF0A0 thumb ov204
  *   d_021C0AAC 0x021C0AAC data a1
  */
+#include "../include/Obj03921.h"
+#include "../include/Obj25381.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -20,13 +22,13 @@ extern const char d_021C0AAC[];
 char *func_021BEF20(void *a, unsigned b, unsigned c, char *d, unsigned e, unsigned short heap)
 {
     char *p = func_02030734(heap, 0x10d8, 1, d_021C0AAC, 0x6f2);
-    *(unsigned short *)p = heap;
-    *(char **)(p + 4) = d;
-    *(unsigned *)(p + 8) = c;
-    *(void **)(p + 0xc) = a;
-    *(unsigned *)(p + 0x10) = b;
-    *(unsigned *)(p + 0x14) = e;
-    *(unsigned *)(p + 0xa4) = *(unsigned *)(d + 0xc);
-    *(void **)(p + 0x18) = func_021BF0A0(heap);
+    ((struct Obj03921 *)p)->f0 = heap;
+    *(char * *)&((struct Obj03921 *)p)->f4 = d;
+    ((struct Obj03921 *)p)->f8 = c;
+    ((struct Obj03921 *)p)->fC = a;
+    ((struct Obj03921 *)p)->f10 = b;
+    ((struct Obj03921 *)p)->f14 = e;
+    ((struct Obj03921 *)p)->fA4 = ((struct Obj25381 *)d)->fC;
+    ((struct Obj03921 *)p)->f18 = func_021BF0A0(heap);
     return p;
 }

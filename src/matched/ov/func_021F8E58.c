@@ -14,6 +14,7 @@
 
  * While the +0x12f4 word is clear, publish +0x10dc, reset the mode pair and latch state 1.
  */
+#include "../include/Obj09233.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,10 +25,10 @@ extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 
 int func_021F8E58(u8 *p)
 {
-    if (*(u32 *)(p + 0x12f4) == 0) {
-        func_020307B0((void *)(*(u32 *)(p + 0x10dc)));
+    if (((struct Obj09233 *)p)->f12F4 == 0) {
+        func_020307B0((void *)(((struct Obj09233 *)p)->f10DC));
         func_021F4EC0(p, 0, 0);
-        *(u32 *)(p + 0x28) = 1;
+        ((struct Obj09233 *)p)->f28 = 1;
     }
     return 2;
 }

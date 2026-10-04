@@ -20,6 +20,7 @@
  *   func_0204A6C8  0x0204A6C8  arm
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj04293.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,11 +43,11 @@ void func_021CCC50(u8 *p)
     u32 a;
     u32 b;
 
-    h = func_020490F4(0x53, *(u16 *)(p + 0xc));
-    *(u16 *)(p + 0x98) = func_0204AC18(h, func_02027694(), 0, 0xc0, 0, 1, *(u16 *)(p + 0xc));
+    h = func_020490F4(0x53, ((struct Obj04293 *)p)->fC);
+    ((struct Obj04293 *)p)->f98 = func_0204AC18(h, func_02027694(), 0, 0xc0, 0, 1, ((struct Obj04293 *)p)->fC);
     a = func_0202769C(1);
     b = func_020276A0(1);
-    *(u16 *)(p + 0x9a) = func_0204AF28(h, a, b, *(u16 *)(p + 0xc));
-    *(u16 *)(p + 0x9c) = func_0204A6C8(h, func_02027698(), 0, 0, *(u16 *)(p + 0xc));
+    ((struct Obj04293 *)p)->f9A = func_0204AF28(h, a, b, ((struct Obj04293 *)p)->fC);
+    ((struct Obj04293 *)p)->f9C = func_0204A6C8(h, func_02027698(), 0, 0, ((struct Obj04293 *)p)->fC);
     func_02049238(h);
 }

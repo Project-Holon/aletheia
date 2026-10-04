@@ -12,6 +12,8 @@
  *   func_020362DC 0x020362DC arm
  *   func_021BC06C 0x021BC06C thumb ov099
  */
+#include "../include/Obj04412.h"
+#include "../include/Obj22035.h"
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern void func_021BC06C(char *);
@@ -19,13 +21,13 @@ int func_021BCF6C(char *p, int ret)
 {
     if (func_020362DC() != 0) {
         func_021BC06C(p);
-        *(u32 *)(p + 0x1CC) = 0x7C;
+        ((struct Obj04412 *)p)->f1CC = 0x7C;
     }
     return ret;
 }
 int func_021BCF8C(char *p, int ret)
 {
-    *(u32 *)(p + 0x1CC) = 0x60;
+    ((struct Obj22035 *)p)->f1CC = 0x60;
     return ret;
 }
 int func_021BCF98(char *p, int ret)

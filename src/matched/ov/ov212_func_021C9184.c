@@ -13,30 +13,33 @@
  *   func_021C8F7C 0x021C8F7C thumb ov212
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04627.h"
+#include "../include/Obj10926.h"
+#include "../include/Obj25669.h"
 extern void func_021C8F7C(char *);
 extern void func_020307B0(void *);
 int func_021C9184(char *p)
 {
-    char *q=*(char **)(p+40);
+    char *q=*(char * *)&((struct Obj04627 *)p)->f28;
     int result;
-    switch(*(int *)(q+12)){
+    switch(((struct Obj10926 *)q)->fC){
     case 0:
         func_021C8F7C(p);
-        *(void **)(p+12)=*(void **)(q+16);
-        *(unsigned short *)(p+16)=*(unsigned short *)(q+20);
-        *(unsigned short *)(p+18)=1;
+        ((struct Obj04627 *)p)->fC=((struct Obj10926 *)q)->f10;
+        ((struct Obj04627 *)p)->f10=((struct Obj10926 *)q)->f14;
+        ((struct Obj04627 *)p)->f12=1;
         result=3;
         break;
     case 1:
-        *(unsigned short *)(p+18)=0;
+        ((struct Obj04627 *)p)->f12=0;
         result=3;
         break;
     case 2:
     default:
-        *(unsigned short *)(*(char **)p+14)=1;
+        ((struct Obj25669 *)(*(char * *)&((struct Obj04627 *)p)->f0))->fE=1;
         result=9;
         break;
     }
-    func_020307B0(*(void **)(p+40));
+    func_020307B0(((struct Obj04627 *)p)->f28);
     return result;
 }

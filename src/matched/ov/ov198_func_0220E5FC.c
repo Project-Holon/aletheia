@@ -19,6 +19,11 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00172.h"
+#include "../include/Obj25216.h"
+#include "../include/Obj25217.h"
+#include "../include/Obj25218.h"
+#include "../include/Obj25219.h"
 typedef unsigned short u16;
 extern unsigned func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -36,10 +41,10 @@ void func_0220E5FC(char *p)
 {
     void *owner;
     int first;
-    owner=func_020490F4(func_020275E4(),(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
-    *(int *)(p+0x2508)=func_0204A6C8(owner,func_0202775C(0),0,1,*(u16 *)(*(char **)p+16));
-    *(int *)(p+0x2520)=func_0204ABF0(owner,func_02027758(),1,0x120,*(u16 *)(*(char **)p+16));
+    owner=func_020490F4(func_020275E4(),(((struct Obj25216 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000);
+    ((struct Obj00172 *)p)->f2508=func_0204A6C8(owner,func_0202775C(0),0,1,((struct Obj25217 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    ((struct Obj00172 *)p)->f2520=func_0204ABF0(owner,func_02027758(),1,0x120,((struct Obj25218 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     first=func_02027760(0);
-    *(int *)(p+0x2538)=func_0204AF28(owner,first,func_02027764(0),*(u16 *)(*(char **)p+16));
+    ((struct Obj00172 *)p)->f2538=func_0204AF28(owner,first,func_02027764(0),((struct Obj25219 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
     func_02049238(owner);
 }

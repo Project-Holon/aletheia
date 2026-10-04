@@ -12,10 +12,11 @@
  * Unlabelled Thumb leaf (the listing prints it as ARM data): returns the
  * halfword at +0x1c.
  */
+#include "../include/Obj25414.h"
 
 typedef unsigned short u16;
 
 u16 ov208_func_021BC3BC(char *p)
 {
-    return *(u16 *)(p + 0x1c);
+    return ((struct Obj25414 *)p)->f1C;
 }

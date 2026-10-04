@@ -24,6 +24,8 @@
  *   python tools/match.py one --src src/matched/func_0204919C.c \
  *       --func func_0204919C --addr 0x0204919C --cc 1.1p1 --arm
  */
+#include "../include/Obj05745.h"
+#include "../include/Obj08859.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,14 +41,14 @@ void func_0204919C(u8 *p)
     u8 buf[12];
     u32 off;
 
-    *(u16 *)(p + 0x4c) = 0;
+    ((struct Obj05745 *)p)->f4C = 0;
     func_02078B44((struct FSFile *)p, 0xc, 0);
     func_02078B70((struct FSFile *)p, p + 0x4c, 2);
-    func_02078B44((struct FSFile *)p, *(u16 *)(p + 0x4c) + 4, 0);
+    func_02078B44((struct FSFile *)p, ((struct Obj05745 *)p)->f4C + 4, 0);
     func_02078B70((struct FSFile *)p, buf, 6);
-    *(u16 *)(p + 0x4e) = *(u16 *)(buf + 4);
-    off = *(u16 *)(p + 0x4c) + *(u32 *)buf;
+    ((struct Obj05745 *)p)->f4E = ((struct Obj08859 *)buf)->f4;
+    off = ((struct Obj05745 *)p)->f4C + ((struct Obj08859 *)buf)->f0;
     func_02078B44((struct FSFile *)p, off + 4, 0);
     func_02078B70((struct FSFile *)p, buf + 8, 4);
-    *(u32 *)(p + 0x48) = off + *(u32 *)(buf + 8);
+    ((struct Obj05745 *)p)->f48 = off + ((struct Obj08859 *)buf)->f8;
 }

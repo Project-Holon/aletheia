@@ -15,6 +15,8 @@
  *   func_021BA4D4 0x021BA4D4 thumb ov071
  *   func_021BA400 0x021BA400 thumb ov071
  */
+#include "../include/Obj20762.h"
+#include "../include/Obj20763.h"
 
 typedef unsigned int u32;
 struct PrintSys;
@@ -27,7 +29,7 @@ extern void func_021BA400(void);
 
 int func_021BA384(void *a, void *b, char *c, void **d)
 {
-    if (func_0201C6B4(*(void **)(*(char **)(c + 4) + 8)) == 0) return 0;
+    if (func_0201C6B4(((struct Obj20763 *)(*(char * *)&((struct Obj20762 *)c)->f4))->f8) == 0) return 0;
     func_02043534(8);
     func_021BA4D4(d);
     func_021BA400();

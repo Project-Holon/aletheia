@@ -23,6 +23,7 @@
  *   d_021DE050     0x021DE050  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19872.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -74,7 +75,7 @@ void func_021AC810(u32 a, B *b)
     u16 r;
 
     b->blk = *(Blk *)p;
-    func_0216E1A4(*(u32 *)(p + 4), (int)b->f28);
+    func_0216E1A4(((struct Obj19872 *)p)->f4, (int)b->f28);
     func_021AC1CC(a, p + 0x14);
     idx = b->blk.w[8];
     s.slot = *(u16 *)(b->blk.w[0] + idx * 2 + 8);

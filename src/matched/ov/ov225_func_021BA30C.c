@@ -16,6 +16,11 @@
  *   func_02045808 0x02045808 arm
  *   func_021BA240 0x021BA240 thumb ov225
  */
+#include "../include/Obj04653.h"
+#include "../include/Obj26158.h"
+#include "../include/Obj26159.h"
+#include "../include/Obj26160.h"
+#include "../include/Obj26161.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct PrintSys;struct Descriptor;struct CharBuf;struct MsgBank;struct U16Vec;
@@ -29,9 +34,9 @@ extern void func_021BA240(char *);
 void func_021BA30C(char *p)
 {
     void *s;
-    func_0201C6EC(*(struct PrintSys **)(*(char **)p+0x18));
-    func_02043B5C(func_02045770(*(struct Descriptor **)(p+0x14)),0);
-    s=func_02045EC0(*(struct MsgBank **)(*(char **)p+0x1c),3);
-    func_0201C724(*(void **)(*(char **)p+0x18),(unsigned)func_02045770(*(struct Descriptor **)(p+0x14)),0,4,(unsigned)s,*(unsigned *)(*(char **)p+0xc),0x3c40);
-    func_02045808(s);*(unsigned *)(p+0x1c)=1;func_021BA240(p);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj26158 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18);
+    func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0);
+    s=func_02045EC0(*(struct MsgBank * *)&((struct Obj26159 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f1C,3);
+    func_0201C724(((struct Obj26160 *)(*(char * *)&((struct Obj04653 *)p)->f0))->f18,(unsigned)func_02045770(*(struct Descriptor * *)&((struct Obj04653 *)p)->f14),0,4,(unsigned)s,((struct Obj26161 *)(*(char * *)&((struct Obj04653 *)p)->f0))->fC,0x3c40);
+    func_02045808(s);((struct Obj04653 *)p)->f1C=1;func_021BA240(p);
 }

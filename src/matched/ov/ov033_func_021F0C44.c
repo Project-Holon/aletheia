@@ -16,6 +16,7 @@
  *   func_0204B95C 0x0204B95C arm
  *   func_0204B974 0x0204B974 arm
  */
+#include "../include/Obj00323.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,40 +36,40 @@ void func_021F0C44(char *p)
     u16 m;
     u8 i;
 
-    func_02030D28(*(void **)(p + 0xB4));
-    if (*(int *)(p + 0xC0) == 0 || func_02021ED8(*(void **)(p + 0xBC)) != 0)
+    func_02030D28(((struct Obj00323 *)p)->fB4);
+    if (((struct Obj00323 *)p)->fC0 == 0 || func_02021ED8(((struct Obj00323 *)p)->fBC) != 0)
         return;
-    switch (*(int *)(p + 0xC0)) {
+    switch (((struct Obj00323 *)p)->fC0) {
     case 1:
-        if (*(int *)(p + 0xC4) != 0) {
+        if (((struct Obj00323 *)p)->fC4 != 0) {
             m = 0;
             for (i = 0; i < 3; i++)
                 m |= (u16)(1 << i);
-            func_0202173C(*(void **)(p + 0xBC), 2, m, 0, 0, 0, 0, *(void **)(p + 0xB4));
+            func_0202173C(((struct Obj00323 *)p)->fBC, 2, m, 0, 0, 0, 0, ((struct Obj00323 *)p)->fB4);
             m = 0;
             for (i = 0; i < 4; i++)
                 m |= (u16)(1 << i);
-            func_0202173C(*(void **)(p + 0xBC), 8, m, 0, 0, 0, 0, *(void **)(p + 0xB4));
-            *(int *)(p + 0xC4) = 0;
+            func_0202173C(((struct Obj00323 *)p)->fBC, 8, m, 0, 0, 0, 0, ((struct Obj00323 *)p)->fB4);
+            ((struct Obj00323 *)p)->fC4 = 0;
             for (i = 0; i < 4; i++)
                 func_0204B95C(*(void **)(p + i * 12 + 0x38));
         }
         break;
     case 2:
-        if (*(int *)(p + 0xC4) != 1) {
+        if (((struct Obj00323 *)p)->fC4 != 1) {
             m = 0;
             for (i = 0; i < 3; i++)
                 m |= (u16)(1 << i);
-            func_0202173C(*(void **)(p + 0xBC), 2, m, 0, 8, 8, 0, *(void **)(p + 0xB4));
+            func_0202173C(((struct Obj00323 *)p)->fBC, 2, m, 0, 8, 8, 0, ((struct Obj00323 *)p)->fB4);
             m = 0;
             for (i = 0; i < 4; i++)
                 m |= (u16)(1 << i);
-            func_0202173C(*(void **)(p + 0xBC), 8, m, 0, 8, 8, 0, *(void **)(p + 0xB4));
-            *(int *)(p + 0xC4) = 1;
+            func_0202173C(((struct Obj00323 *)p)->fBC, 8, m, 0, 8, 8, 0, ((struct Obj00323 *)p)->fB4);
+            ((struct Obj00323 *)p)->fC4 = 1;
             for (i = 0; i < 4; i++)
                 func_0204B974(*(void **)(p + i * 12 + 0x38));
         }
         break;
     }
-    *(int *)(p + 0xC0) = 0;
+    ((struct Obj00323 *)p)->fC0 = 0;
 }

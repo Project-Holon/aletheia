@@ -19,6 +19,7 @@
  *   func_021C0E98  0x021C0E98  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06070.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,8 +46,8 @@ void *func_021C0E4C(u32 a, u16 b, u32 c, u32 d)
     w = func_020124E8(task);
     func_02082BCC(w, 0, 0x24);
     w[0] = a;
-    *(u16 *)((u8 *)w + 4) = b;
-    *(u16 *)((u8 *)w + 6) = d;
+    ((struct Obj06070 *)w)->f4 = b;
+    ((struct Obj06070 *)w)->f6 = d;
     w[7] = c;
     w[8] = (u32)func_021A3960((void *)t);
     return task;

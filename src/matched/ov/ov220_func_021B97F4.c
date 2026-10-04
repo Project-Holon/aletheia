@@ -33,6 +33,9 @@
  * func_021BA1CC 0x021BA1CC thumb ov220
  * sounds 0x021BA3B0 data a4
  */
+#include "../include/Obj03379.h"
+#include "../include/Obj26059.h"
+#include "../include/Obj26060.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,19 +56,19 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
     switch (*state) {
     case 0:
         flag=1;
-        if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) {
+        if (((struct Obj26059 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) {
             if (func_02005E50()) flag=0;
             else {
                 func_02005DE4((void *)1);
                 func_02005E64();
-                func_02005D90(*(const u32 *)((u32)sounds+*(u32 *)(p+0xB0)*12),0xFFFF);
+                func_02005D90(*(const u32 *)((u32)sounds+((struct Obj03379 *)p)->fB0*12),0xFFFF);
             }
         }
         if (flag) {func_0204E720(3,16,0,0);*state=1;}
         break;
     case 1:
         if (!func_0204E804()) {
-            if (*(u32 *)(*(char **)(p+4)+0xC) && *(u32 *)(p+0xB0)!=7) *state=2;
+            if (((struct Obj26060 *)(*(char * *)&((struct Obj03379 *)p)->f4))->fC && ((struct Obj03379 *)p)->fB0!=7) *state=2;
             else *state=3;
         }
         break;
@@ -85,15 +88,15 @@ int func_021B97F4(void *unused, u32 *state, void *unused2, char *p)
         break;
     case 5:return 1;
     }
-    if (func_0201C4E4(*(void **)(p+0x10)) && !*(u32 *)(p+0x80)) {
+    if (func_0201C4E4(((struct Obj03379 *)p)->f10) && !((struct Obj03379 *)p)->f80) {
         for (i=1;i<4;i++) {
             void *v=*(void **)((u32)p+(u32)i*4+0x60);
             func_02045334(v);func_02045374(v);func_02041B6C(func_02045730(v));
         }
-        *(u32 *)(p+0x80)=1;
+        ((struct Obj03379 *)p)->f80=1;
     }
     func_021BA01C(p);
-    func_021BA1CC(*(char **)(p+8));
+    func_021BA1CC(*(char * *)&((struct Obj03379 *)p)->f8);
     return 0;
 }
 void func_021B995C(void) {}

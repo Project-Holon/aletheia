@@ -22,6 +22,7 @@
  *   func_0201F02C 0x0201F02C thumb
  *   func_0201EF6C 0x0201EF6C thumb
  */
+#include "../include/Obj05278.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -46,12 +47,12 @@ extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 void func_021B7EEC(u8 *p, void *a, int b, u16 c, u16 d)
 {
  void *msg; int bank; void *text; int font; int tag;
- func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10));
+ func_02043B5C(func_02045770(((struct Obj05278 *)p)->f0),((struct Obj05278 *)p)->f10);
  msg=(void *)func_021B7CAC(a); bank=func_021B7CA8(a);
  func_0201EFA4(msg,d,c,3,0,1);
  text=func_02045EC0(bank,b);
- func_0201F250(msg,*(void **)(p+0xc),text); func_02045808(text);
+ func_0201F250(msg,((struct Obj05278 *)p)->fC,text); func_02045808(text);
  font=func_021B7CA4(a); tag=func_021B7CA0(a);
- func_0201C6FC(font,func_02045770(*(void **)(p+4)),0,0,*(void **)(p+0xc),tag);
+ func_0201C6FC(font,func_02045770(((struct Obj05278 *)p)->f4),0,0,((struct Obj05278 *)p)->fC,tag);
  p[8]=1;
 }

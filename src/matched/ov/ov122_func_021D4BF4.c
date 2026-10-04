@@ -16,6 +16,7 @@
  *   func_021D4BF0 0x021D4BF0 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
  */
+#include "../include/Obj22930.h"
 typedef unsigned short u16;
 typedef struct { u16 f00; char *f04; void (*f08)(void); } Params;
 typedef unsigned int   u32;
@@ -32,7 +33,7 @@ void func_021D4BF4(char *p)
     int i;
     Params args;
     void **base;
-    i = *(int *)(p + 0x35c);
+    i = ((struct Obj22930 *)p)->f35C;
     args.f00 = 0;
     args.f04 = p;
     args.f08 = (void (*)(void))func_021D4BDC;

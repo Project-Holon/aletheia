@@ -23,6 +23,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02505.h"
 
 typedef unsigned short u16;
 
@@ -43,24 +44,24 @@ void func_021B8FB8(void *a0, char *a1)
 {
     void *p;
 
-    if (*(void **)(a1 + 0x80) != 0)
-        func_02027858(*(void **)(a1 + 0x80));
+    if (((struct Obj02505 *)a1)->f80 != 0)
+        func_02027858(((struct Obj02505 *)a1)->f80);
 
-    p = *(void **)(a1 + 0x2c);
+    p = ((struct Obj02505 *)a1)->f2C;
     func_020456F8(p);
     func_020409B4(func_02045730(p));
 
-    p = *(void **)(a1 + 0x7c);
+    p = ((struct Obj02505 *)a1)->f7C;
     func_020456F8(p);
     func_020409B4(func_02045730(p));
 
-    func_020452E8(*(void **)(a1 + 0x2c));
-    func_020452E8(*(void **)(a1 + 0x7c));
-    func_0204B3B4(*(void **)(a1 + 0x98));
-    func_0204B3B4(*(void **)(a1 + 0xa0));
-    func_0204B3B4(*(void **)(a1 + 0x9c));
-    func_0204B3B4(*(void **)(a1 + 0x94));
-    func_0204B3B4(*(void **)(a1 + 0x90));
+    func_020452E8(((struct Obj02505 *)a1)->f2C);
+    func_020452E8(((struct Obj02505 *)a1)->f7C);
+    func_0204B3B4(((struct Obj02505 *)a1)->f98);
+    func_0204B3B4(((struct Obj02505 *)a1)->fA0);
+    func_0204B3B4(((struct Obj02505 *)a1)->f9C);
+    func_0204B3B4(((struct Obj02505 *)a1)->f94);
+    func_0204B3B4(((struct Obj02505 *)a1)->f90);
     func_020414EC(6);
     func_020409B4(6);
     *(u16 *)0x04001050 = 0;

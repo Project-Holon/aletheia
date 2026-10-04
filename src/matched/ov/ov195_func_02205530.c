@@ -14,6 +14,7 @@
  *   func_02205A28 0x02205A28 thumb ov195
  *   func_021B6DC0 0x021B6DC0 thumb ov067
  */
+#include "../include/Obj03344.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,9 +26,9 @@ extern u32 func_021B6DC0(u16, int, int, int, int, u32, u32, u32, int);
 
 void func_02205530(int a, char *b)
 {
-    *(u32 *)(b + 0x90) = (u32)func_02045B38(0, 2, 0xe9, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x9c) = func_021B6DC0(*(u16 *)(b + 2), 5, 0, 1, 0, func_02205A28((char *)(*(u32 *)(b + 4))),
-                                       *(u32 *)(b + 8), *(u32 *)(b + 0xc), 0);
-    *(u32 *)(b + 0x94) = 0;
-    *(u32 *)(b + 0x98) = 0;
+    ((struct Obj03344 *)b)->f90 = (u32)func_02045B38(0, 2, 0xe9, ((struct Obj03344 *)b)->f2);
+    ((struct Obj03344 *)b)->f9C = func_021B6DC0(((struct Obj03344 *)b)->f2, 5, 0, 1, 0, func_02205A28((char *)(((struct Obj03344 *)b)->f4)),
+                                       ((struct Obj03344 *)b)->f8, ((struct Obj03344 *)b)->fC, 0);
+    ((struct Obj03344 *)b)->f94 = 0;
+    ((struct Obj03344 *)b)->f98 = 0;
 }

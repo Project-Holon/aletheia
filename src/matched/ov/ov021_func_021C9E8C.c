@@ -18,6 +18,7 @@
  *   func_021CA2A4  0x021CA2A4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,8 +37,8 @@ void func_021C9E8C(u8 *p)
     u16 v;
 
     if (kind == 2 || kind == 3 || kind == 7 || kind == 8) {
-        if (lim < *(u16 *)(p + 0x18))
-            lim = *(u16 *)(p + 0x18);
+        if (lim < ((struct Obj05094 *)p)->f18)
+            lim = ((struct Obj05094 *)p)->f18;
         for (i = 0; i < 14; i++) {
             do {
                 v = func_021CBD90(p, lim, (u8)(i / 2), kind, (u8)(i & 1));

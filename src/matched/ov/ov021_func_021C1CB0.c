@@ -16,6 +16,7 @@
  *   func_021C1E7C  0x021C1E7C  thumb  ov021
  *   d_021DA7F4     0x021DA7F4  data  ov021  a4
  */
+#include "../include/Obj01213.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,14 +38,14 @@ int func_021C1CB0(int a, char *b, int c)
 
     if (func_0203038C(0x15) < d_021DA7F4[c])
         return 0;
-    *(u16 *)(b + 0x64) = 0;
-    *(u32 *)(b + 0x130) = 0;
-    *(u16 *)(b + 0x134) = 0;
-    *(u16 *)(b + 0x136) = 0;
-    *(u16 *)(b + 0x66) = c;
-    *(u32 *)(b + 0x128) = 0;
-    *(u32 *)(b + 0x12c) = 0;
-    *(u32 *)(b + 0xc) = 0;
+    ((struct Obj01213 *)b)->f64 = 0;
+    ((struct Obj01213 *)b)->f130 = 0;
+    ((struct Obj01213 *)b)->f134 = 0;
+    ((struct Obj01213 *)b)->f136 = 0;
+    ((struct Obj01213 *)b)->f66 = c;
+    *(u32 *)&((struct Obj01213 *)b)->f128 = 0;
+    *(u32 *)&((struct Obj01213 *)b)->f12C = 0;
+    ((struct Obj01213 *)b)->fC = 0;
     r = (int)func_020122C0((void *)a, 0, func_021C1E7C, 0x40);
     func_021C313C((u32)b, func_020124E8((struct Obj *)r));
     return r;

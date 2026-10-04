@@ -22,6 +22,7 @@
  *   func_02186860  0x02186860  thumb  ov023
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01674.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -54,17 +55,17 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
             func_02082B0C(c, d + 0x4290 + off, 0x3e8);
         }
         func_02082B0C(d + 0x4290,
-                      func_020437D4(func_02045770((struct Descriptor *)*(u32 *)(d + 0x118))),
+                      func_020437D4(func_02045770((struct Descriptor *)((struct Obj01674 *)d)->f118)),
                       0x3840);
-        t = *(u32 *)(d + 0x118);
+        t = ((struct Obj01674 *)d)->f118;
         func_02045334((struct Descriptor *)t);
         func_02045374((struct Cfg *)t);
         func_020409B4(func_02045730((struct Descriptor *)t));
     } else {
-        n = *(int *)(d + 0x428c);
+        n = ((struct Obj01674 *)d)->f428C;
         if (n * 1000 < 0x3840) {
-            *(int *)(d + 0x428c) += 1;
-            func_021844D8(d, *(int *)(d + 0x428c), e);
+            ((struct Obj01674 *)d)->f428C += 1;
+            func_021844D8(d, ((struct Obj01674 *)d)->f428C, e);
         } else {
             func_02186860(d, 0x2904, 0);
         }

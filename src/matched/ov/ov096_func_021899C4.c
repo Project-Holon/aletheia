@@ -11,6 +11,7 @@
  * symbols:
  *   func_021D5584 0x021D5584 thumb ov093
  */
+#include "../include/Obj07927.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,5 +19,5 @@ struct UtilWork;
 extern u8 func_021D5584(struct UtilWork *p, u32 i);
 int func_021899C4(u8 *a, u8 *b)
 {
-    *(int *)(b + 0x38) = func_021D5584(*(void **)(b + 0xbc), b[1]); return *(int *)(b + 0xc4);
+    ((struct Obj07927 *)b)->f38 = func_021D5584(((struct Obj07927 *)b)->fBC, b[1]); return ((struct Obj07927 *)b)->fC4;
 }

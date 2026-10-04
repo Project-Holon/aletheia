@@ -11,6 +11,7 @@
  *   func_021E15DC 0x021E15DC thumb ov137
  *   d_021E1F04 0x021E1F04 data a4
  */
+#include "../include/Obj02497.h"
 typedef unsigned short u16;
 struct Range { u16 lo, hi; };
 struct Entry { unsigned count; struct Range *ranges; };
@@ -24,8 +25,8 @@ int func_021E1830(char *p, int angle, int index)
     unsigned b;
     struct Range *r;
     struct Entry *e;
-    func_021E15DC(&angle, -*(int *)(p + 0x11c));
-    func_021E15DC(&angle, -*(int *)(p + 0x124));
+    func_021E15DC(&angle, -((struct Obj02497 *)p)->f11C);
+    func_021E15DC(&angle, -((struct Obj02497 *)p)->f124);
     tmp = angle;
     func_021E15DC(&tmp, -0x4000);
     a = tmp / 0x1000;

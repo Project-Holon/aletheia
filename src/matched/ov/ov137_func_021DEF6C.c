@@ -12,6 +12,9 @@
  *   func_02039338 0x02039338 arm
  *   func_0200ED48 0x0200ED48 thumb
  */
+#include "../include/Obj10621.h"
+#include "../include/Obj23750.h"
+#include "../include/Obj23751.h"
 typedef unsigned char u8;
 typedef struct { u8 pad[0x90]; void *slots[5]; } Obj;
 typedef unsigned short u16;
@@ -29,7 +32,7 @@ void func_021DEF6C(Obj *obj)
     u8 *p = (u8 *)obj;
     void *q;
     int i;
-    q = func_0200ED48(func_02012EBC(*(void **)(*(u8 **)(*(u8 **)(p + 0xd8) + 0x14) + 4)));
+    q = func_0200ED48(func_02012EBC(((struct Obj23751 *)(*(u8 * *)&((struct Obj23750 *)(*(u8 * *)&((struct Obj10621 *)p)->fD8))->f14))->f4));
     for (i = 0; i < 5; i++) {
         if (obj->slots[i] && i != func_02039338())
             func_0200ED54(q, func_02008530(obj->slots[i]));

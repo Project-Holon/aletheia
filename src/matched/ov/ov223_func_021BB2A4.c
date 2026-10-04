@@ -22,6 +22,7 @@
  * The bitmap accessors' own sources return u16. This caller uses each
  * result at full width without truncation, so its declarations widen them.
  */
+#include "../include/Obj03381.h"
 typedef unsigned short u16;
 typedef signed short s16;
 struct MsgBank;
@@ -40,20 +41,20 @@ extern void func_02045808(struct U16Vec *);
 extern int func_021BAF48(char *);
 void func_021BB2A4(char *p)
 {
-    struct StrObj *text = func_02045EC0(*(struct MsgBank **)(p + 0x234), 12);
-    u16 width = func_0201D304(text, *(unsigned *)(p + 0x18), 0);
+    struct StrObj *text = func_02045EC0(*(struct MsgBank * *)&((struct Obj03381 *)p)->f234, 12);
+    u16 width = func_0201D304(text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0);
     u16 x = 0;
-    u16 height = func_0201D42C(text, *(void **)(p + 0x18));
-    unsigned w = func_020437DC(func_02045770(*(struct Descriptor **)(p + 0x238)));
-    unsigned h = func_020437E4(func_02045770(*(struct Descriptor **)(p + 0x238)));
+    u16 height = func_0201D42C(text, ((struct Obj03381 *)p)->f18);
+    unsigned w = func_020437DC(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
+    unsigned h = func_020437E4(func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238));
     u16 y = 0;
     if (w > width)
         x = ((int)w - width) / 2;
     if (h > height)
         y = ((int)h - height) / 2;
-    func_0201C724(*(void **)(p + 0x1C), (unsigned)func_02045770(*(struct Descriptor **)(p + 0x238)),
-                 (s16)x, (s16)y, (unsigned)text, *(unsigned *)(p + 0x18), 0x3C40);
+    func_0201C724(((struct Obj03381 *)p)->f1C, (unsigned)func_02045770(*(struct Descriptor * *)&((struct Obj03381 *)p)->f238),
+                 (s16)x, (s16)y, (unsigned)text, *(unsigned *)&((struct Obj03381 *)p)->f18, 0x3C40);
     func_02045808((struct U16Vec *)text);
-    *(int *)(p + 0x244) = 0;
+    ((struct Obj03381 *)p)->f244 = 0;
     func_021BAF48(p);
 }

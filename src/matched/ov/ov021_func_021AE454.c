@@ -14,6 +14,7 @@
  *   func_02188CB4  0x02188CB4  thumb  ov021
  *   d_021DE138     0x021DE138  data  a4
  */
+#include "../include/Obj07517.h"
 
 extern int d_021DE138;
 
@@ -27,9 +28,9 @@ void *func_021AE454(int a, int b, S24 *src, int c)
     char *p = (char *)func_02030734(a, 0x38, 1, (const char *)&d_021DE138, 0x1fa);
 
     *(S24 *)(p + 8) = *src;
-    *(int *)(p + 0x20) = 0;
-    *(int *)(p + 0x24) = c;
-    *(int *)(p + 0x30) = b;
-    *(void **)(p + 0x34) = func_02188CB4((void *)b);
+    ((struct Obj07517 *)p)->f20 = 0;
+    ((struct Obj07517 *)p)->f24 = c;
+    ((struct Obj07517 *)p)->f30 = b;
+    ((struct Obj07517 *)p)->f34 = func_02188CB4((void *)b);
     return p;
 }

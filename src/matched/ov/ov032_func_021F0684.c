@@ -14,6 +14,7 @@
  *   func_02165D08  0x02165D08  thumb  ov010
  *   func_02165C48  0x02165C48  thumb  ov010
  */
+#include "../include/Obj04310.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,10 +34,10 @@ void func_021F0684(u8 *p, u8 *a, u8 *b)
     *a = 0;
     *b = 0;
     for (; i < p[0x7b]; i++) {
-        func_02165AC4((struct Queue *)(*(u32 *)(p + 0x3c)), (struct Rec *)(*(u32 *)(p + 0x44)), &tag, i);
-        if (p[0x30] != func_02165D08((struct Rec *)(*(u32 *)(p + 0x44))))
+        func_02165AC4((struct Queue *)(((struct Obj04310 *)p)->f3C), (struct Rec *)(((struct Obj04310 *)p)->f44), &tag, i);
+        if (p[0x30] != func_02165D08((struct Rec *)(((struct Obj04310 *)p)->f44)))
             (*a)++;
-        if (p[0x32] != func_02165C48(*(u32 *)(p + 0x44)))
+        if (p[0x32] != func_02165C48(((struct Obj04310 *)p)->f44))
             (*b)++;
     }
 }

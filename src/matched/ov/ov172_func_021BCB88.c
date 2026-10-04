@@ -17,6 +17,7 @@
  *
  * Redraws the fifteen list rows, counts the filled ones (+0x58 of each 0x1c-byte row) and, when the count changed (+0x14), shows the scroll bar (+0x404) for more than five rows, clamping the scroll offset (+4) and placing the thumb at 120 * offset / range (+6), or hides it and resets the offset.
  */
+#include "../include/Obj01951.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,23 +48,23 @@ void func_021BCB88(void *ctx, char *list)
         if (*(u8 *)(list + i * 0x1c + 0x58) != 0xff)
             n++;
     }
-    if (*(u8 *)(list + 0x14) == n)
+    if (((struct Obj01951 *)list)->f14 == n)
         return;
     if (n > 5) {
         range = (n - 5) * 32;
-        func_0204B3DC((struct Obj *)*(u32 *)(list + 0x404), 1);
-        if (*(u16 *)(list + 4) > range)
-            *(u16 *)(list + 4) = range;
-        *(u16 *)(list + 6) = *(u16 *)(list + 4) * 0x78 / range;
-        if (*(u32 *)(list + 0x10) == 0) {
+        func_0204B3DC((struct Obj *)((struct Obj01951 *)list)->f404, 1);
+        if (((struct Obj01951 *)list)->f4 > range)
+            ((struct Obj01951 *)list)->f4 = range;
+        ((struct Obj01951 *)list)->f6 = ((struct Obj01951 *)list)->f4 * 0x78 / range;
+        if (((struct Obj01951 *)list)->f10 == 0) {
             pos.x = 0xf8;
-            pos.y = *(u16 *)(list + 6) + 0x18;
-            func_0204B404((struct Obj *)(*(u32 *)(list + 0x404)), (const struct Vec2 *)(&pos), 1);
+            pos.y = ((struct Obj01951 *)list)->f6 + 0x18;
+            func_0204B404((struct Obj *)(((struct Obj01951 *)list)->f404), (const struct Vec2 *)(&pos), 1);
         }
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(list + 0x404), 0);
-        *(u16 *)(list + 4) = 0;
-        *(u32 *)(list + 0xc) = 1;
+        func_0204B3DC((struct Obj *)((struct Obj01951 *)list)->f404, 0);
+        ((struct Obj01951 *)list)->f4 = 0;
+        ((struct Obj01951 *)list)->fC = 1;
     }
-    *(u8 *)(list + 0x14) = n;
+    ((struct Obj01951 *)list)->f14 = n;
 }

@@ -14,6 +14,7 @@
  *   func_020084F4 0x020084F4 thumb
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj09436.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ struct Sub0200852CObj;
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern void *func_020084F4(void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-void func_0218677C(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; *(u32 *)(p + 20) = func_02008530(src); func_02082D44(func_020084F4(src), p + 4, 16); }
+void func_0218677C(u8 *p, void *src) { p[0] = (p[0] & ~0xF0) | 0x10; ((struct Obj09436 *)p)->f14 = func_02008530(src); func_02082D44(func_020084F4(src), p + 4, 16); }

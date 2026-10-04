@@ -19,6 +19,7 @@
  *   func_021BB11C  0x021BB11C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01663.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,10 +34,10 @@ extern u32 func_021BB11C(u32);
 
 int func_021BB348(u32 a)
 {
-func_021AB650(*(u32 *)((u8 *)(a) + 12));
-func_021B7954(*(u32 *)((u8 *)(a)));
-func_0219EFFC(*(u32 *)((u8 *)(a) + 4));
-func_021AB868(*(u32 *)((u8 *)(a) + 16));
-return func_021BB11C(*(u32 *)((u8 *)(a) + 8));
+func_021AB650(((struct Obj01663 *)((u8 *)(a)))->fC);
+func_021B7954(((struct Obj01663 *)((u8 *)(a)))->f0);
+func_0219EFFC(((struct Obj01663 *)((u8 *)(a)))->f4);
+func_021AB868(((struct Obj01663 *)((u8 *)(a)))->f10);
+return func_021BB11C(((struct Obj01663 *)((u8 *)(a)))->f8);
 }
 

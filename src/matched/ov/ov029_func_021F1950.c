@@ -22,6 +22,7 @@
  *   d_021F353C     0x021F353C  data  ov029  a1
  *   d_021F3548     0x021F3548  data  ov029  a4
  */
+#include "../include/Obj00811.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,8 +70,8 @@ void func_021F1950(char *p)
         s.a = 0;
         s.b = 2;
         q = (int *)(p + i * 4);
-        q[0x4b] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
+        q[0x4b] = (int)func_0204B294((void *)((struct Obj00811 *)p)->f34, ((struct Obj00811 *)p)->f2C, ((struct Obj00811 *)p)->f28,
+                                ((struct Obj00811 *)p)->f30, &s, 0, ((struct Obj00811 *)p)->fC);
         func_0204B3DC((struct Obj *)q[0x4b], 0);
         func_0204BA20((struct Actor *)q[0x4b], 0);
     }
@@ -82,8 +83,8 @@ void func_021F1950(char *p)
         s.a = 0;
         s.b = 2;
         q = (int *)(p + j * 4);
-        q[0x56] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
+        q[0x56] = (int)func_0204B294((void *)((struct Obj00811 *)p)->f34, ((struct Obj00811 *)p)->f2C, ((struct Obj00811 *)p)->f28,
+                                ((struct Obj00811 *)p)->f30, &s, 0, ((struct Obj00811 *)p)->fC);
         func_0204B3DC((struct Obj *)q[0x56], 0);
         func_0204BA20((struct Actor *)q[0x56], 0);
     }

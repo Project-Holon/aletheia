@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021BC6F8(unsigned char *p){return *(unsigned *)p;}
+#include "../include/Obj26108.h"
+unsigned func_021BC6F8(unsigned char *p){return ((struct Obj26108 *)p)->f0;}

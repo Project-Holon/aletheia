@@ -28,6 +28,8 @@
  *   The matched071CC tail-call and full319A4 body return that word;
  *   original8944..894A forwards it with r1=113. No callee source changed.
  */
+#include "../include/Obj05280.h"
+#include "../include/Obj22253.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -69,7 +71,7 @@ int func_021B8860(u8 *p)
         switch(quantity) {
         case 999: result=2; break;
         default:
-            request=*(u32 *)(p+0x1a0);
+            request=((struct Obj22253 *)p)->f1A0;
             if(999-quantity<request) request=999-quantity;
             result=func_02007E50(bag,134,(u16)request,60)?0:2;
             break;
@@ -78,7 +80,7 @@ int func_021B8860(u8 *p)
     if(*(void **)(ARG+8)) {
         src=func_020084F4(key);
         flag=func_02008550(key)?0:1;
-        func_0200AA68(record,src,ARG[12],(u8)flag,detail[4],detail[5],func_02008530(key),*(u16 *)(detail+6),detail[8],detail[9],detail[10]);
+        func_0200AA68(record,src,ARG[12],(u8)flag,detail[4],detail[5],func_02008530(key),((struct Obj05280 *)detail)->f6,detail[8],detail[9],detail[10]);
     }
     if(*(void **)ARG) func_02008DF0(func_02012F2C(func_020120F4(*(void **)ARG)),113);
     return result;

@@ -30,6 +30,7 @@
  *   d_021F5920     0x021F5920  data  a1
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02424.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -69,9 +70,9 @@ void *func_021F5260(int a0, int a1, int a2, void *a3, int a4)
     if (*func_02189A60(obj) != 0)
         return 0;
     *func_02189A60(obj) = w;
-    *(int *)(w + 0xc) = a0;
-    *(int *)(w + 0x10) = a4;
-    *(int *)(w + 0x70) = a2;
+    ((struct Obj02424 *)w)->fC = a0;
+    ((struct Obj02424 *)w)->f10 = a4;
+    ((struct Obj02424 *)w)->f70 = a2;
     func_021F58C0((char *)(w + 0x28));
     func_021F58C0((char *)(w + 0x4c));
     mode = func_02008374(func_0200873C(func_02012EBC(func_020120F4(a3))));
@@ -83,9 +84,9 @@ void *func_021F5260(int a0, int a1, int a2, void *a3, int a4)
         w[0x55] = 1;
     w[0x31] = 2;
     task = func_020122C0(a3, 0, (void *)func_021F5338, 0);
-    *(void **)(w + 0x14) = func_02030DA8((void *)func_02188D30(obj), (void *)func_021F5748, w, 0);
-    *(void **)(w + 0x18) = func_020056A0((void *)func_021F57D8, w, 1);
-    *(int *)(w + 0x1c) = 0;
-    *(int *)(w + 0x74) = 1;
+    ((struct Obj02424 *)w)->f14 = func_02030DA8((void *)func_02188D30(obj), (void *)func_021F5748, w, 0);
+    ((struct Obj02424 *)w)->f18 = func_020056A0((void *)func_021F57D8, w, 1);
+    ((struct Obj02424 *)w)->f1C = 0;
+    ((struct Obj02424 *)w)->f74 = 1;
     return task;
 }

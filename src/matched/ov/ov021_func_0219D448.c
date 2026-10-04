@@ -17,6 +17,7 @@
  *   func_0219D4AC  0x0219D4AC  thumb  ov021
  *   d_021DDD80     0x021DDD80  data ov021 a4
  */
+#include "../include/Obj04226.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -37,7 +38,7 @@ void func_0219D448(int a, int b)
     p = (int *)func_02030734(h, 0x10, 1, (const char *)d_021DDD80, 0x48);
     p[0] = a;
     p[1] = b;
-    *(unsigned short *)(p + 2) = func_0216D4F0((void *)a);
+    ((struct Obj04226 *)p)->f8 = func_0216D4F0((void *)a);
     func_0219D4AC(p, h);
     func_0216D524((void *)a, p);
 }

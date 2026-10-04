@@ -17,6 +17,8 @@
  *   func_020477A4  0x020477A4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02366.h"
+#include "../include/Obj09421.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,9 +37,9 @@ void func_0217FA10(char *self, u32 *out, u32 a2, u16 a3)
 {
     func_02082BCC(out, 0, 0x14);
     out[0] = a2;
-    *(u16 *)((char *)out + 0x10) = a3;
-    out[1] = (u32)func_02047400((void *)(*(u32 *)(self + 0x14)), 0, (void *)(*(u32 *)(self + 0x14)));
-    out[2] = (u32)func_02047564((struct G3dOwner *)out[1], (const struct G3dOwner *)(*(u32 *)(self + 0x18)), 0);
+    ((struct Obj02366 *)out)->f10 = a3;
+    out[1] = (u32)func_02047400((void *)(((struct Obj09421 *)self)->f14), 0, (void *)(((struct Obj09421 *)self)->f14));
+    out[2] = (u32)func_02047564((struct G3dOwner *)out[1], (const struct G3dOwner *)(((struct Obj09421 *)self)->f18), 0);
     out[3] = (u32)func_0204767C(out[1], &out[2], 1);
     func_020477A4((struct G3dSys *)out[3], 0);
 }

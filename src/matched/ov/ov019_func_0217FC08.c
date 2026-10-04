@@ -16,6 +16,7 @@
  *   d_02180814     0x02180814  data   ov019 a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05959.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,12 +29,12 @@ extern u32 d_02180814[];
 
 void func_0217FC08(char *p, u32 a1, u32 a2)
 {
-    if (*(u32 *)(p + 0xc8) == 0) {
+    if (((struct Obj05959 *)p)->fC8 == 0) {
         func_02034714((const char *)d_02180814, 0, (const char *)d_02180814);
     }
-    if (*(u32 *)(p + 0xcc) == 0) {
+    if (((struct Obj05959 *)p)->fCC == 0) {
         func_02034714((const char *)d_02180814, 0, (const char *)d_02180814);
     }
-    func_0217FC64(p, (u32 *)func_0217FD88(p), a1, *(u16 *)(p + 0xd0), a2);
-    *(u16 *)(p + 0xd0) = *(u16 *)(p + 0xd0) + 1;
+    func_0217FC64(p, (u32 *)func_0217FD88(p), a1, ((struct Obj05959 *)p)->fD0, a2);
+    ((struct Obj05959 *)p)->fD0 = ((struct Obj05959 *)p)->fD0 + 1;
 }

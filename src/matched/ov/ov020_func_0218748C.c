@@ -15,6 +15,7 @@
  *   func_0219129C  0x0219129C  thumb  ov021
  *   d_02187E04     0x02187E04  data  ov020  a2
  */
+#include "../include/Obj00128.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,16 +33,16 @@ void func_0218748C(char *p, int a1, int *out, int a3, u16 a4)
 {
     int i;
 
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x18)),
-                  (u16)(a1 + (d_02187E04[(*(u16 **)(p + 0x48))[1]] + *(u16 *)(p + 0x4c) * 8)),
-                  (void *)(*(int *)(p + 0x24)));
-    func_0201F250((struct WordSet *)(*(int *)(p + 0x1c)), (void *)(*(int *)(p + 0x20)), (void *)(*(int *)(p + 0x24)));
+    func_02045CAC((struct MsgBank *)(((struct Obj00128 *)p)->f18),
+                  (u16)(a1 + (d_02187E04[(*(u16 **)(p + 0x48))[1]] + ((struct Obj00128 *)p)->f4C * 8)),
+                  (void *)(((struct Obj00128 *)p)->f24));
+    func_0201F250((struct WordSet *)(((struct Obj00128 *)p)->f1C), (void *)(((struct Obj00128 *)p)->f20), (void *)(((struct Obj00128 *)p)->f24));
     i = 0;
-    *(int *)(p + 0x10) = (int)func_0219129C((u8 *)(*(int *)(p + 0xc)), 2, (u32)(p + 0x34), *(int *)(p + 0x20), i, i);
+    *(int *)&((struct Obj00128 *)p)->f10 = (int)func_0219129C((u8 *)(((struct Obj00128 *)p)->fC), 2, (u32)(p + 0x34), ((struct Obj00128 *)p)->f20, i, i);
     *out = 0x10;
-    *(u16 *)(p + 0x4e) = a3;
-    *(u16 *)(p + 0x50) = a4;
-    *(u16 *)(p + 0x52) = 0;
-    *(u8 *)(p + 0x54) = 1;
-    *(u8 *)(p + 0x55) = 1;
+    ((struct Obj00128 *)p)->f4E = a3;
+    ((struct Obj00128 *)p)->f50 = a4;
+    ((struct Obj00128 *)p)->f52 = 0;
+    ((struct Obj00128 *)p)->f54 = 1;
+    ((struct Obj00128 *)p)->f55 = 1;
 }

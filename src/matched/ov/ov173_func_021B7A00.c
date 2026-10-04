@@ -18,6 +18,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   d_021B85E0 0x021B85E0 data a4
  */
+#include "../include/Obj00180.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,18 +39,18 @@ void func_021B7A00(char *p,void *arg)
     Position pos;
     func_021B7658(p,arg);
     func_021B76C8(p,arg);
-    *(void **)(p+0x13c)=func_020490F4(func_020275E4(),79);
+    ((struct Obj00180 *)p)->f13C=func_020490F4(func_020275E4(),79);
     for(i=0;i<14;i++) {
         pos.x=d_021B85E0[i].x;
         pos.y=d_021B85E0[i].y;
         pos.z=d_021B85E0[i].z;
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
-        *(void **)(p+i*4+0x104)=func_0204B294((void *)*(u32 *)(p+0x100),*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
+        *(void **)(p+i*4+0x104)=func_0204B294((void *)((struct Obj00180 *)p)->f100,*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
         func_0204B92C(*(void **)(p+i*4+0x104),0);
     }
-    func_0204B92C(*(void **)(p+0x138),1);
-    func_0204B92C(*(void **)(p+0x10c),1);
-    func_0204B92C(*(void **)(p+0x108),1);
-    func_0204B92C(*(void **)(p+0x104),1);
+    func_0204B92C(((struct Obj00180 *)p)->f138,1);
+    func_0204B92C(((struct Obj00180 *)p)->f10C,1);
+    func_0204B92C(((struct Obj00180 *)p)->f108,1);
+    func_0204B92C(((struct Obj00180 *)p)->f104,1);
 }

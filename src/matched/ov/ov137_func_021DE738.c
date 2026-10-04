@@ -15,6 +15,9 @@
  *   func_021841A4 0x021841A4 thumb ov022
  *   func_021841A0 0x021841A0 thumb ov022
  */
+#include "../include/Obj00170.h"
+#include "../include/Obj23737.h"
+#include "../include/Obj23738.h"
 typedef unsigned char u8;
 typedef struct { u8 pad[0x4804]; volatile int previous; } Obj;
 extern int func_021DE354(void *);
@@ -28,23 +31,23 @@ int func_021DE738(Obj *obj)
     u8 *p = (u8 *)obj;
     int state;
     state = func_021DE354(p);
-    if (state > *(int *)(*(u8 **)(p + 16) + 44)) {
-        if (func_02184114(func_021DCF50(p))) *(int *)(p + 0x4808) = 1;
-    } else *(int *)(p + 0x4808) = 0;
+    if (state > ((struct Obj23737 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f2C) {
+        if (func_02184114(func_021DCF50(p))) ((struct Obj00170 *)p)->f4808 = 1;
+    } else ((struct Obj00170 *)p)->f4808 = 0;
     if (state == obj->previous) return 1;
     switch (state) {
     case 0: break;
     case 1:
         if (func_021841A4(func_021DCF50(p)) > 1 || func_021841A0(func_021DCF50(p)) > 1) return 1;
-        *(int *)(p + 0x118) = 17;
-        if (*(void **)(p + 0xe8)) {
-            func_0201FEF4(*(void **)(p + 0xe8));
-            *(void **)(p + 0xe8) = 0;
+        *(int *)&((struct Obj00170 *)p)->f118 = 17;
+        if (((struct Obj00170 *)p)->fE8) {
+            func_0201FEF4(((struct Obj00170 *)p)->fE8);
+            ((struct Obj00170 *)p)->fE8 = 0;
         }
         return 2;
     case 2: case 3: case 4:
         if (state < obj->previous)
-            *(int *)(*(u8 **)(p + 16) + 44) = func_021841A4(func_021DCF50(p));
+            ((struct Obj23738 *)(*(u8 * *)&((struct Obj00170 *)p)->f10))->f2C = func_021841A4(func_021DCF50(p));
         break;
     case 5: break;
     }

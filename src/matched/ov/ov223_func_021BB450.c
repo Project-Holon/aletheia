@@ -20,6 +20,7 @@
  * assigns zero then conditionally one; a boolean expression reverses
  * the compare polarity. Template precedes items in declaration order.
  */
+#include "../include/Obj00084.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct MsgBank;
@@ -50,14 +51,14 @@ void func_021BB450(char *p)
     unsigned i;
     for (i = 0; i < 2; i++) {
         unsigned value;
-        items[i].text = func_02045EC0(*(struct MsgBank **)(p + 0x234), i + 22);
+        items[i].text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00084 *)p)->f234, i + 22);
         items[i].color = 0x39E3;
         value = 0;
         if (i != 0)
             value = 1;
         items[i].value = value;
     }
-    tmpl.heapId = *(u16 *)p;
+    tmpl.heapId = ((struct Obj00084 *)p)->f0;
     tmpl.count = 2;
     tmpl.unk0c = 1;
     tmpl.pad10[0] = 32;
@@ -65,19 +66,19 @@ void func_021BB450(char *p)
     tmpl.unk12 = 9;
     tmpl.unk13 = 3;
     tmpl.unk08 = items;
-    *(struct TaskMenu **)(p + 0x264) = func_02027778(&tmpl, *(void **)(p + 0x25C));
+    *(struct TaskMenu * *)&((struct Obj00084 *)p)->f264 = func_02027778(&tmpl, ((struct Obj00084 *)p)->f25C);
     for (i = 0; i < 2; i++)
         func_02045808(items[i].text);
 }
 void func_021BB4D8(char *p)
 {
-    func_02027858(*(struct TaskMenu **)(p + 0x264));
+    func_02027858(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }
 void func_021BB4E8(char *p)
 {
-    func_02027974(*(Obj **)(p + 0x264));
+    func_02027974(*(Obj * *)&((struct Obj00084 *)p)->f264);
 }
 unsigned func_021BB4F8(char *p)
 {
-    return func_020279E8(*(struct TaskMenu **)(p + 0x264));
+    return func_020279E8(*(struct TaskMenu * *)&((struct Obj00084 *)p)->f264);
 }

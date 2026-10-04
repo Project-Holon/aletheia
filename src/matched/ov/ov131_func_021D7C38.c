@@ -14,6 +14,7 @@
  *   func_021D7F04 0x021D7F04 thumb ov131
  *   func_021D8288 0x021D8288 thumb ov131
  */
+#include "../include/Obj01547.h"
 
 typedef unsigned char  u8;
 extern void *func_021D6064(unsigned char *p);
@@ -30,8 +31,8 @@ void func_021D7C38(void *a, unsigned char *p)
         unsigned int offset=i*4;
         *(void **)(p+offset+0xc)=(void *)func_020450F0(1,d_021DC288[offset],d_021DC288[offset+1],d_021DC288[offset+2],d_021DC288[offset+3],14,1);
     }
-    *(void **)(p+0x34)=(void *)func_020450F0(4,4,5,24,20,14,1);
+    ((struct Obj01547 *)p)->f34=(void *)func_020450F0(4,4,5,24,20,14,1);
     func_021D7F04(a,p,arc);
     func_021D8288(a,p,arc);
-    *(int *)(p+4)=1;
+    ((struct Obj01547 *)p)->f4=1;
 }

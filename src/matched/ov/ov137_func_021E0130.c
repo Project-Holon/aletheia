@@ -19,6 +19,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj03843.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,15 +39,15 @@ void func_021E0130(u8 *p,int message)
     u8 *s;
     void *window,*owner,*data;
     s=p+3296;
-    window=*(void **)(s+16);
+    window=((struct Obj03843 *)s)->f10;
     func_02043B5C(func_02045770(window),15);
     func_0201F73C(window,2,1,14);
     func_02043B5C(func_02045770(window),15);
-    func_02045CAC(*(void **)(s+8),message,*(void **)(s+92));
-    owner=*(void **)(s+88);
-    data=func_02045770(*(void **)(s+40));
-    func_0201C724(owner,data,0,0,*(void **)(s+92),*(void **)(s+4),1088);
-    *(u8 *)(s+44)=1;
+    func_02045CAC(((struct Obj03843 *)s)->f8,message,((struct Obj03843 *)s)->f5C);
+    owner=((struct Obj03843 *)s)->f58;
+    data=func_02045770(((struct Obj03843 *)s)->f28);
+    func_0201C724(owner,data,0,0,((struct Obj03843 *)s)->f5C,((struct Obj03843 *)s)->f4,1088);
+    ((struct Obj03843 *)s)->f2C=1;
     func_02045334(window);
     func_02045374(window);
     func_02041B6C(func_02045730(window));

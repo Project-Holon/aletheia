@@ -12,6 +12,7 @@
  *   func_0202155C 0x0202155C thumb
  *   func_020216D4 0x020216D4 thumb
  */
+#include "../include/Obj03953.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,9 +22,9 @@ extern void func_0202155C(struct PalAnmSlot *, u32, u32, u32);
 extern void func_020216D4(struct PalAnmSlot *, u32, u32, u32);
 void func_021C07BC(u8 *p)
 {
-    *(void **)(p + 0x3B8) = func_02021518(*(u16 *)(p + 4));
-    func_0202155C(*(void **)(p + 0x3B8), 0, 512, *(u16 *)(p + 4));
-    func_0202155C(*(void **)(p + 0x3B8), 2, 512, *(u16 *)(p + 4));
-    func_020216D4(*(void **)(p + 0x3B8), 0, 0, 512);
-    func_020216D4(*(void **)(p + 0x3B8), 2, 0, 512);
+    ((struct Obj03953 *)p)->f3B8 = func_02021518(((struct Obj03953 *)p)->f4);
+    func_0202155C(((struct Obj03953 *)p)->f3B8, 0, 512, ((struct Obj03953 *)p)->f4);
+    func_0202155C(((struct Obj03953 *)p)->f3B8, 2, 512, ((struct Obj03953 *)p)->f4);
+    func_020216D4(((struct Obj03953 *)p)->f3B8, 0, 0, 512);
+    func_020216D4(((struct Obj03953 *)p)->f3B8, 2, 0, 512);
 }

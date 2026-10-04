@@ -24,6 +24,7 @@
  * The ov099 hint on the 12-byte table is contested, so the data token is bare.
  * The 0x242 offset is an enum-typed local (keeps r4 live, 0x1CC = o - 0x76).
  */
+#include "../include/Obj06355.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,31 +53,31 @@ int func_021BC544(char *p, int v)
     if (func_0203D378() == 0) {
         o = K242;
         func_021BA874(p, *(u16 *)(p + o) - 1);
-        func_021BAAB8(p, ((u32 *)&t)[*(u16 *)(p + 0x132c) - 0x4b], 0);
+        func_021BAAB8(p, ((u32 *)&t)[((struct Obj06355 *)p)->f132C - 0x4b], 0);
         *(u32 *)(p + (o - 0x76)) = 0x4f;
     } else {
         func_021BAAB8(p, 0x4c, 0);
         func_021BC090(p);
         func_02039C68((struct Link *)func_020399A8(), 0x1b, 0xa);
-        *(u32 *)(p + 0x1CC) = 0x49;
+        ((struct Obj06355 *)p)->f1CC = 0x49;
     }
     return v;
 }
 
 int func_021BC5C0(char *p, int v)
 {
-    *(u16 *)(p + 0x132c) = 0x4b;
+    ((struct Obj06355 *)p)->f132C = 0x4b;
     return func_021BC544(p, v);
 }
 
 int func_021BC5D4(char *p, int v)
 {
-    *(u16 *)(p + 0x132c) = 0x4c;
+    ((struct Obj06355 *)p)->f132C = 0x4c;
     return func_021BC544(p, v);
 }
 
 int func_021BC5E8(char *p, int v)
 {
-    *(u16 *)(p + 0x132c) = 0x4d;
+    ((struct Obj06355 *)p)->f132C = 0x4d;
     return func_021BC544(p, v);
 }

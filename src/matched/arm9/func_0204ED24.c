@@ -15,6 +15,7 @@
  *
  * Free an actor and its two sub-objects, in +8, +4, self order.
  */
+#include "../include/Obj11443.h"
 
 typedef unsigned char u8;
 
@@ -25,7 +26,7 @@ extern void func_020307B0(void *p);
 void func_0204ED24(void *p)
 {
     func_0204F27C(p);
-    func_020307B0(*(void **)((u8 *)p + 8));
-    func_020307B0(*(void **)((u8 *)p + 4));
+    func_020307B0(((struct Obj11443 *)p)->f8);
+    func_020307B0(((struct Obj11443 *)p)->f4);
     func_020307B0(p);
 }

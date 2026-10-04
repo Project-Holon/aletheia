@@ -18,6 +18,9 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021E1F34 0x021E1F34 data a4
  */
+#include "../include/Obj05430.h"
+#include "../include/Obj23759.h"
+#include "../include/Obj23760.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,20 +38,20 @@ int func_021DF4AC(u8 *p)
     u32 low, high, value;
     int count;
     func_021E14E4(p);
-    if ((*(u32 *)(p + 28) & (1 << (*(int **)(p + 40))[3])) == 0) {
-        *(int *)p = 42;
+    if ((((struct Obj05430 *)p)->f1C & (1 << (*(int **)(p + 40))[3])) == 0) {
+        ((struct Obj05430 *)p)->f0 = 42;
         return 0;
     }
-    count = *(int *)(p + 48);
+    count = ((struct Obj05430 *)p)->f30;
     low = d_021E1F34[count].low;
     high = d_021E1F34[count].high;
     low += func_020056EC(65535) % (high - low + 1);
     if (low < d_021E1F34[count].low) low = d_021E1F34[count].low;
     else if (low > high) low = high;
     func_021E026C(p, 3, low);
-    value = func_02007E50(func_0201292C((*(void **)(*(u8 **)(*(u8 **)(p + 216) + 20) + 4))), low, 1, 114);
+    value = func_02007E50(func_0201292C((((struct Obj23760 *)(*(u8 * *)&((struct Obj23759 *)(*(u8 * *)&((struct Obj05430 *)p)->fD8))->f14))->f4)), low, 1, 114);
     func_021E1988(1302);
-    if (value == 1) *(int *)p = 39;
-    else *(int *)p = 40;
+    if (value == 1) ((struct Obj05430 *)p)->f0 = 39;
+    else ((struct Obj05430 *)p)->f0 = 40;
     return 0;
 }

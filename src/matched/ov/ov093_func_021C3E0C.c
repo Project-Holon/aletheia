@@ -25,6 +25,7 @@
  *  func_021C195C 0x021C195C thumb ov093
  *  func_021C3FDC 0x021C3FDC thumb ov093
  */
+#include "../include/Obj03191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,10 +60,10 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
     if (x != y && !func_021C3FBC(x) && !func_021C3FCC(y)) {
         ai = func_021D5440(a);
         bi = func_021D5440(b);
-        f = *(Flag **)(p + 0x4a8);
+        f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;
         if (f->a == 0) f->a = 1;
-        func_021CD4B0(*(void **)(p + 12), 0x4a, ai, bi, (u16)y, (u16)x);
-        func_021CD64C(*(void **)(p + 12), 0x5b, 0x1fc, ai, 0xffff0000);
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x4a, ai, bi, (u16)y, (u16)x);
+        func_021CD64C(((struct Obj03191 *)p)->fC, 0x5b, 0x1fc, ai, 0xffff0000);
         line = 9140;
         s = func_021CC8D8(p + 0x1d74, line);
         func_021C7B3C(p, ai, x, y);
@@ -71,8 +72,8 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
         func_021D66D0((struct QJ *)a, y);
         func_021D66D0((struct QJ *)b, x);
         func_021D8564((int)a, (int)b);
-        func_021CD4B0(*(void **)(p + 12), 0x58, ai);
-        func_021CD4B0(*(void **)(p + 12), 0x58, bi);
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x58, ai);
+        func_021CD4B0(((struct Obj03191 *)p)->fC, 0x58, bi);
         if (x != y) {
             t = func_021CC8D8(p + 0x1d74, line + 16);
             func_021C7B7C(p, ai);
@@ -89,6 +90,6 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
             if (y == 0x7f) func_021C3FDC(p, b);
         }
     } else {
-        func_021CD64C(*(void **)(p + 12), 0x5a, 0x47, 0xffff0000);
+        func_021CD64C(((struct Obj03191 *)p)->fC, 0x5a, 0x47, 0xffff0000);
     }
 }

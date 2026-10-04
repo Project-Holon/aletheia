@@ -31,6 +31,7 @@
  *   func_0207010C  0x0207010C  arm
  *   func_02070274  0x02070274  arm
  */
+#include "../include/Obj16641.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ static inline struct Rec70434 *GetRec(struct Node70434 *node, u32 idx)
     u8 *tbl = (u8 *)node + 8;
     if (tbl != 0 && idx < node->b09) {
         u8 *p = tbl + node->h0e;
-        return (struct Rec70434 *)(*(u16 *)p * idx + (u32)(p + 4));
+        return (struct Rec70434 *)(((struct Obj16641 *)p)->f0 * idx + (u32)(p + 4));
     }
     return 0;
 }

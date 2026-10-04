@@ -16,6 +16,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09334.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ typedef signed int     s32;
 
 void func_0216D92C(u8 *p, s32 *q)
 {
-    q[0] = *(s8 *)(p + 0x7e) << 12;
-    q[1] = *(s8 *)(p + 0x7f) << 12;
-    q[2] = *(s8 *)(p + 0x80) << 12;
+    q[0] = ((struct Obj09334 *)p)->f7E << 12;
+    q[1] = ((struct Obj09334 *)p)->f7F << 12;
+    q[2] = ((struct Obj09334 *)p)->f80 << 12;
 }

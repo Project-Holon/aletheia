@@ -10,8 +10,9 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj10792.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021FC868(u8*p,u32 a,u32 b,u32 c){*(u32*)(p+24)=c;*(u32*)(p+28)=a;*(u32*)(p+32)=b;}
+void func_021FC868(u8*p,u32 a,u32 b,u32 c){((struct Obj10792 *)p)->f18=c;((struct Obj10792 *)p)->f1C=a;((struct Obj10792 *)p)->f20=b;}

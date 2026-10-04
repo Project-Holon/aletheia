@@ -11,6 +11,7 @@
  * symbols:
  *   func_02188CA4  0x02188CA4  thumb
  */
+#include "../include/Obj19761.h"
 
 typedef unsigned int u32;
 
@@ -18,5 +19,5 @@ void *func_02188CA4(void);
 
 void func_021A2E44(int a, u32 v)
 {
-    *(u32 *)((char *)func_02188CA4() + 0xc) = v;
+    ((struct Obj19761 *)((char *)func_02188CA4()))->fC = v;
 }

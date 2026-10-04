@@ -13,6 +13,7 @@
  *   func_021587B0 0x021587B0 thumb ov010
  *   func_02159058 0x02159058 thumb ov010
  */
+#include "../include/Obj12311.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BigObj;
@@ -25,8 +26,8 @@ int func_0215EA94(void *a,void *b,void *c)
 {
  int h;
  int t;
- func_0201296C(func_020120F4(*(void **)((char *)c+8)));
- h = *(u16 *)((char *)c+12);
+ func_0201296C(func_020120F4(((struct Obj12311 *)c)->f8));
+ h = ((struct Obj12311 *)c)->fC;
  t = func_021587B0((int)a,0x2715,0,0);
  func_02159058(t,h,0,0,0);
  return 0;

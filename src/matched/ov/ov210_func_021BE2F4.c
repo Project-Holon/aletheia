@@ -13,6 +13,7 @@
 
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ u32 func_021BE2F4(u8 *p, u32 a, u32 b, u32 c)
     p[0x2c1] = b;
     p[0x2c2] = 0;
     p[0x2c3] = 0;
-    *(u32 *)(p + 0x1c) = c;
+    ((struct Obj00085 *)p)->f1C = c;
     return 25;
 }

@@ -13,6 +13,7 @@
  *   func_021C82D0  0x021C82D0  thumb  ov093
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj10186.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ int func_021897CC(int a, int b) {
     r6 = func_0201134C(a);
     r4 = func_0201134C(a);
     t = func_0218A160((u8 *)b, r6);
-    t = func_021C82D0(*(int *)(b + 0xb4), t, r4);
-    *(int *)(b + 0x38) = t;
-    return *(int *)(b + 0xc4);
+    t = func_021C82D0(((struct Obj10186 *)b)->fB4, t, r4);
+    ((struct Obj10186 *)b)->f38 = t;
+    return ((struct Obj10186 *)b)->fC4;
 }

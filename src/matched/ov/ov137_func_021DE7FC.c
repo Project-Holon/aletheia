@@ -37,6 +37,11 @@
  *   d_021E1FA0 0x021E1FA0 data a2
  *   d_021E22B8 0x021E22B8 data a1
  */
+#include "../include/Obj02208.h"
+#include "../include/Obj08213.h"
+#include "../include/Obj23739.h"
+#include "../include/Obj23740.h"
+#include "../include/Obj23741.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,26 +73,26 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     p=func_0203159C(obj,0xdac,114);
     i=0;
     func_02082BCC(p,0,0xdac);
-    *(u8 **)(q+0x1c)=p;
-    *(u8 **)(p+0xd8)=q;
-    *(void **)(p+0xdc)=*(void **)(q+0x18);
-    *(void **)(p+0x24)=func_02012934(*(void **)(*(u8 **)(*(u8 **)(p+0xd8)+0x14)+4));
-    *(void **)(p+0xd58)=func_020490F4(183,114);
+    *(u8 * *)&((struct Obj08213 *)q)->f1C=p;
+    *(u8 * *)&((struct Obj02208 *)p)->fD8=q;
+    ((struct Obj02208 *)p)->fDC=((struct Obj08213 *)q)->f18;
+    ((struct Obj02208 *)p)->f24=func_02012934(((struct Obj23740 *)(*(u8 * *)&((struct Obj23739 *)(*(u8 * *)&((struct Obj02208 *)p)->fD8))->f14))->f4);
+    ((struct Obj02208 *)p)->fD58=func_020490F4(183,114);
     func_021DF800(p);
-    *(void **)(p+0xd9c)=func_020056A0((void (*)(int,  void *))func_021DF7E8,p,1);
-    *(void **)(p+0xaf4)=func_02047CFC(20,11,114);
+    ((struct Obj02208 *)p)->fD9C=func_020056A0((void (*)(int,  void *))func_021DF7E8,p,1);
+    ((struct Obj02208 *)p)->fAF4=func_02047CFC(20,11,114);
     func_021E0640(p);func_021E06E0(p);func_021E04E0(p);
     n=0;
     player=func_02039338();
     s=p+0xe0;
-    q=*(u8 **)(p+0xd8);
+    q=*(u8 * *)&((struct Obj02208 *)p)->fD8;
     for(;i<5;i++) {
-        if(*(u32 *)(q+12)&(1<<i)) {if(i==player) break;n++;}
+        if(((struct Obj08213 *)q)->fC&(1<<i)) {if(i==player) break;n++;}
     }
-    *(int *)(s+0x40)=d_021E1FA0[*(int *)(q+8)][n]<<12;
+    ((struct Obj23741 *)s)->f40=d_021E1FA0[((struct Obj08213 *)q)->f8][n]<<12;
     r=func_02030734(0x8072,func_02030CB0(32),0,(const char *)d_021E22B8,0x4ec);
-    *(void **)(p+0xd94)=r;
-    *(void **)(p+0xd98)=func_02030CBC(32,r);
+    ((struct Obj02208 *)p)->fD94=r;
+    ((struct Obj02208 *)p)->fD98=func_02030CBC(32,r);
     func_021E0DE8(p);func_021E0F20(p);func_021E104C(p);func_021E11B4(p);func_021E13BC(p);func_021E1488(p);
     func_0202208C(0,1,1,0,8,1,114);
     func_0203D7BC(1);

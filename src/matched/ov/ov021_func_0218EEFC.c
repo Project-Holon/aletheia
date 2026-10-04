@@ -16,6 +16,7 @@
  * its +0xec slot before the store: the cast keeps it a live variable homed in
  * its own parameter slot (entry write-back, end adds/str).
  */
+#include "../include/Obj12593.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ extern const char d_021DDA28[];
 
 void func_0218EEFC(int n, u32 x, u32 flags, u32 heap, void *a)
 {
-    if (*(u32 *)((u8 *)a + 0x1c) != 0) {
+    if (((struct Obj12593 *)a)->f1C != 0) {
         int i = 0;
         Track *t = func_02030734(heap, sizeof(Track), 0, d_021DDA28, 0x6aa);
         t->bufA = func_02030734(heap, n * sizeof(Vec3), 0, d_021DDA28, 0x6ab);
@@ -78,6 +79,6 @@ void func_0218EEFC(int n, u32 x, u32 flags, u32 heap, void *a)
         t->unk28 = 1;
         t->unk2C = 0;
         a = (u8 *)a + 0xec;
-        *(Track **)a = t;
+        *(Track * *)&((struct Obj12593 *)a)->f0 = t;
     }
 }

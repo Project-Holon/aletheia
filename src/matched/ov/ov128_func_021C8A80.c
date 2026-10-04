@@ -23,6 +23,8 @@
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  *   d_021CA6C8 0x021CA6C8 data a2
  */
+#include "../include/Obj05381.h"
+#include "../include/Obj05382.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -54,8 +56,8 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
     if (result9 == 2) {
         func_021C8B90(p, b, unused, i, heap);
     } else {
-        local.pos[0] = (*(s16 *)p + d_021CA6C8[i].x) * 8 + 8;
-        local.pos[1] = (*(s16 *)(p + 2) + d_021CA6C8[i].y) * 8 + 10;
+        local.pos[0] = (((struct Obj05381 *)p)->f0 + d_021CA6C8[i].x) * 8 + 8;
+        local.pos[1] = (((struct Obj05381 *)p)->f2 + d_021CA6C8[i].y) * 8 + 10;
         local.pos[2] = 8;
         local.pos[3] = 1;
         *(void **)(p + 12 + (int)((u32)i * 4u)) = func_021C40BC(a, local.pos, result8, heap);
@@ -63,7 +65,7 @@ void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx
     }
     str = func_020457B0(128, heap);
     func_02045924(str, func_020099D4(base, idx));
-    func_021B6AE4(*(u8 **)(p + 8), *(u32 *)(b + 0x34), d_021CA6C8[i].x * 8,
-                 d_021CA6C8[i].y * 8 - 24, (u32)str, *(u32 *)(b + 0x17c), *(u16 *)((u8 *)&local + result9 * 2), 0);
+    func_021B6AE4(*(u8 * *)&((struct Obj05381 *)p)->f8, ((struct Obj05382 *)b)->f34, d_021CA6C8[i].x * 8,
+                 d_021CA6C8[i].y * 8 - 24, (u32)str, ((struct Obj05382 *)b)->f17C, *(u16 *)((u8 *)&local + result9 * 2), 0);
     func_02045808(str);
 }

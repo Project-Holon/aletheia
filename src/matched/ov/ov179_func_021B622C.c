@@ -12,14 +12,16 @@
  * symbols:
  *   d_021B68E4  0x021B68E4  data  a4
  */
+#include "../include/Obj10716.h"
+#include "../include/Obj24463.h"
 
 extern int d_021B68E4[];
 
 void func_021B622C(char *p, int unused)
 {
-    unsigned short idx = *(unsigned short *)(*(void **)p);
+    unsigned short idx = ((struct Obj24463 *)(((struct Obj10716 *)p)->f0))->f0;
     int v = d_021B68E4[idx];
 
-    *(int *)(p + 0x6018) = v;
-    *(int *)(p + 0x601c) = v;
+    ((struct Obj10716 *)p)->f6018 = v;
+    ((struct Obj10716 *)p)->f601C = v;
 }

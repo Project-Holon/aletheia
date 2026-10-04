@@ -19,6 +19,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj00345.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -42,10 +43,10 @@ void func_02200BAC(u8 *p, u32 k)
 {
     u32 v;
 
-    *(u32 *)(p + 0xde0) = func_020450F0(4, 0xc, 0x13, 0x12, 4, 1, 1);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xde0))), 0);
-    func_021F9218((void *)(*(u32 *)(p + 0xde0)), (void *)(*(u32 *)(p + 0xb6c)), k, p + 0xfa0);
-    v = *(u32 *)(p + 0xde0);
+    ((struct Obj00345 *)p)->fDE0 = func_020450F0(4, 0xc, 0x13, 0x12, 4, 1, 1);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00345 *)p)->fDE0)), 0);
+    func_021F9218((void *)(((struct Obj00345 *)p)->fDE0), (void *)(((struct Obj00345 *)p)->fB6C), k, p + 0xfa0);
+    v = ((struct Obj00345 *)p)->fDE0;
     func_02045334((struct Descriptor *)v);
     func_02045374((struct Cfg *)v);
     func_02041B6C(func_02045730((struct Descriptor *)v));

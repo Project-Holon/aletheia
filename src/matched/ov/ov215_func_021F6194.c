@@ -22,6 +22,8 @@
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201CCE4 0x0201CCE4 thumb
  */
+#include "../include/Obj01590.h"
+#include "../include/Obj02261.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -46,16 +48,16 @@ extern void *func_0201CCE4(void *,unsigned,unsigned,void *,unsigned,unsigned,voi
 void func_021F6194(char *object,char *p,unsigned entry)
 {
     void *text,*words,*buffer;
-    func_02043B5C(func_02045770(*(void **)(p+88)),15);
-    if(*(void **)(p+80)) func_0201CE48(*(void **)(p+80));
-    if(*(void **)(p+104)) func_02045808(*(void **)(p+104));
-    text=func_02045EC0(*(void **)(p+100),entry);
-    words=func_0201EC64(*(u16 *)p);
-    func_0201EE84(words,0,*(void **)(object+4));
-    buffer=func_020457B0(256,*(u16 *)p);
-    *(void **)(p+104)=buffer;
+    func_02043B5C(func_02045770(((struct Obj01590 *)p)->f58),15);
+    if(((struct Obj01590 *)p)->f50) func_0201CE48(((struct Obj01590 *)p)->f50);
+    if(((struct Obj01590 *)p)->f68) func_02045808(((struct Obj01590 *)p)->f68);
+    text=func_02045EC0(((struct Obj01590 *)p)->f64,entry);
+    words=func_0201EC64(((struct Obj01590 *)p)->f0);
+    func_0201EE84(words,0,((struct Obj02261 *)object)->f4);
+    buffer=func_020457B0(256,((struct Obj01590 *)p)->f0);
+    ((struct Obj01590 *)p)->f68=buffer;
     func_0201F250(words,buffer,text);
     func_0201ED04(words);
     func_02045808(text);
-    *(void **)(p+80)=func_0201CCE4(*(void **)(p+88),0,0,*(void **)(p+104),*(unsigned *)(p+8),func_02012FFC(),*(void **)(p+84),2,*(u16 *)p,15);
+    ((struct Obj01590 *)p)->f50=func_0201CCE4(((struct Obj01590 *)p)->f58,0,0,((struct Obj01590 *)p)->f68,((struct Obj01590 *)p)->f8,func_02012FFC(),((struct Obj01590 *)p)->f54,2,((struct Obj01590 *)p)->f0,15);
 }

@@ -21,6 +21,8 @@
  *   d_020A1B38     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01348.h"
+#include "../include/Obj01491.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,30 +45,30 @@ void func_0218FC80(u8 *p)
     u8 *t;
 
     q = p + 0xf0;
-    if (*(u32 *)(q + 0x9c) == 0) {
+    if (((struct Obj01348 *)q)->f9C == 0) {
         return;
     }
-    (*(u16 *)(q + 0x96))++;
+    (((struct Obj01348 *)q)->f96)++;
     s = q + 0x34;
     t = q + 0x64;
-    if (*(u32 *)(q + 0xb4) != 0) {
+    if (((struct Obj01348 *)q)->fB4 != 0) {
         func_0218FD88((s32 *)(s + 0xc), (s32 *)(t + 0xc),
-                      *(u16 *)(q + 0x94), *(u16 *)(q + 0x96), (s32 *)(p + 0x48));
+                      ((struct Obj01348 *)q)->f94, ((struct Obj01348 *)q)->f96, (s32 *)(p + 0x48));
         func_0218FD88((s32 *)s, (s32 *)t,
-                      *(u16 *)(q + 0x94), *(u16 *)(q + 0x96), (s32 *)(p + 0x24));
+                      ((struct Obj01348 *)q)->f94, ((struct Obj01348 *)q)->f96, (s32 *)(p + 0x24));
     }
-    if (*(u32 *)(q + 0xb0) != 0) {
-        *(u16 *)(p + 0x80) = func_0218FDF0((u16 *)(s + 0x2c), (u16 *)(t + 0x2c),
-                                           *(u16 *)(q + 0x94), *(u16 *)(q + 0x96));
-        func_02048B80(*(void **)(p + 0xc), d_020A1B38[(*(u16 *)(p + 0x80) >> 4) * 2]);
-        func_02048B94(*(void **)(p + 0xc), d_020A1B38[(*(u16 *)(p + 0x80) >> 4) * 2 + 1]);
+    if (((struct Obj01348 *)q)->fB0 != 0) {
+        ((struct Obj01491 *)p)->f80 = func_0218FDF0((u16 *)(s + 0x2c), (u16 *)(t + 0x2c),
+                                           ((struct Obj01348 *)q)->f94, ((struct Obj01348 *)q)->f96);
+        func_02048B80(((struct Obj01491 *)p)->fC, d_020A1B38[(((struct Obj01491 *)p)->f80 >> 4) * 2]);
+        func_02048B94(((struct Obj01491 *)p)->fC, d_020A1B38[(((struct Obj01491 *)p)->f80 >> 4) * 2 + 1]);
     }
-    if (*(u32 *)(q + 0xa0) != 0) {
+    if (((struct Obj01348 *)q)->fA0 != 0) {
         func_0218FD88((s32 *)(s + 0x18), (s32 *)(t + 0x18),
-                      *(u16 *)(q + 0x94), *(u16 *)(q + 0x96), (s32 *)(p + 0x60));
+                      ((struct Obj01348 *)q)->f94, ((struct Obj01348 *)q)->f96, (s32 *)(p + 0x60));
     }
-    if (*(u16 *)(q + 0x96) >= *(u16 *)(q + 0x94)) {
-        *(u32 *)(q + 0x9c) = 0;
+    if (((struct Obj01348 *)q)->f96 >= ((struct Obj01348 *)q)->f94) {
+        ((struct Obj01348 *)q)->f9C = 0;
         func_0218FE40(p);
     }
 }

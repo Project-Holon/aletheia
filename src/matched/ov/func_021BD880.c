@@ -19,6 +19,7 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj05866.h"
 
 
 typedef unsigned short u16;
@@ -29,11 +30,11 @@ extern void func_020061E4(u32 a);
 
 void func_021BD880(char *p)
 {
-    unsigned short h = *(unsigned short *)(p + 0x28);
-    int v = *(int *)p;
+    unsigned short h = ((struct Obj05866 *)p)->f28;
+    int v = ((struct Obj05866 *)p)->f0;
 
-    *(int *)(p + 8) = h;
+    ((struct Obj05866 *)p)->f8 = h;
     func_0204B878((struct Obj *)v, h);
-    if (*(int *)(p + 0x30) != 0)
-        func_020061E4(*(int *)(p + 0x30));
+    if (((struct Obj05866 *)p)->f30 != 0)
+        func_020061E4(((struct Obj05866 *)p)->f30);
 }

@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22920.h"
 
 typedef unsigned int u32;
 
@@ -24,6 +25,6 @@ extern void func_021DEEA4(u32 *p, void *f);
 void func_021DEE68(void *p, int a, void *b)
 {
     func_02082BCC(p, 0, 0x10);
-    *(u32 *)((char *)p + 0xc) = (u32)a;
+    ((struct Obj22920 *)p)->fC = (u32)a;
     func_021DEEA4(p, b);
 }

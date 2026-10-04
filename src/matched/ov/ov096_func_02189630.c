@@ -11,11 +11,12 @@
  * symbols:
  *   func_02189640 0x02189640 thumb ov096
  */
+#include "../include/Obj21967.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02189640(int, int, int);
 int func_02189630(u8 *a, u8 *b)
 {
-    func_02189640((int)a, (int)b, 3); return *(int *)(b + 0xc4);
+    func_02189640((int)a, (int)b, 3); return ((struct Obj21967 *)b)->fC4;
 }

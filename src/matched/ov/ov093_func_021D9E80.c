@@ -20,6 +20,7 @@
  *   func_021C8860   0x021C8860  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  */
+#include "../include/Obj10059.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,9 +57,9 @@ void func_021D9E80(int a, int b, int c)
     if (func_021D5B68(m) != 0)
         return;
     p = func_021C88A4(b, 7, c);
-    *(u32 *)p |= 4 << 21;
-    *(u8 *)(p + 6) = k;
-    *(u16 *)(p + 4) = func_021D7B74(m, 8);
+    ((struct Obj10059 *)p)->f0 |= 4 << 21;
+    ((struct Obj10059 *)p)->f6 = k;
+    ((struct Obj10059 *)p)->f4 = func_021D7B74(m, 8);
     func_021C8838(p + 0xc, 2, 0x1ae);
     func_021C8860((struct S *)(p + 0xc), k);
     func_021C88C8((void *)b, p);

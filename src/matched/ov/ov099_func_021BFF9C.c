@@ -14,6 +14,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203C554 0x0203C554 arm
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned int u32;
 extern int func_021BA928(char *,int);
@@ -27,8 +28,8 @@ int func_021BFF9C(char *p, int ret) {
         func_021BA8EC(p);
         func_021C18C8(p, 1, 2);
         func_0203C554(1);
-        *(int *)(p+0x1e0)=20;
-        *(int *)(p+0x1cc)=57;
+        ((struct Obj00008 *)p)->f1E0=20;
+        ((struct Obj00008 *)p)->f1CC=57;
     }
     return ret;
 }

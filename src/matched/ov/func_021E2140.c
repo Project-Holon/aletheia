@@ -14,6 +14,7 @@
  *
  * 8 while busy, else the 0x28 field.
  */
+#include "../include/Obj00000.h"
 
 
 
@@ -21,6 +22,6 @@ extern int func_021DCFC0(char *p);
 int func_021E2140(int p)
 {
     if (func_021DCFC0((char *)p) == 0)
-        return *(int *)(p + 0x28);
+        return ((struct Obj00000 *)p)->f28;
     return 8;
 }

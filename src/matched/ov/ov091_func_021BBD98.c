@@ -15,6 +15,7 @@
  *   func_02045C04  0x02045C04  arm
  *   d_021BEC8C     0x021BEC8C  data  ov091  a4
  */
+#include "../include/Obj05174.h"
 
 typedef unsigned short u16;
 
@@ -32,12 +33,12 @@ int func_021BBD98(int a, int unused, int idx)
     int r;
     int h;
     if (idx >= 0x10 && idx <= 0x13) {
-        r = func_02017E1C((void *)*(int *)(a + 0x38), idx + 0x26, 0);
-        h = (int)func_02045B38(0, 2, 0xcb, *(u16 *)a);
+        r = func_02017E1C((void *)*(int *)&((struct Obj05174 *)a)->f38, idx + 0x26, 0);
+        h = (int)func_02045B38(0, 2, 0xcb, ((struct Obj05174 *)a)->f0);
         r = (int)func_02045EC0((struct MsgBank *)h, r);
         func_02045C04((struct Rec *)h);
     } else {
-        r = (int)func_02045EC0((struct MsgBank *)(*(int *)(a + 0x134)), d_021BEC8C[idx]);
+        r = (int)func_02045EC0((struct MsgBank *)(((struct Obj05174 *)a)->f134), d_021BEC8C[idx]);
     }
     return r;
 }

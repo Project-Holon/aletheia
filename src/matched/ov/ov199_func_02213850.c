@@ -15,6 +15,7 @@
  *   func_020306F0 0x020306F0 arm
  *   ov093_id 0x0000005D data a1
  */
+#include "../include/Obj06662.h"
 extern void func_02034A5C(int handle);
 extern const char ov093_id[];
 typedef unsigned int   u32;
@@ -26,15 +27,15 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_02213850(void *a, void *b, void *c, char *work)
 {
-    if (*(int *)(work + 8)) {
+    if (((struct Obj06662 *)work)->f8) {
         func_02034A5C((int)ov093_id);
-        *(int *)(work + 8) = 0;
+        ((struct Obj06662 *)work)->f8 = 0;
     }
-    if (*(int *)(work + 0xc)) {
+    if (((struct Obj06662 *)work)->fC) {
         func_0203A5E4(0x100);
-        *(int *)(work + 0xc) = 0;
+        ((struct Obj06662 *)work)->fC = 0;
     }
-    func_0203133C(*(void **)work);
+    func_0203133C(((struct Obj06662 *)work)->f0);
     func_020315D4(a);
     func_020306F0(0x58);
     return 1;

@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_0205207C.c \
  *       --func func_0205207C --addr 0x0205207C --cc 1.1p1 --arm
  */
+#include "../include/Obj16198.h"
 
 typedef unsigned int u32;
 
@@ -26,5 +27,5 @@ void func_0205207C(char *p, struct S12 *q, struct S12 *r, u32 v)
 {
     *(struct S12 *)p = *q;
     *(struct S12 *)(p + 12) = *r;
-    *(u32 *)(p + 24) = v;
+    ((struct Obj16198 *)p)->f18 = v;
 }

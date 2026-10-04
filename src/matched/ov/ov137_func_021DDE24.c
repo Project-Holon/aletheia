@@ -16,6 +16,7 @@
  *   func_021DD93C 0x021DD93C thumb ov137
  *   func_021DD924 0x021DD924 thumb ov137
  */
+#include "../include/Obj14216.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct WordSet;
@@ -30,11 +31,11 @@ int func_021DDE24(char *p, int state) {
     if (func_02039338() == 0) {
         func_021DE4B4(p, 5, 0);
     } else {
-        func_0201F02C(*(void **)(p + 0x3c), 0, func_02184180(func_021DCF50(p), 0));
+        func_0201F02C(((struct Obj14216 *)p)->f3C, 0, func_02184180(func_021DCF50(p), 0));
         func_021DE4B4(p, 0x10, 0);
     }
     func_021DD93C(p, 0xe);
-    *(int *)(p + 0x124) = 0;
+    ((struct Obj14216 *)p)->f124 = 0;
     func_021DD924(p);
     return state;
 }

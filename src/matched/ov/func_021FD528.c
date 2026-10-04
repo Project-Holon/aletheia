@@ -14,6 +14,7 @@
 
  * Build with the fixed 0x12/0x12e/3/4/1 argument pair and latch state 5.
  */
+#include "../include/Obj02489.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021F4BF8(u8 *p, int b, int unused, int a, int c, u8 flag);
 int func_021FD528(u8 *p)
 {
     func_021F4BF8(p, 0x12, 0x12e, 3, 4, 1);
-    *(u32 *)(p + 0x28) = 5;
+    ((struct Obj02489 *)p)->f28 = 5;
     return 2;
 }

@@ -10,6 +10,7 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  */
+#include "../include/Obj08002.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -18,10 +19,10 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 int func_021BC898(u8 *p)
 {
-    if (*(int *)(p + 24) == 0) {
-        if (*(int *)(p + 20) == 0) {
-            func_02030EAC(*(void **)(p + 28));
-            *(int *)(p + 24) += 1;
+    if (((struct Obj08002 *)p)->f18 == 0) {
+        if (((struct Obj08002 *)p)->f14 == 0) {
+            func_02030EAC(((struct Obj08002 *)p)->f1C);
+            ((struct Obj08002 *)p)->f18 += 1;
             return 1;
         }
     } else {

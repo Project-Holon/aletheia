@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/matched/func_02022CEC.c \
  *       --func func_02022CEC --addr 0x02022CEC --cc 1.1p1 --thumb
  */
+#include "../include/Obj15738.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,7 +42,7 @@ void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
         a0[1] = 1;
         a0[0] = (u32)p;
         a0[2] = a2;
-        *(u32 *)(p + 0x600) = a1;
+        ((struct Obj15738 *)p)->f600 = a1;
         break;
     case 2:
         p = func_02030734((u16)a3, 0xC08, 0, (const char *)0x020A7450, 0xAA3);

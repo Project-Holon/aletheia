@@ -17,14 +17,15 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj12208.h"
 
 extern int  func_021F8684(void);
 extern void func_021F70F0(void **p, void *b, int c);
 
 int func_021FA108(int a, char *b)
 {
-    *(int *)(b + 0x284) = 1;
+    ((struct Obj12208 *)b)->f284 = 1;
     func_021F70F0((void **)func_021F8684(), b + 0x288, (int)(b + 0x294));
-    return *(int *)(b + 0x23c);
+    return ((struct Obj12208 *)b)->f23C;
 }
 

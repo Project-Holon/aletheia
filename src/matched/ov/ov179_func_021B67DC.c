@@ -12,13 +12,14 @@
  * symbols:
  *   func_02040588  0x02040588  arm
  */
+#include "../include/Obj14395.h"
 
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 
 int func_021B67DC(int a, int *q)
 {
-    func_02040588((unsigned char)*(int *)((char *)q + 4),
-                  (unsigned char)*(int *)((char *)q + 8));
+    func_02040588((unsigned char)((struct Obj14395 *)q)->f4,
+                  (unsigned char)((struct Obj14395 *)q)->f8);
     return 1;
 }

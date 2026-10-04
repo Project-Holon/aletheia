@@ -14,6 +14,7 @@
  *
  * Calls the ov127 routine on the pointer at +0x00 and truncates the answer to a byte.
  */
+#include "../include/Obj18147.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern int func_021C49A4(u8 *p, unsigned int i);
 
 u8 func_021B9A50(char *p)
 {
-    return (u8)func_021C49A4(*(void **)p, 4);
+    return (u8)func_021C49A4(((struct Obj18147 *)p)->f0, 4);
 }

@@ -27,6 +27,8 @@
  *   d_021F35C8     0x021F35C8  data  ov032  a2
  *   d_021F35D4     0x021F35D4  data  ov032  a2
  */
+#include "../include/Obj20461.h"
+#include "../include/Obj20462.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -111,10 +113,10 @@ void func_021F2D20(Work *p, void *h)
     func_02021640((struct PalAnmSlot *)p->fac, 0, 1, p->heap, 3, 0x20, 0xe0);
     p->r3c4.res = func_02049250(h, 4, p->heap2);
     func_02062A98(p->r3c4.res, &p->r3c4.hdr);
-    p->r3c4.data = *(u32 *)(p->r3c4.hdr + 0xc);
+    p->r3c4.data = ((struct Obj20461 *)(p->r3c4.hdr))->fC;
     p->r3b8.res = func_02049250(h2, 0, p->heap2);
     func_02062A98(p->r3b8.res, &p->r3b8.hdr);
-    p->r3b8.data = *(u32 *)(p->r3b8.hdr + 0xc);
+    p->r3b8.data = ((struct Obj20462 *)(p->r3b8.hdr))->fC;
     for (i = 0; i < 16; i++) {
         p->e1[i].res = func_02049250(h2, i + 0x31, p->heap2);
         func_02062A00(p->e1[i].res, &p->e1[i].data);

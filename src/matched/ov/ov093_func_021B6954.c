@@ -14,6 +14,8 @@
  *   func_021B9E7C  0x021B9E7C  thumb  ov093
  *   func_021B9E38  0x021B9E38  thumb  ov093
  */
+#include "../include/Obj06216.h"
+#include "../include/Obj13266.h"
 
 typedef unsigned char  u8;
 extern u8 func_021BA710(int a, int b);
@@ -25,13 +27,13 @@ extern void func_021B9E38(char *p, int a, int b);
 void func_021B6954(int a, int b)
 {
     char *p = (char *)a;
-    int base = *(int *)p;
-    int idx = func_021BA710(*(unsigned char *)(p + 0x46c), b);
+    int base = ((struct Obj06216 *)p)->f0;
+    int idx = func_021BA710(((struct Obj06216 *)p)->f46C, b);
     char *q = (char *)(a + 0x20) + b * 0x28;
     char *e = (char *)base + idx * 4;
-    int *r = (int *)*(int *)(e + 0x48);
+    int *r = (int *)((struct Obj13266 *)e)->f48;
     if (*r != 0)
         func_021B9E7C((struct A *)((int)q), (struct B *)((int)r));
     else
-        func_021B9E38((char *)((int)q), *(unsigned short *)(p + 0x468), *(int *)(e + 0x34));
+        func_021B9E38((char *)((int)q), ((struct Obj06216 *)p)->f468, ((struct Obj13266 *)e)->f34);
 }

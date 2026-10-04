@@ -12,10 +12,11 @@
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
  */
+#include "../include/Obj24465.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 
 void func_021B6268(char *p)
 {
-    func_02030EAC(*(void **)(p + 0x6014));
+    func_02030EAC(((struct Obj24465 *)p)->f6014);
 }

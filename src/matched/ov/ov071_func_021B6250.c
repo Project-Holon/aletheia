@@ -33,6 +33,7 @@
  *   func_0204A600  0x0204A600  arm
  *   d_021BA774     0x021BA774  data  a4
  */
+#include "../include/Obj00712.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -93,23 +94,23 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
             mywk[0x126] = 1;
         if (mywk[0x126] == 0) {
             if (mywk[0x135] == 0) {
-                func_02031348(*(int *)(mywk + 0x12C), -1, d_021BA774[mywk[0x134]].a, mywk + 0xF8);
+                func_02031348(((struct Obj00712 *)mywk)->f12C, -1, d_021BA774[mywk[0x134]].a, mywk + 0xF8);
                 mywk[0x135] = 1;
             }
             if (mywk[0x136] == 0) {
                 func_0201DD78(0xF, 2, 0);
-                func_02031348(*(int *)(mywk + 0x130), -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
+                func_02031348(((struct Obj00712 *)mywk)->f130, -1, d_021BA774[mywk[0x134]].b, mywk + 0xF8);
                 mywk[0x136] = 1;
             }
         }
-        s2 = func_02031330((void *)*(int *)(mywk + 0x130));
+        s2 = func_02031330((void *)((struct Obj00712 *)mywk)->f130);
         k = mywk[0x124];
         if (k == 4 || (s2 != 1 && mywk[0x126] == 1)) {
             mywk[0x125] = 1;
         } else if (mywk[0x134] != k && d_021BA774[mywk[0x134]].a != d_021BA774[k].a) {
             mywk[0x125] = 1;
         }
-        s1 = func_02031330((void *)*(int *)(mywk + 0x12C));
+        s1 = func_02031330((void *)((struct Obj00712 *)mywk)->f12C);
         if (s1 == 1 && s2 == 1)
             break;
         if (mywk[0x126] == 1 || mywk[0x124] == 4) {
@@ -142,8 +143,8 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     case 7:
         return 1;
     }
-    func_020310C4(*(void **)(mywk + 0x18));
-    func_0201C4E4((struct PrintSys *)(*(int *)(mywk + 8)));
+    func_020310C4(((struct Obj00712 *)mywk)->f18);
+    func_0201C4E4((struct PrintSys *)(((struct Obj00712 *)mywk)->f8));
     func_0204A600();
     return 0;
 }

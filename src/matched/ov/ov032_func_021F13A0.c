@@ -19,6 +19,8 @@
  *   func_02031290 0x02031290 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj00007.h"
+#include "../include/Obj06134.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -39,14 +41,14 @@ void func_021F13A0(char *this, int a, int b, u8 c, int s)
 
     e = func_021F0F44(this, 0xff);
     if (e != 0) {
-        r = func_02031290(func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F1418, 0x18, 0));
+        r = func_02031290(func_020311B8(*(u32 *)&((struct Obj00007 *)this)->fA0, (void *)func_021F1418, 0x18, 0));
         func_02082BCC(r, 0, 0x18);
-        *(char **)(r + 0xc) = this;
+        *(char * *)&((struct Obj06134 *)r)->fC = this;
         r[1] = c;
-        *(char **)(r + 8) = e;
-        *(int *)(r + 4) = s;
-        *(int **)(r + 0x14) = (int *)(this + 0xa8);
-        *(int *)(this + 0xa8) = *(int *)(this + 0xa8) + 1;
+        *(char * *)&((struct Obj06134 *)r)->f8 = e;
+        ((struct Obj06134 *)r)->f4 = s;
+        *(int * *)&((struct Obj06134 *)r)->f14 = (int *)(this + 0xa8);
+        ((struct Obj00007 *)this)->fA8 = ((struct Obj00007 *)this)->fA8 + 1;
         func_021F0F30(e, b, 0);
         func_021F1144(this, e, a, s, 0, r + 0x10);
     }

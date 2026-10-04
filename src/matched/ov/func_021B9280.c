@@ -26,6 +26,8 @@
  *   _s32_div_f  0x0209C0A4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02052.h"
+#include "../include/Obj02659.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,8 +35,8 @@ typedef unsigned int   u32;
 
 int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
 {
-    u8 *row1 = *(u8 **)(tbl + 0x10) + *(u32 *)a * 0x70;
-    u8 *row2 = *(u8 **)(tbl + 0x10) + *(u32 *)(a + 4) * 0x70;
+    u8 *row1 = *(u8 * *)&((struct Obj02659 *)tbl)->f10 + ((struct Obj02052 *)a)->f0 * 0x70;
+    u8 *row2 = *(u8 * *)&((struct Obj02659 *)tbl)->f10 + ((struct Obj02052 *)a)->f4 * 0x70;
     int sC;
     int s8;
     int num;
@@ -45,13 +47,13 @@ int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
     for (i = 0; i < 4; i++) {
         u32 v1 = *(u32 *)(row1 + i * 4);
         if (v1 != 0xFFFF) {
-            if (a == *(u8 **)(tbl + 0x14) + v1 * 0x48)
+            if (a == *(u8 * *)&((struct Obj02659 *)tbl)->f14 + v1 * 0x48)
                 sC = *(int *)(row1 + i * 4 + 0x20);
         }
         {
             u32 v2 = *(u32 *)(row2 + i * 4);
             if (v2 != 0xFFFF) {
-                if (a == *(u8 **)(tbl + 0x14) + v2 * 0x48)
+                if (a == *(u8 * *)&((struct Obj02659 *)tbl)->f14 + v2 * 0x48)
                     s8 = *(int *)(row2 + i * 4 + 0x20);
             }
         }

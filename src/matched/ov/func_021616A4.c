@@ -19,6 +19,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_021616F0  0x021616F0  thumb  ov010
  */
+#include "../include/Obj04884.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,11 +42,11 @@ void *func_021616A4(void *p, int a1, int a2, int a3, int a4)
     char *r4 = func_020124E8(r0v);
 
     func_02082BCC(r4, 0, 0x1C);
-    *(int *)(r4 + 0xc) = a3;
-    *(u16 *)(r4 + 0x10) = a2;
-    *(int *)(r4 + 4) = (int)p;
-    *(int *)(r4 + 8) = a1;
-    *(int *)r4 = (int)func_02012EBC(func_020120F4(p));
-    *(int *)(r4 + 0x14) = a4;
+    ((struct Obj04884 *)r4)->fC = a3;
+    ((struct Obj04884 *)r4)->f10 = a2;
+    ((struct Obj04884 *)r4)->f4 = (int)p;
+    ((struct Obj04884 *)r4)->f8 = a1;
+    ((struct Obj04884 *)r4)->f0 = (int)func_02012EBC(func_020120F4(p));
+    ((struct Obj04884 *)r4)->f14 = a4;
     return r0v;
 }

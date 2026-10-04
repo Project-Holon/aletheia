@@ -14,6 +14,8 @@
  *   func_021860B8  0x021860B8  thumb  ov020
  *   func_02193FD4  0x02193FD4  thumb  ov021
  */
+#include "../include/Obj07441.h"
+#include "../include/Obj12617.h"
 
 extern void func_0218609C(void *p);
 extern void func_021860B8(void *p);
@@ -23,17 +25,17 @@ void func_02193E54(unsigned char *p, unsigned char *q)
 {
     int i;
 
-    *(unsigned short *)q = 1;
-    *(unsigned short *)(q + 2) = p[0];
+    ((struct Obj12617 *)q)->f0 = 1;
+    ((struct Obj12617 *)q)->f2 = p[0];
     if (p[1] == 0) {
         func_0218609C(q);
         q += 8;
         for (i = 0; i < 10; i++)
-            func_02193FD4(*(unsigned char **)(p + 4) + i * 0x50, q + i * 0x18);
+            func_02193FD4(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50, q + i * 0x18);
     } else {
         func_021860B8(q);
         q += 0xf8;
         for (i = 0; i < 10; i++)
-            func_02193FD4(*(unsigned char **)(p + 4) + i * 0x50, q + i * 0x18);
+            func_02193FD4(*(unsigned char * *)&((struct Obj07441 *)p)->f4 + i * 0x50, q + i * 0x18);
     }
 }

@@ -14,6 +14,9 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_021DE720 0x021DE720 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23849.h"
+#include "../include/Obj23850.h"
 typedef struct {void *p;unsigned short f4;unsigned char flags;unsigned char pad[5];} State;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -28,9 +31,9 @@ void func_021DE728(unsigned char *p)
     void *m;
     unsigned i;
     int r;
-    *(State **)(*(char **)(p+0x2c)+0xa190)=func_02030734(0x804c,12,0,d_021F1400,0xa70);
-    s=*(State **)(*(char **)(p+0x2c)+0xa190);
-    s->p=*(void **)(*(char **)(p+0x2c)+*(unsigned char *)(*(char **)(p+0x2c)+p[0x16]+0x3dd2)*4+0x9e74);
+    *(State * *)&((struct Obj23849 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190=func_02030734(0x804c,12,0,d_021F1400,0xa70);
+    s=*(State * *)&((struct Obj23850 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190;
+    s->p=*(void **)(*(char * *)&((struct Obj00000 *)p)->f2C+*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+p[0x16]+0x3dd2)*4+0x9e74);
     s->f4=0;
     s->flags=0;
     m=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);

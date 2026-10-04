@@ -23,6 +23,7 @@
  * func_02082BCC 0x02082BCC arm
  * func_0208CADC 0x0208CADC arm
  */
+#include "../include/Obj10329.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern char d_021CE2D4[], d_021CE280[];
@@ -54,11 +55,11 @@ int func_021B98F8(u8 *p)
         if (h == 0) func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
-    *(u32 *)(p+12) = h;
+    ((struct Obj10329 *)p)->fC = h;
     if (func_021BE9C8(h, d_021CE280, 1) < 0) {
         func_02034714(d_021CE2D4, 0, d_021CE2D4);
         return 0;
     }
-    func_021BE79C((void *)h, (void *)(*(u32 *)p), *(u32 *)(p+4));
+    func_021BE79C((void *)h, (void *)(((struct Obj10329 *)p)->f0), ((struct Obj10329 *)p)->f4);
     return 1;
 }

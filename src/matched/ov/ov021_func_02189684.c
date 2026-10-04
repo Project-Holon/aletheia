@@ -20,6 +20,7 @@
  *   func_021AB888  0x021AB888  thumb  ov021
  *   func_021AB634  0x021AB634  thumb  ov021
  */
+#include "../include/Obj03105.h"
 
 typedef unsigned short u16;
 
@@ -43,16 +44,16 @@ void func_02189684(char *p, unsigned int id)
 
     k = func_02013FA8(id);
     if (k != 0xFFFF) {
-        func_021AB650(*(void **)(p + 0x40));
-        func_021AB868(*(void **)(p + 0x44));
-        func_021AB840(*(void **)(p + 0x44), 1, k, 0x96);
-        a = func_021AB880(*(void **)(p + 0x44));
-        b = func_021AB884(*(void **)(p + 0x44));
-        func_021AB634(*(void **)(p + 0x40), a, b, func_021AB888(*(void **)(p + 0x44)));
+        func_021AB650(((struct Obj03105 *)p)->f40);
+        func_021AB868(((struct Obj03105 *)p)->f44);
+        func_021AB840(((struct Obj03105 *)p)->f44, 1, k, 0x96);
+        a = func_021AB880(((struct Obj03105 *)p)->f44);
+        b = func_021AB884(((struct Obj03105 *)p)->f44);
+        func_021AB634(((struct Obj03105 *)p)->f40, a, b, func_021AB888(((struct Obj03105 *)p)->f44));
         return;
     }
     if (func_02013C80(id) == 0) {
-        func_021AB650(*(void **)(p + 0x40));
-        func_021AB868(*(void **)(p + 0x44));
+        func_021AB650(((struct Obj03105 *)p)->f40);
+        func_021AB868(((struct Obj03105 *)p)->f44);
     }
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_020490F4         0x020490F4  arm
  */
+#include "../include/Obj23595.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,5 +20,5 @@ typedef unsigned int   u32;
 extern void *func_020490F4(u32 id, u16 heap);
 void func_021C6738(u8 *p)
 {
-    *(void **)(p + 0x290) = func_020490F4(7, 0x66);
+    ((struct Obj23595 *)p)->f290 = func_020490F4(7, 0x66);
 }

@@ -17,6 +17,7 @@
  *   func_020307B0 0x020307B0 arm
  *   d_021EF360 0x021EF360 data a4
  */
+#include "../include/Obj14491.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,8 +36,8 @@ void func_021EEF2C(u8 *a,void *b,u32 c)
     int i;
     u8 *p;
     p=func_02030734((u16)((c & 0x7FFF)|0x8000),func_020173EC(),1,d_021EF360,173);
-    func_0201A954(b,*(u16 *)a);
-    for(i=0;i<*(u16 *)(a+2);i++) {
+    func_0201A954(b,((struct Obj14491 *)a)->f0);
+    for(i=0;i<((struct Obj14491 *)a)->f2;i++) {
         func_021EEBF0(a+4+i*112,p);
         func_02017E40(p,159,0);
         func_0201A98C(b,p);

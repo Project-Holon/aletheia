@@ -24,6 +24,7 @@
  *   sub_0204B3DC 0x0204B3DC arm
  *   d_02200D88 0x02200D88 data a4
  */
+#include "../include/Obj02527.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -62,13 +63,13 @@ void func_021FEEF4(char *p,u32 owner,char *resources,const Config *config,u16 he
     request.x=config->x;
     request.y=config->y;
     request.flag=1;
-    *(int *)(p+8)=roundFixed(request.x);
-    *(int *)(p+0xc)=roundFixed(request.y);
-    *(int *)(p+0x14)=config->z;
-    *(u32 *)(p+4)=(u32)sub_0204B294((void *)owner,triple.y,triple.z,triple.x,&request,*(u32 *)(p+0x44),heap);
-    sub_0204B570(*(struct Actor **)(p+4),2);
-    sub_0204B5D4(*(struct Actor **)(p+4),*(u32 *)(p+0x14),0);
-    sub_0204B688(*(struct Actor **)(p+4),0);
-    sub_0204B3DC(*(struct Obj **)(p+4),0);
-    *(int *)p=1;
+    ((struct Obj02527 *)p)->f8=roundFixed(request.x);
+    ((struct Obj02527 *)p)->fC=roundFixed(request.y);
+    *(int *)&((struct Obj02527 *)p)->f14=config->z;
+    *(u32 *)&((struct Obj02527 *)p)->f4=(u32)sub_0204B294((void *)owner,triple.y,triple.z,triple.x,&request,((struct Obj02527 *)p)->f44,heap);
+    sub_0204B570(*(struct Actor * *)&((struct Obj02527 *)p)->f4,2);
+    sub_0204B5D4(*(struct Actor * *)&((struct Obj02527 *)p)->f4,((struct Obj02527 *)p)->f14,0);
+    sub_0204B688(*(struct Actor * *)&((struct Obj02527 *)p)->f4,0);
+    sub_0204B3DC(*(struct Obj * *)&((struct Obj02527 *)p)->f4,0);
+    ((struct Obj02527 *)p)->f0=1;
 }

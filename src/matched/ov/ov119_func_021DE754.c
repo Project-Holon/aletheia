@@ -20,6 +20,7 @@
  *   func_021DDAD4 0x021DDAD4 thumb ov119
  *   func_021DE70C 0x021DE70C thumb ov119
  */
+#include "../include/Obj00251.h"
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -45,14 +46,14 @@ int func_021DE754(char *p,int idx)
     mon=s->mon[1-row][col];
     value=s->value[1-row][col];
     if(mon==0 || func_02017E1C(mon,169,0)==0) goto fail;
-    *(int *)(p+0x10a0)=idx;
+    ((struct Obj00251 *)p)->f10A0=idx;
     func_020061E4(0x54c);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+    func_021B6558((unsigned char *)(*(int *)&((struct Obj00251 *)p)->f9C0),1,0);
     if(row!=0) {
         func_021D8E84(p,(int)func_021DDAD4);
     } else {
         func_021D9468(p,row,mon);
-        func_02082D44(mon,*(void **)(p+0x106c),func_020173EC());
+        func_02082D44(mon,((struct Obj00251 *)p)->f106C,func_020173EC());
         func_021D8F60(p,0,value);
         func_021D8E84(p,(int)func_021DE70C);
     }

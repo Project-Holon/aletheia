@@ -18,6 +18,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj04468.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,11 +37,11 @@ extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32);
 void func_021D5CCC(u8 *p, u32 n) {
     void *w;
-    if (*(void **)(p+0x34)==0) *(void **)(p+0x34)=(void *)func_020450F0(1,4,7,24,2,11,1);
-    w=*(void **)(p+0x34);
+    if (((struct Obj04468 *)p)->f34==0) ((struct Obj04468 *)p)->f34=(void *)func_020450F0(1,4,7,24,2,11,1);
+    w=((struct Obj04468 *)p)->f34;
     func_02043B5C(func_02045770(w),0);
-    func_02045CAC(*(void **)(p+0x1c),n,*(void **)(p+0x28));
-    func_0201C7D0(func_02045770(w),0,0,*(void **)(p+0x28),*(void **)(p+0x24),0x3cc0);
+    func_02045CAC(((struct Obj04468 *)p)->f1C,n,((struct Obj04468 *)p)->f28);
+    func_0201C7D0(func_02045770(w),0,0,((struct Obj04468 *)p)->f28,((struct Obj04468 *)p)->f24,0x3cc0);
     func_02045334(w);
     func_02045374(w);
     func_02041B6C(1);

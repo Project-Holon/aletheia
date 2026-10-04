@@ -12,15 +12,17 @@
  *
  * Byte initialiser and its getter.
  */
+#include "../include/Obj09886.h"
+#include "../include/Obj20689.h"
 
 void func_021B7108(void *p)
 {
-    *(unsigned char *)((char *)p + 4) = 1;
-    *(unsigned char *)((char *)p + 5) = 0;
-    *(unsigned char *)((char *)p + 6) = 1;
+    ((struct Obj09886 *)p)->f4 = 1;
+    ((struct Obj09886 *)p)->f5 = 0;
+    ((struct Obj09886 *)p)->f6 = 1;
 }
 
 int func_021B7114(void *p)
 {
-    return *(unsigned char *)((char *)p + 4);
+    return ((struct Obj20689 *)p)->f4;
 }

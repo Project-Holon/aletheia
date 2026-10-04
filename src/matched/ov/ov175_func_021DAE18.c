@@ -15,6 +15,8 @@
  *
  * Report teardown: when the state word at +0x170 is 1, destroys the report once the +0x12c step is past 0x13, shuts the storage client down once the +0x12c step is 4 or more, and clears the state word.
  */
+#include "../include/Obj03320.h"
+#include "../include/Obj24331.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -24,11 +26,11 @@ extern void DWC_ScShutdown(void);
 
 void func_021DAE18(char *obj)
 {
-    if (*(u32 *)(obj + 0x170) == 1) {
-        if (*(u32 *)(obj + 0x12c) > 0x13)
-            DWC_ScDestroyReport(*(u32 *)(*(char **)(obj + 0x1464) + 8));
-        if (*(u32 *)(obj + 0x12c) >= 4)
+    if (((struct Obj03320 *)obj)->f170 == 1) {
+        if (((struct Obj03320 *)obj)->f12C > 0x13)
+            DWC_ScDestroyReport(((struct Obj24331 *)(*(char * *)&((struct Obj03320 *)obj)->f1464))->f8);
+        if (((struct Obj03320 *)obj)->f12C >= 4)
             DWC_ScShutdown();
-        *(u32 *)(obj + 0x170) = 0;
+        ((struct Obj03320 *)obj)->f170 = 0;
     }
 }

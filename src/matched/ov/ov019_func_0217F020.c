@@ -12,6 +12,7 @@
  *   func_0201EC74 0x0201EC74 thumb
  *   func_0217EE90 0x0217EE90 thumb ov019
  */
+#include "../include/Obj00484.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,8 +21,8 @@ extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern void func_0217EE90(void *p);
 void func_0217F020(u8 *p)
 {
-    if (*(void **)(p + 0x2804) == 0) {
-        *(void **)(p + 0x2804) = func_0201EC74(5, 0x40, 0x41);
+    if (((struct Obj00484 *)p)->f2804 == 0) {
+        ((struct Obj00484 *)p)->f2804 = func_0201EC74(5, 0x40, 0x41);
         func_0217EE90(p);
     }
 }

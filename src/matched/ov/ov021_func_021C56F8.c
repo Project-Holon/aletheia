@@ -16,6 +16,7 @@
  *   func_021C577C  0x021C577C  thumb  ov021
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj02094.h"
 
 typedef unsigned char u8;
 
@@ -35,14 +36,14 @@ int func_021C56F8(int *a)
     int i;
     int r7;
 
-    if (*(u8 *)(a + 5) != 0) {
+    if (((struct Obj02094 *)a)->f14 != 0) {
         if (func_0201C6C4((struct PrintSys *)r4, (void *)((int)func_02045770((struct Descriptor *)a[4]))) == 0) {
             func_02045334((struct Descriptor *)a[4]);
-            *(u8 *)(a + 5) = 0;
+            ((struct Obj02094 *)a)->f14 = 0;
         }
     }
     r7 = 1;
-    if (*(u8 *)(a + 5) != 0) {
+    if (((struct Obj02094 *)a)->f14 != 0) {
         r7 = 0;
     }
     if (r7 != 0) {

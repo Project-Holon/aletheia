@@ -17,6 +17,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07814.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -37,9 +38,9 @@ void func_021DB5C0(void *a, void *p, int id)
         func_021D76BC(0x20, 0);
         if (v != 0) {
             r = (u8 *)func_021C88A4(p, 7, id);
-            *(u32 *)r |= 0x800000;
+            ((struct Obj07814 *)r)->f0 |= 0x800000;
             r[6] = func_021D775C(3);
-            *(u16 *)(r + 4) = v;
+            ((struct Obj07814 *)r)->f4 = v;
             func_021C8838(r + 0xc, 2, 0x1c9);
             func_021C8860((struct S *)(r + 0xc), r[6]);
             func_021C88C8(p, r);

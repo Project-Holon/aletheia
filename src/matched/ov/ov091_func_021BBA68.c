@@ -12,10 +12,11 @@
  * Unlabelled store-and-return leaf (listed as .word at 0x021BBA68) called
  * from func_021B68F0 with (p, *(p + 0x150)).
  */
+#include "../include/Obj20898.h"
 
 typedef unsigned char u8;
 
 void func_021BBA68(u8 *p, u8 *s)
 {
-    *(int *)(s + 0x30) = 1;
+    ((struct Obj20898 *)s)->f30 = 1;
 }

@@ -14,6 +14,8 @@
  *   func_021D9568 0x021D9568 thumb ov131
  *   func_021D92B0 0x021D92B0 thumb ov131
  */
+#include "../include/Obj00091.h"
+#include "../include/Obj03816.h"
 
 extern void func_021D8A2C(unsigned char *, unsigned char *);
 typedef unsigned int   u32;
@@ -25,11 +27,11 @@ extern void func_021D92B0(unsigned char *, unsigned char *);
 void func_021D8830(unsigned char *a, unsigned char *p)
 {
     func_021D8A2C(a,p);
-    if (*(int *)(p+8) == 1) {
-        if (func_0201C6B4(*(void **)(a+0x84)) == 1) {
+    if (((struct Obj00091 *)p)->f8 == 1) {
+        if (func_0201C6B4(((struct Obj03816 *)a)->f84) == 1) {
             func_021D9670(a,p);
             func_021D9568(a,p);
-            *(int *)(p+8)=0;
+            ((struct Obj00091 *)p)->f8=0;
         }
     } else func_021D92B0(a,p);
     if (p[0x60]) p[0x60]--;

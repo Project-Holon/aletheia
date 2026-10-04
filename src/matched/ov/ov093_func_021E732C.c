@@ -17,6 +17,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F27F4     0x021F27F4  data   ov093  a4
  */
+#include "../include/Obj13541.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -36,8 +37,8 @@ void func_021E732C(int a, int b, int c)
         n = func_021D775C(5);
         for (i = 0; i < n; i++) {
             p = func_021C88A4(b, 0x14, c);
-            *(u16 *)(p + 4) = func_021E8CF0(10);
-            *(u8 *)(p + 6) = func_021D775C(i + 6);
+            ((struct Obj13541 *)p)->f4 = func_021E8CF0(10);
+            ((struct Obj13541 *)p)->f6 = func_021D775C(i + 6);
             func_021C88C8((void *)b, p);
         }
     }

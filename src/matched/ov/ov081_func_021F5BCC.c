@@ -10,11 +10,12 @@
  * status: EXACT
  * Lever: declare index before bound to put index in r3 and bound in r4.
  */
+#include "../include/Obj20798.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 int func_021F5BCC(int a, u32 p) {
     int i;
-    int n = *(u16 *)(p+0x182);
+    int n = ((struct Obj20798 *)p)->f182;
     for (i=0; i<n; i++) {
         if (a == *(u16 *)(p+i*2+0xC0)) return 1;
     }

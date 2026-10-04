@@ -14,6 +14,7 @@
 
  * Releases the sixth 0x14-byte element handle at +0x1C and the two at +0xA0 and +0xA4.
  */
+#include "../include/Obj12120.h"
 
 
 struct Obj;
@@ -28,7 +29,7 @@ void func_021BF41C(int unused, char *q)
 
     for (i = 0; i < 6; i++)
         func_0204B3B4((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c)));
-    func_0204A8D4(*(int *)(q + 0xa0));
-    func_0204AFD8(*(int *)(q + 0xa4));
+    func_0204A8D4(((struct Obj12120 *)q)->fA0);
+    func_0204AFD8(((struct Obj12120 *)q)->fA4);
 }
 

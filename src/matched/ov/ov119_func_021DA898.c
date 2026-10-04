@@ -17,6 +17,7 @@
  *   func_02043534 0x02043534 arm
  *   func_020435F4 0x020435F4 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 extern int func_021D8AA8(void *);
 extern void func_021DBA80(void *),func_021DBAF8(void *),func_021DC370(void *);
@@ -27,6 +28,6 @@ extern void func_02043534(int),func_020435F4(int);
 void func_021DA898(char *p) {
  if(func_021D8AA8(p)) {func_021DBA80(p);func_021DBAF8(p);func_021D8E84(p,(int)func_021DC370);}
  else {func_021DBA80(p);func_021DBAF8(p);}
- func_0202208C(0,1,1,0,6,1,*(u16 *)(p+0x5f4));
+ func_0202208C(0,1,1,0,6,1,((struct Obj00001 *)p)->f5F4);
  func_02043534(31);func_020435F4(30);
 }

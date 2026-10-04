@@ -23,6 +23,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   d_021F274C 0x021F274C data a4
  */
+#include "../include/Obj02139.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
@@ -55,7 +56,7 @@ void func_021E7634(int a, int b, int c)
             if (func_021C8234((u8 *)b, k) != 0 && func_021D62C4(x, 0x21) == 0) {
                 p = func_021C88A4(b, 12, c);
                 p[15] = k;
-                *(int *)(p + 4) = 0x1f;
+                ((struct Obj02139 *)p)->f4 = 0x1f;
                 *(Word *)(p + 8) = func_021E89C0(0x1f);
                 func_021C8838(p + 20, 2, 0x468);
                 func_021C8860((struct S *)(p + 20), k);
@@ -66,7 +67,7 @@ void func_021E7634(int a, int b, int c)
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
-                    *(int *)(p + 4) = 0x1e;
+                    ((struct Obj02139 *)p)->f4 = 0x1e;
                     func_021C88C8((void *)b, p);
                 }
                 if (func_021D62C4(x, 0x20) != 0) {
@@ -74,7 +75,7 @@ void func_021E7634(int a, int b, int c)
                     p[20] = 1;
                     p[8] = k;
                     p[21] = 1;
-                    *(int *)(p + 4) = 0x20;
+                    ((struct Obj02139 *)p)->f4 = 0x20;
                     func_021C88C8((void *)b, p);
                 }
             }

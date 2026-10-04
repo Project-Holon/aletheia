@@ -21,6 +21,7 @@
  * symbols:
  *   g_GameBeacon  0x02146940  data
  */
+#include "../include/Obj00747.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -69,13 +70,13 @@ int func_02026A60(struct Req *r)
     }
 
     if (kind == 0x18) {
-        if (*(u16 *)(base + 0x14) != r->f46) {
+        if (((struct Obj00747 *)base)->f14 != r->f46) {
             return hit;
         }
     }
 
-    hi = *(signed char *)(base + 0xBAD);
-    lo = *(signed char *)(base + 0xBAC);
+    hi = ((struct Obj00747 *)base)->fBAD;
+    lo = ((struct Obj00747 *)base)->fBAC;
 
     if (lo <= hi) {
         for (i = lo; i <= hi; i++) {
@@ -125,10 +126,10 @@ int func_02026A60(struct Req *r)
         u32 off = i * 0x60;
         *(struct Payload *)(base + off + 0x64) = *(struct Payload *)r;
         *(u16 *)(base + off + 0xC0) = 0;
-        *(u32 *)(base + 0xBA4) |= (u32)(1 << i);
+        ((struct Obj00747 *)base)->fBA4 |= (u32)(1 << i);
     } else {
         func_0202685C(base, r);
-        *(u32 *)(base + 0xBA8) = *(u32 *)(base + 0xBA8) + 1;
+        ((struct Obj00747 *)base)->fBA8 = ((struct Obj00747 *)base)->fBA8 + 1;
     }
     return 1;
 }

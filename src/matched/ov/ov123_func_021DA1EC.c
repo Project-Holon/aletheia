@@ -13,6 +13,7 @@
  *   func_021DA034 0x021DA034 thumb ov123
  *   func_021DA1C8 0x021DA1C8 thumb ov123
  */
+#include "../include/Obj03803.h"
 typedef unsigned char  u8;
 extern void func_021B9774(u8 *p);
 extern void func_021D9730(char *p, int n);
@@ -21,12 +22,12 @@ extern void func_021DA1C8(char *p);
 void func_021DA1EC(char *p)
 {
     unsigned n;
-    n = *(unsigned *)(p + 0x70) + 11;
-    if (*(void **)(p + 8)) func_021B9774(*(void **)(p + 8));
-    if (*(unsigned *)(p + 0x70) == 0xfff1) n = 22;
-    else if (*(unsigned *)(p + 0x70) == 0xfff2) n = 23;
-    else if (*(unsigned *)(p + 0x70) == 0xfff3) n = 20;
-    else if (*(unsigned *)(p + 0x70) >= 10) n = 20;
-    func_021D9730(*(void **)(p + 0x10),n);
+    n = ((struct Obj03803 *)p)->f70 + 11;
+    if (((struct Obj03803 *)p)->f8) func_021B9774(((struct Obj03803 *)p)->f8);
+    if (((struct Obj03803 *)p)->f70 == 0xfff1) n = 22;
+    else if (((struct Obj03803 *)p)->f70 == 0xfff2) n = 23;
+    else if (((struct Obj03803 *)p)->f70 == 0xfff3) n = 20;
+    else if (((struct Obj03803 *)p)->f70 >= 10) n = 20;
+    func_021D9730(((struct Obj03803 *)p)->f10,n);
     func_021DA034(p,(int)func_021DA1C8,0x167);
 }

@@ -16,6 +16,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_021D9A40 0x021D9A40 thumb ov121
  */
+#include "../include/Obj01058.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Descriptor;
@@ -33,13 +34,13 @@ void func_021DB3E8(char *p)
     func_02040DA8(2,1,0);
     func_02040DA8(1,1,0);
     for(i=0;i<2;i++) func_0204B3B4(*(void **)(p+0xaf4+i*4));
-    func_0204B3B4(*(void **)(p+0xaf0));
-    func_0204B3B4(*(void **)(p+0xaec));
-    func_0204A8D4((u32)(*(void **)(p+0xafc)));
-    func_0204AFD8((u32)(*(void **)(p+0xb00)));
-    func_0204ADA4((u32)(*(void **)(p+0xb04)));
-    func_021D9A40(*(void **)(p+0xab4));
-    *(void **)(p+0xab4)=0;
-    func_0204ADA4((u32)(*(void **)(p+0xba8)));
+    func_0204B3B4(((struct Obj01058 *)p)->fAF0);
+    func_0204B3B4(((struct Obj01058 *)p)->fAEC);
+    func_0204A8D4((u32)(((struct Obj01058 *)p)->fAFC));
+    func_0204AFD8((u32)(((struct Obj01058 *)p)->fB00));
+    func_0204ADA4((u32)(((struct Obj01058 *)p)->fB04));
+    func_021D9A40(((struct Obj01058 *)p)->fAB4);
+    ((struct Obj01058 *)p)->fAB4=0;
+    func_0204ADA4((u32)(((struct Obj01058 *)p)->fBA8));
     for(i=0;i<8;i++) func_020452E8(*(void **)(p+0xb08+i*4));
 }

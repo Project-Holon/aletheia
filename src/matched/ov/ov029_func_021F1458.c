@@ -27,6 +27,8 @@
  *   d_021F31A8     0x021F31A8  data  ov029  a1
  *   d_021F32E0     0x021F32E0  data  a4
  */
+#include "../include/Obj04308.h"
+#include "../include/Obj05116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,25 +63,25 @@ void func_021F1458(u8 *p, int a, int b, int c)
     u32 v;
 
     if (c) {
-        r = (int)func_02049F78((void *)(*(int *)(p + 0x24)), d_021F31E0[a], (u32)(&loc), 0x8070);
-        func_020862F0(*(void **)(loc + 0xc), *(u32 *)(loc + 8));
-        func_0207E468(*(void **)(loc + 0xc), 0, *(u32 *)(loc + 8));
-        src = *(u8 **)(loc + 0xc);
+        r = (int)func_02049F78((void *)(((struct Obj04308 *)p)->f24), d_021F31E0[a], (u32)(&loc), 0x8070);
+        func_020862F0(((struct Obj05116 *)loc)->fC, ((struct Obj05116 *)loc)->f8);
+        func_0207E468(((struct Obj05116 *)loc)->fC, 0, ((struct Obj05116 *)loc)->f8);
+        src = *(u8 * *)&((struct Obj05116 *)loc)->fC;
         for (n = 0; n < 5; n++) {
             for (m = 0; m < 3; m++) {
                 ((struct W *)p)->unk_230[m][n] = ((u16 *)(src + (n + 1) * 0x20))[d_021F31A8[m]];
             }
         }
         func_020307B0((void *)r);
-        r = (int)func_02049F78((void *)(*(int *)(p + 0x24)), 0x17, (u32)(&loc), 0x8070);
+        r = (int)func_02049F78((void *)(((struct Obj04308 *)p)->f24), 0x17, (u32)(&loc), 0x8070);
         for (k = 0; k < 9; k++) {
-            func_021F09B4(p, *(void **)(loc + 0xc), k);
+            func_021F09B4(p, ((struct Obj05116 *)loc)->fC, k);
         }
         func_020307B0((void *)r);
     }
     size = 0x5000;
     v = func_0203FA08(6, size, 0);
-    *(u32 *)(p + 0x14) = (u16)v | (size << 16);
-    func_02049658((void *)(*(int *)(p + 0x24)), d_021F32E0[b][a], 6, v, 0, 0, 0x70);
-    func_02049990((void *)(*(int *)(p + 0x24)), 2, 6, 0, (u16)*(u32 *)(p + 0x14), 0, 0, 0x70);
+    ((struct Obj04308 *)p)->f14 = (u16)v | (size << 16);
+    func_02049658((void *)(((struct Obj04308 *)p)->f24), d_021F32E0[b][a], 6, v, 0, 0, 0x70);
+    func_02049990((void *)(((struct Obj04308 *)p)->f24), 2, 6, 0, (u16)((struct Obj04308 *)p)->f14, 0, 0, 0x70);
 }

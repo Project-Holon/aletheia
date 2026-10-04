@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B404.c \
  *       --func func_0202B404 --addr 0x0202B404 --thumb --cc 1.1p1
  */
+#include "../include/Obj02009.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,14 +29,14 @@ void func_0202B404(u8 *p)
     u16 a;
     u16 b;
 
-    if (*(u32 *)(p + 0xc) == 0) {
+    if (((struct Obj02009 *)p)->fC == 0) {
         return;
     }
-    a = *(u16 *)(p + 0x10);
-    b = *(u16 *)(p + 0x12);
+    a = ((struct Obj02009 *)p)->f10;
+    b = ((struct Obj02009 *)p)->f12;
     if (a == b) {
         return;
     }
-    *(u16 *)(p + 0x10) = b;
-    func_0202B49C(p, *(u16 *)(p + 0x10));
+    ((struct Obj02009 *)p)->f10 = b;
+    func_0202B49C(p, ((struct Obj02009 *)p)->f10);
 }

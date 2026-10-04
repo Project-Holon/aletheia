@@ -18,6 +18,7 @@
  *   func_021BABEC 0x021BABEC thumb ov093
  *   func_021BAC04 0x021BAC04 thumb ov093
  */
+#include "../include/Obj01234.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Copy24 { int x[6]; };
@@ -36,22 +37,22 @@ u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap)
     u8 *p;
     int i;
     p = func_02030734(heap, 0xcc4, 1, (const char *)d_021F3A60, 0xad);
-    *(void **)(p + 0xc) = a;
-    *(void **)(p + 0x10) = c;
-    *(u16 *)(p + 0xcc0) = heap;
-    *(void **)(p + 0xcb0) = p + 0xf0;
+    ((struct Obj01234 *)p)->fC = a;
+    ((struct Obj01234 *)p)->f10 = c;
+    ((struct Obj01234 *)p)->fCC0 = heap;
+    ((struct Obj01234 *)p)->fCB0 = p + 0xf0;
     p[0xed] = 0;
-    *(int *)(p + 0x44) = 0;
+    *(int *)&((struct Obj01234 *)p)->f44 = 0;
     p[0xcba] = 0;
     p[0xcbf] = 0;
-    *(int *)(p + 0x4c) = d;
+    ((struct Obj01234 *)p)->f4C = d;
     *(struct Copy24 *)(p + 0x50) = *b;
-    *(int *)(p + 0xac) = func_020457B0(0x20, heap);
+    ((struct Obj01234 *)p)->fAC = func_020457B0(0x20, heap);
     func_021D787C(b);
     for (i = 0; i < 4; i++)
         func_021BB828(p + 0x14 + i * 12);
-    *(u8 **)(p + 0x44) = func_021BB968(p, *(void **)(p + 0xc), *(void **)(p + 0x10), p + 0xf0, *(int *)(p + 0x4c), *(u16 *)(p + 0xcc0));
-    *(void **)(p + 0xb0) = func_021BC550(*(u8 **)(p + 0x44));
+    *(u8 * *)&((struct Obj01234 *)p)->f44 = func_021BB968(p, ((struct Obj01234 *)p)->fC, ((struct Obj01234 *)p)->f10, p + 0xf0, ((struct Obj01234 *)p)->f4C, ((struct Obj01234 *)p)->fCC0);
+    ((struct Obj01234 *)p)->fB0 = func_021BC550(*(u8 * *)&((struct Obj01234 *)p)->f44);
     func_021BABEC(p, (void *)func_021BAC04);
     return p;
 }

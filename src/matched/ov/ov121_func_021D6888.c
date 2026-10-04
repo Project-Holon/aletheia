@@ -20,6 +20,7 @@
  *   func_021DA840 0x021DA840 thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
  */
+#include "../include/Obj01402.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct PrintSys;
@@ -36,19 +37,19 @@ extern int func_021DA840(void **);
 extern int func_021DA8AC(u32 *p);
 int func_021D6888(int a, int b, int c, char *p)
 {
-    func_021DE300(*(void **)(p + 0x3b0));
-    func_021DA898(*(void **)(p + 0x290));
-    if (*(void **)(p + 0x394)) {
-        func_021D9718(*(void **)(p + 0x394));
-        func_021D972C(*(void **)(p + 0x394));
-        func_021D9738(*(void **)(p + 0x394));
+    func_021DE300(((struct Obj01402 *)p)->f3B0);
+    func_021DA898(((struct Obj01402 *)p)->f290);
+    if (((struct Obj01402 *)p)->f394) {
+        func_021D9718(((struct Obj01402 *)p)->f394);
+        func_021D972C(((struct Obj01402 *)p)->f394);
+        func_021D9738(((struct Obj01402 *)p)->f394);
     }
     func_021D9238(p + 0x138);
-    func_0201C4E4(*(void **)(p + 0x39c));
-    if (*(void **)(p + 0x284)) func_021D9E50(*(void **)(p + 0x284));
-    if (*(void **)(p + 0x28c)) func_021DA2C8(*(void **)(p + 0x28c));
-    if (*(void **)(p + 0x288)) func_021DA2C8(*(void **)(p + 0x288));
-    if (*(void **)(p + 0x270)) func_021DA840(*(void ***)(p + 0x270));
-    if (func_021DA8AC(*(void **)(p + 0x290))) return 1;
+    func_0201C4E4(((struct Obj01402 *)p)->f39C);
+    if (((struct Obj01402 *)p)->f284) func_021D9E50(((struct Obj01402 *)p)->f284);
+    if (((struct Obj01402 *)p)->f28C) func_021DA2C8(((struct Obj01402 *)p)->f28C);
+    if (((struct Obj01402 *)p)->f288) func_021DA2C8(((struct Obj01402 *)p)->f288);
+    if (((struct Obj01402 *)p)->f270) func_021DA840(*(void ** *)&((struct Obj01402 *)p)->f270);
+    if (func_021DA8AC(((struct Obj01402 *)p)->f290)) return 1;
     return 0;
 }

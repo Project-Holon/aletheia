@@ -17,6 +17,7 @@
  *   func_021BF4C4 0x021BF4C4 thumb ov208
  * Third helper arguments are explicitly live in the original caller.
  */
+#include "../include/Obj00442.h"
 typedef unsigned short u16;
 struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
 extern void func_021BF4FC(void *,char *,void *,u16 *,u16 *,u16 *,u16 *,unsigned *,unsigned *,unsigned *);
@@ -31,13 +32,13 @@ void func_021BF1D0(void *first,char *q,void *third)
     int okay,index;
     func_021BF4FC(first,q,third,&p.d,&p.c,&p.b,&p.a,&p.y,&p.x,p.arr);
     okay=1;
-    func_021BA550(*(void **)(q+4),p.d,p.c,p.b,p.a,p.y,p.x);
-    index=*(int *)(q+0x98);
+    func_021BA550(((struct Obj00442 *)q)->f4,p.d,p.c,p.b,p.a,p.y,p.x);
+    index=((struct Obj00442 *)q)->f98;
     if(index!=6) {
         if(p.arr[index]!=0) okay=0;
-        else {func_021BF63C(first,q,third);*(int *)(q+0x98)=6;}
+        else {func_021BF63C(first,q,third);((struct Obj00442 *)q)->f98=6;}
     }
-    if(okay) func_021BA7C8(*(void **)(q+8));
-    else func_021BA6B0(*(void **)(q+8),p.d,p.c,p.b,p.a,p.y,p.x,*(int *)(q+0x98));
+    if(okay) func_021BA7C8(((struct Obj00442 *)q)->f8);
+    else func_021BA6B0(((struct Obj00442 *)q)->f8,p.d,p.c,p.b,p.a,p.y,p.x,((struct Obj00442 *)q)->f98);
     func_021BF4C4(first,q,third,p.arr);
 }

@@ -13,8 +13,9 @@
  *   func_021D503C 0x021D503C thumb ov122
  *   func_021D4D98 0x021D4D98 thumb ov122
  */
+#include "../include/Obj00265.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020221A4(void);extern int func_02051C88(void *);extern void func_021D503C(char *);extern void func_021D4D98(char *);
-void func_021D4FE4(char *p) {if(func_020221A4())func_02051C88(*(void **)(p+64));func_021D503C(p);func_021D4D98(p);}
+void func_021D4FE4(char *p) {if(func_020221A4())func_02051C88(((struct Obj00265 *)p)->f40);func_021D503C(p);func_021D4D98(p);}

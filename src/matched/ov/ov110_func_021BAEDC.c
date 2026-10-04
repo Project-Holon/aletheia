@@ -17,6 +17,7 @@
  *   d_021C3C34 0x021C3C34 data ov110 a1
  *   d_021C3770 0x021C3770 data a2
  */
+#include "../include/Obj03750.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,12 +34,12 @@ u8 *func_021BAEDC(void *p,void *q,u16 heap) {
     int i;
     u8 *result;
     result=func_02030734(heap,0xaf4,1,d_021C3C34,137);
-    *(void **)result=p;
-    *(void **)(result+4)=q;
-    *(u16 *)(result+8)=heap;
+    ((struct Obj03750 *)result)->f0=p;
+    ((struct Obj03750 *)result)->f4=q;
+    ((struct Obj03750 *)result)->f8=heap;
     func_021BAFE4((u32)result);
     for(i=0;i<27;i++) *(void **)(result+12+i*4)=func_02045B38(1,2,d_021C3770[i],heap);
-    *(void **)(result+0x78)=func_021B6C74((void **)(result+12),27,*(u16 *)(result+8));
-    *(void **)(result+0xad0)=func_020457B0(27,heap);
+    ((struct Obj03750 *)result)->f78=func_021B6C74((void **)(result+12),27,((struct Obj03750 *)result)->f8);
+    ((struct Obj03750 *)result)->fAD0=func_020457B0(27,heap);
     return result;
 }

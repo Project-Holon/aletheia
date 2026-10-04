@@ -15,6 +15,7 @@
  *
  * Report-intention completion callback: on success copies the 0x28-byte session id into the report block (+0x34 of the record at +0x1464), otherwise records the result at +0x15c; then drops the pending-request count at +0x134.
  */
+#include "../include/Obj10685.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -24,11 +25,11 @@ extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 void func_021DADCC(int result, char *obj)
 {
-    char *p = *(char **)(obj + 0x1464) + 4;
+    char *p = *(char * *)&((struct Obj10685 *)obj)->f1464 + 4;
 
     if (result == 0)
         MI_CpuCopy8(func_021DF224(), p + 0x30, 0x28);
     else
-        *(int *)(obj + 0x15c) = result;
-    (*(int *)(obj + 0x134))--;
+        ((struct Obj10685 *)obj)->f15C = result;
+    (((struct Obj10685 *)obj)->f134)--;
 }

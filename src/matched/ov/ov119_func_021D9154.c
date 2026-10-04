@@ -14,11 +14,12 @@
  * symbols:
  *   func_021D90E8  0x021D90E8  thumb  ov119
  */
+#include "../include/Obj22710.h"
 
 extern int func_021D90E8(int a, int b, int c, int d, int e);
 
 int func_021D9154(int a, int b, int c, int d, int e)
 {
-    return func_021D90E8(*(unsigned char *)c, 2, a, d, e);
+    return func_021D90E8(((struct Obj22710 *)c)->f0, 2, a, d, e);
 }
 

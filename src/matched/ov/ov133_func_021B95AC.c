@@ -21,6 +21,10 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj23321.h"
+#include "../include/Obj23322.h"
+#include "../include/Obj23323.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,30 +48,30 @@ void func_021B95AC(u8 *p)
     u32 *xy;
     int dx,dy,stride,absval,y;
     s16 old,adjust;
-    index=func_021BA258(*(u8 **)(p+0x38));
-    rec=func_021F5450(*(u8 **)(p+0x1880),index);
-    func_021BA218(*(u8 **)(p+0x38));
-    xy=func_021BA228(*(u8 **)(p+0x38));
+    index=func_021BA258(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    rec=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,index);
+    func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    xy=func_021BA228(*(u8 * *)&((struct Obj00004 *)p)->f38);
     y=xy[1];
-    dx=fx((int)(*(u32 *)(p+28)-xy[0]));
-    dy=fx((int)(*(u32 *)(p+32)-(unsigned)y));
+    dx=fx((int)(*(u32 *)&((struct Obj00004 *)p)->f1C-xy[0]));
+    dy=fx((int)(((struct Obj00004 *)p)->f20-(unsigned)y));
     angle=func_0207CFB8(dx,dy);
-    if(*(int *)(p+48)==1) {
+    if(((struct Obj00004 *)p)->f30==1) {
         stride=index*6;
-        old=*(s16 *)(*(u8 **)(*(u8 **)(p+4)+4)+stride+0x16);
-        adjust=old+(s16)(*(u16 *)(p+44)-angle);
+        old=*(s16 *)(*(u8 * *)&((struct Obj23322 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16);
+        adjust=old+(s16)(((struct Obj00004 *)p)->f2C-angle);
         if(adjust< -2730) adjust= -2730;
         if(adjust>2730) adjust=2730;
-        *(s16 *)(p+0x18c4)+=(s16)(old-adjust);
-        absval=*(s16 *)(p+0x18c4);
+        ((struct Obj00004 *)p)->f18C4+=(s16)(old-adjust);
+        absval=((struct Obj00004 *)p)->f18C4;
         if(absval<0) absval= -absval;
         if(absval>1820) {
-            *(s16 *)(p+0x18c4)=0;
+            ((struct Obj00004 *)p)->f18C4=0;
             func_020061E4(1577);
         }
-        func_021F4ED4((u32)(*(void **)(p+0x1884)),func_021BA218(*(u8 **)(p+0x38)),*(u16 *)(rec+0x36)+adjust);
-        *(s16 *)(*(u8 **)(*(u8 **)(p+4)+4)+stride+0x16)=adjust;
+        func_021F4ED4((u32)(((struct Obj00004 *)p)->f1884),func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),((struct Obj23321 *)rec)->f36+adjust);
+        *(s16 *)(*(u8 * *)&((struct Obj23323 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4+stride+0x16)=adjust;
     }
-    *(u16 *)(p+44)=angle;
-    *(int *)(p+48)=1;
+    ((struct Obj00004 *)p)->f2C=angle;
+    ((struct Obj00004 *)p)->f30=1;
 }

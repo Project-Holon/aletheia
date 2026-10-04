@@ -19,6 +19,7 @@
  *   func_021D6738 0x021D6738 thumb ov093
  *   func_021C195C 0x021C195C thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,7 +41,7 @@ int func_021C9BB8(u8 *p, const Ent *e)
     u32 s;
     u8 f;
     u32 t;
-    a = func_021B9934(*(void **)(p + 8), e->id);
+    a = func_021B9934(((struct Obj00003 *)p)->f8, e->id);
     if (e->index != e->id) {
         line = 15615;
         s = func_021CC8D8(p + 0x1d74, line);
@@ -53,17 +54,17 @@ int func_021C9BB8(u8 *p, const Ent *e)
             return 0;
         }
     }
-    if (e->flag) func_021CD4B0(*(void **)(p + 12), 87, (u8)e->index);
+    if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 87, (u8)e->index);
     func_021C99A0(p, e->msg);
     func_021C2250(p, a, e->value, 0);
-    if (e->flag) func_021CD4B0(*(void **)(p + 12), 88, (u8)e->index);
+    if (e->flag) func_021CD4B0(((struct Obj00003 *)p)->fC, 88, (u8)e->index);
     if (e->a) {
         func_021D6738(a);
-        func_021CD4B0(*(void **)(p + 12), 43, e->id);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 43, e->id);
     }
     if (e->b) {
-        func_021D6738(func_021B9934(*(void **)(p + 8), e->c));
-        func_021CD4B0(*(void **)(p + 12), 43, e->c);
+        func_021D6738(func_021B9934(((struct Obj00003 *)p)->f8, e->c));
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 43, e->c);
     }
     func_021C195C(p, a, 0);
     return 1;

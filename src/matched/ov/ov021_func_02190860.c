@@ -29,6 +29,8 @@
  *   func_02193170  0x02193170  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00126.h"
+#include "../include/Obj07430.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -88,13 +90,13 @@ Handle *func_02190860(u16 *a, const u8 *b, u32 c, u16 d, u16 e, u16 f, u32 g, u3
     func_02190B2C(&t, b);
     r->owner = a;
     r->c = c;
-    r->id = func_021930C0(k, a[0], *(const u16 *)(b + 0x14), *(const u16 *)(b + 0x16),
-                          *(const u16 *)(b + 0x18), *(const u16 *)(b + 0x1a), f);
+    r->id = func_021930C0(k, a[0], *(const u16 *)&((struct Obj07430 *)b)->f14, *(const u16 *)&((struct Obj07430 *)b)->f16,
+                          *(const u16 *)&((struct Obj07430 *)b)->f18, *(const u16 *)&((struct Obj07430 *)b)->f1A, f);
     r->slot = (u32)func_021904EC((u32 *)a, 0, r->id);
     t.w24 = 0;
     t.w28 = (u32)func_0219067C((u8 *)r->slot);
     t.w2c = func_02190678((u8 *)r->slot);
-    t.w30 = *(u32 *)(a + 4);
+    t.w30 = ((struct Obj00126 *)a)->f8;
     t.w0c = r->id;
     t.w00 = c;
     t.w08 = h;

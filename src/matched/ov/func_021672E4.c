@@ -14,6 +14,7 @@
  *   func_0200C0E8  0x0200C0E8  thumb
  *   func_0200C1DC  0x0200C1DC  thumb
  */
+#include "../include/Obj17730.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ int func_021672E4(int a0)
     void *sys;
 
 
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj17730 *)a0)->f8;
     big = func_02012EC0((struct Big *)a0);
 loc_021672EC:
     sys = func_0200C0E8(big);

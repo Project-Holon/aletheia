@@ -13,6 +13,7 @@
  *   func_0220D974  0x0220D974  thumb  ov197
  *   func_020260E4  0x020260E4  thumb
  */
+#include "../include/Obj06649.h"
 
 typedef unsigned char  u8;
 struct Sound;
@@ -23,7 +24,7 @@ extern void func_0220D974(char *p, int b);
 void func_0220D9DC(char *p, int b)
 {
     if ((unsigned int)(b - 7) <= 1) {
-        func_020260E4((struct Sound *)(*(int *)(p + 0x144)), 0);
+        func_020260E4((struct Sound *)(*(int *)&((struct Obj06649 *)p)->f144), 0);
         b = 0;
     }
     func_0220D98C(p, b);

@@ -14,6 +14,7 @@
  *
  * ldrh at #0x14a (pool constant)
  */
+#include "../include/Obj18417.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u16 func_021D67B8(u8 *p)
 {
-    return *(u16 *)(p + 0x14a);
+    return ((struct Obj18417 *)p)->f14A;
 }

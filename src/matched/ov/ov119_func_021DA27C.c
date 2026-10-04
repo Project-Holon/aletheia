@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DA254 0x021DA254 thumb ov119
  */
+#include "../include/Obj08054.h"
 
 typedef unsigned short u16;
 struct Entry;
@@ -26,8 +27,8 @@ extern void func_021DA254(char *p);
 void func_021DA27C(char *p) {
     int v=0;
     int n;
-    if(*(int *)(p+0xF88)==*(int *)(p+0x630)) v=1;
-    n=func_021DD3D4(p,0,*(int *)(p+0xF84),*(int *)(p+0xF88));
+    if(((struct Obj08054 *)p)->fF88==((struct Obj08054 *)p)->f630) v=1;
+    n=func_021DD3D4(p,0,((struct Obj08054 *)p)->fF84,((struct Obj08054 *)p)->fF88);
     if(n!=-1) {
         if(func_0203D3A8(func_020399A8(),n+0xC13,1,(u32)(&v))) {
             func_021D8E84(p,(int)func_021DA254);

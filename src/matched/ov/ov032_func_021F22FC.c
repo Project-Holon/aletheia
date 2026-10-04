@@ -22,6 +22,7 @@
  *   func_02049238 0x02049238 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00812.h"
 
 typedef unsigned int u32;
 
@@ -39,7 +40,7 @@ extern void func_020307B0(void *p);
 
 void func_021F22FC(char *p)
 {
-    func_0203115C((struct Tcbl *)(*(u32 *)(p + 0xa0)));
+    func_0203115C((struct Tcbl *)(((struct Obj00812 *)p)->fA0));
     func_021F30B4(p);
     func_021F2FCC(p);
     func_021F2EDC(p);
@@ -47,6 +48,6 @@ void func_021F22FC(char *p)
     func_021F2BD4(p);
     func_021F2A04(p);
     func_021F28DC(p);
-    func_02049238(*(u32 *)(p + 0x9c));
+    func_02049238(((struct Obj00812 *)p)->f9C);
     func_020307B0(p);
 }

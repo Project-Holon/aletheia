@@ -11,17 +11,18 @@
  * symbols:
  *   d_02186E84 0x02186E84 data a4
  */
+#include "../include/Obj07610.h"
 extern int d_02186E84[][2];
 void func_0218644C(char *p, int mode)
 {
     int n;
-    n = *(int *)(p + 0x19c);
-    if (*(int *)(p + 0x198) != n) {
+    n = ((struct Obj07610 *)p)->f19C;
+    if (((struct Obj07610 *)p)->f198 != n) {
         if (mode != 2) {
-            *(int *)(p + 0x198) = n;
+            ((struct Obj07610 *)p)->f198 = n;
             return;
         }
         if (d_02186E84[n][0] != 0)
-            *(int *)(p + 0x198) = n;
+            ((struct Obj07610 *)p)->f198 = n;
     }
 }

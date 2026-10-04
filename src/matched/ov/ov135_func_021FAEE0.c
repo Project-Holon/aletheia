@@ -26,6 +26,7 @@
  *   func_020355C4 0x020355C4 arm
  *   tbl_022032C6 0x022032C6 data a1
  */
+#include "../include/Obj01160.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned short u16;
@@ -59,14 +60,14 @@ int func_021FAEE0(u8 *p)
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(*(void **)(p + 24), 0, 96, 28, 1);
-    func_0202CF84(*(void **)(p + 24), 0);
+    func_0202CAE4(((struct Obj01160 *)p)->f18, 0, 96, 28, 1);
+    func_0202CF84(((struct Obj01160 *)p)->f18, 0);
     func_021F9260(p, 4);
-    func_021FBEB8(*(void **)(p + 24), *(void **)(p + 32), (*(void ***)p)[14], 74, p + 124);
+    func_021FBEB8(((struct Obj01160 *)p)->f18, ((struct Obj01160 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
     func_02082BCC(p + 96, 1, 26);
     g = p + 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(*(void **)(p + 32), i + 116);
+        str = func_02045EC0(((struct Obj01160 *)p)->f20, i + 116);
         if (func_021FBFB0(p, i) == 1) {
             color = 0x3dc2;
             p[i + 96] = 1;
@@ -74,19 +75,19 @@ int func_021FAEE0(u8 *p)
             color = 0x2122;
             p[i + 96] = 0;
         }
-        func_021FAC50(*(void **)(p + 24), (*(void ***)p)[i], str, 2, color, g);
+        func_021FAC50(((struct Obj01160 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
         func_02045808(str);
     }
-    func_0202CB4C(*(void **)(p + 24), 0, 16, 0);
-    func_0202CC58(*(void **)(p + 24), 0);
-    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 18);
-    func_021F4FF4(*(u32 *)(p + 8), (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
-    *(int *)(p + 68) = *(s16 *)(p + 56);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-    *(int *)(p + 72) = 7;
+    func_0202CB4C(((struct Obj01160 *)p)->f18, 0, 16, 0);
+    func_0202CC58(((struct Obj01160 *)p)->f18, 0);
+    func_0204B878((struct Obj *)(((struct Obj01160 *)p)->f8), 18);
+    func_021F4FF4(((struct Obj01160 *)p)->f8, (tbl_022032C6[*(s16 *)(p + 56)].x + 16) * 8, tbl_022032C6[*(s16 *)(p + 56)].y * 8);
+    ((struct Obj01160 *)p)->f44 = ((struct Obj01160 *)p)->f38;
+    func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 1);
+    ((struct Obj01160 *)p)->f48 = 7;
     if (func_020355C4() == 1)
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
+        func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 0);
     else
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)((struct Obj01160 *)p)->f8, 1);
     return -1;
 }

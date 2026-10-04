@@ -21,6 +21,7 @@
  *   func_02200218  0x02200218  thumb  ov094
  *   d_0220AE68     0x0220AE68  data   ov094
  */
+#include "../include/Obj21693.h"
 typedef unsigned short u16;
 
 typedef struct {
@@ -64,7 +65,7 @@ void func_021FE6A4(void *h, Req *r)
         func_02200218((char *)func_021F8694(), r->a1, r->a2, r->a3, r->a4, r->a5, r->a6);
     func_021FE410(r->obj, 0x7f000, 0x6b000, 10);
     if (!r->obj->fl.f10) {
-        cell = func_02030734((u16)(((u16)*(u16 *)((char *)r->obj + 0x238) & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x1e6d);
+        cell = func_02030734((u16)(((u16)((struct Obj21693 *)((char *)r->obj))->f238 & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x1e6d);
         *cell = r->obj;
         func_021F896C((void *)func_02030DA8(r->obj->h, (void *)func_021FE8D8, cell, 0), 0, 0);
     }

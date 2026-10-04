@@ -12,12 +12,13 @@
  * symbols:
  *   func_021D7374  0x021D7374  thumb  ov125
  */
+#include "../include/Obj24856.h"
 
 extern int func_021D7374(int a, void **out, int max);
 
 int func_021FF660(char *p, int a1, int a2, int *out)
 {
-    int v = *(int *)(p + 0x5bc);
+    int v = ((struct Obj24856 *)p)->f5BC;
 
     if (v != 0)
         *out = func_021D7374((int)p, (void **)a1, a2);

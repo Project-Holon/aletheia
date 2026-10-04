@@ -15,6 +15,7 @@
  *   func_021B9C74 0x021B9C74 thumb ov218
  *   func_021B61F8 0x021B61F8 thumb ov067
  */
+#include "../include/Obj26048.h"
 extern void func_021B9944(void);
 typedef unsigned char  u8;
 extern void func_021B9C74(u8 *p);
@@ -22,7 +23,7 @@ extern void func_021B61F8(unsigned char *, unsigned short);
 int func_021BA21C(unsigned char *task, char *ctx)
 {
     func_021B9944();
-    func_021B9C74(*(void **)(ctx + 0x28));
+    func_021B9C74(((struct Obj26048 *)ctx)->f28);
     func_021B61F8(task, 0);
     return 1;
 }

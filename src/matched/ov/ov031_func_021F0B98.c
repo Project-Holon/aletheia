@@ -16,6 +16,7 @@
  *   func_02035C60  0x02035C60  arm
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj01128.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,8 +42,8 @@ int func_021F0B98(char *o)
     if (func_02035CB8(&x, &y) == 0)
         return 0;
     r = 1;
-    func_0204B454((struct Actor *)*(int *)(o + 0x2C), (struct PtS *)buf, 1);
-    if (*(u8 *)(o + 0x31) == 0) {
+    func_0204B454((struct Actor *)((struct Obj01128 *)o)->f2C, (struct PtS *)buf, 1);
+    if (((struct Obj01128 *)o)->f31 == 0) {
         if (func_02035C60() == 0)
             return 0;
         if ((u32)(buf[0] - 0xB) <= x && (u32)(buf[0] + 0xB) >= x &&
@@ -54,7 +55,7 @@ int func_021F0B98(char *o)
         else if (y > 0x9C)
             y = 0x9C;
         buf[1] = y;
-        func_0204B404((struct Obj *)(*(int *)(o + 0x2C)), (const struct Vec2 *)buf, 1);
+        func_0204B404((struct Obj *)(((struct Obj01128 *)o)->f2C), (const struct Vec2 *)buf, 1);
         return 1;
     }
     return 0;

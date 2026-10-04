@@ -14,8 +14,9 @@
  * symbols:
  *   func_0202822C  0x0202822C  thumb
  */
+#include "../include/Obj15780.h"
 
 void func_0202822C(char *p, int v)
 {
-    *(int *)(p + 8) = v;
+    ((struct Obj15780 *)p)->f8 = v;
 }

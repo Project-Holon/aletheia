@@ -18,6 +18,7 @@
  * since its function_starts seed (2026-09-27). EXACT*: the listing extent
  * includes the 2 bytes of alignment padding at 0x022060BA.
  */
+#include "../include/Obj08349.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,7 +29,7 @@ extern void func_02015BF0(void *obj);
 
 void func_0220609C(char *a)
 {
-    *(u32 *)(a + 0x4c) = (u32)func_02014B08(2, (void *)(*(u16 *)a));
-    func_02016020((void *)(*(u32 *)(a + 0x4c)), 0x30000);
-    func_02015BF0((void *)(*(u32 *)(a + 0x4c)));
+    ((struct Obj08349 *)a)->f4C = (u32)func_02014B08(2, (void *)(((struct Obj08349 *)a)->f0));
+    func_02016020((void *)(((struct Obj08349 *)a)->f4C), 0x30000);
+    func_02015BF0((void *)(((struct Obj08349 *)a)->f4C));
 }

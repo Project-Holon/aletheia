@@ -11,13 +11,14 @@
  * extent: final two bytes are zero alignment padding.
  * lever: plain subtraction avoids compound-assignment operand narrowing.
  */
+#include "../include/Obj07797.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 void func_021D5F90(u8 *p, unsigned int n)
 {
-    if (*(u16 *)(p + 0x10) > n) {
-        *(u16 *)(p + 0x10) = *(u16 *)(p + 0x10) - n;
+    if (((struct Obj07797 *)p)->f10 > n) {
+        ((struct Obj07797 *)p)->f10 = ((struct Obj07797 *)p)->f10 - n;
         return;
     }
-    *(u16 *)(p + 0x10) = 0;
+    ((struct Obj07797 *)p)->f10 = 0;
 }

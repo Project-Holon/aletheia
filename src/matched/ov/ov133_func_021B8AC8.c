@@ -10,33 +10,34 @@
  * symbols:
  *   func_021B765C 0x021B765C thumb ov133
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 extern void func_021B765C(u8 *, u16, s16, int, u16);
 void func_021B8AC8(u8 *p)
 {
-    int n = *(s16 *)(p + 0x182e);
+    int n = ((struct Obj00004 *)p)->f182E;
     if (n < 0) n = -n;
-    if (n < 48 && (*(s16 *)(p + 0x1838) != 0 || *(s16 *)(p + 0x183a) != 0)) {
-        *(s16 *)(p + 0x1838) += *(s16 *)(p + 0x183a);
-        if (*(s16 *)(p + 0x1838) > 0) {
-            if (*(s16 *)(p + 0x183a) > 0) *(s16 *)(p + 0x183a) -= 128;
-            else *(s16 *)(p + 0x183a) -= 42;
-        } else if (*(s16 *)(p + 0x1838) < 0) {
-            if (*(s16 *)(p + 0x183a) < 0) *(s16 *)(p + 0x183a) += 128;
-            else *(s16 *)(p + 0x183a) += 42;
+    if (n < 48 && (((struct Obj00004 *)p)->f1838 != 0 || ((struct Obj00004 *)p)->f183A != 0)) {
+        ((struct Obj00004 *)p)->f1838 += ((struct Obj00004 *)p)->f183A;
+        if (((struct Obj00004 *)p)->f1838 > 0) {
+            if (((struct Obj00004 *)p)->f183A > 0) ((struct Obj00004 *)p)->f183A -= 128;
+            else ((struct Obj00004 *)p)->f183A -= 42;
+        } else if (((struct Obj00004 *)p)->f1838 < 0) {
+            if (((struct Obj00004 *)p)->f183A < 0) ((struct Obj00004 *)p)->f183A += 128;
+            else ((struct Obj00004 *)p)->f183A += 42;
         }
-        n = *(s16 *)(p + 0x1838);
+        n = ((struct Obj00004 *)p)->f1838;
         if (n < 0) n = -n;
         if (n < 512) {
-            n = *(s16 *)(p + 0x183a);
+            n = ((struct Obj00004 *)p)->f183A;
             if (n < 0) n = -n;
             if (n < 512) {
-                *(s16 *)(p + 0x183a) = 0;
-                *(s16 *)(p + 0x1838) = 0;
+                ((struct Obj00004 *)p)->f183A = 0;
+                ((struct Obj00004 *)p)->f1838 = 0;
             }
         }
-        func_021B765C(p, *(u16 *)(p + 0x182c), 0, 72, 48);
+        func_021B765C(p, ((struct Obj00004 *)p)->f182C, 0, 72, 48);
     }
 }

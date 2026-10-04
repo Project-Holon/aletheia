@@ -11,15 +11,16 @@
  *   func_020173E8 0x020173E8 thumb
 
  */
+#include "../include/Obj00112.h"
 extern void *func_020185F0(void *);
 typedef unsigned int   u32;
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_020173E8(void);
 void *func_021D6064(unsigned char *p) {
  switch((*(unsigned char **)(p+8))[12]) {
- case 0: return func_020185F0(**(void ***)(p+8));
- case 1: return func_020185F0(func_0201AB28(**(void ***)(p+8),*(unsigned short *)(p+24)));
- case 2: return (unsigned char *)**(void ***)(p+8)+func_020173E8()* *(unsigned short *)(p+24);
+ case 0: return func_020185F0(**(void ** *)&((struct Obj00112 *)p)->f8);
+ case 1: return func_020185F0(func_0201AB28(**(void ** *)&((struct Obj00112 *)p)->f8,((struct Obj00112 *)p)->f18));
+ case 2: return (unsigned char *)**(void ** *)&((struct Obj00112 *)p)->f8+func_020173E8()* ((struct Obj00112 *)p)->f18;
  default: return 0;
  }
 }

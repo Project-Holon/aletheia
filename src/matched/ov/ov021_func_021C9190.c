@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02730.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -36,17 +37,17 @@ void func_021C9190(u32 a, u8 *b)
 {
     V3 v;
 
-    if (func_0216DA30(*(int *)(b + 0x10)) != 0) {
-        func_0216D88C((const struct Actor *)*(int *)(b + 0x10), (struct VecFx32 *)&v);
+    if (func_0216DA30(((struct Obj02730 *)b)->f10) != 0) {
+        func_0216D88C((const struct Actor *)((struct Obj02730 *)b)->f10, (struct VecFx32 *)&v);
         *(V3 *)(b + 0x28) = v;
         func_021AC1CC(a, &v);
-        *(int *)(b + 0x2c) -= 0x4000;
-        *(int *)(b + 0x30) += 0x2800;
+        ((struct Obj02730 *)b)->f2C -= 0x4000;
+        ((struct Obj02730 *)b)->f30 += 0x2800;
         if (b[0x14] == 0) {
-            func_02047910((void *)(*(u32 *)(b + 0x18)), 0, 0x1000);
+            func_02047910((void *)(((struct Obj02730 *)b)->f18), 0, 0x1000);
         }
         if (b[0x15] == 1 && b[0x16] == 0) {
-            if (func_020478B8((void *)(*(u32 *)(b + 0x18)), 1, 0x1000) == 0) {
+            if (func_020478B8((void *)(((struct Obj02730 *)b)->f18), 1, 0x1000) == 0) {
                 b[0x16] = 1;
             }
         }

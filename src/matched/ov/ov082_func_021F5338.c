@@ -19,6 +19,7 @@
  *   func_0204E804  0x0204E804  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06200.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -56,7 +57,7 @@ int func_021F5338(void *task, int *st)
         break;
     case 2:
         if (func_0204E804() == 0) {
-            *(s16 *)(w + 0x24) = 0;
+            *(s16 *)&((struct Obj06200 *)w)->f24 = 0;
             (*st)++;
         }
         break;

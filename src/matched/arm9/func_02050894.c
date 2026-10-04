@@ -31,6 +31,7 @@
  *   python tools/match.py one --src src/matched/func_02050894.c \
  *       --func func_02050894 --addr 0x02050894 --cc 1.1p1 --arm
  */
+#include "../include/Obj11456.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -59,8 +60,8 @@ extern u32 func_02050738(void *p, void *q);
 
 int func_02050894(void *p, int idx, int j)
 {
-    struct S8  *arr = *(struct S8 **)((char *)p + 12);
-    struct S40 *rec = *(struct S40 **)((char *)p + 24);
+    struct S8  *arr = *(struct S8 * *)&((struct Obj11456 *)p)->fC;
+    struct S40 *rec = *(struct S40 * *)&((struct Obj11456 *)p)->f18;
     u16 e = rec[idx].f4;
     u32 v = arr[j].w;
 

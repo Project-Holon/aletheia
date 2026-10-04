@@ -23,6 +23,7 @@
  *   func_02185360  0x02185360  thumb  ov020
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00705.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ extern void *func_02185360(void *p, int u, int a, int b);
 
 void func_0218AD80(u8 *p, void *a, int id, void *arg)
 {
-    void *obj = func_021625CC(*(void **)(p + 0xC), id);
+    void *obj = func_021625CC(((struct Obj00705 *)p)->fC, id);
     void *d;
 
     if (arg != 0)
@@ -45,7 +46,7 @@ void func_0218AD80(u8 *p, void *a, int id, void *arg)
     else
         d = 0;
     if (func_021626E8(obj) == 6)
-        func_02185410(*(void **)(p + 4), (int)a, (int)obj, (int)d);
+        func_02185410(((struct Obj00705 *)p)->f4, (int)a, (int)obj, (int)d);
     else
-        func_02185360(*(void **)(p + 4), (int)a, (int)obj, (int)d);
+        func_02185360(((struct Obj00705 *)p)->f4, (int)a, (int)obj, (int)d);
 }

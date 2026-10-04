@@ -13,6 +13,8 @@
  *   python tools/match.py one --src src/matched/func_020509E8.c \
  *       --func func_020509E8 --addr 0x020509E8 --cc 1.1p1 --arm
  */
+#include "../include/Obj02611.h"
+#include "../include/Obj16164.h"
 
 typedef unsigned short u16;
 
@@ -20,7 +22,7 @@ extern void func_020500A0(void *p);
 
 int func_020509E8(void *p, void *q)
 {
-    *(u16 *)((char *)p + 14) = *(u16 *)((char *)q + 2);
+    ((struct Obj02611 *)p)->fE = ((struct Obj16164 *)q)->f2;
     func_020500A0(p);
     return 0;
 }

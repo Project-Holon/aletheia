@@ -16,6 +16,8 @@
  *   func_02034714 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  */
+#include "../include/Obj24401.h"
+#include "../include/Obj24402.h"
 typedef signed int     s32;
 typedef unsigned int   u32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -30,7 +32,7 @@ void func_0217B064(void *a,int *state,char *p)
     int mode;
     switch(*state){
     case 0:
-        if(*(int *)(*(char **)(p+0x28)+8)==0){func_02005E30(6);mode=12;}else mode=3;
+        if(((struct Obj24402 *)(*(char * *)&((struct Obj24401 *)p)->f28))->f8==0){func_02005E30(6);mode=12;}else mode=3;
         func_0204E720(mode,0,16,0);
         *state=1;
         break;

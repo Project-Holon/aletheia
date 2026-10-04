@@ -38,6 +38,12 @@
  *   func_0200ED54 0x0200ED54 thumb
  *   func_02008530 0x02008530 thumb
  */
+#include "../include/Obj00477.h"
+#include "../include/Obj02512.h"
+#include "../include/Obj24270.h"
+#include "../include/Obj24273.h"
+#include "../include/Obj24274.h"
+#include "../include/Obj24276.h"
 typedef unsigned long u32;
 typedef struct { u32 w[20]; } Rec80;
 typedef struct { Rec80 data; u32 last; } Rec84;
@@ -70,67 +76,67 @@ extern void func_021DBC04(char *,unsigned,void *);
 extern int func_021DBDAC(char *);
 void func_021D8904(u32 sys,int *state,char *p)
 {
-    char *q=*(char **)(p+260);
+    char *q=*(char * *)&((struct Obj00477 *)p)->f104;
     Rec84 rec;
     void *list;
     int v;
     switch(*state) {
-    case 0:if(*(u32 *)(q+12)==2 && *(u32 *)(p+256)==0) func_021E8AA0((int *)sys,(int)func_021D8BC4);
+    case 0:if(((struct Obj02512 *)q)->fC==2 && ((struct Obj00477 *)p)->f100==0) func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else {
-            *(u32 *)(p+256)=0;
+            ((struct Obj00477 *)p)->f100=0;
             func_0203064C(1,134,0x60000);
             func_02156E30(9,0x60000,1000,134);
             func_02156F50(134);*state=1;
         }break;
-    case 1:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),70,2);
+    case 1:func_021E8738((int *)(((struct Obj00477 *)p)->f2C),((struct Obj00477 *)p)->f14,70,2);
         *state=13;func_021E8AB4(sys,2);break;
-    case 2:func_021DA5B0(*(char **)(p+52),1,0,(*(u32 **)(q+8))[1],*(u32 **)(q+44),*(u32 *)(q+12)==2);
-        *(u32 *)(p+248)=0;*(u32 *)(p+244)=0;*state=3;break;
+    case 2:func_021DA5B0(*(char * *)&((struct Obj00477 *)p)->f34,1,0,(*(u32 **)(q+8))[1],*(u32 * *)&((struct Obj02512 *)q)->f2C,((struct Obj02512 *)q)->fC==2);
+        ((struct Obj00477 *)p)->fF8=0;((struct Obj00477 *)p)->fF4=0;*state=3;break;
     case 3:
-        if(*(u32 *)(p+248)==0) {
-            *(u32 *)(p+248)=func_021DA6B8(*(void **)(p+52),(u32 *)(p+244));
-            if(*(u32 *)(p+248)!=0 && *(u32 *)(p+244)!=0)
-                func_021E8AC0(**(int **)(q+8),**(int **)(q+44));
+        if(((struct Obj00477 *)p)->fF8==0) {
+            ((struct Obj00477 *)p)->fF8=func_021DA6B8(((struct Obj00477 *)p)->f34,(u32 *)(p+244));
+            if(((struct Obj00477 *)p)->fF8!=0 && ((struct Obj00477 *)p)->fF4!=0)
+                func_021E8AC0(**(int * *)&((struct Obj02512 *)q)->f8,**(int * *)&((struct Obj02512 *)q)->f2C);
         }
-        if(*(u32 *)(p+248)==1) {
-            *(u32 *)(*(char **)(q+44)+20)=func_021DADAC(*(char **)(p+52));*state=4;
+        if(((struct Obj00477 *)p)->fF8==1) {
+            ((struct Obj24270 *)(*(char * *)&((struct Obj02512 *)q)->f2C))->f14=func_021DADAC(*(char * *)&((struct Obj00477 *)p)->f34);*state=4;
         }
-        if(*(u32 *)(p+248)!=0) {
-            switch(func_021D9F04(*(char **)(p+52),0,(void *)1)) {
-            case 1:func_021DA36C(*(char **)(p+52));
+        if(((struct Obj00477 *)p)->fF8!=0) {
+            switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
+            case 1:func_021DA36C(*(char * *)&((struct Obj00477 *)p)->f34);
             case 2:case 4:func_021E8AA0((int *)sys,(int)func_021D9064);func_02156ED0();break;
             }
         }break;
     case 4:func_02156ED0();
-        if(*(u32 *)(q+12)==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
+        if(((struct Obj02512 *)q)->fC==2)func_021E8AA0((int *)sys,(int)func_021D8BC4);
         else *state=5;break;
-    case 5:list=func_0200ED48(func_02012EBC(**(void ***)(q+8)));
-        func_0200ED54(list,func_02008530(*(void **)(q+24)));
-        func_021DA384(*(char **)(p+52));*state=6;break;
-    case 6:if(func_021DA390(*(char **)(p+52))) *state=7;
-        switch(func_021D9F04(*(char **)(p+52),0,(void *)1)) {
+    case 5:list=func_0200ED48(func_02012EBC(**(void ** *)&((struct Obj02512 *)q)->f8));
+        func_0200ED54(list,func_02008530(((struct Obj02512 *)q)->f18));
+        func_021DA384(*(char * *)&((struct Obj00477 *)p)->f34);*state=6;break;
+    case 6:if(func_021DA390(*(char * *)&((struct Obj00477 *)p)->f34)) *state=7;
+        switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,(void *)1)) {
         case 1:case 4:*state=7;break;
         case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
-    case 7:if(**(u32 **)(q+32)==0) {
+    case 7:if(**(u32 * *)&((struct Obj02512 *)q)->f20==0) {
         func_02082BCC(&rec,0,84);
-        rec.data=**(Rec80 **)(*(char **)(p+260)+36);
-        rec.last=**(u32 **)(*(char **)(p+260)+40);
-        func_021DBC04(*(char **)(p+52),3,&rec);*state=8;
+        rec.data=**(Rec80 * *)&((struct Obj24273 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f24;
+        rec.last=**(u32 * *)&((struct Obj24274 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f28;
+        func_021DBC04(*(char * *)&((struct Obj00477 *)p)->f34,3,&rec);*state=8;
         }break;
-    case 8:v=func_021DBDAC(*(char **)(p+52));
+    case 8:v=func_021DBDAC(*(char * *)&((struct Obj00477 *)p)->f34);
         if(v==1) {
-            **(u32 **)(*(char **)(p+260)+32)=1800;*state=9;
+            **(u32 * *)&((struct Obj24276 *)(*(char * *)&((struct Obj00477 *)p)->f104))->f20=1800;*state=9;
         }
         if(v!=0) {
-            switch(func_021D9F04(*(char **)(p+52),0,0)) {
+            switch(func_021D9F04(*(char * *)&((struct Obj00477 *)p)->f34,0,0)) {
             case 1:func_021E8AA0((int *)sys,(int)func_021D8CF0);break;
             case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
             }
         }break;
-    case 9:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),88,1);
+    case 9:func_021E8738((int *)(((struct Obj00477 *)p)->f2C),((struct Obj00477 *)p)->f14,88,1);
         *state=13;func_021E8AB4(sys,10);break;
-    case 10:*(u32 *)(q+4)=2;func_021E8AA8(sys);break;
-    case 13:if(func_021E8844((const int *)(*(u32 *)(p+44))))func_021E8AB8(sys);break;
+    case 10:((struct Obj02512 *)q)->f4=2;func_021E8AA8(sys);break;
+    case 13:if(func_021E8844((const int *)(((struct Obj00477 *)p)->f2C)))func_021E8AB8(sys);break;
     }
 }

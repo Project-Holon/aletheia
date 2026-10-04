@@ -15,5 +15,6 @@
  *   func_021FF8E4 0x021FF8E4 thumb ov186
  *   d_02200D98 0x02200D98 data a1
  */
+#include "../include/Obj24866.h"
 extern int func_021D683C(char *,void *);extern void func_02034714(const char *,unsigned,const char *);extern void func_021FFB68(char *,int);extern void func_021FF8E4(void *,int,int);extern const char d_02200D98[];
-void func_021FF968(char *p,int unused,char *q) {if(!func_021D683C(q,*(void **)(q+0x5a8)))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}
+void func_021FF968(char *p,int unused,char *q) {if(!func_021D683C(q,((struct Obj24866 *)q)->f5A8))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}

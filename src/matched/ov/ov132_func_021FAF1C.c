@@ -10,9 +10,10 @@
  * symbols:
  *   func_0201134C 0x0201134C thumb
  */
+#include "../include/Obj23249.h"
 extern int func_0201134C(void *);
 int func_021FAF1C(void *a, char *p)
 {
-    func_0201134C(*(void **)(p + 4));
+    func_0201134C(((struct Obj23249 *)p)->f4);
     return 0;
 }

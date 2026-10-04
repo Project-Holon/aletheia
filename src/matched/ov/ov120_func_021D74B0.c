@@ -17,6 +17,7 @@
  *   func_0204B908 0x0204B908 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj03259.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,14 +34,14 @@ extern void func_02041B6C(u32);
 void func_021D74B0(u8 *p,int n)
 {
     Table a=d_021D8AB0;
-    void *t=func_020490F4(144,*(u16 *)(p+0xf4));
-    func_02049990(t,15,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
+    void *t=func_020490F4(144,((struct Obj03259 *)p)->fF4);
+    func_02049990(t,15,0,0,((struct Obj03259 *)p)->f4,0,0,((struct Obj03259 *)p)->fF4);
     func_02049238(t);
-    func_0204B92C(*(void **)(p+0x130),0);
-    func_0204B878(*(void **)(p+0x130),a.a[n]+11);
-    func_0204B908(*(void **)(p+0x130),4);
-    func_0204B878(*(void **)(p+0x12c),28);
+    func_0204B92C(((struct Obj03259 *)p)->f130,0);
+    func_0204B878(((struct Obj03259 *)p)->f130,a.a[n]+11);
+    func_0204B908(((struct Obj03259 *)p)->f130,4);
+    func_0204B878(((struct Obj03259 *)p)->f12C,28);
     func_02041B6C(0);
-    *(u32 *)(p+0x110)=0;
-    *(u32 *)(p+0x114)=0;
+    ((struct Obj03259 *)p)->f110=0;
+    ((struct Obj03259 *)p)->f114=0;
 }

@@ -21,6 +21,8 @@
  *   func_02034714 0x02034714 arm
  *   str_02203F58 0x02203F58 data a1
  */
+#include "../include/Obj01411.h"
+#include "../include/Obj23442.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct RecDC;
@@ -41,15 +43,15 @@ int func_02200FF4(u8 *p)
 {
     u8 *mon=p+0xE4;
     int ready;
-    func_02019CE0((const struct RecDC *)mon, *(struct RecDC **)(p+0xEA8));
+    func_02019CE0((const struct RecDC *)mon, *(struct RecDC * *)&((struct Obj01411 *)p)->fEA8);
     p[0x204]=func_02025C1C(p[0x204],p[0x205],p[0x209]);
     p[0x205]=func_02025C30(p[0x204],p[0x205],p[0x209]);
-    *(u8 **)(p+0x10E0)=func_021B9800(0x48,func_0200853C(*(void **)(*(u8 **)p+0x1C)),(int)(p+0x116C));
-    func_021B98A0(*(u8 **)(p+0x10E0),0x48,func_020173EC(),1);
-    func_021B98D8(*(u8 **)(p+0x10E0),(int)mon,func_020173EC());
-    if(func_021B98F8(*(u8 **)(p+0x10E0))==0) func_02034714(str_02203F58,0,str_02203F58);
+    *(u8 * *)&((struct Obj01411 *)p)->f10E0=func_021B9800(0x48,func_0200853C(((struct Obj23442 *)(*(u8 * *)&((struct Obj01411 *)p)->f0))->f1C),(int)(p+0x116C));
+    func_021B98A0(*(u8 * *)&((struct Obj01411 *)p)->f10E0,0x48,func_020173EC(),1);
+    func_021B98D8(*(u8 * *)&((struct Obj01411 *)p)->f10E0,(int)mon,func_020173EC());
+    if(func_021B98F8(*(u8 * *)&((struct Obj01411 *)p)->f10E0)==0) func_02034714(str_02203F58,0,str_02203F58);
     ready=func_021B9748(*(u8 **)(p+0x10E0))==0;
     if(ready==0) func_02034714(str_02203F58,0,str_02203F58);
-    *(u32 *)(p+0x28)=3;
+    ((struct Obj01411 *)p)->f28=3;
     return 2;
 }

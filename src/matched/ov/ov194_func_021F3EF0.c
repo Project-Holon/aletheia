@@ -23,6 +23,8 @@
  *   func_0216C0E4 0x0216C0E4 thumb ov010
  *   func_021F46B4 0x021F46B4 thumb ov194
  */
+#include "../include/Obj03900.h"
+#include "../include/Obj04591.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct U16Vec;
@@ -60,13 +62,13 @@ void func_021F3EF0(char *p,char *q,int *w,u32 heap)
         func_02045808((struct U16Vec *)text);
     }
     func_0201F164(set,1,w[4],w[5]);
-    if(*(int *)p) func_0201CE48((struct Rec3 *)(*(int *)p));
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(q+20))),*(u16 *)(q+32));
-    func_0204581C(*(void **)(q+28));
-    func_0201F250(set,*(void **)(q+28),(void *)w[3]);
-    *(int *)p=func_0201CCE4(*(u32 *)(q+20),0,0,*(u32 *)(q+28),*(u32 *)(q+4),func_02012FFC(),*(u32 *)(p+4),2,heap,*(u16 *)(q+32));
-    *(u16 *)(p+14)=0;
+    if(((struct Obj04591 *)p)->f0) func_0201CE48((struct Rec3 *)(((struct Obj04591 *)p)->f0));
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj03900 *)q)->f14)),((struct Obj03900 *)q)->f20);
+    func_0204581C(((struct Obj03900 *)q)->f1C);
+    func_0201F250(set,((struct Obj03900 *)q)->f1C,(void *)w[3]);
+    ((struct Obj04591 *)p)->f0=func_0201CCE4(((struct Obj03900 *)q)->f14,0,0,*(u32 *)&((struct Obj03900 *)q)->f1C,((struct Obj03900 *)q)->f4,func_02012FFC(),((struct Obj04591 *)p)->f4,2,heap,((struct Obj03900 *)q)->f20);
+    ((struct Obj04591 *)p)->fE=0;
     *(void (**)(void))(p+8)=(void (*)(void))func_021F46B4;
-    *(u16 *)(p+12)=60;
+    ((struct Obj04591 *)p)->fC=60;
     func_0201ED04(set);
 }

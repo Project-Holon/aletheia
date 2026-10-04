@@ -15,10 +15,11 @@
  * symbols:
  *   func_021BE4A4  0x021BE4A4  thumb
  */
+#include "../include/Obj20142.h"
 
 void func_021BE4A4(char *p, int i, int j, int v)
 {
     char *e = p + i * 0x10;
 
-    *(int *)(*(char **)(e + 0xC) + j * 0x44) = v;
+    *(int *)(*(char * *)&((struct Obj20142 *)e)->fC + j * 0x44) = v;
 }

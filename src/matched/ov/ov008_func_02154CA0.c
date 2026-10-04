@@ -14,6 +14,7 @@
  *   func_0203159C  0x0203159C  arm
  *   func_02031324  0x02031324  arm
  */
+#include "../include/Obj18644.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -28,6 +29,6 @@ int func_02154CA0(void *ctx)
 
     func_0203064C(1, 0x76, 0x4000);
     p = func_0203159C(ctx, 0x1c, 0x76);
-    *(u32 *)p = func_02031324(0x76);
+    ((struct Obj18644 *)p)->f0 = func_02031324(0x76);
     return 1;
 }

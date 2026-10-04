@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10669.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -21,5 +22,5 @@ u16 func_021B7438(char **p)
 {
     char *q = *p;
 
-    return *(u16 *)(*(char **)(q + 0x10) + (*(u16 *)(q + 0x16) + *(u16 *)(q + 0x14)) * 2);
+    return *(u16 *)(*(char * *)&((struct Obj10669 *)q)->f10 + (((struct Obj10669 *)q)->f16 + ((struct Obj10669 *)q)->f14) * 2);
 }

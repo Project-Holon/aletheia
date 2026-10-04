@@ -17,6 +17,7 @@
  *   d_021BEC74     0x021BEC74  data  ov091  a1
  *   d_021BEC75     0x021BEC75  data  ov091  a1
  */
+#include "../include/Obj13247.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,8 +42,8 @@ extern const u8 d_021BEC75[];
 
 S44 *func_021BA81C(u8 *a, int k)
 {
-    S44 *p = func_02030734(*(u16 *)a, 0x44, 0, d_021BED18, 0xea);
-    u8 *q = *(u8 **)(a + 0x15c) + 0xc;
+    S44 *p = func_02030734(((struct Obj13247 *)a)->f0, 0x44, 0, d_021BED18, 0xea);
+    u8 *q = *(u8 * *)&((struct Obj13247 *)a)->f15C + 0xc;
 
     func_020410D0(2, d_021BEC74[k * 2] + 0x10, d_021BEC75[k * 2], 0x10, 6,
                   q, 0, 0x13, 0x20, 0x20);

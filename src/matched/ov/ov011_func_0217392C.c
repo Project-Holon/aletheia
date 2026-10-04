@@ -15,6 +15,7 @@
  *   func_020264B4  0x020264B4  thumb
  *   func_02174F54  0x02174F54  thumb ov011
  */
+#include "../include/Obj00269.h"
 
 struct Entry;
 struct Entry *func_020399A8(void);
@@ -35,7 +36,7 @@ typedef struct C {
 void func_0217392C(int a, int b, const C *c, unsigned char *d)
 {
     if (a == func_0203D1A4((struct Link *)((int)func_020399A8()))) {
-        func_020264B4((void *)(*(int *)(d + 4)), a, c->w14, c->f, 0x15, 0);
+        func_020264B4((void *)(((struct Obj00269 *)d)->f4), a, c->w14, c->f, 0x15, 0);
     } else if ((d[0x8FB] & (1 << a)) != 0) {
         func_02174F54(d, a, c, 0);
     }

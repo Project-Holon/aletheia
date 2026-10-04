@@ -19,6 +19,8 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021C7E14  0x021C7E14  thumb  ov093
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj06344.h"
 
 typedef unsigned char u8;
 extern int func_0201134C(int);
@@ -50,12 +52,12 @@ int func_02189BFC(int a, int b)
     t1 = func_0201134C(a);
     t2 = func_0201134C(a);
     v = func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, t0));
-    w = func_0218A390(b, *(u8 **)(b + 0xbc), *(u8 **)(b + 0xc0), t1);
+    w = func_0218A390(b, *(u8 * *)&((struct Obj06344 *)b)->fBC, *(u8 * *)&((struct Obj06344 *)b)->fC0, t1);
     x = func_021D67A8((struct QL *)v);
     y = func_021D5440(v);
-    z = func_021D5440(*(u8 **)(b + 0xc0));
-    r = func_021C7E14((u8 *)(*(int *)(b + 0xb4)), y, z, x, 1, t1);
+    z = func_021D5440(*(u8 * *)&((struct Obj06344 *)b)->fC0);
+    r = func_021C7E14((u8 *)(((struct Obj06344 *)b)->fB4), y, z, x, 1, t1);
     if (w < r)
-        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + t2);
-    return *(int *)(b + 0xc4);
+        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + t2);
+    return ((struct Obj06344 *)b)->fC4;
 }

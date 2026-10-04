@@ -19,6 +19,7 @@
  *   func_0201F91C 0x0201F91C thumb
  *   func_0201FF30 0x0201FF30 thumb
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -64,15 +65,15 @@ void func_021B43EC(char *w)
 {
     Tmpl t;
 
-    t.arr = *(void **)(w + 0x180);
+    t.arr = ((struct Obj00037 *)w)->f180;
     t.cb04 = (void *)func_021B468C;
-    if (*(u8 *)(w + 0x162) == 0) {
+    if (((struct Obj00037 *)w)->f162 == 0) {
         t.cb08 = (void *)func_021B4510;
     } else {
         t.cb08 = (void *)func_021B45A0;
     }
-    t.w0c = *(u32 *)(w + 0x16C);
-    t.count = func_0201F91C(*(void **)(w + 0x180));
+    t.w0c = ((struct Obj00037 *)w)->f16C;
+    t.count = func_0201F91C(((struct Obj00037 *)w)->f180);
     t.rows = 7;
     t.f14 = 0;
     t.f15 = 0;
@@ -91,7 +92,7 @@ void func_021B43EC(char *w)
     t.h22 = 0x10;
     t.w24 = 0;
     t.w28 = w + 0x1A8;
-    t.w2c = *(u32 *)(w + 0x1B0);
-    t.w30 = *(u32 *)(w + 8);
-    *(u32 *)(w + 0x1A4) = func_0201FF30(&t, 0, 0, *(u16 *)(w + 4));
+    t.w2c = ((struct Obj00037 *)w)->f1B0;
+    t.w30 = ((struct Obj00037 *)w)->f8;
+    ((struct Obj00037 *)w)->f1A4 = func_0201FF30(&t, 0, 0, ((struct Obj00037 *)w)->f4);
 }

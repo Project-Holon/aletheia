@@ -27,6 +27,7 @@
  *   func_021C577C 0x021C577C thumb ov021
  *   func_020202FC 0x020202FC thumb
  */
+#include "../include/Obj00523.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,68 +67,68 @@ void func_021C553C(char *p)
     redraw = 0;
     flag = 0;
     func_020355D8(0);
-    func_020202EC(*(void **)(p + 4), &c[1]);
-    n = func_02020350(*(void **)(p + 4), 2);
+    func_020202EC(((struct Obj00523 *)p)->f4, &c[1]);
+    n = func_02020350(((struct Obj00523 *)p)->f4, 2);
     if (func_0203633C() & 0x40) {
         func_021C5440(p, c[1], n, &flag);
     } else if (func_0203633C() & 0x80) {
         func_021C54C8(p, c[1], n, &flag);
     }
     if (flag == 0) {
-        sel = func_020200CC(*(void **)(p + 4));
+        sel = func_020200CC(((struct Obj00523 *)p)->f4);
     }
     if (sel == -1) {
         if (func_020362DC() & 0x400) {
             sel = -2;
             func_020061E4(0x551);
         } else if (func_020362DC() & 0x800) {
-            func_020202EC(*(void **)(p + 4), &c[0]);
-            sel = func_02020344(*(void **)(p + 4), c[0]);
+            func_020202EC(((struct Obj00523 *)p)->f4, &c[0]);
+            sel = func_02020344(((struct Obj00523 *)p)->f4, c[0]);
             func_020061E4(0x54C);
-        } else if ((func_020362DC() & 4) && *(u32 *)(p + 0x24) == 1) {
-            func_020202EC(*(void **)(p + 4), &b[1]);
-            sel = func_02020344(*(void **)(p + 4), b[1]);
+        } else if ((func_020362DC() & 4) && ((struct Obj00523 *)p)->f24 == 1) {
+            func_020202EC(((struct Obj00523 *)p)->f4, &b[1]);
+            sel = func_02020344(((struct Obj00523 *)p)->f4, b[1]);
             func_020061E4(0x54C);
         }
     }
-    if (*(u32 *)(p + 0x24) == 0) {
-        *(int *)(p + 0x18) = sel;
-    } else if (*(u32 *)(p + 0x24) == 1) {
+    if (((struct Obj00523 *)p)->f24 == 0) {
+        ((struct Obj00523 *)p)->f18 = sel;
+    } else if (((struct Obj00523 *)p)->f24 == 1) {
         if (sel == -2) {
             redraw = 1;
         } else if (sel != -1) {
-            sel = func_02020344(*(void **)(p + 4), (u16)(*(u16 *)(p + 0x1C) + *(u16 *)(p + 0x1E)));
-            func_020202EC(*(void **)(p + 4), &b[0]);
-            if (*(u32 *)(p + 0x40) != 0) {
-                sel = func_0200C480(*(void **)(p + 0x20), sel, 0xFF);
+            sel = func_02020344(((struct Obj00523 *)p)->f4, (u16)(((struct Obj00523 *)p)->f1C + ((struct Obj00523 *)p)->f1E));
+            func_020202EC(((struct Obj00523 *)p)->f4, &b[0]);
+            if (((struct Obj00523 *)p)->f40 != 0) {
+                sel = func_0200C480(((struct Obj00523 *)p)->f20, sel, 0xFF);
             } else {
-                sel = func_0200C480(*(void **)(p + 0x20), sel, b[0]);
+                sel = func_0200C480(((struct Obj00523 *)p)->f20, sel, b[0]);
             }
             func_021C59A8(p, &a[0], &a[1]);
             if (b[0] - 1 == sel) {
                 a[1]--;
             }
-            func_021C58CC(p, a[0], a[1], *(u16 *)(p + 0x34));
+            func_021C58CC(p, a[0], a[1], ((struct Obj00523 *)p)->f34);
             redraw = 1;
         }
     }
-    if ((func_020362DC() & 4) && *(u32 *)(p + 0x24) == 0 && func_02020350(*(void **)(p + 4), 2) > 1) {
+    if ((func_020362DC() & 4) && ((struct Obj00523 *)p)->f24 == 0 && func_02020350(((struct Obj00523 *)p)->f4, 2) > 1) {
         func_020061E4(0x54C);
         redraw = 1;
     }
     if (redraw) {
-        *(u32 *)(p + 0x24) ^= 1;
-        if (*(u32 *)(p + 0x24) == 0) {
-            *(u32 *)(p + 0x40) = 0;
+        ((struct Obj00523 *)p)->f24 ^= 1;
+        if (((struct Obj00523 *)p)->f24 == 0) {
+            ((struct Obj00523 *)p)->f40 = 0;
             for (i = 0; i < 3; i++) {
                 func_0204B3DC((struct Obj *)*(u32 *)(p + 0x28 + i * 4), 0);
             }
-            func_021C577C(*(void **)(p + 4), 0, 0);
+            func_021C577C(((struct Obj00523 *)p)->f4, 0, 0);
             return;
         }
-        if (*(u32 *)(p + 0x24) == 1) {
-            func_020202FC(*(void **)(p + 4), (u16 *)(p + 0x1C), (u16 *)(p + 0x1E));
-            *(u32 *)(p + 0x48) = 1;
+        if (((struct Obj00523 *)p)->f24 == 1) {
+            func_020202FC(((struct Obj00523 *)p)->f4, (u16 *)(p + 0x1C), (u16 *)(p + 0x1E));
+            ((struct Obj00523 *)p)->f48 = 1;
         }
     }
 }

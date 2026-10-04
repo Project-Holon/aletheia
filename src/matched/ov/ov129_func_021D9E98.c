@@ -11,6 +11,7 @@
  *   func_0204B404 0x0204B404 arm
  *   func_0204B8C4 0x0204B8C4 arm
  */
+#include "../include/Obj14059.h"
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Pair;
 typedef unsigned int   u32;
@@ -24,6 +25,6 @@ void func_021D9E98(char *p,int i)
     unsigned char *q = (unsigned char *)p + (i+12)*4;
     s.x = (q[0x29a] + q[0x29b])/2;
     s.y = (q[0x298] + q[0x299])/2;
-    func_0204B404((struct Obj *)(*(int *)(p+0x1b0)),(const struct Vec2 *)(&s),0);
-    func_0204B8C4((struct Obj *)(*(int *)(p+0x1b0)),0);
+    func_0204B404((struct Obj *)(((struct Obj14059 *)p)->f1B0),(const struct Vec2 *)(&s),0);
+    func_0204B8C4((struct Obj *)(((struct Obj14059 *)p)->f1B0),0);
 }

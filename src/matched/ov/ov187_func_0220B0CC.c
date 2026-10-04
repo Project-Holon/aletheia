@@ -15,6 +15,7 @@
  *   func_02082BCC  0x02082BCC  arm
  *   d_0220B2E0     0x0220B2E0  data  ov187  a4
  */
+#include "../include/Obj14488.h"
 typedef unsigned int u32;
 
 struct S020314B8;
@@ -24,8 +25,8 @@ extern void func_02082BCC(void *p, u32 v, u32 n);
 
 void func_0220B0CC(char *p)
 {
-    if (*(u32 *)(p + 8) != 0)
+    if (((struct Obj14488 *)p)->f8 != 0)
         func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
-    func_0203133C(*(void **)p);
+    func_0203133C(((struct Obj14488 *)p)->f0);
     func_02082BCC(p, 0, 0x28);
 }

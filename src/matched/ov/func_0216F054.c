@@ -12,6 +12,7 @@
  * symbols:
  *   func_020130B4  0x020130B4  thumb
  */
+#include "../include/Obj12060.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,10 +23,10 @@ extern int func_020130B4(int a0);
 int func_0216F054(int a0, int a1)
 {
 
-a1 = *(int *)((char *)a0 + 0x20);
+a1 = ((struct Obj12060 *)a0)->f20;
     if (a1 != 0) goto loc_0216F062;
 loc_0216F05C:
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj12060 *)a0)->f8;
     a0 = func_020130B4(a0);
 loc_0216F062:
     return a0;}

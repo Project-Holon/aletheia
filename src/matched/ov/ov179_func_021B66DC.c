@@ -12,18 +12,20 @@
  *   d_021B6A40 0x021B6A40 data a4
  *   d_021B6A90 0x021B6A90 data a4
  */
+#include "../include/Obj08293.h"
+#include "../include/Obj10717.h"
 extern int (*d_021B6A40[])(char *,int *);
 extern const unsigned d_021B6A90[];
 int func_021B66DC(char *p) {
- int *q; int result; q=*(int **)(p+0x601C);
+ int *q; int result; q=*(int * *)&((struct Obj10717 *)p)->f601C;
  result=d_021B6A40[q[0]](p,q);
  if(result) {
-  q=*(int **)(p+0x601C);
-  *(int **)(p+0x601C)=q+d_021B6A90[q[0]];
+  q=*(int * *)&((struct Obj10717 *)p)->f601C;
+  *(int * *)&((struct Obj10717 *)p)->f601C=q+d_021B6A90[q[0]];
  }
  return result;
 }
 int func_021B6710(char *p,int *q) {
- if(*(int *)(p+0x6020)==q[1]) { *(int *)(p+0x6020)=0; return 2; }
- *(int *)(p+0x6020)=*(int *)(p+0x6020)+1; return 0;
+ if(((struct Obj08293 *)p)->f6020==q[1]) { ((struct Obj08293 *)p)->f6020=0; return 2; }
+ ((struct Obj08293 *)p)->f6020=((struct Obj08293 *)p)->f6020+1; return 0;
 }

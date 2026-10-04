@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj02340.h"
 
 void *func_0207A7BC(char *p)
 {
-    return *(void **)(p + 0x24);
+    return ((struct Obj02340 *)p)->f24;
 }

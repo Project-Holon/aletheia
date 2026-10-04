@@ -17,6 +17,8 @@
  *   func_02184134 0x02184134 thumb ov022
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj05426.h"
+#include "../include/Obj14212.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int   u32;
@@ -30,25 +32,25 @@ extern void *func_021DCF50(void *);
 extern void func_02184134(u8 *p);
 extern u16 func_02039338(void);
 int func_021DDBE8(char *p, int state) {
-    char *q = *(char **)(p+0x10);
+    char *q = *(char * *)&((struct Obj05426 *)p)->f10;
     unsigned result;
-    if (*(unsigned *)(q+0x2c) != func_021DE354(p) || *(unsigned *)(q+0x30) != 0) {
+    if (((struct Obj14212 *)q)->f2C != func_021DE354(p) || ((struct Obj14212 *)q)->f30 != 0) {
         if (func_021DE7F4() & 0xc3) func_020061E4(0x548);
         func_021DD924(p);
         return state;
     }
-    result = func_0201FEBC(*(void **)(p+0xe8));
+    result = func_0201FEBC(((struct Obj05426 *)p)->fE8);
     if (result != -1) {
         if (result == -2) {
             func_02184134(func_021DCF50(p));
-            *(int *)(p+0x118) = 0;
+            ((struct Obj05426 *)p)->f118 = 0;
         } else {
             if (func_02039338() == 0) {
-                *(int *)(p+0x118) = 0x18;
-                *(unsigned char *)(p+0x4812) = func_021DE354(p);
+                ((struct Obj05426 *)p)->f118 = 0x18;
+                ((struct Obj05426 *)p)->f4812 = func_021DE354(p);
             }
         }
-        *(void **)(p+0xe8) = 0;
+        ((struct Obj05426 *)p)->fE8 = 0;
     }
     func_021DD924(p);
     return state;

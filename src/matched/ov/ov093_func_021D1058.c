@@ -15,6 +15,7 @@
  *   func_021D5B68  0x021D5B68  thumb  ov093
  *   func_021D83FC  0x021D83FC  thumb  ov093
  */
+#include "../include/Obj13369.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,12 +32,12 @@ int func_021D1058(u8 *s, void *q)
     int k;
 
     k = 2;
-    if (func_021D5B68(func_021B9C00(*(void **)(s + 0x118), (u8)func_021B9AB0(2))) == 0) {
+    if (func_021D5B68(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(2))) == 0) {
         func_021D83FC(q, k);
         return 4;
     }
     k = 3;
-    if (func_021D5B68(func_021B9C00(*(void **)(s + 0x118), (u8)func_021B9AB0(3))) == 0) {
+    if (func_021D5B68(func_021B9C00(((struct Obj13369 *)s)->f118, (u8)func_021B9AB0(3))) == 0) {
         func_021D83FC(q, k);
         return 4;
     }

@@ -14,6 +14,7 @@
  * The source is `const`: without it each second load sinks below the
  * first store (the out pointer may alias).
  */
+#include "../include/Obj05150.h"
 
 typedef unsigned char u8;
 
@@ -23,16 +24,16 @@ void func_021BA194(const u8 *p, int which, int *out)
         return;
     switch (which) {
     case 0:
-        out[0] = *(const int *)(p + 4);
-        out[1] = *(const int *)(p + 8);
+        out[0] = *(const int *)&((struct Obj05150 *)p)->f4;
+        out[1] = *(const int *)&((struct Obj05150 *)p)->f8;
         break;
     case 1:
-        out[0] = *(const int *)(p + 0xC);
-        out[1] = *(const int *)(p + 0x10);
+        out[0] = *(const int *)&((struct Obj05150 *)p)->fC;
+        out[1] = *(const int *)&((struct Obj05150 *)p)->f10;
         break;
     case 2:
-        out[0] = *(const int *)(p + 0x14);
-        out[1] = *(const int *)(p + 0x18);
+        out[0] = *(const int *)&((struct Obj05150 *)p)->f14;
+        out[1] = *(const int *)&((struct Obj05150 *)p)->f18;
         break;
     }
 }

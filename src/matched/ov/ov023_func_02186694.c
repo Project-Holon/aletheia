@@ -14,6 +14,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02027FD8 0x02027FD8 thumb
  */
+#include "../include/Obj03625.h"
 struct TaskMenu;
 struct TaskMenuState;
 extern void func_02027858(struct TaskMenu *);
@@ -22,9 +23,9 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02027FD8(struct TaskMenuState *);
 void func_02186694(char *p)
 {
-    func_02027858(*(struct TaskMenu **)(p + 0x178));
-    func_02045808(*(void **)(p + 0x188));
-    func_02045808(*(void **)(p + 0x17C));
-    func_02027FD8(*(struct TaskMenuState **)(p + 0x174));
-    *(int *)(p + 0x178) = 0;
+    func_02027858(*(struct TaskMenu * *)&((struct Obj03625 *)p)->f178);
+    func_02045808(((struct Obj03625 *)p)->f188);
+    func_02045808(((struct Obj03625 *)p)->f17C);
+    func_02027FD8(*(struct TaskMenuState * *)&((struct Obj03625 *)p)->f174);
+    *(int *)&((struct Obj03625 *)p)->f178 = 0;
 }

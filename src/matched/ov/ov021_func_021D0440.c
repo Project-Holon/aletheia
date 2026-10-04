@@ -14,6 +14,7 @@
  *   func_021C6580  0x021C6580  thumb  ov021
  *   func_021C6628  0x021C6628  thumb  ov021
  */
+#include "../include/Obj09743.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_021C6580(u8 *p, int i);
 void func_021D0440(u16 *p)
 {
     int i = 0;
-    u32 h = func_021ABE18(*(u32 *)(p + 2));
+    u32 h = func_021ABE18(((struct Obj09743 *)p)->f4);
 
     for (; i < 2; i++) {
         func_021C6628(h, p[4 + i]);

@@ -14,6 +14,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj10512.h"
 
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(unsigned int);
@@ -29,7 +30,7 @@ void func_021D7EAC(unsigned char *p)
     func_02041B6C(1);
     func_02041570(4, 0);
     func_02041B6C(4);
-    func_0204B3DC(*(void **)(p + 0x198), 0);
-    func_0204B3DC(*(void **)(p + 0x19c), 0);
-    func_0204B878(*(void **)(p + 0x178), 0);
+    func_0204B3DC(((struct Obj10512 *)p)->f198, 0);
+    func_0204B3DC(((struct Obj10512 *)p)->f19C, 0);
+    func_0204B878(((struct Obj10512 *)p)->f178, 0);
 }

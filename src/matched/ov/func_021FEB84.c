@@ -22,6 +22,7 @@
  *
  * Shape: two hand-overs, then the fixed 6/1/0x48 opener, state 0, return 3.
  */
+#include "../include/Obj00018.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,6 +36,6 @@ int func_021FEB84(u8 *p)
     func_021C8658(p);
     func_021F4FC4(p);
     func_0202208C(0, 0, 0, 0, 6, 1, 0x48);
-    *(u32 *)(p + 0x28) = 0;
+    ((struct Obj00018 *)p)->f28 = 0;
     return 3;
 }

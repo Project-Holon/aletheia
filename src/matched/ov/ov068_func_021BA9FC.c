@@ -15,6 +15,7 @@
  * symbols:
  *   func_021BAA0C  0x021BAA0C  thumb  ov068
  */
+#include "../include/Obj00103.h"
 
 typedef unsigned char u8;
 
@@ -23,5 +24,5 @@ extern void func_021BAA0C(u8 *p, int flag);
 void func_021BA9FC(u8 *p, u8 v)
 {
     p[0x48] = v;
-    func_021BAA0C(p, *(int *)(p + 0x54));
+    func_021BAA0C(p, ((struct Obj00103 *)p)->f54);
 }

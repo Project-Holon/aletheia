@@ -9,23 +9,24 @@
  * status: EXACT*
  * extent: two zero alignment bytes at 0x021C49FE follow the return.
  */
+#include "../include/Obj00535.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 int func_021C49A4(u8 *p, unsigned int i)
 {
     switch (i) {
-    case 0: return *(s16 *)(p + 4);
-    case 1: return *(s16 *)(p + 6);
-    case 2: return *(s16 *)(p + 8);
-    case 3: return *(s16 *)(p + 10);
-    case 4: return *(u16 *)(p + 12);
+    case 0: return *(s16 *)&((struct Obj00535 *)p)->f4;
+    case 1: return *(s16 *)&((struct Obj00535 *)p)->f6;
+    case 2: return *(s16 *)&((struct Obj00535 *)p)->f8;
+    case 3: return *(s16 *)&((struct Obj00535 *)p)->fA;
+    case 4: return ((struct Obj00535 *)p)->fC;
     case 5: return p[21];
     case 6: return p[20];
-    case 7: return *(u16 *)(p + 14);
-    case 8: return *(u16 *)(p + 16);
-    case 9: return *(u16 *)(p + 18);
-    case 10: return *(u16 *)(p + 22);
+    case 7: return ((struct Obj00535 *)p)->fE;
+    case 8: return ((struct Obj00535 *)p)->f10;
+    case 9: return ((struct Obj00535 *)p)->f12;
+    case 10: return ((struct Obj00535 *)p)->f16;
     default: return (int)p;
     }
 }

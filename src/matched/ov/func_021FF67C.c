@@ -15,6 +15,8 @@
 
  * Publish the +0xf byte of the +0x10dc object as the u16 at +0xc6, then tear down.
  */
+#include "../include/Obj12222.h"
+#include "../include/Obj18600.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,9 +29,9 @@ extern void func_021F4EC8(u8 *p);
 
 u32 func_021FF67C(u8 *p)
 {
-    u32 q = *(u32 *)(p + 0x10dc);
+    u32 q = ((struct Obj12222 *)p)->f10DC;
 
-    *(u16 *)(p + 0xc6) = *(u8 *)(q + 0xf);
+    ((struct Obj12222 *)p)->fC6 = ((struct Obj18600 *)q)->fF;
     func_020307B0((void *)q);
     func_021F5074(p);
     func_021F4EC8(p);

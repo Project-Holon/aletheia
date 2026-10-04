@@ -16,6 +16,7 @@
  *   func_02047910  0x02047910  arm
  *   func_02046BE0  0x02046BE0  arm
  */
+#include "../include/Obj07671.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -27,9 +28,9 @@ void func_021F381C(void *a, void *b, u8 *p)
 {
     u32 m = 1 << 12;
 
-    func_02047910((void *)(*(u32 *)(p + 0x38)), 0, m);
-    func_02047910((void *)(*(u32 *)(p + 0x38)), 3, m);
-    func_02047910((void *)(*(u32 *)(p + 0x3c)), 1, m);
-    func_02047910((void *)(*(u32 *)(p + 0x40)), 2, m);
+    func_02047910((void *)(((struct Obj07671 *)p)->f38), 0, m);
+    func_02047910((void *)(((struct Obj07671 *)p)->f38), 3, m);
+    func_02047910((void *)(((struct Obj07671 *)p)->f3C), 1, m);
+    func_02047910((void *)(((struct Obj07671 *)p)->f40), 2, m);
     func_02046BE0(1, 1);
 }

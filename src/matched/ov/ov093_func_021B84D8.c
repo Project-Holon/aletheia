@@ -16,6 +16,7 @@
  *   func_021CDD94  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
+#include "../include/Obj20950.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,6 +53,6 @@ int func_021B84D8(u8 *p)
             r = 1;
         }
     }
-    func_021E908C((char *)(*(int *)(p + 4)));
+    func_021E908C((char *)(((struct Obj20950 *)p)->f4));
     return r;
 }

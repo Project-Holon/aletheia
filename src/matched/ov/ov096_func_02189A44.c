@@ -12,6 +12,7 @@
  *   func_0218A378  0x0218A378  thumb  ov096
  *   func_021D67A8  0x021D67A8  thumb  ov093
  */
+#include "../include/Obj10189.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,12 +27,12 @@ extern u16 func_021D67A8(struct QL *p);
 
 int func_02189A44(int a, int b) {
     int t;
-    t = func_021D67A8((struct QL *)(*(u8 **)(b + 0xc0)));
+    t = func_021D67A8((struct QL *)(*(u8 * *)&((struct Obj10189 *)b)->fC0));
     if (t != 0) {
         t = func_0218A378(b, t, 2);
     } else {
         t = 0;
     }
-    *(int *)(b + 0x38) = t;
-    return *(int *)(b + 0xc4);
+    ((struct Obj10189 *)b)->f38 = t;
+    return ((struct Obj10189 *)b)->fC4;
 }

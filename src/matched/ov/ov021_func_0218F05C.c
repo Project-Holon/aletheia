@@ -14,10 +14,11 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01653.h"
 
 void func_0218F05C(unsigned char *a)
 {
-    int *p = *(int **)(a + 0xEC);
+    int *p = *(int * *)&((struct Obj01653 *)a)->fEC;
     int i;
 
     if (p != 0) {

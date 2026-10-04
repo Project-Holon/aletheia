@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj03036.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -41,14 +42,14 @@ void func_02092430(u8 *dest, u32 val, u32 count)
         blocks = count >> 5;
         if (blocks != 0) {
             do {
-                *(u32 *)(dest + 0x00) = byte_val;
-                *(u32 *)(dest + 0x04) = byte_val;
-                *(u32 *)(dest + 0x08) = byte_val;
-                *(u32 *)(dest + 0x0c) = byte_val;
-                *(u32 *)(dest + 0x10) = byte_val;
-                *(u32 *)(dest + 0x14) = byte_val;
-                *(u32 *)(dest + 0x18) = byte_val;
-                *(u32 *)(dest + 0x1c) = byte_val;
+                ((struct Obj03036 *)dest)->f0 = byte_val;
+                ((struct Obj03036 *)dest)->f4 = byte_val;
+                ((struct Obj03036 *)dest)->f8 = byte_val;
+                ((struct Obj03036 *)dest)->fC = byte_val;
+                ((struct Obj03036 *)dest)->f10 = byte_val;
+                ((struct Obj03036 *)dest)->f14 = byte_val;
+                ((struct Obj03036 *)dest)->f18 = byte_val;
+                ((struct Obj03036 *)dest)->f1C = byte_val;
                 dest += 0x20;
             } while (--blocks != 0);
         }
@@ -56,7 +57,7 @@ void func_02092430(u8 *dest, u32 val, u32 count)
         words = (count & 0x1f) >> 2;
         if (words != 0) {
             do {
-                *(u32 *)dest = byte_val;
+                ((struct Obj03036 *)dest)->f0 = byte_val;
                 dest += 4;
             } while (--words != 0);
         }

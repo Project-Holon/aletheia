@@ -22,6 +22,7 @@
  *   func_020307B0  0x020307B0  arm
  *   func_0218C724  0x0218C724  thumb  ov021
  */
+#include "../include/Obj01505.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,27 +53,27 @@ void func_021C0B3C(u8 *p, u32 a)
 
     s = func_0201210C((void *)a);
     t = func_02188C98(s);
-    *(u16 *)p = func_02188C84(s);
-    *(void **)(p + 4) = s;
+    ((struct Obj01505 *)p)->f0 = func_02188C84(s);
+    ((struct Obj01505 *)p)->f4 = s;
     p[0x14] = func_021C0C94(a);
     p[0x15] = 0;
-    *(u32 *)(p + 0x18) = func_0218DC6C((u8 *)t);
-    *(u32 *)(p + 0x34) = 0;
+    ((struct Obj01505 *)p)->f18 = func_0218DC6C((u8 *)t);
+    ((struct Obj01505 *)p)->f34 = 0;
     if (p[0x14] > 6) {
         p[0x14] = 6;
     }
-    func_021A3038(func_02188CB4(*(void **)(p + 4)), (struct VecFx32 *)pos);
+    func_021A3038(func_02188CB4(((struct Obj01505 *)p)->f4), (struct VecFx32 *)pos);
     rect[0] = pos[2] - 0x50000;
     rect[1] = pos[2] + 0x50000;
     rect[2] = pos[0] - 0x50000;
     rect[3] = pos[0] + 0x50000;
-    r = func_0218C584(*(u32 *)(p + 0x18), rect, 8, &cnt);
+    r = func_0218C584(((struct Obj01505 *)p)->f18, rect, 8, &cnt);
     if (r) {
-        *(u32 *)(p + 0x34) = *r;
+        ((struct Obj01505 *)p)->f34 = *r;
         func_0218C6D0((int *)(*r), (int)(p + 8));
     }
     func_020307B0(r);
-    if (*(u32 *)(p + 0x34) != 0) {
-        *(u32 *)(p + 0x38) = (u32)func_0218C724((u8 *)(*(u32 *)(p + 0x18)), (u32 *)(*(u32 *)(p + 0x34)));
+    if (((struct Obj01505 *)p)->f34 != 0) {
+        ((struct Obj01505 *)p)->f38 = (u32)func_0218C724((u8 *)(((struct Obj01505 *)p)->f18), (u32 *)(((struct Obj01505 *)p)->f34));
     }
 }

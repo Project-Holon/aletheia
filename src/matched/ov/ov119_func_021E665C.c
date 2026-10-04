@@ -13,6 +13,7 @@
  *   func_021E66E8 0x021E66E8 thumb ov119
  *   func_021E729C 0x021E729C thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef struct { short x,y; } Pt;
 struct Actor;
 struct PtS;
@@ -23,17 +24,17 @@ struct Curve;
 extern int func_021E729C(struct Curve *c);
 int func_021E665C(char *p) {
     Pt pos;
-    if (*(short *)(p+0x11dc)) {
-        --*(short *)(p+0x11dc);
-        if (!*(short *)(p+0x11dc)) return 1;
-        func_0204B454((struct Actor *)*(int *)(p+0xf20),(struct PtS *)&pos,1);
-        if (pos.y<0) *(short *)(p+0x11dc)=1;
-        if (*(short *)(p+0x11dc)==1) func_021E66E8(p);
+    if (((struct Obj00001 *)p)->f11DC) {
+        --((struct Obj00001 *)p)->f11DC;
+        if (!((struct Obj00001 *)p)->f11DC) return 1;
+        func_0204B454((struct Actor *)((struct Obj00001 *)p)->fF20,(struct PtS *)&pos,1);
+        if (pos.y<0) ((struct Obj00001 *)p)->f11DC=1;
+        if (((struct Obj00001 *)p)->f11DC==1) func_021E66E8(p);
         else {
             func_021E729C((struct Curve *)(p+0x1190));
-            pos.x=*(int *)(p+0x1190)/4096;
-            pos.y=*(int *)(p+0x1194)/4096;
-            func_0204B404(*(int *)(p+0xf20),&pos,1);
+            pos.x=((struct Obj00001 *)p)->f1190/4096;
+            pos.y=((struct Obj00001 *)p)->f1194/4096;
+            func_0204B404(((struct Obj00001 *)p)->fF20,&pos,1);
         }
     }
     return 0;

@@ -14,6 +14,7 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22906.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02082BCC(void *,int,int);
@@ -28,7 +29,7 @@ void func_021DCF54(char *p,void *arc,int id,int index,u8 other,u16 heap)
     char *data;
     func_02082BCC(p,0,0x60);
     allocation=func_02049F78(arc,id,(u32)(&res),heap);
-    data=*(char **)((char *)res+0xc);
+    data=*(char * *)&((struct Obj22906 *)res)->fC;
     func_02082D44(data+index*32,p+0x40,32);
     func_02082D44(data+other*32,p+0x20,32);
     func_020307B0(allocation);

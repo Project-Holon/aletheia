@@ -12,10 +12,11 @@
  *
  * Word getter at +0xec.
  */
+#include "../include/Obj22578.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 u32 func_021BBEB8(u8 *p)
 {
-    return *(u32 *)(p + 0xec);
+    return ((struct Obj22578 *)p)->fEC;
 }

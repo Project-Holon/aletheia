@@ -11,7 +11,8 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj08109.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-void func_021D6650(u8 *p,int flag){if(flag){*(int *)(p+0x4554)=0;*(int *)(p+0x4558)=1;}else{*(int *)(p+0x4554)=65536;*(int *)(p+0x4558)=-1;}}
+void func_021D6650(u8 *p,int flag){if(flag){((struct Obj08109 *)p)->f4554=0;((struct Obj08109 *)p)->f4558=1;}else{((struct Obj08109 *)p)->f4554=65536;((struct Obj08109 *)p)->f4558=-1;}}

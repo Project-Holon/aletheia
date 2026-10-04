@@ -14,6 +14,7 @@
  *   func_021B7ADC  0x021B7ADC  thumb  ov173
  *   func_0203D34C  0x0203D34C  arm
  */
+#include "../include/Obj06566.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -26,15 +27,15 @@ int func_021B7C00(void *p)
     unsigned char v;
 
     func_021B63AC(p);
-    func_021B7ADC(p, (unsigned char)(*(unsigned short *)(*(int *)p + 0x14)), 3);
+    func_021B7ADC(p, (unsigned char)(*(unsigned short *)(((struct Obj06566 *)p)->f0 + 0x14)), 3);
     func_0203D34C(1, 0x4f);
-    v = *(unsigned char *)((char *)p + 0x192);
+    v = ((struct Obj06566 *)p)->f192;
     if (v == 0) {
-        v = *(unsigned char *)((char *)p + 0x191);
+        v = ((struct Obj06566 *)p)->f191;
     } else {
         v = 4;
     }
-    *(unsigned char *)(*(int *)p + 0x1b) = v;
-    *(int *)((char *)p + 0x1b0) = 7;
+    *(unsigned char *)(((struct Obj06566 *)p)->f0 + 0x1b) = v;
+    ((struct Obj06566 *)p)->f1B0 = 7;
     return 0;
 }

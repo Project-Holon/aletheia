@@ -13,13 +13,14 @@
  *   func_0218ED3C  0x0218ED3C  thumb  ov021
  *   d_020A1B38     0x020A1B38  data  a2
  */
+#include "../include/Obj19508.h"
 
 extern short d_020A1B38[];
 extern unsigned short *func_0218ED3C(void *p);
 
 int func_02189A80(char *p)
 {
-    unsigned short *q = func_0218ED3C(*(void **)(p + 0x10));
+    unsigned short *q = func_0218ED3C(((struct Obj19508 *)p)->f10);
     int i = (*q >> 4) * 2 + 1;
     int s = d_020A1B38[i];
     long long v;

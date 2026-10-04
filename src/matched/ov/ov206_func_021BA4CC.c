@@ -14,6 +14,7 @@
  *   func_021BBBD8 0x021BBBD8 thumb ov206
  *   func_021BB92C 0x021BB92C thumb ov206
  */
+#include "../include/Obj00173.h"
 extern void func_021BAF50(char *p);
 extern void func_021BA934(char *p);
 extern void func_021BBBD8(void *,int);
@@ -22,6 +23,6 @@ void func_021BA4CC(char *p)
 {
     func_021BAF50(p);
     func_021BA934(p);
-    func_021BBBD8(p,*(int *)(p+400));
-    func_021BB92C(p,*(int *)(p+224));
+    func_021BBBD8(p,((struct Obj00173 *)p)->f190);
+    func_021BB92C(p,((struct Obj00173 *)p)->fE0);
 }

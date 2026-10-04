@@ -13,36 +13,37 @@
  *   func_021B9280 0x021B9280 thumb ov067
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj01435.h"
 typedef unsigned char u8;
 extern int func_021B93B0(char *);
 extern void func_021B9280(char *, unsigned short, unsigned);
 extern void func_02041B6C(unsigned);
 int func_021BD1C8(char *p)
 {
-    switch (*(u8 *)(p + 0xc26)) {
+    switch (((struct Obj01435 *)p)->fC26) {
     case 0:
     case 2:
-        if (*(u8 *)(p + 0xc27) == 0) {
-            func_021B9280(*(char **)(p + 0xc2c), func_021B93B0(*(char **)(p + 0xc2c)), 1);
-            *(u8 *)(p + 0xc27) = 4;
-            (*(u8 *)(p + 0xc26))++;
-        } else (*(u8 *)(p + 0xc27))--;
+        if (((struct Obj01435 *)p)->fC27 == 0) {
+            func_021B9280(*(char * *)&((struct Obj01435 *)p)->fC2C, func_021B93B0(*(char * *)&((struct Obj01435 *)p)->fC2C), 1);
+            ((struct Obj01435 *)p)->fC27 = 4;
+            (((struct Obj01435 *)p)->fC26)++;
+        } else (((struct Obj01435 *)p)->fC27)--;
         break;
     case 1:
     case 3:
-        if (*(u8 *)(p + 0xc27) == 0) {
-            func_021B9280(*(char **)(p + 0xc2c), func_021B93B0(*(char **)(p + 0xc2c)), 2);
+        if (((struct Obj01435 *)p)->fC27 == 0) {
+            func_021B9280(*(char * *)&((struct Obj01435 *)p)->fC2C, func_021B93B0(*(char * *)&((struct Obj01435 *)p)->fC2C), 2);
             func_02041B6C(2);
-            *(u8 *)(p + 0xc27) = 4;
-            (*(u8 *)(p + 0xc26))++;
-        } else (*(u8 *)(p + 0xc27))--;
+            ((struct Obj01435 *)p)->fC27 = 4;
+            (((struct Obj01435 *)p)->fC26)++;
+        } else (((struct Obj01435 *)p)->fC27)--;
         break;
     case 4:
-        if (*(u8 *)(p + 0xc27) == 0) {
-            *(u8 *)(p + 0xc26) = 0;
+        if (((struct Obj01435 *)p)->fC27 == 0) {
+            ((struct Obj01435 *)p)->fC26 = 0;
             return 8;
         }
-        (*(u8 *)(p + 0xc27))--;
+        (((struct Obj01435 *)p)->fC27)--;
         break;
     }
     return 7;

@@ -10,6 +10,7 @@
  * status: EXACT
  * note: unlabelled blocker leaf for func_021BF7AC; ends at filed EDE8.
  */
+#include "../include/Obj22382.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021BEDE4(u8 *p) { return *(u16 *)p; }
+u16 func_021BEDE4(u8 *p) { return ((struct Obj22382 *)p)->f0; }

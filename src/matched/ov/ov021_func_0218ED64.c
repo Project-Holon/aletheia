@@ -12,6 +12,7 @@
  * symbols:
  *   FX_SinCosTable_  0x020A1B38  data
  */
+#include "../include/Obj05979.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern void func_02048B94(struct Light *l, u32 v);
 
 void func_0218ED64(u8 *a, u16 angle)
 {
-    *(u16 *)(a + 0x80) = angle;
-    func_02048B80((struct Light *)(*(u32 *)(a + 0xc)), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2]);
-    func_02048B94((struct Light *)(*(u32 *)(a + 0xc)), FX_SinCosTable_[(*(u16 *)(a + 0x80) >> 4) * 2 + 1]);
+    ((struct Obj05979 *)a)->f80 = angle;
+    func_02048B80((struct Light *)(((struct Obj05979 *)a)->fC), FX_SinCosTable_[(((struct Obj05979 *)a)->f80 >> 4) * 2]);
+    func_02048B94((struct Light *)(((struct Obj05979 *)a)->fC), FX_SinCosTable_[(((struct Obj05979 *)a)->f80 >> 4) * 2 + 1]);
 }

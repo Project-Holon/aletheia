@@ -15,6 +15,7 @@
  *   func_02211970 0x02211970 thumb ov198
  *   func_0220B760 0x0220B760 thumb ov198
  */
+#include "../include/Obj08361.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,8 +29,8 @@ int func_0220FED0(u8 *p)
 {
     u32 sel;
     u8 value;
-    if(func_02021ED8(*(const char **)(p+0x1D8))!=0)return 25;
-    sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    if(func_02021ED8(*(const char * *)&((struct Obj08361 *)p)->f1D8)!=0)return 25;
+    sel=func_02025DE8(*(struct Sound * *)&((struct Obj08361 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3: case 4:
         value=sel;
@@ -37,7 +38,7 @@ int func_0220FED0(u8 *p)
         p[0x2191]=value;
         func_02211970((u8 **)p,1357);
         func_0220B760(p,sel+22);
-        *(u32 *)(p+0x217C)=17;
+        ((struct Obj08361 *)p)->f217C=17;
         return 29;
     case 5:
         func_02211970((u8 **)p,1362);

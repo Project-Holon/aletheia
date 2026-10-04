@@ -12,15 +12,17 @@
  * symbols:
  *   func_021CD568 0x021CD568 thumb ov093
  */
+#include "../include/Obj05190.h"
+#include "../include/Obj21062.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021CD568(void *, u32, u32, ...);
 void func_021BFBD0(u8 *p, u32 fallback, u8 *record, u32 pos)
 {
-    u32 value = *(u16 *)record;
+    u32 value = ((struct Obj05190 *)record)->f0;
     if (value == 0) value = fallback;
-    func_021CD568(*(void **)(p + 12), (u16)pos, 0x30,
+    func_021CD568(((struct Obj21062 *)p)->fC, (u16)pos, 0x30,
                  record[2], record[3], value, record[4]);
     record[4] = 0;
     record[5] |= 2;

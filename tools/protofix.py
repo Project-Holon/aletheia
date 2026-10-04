@@ -418,7 +418,7 @@ def parse_file(path, rel=None, want_decls=True):
     fi.mask = m = mask(raw)
     fi.tab = tab = depth_table(m)
     fi.td = parse_typedefs(m, tab)
-    fi.has_include = bool(re.search(r'^[ \t]*#[ \t]*include', raw, re.M))
+    fi.has_include = bool(re.search(r'^[ \t]*#[ \t]*include(?![ \t]+"\.\./include/Obj\d+\.h")', raw, re.M))
     fi.defs, fi.decls = [], []
     for mm in DECL_RE.finditer(m):
         pre, ret_txt, name, params, term = mm.groups()
@@ -715,6 +715,12 @@ def evaluate(fi, text, tmpdir, orig=None):
     (the match runs are skipped; compare_eval reports the gcc error)."""
     os.makedirs(tmpdir, exist_ok=True)
     p = os.path.join(tmpdir, os.path.basename(fi.rel))
+    for hn in re.findall(r'^[ \t]*#[ \t]*include[ \t]+"\.\./include/(Obj\d+\.h)"', text, re.M):
+        hd = os.path.join(os.path.dirname(tmpdir), 'include')
+        os.makedirs(hd, exist_ok=True)
+        hs = os.path.join(ROOT, 'src', 'matched', 'include', hn)
+        if os.path.exists(hs) and not os.path.exists(os.path.join(hd, hn)):
+            shutil.copyfile(hs, os.path.join(hd, hn))
     with open(p, 'wb') as f:
         f.write(text.encode('latin1'))
     g = gcc_errors(p)

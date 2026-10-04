@@ -15,6 +15,7 @@
  *   func_021A0590  0x021A0590  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18001.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_021A0590(u32, u32, u32, u32);
 
 int func_021A2114(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021A0590(*(u32 *)((u8 *)(a) + 8), b, c, 1);
+return func_021A0590(((struct Obj18001 *)((u8 *)(a)))->f8, b, c, 1);
 }
 

@@ -14,6 +14,7 @@
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  */
+#include "../include/Obj14383.h"
 typedef unsigned int u32;
 
 extern void func_0203064C(u32 a, u32 b, u32 c);
@@ -27,7 +28,7 @@ int func_021B6100(char *p, u32 b, u32 c)
     func_0203064C(1, 0x7f, 0x80000);
     r = func_0203159C(p, (void *)0x605c, 0x7f);
     func_02082BCC(r, 0, 0x605c);
-    *(u32 *)r = c;
+    ((struct Obj14383 *)r)->f0 = c;
     *(u32 *)(r + 0x605c - 4) = 0;
     return 1;
 }

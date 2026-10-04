@@ -16,6 +16,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   overlay94 0x0000005E data
  */
+#include "../include/Obj01975.h"
 typedef struct Obj Obj;struct PalAnmSlot;extern void func_022021F4(Obj *);extern void func_020215A0(struct PalAnmSlot *,unsigned);extern void func_02021540(struct PalAnmSlot *);extern void func_02034A5C(int);
 extern char overlay94[];
-void func_0220B9B0(char *p){func_022021F4(*(Obj **)(p+84));func_020215A0(*(struct PalAnmSlot **)(p+88),1);func_020215A0(*(struct PalAnmSlot **)(p+88),3);func_02021540(*(struct PalAnmSlot **)(p+88));*(unsigned *)(p+88)=0;func_02034A5C((int)overlay94);}
+void func_0220B9B0(char *p){func_022021F4(*(Obj * *)&((struct Obj01975 *)p)->f54);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,1);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58,3);func_02021540(*(struct PalAnmSlot * *)&((struct Obj01975 *)p)->f58);*(unsigned *)&((struct Obj01975 *)p)->f58=0;func_02034A5C((int)overlay94);}

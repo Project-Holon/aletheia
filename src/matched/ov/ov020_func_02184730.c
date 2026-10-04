@@ -19,6 +19,7 @@
  *   func_021BF58C  0x021BF58C  thumb  ov021
  *   func_021BFD34  0x021BFD34  thumb  ov021
  */
+#include "../include/Obj05964.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,9 +43,9 @@ int func_02184730(int ctx, int *state, u8 *p)
     int z;
     int y;
 
-    x = *(int *)(p + 0);
-    y = *(int *)(p + 4);
-    z = *(int *)(p + 8);
+    x = ((struct Obj05964 *)p)->f0;
+    y = ((struct Obj05964 *)p)->f4;
+    z = ((struct Obj05964 *)p)->f8;
     v = func_02012A30((const struct BigObj *)y);
 
     switch (*state) {
@@ -57,7 +58,7 @@ int func_02184730(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 2:
-        func_02029D44(v, y, *(u16 *)(p + 0x14), (u8)*(u16 *)(p + 0x4a));
+        func_02029D44(v, y, ((struct Obj05964 *)p)->f14, (u8)((struct Obj05964 *)p)->f4A);
         func_02029D7C(v, y);
         (*state)++;
         break;

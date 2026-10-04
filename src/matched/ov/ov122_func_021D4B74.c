@@ -17,6 +17,7 @@
  *   func_021D4B30 0x021D4B30 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
  */
+#include "../include/Obj06457.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
@@ -30,11 +31,11 @@ extern void func_021D4244(char *, void *, int);
 extern void func_021D4B30(char *p);
 void func_021D4B74(char *p)
 {
-    *(int *)(p + 0x38c) = 1;
-    func_0202208C(0, 0, 0, 0, 6, 1, *(u16 *)(p + 0xc));
+    ((struct Obj06457 *)p)->f38C = 1;
+    func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj06457 *)p)->fC);
     func_02178118(0, 0);
-    if (*(int *)(p + 8) == 1 && func_02026454((void *)func_02012138(*(void **)(p + 0x354))))
-        func_02026400((struct Comm *)func_02012138(*(void **)(p + 0x354)));
+    if (((struct Obj06457 *)p)->f8 == 1 && func_02026454((void *)func_02012138(((struct Obj06457 *)p)->f354)))
+        func_02026400((struct Comm *)func_02012138(((struct Obj06457 *)p)->f354));
     func_021D4244(p, func_021D4B30, 0x35e);
 }
 void func_021D4BDC(char *p)

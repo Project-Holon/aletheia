@@ -14,6 +14,7 @@
  *   func_0216D88C  0x0216D88C  thumb  ov010
  *   func_02163E58  0x02163E58  thumb  ov010
  */
+#include "../include/Obj12739.h"
 
 typedef unsigned int u32;
 
@@ -31,7 +32,7 @@ void func_02163E58(void *h, Vec021A56C0 *v, int *lim);
 
 int func_021A56C0(u32 *p)
 {
-    void *h = func_021A3960(*(unsigned char **)(p + 3));
+    void *h = func_021A3960(*(unsigned char * *)&((struct Obj12739 *)p)->fC);
     Vec021A56C0 v;
     int lim;
 

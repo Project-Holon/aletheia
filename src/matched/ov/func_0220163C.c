@@ -15,6 +15,7 @@
  * State-setter: hand the object to func_021C8978, latch state 0xe at +0x28,
  * clear the word at +0xf8c and report 2.
  */
+#include "../include/Obj12233.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ extern void func_021C8978(u8 *p);
 int func_0220163C(u8 *p)
 {
     func_021C8978(p);
-    *(u32 *)(p + 0x28) = 0xe;
-    *(u32 *)(p + 0xf8c) = 0;
+    ((struct Obj12233 *)p)->f28 = 0xe;
+    ((struct Obj12233 *)p)->fF8C = 0;
     return 2;
 }

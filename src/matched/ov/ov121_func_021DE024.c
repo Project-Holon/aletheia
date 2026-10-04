@@ -16,6 +16,9 @@
  *   func_021DA318 0x021DA318 thumb ov121
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj01931.h"
+#include "../include/Obj22910.h"
+#include "../include/Obj22911.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021DDC58(const unsigned *,void *,u16);
@@ -26,15 +29,15 @@ extern void func_021DA318(u8 *p);
 extern void func_02040588(u8,int);
 void func_021DE024(void *unused,char *p)
 {
-    if (*(int *)(p+0x12c)) return;
-    *(int *)(p+0x12c)=1;
-    switch (*(int *)(p+0x130)) {
-    case 0: func_021DDC58((unsigned *)(*(char **)(p+0x11c)+0xa0),p,*(u16 *)(p+0x118)); break;
-    case 1: func_021DDCF8((unsigned *)(*(char **)(p+0x11c)+0xa0),p,*(u16 *)(p+0x118)); break;
+    if (((struct Obj01931 *)p)->f12C) return;
+    ((struct Obj01931 *)p)->f12C=1;
+    switch (((struct Obj01931 *)p)->f130) {
+    case 0: func_021DDC58((unsigned *)(*(char * *)&((struct Obj01931 *)p)->f11C+0xa0),p,((struct Obj01931 *)p)->f118); break;
+    case 1: func_021DDCF8((unsigned *)(*(char * *)&((struct Obj01931 *)p)->f11C+0xa0),p,((struct Obj01931 *)p)->f118); break;
     }
-    func_021DDD64(p,*(void **)(p+0x11c),*(u16 *)(p+0x118));
-    func_021DA4A8(*(void **)(p+0x144));
-    func_021DA318(**(void ***)(p+0x11c));
-    func_02040588(*(u16 *)(*(char **)(p+0x11c)+0x96),1);
-    func_02040588(*(u16 *)(*(char **)(p+0x11c)+0x94),1);
+    func_021DDD64(p,((struct Obj01931 *)p)->f11C,((struct Obj01931 *)p)->f118);
+    func_021DA4A8(((struct Obj01931 *)p)->f144);
+    func_021DA318(**(void ** *)&((struct Obj01931 *)p)->f11C);
+    func_02040588(((struct Obj22910 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f96,1);
+    func_02040588(((struct Obj22911 *)(*(char * *)&((struct Obj01931 *)p)->f11C))->f94,1);
 }

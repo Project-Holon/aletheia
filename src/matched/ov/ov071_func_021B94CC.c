@@ -28,6 +28,9 @@
  *   func_02045C04  0x02045C04  arm
  *   func_020315D4  0x020315D4  arm
  */
+#include "../include/Obj03177.h"
+#include "../include/Obj20746.h"
+#include "../include/Obj20747.h"
 
 typedef unsigned int u32;
 
@@ -57,18 +60,18 @@ extern void func_020315D4(struct S020315D4 *p);
 
 int func_021B94CC(void *a, void *b, char *c, char *d)
 {
-    if (func_0201C6B4(*(void **)(*(char **)(c + 4) + 8)) == 0)
+    if (func_0201C6B4(((struct Obj20747 *)(*(char * *)&((struct Obj20746 *)c)->f4))->f8) == 0)
         return 0;
     func_020435F4(8);
-    func_02030EAC(*(void **)d);
-    if (*(void **)(d + 0x294) != 0)
-        func_0201CE48(*(void **)(d + 0x294));
-    if (*(void **)(d + 0x290) != 0)
-        func_02045808(*(void **)(d + 0x290));
+    func_02030EAC(((struct Obj03177 *)d)->f0);
+    if (((struct Obj03177 *)d)->f294 != 0)
+        func_0201CE48(((struct Obj03177 *)d)->f294);
+    if (((struct Obj03177 *)d)->f290 != 0)
+        func_02045808(((struct Obj03177 *)d)->f290);
     func_021B9A18(d);
-    if (*(void **)(d + 0x310) != 0)
-        func_021B71FC(*(void **)(d + 0x310));
-    func_021B718C(*(void **)(d + 0x30c));
+    if (((struct Obj03177 *)d)->f310 != 0)
+        func_021B71FC(((struct Obj03177 *)d)->f310);
+    func_021B718C(((struct Obj03177 *)d)->f30C);
     func_021B9BA0(d);
     func_021B9B3C(d);
     func_021B9BC8(d);
@@ -76,7 +79,7 @@ int func_021B94CC(void *a, void *b, char *c, char *d)
     func_021B9694(d);
     func_021B9734(d);
     func_021B95CC();
-    func_02045C04(*(void **)(d + 0x20));
+    func_02045C04(((struct Obj03177 *)d)->f20);
     func_020315D4(a);
     return 1;
 }

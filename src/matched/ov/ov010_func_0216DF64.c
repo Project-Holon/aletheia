@@ -17,6 +17,7 @@
  *   func_0216D514  0x0216D514  thumb  ov010
  *   func_0216D3A8  0x0216D3A8  thumb  ov010
  */
+#include "../include/Obj19133.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,5 +40,5 @@ void func_0216DF64(u8 *o, u32 b)
         d = 1;
     else if (func_0216D588(o) == 0xff)
         d--;
-    *(int *)(o + 0x84) = func_02030DA8(func_0216D514((void *)b), (int)func_0216D3A8, (int)o, base + d);
+    ((struct Obj19133 *)o)->f84 = func_02030DA8(func_0216D514((void *)b), (int)func_0216D3A8, (int)o, base + d);
 }

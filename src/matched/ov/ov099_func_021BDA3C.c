@@ -16,6 +16,7 @@
  *   func_021BC090 0x021BC090 thumb ov099
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj07952.h"
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -31,15 +32,15 @@ int func_021BDA3C(char *p, int v)
     int zero;
     zero = 0;
     if (func_0203D378(func_0203D1E8((int)func_020399A8(), 0)) == 0) {
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        func_021BA874(p, ((struct Obj07952 *)p)->f242 - 1);
         func_021BAAB8(p, 0x77, zero);
-        *(int *)(p + 0x1cc) = 0xaa;
+        ((struct Obj07952 *)p)->f1CC = 0xaa;
     } else {
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        func_021BA874(p, ((struct Obj07952 *)p)->f242 - 1);
         func_021BAAB8(p, 0x4c, zero);
         func_021BC090(p);
         func_02039C68((struct Link *)func_020399A8(), 0x1b, 10);
-        *(int *)(p + 0x1cc) = 0x49;
+        ((struct Obj07952 *)p)->f1CC = 0x49;
     }
     return v;
 }

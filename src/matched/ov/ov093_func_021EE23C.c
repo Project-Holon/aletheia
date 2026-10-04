@@ -17,6 +17,7 @@
  *   func_021EB318  0x021EB318  thumb  ov093
  *   func_021EE3E8  0x021EE3E8  thumb  ov093
  */
+#include "../include/Obj06295.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -62,7 +63,7 @@ int func_021EE25C(void)
 
 void func_021EE264(char *o, int a, struct T *src)
 {
-    *(int *)(o + 0x16c) = a;
+    ((struct Obj06295 *)o)->f16C = a;
     *(struct T *)(o + 0x170) = *src;
     ((struct O *)o)->fe0 = 0;
     ((struct O *)o)->fe4 = func_021EE3E8;

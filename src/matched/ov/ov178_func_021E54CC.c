@@ -17,6 +17,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj14379.h"
+#include "../include/Obj24455.h"
 extern void *func_0201AB28(void *,unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -36,9 +38,9 @@ int func_021E54CC(void *handle,int unused,char *q,char *p)
  unsigned char i;
  for(i=0;i<6;i++) {
  unsigned n=*(unsigned char *)(p+i+0x51);
- if(n!=0)func_0201A98C(*(void **)(q+0x1C),func_0201AB28(*(void **)(q+4),n-1));
+ if(n!=0)func_0201A98C(((struct Obj14379 *)q)->f1C,func_0201AB28(((struct Obj14379 *)q)->f4,n-1));
  }
  func_021B6108(p+8);func_02034A5C((unsigned)ov090_id);
- func_0203133C(*(void **)(p+0xD0));func_020315D4(handle);func_020306F0(0x58);
+ func_0203133C(((struct Obj24455 *)p)->fD0);func_020315D4(handle);func_020306F0(0x58);
  return 1;
 }

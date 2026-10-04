@@ -17,6 +17,7 @@
  *
  * Loads an icon resource for a, uploads it and frees the file.
  */
+#include "../include/Obj24003.h"
 
 extern void *func_021EC338(char *w, void *a, void **out);
 extern int func_0201BBE8(void *a);
@@ -29,6 +30,6 @@ void func_021EC45C(unsigned char *p, void *a, int i)
 {
     void *d;
     void *res = func_021EC338(WORK(p), a, &d);
-    func_021EC428(WORK(p), *(int *)((char *)d + 0x14), i, func_0201BBE8(a));
+    func_021EC428(WORK(p), ((struct Obj24003 *)d)->f14, i, func_0201BBE8(a));
     func_020307B0(res);
 }

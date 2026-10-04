@@ -20,6 +20,7 @@
  *   func_02027A04  0x02027A04  thumb
  *   func_0202208C  0x0202208C  thumb
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned short u16;
 
@@ -40,15 +41,15 @@ void func_021DDA50(void *p)
 {
     int v;
 
-    if (func_020279E8((struct TaskMenu *)(*(int *)((char *)p + 0x64c))) == 0)
+    if (func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C)) == 0)
         return;
-    v = func_02027A04((const u8 *)(*(int *)((char *)p + 0x64c)));
+    v = func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
     func_021E12F8(p);
     func_021E1098(p);
-    *(int *)((char *)p + 0x64c) = 0;
+    *(int *)&((struct Obj00001 *)p)->f64C = 0;
     switch (v) {
     case 0:
-        func_0202208C((void *)3, 0, 0, 0, 6, 1, *(u16 *)((char *)p + 0x5f4));
+        func_0202208C((void *)3, 0, 0, 0, 6, 1, ((struct Obj00001 *)p)->f5F4);
         func_021D8E84(p, 0x021DE519);
         return;
     case 1:

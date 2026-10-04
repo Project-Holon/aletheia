@@ -12,6 +12,7 @@
  * symbols:
  *   func_0216D4F0  0x0216D4F0  thumb  ov010
  */
+#include "../include/Obj07478.h"
 
 typedef unsigned short u16;
 extern u16 func_0216D4F0(void *p);
@@ -26,7 +27,7 @@ int func_0219D144(int *obj, unsigned int a, int b)
     n = func_0216D4F0((void *)obj[4]);
     p = *(int **)(obj[7] + 0x14);
     for (; i < n; i++, p += 10) {
-        if (p[0] != 0 && p[1] != 0 && p[1] != b && *(unsigned short *)(p + 2) == a) {
+        if (p[0] != 0 && p[1] != 0 && p[1] != b && ((struct Obj07478 *)p)->f8 == a) {
             return 1;
         }
     }

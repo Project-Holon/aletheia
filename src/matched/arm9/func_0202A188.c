@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_0202A188.c \
  *       --func func_0202A188 --addr 0x0202A188 --thumb --cc 1.1p1
  */
+#include "../include/Obj15808.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ u32 func_0202A188(u8 *p, u32 a, u32 v2, u32 v3)
 {
     u32 i = func_0202A20C(p, a, v2, v3);
 
-    return *(u16 *)(*(u32 *)p + i * 8 + 6);
+    return *(u16 *)(((struct Obj15808 *)p)->f0 + i * 8 + 6);
 }

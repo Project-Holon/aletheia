@@ -24,6 +24,7 @@
  * symbols:
  *   g_020A1388     0x020A1388  data
  */
+#include "../include/Obj16091.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,5 +34,5 @@ extern u16 g_020A1388[];
 
 void func_0204BF28(u8 *p, u32 idx)
 {
-    *(u32 *)(p + 0x14) = g_020A1388[idx];
+    ((struct Obj16091 *)p)->f14 = g_020A1388[idx];
 }

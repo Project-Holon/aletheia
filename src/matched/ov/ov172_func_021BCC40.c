@@ -37,6 +37,9 @@
  *     unlabelled Thumb functions with no witness outside this function.  Seed and
  *     match them and this file is EXACT.
  */
+#include "../include/Obj01166.h"
+#include "../include/Obj02882.h"
+#include "../include/Obj24102.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -104,61 +107,61 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
     char *e;
     u32 ws;
 
-    if (*(u32 *)row != 1)
+    if (((struct Obj02882 *)row)->f0 != 1)
         return;
-    if (*(u8 *)(row + 0x18) != 0xff) {
+    if (((struct Obj02882 *)row)->f18 != 0xff) {
         heap = func_021BE00C(ctx);
         font = func_021BE034(ctx);
         msgs = func_021BE03C(ctx);
         sys = func_021BE044(ctx);
-        e = list + 0x1e4 + *(u8 *)(row + 0x18) * 0x24;
+        e = list + 0x1e4 + ((struct Obj02882 *)row)->f18 * 0x24;
         ws = (u32)func_0201EC64(heap);
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14))), 0);
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14)), 0);
         str = (u32)func_020457B0(0x20, heap);
-        if (*(u8 *)(e + 0x18) == 0x20)
-            func_02045994((struct Strbuf *)str, func_0202E930(*(void **)(e + 0x14)), 8);
+        if (((struct Obj01166 *)e)->f18 == 0x20)
+            func_02045994((struct Strbuf *)str, func_0202E930(((struct Obj01166 *)e)->f14), 8);
         else
-            func_02045994((struct Strbuf *)str, (const u16 *)(*(char **)(e + 0x14) + 0x1a), 8);
-        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 6, 0, str, font, 0x3c40);
+            func_02045994((struct Strbuf *)str, (const u16 *)(*(char * *)&((struct Obj01166 *)e)->f14 + 0x1a), 8);
+        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 6, 0, str, font, 0x3c40);
         func_02045808((struct U16Vec *)str);
         fmt = (u32)func_02045EC0((struct MsgBank *)msgs, 0xe);
         buf = (u32)func_020457B0(0x20, heap);
-        if (*(u8 *)(e + 0x18) == 0x20)
-            func_0201EFA4((struct WordSet *)ws, 0, func_0202E938(*(void **)(e + 0x14)), 5, 2, 1);
+        if (((struct Obj01166 *)e)->f18 == 0x20)
+            func_0201EFA4((struct WordSet *)ws, 0, func_0202E938(((struct Obj01166 *)e)->f14), 5, 2, 1);
         else
-            func_0201EFA4((struct WordSet *)ws, 0, *(u16 *)(*(char **)(e + 0x14) + 0x18), 5, 2, 1);
+            func_0201EFA4((struct WordSet *)ws, 0, ((struct Obj24102 *)(*(char * *)&((struct Obj01166 *)e)->f14))->f18, 5, 2, 1);
         func_0201F250((struct WordSet *)ws, (void *)buf, (void *)fmt);
         func_02045808((struct U16Vec *)fmt);
-        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 0x50, 0, buf, font, 0x3c40);
+        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x50, 0, buf, font, 0x3c40);
         func_02045808((struct U16Vec *)buf);
-        if (*(u8 *)(e + 0x18) == 0x20) {
-            p = *(u8 **)(e + 0x14);
-            *(u8 *)(e + 0x1f) = p[0x20];
+        if (((struct Obj01166 *)e)->f18 == 0x20) {
+            p = *(u8 * *)&((struct Obj01166 *)e)->f14;
+            ((struct Obj01166 *)e)->f1F = p[0x20];
             fmt2 = (u32)func_02045EC0((struct MsgBank *)msgs, 0x10);
             buf2 = (u32)func_020457B0(0x20, heap);
             p += 0x20;
             func_0201EFA4((struct WordSet *)ws, 0, *p, 1, 0, 1);
             func_0201F250((struct WordSet *)ws, (void *)buf2, (void *)fmt2);
             func_02045808((struct U16Vec *)fmt2);
-            func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 0x90, 0, buf2, font, 0x3c40);
+            func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj02882 *)row)->f14), 0x90, 0, buf2, font, 0x3c40);
             func_02045808((struct U16Vec *)buf2);
         } else {
-            *(u8 *)(e + 0x1f) = 0;
+            ((struct Obj01166 *)e)->f1F = 0;
         }
-        if (*(u8 *)(e + 0x18) == 0x20) {
-            if ((*(struct FlagsA **)(e + 0x14))->on == 1)
-                *(u32 *)(e + 0xc) = 1;
+        if (((struct Obj01166 *)e)->f18 == 0x20) {
+            if ((*(struct FlagsA * *)&((struct Obj01166 *)e)->f14)->on == 1)
+                ((struct Obj01166 *)e)->fC = 1;
             else
-                *(u32 *)(e + 0xc) = 0;
-        } else if ((*(struct FlagsB **)(e + 0x14))->b7 == 1 && (*(struct FlagsB **)(e + 0x14))->b6 == 0) {
-            *(u32 *)(e + 0xc) = 1;
+                ((struct Obj01166 *)e)->fC = 0;
+        } else if ((*(struct FlagsB * *)&((struct Obj01166 *)e)->f14)->b7 == 1 && (*(struct FlagsB * *)&((struct Obj01166 *)e)->f14)->b6 == 0) {
+            ((struct Obj01166 *)e)->fC = 1;
         } else {
-            *(u32 *)(e + 0xc) = 0;
+            ((struct Obj01166 *)e)->fC = 0;
         }
         func_0201ED04((struct WordSet *)ws);
-        *(u32 *)(row + 4) = 1;
+        ((struct Obj02882 *)row)->f4 = 1;
     } else {
-        func_02041B6C(func_021BCC40_show(*(u32 *)(row + 0x14)));
+        func_02041B6C(func_021BCC40_show(((struct Obj02882 *)row)->f14));
     }
-    *(u32 *)row = 0;
+    ((struct Obj02882 *)row)->f0 = 0;
 }

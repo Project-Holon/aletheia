@@ -45,6 +45,8 @@
  *   d_021DC18C 0x021DC18C data a4
  *   d_021DC1BC 0x021DC1BC data a4
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj00472.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -92,72 +94,72 @@ void func_021D6A38(u8 *p,u8 *q)
     mon=func_021D6064(p);
     other=func_021D60A4(p);
     func_021D785C(p,q,mon);
-    window=*(void **)(q+0x18);
+    window=((struct Obj00472 *)q)->f18;
     func_02045334(window);
     func_02045374(window);
     func_02041B6C(func_02045730(window));
-    window=*(void **)(q+0x1c);
+    window=((struct Obj00472 *)q)->f1C;
     func_02045334(window);
     func_02045374(window);
     func_02041B6C(func_02045730(window));
     form=func_02017E88(mon,0x98,0);
     archive=func_020275E4();
-    loaded=func_02049F34(archive,func_02027720(form),(u32)&pal,*(u16 *)p);
-    func_0204ADEC(*(u32 *)(p+0x9c),pal,1);
+    loaded=func_02049F34(archive,func_02027720(form),(u32)&pal,((struct Obj00112 *)p)->f0);
+    func_0204ADEC(((struct Obj00112 *)p)->f9C,pal,1);
     func_020307B0(loaded);
     archive=func_020275E4();
-    loaded=func_02049DB4(archive,func_0202772C(form),0,(u32)&chr,*(u16 *)p);
-    func_0204A9D0(*(int *)(p+0xd0),chr);
+    loaded=func_02049DB4(archive,func_0202772C(form),0,(u32)&chr,((struct Obj00112 *)p)->f0);
+    func_0204A9D0(((struct Obj00112 *)p)->fD0,chr);
     func_020307B0(loaded);
-    func_0204B3DC(*(void **)(q+0x20),1);
+    func_0204B3DC(((struct Obj00472 *)q)->f20,1);
     status=func_02017E88(mon,11,0);
     for(i=0,mask=1;i<6;mask=(u8)(mask<<1),i++) {
         if(status & mask) func_0204B878(*(void **)(q+0x24+i*4),i*2+1);
         else func_0204B878(*(void **)(q+0x24+i*4),i*2);
     }
-    if(func_0201B28C(mon)==1) func_0204B3DC(*(void **)(q+0x40),1);
-    else func_0204B3DC(*(void **)(q+0x40),0);
-    if(func_02017EB4(mon)==1 && *(u32 *)(p+0x38)==0)
-        func_0204B3DC(*(void **)(q+0x3c),1);
-    else func_0204B3DC(*(void **)(q+0x3c),0);
-    if(*(u32 *)(q+0xc)==1) {
+    if(func_0201B28C(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f40,1);
+    else func_0204B3DC(((struct Obj00472 *)q)->f40,0);
+    if(func_02017EB4(mon)==1 && ((struct Obj00112 *)p)->f38==0)
+        func_0204B3DC(((struct Obj00472 *)q)->f3C,1);
+    else func_0204B3DC(((struct Obj00472 *)q)->f3C,0);
+    if(((struct Obj00472 *)q)->fC==1) {
         Vec a=d_021DC204;
         Vec b=d_021DC21C;
         Vec c={0,0,0};
         Vec d=d_021DC1B0;
-        func_02015C78(*(void **)q,&c.x);
+        func_02015C78(((struct Obj00472 *)q)->f0,&c.x);
         func_021D7A1C(p,q,&d);
-        func_02015D30(*(void **)q,&b.x);
-        func_02048AFC(*(void **)(p+0x70),&a);
-        func_02048AD0(*(void **)(p+0x70));
-        *(u32 *)(q+8)=0;
+        func_02015D30(((struct Obj00472 *)q)->f0,&b.x);
+        func_02048AFC(((struct Obj00112 *)p)->f70,&a);
+        func_02048AD0(((struct Obj00112 *)p)->f70);
+        ((struct Obj00472 *)q)->f8=0;
     } else {
         Vec e=d_021DC1A4;
         Vec f=d_021DC18C;
         Vec g={0,0,0};
         Vec h=d_021DC1BC;
-        func_02015C78(*(void **)q,&g.x);
+        func_02015C78(((struct Obj00472 *)q)->f0,&g.x);
         func_021D7A1C(p,q,&h);
-        func_02015D30(*(void **)(q+4),&f.x);
-        func_02048AFC(*(void **)(p+0x70),&e);
-        func_02048AD0(*(void **)(p+0x70));
-        *(u32 *)(q+8)=2;
+        func_02015D30(((struct Obj00472 *)q)->f4,&f.x);
+        func_02048AFC(((struct Obj00112 *)p)->f70,&e);
+        func_02048AD0(((struct Obj00112 *)p)->f70);
+        ((struct Obj00472 *)q)->f8=2;
     }
     if((u8)func_02017F90(other)!=0) {
-        func_0204B878(*(void **)(q+0x48),func_020276C4(other));
-        func_0204B3DC(*(void **)(q+0x48),1);
-        func_0204B3DC(*(void **)(q+0x44),0);
+        func_0204B878(((struct Obj00472 *)q)->f48,func_020276C4(other));
+        func_0204B3DC(((struct Obj00472 *)q)->f48,1);
+        func_0204B3DC(((struct Obj00472 *)q)->f44,0);
     } else {
-        func_0204B3DC(*(void **)(q+0x48),0);
-        if(func_0201B268(mon)==1) func_0204B3DC(*(void **)(q+0x44),1);
-        else func_0204B3DC(*(void **)(q+0x44),0);
+        func_0204B3DC(((struct Obj00472 *)q)->f48,0);
+        if(func_0201B268(mon)==1) func_0204B3DC(((struct Obj00472 *)q)->f44,1);
+        else func_0204B3DC(((struct Obj00472 *)q)->f44,0);
     }
     {
     Vec zero={0,0,0};
-    func_02015C78(*(void **)q,&zero.x);
-    func_02015C78(*(void **)(q+4),&zero.x);
+    func_02015C78(((struct Obj00472 *)q)->f0,&zero.x);
+    func_02015C78(((struct Obj00472 *)q)->f4,&zero.x);
     q[0x78]=0;q[0x79]=0;q[0x80]=0;q[0x81]=0;
-    *(u32 *)(q+0x6c)=0;*(u32 *)(q+0x5c)=0;
+    ((struct Obj00472 *)q)->f6C=0;((struct Obj00472 *)q)->f5C=0;
     q[0x88]=0;q[0x89]=0;
     }
 }

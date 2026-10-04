@@ -18,6 +18,7 @@
  *   func_021A5228  0x021A5228  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00262.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern void func_021A5228(u32 *p, int b, u8 *c);
 
 void func_021A5148(u32 a, u32 b, u32 c)
 {
-    void *x = func_021A3960(*(void **)(a + 12));
+    void *x = func_021A3960(((struct Obj00262 *)a)->fC);
     switch (b) {
     case 0: func_021A51A4(a, (u32)x, c); return;
     case 1: func_021A51A8((u32 *)a, (int)x, (u8 *)c); return;

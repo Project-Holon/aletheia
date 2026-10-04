@@ -27,6 +27,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj00772.h"
+#include "../include/Obj22940.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Bank;
@@ -68,21 +70,21 @@ int func_021D53D0(void *a,int b,u8 *out,char *p)
     int i;
     if(!func_020221A4()) return 0;
     for(i=0;i<3;i++) func_0204B3B4(*(void **)(p+i*4+0x2a0));
-    func_0204ADA4((u32)(*(void **)(p+0x290)));
-    func_0204A8D4((u32)(*(void **)(p+0x294)));
-    func_0204AFD8((u32)(*(void **)(p+0x298)));
-    func_02030EAC(*(void **)(p+0x2b0));
-    func_0204B1CC(*(void **)(p+0x2ac)); func_0204A5AC();
-    if(*(void **)(p+0x288)) { func_0202F038(*(void **)(p+0x288)); *(void **)(p+0x288)=0; }
-    if(*(void **)(p+0x228)) func_0201CE48(*(void **)(p+0x228));
-    if(*(void **)(p+0x238)) { func_02027858(*(void **)(p+0x238)); *(void **)(p+0x238)=0; }
+    func_0204ADA4((u32)(((struct Obj00772 *)p)->f290));
+    func_0204A8D4((u32)(((struct Obj00772 *)p)->f294));
+    func_0204AFD8((u32)(((struct Obj00772 *)p)->f298));
+    func_02030EAC(((struct Obj00772 *)p)->f2B0);
+    func_0204B1CC(((struct Obj00772 *)p)->f2AC); func_0204A5AC();
+    if(((struct Obj00772 *)p)->f288) { func_0202F038(((struct Obj00772 *)p)->f288); ((struct Obj00772 *)p)->f288=0; }
+    if(((struct Obj00772 *)p)->f228) func_0201CE48(((struct Obj00772 *)p)->f228);
+    if(((struct Obj00772 *)p)->f238) { func_02027858(((struct Obj00772 *)p)->f238); ((struct Obj00772 *)p)->f238=0; }
     func_021D4A64(p);
-    *(int *)(out+0x1c8)=*(int *)(p+8);
-    func_020307B0(*(void **)(p+0x280)); func_020307B0(*(void **)(p+0x284));
-    func_02028604((int)(*(void **)(p+0x22c))); func_020403F4(5);
-    func_0201C6EC(*(void **)(p+0x234)); func_0201C4C0(*(void **)(p+0x234));
-    if(*(void **)(p+0x224)) func_020452E8(*(void **)(p+0x224));
-    func_02031140(*(void **)(p+0x230)); func_02027FD8(*(void **)(p+0x254));
+    ((struct Obj22940 *)out)->f1C8=((struct Obj00772 *)p)->f8;
+    func_020307B0(((struct Obj00772 *)p)->f280); func_020307B0(((struct Obj00772 *)p)->f284);
+    func_02028604((int)(((struct Obj00772 *)p)->f22C)); func_020403F4(5);
+    func_0201C6EC(((struct Obj00772 *)p)->f234); func_0201C4C0(((struct Obj00772 *)p)->f234);
+    if(((struct Obj00772 *)p)->f224) func_020452E8(((struct Obj00772 *)p)->f224);
+    func_02031140(((struct Obj00772 *)p)->f230); func_02027FD8(((struct Obj00772 *)p)->f254);
     func_020450C8(); func_0203F9B4(); func_020315D4(a); func_020306F0(31);
     return 1;
 }

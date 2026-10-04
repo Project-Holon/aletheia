@@ -17,6 +17,9 @@
  *   func_021B71B8 0x021B71B8 thumb ov174
  *   d_021B74BC 0x021B74BC data
  */
+#include "../include/Obj01422.h"
+#include "../include/Obj01759.h"
+#include "../include/Obj24205.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -33,22 +36,22 @@ char *func_021B6C70(char *p,int index)
 {
     char *q;
     if((*(u8 **)(p+0x3c))[index]==0xff) return 0;
-    q=func_02030734(*(u16 *)p,0x3c,0,d_021B74BC,0x7a);
-    *(u8 *)q=index;
-    *(u8 *)(q+2)=(*(u8 **)(p+0x3c))[index];
-    *(u8 *)(q+3)=(*(u8 **)(p+0x3c)+index)[4];
-    *(u8 *)(q+4)=0;
-    *(u8 *)(q+5)=0;
-    *(int *)(q+0x14)=0;
-    *(int *)(q+0x34)=0;
-    *(u16 *)(q+0x30)=func_02005728(0x4b);
-    if(*(u8 *)(q+2)==0 && func_02008550((const struct Sub0200852CObj *)func_02012944(*(void **)(*(char **)(p+0x30)+4)))==1) *(u8 *)(q+2)=5;
+    q=func_02030734(((struct Obj01422 *)p)->f0,0x3c,0,d_021B74BC,0x7a);
+    ((struct Obj01759 *)q)->f0=index;
+    ((struct Obj01759 *)q)->f2=(*(u8 **)(p+0x3c))[index];
+    ((struct Obj01759 *)q)->f3=(*(u8 * *)&((struct Obj01422 *)p)->f3C+index)[4];
+    ((struct Obj01759 *)q)->f4=0;
+    ((struct Obj01759 *)q)->f5=0;
+    ((struct Obj01759 *)q)->f14=0;
+    ((struct Obj01759 *)q)->f34=0;
+    ((struct Obj01759 *)q)->f30=func_02005728(0x4b);
+    if(((struct Obj01759 *)q)->f2==0 && func_02008550((const struct Sub0200852CObj *)func_02012944(((struct Obj24205 *)(*(char * *)&((struct Obj01422 *)p)->f30))->f4))==1) ((struct Obj01759 *)q)->f2=5;
     func_021B7004(p,q);
     func_021B6F3C(p,q);
     func_021B71B8(p,q);
-    *(int *)(q+8)=0;
-    *(int *)(q+0x10)=0;
-    *(u8 *)(q+6)=func_02005728(40);
-    *(u16 *)(q+0x38)=0;
+    ((struct Obj01759 *)q)->f8=0;
+    ((struct Obj01759 *)q)->f10=0;
+    ((struct Obj01759 *)q)->f6=func_02005728(40);
+    ((struct Obj01759 *)q)->f38=0;
     return q;
 }

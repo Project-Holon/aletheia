@@ -17,6 +17,7 @@
  *   func_0219131C 0x0219131C thumb ov021
  *   func_021909BC 0x021909BC thumb ov021
  */
+#include "../include/Obj00128.h"
 typedef unsigned short u16;
 extern int func_021912F8(void *p);
 extern void func_0219131C(void *p);
@@ -24,18 +25,18 @@ typedef unsigned int   u32;
 extern int func_021909BC(u32 a);
 int func_021875B8(char *p)
 {
-    if (*(void **)(p + 0x10) != 0) {
-        if (*(u16 *)(p + 0x52) == 5) {
-            if (func_021912F8(*(void **)(p + 0x10)) == 0) return 0;
-            *(void **)(p + 0x10) = 0;
+    if (((struct Obj00128 *)p)->f10 != 0) {
+        if (((struct Obj00128 *)p)->f52 == 5) {
+            if (func_021912F8(((struct Obj00128 *)p)->f10) == 0) return 0;
+            ((struct Obj00128 *)p)->f10 = 0;
         } else {
-            func_0219131C(*(void **)(p + 0x10));
-            *(void **)(p + 0x10) = 0;
+            func_0219131C(((struct Obj00128 *)p)->f10);
+            ((struct Obj00128 *)p)->f10 = 0;
         }
     }
-    if (*(void **)(p + 0x14) != 0) {
-        func_021909BC((u32)(*(void **)(p + 0x14)));
-        *(void **)(p + 0x14) = 0;
+    if (((struct Obj00128 *)p)->f14 != 0) {
+        func_021909BC((u32)(((struct Obj00128 *)p)->f14));
+        ((struct Obj00128 *)p)->f14 = 0;
     }
     return 1;
 }

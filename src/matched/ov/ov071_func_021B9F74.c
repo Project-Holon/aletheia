@@ -12,6 +12,7 @@
  * symbols:
  *   func_020413B0  0x020413B0  arm
  */
+#include "../include/Obj20757.h"
 
 typedef unsigned char u8;
 
@@ -27,7 +28,7 @@ void func_021B9F74(u8 *p, int i, int v)
     int d;
 
     if (i != 0xFFFF) {
-        x = *(int *)(p + 0x2d8) >> 8;
+        x = ((struct Obj20757 *)p)->f2D8 >> 8;
         q = x / 32;
         m32 = x % 32;
         m64 = x % 64;

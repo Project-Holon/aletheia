@@ -24,6 +24,8 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02177BCC  0x02177BCC  thumb  ov014
  */
+#include "../include/Obj04145.h"
+#include "../include/Obj04913.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -58,9 +60,9 @@ void func_02157760(u8 *q)
         e = func_02177B2C(i);
         if (e == 0)
             continue;
-        if (e[0x5F] != *(u32 *)(q + 0x10)) {
+        if (e[0x5F] != ((struct Obj04145 *)q)->f10) {
             func_02177BAC(i);
-        } else if ((*(u32 *)(e + 0x60) & *(u32 *)(q + 0x14)) == 0) {
+        } else if ((((struct Obj04913 *)e)->f60 & ((struct Obj04145 *)q)->f14) == 0) {
             func_02177BAC(i);
         } else if (e[0x5E] != p->sel && p->sel != 0xFF) {
             func_02177BAC(i);
@@ -71,7 +73,7 @@ void func_02157760(u8 *q)
             if (q[idx * 100 + 0xD8] != 0)
                 continue;
             crc = func_0203F1FC(e + 8, 0x54);
-            if (crc != *(u16 *)e) {
+            if (crc != ((struct Obj04913 *)e)->f0) {
                 func_02177BAC(i);
             } else {
                 if (p->sel == 0xFF)

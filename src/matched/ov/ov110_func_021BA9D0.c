@@ -15,6 +15,8 @@
  *   func_021BFD60 0x021BFD60 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj10266.h"
+#include "../include/Obj10267.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,14 +27,14 @@ extern void func_021B9CBC(u8 *);
 void func_021BA9D0(void *unused, u8 *p)
 {
     u8 *q;
-    q = *(u8 **)p;
-    switch (*(int *)(p + 0x14)) {
+    q = *(u8 * *)&((struct Obj10266 *)p)->f0;
+    switch (((struct Obj10266 *)p)->f14) {
     case 0:
-        func_021BFCA4(*(u8 **)(q + 0x5c), func_021BF7A0(*(u8 **)(q + 0x18)));
-        (*(int *)(p + 0x14))++;
+        func_021BFCA4(*(u8 * *)&((struct Obj10267 *)q)->f5C, func_021BF7A0(*(u8 * *)&((struct Obj10267 *)q)->f18));
+        (((struct Obj10266 *)p)->f14)++;
         break;
     case 1:
-        if (func_021BFD60(*(u8 **)(q + 0x5c))) func_021B9CBC(p);
+        if (func_021BFD60(*(u8 * *)&((struct Obj10267 *)q)->f5C)) func_021B9CBC(p);
         break;
     }
 }

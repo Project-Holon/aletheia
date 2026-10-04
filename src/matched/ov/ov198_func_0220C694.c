@@ -15,6 +15,9 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  */
+#include "../include/Obj08358.h"
+#include "../include/Obj25143.h"
+#include "../include/Obj25144.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -38,11 +41,11 @@ void func_0220C694(char *p, int i, int id)
     u32 font;
     s16 x;
     handle = *(void **)(p + 0x1F70 + i * 8);
-    t = func_02045EC0(*(void **)(p + 0x1EA0), id);
-    width = func_0201D304(t, *(u32 *)(*(char **)p + 12), 0);
-    font = *(u32 *)(*(char **)p + 12);
+    t = func_02045EC0(((struct Obj08358 *)p)->f1EA0, id);
+    width = func_0201D304(t, ((struct Obj25143 *)(*(char * *)&((struct Obj08358 *)p)->f0))->fC, 0);
+    font = ((struct Obj25144 *)(*(char * *)&((struct Obj08358 *)p)->f0))->fC;
     x = (s16)(((func_02045738(handle) << 3) - width) >> 1);
-    f = *(void **)(p + 0x1EAC);
+    f = ((struct Obj08358 *)p)->f1EAC;
     func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), x, 5, (u32)t, font, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);

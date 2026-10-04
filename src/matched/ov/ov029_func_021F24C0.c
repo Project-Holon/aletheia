@@ -15,6 +15,7 @@
  *   func_021F1010  0x021F1010  thumb  ov029
  *   func_02030D28  0x02030D28  arm
  */
+#include "../include/Obj00106.h"
 
 extern void func_021F0FF0(char *p);
 extern void func_021F0E70(char *p);
@@ -25,11 +26,11 @@ extern void func_02030D28(struct Ctx *c);
 void func_021F24C0(char *p)
 {
     func_021F0FF0(p);
-    if (*(int *)(p + 0x204) != 0)
-        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
+    if (*(int *)&((struct Obj00106 *)p)->f204 != 0)
+        func_02030D28((struct Ctx *)(*(int *)&((struct Obj00106 *)p)->f204));
     func_021F0E70(p);
     func_021F1010(p);
-    if (*(int *)(p + 0x204) != 0)
-        func_02030D28((struct Ctx *)(*(int *)(p + 0x204)));
-    *(unsigned char *)(p + 0x451) = 1;
+    if (*(int *)&((struct Obj00106 *)p)->f204 != 0)
+        func_02030D28((struct Ctx *)(*(int *)&((struct Obj00106 *)p)->f204));
+    ((struct Obj00106 *)p)->f451 = 1;
 }

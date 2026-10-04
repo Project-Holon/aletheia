@@ -10,12 +10,13 @@
  * symbols:
  *   d_021DFC00 0x021DFC00 data a4
  */
+#include "../include/Obj08104.h"
 extern int d_021DFC00[];
 void func_021DEE14(char *p, int *state, int value)
 {
     d_021DFC00[1] = 0;
     d_021DFC00[3] = 0;
-    *(int *)(p + 0x708) = value;
-    *(int *)(p + 0x72c) = 0;
+    ((struct Obj08104 *)p)->f708 = value;
+    ((struct Obj08104 *)p)->f72C = 0;
     *state = 100;
 }

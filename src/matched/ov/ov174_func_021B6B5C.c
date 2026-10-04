@@ -16,6 +16,9 @@
  *   func_021B7378 0x021B7378 thumb ov174
  * Extent includes clear-counter stub 021B6B8C and counter query 021B6B94.
  */
+#include "../include/Obj08268.h"
+#include "../include/Obj24202.h"
+#include "../include/Obj24203.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B68E8(char *);
@@ -27,19 +30,19 @@ int func_021B6B5C(char *p)
     if(func_021B68E8(p)==1) {
         func_021B6754(p);
         func_021B6994(p);
-        func_021B7378(*(char **)(p+0x1c+*(u8 *)(p+0x88)*4));
+        func_021B7378(*(char **)(p+0x1c+((struct Obj24202 *)p)->f88*4));
         return 1;
     }
     return 0;
 }
 void func_021B6B8C(char *p)
 {
-    *(u16 *)(p+0x8a)=0;
+    ((struct Obj24203 *)p)->f8A=0;
 }
 int func_021B6B94(char *p)
 {
-    u8 threshold=*(u16 *)(*(char **)(p+0x40)+*(u8 *)(p+0x89)*4+2);
-    ++*(volatile u16 *)(p+0x8a);
-    if(*(volatile u16 *)(p+0x8a)>threshold) return 1;
+    u8 threshold=*(u16 *)(*(char * *)&((struct Obj08268 *)p)->f40+((struct Obj08268 *)p)->f89*4+2);
+    ++*(volatile u16 *)&((struct Obj08268 *)p)->f8A;
+    if(*(volatile u16 *)&((struct Obj08268 *)p)->f8A>threshold) return 1;
     return 0;
 }

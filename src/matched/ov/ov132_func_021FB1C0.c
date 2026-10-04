@@ -11,6 +11,7 @@
  * symbols:
  *   func_0201134C 0x0201134C thumb
  */
+#include "../include/Obj23250.h"
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
-int func_021FB1C0(void *unused,char *p) { func_0201134C(*(struct Cursor **)(p+4)); return 0; }
+int func_021FB1C0(void *unused,char *p) { func_0201134C(*(struct Cursor * *)&((struct Obj23250 *)p)->f4); return 0; }

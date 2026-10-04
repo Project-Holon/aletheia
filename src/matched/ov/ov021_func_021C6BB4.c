@@ -29,6 +29,7 @@
  *   _fgr           0x0209BBB0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03145.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,16 +41,16 @@ extern double _dsqrt(double x);
 
 void func_021C6BB4(u8 *p)
 {
-    u32 h = (u32)func_02188C58((void *)(*(u32 *)p));
-    u32 n = *(u16 *)(p + 6);
+    u32 h = (u32)func_02188C58((void *)(((struct Obj03145 *)p)->f0));
+    u32 n = ((struct Obj03145 *)p)->f6;
     float t, a, b, v;
 
-    if (*(u16 *)(p + 4) <= n) {
+    if (((struct Obj03145 *)p)->f4 <= n) {
         t = 1.0f;
-        t *= (float)(u32)*(u16 *)(p + 4) / (float)n;
+        t *= (float)(u32)((struct Obj03145 *)p)->f4 / (float)n;
         t = (float)_dsqrt((double)t);
-        a = (float)*(int *)(p + 8) / 4096.0f;
-        b = (float)*(int *)(p + 12) / 4096.0f;
+        a = (float)((struct Obj03145 *)p)->f8 / 4096.0f;
+        b = (float)((struct Obj03145 *)p)->fC / 4096.0f;
         v = (1.0f - t) * a + t * b;
         if (v > 0.0f)
             v = 4096.0f * v + 0.5f;

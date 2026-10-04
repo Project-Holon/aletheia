@@ -17,6 +17,9 @@
  *   func_021DBAD0 0x021DBAD0 thumb ov131
  *   func_021DBCA4 0x021DBCA4 thumb ov131
  */
+#include "../include/Obj04509.h"
+#include "../include/Obj10514.h"
+#include "../include/Obj10515.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -40,10 +43,10 @@ void func_021D8938(u8 *a,u8 *p)
     u32 base;
     u8 i;
     d.x=0;d.y=0;d.kind=10;d.flag=0;d.z=0;
-    *(void **)(p+0x54)=func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xf8),*(u32 *)(a+0xc4),*(u32 *)(a+0x12c),&d,0,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0x54),0);
+    ((struct Obj10514 *)p)->f54=func_0204B294((void *)((struct Obj04509 *)a)->f174,((struct Obj04509 *)a)->fF8,((struct Obj04509 *)a)->fC4,((struct Obj04509 *)a)->f12C,&d,0,((struct Obj04509 *)a)->f0);
+    func_0204B3DC(((struct Obj10514 *)p)->f54,0);
     g.f4=8;
-    g.f8=*(u32 *)(a+0xb8);
+    g.f8=((struct Obj04509 *)a)->fB8;
     g.f12=0;
     g.f16=0;
     hi=0x19;
@@ -56,8 +59,8 @@ void func_021D8938(u8 *a,u8 *p)
         u8 *e;
         g.f6=func_021D9440(p,i);
         e=p+i*0x14;
-        g.f0=*(void **)(e+0x7c)=func_02043754((void *)(base-(i+1)*0x660),0x11,3,0x20,*(u16 *)a);
-        *(void **)(e+0x80)=func_021DBAD0(*(void **)(p+0x6c),&g);
-        func_021DBCA4(*(void **)(e+0x80),0);
+        g.f0=((struct Obj10515 *)e)->f7C=func_02043754((void *)(base-(i+1)*0x660),0x11,3,0x20,((struct Obj04509 *)a)->f0);
+        ((struct Obj10515 *)e)->f80=func_021DBAD0(((struct Obj10514 *)p)->f6C,&g);
+        func_021DBCA4(((struct Obj10515 *)e)->f80,0);
     }
 }

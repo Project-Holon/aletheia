@@ -26,6 +26,7 @@
  *   d_021BB094 0x021BB094 data a1
  *   d_021BAEF8 0x021BAEF8 data a4
  */
+#include "../include/Obj26049.h"
 struct DispVram;
 extern const struct DispVram d_021BAEF8;
 extern const char d_021BB094[];
@@ -62,6 +63,6 @@ char *func_021BA848(unsigned swap, unsigned heap)
     func_021BA980(p, heap);
     func_021BAA24((unsigned char *)(p + 4), (int)&d_021BAEF8, heap);
     func_021BAA94((unsigned **)(p + 8), heap);
-    *(void **)(p + 12) = func_020056A0((unsigned)func_021BA96C, (unsigned)p, 0);
+    ((struct Obj26049 *)p)->fC = func_020056A0((unsigned)func_021BA96C, (unsigned)p, 0);
     return p;
 }

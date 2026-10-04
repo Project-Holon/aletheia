@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BE44C  0x021BE44C  thumb ov210
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -21,7 +22,7 @@ extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color,
 
 void func_021BE4B4(u8 *p)
 {
-    if (*(u8 *)(*(u32 *)(*(u32 *)p + 8)) == 0)
+    if (*(u8 *)(*(u32 *)(*(u32 *)&((struct Obj00222 *)p)->f0 + 8)) == 0)
         func_021BE44C(p, 0, 0x12, 0, 4, 0x3C40, 0);
     else
         func_021BE44C(p, 0, 0x11, 0, 4, 0x3C40, 0);

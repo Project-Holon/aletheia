@@ -22,6 +22,8 @@
  *   func_021BAB40 0x021BAB40 thumb ov093
  *   func_021B83F4 0x021B83F4 thumb ov093
  */
+#include "../include/Obj00661.h"
+#include "../include/Obj01230.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,7 +47,7 @@ int func_021B6AAC(int unused, u8 *p)
 {
     u8 *q;
     int t;
-    q = *(u8 **)p;
+    q = *(u8 * *)&((struct Obj01230 *)p)->f0;
     t = func_021B6818((int *)q);
     p[0x46b] = 2;
     p[0x428] = 0;
@@ -57,16 +59,16 @@ int func_021B6AAC(int unused, u8 *p)
     func_021B93E0((char *)p + 0x1b0, (u32)p, 1);
     func_021B9460(p + 0x1b0, p, 0);
     func_021B9460(p + 0x1b0, p, 1);
-    *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
+    ((struct Obj01230 *)p)->f8 = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, ((struct Obj01230 *)p)->f468);
     p[0x46e] = 1;
     func_021B69FC((int)p, (char *)q);
-    *(int *)(p + 0x10) = func_021CD6F0(p, p + 0xc8, 0, *(int *)(q + 0x1c), 0, 1, 0, t, q[0x23], p + 0x3f0, *(u16 *)(p + 0x468));
-    *(int *)(p + 0x14) = func_021CD6F0(p, p + 0xc8, 0, *(int *)(q + 0x1c), 1, 1, 1, t, q[0x23], p + 0x3f0, *(u16 *)(p + 0x468));
+    ((struct Obj01230 *)p)->f10 = func_021CD6F0(p, p + 0xc8, 0, ((struct Obj00661 *)q)->f1C, 0, 1, 0, t, q[0x23], p + 0x3f0, ((struct Obj01230 *)p)->f468);
+    ((struct Obj01230 *)p)->f14 = func_021CD6F0(p, p + 0xc8, 0, ((struct Obj00661 *)q)->f1C, 1, 1, 1, t, q[0x23], p + 0x3f0, ((struct Obj01230 *)p)->f468);
     func_021B6A3C(p, q);
     func_021B6A70(p, q, t);
-    func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x10))), 0, 1);
-    func_021BAA94((char *)(*(int *)(p + 8)), func_021CD978((struct QB *)(*(int *)(p + 0x14))), 1, 1);
-    func_021BAB40((char *)(*(int *)(p + 8)));
-    *(u32 *)(p + 0x464) = (u32)func_021B83F4;
+    func_021BAA94((char *)(((struct Obj01230 *)p)->f8), func_021CD978((struct QB *)(((struct Obj01230 *)p)->f10)), 0, 1);
+    func_021BAA94((char *)(((struct Obj01230 *)p)->f8), func_021CD978((struct QB *)(((struct Obj01230 *)p)->f14)), 1, 1);
+    func_021BAB40((char *)(((struct Obj01230 *)p)->f8));
+    ((struct Obj01230 *)p)->f464 = (u32)func_021B83F4;
     return 1;
 }

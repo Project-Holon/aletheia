@@ -13,7 +13,8 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj22580.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_020362DC(void),func_02035C60(void);
-int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(*(u32 *)(p+0x40)+4) && func_02035C60()) return 1; return 0; }
+int func_021D4240(u8 *p) { if(func_020362DC()&3) return 1; if(*(int *)(((struct Obj22580 *)p)->f40+4) && func_02035C60()) return 1; return 0; }

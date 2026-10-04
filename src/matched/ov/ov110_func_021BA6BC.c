@@ -30,6 +30,8 @@
  *   func_021BB658 0x021BB658 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj01531.h"
+#include "../include/Obj02164.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -57,52 +59,52 @@ void func_021BA6BC(void *unused, u8 *p)
     u8 *q;
     int a, b, flag;
     u32 enabled;
-    q = *(u8 **)p;
-    enabled = func_021BF7FC(*(u8 **)(p + 4));
-    switch (*(u32 *)(p + 0x14)) {
+    q = *(u8 * *)&((struct Obj02164 *)p)->f0;
+    enabled = func_021BF7FC(*(u8 * *)&((struct Obj02164 *)p)->f4);
+    switch (((struct Obj02164 *)p)->f14) {
     case 0:
-        func_021BD000(*(u8 **)(q + 0x64));
-        ++*(u32 *)(p + 0x14);
+        func_021BD000(*(u8 * *)&((struct Obj01531 *)q)->f64);
+        ++((struct Obj02164 *)p)->f14;
         break;
     case 1:
-        if (func_021BD028(*(u8 **)(q + 0x64))) ++*(u32 *)(p + 0x14);
+        if (func_021BD028(*(u8 * *)&((struct Obj01531 *)q)->f64)) ++((struct Obj02164 *)p)->f14;
         break;
     case 2:
-        func_021BCC58(*(u8 **)(q + 0x64));
-        ++*(u32 *)(p + 0x14);
+        func_021BCC58(*(u8 * *)&((struct Obj01531 *)q)->f64);
+        ++((struct Obj02164 *)p)->f14;
         break;
     case 3:
-        func_021BFC20(*(u8 **)(q + 0x5c), 0);
-        func_021BFB7C(*(u8 **)(q + 0x5c));
-        ++*(u32 *)(p + 0x14);
+        func_021BFC20(*(u8 * *)&((struct Obj01531 *)q)->f5C, 0);
+        func_021BFB7C(*(u8 * *)&((struct Obj01531 *)q)->f5C);
+        ++((struct Obj02164 *)p)->f14;
         break;
     case 4:
-        if (func_021BFBA0(*(u8 **)(q + 0x5c))) {
-            func_021BB8B8(*(u8 **)(q + 0x58));
-            ++*(u32 *)(p + 0x14);
+        if (func_021BFBA0(*(u8 * *)&((struct Obj01531 *)q)->f5C)) {
+            func_021BB8B8(*(u8 * *)&((struct Obj01531 *)q)->f58);
+            ++((struct Obj02164 *)p)->f14;
         }
         break;
     case 5:
-        func_021BAD2C(*(u8 **)p, 0);
+        func_021BAD2C(*(u8 * *)&((struct Obj02164 *)p)->f0, 0);
         flag = 0;
-        func_021BB870(*(u8 **)(q + 0x58));
-        if (func_021BF6DC(*(u8 **)(p + 4)) == 0) {
+        func_021BB870(*(u8 * *)&((struct Obj01531 *)q)->f58);
+        if (func_021BF6DC(*(u8 * *)&((struct Obj02164 *)p)->f4) == 0) {
             flag = 0;
-            func_021BB9C0(*(u8 **)(q + 0x58), flag);
+            func_021BB9C0(*(u8 * *)&((struct Obj01531 *)q)->f58, flag);
         } else {
             if (enabled) flag = 1;
-            func_021BB9C0(*(u8 **)(q + 0x58), flag);
+            func_021BB9C0(*(u8 * *)&((struct Obj01531 *)q)->f58, flag);
         }
-        if (func_021BF6DC(*(u8 **)(p + 4)) == 0) func_021BAD68(p, 2);
+        if (func_021BF6DC(*(u8 * *)&((struct Obj02164 *)p)->f4) == 0) func_021BAD68(p, 2);
         else func_021BAD68(p, 4);
-        ++*(u32 *)(p + 0x14);
+        ++((struct Obj02164 *)p)->f14;
         break;
     case 6:
-        a = func_021BB8AC(*(u8 **)(q + 0x58));
-        b = func_021BBB0C(*(u8 **)(q + 0x58), enabled != 0);
+        a = func_021BB8AC(*(u8 * *)&((struct Obj01531 *)q)->f58);
+        b = func_021BBB0C(*(u8 * *)&((struct Obj01531 *)q)->f58, enabled != 0);
         if (a && b) {
-            func_021BB6A0(*(u8 **)(q + 0x58), func_021BF724(*(u8 **)(q + 0x18)));
-            func_021BB658(*(u8 **)(q + 0x58), 1);
+            func_021BB6A0(*(u8 * *)&((struct Obj01531 *)q)->f58, func_021BF724(*(u8 * *)&((struct Obj01531 *)q)->f18));
+            func_021BB658(*(u8 * *)&((struct Obj01531 *)q)->f58, 1);
             func_021B9CBC(p);
         }
         break;

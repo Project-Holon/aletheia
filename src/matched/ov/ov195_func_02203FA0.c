@@ -27,6 +27,8 @@
  *   func_0203D34C 0x0203D34C arm
  *   d_02208F40 0x02208F40 data a4
  */
+#include "../include/Obj00734.h"
+#include "../include/Obj05515.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -55,28 +57,28 @@ int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
     sub_0203064C(1,0x94,0x10000);
     p=func_0203159C(owner,0x120,0x94);
     func_02082BCC(p,0,0x120);
-    *(u16 *)p=0x94;
-    *(u32 *)(p+0x28)=0;
-    *(u32 *)(p+0x2c)=5;
-    *(u32 *)(p+0x30)=0;
-    *(void **)(p+0x10)=sub_0201AB28(*(void **)(app+4),app[0xa]);
-    *(struct U16Vec **)(p+0x14)=sub_020457B0(0x100,*(u16 *)p);
-    func_02017E1C(*(void **)(p+0x10),0x73,*(u32 *)(p+0x14));
-    *(u32 *)(p+0x24)=0;
-    *(u32 *)(p+0xa0)=0;
-    *(u32 *)(p+0xa4)=0;
-    *(u32 *)(p+0xa8)=0;
-    *(u8 *)(p+0xac)=0;
-    *(void **)(p+0x100)=sub_02030734(*(u16 *)p,0x28,1,d_02208F40,0x242);
+    ((struct Obj00734 *)p)->f0=0x94;
+    ((struct Obj00734 *)p)->f28=0;
+    ((struct Obj00734 *)p)->f2C=5;
+    ((struct Obj00734 *)p)->f30=0;
+    ((struct Obj00734 *)p)->f10=sub_0201AB28(((struct Obj05515 *)app)->f4,app[0xa]);
+    *(struct U16Vec * *)&((struct Obj00734 *)p)->f14=sub_020457B0(0x100,((struct Obj00734 *)p)->f0);
+    func_02017E1C(((struct Obj00734 *)p)->f10,0x73,*(u32 *)&((struct Obj00734 *)p)->f14);
+    ((struct Obj00734 *)p)->f24=0;
+    ((struct Obj00734 *)p)->fA0=0;
+    ((struct Obj00734 *)p)->fA4=0;
+    ((struct Obj00734 *)p)->fA8=0;
+    ((struct Obj00734 *)p)->fAC=0;
+    ((struct Obj00734 *)p)->f100=sub_02030734(((struct Obj00734 *)p)->f0,0x28,1,d_02208F40,0x242);
     func_0204E720(3,16,16,-16);
     func_02204DC4(app,(u8 *)p);
-    *(void **)(p+0x38)=sub_020056A0((u32)func_022051A8,(u32)p,1);
-    *(u32 *)(p+0x10c)=0;
-    *(u32 *)(p+0x110)=0;
-    *(u32 *)(p+0x114)=0;
-    *(u32 *)(p+0x118)=0;
-    *(u32 *)(p+0x11c)=func_02031324(*(u16 *)p);
+    ((struct Obj00734 *)p)->f38=sub_020056A0((u32)func_022051A8,(u32)p,1);
+    ((struct Obj00734 *)p)->f10C=0;
+    ((struct Obj00734 *)p)->f110=0;
+    ((struct Obj00734 *)p)->f114=0;
+    ((struct Obj00734 *)p)->f118=0;
+    ((struct Obj00734 *)p)->f11C=func_02031324(((struct Obj00734 *)p)->f0);
     func_02204C24((struct App *)app,(struct Scene *)p);
-    func_0203D34C(0,*(u16 *)p);
+    func_0203D34C(0,((struct Obj00734 *)p)->f0);
     return 1;
 }

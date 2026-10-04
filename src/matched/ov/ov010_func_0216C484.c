@@ -19,6 +19,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj02353.h"
 
 typedef unsigned char  u8;
 struct Evt;
@@ -53,9 +54,9 @@ int func_0216C484(int a, int *st, int *o)
         break;
     case 4:
         func_02012374((struct Evt *)a, (struct Evt **)func_021BE92C((void *)x, o[1], 0, 0, 1, 0, 0));
-        func_02082D44((char *)o + 0x79, *(void **)((char *)o + 0xd0), 6);
-        **(short **)((char *)o + 0xcc) = o[0x6c / 4];
-        **(short **)((char *)o + 0xc8) = o[0x70 / 4];
+        func_02082D44((char *)o + 0x79, ((struct Obj02353 *)o)->fD0, 6);
+        **(short * *)&((struct Obj02353 *)o)->fCC = o[0x6c / 4];
+        **(short * *)&((struct Obj02353 *)o)->fC8 = o[0x70 / 4];
         func_020307B0((void *)o[0x44 / 4]);
         (*st)++;
         break;

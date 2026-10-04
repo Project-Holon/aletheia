@@ -17,6 +17,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj08143.h"
 typedef unsigned char u8;
 struct S;
 extern void func_021D8904(void *a, struct S *s);
@@ -30,10 +31,10 @@ extern void func_0204AFD8(u32 i);
 void func_021D4F24(char *p)
 {
     u8 i;
-    func_021D8904(p,*(void **)(p+0x94));
-    func_021D9A04(p,*(void **)(p+0x90));
-    func_021D7BF0(p,*(void **)(p+0x8c));
-    func_021D6808(p,*(void **)(p+0x88));
+    func_021D8904(p,((struct Obj08143 *)p)->f94);
+    func_021D9A04(p,((struct Obj08143 *)p)->f90);
+    func_021D7BF0(p,((struct Obj08143 *)p)->f8C);
+    func_021D6808(p,((struct Obj08143 *)p)->f88);
     for(i=0;i<=11;i++) func_0204ADA4((u32)(*(void **)(p+i*4+0x98)));
     for(i=12;i<=24;i++) func_0204A8D4((u32)(*(void **)(p+i*4+0x98)));
     for(i=25;i<=37;i++) func_0204AFD8((u32)(*(void **)(p+i*4+0x98)));

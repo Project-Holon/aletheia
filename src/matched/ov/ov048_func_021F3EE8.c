@@ -30,6 +30,7 @@
  *   d_021F5124     0x021F5124  data  a4
  *   d_021F50C0     0x021F50C0  data  a4
  */
+#include "../include/Obj02413.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -82,18 +83,18 @@ void func_021F3EE8(int *p)
     func_021F44D8(p, &s);
     sz = 4;
     sz = 0x100;
-    h1 = func_0201EC74(4, sz, *(u16 *)p);
-    a = (u32)func_02045B38(0, 2, 0x59, *(u16 *)p);
-    b = (u32)func_02045B38(0, 2, 0x26, *(u16 *)p);
+    h1 = func_0201EC74(4, sz, ((struct Obj02413 *)p)->f0);
+    a = (u32)func_02045B38(0, 2, 0x59, ((struct Obj02413 *)p)->f0);
+    b = (u32)func_02045B38(0, 2, 0x26, ((struct Obj02413 *)p)->f0);
     for (i = 0; i < 4; i++) {
         if (s.h[i] == 0x1AB)
             continue;
         c = s.b[i];
         s1 = (u32)func_02045EC0((struct MsgBank *)a, func_02013E4C(s.h[i]));
         s2 = (u32)func_02045EC0((struct MsgBank *)b, d_021F5124[c]);
-        h2 = func_0201EC74(2, sz, *(u16 *)p);
+        h2 = func_0201EC74(2, sz, ((struct Obj02413 *)p)->f0);
         s3 = (u32)func_02045EC0((struct MsgBank *)b, 0xc0);
-        buf = func_020457B0(0x40, *(u16 *)p);
+        buf = func_020457B0(0x40, ((struct Obj02413 *)p)->f0);
         func_0201EE0C(h2, 0, s1, 0, 1, 0);
         func_0201EE0C(h2, 1, s2, 0, 1, 0);
         func_0201F250(h2, buf, (void *)s3);

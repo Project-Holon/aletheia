@@ -20,13 +20,14 @@
  *   python tools/match.py one --src src/matched/sub_0202B944.c \
  *       --func sub_0202B944 --addr 0x0202B944 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01019.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 void sub_0202B944(void *obj)
 {
-    *(u32 *)((char *)obj + 0x264) = 0;
-    *(u8 *)((char *)obj + 0x268) = 0;
-    *(u8 *)((char *)obj + 0x269) = 0xff;
+    ((struct Obj01019 *)obj)->f264 = 0;
+    ((struct Obj01019 *)obj)->f268 = 0;
+    ((struct Obj01019 *)obj)->f269 = 0xff;
 }

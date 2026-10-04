@@ -10,21 +10,22 @@
  * status: EXACT
  * lever: Duplicate only the byte-store statement in the if/else; its merged tail retains the branch to next that a pre-store selection removes.
  */
+#include "../include/Obj03826.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 void func_021B9818(u8 *p)
 {
     unsigned i;
-    *(int *)(p+0x183c)=1;
-    *(u16 *)(p+0x1844)=0;
+    ((struct Obj03826 *)p)->f183C=1;
+    ((struct Obj03826 *)p)->f1844=0;
     p[0x1846]=1;
     i=5;
     do {
         if(*(int *)(*(u8 **)(p+(unsigned)i*4+0x1434)+12)!=1) break;
         i=(u16)(i+1);
-        if(i==*(u16 *)(p+0xa8)) i=0;
+        if(i==((struct Obj03826 *)p)->fA8) i=0;
     } while(i!=5);
-    if(i==0) p[0x1847]=*(u16 *)(p+0xa8)-1;
+    if(i==0) p[0x1847]=((struct Obj03826 *)p)->fA8-1;
     else p[0x1847]=i-1;
-    *(int *)(p+12)=0;
+    ((struct Obj03826 *)p)->fC=0;
 }

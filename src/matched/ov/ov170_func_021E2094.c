@@ -13,6 +13,7 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj00000.h"
 
 typedef unsigned int u32;
 extern int func_02035C60(void);
@@ -25,12 +26,12 @@ int func_021E2094(char *p)
     if (func_02035C60() == 1) {
         func_020061E4(0x54C);
         func_020355D8(1);
-        return *(int *)(p + 0x28);
+        return ((struct Obj00000 *)p)->f28;
     }
     if (func_020362DC() & 3) {
         func_020061E4(0x54C);
         func_020355D8(0);
-        return *(int *)(p + 0x28);
+        return ((struct Obj00000 *)p)->f28;
     }
     return 6;
 }

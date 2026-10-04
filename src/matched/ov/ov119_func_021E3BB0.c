@@ -12,6 +12,7 @@
  *   func_0207FA40 0x0207FA40 arm
  *   func_0207FADC 0x0207FADC arm
  */
+#include "../include/Obj10377.h"
 extern void func_0207FA0C(void);
 extern void func_0207FA40(const void *, int, int);
 extern void func_0207FADC(void);
@@ -24,13 +25,13 @@ void func_021E3BB0(char *p)
     char *q;
     for (i = 0; i < 16; i++) {
         q = p + i * 2;
-        *(unsigned short *)(q + 0x1154) = 0;
+        ((struct Obj10377 *)q)->f1154 = 0;
         for (j = 0; j < 3; j++) {
             shift = j * 5;
-            component = (*(unsigned short *)(q + 0x1134) >> shift) & 31;
+            component = (((struct Obj10377 *)q)->f1134 >> shift) & 31;
             if (component)
                 component--;
-            *(unsigned short *)(q + 0x1154) |= (unsigned short)((component & 31) << shift);
+            ((struct Obj10377 *)q)->f1154 |= (unsigned short)((component & 31) << shift);
         }
     }
     func_0207FA0C();

@@ -64,6 +64,8 @@
  *   python tools/match.py one --src src/matched/func_02013160.c \
  *       --func func_02013160 --addr 0x02013160 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01199.h"
+#include "../include/Obj08746.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -81,28 +83,28 @@ void func_02013160(u8 *o, void *a1, u32 a2)
     u32 sec = 0x3c;
     int i;
 
-    *(u16 *)(o + 0x76) = (u16)(sec * func_0200AE54(a1, 0x10));
-    *(u16 *)(o + 0x74) = (u16)(sec * func_0200AE54(a1, 0xf));
+    ((struct Obj01199 *)o)->f76 = (u16)(sec * func_0200AE54(a1, 0x10));
+    ((struct Obj01199 *)o)->f74 = (u16)(sec * func_0200AE54(a1, 0xf));
     func_0200B040(a1, o + 0x78);
     switch (func_0200AE54(a1, 0x12)) {
     case 0:
         break;
     case 1:
-        *(u16 *)(o + 0x82) |= (u16)(bit << 7);
+        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 7);
         break;
     case 2:
-        *(u16 *)(o + 0x82) |= (u16)(bit << 6);
+        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 6);
         break;
     case 3:
-        *(u16 *)(o + 0x82) |= (u16)(bit << 6);
-        *(u16 *)(o + 0x82) |= (u16)(bit << 7);
+        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 6);
+        ((struct Obj01199 *)o)->f82 |= (u16)(bit << 7);
         break;
     }
     for (i = 0; i < 4; i++) {
         u8 *e = o + i * 4;
-        if (*(u32 *)(e + 0x24) != 0) {
-            func_0201A30C(a1, *(u32 *)(e + 0x24), a2);
-            func_0201A2A8(a1, (void *)(*(u32 *)(e + 0x24)));
+        if (((struct Obj08746 *)e)->f24 != 0) {
+            func_0201A30C(a1, ((struct Obj08746 *)e)->f24, a2);
+            func_0201A2A8(a1, (void *)(((struct Obj08746 *)e)->f24));
         }
     }
 }

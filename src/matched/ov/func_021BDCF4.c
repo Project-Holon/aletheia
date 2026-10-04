@@ -16,6 +16,7 @@
  * Same handle at +0xC4 of the third argument, its accessor result forwarded
  * together with the first two arguments.
  */
+#include "../include/Obj18251.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,5 +33,5 @@ extern void func_02009C24(struct Sub020097BCObj *obj, int src, int dest);
 
 void func_021BDCF4(int a, int b, char *p)
 {
-    func_02009C24((struct Sub020097BCObj *)func_0201283C(*(void **)(p + 0xC4)), a, b);
+    func_02009C24((struct Sub020097BCObj *)func_0201283C(((struct Obj18251 *)p)->fC4), a, b);
 }

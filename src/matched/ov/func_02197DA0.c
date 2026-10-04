@@ -15,6 +15,7 @@
  *   func_02030EE8  0x02030EE8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17950.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ extern u32 func_02030EE8(struct S02030EE8 *p);
 
 int func_02197DA0(u32 a)
 {
-return *(u32 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a)) + 4);
+return ((struct Obj17950 *)((u8 *)(func_02030EE8((struct S02030EE8 *)a))))->f4;
 }
 

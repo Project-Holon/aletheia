@@ -17,6 +17,7 @@
  *   func_02047E54 0x02047E54 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03354.h"
 typedef unsigned int   u32;
 struct Ctx;
 struct IcaAnime;
@@ -32,17 +33,17 @@ extern void func_020307B0(void *);
 void func_021BE4B4(char *ctx)
 {
     unsigned i;
-    func_021BF810(*(void **)(ctx + 0x6c));
-    func_021BE158(*(void **)(ctx + 0x20));
-    if (*(void **)(ctx + 0x10)) {
-        func_0200566C(*(void **)(ctx + 0x10));
+    func_021BF810(((struct Obj03354 *)ctx)->f6C);
+    func_021BE158(((struct Obj03354 *)ctx)->f20);
+    if (((struct Obj03354 *)ctx)->f10) {
+        func_0200566C(((struct Obj03354 *)ctx)->f10);
         func_0204EA0C();
     }
-    func_02011558(*(void **)(ctx + 0x18));
-    for (i = 0; i < *(unsigned *)(ctx + 0x2c); i++) {
-        func_020480E4(*(void **)(ctx + 0x1c), (*(unsigned short **)(ctx + 0x70))[i]);
+    func_02011558(((struct Obj03354 *)ctx)->f18);
+    for (i = 0; i < ((struct Obj03354 *)ctx)->f2C; i++) {
+        func_020480E4(((struct Obj03354 *)ctx)->f1C, (*(unsigned short **)(ctx + 0x70))[i]);
     }
-    func_02047E54(*(void **)(ctx + 0x1c));
-    func_020307B0(*(void **)(ctx + 0x70));
+    func_02047E54(((struct Obj03354 *)ctx)->f1C);
+    func_020307B0(((struct Obj03354 *)ctx)->f70);
     func_020307B0(ctx);
 }

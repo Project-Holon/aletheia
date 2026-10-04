@@ -20,6 +20,7 @@
  *   func_02027B30  0x02027B30  thumb
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj00104.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ void func_02027E3C(u8 *m)
     int hit;
     int one;
 
-    if (*(int *)(m + 0x2C) == 0) {
+    if (((struct Obj00104 *)m)->f2C == 0) {
         top  = m[0x30];
         left = m[0x31];
     } else {
@@ -62,15 +63,15 @@ void func_02027E3C(u8 *m)
     }
     one = 1;
     func_020355D8(one);
-    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], (struct S *)(*(u32 *)(m + 0x34)), 0);
+    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), 0);
     m[0] = (u8)hit;
-    *(int *)(m + 0xC) = one;
-    func_02027B30(((u32 *)*(u32 **)(m + 0x18))[m[0]], (struct S *)(*(u32 *)(m + 0x34)), one);
+    *(int *)&((struct Obj00104 *)m)->fC = one;
+    func_02027B30(((u32 *)*(u32 * *)&((struct Obj00104 *)m)->f18)[m[0]], (struct S *)(*(u32 *)&((struct Obj00104 *)m)->f34), one);
     if (m[0] == 0) {
         func_020061E4(0x54C);
         return;
     }
-    if (*(int *)(*(u8 **)(m + 0x1C) + m[0] * 0xC + 8) == 1) {
+    if (*(int *)(*(u8 * *)&((struct Obj00104 *)m)->f1C + m[0] * 0xC + 8) == 1) {
         func_020061E4(0x551);
         return;
     }

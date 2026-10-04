@@ -16,6 +16,11 @@
  *   func_021BD1AC 0x021BD1AC thumb ov172
  *   d_021C724C 0x021C724C data a4
  */
+#include "../include/Obj03856.h"
+#include "../include/Obj24143.h"
+#include "../include/Obj24145.h"
+#include "../include/Obj24146.h"
+#include "../include/Obj24147.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,18 +34,18 @@ extern u8 d_021C724C[];
 int func_021BE364(u32 obj,int unused,u8 *arg)
 {
     u8 *p;
-    if (arg && *(u32 *)(arg+4)==3) func_0203064C(1,109,0xd0000);
+    if (arg && ((struct Obj24143 *)arg)->f4==3) func_0203064C(1,109,0xd0000);
     else func_0203064C(1,109,0xe8000);
     p=func_0203159C(obj,0x1fc,109);
-    *(u16 *)p=109;
+    ((struct Obj03856 *)p)->f0=109;
     if (arg==0) {
-        *(u8 **)(p+0x1f8)=func_02030734(1,16,1,(const char *)d_021C724C,1357);
-        **(u32 **)(p+0x1f8)=(u32)func_020124F4(1);
-        *(u32 *)(*(u8 **)(p+0x1f8)+4)=0;
-        if (func_0203630C() & 0x100) *(u32 *)(*(u8 **)(p+0x1f8)+4)=1;
-        if (func_0203630C() & 0x400) *(u32 *)(*(u8 **)(p+0x1f8)+4)=2;
-    } else *(u8 **)(p+0x1f8)=arg;
-    *(u32 *)(p+0x14)=0;
+        *(u8 * *)&((struct Obj03856 *)p)->f1F8=func_02030734(1,16,1,(const char *)d_021C724C,1357);
+        **(u32 * *)&((struct Obj03856 *)p)->f1F8=(u32)func_020124F4(1);
+        ((struct Obj24145 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=0;
+        if (func_0203630C() & 0x100) ((struct Obj24146 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=1;
+        if (func_0203630C() & 0x400) ((struct Obj24147 *)(*(u8 * *)&((struct Obj03856 *)p)->f1F8))->f4=2;
+    } else *(u8 * *)&((struct Obj03856 *)p)->f1F8=arg;
+    ((struct Obj03856 *)p)->f14=0;
     func_021BD1AC(p);
     return 1;
 }

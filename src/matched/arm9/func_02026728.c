@@ -16,6 +16,7 @@
  *   func_02026824  0x02026824  thumb
  *   g_02146940     0x02146940  data
  */
+#include "../include/Obj06914.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,9 +47,9 @@ void func_02026728(void)
     if (func_0203CD98() == 0) {
         return;
     }
-    if (*(u32 *)p != 0) {
-        v = func_0200864C((const struct PlayTime *)func_02012FCC(*(u32 *)p));
-        if (*(u16 *)(p + 0xbb0) != v) {
+    if (((struct Obj06914 *)p)->f0 != 0) {
+        v = func_0200864C((const struct PlayTime *)func_02012FCC(((struct Obj06914 *)p)->f0));
+        if (((struct Obj06914 *)p)->fBB0 != v) {
             switch (v) {
             case 0xa:
             case 0x1e:
@@ -58,7 +59,7 @@ void func_02026728(void)
                 break;
             }
         }
-        *(u16 *)(p + 0xbb0) = (u16)v;
+        ((struct Obj06914 *)p)->fBB0 = (u16)v;
     }
     func_02026824((struct Obj *)(p + 4));
     for (i = 0; i < 0x1e; i++) {

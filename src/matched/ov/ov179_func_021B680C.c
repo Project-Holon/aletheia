@@ -16,14 +16,15 @@
  * if-converts the select (int offset) or folds the second store to
  * [p+o,#4] (long offset).
  */
+#include "../include/Obj08294.h"
 int func_021B680C(char *p, int *q)
 {
     if (q[1] == 0) {
-        *(int *)(p + 0x6024) = q[2];
-        *(int *)(p + 0x6028) = q[3];
+        ((struct Obj08294 *)p)->f6024 = q[2];
+        ((struct Obj08294 *)p)->f6028 = q[3];
     } else {
-        *(int *)(p + 0x602C) = q[2];
-        *(int *)(p + 0x6030) = q[3];
+        ((struct Obj08294 *)p)->f602C = q[2];
+        ((struct Obj08294 *)p)->f6030 = q[3];
     }
     return 1;
 }

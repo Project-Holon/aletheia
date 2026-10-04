@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj02993.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -22,8 +23,8 @@ extern void func_020307B0(void *p);
 void func_0201F9E8(struct Obj *o, u8 *out)
 {
     if (out != 0) {
-        *out = *(u8 *)((u8 *)o + 0x2d);
+        *out = ((struct Obj02993 *)o)->f2D;
     }
-    func_02020D3C((struct D *)(*(u32 *)((u8 *)o + 0x24)));
+    func_02020D3C((struct D *)(((struct Obj02993 *)o)->f24));
     func_020307B0(o);
 }

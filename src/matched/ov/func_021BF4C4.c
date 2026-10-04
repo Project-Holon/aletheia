@@ -14,6 +14,7 @@
 
  * Releases each of the six 0x14-byte element handles against a parallel table and clears its +0x2C slot.
  */
+#include "../include/Obj18262.h"
 
 
 struct Obj;
@@ -30,6 +31,6 @@ void func_021BF4C4(int unused, char *q, int c, int *tbl)
         *(int *)(q + i * 0x14 + 0x2c) = 0;
         func_0204B878((struct Obj *)(*(int *)(q + i * 0x14 + 0x1c)), *(unsigned short *)(q + i * 0x14 + 0x24));
     }
-    *(int *)(q + 0x94) = 6;
+    ((struct Obj18262 *)q)->f94 = 6;
 }
 

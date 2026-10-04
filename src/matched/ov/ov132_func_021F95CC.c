@@ -14,6 +14,7 @@
  * arm); writing it inside the else made the compiler emit two epilogues.
  * See docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md.
  */
+#include "../include/Obj10532.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -25,9 +26,9 @@ typedef signed int s32;
 void func_021F95CC(char *p, u8 v, int c)
 {
     if (c == 1) {
-        *(u8 *)(p + 0xF0) = v;
+        ((struct Obj10532 *)p)->fF0 = v;
     } else {
-        *(u8 *)(p + 0xF0) = 4;
+        ((struct Obj10532 *)p)->fF0 = 4;
     }
-    *(int *)(p + 0xEC) = 1;
+    ((struct Obj10532 *)p)->fEC = 1;
 }

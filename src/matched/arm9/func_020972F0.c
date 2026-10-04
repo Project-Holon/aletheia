@@ -12,6 +12,7 @@
  *   func_02097170   0x02097170  arm
  *   func_02096670   0x02096670  arm
  */
+#include "../include/Obj16714.h"
 
 typedef unsigned char u8;
 typedef signed short s16;
@@ -28,7 +29,7 @@ extern void func_02096670(P0972 *p, int n);
 
 void func_020972F0(void *a0, double x, P0972 *p)
 {
-    int n = *(s16 *)((char *)a0 + 2);
+    int n = ((struct Obj16714 *)a0)->f2;
     int i;
 
     func_02097170(p, x);

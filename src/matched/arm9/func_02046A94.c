@@ -27,6 +27,7 @@
  *   python tools/match.py one --src src/matched/func_02046A94.c \
  *       --func func_02046A94 --addr 0x02046A94 --cc 1.1p1 --arm
  */
+#include "../include/Obj06969.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,10 +43,10 @@ void func_02046A94(u32 idx, const u16 *src)
 {
     u8 *p = g_02146A5C + idx * 8;
 
-    *(u16 *)(p + 0x3c) = src[0];
-    *(u16 *)(p + 0x3e) = src[1];
-    *(u16 *)(p + 0x40) = src[2];
-    *(u16 *)(p + 0x42) = src[3];
+    ((struct Obj06969 *)p)->f3C = src[0];
+    ((struct Obj06969 *)p)->f3E = src[1];
+    ((struct Obj06969 *)p)->f40 = src[2];
+    ((struct Obj06969 *)p)->f42 = src[3];
 
     func_0206AA3C(idx, *(s16 *)(g_02146A5C + idx * 8 + 0x3c),
                   *(s16 *)(g_02146A5C + idx * 8 + 0x3e),

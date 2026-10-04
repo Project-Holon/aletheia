@@ -15,6 +15,7 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   MI_CpuFill8   0x02082BCC arm
  */
+#include "../include/Obj14717.h"
 
 extern void func_0204B084(void *);
 struct Bank;
@@ -24,8 +25,8 @@ extern void MI_CpuFill8(void *, int, int);
 
 void func_021BCB70(char *p)
 {
-    func_0204B084(*(void **)(p + 4));
-    func_0204B1CC(*(void **)(p));
+    func_0204B084(((struct Obj14717 *)p)->f4);
+    func_0204B1CC(((struct Obj14717 *)p)->f0);
     func_0204A5AC();
     MI_CpuFill8(p, 0, 8);
 }

@@ -16,6 +16,7 @@
  *   _ffix          0x0209C494  arm
  *   _fsub          0x0209CB8C  arm
  */
+#include "../include/Obj05061.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ void func_021BCBC8(char *p)
     int r6;
     int r5;
 
-    switch (*(int *)(p + 0x3c)) {
+    switch (((struct Obj05061 *)p)->f3C) {
     case 0:
     case 4:
     case 6:
@@ -39,7 +40,7 @@ void func_021BCBC8(char *p)
         break;
     case 2:
         r6 = 6;
-        r5 = (int)(20.0f * (1.0f - (float)(u32)*(u16 *)(p + 0x42) / 10.0f));
+        r5 = (int)(20.0f * (1.0f - (float)(u32)((struct Obj05061 *)p)->f42 / 10.0f));
         break;
     case 1:
         r6 = 0;
@@ -47,5 +48,5 @@ void func_021BCBC8(char *p)
         break;
     }
     func_021BCB9C(p, r6);
-    *(u16 *)(p + 0x42) = r5;
+    ((struct Obj05061 *)p)->f42 = r5;
 }

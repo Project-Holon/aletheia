@@ -12,6 +12,7 @@
  * symbols:
  *   func_021EAA4C  0x021EAA4C  thumb  ov093
  */
+#include "../include/Obj21568.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -19,7 +20,7 @@ extern int func_021EAA4C(int a, u8 *out);
 
 int func_021EAA34(u8 *o, u8 *out)
 {
-    if (func_021EAA4C(*(int *)(o + 0x180), out) != 0) {
+    if (func_021EAA4C(((struct Obj21568 *)o)->f180, out) != 0) {
         return 1;
     }
     return 0;

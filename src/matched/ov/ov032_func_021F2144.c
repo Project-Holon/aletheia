@@ -17,6 +17,7 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj07635.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,11 +38,11 @@ void func_021F2144(char *p, char *q, void *text, u16 col, u32 a4)
 
     t = (u32 *)(q + 0x18);
     func_02043B5C((struct CharBuf *)t[1], 0);
-    if (*(u8 *)(p + 0x7a) != 0) {
-        func_0201C7D0((void *)t[1], 0, 0, text, (void *)(*(u32 *)(p + 0xb0)), col);
+    if (((struct Obj07635 *)p)->f7A != 0) {
+        func_0201C7D0((void *)t[1], 0, 0, text, (void *)(((struct Obj07635 *)p)->fB0), col);
         func_020257D0((struct Obj *)t[0]);
         return;
     }
-    func_0201C724(*(u32 *)(p + 0xb4), t[1], 0, 0, text, *(u32 *)(p + 0xb0), col);
+    func_0201C724(((struct Obj07635 *)p)->fB4, t[1], 0, 0, text, ((struct Obj07635 *)p)->fB0, col);
     func_021F21B0(p, q, (int *)a4);
 }

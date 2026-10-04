@@ -11,12 +11,13 @@
  * extent: 18 bytes of code followed by two zero alignment bytes.
  * symbols:
  */
+#include "../include/Obj04319.h"
 
 void func_021F3FEC(unsigned char *p)
 {
-    *(int *)(p + 0) = 0;
-    *(int *)(p + 4) = 0;
-    *(int *)(p + 8) = 0;
+    ((struct Obj04319 *)p)->f0 = 0;
+    ((struct Obj04319 *)p)->f4 = 0;
+    ((struct Obj04319 *)p)->f8 = 0;
     p[13] = 0;
     p[12] = 0;
     p[14] = 0;

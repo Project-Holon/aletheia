@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26140.h"
 
 extern unsigned short func_021B9CF0(char *p, unsigned i);
 
 int func_021B9CE0(char *p, int idx)
 {
-    return func_021B9CF0(p, idx) + *(int *)p;
+    return func_021B9CF0(p, idx) + ((struct Obj26140 *)p)->f0;
 }

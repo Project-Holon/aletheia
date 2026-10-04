@@ -9,7 +9,8 @@
  * status: EXACT
  * leaf: sole blocker of ov183 021DB2E0; parent cleared ownership.
  */
+#include "../include/Obj24810.h"
 unsigned func_021F9B9C(char *p)
 {
-    return *(unsigned short *)(p+0x10);
+    return ((struct Obj24810 *)p)->f10;
 }

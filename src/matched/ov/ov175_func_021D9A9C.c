@@ -27,6 +27,8 @@
  *     (MI_CpuCopy8 with size 0x20) with no witness. Seed and match it and this
  *     file is EXACT.
  */
+#include "../include/Obj00013.h"
+#include "../include/Obj01067.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,20 +59,20 @@ extern u16 func_0200B1C4(struct Reg2 *p);
 
 void func_021D9A9C(char *dst, char *obj)
 {
-    u32 st = (u32)func_02012EBC((struct Big *)(*(*(struct Save **)(obj + 0x104))->sav));
+    u32 st = (u32)func_02012EBC((struct Big *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav));
     u32 h;
 
-    func_02008494(func_02012944((void *)(*(*(struct Save **)(obj + 0x104))->sav)), dst);
+    func_02008494(func_02012944((void *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)), dst);
     func_0200E6FC(func_0200E6E8(st), 0, (struct Rec0200E6FC *)(dst + 0x38));
     {
-        const struct Save *s = *(struct Save **)(obj + 0x104);
-        *(u32 *)(dst + 0x28) = s->blk[2];
-        *(u32 *)(dst + 0x2c) = s->blk[3];
-        *(u32 *)(dst + 0x34) = s->blk[4];
+        const struct Save *s = *(struct Save * *)&((struct Obj00013 *)obj)->f104;
+        ((struct Obj01067 *)dst)->f28 = s->blk[2];
+        ((struct Obj01067 *)dst)->f2C = s->blk[3];
+        ((struct Obj01067 *)dst)->f34 = s->blk[4];
     }
-    *(u32 *)(dst + 0x4c) = func_021DC194((char *)(*(u32 *)(obj + 0x34)));
-    *(u32 *)(dst + 0x48) = func_02009CC0(func_0201283C((const struct BigObj *)(*(*(struct Save **)(obj + 0x104))->sav)));
-    h = *(u32 *)(obj + 0x108);
-    *(u32 *)(dst + 0x40) = func_0200B078((struct Reg2 *)h, 2);
-    *(u32 *)(dst + 0x50) = func_0200B1C4((struct Reg2 *)h);
+    ((struct Obj01067 *)dst)->f4C = func_021DC194((char *)(*(u32 *)&((struct Obj00013 *)obj)->f34));
+    ((struct Obj01067 *)dst)->f48 = func_02009CC0(func_0201283C((const struct BigObj *)(*(*(struct Save * *)&((struct Obj00013 *)obj)->f104)->sav)));
+    h = ((struct Obj00013 *)obj)->f108;
+    ((struct Obj01067 *)dst)->f40 = func_0200B078((struct Reg2 *)h, 2);
+    ((struct Obj01067 *)dst)->f50 = func_0200B1C4((struct Reg2 *)h);
 }

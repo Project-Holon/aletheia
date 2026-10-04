@@ -11,6 +11,7 @@
  *   func_020480E4 0x020480E4 arm
  *   func_021F6718 0x021F6718 thumb ov215
  */
+#include "../include/Obj04636.h"
 struct Ctx;
 extern void func_020480E4(struct Ctx *,unsigned),func_021F6718(void *);
-void func_021F7028(char *p){func_020480E4(*(struct Ctx **)(p+0x48),*(unsigned short *)(p+0x4c));func_021F6718(*(void **)(p+0x54));*(unsigned short *)(p+0x50)=0;}
+void func_021F7028(char *p){func_020480E4(*(struct Ctx * *)&((struct Obj04636 *)p)->f48,((struct Obj04636 *)p)->f4C);func_021F6718(((struct Obj04636 *)p)->f54);((struct Obj04636 *)p)->f50=0;}

@@ -21,6 +21,7 @@
  *   func_021DE830 0x021DE830 thumb ov121
  *   func_021DE8D0 0x021DE8D0 thumb ov121
  */
+#include "../include/Obj22912.h"
 extern int func_021DEEAC(int *p, int value);
 extern void func_021DEEA4(void *, void *);
 extern void func_021DE618(void);
@@ -41,7 +42,7 @@ void func_021DE308(char *p, unsigned action)
         if (func_021DEEAC((int *)p, (int)func_021DE618)) func_021DEEA4(p, func_021DE958);
         break;
     case 5:
-        if (func_021DEEAC((int *)p, (int)func_021DE958)) *(int *)(p + 0x76c) = 1;
+        if (func_021DEEAC((int *)p, (int)func_021DE958)) ((struct Obj22912 *)p)->f76C = 1;
         break;
     case 6: func_021DEEA4(p, func_021DEDC8); break;
     case 7: func_021DEEA4(p, func_021DE70C); break;

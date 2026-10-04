@@ -33,6 +33,9 @@
  *   python tools/match.py tu --src src/matched/unit_0203AA94.c \
  *       --addr 0x0203AA94 --arm
  */
+#include "../include/Obj01629.h"
+#include "../include/Obj01823.h"
+#include "../include/Obj04116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -77,20 +80,20 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
         return 0;
 
     s = t + 0x40 + i * 0x18;
-    *(u32 *)(s + 4) = a3;
+    ((struct Obj01629 *)s)->f4 = a3;
     mtu = cfg[0x61] - 0xc;
     if (mtu <= 0)
         func_02034714(g_020A7AF8, 0x22b, g_020A7B78);
-    *(u16 *)(s + 0xe) = cfg[0x61] - 0xc;
-    *(u16 *)(s + 0x14) = a3 / *(u16 *)(s + 0xe);
-    *(u16 *)(s + 0x10) = a3 % *(u16 *)(s + 0xe);
-    if (*(u16 *)(s + 0x10) != 0)
-        *(u16 *)(s + 0x14) = *(u16 *)(s + 0x14) + 1;
-    *(u16 *)(s + 0x12) = 0;
-    *(u16 *)(s + 0xc) = a2;
+    ((struct Obj01629 *)s)->fE = cfg[0x61] - 0xc;
+    ((struct Obj01629 *)s)->f14 = a3 / ((struct Obj01629 *)s)->fE;
+    ((struct Obj01629 *)s)->f10 = a3 % ((struct Obj01629 *)s)->fE;
+    if (((struct Obj01629 *)s)->f10 != 0)
+        ((struct Obj01629 *)s)->f14 = ((struct Obj01629 *)s)->f14 + 1;
+    ((struct Obj01629 *)s)->f12 = 0;
+    ((struct Obj01629 *)s)->fC = a2;
     s[0x16] = a1;
-    *(u32 *)(s + 8) = a4;
-    *(u32 *)s = func_020395EC((void *)a0);
+    ((struct Obj01629 *)s)->f8 = a4;
+    ((struct Obj01629 *)s)->f0 = func_020395EC((void *)a0);
     st = (Status *)(s + 0x17);
     st->hi = 1;
     return st->hi;
@@ -109,13 +112,13 @@ u32 func_0203ABC0(void)
         s = t + i * 0x18;
         st = (Status *)(s + 0x17);
         if (st->hi) {
-            hdr[2] = *(u16 *)(s + 0x14);
-            *(u32 *)&hdr[0] = *(u32 *)(s + 4);
-            hdr[3] = *(u16 *)(s + 0xc);
-            hdr[4] = *(u16 *)(s + 0xe);
+            hdr[2] = ((struct Obj04116 *)s)->f14;
+            *(u32 *)&hdr[0] = ((struct Obj04116 *)s)->f4;
+            hdr[3] = ((struct Obj04116 *)s)->fC;
+            hdr[4] = ((struct Obj04116 *)s)->fE;
             hdr[5] = s[0x16];
             st->lo = func_02038C18(0xd, (u32)hdr, 0xc, 1,
-                                   *(u32 *)s, s[0x16], 0);
+                                   ((struct Obj04116 *)s)->f0, s[0x16], 0);
             st->hi = 1 - st->lo;
             return st->lo;
         }
@@ -136,15 +139,15 @@ void func_0203ACAC(void)
     for (i = 0; i < 5; i++) {
         if ((u32)(t[i * 0x18 + 0x57] << 0x1c) >> 0x1c) {
             s = t + 0x40 + i * 0x18;
-            c = *(u16 *)(s + 0x12);
-            n = *(u16 *)(s + 0xe);
-            base = *(u32 *)(s + 8) + n * c;
-            if (c + 1 == *(u16 *)(s + 0x14))
-                n = *(u16 *)(s + 0x10);
+            c = ((struct Obj01823 *)s)->f12;
+            n = ((struct Obj01823 *)s)->fE;
+            base = ((struct Obj01823 *)s)->f8 + n * c;
+            if (c + 1 == ((struct Obj01823 *)s)->f14)
+                n = ((struct Obj01823 *)s)->f10;
             if (func_02038C18(0xc, base, n, 1,
-                              *(u32 *)s, s[0x16], 1) != 0)
-                *(u16 *)(s + 0x12) = *(u16 *)(s + 0x12) + 1;
-            if (*(u16 *)(s + 0x12) == *(u16 *)(s + 0x14))
+                              ((struct Obj01823 *)s)->f0, s[0x16], 1) != 0)
+                ((struct Obj01823 *)s)->f12 = ((struct Obj01823 *)s)->f12 + 1;
+            if (((struct Obj01823 *)s)->f12 == ((struct Obj01823 *)s)->f14)
                 s[0x17] = s[0x17] & ~0xf;
             return;
         }

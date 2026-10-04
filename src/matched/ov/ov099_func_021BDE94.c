@@ -30,6 +30,7 @@
  *   func_021BE5B8 0x021BE5B8 thumb ov099
  *   func_020434DC 0x020434DC arm
  */
+#include "../include/Obj03222.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct GfFont;
@@ -57,24 +58,24 @@ extern void func_020434DC(u32, u32);
 void func_021BDE94(char *p)
 {
     void *h;
-    if (*(void **)p != 0) func_02030EAC(*(void **)p);
+    if (((struct Obj03222 *)p)->f0 != 0) func_02030EAC(((struct Obj03222 *)p)->f0);
     func_02043534(0);
     func_020435F4(0);
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
     h = func_020490F4(0x21, 0x21);
-    *(void **)(p + 0xdc) = func_0201EC64(0x21);
-    *(void **)(p + 0xe0) = func_02045B38(0, 2, 0xd1, 0x21);
-    *(void **)(p + 0xe4) = func_02045B38(0, 2, 0xe8, 0x21);
-    *(void **)(p + 0xe8) = func_0201D7EC(0x17, 0, 0, 0, 0x21);
-    *(void **)(p + 0xec) = func_0201D7EC(0x17, 3, 0, 0, 0x21);
+    ((struct Obj03222 *)p)->fDC = func_0201EC64(0x21);
+    ((struct Obj03222 *)p)->fE0 = func_02045B38(0, 2, 0xd1, 0x21);
+    ((struct Obj03222 *)p)->fE4 = func_02045B38(0, 2, 0xe8, 0x21);
+    ((struct Obj03222 *)p)->fE8 = func_0201D7EC(0x17, 0, 0, 0, 0x21);
+    ((struct Obj03222 *)p)->fEC = func_0201D7EC(0x17, 3, 0, 0, 0x21);
     func_0204363C(1);
     func_021BE030();
     func_021BE040(0x21);
     func_02045088(0x21);
     func_021BE53C(p, h);
-    *(void **)p = func_020056A0((u32)func_021BE028, (u32)p, 1);
-    func_021BE5B4(*(void **)p);
+    ((struct Obj03222 *)p)->f0 = func_020056A0((u32)func_021BE028, (u32)p, 1);
+    func_021BE5B4(((struct Obj03222 *)p)->f0);
     func_021BE5B8(p, h);
     func_020434DC(0x10, 1);
     func_02049238(h);

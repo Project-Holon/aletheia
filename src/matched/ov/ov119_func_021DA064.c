@@ -17,6 +17,7 @@
  *   func_021DBE70 0x021DBE70 thumb ov119
  *   func_021E4E64 0x021E4E64 thumb ov119
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 
@@ -39,11 +40,11 @@ void func_021DA064(char *p) {
             if(v) func_020355D8(1);
             if(!v) return;
         }
-        *(int *)(p+0xF80)=-1;
-        *(int *)(p+0xF7C)=-1;
+        ((struct Obj00001 *)p)->fF80=-1;
+        ((struct Obj00001 *)p)->fF7C=-1;
         func_021E1098(p);
         func_021D8E84(p,(int)func_021DBE70);
-        *(short *)(p+0x1080)=-1;
-        func_021E4E64(*(int *)(p+0x828),p,1);
+        ((struct Obj00001 *)p)->f1080=-1;
+        func_021E4E64(*(int *)&((struct Obj00001 *)p)->f828,p,1);
     }
 }

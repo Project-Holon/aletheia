@@ -16,6 +16,7 @@
  * Same guard as func_021DB300 but it moves the word the third argument
  *     points at into the +0x150 slot of the fourth argument and sets +0x14c.
  */
+#include "../include/Obj14340.h"
 
 typedef unsigned long u32;
 
@@ -32,7 +33,7 @@ void func_021DB378(u32 a, u32 b, u32 *c, char *d, u32 e)
         return;
     if (a == func_0203D1A4((struct Link *)((u32)func_020399A8())))
         return;
-    *(u32 *)(d + 0x150) = v;
-    *(u32 *)(d + 0x14c) = 1;
+    ((struct Obj14340 *)d)->f150 = v;
+    ((struct Obj14340 *)d)->f14C = 1;
 }
 

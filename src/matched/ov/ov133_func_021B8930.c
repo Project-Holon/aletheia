@@ -20,6 +20,7 @@
  *   func_021B765C 0x021B765C thumb ov133
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -38,28 +39,28 @@ int func_021B8930(u8 *p)
     u32 phase;
     int mode = 0;
     int index;
-    phase = *(u32 *)(p + 0x1834) + 0x19249;
-    if (phase >= *(u16 *)(p + 0xA8) * 4681u)
-        start = (phase - *(u16 *)(p + 0xA8) * 4681u) / 4681u;
+    phase = ((struct Obj00004 *)p)->f1834 + 0x19249;
+    if (phase >= ((struct Obj00004 *)p)->fA8 * 4681u)
+        start = (phase - ((struct Obj00004 *)p)->fA8 * 4681u) / 4681u;
     else start = phase / 4681u;
-    pos[0] = *(int *)(p + 0x1C) - 128;
-    pos[1] = *(int *)(p + 0x20) - 112;
+    pos[0] = ((struct Obj00004 *)p)->f1C - 128;
+    pos[1] = *(int *)&((struct Obj00004 *)p)->f20 - 112;
     index = func_021B8BB4(p, 0, pos, &limit);
     if (index != 10) {
     mode = func_021F50F4(index);
     if (mode == 7) mode = 6;
-    if (mode == *(int *)(p + 0xA4)) {
+    if (mode == ((struct Obj00004 *)p)->fA4) {
         func_021B9028(p, 8, start);
         mode = 8;
     } else func_021B9028(p, mode, start);
-    *(int *)(p + 0xA4) = mode;
-    func_021B9D54(p, *(volatile int *)(p + 0xA4));
-    *(int *)(p + 0x98) = 1;
-    *(int *)(p + 0x9C) = 0;
-    *(u32 *)(p + 0xA0) = *(u16 *)(p + 0x182C) % 4681 + 65536;
-    if (*(u32 *)(p + 0xA0) >= 65536 && *(u32 *)(p + 0xA0) <= 65538)
-        *(u32 *)(p + 0xA0) += 4681;
-    func_021B765C(p, *(u16 *)(p + 0x182C), 0, 72, 48);
+    ((struct Obj00004 *)p)->fA4 = mode;
+    func_021B9D54(p, *(volatile int *)&((struct Obj00004 *)p)->fA4);
+    ((struct Obj00004 *)p)->f98 = 1;
+    *(int *)&((struct Obj00004 *)p)->f9C = 0;
+    ((struct Obj00004 *)p)->fA0 = ((struct Obj00004 *)p)->f182C % 4681 + 65536;
+    if (((struct Obj00004 *)p)->fA0 >= 65536 && ((struct Obj00004 *)p)->fA0 <= 65538)
+        ((struct Obj00004 *)p)->fA0 += 4681;
+    func_021B765C(p, ((struct Obj00004 *)p)->f182C, 0, 72, 48);
     func_020061E4(1576);
     return 1;
     }

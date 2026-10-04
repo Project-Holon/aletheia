@@ -28,6 +28,8 @@
  * k swap r4 / r5 at every use; mwcc colours long and int as different
  * types.  EXACT under ../2.0/sp2 as well.
  */
+#include "../include/Obj05777.h"
+#include "../include/Obj16628.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -57,7 +59,7 @@ static inline u8 *entry_of(Bank *b, u32 idx)
     u8 *t;
     if (b != 0 && idx < b->cnt01) {
         t = (u8 *)b + b->off06;
-        return t + 4 + (*(u16 *)t) * idx;
+        return t + 4 + (((struct Obj16628 *)t)->f0) * idx;
     }
     return 0;
 }
@@ -93,11 +95,11 @@ void func_0206ECE0(Out *out)
             u = p[0];
             v = p[1];
             func_020834A8(out->m);
-            out->m[k] = (*(u16 *)node & 0x100) ? -0x1000 : 0x1000;
+            out->m[k] = (((struct Obj05777 *)node)->f0 & 0x100) ? -0x1000 : 0x1000;
             out->m[g_020A1998[k].c] = u;
             out->m[g_020A1999[k].c] = v;
-            out->m[g_020A199A[k].c] = (*(u16 *)node & 0x200) ? -v : v;
-            out->m[g_020A199B[k].c] = (*(u16 *)node & 0x400) ? -u : u;
+            out->m[g_020A199A[k].c] = (((struct Obj05777 *)node)->f0 & 0x200) ? -v : v;
+            out->m[g_020A199B[k].c] = (((struct Obj05777 *)node)->f0 & 0x400) ? -u : u;
         } else {
             out->m[0] = ((s16 *)node)[1];
             out->m[1] = p[0];

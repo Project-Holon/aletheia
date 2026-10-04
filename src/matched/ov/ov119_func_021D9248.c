@@ -23,6 +23,7 @@
  *   func_02025C30  0x02025C30  thumb
  *   func_0202EB7C  0x0202EB7C  thumb
  */
+#include "../include/Obj22714.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -55,7 +56,7 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
         return;
     if (p == (void *)func_0203D1A4((struct Link *)((u32)func_020399A8())))
         return;
-    saved = func_02009470(func_02012EBC(*(void **)(a3 + 0x82c)));
+    saved = func_02009470(func_02012EBC(((struct Obj22714 *)a3)->f82C));
     func_02082D44(a2, buf, 0x28);
     x = func_0200856C(buf);
     y = func_02008570(buf);

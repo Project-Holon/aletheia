@@ -14,6 +14,7 @@
  *
  * Releases the pointer 0x9AC bytes into the block and clears the slot.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,10 +28,10 @@ extern void func_021B639C(u8 *p);
 
 void func_021BB4D0(char *p)
 {
-    void *q = *(void **)(p + 0x9AC);
+    void *q = ((struct Obj00008 *)p)->f9AC;
 
     if (q != 0) {
         func_021B639C(q);
-        *(void **)(p + 0x9AC) = 0;
+        ((struct Obj00008 *)p)->f9AC = 0;
     }
 }

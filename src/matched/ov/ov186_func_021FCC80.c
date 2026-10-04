@@ -16,6 +16,7 @@
  *   func_021FC0C8 0x021FC0C8 thumb ov186
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01571.h"
 struct Descriptor;
 struct Obj;
 extern void func_021FD860(int,int,void *);
@@ -28,17 +29,17 @@ extern void func_020307B0(void *);
 void func_021FCC80(char *p)
 {
     int i;
-    if(*(int *)(p+0x1C)) func_021FD860(*(int *)(p+0x1C),0,0);
+    if(((struct Obj01571 *)p)->f1C) func_021FD860(((struct Obj01571 *)p)->f1C,0,0);
     for(i=0;i<4;i++) func_0204B3B4((struct Obj *)(*(int *)(p+0x28+i*4)));
-    for(i=0;(unsigned)i<*(unsigned *)(p+4);i++) {
-        if(*(int *)(p+0x8C+i*4) && *(int *)(*(int *)p+i*8)) func_020437AC(*(int *)(p+0x8C+i*4),*(int *)(*(int *)p+i*8));
+    for(i=0;(unsigned)i<((struct Obj01571 *)p)->f4;i++) {
+        if(*(int *)(p+0x8C+i*4) && *(int *)(((struct Obj01571 *)p)->f0+i*8)) func_020437AC(*(int *)(p+0x8C+i*4),*(int *)(((struct Obj01571 *)p)->f0+i*8));
     }
-    func_020456F8((struct Descriptor *)(*(int *)(p+0x38)));func_020452E8((struct Descriptor *)(*(int *)(p+0x38)));
-    if(*(unsigned char *)(p+0xD)<4) func_021FC0C8((char *)(*(int *)(p+0x14)),7);
-    else func_021FC0C8((char *)(*(int *)(p+0x14)),8);
-    if(*(int *)(p+0x24)) {
-        *(unsigned short *)(*(int *)(p+0x24))=*(unsigned short *)(p+0x42);
-        *(unsigned short *)(*(int *)(p+0x24)+2)=*(unsigned short *)(p+0x40);
+    func_020456F8((struct Descriptor *)(((struct Obj01571 *)p)->f38));func_020452E8((struct Descriptor *)(((struct Obj01571 *)p)->f38));
+    if(((struct Obj01571 *)p)->fD<4) func_021FC0C8((char *)(((struct Obj01571 *)p)->f14),7);
+    else func_021FC0C8((char *)(((struct Obj01571 *)p)->f14),8);
+    if(((struct Obj01571 *)p)->f24) {
+        *(unsigned short *)(((struct Obj01571 *)p)->f24)=((struct Obj01571 *)p)->f42;
+        *(unsigned short *)(((struct Obj01571 *)p)->f24+2)=((struct Obj01571 *)p)->f40;
     }
     func_020307B0(p);
 }

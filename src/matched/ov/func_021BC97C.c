@@ -14,6 +14,7 @@
 
  * Passes the byte at +4 and the two halfwords of the word at +0 on, then re-inits the object.
  */
+#include "../include/Obj12112.h"
 
 
 typedef unsigned int   u32;
@@ -24,8 +25,8 @@ void func_021BC97C(char *p)
 {
     unsigned int w;
 
-    w = *(unsigned int *)p;
-    func_0203FB44(*(unsigned char *)(p + 4), (unsigned short)w, (unsigned short)(w >> 16));
+    w = ((struct Obj12112 *)p)->f0;
+    func_0203FB44(((struct Obj12112 *)p)->f4, (unsigned short)w, (unsigned short)(w >> 16));
     func_020307B0((void *)((int)p));
 }
 

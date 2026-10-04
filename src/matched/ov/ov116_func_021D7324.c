@@ -11,6 +11,8 @@
  *   func_02045A98 0x02045A98 arm
  *   func_02045A90 0x02045A90 arm
  */
+#include "../include/Obj22625.h"
+#include "../include/Obj22626.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -19,7 +21,7 @@ struct U16Vec;
 extern u16 *func_02045A90(struct U16Vec *vec);
 u32 func_021D7324(u8 *p) {
     u16 end=func_02045A98();
-    u16 *s=func_02045A90(*(void **)(*(u8 **)(p+0x1840)+32));
+    u16 *s=func_02045A90(((struct Obj22626 *)(*(u8 * *)&((struct Obj22625 *)p)->f1840))->f20);
     u32 value=0;
     u16 i=0;
     while(s[i]!=end) {

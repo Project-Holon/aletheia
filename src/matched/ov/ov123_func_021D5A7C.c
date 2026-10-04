@@ -11,9 +11,10 @@
  *   func_0202F038 0x0202F038 thumb
  *   func_0202EE8C 0x0202EE8C thumb
  */
+#include "../include/Obj04497.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0202F038(u8 *p);
 extern u8 *func_0202EE8C(u32,void *,u8,u8,u16);
-void func_021D5A7C(char *p){if(*(void **)(p+0x7c)){func_0202F038(*(void **)(p+0x7c));*(void **)(p+0x7c)=0;}*(void **)(p+0x7c)=func_0202EE8C(*(u32 *)(p+0x84),*(void **)(p+0x44),15,16,*(u16 *)(p+0xb0));}
+void func_021D5A7C(char *p){if(((struct Obj04497 *)p)->f7C){func_0202F038(((struct Obj04497 *)p)->f7C);((struct Obj04497 *)p)->f7C=0;}((struct Obj04497 *)p)->f7C=func_0202EE8C(((struct Obj04497 *)p)->f84,((struct Obj04497 *)p)->f44,15,16,((struct Obj04497 *)p)->fB0);}

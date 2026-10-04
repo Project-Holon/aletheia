@@ -13,9 +13,11 @@
  *   func_021BFA40 0x021BFA40 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj00135.h"
+#include "../include/Obj13775.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021BF7AC(u8 *);
 extern void func_021BFA40(u8 *,unsigned);
 extern void func_021B9CBC(u8 *);
-void func_021BAAF0(int a,u8 *p) { u8 *q; q=*(u8 **)p; func_021BFA40(*(u8 **)(q+0x5c),func_021BF7AC(*(u8 **)(q+0x18))); func_021B9CBC(p); }
+void func_021BAAF0(int a,u8 *p) { u8 *q; q=*(u8 * *)&((struct Obj00135 *)p)->f0; func_021BFA40(*(u8 * *)&((struct Obj13775 *)q)->f5C,func_021BF7AC(*(u8 * *)&((struct Obj13775 *)q)->f18)); func_021B9CBC(p); }

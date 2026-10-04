@@ -29,6 +29,7 @@
  *   func_0202CB4C  0x0202CB4C  thumb
  *   d_021BA66C     0x021BA66C  data  a4
  */
+#include "../include/Obj06170.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -63,7 +64,7 @@ extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void func_021B98AC(u8 *p)
 {
-    void *arc = *(void **)p;
+    void *arc = ((struct Obj06170 *)p)->f0;
     void *arc2;
     int i;
 
@@ -84,10 +85,10 @@ void func_021B98AC(u8 *p)
     func_02049238(arc2);
     func_02049B40(0x17, 5, 0, 0x1E0, 0x20, 0x80);
     func_02049B40(0x17, 5, 4, 0x1E0, 0x20, 0x80);
-    *(void **)(p + 4) = func_0202C9B4(2, 10, 0x80);
+    ((struct Obj06170 *)p)->f4 = func_0202C9B4(2, 10, 0x80);
     for (i = 0; i < 10; i++) {
-        func_0202CA3C(*(void **)(p + 4), i, 1, 0xE, 4);
-        func_0202CB18(*(void **)(p + 4), i, arc, 3, 1);
-        func_0202CB4C(*(void **)(p + 4), i, d_021BA66C[i].x, d_021BA66C[i].y);
+        func_0202CA3C(((struct Obj06170 *)p)->f4, i, 1, 0xE, 4);
+        func_0202CB18(((struct Obj06170 *)p)->f4, i, arc, 3, 1);
+        func_0202CB4C(((struct Obj06170 *)p)->f4, i, d_021BA66C[i].x, d_021BA66C[i].y);
     }
 }

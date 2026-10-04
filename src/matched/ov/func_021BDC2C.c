@@ -14,15 +14,16 @@
 
  * Returns the result of func_021BD3B4 on two fields while +0x10 is clear, else 0.
  */
+#include "../include/Obj09200.h"
 
 
 extern int func_021BD3B4(void *mgr, int key);
 
 int func_021BDC2C(char *p)
 {
-    if (*(int *)(p + 0x10) == 0)
-        return func_021BD3B4((void *)(*(int *)(p + 0x30)),
-                             *(int *)*(int **)(p + 0x7c));
+    if (((struct Obj09200 *)p)->f10 == 0)
+        return func_021BD3B4((void *)(((struct Obj09200 *)p)->f30),
+                             *(int *)*(int * *)&((struct Obj09200 *)p)->f7C);
     return 0;
 }
 

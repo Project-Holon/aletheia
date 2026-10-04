@@ -23,6 +23,7 @@
  *   func_021D8938 0x021D8938 thumb ov131
  *   func_021D9A4C 0x021D9A4C thumb ov131
  */
+#include "../include/Obj00591.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,20 +49,20 @@ void func_021D4FBC(struct Context *ctx)
     u32 a,b;
     d.kind=10;d.flag=0;
     for(i=0;i<8;i++){
-        if(i<=2){a=*(u32 *)(p+0xc8);b=*(u32 *)(p+0xfc);}
-        else{a=*(u32 *)(p+0xcc);b=*(u32 *)(p+0x100);}
+        if(i<=2){a=((struct Obj00591 *)p)->fC8;b=((struct Obj00591 *)p)->fFC;}
+        else{a=((struct Obj00591 *)p)->fCC;b=((struct Obj00591 *)p)->f100;}
         d.x=x.v[i];d.y=(i==3)?172:168;d.z=z.v[i];
-        ctx->actors[i]=func_0204B294(ctx->bank,a,*(u32 *)(p+0x98),b,&d,0,*(u16 *)p);
+        ctx->actors[i]=func_0204B294(ctx->bank,a,((struct Obj00591 *)p)->f98,b,&d,0,((struct Obj00591 *)p)->f0);
         func_0204B92C(ctx->actors[i],1);
         func_0204B3DC(ctx->actors[i],1);
     }
     d.x=0;d.y=0;d.z=0;
-    *(void **)(p+0x198)=func_0204B294((void *)*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),&d,0,*(u16 *)p);
-    *(void **)(p+0x19c)=func_0204B294((void *)*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),&d,0,*(u16 *)p);
+    ((struct Obj00591 *)p)->f198=func_0204B294((void *)*(u32 *)&((struct Obj00591 *)p)->f174,((struct Obj00591 *)p)->f130,((struct Obj00591 *)p)->fA4,((struct Obj00591 *)p)->f10C,&d,0,((struct Obj00591 *)p)->f0);
+    ((struct Obj00591 *)p)->f19C=func_0204B294((void *)*(u32 *)&((struct Obj00591 *)p)->f174,((struct Obj00591 *)p)->f130,((struct Obj00591 *)p)->fA4,((struct Obj00591 *)p)->f10C,&d,0,((struct Obj00591 *)p)->f0);
     for(j=0;j<2;j++)func_0204B3DC(*(void **)(p+0x198+j*4),0);
     if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(*(void **)(p+0x178+i*4),0);
-    if(func_021D62E4(p)==0){func_0204B3DC(*(void **)(p+0x190),0);func_0204B3DC(*(void **)(p+0x184),0);}
-    func_021D6810(p,*(void **)(p+0x88));
-    func_021D8938(p,*(void **)(p+0x94));
-    func_021D9A4C(p,*(void **)(p+0x90));
+    if(func_021D62E4(p)==0){func_0204B3DC(((struct Obj00591 *)p)->f190,0);func_0204B3DC(((struct Obj00591 *)p)->f184,0);}
+    func_021D6810(p,((struct Obj00591 *)p)->f88);
+    func_021D8938(p,((struct Obj00591 *)p)->f94);
+    func_021D9A4C(p,((struct Obj00591 *)p)->f90);
 }

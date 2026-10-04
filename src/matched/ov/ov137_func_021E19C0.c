@@ -14,6 +14,7 @@
  *   func_021E1604   0x021E1604  thumb  ov137
  *   func_021DCBC4   0x021DCBC4  thumb  ov137
  */
+#include "../include/Obj04542.h"
 
 typedef unsigned short u16;
 extern u16 func_02039338(void);
@@ -33,11 +34,11 @@ void func_021E19C0(char *r4, int r5)
     if (func_02039338() != 0)
         return;
     func_021E1604(r4, r5);
-    buf.a = *(int *)(r4 + 0x11C);
-    buf.b = *(int *)(r4 + 0x33C);
-    for (i = 0; i < *(int *)(r4 + 0x30); i++) {
+    buf.a = ((struct Obj04542 *)r4)->f11C;
+    buf.b = ((struct Obj04542 *)r4)->f33C;
+    for (i = 0; i < ((struct Obj04542 *)r4)->f30; i++) {
         int v = *(int *)(r4 + 0x2FC + i * 0xB4);
         buf.h[i] = (short)(v / 4096);
     }
-    func_021DCBC4((void *)(*(int *)(r4 + 0xDC)), 0x2808, &buf, 0x14);
+    func_021DCBC4((void *)(((struct Obj04542 *)r4)->fDC), 0x2808, &buf, 0x14);
 }

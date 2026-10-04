@@ -12,6 +12,7 @@
  *   func_02034714 0x02034714 arm
  *   d_021E3978 0x021E3978 data ov183
  */
+#include "../include/Obj00143.h"
 struct Triple { int a, b, c; };
 extern int func_021FC124(void *, int, struct Triple *);
 typedef unsigned int   u32;
@@ -20,16 +21,16 @@ extern char d_021E3978[];
 void func_021E0840(char *p)
 {
     struct Triple t;
-    if (!func_021FC124(*(void **)(p + 0x344), 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);
-    *(int *)(p + 0x260) = t.c;
-    *(int *)(p + 0x26c) = t.b;
-    *(int *)(p + 0x284) = t.a;
-    if (!func_021FC124(*(void **)(p + 0x344), 12, &t)) func_02034714(d_021E3978, 0, d_021E3978);
-    *(int *)(p + 0x268) = t.c;
-    *(int *)(p + 0x274) = t.b;
-    *(int *)(p + 0x28c) = t.a;
-    if (!func_021FC124(*(void **)(p + 0x344), 6, &t)) func_02034714(d_021E3978, 0, d_021E3978);
-    *(int *)(p + 0x264) = t.c;
-    *(int *)(p + 0x270) = t.b;
-    *(int *)(p + 0x288) = t.a;
+    if (!func_021FC124(((struct Obj00143 *)p)->f344, 11, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    ((struct Obj00143 *)p)->f260 = t.c;
+    ((struct Obj00143 *)p)->f26C = t.b;
+    ((struct Obj00143 *)p)->f284 = t.a;
+    if (!func_021FC124(((struct Obj00143 *)p)->f344, 12, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    ((struct Obj00143 *)p)->f268 = t.c;
+    ((struct Obj00143 *)p)->f274 = t.b;
+    ((struct Obj00143 *)p)->f28C = t.a;
+    if (!func_021FC124(((struct Obj00143 *)p)->f344, 6, &t)) func_02034714(d_021E3978, 0, d_021E3978);
+    *(int *)&((struct Obj00143 *)p)->f264 = t.c;
+    *(int *)&((struct Obj00143 *)p)->f270 = t.b;
+    *(int *)&((struct Obj00143 *)p)->f288 = t.a;
 }

@@ -21,6 +21,7 @@
  *   func_021C1678 0x021C1678 thumb ov093
  *   func_021C7C24 0x021C7C24 thumb ov093
  */
+#include "../include/Obj21063.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,7 +50,7 @@ void func_021C0A4C(u8 *p, u8 *a, u8 *b, const u8 *q, const u32 *c, u16 k, struct
     if (r != 0) {
         do {
             out->entries[i].id = func_021D5440(r);
-            out->entries[i].marked = (u16)func_021C6BF8(p, a, r, *(u16 *)q);
+            out->entries[i].marked = (u16)func_021C6BF8(p, a, r, ((struct Obj21063 *)q)->f0);
             out->entries[i].mode = (u16)func_021CC8B8(c, out->entries[i].id);
             out->entries[i].special = (u16)func_021C1E74(p, a, r, q, out->entries[i].mode, k, out->entries[i].marked, 0, &temp.y);
             out->entries[i].value = temp.y;

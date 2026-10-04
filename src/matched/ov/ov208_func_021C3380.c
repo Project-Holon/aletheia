@@ -17,6 +17,7 @@
  *   ov208_func_021C3378 0x021C3378 thumb ov208
  *   ov208_func_021C2DE0 0x021C2DE0 thumb ov208
  */
+#include "../include/Obj02256.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ void ov208_func_021C3380(u16 *heap, u8 *p, int key)
     u16 secs;
     u16 rem;
     u16 hund;
-    if (*(u32 *)(p + 0x68) != 0) {
+    if (((struct Obj02256 *)p)->f68 != 0) {
         now = func_020870D0();
         start = *(u64 *)(p + 0x6c);
         if (now >= start)
@@ -49,21 +50,21 @@ void ov208_func_021C3380(u16 *heap, u8 *p, int key)
         ms = (diff * 64) / 33514;
         if (ms > 9990)
             ms = 9990;
-        *(u16 *)(p + 0x74) = (u16)ms;
-        if (*(u16 *)(p + 0x74) >= *(u32 *)(p + 0x38)) {
-            *(u16 *)(p + 0x74) = *(u32 *)(p + 0x38);
-            *(u32 *)(p + 0x68) = 0;
+        ((struct Obj02256 *)p)->f74 = (u16)ms;
+        if (((struct Obj02256 *)p)->f74 >= ((struct Obj02256 *)p)->f38) {
+            ((struct Obj02256 *)p)->f74 = ((struct Obj02256 *)p)->f38;
+            ((struct Obj02256 *)p)->f68 = 0;
             ov208_func_021C3208(heap, p, key);
         }
     }
-    cur = *(u16 *)(p + 0x74);
-    if (cur != *(u16 *)(p + 0x76)) {
+    cur = ((struct Obj02256 *)p)->f74;
+    if (cur != ((struct Obj02256 *)p)->f76) {
         secs = cur / 1000;
         rem = cur % 1000;
         hund = rem / 10 + ((rem % 10) >= 5 ? 1 : 0);
         ov208_func_021C337C(heap, p, key);
         ov208_func_021C3378(heap, p, key, secs, hund);
         ov208_func_021C2DE0(heap, p, key, secs, hund);
-        *(u16 *)(p + 0x76) = *(u16 *)(p + 0x74);
+        ((struct Obj02256 *)p)->f76 = ((struct Obj02256 *)p)->f74;
     }
 }

@@ -15,6 +15,7 @@
  *   func_021F07AC  0x021F07AC  thumb  ov031
  *   d_021F10D0     0x021F10D0  data  a4
  */
+#include "../include/Obj20406.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern const char d_021F10D0[];
 void func_021F09A0(void *a, char *b)
 {
     int k;
-    int i = *(int *)(b + 0x440);
+    int i = ((struct Obj20406 *)b)->f440;
     int lo = i - 3;
     void *e;
 

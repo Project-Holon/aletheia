@@ -31,6 +31,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0204A39C.c  *       --func func_0204A39C --addr 0x0204A39C --arm --cc 1.1p1
  */
+#include "../include/Obj16076.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -57,7 +58,7 @@ void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out
     if (buf != 0) {
         func_0204932C(narc, fileId, buf);
         if (decompress != 0) {
-            *out_size = *(u32 *)buf >> 8;
+            *out_size = ((struct Obj16076 *)buf)->f0 >> 8;
             d = func_02030734((u16)heapId, *out_size, 0, lbl_020A7F30, 1725);
             if (d != 0) {
                 MI_UncompressLZ8(buf, d);

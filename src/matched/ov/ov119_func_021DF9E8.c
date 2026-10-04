@@ -13,6 +13,7 @@
  *   MI_CpuCopy8 0x02082D44 arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 low:4;u8 high:4; } Flags;
@@ -28,9 +29,9 @@ int func_021DF9E8(char *p,void *src,int kind)
     int one;
     id=(unsigned)func_020399A8();
     if(((Flags *)(p+0x11fb))->low) return 0;
-    MI_CpuCopy8(src,*(void **)(p+0x106c),func_020173EC());
+    MI_CpuCopy8(src,((struct Obj00001 *)p)->f106C,func_020173EC());
     one=1;
-    if(!func_0203D3F8(id,255,kind,func_020173EC(),*(void **)(p+0x106c),0,0,one)) return 0;
+    if(!func_0203D3F8(id,255,kind,func_020173EC(),((struct Obj00001 *)p)->f106C,0,0,one)) return 0;
     ((Flags *)(p+0x11fb))->low=one;
     return one;
 }

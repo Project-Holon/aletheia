@@ -14,6 +14,7 @@
  *   func_0201CE48 0x0201CE48 thumb
  *   func_021BA8BC 0x021BA8BC thumb ov099
  */
+#include "../include/Obj00008.h"
 typedef unsigned int u32;
 struct PrintSys;
 extern void func_021BA8D4(void *);
@@ -25,11 +26,11 @@ extern int func_021BA8BC(void *);
 void func_021BA8EC(char *p)
 {
     func_021BA8D4(p);
-    if (func_0201C6B4(*(struct PrintSys **)(p + 0x1B8)) == 0)
-        func_0201C6EC(*(struct PrintSys **)(p + 0x1B8));
-    if (*(void **)(p + 0x1BC) != 0) {
-        func_0201CE48(*(void **)(p + 0x1BC));
-        *(int *)(p + 0x1BC) = 0;
+    if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8) == 0)
+        func_0201C6EC(*(struct PrintSys * *)&((struct Obj00008 *)p)->f1B8);
+    if (((struct Obj00008 *)p)->f1BC != 0) {
+        func_0201CE48(((struct Obj00008 *)p)->f1BC);
+        *(int *)&((struct Obj00008 *)p)->f1BC = 0;
     }
-    *(int *)(p + 0x190) = func_021BA8BC(*(void **)(p + 0x190));
+    *(int *)&((struct Obj00008 *)p)->f190 = func_021BA8BC(((struct Obj00008 *)p)->f190);
 }

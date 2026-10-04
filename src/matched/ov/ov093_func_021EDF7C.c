@@ -16,6 +16,8 @@
  *   func_021EDE54  0x021EDE54  thumb  ov093
  *   func_021F8AE8  0x021F8AE8  thumb  ov094
  */
+#include "../include/Obj05234.h"
+#include "../include/Obj21617.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,12 +35,12 @@ void func_021EDF7C(u8 *p, u8 b)
     u16 h;
     u8 t;
 
-    r = (u8 *)func_021B98AC(*(char *const **)(*(u8 **)p + 0x138), b);
+    r = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj21617 *)(*(u8 * *)&((struct Obj05234 *)p)->f0))->f138, b);
     h = func_021D59B4(r, 0x10);
     t = func_021D5440(r);
-    if (h != *(u16 *)(p + 8) || t != p[0xc]) {
+    if (h != ((struct Obj05234 *)p)->f8 || t != p[0xc]) {
         p[0xc] = t;
-        *(u16 *)(p + 8) = h;
+        ((struct Obj05234 *)p)->f8 = h;
         func_021EDE54(p);
     }
     p[0xd] = 0;

@@ -28,6 +28,7 @@
  *   func_021D724C 0x021D724C thumb ov116
  *   func_021D7010 0x021D7010 thumb ov116
  */
+#include "../include/Obj01925.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,25 +52,25 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
     int result = 0;
     int code, status, all, i;
     u8 *x;
-    code = func_021B99DC(*(u8 **)(p + 0x168));
-    status = func_021B9790(*(u8 **)(p + 0x168));
+    code = func_021B99DC(*(u8 * *)&((struct Obj01925 *)p)->f168);
+    status = func_021B9790(*(u8 * *)&((struct Obj01925 *)p)->f168);
     if (code != 200 && status == 0) {
         func_021D7250(q, code);
-        func_021B9774(*(u8 **)(p + 0x168));
-        func_021B99B8(*(u8 **)(p + 0x168));
-        func_021B9838(*(u8 **)(p + 0x168));
-        *(u8 **)(p + 0x168) = 0;
+        func_021B9774(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         func_02156DC4(0, 0);
         return 2;
     }
     if (status != 0) {
         func_021D7260(q);
     } else {
-        x = func_021B97F4(*(u8 **)(p + 0x168));
+        x = func_021B97F4(*(u8 * *)&((struct Obj01925 *)p)->f168);
         if (func_021B99F0(x) == 0) {
             all = 1;
-            func_02082D44(func_021B9A14(x, *(u16 *)(p + 0x16c)), p + 0x16e, 128);
-            for (i = 0; i < *(u16 *)(p + 0x16c); i++) {
+            func_02082D44(func_021B9A14(x, ((struct Obj01925 *)p)->f16C), p + 0x16e, 128);
+            for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
                 if (func_021B99F4((u32)x, i) != 0) {
                     all = 0;
                     if (flag != 0) func_021D724C(q, 1);
@@ -81,13 +82,13 @@ int func_021D6EC4(u8 *p, u8 *q, int flag)
         } else {
             if (flag != 0) func_021D724C(q, 2);
             result = 2;
-            for (i = 0; i < *(u16 *)(p + 0x16c); i++) {
+            for (i = 0; i < ((struct Obj01925 *)p)->f16C; i++) {
                 if (func_021B99F4((u32)x, i) != 0) func_021D7010((unsigned int)p, i);
             }
         }
-        func_021B99B8(*(u8 **)(p + 0x168));
-        func_021B9838(*(u8 **)(p + 0x168));
-        *(u8 **)(p + 0x168) = 0;
+        func_021B99B8(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        func_021B9838(*(u8 * *)&((struct Obj01925 *)p)->f168);
+        *(u8 * *)&((struct Obj01925 *)p)->f168 = 0;
         func_02156DC4(0, 0);
     }
     return result;

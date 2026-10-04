@@ -13,6 +13,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj05360.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,4 +21,4 @@ struct Obj;
 extern u16 func_0204B898(struct Obj *);
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B878(struct Obj *,u16);
-void func_021D4C24(u8 *p,u32 v) { if(v!=func_0204B898(*(struct Obj **)(p+0x2a0))) { func_0204B92C(*(struct Obj **)(p+0x2a0),1); func_0204B878(*(struct Obj **)(p+0x2a0),v); } }
+void func_021D4C24(u8 *p,u32 v) { if(v!=func_0204B898(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0)) { func_0204B92C(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,1); func_0204B878(*(struct Obj * *)&((struct Obj05360 *)p)->f2A0,v); } }

@@ -16,6 +16,7 @@
  *   func_02012EBC 0x02012EBC thumb
  *   func_020071F0 0x020071F0 thumb
  */
+#include "../include/Obj04611.h"
 typedef unsigned short u16;
 extern void func_0203064C(unsigned,unsigned,unsigned);
 extern char *func_0203159C(void *,unsigned,unsigned);
@@ -36,11 +37,11 @@ int func_021B95A0(void *owner,int unused,void **args)
     func_0203064C(1,84,1<<18);
     p=func_0203159C(owner,76,84);
     func_02082A7C(0,p,76);
-    *(u16 *)p=84;
-    *(u16 *)(p+2)=36;
-    *(void **)(p+4)=func_020120F4(context);
-    *(void **)(p+8)=func_02012944(*(void **)(p+4));
-    if(func_020071F0(func_02012EBC(*(void **)(p+4)))!=0)
-        *(int *)(p+64)=1;
+    ((struct Obj04611 *)p)->f0=84;
+    ((struct Obj04611 *)p)->f2=36;
+    ((struct Obj04611 *)p)->f4=func_020120F4(context);
+    ((struct Obj04611 *)p)->f8=func_02012944(((struct Obj04611 *)p)->f4);
+    if(func_020071F0(func_02012EBC(((struct Obj04611 *)p)->f4))!=0)
+        ((struct Obj04611 *)p)->f40=1;
     return 1;
 }

@@ -12,11 +12,12 @@
  * symbols:
  *   func_0202E9AC 0x0202E9AC thumb
  */
+#include "../include/Obj20621.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct CodeIn;
 extern void func_0202E9AC(struct CodeIn *, u8 *, u32, u32, u32);
 void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d)
 {
-    func_0202E9AC(*(struct CodeIn **)(p + 0x30), a, b, c << 4, d << 4);
+    func_0202E9AC(*(struct CodeIn * *)&((struct Obj20621 *)p)->f30, a, b, c << 4, d << 4);
 }

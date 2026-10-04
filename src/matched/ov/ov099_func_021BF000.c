@@ -16,6 +16,7 @@
  *   func_0203D7B0 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
+#include "../include/Obj00008.h"
 extern void func_021BEEBC(char *);
 extern void func_021C18C8(char *,int,int);
 extern void func_021BDE30(void *,int,int);
@@ -26,7 +27,7 @@ int func_021BF000(char *p,int ret) {
  func_021BEEBC(p);
  func_021C18C8(p,1,2);
  func_021BDE30(p,1,2);
- *(int *)(p+0x1cc)=11;
+ ((struct Obj00008 *)p)->f1CC=11;
  func_021C2408(p);
  func_0203D7B0(0);
  func_0203D7BC(0);

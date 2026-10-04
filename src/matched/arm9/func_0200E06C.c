@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00318.h"
 
 extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 void func_0200E06C(char *p)
 {
     func_0203F37C(p, 0x84c,
-        *(unsigned short *)(p + 0x84c) + (*(unsigned short *)(p + 0x84e) << 16));
-    *(unsigned short *)(p + 0x84e) = 0;
+        ((struct Obj00318 *)p)->f84C + (((struct Obj00318 *)p)->f84E << 16));
+    ((struct Obj00318 *)p)->f84E = 0;
 }

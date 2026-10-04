@@ -12,11 +12,12 @@
  * symbols:
  *   func_0204B3B4  0x0204B3B4  arm
  */
+#include "../include/Obj24448.h"
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
 void func_021E7454(int *p)
 {
-    func_0204B3B4((struct Obj *)(*(int *)((char *)p + 0x18C)));
+    func_0204B3B4((struct Obj *)(((struct Obj24448 *)p)->f18C));
 }

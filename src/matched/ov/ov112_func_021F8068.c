@@ -17,14 +17,15 @@
  * argument is ignored; the original moves r1 into r0, so the pointer is the
  * second parameter.
  */
+#include "../include/Obj08033.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 void func_021F8068(int self, char *p, u16 v)
 {
-    *(u16 *)(p + 0x48) = v;
-    if (*(u32 *)(p + 0x10) == 1)
-        *(u16 *)(p + 0x48) = 0;
-    *(u32 *)(p + 4) = 1;
+    ((struct Obj08033 *)p)->f48 = v;
+    if (((struct Obj08033 *)p)->f10 == 1)
+        ((struct Obj08033 *)p)->f48 = 0;
+    ((struct Obj08033 *)p)->f4 = 1;
 }

@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00791.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ typedef signed int     s32;
 extern void *func_02021518(u32 heap);
 void func_021C0C40(u32 a0)
 {
-    *(u32*)(((u8*)a0 + 0) + 40) = (u32)func_02021518(*(u16*)(((u8*)a0 + 0)));
+    *(u32 *)&((struct Obj00791 *)(((u8*)a0 + 0)))->f28 = (u32)func_02021518(((struct Obj00791 *)((u8*)a0))->f0);
 }
 

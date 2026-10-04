@@ -9,4 +9,5 @@
  * status: EXACT
  * symbols:
  */
-void *func_021F9DA0(char *p){return *(void **)(p+0x40);}
+#include "../include/Obj23212.h"
+void *func_021F9DA0(char *p){return ((struct Obj23212 *)p)->f40;}

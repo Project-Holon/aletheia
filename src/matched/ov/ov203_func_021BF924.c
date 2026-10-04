@@ -17,14 +17,15 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02031140 0x02031140 arm
  */
+#include "../include/Obj02250.h"
 extern void func_021BE9E8(int),func_0203115C(void *),func_02005DE4(void *),func_02005DF8(int),func_02049238(void *),func_0201D83C(void *),func_02031140(void *);
 extern int func_02005E9C(int);
 void func_021BF924(char *p)
 {
-    if(*(int *)(p+0x2C)) func_021BE9E8(*(int *)(p+0x2C));
-    func_0203115C(*(void **)(p+0x20));
-    if(*(unsigned char *)(p+0x19)) {
-        func_02005E9C(*(unsigned char *)(p+0x19));func_02005DE4(0);func_02005DF8(60);
+    if(((struct Obj02250 *)p)->f2C) func_021BE9E8(((struct Obj02250 *)p)->f2C);
+    func_0203115C(((struct Obj02250 *)p)->f20);
+    if(((struct Obj02250 *)p)->f19) {
+        func_02005E9C(((struct Obj02250 *)p)->f19);func_02005DE4(0);func_02005DF8(60);
     }
-    func_02049238(*(void **)(p+0x28));func_0201D83C(*(void **)(p+0x24));func_02031140(*(void **)(p+0x20));
+    func_02049238(((struct Obj02250 *)p)->f28);func_0201D83C(((struct Obj02250 *)p)->f24);func_02031140(((struct Obj02250 *)p)->f20);
 }

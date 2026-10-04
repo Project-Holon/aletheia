@@ -16,6 +16,7 @@
  *   func_0200723C 0x0200723C thumb
  *   _s32_div_f    0x0209C2B0 arm
  */
+#include "../include/Obj04314.h"
 
 struct Big;
 struct Ctx;
@@ -28,12 +29,12 @@ void func_021F0058(char *p)
     int v;
     int r;
 
-    r = (int)func_02012EBC(func_020120F4((const struct Ctx *)(*(int *)p)));
-    *(int *)(p + 4) = r;
+    r = (int)func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj04314 *)p)->f0)));
+    ((struct Obj04314 *)p)->f4 = r;
     func_0200723C(r, p + 0x114, p + 0x118);
-    v = (*(int *)(p + 0x114) << 9) / 10;
-    *(int *)(p + 0x120) = v;
-    *(int *)(p + 0x11C) = v;
-    *(short *)(p + 0x124) = 0;
-    *(short *)(p + 0x126) = 0;
+    v = (((struct Obj04314 *)p)->f114 << 9) / 10;
+    ((struct Obj04314 *)p)->f120 = v;
+    ((struct Obj04314 *)p)->f11C = v;
+    ((struct Obj04314 *)p)->f124 = 0;
+    ((struct Obj04314 *)p)->f126 = 0;
 }

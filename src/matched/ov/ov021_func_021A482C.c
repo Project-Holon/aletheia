@@ -18,6 +18,8 @@
  *   func_021A47B4  0x021A47B4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02083.h"
+#include "../include/Obj19788.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,17 +33,17 @@ extern int func_021A47B4(u8 *, u32, u8 *);
 
 int ov021_func_021A482C(u8 *a, u32 b, u8 *c)
 {
-    if (*(u16 *)(c + 8) == 9) {
+    if (((struct Obj19788 *)c)->f8 == 9) {
         if (func_021A5390((u32)a) == 0) {
             func_021A56F4(a);
         }
-        if (*(u8 *)(a + 22) == 1) {
-            if (func_0219F7CC(b, *(u16 *)(a + 20)) != 0) {
-                *(u8 *)(a + 22) = 0;
+        if (((struct Obj02083 *)a)->f16 == 1) {
+            if (func_0219F7CC(b, ((struct Obj02083 *)a)->f14) != 0) {
+                ((struct Obj02083 *)a)->f16 = 0;
             }
         }
-        *(u16 *)(a + 20) = *(u16 *)(a + 20) + 1;
-        if (*(u16 *)(a + 20) == 60) {
+        ((struct Obj02083 *)a)->f14 = ((struct Obj02083 *)a)->f14 + 1;
+        if (((struct Obj02083 *)a)->f14 == 60) {
             func_021A5708((u32)a);
             func_021A53A4((u32 *)a, 1);
             return 7;

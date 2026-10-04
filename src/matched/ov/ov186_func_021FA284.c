@@ -23,6 +23,7 @@
  *   func_021FAB7C 0x021FAB7C thumb ov186
  *   func_021FAA34 0x021FAA34 thumb ov186
  */
+#include "../include/Obj00313.h"
 typedef struct {int x,y;} Pair;
 extern int func_02035D20(int *,int *);
 extern int func_021FAD04(int *,int,int),func_021FAF24(char *,int);
@@ -40,43 +41,43 @@ extern void func_021FAA34(void *,int *,int *);
 void func_021FA284(void *p,int *state,unsigned char *ctx)
 {
  int found,i,x,y,kind;
- found=0;*(int *)(ctx+0x18)=0;*(int *)(ctx+0x14)=0;
+ found=0;((struct Obj00313 *)ctx)->f18=0;((struct Obj00313 *)ctx)->f14=0;
  if(func_02035D20(&x,&y)){
   for(i=0;i<ctx[0x38];i++){
-   if(func_021FAD04((int *)(*(char **)(ctx+0x40)+i*0x44),x,y)){
-    if(func_021FAF24(*(char **)(ctx+0x40)+i*0x44,3)){
-     if(*(unsigned *)(ctx+0x50)){
-      func_021FD15C((void *)(*(unsigned *)(ctx+0x50)),*(unsigned *)(ctx+4));
-      *(unsigned *)(ctx+0x50)=0;
+   if(func_021FAD04((int *)(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44),x,y)){
+    if(func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,3)){
+     if(((struct Obj00313 *)ctx)->f50){
+      func_021FD15C((void *)(((struct Obj00313 *)ctx)->f50),((struct Obj00313 *)ctx)->f4);
+      ((struct Obj00313 *)ctx)->f50=0;
      }
      func_020061E4(0x703);
-     *(int *)(ctx+0x2c)=i;
+     ((struct Obj00313 *)ctx)->f2C=i;
      found=1;
-     *(int *)(ctx+0x30)=x;*(int *)(ctx+0x34)=y;
-     func_021FD860(*(char **)(ctx+0x58),7,(Pair *)(ctx+0x30));
-     func_021FAFCC(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,(Pair *)(ctx+0x30));
-     *(int *)(ctx+0x54)=0;
+     ((struct Obj00313 *)ctx)->f30=x;((struct Obj00313 *)ctx)->f34=y;
+     func_021FD860(*(char * *)&((struct Obj00313 *)ctx)->f58,7,(Pair *)(ctx+0x30));
+     func_021FAFCC(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,(Pair *)(ctx+0x30));
+     ((struct Obj00313 *)ctx)->f54=0;
     }else{
-     kind=func_021FAF24(*(char **)(ctx+0x40)+i*0x44,5);
-     func_021FAF24(*(char **)(ctx+0x40)+i*0x44,6);
+     kind=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,5);
+     func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,6);
      func_020061E4(0x704);
-     if(kind==1){*(int *)(ctx+0x2c)=i;func_021FD73C(p,(int)func_021FAA74);}
+     if(kind==1){((struct Obj00313 *)ctx)->f2C=i;func_021FD73C(p,(int)func_021FAA74);}
     }
     break;
    }
   }
  }
  if(found){
-  *(int *)(ctx+0x14)=1;
-  *(int *)(ctx+0x1c)=func_021FAF24(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,0);
-  *(int *)(ctx+0x20)=func_021FAF24(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,3);
-  *(int *)(ctx+0x24)=func_021FAF24(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,1);
-  *(int *)(ctx+0x28)=func_021FAF24(*(char **)(ctx+0x40)+*(int *)(ctx+0x2c)*0x44,2);
+  ((struct Obj00313 *)ctx)->f14=1;
+  *(int *)&((struct Obj00313 *)ctx)->f1C=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,0);
+  ((struct Obj00313 *)ctx)->f20=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,3);
+  ((struct Obj00313 *)ctx)->f24=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,1);
+  ((struct Obj00313 *)ctx)->f28=func_021FAF24(*(char * *)&((struct Obj00313 *)ctx)->f40+((struct Obj00313 *)ctx)->f2C*0x44,2);
   for(i=0;i<ctx[0x39];i++){
-   if(i==*(int *)(ctx+0x2c))func_021FAFA0(*(char **)(ctx+0x40)+i*0x44,1);
-   else func_021FAFA0(*(char **)(ctx+0x40)+i*0x44,3);
+   if(i==((struct Obj00313 *)ctx)->f2C)func_021FAFA0(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,1);
+   else func_021FAFA0(*(char * *)&((struct Obj00313 *)ctx)->f40+i*0x44,3);
   }
-  switch(*(unsigned *)(ctx+0x1c)){
+  switch(((struct Obj00313 *)ctx)->f1C){
   case 2:func_021FD73C(p,(int)func_021FA758);break;
   case 0:case 1:case 4:func_021FD73C(p,(int)func_021FA444);break;
   case 3:func_021FD73C(p,(int)func_021FAB7C);break;

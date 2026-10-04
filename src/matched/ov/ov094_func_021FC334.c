@@ -15,12 +15,14 @@
  *   func_0201134C 0x0201134C thumb
  *   func_020113B0 0x020113B0 thumb
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj21682.h"
 extern int func_0201134C(void *);
 extern void func_020113B0(void *, int);
 
 int func_021FC334(char *a, char *s)
 {
     int off = func_0201134C(a);
-    func_020113B0(a, *(int *)(a + 0x14) + off);
-    return *(int *)(s + 0x23c);
+    func_020113B0(a, *(int *)&((struct Obj00005 *)a)->f14 + off);
+    return ((struct Obj21682 *)s)->f23C;
 }

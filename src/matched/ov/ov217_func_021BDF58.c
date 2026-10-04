@@ -38,6 +38,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -84,14 +85,14 @@ void func_021BDF58(u8 *p)
         break;
     case 1:
         if (func_02006238() == 0) {
-            if (*(u32 *)(p + 0x28) >= 0x78)
+            if (((struct Obj00021 *)p)->f28 >= 0x78)
                 func_021BE4E0(p);
             else
                 func_020061E4(0x76B);
         }
         break;
     case 2:
-        *(int *)(p + 0x3C8) = 1;
+        *(int *)&((struct Obj00021 *)p)->f3C8 = 1;
         func_021BE930(p, 1);
         func_021BF3D8(p);
         func_021BEFF8(p);
@@ -104,7 +105,7 @@ void func_021BDF58(u8 *p)
         func_021BF2FC(p);
         func_021BEEA4(p);
         func_021BF47C(p);
-        if (*(int *)(p + 0x3CC) == 0)
+        if (((struct Obj00021 *)p)->f3CC == 0)
             func_021BE934(p);
         func_020061E4(0x76C);
         func_021BE448(p);

@@ -34,6 +34,8 @@
  *   ov107_id       0x0000006B  data
  *   ov088_id       0x00000058  data
  */
+#include "../include/Obj09921.h"
+#include "../include/Obj13231.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -66,8 +68,8 @@ extern char ov088_id[];
 
 int func_021BA014(int a0, int a1, int a2, char *a3)
 {
-    u8 sel = *(u8 *)(a3 + 0x129);
-    u8 flag = *(u8 *)(a3 + 0x12c);
+    u8 sel = ((struct Obj13231 *)a3)->f129;
+    u8 flag = ((struct Obj13231 *)a3)->f12C;
     char *w;
 
     func_020315D4((struct S020315D4 *)a0);
@@ -90,8 +92,8 @@ int func_021BA014(int a0, int a1, int a2, char *a3)
     case 3:
         w = func_02030734(1, 0x14, 0, d_021BDA00, 0x200);
         func_02082BCC(w, 0, 0x14);
-        *(u32 *)(w + 8) = 0;
-        *(u32 *)(w + 0x10) = 1;
+        ((struct Obj09921 *)w)->f8 = 0;
+        ((struct Obj09921 *)w)->f10 = 1;
         func_020312F8((int)ov199_id, (u32)d_02213C4C, (u32)w);
         break;
     case 4:
@@ -105,7 +107,7 @@ int func_021BA014(int a0, int a1, int a2, char *a3)
         break;
     case 7:
         w = func_02030734(1, 8, 1, d_021BDA00, 0x216);
-        *(u8 *)w = 1;
+        ((struct Obj09921 *)w)->f0 = 1;
         func_020312F8((int)ov107_id, (u32)d_021F6D78, (u32)w);
         break;
     default:

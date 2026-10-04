@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13972.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern int func_02045CAC(void *, int, void *);
 
 int func_021D5950(u8 *p, int x)
 {
-    return func_02045CAC(*(void **)(p + 0x20), x, *(void **)(p + 0x2c));
+    return func_02045CAC(((struct Obj13972 *)p)->f20, x, ((struct Obj13972 *)p)->f2C);
 }

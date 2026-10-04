@@ -20,6 +20,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F28B8     0x021F28B8  data   ov093  a4
  */
+#include "../include/Obj13543.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -44,7 +45,7 @@ void func_021E75E0(int a, int b, int c)
             k += 0x8e;
         else
             k += 0x8f;
-        *(u16 *)(p + 4) = k;
+        ((struct Obj13543 *)p)->f4 = k;
         func_021C88C8((void *)b, p);
     }
 }

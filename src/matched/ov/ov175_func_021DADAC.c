@@ -10,6 +10,7 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj24330.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-u32 func_021DADAC(u8 *p) { return *(u32 *)(p+0x150); }
+u32 func_021DADAC(u8 *p) { return ((struct Obj24330 *)p)->f150; }

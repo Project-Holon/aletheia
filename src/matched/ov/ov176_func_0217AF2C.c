@@ -20,11 +20,12 @@
  *   func_021E5548  0x021E5548  thumb  ov177
  *   func_021E567C  0x021E567C  thumb  ov177
  */
+#include "../include/Obj10695.h"
 
 extern int func_021E5548(int *p);
 extern int func_021E567C(int, int, int);
 
 void func_0217AF2C(int *p)
 {
-    *(int *)((char *)p + 0x20) = func_021E567C(func_021E5548((int *)(*(int *)((char *)p + 0x24))), 1, *(unsigned short *)p);
+    ((struct Obj10695 *)p)->f20 = func_021E567C(func_021E5548((int *)(((struct Obj10695 *)p)->f24)), 1, ((struct Obj10695 *)p)->f0);
 }

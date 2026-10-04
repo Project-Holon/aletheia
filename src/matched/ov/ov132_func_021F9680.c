@@ -14,12 +14,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23185.h"
 
 typedef unsigned int   u32;
 extern void func_020064F4(u32 a);
 
 void func_021F9680(char *p, int a)
 {
-    *(int *)(p + 0x28) = 1;
+    ((struct Obj23185 *)p)->f28 = 1;
     func_020064F4(a);
 }

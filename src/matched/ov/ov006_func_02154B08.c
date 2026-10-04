@@ -23,6 +23,7 @@
  *   func_0200ADF0   0x0200ADF0  thumb
  *   d_02154C80      0x02154C80  data  ov006  a4
  */
+#include "../include/Obj00652.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -74,24 +75,24 @@ void func_02154B08(void *obj_in, void *p, int a, int b)
     if (func_02026454((void *)func_02012138(p)))
         func_02026400((struct Comm *)func_02012138(p));
     obj = func_020124E8(obj_in);
-    *(void **)(obj + 0x4) = p;
-    *(int *)(obj + 0x8) = a;
-    *(void **)(obj + 0x0) = obj_in;
-    *(int *)(obj + 0x14) = b;
-    *(Sub **)(obj + 0x5c) = func_02030734(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
-    (*(Sub **)(obj + 0x5c))->f00 = (int)func_02030734(0x8004, 0x20, 1, d_02154C80, 0x2b1);
-    (*(Sub **)(obj + 0x5c))->f04 = (int)func_020120F4(*(void **)(obj + 0x4));
-    (*(Sub **)(obj + 0x5c))->f08 = (int)func_02012EBC((struct Big *)((*(Sub **)(obj + 0x5c))->f04));
-    (*(Sub **)(obj + 0x5c))->f46 = 1;
-    (*(Sub **)(obj + 0x5c))->f49 = 0;
-    *(int *)(obj + 0x90) = (*(Sub **)(obj + 0x5c))->f04;
-    *(int *)(obj + 0x94) = func_0201283C((const struct BigObj *)(*(int *)(obj + 0x90)));
-    (*(Sub **)(obj + 0x5c))->f0c = 0;
-    *(int *)(obj + 0x7c) = *(int *)(obj + 0x168) = (int)func_0201A920(0x8004);
-    *(char **)(obj + 0xc) = obj;
-    *(u16 *)(obj + 0x170) = func_02005C44();
-    (*(Sub **)(obj + 0x5c))->f14 = (int)func_0201A920(0x8001);
-    (*(Sub **)(obj + 0x5c))->f18 = (int)func_0201A920(0x8001);
-    (*(Sub **)(obj + 0x5c))->f1c = (int)func_0200ADF0(0x8001);
-    (*(Sub **)(obj + 0x5c))->f20 = 1;
+    ((struct Obj00652 *)obj)->f4 = p;
+    ((struct Obj00652 *)obj)->f8 = a;
+    ((struct Obj00652 *)obj)->f0 = obj_in;
+    ((struct Obj00652 *)obj)->f14 = b;
+    *(Sub * *)&((struct Obj00652 *)obj)->f5C = func_02030734(0x8004, 0x4c, 1, d_02154C80, 0x2b0);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f00 = (int)func_02030734(0x8004, 0x20, 1, d_02154C80, 0x2b1);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f04 = (int)func_020120F4(((struct Obj00652 *)obj)->f4);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f08 = (int)func_02012EBC((struct Big *)((*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f04));
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f46 = 1;
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f49 = 0;
+    ((struct Obj00652 *)obj)->f90 = (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f04;
+    ((struct Obj00652 *)obj)->f94 = func_0201283C((const struct BigObj *)(((struct Obj00652 *)obj)->f90));
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f0c = 0;
+    ((struct Obj00652 *)obj)->f7C = ((struct Obj00652 *)obj)->f168 = (int)func_0201A920(0x8004);
+    *(char * *)&((struct Obj00652 *)obj)->fC = obj;
+    ((struct Obj00652 *)obj)->f170 = func_02005C44();
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f14 = (int)func_0201A920(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f18 = (int)func_0201A920(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f1c = (int)func_0200ADF0(0x8001);
+    (*(Sub * *)&((struct Obj00652 *)obj)->f5C)->f20 = 1;
 }

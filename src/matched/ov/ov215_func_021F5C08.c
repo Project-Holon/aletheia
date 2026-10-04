@@ -10,13 +10,14 @@
  * symbols:
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj14705.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02040588(unsigned, unsigned);
 void func_021F5C08(void *unused, char *p)
 {
-    if (*(unsigned *)(p + 0x6c)) {
+    if (((struct Obj14705 *)p)->f6C) {
         func_02040588(1, 1);
-        *(unsigned *)(p + 0x6c) = 0;
+        ((struct Obj14705 *)p)->f6C = 0;
     }
 }

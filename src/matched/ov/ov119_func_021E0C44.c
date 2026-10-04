@@ -16,6 +16,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0C78 0x021E0C78 thumb ov119
  */
+#include "../include/Obj10371.h"
 typedef unsigned int   u32;
 struct Sub0201088CObj;
 extern u32 func_02010904(struct Sub0201088CObj *p);
@@ -25,10 +26,10 @@ extern void func_021D8E84(void *p, void (*fn)(void *p));
 extern void func_021E0C78(void *p);
 void func_021E0C44(char *p)
 {
-    if (func_02010904(*(void **)(p + 0xEF8))) {
+    if (func_02010904(((struct Obj10371 *)p)->fEF8)) {
         func_021E02E8(p);
-        func_02010934(*(void **)(p + 0xEF8));
-        *(int *)(p + 0xEF8) = 0;
+        func_02010934(((struct Obj10371 *)p)->fEF8);
+        *(int *)&((struct Obj10371 *)p)->fEF8 = 0;
         func_021D8E84(p, func_021E0C78);
     }
 }

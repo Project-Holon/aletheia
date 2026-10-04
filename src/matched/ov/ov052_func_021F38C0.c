@@ -14,6 +14,8 @@
  *   d_021F3AC0 0x021F3AC0 data ov052 a4
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj13112.h"
+#include "../include/Obj20567.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -23,10 +25,10 @@ extern void func_020307B0(void *);
 
 void func_021F38C0(char *a)
 {
-    *(void **)(a + 0x24) = func_02030734(*(unsigned short *)(a + 0xc), 12, 1, d_021F3AC0, 0x164);
+    ((struct Obj13112 *)a)->f24 = func_02030734(((struct Obj13112 *)a)->fC, 12, 1, d_021F3AC0, 0x164);
 }
 
 void func_021F38E4(char *a)
 {
-    func_020307B0(*(void **)(a + 0x24));
+    func_020307B0(((struct Obj20567 *)a)->f24);
 }

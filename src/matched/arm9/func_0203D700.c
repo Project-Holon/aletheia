@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_0203D700.c \
  *       --func func_0203D700 --addr 0x0203D700 --arm --cc 1.1p1
  */
+#include "../include/Obj11377.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -25,7 +26,7 @@ void func_0203D700(void)
 {
     u8 *p = func_0203D788();
 
-    if (*(u32 *)(p + 0x30) != 0) {
-        ((void (*)(u32)) * (u32 *)(p + 0x30))(*(u32 *)(p + 0x34c));
+    if (((struct Obj11377 *)p)->f30 != 0) {
+        ((void (*)(u32)) * (u32 *)(p + 0x30))(((struct Obj11377 *)p)->f34C);
     }
 }

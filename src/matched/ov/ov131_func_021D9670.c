@@ -14,6 +14,8 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02040AE0 0x02040AE0 arm
  */
+#include "../include/Obj06485.h"
+#include "../include/Obj23158.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,14 +28,14 @@ extern void func_02040AE0(u32 index, const void *src, u32 mode);
 void func_021D9670(u8 *a,u8 *p)
 {
     u8 *q;
-    if(*(int *)(p+4)==1) {
-        func_0204A8D4((u32)(*(void **)(p+0x18)));
-        func_0204B3B4(*(void **)(p+0x1c));
+    if(((struct Obj06485 *)p)->f4==1) {
+        func_0204A8D4((u32)(((struct Obj06485 *)p)->f18));
+        func_0204B3B4(((struct Obj06485 *)p)->f1C);
         func_02041570(4,0);
         func_02041B6C(4);
-        *(int *)(p+4)=0;
-        q=*(u8 **)(p+0x30);
-        func_02040AE0(6,q+0xc,*(u32 *)(q+8));
+        ((struct Obj06485 *)p)->f4=0;
+        q=*(u8 * *)&((struct Obj06485 *)p)->f30;
+        func_02040AE0(6,q+0xc,((struct Obj23158 *)q)->f8);
         func_02041B6C(6);
     }
 }

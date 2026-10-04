@@ -46,6 +46,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00672.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -269,7 +270,7 @@ void func_021D5BB8(u8 *p)
     }
     func_021D56E0(0x48B);
     if (FRAME == func_021D56E0(0x48B + 3)) {
-        if (*(u8 *)(p + 0x11EE) == 0) {
+        if (((struct Obj00672 *)p)->f11EE == 0) {
             func_021D5888(p, 3);
             func_021D5748(p, 3);
             func_02015F50(OBJ(3), 0x10, 0x10, 0, 0x7FFF);
@@ -287,13 +288,13 @@ void func_021D5BB8(u8 *p)
     if (FRAME == func_021D56E0(0x490)) {
         func_02015F50(OBJ(3), 0, 0, 0, 0x7FFF);
     }
-    if (func_021D56E0(0x48E) < FRAME && *(u8 *)(p + 0x11EE) != 0 && *(u32 *)(p + 0x868) != 0
-        && *(u32 *)(*(u32 *)(p + 0x868) + 8) == 9) {
+    if (func_021D56E0(0x48E) < FRAME && ((struct Obj00672 *)p)->f11EE != 0 && *(u32 *)&((struct Obj00672 *)p)->f868 != 0
+        && *(u32 *)(*(u32 *)&((struct Obj00672 *)p)->f868 + 8) == 9) {
         func_02015C30(OBJ(1), &v8);
         func_02015C48(OBJ(3), &v8);
         func_02015EB0(OBJ(3));
         func_02015EA0(OBJ(1));
-        **(u32 **)(p + 0x868) = OBJ(3);
+        **(u32 * *)&((struct Obj00672 *)p)->f868 = OBJ(3);
     }
     if (FRAME == func_021D56E0(0x4A0)) {
         func_02015E4C(OBJ(3));
@@ -318,6 +319,6 @@ void func_021D5BB8(u8 *p)
     }
     func_021DFC68(SLOT0, p);
     func_021DFC68(SLOT1, p);
-    func_021DFC68(*(u32 *)(p + 0x864), p);
-    func_021DFC68(*(u32 *)(p + 0x868), p);
+    func_021DFC68(((struct Obj00672 *)p)->f864, p);
+    func_021DFC68(*(u32 *)&((struct Obj00672 *)p)->f868, p);
 }

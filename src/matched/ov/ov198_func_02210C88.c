@@ -24,6 +24,7 @@
  * FCC receives only two loaded arguments here; mode is in 0..8, so its
  * out-of-domain incoming-r2 fallback is unused. BB94 receives live mode.
  */
+#include "../include/Obj03351.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct State { u8 pad[0x2177]; u8 step:4; u8 flags:4; } State;
@@ -45,7 +46,7 @@ int func_02210C88(u8 *p,unsigned mode)
 {
     switch(((State *)p)->step) {
     case 0:
-        if(func_0201C6B4(*(void **)(p+0x1EAC))==1) {
+        if(func_0201C6B4(((struct Obj03351 *)p)->f1EAC)==1) {
             func_0220BDD4((char *)p);
             func_0220BC70(p,mode);
             func_0220BE2C((char *)p,mode);
@@ -53,7 +54,7 @@ int func_02210C88(u8 *p,unsigned mode)
         }
         break;
     case 1:
-        if(func_0201C6B4(*(void **)(p+0x1EAC))==1) {
+        if(func_0201C6B4(((struct Obj03351 *)p)->f1EAC)==1) {
             func_02210D4C(p,mode);
             func_02041570(4,0);
             func_02041570(5,0);

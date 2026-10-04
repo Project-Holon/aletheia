@@ -13,6 +13,7 @@
  *   func_021D6FB0 0x021D6FB0 thumb ov125
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj01060.h"
 typedef unsigned char u8;
 typedef int (*Callback)(void *, void *);
 extern unsigned func_021D85C0(void);
@@ -22,23 +23,23 @@ extern void func_02082BCC(void *, int, unsigned);
 int func_021D6A34(char *p)
 {
     int result;
-    if (*(int *)(p + 0x3b4) == 1) {
-        if (*(int *)(p + 0x3d8) != 0x55f4) {
-            if (*(u8 *)(p + 0x401) != 0) {
-                (*(u8 *)(p + 0x401))--;
+    if (((struct Obj01060 *)p)->f3B4 == 1) {
+        if (((struct Obj01060 *)p)->f3D8 != 0x55f4) {
+            if (((struct Obj01060 *)p)->f401 != 0) {
+                (((struct Obj01060 *)p)->f401)--;
             } else {
                 switch (func_021D85C0()) {
                 case 1: case 7: case 8: case 9:
                     if (func_021D6B40(p, &result) == 1) {
-                        *(int *)(p + 0x3d8) = 0x55f4;
-                        *(u8 *)(p + 0x402) = 0;
+                        ((struct Obj01060 *)p)->f3D8 = 0x55f4;
+                        ((struct Obj01060 *)p)->f402 = 0;
                         if (result == 1) {
-                            *(int *)(p + 0x168) = 2;
-                            *(int *)(p + 0x16c) = 0x55f0;
-                            *(int *)(p + 0x170) = *(u8 *)(p + 0x493);
-                            *(int *)(p + 0x164) = 1;
-                            if (*(Callback *)(p + 0x154) != 0)
-                                (*(Callback *)(p + 0x154))(*(void **)(p + 0x148), p + 0x164);
+                            ((struct Obj01060 *)p)->f168 = 2;
+                            ((struct Obj01060 *)p)->f16C = 0x55f0;
+                            ((struct Obj01060 *)p)->f170 = ((struct Obj01060 *)p)->f493;
+                            ((struct Obj01060 *)p)->f164 = 1;
+                            if (*(Callback *)&((struct Obj01060 *)p)->f154 != 0)
+                                (*(Callback *)(p + 0x154))(((struct Obj01060 *)p)->f148, p + 0x164);
                         }
                     }
                     break;
@@ -48,15 +49,15 @@ int func_021D6A34(char *p)
             }
         }
         func_021D6FB0(p);
-        if (*(Callback *)(p + 0x3fc) != 0) {
+        if (*(Callback *)&((struct Obj01060 *)p)->f3FC != 0) {
             if ((*(Callback *)(p + 0x3fc))(p, p + 0x3f0) == 1) {
-                *(Callback *)(p + 0x3fc) = 0;
-                if (*(Callback *)(p + 0x3f0) != 0) {
-                    (*(Callback *)(p + 0x3f0))(*(void **)(p + 0x148), p + 0x164);
-                    *(Callback *)(p + 0x3f0) = 0;
+                *(Callback *)&((struct Obj01060 *)p)->f3FC = 0;
+                if (*(Callback *)&((struct Obj01060 *)p)->f3F0 != 0) {
+                    (*(Callback *)(p + 0x3f0))(((struct Obj01060 *)p)->f148, p + 0x164);
+                    *(Callback *)&((struct Obj01060 *)p)->f3F0 = 0;
                 }
                 func_02082BCC(p + 0x3f0, 0, 16);
-                *(int *)(p + 0x3dc) = 0x55f4;
+                ((struct Obj01060 *)p)->f3DC = 0x55f4;
             }
         }
     }

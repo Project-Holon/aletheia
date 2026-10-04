@@ -14,10 +14,11 @@
  *
  * Leaf: clears the word at +0x154.
  */
+#include "../include/Obj24329.h"
 
 typedef unsigned long u32;
 
 void func_021DA384(char *obj)
 {
-    *(u32 *)(obj + 0x154) = 0;
+    ((struct Obj24329 *)obj)->f154 = 0;
 }

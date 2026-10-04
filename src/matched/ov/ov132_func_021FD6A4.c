@@ -11,7 +11,9 @@
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj14133.h"
+#include "../include/Obj23290.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021FD6A4(char *p) {if(*(u32 *)(*(char **)(p+0x140)+0x2c)/0x3800u<*(u8 *)(p+0x14c))return 1;return 0;}
+int func_021FD6A4(char *p) {if(((struct Obj23290 *)(*(char * *)&((struct Obj14133 *)p)->f140))->f2C/0x3800u<((struct Obj14133 *)p)->f14C)return 1;return 0;}

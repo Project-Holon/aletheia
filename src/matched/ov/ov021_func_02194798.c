@@ -16,6 +16,7 @@
  *   func_02031140  0x02031140  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj09485.h"
 
 extern void (*d_020A814C)(void *p);
 extern void (*d_020A8144)(void *p);
@@ -32,8 +33,8 @@ void func_02194798(unsigned char *a)
 
     for (i = 0; i < 0x20; i++)
         func_02194B3C(a, a + 0x18 + i * 0x64);
-    d_020A814C(*(void **)(a + 0xccc));
-    d_020A8144(*(void **)(a + 0xcc8));
-    func_02031140(*(void **)(a + 0xc98));
+    d_020A814C(((struct Obj09485 *)a)->fCCC);
+    d_020A8144(((struct Obj09485 *)a)->fCC8);
+    func_02031140(((struct Obj09485 *)a)->fC98);
     func_020307B0(a);
 }

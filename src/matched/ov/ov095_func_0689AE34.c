@@ -27,6 +27,7 @@
  *   func_0689B078 0x0689B078 thumb ov095
  *   func_0689B088 0x0689B088 thumb ov095
  */
+#include "../include/Obj03219.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -60,16 +61,16 @@ void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
     u8 idx;
     Row *r;
     int status;
-    key = (*(Q **)(s + 0x70))->id;
+    key = (*(Q * *)&((struct Obj03219 *)s)->f70)->id;
     func_0689AF90(0, &desc, sizeof(desc));
-    desc.mode = func_0689AFB8(*(void **)(s + 0xa0), func_0689AFA8(*(void **)(s + 0xa0), *(void **)(s + 0xa4), func_0689AF98(*(void **)(s + 0x6c))));
+    desc.mode = func_0689AFB8(((struct Obj03219 *)s)->fA0, func_0689AFA8(((struct Obj03219 *)s)->fA0, ((struct Obj03219 *)s)->fA4, func_0689AF98(((struct Obj03219 *)s)->f6C)));
     desc.type = func_0689AFC8(key, 0x1b);
-    if (key == 0xae) desc.type = func_0689AFD8(*(void **)(s + 0x6c));
+    if (key == 0xae) desc.type = func_0689AFD8(((struct Obj03219 *)s)->f6C);
     if (desc.type == 0 && func_0689AFE8(key, 0xb)) desc.type = 14;
     while (n-- != 0) {
-        mon = func_0689AFF8(*(char *const **)(s + 0xa4), *list);
+        mon = func_0689AFF8(*(char *const * *)&((struct Obj03219 *)s)->fA4, *list);
         word = func_0689B008(mon);
-        idx = func_0689B018(*(void **)(s + 0xa0), *list) - 2;
+        idx = func_0689B018(((struct Obj03219 *)s)->fA0, *list) - 2;
         r = &desc.rows[idx];
         r->hp = func_0689B028(mon, 0xd);
         r->flags |= 4;
@@ -84,5 +85,5 @@ void func_0689AE34(u8 *list, u8 n, int unused, u8 *s)
         } else r->state = 2;
         list++;
     }
-    func_0689B088(*(char **)(s + 0xb0), 3, (int)&desc);
+    func_0689B088(*(char * *)&((struct Obj03219 *)s)->fB0, 3, (int)&desc);
 }

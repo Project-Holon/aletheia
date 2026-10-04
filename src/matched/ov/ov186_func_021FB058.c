@@ -15,6 +15,7 @@
  *   func_021FB514 0x021FB514 thumb ov186
  *   func_021FB7B0 0x021FB7B0 thumb ov186
  */
+#include "../include/Obj01281.h"
 extern void func_021FAEE4(char *, int *);
 extern void func_021FB548(char *p, short *x, short *y);
 extern void func_021FB514(char *p, short x, short y);
@@ -26,22 +27,22 @@ int func_021FB058(char *ctx)
     short value;
     int target;
     int start;
-    switch (*(int *)(ctx + 0x1c)) {
+    switch (((struct Obj01281 *)ctx)->f1C) {
     case 0:
         func_021FAEE4(ctx, position);
-        target = func_021FB7B0(*(void **)(ctx + 0xc), 1);
+        target = func_021FB7B0(((struct Obj01281 *)ctx)->fC, 1);
         start = position[1];
-        *(short *)(ctx + 0x22) = target;
-        *(short *)(ctx + 0x24) = 0;
-        *(short *)(ctx + 0x20) = start;
-        *(short *)(ctx + 0x26) = 16;
-        *(int *)(ctx + 0x1c) = 1;
+        ((struct Obj01281 *)ctx)->f22 = target;
+        ((struct Obj01281 *)ctx)->f24 = 0;
+        ((struct Obj01281 *)ctx)->f20 = start;
+        ((struct Obj01281 *)ctx)->f26 = 16;
+        ((struct Obj01281 *)ctx)->f1C = 1;
         break;
     case 1:
-        value = *(short *)(ctx + 0x20) + ((*(short *)(ctx + 0x22) - *(short *)(ctx + 0x20)) * *(short *)(ctx + 0x24)) / *(short *)(ctx + 0x26);
-        func_021FB548(*(void **)(ctx + 8), &x, 0);
-        func_021FB514(*(void **)(ctx + 8), x, value);
-        if ((*(short *)(ctx + 0x24))++ >= *(short *)(ctx + 0x26)) *(int *)(ctx + 0x1c) = 2;
+        value = ((struct Obj01281 *)ctx)->f20 + ((((struct Obj01281 *)ctx)->f22 - ((struct Obj01281 *)ctx)->f20) * ((struct Obj01281 *)ctx)->f24) / ((struct Obj01281 *)ctx)->f26;
+        func_021FB548(((struct Obj01281 *)ctx)->f8, &x, 0);
+        func_021FB514(((struct Obj01281 *)ctx)->f8, x, value);
+        if ((((struct Obj01281 *)ctx)->f24)++ >= ((struct Obj01281 *)ctx)->f26) ((struct Obj01281 *)ctx)->f1C = 2;
         break;
     case 2: return 1;
     }

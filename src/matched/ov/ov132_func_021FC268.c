@@ -20,6 +20,9 @@
  *   func_021FC34C 0x021FC34C thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
+#include "../include/Obj02194.h"
+#include "../include/Obj05404.h"
+#include "../include/Obj08170.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,31 +45,31 @@ int func_021FC268(int unused,char *p)
     u32 e,d,c,b,a;
     void *target;
     void *ctx;
-    owner=*(char **)p;
-    a=func_0201134C(*(void **)(p+4));
-    b=func_0201134C(*(void **)(p+4));
-    c=func_0201134C(*(void **)(p+4));
-    d=func_0201134C(*(void **)(p+4));
-    e=func_0201134C(*(void **)(p+4));
-    ctx=func_021F9DD4(*(void **)(owner+52));
-    target=func_021F9DDC(*(void **)(owner+52),a);
+    owner=*(char * *)&((struct Obj05404 *)p)->f0;
+    a=func_0201134C(((struct Obj05404 *)p)->f4);
+    b=func_0201134C(((struct Obj05404 *)p)->f4);
+    c=func_0201134C(((struct Obj05404 *)p)->f4);
+    d=func_0201134C(((struct Obj05404 *)p)->f4);
+    e=func_0201134C(((struct Obj05404 *)p)->f4);
+    ctx=func_021F9DD4(((struct Obj08170 *)owner)->f34);
+    target=func_021F9DDC(((struct Obj08170 *)owner)->f34,a);
     if (b==0) {
         pos.x=c;pos.y=d;pos.z=e;
         func_021F6EF4(ctx,target,&pos);
     } else {
-        q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x704);
-        *(char **)(q+48)=owner;
-        *(u32 **)q=target;
-        *(void **)(q+4)=*(void **)(owner+52);
-        *(u16 *)(q+46)=0;
+        q=func_02030734(((struct Obj08170 *)owner)->f0,56,0,d_021FDD00,0x704);
+        *(char * *)&((struct Obj02194 *)q)->f30=owner;
+        *(u32 * *)&((struct Obj02194 *)q)->f0=target;
+        ((struct Obj02194 *)q)->f4=((struct Obj08170 *)owner)->f34;
+        ((struct Obj02194 *)q)->f2E=0;
         func_021F6F04(ctx,target,(Vec *)(q+8));
-        *(u32 *)(q+20)=c;*(u32 *)(q+24)=d;*(u32 *)(q+28)=e;
-        *(u16 *)(q+44)=b;
+        ((struct Obj02194 *)q)->f14=c;((struct Obj02194 *)q)->f18=d;((struct Obj02194 *)q)->f1C=e;
+        ((struct Obj02194 *)q)->f2C=b;
         func_0207CA00(q+20,q+8,delta);
-        *(int *)(q+32)=delta[0]/(int)b;
-        *(int *)(q+36)=delta[1]/(int)b;
-        *(int *)(q+40)=delta[2]/(int)b;
-        *(void **)(q+52)=func_021FADA0(owner,(u32)func_021FC34C,(u32)q,10);
+        ((struct Obj02194 *)q)->f20=delta[0]/(int)b;
+        ((struct Obj02194 *)q)->f24=delta[1]/(int)b;
+        ((struct Obj02194 *)q)->f28=delta[2]/(int)b;
+        ((struct Obj02194 *)q)->f34=func_021FADA0(owner,(u32)func_021FC34C,(u32)q,10);
     }
     return 0;
 }

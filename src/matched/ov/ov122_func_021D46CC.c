@@ -20,6 +20,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B688 0x0204B688 arm
  */
+#include "../include/Obj00073.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,24 +53,24 @@ void func_021D46CC(char *p)
         req.f00 = x.v[i]; req.f02 = y.v[i]; req.f04 = z.v[i];
         req.f06 = 1; req.f07 = 2;
         q = p + 4 * i;
-        *(void **)(q + d) = func_0204B294((void *)*(u32 *)(p + 0x30c), *(u32 *)(p + a), *(u32 *)(p + b), *(u32 *)(p + c), &req, 1, *(u16 *)(p + 0xc));
+        *(void **)(q + d) = func_0204B294((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, *(u32 *)(p + a), *(u32 *)(p + b), *(u32 *)(p + c), &req, 1, ((struct Obj00073 *)p)->fC);
         func_0204B92C(*(void **)(q + e), 0);
         func_0204B3DC(*(void **)(q + f), 1);
         func_0204B688(*(void **)(q + g), 1);
     }
     req.f00 = 128; req.f02 = 96; req.f04 = 15; req.f06 = 0; req.f07 = 2;
-    *(void **)(p + 0x39c) = func_0204B294((void *)*(u32 *)(p + 0x30c), *(u32 *)(p + 0x37c), *(u32 *)(p + 0x378), *(u32 *)(p + 0x380), &req, 1, *(u16 *)(p + 0xc));
-    func_0204B92C(*(void **)(p + 0x39c), 1);
-    func_0204B3DC(*(void **)(p + 0x39c), 1);
-    func_0204B688(*(void **)(p + 0x39c), 1);
+    ((struct Obj00073 *)p)->f39C = func_0204B294((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
+    func_0204B92C(((struct Obj00073 *)p)->f39C, 1);
+    func_0204B3DC(((struct Obj00073 *)p)->f39C, 1);
+    func_0204B688(((struct Obj00073 *)p)->f39C, 1);
     req.f00 = 128; req.f02 = 96; req.f04 = 18; req.f06 = 0; req.f07 = 2;
-    *(void **)(p + 0x3a0) = func_0204B294((void *)*(u32 *)(p + 0x30c), *(u32 *)(p + 0x37c), *(u32 *)(p + 0x378), *(u32 *)(p + 0x380), &req, 1, *(u16 *)(p + 0xc));
-    func_0204B92C(*(void **)(p + 0x3a0), 1);
-    func_0204B3DC(*(void **)(p + 0x3a0), 0);
-    func_0204B688(*(void **)(p + 0x3a0), 1);
+    ((struct Obj00073 *)p)->f3A0 = func_0204B294((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
+    func_0204B92C(((struct Obj00073 *)p)->f3A0, 1);
+    func_0204B3DC(((struct Obj00073 *)p)->f3A0, 0);
+    func_0204B688(((struct Obj00073 *)p)->f3A0, 1);
     req.f00 = 128; req.f02 = 96; req.f04 = 25; req.f06 = 0; req.f07 = 2;
-    *(void **)(p + 0x3a4) = func_0204B294((void *)*(u32 *)(p + 0x30c), *(u32 *)(p + 0x37c), *(u32 *)(p + 0x378), *(u32 *)(p + 0x380), &req, 1, *(u16 *)(p + 0xc));
-    func_0204B92C(*(void **)(p + 0x3a4), 1);
-    func_0204B3DC(*(void **)(p + 0x3a4), 0);
-    func_0204B688(*(void **)(p + 0x3a4), 1);
+    ((struct Obj00073 *)p)->f3A4 = func_0204B294((void *)*(u32 *)&((struct Obj00073 *)p)->f30C, ((struct Obj00073 *)p)->f37C, ((struct Obj00073 *)p)->f378, ((struct Obj00073 *)p)->f380, &req, 1, ((struct Obj00073 *)p)->fC);
+    func_0204B92C(((struct Obj00073 *)p)->f3A4, 1);
+    func_0204B3DC(((struct Obj00073 *)p)->f3A4, 0);
+    func_0204B688(((struct Obj00073 *)p)->f3A4, 1);
 }

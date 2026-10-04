@@ -14,10 +14,11 @@
 
  * Returns the word at +0xC (the two words after it are untraced continuations).
  */
+#include "../include/Obj18230.h"
 
 
 int func_021BD35C(char *p)
 {
-    return *(int *)(p + 0xc);
+    return ((struct Obj18230 *)p)->fC;
 }
 

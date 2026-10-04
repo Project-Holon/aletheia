@@ -16,6 +16,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02062B10.c  *       --func func_02062B10 --addr 0x02062B10 --cc 1.1p1
  */
+#include "../include/Obj11520.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,5 +26,5 @@ typedef signed int     s32;
 
 void func_02062B10(u8 *block)
 {
-    *(u32 *)(block + 0x4) = *(u32 *)(block + 0x4) + (u32)block;
+    ((struct Obj11520 *)block)->f4 = ((struct Obj11520 *)block)->f4 + (u32)block;
 }

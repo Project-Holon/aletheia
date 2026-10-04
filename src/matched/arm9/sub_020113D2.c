@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/matched/sub_020113D2.c \
  *       --func sub_020113D2 --addr 0x020113D2 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11717.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ typedef unsigned int   u32;
 
 void sub_020113D2(void *o, u32 v1, u32 v2)
 {
-    *(u8 *)((u8 *)o + 0x0d) = (u8)v2;
-    *(u32 *)((u8 *)o + 0x10) = v1;
+    ((struct Obj11717 *)o)->fD = (u8)v2;
+    ((struct Obj11717 *)o)->f10 = v1;
 }
 

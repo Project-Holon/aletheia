@@ -12,8 +12,9 @@
  * symbols:
 
  */
+#include "../include/Obj23117.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-int func_021D97CC(u8 *p,int value) { int i; int count; count=*(int *)(p+0x23c); for(i=0;i<count;i++) if(value==*(int *)(p+i*28+4)) return i; return 0; }
+int func_021D97CC(u8 *p,int value) { int i; int count; count=((struct Obj23117 *)p)->f23C; for(i=0;i<count;i++) if(value==*(int *)(p+i*28+4)) return i; return 0; }

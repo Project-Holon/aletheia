@@ -14,6 +14,7 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_020457B0 0x020457B0 arm
  */
+#include "../include/Obj03850.h"
 typedef unsigned int   u32;
 struct GfFont;
 struct MsgBank;
@@ -26,10 +27,10 @@ extern u32 func_0201C440(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_021DCC24(char *p)
 {
-    *(void **)(p+0xb60)=func_02045B38(0,2,0x55,0x8c);
-    *(void **)(p+0xb58)=func_0201D7EC(0x17,0,0,0,0x8c);
-    *(void **)(p+0xb5c)=func_0201D7EC(0x17,3,0,0,0x8c);
-    *(void **)(p+0xb64)=func_0201EC64(0x8c);
-    *(void **)(p+0xb6c)=(void *)func_0201C440((void *)0x8c);
-    *(void **)(p+0xb68)=func_020457B0(0x400,0x8c);
+    ((struct Obj03850 *)p)->fB60=func_02045B38(0,2,0x55,0x8c);
+    ((struct Obj03850 *)p)->fB58=func_0201D7EC(0x17,0,0,0,0x8c);
+    ((struct Obj03850 *)p)->fB5C=func_0201D7EC(0x17,3,0,0,0x8c);
+    ((struct Obj03850 *)p)->fB64=func_0201EC64(0x8c);
+    ((struct Obj03850 *)p)->fB6C=(void *)func_0201C440((void *)0x8c);
+    ((struct Obj03850 *)p)->fB68=func_020457B0(0x400,0x8c);
 }

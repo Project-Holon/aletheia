@@ -36,6 +36,7 @@
  *   d_0220AEC0 0x0220AEC0 data a1
  *   d_0220AABC 0x0220AABC data a2
  */
+#include "../include/Obj21804.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
@@ -129,7 +130,7 @@ Obj *func_02206BC8(int a, u16 heap)
     func_02022004((unsigned)func_021F86E0(), 2, 0x200, 8, 0);
     func_02049238(arc);
     s->f10 = func_02049E74((void *)s->h04, 0xa4, 0, (u32)(&hdr), s->heap);
-    s->f14 = *(int *)(hdr + 0x14);
+    s->f14 = ((struct Obj21804 *)hdr)->f14;
     s->f08 = a;
     s->f444 = func_02005C44();
     t = func_02030734(heap, sizeof(Task), 1, d_0220AEC0, 0x185);

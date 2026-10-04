@@ -13,6 +13,7 @@
  *   func_021B6974 0x021B6974 arm ov172
  *   func_021B68A0 0x021B68A0 thumb ov172
  */
+#include "../include/Obj01264.h"
 extern int func_02085D3C(void);
 extern void func_021B6974(int, int, int);
 extern void func_021B68A0(char *);
@@ -20,6 +21,6 @@ extern void func_021B68A0(char *);
 void func_021B6950(char *p, int v)
 {
     if (func_02085D3C() == 1) func_021B6974(3, 3, v);
-    *(int *)(p + 0x30) = v;
+    ((struct Obj01264 *)p)->f30 = v;
     func_021B68A0(p);
 }

@@ -18,6 +18,7 @@
  *   d_021D8A24  0x021D8A24  data  a2
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09571.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,7 +42,7 @@ u32 func_021A5630(u32 a)
     t[1] = d_021D8A24[1];
     t[2] = d_021D8A24[2];
     t[3] = d_021D8A24[3];
-    x = func_021A3920((u8 *)(*(u32 *)(a + 12)));
+    x = func_021A3920((u8 *)(*(u32 *)&((struct Obj09571 *)a)->fC));
     i = 0;
     do {
         if (func_021A5788(a, x, &v) == 1) {

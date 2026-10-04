@@ -9,18 +9,19 @@
  * status: EXACT
  * lever: signed byte step avoids an extra truncation before the addition.
  */
+#include "../include/Obj03310.h"
 typedef signed char s8;
 typedef unsigned short u16;
 int func_021DD558(char *p, s8 step)
 {
     int old;
-    old = *(s8 *)(p + 0xc5c);
-    *(s8 *)(p + 0xc5c) += step;
-    if (*(s8 *)(p + 0xc5c) < 0)
-        *(s8 *)(p + 0xc5c) = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1;
-    else if (*(s8 *)(p + 0xc5c) >= *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4))
-        *(s8 *)(p + 0xc5c) = 0;
-    if (*(s8 *)(p + 0xc5c) != old)
+    old = ((struct Obj03310 *)p)->fC5C;
+    ((struct Obj03310 *)p)->fC5C += step;
+    if (((struct Obj03310 *)p)->fC5C < 0)
+        ((struct Obj03310 *)p)->fC5C = *(u16 *)(p + ((struct Obj03310 *)p)->fC5E * 0xbc + 0xc4) - 1;
+    else if (((struct Obj03310 *)p)->fC5C >= *(u16 *)(p + ((struct Obj03310 *)p)->fC5E * 0xbc + 0xc4))
+        ((struct Obj03310 *)p)->fC5C = 0;
+    if (((struct Obj03310 *)p)->fC5C != old)
         return 1;
     return 0;
 }

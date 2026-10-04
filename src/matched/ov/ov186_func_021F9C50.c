@@ -13,6 +13,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_021F9C6C  0x021F9C6C  thumb  ov186
  */
+#include "../include/Obj24811.h"
 
 typedef struct {
     char  pad_00[0x4c];
@@ -27,6 +28,6 @@ extern void func_021F9C6C(S *);
 void func_021F9C50(S *p)
 {
     func_02082D44(p->unk_4c, p->unk_68, 0x18);
-    *(int *)((char *)p->unk_68 + 0x18) = p->unk_64;
+    ((struct Obj24811 *)((char *)p->unk_68))->f18 = p->unk_64;
     func_021F9C6C(p);
 }

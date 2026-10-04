@@ -27,6 +27,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01725.h"
 
 extern void func_021D66E8(void *);
 extern void func_021E3034(void *, int);
@@ -38,9 +39,9 @@ extern void func_021DFDA0(void *p);
 void func_021D6C78(void *p)
 {
     func_021D66E8(p);
-    func_021E3034(*(void **)((char *)p + 0xc), 6);
-    func_021E2F2C(*(void **)((char *)p + 0xc));
-    func_020307B0(*(void **)((char *)p + 0xc));
-    *(void **)((char *)p + 0xc) = 0;
+    func_021E3034(((struct Obj01725 *)p)->fC, 6);
+    func_021E2F2C(((struct Obj01725 *)p)->fC);
+    func_020307B0(((struct Obj01725 *)p)->fC);
+    ((struct Obj01725 *)p)->fC = 0;
     func_021D8E84(p, (int)func_021DFDA0);
 }

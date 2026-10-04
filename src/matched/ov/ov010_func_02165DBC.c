@@ -10,10 +10,11 @@
  * Parent-cleared leaf for ov216 021BCE04. ov010 coherent Thumb accessor;
  * overlapping ov009 address is interior ARM code, as explicit shows prove.
  */
+#include "../include/Obj07306.h"
 unsigned short func_02165DBC(const char *p)
 {
-    unsigned a=(unsigned char)*(const unsigned short *)(p+0x48);
-    unsigned b=*(const unsigned short *)(p+0x4e);
+    unsigned a=(unsigned char)*(const unsigned short *)&((struct Obj07306 *)p)->f48;
+    unsigned b=*(const unsigned short *)&((struct Obj07306 *)p)->f4E;
     switch(a) { case 2: case 3: case 4:
         if(b==0 || b>=616) b=1;
         return b;

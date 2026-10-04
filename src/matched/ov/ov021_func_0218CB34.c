@@ -26,6 +26,7 @@
  *   func_021A73DC  0x021A73DC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00807.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,41 +58,41 @@ int func_0218CB34(char *p)
     int y;
     u16 *h;
 
-    if (*(void **)(p + 0x1C) == 0)
+    if (((struct Obj00807 *)p)->f1C == 0)
         return 0;
-    for (i = 0; i < *(u16 *)(p + 0x2E); i++)
-        func_0218DD70(*(char **)(p + 0x28) + i * 16);
-    switch (*(int *)(p + 0xC)) {
+    for (i = 0; i < ((struct Obj00807 *)p)->f2E; i++)
+        func_0218DD70(*(char * *)&((struct Obj00807 *)p)->f28 + i * 16);
+    switch (((struct Obj00807 *)p)->fC) {
     case 0:
-        func_0218D1D0(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D1D0(p, p + 0x34, ((struct Obj00807 *)p)->f28);
         break;
     case 1:
     default:
-        func_0218D304(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D304(p, p + 0x34, ((struct Obj00807 *)p)->f28);
         break;
     case 2:
-        func_0218D444(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D444(p, p + 0x34, ((struct Obj00807 *)p)->f28);
         break;
     case 3:
-        func_0218D570(p, p + 0x34, *(void **)(p + 0x28));
+        func_0218D570(p, p + 0x34, ((struct Obj00807 *)p)->f28);
         break;
     }
-    func_0218D7A8((struct Obj *)p, *(void **)(p + 0x28));
+    func_0218D7A8((struct Obj *)p, ((struct Obj00807 *)p)->f28);
     r = 0;
     func_0218DE78(p);
-    for (i = 0; i < *(u16 *)(p + 0x2E); i++) {
-        func_02169520(*(int *)(*(char **)(p + 0x24) + i * 0x28), (int)(&h));
+    for (i = 0; i < ((struct Obj00807 *)p)->f2E; i++) {
+        func_02169520(*(int *)(*(char * *)&((struct Obj00807 *)p)->f24 + i * 0x28), (int)(&h));
         if (*h == 1)
             r = 1;
-        func_02169308((u8 *)(*(int *)(*(char **)(p + 0x24) + i * 0x28)));
-        func_0218DEFC(p, *(int *)(*(char **)(p + 0x24) + i * 0x28), i);
+        func_02169308((u8 *)(*(int *)(*(char * *)&((struct Obj00807 *)p)->f24 + i * 0x28)));
+        func_0218DEFC(p, *(int *)(*(char * *)&((struct Obj00807 *)p)->f24 + i * 0x28), i);
     }
     func_0218DF80(p);
-    x = func_0207C768(*(int *)(p + 0x34), *(int *)(p + 4));
-    y = func_0207C768(*(int *)(p + 0x3C), *(int *)(p + 4));
-    *(int *)(p + 0x30) = (x >> 12) + (y >> 12) * *(u16 *)(p + 0x14);
-    func_0218B83C(*(void **)(p + 0x64));
-    if (*(void **)(p + 0x68) != 0)
-        func_021A73DC(*(void **)(p + 0x68));
+    x = func_0207C768(((struct Obj00807 *)p)->f34, ((struct Obj00807 *)p)->f4);
+    y = func_0207C768(((struct Obj00807 *)p)->f3C, ((struct Obj00807 *)p)->f4);
+    ((struct Obj00807 *)p)->f30 = (x >> 12) + (y >> 12) * ((struct Obj00807 *)p)->f14;
+    func_0218B83C(((struct Obj00807 *)p)->f64);
+    if (((struct Obj00807 *)p)->f68 != 0)
+        func_021A73DC(((struct Obj00807 *)p)->f68);
     return r;
 }

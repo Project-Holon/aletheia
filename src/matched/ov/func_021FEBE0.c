@@ -15,6 +15,7 @@
 
  * Publish +0xde4, kick helper 9, latch state 6.
  */
+#include "../include/Obj12214.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_021FF570(u32 k);
 
 int func_021FEBE0(u8 *p)
 {
-    func_021F9968((u8 *)(*(u32 *)(p + 0xde4)), 0);
+    func_021F9968((u8 *)(((struct Obj12214 *)p)->fDE4), 0);
     func_021FF570(9);
-    *(u32 *)(p + 0x28) = 6;
+    ((struct Obj12214 *)p)->f28 = 6;
     return 2;
 }

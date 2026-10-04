@@ -10,7 +10,9 @@
  * status: EXACT*
  * symbols:
  */
+#include "../include/Obj06504.h"
+#include "../include/Obj06505.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021BA148(u8*p,u8*q){u8 *prev;u8 *cur;prev=0;cur=*(u8**)(p+8);while(cur!=q && cur){prev=cur;cur=*(u8**)(cur+48);}if(cur){if(prev)*(u8**)(prev+48)=*(u8**)(cur+48);else *(u8**)(p+8)=*(u8**)(cur+48);if(*(u8**)(p+12)==q)*(u8**)(p+12)=prev;*(u8**)(cur+48)=0;(*(u16*)(p+4))--;}}
+void func_021BA148(u8*p,u8*q){u8 *prev;u8 *cur;prev=0;cur=*(u8* *)&((struct Obj06504 *)p)->f8;while(cur!=q && cur){prev=cur;cur=*(u8* *)&((struct Obj06505 *)cur)->f30;}if(cur){if(prev)*(u8* *)&((struct Obj06505 *)prev)->f30=*(u8* *)&((struct Obj06505 *)cur)->f30;else *(u8* *)&((struct Obj06504 *)p)->f8=*(u8* *)&((struct Obj06505 *)cur)->f30;if(*(u8* *)&((struct Obj06504 *)p)->fC==q)*(u8* *)&((struct Obj06504 *)p)->fC=prev;*(u8* *)&((struct Obj06505 *)cur)->f30=0;(((struct Obj06504 *)p)->f4)--;}}

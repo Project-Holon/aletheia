@@ -11,6 +11,7 @@
  *   func_02034714  0x02034714  arm
  *   d_02200D18     0x02200D18  data  a1
  */
+#include "../include/Obj03339.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -27,11 +28,11 @@ void func_021FA020(u8 *ctx, int a1, int a2)
 
     if (ctx[0x3b] >= ctx[0x3a])
         func_02034714(d_02200D18, 0, d_02200D18);
-    func_021FAE70(ctx, (struct Record *)(*(u8 **)(ctx + 0x3c) + ctx[0x3b] * 0x44), (const struct Record *)a1, a2);
+    func_021FAE70(ctx, (struct Record *)(*(u8 * *)&((struct Obj03339 *)ctx)->f3C + ctx[0x3b] * 0x44), (const struct Record *)a1, a2);
     ctx[0x3b]++;
     for (i = 0; i < ctx[0x3b]; i++) {
-        func_021FAFA0(*(u8 **)(ctx + 0x3c) + i * 0x44,
+        func_021FAFA0(*(u8 * *)&((struct Obj03339 *)ctx)->f3C + i * 0x44,
                       (u16)((ctx[0x3b] - i) * 2 + 1));
-        func_021FAFB0(*(u8 **)(ctx + 0x3c) + i * 0x44, 1);
+        func_021FAFB0(*(u8 * *)&((struct Obj03339 *)ctx)->f3C + i * 0x44, 1);
     }
 }

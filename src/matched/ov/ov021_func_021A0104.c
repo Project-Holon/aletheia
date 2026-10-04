@@ -15,6 +15,7 @@
  *   d_021DDE1C     0x021DDE1C  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09535.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ u8 *func_021A0104(u16 heap)
     u8 *p = (u8 *)func_02030734(heap, 0x44, 1, d_021DDE1C, 0x89);
     p[1] = 0;
     p[3] = 0x1F;
-    *(u32 *)(p + 4) = 0x7FFF;
+    ((struct Obj09535 *)p)->f4 = 0x7FFF;
     func_021A01D8(p);
     return p;
 }

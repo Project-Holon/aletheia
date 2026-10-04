@@ -13,6 +13,7 @@
  *   func_02047E54  0x02047E54  arm
  *   func_02046788  0x02046788  arm
  */
+#include "../include/Obj24484.h"
 
 struct Rec;
 extern void func_02047E54(struct Rec *p);
@@ -20,6 +21,6 @@ extern void func_02046788(void);
 
 void func_021B66D4(int *p)
 {
-    func_02047E54((struct Rec *)(*(int *)((char *)p + 0x10)));
+    func_02047E54((struct Rec *)(((struct Obj24484 *)p)->f10));
     func_02046788();
 }

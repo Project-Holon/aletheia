@@ -15,6 +15,7 @@
  *   func_0201D37C  0x0201D37C  thumb
  *   func_02045808  0x02045808  arm
  */
+#include "../include/Obj12612.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -32,7 +33,7 @@ u32 func_0219272C(u16 *a, u32 b, u32 c)
     u32 h;
     u32 i;
 
-    n = c * 2 + func_0201D42C((struct StrObj *)b, (void *)(*(u32 *)(a + 4)));
+    n = c * 2 + func_0201D42C((struct StrObj *)b, (void *)(((struct Obj12612 *)a)->f8));
     h = (u32)func_02045874((struct U16Vec *)b, *a);
     i = 0;
     if (func_0201D37C((struct StrObj *)b, (struct StrObj *)h, 0) == 1) {

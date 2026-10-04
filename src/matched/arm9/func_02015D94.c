@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08771.h"
 
 void func_02015D94(char *p, int *src)
 {
-    *(int *)(p + 0x17c) = src[0];
-    *(int *)(p + 0x180) = src[1];
-    *(int *)(p + 0x184) = src[2];
+    ((struct Obj08771 *)p)->f17C = src[0];
+    ((struct Obj08771 *)p)->f180 = src[1];
+    ((struct Obj08771 *)p)->f184 = src[2];
 }

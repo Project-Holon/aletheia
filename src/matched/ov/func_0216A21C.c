@@ -14,6 +14,7 @@
  *   func_021A3208  0x021A3208  thumb
  *   func_021A2F54  0x021A2F54  thumb
  */
+#include "../include/Obj17753.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern int func_021A2F54();
 int func_0216A21C(int a0)
 {    void *v0;
 
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj17753 *)a0)->f8;
     v0 = func_02188CB4((void *)a0);
 loc_0216A224:
     a0 = func_021A3208(v0);

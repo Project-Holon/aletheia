@@ -17,6 +17,7 @@
  *   func_02194C60  0x02194C60  thumb  ov021
  *   func_02195490  0x02195490  thumb  ov021
  */
+#include "../include/Obj01351.h"
 
 typedef unsigned char  u8;
 struct Tcbl;
@@ -31,7 +32,7 @@ void func_0219470C(unsigned char *a)
 {
     int i;
 
-    func_020310C4(*(void **)(a + 0xc98));
+    func_020310C4(((struct Obj01351 *)a)->fC98);
     func_0219545C(a);
     func_021953D4(a, 0);
     for (i = 0; i < 0x20; i++) {

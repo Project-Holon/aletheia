@@ -13,12 +13,13 @@
  *   func_020310C4  0x020310C4  arm
  *   func_021F78E4  0x021F78E4  thumb  ov094
  */
+#include "../include/Obj21551.h"
 struct Tcbl;
 extern void func_020310C4(struct Tcbl *p);
 extern void func_021F78E4(void);
 
 void func_021E908C(char *p)
 {
-    func_020310C4(*(void **)(p + 0x178));
+    func_020310C4(((struct Obj21551 *)p)->f178);
     func_021F78E4();
 }

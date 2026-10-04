@@ -14,9 +14,10 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021BADE8 0x021BADE8 thumb ov110
  */
+#include "../include/Obj03239.h"
 struct PrintSys;
 extern void func_0204A600(void);
 extern void func_021BCA84(unsigned char *);
 extern unsigned int func_0201C4E4(struct PrintSys *);
 extern void func_021BADE8(unsigned char *);
-void func_021B9BAC(int a,unsigned char *b) { func_0204A600(); if(*(void **)(b+0x64)) func_021BCA84(*(void **)(b+0x64)); if(*(void **)(b+0x7c)) { func_0201C4E4(*(struct PrintSys **)(b+0x7c)); func_021BADE8(b); } }
+void func_021B9BAC(int a,unsigned char *b) { func_0204A600(); if(((struct Obj03239 *)b)->f64) func_021BCA84(((struct Obj03239 *)b)->f64); if(((struct Obj03239 *)b)->f7C) { func_0201C4E4(*(struct PrintSys * *)&((struct Obj03239 *)b)->f7C); func_021BADE8(b); } }

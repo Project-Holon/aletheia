@@ -23,6 +23,8 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj01061.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -57,52 +59,52 @@ void func_021DA0B0(u8 *a,u8 *p)
     data=func_021D60A4(a);
     selected=func_02017E1C(data,112,0);
     one=1;
-    func_021D618C(a,*(void **)(p+92),110,25,one,15424);
-    o1=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f5C,110,25,one,15424);
+    o1=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o1,0,func_02017E1C(data,160,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+92)),o1,119,89,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f5C),o1,119,89,one,1088);
     func_0201ED04(o1);
-    func_021D618C(a,*(void **)(p+92),117,93,one,1088);
-    o2=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f5C,117,93,one,1088);
+    o2=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o2,0,func_02017E1C(data,161,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+92)),o2,118,121,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f5C),o2,118,121,one,1088);
     func_0201ED04(o2);
-    func_021D618C(a,*(void **)(p+100),111,one,one,func_021DB6D0(a,p,selected,one));
-    o3=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f64,111,one,one,func_021DB6D0(a,p,selected,one));
+    o3=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o3,0,func_02017E1C(data,162,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+100)),o3,120,105,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f64),o3,120,105,one,1088);
     func_0201ED04(o3);
-    func_021D618C(a,*(void **)(p+104),112,one,one,func_021DB6D0(a,p,selected,2));
-    o4=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f68,112,one,one,func_021DB6D0(a,p,selected,2));
+    o4=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o4,0,func_02017E1C(data,163,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+104)),o4,121,105,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f68),o4,121,105,one,1088);
     func_0201ED04(o4);
-    func_021D618C(a,*(void **)(p+108),113,one,one,func_021DB6D0(a,p,selected,3));
-    o5=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f6C,113,one,one,func_021DB6D0(a,p,selected,3));
+    o5=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o5,0,func_02017E1C(data,165,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+108)),o5,122,105,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f6C),o5,122,105,one,1088);
     func_0201ED04(o5);
-    func_021D618C(a,*(void **)(p+112),114,one,one,func_021DB6D0(a,p,selected,4));
-    o6=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f70,114,one,one,func_021DB6D0(a,p,selected,4));
+    o6=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o6,0,func_02017E1C(data,166,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+112)),o6,123,105,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f70),o6,123,105,one,1088);
     func_0201ED04(o6);
-    func_021D618C(a,*(void **)(p+116),115,one,one,func_021DB6D0(a,p,selected,5));
-    o7=func_0201EC64(*(u16 *)a);
+    func_021D618C(a,((struct Obj01061 *)p)->f74,115,one,one,func_021DB6D0(a,p,selected,5));
+    o7=func_0201EC64(((struct Obj00112 *)a)->f0);
     func_0201EFA4(o7,0,func_02017E1C(data,164,0),3,one,one);
-    func_021D62B4(a,(unsigned int)(*(void **)(p+116)),o7,124,105,one,1088);
+    func_021D62B4(a,(unsigned int)(((struct Obj01061 *)p)->f74),o7,124,105,one,1088);
     func_0201ED04(o7);
-    func_021D618C(a,*(void **)(p+120),116,5,one,15424);
+    func_021D618C(a,((struct Obj01061 *)p)->f78,116,5,one,15424);
     value=func_02017E1C(data,10,0);
-    t1=func_02045B38(0,2,183,*(u16 *)a);
+    t1=func_02045B38(0,2,183,((struct Obj00112 *)a)->f0);
     str=func_02045EC0(t1,value);
-    func_0201C724(*(void **)(a+132),(int)func_02045770(*(void **)(p+120)),5,17,str,*(int *)(a+128),1088);
+    func_0201C724(((struct Obj00112 *)a)->f84,(int)func_02045770(((struct Obj01061 *)p)->f78),5,17,str,*(int *)&((struct Obj00112 *)a)->f80,1088);
     func_02045808(str);
     func_02045C04(t1);
-    t2=func_02045B38(0,2,182,*(u16 *)a);
+    t2=func_02045B38(0,2,182,((struct Obj00112 *)a)->f0);
     str=func_02045EC0(t2,value);
-    func_0201C724(*(void **)(a+132),(int)func_02045770(*(void **)(p+120)),65,one,str,*(int *)(a+128),1088);
+    func_0201C724(((struct Obj00112 *)a)->f84,(int)func_02045770(((struct Obj01061 *)p)->f78),65,one,str,*(int *)&((struct Obj00112 *)a)->f80,1088);
     func_02045808(str);
     func_02045C04(t2);
-    *(int *)(p+4)=one;
+    ((struct Obj01061 *)p)->f4=one;
 }

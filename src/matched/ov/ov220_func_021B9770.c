@@ -23,6 +23,7 @@
  *   func_021BA178 0x021BA178 thumb ov220
  *   d_021BA370 0x021BA370 data a4
  */
+#include "../include/Obj01297.h"
 typedef unsigned char u8;
 typedef struct {unsigned first;char pad[40];} Entry;
 extern const Entry d_021BA370[];
@@ -42,11 +43,11 @@ int func_021B9770(void *state,int unused1,int unused2,char *p)
     func_021B9C70(p);
     func_021B9B20(p);
     func_021B99D8(p);
-    func_02030EAC(*(void **)(p+0x14));
-    func_0201C6EC(*(void **)(p+0x10));
-    func_0201C4C0(*(void **)(p+0x10));
-    func_0201D83C(*(void **)(p+0xC));
-    func_021BA178(*(void **)(p+8));
+    func_02030EAC(((struct Obj01297 *)p)->f14);
+    func_0201C6EC(((struct Obj01297 *)p)->f10);
+    func_0201C4C0(((struct Obj01297 *)p)->f10);
+    func_0201D83C(((struct Obj01297 *)p)->fC);
+    func_021BA178(((struct Obj01297 *)p)->f8);
     func_020315D4(state);
     func_020306F0(131);
     return 1;

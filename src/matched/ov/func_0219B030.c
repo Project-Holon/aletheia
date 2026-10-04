@@ -18,6 +18,7 @@
  *   func_0219B404  0x0219B404  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17958.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ if (func_02197EDC(a, b, c, d) == 1) {
     if (func_0219B358(a) == 1) {
         func_0219B404(a, (u8 *)(b + 8));
     }
-    *(u8 *)((u8 *)(b)) = 0;
+    ((struct Obj17958 *)((u8 *)(b)))->f0 = 0;
 }
 return 0;
 }

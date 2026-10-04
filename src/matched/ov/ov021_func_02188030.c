@@ -20,6 +20,7 @@
  *   func_02189BA8  0x02189BA8  thumb  ov021
  *   d_021DD9C0     0x021DD9C0  data  a4
  */
+#include "../include/Obj03102.h"
 
 typedef unsigned short u16;
 
@@ -42,15 +43,15 @@ void *func_02188030(int a, int b)
 {
     char *p = (char *)func_02030734(b, 0x154, 1, &d_021DD9C0, 0x209);
 
-    *(u16 *)p = b;
-    *(int *)(p + 0xc0) = 0;
-    *(int *)(p + 4) = a;
-    *(int *)(p + 8) = (int)func_020120F4((const struct Ctx *)a);
-    *(u16 *)(p + 0xd0) = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
+    ((struct Obj03102 *)p)->f0 = b;
+    ((struct Obj03102 *)p)->fC0 = 0;
+    ((struct Obj03102 *)p)->f4 = a;
+    ((struct Obj03102 *)p)->f8 = (int)func_020120F4((const struct Ctx *)a);
+    ((struct Obj03102 *)p)->fD0 = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
     {
-        int r7 = func_02013B38(*(u16 *)(p + 0xd0));
-        *(int *)(p + 0xc) = func_0201407C(b, r7, func_0202E83C((void *)a));
+        int r7 = func_02013B38(((struct Obj03102 *)p)->fD0);
+        ((struct Obj03102 *)p)->fC = func_0201407C(b, r7, func_0202E83C((void *)a));
     }
-    *(int *)(p + 0x108) = func_02189BA8(*(u16 *)(p + 0xd0));
+    ((struct Obj03102 *)p)->f108 = func_02189BA8(((struct Obj03102 *)p)->fD0);
     return p;
 }

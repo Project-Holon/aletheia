@@ -10,6 +10,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15581.h"
 
 struct Obj;
 extern unsigned int func_0200A400(struct Obj *obj);
@@ -23,7 +24,7 @@ int func_0200A104(char *p, unsigned int idx)
     func_0200A49C((struct Obj *)p);
     if (idx < n) {
         unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
-        if (((unsigned int)(*(unsigned char *)((char *)e + 0xb4)) << 0x1e) >> 0x1f)
+        if (((unsigned int)(((struct Obj15581 *)e)->fB4) << 0x1e) >> 0x1f)
             r = 1;
     }
     func_0200A480((struct Obj *)p);

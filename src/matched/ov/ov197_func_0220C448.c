@@ -16,6 +16,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj25035.h"
 struct Obj;
 struct Bank;
 extern void func_0220C6E8(char *);
@@ -34,5 +35,5 @@ void func_0220C448(char *p)
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x544) != -1) func_0204A8D4(*(int *)(p + i * 4 + 0x544));
     for (i = 0; i < 9; i++) if (*(int *)(p + i * 4 + 0x568) != -1) func_0204ADA4(*(int *)(p + i * 4 + 0x568));
     for (i = 0; i < 3; i++) if (*(int *)(p + i * 4 + 0x58c) != -1) func_0204AFD8(*(int *)(p + i * 4 + 0x58c));
-    func_0204B1CC(*(struct Bank **)(p + 0x420));
+    func_0204B1CC(*(struct Bank * *)&((struct Obj25035 *)p)->f420);
 }

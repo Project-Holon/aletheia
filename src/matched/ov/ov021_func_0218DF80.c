@@ -15,6 +15,7 @@
  *   func_02169538  0x02169538  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04990.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,16 +29,16 @@ void func_0218DF80(u8 *a)
     int sum = 0;
     int w;
 
-    *(u8 *)(a + 0x4C) = 0;
-    n = *(u8 *)(a + 0x42) - (*(u16 *)(a + 0x2E) - *(u8 *)(a + 0x40));
+    ((struct Obj04990 *)a)->f4C = 0;
+    n = ((struct Obj04990 *)a)->f42 - (((struct Obj04990 *)a)->f2E - ((struct Obj04990 *)a)->f40);
     if (n > 0) {
         for (i = 0; i < n; i++) {
             u8 *cnt = a + 0x4C;
             int idx = (*(u8 **)(a + 0x44))[i];
             if (idx == 0xFF) break;
-            func_02169538((unsigned char *)(*(int *)(*(u8 **)(a + 0x24) + idx * 0x28)), &w);
+            func_02169538((unsigned char *)(*(int *)(*(u8 * *)&((struct Obj04990 *)a)->f24 + idx * 0x28)), &w);
             sum += w;
-            if (*(int *)(a + 0x48) < sum) break;
+            if (((struct Obj04990 *)a)->f48 < sum) break;
             *cnt = *cnt + 1;
         }
     }

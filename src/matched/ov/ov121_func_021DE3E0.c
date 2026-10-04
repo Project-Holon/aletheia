@@ -23,6 +23,7 @@
  *   func_021DE910 0x021DE910 thumb ov121
  *   func_021DE8D0 0x021DE8D0 thumb ov121
  */
+#include "../include/Obj22913.h"
 extern int func_021DEEAC(int *p, int value);
 extern void func_021DE618(void);
 extern void func_021DE61C(void *, int *, char *);
@@ -50,5 +51,5 @@ int func_021DE3E0(void *p)
 }
 void *func_021DE4D8(char *p)
 {
-    return *(void **)(p + 0x54);
+    return ((struct Obj22913 *)p)->f54;
 }

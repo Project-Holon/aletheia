@@ -16,6 +16,7 @@
  *   func_021F535C 0x021F535C thumb ov112
  *   func_021F6290 0x021F6290 thumb ov112
  */
+#include "../include/Obj22535.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F5518(u8 *,u32 *,u32);
@@ -42,7 +43,7 @@ u8 *func_021F5204(Scene *p,const u8 *b,int c)
     char *second;
     for(i=0;i<8;i++) if(p->slots[i].active==0) break;
     slot=(u8 *)&p->slots[i];
-    *(u32 *)slot=1;
+    ((struct Obj22535 *)slot)->f0=1;
     func_021F5518((u8 *)b,buffers.stats,0);
     p->slots[i].primary=func_021F611C(p->main,0,0,0,(u32)buffers.stats,(u32)slot,0);
     if(c==1) {

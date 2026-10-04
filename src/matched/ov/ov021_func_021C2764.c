@@ -14,6 +14,7 @@
  * symbols:
  *   func_021C2784  0x021C2784  thumb  ov021
  */
+#include "../include/Obj20169.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -24,7 +25,7 @@ extern void func_021C2784(void *p, u32 *done);
 
 void func_021C2764(u8 *p)
 {
-    *(u32 *)(p + 0x70) = 0;
+    ((struct Obj20169 *)p)->f70 = 0;
     func_0208068C(8);
     func_020056A0(func_021C2784, p + 0x70, 0);
 }

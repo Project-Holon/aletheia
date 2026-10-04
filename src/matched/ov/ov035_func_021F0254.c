@@ -18,6 +18,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj09807.h"
 
 typedef signed short   s16;
 typedef unsigned int   u32;
@@ -33,9 +34,9 @@ extern void func_02045808(struct U16Vec *vec);
 
 void func_021F0254(char *p, int a1, int a2)
 {
-    int r6 = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x38)), a2);
-    func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)a1)), 0, 0, (void *)r6, (void *)(*(int *)(p + 0x34)));
-    func_0201F79C((void *)a1, 0, *(int *)(p + 0x14), 2);
+    int r6 = (int)func_02045EC0((struct MsgBank *)(((struct Obj09807 *)p)->f38), a2);
+    func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)a1)), 0, 0, (void *)r6, (void *)(((struct Obj09807 *)p)->f34));
+    func_0201F79C((void *)a1, 0, ((struct Obj09807 *)p)->f14, 2);
     func_02045334((struct Descriptor *)a1);
     func_02045808((struct U16Vec *)r6);
 }

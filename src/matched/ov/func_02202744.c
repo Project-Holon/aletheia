@@ -15,6 +15,7 @@
  *
  * Free every buffer the object owns and blank the 0x13c-byte tail.
  */
+#include "../include/Obj07257.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ extern void func_02082BCC(u32 p, u32 v, u32 n);
 
 void func_02202744(u8 *p)
 {
-    func_02028604(*(u32 *)(p + 0x138));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0xc)));
-    func_0201D83C((void *)(*(u32 *)p));
-    func_02031140((struct S02031140 *)(*(u32 *)(p + 4)));
+    func_02028604(((struct Obj07257 *)p)->f138);
+    func_0201C4C0((struct PrintSys *)(((struct Obj07257 *)p)->fC));
+    func_0201D83C((void *)(((struct Obj07257 *)p)->f0));
+    func_02031140((struct S02031140 *)(((struct Obj07257 *)p)->f4));
     func_02082BCC((u32)p, 0, 0x13c);
 }

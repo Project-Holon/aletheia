@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15580.h"
 
 typedef unsigned char u8;
 typedef unsigned int   u32;
@@ -24,7 +25,7 @@ void func_0200A094(void *p, unsigned int idx)
     func_0200A49C(p);
     if (idx < n) {
         void *slot = func_0200A43C(p, idx);
-        *(u8 *)((char *)slot + 0xb3) = 0;
+        ((struct Obj15580 *)slot)->fB3 = 0;
         func_02009F7C(p, idx);
     }
     func_0200A480(p);

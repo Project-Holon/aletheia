@@ -11,8 +11,9 @@
  *
  * Returns the word at offset 0x6c as a short. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16177.h"
 
 short func_02051820(char *p)
 {
-    return *(int *)(p + 0x6c);
+    return ((struct Obj16177 *)p)->f6C;
 }

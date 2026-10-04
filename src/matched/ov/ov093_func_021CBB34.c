@@ -30,6 +30,7 @@
  *   _ll_mul 0x0209C054 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj09980.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,7 +60,7 @@ int func_021CBB34(u8 *p, void *q, void *m, u16 mode, u8 *out, u8 *flag)
     a = func_021D59B4((void *)m, 14) * 3;
     t = a - func_021D59B4((void *)m, 13) * 2;
     v = (int)(t != 0 ? 0.5f + (float)(t << 12) : (float)(t << 12) - 0.5f);
-    if (func_021BA1A8(*(void **)(p + 4), 32)) {
+    if (func_021BA1A8(((struct Obj09980 *)p)->f4, 32)) {
         factor = func_021CBCF4(p);
         v = ((s64)v * factor + 0x800) >> 12;
     }

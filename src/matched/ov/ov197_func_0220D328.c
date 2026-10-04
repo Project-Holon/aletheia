@@ -13,6 +13,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj25088.h"
 
 typedef unsigned int u32;
 extern int func_0220D884(char **);
@@ -22,6 +23,6 @@ int func_0220D328(char *p)
 {
     if (func_0220D884((char **)p) == 1) return 18;
     if ((func_020362DC() & 3) || func_02035C60() == 1)
-        return *(unsigned char *)(p + 0x531);
+        return ((struct Obj25088 *)p)->f531;
     return 15;
 }

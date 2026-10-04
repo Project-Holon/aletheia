@@ -14,6 +14,7 @@
  *
  * Tail call on the pointer 0x598 bytes in.
  */
+#include "../include/Obj18155.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern void func_021C5A4C(u8 *p);
 
 void func_021B9DB0(char *p)
 {
-    func_021C5A4C(*(void **)(p + 0x598));
+    func_021C5A4C(((struct Obj18155 *)p)->f598);
 }

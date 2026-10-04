@@ -20,6 +20,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  */
+#include "../include/Obj02533.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,13 +53,13 @@ void func_0220D090(char *p, int a1, int a2)
     if (a2 == 0) {
         u32 f;
 
-        t = func_02045EC0(*(void **)(p + 0x1ea0), 0x3c);
-        w = func_0201D304((struct StrObj *)((u32)t), *(u32 *)(*(u32 *)p + 0xc), 0);
+        t = func_02045EC0(((struct Obj02533 *)p)->f1EA0, 0x3c);
+        w = func_0201D304((struct StrObj *)((u32)t), *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0);
         w = (func_02045738((void *)handle) << 3) - w;
-        f = *(u32 *)(p + 0x1eac);
+        f = ((struct Obj02533 *)p)->f1EAC;
         func_0201C724(f,
                       (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1f70 + a1 * 8)), w, 0,
-                      (u32)t, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
+                      (u32)t, *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0x2120);
         *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
         func_02045808(t);
     } else {
@@ -68,16 +69,16 @@ void func_0220D090(char *p, int a1, int a2)
         u16 w0;
         u16 w2;
 
-        t2 = func_02045EC0(*(void **)(p + 0x1ea0), 0x3e);
-        h = (u32)func_020457B0(8, *(u16 *)(*(u32 *)p + 0x10));
-        func_0201EFA4(*(void **)(p + 0x1ea4), 0, a2, 3, 0, 1);
-        func_0201F250(*(void **)(p + 0x1ea4), (void *)h, t2);
-        w0 = func_0201D304((struct StrObj *)h, *(u32 *)(*(u32 *)p + 0xc), 0);
+        t2 = func_02045EC0(((struct Obj02533 *)p)->f1EA0, 0x3e);
+        h = (u32)func_020457B0(8, *(u16 *)(((struct Obj02533 *)p)->f0 + 0x10));
+        func_0201EFA4(((struct Obj02533 *)p)->f1EA4, 0, a2, 3, 0, 1);
+        func_0201F250(((struct Obj02533 *)p)->f1EA4, (void *)h, t2);
+        w0 = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0);
         w2 = (func_02045738((void *)handle) << 3) - w0;
-        f = *(u32 *)(p + 0x1eac);
+        f = ((struct Obj02533 *)p)->f1EAC;
         func_0201C724(f,
                       (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1f70 + a1 * 8)), w2, 0,
-                      h, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
+                      h, *(u32 *)(((struct Obj02533 *)p)->f0 + 0xc), 0x2120);
         *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
         func_02045808(t2);
         func_02045808((void *)h);

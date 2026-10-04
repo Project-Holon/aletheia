@@ -17,6 +17,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj08259.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021BDFE4(void *);
@@ -39,8 +40,8 @@ void func_021B9C9C(void *p, char *q)
     } else {
         func_021B9C1C(p, q, 32);
     }
-    *(void **)(q + 128) = (void *)func_021BE11C(p);
-    *(u32 *)q = 10;
-    if (func_0204B98C(*(void **)(q + 152)) == 0)
-        func_0204B878(*(void **)(q + 152), 15);
+    ((struct Obj08259 *)q)->f80 = (void *)func_021BE11C(p);
+    ((struct Obj08259 *)q)->f0 = 10;
+    if (func_0204B98C(((struct Obj08259 *)q)->f98) == 0)
+        func_0204B878(((struct Obj08259 *)q)->f98, 15);
 }

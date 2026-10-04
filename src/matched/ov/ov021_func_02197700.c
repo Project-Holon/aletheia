@@ -18,6 +18,7 @@
  *   func_021978AC  0x021978AC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ void func_02197700(u8 *a)
 {
     func_02196228(a, 1);
     func_02041570(5, 0);
-    func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 25, (void *)(*(u32 *)(a + 0x38)));
+    func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 25, (void *)(((struct Obj00094 *)a)->f38));
     func_02197644(a, 0);
     func_02196034(a, func_021978AC, 0x761);
 }

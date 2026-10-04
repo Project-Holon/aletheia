@@ -14,6 +14,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,14 +29,14 @@ void func_021E4598(char *p)
     int x, y, scroll, first, i, n, pos, idx;
     int off1, off2, bound;
     char *q;
-    scroll = *(short *)(p + 0x107C) / 8;
+    scroll = ((struct Obj00001 *)p)->f107C / 8;
     for (y = 0; y < 2; y++) {
         for (x = 0; x < 64; x++) {
             func_02042FB0(5, x, y, 0);
         }
     }
-    if (*(short *)(p + 0x107C) < 96) first = *(int *)(p + 0x630);
-    else first = (*(short *)(p + 0x107C) - 96) / 160;
+    if (((struct Obj00001 *)p)->f107C < 96) first = ((struct Obj00001 *)p)->f630;
+    else first = (((struct Obj00001 *)p)->f107C - 96) / 160;
     i = 0;
     off1 = 0x638; off1 = 0x6B8;
     off2 = 0x638; off2 = 0x6B8;
@@ -46,8 +47,8 @@ void func_021E4598(char *p)
         if (idx > n) idx = (int)((u32)idx-(u32)n-1u);
         else if (idx < 0) idx = (int)((u32)idx+(u32)n+1u);
         if (idx == n) {
-            pos = (int)(*(u32 *)(p+0x638)-(u32)scroll);
-            if (scroll > pos) scroll = (int)((u32)scroll-*(u32 *)(p+0x638));
+            pos = (int)(((struct Obj00001 *)p)->f638-(u32)scroll);
+            if (scroll > pos) scroll = (int)((u32)scroll-((struct Obj00001 *)p)->f638);
             else pos = (int)(0u-(u32)scroll);
         } else pos = (int)((u32)idx*20u+12u-(u32)scroll);
         if (pos >= -10 && pos <= 33) {

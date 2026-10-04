@@ -13,6 +13,7 @@
  *   ov208_func_021C7FF8  0x021C7FF8  thumb
  *   func_02015C48        0x02015C48  thumb
  */
+#include "../include/Obj03369.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -35,7 +36,7 @@ void ov208_func_021C7534(void *unused, u8 *p)
 {
     VecFx32 v;
 
-    if (*(u32 *)(p + 0x6c8) == 0) {
+    if (((struct Obj03369 *)p)->f6C8 == 0) {
         v.x = -0x40000;
         v.y = -0xde66;
         v.z = 0;

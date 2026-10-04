@@ -17,6 +17,9 @@
  *   func_02178E28  0x02178E28  thumb  ov014
  *   func_021795D4  0x021795D4  thumb  ov014
  */
+#include "../include/Obj19335.h"
+#include "../include/Obj19336.h"
+#include "../include/Obj19337.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,12 +38,12 @@ void func_02177D58(u8 *buf, u32 len)
     u8 *p = g_021797A4;
     u8 *st = func_0203D798();
     if (p != 0 && st != 0) {
-        *(u16 *)buf = func_0203F1FC(buf + 2, len - 2);
+        ((struct Obj19335 *)buf)->f0 = func_0203F1FC(buf + 2, len - 2);
         func_020862F0(buf, len);
         if (func_02178E4C() == 1) {
             func_02178E28(buf, (u16)len);
             return;
         }
-        func_021795D4((int)buf, len, *(u32 *)(st + 0x50), *(u16 *)(p + 0xC68));
+        func_021795D4((int)buf, len, ((struct Obj19336 *)st)->f50, ((struct Obj19337 *)p)->fC68);
     }
 }

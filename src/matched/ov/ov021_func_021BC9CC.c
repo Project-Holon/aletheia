@@ -18,6 +18,7 @@
  *   func_021BD1F4  0x021BD1F4  thumb  ov021
  *   func_020439A0  0x020439A0  arm
  */
+#include "../include/Obj01123.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -39,15 +40,15 @@ void func_021BC9CC(char *p)
     int a, b;
     u16 c, d, e, f;
 
-    r4 = *(int *)(p + 0xc8 + 4 * *(u8 *)(p + 0x14a));
+    r4 = *(int *)(p + 0xc8 + 4 * ((struct Obj01123 *)p)->f14A);
     if (r4 != 0) {
         a = func_021BD1DC(r4);
-        b = (int)func_02045770((struct Descriptor *)*(int *)(p + 0x24));
+        b = (int)func_02045770((struct Descriptor *)*(int *)&((struct Obj01123 *)p)->f24);
         c = func_021BD1FC(r4);
         d = func_021BD204(r4) - 8;
         e = func_021BD1EC(r4);
         f = func_021BD1F4(r4);
         func_020439A0((struct Bmp *)a, (struct Bmp *)b, 0, 0, c, d, e, f, 0);
     }
-    (*(u8 *)(p + 0x14a))++;
+    (((struct Obj01123 *)p)->f14A)++;
 }

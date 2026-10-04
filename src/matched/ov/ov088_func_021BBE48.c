@@ -23,6 +23,7 @@
  *   func_02041EE4  0x02041EE4  arm
  *   func_021BB9DC  0x021BB9DC  thumb  ov088
  */
+#include "../include/Obj05167.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,15 +53,15 @@ void func_021BBE48(char *p)
     u32 s;
     u32 a;
 
-    *(u32 *)(p + 0xf0) = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
+    ((struct Obj05167 *)p)->fF0 = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
     s = (u32)func_02045EC0((struct MsgBank *)msg, 0x20);
-    a = *(u32 *)(p + 0x68);
-    func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xf0)), 0, 0, s, *(u32 *)(p + 0x58), 0x440);
-    *(u8 *)(p + 0xf4) = 1;
+    a = ((struct Obj05167 *)p)->f68;
+    func_0201C724(a, (u32)func_02045770((struct Descriptor *)((struct Obj05167 *)p)->fF0), 0, 0, s, ((struct Obj05167 *)p)->f58, 0x440);
+    ((struct Obj05167 *)p)->fF4 = 1;
     func_02045808((struct U16Vec *)s);
     func_02045C04((struct Rec *)msg);
 
-    func_02045374((struct Cfg *)(*(u32 *)(p + 0xf0)));
+    func_02045374((struct Cfg *)(((struct Obj05167 *)p)->fF0));
     func_02041B6C(0);
     func_021BBA64(0x20, 1, 0x20, 0x16, 2);
     func_02041EE4(1, 0, 0x100);

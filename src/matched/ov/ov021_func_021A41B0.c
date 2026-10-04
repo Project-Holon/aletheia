@@ -19,6 +19,7 @@
  *   func_021A4CA8  0x021A4CA8  thumb  ov021
  *   func_021A43D8  0x021A43D8  thumb  ov021
  */
+#include "../include/Obj00656.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,9 +48,9 @@ void func_021A41B0(u8 *p, u32 a, u32 b, u32 c)
     u32 d;
     int e;
 
-    d = func_021A3AB8(*(u32 *)(p + 0xc), b);
+    d = func_021A3AB8(*(u32 *)&((struct Obj00656 *)p)->fC, b);
     if (func_021A4254(p, d) == 1) {
-        func_021A3CC0(*(u32 *)(p + 0xc));
+        func_021A3CC0(*(u32 *)&((struct Obj00656 *)p)->fC);
         if (func_021A55A8(p, d, 0) == 0) {
             s.w0 = a;
             s.w4 = b;

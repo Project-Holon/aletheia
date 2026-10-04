@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj00193.h"
 
-void func_020140F8(int p0){ *(int *)(p0) = (int)0; *(unsigned short *)((p0 + 4)) = (unsigned short)0; *(unsigned short *)((p0 + 6)) = (unsigned short)0; *(unsigned short *)((p0 + 8)) = (unsigned short)0; *(unsigned short *)((p0 + 10)) = (unsigned short)0; *(int *)((p0 + 12)) = (int)0; *(int *)((p0 + 16)) = (int)0; *(int *)((p0 + 20)) = (int)0; *(int *)((p0 + 24)) = (int)0; }
+void func_020140F8(int p0){ *(int *)&((struct Obj00193 *)p0)->f0 = (int)0; ((struct Obj00193 *)p0)->f4 = (unsigned short)0; ((struct Obj00193 *)p0)->f6 = (unsigned short)0; ((struct Obj00193 *)p0)->f8 = (unsigned short)0; ((struct Obj00193 *)p0)->fA = (unsigned short)0; *(int *)&((struct Obj00193 *)p0)->fC = (int)0; *(int *)&((struct Obj00193 *)p0)->f10 = (int)0; *(int *)&((struct Obj00193 *)p0)->f14 = (int)0; *(int *)&((struct Obj00193 *)p0)->f18 = (int)0; }

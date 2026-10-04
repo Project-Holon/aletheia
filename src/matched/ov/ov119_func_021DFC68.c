@@ -26,6 +26,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00826.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -47,27 +48,27 @@ void func_021DFC68(void *p, int a1)
 
     if (p == 0)
         return;
-    k = *(s32 *)((char *)p + 8);
+    k = *(s32 *)&((struct Obj00826 *)p)->f8;
     next = k + 1;
-    m = *(s32 *)((char *)p + 4);
-    *(s32 *)((char *)p + 8) = next;
+    m = ((struct Obj00826 *)p)->f4;
+    *(s32 *)&((struct Obj00826 *)p)->f8 = next;
     if (m < next)
         return;
     if (m != next) {
-        if (*(u32 *)((char *)p + 0x34) != 0) {
+        if (((struct Obj00826 *)p)->f34 != 0) {
             func_021DFC28(p, a1);
             return;
         }
-        func_02015C30((void *)(*(u32 *)p), &vec[0]);
-        vec[3] = func_021DFBF0(*(u32 *)((char *)p + 0x1c), *(u32 *)((char *)p + 0x28), p, 0);
-        if (*(u16 *)((char *)p + 0x16) != 0) {
+        func_02015C30((void *)(((struct Obj00826 *)p)->f0), &vec[0]);
+        vec[3] = func_021DFBF0(((struct Obj00826 *)p)->f1C, ((struct Obj00826 *)p)->f28, p, 0);
+        if (((struct Obj00826 *)p)->f16 != 0) {
             float q = 374.0f * __fdiv(_s32_to_float((s32)(vec[0] - vec[3])), 4096.0f);
-            *(u16 *)((char *)p + 0x14) -= (u16)_f2s(q);
+            ((struct Obj00826 *)p)->f14 -= (u16)_f2s(q);
         }
-        vec[4] = func_021DFBF0(*(u32 *)((char *)p + 0x20), *(u32 *)((char *)p + 0x2c), p, 1);
-        vec[5] = func_021DFBF0(*(u32 *)((char *)p + 0x24), *(u32 *)((char *)p + 0x30), p, 0);
-        func_02015C48((void *)(*(u32 *)p), &vec[3]);
+        vec[4] = func_021DFBF0(((struct Obj00826 *)p)->f20, ((struct Obj00826 *)p)->f2C, p, 1);
+        vec[5] = func_021DFBF0(((struct Obj00826 *)p)->f24, ((struct Obj00826 *)p)->f30, p, 0);
+        func_02015C48((void *)(((struct Obj00826 *)p)->f0), &vec[3]);
         return;
     }
-    func_02015C48((void *)(*(u32 *)p), (u32 *)((char *)p + 0x28));
+    func_02015C48((void *)(((struct Obj00826 *)p)->f0), (u32 *)((char *)p + 0x28));
 }

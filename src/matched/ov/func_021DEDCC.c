@@ -14,11 +14,13 @@
  *
  * Forward the second word of the head object.
  */
+#include "../include/Obj18455.h"
+#include "../include/Obj18456.h"
 
 extern unsigned char func_0200781C(int save, unsigned int box);
 
 int func_021DEDCC(char *p, int box)
 {
-    return func_0200781C(*(int *)(*(char **)p + 4), box);
+    return func_0200781C(((struct Obj18456 *)(*(char * *)&((struct Obj18455 *)p)->f0))->f4, box);
 }
 

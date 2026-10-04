@@ -24,6 +24,7 @@
  *  func_021BD43C 0x021BD43C thumb ov093
  *  func_021BD4E4 0x021BD4E4 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021B8588(void **p);
@@ -47,13 +48,13 @@ void func_021C4614(u8 *p)
     u8 *m, *n;
     u32 mi, ni, s, t;
     u8 v, w;
-    if (func_021B8588(*(void **)(p + 4)) != 2) return;
-    a = func_021B8FF4(*(u8 **)(p + 4));
+    if (func_021B8588(((struct Obj00003 *)p)->f4) != 2) return;
+    a = func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4);
     first = a;
-    b = (u8)func_021B9064(*(void **)(p + 4), a, 0);
+    b = (u8)func_021B9064(((struct Obj00003 *)p)->f4, a, 0);
     if (a > b) { first = b; b = a; }
-    x = func_021B9AEC(*(char **)(p + 8), first);
-    y = func_021B9AEC(*(char **)(p + 8), b);
+    x = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, first);
+    y = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, b);
     if (func_021B9B98(x) != 1) return;
     if (func_021B9B98(y) != 1) return;
     m = func_021B9CE8(x);
@@ -63,11 +64,11 @@ void func_021C4614(u8 *p)
     s = func_021C4724(p + 0x1ab8, mi);
     t = func_021C4734(p + 0x1ab8, ni);
     if (s == 6 || t == 6) return;
-    v = func_021B8DEC(*(void **)(p + 4), s);
-    w = func_021B8DEC(*(void **)(p + 4), t);
+    v = func_021B8DEC(((struct Obj00003 *)p)->f4, s);
+    w = func_021B8DEC(((struct Obj00003 *)p)->f4, t);
     if (v != w) return;
     if (func_021B99F0(s) != 0) return;
-    func_021CD4B0(*(void **)(p + 12), 0x50, first, v, b, w);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x50, first, v, b, w);
     func_021BD43C(p, first, v, 1, 1);
     func_021BD43C(p, b, w, 1, 1);
     func_021BD4E4(p, first, v, 1);

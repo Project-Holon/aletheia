@@ -18,6 +18,7 @@
  *   func_021B656C 0x021B656C arm ov172
  *   func_021B6574 0x021B6574 arm ov172
  */
+#include "../include/Obj01559.h"
 extern int func_02085D3C(void);
 extern void func_021B657C(char *, int);
 extern void func_021B65C4(void *p);
@@ -33,35 +34,35 @@ void func_021B64AC(char *p)
     int d;
     int c;
     int r;
-    switch (*(unsigned char *)(p + 0x44)) {
+    switch (((struct Obj01559 *)p)->f44) {
     case 1:
         func_021B657C(p, 1);
-        a = *(int *)(p + 0x4C);
-        b = *(int *)(p + 0x48);
+        a = *(int *)&((struct Obj01559 *)p)->f4C;
+        b = *(int *)&((struct Obj01559 *)p)->f48;
         if (func_02085D3C() != 0) func_021B655C(b, a);
-        *(unsigned char *)(p + 0x44) = 2;
+        ((struct Obj01559 *)p)->f44 = 2;
         break;
     case 2:
         r = 0;
         if (func_02085D3C() != 0) r = func_021B6564();
         if (r == 0) {
             func_021B65C4(p);
-            *(unsigned char *)(p + 0x44) = 3;
+            ((struct Obj01559 *)p)->f44 = 3;
         }
         break;
     case 4:
         func_021B657C(p, 0);
-        c = *(int *)(p + 0x4C);
-        d = *(int *)(p + 0x48);
+        c = *(int *)&((struct Obj01559 *)p)->f4C;
+        d = *(int *)&((struct Obj01559 *)p)->f48;
         if (func_02085D3C() != 0) func_021B656C(d, c);
-        *(unsigned char *)(p + 0x44) = 5;
+        ((struct Obj01559 *)p)->f44 = 5;
         break;
     case 5:
         r = 0;
         if (func_02085D3C() != 0) r = func_021B6574();
         if (r == 0) {
             func_021B65C4(p);
-            *(unsigned char *)(p + 0x44) = 6;
+            ((struct Obj01559 *)p)->f44 = 6;
         }
         break;
     case 0:

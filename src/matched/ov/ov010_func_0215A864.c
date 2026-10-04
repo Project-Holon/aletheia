@@ -22,6 +22,7 @@
  *   func_0215A9C0  0x0215A9C0  thumb  ov010
  *   d_02171140     0x02171140  data  ov010  a4
  */
+#include "../include/Obj18800.h"
 
 typedef struct {
     int a0;
@@ -68,7 +69,7 @@ void func_0215A864(int *p)
 {
     int x;
     int y;
-    Q *q = (Q *)(*(char **)((char *)p + 0x20) + 0x34);
+    Q *q = (Q *)(*(char * *)&((struct Obj18800 *)p)->f20 + 0x34);
     L32 l = d_02171140;
     int t = func_0215A5FC((int)p);
     unsigned m;

@@ -17,6 +17,8 @@
  *   func_0203101C 0x0203101C arm
  *   func_0203F8F4 0x0203F8F4 arm
  */
+#include "../include/Obj01064.h"
+#include "../include/Obj08198.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0203064C(unsigned, unsigned, unsigned);
@@ -34,21 +36,21 @@ int func_021C41E0(void *a, void *b, u8 *p)
     func_0203064C(1, 0x64, 0x20000);
     q = func_0203159C(a, 0x15C, 0x64);
     func_02082AC0(0, q, 0x15C);
-    *(unsigned *)q = 0x64;
-    *(void **)(q + 0x1C) = p;
-    q[0xB] = *(u16 *)p;
+    ((struct Obj01064 *)q)->f0 = 0x64;
+    ((struct Obj01064 *)q)->f1C = p;
+    q[0xB] = ((struct Obj08198 *)p)->f0;
     q[0xC] = q[0xB];
     q[0x16] = p[2];
     q[0x17] = p[3];
     v = q[0x16];
     q[0x1A] = v;
     q[0x1B] = v;
-    *(u16 *)p = 0xFFFF;
+    ((struct Obj08198 *)p)->f0 = 0xFFFF;
     q[0x15] = func_02012FFC();
-    func_021C4184(q, *(u8 **)(q + 0x1C));
-    *(void **)(q + 0x24) = func_0201D7EC(0x17, 0, 0, 0, *(unsigned *)q);
-    *(void **)(q + 0x100) = func_0203101C(*(unsigned *)q, *(unsigned *)q, 0x20, 0x20);
+    func_021C4184(q, *(u8 * *)&((struct Obj01064 *)q)->f1C);
+    ((struct Obj01064 *)q)->f24 = func_0201D7EC(0x17, 0, 0, 0, ((struct Obj01064 *)q)->f0);
+    ((struct Obj01064 *)q)->f100 = func_0203101C(((struct Obj01064 *)q)->f0, ((struct Obj01064 *)q)->f0, 0x20, 0x20);
     q[0xA] = 1;
-    func_0203F8F4(*(unsigned *)q);
+    func_0203F8F4(((struct Obj01064 *)q)->f0);
     return 1;
 }

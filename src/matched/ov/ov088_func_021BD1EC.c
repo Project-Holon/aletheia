@@ -12,6 +12,7 @@
  * symbols:
  *   func_0201FDA0  0x0201FDA0  thumb
  */
+#include "../include/Obj00578.h"
 
 typedef struct {
     unsigned char a;
@@ -31,5 +32,5 @@ void func_021BD1EC(unsigned char *p)
     r.c = 0x0D;
     r.d = 0x0F;
     r.e = 0;
-    *(void **)(p + 0x20) = func_0201FDA0(&r, 1, 0x0E, 1, 0x81);
+    ((struct Obj00578 *)p)->f20 = func_0201FDA0(&r, 1, 0x0E, 1, 0x81);
 }

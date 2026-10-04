@@ -19,6 +19,7 @@
  * (`p + 0x30 + i * 0x1C`), which is the spelling whose register choice the
  * image has.
  */
+#include "../include/Obj18152.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern u8 *func_021C4BA4(u8 *p, void *list, int n);
 
 void *func_021B9CF8(char *p, u32 *q, int c)
 {
-    void *v = func_021C4BA4((void *)*q, *(void **)(p + 0x58C), c);
+    void *v = func_021C4BA4((void *)*q, ((struct Obj18152 *)p)->f58C, c);
     int i;
 
     if (v != 0) {

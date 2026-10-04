@@ -9,11 +9,12 @@
  * status: EXACT* (2 bytes alignment padding)
  * volatile: count byte re-read at 0x021B9C98 and 0x021B9CAC
  */
+#include "../include/Obj20992.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 int func_021B9C98(u8 *p,u32 v) {
     int i;
-    for(i=0;i<*(volatile u8 *)(p+24);i++) {
+    for(i=0;i<*(volatile u8 *)&((struct Obj20992 *)p)->f18;i++) {
         u32 t=*(u32 *)((u32)p+(u32)i*4);
         if(t==v) return i;
     }

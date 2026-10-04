@@ -18,6 +18,8 @@
  *   func_02031290  0x02031290  arm
  *   func_021ED724  0x021ED724  thumb  ov093
  */
+#include "../include/Obj10121.h"
+#include "../include/Obj12174.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -35,9 +37,9 @@ void func_021ED6BC(char *p, u32 k, u32 a)
 {
     struct S *t;
 
-    t = (struct S *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED724, 0x18, 1));
-    t->v = func_021D5844(func_021B98AC(*(char *const **)(p + 0x138),
-                                              func_021B8ED8(*(u8 **)(p + 0x134), k)));
+    t = (struct S *)func_02031290(func_020311B8(((struct Obj10121 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10121 *)p)->f138,
+                                              func_021B8ED8(*(u8 * *)&((struct Obj10121 *)p)->f134, k)));
     t->w = p;
     t->k = k;
     t->cnt = (u8 *)p + 0x40;
@@ -48,7 +50,7 @@ void func_021ED6BC(char *p, u32 k, u32 a)
 
 int func_021ED714(char *p)
 {
-    if (*(u8 *)(p + 0x40) == 0)
+    if (((struct Obj12174 *)p)->f40 == 0)
         return 1;
     return 0;
 }

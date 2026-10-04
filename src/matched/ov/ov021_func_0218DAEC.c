@@ -15,6 +15,7 @@
  *   func_021AB100  0x021AB100  thumb ov021
  *   _ll_mul        0x0209C054  arm
  */
+#include "../include/Obj04201.h"
 
 typedef unsigned short u16;
 
@@ -44,7 +45,7 @@ int func_0218DAEC(char *p, char *q, E *out)
     mn = 0x00FFF000;
     for (i = 0; i < b.n; i++) {
         if (func_021AB100(b.e[i].p)) {
-            int d = b.e[i].q - *(int *)(q + 4);
+            int d = b.e[i].q - ((struct Obj04201 *)q)->f4;
             if (d < 0)
                 d = (int)(((long long)d * -4096LL + 0x800LL) >> 12);
             if (d < mn) {

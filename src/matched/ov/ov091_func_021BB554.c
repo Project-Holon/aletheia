@@ -11,9 +11,10 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_0202D034 0x0202D034 thumb
  */
+#include "../include/Obj03680.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_02017E1C(void *,u32,u32);
 extern int func_0202D034(u32 a, u32 b);
-void func_021BB554(u32 p) { func_0202D034(*(u16 *)(p+6),func_02017E1C(*(void **)p,0xa1,0)); }
+void func_021BB554(u32 p) { func_0202D034(((struct Obj03680 *)p)->f6,func_02017E1C(((struct Obj03680 *)p)->f0,0xa1,0)); }

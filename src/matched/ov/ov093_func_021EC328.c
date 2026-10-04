@@ -27,6 +27,8 @@
  *   func_021F8260 0x021F8260 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  */
+#include "../include/Obj00027.h"
+#include "../include/Obj00666.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -61,13 +63,13 @@ int func_021EC328(u8 *p, int *state, u8 id)
         b[15] = id;
         b[14] = 0;
         for (i = 0; i < 2; i++) {
-            b[8 + i] = func_021B8ED8(*(u8 **)(p + 0x134), b[10 + i]);
-            ((u8 **)b)[i] = func_021B98AC(*(char *const **)(p + 0x138), b[8 + i]);
+            b[8 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[10 + i]);
+            ((u8 **)b)[i] = func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[8 + i]);
             b[12 + i] = func_021D5440(((u8 **)b)[i]);
             if (!func_021D5B68(((void **)b)[i])) b[14]++;
         }
-        func_021EEE24(*(u32 *)(p + 0x34), func_021ECE08(p, b[14]), 3, b[15], b[12], b[13]);
-        func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+        func_021EEE24(((struct Obj00027 *)p)->f34, func_021ECE08(p, b[14]), 3, b[15], b[12], b[13]);
+        func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
         (*state)++;
         break;
     case 1:
@@ -77,8 +79,8 @@ int func_021EC328(u8 *p, int *state, u8 id)
         }
         break;
     case 2:
-        func_021F7EE8(func_021D5864(*(void **)b), b[10]);
-        if (b[14] == 2) func_021F7EE8(func_021D5864(*(void **)(b + 4)), b[11]);
+        func_021F7EE8(func_021D5864(((struct Obj00666 *)b)->f0), b[10]);
+        if (b[14] == 2) func_021F7EE8(func_021D5864(((struct Obj00666 *)b)->f4), b[11]);
         func_021F7A28(b[10], 0x239);
         func_021F8260(1);
         (*state)++;

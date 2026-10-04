@@ -13,9 +13,11 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj06367.h"
+#include "../include/Obj22190.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *); extern int func_0201C6C4(int,int); extern void func_02045334(struct Descriptor *);
-int func_021B8100(u8 *p,u8 *q) {int a; a=*(int *)(q+8); if(p[8]!=0) {if(func_0201C6C4(a,(int)func_02045770((struct Descriptor *)*(int *)(p+4)))==0) {func_02045334((struct Descriptor *)*(int *)(p+4));p[8]=0;}} if(p[8]==0)return 1;return 0;}
+int func_021B8100(u8 *p,u8 *q) {int a; a=((struct Obj22190 *)q)->f8; if(p[8]!=0) {if(func_0201C6C4(a,(int)func_02045770((struct Descriptor *)((struct Obj06367 *)p)->f4))==0) {func_02045334((struct Descriptor *)((struct Obj06367 *)p)->f4);p[8]=0;}} if(p[8]==0)return 1;return 0;}

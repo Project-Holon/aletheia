@@ -25,6 +25,8 @@
  *   d_021EFCD0 0x021EFCD0 data a1
  *   d_021EFCC8 0x021EFCC8 data a1
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj08248.h"
 
 typedef struct {
     short x;
@@ -77,11 +79,11 @@ void func_021ED594(char *p, unsigned i)
     short xy[2];
     if (i == 0xFF)
         return;
-    w = *(char **)(p + 0x2C);
+    w = *(char * *)&((struct Obj00000 *)p)->f2C;
     c = *(unsigned char *)(w + i + 0x3DD2);
     j = 0;
     func_021EC0B0(w, c, &xy[1], &xy[0], 0);
-    if (*(void **)(w + 0x9FD4) == 0) {
+    if (((struct Obj08248 *)w)->f9FD4 == 0) {
         d = d_021EFD04;
         setup(&d, &((void **)(w + 0x9E74))[c]);
         d.a = c - 0x33;

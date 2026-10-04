@@ -13,6 +13,7 @@
  *   func_02049238  0x02049238  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj17652.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ int func_02159DEC(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 4);
+a0 = ((struct Obj17652 *)t4)->f4;
     func_02049238((void *)a0);
 loc_02159DF6:
 a0 = t4 + 0;

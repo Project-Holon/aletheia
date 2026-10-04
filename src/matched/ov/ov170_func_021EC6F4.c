@@ -14,6 +14,8 @@
  *   func_021EC000 0x021EC000 thumb ov170
  *   d_021EFD4C 0x021EFD4C data a2
  */
+#include "../include/Obj24011.h"
+#include "../include/Obj24012.h"
 typedef struct { short x, y; } Pos;
 extern const Pos d_021EFD4C[];
 extern unsigned func_0201AA18(void *);
@@ -23,7 +25,7 @@ extern void func_021EC000(char *, int, int);
 #define WORK(p) (*(char **)((p) + 0x2C))
 void func_021EC6F4(char *p)
 {
-    unsigned n = func_0201AA18(*(void **)(*(char **)p + 8));
+    unsigned n = func_0201AA18(((struct Obj24012 *)(*(char * *)&((struct Obj24011 *)p)->f0))->f8);
     unsigned i;
     for (i = 0; i < 6; i++) {
         int win = *(unsigned char *)(WORK(p) + i + 0x3DF0);

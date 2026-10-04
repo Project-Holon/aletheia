@@ -14,12 +14,13 @@
  *
  * Sibling of func_021EBB28: index 0x34 when state is 5, else 0xb.
  */
+#include "../include/Obj18517.h"
 
 
 extern void func_021EBA84(char *, int, int);
 void func_021EBADC(char *p, int b)
 {
-    if (*(int *)(*(int *)p + 0x24) == 5)
+    if (*(int *)(((struct Obj18517 *)p)->f0 + 0x24) == 5)
         func_021EBA84(p, 0x34, b);
     else
         func_021EBA84(p, 0xb, b);

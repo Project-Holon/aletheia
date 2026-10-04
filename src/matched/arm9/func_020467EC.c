@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj01315.h"
 
-void func_020467EC(int p0, int p1, int p2, int p3){ *(int *)(p0) = (int)*(int *)((*(int *)(0x2146A5C) + 28)); *(int *)((p0 + 4)) = (int)*(int *)((*(int *)(0x2146A5C) + 32)); *(int *)((p0 + 8)) = (int)*(int *)((*(int *)(0x2146A5C) + 36)); *(int *)((p0 + 12)) = (int)*(int *)((*(int *)(0x2146A5C) + 40)); *(int *)((p0 + 16)) = (int)*(int *)((*(int *)(0x2146A5C) + 44)); *(int *)((p0 + 20)) = (int)*(int *)((*(int *)(0x2146A5C) + 48)); *(int *)((p0 + 24)) = (int)*(int *)((*(int *)(0x2146A5C) + 52)); *(int *)((p0 + 28)) = (int)*(int *)((*(int *)(0x2146A5C) + 56)); }
+void func_020467EC(int p0, int p1, int p2, int p3){ *(int *)&((struct Obj01315 *)p0)->f0 = (int)*(int *)((*(int *)(0x2146A5C) + 28)); *(int *)&((struct Obj01315 *)p0)->f4 = (int)*(int *)((*(int *)(0x2146A5C) + 32)); *(int *)&((struct Obj01315 *)p0)->f8 = (int)*(int *)((*(int *)(0x2146A5C) + 36)); *(int *)&((struct Obj01315 *)p0)->fC = (int)*(int *)((*(int *)(0x2146A5C) + 40)); *(int *)&((struct Obj01315 *)p0)->f10 = (int)*(int *)((*(int *)(0x2146A5C) + 44)); *(int *)&((struct Obj01315 *)p0)->f14 = (int)*(int *)((*(int *)(0x2146A5C) + 48)); *(int *)&((struct Obj01315 *)p0)->f18 = (int)*(int *)((*(int *)(0x2146A5C) + 52)); *(int *)&((struct Obj01315 *)p0)->f1C = (int)*(int *)((*(int *)(0x2146A5C) + 56)); }

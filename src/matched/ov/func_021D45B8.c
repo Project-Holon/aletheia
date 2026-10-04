@@ -16,6 +16,7 @@
  * symbols:
  *   d_021F3B88  0x021F3B88  data
  */
+#include "../include/Obj12142.h"
 
 extern int d_021F3B88;
 
@@ -23,8 +24,8 @@ void func_021D45B8(int a, int b)
 {
     if (b == 4) {
         char *q = (char *)d_021F3B88 + 0xbf4 + a * 0xbbc;
-        *(unsigned short *)(q + 0xbb8) = b;
-        *(unsigned short *)(q + 0xbba) = 0;
+        ((struct Obj12142 *)q)->fBB8 = b;
+        ((struct Obj12142 *)q)->fBBA = 0;
     } else {
         *(int *)((char *)d_021F3B88 + a * 4 + 0x3af4) = b;
     }

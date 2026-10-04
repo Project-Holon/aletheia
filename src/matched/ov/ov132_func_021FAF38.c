@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08157.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,9 +29,9 @@ extern int func_0201134C(void *);
 
 int func_021FAF38(void *a, u8 *p)
 {
-    int v = func_0201134C(*(void **)(p + 4));
-    if (*(u32 *)(p + 0x10) >= (u32)v)
+    int v = func_0201134C(((struct Obj08157 *)p)->f4);
+    if (((struct Obj08157 *)p)->f10 >= (u32)v)
         return 0;
-    *(u16 *)(p + 0x14) = (u16)(v - *(u32 *)(p + 0x10));
+    ((struct Obj08157 *)p)->f14 = (u16)(v - ((struct Obj08157 *)p)->f10);
     return 1;
 }

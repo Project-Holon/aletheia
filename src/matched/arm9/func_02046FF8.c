@@ -22,6 +22,7 @@
  * First guard exits through the shared epilogue at the end of the function
  * (a plain `return 0` there is if-converted and loses the branch).
  */
+#include "../include/Obj04802.h"
 
 typedef unsigned int   u32;
 struct Up;
@@ -52,7 +53,7 @@ int func_02046FF8(int *self)
         return 0;
     func_02069FF8((char *)p, v8, v4);
     func_0206A124((int *)p, v0);
-    func_020862F0(h, *(int *)(h + 8));
+    func_020862F0(h, *(int *)&((struct Obj04802 *)h)->f8);
     func_0206A00C((struct Up *)p, 1);
     func_0206A12C(p, 1);
     return 1;

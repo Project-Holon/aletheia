@@ -8,13 +8,14 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj10607.h"
 typedef unsigned char u8;
 int func_021C7048(u8 *p)
 {
     if (p[0x20] != 6) {
-        *(int *)(p + 0x28) = 0x15;
+        ((struct Obj10607 *)p)->f28 = 0x15;
         return 0;
     }
-    *(int *)(p + 0x14) = 2;
+    ((struct Obj10607 *)p)->f14 = 2;
     return 6;
 }

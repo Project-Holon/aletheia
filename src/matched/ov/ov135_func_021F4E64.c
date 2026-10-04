@@ -15,6 +15,7 @@
  * symbols:
  *   func_021F5060  0x021F5060  thumb
  */
+#include "../include/Obj00045.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -31,13 +32,13 @@ extern void func_021F5060(void);
 
 void func_021F4E64(u8 *p)
 {
-    if (*(void **)(p + 0xE08) != 0) {
-        func_02027858(*(void **)(p + 0xE08));
-        *(void **)(p + 0xE08) = 0;
+    if (((struct Obj00045 *)p)->fE08 != 0) {
+        func_02027858(((struct Obj00045 *)p)->fE08);
+        ((struct Obj00045 *)p)->fE08 = 0;
     }
-    if (*(void **)(p + 0xE04) != 0) {
-        func_02027FD8(*(void **)(p + 0xE04));
-        *(void **)(p + 0xE04) = 0;
+    if (((struct Obj00045 *)p)->fE04 != 0) {
+        func_02027FD8(((struct Obj00045 *)p)->fE04);
+        ((struct Obj00045 *)p)->fE04 = 0;
     }
     func_021F5060();
 }

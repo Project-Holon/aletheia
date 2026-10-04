@@ -16,6 +16,7 @@
  *   func_020127B8 0x020127B8 thumb
  *   func_020127AC 0x020127AC thumb
  */
+#include "../include/Obj12491.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct BigObj;
@@ -29,7 +30,7 @@ void *func_0217EBD8(u8 *p)
 {
     void *h;
     int i;
-    h = func_020120F4(*(void **)p);
+    h = func_020120F4(((struct Obj12491 *)p)->f0);
     i = p[0xd8];
     if (i == func_02012B58(h) || i == 0x80) {
         return func_020127B8(h);

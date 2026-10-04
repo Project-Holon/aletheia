@@ -20,6 +20,7 @@
  *   func_021BABEC  0x021BABEC  thumb  ov093
  *   func_021BB280  0x021BB280  thumb  ov093
  */
+#include "../include/Obj13292.h"
 
 typedef unsigned char u8;
 
@@ -55,7 +56,7 @@ int func_021BB208(u8 *p, int *s)
     case 2:
         if (func_021BB798(p) != 0) {
             func_021BB7D0(p);
-            func_021B916C((u8 *)(*(int *)(p + 0xc)), func_021C84D8((u8 *)(*(int *)(p + 0x44))));
+            func_021B916C((u8 *)(((struct Obj13292 *)p)->fC), func_021C84D8((u8 *)(((struct Obj13292 *)p)->f44)));
             func_021BABEC(p, (void *)func_021BB280);
         }
         break;

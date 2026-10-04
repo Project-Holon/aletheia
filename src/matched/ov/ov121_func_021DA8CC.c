@@ -15,6 +15,8 @@
  *   func_02043678 0x02043678 arm
  *   d_021DFBA0 0x021DFBA0 data a4
  */
+#include "../include/Obj06451.h"
+#include "../include/Obj08095.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned char u8;
@@ -31,19 +33,19 @@ void *func_021DA8CC(const char *p,u16 a,u16 b,int c,u8 d,int e,void *f,void *g,u
     Desc desc;
     char *out=func_02030734(heap,36,0,d_021DFBA0,0x6b1);
     func_02082BCC(out,0,36);
-    *(void **)(out+32)=g;
-    *(void **)(out+24)=func_020457B0(128,heap);
-    *(void **)out=func_02043678(a,b,32,heap);
+    ((struct Obj06451 *)out)->f20=g;
+    ((struct Obj06451 *)out)->f18=func_020457B0(128,heap);
+    ((struct Obj06451 *)out)->f0=func_02043678(a,b,32,heap);
     func_02082BCC(&desc,0,24);
-    desc.win=*(void **)out;
-    desc.x=*(s16 *)p;
-    desc.y=*(s16 *)(p+2);
+    desc.win=((struct Obj06451 *)out)->f0;
+    desc.x=((struct Obj08095 *)p)->f0;
+    desc.y=((struct Obj08095 *)p)->f2;
     desc.z=c;
-    desc.a=*(u8 *)(p+6);
+    desc.a=((struct Obj08095 *)p)->f6;
     desc.c=e;
     desc.d=e;
-    desc.b=*(u8 *)(p+7);
+    desc.b=((struct Obj08095 *)p)->f7;
     desc.pal=d;
-    *(void **)(out+28)=func_020255A0(f,&desc);
+    ((struct Obj06451 *)out)->f1C=func_020255A0(f,&desc);
     return out;
 }

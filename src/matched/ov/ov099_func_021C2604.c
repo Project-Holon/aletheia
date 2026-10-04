@@ -26,6 +26,7 @@
  *   func_021C2438 0x021C2438 thumb ov099
  *   d_021C3C0C 0x021C3C0C data a4
  */
+#include "../include/Obj00825.h"
 typedef unsigned char u8;
 typedef int (*Handler)(char *,int);
 extern const Handler d_021C3C0C[];
@@ -51,22 +52,22 @@ int func_021C2604(int task,int *state,int unused,char *p) {
   switch(func_02157170(1,1)) {
    case 4:
     func_021BC0C4(p);func_021BB0B4(p);func_0203D7B0(0);func_0203D7BC(0);func_021C18C8(p,1,2);
-    *(int *)(p+0x1e0)=20;*(int *)(p+0x1cc)=0x39;return 0;
+    ((struct Obj00825 *)p)->f1E0=20;((struct Obj00825 *)p)->f1CC=0x39;return 0;
    case 2:
-    func_0202223C(0,0);func_0202223C(1,0);*(int *)(p+0x1d0)=1;return 1;
+    func_0202223C(0,0);func_0202223C(1,0);((struct Obj00825 *)p)->f1D0=1;return 1;
   }
  }
  if(func_0200FB24()==0) {
-  fn=d_021C3C0C[*(int *)(p+0x1cc)];
+  fn=d_021C3C0C[((struct Obj00825 *)p)->f1CC];
   if(fn!=0) {
    *state=fn(p,*state);
    if(*state==2) {func_0202208C(0,0,0,0,6,1,0x21);return 1;}
   }
  }
- if(*(void **)(p+0x110)!=0) func_0204A600(*(void **)(p+0x110));
- if(*(void **)(p+0x1b8)!=0) {
-  func_0201DE00(&r,&g,&b);func_0201DD78(1,2,15);func_020310C4(*(void **)(p+0x1c0));func_0201DD78(r,g,b);func_0201C4E4(*(void **)(p+0x1b8));
+ if(((struct Obj00825 *)p)->f110!=0) func_0204A600(((struct Obj00825 *)p)->f110);
+ if(((struct Obj00825 *)p)->f1B8!=0) {
+  func_0201DE00(&r,&g,&b);func_0201DD78(1,2,15);func_020310C4(((struct Obj00825 *)p)->f1C0);func_0201DD78(r,g,b);func_0201C4E4(((struct Obj00825 *)p)->f1B8);
  }
- if(*(void **)(p+0x1b4)!=0) func_0201C4E4(*(void **)(p+0x1b4));
+ if(((struct Obj00825 *)p)->f1B4!=0) func_0201C4E4(((struct Obj00825 *)p)->f1B4);
  func_021C2438(p);return 0;
 }

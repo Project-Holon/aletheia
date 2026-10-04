@@ -15,6 +15,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9EF8 0x021B9EF8 thumb ov100
  */
+#include "../include/Obj00060.h"
 struct Word { int x; };
 extern void func_021BA5F4(unsigned);
 extern void func_021BA3A4(struct Word *,int);
@@ -25,7 +26,7 @@ void func_021B9E14(unsigned a)
 {
  struct Word x;
  func_021BA5F4(a);
- x.x=*(int *)(a+0xcb0);
+ x.x=((struct Obj00060 *)a)->fCB0;
  func_021BA3A4(&x,a);
  func_021BA290(a,0);
  func_021B95B8((unsigned char *)a,(unsigned)func_021B9EF8);

@@ -12,11 +12,12 @@
  * symbols:
  *   func_02209A7C 0x02209A7C thumb
  */
+#include "../include/Obj00315.h"
 
 extern int func_02209A7C(int, int, int);
 
 void func_0220C6D0(char *a)
 {
-    *(int *)(a + 0x14c) = func_02209A7C(*(int *)(a + 8), 9,
-                                         *(unsigned short *)(*(int *)a + 0xc));
+    ((struct Obj00315 *)a)->f14C = func_02209A7C(*(int *)&((struct Obj00315 *)a)->f8, 9,
+                                         *(unsigned short *)(*(int *)&((struct Obj00315 *)a)->f0 + 0xc));
 }

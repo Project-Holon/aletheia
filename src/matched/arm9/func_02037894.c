@@ -20,6 +20,8 @@
  *   python tools/match.py one --src src/matched/func_02037894.c \
  *       --func func_02037894 --addr 0x02037894 --cc 1.1p1 --arm
  */
+#include "../include/Obj05734.h"
+#include "../include/Obj11352.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,24 +44,24 @@ void func_02037894(u8 a0, u16 a1, u32 a2, u32 a3)
     void (*f2)(void *);
     void (*f3)(u32, u32);
 
-    *(u8 *)(a + 0x66) = a0;
+    ((struct Obj11352 *)a)->f66 = a0;
 
-    f1 = *(void (**)(void *))(*(char **)(b + 0x340) + 0x3C);
+    f1 = *(void (**)(void *))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x3C);
     f1(func_0203781C);
 
-    f2 = *(void (**)(void *))(*(char **)(b + 0x340) + 0x68);
+    f2 = *(void (**)(void *))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x68);
     f2(func_020387A0);
 
-    if (*(u8 *)(b + 0x64) != 0 && *(u16 *)(b + 0x6C) != 0) {
+    if (((struct Obj05734 *)b)->f64 != 0 && ((struct Obj05734 *)b)->f6C != 0) {
         flag = 1;
     } else {
         flag = 0;
     }
 
     a = func_0203D798();
-    val = *(u16 *)(a + 0x56);
+    val = ((struct Obj11352 *)a)->f56;
     func_02037288(a1, val, flag);
 
-    f3 = *(void (**)(u32, u32))(*(char **)(b + 0x340) + 0x40);
+    f3 = *(void (**)(u32, u32))(*(char * *)&((struct Obj05734 *)b)->f340 + 0x40);
     f3(a2, a3);
 }

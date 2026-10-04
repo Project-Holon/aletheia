@@ -14,6 +14,7 @@
  *   func_02041EE4 0x02041EE4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj26178.h"
 
 typedef unsigned int   u32;
 struct Node;
@@ -23,7 +24,7 @@ extern void func_020307B0(void *);
 
 void func_021BA740(char *p)
 {
-    func_02030EAC(*(void **)(p + 0x80));
+    func_02030EAC(((struct Obj26178 *)p)->f80);
     func_02041EE4(5, 3, 0);
     func_020307B0(p);
 }

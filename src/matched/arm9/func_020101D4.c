@@ -43,6 +43,7 @@
  * closed with the permuter's anneal: x declared before arc, pal after y,
  * and the screen pointer received through a named local.
  */
+#include "../include/Obj04039.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -115,13 +116,13 @@ void func_020101D4(u32 a0, u32 a1)
         u8 m = g[0x59];
 
         if (m == 1 || m == 2 || m == 6) {
-            func_0201EFA4(obj, 0, *(u32 *)(g + 0x48), 5, 2, 1);
+            func_0201EFA4(obj, 0, ((struct Obj04039 *)g)->f48, 5, 2, 1);
             arc = func_02045B38(0, 2, 0xe8, 1);
             if (g[0x5a] != 0) {
-                idx = *(u32 *)(g + 0x60);
+                idx = ((struct Obj04039 *)g)->f60;
                 g[0x5a] = 0;
             } else {
-                idx = sub_02010158(g + 0x48, *(u32 *)(g + 0x60));
+                idx = sub_02010158(g + 0x48, ((struct Obj04039 *)g)->f60);
             }
         } else {
             func_0201EFA4(obj, 0, g[0x58], 5, 2, 1);

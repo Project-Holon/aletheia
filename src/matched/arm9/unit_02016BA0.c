@@ -41,6 +41,8 @@
  *   python tools/match.py tu --src src/matched/unit_02016BA0.c \
  *       --addr 0x02016BA0 --thumb
  */
+#include "../include/Obj01104.h"
+#include "../include/Obj07131.h"
 
 typedef unsigned char u8;
 
@@ -56,29 +58,29 @@ void sub_02016BA0(void *obj)
 {
     u8 *o = (u8 *)obj;
 
-    func_020307B0(*(void **)(o + 0xc));
-    func_020307B0(*(void **)(o + 0x1c));
-    func_020307B0(*(void **)(o + 0x14));
-    func_020307B0(*(void **)(o + 0x24));
-    func_020307B0(*(void **)(o + 0x98));
-    func_020307B0(*(void **)(o + 0x2c));
-    func_020307B0(*(void **)(o + 0xd4));
-    func_020307B0(*(void **)(o + 0xd8));
+    func_020307B0(((struct Obj01104 *)o)->fC);
+    func_020307B0(((struct Obj01104 *)o)->f1C);
+    func_020307B0(((struct Obj01104 *)o)->f14);
+    func_020307B0(((struct Obj01104 *)o)->f24);
+    func_020307B0(((struct Obj01104 *)o)->f98);
+    func_020307B0(((struct Obj01104 *)o)->f2C);
+    func_020307B0(((struct Obj01104 *)o)->fD4);
+    func_020307B0(((struct Obj01104 *)o)->fD8);
 
-    *(void **)(o + 0x98) = 0;
-    *(void **)(o + 0xd4) = 0;
-    *(void **)(o + 0xd8) = 0;
+    ((struct Obj01104 *)o)->f98 = 0;
+    ((struct Obj01104 *)o)->fD4 = 0;
+    ((struct Obj01104 *)o)->fD8 = 0;
 
     {
-        void *v = *(void **)o;
-        *(void **)(o + 0xc) = 0;
-        *(void **)(o + 0x1c) = 0;
-        *(void **)(o + 0x14) = 0;
-        *(void **)(o + 0x24) = 0;
-        *(void **)(o + 0x2c) = 0;
+        void *v = ((struct Obj01104 *)o)->f0;
+        ((struct Obj01104 *)o)->fC = 0;
+        ((struct Obj01104 *)o)->f1C = 0;
+        ((struct Obj01104 *)o)->f14 = 0;
+        ((struct Obj01104 *)o)->f24 = 0;
+        ((struct Obj01104 *)o)->f2C = 0;
         if (v != 0) {
             func_02016C0C(v);
-            *(void **)o = 0;
+            ((struct Obj01104 *)o)->f0 = 0;
         }
     }
 }
@@ -87,11 +89,11 @@ void sub_02016C0C(void *id)
 {
     void *obj = (void *)func_02030EE8(id);
 
-    if (*(void **)((u8 *)obj + 0x10) != 0) {
-        func_020307B0(*(void **)((u8 *)obj + 0x10));
+    if (((struct Obj07131 *)obj)->f10 != 0) {
+        func_020307B0(((struct Obj07131 *)obj)->f10);
     }
-    if (*(void **)((u8 *)obj + 0x14) != 0) {
-        func_020307B0(*(void **)((u8 *)obj + 0x14));
+    if (((struct Obj07131 *)obj)->f14 != 0) {
+        func_020307B0(((struct Obj07131 *)obj)->f14);
     }
     func_020307B0(obj);
     func_02030EAC(id);

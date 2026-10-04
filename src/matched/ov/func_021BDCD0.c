@@ -15,6 +15,7 @@
  *
  * Hands the handle at +0xC4 to one arm9 accessor and its result to another.
  */
+#include "../include/Obj18249.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,5 +31,5 @@ extern void func_02009860(int a);
 
 void func_021BDCD0(char *p)
 {
-    func_02009860(func_0201283C(*(void **)(p + 0xC4)));
+    func_02009860(func_0201283C(((struct Obj18249 *)p)->fC4));
 }

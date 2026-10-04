@@ -10,14 +10,15 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj00001.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
 void func_021E7058(void *p)
 {
-    if (*(int *)((char *)p + 0xf24)) {
-        func_0204B3B4((struct Obj *)(*(int *)((char *)p + 0xf24)));
-        *(int *)((char *)p + 0xf24) = 0;
+    if (((struct Obj00001 *)p)->fF24) {
+        func_0204B3B4((struct Obj *)(((struct Obj00001 *)p)->fF24));
+        ((struct Obj00001 *)p)->fF24 = 0;
         *((char *)p + 0x11f5) = 0;
     }
 }

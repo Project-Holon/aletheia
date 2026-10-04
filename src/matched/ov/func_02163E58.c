@@ -12,6 +12,7 @@
  * symbols:
  *   func_02163E1C  0x02163E1C  thumb  ov010
  */
+#include "../include/Obj17720.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ t5 = 0;
 loc_02163E68:
     if (r != 1) goto loc_02163E76;
 loc_02163E6C:
-*t4 = *(int *)(fr + 12);
+*t4 = ((struct Obj17720 *)fr)->fC;
     return 1;
 loc_02163E76:
     return t5;

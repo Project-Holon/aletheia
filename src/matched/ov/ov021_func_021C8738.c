@@ -11,6 +11,7 @@
  *
  * symbols:
  */
+#include "../include/Obj06090.h"
 
 int func_021C8738(char *p, int k)
 {
@@ -19,19 +20,19 @@ int func_021C8738(char *p, int k)
 
     switch (k) {
     case 0:
-        r = *(unsigned char *)(p + 0x1b0);
+        r = ((struct Obj06090 *)p)->f1B0;
         break;
     case 1:
-        r = *(unsigned char *)(p + 0x1b1);
+        r = ((struct Obj06090 *)p)->f1B1;
         break;
     case 2:
-        r = *(unsigned char *)(p + 0x1b2);
+        r = ((struct Obj06090 *)p)->f1B2;
         break;
     case 3:
-        r = *(unsigned char *)(p + 0x1b3);
+        r = ((struct Obj06090 *)p)->f1B3;
         break;
     case 4:
-        r = *(unsigned short *)(p + 6);
+        r = ((struct Obj06090 *)p)->f6;
         break;
     case 5:
         r = 0;

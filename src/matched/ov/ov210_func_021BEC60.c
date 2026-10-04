@@ -15,6 +15,7 @@
  *   func_02045738 0x02045738 arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04620.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,8 +28,8 @@ extern u8 func_02045738(struct Descriptor *p);
 
 void func_021BEC60(int p, int *a, u32 b)
 {
-    u32 x = func_021B9394(*(char **)(p + 0x1e0));
+    u32 x = func_021B9394(*(char * *)&((struct Obj04620 *)p)->f1E0);
 
     func_021B6AE4((u8 *)a, x, (u16)(func_02045738((struct Descriptor *)(*a)) * 8 / 2), 4, b,
-                  *(u32 *)(p + 0x1cc), 0x39e0, 2);
+                  ((struct Obj04620 *)p)->f1CC, 0x39e0, 2);
 }

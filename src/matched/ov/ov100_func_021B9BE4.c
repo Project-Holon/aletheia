@@ -16,6 +16,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9B7C 0x021B9B7C thumb ov100
  */
+#include "../include/Obj22076.h"
 typedef unsigned short u16;
 
 typedef unsigned int   u32;
@@ -34,7 +35,7 @@ void func_021B9BE4(int a)
  int k=12;
  if(func_02039CB4((struct Link *)func_020399A8(),0x7d,k)!=0) {
   if(func_0203D378()!=0) {
-   if(func_0203D3A8(func_020399A8(),0xc05,4,*(int *)(a+0x244)+0x18)!=0) {
+   if(func_0203D3A8(func_020399A8(),0xc05,4,((struct Obj22076 *)a)->f244+0x18)!=0) {
     func_02039C68((struct Link *)func_020399A8(),0x7e,k);
     func_021B95B8((u8 *)a,(u32)func_021B9B7C);
    }

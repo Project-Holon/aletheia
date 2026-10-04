@@ -13,6 +13,7 @@
  *   func_021A2638 0x021A2638 thumb ov021
  *   d_021EFDCC 0x021EFDCC data ov026 a4
  */
+#include "../include/Obj20382.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -25,5 +26,5 @@ void func_021EF1F4(u8 *a)
     u32 q;
     p = func_021A2630(a);
     q = func_021A2638(a);
-    d_021EFDCC[*(int *)p](a, *(int *)(p + 4), p + 8, q);
+    d_021EFDCC[*(int *)p](a, ((struct Obj20382 *)p)->f4, p + 8, q);
 }

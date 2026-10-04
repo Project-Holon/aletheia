@@ -12,10 +12,11 @@
  * symbols:
  *   func_02209B30 0x02209B30 thumb
  */
+#include "../include/Obj25045.h"
 
 extern void func_02209B30(int);
 
 void func_0220C6E8(char *a)
 {
-    func_02209B30(*(int *)(a + 0x14c));
+    func_02209B30(((struct Obj25045 *)a)->f14C);
 }

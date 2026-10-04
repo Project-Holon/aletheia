@@ -12,6 +12,7 @@
  * symbols:
  *   func_021B8E70  0x021B8E70  thumb  ov093
  */
+#include "../include/Obj10122.h"
 typedef unsigned char u8;
 struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
 typedef unsigned int   u32;
@@ -19,7 +20,7 @@ extern u8 func_021B8E70(u8 *p, u32 k);
 void func_021ED9A4(struct E *e, u8 *o, u8 k)
 {
     e->k8 = k;
-    e->v9 = func_021B8E70(*(u8 **)(o + 0x134), k);
+    e->v9 = func_021B8E70(*(u8 * *)&((struct Obj10122 *)o)->f134, k);
     e->owner = o;
     e->fa = 0;
     e->fb = 1;

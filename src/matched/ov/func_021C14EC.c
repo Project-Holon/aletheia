@@ -14,6 +14,7 @@
  *
  * True when the guard answers true or the pointer 0x190 bytes in is still unset.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ BOOL func_021C14EC(char *p, int v)
         return 1;
     }
 
-    if (*(void **)(p + 0x190) == 0) {
+    if (((struct Obj00008 *)p)->f190 == 0) {
         return 1;
     }
 

@@ -15,6 +15,7 @@
  *   func_021EBBC8 0x021EBBC8 thumb ov170
  *   func_021E912C 0x021E912C thumb ov170
  */
+#include "../include/Obj00000.h"
 extern int func_021EC9D8(char *p);
 extern void func_021ECA38(char *p);
 extern void func_021DE7B4(unsigned char *p);
@@ -34,12 +35,12 @@ int func_021E8340(unsigned char *p)
         func_021DE7B4(p);
         func_021ED588(p);
         func_021EBBC8(p, 4, 0x18);
-        *(int *)(p + 0x28) = 0x5C;
+        ((struct Obj00000 *)p)->f28 = 0x5C;
         STEP(p)++;
         return 6;
     case 1:
         func_021EBBC8(p, 5, 0x18);
-        *(int *)(p + 0x28) = 0x5C;
+        ((struct Obj00000 *)p)->f28 = 0x5C;
         STEP(p)++;
         return 6;
     case 2:

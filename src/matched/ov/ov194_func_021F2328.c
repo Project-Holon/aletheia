@@ -12,6 +12,7 @@
  * symbols:
  *   func_02045994 0x02045994 arm
  */
+#include "../include/Obj24901.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,5 +22,5 @@ extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 void func_021F2328(char *self, struct Strbuf *dst)
 {
     func_02045994(dst, (const u16 *)self,
-                 *(unsigned short *)(self + 0x1e) + 1);
+                 ((struct Obj24901 *)self)->f1E + 1);
 }

@@ -27,6 +27,7 @@
  *   func_02179D14  0x02179D14  thumb  ov015
  *   func_02179C98  0x02179C98  thumb  ov015
  */
+#include "../include/Obj01643.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -84,7 +85,7 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
         func_02034714(d_0217AAAC, 0, d_0217AAAC);
     if (!(len != 0 && len <= 0xB4))
         return;
-    if (*(u16 *)pkt != func_0203F1FC(pkt + 2, len - 2))
+    if (((struct Obj01643 *)pkt)->f0 != func_0203F1FC(pkt + 2, len - 2))
         return;
 
     filter = d_0217AB40.f48;
@@ -96,24 +97,24 @@ void func_02179B38(u8 *pkt, u32 len, u32 type)
             return;
     }
 
-    if (*(u32 *)(pkt + 8) == d_0217AAC0.f8 &&
-        *(u32 *)(pkt + 4) == d_0217AB40.f38) {
+    if (((struct Obj01643 *)pkt)->f8 == d_0217AAC0.f8 &&
+        ((struct Obj01643 *)pkt)->f4 == d_0217AB40.f38) {
         if (!((struct flags_ab80 *)d_0217AB80)->b1) {
             func_02179D14();
             ((struct flags_ab80 *)d_0217AB80)->b1 = 1;
         }
-    } else if (*(u32 *)(pkt + 8) == 0 && d_0217AB40.f38 == 0) {
-        d_0217AAC0.fC = *(u32 *)(pkt + 4);
-        d_0217AB40.f38 = *(u32 *)(pkt + 4);
+    } else if (((struct Obj01643 *)pkt)->f8 == 0 && d_0217AB40.f38 == 0) {
+        d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
+        d_0217AB40.f38 = ((struct Obj01643 *)pkt)->f4;
         return;
-    } else if (*(u32 *)(pkt + 8) == d_0217AAC0.f8 &&
+    } else if (((struct Obj01643 *)pkt)->f8 == d_0217AAC0.f8 &&
                d_0217AB40.f38 == 0) {
-        d_0217AAC0.fC = *(u32 *)(pkt + 4);
-        d_0217AB40.f38 = *(u32 *)(pkt + 4);
+        d_0217AAC0.fC = ((struct Obj01643 *)pkt)->f4;
+        d_0217AB40.f38 = ((struct Obj01643 *)pkt)->f4;
     } else {
         if (((struct flags_ab80 *)d_0217AB80)->b1)
             return;
-        if (d_0217AB40.f38 == *(u32 *)(pkt + 4))
+        if (d_0217AB40.f38 == ((struct Obj01643 *)pkt)->f4)
             return;
         d_0217AB40.f38 = 0;
         return;

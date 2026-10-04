@@ -13,6 +13,7 @@
  *   func_020437AC  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj01044.h"
 
 typedef unsigned int u32;
 
@@ -30,8 +31,8 @@ void func_021EDBE8(char *s)
             *(int *)(s + i * 0x24 + 0x94) = 0;
         }
     }
-    if (*(int *)(s + 0xd8) != 0) {
-        func_020307B0((void *)(*(int *)(s + 0xd8)));
-        *(int *)(s + 0xd8) = 0;
+    if (((struct Obj01044 *)s)->fD8 != 0) {
+        func_020307B0((void *)(((struct Obj01044 *)s)->fD8));
+        ((struct Obj01044 *)s)->fD8 = 0;
     }
 }

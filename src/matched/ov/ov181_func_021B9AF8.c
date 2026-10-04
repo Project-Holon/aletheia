@@ -11,6 +11,7 @@
  *   func_021B9AD4 0x021B9AD4 thumb ov181
  *   func_020056A0 0x020056A0 thumb
  */
+#include "../include/Obj03327.h"
 extern void func_021B9AD4(void *,char *);
 extern void *func_020056A0(void *,void *,int);
-void func_021B9AF8(char *p){*(void **)(p+4)=func_020056A0(func_021B9AD4,p,0);}
+void func_021B9AF8(char *p){((struct Obj03327 *)p)->f4=func_020056A0(func_021B9AD4,p,0);}

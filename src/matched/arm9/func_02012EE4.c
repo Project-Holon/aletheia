@@ -14,8 +14,9 @@
  * symbols:
  *   func_02012EE4  0x02012EE4  thumb
  */
+#include "../include/Obj15631.h"
 
 void func_02012EE4(char *base, int v)
 {
-    *(int *)(base + 0x688) = v;
+    ((struct Obj15631 *)base)->f688 = v;
 }

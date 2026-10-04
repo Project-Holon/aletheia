@@ -15,6 +15,9 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj10844.h"
+#include "../include/Obj25169.h"
+#include "../include/Obj25170.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -34,10 +37,10 @@ void func_0220D348(char *p, int i, int id)
     void *bank;
     void *t;
     void *f;
-    bank = func_02045B38(0, 2, 0xCA, *(u16 *)(*(char **)p + 16));
+    bank = func_02045B38(0, 2, 0xCA, ((struct Obj25169 *)(*(char * *)&((struct Obj10844 *)p)->f0))->f10);
     t = func_02045EC0(bank, id);
-    f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x3DC0);
+    f = ((struct Obj10844 *)p)->f1EAC;
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, ((struct Obj25170 *)(*(char * *)&((struct Obj10844 *)p)->f0))->fC, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);
     func_02045C04(bank);

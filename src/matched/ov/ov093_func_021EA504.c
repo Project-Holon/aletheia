@@ -15,6 +15,7 @@
  *   func_021ED3D4  0x021ED3D4  thumb  ov093
  *   func_021ED450  0x021ED450  thumb  ov093
  */
+#include "../include/Obj10113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,11 +33,11 @@ int func_021EA504(int *st, char *ctx)
     t = func_021E9100((u8 *)ctx, 4);
     switch (*st) {
     case 0:
-        func_021ED3D4(*(char **)(ctx + 0x17c), t[0], t[1], t[2], func_021CD9E0(*(u8 **)(ctx + 4)));
+        func_021ED3D4(*(char * *)&((struct Obj10113 *)ctx)->f17C, t[0], t[1], t[2], func_021CD9E0(*(u8 * *)&((struct Obj10113 *)ctx)->f4));
         *st = *st + 1;
         break;
     case 1:
-        if (func_021ED450(*(char **)(ctx + 0x17c)) != 0) {
+        if (func_021ED450(*(char * *)&((struct Obj10113 *)ctx)->f17C) != 0) {
             return 1;
         }
         break;

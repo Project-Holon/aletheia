@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj01207.h"
 
 typedef unsigned int u32;
 
 int func_02187D30(char *p)
 {
-    if (*(u32 *)(p + 0x1c) < *(u32 *)(p + 0x18))
+    if (*(u32 *)&((struct Obj01207 *)p)->f1C < ((struct Obj01207 *)p)->f18)
         return 1;
     return 0;
 }

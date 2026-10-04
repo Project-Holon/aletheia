@@ -13,6 +13,7 @@
  *   func_020173EC 0x020173EC thumb
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj10353.h"
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -25,8 +26,8 @@ void func_021D8FE4(int idx,int a,int b,void *p,int id) {
  int n=func_020173EC();
  func_02082D44(*(void **)((char *)p+idx*4+0x1064),*(void **)((char *)p+idx*4+0x5dc),n);
  if(idx!=func_0203D1A4((int)func_020399A8())) {
- *(int *)((char *)p+0xf9c)=idx+1;
- *(u8 *)((char *)p+0x11fb)=(*(u8 *)((char *)p+0x11fb)&~0xf0)|0x10;
+ ((struct Obj10353 *)p)->fF9C=idx+1;
+ ((struct Obj10353 *)p)->f11FB=(((struct Obj10353 *)p)->f11FB&~0xf0)|0x10;
  }
  }
 }

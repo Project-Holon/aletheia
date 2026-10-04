@@ -45,6 +45,8 @@
  *      separate local the own pointer and the loop index swap sb/sl in
  *      phase 2 (or r6/r7 in phase 4).
  */
+#include "../include/Obj04750.h"
+#include "../include/Obj08835.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -124,11 +126,11 @@ void func_02039D94(void)
                 u8 *s = *(u8 **)(e + i * 4 + 8);
                 if (s == 0 || s[0xd] == 0)
                     continue;
-                if (func_0203A2F0(*(u16 *)(e + 0x40), i) != 0)
+                if (func_0203A2F0(((struct Obj04750 *)e)->f40, i) != 0)
                     continue;
                 if (func_02039CD8(e) != 0)
-                    *(u16 *)(e + 0x40) =
-                        func_0203A28C(*(u16 *)(e + 0x40), i, 1);
+                    ((struct Obj04750 *)e)->f40 =
+                        func_0203A28C(((struct Obj04750 *)e)->f40, i, 1);
             }
         }
     }
@@ -141,7 +143,7 @@ void func_02039D94(void)
     if (e[0x4e] != 1)
         return;
 
-    if (*(void **)(g + 0x10) != 0 && *(void **)(g + 0x14) != 0) {
+    if (((struct Obj08835 *)g)->f10 != 0 && ((struct Obj08835 *)g)->f14 != 0) {
         u32 a;
         u32 b;
         a = (*(u32 (**)(u32))(g + 0x14))(func_0203D650());

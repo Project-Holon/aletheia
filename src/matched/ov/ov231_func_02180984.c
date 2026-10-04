@@ -14,6 +14,7 @@
  *   _ull_mul 0x0209C054 arm
  *   _ll_udiv 0x0209C00C arm
  */
+#include "../include/Obj14812.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long long u64;
@@ -26,6 +27,6 @@ void func_02180984(u8 *p)
     while((func_020870D0()-start)*64000/33514<50) ;
     *(volatile u16 *)0x040001A2=0;
     func_02180904();
-    **(u8 **)(p+8)=*(volatile u16 *)0x040001A2;
-    *(u8 **)(p+8)+=1;
+    **(u8 * *)&((struct Obj14812 *)p)->f8=*(volatile u16 *)0x040001A2;
+    *(u8 * *)&((struct Obj14812 *)p)->f8+=1;
 }

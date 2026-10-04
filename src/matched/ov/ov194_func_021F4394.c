@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021F4394(unsigned char *p){*(unsigned short *)(p+32)=0;*(unsigned *)(p+28)=1;}
+#include "../include/Obj01576.h"
+void func_021F4394(unsigned char *p){((struct Obj01576 *)p)->f20=0;*(unsigned *)&((struct Obj01576 *)p)->f1C=1;}

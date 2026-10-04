@@ -30,6 +30,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj02805.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,14 +63,14 @@ int func_021BB584(struct S020315D4 *a,int b,int c,u8 *p)
     long zero;
     if(!func_020221A4()) return 0;
     if(func_0203CD98()) func_0203A5E4(0xc00);
-    if(*(struct TaskMenu **)(p+0xcc0)) func_02027858(*(struct TaskMenu **)(p+0xcc0));
-    if(*(u8 **)(p+0xce0)) func_02028148(*(u8 **)(p+0xce0));
-    if(*(u8 **)(p+0xce4)) func_02028148(*(u8 **)(p+0xce4));
-    if(*(void **)(p+0xca4)) func_02051C6C(*(void **)(p+0xca4));
-    func_020307B0(*(void **)(p+0xcb4));
+    if(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0) func_02027858(*(struct TaskMenu * *)&((struct Obj02805 *)p)->fCC0);
+    if(*(u8 * *)&((struct Obj02805 *)p)->fCE0) func_02028148(*(u8 * *)&((struct Obj02805 *)p)->fCE0);
+    if(*(u8 * *)&((struct Obj02805 *)p)->fCE4) func_02028148(*(u8 * *)&((struct Obj02805 *)p)->fCE4);
+    if(((struct Obj02805 *)p)->fCA4) func_02051C6C(((struct Obj02805 *)p)->fCA4);
+    func_020307B0(((struct Obj02805 *)p)->fCB4);
     off=Words;
     zero=Clear;
-    *(int *)(p+0xca4)=zero;
+    *(int *)&((struct Obj02805 *)p)->fCA4=zero;
     func_0201ED04(*(struct WordSet **)(p+off));
     func_021BAC08((int)p);
     func_02030EAC(*(struct Node **)(p+(off+0x24)));

@@ -15,10 +15,11 @@
  *   func_021A25BC 0x021A25BC thumb ov021
  *   func_021A2C30 0x021A2C30 thumb ov021
  */
+#include "../include/Obj19740.h"
 
 extern void func_021A2C30(unsigned char *o, int a, int b);
 
 void func_021A25BC(unsigned char *o, int arg)
 {
-    func_021A2C30(o + 0x40, *(int *)(o + 0xC), arg);
+    func_021A2C30(o + 0x40, ((struct Obj19740 *)o)->fC, arg);
 }

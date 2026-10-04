@@ -16,6 +16,7 @@
  *   func_021F2624 0x021F2624 thumb ov032
  *   func_0201235C 0x0201235C thumb
  */
+#include "../include/Obj09800.h"
 
 extern int func_021F25D4(char *, int *);
 extern int func_021F2608(char *, int *);
@@ -43,7 +44,7 @@ int func_021F2588(int a0, int a1, int *st)
         break;
     }
     if (r) {
-        *(unsigned short *)(o + 0x72) = 0;
+        ((struct Obj09800 *)o)->f72 = 0;
         func_0201235C((struct S0201235C *)a0, (u32 *)st[4]);
     }
     return 0;

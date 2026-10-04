@@ -15,6 +15,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj00991.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,4 +25,4 @@ extern void func_0204B3B4(struct Obj *);
 extern void func_0204ADA4(u32);
 extern void func_0204A8D4(u32);
 extern void func_0204AFD8(u32);
-void func_021D4698(char *p) {func_020307B0(*(void **)(p+0x44));func_0204B3B4(*(struct Obj **)(p+0x5c));func_0204ADA4(*(u32 *)(p+0x50));func_0204A8D4(*(u32 *)(p+0x54));func_0204AFD8(*(u32 *)(p+0x58));}
+void func_021D4698(char *p) {func_020307B0(((struct Obj00991 *)p)->f44);func_0204B3B4(*(struct Obj * *)&((struct Obj00991 *)p)->f5C);func_0204ADA4(((struct Obj00991 *)p)->f50);func_0204A8D4(((struct Obj00991 *)p)->f54);func_0204AFD8(((struct Obj00991 *)p)->f58);}

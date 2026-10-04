@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021FAFCC(char *p, unsigned value) { *(unsigned *)(p+0x2c) = value; }
+#include "../include/Obj24823.h"
+void func_021FAFCC(char *p, unsigned value) { ((struct Obj24823 *)p)->f2C = value; }

@@ -14,6 +14,7 @@
 
  * Clears a word and releases two handles of each of four entries.
  */
+#include "../include/Obj09204.h"
 
 
 struct PrintSys;
@@ -26,9 +27,9 @@ void func_021C06EC(int unused, char *p)
 
     for (i = 0; i < 4; i++) {
         char *e = p + i * 4;
-        *(int *)(e + 0x24) = 0;
-        func_0201C6EC((struct PrintSys *)(*(int *)(e + 0x34)));
-        func_0201C4C0((struct PrintSys *)(*(int *)(e + 0x34)));
+        ((struct Obj09204 *)e)->f24 = 0;
+        func_0201C6EC((struct PrintSys *)(((struct Obj09204 *)e)->f34));
+        func_0201C4C0((struct PrintSys *)(((struct Obj09204 *)e)->f34));
     }
 }
 

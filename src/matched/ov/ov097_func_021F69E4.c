@@ -12,8 +12,9 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021F6A08 0x021F6A08 thumb ov097
  */
+#include "../include/Obj00111.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void *func_020056A0(void (*)(void), void *, u32);
 extern void func_021F6A08(void);
-void func_021F69E4(u8 *p) { *(void **)(p+4) = func_020056A0(func_021F6A08, p, 0); }
+void func_021F69E4(u8 *p) { ((struct Obj00111 *)p)->f4 = func_020056A0(func_021F6A08, p, 0); }

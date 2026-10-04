@@ -33,6 +33,7 @@
  *   ov228_id       0x000000E4  data
  *   d_0209DF9C     0x0209DF9C  data  a4
  */
+#include "../include/Obj03676.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -76,13 +77,13 @@ int func_021BC2FC(int a, int b, int c, char *t)
     void *r4 = func_020070A4();
     void *r6;
     Rec12 z = {0, 0, 0};
-    func_02005B04((const u32 *)(*(u32 *)(t + 0x34)));
-    func_021BD29C((void *)(*(int *)(t + 0x2c)));
-    func_02008494(*(void **)(t + 0x54), func_02008730(r4));
-    func_02008314(*(void **)(t + 0x58), func_0200873C(r4));
-    func_020307B0(*(void **)(t + 0x54));
-    func_020307B0(*(void **)(t + 0x58));
-    func_0203133C((struct S020314B8 *)*(int *)(t + 0x30));
+    func_02005B04((const u32 *)(((struct Obj03676 *)t)->f34));
+    func_021BD29C((void *)(((struct Obj03676 *)t)->f2C));
+    func_02008494(((struct Obj03676 *)t)->f54, func_02008730(r4));
+    func_02008314(((struct Obj03676 *)t)->f58, func_0200873C(r4));
+    func_020307B0(((struct Obj03676 *)t)->f54);
+    func_020307B0(((struct Obj03676 *)t)->f58);
+    func_0203133C((struct S020314B8 *)((struct Obj03676 *)t)->f30);
     if (func_02007210(r4) == 1) {
         func_02034AC4((int)ov228_id);
         r6 = func_021DFC20(1);
@@ -92,7 +93,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
         func_02034A5C((int)ov228_id);
     }
     r4 = func_02011EEC(0, 0, &z, 0);
-    func_0216C0C0(*(int *)(t + 0x28));
+    func_0216C0C0(((struct Obj03676 *)t)->f28);
     func_020315D4((struct S020315D4 *)a);
     func_020312F8(-1, (u32)d_0209DF9C, (u32)r4);
     return 1;

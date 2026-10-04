@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22756.h"
 
 typedef unsigned int u32;
 
@@ -34,7 +35,7 @@ int func_021E0410(char *p, void *party, int idx)
 {
     int count = 0;
     int i, n;
-    void *voice = func_02012F98(*(void **)(p + 0x82C));
+    void *voice = func_02012F98(((struct Obj22756 *)p)->f82C);
 
     if (!sub_02007B50(voice))
         return count;

@@ -25,6 +25,8 @@
  *   d_021D4C04 0x021D4C04 data a4
  *   d_021D4BE0 0x021D4BE0 data a2
  */
+#include "../include/Obj00122.h"
+#include "../include/Obj22993.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,11 +51,11 @@ void func_021D49C8(char *p, u32 n)
     u16 *q;
     u8 i, j;
     Vec delta;
-    func_0204B878(*(void **)(p + 0x5c), d_021D4CF4[n]);
-    func_0204B3DC(*(void **)(p + 0x5c), 1);
+    func_0204B878(((struct Obj00122 *)p)->f5C, d_021D4CF4[n]);
+    func_0204B3DC(((struct Obj00122 *)p)->f5C, 1);
     if (n <= 7) {
-        func_02061CA4((void *)31, 320, (u32)(*(char **)(*(char **)(p + 0x48) + 12) + d_021D4CA4[n] * 32), 32);
-        q = func_02030734(*(u16 *)p, 32, 1, d_021D4D4C, 0x2ac);
+        func_02061CA4((void *)31, 320, (u32)(*(char * *)&((struct Obj22993 *)(*(char * *)&((struct Obj00122 *)p)->f48))->fC + d_021D4CA4[n] * 32), 32);
+        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, d_021D4D4C, 0x2ac);
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 4; j++) {
                 q[i * 4 + j] = j + d_021D4C04[n] + i * 32 + 0xa000;
@@ -62,20 +64,20 @@ void func_021D49C8(char *p, u32 n)
         func_02041090(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     } else {
-        q = func_02030734(*(u16 *)p, 32, 1, d_021D4D4C, 0x2bb);
+        q = func_02030734(((struct Obj00122 *)p)->f0, 32, 1, d_021D4D4C, 0x2bb);
         func_02041090(4, (u32)q, 2, 4, 4, 4);
         func_020307B0(q);
     }
     func_020409B4(4);
     delta = d_021D4BE0;
-    func_0204B404(*(void **)(p + 0x5c), &delta, 1);
+    func_0204B404(((struct Obj00122 *)p)->f5C, &delta, 1);
     if (n == 10) {
-        func_0204B92C(*(void **)(p + 0x5c), 0);
-        func_0204B908(*(void **)(p + 0x5c), 1);
+        func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
+        func_0204B908(((struct Obj00122 *)p)->f5C, 1);
     } else if (n == 11) {
-        func_0204B92C(*(void **)(p + 0x5c), 0);
-        func_0204B908(*(void **)(p + 0x5c), 0);
+        func_0204B92C(((struct Obj00122 *)p)->f5C, 0);
+        func_0204B908(((struct Obj00122 *)p)->f5C, 0);
     } else {
-        func_0204B92C(*(void **)(p + 0x5c), 1);
+        func_0204B92C(((struct Obj00122 *)p)->f5C, 1);
     }
 }

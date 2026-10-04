@@ -20,6 +20,7 @@
  *   func_021F029C 0x021F029C thumb ov032
  *   func_021F028C 0x021F028C thumb ov032
  */
+#include "../include/Obj00007.h"
 
 extern int func_021F0050(char *);
 extern void func_021F05E8(char *, int, unsigned);
@@ -31,28 +32,28 @@ int func_021F2714(char *p)
 {
     int r;
 
-    if (*(unsigned char *)(p + 0x82) == 0) {
+    if (((struct Obj00007 *)p)->f82 == 0) {
         r = func_021F0050(p);
-        if (r != *(int *)(p + 0x84) || r == -1) {
-            *(unsigned char *)(p + 0x82) = 1;
+        if (r != ((struct Obj00007 *)p)->f84 || r == -1) {
+            ((struct Obj00007 *)p)->f82 = 1;
         }
-        *(int *)(p + 0x88) = *(int *)(p + 0x88) + 1;
+        ((struct Obj00007 *)p)->f88 = ((struct Obj00007 *)p)->f88 + 1;
     }
-    if (*(unsigned char *)(p + 0x82) != 0) {
-        if (*(int *)(p + 0xa8) > 0) {
+    if (((struct Obj00007 *)p)->f82 != 0) {
+        if (((struct Obj00007 *)p)->fA8 > 0) {
             return 3;
         }
-        *(unsigned char *)(p + 0x82) = 0;
-        *(int *)(p + 0x88) = 0;
-        *(unsigned char *)(p + 0x81) = 0;
-        if (*(unsigned char *)(p + 0x83) == 0) {
+        ((struct Obj00007 *)p)->f82 = 0;
+        ((struct Obj00007 *)p)->f88 = 0;
+        ((struct Obj00007 *)p)->f81 = 0;
+        if (((struct Obj00007 *)p)->f83 == 0) {
             func_021F05E8(p, 4, 0);
         }
         func_021F067C(p);
         func_021F029C(p, 0);
-        return *(unsigned char *)(p + 0x83);
+        return ((struct Obj00007 *)p)->f83;
     }
-    if (*(int *)(p + 0xa8) == 0) {
+    if (((struct Obj00007 *)p)->fA8 == 0) {
         func_021F028C(p);
     }
     return 3;

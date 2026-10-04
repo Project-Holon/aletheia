@@ -16,6 +16,7 @@
  *   func_021ED588 0x021ED588 thumb
  *   func_021ED7C4 0x021ED7C4 thumb
  */
+#include "../include/Obj00000.h"
 
 typedef struct {
     int pad[9];
@@ -37,7 +38,7 @@ void func_021ECC1C(unsigned char *p)
     if (p[0x18] == 0)
         return;
     func_021EC0B0(WORK(p), 4, &xy[1], &xy[0], 0);
-    if ((*(Top **)p)->x24 == 3) {
+    if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         k = 0xA;
         xy[0] += 8;
     } else {
@@ -45,7 +46,7 @@ void func_021ECC1C(unsigned char *p)
         xy[0] += 4;
     }
     func_021EC08C(WORK(p), k, xy[1], xy[0], 0);
-    if ((*(Top **)p)->x24 == 3) {
+    if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         func_021ED310(WORK(p));
         return;
     }

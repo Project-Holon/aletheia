@@ -13,6 +13,7 @@
  *   func_02197DA0  0x02197DA0  thumb
  *   func_02197DAC  0x02197DAC  thumb
  */
+#include "../include/Obj09160.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,18 +35,18 @@ t4 = 0;
 loc_0216198C:
 a0 = t4 << 2;
 t5 = t6 + a0;
-a0 = *(int *)((char *)t5 + 0x14);
+a0 = ((struct Obj09160 *)t5)->f14;
     if (a0 == 0) goto loc_021619AC;
 loc_02161996:
     a0 = func_02197DA0(a0);
 loc_0216199A:
     if (a0 != 1) goto loc_021619AA;
 loc_0216199E:
-a0 = *(int *)((char *)t5 + 0x14);
+a0 = ((struct Obj09160 *)t5)->f14;
     a0 = func_02197DAC(a0);
 loc_021619A4:
 a0 = 0;
-*(int *)((char *)t5 + 0x14) = a0;
+((struct Obj09160 *)t5)->f14 = a0;
     goto loc_021619AC;
 loc_021619AA:
 t7 = 1;

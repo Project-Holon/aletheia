@@ -17,6 +17,11 @@
  *   g_78C0 0x021C78C0 data
  *   g_78B0 0x021C78B0 data
  */
+#include "../include/Obj02494.h"
+#include "../include/Obj23515.h"
+#include "../include/Obj23516.h"
+#include "../include/Obj23517.h"
+#include "../include/Obj23518.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,17 +37,17 @@ void func_021C59B8(u8 *p)
 {
     u16 i;
     const struct Pair *t;
-    *(void **)(*(u8 **)(p + 8) + 0x30C) = func_02027F60(0, 5, *(u32 *)(p + 0x18), *(u32 *)(*(u8 **)(p + 8) + 0x1C4), 0x66);
+    ((struct Obj23516 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f30C = func_02027F60(0, 5, ((struct Obj02494 *)p)->f18, ((struct Obj23515 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1C4, 0x66);
     for (i = 0; i < 4; i++) {
         t = &g_78C0[i];
-        *(u32 *)(*(u8 **)(p + 8) + i * 12 + 0x314) = (u32)func_02045EC0(*(void **)(*(u8 **)(p + 8) + 0x1D0), t->a);
-        *(u16 *)(*(u8 **)(p + 8) + i * 12 + 0x318) = 0x39E3;
-        *(u32 *)(*(u8 **)(p + 8) + i * 12 + 0x31C) = t->b;
+        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x314) = (u32)func_02045EC0(((struct Obj23517 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1D0, t->a);
+        *(u16 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x318) = 0x39E3;
+        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x31C) = t->b;
     }
     for (i = 0; i < 2; i++) {
         t = &g_78B0[i];
-        *(u32 *)(*(u8 **)(p + 8) + i * 12 + 0x344) = (u32)func_02045EC0(*(void **)(*(u8 **)(p + 8) + 0x1D0), t->a);
-        *(u16 *)(*(u8 **)(p + 8) + i * 12 + 0x348) = 0x39E3;
-        *(u32 *)(*(u8 **)(p + 8) + i * 12 + 0x34C) = t->b;
+        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x344) = (u32)func_02045EC0(((struct Obj23518 *)(*(u8 * *)&((struct Obj02494 *)p)->f8))->f1D0, t->a);
+        *(u16 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x348) = 0x39E3;
+        *(u32 *)(*(u8 * *)&((struct Obj02494 *)p)->f8 + i * 12 + 0x34C) = t->b;
     }
 }

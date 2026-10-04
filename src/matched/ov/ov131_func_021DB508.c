@@ -21,6 +21,7 @@
  *   func_021DBE98 0x021DBE98 thumb ov131
  *   func_021D9EE8 0x021D9EE8 thumb ov131
  */
+#include "../include/Obj23171.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -63,5 +64,5 @@ void func_021DB508(u8 *p,u8 *q,u32 a,u32 b)
     *(u32 *)((u32)q+a*24U+180U)=1;
     *(u32 *)((u32)q+b*24U+180U)=1;
     func_021D9EE8(p,q);
-    *(u32 *)(q+16)=1;
+    ((struct Obj23171 *)q)->f10=1;
 }

@@ -19,11 +19,12 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj16108.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 void func_0204ED80(u8 *dst, u16 *src)
 {
-    *(u16 *)(dst + 0x1c) = *src;
+    ((struct Obj16108 *)dst)->f1C = *src;
 }

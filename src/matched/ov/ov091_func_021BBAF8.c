@@ -13,6 +13,8 @@
  *   func_020355D8  0x020355D8  arm
  *   func_02027778  0x02027778  thumb
  */
+#include "../include/Obj09933.h"
+#include "../include/Obj13254.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,7 +39,7 @@ void func_021BBAF8(u8 *a, u8 *b, int *items)
     Req r;
 
     func_021BBC04(a, b, items);
-    r.heap = *(u16 *)a;
+    r.heap = ((struct Obj09933 *)a)->f0;
     r.v = b[0];
     r.p = b + 0x14;
     r.one = 1;
@@ -45,6 +47,6 @@ void func_021BBAF8(u8 *a, u8 *b, int *items)
     r.c[1] = 0x18;
     r.c[2] = 0xd;
     r.c[3] = 3;
-    func_020355D8(*(u32 *)(a + 8));
-    *(int *)(b + 0x74) = (int)func_02027778((struct TaskMenuTmpl *)(&r), (void *)(*(u32 *)(a + 0x254)));
+    func_020355D8(((struct Obj09933 *)a)->f8);
+    ((struct Obj13254 *)b)->f74 = (int)func_02027778((struct TaskMenuTmpl *)(&r), (void *)(((struct Obj09933 *)a)->f254));
 }

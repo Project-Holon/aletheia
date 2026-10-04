@@ -21,6 +21,7 @@
  *   func_021A3208   0x021A3208  thumb
  *   func_021A3244   0x021A3244  thumb  ov021
  */
+#include "../include/Obj17754.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern int func_021A3244(void *);
 
 int func_0216A244(void *a0)
 {
-    void *v = func_02188CB4(*(void **)((char *)a0 + 8));
+    void *v = func_02188CB4(((struct Obj17754 *)a0)->f8);
 
     if (func_021A3208(v) == 1)
         return func_021A3244(v);

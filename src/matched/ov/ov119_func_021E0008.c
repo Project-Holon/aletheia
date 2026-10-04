@@ -13,6 +13,7 @@
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021E08E8  0x021E08E8  thumb  ov119
  */
+#include "../include/Obj22754.h"
 
 typedef unsigned int u32;
 
@@ -22,7 +23,7 @@ extern void func_021E08E8(char *p);
 
 void func_021E0008(char *p)
 {
-    if (*(int *)(p + 0xf2c) >= 0x1a4) {
+    if (((struct Obj22754 *)p)->fF2C >= 0x1a4) {
         func_021DFD30(p, 0);
         func_021D8E84(p, (int)func_021E08E8);
     }

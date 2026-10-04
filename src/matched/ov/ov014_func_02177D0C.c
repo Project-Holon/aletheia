@@ -15,6 +15,7 @@
  *   func_021775AC  0x021775AC  thumb  ov014
  *   func_02177CE4  0x02177CE4  thumb  ov014
  */
+#include "../include/Obj12469.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,7 +29,7 @@ void func_02177CE4(void);
 int func_02177D0C(int a)
 {
     u8 *p = g_021797A4;
-    if (*(u32 *)p != 0)
+    if (((struct Obj12469 *)p)->f0 != 0)
         return 0;
     if (a != 0)
         p[0xCE6] = 0xff;

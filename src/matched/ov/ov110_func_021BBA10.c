@@ -22,6 +22,7 @@
  *   func_02040588 0x02040588 arm
  *   func_0201C724 0x0201C724 thumb
  */
+#include "../include/Obj02460.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -48,16 +49,16 @@ void func_021BBA10(u8 *p,unsigned n)
     u32 owner,font;
     void *str;
     int i,x,height,base;
-    owner=func_021BAC4C(*(u8 **)p);
-    font=func_021BAC44(*(u8 **)p);
+    owner=func_021BAC4C(*(u8 * *)&((struct Obj02460 *)p)->f0);
+    font=func_021BAC44(*(u8 * *)&((struct Obj02460 *)p)->f0);
     str=func_020457B0(15,42);
-    func_02043B5C(func_02045770(*(void **)(p+0x98)),15);
-    *(void **)(p+0x9c)=*(void **)(p+0x98);
+    func_02043B5C(func_02045770(((struct Obj02460 *)p)->f98),15);
+    ((struct Obj02460 *)p)->f9C=((struct Obj02460 *)p)->f98;
     p[0xa0]=0;
     for(i=0;i<n;i++) {
         if(i%2==0) x=8; else x=128;
-        func_021BF814(*(u8 **)(p+4),i,(int)str);
-        func_0201C724((void *)owner,(u32)func_02045770(*(void **)(p+0x9c)),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
+        func_021BF814(*(u8 * *)&((struct Obj02460 *)p)->f4,i,(int)str);
+        func_0201C724((void *)owner,(u32)func_02045770(((struct Obj02460 *)p)->f9C),(s16)x,(s16)((i/2)*16),(u32)str,font,1103);
         p[0xa0]=1;
     }
     func_02045808(str);
@@ -66,7 +67,7 @@ void func_021BBA10(u8 *p,unsigned n)
     if(height>192) height=192;
     else if(height<48) height=48;
     func_021BC78C(p+0x38,6,1,height-base,8);
-    func_02045374(*(void **)(p+0x98));
+    func_02045374(((struct Obj02460 *)p)->f98);
     func_02041B6C(6);
     func_02040588(6,1);
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj21680.h"
 typedef struct {
     unsigned f0_lo : 13;
     unsigned f0_b13 : 1;
@@ -74,5 +75,5 @@ int func_021FBE90(int a, State *s)
         s->f0_b15 = v;
         break;
     }
-    return *(int *)((char *)s + 0x23c);
+    return ((struct Obj21680 *)s)->f23C;
 }

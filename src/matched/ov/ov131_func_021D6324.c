@@ -33,6 +33,8 @@
  *   d_021DC138 0x021DC138 data a2
  *   d_021DC144 0x021DC144 data a2
  */
+#include "../include/Obj00830.h"
+#include "../include/Obj14064.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -74,7 +76,7 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                 func_0203064C(1,0x42,0x50000);
         o=func_0203159C((void *)heap,0x264,0x42);
         func_02082BCC(o,0,0x264);
-        *(u16 *)o=0x42;
+        ((struct Obj14064 *)o)->f0=0x42;
         i=0;
         if(c==0) {
             c=func_02030734(1,0x28,0,d_021DC80C,0x4d);
@@ -91,7 +93,7 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                     func_020307B0(pt);
                 }
                 c[0xf]=0;
-                *(void **)c=party;
+                ((struct Obj00830 *)c)->f0=party;
                 c[0xc]=1;
                 c[0xe]=5;
             } else {
@@ -99,13 +101,13 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                 u8 *base;
                 u32 off;
                 n=func_020173E8();
-                *(void **)c=func_02030734(1,n*0x1e,1,d_021DC80C,0x81);
+                ((struct Obj00830 *)c)->f0=func_02030734(1,n*0x1e,1,d_021DC80C,0x81);
                 c[0xc]=2;
                 c[0xe]=0x1e;
                 c[0xf]=0xff;
                 for(i=0;i<c[0xe];i++) {
                     n=func_020173E8();
-                    base=*(u8 **)c;
+                    base=*(u8 * *)&((struct Obj00830 *)c)->f0;
                     off=i*n;
                     func_02017550((struct Sav *)(base+off));
                     if(func_02005728(3)!=0) {
@@ -119,21 +121,21 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
             i=0;
             c[0xd]=0;
             c[0x10]=0;
-            *(u32 *)(c+0x20)=1;
-            *(u32 *)(c+0x18)=1;
-            *(void **)(c+8)=func_020124F4(1);
+            ((struct Obj00830 *)c)->f20=1;
+            ((struct Obj00830 *)c)->f18=1;
+            ((struct Obj00830 *)c)->f8=func_020124F4(1);
             if(func_0203630C()&0x400) {
                 c[0xd]=2;
-                *(u32 *)(c+0x20)=i;
-                *(u16 *)(c+0x14)=10;
+                ((struct Obj00830 *)c)->f20=i;
+                ((struct Obj00830 *)c)->f14=10;
             }
             if(func_0203630C()&0x100) {
                 c[0xd]=1;
-                *(u32 *)(c+0x20)=0;
+                ((struct Obj00830 *)c)->f20=0;
             }
             func_020355D8(1);
         }
-        *(u8 **)(o+8)=c;
+        *(u8 * *)&((struct Obj14064 *)o)->f8=c;
         *st=1;
         break;
     }

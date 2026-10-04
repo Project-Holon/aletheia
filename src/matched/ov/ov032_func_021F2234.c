@@ -27,6 +27,7 @@
  *   func_021EFEC0 0x021EFEC0 thumb ov032
  *   func_021F0208 0x021F0208 thumb ov032
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -55,26 +56,26 @@ char *func_021F2234(u32 a0, u32 a1)
     void *v;
 
     p = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
-    *(u32 *)(p + 0x0) = a0;
-    *(u32 *)(p + 0x4) = (u32)func_020120F4((const struct Ctx *)a0);
-    *(void **)(p + 0x8) = v = func_0201210C((void *)a0);
-    *(u32 *)(p + 0x10) = func_02188E30(v);
-    *(u32 *)(p + 0xc) = a1;
-    *(u16 *)(p + 0x98) = 0x70;
-    *(u16 *)(p + 0x94) = 0x15;
-    *(u16 *)(p + 0x96) = 0x8070;
-    *(void **)(p + 0x9c) = func_020490F4(0xad, *(u16 *)(p + 0x98));
+    ((struct Obj00007 *)p)->f0 = a0;
+    ((struct Obj00007 *)p)->f4 = (u32)func_020120F4((const struct Ctx *)a0);
+    ((struct Obj00007 *)p)->f8 = v = func_0201210C((void *)a0);
+    ((struct Obj00007 *)p)->f10 = func_02188E30(v);
+    ((struct Obj00007 *)p)->fC = a1;
+    ((struct Obj00007 *)p)->f98 = 0x70;
+    ((struct Obj00007 *)p)->f94 = 0x15;
+    ((struct Obj00007 *)p)->f96 = 0x8070;
+    ((struct Obj00007 *)p)->f9C = func_020490F4(0xad, ((struct Obj00007 *)p)->f98);
     func_021F27D4(p);
     func_021F2908(p);
-    func_021F2A8C(p, *(void **)(p + 0x9c));
+    func_021F2A8C(p, ((struct Obj00007 *)p)->f9C);
     func_021F2C1C(p);
-    func_021F2D20(p, *(void **)(p + 0x9c));
-    func_021F2F44(p, *(void **)(p + 0x9c));
+    func_021F2D20(p, ((struct Obj00007 *)p)->f9C);
+    func_021F2F44(p, ((struct Obj00007 *)p)->f9C);
     func_021F3058(p);
-    *(u8 *)(p + 0x7a) = 1;
+    ((struct Obj00007 *)p)->f7A = 1;
     func_021EFEC0(p);
-    *(u8 *)(p + 0x7a) = 0;
-    *(u32 *)(p + 0x60) = 0;
+    ((struct Obj00007 *)p)->f7A = 0;
+    *(u32 *)&((struct Obj00007 *)p)->f60 = 0;
     func_021F0208(p, 1);
     return p;
 }

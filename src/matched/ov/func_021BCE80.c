@@ -16,6 +16,8 @@
  * Re-arms through func_021BCBD8, hands the owner record class byte to
  * func_021BBEB4 and stamps selector 0x5D; returns the selector.
  */
+#include "../include/Obj12113.h"
+#include "../include/Obj18202.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +32,7 @@ extern void func_021BBEB4(void *p, int a, int b, int c);
 int func_021BCE80(char *p, int v)
 {
     func_021BCBD8(p, 1);
-    func_021BBEB4(p, 0, *(u8 *)(*(char **)(p + 0x248) + 0x20), 0);
-    *(u32 *)(p + 0x1CC) = 0x5D;
+    func_021BBEB4(p, 0, ((struct Obj18202 *)(*(char * *)&((struct Obj12113 *)p)->f248))->f20, 0);
+    ((struct Obj12113 *)p)->f1CC = 0x5D;
     return v;
 }

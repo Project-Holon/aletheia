@@ -11,7 +11,8 @@
  * symbols:
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj00007.h"
 typedef unsigned short u16;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
-void func_021F0E7C(char *p) { if(*(unsigned char *)(p+0x7b)==0) func_0204B878(*(void **)(p+0x2c4),9); else func_0204B878(*(void **)(p+0x2c4),7); }
+void func_021F0E7C(char *p) { if(((struct Obj00007 *)p)->f7B==0) func_0204B878(((struct Obj00007 *)p)->f2C4,9); else func_0204B878(((struct Obj00007 *)p)->f2C4,7); }

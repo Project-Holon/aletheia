@@ -15,6 +15,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj13862.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_0217BC90(void *);
@@ -31,13 +32,13 @@ int func_021D6C50(u8 *p,unsigned heap) {
     int flag,ready;
     void *bank,*str;
     flag = func_0217BC90(p)==2;
-    if(flag) ready = *(int *)(p+0x210)>0;
+    if(flag) ready = ((struct Obj13862 *)p)->f210>0;
     if(flag==0) return 0;
     if(flag==1 && ready==1) {
         bank = func_02045B38(0,2,0x51,heap);
         str = func_02045EC0(bank,15);
         func_02045C04(bank);
-        func_020084E4((u16 *)*(unsigned *)(p+0x218),str);
+        func_020084E4((u16 *)((struct Obj13862 *)p)->f218,str);
         func_02045808(str);
         return 2;
     }

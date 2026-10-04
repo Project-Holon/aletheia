@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B914.c \
  *       --func func_0202B914 --addr 0x0202B914 --thumb --cc 1.1p1
  */
+#include "../include/Obj15845.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -27,5 +28,5 @@ void func_0202B914(struct Obj *o, u32 v)
     if (v > 0x7f) {
         v = 0x7f;
     }
-    *(u8 *)((u8 *)o + 0x8) = (u8)v;
+    ((struct Obj15845 *)o)->f8 = (u8)v;
 }

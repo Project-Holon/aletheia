@@ -15,6 +15,8 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj03788.h"
+#include "../include/Obj10418.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -42,20 +44,20 @@ void func_021DBDF4(char *out,const Record *src,char *p,u16 heap)
     s16 x,y;
     func_02082BCC(out,0,0xdc);
     if(src) {
-        *(int *)out=1;
+        ((struct Obj10418 *)out)->f0=1;
         *(Record *)(out+4)=*src;
-        *(void **)(out+0xd0)=func_02043678(10,2,32,heap);
+        ((struct Obj10418 *)out)->fD0=func_02043678(10,2,32,heap);
         flags=src->w[43];
         text=func_020457B0(128,heap);
-        other=func_02045EC0(*(void **)(p+28),151);
-        func_0201EFA4(*(void **)(p+24),0,(u16)(flags>>16),4,1,1);
-        func_0201EFA4(*(void **)(p+24),1,(u8)(flags>>8),2,0,1);
-        func_0201EFA4(*(void **)(p+24),2,(u8)flags,2,0,1);
-        func_0201F250(*(void **)(p+24),text,other);
+        other=func_02045EC0(((struct Obj03788 *)p)->f1C,151);
+        func_0201EFA4(((struct Obj03788 *)p)->f18,0,(u16)(flags>>16),4,1,1);
+        func_0201EFA4(((struct Obj03788 *)p)->f18,1,(u8)(flags>>8),2,0,1);
+        func_0201EFA4(((struct Obj03788 *)p)->f18,2,(u8)flags,2,0,1);
+        func_0201F250(((struct Obj03788 *)p)->f18,text,other);
         x=40;
-        x-=(s16)(func_0201D304(text,*(u32 *)(p+16),0)/2);
-        y=8-(s16)(func_0201D42C(text,*(void **)(p+16))/2);
-        func_0201C7A4(*(void **)(out+0xd0),x,y,text,*(void **)(p+16));
+        x-=(s16)(func_0201D304(text,*(u32 *)&((struct Obj03788 *)p)->f10,0)/2);
+        y=8-(s16)(func_0201D42C(text,((struct Obj03788 *)p)->f10)/2);
+        func_0201C7A4(((struct Obj10418 *)out)->fD0,x,y,text,((struct Obj03788 *)p)->f10);
         func_02045808(text);
         func_02045808(other);
     }

@@ -17,6 +17,7 @@
  *   d_021DDE38  0x021DDE38  data  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04229.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,13 +36,13 @@ u8 *func_021A03D0(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
     u8 *p;
 
     p = func_02030734(f, 0x490, 1, (const char *)d_021DDE38, 0x167);
-    *(u16 *)(p + 2) = c;
+    ((struct Obj04229 *)p)->f2 = c;
     func_021A0734(p, a);
-    *(u16 *)(p + 0x38a) = 1;
-    *(u32 *)(p + 0x350) = func_021A07B4(p, b);
-    func_02082D44(p + 0x10 + *(u32 *)(p + 0x350) * 0x34, p + 0x356, 0x34);
-    *(u32 *)(p + 0x38c) = 1;
-    *(u32 *)(p + 8) = d;
-    *(u32 *)(p + 4) = e;
+    ((struct Obj04229 *)p)->f38A = 1;
+    ((struct Obj04229 *)p)->f350 = func_021A07B4(p, b);
+    func_02082D44(p + 0x10 + ((struct Obj04229 *)p)->f350 * 0x34, p + 0x356, 0x34);
+    ((struct Obj04229 *)p)->f38C = 1;
+    ((struct Obj04229 *)p)->f8 = d;
+    ((struct Obj04229 *)p)->f4 = e;
     return p;
 }

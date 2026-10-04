@@ -19,6 +19,7 @@
  *   d_021D3E2C     0x021D3E2C  data   ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00428.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ void func_0218E764(u8 *a, void *b, void *c)
 
     func_0207CA00(c, b, &v);
     func_0207CCA4(&v, &v);
-    *(u16 *)(a + 0x82) = func_0207CFB8(v.x, v.z);
+    ((struct Obj00428 *)a)->f82 = func_0207CFB8(v.x, v.z);
     k = d_021D3E2C;
     r = func_0207CA68(&k, &v);
     w = v;
@@ -51,5 +52,5 @@ void func_0218E764(u8 *a, void *b, void *c)
     if (t != 0) {
         s = func_0207CFB8(r, t);
     }
-    *(u16 *)(a + 0x84) = s;
+    ((struct Obj00428 *)a)->f84 = s;
 }

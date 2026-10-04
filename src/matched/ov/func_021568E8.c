@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj17618.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ a3 = 0;
 loc_021568EA:
 a2 = a0 + a3;
 a2 = a2 + 0x44;
-a2 = *(u8 *)((char *)a2);
+a2 = ((struct Obj17618 *)((char *)a2))->f0;
     if (a1 != a2) goto loc_021568F8;
 loc_021568F4:
 a0 = a3 + 0;

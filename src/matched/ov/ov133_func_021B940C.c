@@ -22,6 +22,9 @@
  *   func_021B952C 0x021B952C thumb ov133
  *   func_021B8FA8 0x021B8FA8 thumb ov133
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj23317.h"
+#include "../include/Obj23318.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 bytes[12]; } Rects;
@@ -52,12 +55,12 @@ int func_021B940C(u8 *p)
         func_021BA098(p);
         return 2;
     case 1:
-        *(int *)(p + 12) = 6;
-        *(int *)(p + 16) = 192;
+        ((struct Obj00004 *)p)->fC = 6;
+        ((struct Obj00004 *)p)->f10 = 192;
         func_020061E4(1962);
         func_021B94C0(p);
-        obj = func_0201EC64(*(u16 *)p);
-        func_0201EEF4(obj, 0, *(void **)(*(u8 **)(*(u8 **)(p + 4) + 4) + 4));
+        obj = func_0201EC64(((struct Obj00004 *)p)->f0);
+        func_0201EEF4(obj, 0, ((struct Obj23318 *)(*(u8 * *)&((struct Obj23317 *)(*(u8 * *)&((struct Obj00004 *)p)->f4))->f4))->f4);
         func_021B9C08(p, 0, obj);
         func_0201ED04(obj);
         func_021BA098(p);

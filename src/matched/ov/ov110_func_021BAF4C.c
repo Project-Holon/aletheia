@@ -14,6 +14,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021B6CCC 0x021B6CCC thumb ov067
  */
+#include "../include/Obj13778.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Rec;
@@ -22,4 +23,4 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 extern void func_021B6CCC(int *);
-void func_021BAF4C(unsigned p) { int i; func_02045808(*(void **)(p+0xad0));func_021B6CCC(*(int **)(p+0x78));for(i=0;i<27;i++)func_02045C04(*(void **)(p+i*4+0xc));func_020307B0((void *)p); }
+void func_021BAF4C(unsigned p) { int i; func_02045808(((struct Obj13778 *)p)->fAD0);func_021B6CCC(*(int * *)&((struct Obj13778 *)p)->f78);for(i=0;i<27;i++)func_02045C04(*(void **)(p+i*4+0xc));func_020307B0((void *)p); }

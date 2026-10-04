@@ -13,6 +13,7 @@
  *   func_020260F0 0x020260F0 thumb
  *   func_021EC000 0x021EC000 thumb
  */
+#include "../include/Obj24022.h"
 
 typedef unsigned int   u32;
 struct Sound;
@@ -22,7 +23,7 @@ extern void func_021EC000(char *p, int i, int v);
 void func_021ED55C(char **p, int flag)
 {
     if (flag == 1) {
-        if (func_020260F0(*(void **)(p[11] + 0x70)) == 1)
+        if (func_020260F0(((struct Obj24022 *)(p[11]))->f70) == 1)
             func_021EC000(p[11], 4, 1);
     } else {
         func_021EC000(p[11], 4, 0);

@@ -16,6 +16,7 @@
  *
  * The same re-arm and stamp as func_021C01A0 with selector 0xA3.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ int func_021C0528(char *p, int v)
 
     if (func_021BA928(p) != 0) {
         func_021BA828(p);
-        *(u32 *)(p + 0x1CC) = 0xA3;
+        *(u32 *)&((struct Obj00008 *)p)->f1CC = 0xA3;
     }
 
     return v;

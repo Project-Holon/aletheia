@@ -14,6 +14,7 @@
  *   func_02031290  0x02031290  arm  arm9
  *   func_021ED8E8  0x021ED8E8  thumb  ov093
  */
+#include "../include/Obj21604.h"
 typedef unsigned char u8;
 struct Q { u8 *a; int b; u8 *c; };
 extern void *func_020311B8(void *, void *, int, int);
@@ -23,7 +24,7 @@ extern void func_021ED8E8(int, struct Q *);
 void func_021ED8AC(u8 *p)
 {
     struct Q *q;
-    q = func_02031290(func_020311B8(*(void **)(p + 0x2c), (void *)func_021ED8E8, 0xc, 1));
+    q = func_02031290(func_020311B8(((struct Obj21604 *)p)->f2C, (void *)func_021ED8E8, 0xc, 1));
     q->a = p;
     q->c = p + 0x40;
     q->b = 0;

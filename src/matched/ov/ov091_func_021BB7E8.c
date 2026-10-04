@@ -18,6 +18,7 @@
  *   func_02045770  0x02045770  arm
  *   func_0201C724  0x0201C724  thumb
  */
+#include "../include/Obj09930.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,16 +43,16 @@ void func_021BB7E8(u8 *a, u32 *s, u32 x)
     u32 t;
     u32 n;
 
-    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(a + 0x134)), x);
+    t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj09930 *)a)->f134), x);
     if (s[11] != 0) {
-        n = (u32)func_020457B0(0x100, *(u16 *)a);
+        n = (u32)func_020457B0(0x100, ((struct Obj09930 *)a)->f0);
         func_0201F250((struct WordSet *)s[11], (void *)n, (void *)t);
         func_02045808((struct U16Vec *)t);
         t = n;
     }
     func_021BBA28((int)a, (int)s);
     func_0201C6EC((struct PrintSys *)s[10]);
-    func_0201C724(s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, *(u32 *)(a + 0x138), 0x440);
+    func_0201C724(s[10], (u32)func_02045770((struct Descriptor *)s[1]), 1, 1, t, ((struct Obj09930 *)a)->f138, 0x440);
     s[9] = 1;
     func_02045808((struct U16Vec *)t);
 }

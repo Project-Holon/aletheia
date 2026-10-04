@@ -39,6 +39,7 @@
  *   func_06898788 0x06898788 thumb ov095
  *   func_06898798 0x06898798 thumb ov095
  */
+#include "../include/Obj02149.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -93,7 +94,7 @@ void func_068984C8(void *a, void *b, u8 c)
         }
         if (flag != 0) {
             p = func_06898698(b, 0x37, slot);
-            *(u16 *)(p + 4) = 0x280;
+            ((struct Obj02149 *)p)->f4 = 0x280;
             p[6] = c;
             p[7] = 6;
             p[11] = 1;
@@ -104,7 +105,7 @@ void func_068984C8(void *a, void *b, u8 c)
                 p = func_068986E8(b, 5, slot);
                 p[6] = slot;
                 value = func_068986F8(m, 14);
-                *(u16 *)(p + 4) = value - func_06898708(m, 13);
+                ((struct Obj02149 *)p)->f4 = value - func_06898708(m, 13);
                 func_06898718(b, p);
             }
             if (func_06898728(m) != 0) {

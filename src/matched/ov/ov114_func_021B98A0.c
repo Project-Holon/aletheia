@@ -15,6 +15,7 @@
  *
  * Binds a 0x130-stride sub-table to the record and zeroes its first 0x130 bytes.
  */
+#include "../include/Obj03250.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,7 +31,7 @@ void func_021B98A0(u8 *p, int a, int b, int c)
     if (p == 0)
         return;
     q = func_0203D7C8(a, b + 0x130, (const char *)0x021CE310, 0x1f5);
-    *(u32 *)p = (u32)q;
+    ((struct Obj03250 *)p)->f0 = (u32)q;
     func_02082BCC((int)q, 0, b + 0x130);
     func_021B984C(p, c);
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_0689AB90  0x0689AB90  thumb  ov095
  */
+#include "../include/Obj21891.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,6 +41,6 @@ int func_0689AB48(int unused, u8 *s)
         for (j = 0; j < 4; j++)
             l.b[i][j] = (*(E **)(s + 0x7c))[i].b[j];
     }
-    func_0689AB90(*(u32 *)(s + 0xb0), 5, &l);
+    func_0689AB90(((struct Obj21891 *)s)->fB0, 5, &l);
     return 1;
 }

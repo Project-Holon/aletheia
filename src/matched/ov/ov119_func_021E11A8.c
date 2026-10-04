@@ -24,6 +24,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_02031140 0x02031140 arm
  */
+#include "../include/Obj00001.h"
 extern void func_0200566C(void);
 struct PrintSys;
 struct Rec3;
@@ -52,25 +53,25 @@ void func_021E11A8(char *p)
 {
     int i;
     func_0200566C();
-    if(*(int *)(p+0x744)) {
-        func_02028604((int)(*(void **)(p+0x74c)));
+    if(*(int *)&((struct Obj00001 *)p)->f744) {
+        func_02028604((int)(((struct Obj00001 *)p)->f74C));
         func_021E106C(p);
         func_021E12F8(p);
-        if(*(int *)(p+0x72c)) {func_0201CE48((struct Rec3 *)(*(int *)(p+0x72c)));*(int *)(p+0x72c)=0;}
-        if(*(void **)(p+0x648)) {func_02028148(*(void **)(p+0x648));*(void **)(p+0x648)=0;}
-        if(*(void **)(p+0x6b0)) {func_02027FD8(*(void **)(p+0x6b0));*(void **)(p+0x6b0)=0;}
-        if(*(void **)(p+0x6b4)) {func_020452E8(*(void **)(p+0x6b4));*(void **)(p+0x6b4)=0;}
+        if(((struct Obj00001 *)p)->f72C) {func_0201CE48((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}
+        if(((struct Obj00001 *)p)->f648) {func_02028148(((struct Obj00001 *)p)->f648);((struct Obj00001 *)p)->f648=0;}
+        if(((struct Obj00001 *)p)->f6B0) {func_02027FD8(((struct Obj00001 *)p)->f6B0);((struct Obj00001 *)p)->f6B0=0;}
+        if(((struct Obj00001 *)p)->f6B4) {func_020452E8(((struct Obj00001 *)p)->f6B4);((struct Obj00001 *)p)->f6B4=0;}
         for(i=0;i<2;i++) {if(*(void **)(p+i*4+0x5bc)) {func_020452E8(*(void **)(p+i*4+0x5bc));*(void **)(p+i*4+0x5bc)=0;}}
-        func_0201ED04(*(void **)(p+0x724));
-        func_02045C04(*(void **)(p+0x720));
-        func_0201D83C(*(void **)(p+0x728));
-        func_02045808(*(void **)(p+0x730));
-        func_02045808(*(void **)(p+0x734));
-        func_02045808(*(void **)(p+0x738));
-        func_02045808(*(void **)(p+0x73c));
-        func_0201C6EC((struct PrintSys *)(*(unsigned *)(p+0x740)));
-        func_0201C4C0((struct PrintSys *)(*(unsigned *)(p+0x740)));
-        func_02031140(*(void **)(p+0x744));
-        *(int *)(p+0x744)=0;
+        func_0201ED04(((struct Obj00001 *)p)->f724);
+        func_02045C04(((struct Obj00001 *)p)->f720);
+        func_0201D83C(((struct Obj00001 *)p)->f728);
+        func_02045808(((struct Obj00001 *)p)->f730);
+        func_02045808(((struct Obj00001 *)p)->f734);
+        func_02045808(((struct Obj00001 *)p)->f738);
+        func_02045808(((struct Obj00001 *)p)->f73C);
+        func_0201C6EC((struct PrintSys *)(*(unsigned *)&((struct Obj00001 *)p)->f740));
+        func_0201C4C0((struct PrintSys *)(*(unsigned *)&((struct Obj00001 *)p)->f740));
+        func_02031140(((struct Obj00001 *)p)->f744);
+        *(int *)&((struct Obj00001 *)p)->f744=0;
     }
 }

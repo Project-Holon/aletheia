@@ -26,6 +26,7 @@
  *   func_02045B38  0x02045B38  arm
  *   func_020457B0  0x020457B0  arm
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,19 +55,19 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_021F2908(char *p)
 {
-    *(void **)(p + 0xa0) = func_0203101C(*(u16 *)(p + 0x98), *(u16 *)(p + 0x98), 0x10, 0x80);
-    *(void **)(p + 0xa4) = func_020056A0((void *)func_021F2664, p, 0);
-    *(u32 *)(p + 0xac) = (u32)func_02021518(*(u16 *)(p + 0x98));
-    func_0202155C((struct PalAnmSlot *)(*(u32 *)(p + 0xac)), 1, 0x1c0, *(u16 *)(p + 0x98));
-    func_0202155C((struct PalAnmSlot *)(*(u32 *)(p + 0xac)), 3, 0x200, *(u16 *)(p + 0x98));
-    *(u32 *)(p + 0xb4) = func_0201C440((void *)(*(u16 *)(p + 0x98)));
-    func_0201C4C8((struct PrintSys *)(*(u32 *)(p + 0xb4)), 1);
-    func_0201C4DC((struct PrintSys *)(*(u32 *)(p + 0xb4)), 0x1f4, 0);
-    *(u32 *)(p + 0xb0) = func_021904AC((u8 *)func_02188C54((u8 *)(*(u32 *)(p + 8))));
+    ((struct Obj00007 *)p)->fA0 = func_0203101C(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f98, 0x10, 0x80);
+    ((struct Obj00007 *)p)->fA4 = func_020056A0((void *)func_021F2664, p, 0);
+    ((struct Obj00007 *)p)->fAC = (u32)func_02021518(((struct Obj00007 *)p)->f98);
+    func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 1, 0x1c0, ((struct Obj00007 *)p)->f98);
+    func_0202155C((struct PalAnmSlot *)(((struct Obj00007 *)p)->fAC), 3, 0x200, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->fB4 = func_0201C440((void *)(((struct Obj00007 *)p)->f98));
+    func_0201C4C8((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 1);
+    func_0201C4DC((struct PrintSys *)(((struct Obj00007 *)p)->fB4), 0x1f4, 0);
+    ((struct Obj00007 *)p)->fB0 = func_021904AC((u8 *)func_02188C54((u8 *)(*(u32 *)&((struct Obj00007 *)p)->f8)));
     func_0201DD68();
-    *(void **)(p + 0x110) = func_0201EC64(*(u16 *)(p + 0x98));
-    *(void **)(p + 0x114) = func_02045B38(1, 2, 8, *(u16 *)(p + 0x98));
-    *(void **)(p + 0x118) = func_020457B0(0xd9, *(u16 *)(p + 0x98));
-    *(void **)(p + 0x11c) = func_020457B0(0xd9, *(u16 *)(p + 0x98));
-    *(void **)(p + 0x120) = func_020457B0(0xd9, *(u16 *)(p + 0x98));
+    ((struct Obj00007 *)p)->f110 = func_0201EC64(((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f114 = func_02045B38(1, 2, 8, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f118 = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f11C = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
+    ((struct Obj00007 *)p)->f120 = func_020457B0(0xd9, ((struct Obj00007 *)p)->f98);
 }

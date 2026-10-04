@@ -54,6 +54,7 @@
  *   d_021BC794 0x021BC794 data a2
  *   d_021BC710 0x021BC710 data a2
  */
+#include "../include/Obj00084.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -81,47 +82,47 @@ int func_021BBDE0(char *p,u32 *state)
     u32 selected;
     func_021B9D4C(p);func_021BA2B4(p);func_021BA8D0(p);func_021BB964(p);
     switch(*state) {
-    case 0:func_021B9A8C(p);if(*(int *)(p+0x50)==78)*state=1;break;
-    case 1:*(u32 *)(p+0x24)|=4;func_021BAFC4(p,19);*state=2;func_021BA878(p);break;
-    case 2:if(func_021BB0B0(p)&&func_021BA8BC(p)){*state=3;*(int *)(p+8)=1;}break;
+    case 0:func_021B9A8C(p);if(((struct Obj00084 *)p)->f50==78)*state=1;break;
+    case 1:((struct Obj00084 *)p)->f24|=4;func_021BAFC4(p,19);*state=2;func_021BA878(p);break;
+    case 2:if(func_021BB0B0(p)&&func_021BA8BC(p)){*state=3;((struct Obj00084 *)p)->f8=1;}break;
     case 3:
-        if(*(int *)(p+8)==0){
-            if(*(int *)(p+0x228)==4){dirty=1;*(int *)(p+0x228)=1;}
+        if(((struct Obj00084 *)p)->f8==0){
+            if(*(int *)&((struct Obj00084 *)p)->f228==4){dirty=1;*(int *)&((struct Obj00084 *)p)->f228=1;}
             func_021BAA5C(p,1);func_020061E4(1352);func_021BAA84(p);
-            func_021B9C90(p,*(u32 *)(p+0x228));func_021BA81C(p,*(u32 *)(p+0x228));
-            selected=*(u32 *)(p+0x228);if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);
+            func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);
+            selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);
         }else{func_021BAA5C(p,0);func_021B9C90(p,4);func_021BA81C(p,4);func_021BB9A4((u8 *)p,3);dirty=1;}
         *state=4;break;
     case 4:
-        if(*(int *)(p+8)==0){
+        if(((struct Obj00084 *)p)->f8==0){
             if(func_020362DC()!=0){
                 changed=0;
                 if(func_020362DC()&1){func_020061E4(1356);func_021BAA5C(p,0);*state=8;}
-                else if(func_020362DC()&32){if(*(int *)(p+0x228)>0){--*(int *)(p+0x228);changed=1;}}
-                else if(func_020362DC()&16){if(*(int *)(p+0x228)<2){++*(int *)(p+0x228);changed=1;}}
-                if(changed){func_020061E4(1352);func_021BAA84(p);func_021B9C90(p,*(u32 *)(p+0x228));func_021BA81C(p,*(u32 *)(p+0x228));selected=*(u32 *)(p+0x228);if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;}
-            }else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)(p+0x228)!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)(p+0x228)=choice;func_021B9C90(p,choice);func_021BA81C(p,*(u32 *)(p+0x228));selected=*(u32 *)(p+0x228);if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);*(int *)(p+8)=1;*state=5;}}
+                else if(func_020362DC()&32){if(*(int *)&((struct Obj00084 *)p)->f228>0){--*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                else if(func_020362DC()&16){if(*(int *)&((struct Obj00084 *)p)->f228<2){++*(int *)&((struct Obj00084 *)p)->f228;changed=1;}}
+                if(changed){func_020061E4(1352);func_021BAA84(p);func_021B9C90(p,((struct Obj00084 *)p)->f228);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;}
+            }else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){if(*(int *)&((struct Obj00084 *)p)->f228!=choice)dirty=1;func_020061E4(1352);func_021BAA5C(p,0);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);((struct Obj00084 *)p)->f8=1;*state=5;}}
         }else{
-            if(func_020362DC()!=0){*(int *)(p+8)=0;*state=3;}
-            else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)(p+0x228)=choice;func_021B9C90(p,choice);func_021BA81C(p,*(u32 *)(p+0x228));selected=*(u32 *)(p+0x228);if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;*state=5;}}
+            if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;*state=3;}
+            else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice>=0&&choice<=2){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;*state=5;}}
         }break;
     case 5:func_021BB3BC(p);*state=6;break;
     case 6:
         func_021BB414(p);
-        if(func_020362DC()!=0){*(int *)(p+8)=0;if(func_020362DC()&1){func_020061E4(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
-        else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)(p+0x228)!=choice){func_020061E4(1352);*(int *)(p+0x228)=choice;func_021B9C90(p,choice);func_021BA81C(p,*(u32 *)(p+0x228));selected=*(u32 *)(p+0x228);if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;}}break;
+        if(func_020362DC()!=0){((struct Obj00084 *)p)->f8=0;if(func_020362DC()&1){func_020061E4(1356);func_021BB424(p);*state=7;}else{func_021BB404(p);func_02041B6C(3);*state=3;}}
+        else if(func_02035C60()!=0){choice=func_02035C08(d_021BC75C);if(choice==3){func_020061E4(1356);func_021BB424(p);*state=7;}else if(choice>=0&&choice<=2&&*(int *)&((struct Obj00084 *)p)->f228!=choice){func_020061E4(1352);*(int *)&((struct Obj00084 *)p)->f228=choice;func_021B9C90(p,choice);func_021BA81C(p,((struct Obj00084 *)p)->f228);selected=((struct Obj00084 *)p)->f228;if(selected==4)selected=3;func_021BB9A4((u8 *)p,selected);dirty=1;}}break;
     case 7:func_021BB414(p);if(func_021BB440(p)){func_021BB404(p);func_02041B6C(3);*state=8;}break;
-    case 8:func_021BAFC4(p,20);func_021B9AE4(p,*(int *)(p+0x228),0);*state=9;break;
+    case 8:func_021BAFC4(p,20);func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,0);*state=9;break;
     case 9:func_021B9B80(p);if(func_021BB0B0(p)&&func_021B9B4C(p))*state=10;break;
-    case 10:func_020355D8(*(u32 *)(p+8));func_021BB450(p);*state=11;break;
-    case 11:func_021BB4E8(p);if(func_021BB4F8(p)){choice=func_021BB508((int *)p);func_021BB4D8(p);*(u32 *)(p+8)=func_020355C4();if(choice){*(u32 *)(p+0x24)|=8;func_021BB134(p);*state=14;}else{func_021BAFC4(p,19);*state=12;}}break;
-    case 12:func_021B9AE4(p,*(int *)(p+0x228),1);*state=13;break;
+    case 10:func_020355D8(*(u32 *)&((struct Obj00084 *)p)->f8);func_021BB450(p);*state=11;break;
+    case 11:func_021BB4E8(p);if(func_021BB4F8(p)){choice=func_021BB508((int *)p);func_021BB4D8(p);*(u32 *)&((struct Obj00084 *)p)->f8=func_020355C4();if(choice){((struct Obj00084 *)p)->f24|=8;func_021BB134(p);*state=14;}else{func_021BAFC4(p,19);*state=12;}}break;
+    case 12:func_021B9AE4(p,*(int *)&((struct Obj00084 *)p)->f228,1);*state=13;break;
     case 13:func_021B9B80(p);if(func_021B9B4C(p))*state=3;break;
-    case 14:func_021B9C00(p,*(u32 *)(p+0x228));func_020061E4(1976);*state=15;break;
-    case 15:func_021B9C58(p);if(*(u32 *)(p+0x4c)==(int)*(const u16 *)((const u8 *)d_021BC794+*(u32 *)(p+0x44)*10)-2)*state=16;break;
-    case 16:func_021B9C58(p);*(int *)(p+0x10)=0;return 10;
+    case 14:func_021B9C00(p,((struct Obj00084 *)p)->f228);func_020061E4(1976);*state=15;break;
+    case 15:func_021B9C58(p);if(((struct Obj00084 *)p)->f4C==(int)*(const u16 *)((const u8 *)d_021BC794+((struct Obj00084 *)p)->f44*10)-2)*state=16;break;
+    case 16:func_021B9C58(p);*(int *)&((struct Obj00084 *)p)->f10=0;return 10;
     }
-    if(dirty){*(u32 *)(p+0x24)|=32;func_021BB274(p);}
-    else if(*(int *)(p+0x230)!=0){*(u32 *)(p+0x24)|=16;func_021BB18C(p,*(u32 *)(p+0x228));func_02006984(d_021BC710[*(u32 *)(p+0x228)],0,64,0,0,0,0,0);}
-    *(int *)(p+0x230)=0;++*(u32 *)(p+0x10);return 9;
+    if(dirty){((struct Obj00084 *)p)->f24|=32;func_021BB274(p);}
+    else if(((struct Obj00084 *)p)->f230!=0){((struct Obj00084 *)p)->f24|=16;func_021BB18C(p,((struct Obj00084 *)p)->f228);func_02006984(d_021BC710[((struct Obj00084 *)p)->f228],0,64,0,0,0,0,0);}
+    ((struct Obj00084 *)p)->f230=0;++((struct Obj00084 *)p)->f10;return 9;
 }

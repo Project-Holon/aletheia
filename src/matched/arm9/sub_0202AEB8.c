@@ -16,10 +16,11 @@
  *   python tools/match.py one --src src/matched/sub_0202AEB8.c \
  *       --func sub_0202AEB8 --addr 0x0202AEB8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj16761.h"
 
 typedef unsigned int u32;
 
 void sub_0202AEB8(void *obj, u32 value)
 {
-    *(u32 *)((char *)obj + 0xc) = value;
+    ((struct Obj16761 *)obj)->fC = value;
 }

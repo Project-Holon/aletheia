@@ -22,6 +22,7 @@
  *   func_0200E1A8 0x0200E1A8 thumb
  *   func_0202A170 0x0202A170 thumb
  */
+#include "../include/Obj10446.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,7 +44,7 @@ void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, 
     int mapped;
     int g;
     if (species == 0 || species > 493) return;
-    h = func_0202A128(*(u16 *)p);
+    h = func_0202A128(((struct Obj10446 *)p)->f0);
     kind = 3;
     f = func_02019D30(species, form);
     g = func_02019C90(species, f, 20);
@@ -54,8 +55,8 @@ void func_021D7D18(u8 *p, int unused, int species, int gender, int form, int n, 
     case 255: gender = 2; break;
     default: if (gender > 1) gender = func_020056EC(2); break;
     }
-    if (func_0202A19C(*(u32 *)(p + 44), h, species, gender, mapped)) kind = 2;
+    if (func_0202A19C(((struct Obj10446 *)p)->f2C, h, species, gender, mapped)) kind = 2;
     if (v > 8) v = 0;
-    func_0200E1A8(func_0200E0B0(*(void **)(p + 40)), species, n, gender, mapped, v, kind);
+    func_0200E1A8(func_0200E0B0(((struct Obj10446 *)p)->f28), species, n, gender, mapped, v, kind);
     func_0202A170(h);
 }

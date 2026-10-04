@@ -13,6 +13,7 @@
  *   func_02045808 0x02045808 arm
  *   func_0207D658 0x0207D658 arm
  */
+#include "../include/Obj01734.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,7 +31,7 @@ int func_021D5890(char *p,int mode)
 {
     Config c;
     int result;
-    c.size=*(u16 *)(p+0xb0);
+    c.size=((struct Obj01734 *)p)->fB0;
     c.flag=2;
     c.target=p+0x8c;
     switch (mode) {
@@ -39,15 +40,15 @@ int func_021D5890(char *p,int mode)
     }
     c.z=13;
     c.w=3;
-    *(void **)(p+0x8c)=func_020457B0(100,*(u16 *)(p+0xb0));
-    func_02045CAC(*(void **)(p+0x20),4,*(void **)(p+0x8c));
-    *(u16 *)(p+0x90)=0x39e0;
-    *(void **)(p+0x98)=func_020457B0(100,*(u16 *)(p+0xb0));
-    func_02045CAC(*(void **)(p+0x20),5,*(void **)(p+0x98));
-    *(u16 *)(p+0x9c)=0x39e0;
-    result=(int)func_02027778((struct TaskMenuTmpl *)(&c),*(void **)(p+0xa4));
-    func_02045808(*(void **)(p+0x8c));
-    func_02045808(*(void **)(p+0x98));
+    ((struct Obj01734 *)p)->f8C=func_020457B0(100,((struct Obj01734 *)p)->fB0);
+    func_02045CAC(((struct Obj01734 *)p)->f20,4,((struct Obj01734 *)p)->f8C);
+    ((struct Obj01734 *)p)->f90=0x39e0;
+    ((struct Obj01734 *)p)->f98=func_020457B0(100,((struct Obj01734 *)p)->fB0);
+    func_02045CAC(((struct Obj01734 *)p)->f20,5,((struct Obj01734 *)p)->f98);
+    ((struct Obj01734 *)p)->f9C=0x39e0;
+    result=(int)func_02027778((struct TaskMenuTmpl *)(&c),((struct Obj01734 *)p)->fA4);
+    func_02045808(((struct Obj01734 *)p)->f8C);
+    func_02045808(((struct Obj01734 *)p)->f98);
     func_0207D658(0x04001050,9,-8);
     return result;
 }

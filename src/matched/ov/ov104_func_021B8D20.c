@@ -18,6 +18,7 @@
  *   func_0204B404 0x0204B404 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj02453.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,15 +32,15 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *,u16 *,u16);
 void func_021B8D20(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;
- if(*(int *)(p+8)) {
+ if(((struct Obj02453 *)p)->f8) {
   func_0207CA00((Vec *)(p+0x18),(Vec *)(p+0xc),&delta);
   length=func_0207CBD0(&delta); func_0207CCA4(&delta,&delta);
-  func_0207CEE4((u32)(length * *(u32 *)(p+0x24))/ *(u32 *)(p+0x28),&delta,(Vec *)(p+0xc),&pos);
+  func_0207CEE4((u32)(length * ((struct Obj02453 *)p)->f24)/ ((struct Obj02453 *)p)->f28,&delta,(Vec *)(p+0xc),&pos);
   xy[0]=pos.x>>12; xy[1]=pos.y>>12;
-  if((*(u32 *)(p+0x24))++ > *(u32 *)(p+0x28)) {
-   xy[0]=*(int *)(p+0x18); xy[1]=*(int *)(p+0x1c);
-   func_0204B3DC(*(void **)p,0); *(int *)(p+8)=0;
+  if((((struct Obj02453 *)p)->f24)++ > ((struct Obj02453 *)p)->f28) {
+   xy[0]=((struct Obj02453 *)p)->f18; xy[1]=((struct Obj02453 *)p)->f1C;
+   func_0204B3DC(((struct Obj02453 *)p)->f0,0); ((struct Obj02453 *)p)->f8=0;
   }
-  func_0204B404(*(void **)p,xy,*(u32 *)(p+4));
+  func_0204B404(((struct Obj02453 *)p)->f0,xy,((struct Obj02453 *)p)->f4);
  }
 }

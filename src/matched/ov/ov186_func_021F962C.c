@@ -16,6 +16,8 @@
  *
  * Fill the output record from the source object and its nested handle.
  */
+#include "../include/Obj05492.h"
+#include "../include/Obj05493.h"
 
 
 typedef unsigned int   u32;
@@ -29,11 +31,11 @@ extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 void func_021F962C(char *r5, int *r4)
 {
     int x;
-    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4)));
-    *(int *)(r5 + 8) = r4[1];
-    *(int *)r5 = r4[3];
-    *(int *)(r5 + 0xC) = r4[2];
-    *(int *)(r5 + 4) = func_021FC4DC((u8 *)r4[0]);
-    *(int *)(r5 + 0x10) = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
-    *(int *)(r5 + 0x14) = *(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4);
+    x = (int)func_02012EBC((struct Big *)(*(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4)));
+    ((struct Obj05492 *)r5)->f8 = r4[1];
+    ((struct Obj05492 *)r5)->f0 = r4[3];
+    ((struct Obj05492 *)r5)->fC = r4[2];
+    ((struct Obj05492 *)r5)->f4 = func_021FC4DC((u8 *)r4[0]);
+    ((struct Obj05492 *)r5)->f10 = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
+    ((struct Obj05492 *)r5)->f14 = *(int *)(*(int *)(((struct Obj05493 *)r4)->f18 + 0xC) + 4);
 }

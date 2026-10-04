@@ -12,6 +12,7 @@
  * symbols:
  *   func_020113B0  0x020113B0  thumb
  */
+#include "../include/Obj21678.h"
 typedef unsigned int   u32;
 struct Cur;
 extern void func_020113B0(struct Cur *c, u32 v);
@@ -47,5 +48,5 @@ void func_021FBDD4(int a, int b, int c, int op, int e)
         break;
     }
     if (t == 1)
-        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + e);
+        func_020113B0((struct Cur *)a, ((struct Obj21678 *)a)->f14 + e);
 }

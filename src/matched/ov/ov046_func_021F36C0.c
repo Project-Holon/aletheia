@@ -37,6 +37,7 @@
  *   d_021F4204     0x021F4204  data  a4
  *   d_021F41B8     0x021F41B8  data  a4
  */
+#include "../include/Obj20520.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -108,7 +109,7 @@ void func_021F36C0(void *a0)
     func_021A3038(func_02188CB4((void *)a0), (struct VecFx32 *)vec);
     f = func_021F40D8(vec) != 0 ? 1 : 0;
     func_021F3FA8(t, (u32)a0, f);
-    *(int *)(x + 0x24) = f;
+    ((struct Obj20520 *)x)->f24 = f;
     for (i = 0; i < 3; i++)
         func_021F4078((u32)a0, i, *(int *)(w + i * 12));
 }

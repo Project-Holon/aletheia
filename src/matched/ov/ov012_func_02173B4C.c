@@ -16,6 +16,8 @@
  * Live r0 return and narrowed third argument observed at send call;
  * matched wrapper copies fourth full-word payload unchanged.
  */
+#include "../include/Obj19251.h"
+#include "../include/Obj19252.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,5 +32,5 @@ void func_02173B4C(u8 *p)
     int n;
     link = (u32)func_020399A8();
     n = func_02008468();
-    func_0203D3A8((struct Entry *)link, 0x1405, n, (u32)func_02012944(*(void **)(*(u8 **)p + 8)));
+    func_0203D3A8((struct Entry *)link, 0x1405, n, (u32)func_02012944(((struct Obj19252 *)(*(u8 * *)&((struct Obj19251 *)p)->f0))->f8));
 }

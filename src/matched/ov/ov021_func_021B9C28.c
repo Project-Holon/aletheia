@@ -37,6 +37,7 @@
  *   _ll_mul        0x0209C054  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12865.h"
 
 typedef unsigned char  u8;
 typedef long long      s64;
@@ -94,9 +95,9 @@ void func_021B9C28(void *p, V *out)
     out->y = func_0207C768(FX_Mul(out->y, t1 << 12), t2 << 12);
     out->y += a->y;
     q = func_021B835C(p);
-    c.x = *(int *)(q + 4);
+    c.x = ((struct Obj12865 *)q)->f4;
     c.y = out->y;
-    c.z = *(int *)(q + 0xc);
+    c.z = ((struct Obj12865 *)q)->fC;
     func_0207CA00(a, &c, &d);
     func_0207CA00(b, &c, &e);
     d.y = 0;

@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT*
  */
-void func_021B7F08(unsigned p,unsigned x) { *(unsigned *)(p+0x480)=x; *(unsigned short *)(p+0x484)=0; }
+#include "../include/Obj13727.h"
+void func_021B7F08(unsigned p,unsigned x) { ((struct Obj13727 *)p)->f480=x; ((struct Obj13727 *)p)->f484=0; }

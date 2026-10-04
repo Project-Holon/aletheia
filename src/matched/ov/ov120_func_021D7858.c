@@ -15,6 +15,7 @@
  *   func_02028178 0x02028178 thumb
  *   func_0202DBC4 0x0202DBC4 thumb
  */
+#include "../include/Obj05351.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0201DD78(u32, u32, u32);
@@ -27,8 +28,8 @@ extern void func_0202DBC4(u8 *p);
 void func_021D7858(u8 *p)
 {
     func_0201DD78(1, 2, 15);
-    func_020310C4(*(void **)(p + 0xa0));
-    func_0201C4E4(*(void **)(p + 0xa4));
-    if (*(void **)(p + 0xc4)) func_02028178(*(void **)(p + 0xc4));
-    if (*(void **)(p + 0xcc)) func_0202DBC4(*(void **)(p + 0xcc));
+    func_020310C4(((struct Obj05351 *)p)->fA0);
+    func_0201C4E4(((struct Obj05351 *)p)->fA4);
+    if (((struct Obj05351 *)p)->fC4) func_02028178(((struct Obj05351 *)p)->fC4);
+    if (((struct Obj05351 *)p)->fCC) func_0202DBC4(((struct Obj05351 *)p)->fCC);
 }

@@ -9,6 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj04202.h"
+#include "../include/Obj19566.h"
+#include "../include/Obj19567.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,10 +24,10 @@ extern void func_020307B0(void *p);
 
 void func_0218EFD4(u8 *a)
 {
-    if (*(u8 **)(a + 0xec) != 0) {
-        func_020307B0(*(void **)(*(u8 **)(a + 0xec) + 0x20));
-        func_020307B0(*(void **)(*(u8 **)(a + 0xec) + 0x24));
-        func_020307B0(*(void **)(a + 0xec));
-        *(void **)(a + 0xec) = 0;
+    if (*(u8 * *)&((struct Obj04202 *)a)->fEC != 0) {
+        func_020307B0(((struct Obj19566 *)(*(u8 * *)&((struct Obj04202 *)a)->fEC))->f20);
+        func_020307B0(((struct Obj19567 *)(*(u8 * *)&((struct Obj04202 *)a)->fEC))->f24);
+        func_020307B0(((struct Obj04202 *)a)->fEC);
+        ((struct Obj04202 *)a)->fEC = 0;
     }
 }

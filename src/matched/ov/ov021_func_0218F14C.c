@@ -15,6 +15,7 @@
  *   func_0218F114  0x0218F114  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09465.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,10 +28,10 @@ extern void func_0218F114(u8 *a, u32 b);
 void func_0218F14C(u8 *p, u32 a, u32 b)
 {
     u32 r;
-    if (*(u16 *)(p + 0xea) != a) {
-        r = (u32)func_0204A380((void *)(*(u32 *)(p + 8)), a, 0, (u16)((b & 0x7fff) | 0x8000));
+    if (((struct Obj09465 *)p)->fEA != a) {
+        r = (u32)func_0204A380((void *)(((struct Obj09465 *)p)->f8), a, 0, (u16)((b & 0x7fff) | 0x8000));
         func_0218F114(p, r);
         func_020307B0((void *)r);
-        *(u16 *)(p + 0xea) = a;
+        ((struct Obj09465 *)p)->fEA = a;
     }
 }

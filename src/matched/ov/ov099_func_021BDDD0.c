@@ -12,6 +12,7 @@
  *   func_02012934 0x02012934 thumb
  *   func_0201AA1C 0x0201AA1C thumb
  */
+#include "../include/Obj13698.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
@@ -20,7 +21,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
 int func_021BDDD0(char *p)
 {
-    func_0201293C(*(void **)(p + 0xc4));
-    if ((int)func_0201AA1C(func_02012934(*(void **)(p + 0xc4))) >= 2) return 1;
+    func_0201293C(((struct Obj13698 *)p)->fC4);
+    if ((int)func_0201AA1C(func_02012934(((struct Obj13698 *)p)->fC4)) >= 2) return 1;
     return 0;
 }

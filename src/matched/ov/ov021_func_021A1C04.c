@@ -12,6 +12,7 @@
  * symbols:
  *   func_02034A5C  0x02034A5C  arm
  */
+#include "../include/Obj00755.h"
 
 typedef unsigned char u8;
 
@@ -19,8 +20,8 @@ void func_02034A5C(int x);
 
 void func_021A1C04(u8 *p)
 {
-    if (*(int *)(p + 0x28) != -1) {
-        func_02034A5C(*(int *)(p + 0x28));
-        *(int *)(p + 0x28) = -1;
+    if (((struct Obj00755 *)p)->f28 != -1) {
+        func_02034A5C(((struct Obj00755 *)p)->f28);
+        ((struct Obj00755 *)p)->f28 = -1;
     }
 }

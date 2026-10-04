@@ -19,6 +19,7 @@
  *   func_021B6938 0x021B6938 thumb ov172
  *   func_021B6944 0x021B6944 thumb ov172
  */
+#include "../include/Obj01264.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02085D3C(void);
@@ -35,17 +36,17 @@ void func_021B68A0(char *p)
     int result;
     u32 width;
     u32 height;
-    if (*(u32 *)(p + 0x10) != 0) return;
+    if (((struct Obj01264 *)p)->f10 != 0) return;
     if ((func_02085D3C() == 1 ? func_021B6918() : 0) != 0) return;
     if (func_02085D3C() == 1) func_021B6920(0);
     result = 0;
-    *(u16 *)(p + 0x34) = 0;
-    *(u16 *)(p + 0x36) = func_021B697C(p);
-    *(u16 *)(p + 0x38) = 0;
-    *(u16 *)(p + 0x3A) = func_021B699C(p);
+    ((struct Obj01264 *)p)->f34 = 0;
+    ((struct Obj01264 *)p)->f36 = func_021B697C(p);
+    ((struct Obj01264 *)p)->f38 = 0;
+    ((struct Obj01264 *)p)->f3A = func_021B699C(p);
     width = func_021B6938(p);
     height = func_021B6944(p);
     if (func_02085D3C() == 1) result = func_021B6928(width, height);
     if (func_02085D3C() == 1) func_021B6930(result);
-    *(u32 *)(p + 0x14) = 0;
+    ((struct Obj01264 *)p)->f14 = 0;
 }

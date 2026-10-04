@@ -18,6 +18,7 @@
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09191.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ extern u32 func_021BB0A4(u32, u32, u32, u32);
 
 int func_021BB240(u32 a, u32 b, u32 c, u32 d)
 {
-func_021BB0A4(*(u32 *)((u8 *)(a) + 8), b, c, d);
-func_021B791C((void **)(*(u32 *)((u8 *)(a))));
-func_0219EF6C((u8 *)(*(u32 *)((u8 *)(a) + 4)));
+func_021BB0A4(((struct Obj09191 *)((u8 *)(a)))->f8, b, c, d);
+func_021B791C((void **)(((struct Obj09191 *)((u8 *)(a)))->f0));
+func_0219EF6C((u8 *)(((struct Obj09191 *)((u8 *)(a)))->f4));
 return func_020307B0(a);
 }
 

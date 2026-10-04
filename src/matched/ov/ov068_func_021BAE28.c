@@ -17,6 +17,7 @@
  *   func_02027A04  0x02027A04  thumb
  *   func_02027858  0x02027858  thumb
  */
+#include "../include/Obj02417.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,22 +33,22 @@ extern void func_02027858(struct TaskMenu *m);
 
 void func_021BAE28(u8 *p)
 {
-    switch (*(u16 *)(p + 0x56)) {
+    switch (((struct Obj02417 *)p)->f56) {
     case 0:
         if (func_021BA31C(p) != 0) {
-            *(u16 *)(p + 0x56) = 1;
+            ((struct Obj02417 *)p)->f56 = 1;
         }
         break;
     case 1:
-        *(void **)(p + 0x38) = func_02027778(p + 0x58, *(void **)(p + 0x6c));
-        *(u16 *)(p + 0x56) = 2;
+        ((struct Obj02417 *)p)->f38 = func_02027778(p + 0x58, ((struct Obj02417 *)p)->f6C);
+        ((struct Obj02417 *)p)->f56 = 2;
         break;
     case 2:
-        func_02027974(*(void **)(p + 0x38));
-        if (func_020279E8(*(void **)(p + 0x38)) != 0) {
-            *(u16 *)(p + 0x54) = func_02027A04(*(u8 **)(p + 0x38)) + 1;
-            *(u16 *)(p + 0x56) = 3;
-            func_02027858(*(void **)(p + 0x38));
+        func_02027974(((struct Obj02417 *)p)->f38);
+        if (func_020279E8(((struct Obj02417 *)p)->f38) != 0) {
+            ((struct Obj02417 *)p)->f54 = func_02027A04(*(u8 * *)&((struct Obj02417 *)p)->f38) + 1;
+            ((struct Obj02417 *)p)->f56 = 3;
+            func_02027858(((struct Obj02417 *)p)->f38);
         }
         break;
     }

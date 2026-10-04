@@ -30,6 +30,7 @@
  * parked because 0x021C866C / 0x021C86A8 carry no func_ label in any
  * overlay listing (see the wave-5 residue note for the one-line fix).
  */
+#include "../include/Obj01829.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,41 +57,41 @@ int func_0220157C(u8 *p)
 
     if (func_021C866C(p) != 0) {
         n = func_021C86A8();
-        *(u32 *)(p + 0xf8c) = 0;
+        ((struct Obj01829 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:
-            v = *(s8 *)(p + 0x207);
+            v = ((struct Obj01829 *)p)->f207;
             if (v != 0) {
-                *(u32 *)(p + 0x28) = 0x1c;
+                ((struct Obj01829 *)p)->f28 = 0x1c;
             } else {
-                func_022022B8(p, func_0200ADB4(*(u32 *)(*(u32 *)p)),
-                              func_0200ADE0((struct RegB *)(*(u32 *)(*(u32 *)p))), v);
-                *(u32 *)(p + 0x28) = 0x22;
+                func_022022B8(p, func_0200ADB4(*(u32 *)(((struct Obj01829 *)p)->f0)),
+                              func_0200ADE0((struct RegB *)(*(u32 *)(((struct Obj01829 *)p)->f0))), v);
+                ((struct Obj01829 *)p)->f28 = 0x22;
             }
             break;
         case 12:
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj01829 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
             func_0203C968();
             break;
         case 11:
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj01829 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
             func_0203C968();
             break;
         case 3:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2d;
+            ((struct Obj01829 *)p)->f38 = n;
+            ((struct Obj01829 *)p)->f28 = 0x2d;
             break;
         case 0:
         case 1:
         case 13:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj01829 *)p)->f38 = n;
+            ((struct Obj01829 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
@@ -101,7 +102,7 @@ int func_0220157C(u8 *p)
             break;
         }
     } else {
-        if (++*(u32 *)(p + 0xf8c) == 0xe10) {
+        if (++((struct Obj01829 *)p)->fF8C == 0xe10) {
             func_021F513C(p);
         }
     }

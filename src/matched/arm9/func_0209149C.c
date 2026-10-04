@@ -38,6 +38,7 @@
  *   g_020A8730     0x020A8730  data
  *   func_02091B5C  0x02091B5C  arm
  */
+#include "../include/Obj00481.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -64,7 +65,7 @@ int func_0209149C(void)
 
     do {
         if (((struct Cfg4 *)(p + 4))->f3 != 0 &&
-            (((*(u32 *)(p + 4) << 25) >> 30) & 1) != 0 &&
+            (((((struct Obj00481 *)p)->f4 << 25) >> 30) & 1) != 0 &&
             ((struct Cfg0209149C *)(p + 8))->mode == 1) {
             if (func_02091B5C(p) != 0)
                 r = -1;

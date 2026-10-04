@@ -20,6 +20,10 @@
  *   func_02040AE0 0x02040AE0 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00835.h"
+#include "../include/Obj02870.h"
+#include "../include/Obj23767.h"
+#include "../include/Obj23768.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,50 +46,50 @@ void func_021DFC74(char *p)
     u8 *data;
     buf=func_021E1634(p,17,0);
     func_02062A98(buf,(void **)(p+0xd64));
-    func_020215BC(*(void **)(p+0xd78),*(void **)(*(u8 **)(p+0xd64)+12),0,0,64);
+    func_020215BC(((struct Obj00835 *)p)->fD78,((struct Obj23767 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,0,0,64);
     func_020307B0(buf);
     buf=func_021E1634(p,20,0);
     func_02062A98(buf,(void **)(p+0xd64));
-    func_020215BC(*(void **)(p+0xd78),*(void **)(*(u8 **)(p+0xd64)+12),1,0,64);
+    func_020215BC(((struct Obj00835 *)p)->fD78,((struct Obj23768 *)(*(u8 * *)&((struct Obj00835 *)p)->fD64))->fC,1,0,64);
     func_020307B0(buf);
-    func_02022004(*(u32 *)(p+0xd78),1,65535,8,0);
+    func_02022004(*(u32 *)&((struct Obj00835 *)p)->fD78,1,65535,8,0);
     buf=func_021E1634(p,16,0);
     func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 **)(p+0xd60);
-    func_02040B1C(3,*(void **)(data+20),*(u32 *)(data+16),0);
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
+    func_02040B1C(3,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
     buf=func_021E1634(p,22,0);
     func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 **)(p+0xd60);
-    func_02040B1C(6,*(void **)(data+20),*(u32 *)(data+16),0);
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
+    func_02040B1C(6,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
     buf=func_021E1634(p,21,0);
     func_02062A00(buf,(void **)(p+0xd60));
-    data=*(u8 **)(p+0xd60);
-    func_02040B1C(7,*(void **)(data+20),*(u32 *)(data+16),0);
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD60;
+    func_02040B1C(7,((struct Obj02870 *)data)->f14,((struct Obj02870 *)data)->f10,0);
     func_020307B0(buf);
     buf=func_021E1634(p,19,0);
     func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 **)(p+0xd5c);
-    func_02040AE0(2,data+12,*(u32 *)(data+8));
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
+    func_02040AE0(2,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(2);
     func_020307B0(buf);
     buf=func_021E1634(p,18,0);
     func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 **)(p+0xd5c);
-    func_02040AE0(3,data+12,*(u32 *)(data+8));
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
+    func_02040AE0(3,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(3);
     func_020307B0(buf);
     buf=func_021E1634(p,24,0);
     func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 **)(p+0xd5c);
-    func_02040AE0(6,data+12,*(u32 *)(data+8));
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
+    func_02040AE0(6,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(6);
     func_020307B0(buf);
     buf=func_021E1634(p,23,0);
     func_02062B30(buf,(void **)(p+0xd5c));
-    data=*(u8 **)(p+0xd5c);
-    func_02040AE0(7,data+12,*(u32 *)(data+8));
+    data=*(u8 * *)&((struct Obj00835 *)p)->fD5C;
+    func_02040AE0(7,data+12,((struct Obj02870 *)data)->f8);
     func_020409B4(7);
     func_020307B0(buf);
 }

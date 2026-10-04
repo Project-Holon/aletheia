@@ -15,6 +15,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00243.h"
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -26,14 +27,14 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 void func_021BA290(char *ctx)
 {
-    unsigned short heap = *(unsigned short *)ctx;
+    unsigned short heap = ((struct Obj00243 *)ctx)->f0;
     void *archive;
-    *(int *)(ctx + 0x2d0) = -1;
-    *(int *)(ctx + 0x2d4) = -1;
-    *(int *)(ctx + 0x2d8) = -1;
+    *(int *)&((struct Obj00243 *)ctx)->f2D0 = -1;
+    *(int *)&((struct Obj00243 *)ctx)->f2D4 = -1;
+    *(int *)&((struct Obj00243 *)ctx)->f2D8 = -1;
     archive = func_020490F4(193, heap);
-    *(int *)(ctx + 0x2d0) = func_0204A6C8((void *)((unsigned)archive), 10, 0, 2, heap);
-    *(int *)(ctx + 0x2d4) = func_0204ABF0((unsigned)archive, 11, 2, 96, heap);
-    *(int *)(ctx + 0x2d8) = func_0204AF28((void *)((unsigned)archive), 9, 8, heap);
+    *(int *)&((struct Obj00243 *)ctx)->f2D0 = func_0204A6C8((void *)((unsigned)archive), 10, 0, 2, heap);
+    *(int *)&((struct Obj00243 *)ctx)->f2D4 = func_0204ABF0((unsigned)archive, 11, 2, 96, heap);
+    *(int *)&((struct Obj00243 *)ctx)->f2D8 = func_0204AF28((void *)((unsigned)archive), 9, 8, heap);
     func_02049238(archive);
 }

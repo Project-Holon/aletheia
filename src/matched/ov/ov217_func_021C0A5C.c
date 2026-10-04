@@ -19,6 +19,7 @@
  *   func_021C0CF8 0x021C0CF8 thumb ov217
  *   func_021C0D14 0x021C0D14 thumb ov217
  */
+#include "../include/Obj00791.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,9 +36,9 @@ extern void func_021C0CF8(u32);
 extern u32 func_021C0D14(u8 *);
 void func_021C0A5C(u8 *p, const struct Ctx *ctx, u32 heap)
 {
-    *(u16 *)p = heap;
-    *(const struct Ctx **)(p + 4) = ctx;
-    *(void **)(p + 8) = func_020120F4(ctx);
+    ((struct Obj00791 *)p)->f0 = heap;
+    *(const struct Ctx * *)&((struct Obj00791 *)p)->f4 = ctx;
+    ((struct Obj00791 *)p)->f8 = func_020120F4(ctx);
     func_021C0AD8((u32)p);
     func_021C0B0C(p);
     func_021C0B94((u32)p);

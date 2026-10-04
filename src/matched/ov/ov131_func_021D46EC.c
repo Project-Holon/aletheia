@@ -49,6 +49,7 @@
  *   g_BFC0 0x021DBFC0 data ov131
  *   g_BFE4 0x021DBFE4 data ov131
  */
+#include "../include/Obj01739.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -102,7 +103,7 @@ void func_021D46EC(char *p)
     *(volatile u16 *)0x04001050=0;
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     func_020433E0(&g_C0E4);
-    func_0203F8F4(*(u16 *)p);func_02045088(*(u16 *)p);
+    func_0203F8F4(((struct Obj01739 *)p)->f0);func_02045088(((struct Obj01739 *)p)->f0);
     func_0203FC28(&g_BFF4);
     func_021D4940(&g_C004[6],1,0);func_021D4940(&g_C004[4],2,0);func_021D4940(&g_C004[0],3,0);
     func_02040588(0,1);
@@ -110,17 +111,17 @@ void func_021D46EC(char *p)
     func_0207D63C((u32 *)0x04000050,4,30,13,16);
     func_0207D63C((u32 *)0x04001050,4,8,13,16);
     c=g_1448;c.h[0]=110;
-    func_0204A48C(&c,(u32)(&g_C0E4),*(u16 *)p);
-    *(void **)(p+0x174)=func_0204B100(96,0,*(u16 *)p);
-    func_0204B270(*(void **)(p+0x174));
+    func_0204A48C(&c,(u32)(&g_C0E4),((struct Obj01739 *)p)->f0);
+    ((struct Obj01739 *)p)->f174=func_0204B100(96,0,((struct Obj01739 *)p)->f0);
+    func_0204B270(((struct Obj01739 *)p)->f174);
     func_020434DC(16,1);func_02043598(16,1);
-    func_02046440(0,2,0,1,0,*(u16 *)p,0);
-    *(u32 **)(p+0x70)=func_02048A24(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&g_BFC0[0],&g_BFC0[2],&g_BFC0[1],*(u16 *)p);
-    func_02048AD0(*(void **)(p+0x70));
+    func_02046440(0,2,0,1,0,((struct Obj01739 *)p)->f0,0);
+    *(u32 * *)&((struct Obj01739 *)p)->f70=func_02048A24(2,0xc0000,0,0,0x100000,0x80000,0x200000,0,&g_BFC0[0],&g_BFC0[2],&g_BFC0[1],((struct Obj01739 *)p)->f0);
+    func_02048AD0(((struct Obj01739 *)p)->f70);
     func_0207DCF8(g_BFE4);
     *(volatile u16 *)0x04000060 &= ~0x3020;
     func_02046BE0(0,0);func_0204044C(0);
-    *(void **)(p+0x78)=func_02014B08(2,(void *)*(u16 *)p);
-    func_02016020(*(void **)(p+0x78),0);
-    func_020160C0(*(void **)(p+0x78),0x10000);
+    ((struct Obj01739 *)p)->f78=func_02014B08(2,(void *)((struct Obj01739 *)p)->f0);
+    func_02016020(((struct Obj01739 *)p)->f78,0);
+    func_020160C0(((struct Obj01739 *)p)->f78,0x10000);
 }

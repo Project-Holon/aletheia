@@ -17,6 +17,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_021C60B8  0x021C60B8  thumb  ov021
  */
+#include "../include/Obj06082.h"
 
 typedef unsigned char u8;
 
@@ -40,9 +41,9 @@ void *func_021C6078(void *a, void *b, int c)
     w = func_020124E8(task);
     func_02082BCC(w, 0, 0x14);
     w[0] = c;
-    *(void **)(w + 4) = a;
-    *(void **)(w + 0xC) = b;
-    *(void **)(w + 0x10) = func_02188CB4(b);
-    *(void **)(w + 8) = func_020120F4(a);
+    ((struct Obj06082 *)w)->f4 = a;
+    ((struct Obj06082 *)w)->fC = b;
+    ((struct Obj06082 *)w)->f10 = func_02188CB4(b);
+    ((struct Obj06082 *)w)->f8 = func_020120F4(a);
     return task;
 }

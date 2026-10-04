@@ -19,6 +19,9 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00160.h"
+#include "../include/Obj14187.h"
+#include "../include/Obj23499.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,22 +42,22 @@ void func_021C5360(u8 *p)
     u8 *q;
     u32 t;
     for (i = 0; i < 3; i++) {
-        if (func_02024450((u16 *)(*(u8 **)(p + 0x1C) + 0x16 + i * 8))) {
-            func_0202DC48(*(u32 *)(p + 0x148), *(u32 *)(p + i * 4 + 0x48), *(u8 **)(p + 0x1C) + 0x16 + i * 8, i);
+        if (func_02024450((u16 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8))) {
+            func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, *(u32 *)(p + i * 4 + 0x48), *(u8 * *)&((struct Obj00160 *)p)->f1C + 0x16 + i * 8, i);
         }
     }
-    q = *(u8 **)(p + 0x1C);
-    if (*(u16 *)(q + 0x32) != 0xFFFF) {
-        *(u16 *)(p + 0x14C) = 6;
-        *(u16 *)(p + 0x14E) = 0;
-        *(u16 *)(p + 0x150) = *(u16 *)(q + 0x32);
-        func_0202DC48(*(u32 *)(p + 0x148), *(u32 *)(p + 0x54), p + 0x14C, 3);
+    q = *(u8 * *)&((struct Obj00160 *)p)->f1C;
+    if (((struct Obj14187 *)q)->f32 != 0xFFFF) {
+        ((struct Obj00160 *)p)->f14C = 6;
+        ((struct Obj00160 *)p)->f14E = 0;
+        ((struct Obj00160 *)p)->f150 = ((struct Obj14187 *)q)->f32;
+        func_0202DC48(*(u32 *)&((struct Obj00160 *)p)->f148, ((struct Obj00160 *)p)->f54, p + 0x14C, 3);
     }
     if (p[0xB] == 0) {
-        u32 a = *(u32 *)(p + 0x98);
-        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x88)), 0, 2, *(void **)(*(u8 **)(p + 0x1C) + 0xC), *(u32 *)(p + 0x24), 0x440);
+        u32 a = *(u32 *)&((struct Obj00160 *)p)->f98;
+        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)((struct Obj00160 *)p)->f88), 0, 2, ((struct Obj23499 *)(*(u8 * *)&((struct Obj00160 *)p)->f1C))->fC, *(u32 *)&((struct Obj00160 *)p)->f24, 0x440);
         p[0x8C] = 1;
-        t = *(u32 *)(p + 0x58);
+        t = ((struct Obj00160 *)p)->f58;
         func_02045334((struct Descriptor *)t);
         func_02045374((struct Cfg *)t);
         func_020409B4(func_02045730((struct Descriptor *)t));

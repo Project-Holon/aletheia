@@ -15,6 +15,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj10601.h"
 typedef unsigned char u8;
 struct Rec;
 struct U16Vec;
@@ -24,7 +25,7 @@ extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
 void func_021C5954(u8 *p)
 {
-    func_02045808(*(void **)(p + 0x1D8));
-    func_0201ED04(*(void **)(p + 0x1D4));
-    func_02045C04(*(void **)(p + 0x1D0));
+    func_02045808(((struct Obj10601 *)p)->f1D8);
+    func_0201ED04(((struct Obj10601 *)p)->f1D4);
+    func_02045C04(((struct Obj10601 *)p)->f1D0);
 }

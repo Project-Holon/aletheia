@@ -16,17 +16,19 @@
  *   func_0204B800  0x0204B800  arm
  *   func_0204B84C  0x0204B84C  arm
  */
+#include "../include/Obj20614.h"
+#include "../include/Obj20615.h"
 
 typedef unsigned int   u32;
 struct Node;
 void func_021B6A10(void *p, unsigned int v)
 {
     void func_0204B800(struct Node *node, u32 val);
-    func_0204B800(*(void **)p, v);
+    func_0204B800(((struct Obj20614 *)p)->f0, v);
 }
 
 void func_021B6A1C(void *p, unsigned int v)
 {
     void func_0204B84C(void *, unsigned int);
-    func_0204B84C(*(void **)p, v);
+    func_0204B84C(((struct Obj20615 *)p)->f0, v);
 }

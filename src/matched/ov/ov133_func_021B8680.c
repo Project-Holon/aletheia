@@ -33,6 +33,8 @@
  *   _ffix 0x0209C494 arm
  *   _fdiv 0x0209CE10 arm
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj06498.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
@@ -61,59 +63,59 @@ void func_021B8680(u8 *p)
     unsigned int state;
     u8 *sprite,*record;
     u16 flag;
-    if(*(int *)(p+0x40)==2) {
+    if(((struct Obj00004 *)p)->f40==2) {
         a=d_021BA57C;
-        sprite=func_021BA218(*(u8 **)(p+0x38));
-        posA.x=*(int *)(p+0x1C); posA.y=*(int *)(p+0x20);
-        if(*(int *)(p+0x44)>0) a.x=(int)(0.5f+(float)(*(int *)(p+0x44)<<12));
-        else a.x=(int)((float)(*(int *)(p+0x44)<<12)-0.5f);
-        if(*(int *)(p+0x48)>0) a.y=(int)(0.5f+(float)(*(int *)(p+0x48)<<12));
-        else a.y=(int)((float)(*(int *)(p+0x48)<<12)-0.5f);
-        func_021BA22C(*(u8 **)(p+0x38),&posA);
-        func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&a);
-        func_021BA21C(*(u8 **)(p+0x38),(const Pair *)(p+0x44));
-        func_021BA24C(*(u8 **)(p+0x38),10);
+        sprite=func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+        posA.x=((struct Obj00004 *)p)->f1C; posA.y=*(int *)&((struct Obj00004 *)p)->f20;
+        if(((struct Obj00004 *)p)->f44>0) a.x=(int)(0.5f+(float)(((struct Obj00004 *)p)->f44<<12));
+        else a.x=(int)((float)(((struct Obj00004 *)p)->f44<<12)-0.5f);
+        if(((struct Obj00004 *)p)->f48>0) a.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
+        else a.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
+        func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,&posA);
+        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&a);
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const Pair *)(p+0x44));
+        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
         func_021B8254(p);
         return;
-    } else if(*(int *)(p+0x40)==3) {
+    } else if(((struct Obj00004 *)p)->f40==3) {
         u8 *spriteB;
-        spriteB=func_021BA218(*(u8 **)(p+0x38));
-        state=func_021BA258(*(u8 **)(p+0x38));
-        record=func_021F5450(*(u8 **)(p+0x1880),state);
-        posB.x=(int)((float)(*(int *)(record+4)+*(int *)(record+0x10))/4096.0f)+128;
-        posB.y=(int)((float)(*(int *)(record+8)+*(int *)(record+0x14))/4096.0f)+96;
+        spriteB=func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+        state=func_021BA258(*(u8 * *)&((struct Obj00004 *)p)->f38);
+        record=func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880,state);
+        posB.x=(int)((float)(((struct Obj06498 *)record)->f4+((struct Obj06498 *)record)->f10)/4096.0f)+128;
+        posB.y=(int)((float)(((struct Obj06498 *)record)->f8+((struct Obj06498 *)record)->f14)/4096.0f)+96;
         if(posB.x>0) b.x=(int)(0.5f+(float)(posB.x<<12));
         else b.x=(int)((float)(posB.x<<12)-0.5f);
         if(posB.y>0) b.y=(int)(0.5f+(float)(posB.y<<12));
         else b.y=(int)((float)(posB.y<<12)-0.5f);
         if(func_021F4B24(spriteB)==1) b.z=102<<10;
-        else if(func_021BA258(*(u8 **)(p+0x38))==7 || func_021BA258(*(u8 **)(p+0x38))==8) b.z=222<<10;
+        else if(func_021BA258(*(u8 * *)&((struct Obj00004 *)p)->f38)==7 || func_021BA258(*(u8 * *)&((struct Obj00004 *)p)->f38)==8) b.z=222<<10;
         else b.z=202<<10;
-        flag=*(u16 *)(record+0x36);
-        func_021F4EE8(*(int *)(p+0x1884),(Flags *)spriteB,1);
-        func_021F4E8C(*(int *)(p+0x1884),(int)spriteB,&b);
-        func_021F4ED4(*(int *)(p+0x1884),(int)func_021BA218(*(u8 **)(p+0x38)),flag);
-        func_021BA21C(*(u8 **)(p+0x38),&posB);
-        currentB.x=*(int *)(p+0x1C); currentB.y=*(int *)(p+0x20);
-        func_021BA22C(*(u8 **)(p+0x38),&currentB);
-        func_021BA24C(*(u8 **)(p+0x38),10);
-        *(int *)(p+0x34)=state;
+        flag=((struct Obj06498 *)record)->f36;
+        func_021F4EE8(*(int *)&((struct Obj00004 *)p)->f1884,(Flags *)spriteB,1);
+        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)spriteB,&b);
+        func_021F4ED4(*(int *)&((struct Obj00004 *)p)->f1884,(int)func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38),flag);
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,&posB);
+        currentB.x=((struct Obj00004 *)p)->f1C; currentB.y=*(int *)&((struct Obj00004 *)p)->f20;
+        func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,&currentB);
+        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
+        ((struct Obj00004 *)p)->f34=state;
         func_021B8444(p);
-        *(int *)(p+0x34)=10;
+        ((struct Obj00004 *)p)->f34=10;
         return;
-    } else if(*(int *)(p+0x40)==1) {
-        func_021BA238(*(u8 **)(p+0x38));
+    } else if(((struct Obj00004 *)p)->f40==1) {
+        func_021BA238(*(u8 * *)&((struct Obj00004 *)p)->f38);
         c=d_021BA5AC;
-        sprite=func_021BA218(*(u8 **)(p+0x38));
-        func_021BA21C(*(u8 **)(p+0x38),(const Pair *)(p+0x44));
-        func_021BA24C(*(u8 **)(p+0x38),10);
-        posC.x=*(int *)(p+0x1C); posC.y=*(int *)(p+0x20);
-        if(*(int *)(p+0x44)>0) c.x=(int)(0.5f+(float)(*(int *)(p+0x44)<<12));
-        else c.x=(int)((float)(*(int *)(p+0x44)<<12)-0.5f);
-        if(*(int *)(p+0x48)>0) c.y=(int)(0.5f+(float)(*(int *)(p+0x48)<<12));
-        else c.y=(int)((float)(*(int *)(p+0x48)<<12)-0.5f);
-        func_021BA22C(*(u8 **)(p+0x38),&posC);
-        func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&c);
+        sprite=func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38,(const Pair *)(p+0x44));
+        func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38,10);
+        posC.x=((struct Obj00004 *)p)->f1C; posC.y=*(int *)&((struct Obj00004 *)p)->f20;
+        if(((struct Obj00004 *)p)->f44>0) c.x=(int)(0.5f+(float)(((struct Obj00004 *)p)->f44<<12));
+        else c.x=(int)((float)(((struct Obj00004 *)p)->f44<<12)-0.5f);
+        if(((struct Obj00004 *)p)->f48>0) c.y=(int)(0.5f+(float)(((struct Obj00004 *)p)->f48<<12));
+        else c.y=(int)((float)(((struct Obj00004 *)p)->f48<<12)-0.5f);
+        func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38,&posC);
+        func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884,(int)sprite,&c);
         func_021B82E8(p,1);
         return;
     }

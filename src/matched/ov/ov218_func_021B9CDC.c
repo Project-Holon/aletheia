@@ -14,6 +14,7 @@
  *   func_021B93B0 0x021B93B0 thumb ov067
  *   func_021BA6BC 0x021BA6BC thumb ov218
  */
+#include "../include/Obj03959.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,8 +28,8 @@ void func_021B9CDC(u8 *p)
 {
     int selected;
     s16 y;
-    y=func_021B8AB8(*(u8 **)(p+44));
+    y=func_021B8AB8(*(u8 * *)&((struct Obj03959 *)p)->f2C);
     func_021BA680(p,y);
-    selected=func_021B93A4(*(char **)(p+44));
-    func_021BA6BC(p,(int)(((u32)selected-(u32)func_021B93B0(*(char **)(p+44)))*2+92));
+    selected=func_021B93A4(*(char * *)&((struct Obj03959 *)p)->f2C);
+    func_021BA6BC(p,(int)(((u32)selected-(u32)func_021B93B0(*(char * *)&((struct Obj03959 *)p)->f2C))*2+92));
 }

@@ -17,6 +17,7 @@
  *   func_0206A67C 0x0206A67C arm
  *   func_0206A5B4 0x0206A5B4 arm
  */
+#include "../include/Obj25711.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -25,4 +26,4 @@ extern int func_02047788(int *),func_02047554(int *),func_0204755C(int *);
 extern int func_02047250(char *);
 extern void func_0206A67C(char *);
 extern int func_0206A5B4(char *,char *,u32,u32);
-int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)func_02047788(p); a=(char *)func_02047554(q); h=*(char **)((char *)func_0204755C(q)+4); r=(char *)func_02047250(a); func_0206A67C(h); return func_0206A5B4(h,r,b,c)&1; }
+int func_021BA920(int *p,u32 b,u32 c) { int *q; char *a,*h,*r; q=(int *)func_02047788(p); a=(char *)func_02047554(q); h=*(char * *)&((struct Obj25711 *)((char *)func_0204755C(q)))->f4; r=(char *)func_02047250(a); func_0206A67C(h); return func_0206A5B4(h,r,b,c)&1; }

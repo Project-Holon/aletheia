@@ -15,6 +15,8 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj14733.h"
+#include "../include/Obj25882.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -42,7 +44,7 @@ void func_021BCFD0(u8 *p)
         c=func_021BC708(p,q->e);
         d=func_021BC708(p,q->f);
         dest=p+i*4;
-        *(u32 *)(dest+288)=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,*(u16 *)(p+8));
-        func_0204B3DC((struct Obj *)*(u32 *)(dest+288),0);
+        ((struct Obj14733 *)dest)->f120=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,((struct Obj25882 *)p)->f8);
+        func_0204B3DC((struct Obj *)((struct Obj14733 *)dest)->f120,0);
     }
 }

@@ -14,6 +14,7 @@
  *   func_021E0E8C 0x021E0E8C thumb ov137
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj04541.h"
 typedef unsigned char u8;
 typedef struct {unsigned state;int active,other,timer,speed;} State;
 extern void func_021E0E50(u8 *);
@@ -27,24 +28,24 @@ void func_021E10D8(u8 *p,State *s)
     case 1:
         s->speed=0x4000;s->timer=0;s->state++;
     case 2:
-        *(int *)(b+0x34)-=4096;
-        if(*(int *)(b+0x34)<=-32768)s->state++;
+        ((struct Obj04541 *)b)->f34-=4096;
+        if(((struct Obj04541 *)b)->f34<=-32768)s->state++;
         break;
     case 3:
-        *(int *)(b+0x34)+=8192;
-        if(*(int *)(b+0x34)>=0) {
-            *(int *)(b+0x34)=0;
+        ((struct Obj04541 *)b)->f34+=8192;
+        if(((struct Obj04541 *)b)->f34>=0) {
+            ((struct Obj04541 *)b)->f34=0;
             func_021E0E50(p);
             s->active=1;s->state++;
             func_020061E4(0x55e);
         }
         break;
     case 4:
-        *(int *)(b+0x28)=s->speed;
+        ((struct Obj04541 *)b)->f28=s->speed;
         s->speed=-s->speed;
         s->timer++;
         if(!(s->timer&3)) {
-            if(s->speed<=4096) {*(int *)(b+0x28)=0;s->state++;}
+            if(s->speed<=4096) {((struct Obj04541 *)b)->f28=0;s->state++;}
             else s->speed>>=1;
         }
         break;

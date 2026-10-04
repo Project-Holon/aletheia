@@ -17,6 +17,9 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj02247.h"
+#include "../include/Obj25194.h"
+#include "../include/Obj25195.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { char *volatile global; } Context;
@@ -34,8 +37,8 @@ void func_0220E168(char *p)
     int v;
     void *obj;
     v = func_02012FFC(func_0201DD78(1,2,0));
-    *(int *)(p + 0x1eb0) = func_0201CCE4(*(unsigned *)(p+0x1f68),0,0,*(unsigned *)(p+0x1ea8),*(unsigned *)(((Context *)p)->global+12),v,*(unsigned *)(p+0x1d4),10,*(u16 *)(((Context *)p)->global+16),15);
-    obj = *(void **)(p+0x1f68);
+    ((struct Obj02247 *)p)->f1EB0 = func_0201CCE4(*(unsigned *)&((struct Obj02247 *)p)->f1F68,0,0,*(unsigned *)&((struct Obj02247 *)p)->f1EA8,((struct Obj25194 *)(((Context *)p)->global))->fC,v,((struct Obj02247 *)p)->f1D4,10,((struct Obj25195 *)(((Context *)p)->global))->f10,15);
+    obj = ((struct Obj02247 *)p)->f1F68;
     func_02045334(obj);
     func_02045374(obj);
     func_02041B6C(func_02045730(obj));

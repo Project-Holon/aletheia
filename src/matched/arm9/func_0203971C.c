@@ -17,6 +17,7 @@
  * selector, then clears the 0x10-byte record its indexed pointer names.
  * The early `popeq` is the null test written as an early return.
  */
+#include "../include/Obj08833.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -27,9 +28,9 @@ extern void func_02082BCC(void *p, u32 v, u32 n);
 void func_0203971C(unsigned char *a, u32 b)
 {
     if (b != 0xFF) {
-        u16 h = *(u16 *)(a + 0x40);
-        *(u16 *)(a + 0x3E) = 0;
-        *(u16 *)(a + 0x40) = (u16)func_0203A28C(h, b, 0);
+        u16 h = ((struct Obj08833 *)a)->f40;
+        ((struct Obj08833 *)a)->f3E = 0;
+        ((struct Obj08833 *)a)->f40 = (u16)func_0203A28C(h, b, 0);
     }
     {
         void *p = *(void **)(a + b * 4 + 8);

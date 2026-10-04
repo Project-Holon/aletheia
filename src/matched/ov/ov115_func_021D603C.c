@@ -18,6 +18,8 @@
  *   func_021D5CCC 0x021D5CCC thumb ov115
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj03766.h"
+#include "../include/Obj03767.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,17 +40,17 @@ int func_021D603C(void *ctx,int unused,u8 *q) {
     func_0203064C(1,121,0x18000);
     p=func_0203159C(ctx,32,121);
     func_02082BCC(p,0,32);
-    *(u8 **)(p+16)=q;
-    *(u16 *)(p+20)=121;
-    if(*(u32 *)(q+16)==0) *(u32 *)(q+16)=6;
-    *(void **)(p+4)=func_021D4D38(*(u16 *)(p+20),*(int *)(q+4),*(int *)(q+8));
-    *(void **)(p+8)=func_021D5984(*(u16 *)(p+20),232,*(int *)(q+8));
+    *(u8 * *)&((struct Obj03766 *)p)->f10=q;
+    ((struct Obj03766 *)p)->f14=121;
+    if(((struct Obj03767 *)q)->f10==0) ((struct Obj03767 *)q)->f10=6;
+    ((struct Obj03766 *)p)->f4=func_021D4D38(((struct Obj03766 *)p)->f14,*(int *)&((struct Obj03767 *)q)->f4,((struct Obj03767 *)q)->f8);
+    ((struct Obj03766 *)p)->f8=func_021D5984(((struct Obj03766 *)p)->f14,232,((struct Obj03767 *)q)->f8);
     func_021D6134(p,(void (*)(void))func_021D6150,173);
-    if(*(u32 *)(q+4)==0) {
-        func_021D5CCC(*(void **)(p+8),36);
-        if(*(u32 *)(q+12)==0) func_02005D90(1153,65535);
+    if(((struct Obj03767 *)q)->f4==0) {
+        func_021D5CCC(((struct Obj03766 *)p)->f8,36);
+        if(((struct Obj03767 *)q)->fC==0) func_02005D90(1153,65535);
     }
-    if(*(u32 *)(q+8)==0) flag=FALSE; else flag=TRUE;
-    func_0203D34C(flag,*(u16 *)(p+20));
+    if(*(u32 *)&((struct Obj03767 *)q)->f8==0) flag=FALSE; else flag=TRUE;
+    func_0203D34C(flag,((struct Obj03766 *)p)->f14);
     return 1;
 }

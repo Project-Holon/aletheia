@@ -18,6 +18,7 @@
  *   func_021BA654  0x021BA654  thumb  ov070
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -39,19 +40,19 @@ u32 func_021B63F8(u8 *p)
     if (k >= 7 && func_02035CB8(&x, &y) == 1) {
         if (x >= 0x100 || x < 0xE0)
             return 0;
-        if (*(u32 *)(p + 0x85C) == 0) {
+        if (((struct Obj00002 *)p)->f85C == 0) {
             if (func_02035C60() == 1) {
                 if (y < 0x10 || y >= 0x98)
                     return 0;
-                *(u32 *)(p + 0x85C) = 1;
+                ((struct Obj00002 *)p)->f85C = 1;
             } else
                 return 0;
         }
         func_021B80C4(p, 0);
-        old = *(u32 *)(p + 0x814);
-        *(u32 *)(p + 0x814) = func_0202EDE4(k - 6, y, 0x1A, 0x8E, 0) - 1;
+        old = *(u32 *)&((struct Obj00002 *)p)->f814;
+        *(u32 *)&((struct Obj00002 *)p)->f814 = func_0202EDE4(k - 6, y, 0x1A, 0x8E, 0) - 1;
         func_021BA654(p);
-        if (*(u32 *)(p + 0x814) != old) {
+        if (*(u32 *)&((struct Obj00002 *)p)->f814 != old) {
             func_020061E4(0x548);
             return 1;
         }

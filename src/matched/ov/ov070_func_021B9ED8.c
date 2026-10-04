@@ -12,6 +12,7 @@
  *   func_0204A600 0x0204A600 arm
  *   func_02027974 0x02027974 thumb
  */
+#include "../include/Obj13157.h"
 extern void func_0204A600(void);
 extern void func_02027974(void *);
-void func_021B9ED8(char *p) { func_0204A600(); if (*(void **)(p + 0x77C)) func_02027974(*(void **)(p + 0x77C)); }
+void func_021B9ED8(char *p) { func_0204A600(); if (((struct Obj13157 *)p)->f77C) func_02027974(((struct Obj13157 *)p)->f77C); }

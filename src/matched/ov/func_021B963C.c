@@ -15,6 +15,7 @@
  *   func_021B93D4  0x021B93D4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02052.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -28,19 +29,19 @@ int func_021B963C(u8 *a, u8 *b)
     u8 *row1, *row2;
     u32 r1, r2;
 
-    if (*(u32 *)a == 0xFFFF || *(u32 *)(a + 4) == 0xFFFF)
+    if (((struct Obj02052 *)a)->f0 == 0xFFFF || ((struct Obj02052 *)a)->f4 == 0xFFFF)
         return 0;
-    row1 = func_021B87D8(b, *(u32 *)a);
-    row2 = func_021B87D8(b, *(u32 *)(a + 4));
+    row1 = func_021B87D8(b, ((struct Obj02052 *)a)->f0);
+    row2 = func_021B87D8(b, ((struct Obj02052 *)a)->f4);
     r1 = func_021B960C((u32 *)row1, a, b);
     if (r1 == 0)
         return 0;
-    if (r1 != *(u32 *)(a + 8))
+    if (r1 != ((struct Obj02052 *)a)->f8)
         return 0;
     r2 = func_021B960C((u32 *)row2, a, b);
     if (r2 == 0)
         return 0;
-    if (r2 != (u32)func_021B93D4(*(u32 *)(a + 8)))
+    if (r2 != (u32)func_021B93D4(((struct Obj02052 *)a)->f8))
         return 0;
     return 1;
 }

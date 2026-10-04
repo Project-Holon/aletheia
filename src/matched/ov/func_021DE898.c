@@ -20,6 +20,8 @@
  *   func_02012F98  0x02012F98  thumb
  *   func_02007C34  0x02007C34  thumb
  */
+#include "../include/Obj09222.h"
+#include "../include/Obj18454.h"
 
 extern int func_02012F98(int);
 struct PerapVoice;
@@ -27,8 +29,8 @@ extern void func_02007C34(struct PerapVoice *p, void *a);
 
 void func_021DE898(int *q)
 {
-    int *r = *(int **)q;
+    int *r = *(int * *)&((struct Obj18454 *)q)->f0;
 
-    if ((*(unsigned *)((char *)r + 0x24) - 4) > 1)
-        func_02007C34((struct PerapVoice *)func_02012F98(*(int *)r), (void *)(*(int *)((char *)r + 8)));
+    if ((((struct Obj09222 *)r)->f24 - 4) > 1)
+        func_02007C34((struct PerapVoice *)func_02012F98(((struct Obj09222 *)r)->f0), (void *)(((struct Obj09222 *)r)->f8));
 }

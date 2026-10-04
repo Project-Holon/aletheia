@@ -13,6 +13,7 @@
  *   func_021F9E40 0x021F9E40 thumb ov132
  *   func_021FADF8 0x021FADF8 thumb ov132
  */
+#include "../include/Obj08161.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021FAE1C(char *, int *);
@@ -24,9 +25,9 @@ void func_021FB190(void *unused, char *p)
 {
     int v;
     int done = func_021FAE1C(p, &v);
-    func_021F9E08(*(void **)p, v);
+    func_021F9E08(((struct Obj08161 *)p)->f0, v);
     if (done == 1) {
-        func_021F9E40(*(void **)p, 0);
-        func_021FADF8(*(char **)(p + 0x10), *(char **)(p + 0x14));
+        func_021F9E40(((struct Obj08161 *)p)->f0, 0);
+        func_021FADF8(*(char * *)&((struct Obj08161 *)p)->f10, *(char * *)&((struct Obj08161 *)p)->f14);
     }
 }

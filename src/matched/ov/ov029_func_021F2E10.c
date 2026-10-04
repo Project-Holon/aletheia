@@ -13,6 +13,7 @@
  *   func_0204B294  0x0204B294  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj04309.h"
 
 typedef struct {
     unsigned short a;
@@ -35,9 +36,9 @@ void func_021F2E10(char *p, int *q)
     s.c = 0x25;
     s.d = 0;
     s.e = 2;
-    q[2] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                         *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
+    q[2] = (int)func_0204B294((void *)((struct Obj04309 *)p)->f34, ((struct Obj04309 *)p)->f2C, ((struct Obj04309 *)p)->f28,
+                         ((struct Obj04309 *)p)->f30, &s, 0, ((struct Obj04309 *)p)->fC);
     func_0204B3DC((struct Obj *)q[2], 0);
-    q[3] = *(int *)(p + 0x210);
-    q[4] = *(int *)(p + 0x204);
+    q[3] = ((struct Obj04309 *)p)->f210;
+    q[4] = ((struct Obj04309 *)p)->f204;
 }

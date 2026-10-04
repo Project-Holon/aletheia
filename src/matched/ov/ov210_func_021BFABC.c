@@ -11,11 +11,12 @@
  *   func_021B93B8 0x021B93B8 thumb ov067
  *   func_021BF7B0 0x021BF7B0 thumb ov210
  */
+#include "../include/Obj25630.h"
 extern int func_021B93B8(char *);
 extern void func_021BF7B0(char *, int, signed short, int);
 void func_021BFABC(char *ctx, int slot, int index)
 {
-    unsigned center = func_021B93B8(*(char **)(ctx + 0x1e0));
+    unsigned center = func_021B93B8(*(char * *)&((struct Obj25630 *)ctx)->f1E0);
     signed short lower = center - 7;
     signed short upper = center + 7;
     if (lower < 0) lower = 0;

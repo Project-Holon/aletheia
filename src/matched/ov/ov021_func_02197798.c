@@ -16,6 +16,7 @@
  *   func_02197738  0x02197738  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_02197738(u8 *a);
 void func_02197798(u8 *a)
 {
     if (func_021975D0(a) != 0) {
-        func_02012DAC(*(u32 *)(a + 0x30));
+        func_02012DAC(((struct Obj00094 *)a)->f30);
         func_02196034(a, func_02197738, 0x78E);
     }
 }

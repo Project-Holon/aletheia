@@ -15,6 +15,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DABB0 0x021DABB0 thumb ov119
  */
+#include "../include/Obj22731.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -25,7 +26,7 @@ void func_021DABE8(char *p) {
  if(func_02039CB4((struct Link *)func_020399A8(),22,8)) {
   func_0203D7B0(1);
   func_0203D7BC(1);
-  *(int *)(p+0xf2c)=0;
+  ((struct Obj22731 *)p)->fF2C=0;
   func_021D8E84(p,(int)func_021DABB0);
  }
 }

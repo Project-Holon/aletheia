@@ -16,6 +16,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj03298.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,10 +36,10 @@ void func_021FC360(char *p)
     func_02082BCC(&pos, 0, sizeof(pos));
     pos.x = 0xd0;
     pos.y = 0x3a;
-    *(void **)(p + 0xd08) = func_0204B294(*(void **)(p + 0xbc0), (unsigned int)*(void **)(p + 0xbc4), (unsigned int)*(void **)(p + 0xbc8), (unsigned int)*(void **)(p + 0xbcc), &pos, 0, 0x48);
-    func_0204B92C(*(void **)(p + 0xd08), 1);
-    func_0204B878(*(void **)(p + 0xd08), 0x24);
-    func_0204B84C(*(void **)(p + 0xd08), 1);
-    func_0204B3DC(*(void **)(p + 0xd08), 1);
+    ((struct Obj03298 *)p)->fD08 = func_0204B294(((struct Obj03298 *)p)->fBC0, (unsigned int)((struct Obj03298 *)p)->fBC4, (unsigned int)((struct Obj03298 *)p)->fBC8, (unsigned int)((struct Obj03298 *)p)->fBCC, &pos, 0, 0x48);
+    func_0204B92C(((struct Obj03298 *)p)->fD08, 1);
+    func_0204B878(((struct Obj03298 *)p)->fD08, 0x24);
+    func_0204B84C(((struct Obj03298 *)p)->fD08, 1);
+    func_0204B3DC(((struct Obj03298 *)p)->fD08, 1);
     func_0203D34C(0, 0x48);
 }

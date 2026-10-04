@@ -15,6 +15,7 @@
  *   func_0204ACEC 0x0204ACEC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00547.h"
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -28,11 +29,11 @@ extern void func_02049238(void *);
 void func_021B7C78(char *p)
 {
     void *h = func_020490F4(0xD8, 0x808D);
-    *(void **)(p + 0x90D4) = (void *)func_0204A6C8(h, 0x18, 0, 0, 0x8D);
-    *(void **)(p + 0x90EC) = func_0204ABF0(h, 3, 0, 0, 0x8D);
-    *(void **)(p + 0x9108) = (void *)func_0204AF28(h, 0x1A, 0x20, 0x8D);
+    ((struct Obj00547 *)p)->f90D4 = (void *)func_0204A6C8(h, 0x18, 0, 0, 0x8D);
+    ((struct Obj00547 *)p)->f90EC = func_0204ABF0(h, 3, 0, 0, 0x8D);
+    ((struct Obj00547 *)p)->f9108 = (void *)func_0204AF28(h, 0x1A, 0x20, 0x8D);
     func_02049238(h);
     h = func_020490F4(0x17, 0x808D);
-    *(void **)(p + 0x90F0) = (void *)func_0204ACEC(h, 5, 0, 0xA0, 0x8D);
+    ((struct Obj00547 *)p)->f90F0 = (void *)func_0204ACEC(h, 5, 0, 0xA0, 0x8D);
     func_02049238(h);
 }

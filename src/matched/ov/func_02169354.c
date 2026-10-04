@@ -13,6 +13,7 @@
  *   func_0216968C  0x0216968C  thumb  ov010
  *   func_02169710  0x02169710  thumb  ov010
  */
+#include "../include/Obj03541.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ loc_02169360:
 loc_02169364:
 a0 = t5 + 0;
 a0 = a0 + 0x98;
-a0 = *(int *)((char *)a0);
+a0 = ((struct Obj03541 *)((char *)a0))->f0;
     if (a0 == 0) goto loc_02169376;
 loc_0216936E:
 a0 = t5 + 0;

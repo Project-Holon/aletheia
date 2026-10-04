@@ -17,6 +17,7 @@
  *   func_0204767C  0x0204767C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04188.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ void func_0217FC64(char *self, u32 *out, u32 a2, u16 a3, int flag)
 
     func_02082BCC(out, 0, 0x14);
     out[0] = a2;
-    *(u16 *)((char *)out + 0x10) = a3;
+    ((struct Obj04188 *)out)->f10 = a3;
     if (flag == 0) {
         q = (u32 *)(self + 0xc8);
     } else {

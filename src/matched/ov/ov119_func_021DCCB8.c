@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D6F2C 0x021D6F2C thumb ov118
  */
+#include "../include/Obj01728.h"
 extern void *func_021DC854(void *, int);
 extern int func_021DC894(int a, int b, char *q, char *p, int n);
 extern void func_021DCBA4(char *a, char *p);
@@ -24,7 +25,7 @@ int func_021DCCB8(void *a, int b, char *c)
     void *p;
     int r;
     p = func_021DC854(a, 0x96000);
-    *(int *)(c + 0x14) = *(int *)(c + 0x30);
+    ((struct Obj01728 *)c)->f14 = ((struct Obj01728 *)c)->f30;
     r = func_021DC894((int)a, b, c, p, 8);
     func_021DCBA4(c, p);
     func_021D8E84(p, (int)func_021D6F2C);

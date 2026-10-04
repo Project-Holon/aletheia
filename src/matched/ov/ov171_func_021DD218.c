@@ -18,6 +18,7 @@
  *   func_021DD5D4 0x021DD5D4 thumb ov171
  *   d_021DEB50 0x021DEB50 data a4
  */
+#include "../include/Obj00347.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,12 +36,12 @@ extern const u8 d_021DEB50[];
 int func_021DD218(char *p) {
     int choice;
     s8 old;
-    if (!func_0201C6B4(*(void **)(p + 0xb6c))) return 7;
+    if (!func_0201C6B4(((struct Obj00347 *)p)->fB6C)) return 7;
     choice = func_021DE914(p);
     switch (choice) {
     case 0:
         if (func_021DD558(p, 1) == 1) {
-            *(s8 *)(p + 0xc61) = -d_021DEB50[*(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1];
+            ((struct Obj00347 *)p)->fC61 = -d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
             func_021DD620(p, -1);
             func_020061E4(0x57b);
             return 9;
@@ -48,7 +49,7 @@ int func_021DD218(char *p) {
         break;
     case 1:
         if (func_021DD558(p, -1) == 1) {
-            *(s8 *)(p + 0xc61) = d_021DEB50[*(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1];
+            ((struct Obj00347 *)p)->fC61 = d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
             func_021DD620(p, 1);
             func_020061E4(0x57b);
             return 9;
@@ -58,14 +59,14 @@ int func_021DD218(char *p) {
         func_020061E4(0x551);
         return func_021DD500(p, 15, 9, 8);
     case 5: case 6: case 7: case 8: case 9: case 10:
-        old = *(s8 *)(p + 0xc5c);
+        old = ((struct Obj00347 *)p)->fC5C;
         if (choice - 5 == old) break;
-        *(s8 *)(p + 0xc5c) = choice - 5;
+        ((struct Obj00347 *)p)->fC5C = choice - 5;
         if (func_021DD5A8(p, choice - 5) == 1) {
-            *(s8 *)(p + 0xc61) = -d_021DEB50[*(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1];
+            ((struct Obj00347 *)p)->fC61 = -d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
             func_021DD620(p, -func_021DD5D4(p, old, (s8)(choice - 5), 1));
         } else {
-            *(s8 *)(p + 0xc61) = d_021DEB50[*(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1];
+            ((struct Obj00347 *)p)->fC61 = d_021DEB50[*(u16 *)(p + ((struct Obj00347 *)p)->fC5E * 0xbc + 0xc4) - 1];
             func_021DD620(p, func_021DD5D4(p, old, (s8)(choice - 5), -1));
         }
         func_020061E4(0x57b);

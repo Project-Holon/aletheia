@@ -18,6 +18,7 @@
  *   func_021B8434  0x021B8434  thumb  ov093
  *   func_021B84D8  0x021B84D8  thumb  ov093
  */
+#include "../include/Obj03685.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,15 +48,15 @@ int func_021B835C(u8 *p, int *q)
         return 1;
     }
     if (*q == 0) {
-        r = func_021B6818(*(int **)p);
+        r = func_021B6818(*(int * *)&((struct Obj03685 *)p)->f0);
         t = (int)func_021E8F20(p, (void *)(*(int *)(p + p[0x46c] * 4 + 0x10)), (u32)(p + 0xc8), r, 0x13);
-        *(int *)(p + 4) = t;
+        ((struct Obj03685 *)p)->f4 = t;
         func_021CD95C((struct QA *)(*(int *)(p + p[0x46c] * 4 + 0x10)), t);
         if (p[0x46e]) {
-            *(u32 *)(p + 0x464) = (u32)func_021B8434;
-            func_021BAB40((char *)(*(int *)(p + 8)));
+            ((struct Obj03685 *)p)->f464 = (u32)func_021B8434;
+            func_021BAB40((char *)(((struct Obj03685 *)p)->f8));
         } else {
-            *(u32 *)(p + 0x464) = (u32)func_021B84D8;
+            ((struct Obj03685 *)p)->f464 = (u32)func_021B84D8;
         }
         *q = *q + 1;
     } else {

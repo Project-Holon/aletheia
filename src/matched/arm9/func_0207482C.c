@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj07066.h"
 
 typedef unsigned char u8; typedef unsigned int u32;
 
@@ -22,10 +23,10 @@ u32 func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e) {
     u32 r = func_02061124((char *)(*a), ((b + 0x1f) & ~0x1fu) + 0x20, 0x20);
     if (r == 0) return 0;
     t = (u32)func_0206062C((struct DList *)(a + 1), 0);
-    *(u32 *)(r + 8) = b;
-    *(u32 *)(r + 0xc) = c;
-    *(u32 *)(r + 0x10) = d;
-    *(u32 *)(r + 0x14) = e;
+    ((struct Obj07066 *)r)->f8 = b;
+    ((struct Obj07066 *)r)->fC = c;
+    ((struct Obj07066 *)r)->f10 = d;
+    ((struct Obj07066 *)r)->f14 = e;
     func_020604AC(t, r);
     return r + 0x20;
 }

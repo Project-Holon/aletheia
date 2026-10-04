@@ -14,10 +14,11 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 
 u8 *func_0215A63C(u8 *p)
 {
-    return *(u8 **)(p + 0x20) + 0xd4;
+    return *(u8 * *)&((struct Obj00005 *)p)->f20 + 0xd4;
 }

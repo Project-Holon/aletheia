@@ -16,9 +16,10 @@
  *   func_0204B1CC 0x0204B1CC arm
  *   func_0204A5AC 0x0204A5AC arm
  */
+#include "../include/Obj03842.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct Descriptor;struct Cfg;struct CharBuf;struct Bank;struct Util;struct Setup;struct Ctx;
 extern void func_0204A8D4(u32),func_0204ADA4(u32),func_0204AFD8(u32);
 extern void func_0204B1CC(struct Bank *);
 extern void func_0204A5AC(void);
-void func_021DFFC8(u8 *p){func_0204A8D4(*(u32 *)(p+0xd6c));func_0204ADA4(*(u32 *)(p+0xd70));func_0204AFD8(*(u32 *)(p+0xd74));func_0204B1CC(*(struct Bank **)(p+0xd68));func_0204A5AC();}
+void func_021DFFC8(u8 *p){func_0204A8D4(((struct Obj03842 *)p)->fD6C);func_0204ADA4(((struct Obj03842 *)p)->fD70);func_0204AFD8(((struct Obj03842 *)p)->fD74);func_0204B1CC(*(struct Bank * *)&((struct Obj03842 *)p)->fD68);func_0204A5AC();}

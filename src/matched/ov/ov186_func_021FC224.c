@@ -15,6 +15,7 @@
  * symbols:
  *   func_021FC394  0x021FC394  thumb  ov186
  */
+#include "../include/Obj24832.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -22,5 +23,5 @@ extern u16 func_021FC394(u32 n);
 
 int func_021FC224(char *p)
 {
-    return func_021FC394(*(int *)(p + 0xf8));
+    return func_021FC394(((struct Obj24832 *)p)->fF8);
 }

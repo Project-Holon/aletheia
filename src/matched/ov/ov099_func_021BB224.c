@@ -19,6 +19,7 @@
  *   func_0201C6EC  0x0201C6EC  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
  */
+#include "../include/Obj01706.h"
 
 struct PrintSys;
 struct Rec3;
@@ -37,19 +38,19 @@ void func_021BB224(char *p)
 {
     func_021BB4D0(p);
     func_021BB42C(p);
-    func_02028604((int)(*(void **)(p + 0x9B0)));
-    func_02045808(*(void **)(p + 0xF8));
-    func_02045808(*(void **)(p + 0xF4));
-    func_02045808(*(void **)(p + 0xFC));
-    if (*(void **)(p + 0x1BC) != 0) {
-        func_0201CE48(*(void **)(p + 0x1BC));
-        *(void **)(p + 0x1BC) = 0;
+    func_02028604((int)(((struct Obj01706 *)p)->f9B0));
+    func_02045808(((struct Obj01706 *)p)->fF8);
+    func_02045808(((struct Obj01706 *)p)->fF4);
+    func_02045808(((struct Obj01706 *)p)->fFC);
+    if (((struct Obj01706 *)p)->f1BC != 0) {
+        func_0201CE48(((struct Obj01706 *)p)->f1BC);
+        ((struct Obj01706 *)p)->f1BC = 0;
     }
-    func_02045808(*(void **)(p + 0xF0));
-    func_02031140(*(void **)(p + 0x1C0));
-    func_0201C6EC(*(void **)(p + 0x1B8));
-    func_0201C6EC(*(void **)(p + 0x1B4));
-    func_0201C4C0(*(void **)(p + 0x1B8));
-    func_0201C4C0(*(void **)(p + 0x1B4));
-    *(void **)(p + 0x1B8) = 0;
+    func_02045808(((struct Obj01706 *)p)->fF0);
+    func_02031140(((struct Obj01706 *)p)->f1C0);
+    func_0201C6EC(((struct Obj01706 *)p)->f1B8);
+    func_0201C6EC(((struct Obj01706 *)p)->f1B4);
+    func_0201C4C0(((struct Obj01706 *)p)->f1B8);
+    func_0201C4C0(((struct Obj01706 *)p)->f1B4);
+    ((struct Obj01706 *)p)->f1B8 = 0;
 }

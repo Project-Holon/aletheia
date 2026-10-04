@@ -15,6 +15,7 @@
  *
  * Re-arms, runs the seven/zero setup and stamps selector 0x20.
  */
+#include "../include/Obj18264.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,6 +32,6 @@ int func_021C017C(char *p, int v)
 {
     func_021B9B64(p + 0x274);
     func_021BAAB8(p, 7, 0);
-    *(u32 *)(p + 0x1CC) = 0x20;
+    ((struct Obj18264 *)p)->f1CC = 0x20;
     return v;
 }

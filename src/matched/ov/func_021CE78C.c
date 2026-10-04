@@ -15,6 +15,7 @@
  *   func_02190EF0  0x02190EF0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09217.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern u32 func_02190EF0(u32, u32, u32, u32);
 int func_021CE78C(u32 a, u32 b, u32 c, u32 d)
 {
 if (*(u32 *)((u8 *)(a) + ((1 << 8))) == 0) {
-    if (func_02190EF0(*(u32 *)((u8 *)(a) + 20), *(u32 *)((u8 *)(a) + ((1 << 8))), c, d) == 1) {
+    if (func_02190EF0(((struct Obj09217 *)((u8 *)(a)))->f14, *(u32 *)((u8 *)(a) + ((1 << 8))), c, d) == 1) {
         return 1;
     }
 }

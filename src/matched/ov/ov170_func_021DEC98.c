@@ -16,6 +16,15 @@
  *   func_021EE234 0x021EE234 thumb
  *   func_021EE244 0x021EE244 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj14262.h"
+#include "../include/Obj23854.h"
+#include "../include/Obj23855.h"
+#include "../include/Obj23856.h"
+#include "../include/Obj23857.h"
+#include "../include/Obj23858.h"
+#include "../include/Obj23859.h"
+#include "../include/Obj23860.h"
 
 extern void func_021DEC64(int a, int b, int c, int d, int e);
 extern void func_021EB7E8(char *p, unsigned box, int i);
@@ -28,33 +37,33 @@ void func_021DEC98(char *p, int a, int dir)
     int d, e, i;
     char *q;
     if (dir == 0) {
-        *(signed char *)(*(char **)(p + 0x2C) + 0xA178) -= 0x17;
-        if (*(signed char *)(*(char **)(p + 0x2C) + 0xA178) < 0)
-            *(signed char *)(*(char **)(p + 0x2C) + 0xA178) += 0x40;
+        ((struct Obj23854 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 -= 0x17;
+        if (((struct Obj23855 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 < 0)
+            ((struct Obj23856 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 += 0x40;
     } else if (dir == 1) {
-        *(signed char *)(*(char **)(p + 0x2C) + 0xA178) += 0x17;
-        if (*(signed char *)(*(char **)(p + 0x2C) + 0xA178) >= 0x40)
-            *(signed char *)(*(char **)(p + 0x2C) + 0xA178) -= 0x40;
+        ((struct Obj23857 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 += 0x17;
+        if (((struct Obj23858 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 >= 0x40)
+            ((struct Obj23859 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178 -= 0x40;
     }
-    q = *(char **)(p + 0x2C);
-    if (*(unsigned char *)(q + 0xA179) == 0) {
+    q = *(char * *)&((struct Obj00000 *)p)->f2C;
+    if (((struct Obj14262 *)q)->fA179 == 0) {
         d = 0x25C;
         e = 0xE;
     } else {
         d = 0xB8;
         e = 0xF;
     }
-    *(unsigned char *)(q + 0xA179) ^= 1;
-    func_021DEC64((int)p, a, *(signed char *)(*(char **)(p + 0x2C) + 0xA178), d, e);
+    ((struct Obj14262 *)q)->fA179 ^= 1;
+    func_021DEC64((int)p, a, ((struct Obj23860 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA178, d, e);
     if (dir == 2) {
         func_021EB7E8(p, (unsigned char)p[0x14], 7);
-        func_021EE224(*(char **)(p + 0x2C), 8, 0);
+        func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, 8, 0);
         return;
     }
     i = 7;
-    if (func_021EE234(*(char **)(p + 0x2C), 7) == 1)
+    if (func_021EE234(*(char * *)&((struct Obj00000 *)p)->f2C, 7) == 1)
         i = 8;
     func_021EB7E8(p, (unsigned char)p[0x14], i);
-    func_021EE244(*(char **)(p + 0x2C), i, dir);
-    func_021EE224(*(char **)(p + 0x2C), i, 1);
+    func_021EE244(*(char * *)&((struct Obj00000 *)p)->f2C, i, dir);
+    func_021EE224(*(char * *)&((struct Obj00000 *)p)->f2C, i, 1);
 }

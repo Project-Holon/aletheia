@@ -14,6 +14,7 @@
  *   python tools/match.py one --src src/matched/func_0202952C.c \\
  *       --func func_0202952C --addr 0x0202952C --thumb --cc 1.1p1
  */
+#include "../include/Obj11301.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ u8 *func_0202952C(u8 *p, u32 a)
     u8 *r6 = (u8 *)func_020122C0(p, 0, (void *)((u32)func_020294F4), 0x10);
     u8 *r4 = func_020124E8(r6);
 
-    *(u32 *)(r4 + 4) = func_02012A30((const struct BigObj *)r7);
-    *(u16 *)(r4 + 0xe) = (u16)a;
+    ((struct Obj11301 *)r4)->f4 = func_02012A30((const struct BigObj *)r7);
+    ((struct Obj11301 *)r4)->fE = (u16)a;
     return r6;
 }

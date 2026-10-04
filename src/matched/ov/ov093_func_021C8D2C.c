@@ -19,6 +19,7 @@
  *   func_021C99A0  0x021C99A0  thumb  ov093
  *   func_021CD64C  0x021CD64C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
@@ -39,8 +40,8 @@ typedef struct {
 u8 func_021C8D2C(int p, const Ent *e, int c)
 {
     u8 r = 0;
-    u8 *a = func_021B9934(*(char **)(p + 8), (u8)e->idx);
-    int b = (int)func_021B9934(*(char **)(p + 8), e->b6);
+    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)e->idx);
+    int b = (int)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, e->b6);
 
     if (func_021C3370((u8 *)p, (void *)b) == 0) {
         if (e->fl)
@@ -55,7 +56,7 @@ u8 func_021C8D2C(int p, const Ent *e, int c)
             if ((u8)e->ha)
                 func_021C99A0((void *)p, (void *)&e->h8);
             else if (c)
-                func_021CD64C(*(void **)(p + 0xc), 0x5b, 0x38c, e->b6, c, 0xffff0000);
+                func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x38c, e->b6, c, 0xffff0000);
         }
         if (e->fl)
             func_021C5A34((u8 *)p, a);

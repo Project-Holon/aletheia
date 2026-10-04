@@ -18,6 +18,8 @@
  *   func_0204A5AC 0x0204A5AC arm
  * Extent ends with two bytes of zero alignment padding.
  */
+#include "../include/Obj06480.h"
+#include "../include/Obj10500.h"
 
 struct Bank;
 struct Descriptor;
@@ -34,21 +36,21 @@ extern void func_0204A5AC(void);
 void func_021D99F0(char *p)  {
     int i;
     char *q;
-    for(i=0;i<*(int *)(p+0x23c);i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+12)));
+    for(i=0;i<((struct Obj10500 *)p)->f23C;i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+12)));
     for(i=0;i<2;i++)  {
         q=p+i*28;
-        func_0204B3B4((struct Obj *)(*(int *)(q+0x15c)));
-        func_0204B3B4((struct Obj *)(*(int *)(q+0x1e8)));
+        func_0204B3B4((struct Obj *)(((struct Obj06480 *)q)->f15C));
+        func_0204B3B4((struct Obj *)(((struct Obj06480 *)q)->f1E8));
     }
     for(i=0;i<3;i++) func_0204B3B4((struct Obj *)(*(int *)(p+i*28+0x194)));
     func_021DA3D0(p);
-    func_020452E8((struct Descriptor *)(*(int *)(p+0x310)));
+    func_020452E8((struct Descriptor *)(((struct Obj10500 *)p)->f310));
     for(i=0;i<3;i++)  {
         q=p+i*4;
-        func_0204ADA4(*(int *)(q+0x260));
-        func_0204A8D4(*(int *)(q+0x26c));
-        func_0204AFD8(*(int *)(q+0x284));
+        func_0204ADA4(((struct Obj06480 *)q)->f260);
+        func_0204A8D4(((struct Obj06480 *)q)->f26C);
+        func_0204AFD8(((struct Obj06480 *)q)->f284);
     }
-    func_0204B1CC((struct Bank *)(*(int *)(p+0x25c)));
+    func_0204B1CC((struct Bank *)(((struct Obj10500 *)p)->f25C));
     func_0204A5AC();
 }

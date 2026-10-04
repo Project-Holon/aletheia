@@ -14,6 +14,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_020315D4 0x020315D4 arm
  */
+#include "../include/Obj12441.h"
 typedef unsigned char u8;
 struct S020314B8;
 struct S020315D4;
@@ -22,8 +23,8 @@ extern void func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
 int func_021766A8(void *p, int b, int c, u8 *q)
 {
-    func_0203133C(*(void **)(q + 0xf4));
-    func_020307B0(*(void **)(q + 0xf8));
+    func_0203133C(((struct Obj12441 *)q)->fF4);
+    func_020307B0(((struct Obj12441 *)q)->fF8);
     func_020315D4(p);
     return 1;
 }

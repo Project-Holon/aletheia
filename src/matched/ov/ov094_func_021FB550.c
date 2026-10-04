@@ -15,12 +15,13 @@
  *   func_0201134C 0x0201134C thumb
  *   func_0204047C 0x0204047C arm
  */
+#include "../include/Obj13587.h"
 extern int func_0201134C(void *);
 extern void func_0204047C(int, unsigned char);
 
 int func_021FB550(void *a, char *s)
 {
     func_0204047C(3, func_0201134C(a));
-    *(unsigned *)s |= 0x10;
-    return *(int *)(s + 0x23c);
+    ((struct Obj13587 *)s)->f0 |= 0x10;
+    return ((struct Obj13587 *)s)->f23C;
 }

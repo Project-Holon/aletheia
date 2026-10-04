@@ -17,6 +17,7 @@
  *   func_0216F40C  0x0216F40C  thumb  ov010
  *   d_02172B64     0x02172B64  data  ov010
  */
+#include "../include/Obj19150.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,6 +54,6 @@ int func_0216F0AC(void *a, int b, T24 *c)
     *w->f18 = *c;
     *(void **)w->f18 = func_02030734((u16)w->f00, 0x678, 1, d_02172B64, 0xa1);
     func_0216F40C(*(void **)w->f18, c->w[1], 0, w->f18->w[2], (u16)w->f00);
-    w->f1c = *(u8 *)(*(char **)w->f18 + 6);
+    w->f1c = ((struct Obj19150 *)(*(char **)w->f18))->f6;
     return 1;
 }

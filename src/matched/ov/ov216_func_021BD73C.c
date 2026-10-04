@@ -13,6 +13,7 @@
  *   func_02035C60 0x02035C60 arm
  *   func_020362DC 0x020362DC arm
  */
+#include "../include/Obj10950.h"
 
 typedef unsigned int u32;
 
@@ -24,11 +25,11 @@ int func_021BD73C(char *p)
     unsigned char c;
     if (func_02035C60() != 0 || (func_020362DC() & 1) != 0)
     {
-        *(unsigned char *)(p + 1) = 0;
+        ((struct Obj10950 *)p)->f1 = 0;
         return 0;
     }
-    c = *(unsigned char *)(p + 1);
-    *(unsigned char *)(p + 1) = c - 1;
+    c = ((struct Obj10950 *)p)->f1;
+    ((struct Obj10950 *)p)->f1 = c - 1;
     if (c != 0)
     {
         return 1;

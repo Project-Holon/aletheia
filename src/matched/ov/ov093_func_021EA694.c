@@ -13,6 +13,7 @@
  *   func_021EEEF4  0x021EEEF4  thumb  ov093
  *   func_021EA730  0x021EA730  thumb  ov093
  */
+#include "../include/Obj01899.h"
 typedef unsigned short u16;
 
 extern void func_021EEEF4(int a, u16 b, int *c);
@@ -21,6 +22,6 @@ extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA694(char *p, u16 k, int *c)
 {
-    func_021EEEF4(*(int *)(p + 0xac), k, c);
-    func_021EA730(p, *(int *)(p + 0xac), 0x50, 0);
+    func_021EEEF4(((struct Obj01899 *)p)->fAC, k, c);
+    func_021EA730(p, ((struct Obj01899 *)p)->fAC, 0x50, 0);
 }

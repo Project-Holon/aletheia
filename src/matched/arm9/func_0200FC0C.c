@@ -35,6 +35,7 @@
  * access and reach +0x59 with 'adds' -- the extern spelled directly folds
  * to a second pool word g+0x40 instead.
  */
+#include "../include/Obj05696.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -82,7 +83,7 @@ u32 func_0200FC0C(u32 a0)
     if (a0 == 1) {
         sub_0200FA94();
     }
-    if (*(u32 *)(g + 0x2c) == 2) {
+    if (((struct Obj05696 *)g)->f2C == 2) {
         mode = 0;
         {
             u8 t = g[0x59];
@@ -97,8 +98,8 @@ u32 func_0200FC0C(u32 a0)
             sub_0200FA94();
         }
         if (mode == 1) {
-            *(u32 *)(g + 0x1c) = GX_HBlankIntr(0);
-            *(u32 *)(g + 0x20) = GX_VBlankIntr(0);
+            ((struct Obj05696 *)g)->f1C = GX_HBlankIntr(0);
+            ((struct Obj05696 *)g)->f20 = GX_VBlankIntr(0);
             func_020101D4(a0, 0);
         } else {
             sub_0200FD38(a0, 0);
@@ -111,7 +112,7 @@ u32 func_0200FC0C(u32 a0)
         }
         sub_0200FEBC(0);
         sub_0200FBA0();
-        *(u32 *)(g + 0x30) = 0;
+        ((struct Obj05696 *)g)->f30 = 0;
     return 1;
     }
     return 0;

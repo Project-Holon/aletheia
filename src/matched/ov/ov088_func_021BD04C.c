@@ -17,6 +17,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_020461D4  0x020461D4  arm
  */
+#include "../include/Obj04351.h"
 
 extern int func_02028604(int a0);
 struct Rec;
@@ -30,10 +31,10 @@ extern void func_020461D4(unsigned char);
 
 void func_021BD04C(unsigned char *p)
 {
-    func_02028604((int)(*(void **)(p + 0x24)));
-    func_02031140(*(void **)(p + 0x18));
-    func_02045808(*(void **)(p + 0x10));
-    func_0201D83C(*(void **)(p + 0x04));
-    func_02045C04(*(void **)(p + 0x08));
+    func_02028604((int)(((struct Obj04351 *)p)->f24));
+    func_02031140(((struct Obj04351 *)p)->f18);
+    func_02045808(((struct Obj04351 *)p)->f10);
+    func_0201D83C(((struct Obj04351 *)p)->f4);
+    func_02045C04(((struct Obj04351 *)p)->f8);
     func_020461D4(p[0x0C]);
 }

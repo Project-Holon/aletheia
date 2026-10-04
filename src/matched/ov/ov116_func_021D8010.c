@@ -19,6 +19,7 @@
  *   func_0201F73C 0x0201F73C thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj22630.h"
 typedef unsigned short u16;
 typedef unsigned u32;
 struct Rec3;
@@ -44,7 +45,7 @@ void func_021D8010(void *p,u32 a) {
  func_0201F250((struct WordSet *)I(0x994),(void *)I(0x9a0),(void *)I(0x99c));
  func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)I(0x97c))),15);
  func_0201DD78(1,2,15);
- I(0x9a4)=(u32)func_0201CCE4(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,*(u16 *)((char *)p+4),15);
+ I(0x9a4)=(u32)func_0201CCE4(I(0x97c),0,0,I(0x9a0),I(0x998),func_02012FFC(),I(0x9a8),2,((struct Obj22630 *)p)->f4,15);
  func_0201F73C(I(0x97c),1,I(0x984),13);
  func_02045334((struct Descriptor *)I(0x97c));
 }

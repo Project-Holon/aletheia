@@ -16,6 +16,7 @@
  *   func_02025588 0x02025588 thumb
  *   func_020315D4 0x020315D4 arm
  */
+#include "../include/Obj10738.h"
 extern void func_021DE780(char *, char *);
 extern void func_021DE8FC(char *, char *);
 typedef unsigned int   u32;
@@ -32,9 +33,9 @@ int func_021DE234(void *a, int b, char *q, char *p)
     func_021DE8FC(p, q);
     func_020409B4(4);
     func_020409B4(1);
-    func_021FD820(*(void **)(p + 0x64));
-    func_0201C4C0(*(void **)(p + 4));
-    func_02025588(*(void **)p);
+    func_021FD820(((struct Obj10738 *)p)->f64);
+    func_0201C4C0(((struct Obj10738 *)p)->f4);
+    func_02025588(((struct Obj10738 *)p)->f0);
     func_020315D4(a);
     return 1;
 }

@@ -42,6 +42,8 @@
  *   func_02062F38  0x02062F38  arm
  *   func_0206434C  0x0206434C  arm
  */
+#include "../include/Obj08900.h"
+#include "../include/Obj16429.h"
 
 typedef unsigned int u32;
 extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
@@ -52,10 +54,10 @@ extern void func_0206434C(char *self, int v);
 void func_020642C8(char *self, int a1, char *c, int d,
                    int e, int f, int g, int h, int i, int j)
 {
-    func_02066890(d, e, f, g, *(int *)*(int **)(c + 0xc), h, i, j);
-    *(volatile int *)(self + 0x38) = d;
-    *(char *volatile *)(self + 0x34) = c;
-    *(volatile int *)(self + 0x38) = d;
+    func_02066890(d, e, f, g, *(int *)*(int * *)&((struct Obj16429 *)c)->fC, h, i, j);
+    *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
+    *(char *volatile *)&((struct Obj08900 *)self)->f34 = c;
+    *(volatile int *)&((struct Obj08900 *)self)->f38 = d;
     func_02064140(self + 0x3c, 1);
     func_02062F38(self);
     func_0206434C(self, a1);

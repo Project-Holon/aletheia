@@ -10,7 +10,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj23214.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void *func_021F9DC0(void *p){return *(void **)((u8 *)p+0x6c);}
+void *func_021F9DC0(void *p){return ((struct Obj23214 *)p)->f6C;}

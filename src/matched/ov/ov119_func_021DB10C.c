@@ -15,6 +15,7 @@
  *   func_021DB030 0x021DB030 thumb ov119
  *   d_021E758C 0x021E758C data a4
  */
+#include "../include/Obj00001.h"
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E758C;
 extern int func_021E12AC(char *p);
@@ -27,8 +28,8 @@ void func_021DB10C(char *p)
     if(func_021E12AC(p)) {
         Pair t=d_021E758C;
         func_021E131C(p,&t,2,0x20,0xc);
-        *(short *)(p+0x1080)=-1;
-        func_021E4E64(*(int *)(p+0x828),p,0);
+        ((struct Obj00001 *)p)->f1080=-1;
+        func_021E4E64(*(int *)&((struct Obj00001 *)p)->f828,p,0);
         func_021D8E84(p,(int)func_021DB030);
     }
 }

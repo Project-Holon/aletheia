@@ -15,6 +15,8 @@
  *   func_0218FB1C  0x0218FB1C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01653.h"
+#include "../include/Obj05980.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,16 +34,16 @@ void func_0218F9C4(u8 *p, u8 *src, u16 v)
     u8 *q;
     if (p) {
         q = p + 0xf0;
-        if (*(u32 *)(q + 0x98) != 0 && v != 0) {
+        if (((struct Obj05980 *)q)->f98 != 0 && v != 0) {
             func_0218E13C(p, 0);
             func_0218F780(p, q + 0x34);
             *(B48 *)(q + 0x64) = *(B48 *)(q + 4);
-            *(u16 *)(q + 0x96) = 0;
-            *(u16 *)(q + 0x94) = v;
+            ((struct Obj05980 *)q)->f96 = 0;
+            ((struct Obj05980 *)q)->f94 = v;
             *(B24 *)(q + 0xa0) = *(B24 *)src;
-            *(void **)(p + 0x1ac) = (void *)func_0218FB1C;
-            *(u32 *)(q + 0xb8) = 0;
-            *(u32 *)(q + 0x9c) = 1;
+            ((struct Obj01653 *)p)->f1AC = (void *)func_0218FB1C;
+            ((struct Obj05980 *)q)->fB8 = 0;
+            ((struct Obj05980 *)q)->f9C = 1;
         }
     }
 }

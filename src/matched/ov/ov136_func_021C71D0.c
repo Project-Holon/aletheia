@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj00412.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -26,9 +27,9 @@ int func_021C71D0(u8 *p, int v, int w)
 {
     struct Temp { s8 b, a; u16 c, d; } t;
     struct Control *q;
-    func_0202CF98(**(void ***)(p + 8), v, &t.a, &t.b);
-    func_0202CFC0(**(void ***)(p + 8), v, &t.d, &t.c);
-    q = (struct Control *)(*(u8 **)(p + 8) + 0x300);
+    func_0202CF98(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.a, &t.b);
+    func_0202CFC0(**(void ** *)&((struct Obj00412 *)p)->f8, v, &t.d, &t.c);
+    q = (struct Control *)(*(u8 * *)&((struct Obj00412 *)p)->f8 + 0x300);
     q->enabled = 1;
     q->mode = 2;
     q->action = 2;
@@ -39,6 +40,6 @@ int func_021C71D0(u8 *p, int v, int w)
     q->d = t.b;
     q->e = t.d;
     q->f = t.c;
-    *(int *)(p + 0x28) = w;
+    *(int *)&((struct Obj00412 *)p)->f28 = w;
     return 5;
 }

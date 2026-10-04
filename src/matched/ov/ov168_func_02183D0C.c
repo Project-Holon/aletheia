@@ -12,12 +12,13 @@
  * symbols:
  *   func_02183D34  0x02183D34  thumb  ov168
  */
+#include "../include/Obj14257.h"
 
 extern void func_02183D34(int *, int);
 
 void func_02183D0C(int *p, int a, int b)
 {
     *p = a;
-    *(int *)((char *)p + 0xc) = 0;
+    ((struct Obj14257 *)p)->fC = 0;
     func_02183D34(p, b);
 }

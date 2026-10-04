@@ -12,6 +12,7 @@
  *   func_02021F08 0x02021F08 thumb
  *   func_02021D50 0x02021D50 thumb
  */
+#include "../include/Obj05507.h"
 extern void func_02022004(unsigned, unsigned, unsigned short, unsigned, unsigned);
 struct Obj02021F08;
 struct S02021D50;
@@ -20,9 +21,9 @@ extern void func_02021D50(struct S02021D50 *p);
 void func_021FE7F8(char *p, int mask)
 {
     if (mask & 1)
-        func_02022004(*(unsigned *)(p + 0x20), 0, 0xBFFF, 16, *(unsigned short *)(p + 0x24));
+        func_02022004(*(unsigned *)&((struct Obj05507 *)p)->f20, 0, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
     if (mask & 2)
-        func_02022004(*(unsigned *)(p + 0x20), 1, 0xBFFF, 16, *(unsigned short *)(p + 0x24));
-    func_02021F08(*(void **)(p + 0x20), 1);
-    func_02021D50(*(void **)(p + 0x20));
+        func_02022004(*(unsigned *)&((struct Obj05507 *)p)->f20, 1, 0xBFFF, 16, ((struct Obj05507 *)p)->f24);
+    func_02021F08(((struct Obj05507 *)p)->f20, 1);
+    func_02021D50(((struct Obj05507 *)p)->f20);
 }

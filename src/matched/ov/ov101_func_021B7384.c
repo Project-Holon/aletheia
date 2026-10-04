@@ -13,5 +13,6 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
+#include "../include/Obj06364.h"
 extern void func_0204AFD8(unsigned); extern void func_0204A8D4(unsigned); extern void func_0204ADA4(unsigned);
-void func_021B7384(unsigned p) { func_0204AFD8(*(unsigned *)(p+56)); func_0204A8D4(*(unsigned *)(p+52)); func_0204ADA4(*(unsigned *)(p+48)); }
+void func_021B7384(unsigned p) { func_0204AFD8(((struct Obj06364 *)p)->f38); func_0204A8D4(((struct Obj06364 *)p)->f34); func_0204ADA4(((struct Obj06364 *)p)->f30); }

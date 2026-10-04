@@ -23,6 +23,7 @@
  *   func_021BD7A0 0x021BD7A0 thumb ov110
  *   func_021BE4C0 0x021BE4C0 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,7 +46,7 @@ int func_021BDB98(u8 *p,u32 *q)
     switch(*q) {
     case 0:
     case 1:
-        if(*(u32 *)(p+4)==0) hit=func_021BDA84(p);
+        if(((struct Obj00012 *)p)->f4==0) hit=func_021BDA84(p);
         else hit=func_021BDA94(p);
         switch(hit) {
         case 0:
@@ -61,8 +62,8 @@ int func_021BDB98(u8 *p,u32 *q)
         case 3:
             func_020061E4(1356);
             func_021BF82C(p);
-            *(u16 *)(p+0x4a)=hit-2;
-            func_021B9BEC(*(u8 **)(p+0x14),10);
+            ((struct Obj00012 *)p)->f4A=hit-2;
+            func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,10);
             *q=5;
             break;
         }
@@ -71,7 +72,7 @@ int func_021BDB98(u8 *p,u32 *q)
     case 3: *q=4; func_021BF4F8(p,(u32)func_021BF608); break;
     case 4: *q=0; break;
     case 5:
-        if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,(Handler)func_021BE4C0);
+        if(func_021B9C74((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14))) func_021BD7A0(p,(Handler)func_021BE4C0);
         break;
     }
     return 0;

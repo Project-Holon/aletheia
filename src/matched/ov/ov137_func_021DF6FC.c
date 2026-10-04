@@ -17,6 +17,7 @@
  *   func_021DEB10 0x021DEB10 thumb ov137
  *   func_02184174 0x02184174 thumb ov022
  */
+#include "../include/Obj03305.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -34,20 +35,20 @@ int func_021DF6FC(u8 *p)
 {
     void *ctx;
     ctx = func_020399A8();
-    if (*(int *)(p + 24) == 0) {
+    if (((struct Obj03305 *)p)->f18 == 0) {
         if (func_02039CB4(ctx, 206, 40)) {
-            *(void **)(p + 3496) = func_0202EE30(*(void **)(p + 3480), *(void **)(p + 3312), 15, 16, 114);
+            ((struct Obj03305 *)p)->fDA8 = func_0202EE30(((struct Obj03305 *)p)->fD98, ((struct Obj03305 *)p)->fCF0, 15, 16, 114);
             func_0203D7BC(0);
             func_0203A5E4(10240);
             func_02184174(func_021DEB10(p));
-            *(int *)p = 49;
+            ((struct Obj03305 *)p)->f0 = 49;
         }
     } else {
-        *(int *)(p + 12) += 1;
-        if (*(int *)(p + 12) >= 180) {
-            *(int *)(p + 12) = 0;
+        ((struct Obj03305 *)p)->fC += 1;
+        if (((struct Obj03305 *)p)->fC >= 180) {
+            ((struct Obj03305 *)p)->fC = 0;
             if ((*(int **)(p + 220))[15] == 0) func_0203D7B0(0);
-            *(int *)p = 49;
+            ((struct Obj03305 *)p)->f0 = 49;
         }
     }
     return 0;

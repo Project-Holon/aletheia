@@ -48,6 +48,7 @@
  * this function; the ROM word equals the relocation), func_020526A8 through
  * sole-ref/code.
  */
+#include "../include/Obj06994.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -93,7 +94,7 @@ void func_02051414(u8 *a0)
     Blk32    b;
     Blk36    g;
 
-    if (*(u32 *)(a0 + 0x20) != 0) {
+    if (((struct Obj06994 *)a0)->f20 != 0) {
         func_020467EC(&b);
         func_02046AFC(&g);
         {
@@ -106,12 +107,12 @@ void func_02051414(u8 *a0)
             g_02148B4C[63] = g_02148B4C[63] & ~0xa4u;
             func_0206AA0C(&v);
         }
-        func_02048AD0((struct Light *)(*(u32 *)(a0 + 0x20)));
+        func_02048AD0((struct Light *)(((struct Obj06994 *)a0)->f20));
         func_020479D8();
         func_0206DB80();
     }
-    func_020526A8((struct Head *)(*(u32 *)a0), (u32)g_02148B98);
-    if (*(u32 *)(a0 + 0x20) == 0)
+    func_020526A8((struct Head *)(((struct Obj06994 *)a0)->f0), (u32)g_02148B98);
+    if (((struct Obj06994 *)a0)->f20 == 0)
         return;
     func_02046858(&b);
     func_02046B40(&g);

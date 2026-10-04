@@ -19,6 +19,7 @@
  *   python tools/match.py one --src src/matched/func_02039050.c \
  *       --func func_02039050 --addr 0x02039050 --cc 1.1p1 --arm
  */
+#include "../include/Obj15938.h"
 
 typedef signed char   s8;
 typedef unsigned char u8;
@@ -48,7 +49,7 @@ void func_02039050(void)
             return;
 
         p = g_021469D0;
-        func_02038DF0((struct Src *)((u32)(p + 0x2C)), 0xFF, (u8 *)(*(u32 *)(p + 0x18)),
+        func_02038DF0((struct Src *)((u32)(p + 0x2C)), 0xFF, (u8 *)(((struct Obj15938 *)p)->f18),
                       (struct St *)((u32)(p + 0x19C)), func_02037258());
     }
 }

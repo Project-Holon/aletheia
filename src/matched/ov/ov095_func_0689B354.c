@@ -20,6 +20,7 @@
  *   func_0689AD24 0x0689AD24 thumb ov095
  *   func_0689AD4C 0x0689AD4C thumb ov095
  */
+#include "../include/Obj00409.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,49 +40,49 @@ void func_0689B354(St *st, u8 *s)
     u16 key;
     u32 k;
     int mode;
-    key = (*(Q **)(s + 0x70))->id;
+    key = (*(Q * *)&((struct Obj00409 *)s)->f70)->id;
     k = func_0689B4D4(key, 0x1b);
-    mode = func_0689B4F4(*(void **)(s + 0xa0), *(void **)(s + 0xa4), func_0689B4E4(*(void **)(s + 0x6c)));
+    mode = func_0689B4F4(((struct Obj00409 *)s)->fA0, ((struct Obj00409 *)s)->fA4, func_0689B4E4(((struct Obj00409 *)s)->f6C));
     func_0689ACCC(st);
-    if (key == 0xae) k = func_0689B504(*(void **)(s + 0x6c));
+    if (key == 0xae) k = func_0689B504(((struct Obj00409 *)s)->f6C);
     switch (k) {
     case 0:
-        func_0689ACD8(st, *(u32 *)(s + 0xa0), mode | 0x200);
-        func_0689AD4C(st, *(u32 *)(s + 0xa0), key, mode);
+        func_0689ACD8(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x200);
+        func_0689AD4C(st, *(u32 *)&((struct Obj00409 *)s)->fA0, key, mode);
         return;
     case 3:
-        func_0689ACD8(st, *(u32 *)(s + 0xa0), mode | 0x100);
-        func_0689AD4C(st, *(u32 *)(s + 0xa0), key, mode);
+        func_0689ACD8(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x100);
+        func_0689AD4C(st, *(u32 *)&((struct Obj00409 *)s)->fA0, key, mode);
         return;
     case 1:
-        func_0689ACD8(st, *(u32 *)(s + 0xa0), mode | 0x300);
+        func_0689ACD8(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x300);
         return;
     case 2:
-        func_0689ACD8(st, *(u32 *)(s + 0xa0), mode | 0x400);
+        func_0689ACD8(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x400);
         return;
     case 5:
-        func_0689ACFC(st, *(u32 *)(s + 0xa0), mode | 0x100);
+        func_0689ACFC(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x100);
         return;
     case 4:
-        func_0689ACFC(st, *(u32 *)(s + 0xa0), mode | 0x200);
+        func_0689ACFC(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x200);
         return;
     case 7:
     case 9:
-        func_0689ACFC(st, *(u32 *)(s + 0xa0), mode);
+        func_0689ACFC(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode);
         return;
     case 6:
     case 12:
-        func_0689AD24(st, *(u32 *)(s + 0xa0), mode | 0x700);
+        func_0689AD24(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x700);
         return;
     case 11:
-        func_0689AD24(st, *(u32 *)(s + 0xa0), mode | 0x600);
+        func_0689AD24(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x600);
         return;
     case 8:
     case 10:
-        func_0689AD24(st, *(u32 *)(s + 0xa0), mode | 0x800);
+        func_0689AD24(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode | 0x800);
         return;
     case 13:
-        func_0689ACFC(st, *(u32 *)(s + 0xa0), mode);
+        func_0689ACFC(st, *(u32 *)&((struct Obj00409 *)s)->fA0, mode);
         break;
     }
 }

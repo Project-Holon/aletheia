@@ -14,8 +14,9 @@
  *
  * Returns the word at +0x14.
  */
+#include "../include/Obj18183.h"
 
 int func_021BC3B8(char *p)
 {
-    return *(int *)(p + 0x14);
+    return ((struct Obj18183 *)p)->f14;
 }

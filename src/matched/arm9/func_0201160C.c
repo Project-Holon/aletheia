@@ -15,10 +15,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj11245.h"
 
 typedef unsigned int u32;
 
 u32 func_0201160C(void *p)
 {
-    return *(u32 *)((char *)p + 0x10);
+    return ((struct Obj11245 *)p)->f10;
 }

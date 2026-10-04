@@ -13,13 +13,14 @@
  *   func_021A3074  0x021A3074  thumb  ov021
  *   func_0219E418  0x0219E418  thumb  ov021
  */
+#include "../include/Obj19510.h"
 
 void *func_021A3074(unsigned char *p);
 int func_0219E418(void *a, unsigned short b);
 
 int func_0218B310(void *a, unsigned char *s)
 {
-    if ((func_0219E418(func_021A3074(a), *(unsigned short *)(s + 0x24)) & 3) == 0)
+    if ((func_0219E418(func_021A3074(a), ((struct Obj19510 *)s)->f24) & 3) == 0)
         return 1;
     return 0;
 }

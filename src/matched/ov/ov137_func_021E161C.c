@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10636.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,11 +20,11 @@ typedef signed int s32;
 
 int func_021E161C(char *p)
 {
-    int n = *(int *)(p + 8) + 1;
+    int n = ((struct Obj10636 *)p)->f8 + 1;
 
-    *(int *)(p + 8) = n;
+    ((struct Obj10636 *)p)->f8 = n;
     if (n < 0x258)
         return 0;
-    *(int *)(p + 8) = 0x258;
+    ((struct Obj10636 *)p)->f8 = 0x258;
     return 1;
 }

@@ -18,6 +18,8 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_0201C6C4 0x0201C6C4 thumb
  */
+#include "../include/Obj02560.h"
+#include "../include/Obj08457.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Cfg;
@@ -34,11 +36,11 @@ void func_021B9BB0(char*p)
     u8 i;
     for(i=0;i<5;i++){
         char*q=p+i*4;
-        if(*(int*)(q+0x30)==0){
-            if(func_0201C6C4(*(void**)(p+0x10),func_02045770(*(void**)(q+0x1c)))==0){
-                void*h=*(void**)(q+0x1c);
+        if(((struct Obj08457 *)q)->f30==0){
+            if(func_0201C6C4(*(void* *)&((struct Obj02560 *)p)->f10,func_02045770(*(void* *)&((struct Obj08457 *)q)->f1C))==0){
+                void*h=*(void* *)&((struct Obj08457 *)q)->f1C;
                 func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
-                *(int*)(q+0x30)=1;
+                ((struct Obj08457 *)q)->f30=1;
             }
         }
     }

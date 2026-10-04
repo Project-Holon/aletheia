@@ -15,6 +15,8 @@
  *   d_021B81FC 0x021B81FC data a4
  *   d_021B81EC 0x021B81EC data a4
  */
+#include "../include/Obj00180.h"
+#include "../include/Obj05449.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,19 +32,19 @@ void func_021B6278(u8 *p)
     int i;
     const Row *r;
     u8 *q;
-    *(u32 *)(p+0x218)=func_0201C440((void *)79);
-    *(void **)(p+0x1dc)=func_02027F60(4,10,*(u32 *)(p+0x60),*(u32 *)(p+0x218),79);
+    ((struct Obj00180 *)p)->f218=func_0201C440((void *)79);
+    ((struct Obj00180 *)p)->f1DC=func_02027F60(4,10,((struct Obj00180 *)p)->f60,((struct Obj00180 *)p)->f218,79);
     for(i=0;i<2;i++) {
         r=&d_021B81FC[i];q=p+i*12;
-        *(void **)(q+0x1e4)=func_02045EC0(*(void **)(p+0x44),r->id);
-        *(u16 *)(q+0x1e8)=14819;
-        *(u32 *)(q+0x1ec)=r->value;
+        ((struct Obj05449 *)q)->f1E4=func_02045EC0(((struct Obj00180 *)p)->f44,r->id);
+        ((struct Obj05449 *)q)->f1E8=14819;
+        ((struct Obj05449 *)q)->f1EC=r->value;
     }
     for(i=0;i<2;i++) {
         r=&d_021B81EC[i];q=p+i*12;
-        *(void **)(q+0x1fc)=func_02045EC0(*(void **)(p+0x44),r->id);
-        *(u16 *)(q+0x200)=14819;
-        *(u32 *)(q+0x204)=r->value;
+        ((struct Obj05449 *)q)->f1FC=func_02045EC0(((struct Obj00180 *)p)->f44,r->id);
+        ((struct Obj05449 *)q)->f200=14819;
+        ((struct Obj05449 *)q)->f204=r->value;
     }
-    *(u32 *)(p+0x220)=0;*(u32 *)(p+0x224)=0;
+    ((struct Obj00180 *)p)->f220=0;((struct Obj00180 *)p)->f224=0;
 }

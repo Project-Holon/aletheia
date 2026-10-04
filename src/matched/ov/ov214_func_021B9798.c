@@ -25,6 +25,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data
  */
+#include "../include/Obj00636.h"
 struct Rec;
 extern const char ov067_id[];
 extern void func_021BAF30(int unused,char *p);
@@ -53,18 +54,18 @@ int func_021B9798(void *owner,int unused,int state,char *p)
     func_021BA018(state,p);
     func_021BAE10(state,p);
     func_021BAC3C(state,p);
-    func_02045C04(*(struct Rec **)(p+0x58));
-    func_02030EAC((struct Node *)(*(unsigned *)(p+0x4C)));
-    func_0201C6EC((struct PrintSys *)(*(int *)(p+0x18)));
-    func_0201C4C0((struct PrintSys *)(*(int *)(p+0x18)));
-    func_0201C6EC((struct PrintSys *)(*(int *)(p+0x14)));
-    func_0201C4C0((struct PrintSys *)(*(int *)(p+0x14)));
-    func_0201C6EC((struct PrintSys *)(*(int *)(p+0x10)));
-    func_0201C4C0((struct PrintSys *)(*(int *)(p+0x10)));
-    func_0201C6EC((struct PrintSys *)(*(int *)(p+0xC)));
-    func_0201C4C0((struct PrintSys *)(*(int *)(p+0xC)));
-    func_0201D83C(*(void **)(p+8));
-    func_021BB220(*(char **)(p+4));
+    func_02045C04(*(struct Rec * *)&((struct Obj00636 *)p)->f58);
+    func_02030EAC((struct Node *)(((struct Obj00636 *)p)->f4C));
+    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f18));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f18));
+    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f14));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f14));
+    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->f10));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->f10));
+    func_0201C6EC((struct PrintSys *)(((struct Obj00636 *)p)->fC));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00636 *)p)->fC));
+    func_0201D83C(((struct Obj00636 *)p)->f8);
+    func_021BB220(*(char * *)&((struct Obj00636 *)p)->f4);
     func_020315D4(owner);
     func_020306F0(117);
     func_02034A5C((int)ov067_id);

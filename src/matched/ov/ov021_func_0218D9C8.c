@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218D9B8  0x0218D9B8  thumb
  */
+#include "../include/Obj19551.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ void func_0218D9C8(u8 *p)
     int i;
     for (i = 0; i < 16; i++)
         func_0218D9B8(p + i * 16);
-    *(u16 *)(p + 0x100) = 0;
+    ((struct Obj19551 *)p)->f100 = 0;
 }

@@ -12,6 +12,7 @@
  *   func_02030DA8 0x02030DA8 arm
  *   func_021E1468 0x021E1468 thumb ov137
  */
+#include "../include/Obj14250.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, unsigned);
@@ -22,5 +23,5 @@ void func_021E1488(char *p)
     unsigned n = 80;
     func_02082BCC(p + 0xc90, 0, n);
     n += 180;
-    *(void **)(p + 0xd90) = func_02030DA8(*(void **)(p + 0xd98), func_021E1468, p, n);
+    ((struct Obj14250 *)p)->fD90 = func_02030DA8(((struct Obj14250 *)p)->fD98, func_021E1468, p, n);
 }

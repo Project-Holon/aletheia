@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22236.h"
 
 void func_021B8F00(void *p)
 {
-    *(int *)((char *)p + 0xc) = 1;
+    ((struct Obj22236 *)p)->fC = 1;
 }

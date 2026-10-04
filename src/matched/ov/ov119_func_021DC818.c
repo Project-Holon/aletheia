@@ -12,13 +12,14 @@
  *   func_02005DE4 0x02005DE4 thumb
  *   func_02005DF8 0x02005DF8 thumb
  */
+#include "../include/Obj00001.h"
 extern void func_02005E9C(void);
 typedef unsigned int   u32;
 extern void func_02005DE4(void *p);
 extern void func_02005DF8(u32 a);
 void func_021DC818(char *p)
 {
-    switch (*(unsigned char *)(p + 0x11F8)) {
+    switch (((struct Obj00001 *)p)->f11F8) {
     case 0:
         break;
     case 2:
@@ -29,5 +30,5 @@ void func_021DC818(char *p)
         func_02005DE4(0);
         func_02005DF8(30);
     }
-    *(unsigned char *)(p + 0x11F8) = 0;
+    ((struct Obj00001 *)p)->f11F8 = 0;
 }

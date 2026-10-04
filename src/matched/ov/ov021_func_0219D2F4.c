@@ -13,6 +13,7 @@
  *   func_02050468  0x02050468  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj04225.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,15 +27,15 @@ extern void func_020307B0(void *p);
 
 void func_0219D2F4(u8 *s)
 {
-    Slot *e = *(Slot **)(s + 0x20);
+    Slot *e = *(Slot * *)&((struct Obj04225 *)s)->f20;
     int i;
     if (e != 0) {
         for (i = 0; i < 4; i++, e++) {
             if (e->p != 0) {
-                func_02050468((struct BbActSys *)(*(u32 *)(s + 4)), e->id, 1);
+                func_02050468((struct BbActSys *)(((struct Obj04225 *)s)->f4), e->id, 1);
                 e->p = 0;
             }
         }
-        func_020307B0(*(void **)(s + 0x20));
+        func_020307B0(((struct Obj04225 *)s)->f20);
     }
 }

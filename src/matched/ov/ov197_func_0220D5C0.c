@@ -20,6 +20,9 @@
  *   d_0220DF00 0x0220DF00 data a4
  *   d_0220DEC0 0x0220DEC0 data a4
  */
+#include "../include/Obj14552.h"
+#include "../include/Obj25101.h"
+#include "../include/Obj25102.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -42,7 +45,7 @@ void func_0220D5C0(char *p)
  b6=d_0220DF20;func_0203FCA0(6,&b6,0);
  b5=d_0220DF00;func_0203FCA0(5,&b5,0);func_020414EC(5);
  b4=d_0220DEC0;func_0203FCA0(4,&b4,0);func_020414EC(4);
- func_02040B94(5,32,0,*(u16 *)(*(char **)p+12));
- func_02040B94(4,32,0,*(u16 *)(*(char **)p+12));
+ func_02040B94(5,32,0,((struct Obj25101 *)(*(char * *)&((struct Obj14552 *)p)->f0))->fC);
+ func_02040B94(4,32,0,((struct Obj25102 *)(*(char * *)&((struct Obj14552 *)p)->f0))->fC);
  func_02041B6C(5);func_02041B6C(4);func_02043598(15,1);
 }

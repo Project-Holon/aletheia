@@ -11,9 +11,10 @@
  * symbols:
  *   func_0203D378 0x0203D378 arm
  */
+#include "../include/Obj14125.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern u32 func_0203D378(void);
-void func_021FC804(char *p) { if(func_0203D378()==1) *(int *)(p+0x48)=1; else *(int *)(p+0x48)=2; }
+void func_021FC804(char *p) { if(func_0203D378()==1) ((struct Obj14125 *)p)->f48=1; else ((struct Obj14125 *)p)->f48=2; }

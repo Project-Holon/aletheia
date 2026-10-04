@@ -13,6 +13,7 @@
  *   func_02049250  0x02049250  arm
  *   D_0218A7C0     0x0218A7C0  data
  */
+#include "../include/Obj04408.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,11 +44,11 @@ void *func_0218A494(u8 *a)
             break;
     }
     if (a[0x45] == 2)
-        x = (u16)((*(u16 *)(a + 0xa0) & 0x7fff) | 0x8000);
+        x = (u16)((((struct Obj04408 *)a)->fA0 & 0x7fff) | 0x8000);
     else
-        x = *(u16 *)(a + 0xa0);
+        x = ((struct Obj04408 *)a)->fA0;
     D_0218A7C0->id[i] = a[0x45];
     D_0218A7C0->ref[i]++;
-    D_0218A7C0->obj[i] = func_02049250(*(void **)(a + 0xa4), a[0x45], x);
+    D_0218A7C0->obj[i] = func_02049250(((struct Obj04408 *)a)->fA4, a[0x45], x);
     return D_0218A7C0->obj[i];
 }

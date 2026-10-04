@@ -68,6 +68,7 @@
  *   str_020A7CA0   0x020A7CA0  data
  *   str_020A7CE8   0x020A7CE8  data
  */
+#include "../include/Obj03452.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -94,17 +95,17 @@ void func_0203CDD4(void)
     u8 m;
 
     f = *(void (**)(u32))(s + 0x348);
-    a = *(u16 *)(s + 0x56);
-    b = *(u16 *)(s + 0x58);
-    c = *(u16 *)(s + 0x5A);
+    a = ((struct Obj03452 *)s)->f56;
+    b = ((struct Obj03452 *)s)->f58;
+    c = ((struct Obj03452 *)s)->f5A;
     m = s[0x65];
 
     if (f != 0)
-        f(*(u32 *)(s + 0x34C));
+        f(((struct Obj03452 *)s)->f34C);
 
     f = *(void (**)(u32))(s + 0x2C);
     if (f != 0)
-        f(*(u32 *)(s + 0x34C));
+        f(((struct Obj03452 *)s)->f34C);
 
     func_020398B4(s);
     func_0200F234(m);

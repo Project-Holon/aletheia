@@ -57,6 +57,7 @@
  *   func_020145FC  0x020145FC  thumb
  *   func_02029C64  0x02029C64  thumb
  */
+#include "../include/Obj01649.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -118,9 +119,9 @@ int func_021841C0(int ctx, int *state, u8 **pp)
     int a;
 
     p = *pp;
-    z = *(int *)(p + 8);
-    x = *(int *)(p + 0);
-    y = *(int *)(p + 4);
+    z = ((struct Obj01649 *)p)->f8;
+    x = ((struct Obj01649 *)p)->f0;
+    y = ((struct Obj01649 *)p)->f4;
     w = func_02012138((const struct Ctx *)x);
 
     switch (*state) {
@@ -131,7 +132,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
         break;
     case 1:
         func_02034AC4((int)ov230_id);
-        if (func_02013D34(*(u16 *)(p + 0x14)) == 1 && (u8)(func_02026454((void *)w) + 0xff) <= 1) {
+        if (func_02013D34(((struct Obj01649 *)p)->f14) == 1 && (u8)(func_02026454((void *)w) + 0xff) <= 1) {
             func_02026400((struct Comm *)w);
             *state = 2;
         } else {
@@ -146,8 +147,8 @@ int func_021841C0(int ctx, int *state, u8 **pp)
     case 3:
         func_021882A0((void (*)(void))func_02183B60, (void (*)(void))func_0218604C, 0);
         func_02185B70((void *)x);
-        if (*(int *)(p + 0x40) != 0 && *(int *)(p + 0x44) != 0) {
-            func_0202E8CC(y, *(u16 *)(p + 0x4a));
+        if (((struct Obj01649 *)p)->f40 != 0 && ((struct Obj01649 *)p)->f44 != 0) {
+            func_0202E8CC(y, ((struct Obj01649 *)p)->f4A);
             a = (int)func_02008B14(func_02012EBC((struct Big *)y));
             b = func_02012984((const struct BigObj *)y);
             c = func_02012934((void *)y);
@@ -156,21 +157,21 @@ int func_021841C0(int ctx, int *state, u8 **pp)
             func_0216A358(y, (int)c, (u32 *)a, b);
         }
         func_02188318((void (*)(void))func_02183B60, (void (*)(void))func_0218606C, 0);
-        func_02185A68((void *)x, *(u16 *)(p + 0x14));
+        func_02185A68((void *)x, ((struct Obj01649 *)p)->f14);
         func_021857C0((void *)x, (int)(p + 0x10));
-        if (*(u8 *)(p + 0x30) != 4) {
-            func_0202735C(*(u16 *)(p + 0x14), y);
+        if (((struct Obj01649 *)p)->f30 != 4) {
+            func_0202735C(((struct Obj01649 *)p)->f14, y);
         }
         func_021883CC((void (*)(void))func_02183B60, func_0218608C, 0);
-        switch (*(u8 *)(p + 0x30)) {
+        switch (((struct Obj01649 *)p)->f30) {
         case 1:
-            func_02164454(y, *(u16 *)(p + 0x14));
+            func_02164454(y, ((struct Obj01649 *)p)->f14);
             break;
         case 2:
-            func_02164464(y, *(u16 *)(p + 0x14));
+            func_02164464(y, ((struct Obj01649 *)p)->f14);
             break;
         case 3:
-            func_0216445C(y, *(u16 *)(p + 0x14));
+            func_0216445C(y, ((struct Obj01649 *)p)->f14);
             break;
         }
         func_02034A5C((int)ov230_id);

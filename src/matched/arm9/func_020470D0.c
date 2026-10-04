@@ -41,6 +41,7 @@
  * 0x020A814C, written as numeric casts so the pool word stays a plain
  * literal rather than a relocation.
  */
+#include "../include/Obj03459.h"
 
 typedef unsigned int   u32;
 typedef unsigned short u16;
@@ -61,16 +62,16 @@ int func_020470D0(u32 *p)
     r = func_0206E964((unsigned char *)p[1]);
     f1 = 0;
     f2 = 0;
-    if (*(u16 *)(r + 0x10) & 1)
+    if (((struct Obj03459 *)r)->f10 & 1)
         f1 = 1;
-    if (*(u16 *)(r + 0x20) & 1)
+    if (((struct Obj03459 *)r)->f20 & 1)
         f2 = 1;
     func_0206A0C4(r, &x, &y);
     if (f1)
         (*(void (**)(u32))0x020A8144)(x);
     if (f2)
         (*(void (**)(u32))0x020A8144)(y);
-    if ((*(u16 *)(r + 0x32) & 1) != 0 && *(u16 *)(r + 0x30) != 0)
+    if ((((struct Obj03459 *)r)->f32 & 1) != 0 && ((struct Obj03459 *)r)->f30 != 0)
         (*(void (**)(u32))0x020A814C)(func_0206A17C(r));
     return 1;
 }

@@ -31,6 +31,7 @@
  *   d_00000075 0x00000075 data a1
  *   d_00000076 0x00000076 data a1
  */
+#include "../include/Obj00001.h"
 extern unsigned func_020221A4(void);
 extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
 extern void func_020307B0(void *),func_021E5EF8(void *),func_021E5D84(char *),func_021DC720(char *),func_020275E0(void);
@@ -39,16 +40,16 @@ struct S020315D4;
 extern void func_0203A5E4(int),func_021E31BC(char *),func_02030EAC(void *),func_021DC5D0(void *,int),func_021DC428(void *),func_021DC484(void *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int),func_02034A5C(int);
 int func_021DCF24(void *owner,int unused,int keep,char *p)
 {
-    int state=*(int *)(p+0x118c);
+    int state=((struct Obj00001 *)p)->f118C;
     if(func_020221A4()==0)return 0;
-    func_020307B0(*(void **)(p+0x10a4));
-    func_020307B0(*(void **)(p+0x10a8));
+    func_020307B0(((struct Obj00001 *)p)->f10A4);
+    func_020307B0(((struct Obj00001 *)p)->f10A8);
     func_021E5EF8(p+0x950);func_021E5EF8(p+0x964);func_021E5EF8(p+0x978);
     func_021E5D84(p);func_021DC720(p);func_020275E0();
     if(func_021D8A24(p))func_0203A5E4(0xc00);
     func_021E31BC(p);
-    func_020307B0(*(void **)(p+0x5dc));func_020307B0(*(void **)(p+0x5e0));
-    func_02030EAC(*(void **)(p+0x9c8));
+    func_020307B0(((struct Obj00001 *)p)->f5DC);func_020307B0(((struct Obj00001 *)p)->f5E0);
+    func_02030EAC(((struct Obj00001 *)p)->f9C8);
     func_021DC5D0(p,keep!=0);
     func_021DC428(p);func_021DC484(p);func_020315D4(owner);
     func_020306F0(31);func_020306F0(145);

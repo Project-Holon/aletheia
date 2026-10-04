@@ -14,6 +14,7 @@
 
  * State setter: build with the fixed 0x12/0x1ad/0x8/0x1 argument pair and latch state 0xd.
  */
+#include "../include/Obj18541.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021F4BE0(u32 a, u32 b, u32 c, u32 d, u8 e);
 int func_021F6418(u8 *p)
 {
     func_021F4BE0((u32)p, 0x12, 0x1ad, 0x8, 0x1);
-    *(u32 *)(p + 0x28) = 0xd;
+    ((struct Obj18541 *)p)->f28 = 0xd;
     return 2;
 }

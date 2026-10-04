@@ -19,6 +19,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj07895.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -42,7 +43,7 @@ void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, i
                    void (*f1)(void *, void *), void (*f2)(void *))
 {
     Job *p;
-    p = func_02030734((u16)((*(u16 *)(o + 0x80) & 0x7fff) | 0x8000), 0x50, 0, d_0220AE88, 0x197);
+    p = func_02030734((u16)((((struct Obj07895 *)o)->f80 & 0x7fff) | 0x8000), 0x50, 0, d_0220AE88, 0x197);
     p->owner = o;
     p->idx = idx;
     p->start.x = v->x;
@@ -76,5 +77,5 @@ void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, i
     default:
         break;
     }
-    func_021F896C(func_02030DA8(*(void **)o, f1, p, 0), f2, 0);
+    func_021F896C(func_02030DA8(((struct Obj07895 *)o)->f0, f1, p, 0), f2, 0);
 }

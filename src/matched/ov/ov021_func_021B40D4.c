@@ -25,6 +25,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -59,20 +60,20 @@ void func_021B40D4(char *w)
 {
     u32 t7, t6, s, bg;
 
-    if (*(u8 *)(w + 0x163) == 1) {
-        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0x16);
-        t6 = (u32)func_020457B0(10, *(u16 *)(w + 4));
-        func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 0, func_0200DABC((struct Blk1AC *)(*(u32 *)(w + 0x18))), 4, 1, 1);
+    if (((struct Obj00037 *)w)->f163 == 1) {
+        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x16);
+        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
+        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200DABC((struct Blk1AC *)(((struct Obj00037 *)w)->f18)), 4, 1, 1);
     } else {
-        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0x15);
-        t6 = (u32)func_020457B0(10, *(u16 *)(w + 4));
-        func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 0, func_0200C274((struct Blk34 *)(*(u32 *)(w + 0xC))), 7, 1, 1);
+        t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x15);
+        t6 = (u32)func_020457B0(10, ((struct Obj00037 *)w)->f4);
+        func_0201EFA4((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), 0, func_0200C274((struct Blk34 *)(((struct Obj00037 *)w)->fC)), 7, 1, 1);
     }
-    func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)t6, (void *)t7);
-    s = (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x168));
+    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00037 *)w)->f190), (void *)t6, (void *)t7);
+    s = (u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f168);
     func_02043B5C((struct CharBuf *)s, 0);
-    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(*(u32 *)(w + 8)), 0x3C4F);
-    bg = *(u32 *)(w + 0x168);
+    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
+    bg = ((struct Obj00037 *)w)->f168;
     func_02045334((struct Descriptor *)bg);
     func_02045374((struct Cfg *)bg);
     func_020409B4(func_02045730((struct Descriptor *)bg));

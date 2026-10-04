@@ -21,6 +21,7 @@
  *   func_02045808 0x02045808 arm
  *   func_0201F73C 0x0201F73C thumb
  */
+#include "../include/Obj01777.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -42,12 +43,12 @@ extern void func_0201F73C(void *,int,int,int);
 void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
 {
     void *buffer;
-    buffer=func_020457B0(1024,*(u16 *)p);
-    func_02043B5C(func_02045770(*(void **)(p+28)),15);
-    func_02045CAC(*(void **)(p+20),entry,buffer);
-    func_0201F02C(*(void **)(p+24),0,*(void **)(p+8));
-    func_0201F250(*(void **)(p+24),*(void **)(p+12),buffer);
-    *(void **)(p+32)=func_0201CCE4(*(void **)(p+28),index,kind,*(void **)(p+12),*(void **)(p+16),func_02012FFC(),*(void **)(p+36),0,*(u16 *)p,3855);
+    buffer=func_020457B0(1024,((struct Obj01777 *)p)->f0);
+    func_02043B5C(func_02045770(((struct Obj01777 *)p)->f1C),15);
+    func_02045CAC(((struct Obj01777 *)p)->f14,entry,buffer);
+    func_0201F02C(((struct Obj01777 *)p)->f18,0,((struct Obj01777 *)p)->f8);
+    func_0201F250(((struct Obj01777 *)p)->f18,((struct Obj01777 *)p)->fC,buffer);
+    ((struct Obj01777 *)p)->f20=func_0201CCE4(((struct Obj01777 *)p)->f1C,index,kind,((struct Obj01777 *)p)->fC,((struct Obj01777 *)p)->f10,func_02012FFC(),((struct Obj01777 *)p)->f24,0,((struct Obj01777 *)p)->f0,3855);
     func_02045808(buffer);
-    func_0201F73C(*(void **)(p+28),2,1,12);
+    func_0201F73C(((struct Obj01777 *)p)->f1C,2,1,12);
 }

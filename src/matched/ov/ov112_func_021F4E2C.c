@@ -9,17 +9,19 @@
  * status: EXACT
  * lever: Three-shift single-bit extraction is a halfword bitfield copy.
  */
+#include "../include/Obj05311.h"
+#include "../include/Obj05312.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef struct { u16 a:2; u16 flag:1; u16 b:13; } Flags;
 void func_021F4E2C(void *unused, u8 *s, u8 *d)
 {
-    *(int *)(d + 16) = *(int *)(s + 16) + 8192;
-    *(int *)(d + 20) = *(int *)(s + 20) + 8192;
-    *(int *)(d + 24) = *(int *)(s + 24) - 2048;
-    *(s16 *)(d + 28) = *(s16 *)(s + 28);
-    *(s16 *)(d + 30) = *(s16 *)(s + 30);
-    *(u16 *)(d + 2) = *(u16 *)(s + 2);
+    ((struct Obj05312 *)d)->f10 = ((struct Obj05311 *)s)->f10 + 8192;
+    ((struct Obj05312 *)d)->f14 = ((struct Obj05311 *)s)->f14 + 8192;
+    ((struct Obj05312 *)d)->f18 = ((struct Obj05311 *)s)->f18 - 2048;
+    ((struct Obj05312 *)d)->f1C = ((struct Obj05311 *)s)->f1C;
+    ((struct Obj05312 *)d)->f1E = ((struct Obj05311 *)s)->f1E;
+    ((struct Obj05312 *)d)->f2 = ((struct Obj05311 *)s)->f2;
     ((Flags *)d)->flag = ((Flags *)s)->flag;
 }

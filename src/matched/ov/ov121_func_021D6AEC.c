@@ -24,6 +24,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_02005728 0x02005728 thumb
  */
+#include "../include/Obj01403.h"
+#include "../include/Obj22851.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,19 +54,19 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
     void *arc;
     int i;
     arc=func_020490F4(34,heap);
-    *(int *)p=func_0204ABF0(arc,8,2,0,heap);
-    *(int *)(p+8)=func_0204AF28(arc,34,37,heap);
-    *(int *)(p+4)=func_0204A6C8(arc,16,0,2,heap);
+    *(int *)&((struct Obj01403 *)p)->f0=func_0204ABF0(arc,8,2,0,heap);
+    *(int *)&((struct Obj01403 *)p)->f8=func_0204AF28(arc,34,37,heap);
+    *(int *)&((struct Obj01403 *)p)->f4=func_0204A6C8(arc,16,0,2,heap);
     allocation=func_02049F78(arc,8,(u32)(&res),heap);
-    data=*(char **)((char *)res+12);
+    data=*(char * *)&((struct Obj22851 *)res)->fC;
     func_02082D44(data,p+0xda,32);
     data+=32;
     func_02082D44(data,p+0xba,32);
     func_020307B0(allocation);
     func_02049238(arc);
     func_02082BCC(&point,0,8);
-    *(void **)(p+12)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
-    func_0204B3DC(*(void **)(p+12),0);
+    ((struct Obj01403 *)p)->fC=func_0204B294((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
+    func_0204B3DC(((struct Obj01403 *)p)->fC,0);
     bound=256;
     bound+=16;
     for (i=0;i<32;i++) {
@@ -72,7 +74,7 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
         point.y=func_02005728(256)-bound;
         point.b=3;
         point.z=func_02005728(6)+3;
-        *(void **)(p+i*4+16)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
+        *(void **)(p+i*4+16)=func_0204B294((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
         func_0204B3DC(*(void **)(p+i*4+16),0);
     }
     point.x=128;
@@ -80,6 +82,6 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
     point.b=0;
     point.a=1;
     point.z=9;
-    *(void **)(p+148)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
-    func_0204B3DC(*(void **)(p+148),0);
+    ((struct Obj01403 *)p)->f94=func_0204B294((void *)owner,((struct Obj01403 *)p)->f4,((struct Obj01403 *)p)->f0,((struct Obj01403 *)p)->f8,&point,0,heap);
+    func_0204B3DC(((struct Obj01403 *)p)->f94,0);
 }

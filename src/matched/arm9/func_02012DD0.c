@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02012DD0.c \
  *       --func func_02012DD0 --addr 0x02012DD0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11252.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,11 +34,11 @@ int func_02012DD0(u8 *p)
     if (func_02005C64() == 1) {
         return 0;
     }
-    r = func_02007168((struct Sub02007168 *)(*(u32 *)p));
+    r = func_02007168((struct Sub02007168 *)(((struct Obj11252 *)p)->f0));
     if ((u32)(r - 2) <= 1) {
         func_020351A0(2);
         func_02010444();
-        *(u8 *)(p + 0x1ce) = 0;
+        ((struct Obj11252 *)p)->f1CE = 0;
     }
     return r;
 }

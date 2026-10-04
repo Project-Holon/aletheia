@@ -16,6 +16,10 @@
  *   func_021DEF6C 0x021DEF6C thumb ov137
  *   func_021E0304 0x021E0304 thumb ov137
  */
+#include "../include/Obj02869.h"
+#include "../include/Obj08215.h"
+#include "../include/Obj23748.h"
+#include "../include/Obj23749.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x90]; void *slots[5]; void *other[5]; } Obj;
@@ -34,10 +38,10 @@ int func_021DEDAC(Obj *obj)
     u8 *q;
     int i, count;
     q = func_021E16AC(p, 24);
-    *(int *)(q + 16) = *(int *)(p + 0x2c);
-    count = *(int *)(p + 0x30);
-    *(int *)(q + 20) = count;
-    *(int *)(q + 4) = d_021E1FA0[count][*(int *)(p + 0x2c)];
+    ((struct Obj08215 *)q)->f10 = ((struct Obj02869 *)p)->f2C;
+    count = ((struct Obj02869 *)p)->f30;
+    ((struct Obj08215 *)q)->f14 = count;
+    ((struct Obj08215 *)q)->f4 = d_021E1FA0[count][((struct Obj02869 *)p)->f2C];
     for (i = 0; i < 5; i++) {
         if (func_021E1768((char *)p, i)) {
             obj->slots[i] = func_02184180(func_021DEB10(p), i);
@@ -45,10 +49,10 @@ int func_021DEDAC(Obj *obj)
         }
     }
     func_021DEF6C(p);
-    *(int *)(p + 0x120) = *(int *)(q + 4) << 12;
-    *(int *)p = 17;
+    ((struct Obj02869 *)p)->f120 = ((struct Obj08215 *)q)->f4 << 12;
+    ((struct Obj02869 *)p)->f0 = 17;
     func_02005D90(1157, 65535);
-    *(int *)(*(u8 **)(*(u8 **)(p + 0xd8) + 0x14) + 0x14) = 1;
+    ((struct Obj23749 *)(*(u8 * *)&((struct Obj23748 *)(*(u8 * *)&((struct Obj02869 *)p)->fD8))->f14))->f14 = 1;
     func_021E0304(p);
     return 1;
 }

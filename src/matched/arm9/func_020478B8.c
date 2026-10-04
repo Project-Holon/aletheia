@@ -16,6 +16,8 @@
  * limit it rewinds by one 0x1000 and returns 0, if it goes negative it pins to
  * zero and returns 0, otherwise returns 1.
  */
+#include "../include/Obj06972.h"
+#include "../include/Obj16059.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +36,7 @@ struct Obj {
 
 int func_020478B8(void *a, int idx, int amount)
 {
-    struct Obj **tbl = *(struct Obj ***)((char *)a + 8);
+    struct Obj **tbl = *(struct Obj ** *)&((struct Obj06972 *)a)->f8;
     struct Obj *e = tbl[idx];
     struct Run *r;
     int nv;
@@ -48,7 +50,7 @@ int func_020478B8(void *a, int idx, int amount)
     nv = (int)r->cur + amount;
     r->cur = (u32)nv;
 
-    lim = (u32)*(u16 *)(r->desc + 4) << 12;
+    lim = (u32)((struct Obj16059 *)(r->desc))->f4 << 12;
     if (nv >= (int)lim) {
         r->cur = lim - 0x1000;
         return 0;

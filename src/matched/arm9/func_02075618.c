@@ -35,6 +35,8 @@
  *   func_02075B54  0x02075B54  arm
  *   func_02075794  0x02075794  arm
  */
+#include "../include/Obj08952.h"
+#include "../include/Obj16685.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -58,7 +60,7 @@ u32 func_02075618(u32 a, u32 b, u32 c)
         return 0;
     }
 
-    q = func_0207466C(*(u32 *)r);
+    q = func_0207466C(((struct Obj16685 *)r)->f0);
     if (q == 0) {
         return 0;
     }
@@ -68,5 +70,5 @@ u32 func_02075618(u32 a, u32 b, u32 c)
         return 0;
     }
 
-    return func_02075794(a, st[9], *(u16 *)(st + 4), st[8], st, (u8 *)q, b, c);
+    return func_02075794(a, st[9], ((struct Obj08952 *)st)->f4, st[8], st, (u8 *)q, b, c);
 }

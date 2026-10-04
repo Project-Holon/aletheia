@@ -17,6 +17,7 @@
  *   func_021AC178  0x021AC178  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19874.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ void func_021ACC3C(u32 a, B *b)
     u32 k = 0x1000;
     b->blk = *(Blk *)p;
     func_021AC1CC(a, p + 0x10);
-    b->fc = *(u16 *)(p + 0xc);
+    b->fc = ((struct Obj19874 *)p)->fC;
     func_021ABE18((u8 *)(*(u32 *)b->blk.w[0]));
     b->f18 = *(u16 *)(b->blk.w[0] + 8);
     b->f9 = func_021AC1A0(a);

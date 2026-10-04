@@ -14,6 +14,7 @@
  *   func_02040B1C  0x02040B1C  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj12153.h"
 typedef unsigned int u32;
 
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ void func_021DEB40(u32 a, u32 b, void *c)
     void *r;
 
     r = func_02049DB4(0x74, b + 0xe, 1, (u32)(&out), 0x4c);
-    func_02040B1C(3, (const void *)(*(u32 *)((char *)out + 0x14)), *(u32 *)((char *)out + 0x10), (u32)c);
+    func_02040B1C(3, (const void *)(((struct Obj12153 *)out)->f14), ((struct Obj12153 *)out)->f10, (u32)c);
     func_020307B0(r);
 }

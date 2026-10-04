@@ -14,6 +14,7 @@
  *
  * Runs the setup for selector 0x5A and stamps it 0x1CC bytes in.
  */
+#include "../include/Obj18201.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021BBA20(int a);
 int func_021BCAB8(char *p, int v)
 {
     func_021BBA20((int)p);
-    *(u32 *)(p + 0x1CC) = 0x5A;
+    ((struct Obj18201 *)p)->f1CC = 0x5A;
     return v;
 }

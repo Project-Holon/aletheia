@@ -9,4 +9,5 @@
  * status: EXACT
  * note: blocker leaf of func_021F5438; following 021F6230 is already matched.
  */
-void func_021F622C(char *p,int b) { *(int *)(p+12)=b; }
+#include "../include/Obj22543.h"
+void func_021F622C(char *p,int b) { ((struct Obj22543 *)p)->fC=b; }

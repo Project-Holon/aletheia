@@ -17,6 +17,7 @@
  *   func_021C38F4  0x021C38F4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03142.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -35,5 +36,5 @@ void func_021C3898(u32 *p, u32 c)
     u32 b = func_0200BC2C(p[2], 0);
     u32 d = func_0200BC2C(p[2], 1);
 
-    func_021C38F4(*(u16 *)p, (void *)a, (void *)0xEA62, b, d, (void *)c);
+    func_021C38F4(((struct Obj03142 *)p)->f0, (void *)a, (void *)0xEA62, b, d, (void *)c);
 }

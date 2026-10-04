@@ -15,10 +15,11 @@
  * blocker: target 0x0202E7DC has no `func_`/`sub_` label and no outside
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
+#include "../include/Obj20998.h"
 
 char *func_0202E7DC(char *p);
 
 void func_021BA080(char **p)
 {
-    func_0202E7DC((char *)(*(int *)(*p + 0x70)));
+    func_0202E7DC((char *)(((struct Obj20998 *)(*p))->f70));
 }

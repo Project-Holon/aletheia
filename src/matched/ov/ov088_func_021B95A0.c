@@ -14,6 +14,7 @@
  *   func_0203159C  0x0203159C  arm
  *   func_02082BCC  0x02082BCC  arm
  */
+#include "../include/Obj20810.h"
 
 typedef unsigned short u16;
 
@@ -28,6 +29,6 @@ int func_021B95A0(int a0)
     func_0203064C(1, 0x16, 0x120000);
     p = func_0203159C(a0, 0x98, 0x16);
     func_02082BCC(p, 0, 0x98);
-    *(u16 *)(p + 2) = 0x16;
+    ((struct Obj20810 *)p)->f2 = 0x16;
     return 1;
 }

@@ -12,6 +12,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_020605B4 0x020605B4 arm
  */
+#include "../include/Obj14096.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020307B0(void *);
@@ -20,8 +21,8 @@ extern void func_02030EAC(struct Node *n);
 extern void func_020605B4(void *, void *);
 void func_021FADF8(char *p, char *q)
 {
-    func_020307B0(*(void **)(q + 8));
-    func_02030EAC(*(void **)(q + 0xc));
+    func_020307B0(((struct Obj14096 *)q)->f8);
+    func_02030EAC(((struct Obj14096 *)q)->fC);
     func_020605B4(p + 0x38, q);
     func_020307B0(q);
 }

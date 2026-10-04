@@ -17,6 +17,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21422.h"
 typedef unsigned char u8;
 extern int func_021D775C(int key);
 extern int func_021C7F24(u8 *p, int i);
@@ -37,7 +38,7 @@ void func_021DFE88(int a, void *b, int c)
         func_021C8860((struct S *)(p + 4), c);
         func_021C88C8(b, p);
         q = func_021C88A4(b, 0x29, c);
-        *(u8 *)(q + 0x4c) = c;
+        ((struct Obj21422 *)q)->f4C = c;
         func_021C88C8(b, q);
     }
 }

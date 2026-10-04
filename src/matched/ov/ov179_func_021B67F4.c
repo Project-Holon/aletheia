@@ -12,12 +12,13 @@
  * symbols:
  *   func_0204047C  0x0204047C  arm
  */
+#include "../include/Obj14396.h"
 
 extern void func_0204047C(int idx, unsigned short val);
 
 int func_021B67F4(int a, int *q)
 {
-    func_0204047C((unsigned char)*(int *)((char *)q + 4),
-                  (unsigned char)*(int *)((char *)q + 8));
+    func_0204047C((unsigned char)((struct Obj14396 *)q)->f4,
+                  (unsigned char)((struct Obj14396 *)q)->f8);
     return 1;
 }

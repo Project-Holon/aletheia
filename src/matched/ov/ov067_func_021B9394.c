@@ -9,7 +9,8 @@
  * status: EXACT
  * extent: four-byte getter; next leaf 021B9398 belongs to S27, not this file.
  */
+#include "../include/Obj20627.h"
 unsigned func_021B9394(char *p)
 {
-    return *(unsigned *)(p + 0x34);
+    return ((struct Obj20627 *)p)->f34;
 }

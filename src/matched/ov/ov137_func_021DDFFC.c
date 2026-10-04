@@ -13,6 +13,7 @@
  *   func_02039338 0x02039338 arm
  *   func_021DD924 0x021DD924 thumb ov137
  */
+#include "../include/Obj03840.h"
 typedef unsigned short u16;
 typedef signed short s16;
 extern void *func_021DCF50(void *);
@@ -20,14 +21,14 @@ extern int func_021841A4(unsigned char *p);
 extern u16 func_02039338(void);
 extern void func_021DD924(char *);
 int func_021DDFFC(char *p, int state) {
-    if (*(unsigned *)(p+0x481c) != 0) {
-        if (*(unsigned *)(p+0x481c) != func_021841A4(func_021DCF50(p)))
-            *(unsigned *)(p+0x481c) = 0;
+    if (((struct Obj03840 *)p)->f481C != 0) {
+        if (((struct Obj03840 *)p)->f481C != func_021841A4(func_021DCF50(p)))
+            ((struct Obj03840 *)p)->f481C = 0;
     }
-    if (--*(int *)(p+0x4818) < 0)
-        *(unsigned *)(p+0x481c) = 0;
-    if (++*(int *)(p+0x124) > 60 && *(unsigned *)(p+0x481c) == 0) {
-        *(int *)(p+0x118) = 0;
+    if (--((struct Obj03840 *)p)->f4818 < 0)
+        ((struct Obj03840 *)p)->f481C = 0;
+    if (++((struct Obj03840 *)p)->f124 > 60 && ((struct Obj03840 *)p)->f481C == 0) {
+        ((struct Obj03840 *)p)->f118 = 0;
         func_02039338();
     }
     func_021DD924(p);

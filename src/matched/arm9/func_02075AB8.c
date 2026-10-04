@@ -21,6 +21,7 @@
  * the body; declaring `n` inside the loop (rather than hoisting it) is what
  * keeps r6 out of the prologue's push.
  */
+#include "../include/Obj16688.h"
 
 typedef unsigned int u32;
 
@@ -39,7 +40,7 @@ void func_02075AB8(void *a, u32 v)
     while (p != 0) {
         void *n = func_02060614(a, p);
 
-        if (*(u32 *)((char *)p + 8) == v) {
+        if (((struct Obj16688 *)p)->f8 == v) {
             func_020605B4(a, p);
             func_02075B28(p);
         }

@@ -22,6 +22,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj03736.h"
+#include "../include/Obj06360.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C2438(char *);
@@ -45,18 +47,18 @@ int func_021C2724(void *task, int unused, char *output, char *p)
     if (!func_021C2438(p)) return 0;
     if (!func_020221A4()) return 0;
     if (func_0203CD98()) func_021BA7F8(p);
-    *(u8 *)(output + 0x49) = *(int *)(p + 0x135c);
-    if (*(void **)(p + 0x1348)) {
-        func_0200AE08(*(void **)(p + 0x1348), *(void **)(output + 0x1c));
-        func_020307B0(*(void **)(p + 0x1348));
-        *(void **)(p + 0x1348) = 0;
+    ((struct Obj06360 *)output)->f49 = ((struct Obj03736 *)p)->f135C;
+    if (((struct Obj03736 *)p)->f1348) {
+        func_0200AE08(((struct Obj03736 *)p)->f1348, ((struct Obj06360 *)output)->f1C);
+        func_020307B0(((struct Obj03736 *)p)->f1348);
+        ((struct Obj03736 *)p)->f1348 = 0;
     }
     func_021BC0C4(p);
     func_021BDF7C(p);
-    *(u8 *)(output + 0x47) = *(u16 *)(p + 0x242);
-    *(int *)(output + 0xc) = *(int *)(p + 0x1d0);
-    if (func_0203CD98()) *(int *)(output + 0x10) = func_02156A3C();
-    func_021BCBB0(*(void **)(p + 0xcc));
+    ((struct Obj06360 *)output)->f47 = ((struct Obj03736 *)p)->f242;
+    ((struct Obj06360 *)output)->fC = ((struct Obj03736 *)p)->f1D0;
+    if (func_0203CD98()) ((struct Obj06360 *)output)->f10 = func_02156A3C();
+    func_021BCBB0(((struct Obj03736 *)p)->fCC);
     func_021BB224(p);
     func_020315D4(task);
     func_020306F0(33);

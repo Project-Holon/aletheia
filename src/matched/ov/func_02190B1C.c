@@ -15,6 +15,7 @@
  *   func_0201F73C  0x0201F73C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17931.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_0201F73C(u32, u32, u32, u32);
 
 int func_02190B1C(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0201F73C(*(u32 *)((u8 *)(a) + 8), 0, 1, 13);
+return func_0201F73C(((struct Obj17931 *)((u8 *)(a)))->f8, 0, 1, 13);
 }
 

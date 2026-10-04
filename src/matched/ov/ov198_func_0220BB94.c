@@ -12,6 +12,7 @@
  * symbols:
  *   func_020215BC 0x020215BC thumb
  */
+#include "../include/Obj25127.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -20,5 +21,5 @@ extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u3
 
 void func_0220BB94(unsigned char *p)
 {
-    func_020215BC((struct PalAnmSlot *)(*(int *)(p + 0x1d8)), p + 0x1e78, 1, 0xc0, 0x20);
+    func_020215BC((struct PalAnmSlot *)(((struct Obj25127 *)p)->f1D8), p + 0x1e78, 1, 0xc0, 0x20);
 }

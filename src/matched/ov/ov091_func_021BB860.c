@@ -20,6 +20,7 @@
  *   func_0201CD10  0x0201CD10  thumb
  *   func_021BB910  0x021BB910  thumb  ov091
  */
+#include "../include/Obj06213.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,9 +49,9 @@ void func_021BB860(u8 *a, u32 *s, u32 x, u32 y)
     u32 t;
     u32 n;
 
-    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(a + 0x134)), x);
+    t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06213 *)a)->f134), x);
     if (s[11] != 0) {
-        n = (u32)func_020457B0(0x100, *(u16 *)a);
+        n = (u32)func_020457B0(0x100, ((struct Obj06213 *)a)->f0);
         func_0201F250((struct WordSet *)s[11], (void *)n, (void *)t);
         func_02045808((struct U16Vec *)t);
         t = n;
@@ -63,6 +64,6 @@ void func_021BB860(u8 *a, u32 *s, u32 x, u32 y)
     s[8] = y;
     s[4] = t;
     func_02028470(s + 6, 6);
-    s[3] = (u32)func_0201CD10(s[1], 0, 0, s[4], *(u32 *)(a + 0x138), func_02012FFC(), s[2], 0,
-                         *(u16 *)a, 0xf, (u32)func_021BB910);
+    s[3] = (u32)func_0201CD10(s[1], 0, 0, s[4], ((struct Obj06213 *)a)->f138, func_02012FFC(), s[2], 0,
+                         ((struct Obj06213 *)a)->f0, 0xf, (u32)func_021BB910);
 }

@@ -17,6 +17,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00959.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ void func_021C0BE8(u8 *p)
         s.scale[2] = 0x1000;
         func_020520FC(0, 0, 0, (struct Mtx33 *)s.mtx);
         func_0207C9D0(p + 8, &d_021DA0E0 + i * 12, s.pos);
-        *(u32 *)(p + 0x1c + i * 4) = (u32)func_0218C7F0((u8 *)(*(u32 *)(p + 0x18)), 0x62, (struct Blk *)(&s));
+        *(u32 *)(p + 0x1c + i * 4) = (u32)func_0218C7F0((u8 *)(((struct Obj00959 *)p)->f18), 0x62, (struct Blk *)(&s));
         p[0x15]++;
         func_020061E4(0x568);
     }

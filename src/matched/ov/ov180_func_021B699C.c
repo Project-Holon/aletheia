@@ -16,15 +16,16 @@
  *   _fdiv 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj14402.h"
 typedef struct { int x,y,z; } Vec;
 extern void func_02015C30(int,Vec *);
 extern void func_02015C48(int,Vec *);
 void func_021B699C(char *p,int v) {
     Vec pos;
     float delta;
-    func_02015C30(*(int *)(p+28),&pos);
+    func_02015C30(((struct Obj14402 *)p)->f1C,&pos);
     if(v>0) delta=0.5f*(float)(v<<12);
     else delta=(float)(v<<12)/0.5f;
     pos.x=pos.x+(int)delta;
-    func_02015C48(*(int *)(p+28),&pos);
+    func_02015C48(((struct Obj14402 *)p)->f1C,&pos);
 }

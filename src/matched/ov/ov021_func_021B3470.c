@@ -19,6 +19,8 @@
  *   func_020200CC 0x020200CC thumb
  *   func_021B3370 0x021B3370 thumb ov021
  */
+#include "../include/Obj00030.h"
+#include "../include/Obj12842.h"
 
 typedef unsigned short u16;
 
@@ -43,17 +45,17 @@ void func_021B3470(char *p)
     int r;
     char *e;
 
-    if (func_0201C6B4(*(void **)(p + 432)) == 0) {
+    if (func_0201C6B4(((struct Obj00030 *)p)->f1B0) == 0) {
         return;
     }
-    if (*(u16 *)(p + 522) == 0) {
-        q = *(void **)(p + 364);
+    if (((struct Obj00030 *)p)->f20A == 0) {
+        q = ((struct Obj00030 *)p)->f16C;
         func_02045334(q);
         func_02045374(q);
         func_020409B4(func_02045730(q));
-        *(u16 *)(p + 522) = *(u16 *)(p + 522) + 1;
+        ((struct Obj00030 *)p)->f20A = ((struct Obj00030 *)p)->f20A + 1;
     }
-    r = func_020200CC(*(void **)(p + 420));
+    r = func_020200CC(((struct Obj00030 *)p)->f1A4);
     if (r == -1) {
         return;
     }
@@ -62,8 +64,8 @@ void func_021B3470(char *p)
         return;
     }
     e = p + r * 8;
-    *(u16 *)(p + 508) = *(u16 *)(e + 0x20);
-    *(int *)(p + 512) = *(int *)(e + 0x24);
-    *(u16 *)(p + 520) = 1;
+    ((struct Obj00030 *)p)->f1FC = ((struct Obj12842 *)e)->f20;
+    *(int *)&((struct Obj00030 *)p)->f200 = ((struct Obj12842 *)e)->f24;
+    ((struct Obj00030 *)p)->f208 = 1;
     func_021B3370(p);
 }

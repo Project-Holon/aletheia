@@ -13,10 +13,11 @@
  * Extent contains followers 02173568, already-filed 02173580, and 0217358C;
  * the lead stays separate to preserve the existing follower file.
  */
+#include "../include/Obj19162.h"
 typedef struct { void *sys; void *obj; } Work;
 extern void func_02167688(Work *);
 void func_02173558(int a, char *p)
 {
     if (p != 0)
-        func_02167688(*(Work **)(p + 8));
+        func_02167688(*(Work * *)&((struct Obj19162 *)p)->f8);
 }

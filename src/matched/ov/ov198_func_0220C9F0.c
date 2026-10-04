@@ -21,6 +21,8 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_02045738 0x02045738 arm
  */
+#include "../include/Obj01579.h"
+#include "../include/Obj25152.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,22 +58,22 @@ void func_0220C9F0(char *p, int i)
     u32 x;
 
     elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
-    t = func_02045EC0(*(void **)(p + 0x1ea0), 0x2c);
-    x = *(u32 *)(p + 0x1eac);
-    y = (u32)func_02045770(*(void **)(p + 0x1fe8));
-    func_0201C724(x, y, 0, 0, (u32)t, *(u32 *)(*(u32 *)p + 0xc), 0x3dc0);
-    *(u8 *)(p + 0x1fec) = 1;
+    t = func_02045EC0(((struct Obj01579 *)p)->f1EA0, 0x2c);
+    x = ((struct Obj01579 *)p)->f1EAC;
+    y = (u32)func_02045770(((struct Obj01579 *)p)->f1FE8);
+    func_0201C724(x, y, 0, 0, (u32)t, *(u32 *)(((struct Obj01579 *)p)->f0 + 0xc), 0x3dc0);
+    ((struct Obj01579 *)p)->f1FEC = 1;
     func_02045808(t);
-    t2 = func_02045EC0(*(void **)(p + 0x1ea0), 0x2d);
-    h = (u32)func_020457B0(8, *(u16 *)(*(u32 *)p + 0x10));
-    func_0201EFA4(*(void **)(p + 0x1ea4), 0, *(u16 *)(elem + 8), 3, 0, 1);
-    func_0201F250(*(void **)(p + 0x1ea4), (void *)h, t2);
-    b = func_0201D304((struct StrObj *)h, *(u32 *)(*(u32 *)p + 0xc), 0);
-    c = (func_02045738(*(void **)(p + 0x1fa0)) << 3) - b;
-    d = *(u32 *)(p + 0x1eac);
-    e = (u32)func_02045770(*(void **)(p + 0x1fa0));
-    func_0201C724(d, e, c, 0, h, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
-    *(u8 *)(p + 0x1fa4) = 1;
+    t2 = func_02045EC0(((struct Obj01579 *)p)->f1EA0, 0x2d);
+    h = (u32)func_020457B0(8, *(u16 *)(((struct Obj01579 *)p)->f0 + 0x10));
+    func_0201EFA4(((struct Obj01579 *)p)->f1EA4, 0, ((struct Obj25152 *)elem)->f8, 3, 0, 1);
+    func_0201F250(((struct Obj01579 *)p)->f1EA4, (void *)h, t2);
+    b = func_0201D304((struct StrObj *)h, *(u32 *)(((struct Obj01579 *)p)->f0 + 0xc), 0);
+    c = (func_02045738(((struct Obj01579 *)p)->f1FA0) << 3) - b;
+    d = ((struct Obj01579 *)p)->f1EAC;
+    e = (u32)func_02045770(((struct Obj01579 *)p)->f1FA0);
+    func_0201C724(d, e, c, 0, h, *(u32 *)(((struct Obj01579 *)p)->f0 + 0xc), 0x2120);
+    ((struct Obj01579 *)p)->f1FA4 = 1;
     func_02045808(t2);
     func_02045808((void *)h);
 }

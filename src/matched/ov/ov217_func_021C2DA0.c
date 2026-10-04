@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26037.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ u32 func_021C2DA0(u32 a0)
 {
     u8 s[4];
     u32 p1 = (u32)func_02030734(a0, 32, 0, (const char *)0x21C408C, 667);
-    *(u16*)(((u8*)p1)) = a0;
+    ((struct Obj26037 *)((u8*)p1))->f0 = a0;
     return p1;
 }
 

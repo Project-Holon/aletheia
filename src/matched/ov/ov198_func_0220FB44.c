@@ -17,6 +17,7 @@
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02210B30 0x02210B30 thumb ov198
  */
+#include "../include/Obj03349.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -34,7 +35,7 @@ int func_0220FB44(u8 *p)
     int row;
     u8 next;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03349 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         row=(u32)p+func_022110D4(p,(*(u8 **)p)[0x20])*0x4C;
@@ -42,7 +43,7 @@ int func_0220FB44(u8 *p)
             func_02211970((u8 **)p,1357);
             func_0220B760(p,sel+14);
             (*(u8 **)p)[0x4B]=sel;
-            *(u32 *)(p+0x217C)=15;
+            ((struct Obj03349 *)p)->f217C=15;
             return 29;
         }
         break;
@@ -52,7 +53,7 @@ int func_0220FB44(u8 *p)
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
             func_0220B760(p,12);
-            *(u32 *)(p+0x217C)=20;
+            ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
         break;
@@ -62,26 +63,26 @@ int func_0220FB44(u8 *p)
             (*(u8 **)p)[0x20]=next;
             func_02211970((u8 **)p,1357);
             func_0220B760(p,13);
-            *(u32 *)(p+0x217C)=20;
+            ((struct Obj03349 *)p)->f217C=20;
             return 29;
         }
         break;
     case 6:
         func_02211970((u8 **)p,1357);
         func_0220B760(p,9);
-        *(u32 *)(p+0x217C)=13;
+        ((struct Obj03349 *)p)->f217C=13;
         return 29;
     case 7:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2190]=2;
-        *(u32 *)(p+0x217C)=12;
+        ((struct Obj03349 *)p)->f217C=12;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
         p[0x2190]=2;
-        *(u32 *)(p+0x217C)=12;
+        ((struct Obj03349 *)p)->f217C=12;
         return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

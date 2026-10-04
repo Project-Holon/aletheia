@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15879.h"
 
-int func_02031EE8(int p0, int p1, int p2, int p3){ return (p1 + (*(int *)((p0 + 48)) - 0x10)); }
+int func_02031EE8(int p0, int p1, int p2, int p3){ return (p1 + (((struct Obj15879 *)p0)->f30 - 0x10)); }

@@ -17,6 +17,13 @@
  *   func_0220BF20 0x0220BF20 thumb ov197
  *   func_0220D11C 0x0220D11C thumb ov197
  */
+#include "../include/Obj02245.h"
+#include "../include/Obj25081.h"
+#include "../include/Obj25082.h"
+#include "../include/Obj25083.h"
+#include "../include/Obj25084.h"
+#include "../include/Obj25085.h"
+#include "../include/Obj25086.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_0220D884(char **);
@@ -31,25 +38,25 @@ extern int func_0220D11C(char *);
 int func_0220D024(char *p)
 {
     if (func_0220D884((char **)p) == 1) return 0x12;
-    switch ((unsigned)func_02025DE8(*(void **)(p + 0x144))) {
+    switch ((unsigned)func_02025DE8(((struct Obj02245 *)p)->f144)) {
     case 0:
         func_0220D89C((char **)p, 0x54d);
-        *(u16 *)(*(char **)p + 0x16) = func_0220BB98(p, *(short *)(*(char **)p + *(u8 *)(p + 0x533) * 2 + 0x30));
-        *(u8 *)(*(char **)p + 0x2a) = *(u8 *)(p + 0x533);
-        if (*(int *)(*(char **)p + 8) == 1)
-            *(u8 *)(*(char **)p + 0x18) = func_0220BBD8(*(u16 *)(*(char **)p + 0x16));
+        ((struct Obj25081 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16 = func_0220BB98(p, *(short *)(*(char * *)&((struct Obj02245 *)p)->f0 + ((struct Obj02245 *)p)->f533 * 2 + 0x30));
+        ((struct Obj25082 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f2A = ((struct Obj02245 *)p)->f533;
+        if (((struct Obj25083 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f8 == 1)
+            ((struct Obj25085 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = func_0220BBD8(((struct Obj25084 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f16);
         else
-            *(u8 *)(*(char **)p + 0x18) = 0;
+            ((struct Obj25086 *)(*(char * *)&((struct Obj02245 *)p)->f0))->f18 = 0;
         func_0220BF20(p, 0xd);
         return func_0220D11C(p);
     case 1:
         func_0220D89C((char **)p, 0x552);
-        *(u8 *)(p + 0x531) = 8;
+        ((struct Obj02245 *)p)->f531 = 8;
         func_0220BF20(p, 0xa);
         return 0x10;
     case (unsigned)-2:
         func_0220D89C((char **)p, 0x552);
-        *(u8 *)(p + 0x531) = 8;
+        ((struct Obj02245 *)p)->f531 = 8;
         func_0220BF20(p, 0xa);
         return 0x10;
     case (unsigned)-4:

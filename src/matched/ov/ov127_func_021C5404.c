@@ -13,6 +13,7 @@
  *   func_021C5550 0x021C5550 thumb ov127
  *   func_021C5564 0x021C5564 thumb ov127
  */
+#include "../include/Obj04502.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C49A4(u8 *p, unsigned int i);
@@ -23,7 +24,7 @@ int func_021C5404(void *p, void *q, void *r, const u8 *s, void *t)
 {
     int v = func_021C49A4(p, 5);
     if (v == 0 && func_021C54EC(p, q, s[2]) != 1 && func_021C5550(p, r, s[2]) != 1) {
-        func_021C5564(t, p, *(u16 *)s, s[3], s[2]);
+        func_021C5564(t, p, ((struct Obj04502 *)s)->f0, s[3], s[2]);
         return 1;
     }
     if (v == 0 && func_021C49A4(p, 10) >= 8) {

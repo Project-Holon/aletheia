@@ -23,6 +23,7 @@
  *   func_0204F7DC 0x0204F7DC arm
  *   func_02047970 0x02047970 arm
  */
+#include "../include/Obj02823.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Board;
@@ -43,17 +44,17 @@ extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *li
 extern void func_02047970(void);
 void func_021F3C50(u8 *p)
 {
-    func_021F7160((u8 *)(*(u32 *)(p+0x2c)));
-    func_021F51E8(*(u8 **)(p+0x20));
-    func_021F6CB0((char *)(*(u32 *)(p+0x40)));
+    func_021F7160((u8 *)(((struct Obj02823 *)p)->f2C));
+    func_021F51E8(*(u8 * *)&((struct Obj02823 *)p)->f20);
+    func_021F6CB0((char *)(((struct Obj02823 *)p)->f40));
     func_02047964();
     func_020479D8();
-    func_021F6E74(*(u32 *)(p+0x40));
-    func_021F75A0((u8 *)(*(u32 *)(p+0x2c)));
-    func_021F51F4(*(u32 *)(p+0x20));
-    func_021F718C((char *)(*(u32 *)(p+0x2c)));
-    func_021F6F8C((u8 *)(*(u32 *)(p+0x28)));
-    func_0204F7DC((struct Board *)(*(u32 *)(p+0x1c)),(struct Camera *)(*(u32 *)(p+0x18)),0);
+    func_021F6E74(((struct Obj02823 *)p)->f40);
+    func_021F75A0((u8 *)(((struct Obj02823 *)p)->f2C));
+    func_021F51F4(*(u32 *)&((struct Obj02823 *)p)->f20);
+    func_021F718C((char *)(((struct Obj02823 *)p)->f2C));
+    func_021F6F8C((u8 *)(((struct Obj02823 *)p)->f28));
+    func_0204F7DC((struct Board *)(((struct Obj02823 *)p)->f1C),(struct Camera *)(((struct Obj02823 *)p)->f18),0);
     func_021F4280(p);
     func_02047970();
 }

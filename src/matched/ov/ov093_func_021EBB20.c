@@ -35,6 +35,8 @@
  *   func_021B86B8 0x021B86B8 thumb ov093
  *   func_021F7998 0x021F7998 thumb ov094
  */
+#include "../include/Obj00406.h"
+#include "../include/Obj01377.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -71,27 +73,27 @@ int func_021EBB20(int *state, u8 *p)
     if (p[0x150]) return func_021EB670(p, state);
     switch (*state) {
     case 0:
-        a = func_021B8BEC(*(u8 **)(p + 0x134), p[0x140], 0);
-        b[10] = func_021B8C50(*(void **)(p + 0x134), a, 0);
-        *(u8 **)b = func_021B98AC(*(char *const **)(p + 0x138), b[10]);
-        b[8] = func_021D5440(*(u8 **)b);
-        b[11] = func_021B8C50(*(void **)(p + 0x134), a, 1);
-        *(u8 **)(b + 4) = func_021B98AC(*(char *const **)(p + 0x138), b[11]);
-        b[9] = func_021D5440(*(u8 **)(b + 4));
+        a = func_021B8BEC(*(u8 * *)&((struct Obj01377 *)p)->f134, p[0x140], 0);
+        b[10] = func_021B8C50(((struct Obj01377 *)p)->f134, a, 0);
+        *(u8 * *)&((struct Obj00406 *)b)->f0 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[10]);
+        b[8] = func_021D5440(*(u8 * *)&((struct Obj00406 *)b)->f0);
+        b[11] = func_021B8C50(((struct Obj01377 *)p)->f134, a, 1);
+        *(u8 * *)&((struct Obj00406 *)b)->f4 = func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, b[11]);
+        b[9] = func_021D5440(*(u8 * *)&((struct Obj00406 *)b)->f4);
         func_021ED798(p + 0x154);
         (*state)++;
         break;
     case 1:
         if (func_021ED814((struct S *)(p + 0x154))) {
-            a = func_021B8E70(*(u8 **)(p + 0x134), b[10]);
-            func_021F7EE8(func_021D5864(*(void **)b), a);
+            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[10]);
+            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f0), a);
             (*state)++;
         }
         break;
     case 2:
         if (!func_021F7EB4()) {
-            a = func_021B8E70(*(u8 **)(p + 0x134), b[11]);
-            func_021F7EE8(func_021D5864(*(void **)(b + 4)), a);
+            a = func_021B8E70(*(u8 * *)&((struct Obj01377 *)p)->f134, b[11]);
+            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f4), a);
             func_021F7A28(a, 0x231);
             func_021EB584(2);
             (*state)++;
@@ -99,8 +101,8 @@ int func_021EBB20(int *state, u8 *p)
         break;
     case 3:
         if (!func_021F7EB4()) {
-            func_021EEE24(*(u32 *)(p + 0x34), 2, 2, b[8], b[9]);
-            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            func_021EEE24(((struct Obj01377 *)p)->f34, 2, 2, b[8], b[9]);
+            func_021ECEB8(p, ((struct Obj01377 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;
@@ -122,18 +124,18 @@ int func_021EBB20(int *state, u8 *p)
         if (!func_021F7EB4()) {
             b[12] = 2;
             b[13] = 4;
-            b[15] = func_021B8FF4(*(u8 **)(p + 0x134));
+            b[15] = func_021B8FF4(*(u8 * *)&((struct Obj01377 *)p)->f134);
             for (i = 0; i < 2; i++) {
                 q = b + i;
-                q[10] = func_021B8ED8(*(u8 **)(p + 0x134), q[12]);
-                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const **)(p + 0x138), q[10]);
+                q[10] = func_021B8ED8(*(u8 * *)&((struct Obj01377 *)p)->f134, q[12]);
+                ((u8 **)b)[i] = (u8 *)func_021B98AC(*(char *const * *)&((struct Obj01377 *)p)->f138, q[10]);
                 if (((u8 **)b)[i]) q[8] = func_021D5440(((u8 **)b)[i]);
             }
-            func_021F7EE8(func_021D5864(*(void **)b), b[12]);
-            func_021F7EE8(func_021D5864(*(void **)(b + 4)), b[13]);
+            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f0), b[12]);
+            func_021F7EE8(func_021D5864(((struct Obj00406 *)b)->f4), b[13]);
             func_021F7998(0x234);
-            func_021EEE24(*(u32 *)(p + 0x34), 12, 2, b[8], b[9]);
-            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            func_021EEE24(((struct Obj01377 *)p)->f34, 12, 2, b[8], b[9]);
+            func_021ECEB8(p, ((struct Obj01377 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;

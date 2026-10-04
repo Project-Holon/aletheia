@@ -11,6 +11,7 @@
  * symbols:
  *   func_02043658  0x02043658  arm
  */
+#include "../include/Obj20172.h"
 
 typedef unsigned int u32;
 
@@ -18,5 +19,5 @@ u32 func_02043658(char *p);
 
 void func_021C27C0(char *p)
 {
-    *(u32 *)(p + 0x68) = func_02043658(p);
+    ((struct Obj20172 *)p)->f68 = func_02043658(p);
 }

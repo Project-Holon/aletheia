@@ -27,6 +27,7 @@
  * rejected by func_021D5814), then the 2-event, record, 3-event sequence of
  * func_021D96FC with the halfword from func_021E8CF0 in the record.
  */
+#include "../include/Obj12144.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -65,8 +66,8 @@ void func_021D9FC4(void *a, int b, int c)
         return;
     func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0x14, c);
-    *(u16 *)((u8 *)p + 4) = func_021E8CF0(k);
-    *(u8 *)((u8 *)p + 6) = c;
+    ((struct Obj12144 *)p)->f4 = func_021E8CF0(k);
+    ((struct Obj12144 *)p)->f6 = c;
     func_021C88C8((void *)b, p);
     func_021C88B4((void *)b, 3, c);
 }

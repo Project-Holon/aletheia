@@ -16,6 +16,9 @@
  *   func_021FC178 0x021FC178 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
+#include "../include/Obj01741.h"
+#include "../include/Obj02486.h"
+#include "../include/Obj10560.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,32 +33,32 @@ int func_021FC0AC(int unused,char *p)
     char *owner,*q;
     void *target;
     u32 j,i,h,g,f,e,d,c,b,a;
-    owner=*(char **)p;
-    a=func_0201134C(*(void **)(p+4));
-    b=func_0201134C(*(void **)(p+4));
-    c=func_0201134C(*(void **)(p+4));
-    d=func_0201134C(*(void **)(p+4));
-    e=func_0201134C(*(void **)(p+4));
-    f=func_0201134C(*(void **)(p+4));
-    g=func_0201134C(*(void **)(p+4));
-    h=func_0201134C(*(void **)(p+4));
-    i=func_0201134C(*(void **)(p+4));
-    j=func_0201134C(*(void **)(p+4));
-    target=func_021F9DC4(*(void **)(owner+52),a);
-    q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x691);
-    *(char **)(q+48)=owner;
-    *(void **)(q+16)=target;
-    *(u16 *)(q+44)=b;
-    *(u32 *)(q+20)=e;
-    *(u32 *)(q+24)=f;
-    *(u32 *)(q+28)=g;
-    *(u32 *)(q+32)=h-e;
-    *(u32 *)(q+36)=i-f;
-    *(u32 *)(q+40)=j-g;
-    *(void **)q=*(void **)(owner+52);
-    *(u32 *)(q+4)=0;
-    *(u32 *)(q+8)=c;
-    *(u32 *)(q+12)=d;
-    *(void **)(q+52)=func_021FADA0(owner,(u32)func_021FC178,(u32)q,10);
+    owner=*(char * *)&((struct Obj02486 *)p)->f0;
+    a=func_0201134C(((struct Obj02486 *)p)->f4);
+    b=func_0201134C(((struct Obj02486 *)p)->f4);
+    c=func_0201134C(((struct Obj02486 *)p)->f4);
+    d=func_0201134C(((struct Obj02486 *)p)->f4);
+    e=func_0201134C(((struct Obj02486 *)p)->f4);
+    f=func_0201134C(((struct Obj02486 *)p)->f4);
+    g=func_0201134C(((struct Obj02486 *)p)->f4);
+    h=func_0201134C(((struct Obj02486 *)p)->f4);
+    i=func_0201134C(((struct Obj02486 *)p)->f4);
+    j=func_0201134C(((struct Obj02486 *)p)->f4);
+    target=func_021F9DC4(((struct Obj10560 *)owner)->f34,a);
+    q=func_02030734(((struct Obj10560 *)owner)->f0,56,0,d_021FDD00,0x691);
+    *(char * *)&((struct Obj01741 *)q)->f30=owner;
+    ((struct Obj01741 *)q)->f10=target;
+    ((struct Obj01741 *)q)->f2C=b;
+    ((struct Obj01741 *)q)->f14=e;
+    ((struct Obj01741 *)q)->f18=f;
+    ((struct Obj01741 *)q)->f1C=g;
+    ((struct Obj01741 *)q)->f20=h-e;
+    ((struct Obj01741 *)q)->f24=i-f;
+    ((struct Obj01741 *)q)->f28=j-g;
+    ((struct Obj01741 *)q)->f0=((struct Obj10560 *)owner)->f34;
+    ((struct Obj01741 *)q)->f4=0;
+    ((struct Obj01741 *)q)->f8=c;
+    ((struct Obj01741 *)q)->fC=d;
+    ((struct Obj01741 *)q)->f34=func_021FADA0(owner,(u32)func_021FC178,(u32)q,10);
     return 0;
 }

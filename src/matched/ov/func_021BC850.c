@@ -14,6 +14,7 @@
  *
  * Runs the setup for selector 0x54 with the true flag and stamps it 0x1CC bytes in.
  */
+#include "../include/Obj18192.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021BB954(void *p, int b);
 int func_021BC850(char *p, int v)
 {
     func_021BB954(p, 1);
-    *(u32 *)(p + 0x1CC) = 0x54;
+    ((struct Obj18192 *)p)->f1CC = 0x54;
     return v;
 }

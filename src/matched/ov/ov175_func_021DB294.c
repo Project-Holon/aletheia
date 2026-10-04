@@ -14,6 +14,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  */
+#include "../include/Obj14339.h"
 typedef unsigned int   u32;
 struct Rec44;
 struct Sub24;
@@ -27,10 +28,10 @@ extern u32 func_0203D1A4(struct Link *p);
 void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
-    record = func_02012950(*(void **)(ctx + 8), index);
+    record = func_02012950(((struct Obj14339 *)ctx)->f8, index);
     func_02082D44(dest, record, func_02008468());
     if (owner == (int)func_020399A8()) {
         if (index != func_0203D1A4((struct Link *)((int)func_020399A8())))
-            *(int *)(ctx + 0x13c) = 1;
+            ((struct Obj14339 *)ctx)->f13C = 1;
     }
 }

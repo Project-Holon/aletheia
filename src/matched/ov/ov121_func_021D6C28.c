@@ -15,6 +15,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj10404.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -31,7 +32,7 @@ void func_021D6C28(u8 *p)
         q=*(void **)(p+i*4+12);
         if(q) func_0204B3B4(q);
     }
-    func_0204ADA4((u32)(*(void **)p));
-    func_0204A8D4((u32)(*(void **)(p+4)));
-    func_0204AFD8((u32)(*(void **)(p+8)));
+    func_0204ADA4((u32)(((struct Obj10404 *)p)->f0));
+    func_0204A8D4((u32)(((struct Obj10404 *)p)->f4));
+    func_0204AFD8((u32)(((struct Obj10404 *)p)->f8));
 }

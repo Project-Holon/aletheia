@@ -9,14 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj11231.h"
 
 char *func_0200ACD0(char *base, int count, int target)
 {
     int i;
     for (i = 0; i < count; i++) {
         char *e = base + i * 0x1c;
-        if (target == *(int *)(e + 0x14)) {
-            if ((*(unsigned int *)(e + 0x10) >> 31) == 1)
+        if (target == ((struct Obj11231 *)e)->f14) {
+            if ((((struct Obj11231 *)e)->f10 >> 31) == 1)
                 return e;
         }
     }

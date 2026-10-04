@@ -14,6 +14,7 @@
  *
  * double deref: *(u32*)(*p + 0x64)
  */
+#include "../include/Obj18136.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u32 func_021B90F0(void **p)
 {
-    return *(u32 *)((u8 *)*p + 0x64);
+    return ((struct Obj18136 *)((u8 *)*p))->f64;
 }

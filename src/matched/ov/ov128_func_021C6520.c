@@ -15,6 +15,7 @@
  *   func_02009A1C 0x02009A1C thumb
  *   func_02009864 0x02009864 thumb
  */
+#include "../include/Obj03808.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,14 +31,14 @@ void func_021C6520(char *p)
     int i;
     void *v;
     func_02082BCC(p+16,0,72);
-    v=(void *)func_0201283C(*(void **)(p+4));
-    *(int *)(p+16)=0;
+    v=(void *)func_0201283C(((struct Obj03808 *)p)->f4);
+    ((struct Obj03808 *)p)->f10=0;
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==1) {
-            *(u8 *)(p+*(int *)(p+16)+24)=i;
-            if(func_02009864(v,i,9)==2) *(u8 *)(p+*(int *)(p+16)+56)=255;
-            else *(u8 *)(p+*(int *)(p+16)+56)=(*(int *)(p+20))++;
-            *(int *)(p+16)=*(int *)(p+16)+1;
+            *(u8 *)(p+((struct Obj03808 *)p)->f10+24)=i;
+            if(func_02009864(v,i,9)==2) *(u8 *)(p+((struct Obj03808 *)p)->f10+56)=255;
+            else *(u8 *)(p+((struct Obj03808 *)p)->f10+56)=(((struct Obj03808 *)p)->f14)++;
+            ((struct Obj03808 *)p)->f10=((struct Obj03808 *)p)->f10+1;
         }
     }
 }

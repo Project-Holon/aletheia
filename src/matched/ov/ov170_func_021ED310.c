@@ -15,6 +15,7 @@
  *   d_021EFCD0 0x021EFCD0 data a1
  *   d_021EFCC8 0x021EFCC8 data a1
  */
+#include "../include/Obj24020.h"
 
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
@@ -26,7 +27,7 @@ void func_021ED310(char *w)
 {
     short xy[2];
     unsigned i;
-    if (*(void **)(w + 0x9FD4) != 0) {
+    if (((struct Obj24020 *)w)->f9FD4 != 0) {
         i = 0;
         func_021EC0B0(w, 0xA, &xy[1], &xy[0], 0);
         for (; i < 8; i++)

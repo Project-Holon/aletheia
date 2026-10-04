@@ -10,6 +10,7 @@
  * symbols:
  *   func_0204B454 0x0204B454 arm
  */
+#include "../include/Obj10502.h"
 typedef short s16;
 typedef unsigned char u8;
 typedef struct { s16 x,y; } Pair;
@@ -21,8 +22,8 @@ void func_021DA320(char *p)
     int i;
     int x,y;
     Pair s;
-    for(i=0;i<*(int *)(p+0x23c);i++){
-        if(i>=*(int *)(p+0x248) && i<*(int *)(p+0x24c)){
+    for(i=0;i<((struct Obj10502 *)p)->f23C;i++){
+        if(i>=((struct Obj10502 *)p)->f248 && i<((struct Obj10502 *)p)->f24C){
             x=16;
             y=16;
         }else{

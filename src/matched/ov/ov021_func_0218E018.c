@@ -19,6 +19,7 @@
  *   func_0218E18C  0x0218E18C  thumb ov021
  *   func_0218EEFC  0x0218EEFC  thumb ov021
  */
+#include "../include/Obj00519.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,36 +38,36 @@ char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap)
 {
     int t;
     char *p = func_02030734(heap, 0x1b0, 1, &d_021DDA28, 0x80);
-    *(int *)(p + 0x10) = a0;
-    *(int *)(p + 0x14) = a1;
-    *(int *)(p + 0xc) = a2;
-    *(int *)(p + 0x20) = 0;
-    *(u16 *)p = heap;
-    *(int *)(p + 0x24) = 0;
-    *(int *)(p + 0x28) = 0;
-    *(int *)(p + 0x2c) = 0;
-    *(int *)(p + 0x48) = 0;
-    *(int *)(p + 0x4c) = 0;
-    *(int *)(p + 0x50) = 0;
-    *(int *)(p + 0x6c) = 0;
-    *(int *)(p + 0x70) = 0;
-    *(int *)(p + 0x74) = 0;
-    *(int *)(p + 0x30) = 0;
-    *(int *)(p + 0x34) = 0;
-    *(int *)(p + 0x38) = 0;
-    *(u16 *)(p + 0x7a) = 0;
-    *(u16 *)(p + 0x78) = 0;
-    *(int *)(p + 0x7c) = 0x78;
-    *(u8 *)(p + 0xe9) = 1;
+    ((struct Obj00519 *)p)->f10 = a0;
+    ((struct Obj00519 *)p)->f14 = a1;
+    ((struct Obj00519 *)p)->fC = a2;
+    ((struct Obj00519 *)p)->f20 = 0;
+    ((struct Obj00519 *)p)->f0 = heap;
+    ((struct Obj00519 *)p)->f24 = 0;
+    ((struct Obj00519 *)p)->f28 = 0;
+    ((struct Obj00519 *)p)->f2C = 0;
+    ((struct Obj00519 *)p)->f48 = 0;
+    ((struct Obj00519 *)p)->f4C = 0;
+    ((struct Obj00519 *)p)->f50 = 0;
+    ((struct Obj00519 *)p)->f6C = 0;
+    ((struct Obj00519 *)p)->f70 = 0;
+    ((struct Obj00519 *)p)->f74 = 0;
+    ((struct Obj00519 *)p)->f30 = 0;
+    ((struct Obj00519 *)p)->f34 = 0;
+    ((struct Obj00519 *)p)->f38 = 0;
+    ((struct Obj00519 *)p)->f7A = 0;
+    ((struct Obj00519 *)p)->f78 = 0;
+    ((struct Obj00519 *)p)->f7C = 0x78;
+    ((struct Obj00519 *)p)->fE9 = 1;
     if (func_02048B78(a2) == 0) {
         func_02048B88(a2, &t);
-        *(u16 *)(p + 0x80) = func_0207D184(t);
+        ((struct Obj00519 *)p)->f80 = func_0207D184(t);
     }
-    *(void **)(p + 4) = func_020490F4(0x3c, *(u16 *)p);
-    *(void **)(p + 8) = func_020490F4(0x6c, *(u16 *)p);
-    *(u16 *)(p + 0xea) = 0xffff;
+    ((struct Obj00519 *)p)->f4 = func_020490F4(0x3c, ((struct Obj00519 *)p)->f0);
+    ((struct Obj00519 *)p)->f8 = func_020490F4(0x6c, ((struct Obj00519 *)p)->f0);
+    ((struct Obj00519 *)p)->fEA = 0xffff;
     func_0218E18C(p, a3);
     func_0218EEFC(7, 6, 2, heap, p);
-    *(int *)(p + 0x1ac) = 0;
+    ((struct Obj00519 *)p)->f1AC = 0;
     return p;
 }

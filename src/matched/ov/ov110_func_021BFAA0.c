@@ -17,6 +17,7 @@
  *   func_02040588 0x02040588 arm
  *   func_021BC868 0x021BC868 thumb ov110
  */
+#include "../include/Obj08010.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { FALSE, TRUE } BOOL;
@@ -45,15 +46,15 @@ static inline void visible(Window wnd) {
     *(volatile unsigned *)0x04000000=(*(volatile unsigned *)0x04000000 & ~0xe000) | (wnd<<13);
 }
 void func_021BFAA0(u8 *p) {
-    func_021BAD2C(*(u8 **)p,1);
+    func_021BAD2C(*(u8 * *)&((struct Obj08010 *)p)->f0,1);
     func_0207D63C((void *)0x04000050,4,63,0,16);
     func_02040588(2,1);
     inside(31,1);
-    *(u8 *)(p+0x8c)=*(volatile u8 *)0x0400004a;
-    *(unsigned *)(p+0x90)=(*(volatile unsigned *)0x04000000 & 0xe000)>>13;
+    ((struct Obj08010 *)p)->f8C=*(volatile u8 *)0x0400004a;
+    ((struct Obj08010 *)p)->f90=(*(volatile unsigned *)0x04000000 & 0xe000)>>13;
     outside(27,1);
     wndpos(0,0,255,168);
     visible(2);
-    *(unsigned *)(p+0x88)=0;
+    ((struct Obj08010 *)p)->f88=0;
     func_021BC868(p+0x4c,4,63,0,124,12);
 }

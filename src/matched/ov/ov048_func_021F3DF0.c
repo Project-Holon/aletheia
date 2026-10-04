@@ -17,6 +17,8 @@
  *   func_021F4314  0x021F4314  thumb
  *   func_021F4290  0x021F4290  thumb
  */
+#include "../include/Obj00270.h"
+#include "../include/Obj20536.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -30,10 +32,10 @@ extern void func_021F4290(void *p);
 
 void func_021F3DF0(u8 *p)
 {
-    if (func_021F47B8((void *)(*(u32 *)(p + 0x14))) == 0) {
-        u32 q = *(u32 *)(p + 0x1c);
+    if (func_021F47B8((void *)(((struct Obj00270 *)p)->f14)) == 0) {
+        u32 q = *(u32 *)&((struct Obj00270 *)p)->f1C;
 
-        if (q != 0 && *(u32 *)(q + 0x78) != 0) {
+        if (q != 0 && ((struct Obj20536 *)q)->f78 != 0) {
             func_021F4058(p);
             func_021F3E6C(p);
             func_021F3EE8(p);

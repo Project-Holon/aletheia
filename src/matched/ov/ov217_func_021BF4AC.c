@@ -20,6 +20,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B9C4 0x0204B9C4 arm
  */
+#include "../include/Obj00021.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed int s32;
@@ -41,11 +42,11 @@ void func_021BF4AC(char *p)
     s32 x,y;
     struct Vec2 pos;
     const u16 *table;
-    obj=*(struct Obj **)(p+0x3a0);
+    obj=*(struct Obj * *)&((struct Obj00021 *)p)->f3A0;
     table=d_021C3850;
-    if (*(unsigned *)(p+0x3c8)==0) { func_0204B3DC(obj,0); return; }
-    if (*(unsigned *)(p+52)!=2) { func_0204B3DC(obj,0); return; }
-    index=func_021BF910(p,*(unsigned *)(p+52));
+    if (((struct Obj00021 *)p)->f3C8==0) { func_0204B3DC(obj,0); return; }
+    if (((struct Obj00021 *)p)->f34!=2) { func_0204B3DC(obj,0); return; }
+    index=func_021BF910(p,((struct Obj00021 *)p)->f34);
     if (func_021C11DC(func_021BF76C(p),index)==0) { func_0204B3DC(obj,0); return; }
     if (index==0) { func_0204B3DC(obj,0); return; }
     func_021C11FC(func_021BF76C(p),index,&x,&y);

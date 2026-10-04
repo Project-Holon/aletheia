@@ -16,6 +16,7 @@
  *   func_02183FB8  0x02183FB8  thumb  ov022
  *   func_02184060  0x02184060  thumb  ov022
  */
+#include "../include/Obj09365.h"
 
 typedef unsigned char u8;
 
@@ -30,11 +31,11 @@ extern void func_02184060(u8 *s, int i);
 void func_0217403C(int a, int x, int y, u8 *p)
 {
     if (a != func_0203D1A4((int)func_020399A8())) {
-        if (*(int *)(p + 0x3528) == 0) {
+        if (((struct Obj09365 *)p)->f3528 == 0) {
             func_02034714((void *)0x02175624, 0, (void *)0x02175624);
             return;
         }
-        func_02183FB8(*(int *)(p + 0x3528), p, (u8)a, y);
-        func_02184060((u8 *)(*(int *)(p + 0x3528)), (u8)a);
+        func_02183FB8(((struct Obj09365 *)p)->f3528, p, (u8)a, y);
+        func_02184060((u8 *)(((struct Obj09365 *)p)->f3528), (u8)a);
     }
 }

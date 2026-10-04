@@ -21,6 +21,7 @@
  *   func_021C6E00  0x021C6E00  thumb  ov093
  *   func_021C88E4  0x021C88E4  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -46,18 +47,18 @@ extern int func_021C88E4(u8 *p);
 
 int func_021C9E3C(u8 *w, struct Cmd *c)
 {
-    int r = (int)func_021B9934(*(char **)(w + 8), c->b4);
+    int r = (int)func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b4);
     int x;
     int t;
     u32 s;
     if (func_021D5B68((void *)r) == 0) {
         x = (int)func_021DCF78((void *)r, c->h6);
         if (x != 0) {
-            t = func_021CD4FC(*(void **)(w + 0xC), 0x42);
+            t = func_021CD4FC(((struct Obj00003 *)w)->fC, 0x42);
             s = func_021CC8D8(w + 0x1D74, 15755);
             func_021C6E00(w, r, c->id);
             if (func_021C88E4(w) == 2) {
-                func_021CD568(*(void **)(w + 0xC), t, 0x42, c->b4);
+                func_021CD568(((struct Obj00003 *)w)->fC, t, 0x42, c->b4);
             }
             func_021CC95C(w + 0x1D74, s, 15762);
             func_021DCF9C((void *)x);

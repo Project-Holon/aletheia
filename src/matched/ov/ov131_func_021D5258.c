@@ -13,6 +13,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  */
+#include "../include/Obj08144.h"
 struct PrintSys;
 struct Rec;
 extern void func_0201C6EC(struct PrintSys *p);
@@ -21,8 +22,8 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
 void func_021D5258(char *p)
 {
-    func_0201C6EC(*(void **)(p+0x84));
-    func_0201C4C0(*(void **)(p+0x84));
-    func_02045C04(*(void **)(p+0x7c));
-    func_0201D83C(*(void **)(p+0x80));
+    func_0201C6EC(((struct Obj08144 *)p)->f84);
+    func_0201C4C0(((struct Obj08144 *)p)->f84);
+    func_02045C04(((struct Obj08144 *)p)->f7C);
+    func_0201D83C(((struct Obj08144 *)p)->f80);
 }

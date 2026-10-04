@@ -24,6 +24,7 @@
  *   func_021AB17C  0x021AB17C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01657.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,11 +51,11 @@ int func_021A4598(u8 *a, void *b, u8 *c)
     if (func_0216D3CC((int)b) == 0) {
         return 0;
     }
-    if (*(u16 *)(c + 8) == 9) {
+    if (((struct Obj01657 *)c)->f8 == 9) {
         return func_021A4544(a, (u32)b, c);
     }
-    r = func_021A5264(a, b, *(u16 *)(c + 8), &sp);
-    if (*(u32 *)(c + 16) == 1 && r != 0 && !(r & 0x10)) {
+    r = func_021A5264(a, b, ((struct Obj01657 *)c)->f8, &sp);
+    if (((struct Obj01657 *)c)->f10 == 1 && r != 0 && !(r & 0x10)) {
         r = 0;
     }
     if (sp != -1) {
@@ -71,7 +72,7 @@ int func_021A4598(u8 *a, void *b, u8 *c)
             } else if (func_021AB17C(k)) {
                 cls = 3;
             }
-            if (cls != 9 && cls == *(u16 *)(c + 8)) {
+            if (cls != 9 && cls == ((struct Obj01657 *)c)->f8) {
                 return 5;
             }
         }
@@ -79,7 +80,7 @@ int func_021A4598(u8 *a, void *b, u8 *c)
             if (!(t & 2)) {
                 return 2;
             }
-            if (*(u32 *)(c + 16) == 1) {
+            if (((struct Obj01657 *)c)->f10 == 1) {
                 return 2;
             }
         }

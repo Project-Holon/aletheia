@@ -16,6 +16,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02043AF4 0x02043AF4 arm
  */
+#include "../include/Obj01061.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021D60A4(u8 *);
@@ -36,7 +37,7 @@ void func_021DA3FC(u8 *a,u8 *b) {
     y=func_02017E1C(p,160,0);
     kind=func_0202D034(y,x);
     value=func_0202D01C(y,x,48);
-    bmp=func_02045770(*(void **)(b+96));
+    bmp=func_02045770(((struct Obj01061 *)b)->f60);
     if((u8)(kind+254)<=1) {first=7;last=8;}
     else if(kind==1) {first=9;last=10;}
     else {first=5;last=6;}

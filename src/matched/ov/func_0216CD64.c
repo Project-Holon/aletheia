@@ -13,6 +13,7 @@
  *   func_02030D28  0x02030D28  arm
  *   func_0219C5FC  0x0219C5FC  thumb
  */
+#include "../include/Obj01464.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ int func_0216CD64(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x20);
+a0 = ((struct Obj01464 *)t4)->f20;
     a0 = func_02030D28(a0);
 loc_0216CD6E:
 a0 = t4 + 0;

@@ -16,6 +16,7 @@
  *   func_021EC48C 0x021EC48C thumb ov170
  *   func_021DEFEC 0x021DEFEC thumb ov170
  */
+#include "../include/Obj00000.h"
 extern unsigned func_021DD25C(void ***,unsigned short,unsigned short,unsigned,unsigned);
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern void func_021DD6E8(void **,void *,unsigned);
@@ -32,6 +33,6 @@ void func_021DD810(unsigned char *p,unsigned a,unsigned b,unsigned box)
     func_021DD6E8((void **)p,(void *)func_021DD2D0((void ***)p,box,a),0);
     func_021DD8A8(p,a);
     if(box==p[0x14])
-        func_021EC48C(p,box,a,*(unsigned char *)(*(char **)(p+0x2c)+a+0x3dd2));
+        func_021EC48C(p,box,a,*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+a+0x3dd2));
     if(p[0x16]==a) func_021DEFEC(p,a);
 }

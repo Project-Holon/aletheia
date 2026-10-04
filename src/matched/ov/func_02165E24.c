@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj17726.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ typedef unsigned int u32;
 int func_02165E24(int a0)
 {
 
-a0 = *(u16 *)((char *)a0 + 0x30);
+a0 = ((struct Obj17726 *)a0)->f30;
     if (a0 == 0) goto loc_02165E2E;
 loc_02165E2A:
     if ((unsigned)a0 < (unsigned)0x33) goto loc_02165E30;

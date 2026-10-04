@@ -12,6 +12,7 @@
  * symbols:
  *   data_0209DFA8  0x0209DFA8  data  a2
  */
+#include "../include/Obj15629.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,5 +21,5 @@ extern const u16 data_0209DFA8[];
 
 void func_02012AD4(u8 *p, int i)
 {
-    *(u16 *)(p + 0x18) = data_0209DFA8[i];
+    ((struct Obj15629 *)p)->f18 = data_0209DFA8[i];
 }

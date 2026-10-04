@@ -12,6 +12,8 @@
  * symbols:
  *   func_02169AB8  0x02169AB8  thumb  ov010
  */
+#include "../include/Obj00029.h"
+#include "../include/Obj00654.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,14 +36,14 @@ loc_021616FE:
 loc_02161702:
     goto loc_02161716;
 loc_02161704:
-a1 = *(int *)((char *)t4 + 0x14);
+a1 = ((struct Obj00029 *)t4)->f14;
 a0 = 1;
-*(int *)((char *)a1) = a0;
+*(int *)&((struct Obj00654 *)((char *)a1))->f0 = a0;
     return a0;
 loc_0216170C:
-a0 = *(int *)((char *)t4 + 0x14);
+a0 = ((struct Obj00029 *)t4)->f14;
 a1 = 0;
-*(int *)((char *)a0) = a1;
+*(int *)&((struct Obj00029 *)((char *)a0))->f0 = a1;
 a0 = 1;
     return a0;
 loc_02161716:

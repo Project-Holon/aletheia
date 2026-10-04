@@ -16,6 +16,10 @@
  *   func_021ED55C 0x021ED55C thumb ov170
  *   d_021F02F0 0x021F02F0 data a4
  */
+#include "../include/Obj24027.h"
+#include "../include/Obj24028.h"
+#include "../include/Obj24029.h"
+#include "../include/Obj24030.h"
 typedef struct { unsigned a, b; } Pair;
 extern const Pair d_021F02F0[];
 typedef unsigned char  u8;
@@ -34,7 +38,7 @@ void func_021EE2C4(char **p)
     int f;
     int i;
     f = func_020355C4() == 1 ? 0 : 1;
-    switch (*(unsigned *)(p[0] + 0x24)) {
+    switch (((struct Obj24027 *)(p[0]))->f24) {
     case 0: i = 0; break;
     case 1: i = 2; break;
     case 2: i = 3; break;
@@ -43,9 +47,9 @@ void func_021EE2C4(char **p)
     case 5: i = 15; break;
     }
     func_021EE3CC(p);
-    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
-    func_02025D1C(*(void **)(p[11] + 0x70));
+    ((struct Obj24028 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[i].a, d_021F02F0[i].b, (u32)p, f, ((unsigned *)p)[9], 0x4c);
+    func_02025D1C(((struct Obj24029 *)(p[11]))->f70);
     func_021EE408(p, ((int *)p)[9]);
     func_021ED55C(p, f);
-    *(int *)(p[11] + 0xa168) = ((int *)p)[9];
+    ((struct Obj24030 *)(p[11]))->fA168 = ((int *)p)[9];
 }

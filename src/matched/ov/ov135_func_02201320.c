@@ -19,6 +19,7 @@
  *   func_0203CA04 0x0203CA04 arm
  *   func_0203C968 0x0203C968 arm
  */
+#include "../include/Obj05420.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,7 +48,7 @@ int func_02201320(u8 *p)
     u16 *text;
     int i;
     done = func_0217BC90() == 2;
-    if (done) positive = *(int *)(p + 0x1320) > 0;
+    if (done) positive = ((struct Obj05420 *)p)->f1320 > 0;
     if (done) {
         if (positive) {
             dst = (u16 *)(p + 0x1f4);
@@ -59,11 +60,11 @@ int func_02201320(u8 *p)
             dst[i] = func_02045A98();
             func_02045808(str);
         }
-        *(u32 *)(p + 0x28) = *(u32 *)(p + 0xe10);
+        ((struct Obj05420 *)p)->f28 = ((struct Obj05420 *)p)->fE10;
     } else {
-        if ((*(u32 *)(p + 0xf8c))++ == 0xe10) {
-            *(int *)(p + 0x38) = -5;
-            *(u32 *)(p + 0x28) = 0x2b;
+        if ((((struct Obj05420 *)p)->fF8C)++ == 0xe10) {
+            ((struct Obj05420 *)p)->f38 = -5;
+            ((struct Obj05420 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();

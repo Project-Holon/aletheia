@@ -15,6 +15,7 @@
  * prototype: 02049EF4 preserves r3 in r5 and forwards it unchanged to
  * 02062B30, which writes through it; use a pointer for the full-word payload.
  */
+#include "../include/Obj09863.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,7 +26,7 @@ void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index)
 {
     void *out;
     void *handle;
-    handle = func_02049EF4((void *)a, b, c, &out, *(u16 *)(p + 0x98));
+    handle = func_02049EF4((void *)a, b, c, &out, ((struct Obj09863 *)p)->f98);
     func_02082A60((u8 *)out + 0xc, (*(void ***)(p + 0x40))[index], p[4] * p[5] * 2);
     func_020307B0(handle);
 }

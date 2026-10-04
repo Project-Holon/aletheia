@@ -19,6 +19,7 @@
  *   func_0200B3A4  0x0200B3A4  thumb
  *   d_021F3A2C     0x021F3A2C  data  a4
  */
+#include "../include/Obj05135.h"
 
 typedef struct { void (*f0)(void *, void *); void (*f1)(void *, void *); void (*f2)(void *, void *); } Ent;
 
@@ -52,12 +53,12 @@ void func_021F36C0(void *a)
     r7 = func_02188C9C(a);
     func_021F3998(r7, &s0, &s1);
     p = func_0200B3A4(h, s0);
-    *(unsigned short *)(p + 2) = s1;
-    *(unsigned short *)(p + 4) = s0;
-    *(int *)(p + 8) = r7;
-    *(unsigned short *)(p + 0xc) = r4;
-    *(int *)(p + 0x1c) = r6;
-    *(void **)(p + 0x20) = a;
+    ((struct Obj05135 *)p)->f2 = s1;
+    ((struct Obj05135 *)p)->f4 = s0;
+    ((struct Obj05135 *)p)->f8 = r7;
+    ((struct Obj05135 *)p)->fC = r4;
+    ((struct Obj05135 *)p)->f1C = r6;
+    ((struct Obj05135 *)p)->f20 = a;
     f = d_021F3A2C[*(unsigned short *)(p + 2)].f0;
     if (f)
         f(p, a);

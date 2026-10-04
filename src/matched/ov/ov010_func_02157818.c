@@ -13,6 +13,8 @@
  *   func_0203F328  0x0203F328  arm
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj04914.h"
+#include "../include/Obj18737.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,11 +37,11 @@ void func_02157818(u8 *p)
         u8 *e = base + i * 100;
         u32 n;
 
-        func_0203F328(e + 8, 0x54, *(u32 *)(e + 4));
+        func_0203F328(e + 8, 0x54, ((struct Obj18737 *)e)->f4);
         n = (u16)off;
-        if (*(int *)(p + 8) > (int)(n + 0x54))
-            func_02082D44(e + 8, (u8 *)*(u32 *)(p + 0xC) + off, 0x54);
+        if (((struct Obj04914 *)p)->f8 > (int)(n + 0x54))
+            func_02082D44(e + 8, (u8 *)((struct Obj04914 *)p)->fC + off, 0x54);
         else
-            func_02082D44(e + 8, (u8 *)*(u32 *)(p + 0xC) + off, *(int *)(p + 8) - n);
+            func_02082D44(e + 8, (u8 *)((struct Obj04914 *)p)->fC + off, ((struct Obj04914 *)p)->f8 - n);
     }
 }

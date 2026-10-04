@@ -15,6 +15,7 @@
  *
  * Push the fixed 6/1/0x48 request and stamp 3.
  */
+#include "../include/Obj18605.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 int func_022004A0(u8 *p)
 {
     func_0202208C((void *)3, 1, 1, 0, 6, 1, 0x48);
-    *(u32 *)(p + 0x28) = 3;
+    ((struct Obj18605 *)p)->f28 = 3;
     return 2;
 }

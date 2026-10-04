@@ -13,6 +13,7 @@
  *   func_0202CA0C  0x0202CA0C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,5 +26,5 @@ extern void func_0202CA0C(struct WinMgr *mgr);
 
 void func_021BCA78(u8 *p)
 {
-    func_0202CA0C(*(struct WinMgr **)(p + 0x20));
+    func_0202CA0C(*(struct WinMgr * *)&((struct Obj00085 *)p)->f20);
 }

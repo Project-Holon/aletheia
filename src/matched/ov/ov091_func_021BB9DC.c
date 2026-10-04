@@ -11,7 +11,8 @@
  * symbols:
  *   func_0201F140 0x0201F140 thumb
  */
+#include "../include/Obj20894.h"
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201F140(struct WordSet *p, u32 i, u32 v);
-void func_021BB9DC(int a,int b,int c,int d) {func_0201F140((struct WordSet *)(*(int *)(b+0x2c)),c,(unsigned char)d);}
+void func_021BB9DC(int a,int b,int c,int d) {func_0201F140((struct WordSet *)(((struct Obj20894 *)b)->f2C),c,(unsigned char)d);}

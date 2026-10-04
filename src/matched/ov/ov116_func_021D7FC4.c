@@ -11,6 +11,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_02030EAC 0x02030EAC arm
  */
+#include "../include/Obj05322.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,14 +19,14 @@ struct Node;
 extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02030EAC(struct Node *n);
 void func_021D7FC4(u8 *p) {
-    u32 x=*(u32 *)(p+0x984);
+    u32 x=((struct Obj05322 *)p)->f984;
     func_0203FB44(1,(u16)x,(u16)(x>>16));
-    x=*(u32 *)(p+0x988);
+    x=((struct Obj05322 *)p)->f988;
     func_0203FB44(2,(u16)x,(u16)(x>>16));
-    if(*(void **)(p+12)) {
-        func_02030EAC(*(void **)(p+12));
-        *(u32 *)(p+12)=0;
-        *(u32 *)(p+16)=0;
+    if(((struct Obj05322 *)p)->fC) {
+        func_02030EAC(((struct Obj05322 *)p)->fC);
+        *(u32 *)&((struct Obj05322 *)p)->fC=0;
+        ((struct Obj05322 *)p)->f10=0;
     }
     *(u16 *)0x04000050=0;
 }

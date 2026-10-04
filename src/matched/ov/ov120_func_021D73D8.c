@@ -15,6 +15,7 @@
  *   func_02043534 0x02043534 arm
  *   func_021D73B0 0x021D73B0 thumb ov120
  */
+#include "../include/Obj00625.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,14 +34,14 @@ void func_021D73D8(u8 *p)
     Callback c;
     Record r;
     r.x=128; r.y=52; r.z=27; r.a=2; r.b=1;
-    *(void **)(p+0x12c)=func_0204B294((void *)*(u32 *)(p+0x10),*(u32 *)(p+0x2c),*(u32 *)(p+0x1c),*(u32 *)(p+0x78),&r,0,*(u16 *)(p+0xf4));
-    func_0204B92C(*(void **)(p+0x12c),1);
-    func_0204B3DC(*(void **)(p+0x12c),1);
+    ((struct Obj00625 *)p)->f12C=func_0204B294((void *)((struct Obj00625 *)p)->f10,((struct Obj00625 *)p)->f2C,((struct Obj00625 *)p)->f1C,((struct Obj00625 *)p)->f78,&r,0,((struct Obj00625 *)p)->fF4);
+    func_0204B92C(((struct Obj00625 *)p)->f12C,1);
+    func_0204B3DC(((struct Obj00625 *)p)->f12C,1);
     r.z=11; r.a=1;
-    *(void **)(p+0x130)=func_0204B294((void *)*(u32 *)(p+0x10),*(u32 *)(p+0x2c),*(u32 *)(p+0x1c),*(u32 *)(p+0x78),&r,0,*(u16 *)(p+0xf4));
-    func_0204B92C(*(void **)(p+0x130),1);
-    func_0204B3DC(*(void **)(p+0x130),1);
+    ((struct Obj00625 *)p)->f130=func_0204B294((void *)((struct Obj00625 *)p)->f10,((struct Obj00625 *)p)->f2C,((struct Obj00625 *)p)->f1C,((struct Obj00625 *)p)->f78,&r,0,((struct Obj00625 *)p)->fF4);
+    func_0204B92C(((struct Obj00625 *)p)->f130,1);
+    func_0204B3DC(((struct Obj00625 *)p)->f130,1);
     c.n=0; c.p=p; c.f=func_021D73B0;
-    func_0204BA00(*(void **)(p+0x130),&c);
+    func_0204BA00(((struct Obj00625 *)p)->f130,&c);
     func_02043534(31);
 }

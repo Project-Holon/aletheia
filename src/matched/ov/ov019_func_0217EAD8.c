@@ -23,6 +23,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_020362DC  0x020362DC  arm
  */
+#include "../include/Obj05956.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -56,7 +57,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
     int msg;
     void *q;
 
-    p = *(u8 **)(w + 0x355C);
+    p = *(u8 * *)&((struct Obj05956 *)w)->f355C;
     switch (*state) {
     case 0:
         func_0217BAF0(w, a2, 1);
@@ -84,7 +85,7 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
             msg = 0x15d;
         }
         func_0217F098(w, a2);
-        func_0201F02C((struct WordSet *)(*(int *)(w + 0x2804)), 0, p + 0x18 + p[0x16c] * 0x2c);
+        func_0201F02C((struct WordSet *)(((struct Obj05956 *)w)->f2804), 0, p + 0x18 + p[0x16c] * 0x2c);
         func_0217F188(w, msg);
         (*state)++;
         break;
@@ -92,15 +93,15 @@ int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
         if (func_0217F1EC(w) == 1 && (func_020362DC() & 3)) {
             func_0217F074(w);
             (*(u8 **)(p + 0x134 + p[0x16c] * 4))[4] |= 0x20;
-            q = func_0216F7F4((*(Sys **)w)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
-            *(void **)(w + 0x3558) = q;
+            q = func_0216F7F4((*(Sys * *)&((struct Obj05956 *)w)->f0)->f8, *(u8 **)(p + 0x134 + p[0x16c] * 4), 0x41);
+            ((struct Obj05956 *)w)->f3558 = q;
             func_0217422C(w, 0x1c, (int)q);
             (*state)++;
         }
         break;
     case 2:
         if (func_02174268(w) == 0) {
-            *(void **)(w + 0x3558) = 0;
+            ((struct Obj05956 *)w)->f3558 = 0;
             (*state)++;
         }
         break;

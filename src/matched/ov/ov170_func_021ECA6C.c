@@ -12,6 +12,8 @@
  *   func_021DD25C 0x021DD25C thumb ov170
  *   func_021EC060 0x021EC060 thumb ov170
  */
+#include "../include/Obj06551.h"
+#include "../include/Obj24017.h"
 extern int func_021DD908(unsigned char *, unsigned);
 extern unsigned func_021DD25C(void ***, unsigned short, int, unsigned, unsigned);
 extern void func_021EC060(char *p, unsigned i, int b);
@@ -20,7 +22,7 @@ extern void func_021EC060(char *p, unsigned i, int b);
 void func_021ECA6C(unsigned char *p, int flag, unsigned i, unsigned end, int mode)
 {
     if (mode == 1) {
-        if (*(int *)(*(char **)p + 0x24) == 5) {
+        if (((struct Obj24017 *)(*(char * *)&((struct Obj06551 *)p)->f0))->f24 == 5) {
             for (; i < end; i++) {
                 if (func_021DD908(p, i) == 1 && func_021DD25C((void ***)p, i, p[0x14], 0x4C, 0) == 0)
                     func_021EC060(WORK(p), WIN(p, i), 0);

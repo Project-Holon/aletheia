@@ -16,6 +16,7 @@
  *   func_021F7EA4  0x021F7EA4  thumb  ov094
  *   func_021F7EB4  0x021F7EB4  thumb  ov094
  */
+#include "../include/Obj21158.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 func_021B8E70(void *p, u8 k);
@@ -28,7 +29,7 @@ int func_021D284C(u8 *p, int *st, u32 *c)
 {
     switch (*st) {
     case 0: {
-        u32 t = func_021B8E70(*(void **)p, *c);
+        u32 t = func_021B8E70(((struct Obj21158 *)p)->f0, *c);
         if (func_021CD9E0(p))
             func_021F88BC(1);
         func_021F7EA4(t);

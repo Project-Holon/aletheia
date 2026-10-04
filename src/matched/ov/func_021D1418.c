@@ -17,6 +17,7 @@
  *   func_02040588  0x02040588  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18373.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern u32 func_020456F8(u32, u32, u32, u32);
 
 int func_021D1418(u32 a, u32 b, u32 c, u32 d)
 {
-func_020456F8(*(u32 *)((u8 *)(a) + 4), b, c, d);
+func_020456F8(((struct Obj18373 *)((u8 *)(a)))->f4, b, c, d);
 func_02041B6C(3);
 return func_02040588(3, 0);
 }

@@ -14,12 +14,13 @@
  *
  * candidate func_021EA908: xor bit
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021DF110(char *p, int b);
 void func_021EA908(int p, int bit)
 {
-    *(int *)(*(int *)(p + 0x2c) + 0xA174) ^= 1 << bit;
-    func_021DF110((char *)p, *(int *)(*(int *)(p + 0x2c) + 0xA174));
+    *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA174) ^= 1 << bit;
+    func_021DF110((char *)p, *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA174));
 }
 

@@ -29,6 +29,7 @@
  *   func_0218FF20  0x0218FF20  thumb  ov021
  *   func_0218FE98  0x0218FE98  thumb  ov021
  */
+#include "../include/Obj01863.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -65,9 +66,9 @@ int func_021C0398(u32 task, int *st, u8 *p)
     u32 c;
     u32 e;
 
-    obj = *(u32 *)(p + 4);
+    obj = ((struct Obj01863 *)p)->f4;
     func_02188CB4((void *)obj);
-    h = (u32)func_02188C58((void *)(*(u32 *)(p + 4)));
+    h = (u32)func_02188C58((void *)(((struct Obj01863 *)p)->f4));
     d = func_02188D38((u8 *)obj);
 
     switch (*st) {
@@ -80,22 +81,22 @@ int func_021C0398(u32 task, int *st, u8 *p)
         func_021C6DE0((u8 *)d, b, a);
         func_021C6DE0((u8 *)d, c, 0);
         func_021C6DE0((u8 *)d, e, c);
-        if (*(u32 *)(p + 0x10) != 0)
+        if (((struct Obj01863 *)p)->f10 != 0)
             func_020061E4(0x6E7);
         else
             func_020061E4(0x676);
         b = (u32)func_0218FE80((void *)obj);
-        *(u32 *)(p + 0x24) = 0x3c;
-        *(u32 *)(p + 0x68) = 1;
-        *(u32 *)(p + 0x6c) = 1;
-        *(u32 *)(p + 0x70) = b;
+        ((struct Obj01863 *)p)->f24 = 0x3c;
+        ((struct Obj01863 *)p)->f68 = 1;
+        ((struct Obj01863 *)p)->f6C = 1;
+        ((struct Obj01863 *)p)->f70 = b;
         func_0218FEA0((u8 *)b, (u32)(p + 0x24));
-        func_0218FEA4(*(u32 *)(p + 0x70));
+        func_0218FEA4(((struct Obj01863 *)p)->f70);
         func_0218FE78(h, p + 0x28);
         *(Blk32 *)(p + 0x48) = *(Blk32 *)(p + 0x28);
-        *(u32 *)(p + 0x4c) -= 0x64000;
-        func_0218FEC0((u8 *)(*(u32 *)(p + 0x70)));
-        func_0218FF00(*(u32 *)(p + 0x70));
+        ((struct Obj01863 *)p)->f4C -= 0x64000;
+        func_0218FEC0((u8 *)(((struct Obj01863 *)p)->f70));
+        func_0218FF00(((struct Obj01863 *)p)->f70);
         *st = *st + 1;
         break;
     case 1:
@@ -103,8 +104,8 @@ int func_021C0398(u32 task, int *st, u8 *p)
             *st = *st + 1;
         break;
     case 2:
-        func_0218FF20((u8 *)(*(u32 *)(p + 0x70)));
-        func_0218FE98(*(u32 *)(p + 0x70));
+        func_0218FF20((u8 *)(((struct Obj01863 *)p)->f70));
+        func_0218FE98(((struct Obj01863 *)p)->f70);
         return 1;
     }
     return 0;

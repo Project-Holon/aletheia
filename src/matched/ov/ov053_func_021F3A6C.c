@@ -11,7 +11,8 @@
  * symbols:
  *   func_02005F24 0x02005F24 thumb
  */
+#include "../include/Obj13117.h"
 
 typedef unsigned int u32;
 extern void func_02005F24(u32, u32);
-void func_021F3A6C(char *p) { func_02005F24(*(unsigned short *)(p+0x58), *(u32 *)(p+0x64)); }
+void func_021F3A6C(char *p) { func_02005F24(((struct Obj13117 *)p)->f58, ((struct Obj13117 *)p)->f64); }

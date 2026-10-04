@@ -13,6 +13,7 @@
  *   func_021E9100  0x021E9100  thumb  ov093
  *   func_021EA160  0x021EA160  thumb  ov093
  */
+#include "../include/Obj07842.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,10 +34,10 @@ void func_021EA0F4(struct S *s, u16 a, u8 b, int c)
     u8 *t;
 
     t = func_021E9100((u8 *)s, 0xc);
-    *(int *)(t + 4) = c;
+    ((struct Obj07842 *)t)->f4 = c;
     t[0xa] = b;
-    *(u16 *)(t + 8) = 0;
-    *(u16 *)t = a;
+    ((struct Obj07842 *)t)->f8 = 0;
+    ((struct Obj07842 *)t)->f0 = a;
     s->f1c = 0;
     s->f20 = (u32)func_021EA160;
     s->f24 = s;

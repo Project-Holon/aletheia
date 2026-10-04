@@ -18,6 +18,7 @@
  *   func_021DEFEC 0x021DEFEC thumb ov170
  *   func_021EE038 0x021EE038 thumb ov170
  */
+#include "../include/Obj00000.h"
 extern void func_021ECB60(char *w, int i, int f);
 extern void func_021EA750(unsigned char *p);
 extern unsigned func_0202136C(unsigned short v);
@@ -52,7 +53,7 @@ int func_021E6C3C(unsigned char *p)
         func_020061E4(0x557);
         func_021ED55C((char **)p, 0);
         func_021EBB28(p, 0x18);
-        *(int *)(p + 0x28) = 0x44;
+        ((struct Obj00000 *)p)->f28 = 0x44;
         return 6;
     }
     func_021ED55C((char **)p, 1);

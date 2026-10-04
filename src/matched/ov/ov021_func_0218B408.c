@@ -24,6 +24,7 @@
  *   func_0218B3DC  0x0218B3DC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07410.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -55,7 +56,7 @@ int func_0218B408(char *p, void *a, void *x)
     id = func_02188CB4(x);
     if (func_021A3098(id) == 2) {
         cam = (void *)func_02188C98(x);
-        r7 = func_021A2FA4(*(int *)(p + 0x18), *(int *)(p + 0x2C));
+        r7 = func_021A2FA4(*(int *)&((struct Obj07410 *)p)->f18, ((struct Obj07410 *)p)->f2C);
         if (r7 != 9) {
             func_021A3364(id, r7, buf);
             t = func_021AB0D4(cam, buf);

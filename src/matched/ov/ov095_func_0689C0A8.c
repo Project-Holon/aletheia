@@ -17,6 +17,7 @@
  *   func_0689C0E4 0x0689C0E4 thumb ov095
  *   func_0689C0F4 0x0689C0F4 thumb ov095
  */
+#include "../include/Obj21902.h"
 typedef unsigned char u8;
 extern void func_0689C104(void *, void *, u8);
 extern int func_0689C0D4(void *);
@@ -29,6 +30,6 @@ void func_0689C0A8(void *a, void *b)
     func_0689C104(a, b, 0);
     key = func_0689C0D4(b);
     record = func_0689C0E4(a, 0x13, key);
-    *(u8 *)((unsigned int)record + 4) = key;
+    ((struct Obj21902 *)((unsigned int)record))->f4 = key;
     func_0689C0F4(a, record);
 }

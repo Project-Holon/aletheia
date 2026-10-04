@@ -16,6 +16,7 @@
  *   func_021BB528  0x021BB528  thumb  ov099
  *   func_02043598  0x02043598  arm
  */
+#include "../include/Obj06353.h"
 
 typedef unsigned char u8;
 
@@ -31,8 +32,8 @@ extern void func_02043598(u32 mask, u32 enable);
 
 void func_021BB2B0(char *p, int v)
 {
-    func_02009864(*(void **)(p + 4), *(u8 *)(p + 0x8ED) - 1, 9);
-    func_02043B5C(func_02045770(*(void **)(p + 0x958)), 0);
+    func_02009864(((struct Obj06353 *)p)->f4, ((struct Obj06353 *)p)->f8ED - 1, 9);
+    func_02043B5C(func_02045770(((struct Obj06353 *)p)->f958), 0);
     func_021BB528(p, v);
     func_02043598(2, 0);
     func_02043598(8, 1);

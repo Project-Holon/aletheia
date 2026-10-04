@@ -14,6 +14,7 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj00001.h"
 
 extern int func_0203CD98(int a);
 
@@ -21,9 +22,9 @@ int func_021D8A24(void *p)
 {
     int v;
 
-    if (*(int *)((char *)p + 8) == 0)
+    if (*(int *)&((struct Obj00001 *)p)->f8 == 0)
         return 0;
-    v = *(int *)((char *)p + 0x118c);
+    v = ((struct Obj00001 *)p)->f118C;
     if (v >= 4)
         return 0;
     return func_0203CD98(v) != 0;

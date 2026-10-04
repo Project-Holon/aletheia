@@ -27,6 +27,7 @@
  *   file 0x021B9D58 data ov224 a1
  *   vram 0x021B9CA0 data
  */
+#include "../include/Obj26109.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern char file[], vram[];
@@ -70,6 +71,6 @@ void *func_021B9940(u32 swap, u32 heap)
     func_021B9A6C(p, heap);
     func_021B9B10((unsigned char *)p + 4, (int)vram, heap);
     func_021B9B7C(p + 8, heap);
-    *(void **)(p + 12) = func_020056A0(func_021B9A58, p, 0);
+    ((struct Obj26109 *)p)->fC = func_020056A0(func_021B9A58, p, 0);
     return p;
 }

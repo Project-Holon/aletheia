@@ -25,6 +25,8 @@
  *   d_02184910 0x02184910 data a4
  *   d_021848AC 0x021848AC data a4
  */
+#include "../include/Obj01262.h"
+#include "../include/Obj10642.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,32 +56,32 @@ void func_02183FC4(char *p,u16 heap)
     const Row *r;
     char *q;
     i=0;
-    *(void **)(p+0x1c)=func_0204B100(32,0,heap);
+    ((struct Obj01262 *)p)->f1C=func_0204B100(32,0,heap);
     first=func_020490F4(106,heap);
     second=func_020490F4(func_020275E4(),heap);
-    *(u32 *)(p+0x24)=func_0204ABF0(first,6,0,0,heap);
-    *(int *)(p+0x20)=func_0204A6C8(first,7,0,0,heap);
-    *(int *)(p+0x28)=func_0204AF28(first,8,9,heap);
-    *(u32 *)(p+0x30)=func_0204ABF0(first,10,0,32,heap);
-    *(int *)(p+0x2c)=func_0204A6C8(first,11,0,0,heap);
-    *(int *)(p+0x34)=func_0204AF28(first,12,13,heap);
-    *(u32 *)(p+0x3c)=func_0204ABF0(first,14,0,64,heap);
-    *(int *)(p+0x38)=func_0204A6C8(first,15,0,0,heap);
-    *(int *)(p+0x40)=func_0204AF28(first,16,17,heap);
-    *(u32 *)(p+0x48)=func_0204ABF0(second,31,1,0,heap);
-    *(int *)(p+0x44)=func_0204A6C8(second,32,0,1,heap);
-    *(int *)(p+0x4c)=func_0204AF28(first,18,19,heap);
+    ((struct Obj01262 *)p)->f24=func_0204ABF0(first,6,0,0,heap);
+    ((struct Obj01262 *)p)->f20=func_0204A6C8(first,7,0,0,heap);
+    ((struct Obj01262 *)p)->f28=func_0204AF28(first,8,9,heap);
+    ((struct Obj01262 *)p)->f30=func_0204ABF0(first,10,0,32,heap);
+    ((struct Obj01262 *)p)->f2C=func_0204A6C8(first,11,0,0,heap);
+    ((struct Obj01262 *)p)->f34=func_0204AF28(first,12,13,heap);
+    ((struct Obj01262 *)p)->f3C=func_0204ABF0(first,14,0,64,heap);
+    ((struct Obj01262 *)p)->f38=func_0204A6C8(first,15,0,0,heap);
+    ((struct Obj01262 *)p)->f40=func_0204AF28(first,16,17,heap);
+    ((struct Obj01262 *)p)->f48=func_0204ABF0(second,31,1,0,heap);
+    ((struct Obj01262 *)p)->f44=func_0204A6C8(second,32,0,1,heap);
+    ((struct Obj01262 *)p)->f4C=func_0204AF28(first,18,19,heap);
     func_02049238(second);
     func_02049238(first);
     do{
         r=&d_02184910[i];
         q=p+r->group*4;
-        *(void **)(p+i*4)=func_0204B294((void *)*(u32 *)(p+0x1c),*(u32 *)(q+0x20),*(u32 *)(q+0x24),*(u32 *)(q+0x28),&d_021848AC[r->config],r->id,heap);
+        *(void **)(p+i*4)=func_0204B294((void *)*(u32 *)&((struct Obj01262 *)p)->f1C,((struct Obj10642 *)q)->f20,((struct Obj10642 *)q)->f24,((struct Obj10642 *)q)->f28,&d_021848AC[r->config],r->id,heap);
         func_0204B92C(*(void **)(p+i*4),1);
         ++i;
     }while(i<7);
     for(i=0;i<3;i++)func_0204B3DC(*(void **)(p+i*4+0x10),0);
-    func_0204B570(*(void **)p,0);
-    func_0204B604(*(void **)p,1,1);
-    *(int *)(p+0xe0)=10;
+    func_0204B570(((struct Obj01262 *)p)->f0,0);
+    func_0204B604(((struct Obj01262 *)p)->f0,1,1);
+    ((struct Obj01262 *)p)->fE0=10;
 }

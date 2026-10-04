@@ -14,6 +14,7 @@
  *   func_021B7568 0x021B7568 thumb ov173
  *   func_021B7460 0x021B7460 thumb ov173
  */
+#include "../include/Obj14320.h"
 typedef unsigned char  u8;
 extern u8 func_021B7568(void ***p);extern void func_021B7460(char *,unsigned);
-int func_021B817C(char *p) {unsigned char flag;if(func_021B7568((void ***)p)<4) {func_021B7460(p,1);flag=0;} else {func_021B7460(p,4);flag=2;}*(unsigned char *)(p+0x1ba)=flag;*(unsigned *)(p+0x1ba-10)=3;return 2;}
+int func_021B817C(char *p) {unsigned char flag;if(func_021B7568((void ***)p)<4) {func_021B7460(p,1);flag=0;} else {func_021B7460(p,4);flag=2;}((struct Obj14320 *)p)->f1BA=flag;*(unsigned *)(p+0x1ba-10)=3;return 2;}

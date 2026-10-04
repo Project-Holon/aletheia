@@ -15,6 +15,7 @@
  *   func_0202208C  0x0202208C  thumb
  *   func_020221A4  0x020221A4  thumb
  */
+#include "../include/Obj12907.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,11 +29,11 @@ extern u32 func_020221A4(void);
 
 int func_021BF130(u32 p0, int *st, u8 *q)
 {
-    u32 x = *(u32 *)(q + 4);
+    u32 x = ((struct Obj12907 *)q)->f4;
 
     switch (*st) {
     case 0:
-        func_0204E720(*(u32 *)(q + 0xC), 0, 0x10, 0x10 - 0x11);
+        func_0204E720(((struct Obj12907 *)q)->fC, 0, 0x10, 0x10 - 0x11);
         *st = *st + 1;
         break;
     case 1:

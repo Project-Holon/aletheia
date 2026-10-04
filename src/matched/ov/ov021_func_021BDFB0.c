@@ -22,6 +22,9 @@
  *   func_0218FEA4  0x0218FEA4  thumb  ov021
  *   func_0218FE78  0x0218FE78  thumb  ov021
  */
+#include "../include/Obj00282.h"
+#include "../include/Obj03139.h"
+#include "../include/Obj09656.h"
 
 typedef unsigned short u16;
 
@@ -75,41 +78,41 @@ void func_021BDFB0(char *a)
     int z;
 
     func_021BE17C(a);
-    r7 = func_02188CB4(*(unsigned char **)a);
+    r7 = func_02188CB4(*(unsigned char * *)&((struct Obj00282 *)a)->f0);
     func_021A3050(r7);
     q = func_021BE148(func_021BE194(a));
-    *(int *)(r6 + 0x48) = q.f3c;
-    *(int *)(r6 + 0x44) = q.f38;
+    ((struct Obj09656 *)r6)->f48 = q.f3c;
+    ((struct Obj09656 *)r6)->f44 = q.f38;
     t30 = q.f30;
-    *(int *)(a + 0x68) = t30;
-    *(int *)(a + 0x6c) = q.f34;
+    ((struct Obj00282 *)a)->f68 = t30;
+    *(int *)&((struct Obj00282 *)a)->f6C = q.f34;
     if (t30 == 0) {
         return;
     }
     if (func_021BE1B0(a) != 0) {
-        func_021A7B08(*(int *)a, &q.f40);
+        func_021A7B08(*(int *)&((struct Obj00282 *)a)->f0, &q.f40);
     } else {
         func_021A3038(r7, &q.f40);
     }
-    func_0218FEA4(*(int *)(a + 0x54));
-    func_0218FE78(*(int *)(a + 4), r6 + 4);
-    *(int *)r6 = q.f2c;
-    *(u16 *)r4 = q.f4;
-    *(u16 *)(r4 + 2) = q.f8;
-    *(int *)(r4 + 4) = q.fc << 12;
+    func_0218FEA4(*(int *)&((struct Obj00282 *)a)->f54);
+    func_0218FE78(*(int *)&((struct Obj00282 *)a)->f4, r6 + 4);
+    ((struct Obj09656 *)r6)->f0 = q.f2c;
+    ((struct Obj03139 *)r4)->f0 = q.f4;
+    ((struct Obj03139 *)r4)->f2 = q.f8;
+    ((struct Obj03139 *)r4)->f4 = q.fc << 12;
     z = q.f28 << 12;
     y = q.f24 << 12;
     x = q.f20 << 12;
-    *(int *)(r4 + 0x14) = x;
-    *(int *)(r4 + 0x18) = y;
-    *(int *)(r4 + 0x1c) = z;
+    ((struct Obj03139 *)r4)->f14 = x;
+    ((struct Obj03139 *)r4)->f18 = y;
+    ((struct Obj03139 *)r4)->f1C = z;
     if (q.f10 != 0) {
         z = q.f1c << 12;
         y = q.f18 << 12;
         x = q.f14 << 12;
-        *(int *)(r4 + 8) = x;
-        *(int *)(r4 + 0xc) = y;
-        *(int *)(r4 + 0x10) = z;
+        ((struct Obj03139 *)r4)->f8 = x;
+        ((struct Obj03139 *)r4)->fC = y;
+        ((struct Obj03139 *)r4)->f10 = z;
     } else {
         *(struct V3 *)(r4 + 8) = q.f40;
     }

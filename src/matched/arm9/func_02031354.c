@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/func_02031354.c \
  *       --func func_02031354 --addr 0x02031354 --cc 1.1p1 --arm
  */
+#include "../include/Obj03442.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -40,13 +41,13 @@ void *func_02031354(int a0)
 {
     char *p = func_02030734(a0, 0x20, 0, (const char *)((int)data_020A783C), 0xc5);
 
-    *(unsigned short *)p = a0;
-    *(int *)(p + 4) = -1;
-    *(int *)(p + 8) = 0;
-    *(int *)(p + 0xc) = 0;
-    *(int *)(p + 0x10) = 0;
-    *(int *)(p + 0x14) = -1;
-    *(int *)(p + 0x18) = 0;
-    *(int *)(p + 0x1c) = 0;
+    ((struct Obj03442 *)p)->f0 = a0;
+    ((struct Obj03442 *)p)->f4 = -1;
+    ((struct Obj03442 *)p)->f8 = 0;
+    ((struct Obj03442 *)p)->fC = 0;
+    ((struct Obj03442 *)p)->f10 = 0;
+    ((struct Obj03442 *)p)->f14 = -1;
+    ((struct Obj03442 *)p)->f18 = 0;
+    ((struct Obj03442 *)p)->f1C = 0;
     return p;
 }

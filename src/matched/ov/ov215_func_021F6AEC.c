@@ -30,6 +30,7 @@
  *   _fsub 0x0209CB8C arm
  *   _fdiv 0x0209CE10 arm
  */
+#include "../include/Obj02262.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -54,29 +55,29 @@ void func_021F6AEC(char *p)
     u32 species;
     u8 i=0;
     float angle,y,x;
-    *(void **)(p+52)=func_02017270(*(void **)(p+48),*(void **)(p+4),0,0,0xfff42000,0xffce0000);
-    func_02015FF0(*(char **)(p+52),1);
-    species=func_02017E1C(*(void **)(p+4),171,0);
+    ((struct Obj02262 *)p)->f34=func_02017270(((struct Obj02262 *)p)->f30,((struct Obj02262 *)p)->f4,0,0,0xfff42000,0xffce0000);
+    func_02015FF0(*(char * *)&((struct Obj02262 *)p)->f34,1);
+    species=func_02017E1C(((struct Obj02262 *)p)->f4,171,0);
     if(species!=650){
         for(;i<4;i++){
             if(species==table[i].species){
                 trans.x=FIX(table[i].x);
                 trans.y=FIX(table[i].y);
                 trans.z=0xffce0000;
-                func_02015C48(*(void **)(p+52),(u32 *)&trans);
+                func_02015C48(((struct Obj02262 *)p)->f34,(u32 *)&trans);
                 break;
             }
         }
     }
     scale.x=65536;scale.y=65536;scale.z=4096;
-    func_02015CAC(*(void **)(p+52),(u32 *)&scale);
-    angle=(float)func_02015F0C(*(void **)(p+52));
-    y=(float)func_02015F1C(*(void **)(p+52));
-    x=(float)func_02015F14(*(void **)(p+52));
+    func_02015CAC(((struct Obj02262 *)p)->f34,(u32 *)&scale);
+    angle=(float)func_02015F0C(((struct Obj02262 *)p)->f34);
+    y=(float)func_02015F1C(((struct Obj02262 *)p)->f34);
+    x=(float)func_02015F14(((struct Obj02262 *)p)->f34);
     if(angle>96.0f)angle=96.0f;
     y=(96.0f-angle)/2.0f+y;
     x=0.0f-x;
     delta.x=FIX(x);delta.y=FIX(y);delta.z=0;
-    func_02015C78(*(void **)(p+52),(u32 *)&delta);
-    func_02015E04(*(void **)(p+52));
+    func_02015C78(((struct Obj02262 *)p)->f34,(u32 *)&delta);
+    func_02015E04(((struct Obj02262 *)p)->f34);
 }

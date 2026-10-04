@@ -16,6 +16,8 @@
  *   func_021B869C 0x021B869C thumb ov071
  *   func_021B878C 0x021B878C thumb ov071
  */
+#include "../include/Obj20733.h"
+#include "../include/Obj20734.h"
 
 typedef unsigned int   u32;
 struct PrintSys;
@@ -28,7 +30,7 @@ extern void func_021B869C(void);
 extern void func_021B878C(void *);
 int func_021B8618(void *a, void *b, char *c, void **d)
 {
-    if (func_0201C6B4(*(void **)(*(char **)(c+4)+8)) == 0) return 0;
+    if (func_0201C6B4(((struct Obj20734 *)(*(char * *)&((struct Obj20733 *)c)->f4))->f8) == 0) return 0;
     func_02043534(8);
     func_021B8750(d);
     func_021B869C();

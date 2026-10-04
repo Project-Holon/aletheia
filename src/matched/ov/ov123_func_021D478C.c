@@ -18,6 +18,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B688 0x0204B688 arm
  */
+#include "../include/Obj00471.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,7 +52,7 @@ void func_021D478C(char *p)
     for (; i < 3; i++) {
         pt.x = x.v[i]; pt.y = y.v[i]; pt.z = z.v[i];
         pt.a = 0; pt.b = 2;
-        *(void **)(p + i * 4 + o4) = func_0204B294((void *)*(u32 *)(p + 0x2ac), (unsigned int)*(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, *(u16 *)(p + 12));
+        *(void **)(p + i * 4 + o4) = func_0204B294((void *)((struct Obj00471 *)p)->f2AC, (unsigned int)*(void **)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), &pt, 1, ((struct Obj00471 *)p)->fC);
         func_0204B92C(*(void **)(p + i * 4 + o5), 0);
         func_0204B3DC(*(void **)(p + i * 4 + o6), 1);
         func_0204B688(*(void **)(p + i * 4 + o7), 1);

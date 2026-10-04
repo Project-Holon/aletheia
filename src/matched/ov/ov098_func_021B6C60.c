@@ -11,19 +11,20 @@
  *
  * Unlabelled leaf inside the handed extent of func_021B6C34.
  */
+#include "../include/Obj04409.h"
 
 typedef unsigned char u8;
 
 void func_021B6C60(char *p)
 {
-    u8 s = *(u8 *)(p + 0x14);
+    u8 s = ((struct Obj04409 *)p)->f14;
 
     if (s == 0 || s == 3) {
-        *(int *)(p + 4) = 0x1f000;
-        *(int *)(p + 8) = 0x7000;
-        *(int *)(p + 0xc) = -0x52aa;
-        *(int *)(p + 0x10) = 0x1800;
-        *(u8 *)(p + 0x15) = 6;
-        *(u8 *)(p + 0x14) = 1;
+        ((struct Obj04409 *)p)->f4 = 0x1f000;
+        ((struct Obj04409 *)p)->f8 = 0x7000;
+        ((struct Obj04409 *)p)->fC = -0x52aa;
+        ((struct Obj04409 *)p)->f10 = 0x1800;
+        ((struct Obj04409 *)p)->f15 = 6;
+        ((struct Obj04409 *)p)->f14 = 1;
     }
 }

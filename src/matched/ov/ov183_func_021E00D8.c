@@ -32,6 +32,8 @@
  *   d_021E3780 0x021E3780 data a4
  *   d_021E372E 0x021E372E data a4
  */
+#include "../include/Obj02231.h"
+#include "../include/Obj03330.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -74,28 +76,28 @@ int func_021E00D8(char *p,char *q)
     Config cfg;
     Triple triple;
     Params params;
-    first=func_021FC20C(*(char **)(q+8));
-    second=func_021FC214(*(char **)(q+8));
-    func_021FB964((void *)(*(int *)(q+8)),28,*(u16 *)(p+0x54));
-    text=func_020457B0(128,*(u16 *)(p+0x54));
-    v=func_02012944(*(void **)(q+0x10));
+    first=func_021FC20C(*(char * *)&((struct Obj03330 *)q)->f8);
+    second=func_021FC214(*(char * *)&((struct Obj03330 *)q)->f8);
+    func_021FB964((void *)(*(int *)&((struct Obj03330 *)q)->f8),28,((struct Obj02231 *)p)->f54);
+    text=func_020457B0(128,((struct Obj02231 *)p)->f54);
+    v=func_02012944(((struct Obj03330 *)q)->f10);
     a=func_0200856C(v);b=func_02008570(v);
-    ws=func_021FC21C(*(char **)(q+8));
+    ws=func_021FC21C(*(char * *)&((struct Obj03330 *)q)->f8);
     data=func_02045EC0((void *)second,125);
     if(!func_02025B64(a))func_0201F048((void *)ws,0,a);
     else func_0201F094((void *)ws,0,a,b);
     func_0201F250((void *)ws,text,data);
     func_02045808(data);
-    *(Slot **)(p+0x14)=func_0201F81C(1,*(u16 *)(p+0x54));
-    func_0201F898(*(Slot **)(p+0x14),(u32)text,0,*(u16 *)(p+0x54));
+    *(Slot * *)&((struct Obj02231 *)p)->f14=func_0201F81C(1,((struct Obj02231 *)p)->f54);
+    func_0201F898(*(Slot * *)&((struct Obj02231 *)p)->f14,(u32)text,0,((struct Obj02231 *)p)->f54);
     func_02045808(text);
     cfg=d_021E3780;
-    cfg.words[0]=*(u32 *)(p+0x14);cfg.words[1]=1;
-    cfg.words[5]=*(u32 *)(q+8);cfg.words[6]=*(u32 *)(q+4);
-    *(void **)(p+0x18)=func_021FC8C8(&cfg,*(u16 *)(p+0x54));
+    cfg.words[0]=*(u32 *)&((struct Obj02231 *)p)->f14;cfg.words[1]=1;
+    cfg.words[5]=*(u32 *)&((struct Obj03330 *)q)->f8;cfg.words[6]=((struct Obj03330 *)q)->f4;
+    ((struct Obj02231 *)p)->f18=func_021FC8C8(&cfg,((struct Obj02231 *)p)->f54);
     func_02082BCC(&params,0,8);
-    func_021FC124(*(int *)(q+8),6,&triple);
+    func_021FC124(*(int *)&((struct Obj03330 *)q)->f8,6,&triple);
     params.a=d_021E372E[0].a;params.b=d_021E372E[0].b;params.c=d_021E372E[0].c;params.flag=1;
-    *(void **)(p+0xc)=func_021FB378(&params,d_021E372E[0].file,96,1,*(int *)(q+4),*(int *)(p+0x44),first,second,&triple,*(u16 *)(p+0x54));
+    ((struct Obj02231 *)p)->fC=func_021FB378(&params,d_021E372E[0].file,96,1,*(int *)&((struct Obj03330 *)q)->f4,((struct Obj02231 *)p)->f44,first,second,&triple,((struct Obj02231 *)p)->f54);
     return 1;
 }

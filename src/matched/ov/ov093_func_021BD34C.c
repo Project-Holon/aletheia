@@ -15,6 +15,7 @@
  *   func_021B9BF0  0x021B9BF0  thumb  ov093
  *   func_021D5B68  0x021D5B68  thumb  ov093
  */
+#include "../include/Obj13306.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -38,7 +39,7 @@ int func_021BD34C(u8 *p, u8 **q, u8 **out)
         if (m) {
             n = p[3] == 0 ? m[9] : 3;
             for (; p[1] < n; p[1]++) {
-                x = (u8 *)func_021B9BF0((struct S2 *)(*(u8 **)(m + 4)), p[1]);
+                x = (u8 *)func_021B9BF0((struct S2 *)(*(u8 * *)&((struct Obj13306 *)m)->f4), p[1]);
                 if (x) f = func_021D5B68(x) == 0;
                 else f = 0;
                 if (f) return 1;

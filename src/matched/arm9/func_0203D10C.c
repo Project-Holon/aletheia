@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15980.h"
 
-int func_0203D10C(int a0, int a1, int a2, int a3){ int t0 = func_0203D788(); int t1 = func_0203BA98((int)*(unsigned short *)(((char *)(t0) + 86)), (int)a0, (int)0); return t1; }
+int func_0203D10C(int a0, int a1, int a2, int a3){ int t0 = func_0203D788(); int t1 = func_0203BA98((int)((struct Obj15980 *)((char *)(t0)))->f56, (int)a0, (int)0); return t1; }

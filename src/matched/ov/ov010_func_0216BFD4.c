@@ -20,6 +20,7 @@
  *   func_02045838  0x02045838  arm
  *   d_02172A60     0x02172A60  data  ov010  a1
  */
+#include "../include/Obj03544.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -36,8 +37,8 @@ int *func_0216BFD4(unsigned short a0, int a1, short a2, short a3, int s0, int s1
     func_02082BCC(p, 0, 0x2c);
     p[0] = a1;
     p[6] = s0;
-    *(short *)((char *)p + 4) = a2;
-    *(short *)((char *)p + 6) = a3;
+    ((struct Obj03544 *)p)->f4 = a2;
+    ((struct Obj03544 *)p)->f6 = a3;
     p[10] = s2;
     p[8] = (int)func_020457B0(0xb, a0);
     if (s1)

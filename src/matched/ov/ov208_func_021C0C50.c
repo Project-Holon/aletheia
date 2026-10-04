@@ -14,6 +14,7 @@
  *   func_021BBB3C  0x021BBB3C  thumb  ov072
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj10903.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,8 +34,8 @@ void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
 
     idx = ov208_func_021C0C14(heap, p, key);
     if (idx != 0xff) {
-        pos[0] = func_021BBB3C((char *)(*(u32 *)(p + 0x3c8)), idx, 2);
-        pos[1] = func_021BBB3C((char *)(*(u32 *)(p + 0x3c8)), idx, 3);
-        func_0204B404((struct Obj *)(*(u32 *)(p + 0xd4)), (const struct Vec2 *)pos, 0);
+        pos[0] = func_021BBB3C((char *)(((struct Obj10903 *)p)->f3C8), idx, 2);
+        pos[1] = func_021BBB3C((char *)(((struct Obj10903 *)p)->f3C8), idx, 3);
+        func_0204B404((struct Obj *)(((struct Obj10903 *)p)->fD4), (const struct Vec2 *)pos, 0);
     }
 }

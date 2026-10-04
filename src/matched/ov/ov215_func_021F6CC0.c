@@ -12,5 +12,6 @@
  * symbols:
  *   func_02015EA0 0x02015EA0 thumb
  */
+#include "../include/Obj25761.h"
 extern void func_02015EA0(void *);
-void func_021F6CC0(char *p){func_02015EA0(*(void **)(p+52));}
+void func_021F6CC0(char *p){func_02015EA0(((struct Obj25761 *)p)->f34);}

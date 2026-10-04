@@ -12,6 +12,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021F9660 0x021F9660 thumb ov135
  */
+#include "../include/Obj00098.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
@@ -23,11 +24,11 @@ extern void func_021F9660(void *p, u32 mode);
 extern void func_0201F868(void *p);
 int func_021FBC78(u8 *p)
 {
-    if (func_0204B98C(*(void **)(p + 8)) != 0) return -1;
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 12), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 16), 0);
+    if (func_0204B98C(((struct Obj00098 *)p)->f8) != 0) return -1;
+    func_0204B3DC((struct Obj *)*(u32 *)&((struct Obj00098 *)p)->f8, 0);
+    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->fC, 0);
+    func_0204B3DC((struct Obj *)((struct Obj00098 *)p)->f10, 0);
     func_021F9660(p, 3);
-    func_0201F868(*(void **)(p + 0x30));
-    return *(s16 *)(p + 0x3e);
+    func_0201F868(((struct Obj00098 *)p)->f30);
+    return ((struct Obj00098 *)p)->f3E;
 }

@@ -11,5 +11,7 @@
  * leaf: two unlabelled leaves blocking concrete MATCH900 ov215021F5884.
  * extent: setter and predicate, each followed by two zero alignment bytes.
  */
-void func_021F6A98(char *p){*(int *)(p+12)=6;*(int *)(p+24)=0;}
-int func_021F6AA4(char *p){if(*(int *)(p+12)>=9)return 1;return 0;}
+#include "../include/Obj14710.h"
+#include "../include/Obj25759.h"
+void func_021F6A98(char *p){((struct Obj14710 *)p)->fC=6;((struct Obj14710 *)p)->f18=0;}
+int func_021F6AA4(char *p){if(((struct Obj25759 *)p)->fC>=9)return 1;return 0;}

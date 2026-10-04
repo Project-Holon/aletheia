@@ -14,6 +14,7 @@
  *   func_020477A4 0x020477A4 arm
  *   d_021E7B3C 0x021E7B3C data a4
  */
+#include "../include/Obj03779.h"
 typedef unsigned short u16;
 typedef struct {int a,b,c; u16 d,e;} Entry;
 extern const Entry d_021E7B3C[];
@@ -26,12 +27,12 @@ extern void func_020477A4(void *,u16);
 void func_021E324C(char *p,int n) {
     void *q;
     int i,count;
-    if(d_021E7B3C[n].d) *(u16 *)(p+0x824)=func_02047E88(*(void **)(p+0x820),&d_021E7B3C[n]);
-    else *(u16 *)(p+0x824)=0xffff;
-    if(*(u16 *)(p+0x824)!=0xffff) {
-        q=(void *)func_02048A18(*(void **)(p+0x820),*(u16 *)(p+0x824));
+    if(d_021E7B3C[n].d) ((struct Obj03779 *)p)->f824=func_02047E88(((struct Obj03779 *)p)->f820,&d_021E7B3C[n]);
+    else ((struct Obj03779 *)p)->f824=0xffff;
+    if(((struct Obj03779 *)p)->f824!=0xffff) {
+        q=(void *)func_02048A18(((struct Obj03779 *)p)->f820,((struct Obj03779 *)p)->f824);
         count=func_0204779C(q);
         for(i=0;i<count;i++) func_020477A4(q,i);
     }
-    *(int *)(p+0x109c)=n;
+    *(int *)&((struct Obj03779 *)p)->f109C=n;
 }

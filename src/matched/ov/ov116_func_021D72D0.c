@@ -15,6 +15,8 @@
  *   d_021DA62C 0x021DA62C data ov129 a4
  *   ov129_id 0x81 data
  */
+#include "../include/Obj13867.h"
+#include "../include/Obj22624.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -29,6 +31,6 @@ void func_021D72D0(u8 *p, u32 heap)
 {
     void *obj;
     obj = func_0202E4EC(heap, 2, 10, 2, d_021D8574);
-    *(void **)(p + 0x1840) = obj;
-    func_020120B4(*(void **)(*(u8 **)p + 4), (u32)ov129_id, d_021DA62C, obj);
+    ((struct Obj13867 *)p)->f1840 = obj;
+    func_020120B4(((struct Obj22624 *)(*(u8 * *)&((struct Obj13867 *)p)->f0))->f4, (u32)ov129_id, d_021DA62C, obj);
 }

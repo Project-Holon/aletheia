@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18032.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 
 void func_021A3898(u8 *p, struct VecFx32 *out)
 {
-    func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), out);
+    func_0216D88C((const struct Actor *)((struct Obj18032 *)p)->f1C, out);
 }

@@ -11,6 +11,7 @@
  *   func_020457B0 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj10585.h"
 typedef unsigned int u32;
 struct MsgBank;
 struct U16Vec;
@@ -19,8 +20,8 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021FC528(char *p)
 {
     int i;
-    *(void **)(p + 0xb88) = func_020457B0(0xb4, 0x48);
-    *(void **)(p + 0xb8c) = func_02045EC0(*(void **)(p + 0xb6c), 0x2d);
+    ((struct Obj10585 *)p)->fB88 = func_020457B0(0xb4, 0x48);
+    ((struct Obj10585 *)p)->fB8C = func_02045EC0(((struct Obj10585 *)p)->fB6C, 0x2d);
     for (i = 0; i < 10; i++) {
         *(void **)(p + i * 4 + 0xb90) = func_020457B0(0x14, 0x48);
     }

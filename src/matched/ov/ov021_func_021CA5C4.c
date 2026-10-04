@@ -190,6 +190,8 @@
  *   func_021F380C  0x021F380C  thumb  ov052
  *   func_021F388C  0x021F388C  thumb  ov052
  */
+#include "../include/Obj00335.h"
+#include "../include/Obj02400.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -527,7 +529,7 @@ int func_021CA5C4(void *a, u32 b)
         *dst = func_0200DA54((struct Blk3C *)s40) + 1;
         break;
     case 11:
-        *dst = func_0200DA54((struct Blk3C *)(*(u32 *)(w + 0x70)));
+        *dst = func_0200DA54((struct Blk3C *)(((struct Obj00335 *)w)->f70));
         *dst += 1;
         break;
     case 14:
@@ -866,10 +868,10 @@ int func_021CA5C4(void *a, u32 b)
         *dst = FLAGS(w)->b8;
         break;
     case 332: {
-        u8 *e = *(u8 **)(w + 0x7cc);
+        u8 *e = *(u8 * *)&((struct Obj00335 *)w)->f7CC;
         if (e == NULL)
             *dst = 0;
-        else if (*(u32 *)(e + 0x8c) == 1)
+        else if (((struct Obj02400 *)e)->f8C == 1)
             *dst = 1;
         else
             *dst = 0;
@@ -950,34 +952,34 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 345:
         func_0200BA58();
-        func_021EEE78((void *)(*(u32 *)(w + 0x7cc)));
+        func_021EEE78((void *)(*(u32 *)&((struct Obj00335 *)w)->f7CC));
         func_0200BA68();
         break;
     case 346:
-        *(u16 *)(w + 0x7e8) = 0;
-        *(u16 *)(w + 0x7ea) = 0;
-        *(u16 *)(w + 0x10) = p1;
+        ((struct Obj00335 *)w)->f7E8 = 0;
+        ((struct Obj00335 *)w)->f7EA = 0;
+        ((struct Obj00335 *)w)->f10 = p1;
         func_020113D0(a, (int)func_021CBC14);
         FLAGS(w)->f10 = 2;
         ret = 1;
         break;
     case 347:
-        if (*(u32 *)(w + 0x7cc) != 0) {
+        if (*(u32 *)&((struct Obj00335 *)w)->f7CC != 0) {
             func_0200B424();
-            func_020130B4(*(u32 *)(w + 0x7cc));
-            *(u32 *)(w + 0x7cc) = 0;
+            func_020130B4(*(u32 *)&((struct Obj00335 *)w)->f7CC);
+            *(u32 *)&((struct Obj00335 *)w)->f7CC = 0;
         }
         break;
     case 348:
         func_02082BCC(w + 0x7d0, 0, 0x18);
-        *(u32 *)(w + 0x7d0) = s4c;
-        *(u32 *)(w + 0x7d4) = 1;
-        *(u32 *)(w + 0x7d8) = 0;
-        *(u32 *)(w + 0x7dc) = 1;
-        *(u32 *)(w + 0x7e0) = data_021DAD24[s3c];
-        *(int *)(w + 0x7e4) = func_021CA234(w);
-        if (*(int *)(w + 0x7e4) > 9999)
-            *(int *)(w + 0x7e4) = 9999;
+        ((struct Obj00335 *)w)->f7D0 = s4c;
+        ((struct Obj00335 *)w)->f7D4 = 1;
+        ((struct Obj00335 *)w)->f7D8 = 0;
+        ((struct Obj00335 *)w)->f7DC = 1;
+        ((struct Obj00335 *)w)->f7E0 = data_021DAD24[s3c];
+        ((struct Obj00335 *)w)->f7E4 = func_021CA234(w);
+        if (((struct Obj00335 *)w)->f7E4 > 9999)
+            ((struct Obj00335 *)w)->f7E4 = 9999;
         func_0215897C(h, func_02014808((char *)x, (int)s30, (u32)ov214_id, (int)data_021BB474, (int)(w + 0x7d0), 0, 0));
         ret = 1;
         break;
@@ -1013,12 +1015,12 @@ int func_021CA5C4(void *a, u32 b)
         ret = 1;
         break;
     case 353: {
-        u8 *e = *(u8 **)(w + 0x7cc);
+        u8 *e = *(u8 * *)&((struct Obj00335 *)w)->f7CC;
         if (e != NULL) {
             u32 kb6 = e[0xb6];
             u32 kbf = e[0xbf];
             int cnt;
-            void *party = *(void **)(e + 0x24);
+            void *party = ((struct Obj02400 *)e)->f24;
             int i;
             int sa;
             int sb;
@@ -1076,20 +1078,20 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 402:
         w[0x727] = p1;
-        *(u16 *)(w + 0x72a) = s28;
+        ((struct Obj00335 *)w)->f72A = s28;
         func_02167B24(w[0x727]);
         func_020113D0(a, (int)func_021CB700);
         ret = 1;
         break;
     case 403:
-        *(u16 **)(w + 0x720) = dst;
-        *(u32 *)(w + 0x71c) = func_021CD48C((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 0, 2, 0);
+        *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
+        ((struct Obj00335 *)w)->f71C = func_021CD48C((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 0, 2, 0);
         func_020113D0(a, (int)func_021CB754);
         ret = 1;
         break;
     case 404:
-        *(u16 **)(w + 0x720) = dst;
-        *(u32 *)(w + 0x71c) = func_021CD48C((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 1, 2, 0);
+        *(u16 * *)&((struct Obj00335 *)w)->f720 = dst;
+        ((struct Obj00335 *)w)->f71C = func_021CD48C((u32)func_02012944((void *)s4c), s30, 2, 2, 4, 1, 2, 0);
         ret = 1;
         func_020113D0(a, (int)func_021CB7E8);
         break;
@@ -1100,7 +1102,7 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 406:
         func_02167CF4(w, p1);
-        *(u16 *)(w + 0x72a) = s28;
+        ((struct Obj00335 *)w)->f72A = s28;
         func_020113D0(a, (int)func_021CB86C);
         ret = 1;
         break;
@@ -1109,13 +1111,13 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 408:
         func_02082BCC(w + 0x7a4, 0, 0x24);
-        *(u32 *)(w + 0x7a4) = s4c;
-        *(u32 *)(w + 0x7c0) = 11;
+        ((struct Obj00335 *)w)->f7A4 = s4c;
+        ((struct Obj00335 *)w)->f7C0 = 11;
         func_0215897C(h, func_02014808((char *)x, (int)s30, (u32)ov100_id, (int)data_021BB6A4, (int)(w + 0x7a4), 0, 0));
         ret = 1;
         break;
     case 409:
-        switch (*(u32 *)(w + 0x7c0)) {
+        switch (((struct Obj00335 *)w)->f7C0) {
         case 11:
             *dst = 0;
             break;
@@ -1131,7 +1133,7 @@ int func_021CA5C4(void *a, u32 b)
         }
         break;
     case 410:
-        func_0200ED54(func_0200ED48((void *)s48), *(u32 *)(w + 0x73c));
+        func_0200ED54(func_0200ED48((void *)s48), ((struct Obj00335 *)w)->f73C);
         break;
     case 411:
         *dst = func_021A3190(func_02039338() == 0 ? func_021A30B0(func_02188CB4((void *)s30)) : w[0x749], 0);
@@ -1153,7 +1155,7 @@ int func_021CA5C4(void *a, u32 b)
     case 416: {
         u8 *e;
         *dst = 0;
-        e = *(u8 **)(w + 0x7cc);
+        e = *(u8 * *)&((struct Obj00335 *)w)->f7CC;
         if (e != NULL && func_0200BA38(e[0x91]) == 1)
             *dst = 1;
         break;

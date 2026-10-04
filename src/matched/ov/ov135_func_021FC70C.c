@@ -19,6 +19,8 @@
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_021FCBF0 0x021FCBF0 thumb ov135
  */
+#include "../include/Obj00045.h"
+#include "../include/Obj23409.h"
 extern int func_021F4E30(void *);
 extern void func_021F4E64(void *);
 extern void func_0201F868(void *);
@@ -37,9 +39,9 @@ int func_021FC70C(char *p)
     r = func_021F4E30(p);
     if (r == 1) {
         func_021F4E64(p);
-        func_0201F868(*(void **)(p + 0xde8));
-        q = func_0200ADB4(**(void ***)(p));
-        if (func_021F6DE8(q) && func_0201AA18(*(void **)(*(char **)p + 8)) == 6) {
+        func_0201F868(((struct Obj00045 *)p)->fDE8);
+        q = func_0200ADB4(**(void ** *)&((struct Obj00045 *)p)->f0);
+        if (func_021F6DE8(q) && func_0201AA18(((struct Obj23409 *)(*(char * *)&((struct Obj00045 *)p)->f0))->f8) == 6) {
             func_021FC810(p, 0x2a, 1, 0, 0xf0f, q);
             func_021F4E98(p, 3, 1);
             return 2;
@@ -49,8 +51,8 @@ int func_021FC70C(char *p)
         func_021FCBF0(p);
     } else if (r == 2 || r == -2) {
         func_021F4E64(p);
-        func_0201F868(*(void **)(p + 0xde8));
-        *(int *)(p + 0x28) = 2;
+        func_0201F868(((struct Obj00045 *)p)->fDE8);
+        *(int *)&((struct Obj00045 *)p)->f28 = 2;
         func_021F4EC0(p, 1, 0);
         func_021FCBF0(p);
     }

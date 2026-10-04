@@ -17,6 +17,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F29D8     0x021F29D8  data   ov093  a4
  */
+#include "../include/Obj13527.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ void func_021E56E0(int a, void *b, int c)
 
     if (c == func_021D775C(3)) {
         m = (u8 *)func_021C88A4(b, 0x1e, c);
-        *(int *)(m + 4) = 0;
+        ((struct Obj13527 *)m)->f4 = 0;
         m[8] = func_021C8010(b, c);
         func_021C88C8(b, m);
     }

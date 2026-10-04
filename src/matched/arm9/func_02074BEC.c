@@ -14,6 +14,7 @@
  *   func_02074F3C  0x02074F3C  arm
  *   func_0207466C  0x0207466C  arm
  */
+#include "../include/Obj08948.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,13 +31,13 @@ u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out)
     u32 r;
 
     if (p == 0) return 2;
-    r = func_02074CD0(*(u16 *)(p + 4), b, c, d, 0);
+    r = func_02074CD0(((struct Obj08948 *)p)->f4, b, c, d, 0);
     if (r != 0) return r;
     if (b & 1) {
-        r = func_02074F3C(*(u32 *)p, c, d);
+        r = func_02074F3C(((struct Obj08948 *)p)->f0, c, d);
         if (r == 0) return 6;
     } else {
-        r = func_0207466C(*(u32 *)p);
+        r = func_0207466C(((struct Obj08948 *)p)->f0);
     }
     if (out != 0) *out = r;
     return 0;

@@ -14,6 +14,7 @@
  *   func_02045EC0  0x02045EC0  arm
  *   func_02045C04  0x02045C04  arm
  */
+#include "../include/Obj12026.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ void *func_02156914(int a0, int a1)
     void *t4;
     struct MsgBank *t5;
 
-a0 = *(int *)((char *)a0 + 0x24);
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj12026 *)a0)->f24;
+a0 = ((struct Obj12026 *)a0)->f8;
     t5 = func_02045C44((const void *)a0, a1);
 loc_0215691E:
 a1 = 0;

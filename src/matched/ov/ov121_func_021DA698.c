@@ -14,6 +14,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03786.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,4 +24,4 @@ extern void func_021DA2A8(u8 *);
 extern void func_021DA280(u8 *);
 extern void func_020409B4(u8);
 extern void func_020307B0(void *);
-void func_021DA698(u8 *p) { if(*(u32 **)(p+0x60) && *(u32 *)(p+8)!=3) **(u32 **)(p+0x60)=*(u32 *)(p+8); func_0204B3DC(*(void **)(p+4),0); func_021DA2A8(*(u8 **)p); func_021DA280(*(u8 **)p); func_020409B4(*(u16 *)(p+0x28)); func_020307B0(p); }
+void func_021DA698(u8 *p) { if(*(u32 * *)&((struct Obj03786 *)p)->f60 && ((struct Obj03786 *)p)->f8!=3) **(u32 * *)&((struct Obj03786 *)p)->f60=((struct Obj03786 *)p)->f8; func_0204B3DC(((struct Obj03786 *)p)->f4,0); func_021DA2A8(*(u8 * *)&((struct Obj03786 *)p)->f0); func_021DA280(*(u8 * *)&((struct Obj03786 *)p)->f0); func_020409B4(((struct Obj03786 *)p)->f28); func_020307B0(p); }

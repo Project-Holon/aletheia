@@ -14,6 +14,7 @@
  *   func_021B6284 0x021B6284 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj14601.h"
 
 typedef unsigned char u8;
 
@@ -25,8 +26,8 @@ extern void func_020307B0(void *);
 
 void func_021BFB28(char *arg0)
 {
-    char *ptr = *(char **)(arg0 + 0x10);
+    char *ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
     func_021B6284(ptr + 4);
-    ptr = *(char **)(arg0 + 0x10);
+    ptr = *(char * *)&((struct Obj14601 *)arg0)->f10;
     func_020307B0(ptr);
 }

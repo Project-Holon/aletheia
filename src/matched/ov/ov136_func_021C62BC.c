@@ -16,6 +16,9 @@
  *   func_02045374   0x02045374  arm
  *   func_02045730   0x02045730  arm
  */
+#include "../include/Obj00127.h"
+#include "../include/Obj23566.h"
+#include "../include/Obj23567.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -29,8 +32,8 @@ extern void func_02041B6C(u32 bit);
 void func_021C62BC(u8 *p)
 {
     void *q;
-    func_0201F73C(*(void **)(*(u8 **)(p + 8) + 0xA8), 2, 0x3E2, 0xD);
-    q = *(void **)(*(u8 **)(p + 8) + 0xA8);
+    func_0201F73C(((struct Obj23566 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8, 2, 0x3E2, 0xD);
+    q = ((struct Obj23567 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->fA8;
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(func_02045730(q));

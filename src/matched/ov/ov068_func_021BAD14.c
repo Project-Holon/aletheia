@@ -13,6 +13,7 @@
  *   func_021BB000  0x021BB000  thumb
  *   func_021BACF4  0x021BACF4  thumb
  */
+#include "../include/Obj09870.h"
 
 typedef signed char   s8;
 typedef unsigned char u8;
@@ -23,8 +24,8 @@ extern void func_021BACF4(u8 *p, u32 a, u32 b);
 
 void func_021BAD14(u8 *p, u32 v)
 {
-    if (*(int *)(p + 4) < 5) {
-        func_021BB000(p + 0x44, *(int *)(p + 4), v);
-        func_021BACF4(p, *(s8 *)(p + 0x44 + *(int *)(p + 4)), 0);
+    if (((struct Obj09870 *)p)->f4 < 5) {
+        func_021BB000(p + 0x44, ((struct Obj09870 *)p)->f4, v);
+        func_021BACF4(p, *(s8 *)(p + 0x44 + ((struct Obj09870 *)p)->f4), 0);
     }
 }

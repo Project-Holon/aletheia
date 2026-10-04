@@ -15,6 +15,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02043AF4 0x02043AF4 arm
  */
+#include "../include/Obj08357.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -29,8 +30,8 @@ void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
 {
     char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
     u8 color=1;
-    u8 width=func_0202D01C(*(u16 *)(elem+0x10),*(u16 *)(elem+0x12),48);
-    switch(func_0202D034(*(u16 *)(elem+0x10),*(u16 *)(elem+0x12))) {
+    u8 width=func_0202D01C(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12,48);
+    switch(func_0202D034(((struct Obj08357 *)elem)->f10,((struct Obj08357 *)elem)->f12)) {
     case 3: return;
     case 0: color=1; break;
     case 1: color=3; break;

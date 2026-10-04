@@ -14,6 +14,9 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   d_02200B0C 0x02200B0C data a4
  */
+#include "../include/Obj01283.h"
+#include "../include/Obj14466.h"
+#include "../include/Obj24840.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair { int x,y; };
@@ -22,24 +25,24 @@ extern void func_021FD860(int,int,const struct Pair *);
 int func_021FCFE0(char *p,int step)
 {
     int count,changed,half;
-    count=*(u16 *)(p+0x44);
+    count=((struct Obj01283 *)p)->f44;
     changed=0;
     half=(count-1)/2+(count-1)%2;
     if(step>0) {
-        if(half==*(u16 *)(p+0x40) && (u32)(*(u16 *)(p+0x42)+count)<*(u32 *)(p+4)) {
-            *(u16 *)(p+0x42)+=(u16)step;changed=1;
-        } else if((u32)(*(u16 *)(p+0x42)+*(u16 *)(p+0x40))<*(u32 *)(p+4)-1) {
-            *(u16 *)(p+0x40)+=(u16)step;changed=1;
+        if(half==((struct Obj01283 *)p)->f40 && (u32)(((struct Obj01283 *)p)->f42+count)<((struct Obj01283 *)p)->f4) {
+            ((struct Obj01283 *)p)->f42+=(u16)step;changed=1;
+        } else if((u32)(((struct Obj01283 *)p)->f42+((struct Obj01283 *)p)->f40)<((struct Obj01283 *)p)->f4-1) {
+            ((struct Obj01283 *)p)->f40+=(u16)step;changed=1;
         }
     } else if(step<0) {
-        if(half==*(u16 *)(p+0x40) && *(u16 *)(p+0x42)) {
-            *(u16 *)(p+0x42)+=(u16)step;changed=1;
-        } else if(*(u16 *)(p+0x40)) {
-            *(u16 *)(p+0x40)+=(u16)step;changed=1;
+        if(half==((struct Obj01283 *)p)->f40 && ((struct Obj01283 *)p)->f42) {
+            ((struct Obj01283 *)p)->f42+=(u16)step;changed=1;
+        } else if(((struct Obj01283 *)p)->f40) {
+            ((struct Obj01283 *)p)->f40+=(u16)step;changed=1;
         }
     }
-    if(changed && *(int *)(p+0x1c)) func_021FD860(*(int *)(p+0x1c),5,&d_02200B0C[*(u16 *)(p+0x40)]);
+    if(changed && ((struct Obj01283 *)p)->f1C) func_021FD860(((struct Obj01283 *)p)->f1C,5,&d_02200B0C[((struct Obj01283 *)p)->f40]);
     return changed;
 }
-int func_021FD094(char *p) { return *(u32 *)(p+4)>=*(u16 *)(p+0x44); }
-int func_021FD0A8(char *p) { return *(u32 *)(p+4)>1; }
+int func_021FD094(char *p) { return ((struct Obj14466 *)p)->f4>=((struct Obj14466 *)p)->f44; }
+int func_021FD0A8(char *p) { return ((struct Obj24840 *)p)->f4>1; }

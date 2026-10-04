@@ -21,6 +21,7 @@
  *   func_0220D418 0x0220D418 thumb ov198
  *   func_0220D494 0x0220D494 thumb ov198
  */
+#include "../include/Obj00507.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02211B20[];
@@ -38,9 +39,9 @@ void func_0220DD78(char *p) {
     u8 *owner;
     char *base,*rec;
     unsigned offset;
-    *(u8 **)(p+0x253c)=d_02211B20;
+    *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B20;
     func_0220BDA0(p);
-    owner=*(u8 **)p;
+    owner=*(u8 * *)&((struct Obj00507 *)p)->f0;
     base=p+0x30+func_022110D4((u8 *)p,owner[32])*76;
     offset=owner[0x4b]*8;
     rec=base+offset;

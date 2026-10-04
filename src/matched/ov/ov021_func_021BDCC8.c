@@ -19,6 +19,7 @@
  *   func_021BDDC0  0x021BDDC0  thumb  ov021
  *   func_021BDEB4  0x021BDEB4  thumb  ov021
  */
+#include "../include/Obj00282.h"
 
 extern void func_021BE184(void *a, void *b);
 typedef unsigned int   u32;
@@ -33,7 +34,7 @@ extern void func_021BDEB4(void *a);
 void func_021BDCC8(char *a, int *b)
 {
     func_021BE184(a, b);
-    func_0218FEA0(*(void **)(a + 0x54), (u32)(a + 8));
+    func_0218FEA0(((struct Obj00282 *)a)->f54, (u32)(a + 8));
     if (func_021BE1A0(a) != 0) {
         switch (b[1]) {
         case 0:
@@ -53,5 +54,5 @@ void func_021BDCC8(char *a, int *b)
             break;
         }
     }
-    *(int *)(a + 0x64) = 1;
+    ((struct Obj00282 *)a)->f64 = 1;
 }

@@ -15,6 +15,7 @@
  *   func_0203D378 0x0203D378 arm
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj22038.h"
 typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -35,6 +36,6 @@ int func_021BD6D0(char *p, int v)
     } else {
         func_021BAAB8(p, 0x7d, zero);
     }
-    *(int *)(p + 0x1cc) = 0x8e;
+    ((struct Obj22038 *)p)->f1CC = 0x8e;
     return v;
 }

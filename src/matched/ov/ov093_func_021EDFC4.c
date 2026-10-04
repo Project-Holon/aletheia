@@ -12,6 +12,7 @@
  *   func_020437D4 0x020437D4 arm
  *   func_02040B1C 0x02040B1C arm
  */
+#include "../include/Obj00623.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,26 +46,26 @@ int func_021EDFC4(u8 *p)
         break;
     case 1:
         p[0x20]++;
-        if (*(volatile u8 *)(p + 0x20) > 1) {
+        if (*(volatile u8 *)&((struct Obj00623 *)p)->f20 > 1) {
             p[0x20] = 0;
             p[0x21]++;
-            a = *(volatile u8 *)(p + 0x21);
+            a = *(volatile u8 *)&((struct Obj00623 *)p)->f21;
             *(volatile u8 *)0x0400004c = a | (a << 4);
-            if (*(volatile u8 *)(p + 0x21) >= 15) p[0xd]++;
+            if (*(volatile u8 *)&((struct Obj00623 *)p)->f21 >= 15) p[0xd]++;
         }
         break;
     case 2:
-        func_02040B1C(p[0xb], func_020437D4(*(void **)(p + 4)), 0x900, *(u32 *)(p + 0x1c));
+        func_02040B1C(p[0xb], func_020437D4(((struct Obj00623 *)p)->f4), 0x900, ((struct Obj00623 *)p)->f1C);
         p[0xd]++;
         break;
     case 3:
         p[0x20]++;
-        if (*(volatile u8 *)(p + 0x20) > 1) {
+        if (*(volatile u8 *)&((struct Obj00623 *)p)->f20 > 1) {
             p[0x20] = 0;
             p[0x21]--;
-            a = *(volatile u8 *)(p + 0x21);
+            a = *(volatile u8 *)&((struct Obj00623 *)p)->f21;
             *(volatile u8 *)0x0400004c = a | (a << 4);
-            if (*(volatile u8 *)(p + 0x21) == 0) p[0xd]++;
+            if (*(volatile u8 *)&((struct Obj00623 *)p)->f21 == 0) p[0xd]++;
         }
         break;
     case 4:

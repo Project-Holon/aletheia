@@ -15,6 +15,7 @@
  *
  * Tail call into func_02045808 with the pointer held at +0xb88.
  */
+#include "../include/Obj18611.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern void func_02045808(struct U16Vec *vec);
 
 void func_02200EC8(u8 *p)
 {
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0xb88)));
+    func_02045808((struct U16Vec *)(((struct Obj18611 *)p)->fB88));
 }

@@ -21,6 +21,7 @@
  *   func_02005E64 0x02005E64 thumb
  *   d_021B753C 0x021B753C data a1
  */
+#include "../include/Obj04421.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,13 +46,13 @@ int func_021B6938(int a,int b,int c)
     p=func_0203159C(a,64,58);
     func_02082BCC(p,0,64);
     handle=0;
-    *(int *)(p+0x10)=c;
-    *(void **)(p+0x3c)=func_02030734(58,44,0,d_021B753C,0x119);
-    func_02082BCC(*(void **)(p+0x3c),0,44);
+    ((struct Obj04421 *)p)->f10=c;
+    ((struct Obj04421 *)p)->f3C=func_02030734(58,44,0,d_021B753C,0x119);
+    func_02082BCC(((struct Obj04421 *)p)->f3C,0,44);
     func_021B6BE4(p+4,58);
-    if(*(int *)*(int *)(p+0x10)) handle=(int)func_020120F4((const struct Ctx *)(*(int *)*(int *)(p+0x10)));
-    *(void **)p=func_021B6100(-1,handle,58,0);
-    *(int *)(p+0x34)=1;
+    if(*(int *)((struct Obj04421 *)p)->f10) handle=(int)func_020120F4((const struct Ctx *)(*(int *)((struct Obj04421 *)p)->f10));
+    ((struct Obj04421 *)p)->f0=func_021B6100(-1,handle,58,0);
+    ((struct Obj04421 *)p)->f34=1;
     func_021B6A3C(p,(u32)func_021B6A4C);
     func_02005DE4((void *)1);
     func_02005E64();

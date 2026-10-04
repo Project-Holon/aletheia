@@ -14,6 +14,7 @@
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj10904.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,10 +31,10 @@ void ov208_func_021C0C8C(u16 *heap, u8 *p, int key, int on)
 {
     if (on) {
         if (ov208_func_021C0C14(heap, p, key) != 0xff) {
-            func_0204B878((struct Obj *)(*(u32 *)(p + 0xd4)), 6);
-            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd4), 1);
+            func_0204B878((struct Obj *)(((struct Obj10904 *)p)->fD4), 6);
+            func_0204B3DC((struct Obj *)((struct Obj10904 *)p)->fD4, 1);
         }
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd4), 0);
+        func_0204B3DC((struct Obj *)((struct Obj10904 *)p)->fD4, 0);
     }
 }

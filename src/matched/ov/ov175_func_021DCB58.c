@@ -18,6 +18,7 @@
  *   func_021B98A0 0x021B98A0 thumb ov114
  *   func_021B98D8 0x021B98D8 thumb ov114
  */
+#include "../include/Obj01956.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_02012944(void *);
@@ -35,22 +36,22 @@ void func_021DCB58(char *p,void *q,int mode)
     unsigned size;
     void *mon;
     i=0;
-    *(int *)(p+0x12c)=0;
-    *(u8 **)(p+0x121c)=func_021B9800(*(u16 *)(p+0x124),(int)func_0200853C(func_02012944(*(void **)(p+8))),*(int *)(p+0x10));
+    ((struct Obj01956 *)p)->f12C=0;
+    *(u8 * *)&((struct Obj01956 *)p)->f121C=func_021B9800(((struct Obj01956 *)p)->f124,(int)func_0200853C(func_02012944(((struct Obj01956 *)p)->f8)),((struct Obj01956 *)p)->f10);
     switch(mode) {
     case 0:
-        func_021B98A0(*(u8 **)(p+0x121c),*(u16 *)(p+0x124),func_020173EC(),0);
-        func_021B98D8(*(u8 **)(p+0x121c),(int)q,func_020173EC());
-        *(int *)(p+0x174)=1;
+        func_021B98A0(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,func_020173EC(),0);
+        func_021B98D8(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)q,func_020173EC());
+        ((struct Obj01956 *)p)->f174=1;
         break;
     case 1:
         size=func_020173EC();
-        func_021B98A0(*(u8 **)(p+0x121c),*(u16 *)(p+0x124),size*func_0201AA18(q),0);
+        func_021B98A0(*(u8 * *)&((struct Obj01956 *)p)->f121C,((struct Obj01956 *)p)->f124,size*func_0201AA18(q),0);
         for(i=0;i<(int)func_0201AA18(q);i++) {
             mon=func_0201AB28(q,i);
-            func_021B98D8(*(u8 **)(p+0x121c),(int)mon,func_020173EC());
+            func_021B98D8(*(u8 * *)&((struct Obj01956 *)p)->f121C,(int)mon,func_020173EC());
         }
-        *(int *)(p+0x174)=func_0201AA18(q);
+        ((struct Obj01956 *)p)->f174=func_0201AA18(q);
         break;
     }
 }

@@ -18,6 +18,7 @@
  *   func_020173EC  0x020173EC  thumb
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj08050.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,19 +39,19 @@ void *func_021D8D4C(void **a, int b, int c, char *p)
 
     if (b == -1)
         goto out;
-    n = *(int *)(p + 0x630);
+    n = ((struct Obj08050 *)p)->f630;
     if (b > n)
         return 0;
     if (b != n && c != -1) {
-        res = func_0201747C(func_02007A18(a, b, c), *(u16 *)(p + 0x5f4));
+        res = func_0201747C(func_02007A18(a, b, c), ((struct Obj08050 *)p)->f5F4);
     } else {
-        void *m = *(void **)(p + 0x838);
+        void *m = ((struct Obj08050 *)p)->f838;
         if (c >= (int)func_0201AA18(m))
             goto out;
         if (c == -1)
             goto out;
         {
-            void *mon = func_020173F0(1, 1, 1, *(u16 *)(p + 0x5f4));
+            void *mon = func_020173F0(1, 1, 1, ((struct Obj08050 *)p)->f5F4);
             int sz = func_020173EC();
             func_02082D44(func_0201AB28(m, c), mon, sz);
             res = mon;

@@ -17,6 +17,7 @@
  *   func_02185354  0x02185354  thumb  ov023
  *   func_0218654C  0x0218654C  thumb  ov023
  */
+#include "../include/Obj20355.h"
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -41,7 +42,7 @@ int func_021858B8(char *p, int a1)
             mask |= 1 << i;
     }
     if (func_02039CB4((struct Link *)h, 0xc8, 0x29) != 0 || func_0218654C(p) == 1
-        || mask != *(int *)(p + 0x1b0)) {
+        || mask != ((struct Obj20355 *)p)->f1B0) {
         func_0202208C(0, 8, 8, 0, 0x10, 1, 0x28);
         a1 = 3;
     }

@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/func_0200E024.c \
  *       --func func_0200E024 --addr 0x0200E024 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00318.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -44,12 +45,12 @@ void func_0200E024(void *obj)
     u32 a = unk_02FFFC3C;
     u32 b = unk_02FFFC3C;
 
-    *(u16 *)((unsigned char *)obj + 0x84e) = a << 8 | b;
-    if (*(u16 *)((unsigned char *)obj + 0x84e) == 0) {
-        *(u16 *)((unsigned char *)obj + 0x84e) = 1;
+    ((struct Obj00318 *)obj)->f84E = a << 8 | b;
+    if (((struct Obj00318 *)obj)->f84E == 0) {
+        ((struct Obj00318 *)obj)->f84E = 1;
     }
-    *(u16 *)((unsigned char *)obj + 0x84c) = func_0203F2FC(obj, 0x84c);
+    ((struct Obj00318 *)obj)->f84C = func_0203F2FC(obj, 0x84c);
     func_0203F328(obj, 0x84c,
-                  *(u16 *)((unsigned char *)obj + 0x84c) +
-                  (*(u16 *)((unsigned char *)obj + 0x84e) << 16));
+                  ((struct Obj00318 *)obj)->f84C +
+                  (((struct Obj00318 *)obj)->f84E << 16));
 }

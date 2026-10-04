@@ -15,6 +15,7 @@
  *   func_0207C768  0x0207C768  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07458.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -84,10 +85,10 @@ void func_0219518C(u8 *p, u8 *e, const V *a, V *b, V *c, V *d, V *f, V *g, V *h)
         m = m5;
     }
     setv((V *)(e + 0x1C), a->x, a->y, a->z);
-    *(int *)(e + 0x28) = m;
-    *(s16 *)(e + 0x2C) = 0;
-    *(s16 *)(e + 0x2E) = 0;
-    *(s16 *)(e + 0x30) = 0;
+    ((struct Obj07458 *)e)->f28 = m;
+    ((struct Obj07458 *)e)->f2C = 0;
+    ((struct Obj07458 *)e)->f2E = 0;
+    ((struct Obj07458 *)e)->f30 = 0;
     set3((s16 *)(e + 0x32), func_0207C768(l0.x, m), func_0207C768(l0.y, m), func_0207C768(l0.z, m));
     set3((s16 *)(e + 0x38), func_0207C768(l1.x, m), func_0207C768(l1.y, m), func_0207C768(l1.z, m));
     set3((s16 *)(e + 0x3E), func_0207C768(l2.x, m), func_0207C768(l2.y, m), func_0207C768(l2.z, m));

@@ -19,6 +19,7 @@
  * func_020056A0 0x020056A0 thumb
  * d_021B8B2C 0x021B8B2C data a4
  */
+#include "../include/Obj22140.h"
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_0204335C(unsigned);
 extern void func_0204363C(unsigned);
@@ -39,5 +40,5 @@ void func_021B7860(char *p,unsigned b) {
  func_0204361C();
  func_020433E0(d_021B8B2C);
  func_021B7AB4(p,d_021B8B2C,b);
- *(unsigned *)(p+0x90)=func_020056A0(func_021B78FC,p,0);
+ ((struct Obj22140 *)p)->f90=func_020056A0(func_021B78FC,p,0);
 }

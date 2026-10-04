@@ -12,6 +12,7 @@
  *   d_021F1418 0x021F1418 data a1
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj24041.h"
 typedef struct {
     unsigned char x,y,dx,dy;
     unsigned negx:1;
@@ -35,5 +36,5 @@ void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, 
     else { s->dy=ty-y; s->negy=1; }
     s->dx=((unsigned)(s->dx<<8)/(unsigned)s->steps)>>8;
     s->dy=((unsigned)(s->dy<<8)/(unsigned)s->steps)>>8;
-    *(Motion **)(p+0x60)=s;
+    *(Motion * *)&((struct Obj24041 *)p)->f60=s;
 }

@@ -14,6 +14,7 @@
  *   func_0203D378 0x0203D378 arm
  *   func_0203EFC8 0x0203EFC8 arm
  */
+#include "../include/Obj22071.h"
 typedef unsigned char u8;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -31,7 +32,7 @@ void func_021B9950(int a,int b,void *c,int d,int e)
    p = (u8 *)(d+0x260);
    for(;i<4;i++) {
     if(func_0203EFC8(p+i*6,c,6)==0) {
-     *(u8 *)(*(int *)(d+0x244)+a+0x18)=i;
+     *(u8 *)(((struct Obj22071 *)d)->f244+a+0x18)=i;
      return;
     }
    }

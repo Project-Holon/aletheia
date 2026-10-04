@@ -12,6 +12,7 @@
  * symbols:
  *   func_0201416C  0x0201416C  thumb
  */
+#include "../include/Obj00193.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ int func_02162694(int a0, int a1, int a2, int a3)
 t4 = a0 + 0;
 a3 = a2 + 0;
 a0 = a1 + 0;
-a1 = *(u16 *)((char *)t4);
+a1 = *(u16 *)&((struct Obj00193 *)((char *)t4))->f0;
 a2 = *(u16 *)((char *)t4 + 2);
     a0 = func_0201416C(a0, a1, a2, a3);
 loc_021626A4:

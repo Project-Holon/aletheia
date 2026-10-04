@@ -21,6 +21,10 @@
  *   func_021F8358 0x021F8358 thumb ov135
  *   func_021F9890 0x021F9890 thumb ov135
  */
+#include "../include/Obj01159.h"
+#include "../include/Obj23379.h"
+#include "../include/Obj23380.h"
+#include "../include/Obj23381.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { void *a,*b,*obj,*d,*e,*f,*g,*h,*i; u32 j,k,l; } Init;
@@ -46,22 +50,22 @@ int func_021F73DC(u8 *p)
     func_021F7878(p);
     func_0202208C((void *)3,1,1,0,6,1,0x48);
     func_021F9254(p);
-    func_021F81C8(*(void **)(p+0xB6C),*(void **)(p+0xB70),(int)(*(void **)(p+0xB68)),p+0xD90,0,3,-1,p+0xFA0);
-    func_021F8358(*(void **)(p+0xB6C),*(void **)(p+0xB68),(void **)(p+0xD9C),*(void **)(p+0xCC),p+0xB4C,p+0xFA0);
+    func_021F81C8(((struct Obj01159 *)p)->fB6C,((struct Obj01159 *)p)->fB70,(int)(((struct Obj01159 *)p)->fB68),p+0xD90,0,3,-1,p+0xFA0);
+    func_021F8358(((struct Obj01159 *)p)->fB6C,((struct Obj01159 *)p)->fB68,(void **)(p+0xD9C),((struct Obj01159 *)p)->fCC,p+0xB4C,p+0xFA0);
     init.a=p+0xD50;
     init.b=p+0xDD4;
-    init.obj=*(void **)(p+0xBF8);
-    init.d=*(void **)(p+0xD2C);
-    init.e=*(void **)(p+0xD30);
+    init.obj=((struct Obj01159 *)p)->fBF8;
+    init.d=((struct Obj01159 *)p)->fD2C;
+    init.e=((struct Obj01159 *)p)->fD30;
     init.f=0;
-    init.g=*(void **)(p+0xB6C);
-    init.h=*(void **)(p+0xB70);
-    init.i=*(void **)(p+0xB7C);
-    init.j=*(u32 *)(*(u8 **)p+0x10);
-    init.k=*(u32 *)(*(u8 **)(p+0xE00)+0x14);
-    init.l=*(u32 *)(*(u8 **)p+0x20);
-    *(void **)(p+0xDE4)=func_021F9890(&init,2,0);
-    *(u32 *)(p+0x28)=0;
-    *(u32 *)(p+0x12E4)=0;
+    init.g=((struct Obj01159 *)p)->fB6C;
+    init.h=((struct Obj01159 *)p)->fB70;
+    init.i=((struct Obj01159 *)p)->fB7C;
+    init.j=((struct Obj23379 *)(*(u8 * *)&((struct Obj01159 *)p)->f0))->f10;
+    init.k=((struct Obj23380 *)(*(u8 * *)&((struct Obj01159 *)p)->fE00))->f14;
+    init.l=((struct Obj23381 *)(*(u8 * *)&((struct Obj01159 *)p)->f0))->f20;
+    ((struct Obj01159 *)p)->fDE4=func_021F9890(&init,2,0);
+    ((struct Obj01159 *)p)->f28=0;
+    ((struct Obj01159 *)p)->f12E4=0;
     return 1;
 }

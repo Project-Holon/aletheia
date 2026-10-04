@@ -50,6 +50,10 @@
  *   python tools/match.py one --src src/matched/func_02047400.c \
  *       --func func_02047400 --addr 0x02047400 --cc 1.1p1 --arm
  */
+#include "../include/Obj04073.h"
+#include "../include/Obj09057.h"
+#include "../include/Obj11417.h"
+#include "../include/Obj16035.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -78,36 +82,36 @@ void *func_02047400(void *a0, u32 n, void *a2)
     u32 cnt;
 
     z = 0;
-    p = func_0206E954(*(void **)((u8 *)a0 + 4));
+    p = func_0206E954(((struct Obj09057 *)a0)->f4);
     if (p == 0) goto qzero;
     b = p + 8;
     if (b == 0) goto ozero;
     if (n >= p[9]) goto ozero;
-    idx = *(u16 *)(p + 0xe);
+    idx = ((struct Obj11417 *)p)->fE;
     cnt = *(u16 *)(b + idx);
     ofs = (u8 *)(cnt * n + (s32)(b + idx + 4));
     goto join;
 ozero:
     ofs = 0;
 join:
-    if (ofs != 0) { q = (void *)(p + *(u32 *)ofs); goto have; }
+    if (ofs != 0) { q = (void *)(p + ((struct Obj16035 *)ofs)->f0); goto have; }
 qzero:
     q = 0;
 have:
     ;
 
-    if (a2 != 0) z = (u32)func_0206E964(*(void **)((u8 *)a2 + 4));
+    if (a2 != 0) z = (u32)func_0206E964(((struct Obj09057 *)a2)->f4);
 
     obj = func_02030734(*(u16 *)((u8 *)*(void **)&g_02146A5C + 0x18),
                         0x10, 0, g_szG3DSystem, 0x608);
-    *(u16 *)obj = 0x7A14;
-    *(void **)((u8 *)obj + 8) = a0;
-    *(void **)((u8 *)obj + 0xc) = a2;
-    *(void **)((u8 *)obj + 4) = func_0206E348(*(void **)&g_02146A5C);
+    ((struct Obj04073 *)obj)->f0 = 0x7A14;
+    ((struct Obj04073 *)obj)->f8 = a0;
+    ((struct Obj04073 *)obj)->fC = a2;
+    ((struct Obj04073 *)obj)->f4 = func_0206E348(*(void **)&g_02146A5C);
     if (z != 0) {
         func_0206A2CC(q, (void *)z);
         func_0206A4AC(q, (void *)z);
     }
-    func_02069D14(*(void **)((u8 *)obj + 4), q);
+    func_02069D14(((struct Obj04073 *)obj)->f4, q);
     return obj;
 }

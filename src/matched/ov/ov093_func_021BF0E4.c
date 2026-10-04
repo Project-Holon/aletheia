@@ -16,6 +16,7 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021D5BB0  0x021D5BB0  thumb  ov093
  */
+#include "../include/Obj21056.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021BF138(int c);
@@ -31,7 +32,7 @@ void func_021BF0E4(int u, u8 *b, int c, u8 *d, int e)
         x = func_021BF148(c, 0);
         if (x != 0) {
             if (func_021D5440(x) == func_021D5440(b)) {
-                if (*(int *)(d + 0xc) != 7) {
+                if (((struct Obj21056 *)d)->fC != 7) {
                     if (func_021D5BB0(b, 12) != 0 || e != 0)
                         func_021BF158(c, x);
                 }

@@ -19,6 +19,7 @@
  *   func_0216D438  0x0216D438  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17964.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ extern u32 func_02197E7C(u32, u32);
 int func_0219C080(u32 a, u32 b, u32 c, u32 d)
 {
 func_0216D438(a, ((func_02197E7C(func_0216D608(func_0216DEE0((void *)func_0216D67C(a, b, c, d))), 0) << 16) >> 16));
-*(u8 *)((u8 *)(b)) = 4;
+((struct Obj17964 *)((u8 *)(b)))->f0 = 4;
 return 1;
 }
 

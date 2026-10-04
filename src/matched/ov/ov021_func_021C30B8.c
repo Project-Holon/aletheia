@@ -14,6 +14,7 @@
  * symbols:
  *   func_021C1CB0  0x021C1CB0  thumb  ov021
  */
+#include "../include/Obj01213.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -26,6 +27,6 @@ int func_021C30B8(void *a, u8 *b, u32 c)
 
     if (r == 0)
         return 0;
-    *(u32 *)(b + 0x9C) = c;
+    *(u32 *)&((struct Obj01213 *)b)->f9C = c;
     return r;
 }

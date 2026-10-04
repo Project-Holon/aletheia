@@ -15,6 +15,7 @@
  * symbols:
  *   func_020071E8  0x020071E8  thumb
  */
+#include "../include/Obj06203.h"
 
 typedef unsigned int   u32;
 struct Sub020071E4Ctrl;
@@ -22,7 +23,7 @@ extern u32 func_020071E8(const struct Sub020071E4Ctrl *ctrl);
 
 int func_021BC0C8(char *p)
 {
-    int r = func_020071E8(*(void **)p);
-    *(int *)(p + 0x148) = r;
+    int r = func_020071E8(((struct Obj06203 *)p)->f0);
+    ((struct Obj06203 *)p)->f148 = r;
     return r != 0;
 }

@@ -14,6 +14,7 @@
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
+#include "../include/Obj08100.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_020103E4(u8 *p);
@@ -25,8 +26,8 @@ void func_021DE690(void *a, int *state, char *p)
 {
     switch (*state) {
     case 0:
-        func_020103E4(*(void **)(p + 0x10));
-        *(int *)(p + 0x10) = 0;
+        func_020103E4(((struct Obj08100 *)p)->f10);
+        *(int *)&((struct Obj08100 *)p)->f10 = 0;
         *state = 1;
         break;
     case 1:
@@ -34,8 +35,8 @@ void func_021DE690(void *a, int *state, char *p)
         else *state = 3;
         break;
     case 2:
-        if (*(int *)(p + 0x5c)) {
-            *(int *)(p + 0x5c) = 0;
+        if (((struct Obj08100 *)p)->f5C) {
+            ((struct Obj08100 *)p)->f5C = 0;
             *state = 3;
         }
         break;

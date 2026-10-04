@@ -18,6 +18,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021DFA30 0x021DFA30 thumb
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021ECB84(char *w, unsigned i);
@@ -40,7 +41,7 @@ void func_021EA064(unsigned char *p, int i, int v)
     func_021ED594(p, 0x24);
     func_021EE038(p, 2, 1, 2);
     func_021EA1C0(p);
-    *(int *)(p + 0x28) = v;
+    ((struct Obj00000 *)p)->f28 = v;
     p[0x1A] = 2;
     func_021E8FC0(p, func_021DFA30, 0x17);
 }

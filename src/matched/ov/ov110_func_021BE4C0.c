@@ -15,6 +15,7 @@
  *   func_021BD7A0 0x021BD7A0 thumb ov110
  *   func_021BD894 0x021BD894 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef int (*Handler)(u8 *,void *);
@@ -27,22 +28,22 @@ extern int func_021BD894(u8 *,void *);
 int func_021BE4C0(u8 *p,unsigned *q) {
  switch(*q) {
  case 0:
-  if(func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),18) && func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),33) && func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),32)) func_021BEADC(p,q);
+  if(func_021B9C90((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14),18) && func_021B9C90((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14),33) && func_021B9C90((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14),32)) func_021BEADC(p,q);
   break;
  case 1:
-  if(func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),32)) {
-   if(*(u16 *)(p+0x50)!=253) { *(u16 *)(p+0x4c)=*(u16 *)(p+0x50); func_021B9BEC(*(u8 **)(p+0x14),18); }
+  if(func_021B9C90((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14),32)) {
+   if(((struct Obj00012 *)p)->f50!=253) { ((struct Obj00012 *)p)->f4C=((struct Obj00012 *)p)->f50; func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,18); }
    *q=0;
   }
   break;
  case 2:
-  if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) { if(*(Handler *)(p+0x28)==func_021BD894) func_021B9BEC(*(u8 **)(p+0x14),4); *q=3; }
+  if(func_021B9C74((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14))) { if(*(Handler *)&((struct Obj00012 *)p)->f28==func_021BD894) func_021B9BEC(*(u8 * *)&((struct Obj00012 *)p)->f14,4); *q=3; }
   break;
  case 3:
-  if(func_021B9C74((unsigned int)(*(u8 **)(p+0x14)))) func_021BD7A0(p,*(Handler *)(p+0x28));
+  if(func_021B9C74((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14))) func_021BD7A0(p,*(Handler *)&((struct Obj00012 *)p)->f28);
   break;
  case 4:
-  if(func_021B9C90((unsigned int)(*(u8 **)(p+0x14)),25)) *q=0;
+  if(func_021B9C90((unsigned int)(*(u8 * *)&((struct Obj00012 *)p)->f14),25)) *q=0;
   break;
  }
  return 0;

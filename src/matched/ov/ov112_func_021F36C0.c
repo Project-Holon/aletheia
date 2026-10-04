@@ -28,6 +28,9 @@
  *   ov132_id 0x84 data
  *   d_021F836C 0x021F836C data a4
  */
+#include "../include/Obj00587.h"
+#include "../include/Obj08019.h"
+#include "../include/Obj10295.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -77,20 +80,20 @@ int func_021F36C0(void *owner,int unused,const Save *save)
   *(u16 *)((u32)cfg+(length-0x38))=0x30FC;
   *(u16 *)((u32)cfg+(length-0x36))=0x30EA;
   *(u16 *)((u32)cfg+(length-0x34))=func_02045A98();
-  *(u16 *)(cfg+4)=643;*(u16 *)(cfg+0x5C)=643;*(u16 *)(cfg+0xB4)=643;*(u16 *)(cfg+0x10C)=643;
+  ((struct Obj08019 *)cfg)->f4=643;((struct Obj08019 *)cfg)->f5C=643;((struct Obj08019 *)cfg)->fB4=643;((struct Obj08019 *)cfg)->f10C=643;
   for(i=0;i<4;i++){
    u8 *q;
    q=cfg+88U*i;
-   *(u16 *)(q+12)=0x30C8;*(u16 *)(q+14)=0x30EC;*(u16 *)(q+16)=0x30FC;*(u16 *)(q+18)=0x30CA;*(u16 *)(q+20)=0xFF11+i;*(u16 *)(q+22)=0;
-   for(j=0;j<8;j++){u8 *slot;slot=q+8*j;*(u16 *)(slot+28)=255;*(u16 *)(slot+30)=0;*(u8 *)(slot+32)=10;}
+   ((struct Obj00587 *)q)->fC=0x30C8;((struct Obj00587 *)q)->fE=0x30EC;((struct Obj00587 *)q)->f10=0x30FC;((struct Obj00587 *)q)->f12=0x30CA;((struct Obj00587 *)q)->f14=0xFF11+i;((struct Obj00587 *)q)->f16=0;
+   for(j=0;j<8;j++){u8 *slot;slot=q+8*j;((struct Obj10295 *)slot)->f1C=255;((struct Obj10295 *)slot)->f1E=0;((struct Obj10295 *)slot)->f20=10;}
    q=cfg+88*i;
-   *(u16 *)(q+28)=11;*(u16 *)(q+30)=0;q[32]=7;
-   *(u16 *)(q+36)=11;*(u16 *)(q+38)=0;q[40]=8;
-   *(u16 *)(q+44)=11;*(u16 *)(q+46)=0;q[48]=6;
-   *(u16 *)(q+52)=11;*(u16 *)(q+54)=0;q[56]=4;
-   *(u16 *)(q+60)=11;*(u16 *)(q+62)=0;q[64]=2;
-   *(u16 *)(q+68)=11;*(u16 *)(q+70)=0;q[72]=1;
-   *(u16 *)(q+76)=11;*(u16 *)(q+78)=0;q[80]=0;
+   ((struct Obj00587 *)q)->f1C=11;((struct Obj00587 *)q)->f1E=0;q[32]=7;
+   ((struct Obj00587 *)q)->f24=11;((struct Obj00587 *)q)->f26=0;q[40]=8;
+   ((struct Obj00587 *)q)->f2C=11;((struct Obj00587 *)q)->f2E=0;q[48]=6;
+   ((struct Obj00587 *)q)->f34=11;((struct Obj00587 *)q)->f36=0;q[56]=4;
+   ((struct Obj00587 *)q)->f3C=11;((struct Obj00587 *)q)->f3E=0;q[64]=2;
+   ((struct Obj00587 *)q)->f44=11;((struct Obj00587 *)q)->f46=0;q[72]=1;
+   ((struct Obj00587 *)q)->f4C=11;((struct Obj00587 *)q)->f4E=0;q[80]=0;
   }
   if(func_0203630C()&256)p->save->a=1;else p->save->a=0;
   p->save->c=0;

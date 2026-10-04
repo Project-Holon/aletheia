@@ -17,6 +17,7 @@
  *   func_021BA1B4  0x021BA1B4  thumb  ov093
  *   func_021CD64C  0x021CD64C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -30,14 +31,14 @@ extern void func_021CD64C(void *w, u8 id, ...);
 int func_021BD584(u8 *p, u8 *a)
 {
     int k = func_021B8DDC(func_021D5440(a));
-    int m = func_021B8FF4(*(u8 **)(p + 4));
+    int m = func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4);
     int s = func_021BD60C(p, a, 0);
     if (s) return 1;
     if (k == m) {
-        func_021BA1B4(*(u8 **)(p + 4), 0x4e);
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, 0x49, 0xffff0000);
+        func_021BA1B4(*(u8 * *)&((struct Obj00003 *)p)->f4, 0x4e);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, 0x49, 0xffff0000);
     } else {
-        func_021CD64C(*(void **)(p + 0xc), 0x5b, 0x36b, func_021D5440(a), 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x36b, func_021D5440(a), 0xffff0000);
     }
     if (k == m) {
         p[0x786]++;

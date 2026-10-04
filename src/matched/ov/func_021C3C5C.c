@@ -15,6 +15,7 @@
  *   func_02017E1C  0x02017E1C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09211.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ extern u32 func_02017E1C(void *, u32, u32);
 
 int func_021C3C5C(u32 a)
 {
-if (func_02017E1C(*(void **)((u8 *)(a) + 4), 5, 0) == 132) {
-    return *(u32 *)((u8 *)(a));
+if (func_02017E1C(((struct Obj09211 *)((u8 *)(a)))->f4, 5, 0) == 132) {
+    return ((struct Obj09211 *)((u8 *)(a)))->f0;
 }
-return *(u32 *)((u8 *)(a) + 4);
+return *(u32 *)&((struct Obj09211 *)((u8 *)(a)))->f4;
 }
 

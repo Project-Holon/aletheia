@@ -12,6 +12,7 @@
  * symbols:
  *   d_021C2ED8  0x021C2ED8  data  a4
  */
+#include "../include/Obj25830.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,7 +25,7 @@ void func_021BA5F8(char *self)
     int i = 0;
     do {
         int o = i * 4;
-        *(u32 *)(self + o + 0xc) = func_02045B38(0, 2, *(u32 *)((char *)d_021C2ED8 + o), *(u16 *)(self + 4));
+        *(u32 *)(self + o + 0xc) = func_02045B38(0, 2, *(u32 *)((char *)d_021C2ED8 + o), ((struct Obj25830 *)self)->f4);
         i++;
     } while (i < 2);
 }

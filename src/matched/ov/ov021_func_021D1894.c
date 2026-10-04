@@ -15,6 +15,7 @@
  *   func_0216D568  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04301.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,9 +27,9 @@ extern void func_0216D568(void *p, u32 v);
 
 void func_021D1894(u8 *p, u32 n)
 {
-    *(u32 *)(p + 0x184) = (u32)func_0201147C(*(u16 *)(p + 0x19C), 0xCB, n, 10, (u32)(p + 4), 0x180);
+    ((struct Obj04301 *)p)->f184 = (u32)func_0201147C(((struct Obj04301 *)p)->f19C, 0xCB, n, 10, (u32)(p + 4), 0x180);
     p[0x19A] = 1;
     p[0x199] = n;
-    func_021D1988(*(u32 *)(p + 0x184), *(u32 *)p, p + 0x18C);
-    func_0216D568((void *)(*(u32 *)p), 0x8000);
+    func_021D1988(((struct Obj04301 *)p)->f184, ((struct Obj04301 *)p)->f0, p + 0x18C);
+    func_0216D568((void *)(((struct Obj04301 *)p)->f0), 0x8000);
 }

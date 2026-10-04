@@ -22,6 +22,7 @@
  *   func_02040588  0x02040588  arm
  *   func_020434DC  0x020434DC  arm
  */
+#include "../include/Obj06186.h"
 
 typedef unsigned char u8;
 
@@ -72,8 +73,8 @@ int func_021B8494(int a, int *b, C *c, u8 *d)
             void *q = c->f4->f8;
             u8 *s = d + i * 8;
             if (s[0xc] != 0) {
-                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(*(void **)(s + 8)))) == 0) {
-                    func_02045334(*(void **)(s + 8));
+                if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06186 *)s)->f8))) == 0) {
+                    func_02045334(((struct Obj06186 *)s)->f8);
                     s[0xc] = 0;
                 }
             }

@@ -16,6 +16,7 @@
  *   func_021BE44C  0x021BE44C  thumb ov210
  *   func_021BE49C  0x021BE49C  thumb ov210
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -33,14 +34,14 @@ void func_021BEA54(u8 *p)
 {
     u8 c;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1B4))), 0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1BC))), 0);
-    c = ((u8 *)*(u32 *)(*(u32 *)p + 8))[3];
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f1B4)), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00222 *)p)->f1BC)), 0);
+    c = ((u8 *)*(u32 *)(*(u32 *)&((struct Obj00222 *)p)->f0 + 8))[3];
     if (c != 0xFF)
         func_021BE44C(p, 0xD, func_021BCF00(p, c), 0x30, 0, 0x3C40, 2);
     else
         func_021BE44C(p, 0xD, 0x30, 0x30, 0, 0x3C40, 2);
-    c = ((u8 *)*(u32 *)(*(u32 *)p + 8))[4];
+    c = ((u8 *)*(u32 *)(*(u32 *)&((struct Obj00222 *)p)->f0 + 8))[4];
     if (c != 0xFF)
         func_021BE44C(p, 0xE, func_021BCF00(p, c), 0x30, 0, 0x3C40, 2);
     else

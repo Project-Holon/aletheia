@@ -19,6 +19,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021C6354 0x021C6354 thumb ov128
  */
+#include "../include/Obj06476.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,9 +41,9 @@ int func_021C6180(void *p,int unused,void *q)
     func_0203064C(1,52,0xc0000);
     v=func_0203159C(p,0x5b0,52);
     func_02082BCC(v,0,0x5b0);
-    *(void **)(v+0x1f8)=q; *(void **)(v+0x5a8)=0;
-    func_021C63EC(v+0x190,*(void **)(v+0x1f8),52);
+    ((struct Obj06476 *)v)->f1F8=q; ((struct Obj06476 *)v)->f5A8=0;
+    func_021C63EC(v+0x190,((struct Obj06476 *)v)->f1F8,52);
     func_021C658C(v+4,v+0x190,52);
-    if(*(void **)(v+0x5a8)==0) *(void **)(v+0x5a8)=func_020056A0(func_021C6354,v,16);
+    if(((struct Obj06476 *)v)->f5A8==0) ((struct Obj06476 *)v)->f5A8=func_020056A0(func_021C6354,v,16);
     return 1;
 }

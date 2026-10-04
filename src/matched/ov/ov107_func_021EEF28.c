@@ -36,6 +36,7 @@
  *   d_021F6B30 0x021F6B30 data a4
  *   d_020A1448 0x020A1448 data a4
  */
+#include "../include/Obj00057.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,7 +69,7 @@ void func_021EEF28(u8 *p) {
  *(volatile u16 *)0x04001050=0;
  *(volatile u16 *)0x04000304 |= 0x8000;
  func_020433E0(&d_021F6C10);
- func_0203F8F4(*(u16 *)p);func_02045088(*(u16 *)p);
+ func_0203F8F4(((struct Obj00057 *)p)->f0);func_02045088(((struct Obj00057 *)p)->f0);
  func_0203FC28(&d_021F6B00);
  func_021EF0D0((u32)(&d_021F6B50),0,0);func_021EF0D0((u32)(&d_021F6B70),1,0);
  func_021EF0D0((u32)(&d_021F6B90),2,0);func_021EF0D0((u32)(&d_021F6BB0),3,0);
@@ -76,8 +77,8 @@ void func_021EEF28(u8 *p) {
  func_021EF0D0((u32)(&d_021F6B10),6,0);func_021EF0D0((u32)(&d_021F6B30),7,0);
  if(!p[0x28])func_02040588(6,1);else func_02040588(6,0);
  cfg=d_020A1448;cfg.dimensions[0]=64;
- func_0204A48C(&cfg,(u32)&d_021F6C10,*(u16 *)p);
- *(struct Bank **)(p+0x6c)=func_0204B100(8,0,*(u16 *)p);
- func_0204B270(*(struct Bank **)(p+0x6c));
+ func_0204A48C(&cfg,(u32)&d_021F6C10,((struct Obj00057 *)p)->f0);
+ *(struct Bank * *)&((struct Obj00057 *)p)->f6C=func_0204B100(8,0,((struct Obj00057 *)p)->f0);
+ func_0204B270(*(struct Bank * *)&((struct Obj00057 *)p)->f6C);
  func_020434DC(16,1);func_02043598(16,1);
 }

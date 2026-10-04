@@ -18,6 +18,7 @@
  *   func_02047970 0x02047970 arm
  *   d_021BAC2C 0x021BAC2C data a4
  */
+#include "../include/Obj03877.h"
 extern unsigned func_02043658(void);
 extern void func_021BA2D8(char *);
 extern void func_021BA128(char *);
@@ -30,14 +31,14 @@ extern const unsigned d_021BAC2C[];
 void func_021B9F40(char *p)
 {
     unsigned i;
-    if (**(int **)p != 1 && (func_02043658() & 1)) {
+    if (**(int * *)&((struct Obj03877 *)p)->f0 != 1 && (func_02043658() & 1)) {
         func_021BA2D8(p);
         func_021BA128(p);
-        for (i = 0; i < *(unsigned *)(p + 0x24); i++)
-            func_02047910(*(void **)(p + 0x20), i, 0x1000);
+        for (i = 0; i < ((struct Obj03877 *)p)->f24; i++)
+            func_02047910(((struct Obj03877 *)p)->f20, i, 0x1000);
         func_02047964();
         func_020479D8();
-        func_02047A60(*(void **)(p + 0x20), d_021BAC2C);
+        func_02047A60(((struct Obj03877 *)p)->f20, d_021BAC2C);
         func_02047970();
     }
 }

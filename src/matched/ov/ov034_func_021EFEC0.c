@@ -21,6 +21,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021F09BC 0x021F09BC thumb ov034
  */
+#include "../include/Obj00166.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -37,15 +38,15 @@ extern void func_021F09BC(void *);
 void *func_021EFEC0(int a0, int a1)
 {
     char *p = (char *)func_02030734(a1, 0x130, 0, d_021F0B20, 0x114);
-    *(int *)p = a0;
-    *(unsigned short *)(p + 0x12C) = a1;
-    *(int *)(p + 0x110) = 0;
-    *(int *)(p + 0x128) = 0;
-    func_021F0114(*(unsigned short *)(p + 0x12C));
-    func_021F0228(*(unsigned short *)(p + 0x12C));
+    *(int *)&((struct Obj00166 *)p)->f0 = a0;
+    ((struct Obj00166 *)p)->f12C = a1;
+    ((struct Obj00166 *)p)->f110 = 0;
+    ((struct Obj00166 *)p)->f128 = 0;
+    func_021F0114(((struct Obj00166 *)p)->f12C);
+    func_021F0228(((struct Obj00166 *)p)->f12C);
     func_021F0724(p);
     func_021F0284(p);
     func_0203D34C(0, a1);
-    *(int *)(p + 0x10C) = func_020056A0(func_021F09BC, p, 0);
+    ((struct Obj00166 *)p)->f10C = func_020056A0(func_021F09BC, p, 0);
     return p;
 }

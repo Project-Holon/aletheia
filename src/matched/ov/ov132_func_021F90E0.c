@@ -11,6 +11,7 @@
  *   func_021FAC74 0x021FAC74 thumb ov132
  *   d_021FDBD0 0x021FDBD0 data a1
  */
+#include "../include/Obj08150.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Bytes { u8 a, b, c, d; };
@@ -21,12 +22,12 @@ void func_021F90E0(u8 *p)
     u8 i;
     u32 *table;
     struct Bytes order;
-    table = *(u32 **)(p + 0xb4);
+    table = *(u32 * *)&((struct Obj08150 *)p)->fB4;
     order = d_021FDBD0;
-    func_021FAC74(*(void **)(p + 0xb0), (u8 *)table + table[0], 1);
+    func_021FAC74(((struct Obj08150 *)p)->fB0, (u8 *)table + table[0], 1);
     for (i = 0; i < 4; i++) {
         if (table[0] != table[((u8 *)&order)[i]]) {
-            func_021FAC74(*(void **)(p + 0xb0), *(u8 **)(p + 0xb4) + table[((u8 *)&order)[i]], 1);
+            func_021FAC74(((struct Obj08150 *)p)->fB0, *(u8 * *)&((struct Obj08150 *)p)->fB4 + table[((u8 *)&order)[i]], 1);
         }
     }
 }

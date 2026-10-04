@@ -14,6 +14,7 @@
  *   func_021EABC4  0x021EABC4  thumb  ov093
  *   func_021EAC54  0x021EAC54  thumb  ov093
  */
+#include "../include/Obj05202.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,8 +53,8 @@ int func_021D0CC4(BattleSeq *s, int *state)
                 f = 1;
             q = (u8 *)s + 0x1ac;
             *q = f;
-            *(u8 **)((u8 *)s + 0xd8) = q;
-            *(int *)((u8 *)s + 0xdc) = 1;
+            *(u8 * *)&((struct Obj05202 *)s)->fD8 = q;
+            ((struct Obj05202 *)s)->fDC = 1;
             return 1;
         }
         break;

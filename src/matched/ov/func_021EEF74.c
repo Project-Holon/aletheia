@@ -16,12 +16,13 @@
  * Pull the two tag records through the p+0x70 lookup and hand both
  * pairs to the 0x54/0x10 emitter.
  */
+#include "../include/Obj12189.h"
 
 extern unsigned char *func_0202616C(int, int);
 extern void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
 void func_021EEF74(char *q, int a, int b)
 {
-    unsigned char *x = func_0202616C(*(int *)(q + 0x70), a);
-    unsigned char *y = func_0202616C(*(int *)(q + 0x70), b);
+    unsigned char *x = func_0202616C(((struct Obj12189 *)q)->f70, a);
+    unsigned char *y = func_0202616C(((struct Obj12189 *)q)->f70, b);
     func_021EEFA4(q, x[0], x[1], y[0], y[1]);
 }

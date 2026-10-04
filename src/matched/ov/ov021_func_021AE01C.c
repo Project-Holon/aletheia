@@ -12,6 +12,7 @@
  * symbols:
  *   func_021AC1E0  0x021AC1E0  thumb  ov021
  */
+#include "../include/Obj12798.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ void func_021AE01C(u32 a, u16 v)
 
     if (a != 0) {
         p = (u8 *)func_021AC1E0(a);
-        *(u16 *)(p + 6) = 1;
-        *(u16 *)(p + 4) = v;
+        ((struct Obj12798 *)p)->f6 = 1;
+        ((struct Obj12798 *)p)->f4 = v;
     }
 }

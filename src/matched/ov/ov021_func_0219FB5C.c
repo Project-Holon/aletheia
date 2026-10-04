@@ -26,6 +26,7 @@
  *   func_0205082C  0x0205082C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01496.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -59,7 +60,7 @@ void func_0219FB5C(u32 a)
 
     flag = 0;
     q = (u8 *)func_0216D6F0((void *)a);
-    if (*(u16 *)q == 0xFFFF)
+    if (((struct Obj01496 *)q)->f0 == 0xFFFF)
         return;
     r = func_0219C9DC((u8 *)func_0216D910(a));
     t = func_0216D598((void *)a);
@@ -80,7 +81,7 @@ void func_0219FB5C(u32 a)
             break;
         }
         q[5] = x;
-        func_0205082C(r, *(u16 *)q, m);
+        func_0205082C(r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else if (t == 0xd4 || t == 0xd6) {
         y = func_0219FFD4(a);
@@ -106,18 +107,18 @@ void func_0219FB5C(u32 a)
             }
         }
         q[5] = x;
-        func_0205082C(r, *(u16 *)q, m);
+        func_0205082C(r, ((struct Obj01496 *)q)->f0, m);
         flag = 1;
     } else {
         if (x == q[5])
             goto tail;
         q[5] = x;
-        func_0205082C(r, *(u16 *)q, flag);
+        func_0205082C(r, ((struct Obj01496 *)q)->f0, flag);
         flag = 1;
     }
 tail:
-    func_021A000C(a, r, *(u16 *)q, flag, 1);
+    func_021A000C(a, r, ((struct Obj01496 *)q)->f0, flag, 1);
     func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
-    func_0204F638((u8 *)func_02050080((u32 *)r), *(u16 *)q, (struct Trip *)buf);
+    func_0204F638((u8 *)func_02050080((u32 *)r), ((struct Obj01496 *)q)->f0, (struct Trip *)buf);
 }

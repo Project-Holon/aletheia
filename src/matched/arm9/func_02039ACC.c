@@ -29,6 +29,8 @@
  *   python tools/match.py one --src src/matched/func_02039ACC.c \
  *       --func func_02039ACC --addr 0x02039ACC --cc 1.1p1 --arm
  */
+#include "../include/Obj11357.h"
+#include "../include/Obj11358.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,16 +59,16 @@ int func_02039ACC(void)
     func_0203D788();
     q = func_0203D798();
     if (func_02039160(func_02039338()) != 0) {
-        f = *(u8 *)(p + 0x4a);
+        f = ((struct Obj11357 *)p)->f4A;
         if (f == 2) {
             func_02087C6C(buf);
             buf[6] = v;
-            buf[7] = *(u8 *)(q + 0x67);
-            buf[8] = *(u16 *)(q + 0x6e);
+            buf[7] = ((struct Obj11358 *)q)->f67;
+            buf[8] = ((struct Obj11358 *)q)->f6E;
             return func_0203D3A8((struct Entry *)p, 3, 9, (u32)buf);
         }
         if (f < 2)
-            *(u8 *)(p + 0x4a) = f + 1;
+            ((struct Obj11357 *)p)->f4A = f + 1;
     }
     return 0;
 }

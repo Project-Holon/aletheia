@@ -19,6 +19,7 @@
  *   func_021C1758  0x021C1758  thumb  ov093
  *   func_021CC95C  0x021CC95C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -34,7 +35,7 @@ void func_021C16F8(u8 *p, u8 *a, int k)
     u8 n = func_021D5440(a);
     switch (k) {
     case 1:
-        func_021CD64C(*(void **)(p + 0xc), 0x5b, 0x202, n, 0xffff0000);
+        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5b, 0x202, n, 0xffff0000);
         return;
     case 3:
         break;

@@ -13,6 +13,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02158FE0  0x02158FE0  thumb  ov010
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ int func_02159030(int a0, int a1, int a2)
     u16 *q;
 
 t5 = a0 + 0;
-a0 = *(int *)((char *)t5 + 0x10);
+a0 = *(int *)&((struct Obj00020 *)t5)->f10;
 t6 = a1 + 0;
 t4 = a2 + 0;
     p = func_020120F4((const struct Ctx *)a0);

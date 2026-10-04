@@ -18,6 +18,11 @@
  *   func_021BBD28 0x021BBD28 thumb ov225
  *   d_021BBFA8 0x021BBFA8 data a1
  */
+#include "../include/Obj03382.h"
+#include "../include/Obj08471.h"
+#include "../include/Obj08472.h"
+#include "../include/Obj26322.h"
+#include "../include/Obj26323.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,18 +50,18 @@ void func_021BBC54(u8 *p)
     for(index=0;index<3;index++) {
         record=&d_021BBFA8[index];
         slot=p+index*4;
-        *(u32 *)(slot+0x10)=func_020450F0(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
-        func_02043B5C((struct CharBuf *)func_02045770(*(struct Descriptor **)(slot+0x10)),0);
-        func_02045334(*(struct Descriptor **)(slot+0x10));
-        *(u32 *)(slot+0x28)=0;
+        *(u32 *)&((struct Obj08471 *)slot)->f10=func_020450F0(record->v[0],record->v[1],record->v[2],record->v[3],record->v[4],record->v[5],record->v[6]);
+        func_02043B5C((struct CharBuf *)func_02045770(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10),0);
+        func_02045334(*(struct Descriptor * *)&((struct Obj08471 *)slot)->f10);
+        ((struct Obj08471 *)slot)->f28=0;
     }
-    owner=*(u8 **)(p+4);
-    *(u32 *)(p+0x1C)=*(u32 *)(owner+0x10);
-    *(u32 *)(p+0x20)=*(u32 *)(owner+0x10);
-    *(u32 *)(p+0x24)=*(u32 *)(owner+0x14);
-    string=(struct U16Vec *)func_02045EC0(*(struct MsgBank **)(owner+0x20),*(u16 *)(*(u8 **)p+2));
-    func_0201C724(*(void **)(p+0x20),(u32)func_02045770(*(struct Descriptor **)(p+0x14)),0,1,(u32)string,*(u32 *)(*(u8 **)(p+4)+12),0x3C40);
+    owner=*(u8 * *)&((struct Obj03382 *)p)->f4;
+    ((struct Obj03382 *)p)->f1C=((struct Obj08472 *)owner)->f10;
+    *(u32 *)&((struct Obj03382 *)p)->f20=((struct Obj08472 *)owner)->f10;
+    ((struct Obj03382 *)p)->f24=((struct Obj08472 *)owner)->f14;
+    string=(struct U16Vec *)func_02045EC0(*(struct MsgBank * *)&((struct Obj08472 *)owner)->f20,((struct Obj26322 *)(*(u8 * *)&((struct Obj03382 *)p)->f0))->f2);
+    func_0201C724(((struct Obj03382 *)p)->f20,(u32)func_02045770(*(struct Descriptor * *)&((struct Obj03382 *)p)->f14),0,1,(u32)string,((struct Obj26323 *)(*(u8 * *)&((struct Obj03382 *)p)->f4))->fC,0x3C40);
     func_02045808(string);
-    *(u32 *)(p+0x2C)=1;
+    ((struct Obj03382 *)p)->f2C=1;
     func_021BBD28(p);
 }

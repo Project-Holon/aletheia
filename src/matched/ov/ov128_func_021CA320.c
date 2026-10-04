@@ -11,40 +11,41 @@
  *   func_021CA25C 0x021CA25C thumb ov128
  * Extent ends with two bytes of zero alignment padding.
  */
+#include "../include/Obj00775.h"
 
 typedef unsigned int   u32;
 extern void func_021CA25C(u32 a, u32 b);
 int func_021CA320(char *p)  {
-    switch(*(unsigned short *)(p+8))  {
-        case 0: func_021CA25C(*(short *)(p+4),1);
-        *(unsigned short *)(p+10)=0;
-        (*(unsigned short *)(p+8))++;
+    switch(((struct Obj00775 *)p)->f8)  {
+        case 0: func_021CA25C(((struct Obj00775 *)p)->f4,1);
+        ((struct Obj00775 *)p)->fA=0;
+        (((struct Obj00775 *)p)->f8)++;
         break;
-        case 1: (*(unsigned short *)(p+10))++;
-        if(*(unsigned short *)(p+10)==4)  {
-            func_021CA25C(*(short *)(p+4),2);
-            *(unsigned short *)(p+10)=0;
-            (*(unsigned short *)(p+8))++;
+        case 1: (((struct Obj00775 *)p)->fA)++;
+        if(((struct Obj00775 *)p)->fA==4)  {
+            func_021CA25C(((struct Obj00775 *)p)->f4,2);
+            ((struct Obj00775 *)p)->fA=0;
+            (((struct Obj00775 *)p)->f8)++;
         }
         break;
-        case 2: (*(unsigned short *)(p+10))++;
-        if(*(unsigned short *)(p+10)==4)  {
-            func_021CA25C(*(short *)(p+4),1);
-            *(unsigned short *)(p+10)=0;
-            (*(unsigned short *)(p+8))++;
+        case 2: (((struct Obj00775 *)p)->fA)++;
+        if(((struct Obj00775 *)p)->fA==4)  {
+            func_021CA25C(((struct Obj00775 *)p)->f4,1);
+            ((struct Obj00775 *)p)->fA=0;
+            (((struct Obj00775 *)p)->f8)++;
         }
         break;
-        case 3: (*(unsigned short *)(p+10))++;
-        if(*(unsigned short *)(p+10)==4)  {
-            func_021CA25C(*(short *)(p+4),2);
-            *(unsigned short *)(p+10)=0;
-            (*(unsigned short *)(p+8))++;
+        case 3: (((struct Obj00775 *)p)->fA)++;
+        if(((struct Obj00775 *)p)->fA==4)  {
+            func_021CA25C(((struct Obj00775 *)p)->f4,2);
+            ((struct Obj00775 *)p)->fA=0;
+            (((struct Obj00775 *)p)->f8)++;
         }
         break;
-        case 4: (*(unsigned short *)(p+10))++;
-        if(*(unsigned short *)(p+10)==4)  {
-            *(unsigned short *)(p+8)=0;
-            *(unsigned short *)(p+10)=0;
+        case 4: (((struct Obj00775 *)p)->fA)++;
+        if(((struct Obj00775 *)p)->fA==4)  {
+            ((struct Obj00775 *)p)->f8=0;
+            ((struct Obj00775 *)p)->fA=0;
             return 0;
         }
         break;

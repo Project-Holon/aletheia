@@ -12,6 +12,7 @@
  *   func_020470D0 0x020470D0 arm
  *   func_02046EFC 0x02046EFC arm
  */
+#include "../include/Obj04971.h"
 
 typedef unsigned int u32;
 struct Tagged;
@@ -19,10 +20,10 @@ extern int func_020470D0(u32 *p);
 extern void func_02046EFC(struct Tagged *p);
 void func_0217FBD0(char *p)
 {
-    func_020470D0(*(u32 **)(p+0xc8));
-    func_020470D0(*(u32 **)(p+0xcc));
-    func_02046EFC(*(struct Tagged **)(p+0xc8));
-    func_02046EFC(*(struct Tagged **)(p+0xcc));
-    *(u32 *)(p+0xc8)=0;
-    *(u32 *)(p+0xcc)=0;
+    func_020470D0(*(u32 * *)&((struct Obj04971 *)p)->fC8);
+    func_020470D0(*(u32 * *)&((struct Obj04971 *)p)->fCC);
+    func_02046EFC(*(struct Tagged * *)&((struct Obj04971 *)p)->fC8);
+    func_02046EFC(*(struct Tagged * *)&((struct Obj04971 *)p)->fCC);
+    *(u32 *)&((struct Obj04971 *)p)->fC8=0;
+    *(u32 *)&((struct Obj04971 *)p)->fCC=0;
 }

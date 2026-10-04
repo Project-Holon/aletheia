@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16161.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -16,7 +17,7 @@ typedef unsigned int   u32;
 
 u32 func_020508EC(u8 *p, int i, u16 *out)
 {
-    u16 v = *(u16 *)(*(u8 **)(p + 0x18) + i * 40 + 0x1c);
+    u16 v = *(u16 *)(*(u8 * *)&((struct Obj16161 *)p)->f18 + i * 40 + 0x1c);
     *out = v;
     return (u16)(v + 4 + 0xC000) <= 3;
 }

@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj01023.h"
 
 extern void func_020307B0(void *p);
 void func_02012314(char *p)
 {
-    void *q = *(void **)(p + 0xc);
+    void *q = ((struct Obj01023 *)p)->fC;
     if (q) func_020307B0(q);
     func_020307B0(p);
 }

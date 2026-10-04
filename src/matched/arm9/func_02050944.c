@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02050944.c \
  *       --func func_02050944 --addr 0x02050944 --cc 1.1p1 --arm
  */
+#include "../include/Obj16163.h"
 
 typedef unsigned short u16;
 
@@ -27,6 +28,6 @@ int func_02050944(void *p, struct S14 *q)
     int (*fn)(void *, struct S14 *);
 
     fn = (int (*)(void *, struct S14 *))func_02050984(q->f);
-    *(u16 *)((char *)p + 28) = q->f;
+    ((struct Obj16163 *)p)->f1C = q->f;
     return fn(p, q);
 }

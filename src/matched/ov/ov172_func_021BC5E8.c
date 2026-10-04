@@ -27,6 +27,8 @@
  *
  * Touch handling for the selection list: a tap on a row toggles the entry (a kind 0x20 entry takes the single special slot +3, any other entry one of the three slots +0..+2) and refreshes the prompt; a tap on the scroll thumb grabs it, dragging moves it and scrolls the list; then polls the prompt's buttons and the exit rectangle.
  */
+#include "../include/Obj00330.h"
+#include "../include/Obj01950.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -76,30 +78,30 @@ void func_021BC5E8(void *ctx, u8 *list)
     func_021BDFE4(ctx);
     if (trg == 1) {
         if (tx > 8 && tx < 0xe0) {
-            row = (ty + *(u16 *)(list + 4)) >> 5;
+            row = (ty + ((struct Obj00330 *)list)->f4) >> 5;
             if (row >= 0 && row < 15) {
                 id = *(list + row * 0x1c + 0x58);
                 e = list + 0x1e4 + id * 0x24;
                 done = 0;
-                if (*(u32 *)e == 1 && e[0x1f] < 4) {
+                if (((struct Obj01950 *)e)->f0 == 1 && e[0x1f] < 4) {
                     if (e[0x18] == 0x20) {
-                        if (*(u32 *)(e + 8) == 0) {
+                        if (((struct Obj01950 *)e)->f8 == 0) {
                             list[3] = id;
                             done = 1;
-                            *(u32 *)(e + 8) = 1;
-                            *(u32 *)(e + 0x10) = 1;
-                            *(u32 *)(list + 0xc) = 1;
+                            ((struct Obj01950 *)e)->f8 = 1;
+                            ((struct Obj01950 *)e)->f10 = 1;
+                            ((struct Obj00330 *)list)->fC = 1;
                             func_020061E4(0x73b);
                         } else {
                             list[3] = 0xff;
-                            *(u32 *)(e + 8) = 0;
+                            ((struct Obj01950 *)e)->f8 = 0;
                             done = 1;
-                            *(u32 *)(e + 0x10) = 1;
-                            *(u32 *)(list + 0xc) = 1;
+                            ((struct Obj01950 *)e)->f10 = 1;
+                            ((struct Obj00330 *)list)->fC = 1;
                             func_020061E4(0x73c);
                         }
                     } else if (list[3] == 0xff) {
-                        if (*(u32 *)(e + 8) == 0) {
+                        if (((struct Obj01950 *)e)->f8 == 0) {
                             for (i = 0; i < 3; i++) {
                                 if (list[i] == 0xff) {
                                     list[i] = id;
@@ -108,9 +110,9 @@ void func_021BC5E8(void *ctx, u8 *list)
                             }
                             if (i < 3) {
                                 done = 1;
-                                *(u32 *)(e + 8) = 1;
-                                *(u32 *)(e + 0x10) = 1;
-                                *(u32 *)(list + 0xc) = 1;
+                                ((struct Obj01950 *)e)->f8 = 1;
+                                ((struct Obj01950 *)e)->f10 = 1;
+                                ((struct Obj00330 *)list)->fC = 1;
                                 func_020061E4(0x73b);
                             }
                         } else {
@@ -120,10 +122,10 @@ void func_021BC5E8(void *ctx, u8 *list)
                                     break;
                                 }
                             }
-                            *(u32 *)(e + 8) = 0;
+                            ((struct Obj01950 *)e)->f8 = 0;
                             done = 1;
-                            *(u32 *)(e + 0x10) = 1;
-                            *(u32 *)(list + 0xc) = 1;
+                            ((struct Obj01950 *)e)->f10 = 1;
+                            ((struct Obj00330 *)list)->fC = 1;
                             func_020061E4(0x73c);
                         }
                     }
@@ -131,14 +133,14 @@ void func_021BC5E8(void *ctx, u8 *list)
                 if (done == 1)
                     func_021BCEF8(ctx, list);
             }
-        } else if (tx >= 0xec && tx <= 0x104 && ty >= *(u16 *)(list + 6) + 0xc
-                   && ty <= *(u16 *)(list + 6) + 0x24 && list[0x14] > 5) {
-            *(u32 *)(list + 0x10) = 1;
-            func_0204B878((struct Obj *)(*(u32 *)(list + 0x404)), 0xd);
+        } else if (tx >= 0xec && tx <= 0x104 && ty >= ((struct Obj00330 *)list)->f6 + 0xc
+                   && ty <= ((struct Obj00330 *)list)->f6 + 0x24 && list[0x14] > 5) {
+            ((struct Obj00330 *)list)->f10 = 1;
+            func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f404), 0xd);
             func_020061E4(0x66c);
         }
     }
-    if (cont == 1 && *(u32 *)(list + 0x10) == 1 && list[0x14] > 5) {
+    if (cont == 1 && ((struct Obj00330 *)list)->f10 == 1 && list[0x14] > 5) {
         if (dx >= 0xec && dx <= 0x104 && dy >= 0xc && dy <= 0x9c) {
             range = (list[0x14] - 5) * 32;
             s = dy - 0x18;
@@ -146,28 +148,28 @@ void func_021BC5E8(void *ctx, u8 *list)
                 s = 0;
             else if (s > 0x78)
                 s = 0x78;
-            *(u16 *)(list + 6) = s;
+            ((struct Obj00330 *)list)->f6 = s;
             pos.x = 0xf8;
-            pos.y = *(u16 *)(list + 6) + 0x18;
-            func_0204B404((struct Obj *)(*(u32 *)(list + 0x404)), (const struct Vec2 *)(&pos), 1);
-            *(u16 *)(list + 4) = *(u16 *)(list + 6) * range / 0x78;
-            *(u32 *)(list + 0xc) = 1;
+            pos.y = ((struct Obj00330 *)list)->f6 + 0x18;
+            func_0204B404((struct Obj *)(((struct Obj00330 *)list)->f404), (const struct Vec2 *)(&pos), 1);
+            ((struct Obj00330 *)list)->f4 = ((struct Obj00330 *)list)->f6 * range / 0x78;
+            ((struct Obj00330 *)list)->fC = 1;
         }
     } else {
-        *(u32 *)(list + 0x10) = 0;
-        func_0204B878((struct Obj *)(*(u32 *)(list + 0x404)), 0xc);
+        ((struct Obj00330 *)list)->f10 = 0;
+        func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f404), 0xc);
     }
-    if (*(u32 *)(list + 0x1c) != 0 && func_0202824C((void **)(*(u32 *)(list + 0x1c))) == 1) {
-        func_0202822C((char *)(*(u32 *)(list + 0x1c)), 1);
-        *(u32 *)(list + 8) = 6;
+    if (((struct Obj00330 *)list)->f1C != 0 && func_0202824C((void **)(((struct Obj00330 *)list)->f1C)) == 1) {
+        func_0202822C((char *)(((struct Obj00330 *)list)->f1C), 1);
+        ((struct Obj00330 *)list)->f8 = 6;
         func_020061E4(0x54c);
-        if (*(u32 *)(list + 0x18) == 1)
+        if (((struct Obj00330 *)list)->f18 == 1)
             func_0200616C((void *)0x73d, 2);
     }
     if (!func_02035C08(d_021C7040) || (func_020362DC() & 2)) {
-        *(u32 *)(list + 8) = 6;
-        *(u32 *)(list + 0x18) = 5;
-        func_0204B878((struct Obj *)(*(u32 *)(list + 0x400)), 9);
+        ((struct Obj00330 *)list)->f8 = 6;
+        ((struct Obj00330 *)list)->f18 = 5;
+        func_0204B878((struct Obj *)(((struct Obj00330 *)list)->f400), 9);
         func_020061E4(0x551);
     }
 }

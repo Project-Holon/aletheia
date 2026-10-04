@@ -14,6 +14,7 @@
  *   func_021EC548 0x021EC548 thumb
  *   func_021EDA70 0x021EDA70 thumb
  */
+#include "../include/Obj00000.h"
 
 typedef struct {
     unsigned short idx;
@@ -35,16 +36,16 @@ extern void func_021EDA70(int a0, int a1, short *a2, short *a3);
 void func_021DDEFC(unsigned char *p, Obj *o)
 {
     short t[2];
-    func_021EC0B0(*(char **)(p + 0x2C), *(unsigned char *)(*(char **)(p + 0x2C) + o->idx + 0x3DD2), &o->x, &o->y, 0);
+    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, *(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C + o->idx + 0x3DD2), &o->x, &o->y, 0);
     if (o->f6 != 2) {
         if (o->slot < 0x24)
             func_021EC548(o->slot, &t[1], &t[0], p[0x1A]);
         else
-            func_021EDA70((int)(*(char **)(p + 0x2C)), o->slot - 0x24, &t[1], &t[0]);
+            func_021EDA70((int)(*(char * *)&((struct Obj00000 *)p)->f2C), o->slot - 0x24, &t[1], &t[0]);
     } else if (p[0x14] > p[0x17]) {
-        func_021EC0B0(*(char **)(p + 0x2C), 0, &t[1], &t[0], 0);
+        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 0, &t[1], &t[0], 0);
     } else {
-        func_021EC0B0(*(char **)(p + 0x2C), 1, &t[1], &t[0], 0);
+        func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C, 1, &t[1], &t[0], 0);
     }
     if (o->x <= t[1]) {
         o->dx = 1;

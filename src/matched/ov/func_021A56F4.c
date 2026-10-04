@@ -16,6 +16,7 @@
  *   func_021A39AC  0x021A39AC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18049.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern u32 func_021A5378(u32, u32, u32, u32);
 int func_021A56F4(u32 a, u32 b, u32 c, u32 d)
 {
 func_021A5378(a, 1, c, d);
-return func_021A39AC(*(u32 *)((u8 *)(a) + 12), 7);
+return func_021A39AC(((struct Obj18049 *)((u8 *)(a)))->fC, 7);
 }
 

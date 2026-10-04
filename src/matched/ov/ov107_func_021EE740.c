@@ -25,6 +25,8 @@
  *   func_021EEEF8 0x021EEEF8 thumb ov107
  *   d_021F6EA0 0x021F6EA0 data a4
  */
+#include "../include/Obj00057.h"
+#include "../include/Obj22273.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,31 +51,31 @@ extern void func_021EEEF8(void);
 extern u8 d_021F6EA0[];
 void func_021EE740(u8 *p) {
  p[0x25]=0;
- *(u32 *)(p+0x20)=0;
- p[0x28]=**(u8 **)(p+8);
+ ((struct Obj00057 *)p)->f20=0;
+ p[0x28]=**(u8 * *)&((struct Obj00057 *)p)->f8;
  func_021EEF28(p);
  func_021EF0F4(p);
- if(!p[0x28]) *(void **)(p+0x68)=func_021F1404(*(u16 *)p,5,5,72,0,0);
- else *(void **)(p+0x68)=func_021F1404(*(u16 *)p,1,1,72,0,1);
- *(void **)(p+0xc)=func_021F0DE8(*(u16 *)p);
- *(u32 *)(p+0x2c)=0;
- *(u32 *)(p+0x60)=0;
+ if(!p[0x28]) ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,5,5,72,0,0);
+ else ((struct Obj00057 *)p)->f68=func_021F1404(((struct Obj00057 *)p)->f0,1,1,72,0,1);
+ ((struct Obj00057 *)p)->fC=func_021F0DE8(((struct Obj00057 *)p)->f0);
+ ((struct Obj00057 *)p)->f2C=0;
+ ((struct Obj00057 *)p)->f60=0;
  func_021EF444(p);
  if(!p[0x28]) {
-  *(void **)(p+0x4c)=func_0200C0F0(func_02012EBC(*(struct Big **)(*(u8 **)(p+8)+4)));
-  func_0200C1B0(*(struct Blk34 **)(p+0x4c),4);
+  ((struct Obj00057 *)p)->f4C=func_0200C0F0(func_02012EBC(*(struct Big * *)&((struct Obj22273 *)(*(u8 * *)&((struct Obj00057 *)p)->f8))->f4));
+  func_0200C1B0(*(struct Blk34 * *)&((struct Obj00057 *)p)->f4C,4);
  } else {
-  *(u32 *)(p+0x4c)=0;
+  *(u32 *)&((struct Obj00057 *)p)->f4C=0;
   *(u16 *)(d_021F6EA0+2)=0;
  }
- *(void **)(p+4)=func_020056A0((u32)func_021EEEAC,(u32)p,8);
+ ((struct Obj00057 *)p)->f4=func_020056A0((u32)func_021EEEAC,(u32)p,8);
  if(!p[0x28]) func_02005654((int)func_021EEEB4,0);
  else { func_02005654((int)func_021EEEF8,0); func_02005D90(1154,0xffff); }
- *(u32 *)(p+0x1c)=0;
- *(u32 *)(p+0x44)=0;
- *(u32 *)(p+0x48)=0;
- *(u16 *)(p+0x38)=0;
- *(u16 *)(p+0x3a)=0;
- *(u16 *)(p+0x3c)=0;
+ ((struct Obj00057 *)p)->f1C=0;
+ ((struct Obj00057 *)p)->f44=0;
+ ((struct Obj00057 *)p)->f48=0;
+ ((struct Obj00057 *)p)->f38=0;
+ ((struct Obj00057 *)p)->f3A=0;
+ ((struct Obj00057 *)p)->f3C=0;
  func_02034F84(16);
 }

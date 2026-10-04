@@ -18,6 +18,7 @@
  * d_021D872C is a const table (0x1C-byte rows, a callback at +0): the
  * `const` lets its load move ahead of the p[1] store, as in the original.
  */
+#include "../include/Obj05021.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ u32 *func_021A0CF4(u32 a, u32 b, u32 c)
 
     p = (u32 *)func_02030734((u16)a, 0x2c, 1, (const char *)d_021DDE48, 0x13c);
     p[2] = 0;
-    *(u16 *)(p + 3) = a;
+    ((struct Obj05021 *)p)->fC = a;
     p[8] = 0;
     p[5] = b;
     r = func_021A0EE4(p, c);

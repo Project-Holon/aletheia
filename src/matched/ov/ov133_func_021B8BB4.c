@@ -15,6 +15,8 @@
  *   _fdiv 0x0209CE10 arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj06499.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { I_ZERO = 0, I_LIMIT = 9 } Index;
@@ -37,10 +39,10 @@ int func_021B8BB4(u8 *p, void *manager, const int *pos, u16 *limit)
     for (i = I_ZERO; i < I_LIMIT; i++) {
         if (manager == 0) enabled = 1;
         else enabled = func_021F4AF0(manager, i);
-        q = func_021F5450(*(u8 **)(p + 0x1880), i);
-        if (*(int *)q == 1 && enabled == 1) {
-            x = coordinate(*(int *)(q + 4) + *(int *)(q + 16), I_ZERO);
-            y = coordinate(*(int *)(q + 8) + *(int *)(q + 20), (Index)16);
+        q = func_021F5450(*(u8 * *)&((struct Obj00004 *)p)->f1880, i);
+        if (((struct Obj06499 *)q)->f0 == 1 && enabled == 1) {
+            x = coordinate(((struct Obj06499 *)q)->f4 + ((struct Obj06499 *)q)->f10, I_ZERO);
+            y = coordinate(((struct Obj06499 *)q)->f8 + ((struct Obj06499 *)q)->f14, (Index)16);
             dx = pos[0] - x;
             dy = pos[1] - y;
             n = dx * dx + dy * dy;

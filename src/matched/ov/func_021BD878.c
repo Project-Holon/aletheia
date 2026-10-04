@@ -14,10 +14,11 @@
 
  * Clears the word at +0x34.
  */
+#include "../include/Obj18243.h"
 
 
 void func_021BD878(char *p)
 {
-    *(int *)(p + 0x34) = 0;
+    ((struct Obj18243 *)p)->f34 = 0;
 }
 

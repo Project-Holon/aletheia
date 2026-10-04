@@ -16,10 +16,11 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj12218.h"
 
 void func_021FF134(char *p, int a, int b)
 {
-    *(int *)(p + 0x538) = a;
-    *(int *)(p + 0x53c) = b;
+    ((struct Obj12218 *)p)->f538 = a;
+    ((struct Obj12218 *)p)->f53C = b;
 }
 

@@ -12,6 +12,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj12051.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,12 +25,12 @@ void func_021666A4(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4);
+a0 = ((struct Obj12051 *)((char *)t4))->f0;
     if (a0 == 0) goto loc_021666B6;
 loc_021666AE:
     a0 = func_020307B0(a0);
 loc_021666B2:
 a0 = 0;
-*(int *)((char *)t4) = a0;
+((struct Obj12051 *)((char *)t4))->f0 = a0;
 loc_021666B6:
     return;}

@@ -11,6 +11,7 @@
  * symbols:
  *   func_021BA83C 0x021BA83C thumb ov181
  */
+#include "../include/Obj00682.h"
 extern int func_021BA83C(char *);
 #define STATE(p) (*(int *)((p) + 0x2EC))
 #define COUNT(p) (*(unsigned *)((p) + 0x2E4))
@@ -21,7 +22,7 @@ int func_021B974C(char *p)
         if (COUNT(p) >= 41) {
             COUNT(p) = 0;
             STATE(p)++;
-        } else if (*(unsigned char *)(p + 0x2D2) == 1) {
+        } else if (((struct Obj00682 *)p)->f2D2 == 1) {
             COUNT(p) += 4;
         } else {
             COUNT(p)++;

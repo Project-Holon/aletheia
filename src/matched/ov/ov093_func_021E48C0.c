@@ -15,6 +15,7 @@
  *   func_021E899C  0x021E899C  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj06272.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,13 +32,13 @@ void func_021E48C0(int a0, u8 *s, int k)
 
     if (k == func_021D775C(3)) {
         e = func_021C88A4(s, 0x1b, k);
-        *(int *)(e + 4) = 3;
-        *(int *)(e + 8) = func_021E899C(k);
+        ((struct Obj06272 *)e)->f4 = 3;
+        ((struct Obj06272 *)e)->f8 = func_021E899C(k);
         e[0xc] = 1;
         ((struct B *)(e + 0x12))->lo = 2;
-        *(u16 *)(e + 0x10) = 0x24a;
+        ((struct Obj06272 *)e)->f10 = 0x24a;
         ((struct B *)(e + 0x12))->mid = 1;
-        *(int *)(e + 0x14) = k;
+        ((struct Obj06272 *)e)->f14 = k;
         func_021C88C8(s, e);
     }
 }

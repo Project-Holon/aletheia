@@ -19,6 +19,7 @@
  *   func_021C3008 0x021C3008 thumb ov093
  *   func_021C99A0 0x021C99A0 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -42,12 +43,12 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     u32 i;
     u8 *b;
     const u8 *m;
-    a = func_021B9934(*(void **)(p + 8), e->index);
+    a = func_021B9934(((struct Obj00003 *)p)->f8, e->index);
     f = 0;
     result = 0;
     for (i = 0; i < e->count; i++) {
         if (func_021C9374(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(*(void **)(p + 8), e->ids[i]);
+            b = func_021B9934(((struct Obj00003 *)p)->f8, e->ids[i]);
             if (!func_021D5B68(b)) {
                 if (func_021D5D14(b, e->kind, e->a)) {
                     f = 1;
@@ -61,7 +62,7 @@ int func_021C9250(u8 *p, const Ent *e, u16 arg)
     m += 24;
     for (i = 0; i < e->count; i++) {
         if (func_021C9384(p + 0x1ab8, e->ids[i])) {
-            b = func_021B9934(*(void **)(p + 8), e->ids[i]);
+            b = func_021B9934(((struct Obj00003 *)p)->f8, e->ids[i]);
             if (!func_021D5B68(b)) {
                 if (func_021C3008(p, e->index, b, e->kind, e->a, 31, arg, e->value, e->c, e->b == 0)) {
                     func_021C99A0(p, m);

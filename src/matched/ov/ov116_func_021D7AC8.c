@@ -12,6 +12,7 @@
  *   func_021D70EC 0x021D70EC thumb ov116
  *   func_021C93BC 0x021C93BC arm ov114
  */
+#include "../include/Obj13868.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -21,10 +22,10 @@ extern void func_021C93BC(void);
 int func_021D7AC8(u8 *p)
 {
     int result;
-    if (*(u16 *)(p + 0xb68) == 0) return 1;
+    if (((struct Obj13868 *)p)->fB68 == 0) return 1;
     if (func_021D70EC(p + 0x182c, &result)) {
         func_021C93BC();
-        *(u16 *)(p + 0xb68) = 0;
+        ((struct Obj13868 *)p)->fB68 = 0;
         return 1;
     }
     return 0;

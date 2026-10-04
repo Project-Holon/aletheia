@@ -15,6 +15,7 @@
  *   func_021BB98C  0x021BB98C  thumb  ov091
  *   func_021B9E44  0x021B9E44  thumb  ov091
  */
+#include "../include/Obj00009.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -27,9 +28,9 @@ extern void func_021B9E44(u8 *p);
 
 void func_021BCC40(int p, int id)
 {
-    *(int *)(*(int *)(p + 0x280) + 0x40) = 10;
-    func_021BB97C((u16 *)p, *(int *)(p + 0x150));
-    func_021BB99C(p, *(int *)(p + 0x150), 0, *(int *)(p + 0x38));
+    *(int *)(*(int *)&((struct Obj00009 *)p)->f280 + 0x40) = 10;
+    func_021BB97C((u16 *)p, *(int *)&((struct Obj00009 *)p)->f150);
+    func_021BB99C(p, *(int *)&((struct Obj00009 *)p)->f150, 0, *(int *)&((struct Obj00009 *)p)->f38);
     func_021B9788((u8 *)p, id, 1, (int)func_021B9E44);
-    func_021BB98C((void *)p, *(int *)(p + 0x150));
+    func_021BB98C((void *)p, *(int *)&((struct Obj00009 *)p)->f150);
 }

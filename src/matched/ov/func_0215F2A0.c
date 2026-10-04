@@ -13,6 +13,7 @@
  *   func_0201213C  0x0201213C  thumb
  *   func_020121CC  0x020121CC  thumb
  */
+#include "../include/Obj17704.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ int func_0215F2A0(int a0, int a1)
 {
     int t4;
 
-t4 = *(int *)((char *)a0);
+t4 = ((struct Obj17704 *)((char *)a0))->f0;
 a1 = 0;
 a0 = t4 + 0;
     a0 = func_0201213C(a0, a1);

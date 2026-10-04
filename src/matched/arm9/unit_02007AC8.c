@@ -40,6 +40,7 @@
  * three tie together.  sub_02007AF4 is a tail call through a pool word, and
  * it is the function every accessor above reaches the entry array with.
  */
+#include "../include/Obj16869.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -93,7 +94,7 @@ u32 sub_02007B00(void)
 void sub_02007B08(void *p)
 {
     func_02082A7C(0, p, 0x3EC);
-    *(u32 *)p = 0;
+    ((struct Obj16869 *)p)->f0 = 0;
 }
 
 void *sub_02007B20(u32 heap)

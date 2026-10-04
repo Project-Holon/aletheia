@@ -15,6 +15,7 @@
  *   func_02211958 0x02211958 thumb ov198
  *   func_022110D4 0x022110D4 thumb ov198
  */
+#include "../include/Obj10850.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,7 +31,7 @@ int func_0220FCE0(u8 *p)
     u32 sel;
     int row;
     if(func_02211958((u8 **)p)==1)return 31;
-    sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    sel=func_02025DE8(*(struct Sound * *)&((struct Obj10850 *)p)->f2184);
     switch(sel){
     case 0: case 1: case 2: case 3:
         if((*(u8 **)p)[0x4B]!=sel){
@@ -45,12 +46,12 @@ int func_0220FCE0(u8 *p)
     case 4:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(u32 *)(p+0x217C)=14;
+        ((struct Obj10850 *)p)->f217C=14;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(u32 *)(p+0x217C)=14;
+        ((struct Obj10850 *)p)->f217C=14;
         return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

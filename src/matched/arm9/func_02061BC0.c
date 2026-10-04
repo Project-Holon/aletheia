@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_02061BC0.c \
  *       --func func_02061BC0 --addr 0x02061BC0 --arm --cc 1.1p1
  */
+#include "../include/Obj11498.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,5 +23,5 @@ typedef unsigned int   u32;
 
 u32 func_02061BC0(u8 *p)
 {
-    return *(u32 *)p + ((u32)*(u16 *)(p + 0xa) << 4);
+    return ((struct Obj11498 *)p)->f0 + ((u32)((struct Obj11498 *)p)->fA << 4);
 }

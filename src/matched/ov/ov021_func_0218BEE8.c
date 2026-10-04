@@ -20,6 +20,7 @@
  *   func_0218BCAC  0x0218BCAC  thumb  ov021
  *   d_021DD9CC     0x021DD9CC  data  ov021  a1
  */
+#include "../include/Obj09454.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,13 +43,13 @@ void func_0218BEE8(u8 *s, void **out, int x)
     int i;
 
     out[0] = func_0218B924(s, x);
-    out[1] = func_02030734(*(u16 *)s, func_02046C94(), 1, d_021DD9CC, 0x4d0);
-    func_02046CE0(out[1], func_0218BC00(*(void **)(s + 0x18), x));
+    out[1] = func_02030734(((struct Obj09454 *)s)->f0, func_02046C94(), 1, d_021DD9CC, 0x4d0);
+    func_02046CE0(out[1], func_0218BC00(((struct Obj09454 *)s)->f18, x));
     t = func_0218BCAC(out[0]);
     cnt = func_0218BC8C(t);
     for (i = 0; i < 4; i++) {
         if (i < cnt) {
-            out[2 + i] = func_02030734(*(u16 *)s, func_02046C94(), 1, d_021DD9CC, 0x4db);
+            out[2 + i] = func_02030734(((struct Obj09454 *)s)->f0, func_02046C94(), 1, d_021DD9CC, 0x4db);
             func_02046CE0(out[2 + i], func_0218BC10(t, i));
         } else {
             out[2 + i] = 0;

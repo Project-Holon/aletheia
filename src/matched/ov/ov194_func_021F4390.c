@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021F4390(unsigned char *p){return *(unsigned *)(p+20);}
+#include "../include/Obj24910.h"
+unsigned func_021F4390(unsigned char *p){return ((struct Obj24910 *)p)->f14;}

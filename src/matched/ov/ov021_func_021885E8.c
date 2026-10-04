@@ -44,6 +44,7 @@
  *   func_0218A074  0x0218A074  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00611.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -88,38 +89,38 @@ int func_021885E8(void *a, u8 *p)
 {
     switch (p[0xC8]) {
     case 0:
-        func_0218CA78((char *)(*(u32 *)(p + 0x48)));
-        if (*(u32 *)(p + 0x38) != 0) {
+        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
+        if (((struct Obj00611 *)p)->f38 != 0) {
             do {
-                func_0216CD64(*(u32 *)(p + 0x38));
-                func_0219C624((void *)(*(u32 *)(p + 0x38)));
-            } while (func_0219C630((void *)(*(u32 *)(p + 0x38))) == 1);
+                func_0216CD64(((struct Obj00611 *)p)->f38);
+                func_0219C624((void *)(((struct Obj00611 *)p)->f38));
+            } while (func_0219C630((void *)(((struct Obj00611 *)p)->f38)) == 1);
         }
-        while (func_021A1B50(*(u32 *)(p + 0x20)) != 0)
-            func_021A1AF4((u8 *)(*(u32 *)(p + 0x20)), 0x92);
+        while (func_021A1B50(((struct Obj00611 *)p)->f20) != 0)
+            func_021A1AF4((u8 *)(((struct Obj00611 *)p)->f20), 0x92);
         func_02189004(p);
         func_02189084(p);
         func_021890AC(p);
         func_0204A600();
-        if (*(u32 *)(p + 0x28) != 0)
-            func_021903E0((struct Obj *)(*(u32 *)(p + 0x28)));
-        func_021ABE04(*(u32 *)(p + 0x94));
-        func_021BB948((u8 *)(*(u32 *)(p + 0xBC)));
+        if (((struct Obj00611 *)p)->f28 != 0)
+            func_021903E0((struct Obj *)(((struct Obj00611 *)p)->f28));
+        func_021ABE04(((struct Obj00611 *)p)->f94);
+        func_021BB948((u8 *)(((struct Obj00611 *)p)->fBC));
         p[0xC8]++;
     case 1:
-        if (func_02014460(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8)))) == 1
-            && func_02189B04(*(u16 *)(p + 0xD0)) == 1
+        if (func_02014460(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) == 1
+            && func_02189B04(((struct Obj00611 *)p)->fD0) == 1
             && func_02005C64() != 0)
             return 0;
-        if (func_02014458(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8)))) != 0) {
-            func_02158AC8(*(u32 *)(p + 4), *(u16 *)p);
-            func_02014454(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8))), 0);
+        if (func_02014458(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8))) != 0) {
+            func_02158AC8(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
+            func_02014454(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
         } else {
-            func_02158AD4(*(u32 *)(p + 4), *(u16 *)p);
+            func_02158AD4(((struct Obj00611 *)p)->f4, ((struct Obj00611 *)p)->f0);
         }
-        func_0201445C(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8))), 0);
-        func_0218CA78((char *)(*(u32 *)(p + 0x48)));
-        if (func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1)
+        func_0201445C(func_02012B38((const struct BigObj *)(((struct Obj00611 *)p)->f8)), 0);
+        func_0218CA78((char *)(((struct Obj00611 *)p)->f48));
+        if (func_02013CC8(((struct Obj00611 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00611 *)p)->fD0) == 1)
             func_0201209C(a, (u32)func_0218A0E4, (u32)p);
         else if (func_02188CF0((u32)p) == 1)
             func_0201209C(a, (u32)func_0218A240, (u32)p);
@@ -127,7 +128,7 @@ int func_021885E8(void *a, u8 *p)
             func_0201209C(a, (u32)func_0218A4BC, (u32)p);
         else
             func_0201209C(a, (u32)func_0218A074, (u32)p);
-        *(u32 *)(p + 0xC0) = 1;
+        ((struct Obj00611 *)p)->fC0 = 1;
         func_020129DC(func_020120F4(a), 1);
         break;
     }

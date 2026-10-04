@@ -13,6 +13,8 @@
  *   func_021D8D1C 0x021D8D1C thumb ov121
  *   func_021D9138 0x021D9138 thumb ov121
  */
+#include "../include/Obj04491.h"
+#include "../include/Obj22867.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,12 +46,12 @@ static inline void G2_SetWnd0Position(int x1,int y1,int x2,int y2)
 }
 void func_021D8C1C(u8 *p,int mode)
 {
-    *(int *)(p+8)=0;
-    *(int *)(p+32)=0;
-    *(int *)(p+24)=0;
+    ((struct Obj04491 *)p)->f8=0;
+    ((struct Obj04491 *)p)->f20=0;
+    ((struct Obj04491 *)p)->f18=0;
     switch(mode) {
     case 0:
-        if (*(u8 *)(*(u8 **)(p+276)+714)) *(void (**)(void *))(p+44)=func_021D8EA4;
+        if (((struct Obj22867 *)(*(u8 * *)&((struct Obj04491 *)p)->f114))->f2CA) *(void (**)(void *))(p+44)=func_021D8EA4;
         else *(void (**)(void *))(p+44)=func_021D8D1C;
         break;
     case 1:

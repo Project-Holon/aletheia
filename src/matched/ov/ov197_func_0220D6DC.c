@@ -18,6 +18,14 @@
  *   func_020216D4 0x020216D4 thumb
  *   func_02021640 0x02021640 thumb
  */
+#include "../include/Obj02914.h"
+#include "../include/Obj25103.h"
+#include "../include/Obj25104.h"
+#include "../include/Obj25105.h"
+#include "../include/Obj25106.h"
+#include "../include/Obj25107.h"
+#include "../include/Obj25108.h"
+#include "../include/Obj25109.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PalAnmSlot;
@@ -31,13 +39,13 @@ extern void func_020216D4(struct PalAnmSlot *, u32, u32, u32);
 extern void func_02021640(struct PalAnmSlot *, u32, u32, u32, u32, u32, u16);
 void func_0220D6DC(char *p)
 {
-    void *handle = func_020490F4(99,(*(u16 *)(*(char **)p + 0xc) & 0x7fff) | 0x8000);
-    func_02049658(handle, 0, 6, 0, 0, 1, *(u16 *)(*(char **)p + 0xc));
-    func_020498F4(handle, 3, 6, 0, 0, 1, *(u16 *)(*(char **)p + 0xc));
-    func_020498F4(handle, 2, 7, 0, 0, 1, *(u16 *)(*(char **)p + 0xc));
-    func_020216B4(*(struct PalAnmSlot **)(p + 8), (void *)((u32)handle), 1, *(u16 *)(*(char **)p + 0xc), 1, 224, 0);
+    void *handle = func_020490F4(99,(((struct Obj25103 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC & 0x7fff) | 0x8000);
+    func_02049658(handle, 0, 6, 0, 0, 1, ((struct Obj25104 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
+    func_020498F4(handle, 3, 6, 0, 0, 1, ((struct Obj25105 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
+    func_020498F4(handle, 2, 7, 0, 0, 1, ((struct Obj25106 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
+    func_020216B4(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, (void *)((u32)handle), 1, ((struct Obj25107 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 224, 0);
     func_02049238(handle);
-    func_0201F5BC(4, 1, 11, 0, *(u16 *)(*(char **)p + 0xc));
-    func_020216D4(*(struct PalAnmSlot **)(p + 8), 1, 176, 32);
-    func_02021640(*(struct PalAnmSlot **)(p + 8), 23, 5, *(u16 *)(*(char **)p + 0xc), 1, 32, 192);
+    func_0201F5BC(4, 1, 11, 0, ((struct Obj25108 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC);
+    func_020216D4(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 1, 176, 32);
+    func_02021640(*(struct PalAnmSlot * *)&((struct Obj02914 *)p)->f8, 23, 5, ((struct Obj25109 *)(*(char * *)&((struct Obj02914 *)p)->f0))->fC, 1, 32, 192);
 }

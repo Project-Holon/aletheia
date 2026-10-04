@@ -21,6 +21,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F27C4     0x021F27C4  data   a4
  */
+#include "../include/Obj10088.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ void func_021E3F44(int u, void *a, int c)
             h = func_021D6740(q);
             if (h != 0) {
                 p = func_021C88A4(a, 0x20, c);
-                *(u16 *)(p + 4) = h;
+                ((struct Obj10088 *)p)->f4 = h;
                 p[6] = c;
                 p[7] = 1;
                 func_021C8838(p + 0xc, 2, 0x2dd);

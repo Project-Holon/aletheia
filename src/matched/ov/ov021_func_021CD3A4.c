@@ -19,6 +19,8 @@
  *   func_02045838  0x02045838  arm
  *   func_02165844  0x02165844  thumb  ov010
  */
+#include "../include/Obj03150.h"
+#include "../include/Obj06099.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,27 +36,27 @@ extern void func_02165844(void *v);
 
 void func_021CD3A4(u8 *a, u8 *b)
 {
-    u16 *q = *(u16 **)(a + 0x18);
+    u16 *q = *(u16 * *)&((struct Obj03150 *)a)->f18;
 
     if (q) {
-        if (*(int *)(b + 0x1c) == 0)
+        if (((struct Obj06099 *)b)->f1C == 0)
             *q = 1;
         else
             *q = 0;
     }
-    if (*(int *)(b + 0x1c) == 1)
+    if (((struct Obj06099 *)b)->f1C == 1)
         return;
-    switch (*(int *)(a + 0x4c)) {
+    switch (((struct Obj03150 *)a)->f4C) {
     case 5:
-        func_0200C1F8((struct Blk34 *)(*(int *)(a + 8)), (const u16 *)(*(int *)(b + 0x20)));
+        func_0200C1F8((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
         func_02027198();
         return;
     case 6:
-        func_0200C210((struct Blk34 *)(*(int *)(a + 8)), (const u16 *)(*(int *)(b + 0x20)));
+        func_0200C210((struct Blk34 *)(((struct Obj03150 *)a)->f8), (const u16 *)(((struct Obj06099 *)b)->f20));
         return;
     case 7:
-        func_02045838((struct U16Vec *)func_020275C4((void *)(*(int *)(a + 0x14))), (struct U16Vec *)(*(int *)(a + 0x3c)));
-        func_02165844((void *)(*(int *)(b + 0x20)));
+        func_02045838((struct U16Vec *)func_020275C4((void *)(((struct Obj03150 *)a)->f14)), (struct U16Vec *)(((struct Obj03150 *)a)->f3C));
+        func_02165844((void *)(((struct Obj06099 *)b)->f20));
         return;
     }
 }

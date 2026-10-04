@@ -18,6 +18,7 @@
  *   d_021D8BE0 0x021D8BE0 data a2
  *   d_021D8B04 0x021D8B04 data a4
  */
+#include "../include/Obj06443.h"
 typedef unsigned short u16;
 extern const u16 d_021D8BD8[],d_021D8BE0[];
 extern const int d_021D8B04[];
@@ -39,10 +40,10 @@ void func_021D7DC8(char *p,int a,int b,int c,int d,int e)
     func_021D7CD4(p,23,1,11);
     func_021D7CD4(p,24,1,16);
     func_0201DD78(1,2,0);
-    *(int *)(p+0x24)=func_021D7CD4(p,d_021D8BD8[c],13,6);
-    *(int *)(p+0x28)=func_021D7CD4(p,d_021D8BE0[d],16,11);
-    *(int *)(p+0x2c)=func_021D7CD4(p,d_021D8BE0[e],16,16);
+    ((struct Obj06443 *)p)->f24=func_021D7CD4(p,d_021D8BD8[c],13,6);
+    ((struct Obj06443 *)p)->f28=func_021D7CD4(p,d_021D8BE0[d],16,11);
+    ((struct Obj06443 *)p)->f2C=func_021D7CD4(p,d_021D8BE0[e],16,16);
     func_021D7D30(p);
     func_021D7710(p);
-    *(void **)(p+8)=func_02051B84((u8 *)d_021D8B04,a,b,*(u16 *)(p+0xc8));
+    ((struct Obj06443 *)p)->f8=func_02051B84((u8 *)d_021D8B04,a,b,((struct Obj06443 *)p)->fC8);
 }

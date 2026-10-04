@@ -14,5 +14,6 @@
  *   func_021B71E4 0x021B71E4 thumb ov101
  *   func_021B78E4 0x021B78E4 thumb ov102
  */
+#include "../include/Obj22163.h"
 extern void func_021B7CB0(unsigned char *); extern int func_021B7DC4(unsigned char *,unsigned char *); extern void func_021B71E4(int); extern void func_021B78E4(void *);
-void func_021B842C(unsigned char *p) { func_021B7CB0(p+0x9c); func_021B7DC4(p+0xac,p+0x9c); func_021B7DC4(p+0x46c,p+0x9c); func_021B71E4(*(int *)(p+0x468)); func_021B78E4(p); }
+void func_021B842C(unsigned char *p) { func_021B7CB0(p+0x9c); func_021B7DC4(p+0xac,p+0x9c); func_021B7DC4(p+0x46c,p+0x9c); func_021B71E4(((struct Obj22163 *)p)->f468); func_021B78E4(p); }

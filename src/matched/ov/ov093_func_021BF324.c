@@ -17,6 +17,7 @@
  *   func_021D62C4  0x021D62C4  thumb  ov093
  *   func_021D62D8  0x021D62D8  thumb  ov093
  */
+#include "../include/Obj07752.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 func_021D5440(u8 *p);
@@ -29,11 +30,11 @@ extern u16 func_021D62D8(u8 *p, int i);
 int func_021BF324(u8 *p, u8 *a, u8 *b)
 {
     u8 t;
-    if (func_021BF3B8(p + 0x1ab8, *(int *)(p + 4), func_021D5440(a)) != 0) {
+    if (func_021BF3B8(p + 0x1ab8, *(int *)&((struct Obj07752 *)p)->f4, func_021D5440(a)) != 0) {
         if (func_021D59B4(a, 0x11) == 0x63)
             return 1;
     }
-    if (func_021BF3C8(p + 0x1ab8, *(int *)(p + 4), func_021D5440(b)) != 0) {
+    if (func_021BF3C8(p + 0x1ab8, *(int *)&((struct Obj07752 *)p)->f4, func_021D5440(b)) != 0) {
         if (func_021D59B4(b, 0x11) == 0x63)
             return 1;
     }

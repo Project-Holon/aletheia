@@ -20,6 +20,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj07523.h"
 
 typedef unsigned int u32;
 typedef short s16;
@@ -47,14 +48,14 @@ void func_021B4264(char *w, u32 b)
     u32 t;
     u32 bg;
 
-    win = (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x178));
+    win = (u32)func_02045770((struct Descriptor *)((struct Obj07523 *)w)->f178);
     func_02043B5C((struct CharBuf *)win, 0);
     if (b <= 0x272) {
-        t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x18C)), b);
-        func_0201C7D0((void *)win, 0, 0, (void *)t, (void *)(*(u32 *)(w + 8)), 0x3C40);
+        t = (u32)func_02045EC0((struct MsgBank *)(((struct Obj07523 *)w)->f18C), b);
+        func_0201C7D0((void *)win, 0, 0, (void *)t, (void *)(((struct Obj07523 *)w)->f8), 0x3C40);
         func_02045808((struct U16Vec *)t);
     }
-    bg = *(u32 *)(w + 0x178);
+    bg = ((struct Obj07523 *)w)->f178;
     func_02045334((struct Descriptor *)bg);
     func_02045374((struct Cfg *)bg);
     func_020409B4(func_02045730((struct Descriptor *)bg));

@@ -21,6 +21,8 @@
  *   func_021B9B00 0x021B9B00 thumb ov099
  *   func_02009918 0x02009918 thumb
  */
+#include "../include/Obj07955.h"
+#include "../include/Obj10207.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 low : 2; u8 flag : 2; u8 high : 4; } Flags;
@@ -55,10 +57,10 @@ int func_021BE7EC(char *p)
                 next = func_021BDDA8(a);
                 if (old == 1 && next == 0) func_021B9B00(p + 0x274, h, 0);
                 else if (old == 0 && next == 1) func_021B9B00(p + 0x274, h, 1);
-                func_02009918(*(void **)(p + 4), i, 8, *(u8 *)(s + 0x14));
-                func_02009918(*(void **)(p + 4), i, 9, ((Flags *)(s + 0x1b))->flag);
-                func_02009918(*(void **)(p + 4), i, 1, *(u32 *)s);
-                func_02009918(*(void **)(p + 4), i, 0, *(u32 *)(s + 4));
+                func_02009918(((struct Obj07955 *)p)->f4, i, 8, ((struct Obj10207 *)s)->f14);
+                func_02009918(((struct Obj07955 *)p)->f4, i, 9, ((Flags *)(s + 0x1b))->flag);
+                func_02009918(((struct Obj07955 *)p)->f4, i, 1, ((struct Obj10207 *)s)->f0);
+                func_02009918(((struct Obj07955 *)p)->f4, i, 0, ((struct Obj10207 *)s)->f4);
             }
             *(u8 *)(p + i + 0x50) = a;
             *(u8 *)(p + i + 0x70) = b;

@@ -14,6 +14,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  */
+#include "../include/Obj00123.h"
 typedef unsigned short u16;
 struct MsgBank;
 struct U16Vec;
@@ -25,8 +26,8 @@ extern void func_021B6AE4(unsigned char *, unsigned, u16, u16, unsigned, unsigne
 void func_021BD488(char *p, unsigned index, unsigned msg, unsigned x, unsigned y, u16 color, unsigned mode)
 {
     void *text;
-    text = func_02045EC0(*(struct MsgBank **)(p + 60), msg);
-    func_0201F250(*(struct WordSet **)(p + 64), *(void **)(p + 68), text);
-    func_021B6AE4((unsigned char *)(p + 32 + index * 8), *(unsigned *)(p + 72), x, y, *(unsigned *)(p + 68), *(unsigned *)(p + 56), color, mode);
+    text = func_02045EC0(*(struct MsgBank * *)&((struct Obj00123 *)p)->f3C, msg);
+    func_0201F250(*(struct WordSet * *)&((struct Obj00123 *)p)->f40, ((struct Obj00123 *)p)->f44, text);
+    func_021B6AE4((unsigned char *)(p + 32 + index * 8), ((struct Obj00123 *)p)->f48, x, y, *(unsigned *)&((struct Obj00123 *)p)->f44, *(unsigned *)&((struct Obj00123 *)p)->f38, color, mode);
     func_02045808(text);
 }

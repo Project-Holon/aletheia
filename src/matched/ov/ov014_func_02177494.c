@@ -13,6 +13,9 @@
  *   func_0203D798  0x0203D798  arm
  *   func_0203F1FC  0x0203F1FC  arm
  */
+#include "../include/Obj04174.h"
+#include "../include/Obj07353.h"
+#include "../include/Obj19328.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -29,7 +32,7 @@ int func_02177494(u8 *obj, u32 flags)
     u8 *base = g_021797A4;
     u8 *st = func_0203D798();
     int v67 = st[0x67];
-    u16 v50 = *(u32 *)(st + 0x50);
+    u16 v50 = ((struct Obj07353 *)st)->f50;
     u8 *p = obj + 0x50;
     CheckFn fn;
 
@@ -37,14 +40,14 @@ int func_02177494(u8 *obj, u32 flags)
         return 0;
     if ((flags & 2) && p[5] != 0)
         return 0;
-    if ((flags & 4) && *(u16 *)p != func_0203F1FC(p + 2, 0x6e))
+    if ((flags & 4) && ((struct Obj04174 *)p)->f0 != func_0203F1FC(p + 2, 0x6e))
         return 0;
-    if ((flags & 8) && *(u16 *)(p + 2) != v50)
+    if ((flags & 8) && ((struct Obj04174 *)p)->f2 != v50)
         return 0;
     if (flags & 0x10) {
-        fn = *(CheckFn *)(st + 0x20);
+        fn = *(CheckFn *)&((struct Obj07353 *)st)->f20;
         if (fn != 0) {
-            if (fn(v67, p[4], *(u32 *)(base + 0xC64)) == 0)
+            if (fn(v67, p[4], ((struct Obj19328 *)base)->fC64) == 0)
                 return 0;
         } else if (v67 != p[4]) {
             return 0;

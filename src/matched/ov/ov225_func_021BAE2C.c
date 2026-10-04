@@ -23,6 +23,21 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_02035D20 0x02035D20 arm
  */
+#include "../include/Obj00074.h"
+#include "../include/Obj26201.h"
+#include "../include/Obj26202.h"
+#include "../include/Obj26203.h"
+#include "../include/Obj26204.h"
+#include "../include/Obj26205.h"
+#include "../include/Obj26206.h"
+#include "../include/Obj26207.h"
+#include "../include/Obj26208.h"
+#include "../include/Obj26209.h"
+#include "../include/Obj26210.h"
+#include "../include/Obj26211.h"
+#include "../include/Obj26212.h"
+#include "../include/Obj26213.h"
+#include "../include/Obj26214.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -42,8 +57,8 @@ int func_021BAE2C(char *p)
     struct Vec2 drag;
     u32 clickx,clicky;
     struct Vec2 click;
-    if(func_0204B3F4(*(struct Obj **)(p+0x5c))==0) return 0;
-    if(*(u32 *)(p+0x88)) {
+    if(func_0204B3F4(*(struct Obj * *)&((struct Obj00074 *)p)->f5C)==0) return 0;
+    if(((struct Obj00074 *)p)->f88) {
         if(func_02035CB8(&dragx,&dragy)) {
             int offset;
             u16 selection,end;
@@ -55,19 +70,19 @@ int func_021BAE2C(char *p)
             drag.y=offset;
             if(drag.y<17) drag.y=17;
             else if(drag.y>135) drag.y=135;
-            func_0204B404(*(struct Obj **)(p+0x5c),&drag,1);
+            func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&drag,1);
             selection=func_021BB1F4(p,(u16)(func_021BB074((u16 **)p)+1),(u16)dragy);
-            if(selection!=*(u16 *)(*(char **)p+0xc)) {
-                *(u16 *)(*(char **)p+0xc)=selection;
+            if(selection!=((struct Obj26201 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC) {
+                ((struct Obj26202 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC=selection;
                 end=func_021BB044((u16 **)p);
-                if(*(u32 *)(p+0x8c) || *(u16 *)(*(char **)p+0xe)<*(u16 *)(*(char **)p+0xc) || end<*(u16 *)(*(char **)p+0xe)) {
-                    *(u16 *)(*(char **)p+0xe)=*(u16 *)(*(char **)p+0xc);
-                    *(u32 *)(p+0x8c)=1;
+                if(((struct Obj00074 *)p)->f8C || ((struct Obj26203 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE<((struct Obj26204 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC || end<((struct Obj26205 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE) {
+                    ((struct Obj26207 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE=((struct Obj26206 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
+                    ((struct Obj00074 *)p)->f8C=1;
                 }
                 func_021BB088(p);
                 func_020061E4(0x548);
             }
-        } else *(u32 *)(p+0x88)=0;
+        } else ((struct Obj00074 *)p)->f88=0;
         return 1;
     } else {
         if(func_02035D20(&clickx,&clicky) && clickx>=240 && clickx<=247 && clicky>=17 && clicky<=150) {
@@ -77,25 +92,25 @@ int func_021BAE2C(char *p)
             func_02028218(*(void **)(p+func_021BB034((u16 **)p)*4+0xc),0);
             offset=0;
             func_020061E4(0x548);
-            *(u32 *)(p+0x88)=1;
+            ((struct Obj00074 *)p)->f88=1;
             click.x=240;
             if(clicky>=8) offset=clicky-8;
             click.y=offset;
             if(click.y<17) click.y=17;
             else if(click.y>135) click.y=135;
-            func_0204B404(*(struct Obj **)(p+0x5c),&click,1);
+            func_0204B404(*(struct Obj * *)&((struct Obj00074 *)p)->f5C,&click,1);
             selection=func_021BB1F4(p,(u16)(func_021BB074((u16 **)p)+1),(u16)clicky);
-            if(selection!=*(u16 *)(*(char **)p+0xc)) {
-                *(u16 *)(*(char **)p+0xc)=selection;
+            if(selection!=((struct Obj26208 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC) {
+                ((struct Obj26209 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC=selection;
                 end=func_021BB044((u16 **)p);
-                if(*(u32 *)(p+0x8c) || *(u16 *)(*(char **)p+0xe)<*(u16 *)(*(char **)p+0xc) || end<*(u16 *)(*(char **)p+0xe)) {
-                    *(u16 *)(*(char **)p+0xe)=*(u16 *)(*(char **)p+0xc);
-                    *(u32 *)(p+0x8c)=1;
+                if(((struct Obj00074 *)p)->f8C || ((struct Obj26210 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE<((struct Obj26211 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC || end<((struct Obj26212 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE) {
+                    ((struct Obj26214 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fE=((struct Obj26213 *)(*(char * *)&((struct Obj00074 *)p)->f0))->fC;
+                    ((struct Obj00074 *)p)->f8C=1;
                 }
                 func_021BB088(p);
             }
         }
-        if(*(u32 *)(p+0x88)) return 1;
+        if(((struct Obj00074 *)p)->f88) return 1;
         return 0;
     }
 }

@@ -21,6 +21,7 @@
  *   func_0216D528  0x0216D528  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17972.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,6 +33,6 @@ extern u32 func_0216D67C(u32, u32, u32, u32);
 
 int func_0219D49C(u32 a, u32 b, u32 c, u32 d)
 {
-return *(u32 *)((u8 *)(func_0216D528(func_0216D67C(a, b, c, d))) + 4);
+return ((struct Obj17972 *)((u8 *)(func_0216D528(func_0216D67C(a, b, c, d)))))->f4;
 }
 

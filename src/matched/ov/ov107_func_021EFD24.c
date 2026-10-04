@@ -18,6 +18,7 @@
  *   func_0200C18C 0x0200C18C thumb
  *   func_021EFC1C 0x021EFC1C thumb ov107
  */
+#include "../include/Obj02457.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -31,14 +32,14 @@ extern int func_021F11E0(unsigned char *a);
 extern void func_0200C18C(struct Blk34 *p, u32 v);
 extern void func_021EFC1C(u8 *p, int mode);
 void func_021EFD24(u8 *p) {
- unsigned v=func_021F11C4(*(void **)(p+12));
+ unsigned v=func_021F11C4(((struct Obj02457 *)p)->fC);
  unsigned old,cur;
- func_021F17E0(*(void **)(p+104),6);func_021F1B38(*(void **)(p+104),1);func_021EFD98(p);
+ func_021F17E0(((struct Obj02457 *)p)->f68,6);func_021F1B38(((struct Obj02457 *)p)->f68,1);func_021EFD98(p);
  if(p[40]==0) {
- old=(u16)func_0200C184(*(void **)(p+76));cur=func_021F11E0(*(void **)(p+12));
- if(old<cur) {func_0200C18C(*(void **)(p+76),cur);func_021EFC1C(p,1);}
+ old=(u16)func_0200C184(((struct Obj02457 *)p)->f4C);cur=func_021F11E0(((struct Obj02457 *)p)->fC);
+ if(old<cur) {func_0200C18C(((struct Obj02457 *)p)->f4C,cur);func_021EFC1C(p,1);}
  else if(v==0) func_021EFC1C(p,2);else func_021EFC1C(p,0);
- if(*(u16 *)(p+56)<cur) *(u16 *)(p+56)=cur;
- *(u16 *)(p+60)=*(u16 *)(p+60)+v;
+ if(((struct Obj02457 *)p)->f38<cur) ((struct Obj02457 *)p)->f38=cur;
+ ((struct Obj02457 *)p)->f3C=((struct Obj02457 *)p)->f3C+v;
  }
 }

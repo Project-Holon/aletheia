@@ -12,15 +12,17 @@
  *   func_021EE23C 0x021EE23C thumb ov093
  *   func_021EE25C 0x021EE25C thumb ov093
  */
+#include "../include/Obj21577.h"
+#include "../include/Obj21578.h"
 typedef unsigned char u8;
 struct Q;
 extern void func_021EE23C(struct Q *q);
 extern int func_021EE25C(void *);
 void func_021EAE24(u8 *p)
 {
-    func_021EE23C(*(void **)(p+0x17c));
+    func_021EE23C(((struct Obj21577 *)p)->f17C);
 }
 int func_021EAE34(u8 *p)
 {
-    return func_021EE25C(*(void **)(p+0x17c));
+    return func_021EE25C(((struct Obj21578 *)p)->f17C);
 }

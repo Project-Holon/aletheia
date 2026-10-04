@@ -14,6 +14,7 @@
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj03626.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -30,10 +31,10 @@ void func_02186708(char *p)
     int i;
     u32 h;
 
-    func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 0x164)));
-    func_0201C4E4((struct PrintSys *)(*(u32 *)(p + 0x168)));
+    func_0201C4E4((struct PrintSys *)(((struct Obj03626 *)p)->f164));
+    func_0201C4E4((struct PrintSys *)(((struct Obj03626 *)p)->f168));
     for (i = 0; i < 5; i++) {
-        h = *(u32 *)(p + 0x164);
+        h = ((struct Obj03626 *)p)->f164;
         if (*(u8 *)(p + i * 8 + 0x130) != 0) {
             if (func_0201C6C4((struct PrintSys *)h, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 8 + 0x12C)))) == 0) {
                 func_02045334((struct Descriptor *)*(u32 *)(p + i * 8 + 0x12C));
@@ -41,11 +42,11 @@ void func_02186708(char *p)
             }
         }
     }
-    h = *(u32 *)(p + 0x168);
-    if (*(u8 *)(p + 0x160) != 0) {
-        if (func_0201C6C4((struct PrintSys *)h, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x15C)))) == 0) {
-            func_02045334((struct Descriptor *)*(u32 *)(p + 0x15C));
-            *(u8 *)(p + 0x160) = 0;
+    h = ((struct Obj03626 *)p)->f168;
+    if (((struct Obj03626 *)p)->f160 != 0) {
+        if (func_0201C6C4((struct PrintSys *)h, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj03626 *)p)->f15C))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj03626 *)p)->f15C);
+            ((struct Obj03626 *)p)->f160 = 0;
         }
     }
 }

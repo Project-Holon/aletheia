@@ -25,6 +25,7 @@
 
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09509.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,10 +42,10 @@ void func_0219C98C(u32 a, u16 *b)
     u8 *c = (u8 *)func_0216D520((void *)a);
     if (b[1] != 0xFFFF) {
         if (b[0] & 2) {
-            u32 t = func_020508D8((u8 *)(*(u32 *)(c + 4)), b[1]);
-            func_02050278((struct BbActSys *)(*(u32 *)(c + 4)), t, 1);
+            u32 t = func_020508D8((u8 *)(((struct Obj09509 *)c)->f4), b[1]);
+            func_02050278((struct BbActSys *)(((struct Obj09509 *)c)->f4), t, 1);
         }
-        func_02050468((struct BbActSys *)(*(u32 *)(c + 4)), b[1], 1);
+        func_02050468((struct BbActSys *)(((struct Obj09509 *)c)->f4), b[1], 1);
     }
     b[0] = 0;
     b[1] = 0xFFFF;

@@ -17,6 +17,7 @@
  *   func_0200FBA0 0x0200FBA0 thumb
  *   func_0200FA84 0x0200FA84 thumb
  */
+#include "../include/Obj22914.h"
 typedef unsigned int   u32;
 extern u32 func_0200FB24(void);
 extern u32 func_0203CA98(void);
@@ -32,7 +33,7 @@ int func_021DE570(char *p)
     if (func_0200FB24()) {
         switch (*(unsigned *)(func_0203CA98()+4)) {
         case 1: case 2: case 3: case 4: case 5: case 6:
-            if (*(int *)(p+0x790)==1) return result;
+            if (((struct Obj22914 *)p)->f790==1) return result;
             func_0203CA04();
             func_02059F18();
             func_0200FBB0();

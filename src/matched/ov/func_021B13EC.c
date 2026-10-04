@@ -15,6 +15,7 @@
  *   func_021B1268  0x021B1268  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021B1268(void *p);
 
 int func_021B13EC(u8 *p)
 {
-    func_021B1268((void *)(*(u32 *)(p + 4)));
+    func_021B1268((void *)(((struct Obj18094 *)p)->f4));
     return 1;
 }

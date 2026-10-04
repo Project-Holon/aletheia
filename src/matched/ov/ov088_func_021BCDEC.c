@@ -16,6 +16,7 @@
  *   func_021BD118  0x021BD118  thumb  ov088
  *   func_021BD23C  0x021BD23C  thumb  ov088
  */
+#include "../include/Obj00578.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -25,7 +26,7 @@ extern void func_021BD23C(void);
 
 void func_021BCDEC(void *p, int *st)
 {
-    int r = func_0201FEBC(*(void **)((char *)p + 0x20));
+    int r = func_0201FEBC(((struct Obj00578 *)p)->f20);
 
     if (r == 0)
         goto a;

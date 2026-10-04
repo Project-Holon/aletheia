@@ -25,6 +25,7 @@
  *   d_021F55D0 0x021F55D0 data a4
  *   func_021F4BF8 0x021F4BF8 thumb ov194
  */
+#include "../include/Obj24926.h"
 struct DispVram;
 extern const char d_021F5784[];
 extern const struct DispVram d_021F55D0;
@@ -65,6 +66,6 @@ unsigned char *func_021F4AE4(unsigned swap, unsigned short heap)
     func_0201DD60();
     func_021F4C0C(p, heap);
     func_021F4CB0(p + 4, (int)&d_021F55D0, heap);
-    *(void **)(p + 0xC) = sub_020056A0((unsigned)func_021F4BF8, (unsigned)p, 0);
+    ((struct Obj24926 *)p)->fC = sub_020056A0((unsigned)func_021F4BF8, (unsigned)p, 0);
     return p;
 }

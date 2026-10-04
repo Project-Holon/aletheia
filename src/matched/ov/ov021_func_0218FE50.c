@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj19576.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ typedef struct {
 int func_0218FE50(u8 *a)
 {
     Sub *s = (Sub *)(a + 0xf0);
-    if (*(u32 *)(a + 0x1ac) != 0 && s->unk9c != 0)
+    if (((struct Obj19576 *)a)->f1AC != 0 && s->unk9c != 0)
         return 1;
     return 0;
 }

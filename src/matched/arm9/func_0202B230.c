@@ -17,6 +17,7 @@
 
  * Closed by the `matched` class: 0x0202B254 was filed as an EXACT entry this wave (pkt_0202B230).
  */
+#include "../include/Obj03001.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -27,7 +28,7 @@ extern void func_0202B2A4(u8 *p);
 
 void func_0202B230(u8 *p)
 {
-    if (*(u32 *)p == 0) {
+    if (((struct Obj03001 *)p)->f0 == 0) {
         return;
     }
     if (func_0202B254(p) != 0) {

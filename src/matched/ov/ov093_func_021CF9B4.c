@@ -18,6 +18,7 @@
  *   func_021CFB8C 0x021CFB8C thumb ov093
  *   func_021D62C4 0x021D62C4 thumb ov093
  */
+#include "../include/Obj01894.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,9 +39,9 @@ u32 func_021CF9B4(u8 *g, void *m, u8 *a, u16 *b)
     u8 i;
     u8 *q;
     u16 k;
-    n = func_021B8D38(*(void **)g, *(int *)(g + 4), func_021B8D8C(*(void **)g, *(void **)(g + 4), func_021D5440(m)) | 0x100, buf);
+    n = func_021B8D38(((struct Obj01894 *)g)->f0, *(int *)&((struct Obj01894 *)g)->f4, func_021B8D8C(((struct Obj01894 *)g)->f0, ((struct Obj01894 *)g)->f4, func_021D5440(m)) | 0x100, buf);
     for (i = 0; i < n; i++) {
-        q = func_021B9934(*(void **)(g + 4), buf[i]);
+        q = func_021B9934(((struct Obj01894 *)g)->f4, buf[i]);
         k = func_021D59B4(q, 0x11);
         func_021D5440(q);
         if (k == 0x17 && func_021CFAC4(g, m)) {

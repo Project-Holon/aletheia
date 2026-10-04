@@ -14,6 +14,8 @@
  *   func_021BD4DC 0x021BD4DC thumb ov209
  *   func_0201EFA4 0x0201EFA4 thumb
  */
+#include "../include/Obj00123.h"
+#include "../include/Obj25566.h"
 struct WordSet;
 extern void func_021BD4F4(char *, unsigned);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned);
@@ -24,7 +26,7 @@ void func_021BD704(char *p)
 {
     func_021BD4F4(p, 2);
     func_021BD440(p, 2, 4, 88, 4, 0x31a0, 1);
-    func_0201EFA4(*(struct WordSet **)(p + 64), 0, *(unsigned short *)(*(char **)p + 10), 3, 0, 1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00123 *)p)->f40, 0, ((struct Obj25566 *)(*(char * *)&((struct Obj00123 *)p)->f0))->fA, 3, 0, 1);
     func_021BD488(p, 2, 5, 120, 4, 0x31a0, 1);
     func_021BD4DC(p + 48);
 }

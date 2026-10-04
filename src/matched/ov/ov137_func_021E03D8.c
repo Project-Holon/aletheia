@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj14231.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -40,9 +41,9 @@ void func_021E03D8(u8 *p,void *text,int index,int color)
     window=*(void **)(s+20+index*4);
     func_0201F73C(window,2,1,14);
     func_02043B5C(func_02045770(window),15);
-    owner=*(void **)(s+88);
+    owner=((struct Obj14231 *)s)->f58;
     data=func_02045770(*(void **)(s+48+index*8));
-    func_0201C724(owner,data,4,1,text,*(void **)(s+4),color);
+    func_0201C724(owner,data,4,1,text,((struct Obj14231 *)s)->f4,color);
     *(u8 *)(s+52+index*8)=1;
     func_02045334(window);
     func_02045374(window);

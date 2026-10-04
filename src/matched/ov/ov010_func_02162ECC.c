@@ -12,6 +12,7 @@
  * symbols:
  *   func_0207C768 0x0207C768 arm
  */
+#include "../include/Obj18972.h"
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int   u32;
@@ -25,6 +26,6 @@ void func_02162ECC(const char *p, int *out)
     y = ((const s16 *)q)[4] << 12;
     x = func_0207C768(q[2] << 16, 0x2000);
     out[2] = z;
-    out[0] = ((unsigned)*(u16 *)(p + 10) << 16) + x;
+    out[0] = ((unsigned)((struct Obj18972 *)p)->fA << 16) + x;
     out[1] = y;
 }

@@ -15,12 +15,13 @@
  *   python tools/match.py one --src src/matched/func_02051DE8.c \
  *       --func func_02051DE8 --addr 0x02051DE8 --cc 1.1p1 --arm
  */
+#include "../include/Obj04767.h"
 
 extern void func_02051E64(void *p, int a, int b);
 
 int func_02051DE8(void *p, int a, int b)
 {
-    if (*(unsigned char *)((char *)p + 1) == 0 || b == 0)
+    if (((struct Obj04767 *)p)->f1 == 0 || b == 0)
         return -1;
     func_02051E64(p, 1, b);
     return 0;

@@ -12,6 +12,7 @@
  *   g_021797A8     0x021797A8  data  a4
  *   func_0217814C  0x0217814C  thumb  ov014
  */
+#include "../include/Obj03559.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -24,15 +25,15 @@ void func_02178D9C(u8 *m)
 {
     void (*cb)(u32, u32, u32);
 
-    if (*(u16 *)(m + 2) != 0) {
-        func_0217814C(*(u16 *)(m + 2));
+    if (((struct Obj03559 *)m)->f2 != 0) {
+        func_0217814C(((struct Obj03559 *)m)->f2);
         return;
     }
     cb = *(void (**)(u32, u32, u32))(g_021797A8 + 0x1E78);
     if (cb != 0) {
-        if (*(u16 *)(m + 4) == 0x15)
-            cb(*(u16 *)(m + 0x12), *(u32 *)(m + 0xC), *(u16 *)(m + 0x10));
-        else if (*(u16 *)(m + 4) == 9)
-            cb(*(u16 *)(m + 0x12), 0, 0);
+        if (((struct Obj03559 *)m)->f4 == 0x15)
+            cb(((struct Obj03559 *)m)->f12, ((struct Obj03559 *)m)->fC, ((struct Obj03559 *)m)->f10);
+        else if (((struct Obj03559 *)m)->f4 == 9)
+            cb(((struct Obj03559 *)m)->f12, 0, 0);
     }
 }

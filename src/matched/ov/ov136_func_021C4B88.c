@@ -12,6 +12,7 @@
  * symbols:
  *   func_021C44FC 0x021C44FC thumb ov136
  */
+#include "../include/Obj01065.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,12 +23,12 @@ void func_021C4B88(void *unused, u8 *p)
 {
     u8 old;
     u8 direction;
-    if (*(u32 *)(p + 0x10) != 0 || p[0xA] == 0) return;
+    if (((struct Obj01065 *)p)->f10 != 0 || p[0xA] == 0) return;
     if (p[0x1B] != p[0x1A]) {
         func_021C44FC(p);
         p[0x1B] = p[0x1A];
     }
-    func_02021FD8(*(void **)(p + 0x38), 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
+    func_02021FD8(((struct Obj01065 *)p)->f38, 0, (u16)(p[0x1A] + 33), 1, p[0x18] >> 1, 0x7FFF);
     direction = p[0x19];
     old = p[0x18];
     if (direction != 0) {

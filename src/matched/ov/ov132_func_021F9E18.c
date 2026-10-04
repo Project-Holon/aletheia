@@ -9,5 +9,6 @@
  * status: EXACT
  * note: unlabelled getter witnessing ov112 021F6CE0.
  */
+#include "../include/Obj23221.h"
 typedef unsigned char u8;
-int func_021F9E18(char *p) { return *(u8 *)(p + 0x11c); }
+int func_021F9E18(char *p) { return ((struct Obj23221 *)p)->f11C; }

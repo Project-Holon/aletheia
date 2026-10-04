@@ -15,6 +15,7 @@
  *   func_02045B38  0x02045B38  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17924.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 
 int func_021904B0(u32 a, u32 b)
 {
-return (int)func_02045B38(0, 2, ((b << 16) >> 16), *(u16 *)((u8 *)(a)));
+return (int)func_02045B38(0, 2, ((b << 16) >> 16), ((struct Obj17924 *)((u8 *)(a)))->f0);
 }
 

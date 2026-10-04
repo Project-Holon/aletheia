@@ -19,6 +19,7 @@
  *   func_020221A4 0x020221A4 thumb
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj02755.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,23 +38,23 @@ extern u32 func_02035C60(void);
 
 int func_021F053C(char *p)
 {
-    switch (*(u16 *)(p + 0x4A)) {
+    switch (((struct Obj02755 *)p)->f4A) {
     case 0:
-        func_020456F8((struct Descriptor *)(*(int *)(p + 0x18)));
-        func_020456F8((struct Descriptor *)(*(int *)(p + 0x1C)));
-        func_02045788((struct Descriptor *)(*(int *)(p + 0x1C)), 6);
-        func_02045334((struct Descriptor *)*(int *)(p + 0x1C));
-        func_02045374((struct Cfg *)(*(int *)(p + 0x1C)));
-        func_021F0254(p, *(int *)(p + 0x1C), 4);
-        (*(u16 *)(p + 0x4A))++;
+        func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f18));
+        func_020456F8((struct Descriptor *)(((struct Obj02755 *)p)->f1C));
+        func_02045788((struct Descriptor *)(((struct Obj02755 *)p)->f1C), 6);
+        func_02045334((struct Descriptor *)((struct Obj02755 *)p)->f1C);
+        func_02045374((struct Cfg *)(((struct Obj02755 *)p)->f1C));
+        func_021F0254(p, ((struct Obj02755 *)p)->f1C, 4);
+        (((struct Obj02755 *)p)->f4A)++;
         break;
     case 1:
         if (func_020221A4() == 1)
-            (*(u16 *)(p + 0x4A))++;
+            (((struct Obj02755 *)p)->f4A)++;
         break;
     case 2:
         if (func_02035C60() != 0)
-            (*(u16 *)(p + 0x4A))++;
+            (((struct Obj02755 *)p)->f4A)++;
         break;
     case 3:
         return 1;

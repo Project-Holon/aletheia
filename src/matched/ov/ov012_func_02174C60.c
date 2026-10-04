@@ -13,6 +13,8 @@
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_021751B4 0x021751B4 thumb ov012
  */
+#include "../include/Obj19280.h"
+#include "../include/Obj19281.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Entry;
@@ -22,8 +24,8 @@ extern u32 func_0203D1A4(struct Link *p);
 extern void func_021751B4(u8 *,u32,void *);
 void func_02174C60(u32 a, u32 b, void *c, u8 *d)
 {
-    u8 *w = *(u8 **)(d + 0x355c);
+    u8 *w = *(u8 * *)&((struct Obj19280 *)d)->f355C;
     if (a == func_0203D1A4((struct Link *)((u32)func_020399A8()))) return;
-    if (w == 0 || *(u32 *)w == 0) return;
+    if (w == 0 || ((struct Obj19281 *)w)->f0 == 0) return;
     func_021751B4(w,a,c);
 }

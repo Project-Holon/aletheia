@@ -14,6 +14,7 @@
 
  * Releases the three handles at +0x2C, +0x20 and +0x14.
  */
+#include "../include/Obj09210.h"
 
 
 struct Descriptor;
@@ -24,8 +25,8 @@ extern void func_020307B0(void *p);
 
 void func_021C3638(int unused, char *p)
 {
-    func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x2c)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x20)));
-    func_020307B0((void *)(*(int *)(p + 0x14)));
+    func_020437AC((struct Obj020437AC *)(((struct Obj09210 *)p)->f2C));
+    func_020452E8((struct Descriptor *)(((struct Obj09210 *)p)->f20));
+    func_020307B0((void *)(((struct Obj09210 *)p)->f14));
 }
 

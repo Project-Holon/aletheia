@@ -16,6 +16,7 @@
  *   func_020141E0  0x020141E0  thumb
  *   func_020141F0  0x020141F0  thumb
  */
+#include "../include/Obj19496.h"
 
 typedef struct Vec { int x, y, z; } Vec;
 
@@ -34,7 +35,7 @@ int func_0218932C(char *p)
     Vec *pos;
 
     q = p + 0xd4;
-    pos = func_02012AA0(func_020127A4(func_020120F4(*(void **)(p + 4))));
+    pos = func_02012AA0(func_020127A4(func_020120F4(((struct Obj19496 *)p)->f4)));
     func_020141E0(q, &v);
     if (pos->x != v.x || pos->z != v.z) {
         func_020141F0(q, pos);

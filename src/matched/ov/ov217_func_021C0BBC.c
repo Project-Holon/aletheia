@@ -15,6 +15,7 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00791.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -37,6 +38,6 @@ void func_021C0BBC(u8 *p)
     b=func_021C0DB4(p,d_021C3F80.d);
     c=func_021C0DB4(p,d_021C3F80.e);
     d=func_021C0DB4(p,d_021C3F80.f);
-    *(u32 *)(p+36)=(u32)func_0204B294((void *)a,b,c,d,&arg,d_021C3F80.g,*(u16 *)p);
-    func_0204B3DC(*(struct Obj **)(p+36),1);
+    *(u32 *)&((struct Obj00791 *)p)->f24=(u32)func_0204B294((void *)a,b,c,d,&arg,d_021C3F80.g,((struct Obj00791 *)p)->f0);
+    func_0204B3DC(*(struct Obj * *)&((struct Obj00791 *)p)->f24,1);
 }

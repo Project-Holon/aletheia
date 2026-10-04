@@ -16,6 +16,7 @@
  *   func_021EAF50  0x021EAF50  thumb  ov093
  *   func_021EAF78  0x021EAF78  thumb  ov093
  */
+#include "../include/Obj13355.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -28,7 +29,7 @@ extern void func_021EAF78(u8 *o, u8 v);
 
 void func_021CE0F8(u8 *p, u8 *q, u8 *o)
 {
-    if (func_021B8588(*(void ***)p) != 3) {
+    if (func_021B8588(*(void ** *)&((struct Obj13355 *)p)->f0) != 3) {
         func_021EAF18((struct L *)o, 1, 0x45);
         func_021EAF50(o, func_021D5440(q));
         func_021EAF78(o, 0);

@@ -14,6 +14,7 @@
  *   func_02049740  0x02049740  arm
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj00970.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_02049238(void *h);
 
 u16 func_021EB1D8(u8 *a, u32 id, u32 b, u32 c)
 {
-    void *h = func_020490F4(id, (*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000);
-    u32 r = func_02049740(h, b, c, 0, 0, (u16)((*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000));
+    void *h = func_020490F4(id, (((struct Obj00970 *)a)->f13C & 0x7fff) | 0x8000);
+    u32 r = func_02049740(h, b, c, 0, 0, (u16)((((struct Obj00970 *)a)->f13C & 0x7fff) | 0x8000));
 
     func_02049238(h);
     return (u16)r;

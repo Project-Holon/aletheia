@@ -19,6 +19,7 @@
  *   func_020355C4  0x020355C4  arm
  *   func_021BAA0C  0x021BAA0C  thumb  ov068
  */
+#include "../include/Obj00103.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,21 +38,21 @@ void func_021BA734(u8 *p, u16 a1, u16 a2, u32 a3, Blk *src)
     int i;
 
     func_02082BCC(p, 0, 0x58);
-    *(u16 *)p = a1;
-    *(u16 *)(p + 2) = a2;
-    *(u32 *)(p + 0x34) = 0x10;
+    ((struct Obj00103 *)p)->f0 = a1;
+    ((struct Obj00103 *)p)->f2 = a2;
+    ((struct Obj00103 *)p)->f34 = 0x10;
     *(Blk *)(p + 0x44) = *src;
     for (i = 0; i < 11; i++) {
         *(u32 *)(p + i * 4 + 8) = func_021B9944((void *)a3, i + 2);
     }
     func_021BABE0(p, -8, -192, 192);
     if (func_020355C4() == 1) {
-        *(int *)(p + 4) = -1;
+        ((struct Obj00103 *)p)->f4 = -1;
         func_021BAA0C(p, 0);
-        *(u32 *)(p + 0x50) = 0;
+        *(u32 *)&((struct Obj00103 *)p)->f50 = 0;
     } else {
-        *(u32 *)(p + 4) = 0;
+        *(u32 *)&((struct Obj00103 *)p)->f4 = 0;
         func_021BAA0C(p, 1);
-        *(u32 *)(p + 0x50) = 1;
+        *(u32 *)&((struct Obj00103 *)p)->f50 = 1;
     }
 }

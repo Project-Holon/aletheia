@@ -14,8 +14,9 @@
  * symbols:
  *   func_021A16E8 0x021A16E8 thumb ov021
  */
+#include "../include/Obj19723.h"
 
 void func_021A16E8(unsigned char *p, unsigned int v)
 {
-    *(unsigned int *)(p + 0x18) = v;
+    ((struct Obj19723 *)p)->f18 = v;
 }

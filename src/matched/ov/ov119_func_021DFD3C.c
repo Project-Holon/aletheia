@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00906.h"
 
 typedef unsigned char u8;
 
@@ -32,9 +33,9 @@ void func_021DFD3C(void *p)
 {
     u8 *b = p;
 
-    if (*(u8 *)(b + 0x11f8) != 0) {
+    if (((struct Obj00906 *)b)->f11F8 != 0) {
         func_02005E9C();
-        *(u8 *)(b + 0x11f8) -= 1;
+        ((struct Obj00906 *)b)->f11F8 -= 1;
         func_02005DE4(0);
         func_02005DF8(0x3c);
     }

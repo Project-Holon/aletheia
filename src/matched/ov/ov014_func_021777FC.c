@@ -17,6 +17,8 @@
  *   func_02177A74  0x02177A74  thumb  ov014
  *   func_02177D58  0x02177D58  thumb  ov014
  */
+#include "../include/Obj04955.h"
+#include "../include/Obj19331.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,14 +40,14 @@ void func_021777FC(void)
     u8 *w = g_021797A4;
     u8 *e = w + 0xC6E;
     u8 *st = func_0203D798();
-    SizeFn sfn = *(SizeFn *)(st + 0x1C);
+    SizeFn sfn = *(SizeFn *)&((struct Obj19331 *)st)->f1C;
     int n;
 
     if (sfn != 0) {
-        n = sfn(*(u32 *)(w + 0xC64));
+        n = sfn(((struct Obj04955 *)w)->fC64);
         if (n > 0x68)
             func_02034714(d_02179790, 0, d_02179790);
-        func_02082D44((void *)(*(DataFn *)(st + 0x18))(*(u32 *)(w + 0xC64)), e + 8, n);
+        func_02082D44((void *)(*(DataFn *)(st + 0x18))(((struct Obj04955 *)w)->fC64), e + 8, n);
     }
     if (e[6] != func_02177A74()) {
         w[0xCF0] = 0;

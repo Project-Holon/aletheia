@@ -9,6 +9,7 @@
  * status: EXACT
  * lever: signed byte step avoids an extra entry truncation.
  */
+#include "../include/Obj14289.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,8 +20,8 @@ u8 func_021DD5D4(char *p, s8 i, int target, s8 step)
     do {
         i += step;
         if (i < 0)
-            i = *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4) - 1;
-        else if (i >= *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4))
+            i = *(u16 *)(p + ((struct Obj14289 *)p)->fC5E * 0xbc + 0xc4) - 1;
+        else if (i >= *(u16 *)(p + ((struct Obj14289 *)p)->fC5E * 0xbc + 0xc4))
             i = 0;
         if (i == target)
             break;

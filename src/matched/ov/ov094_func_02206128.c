@@ -9,14 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10158.h"
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 
 void func_02206128(char *p)
 {
-    if (*(void **)(p + 0x21c) != 0) {
-        func_0204B3B4(*(void **)(p + 0x21c));
-        *(void **)(p + 0x21c) = 0;
+    if (((struct Obj10158 *)p)->f21C != 0) {
+        func_0204B3B4(((struct Obj10158 *)p)->f21C);
+        ((struct Obj10158 *)p)->f21C = 0;
     }
 }

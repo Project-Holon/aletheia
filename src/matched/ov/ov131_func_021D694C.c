@@ -10,13 +10,14 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj10507.h"
 typedef unsigned char u8;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 void func_021D694C(void *a,unsigned char *p) {
  u8 i;
- func_0204B3B4(*(void **)(p+0x48));
- func_0204B3B4(*(void **)(p+0x44));
+ func_0204B3B4(((struct Obj10507 *)p)->f48);
+ func_0204B3B4(((struct Obj10507 *)p)->f44);
  for(i=0;i<8;i++) func_0204B3B4(*(void **)(p+0x24+i*4));
- func_0204B3B4(*(void **)(p+0x20));
+ func_0204B3B4(((struct Obj10507 *)p)->f20);
 }

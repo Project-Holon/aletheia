@@ -26,6 +26,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_0208D80C 0x0208D80C arm
  */
+#include "../include/Obj08035.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 format,mode; } Pair;
@@ -51,12 +52,12 @@ int func_021B95D4(int index,u8 *p)
     }
     if(p==0) return 0;
     func_02082BCC(p+0x410,0,4);
-    if(index==4) func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,*(u32 *)(p+8)+69);
-    else func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,*(u32 *)(p+0x5a4),21,2,1,*(u32 *)(p+8)+69);
+    if(index==4) func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f8+69);
+    else func_0208D80C((char *)(p+0x410),400,(char *)d_021CE284[index].format,((struct Obj08035 *)p)->f5A4,21,2,1,((struct Obj08035 *)p)->f8+69);
     h=func_021BF04C((u32)(p+0x410),d_021CE284[index].mode,p+0x10,1024,func_021B95C0,(int)p);
     if(h==0) func_02034714(d_021CE2D4,0,d_021CE2D4);
     if(h==0) return 0;
-    *(int *)(p+0xc)=h;
+    ((struct Obj08035 *)p)->fC=h;
     if(func_021BE9C8(h,d_021CE280,1)<0) {
         func_02034714(d_021CE2D4,0,d_021CE2D4);
         return 0;

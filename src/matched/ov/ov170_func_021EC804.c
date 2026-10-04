@@ -16,6 +16,9 @@
  *   func_021ECB74 0x021ECB74 thumb
  *   func_021EC08C 0x021EC08C thumb
  */
+#include "../include/Obj24013.h"
+#include "../include/Obj24014.h"
+#include "../include/Obj24015.h"
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC428(char *p, int a, int i, int b);
@@ -45,7 +48,7 @@ void func_021EC804(char **p, short dx)
             t[1] = reset;
             func_021EC428(p[11], (int)(p[11] + 0x1B4 + i * 0x200), k, *(unsigned char *)(p[11] + i + 0x3DB4));
             func_021EC000(p[11], k, *(int *)(p[11] + i * 4 + 0x3DF8));
-            if (*(unsigned char *)(p[11] + 0xA17A) == 0 && (*(int *)(p[0] + 0x24) == 3 || *(int *)(p[0] + 0x24) == 5))
+            if (((struct Obj24013 *)(p[11]))->fA17A == 0 && (((struct Obj24014 *)(p[0]))->f24 == 3 || ((struct Obj24015 *)(p[0]))->f24 == 5))
                 func_021ECB74(p, i);
         }
         func_021EC08C(p[11], k, t[1], t[0], 0);

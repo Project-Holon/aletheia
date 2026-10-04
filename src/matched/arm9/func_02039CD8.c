@@ -28,6 +28,7 @@
  *   python tools/match.py one --src src/matched/func_02039CD8.c \
  *       --func func_02039CD8 --addr 0x02039CD8 --cc 1.1p1 --arm
  */
+#include "../include/Obj15949.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ int func_02039CD8(struct Obj *p)
     int i;
 
     for (i = 0; i < 8; i++) {
-        if (*(u8 *)((char *)p->slot[i] + 0xd) == 0)
+        if (((struct Obj15949 *)((char *)p->slot[i]))->fD == 0)
             continue;
         if (func_0203A2F0(p->key, i) != 0)
             continue;

@@ -11,6 +11,7 @@
  * symbols:
  *   d_021DFC00 0x021DFC00 data a4
  */
+#include "../include/Obj22922.h"
 extern int d_021DFC00[];
 void func_021DEEEC(void);
 int func_021DEEAC(int *p, int value)
@@ -31,7 +32,7 @@ int func_021DEEC4(int a, int b)
 }
 void func_021DEED0(char *p)
 {
-    *(int *)(p + 0x5c) = 1;
+    ((struct Obj22922 *)p)->f5C = 1;
 }
 void func_021DEED8(int a, int b)
 {

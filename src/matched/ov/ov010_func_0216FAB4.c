@@ -24,6 +24,7 @@
  *   func_0216FE04        0x0216FE04  thumb  ov010
  *   d_021726A0           0x021726A0  data
  */
+#include "../include/Obj09341.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -106,7 +107,7 @@ int func_0216FAB4(void *file, const char *texName, void *extra, const char *pltt
     e = func_0206E62C((u8 *)res + ofs, tn);
     if (e == 0)
         return 0;
-    v = *(u32 *)e;
+    v = ((struct Obj09341 *)e)->f0;
     key.texOfs = (v & 0xFFFF) << 3;
     fmtT = (v & 0x700000) >> 20;
     fmtP = (v & 0x3800000) >> 23;

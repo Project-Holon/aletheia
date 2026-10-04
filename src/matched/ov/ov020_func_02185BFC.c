@@ -17,6 +17,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02185D38  0x02185D38  thumb  ov020
  */
+#include "../include/Obj05969.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,10 +39,10 @@ void *func_02185BFC(void *p, int a1, S7 *a2, int a3, int a4)
     char *r4 = func_020124E8(r0v);
 
     *(S7 *)r4 = *a2;
-    *(int *)(r4 + 0x1c) = (int)p;
-    *(int *)(r4 + 0x20) = (int)func_020120F4(p);
-    *(int *)(r4 + 0x24) = a1;
-    *(int *)(r4 + 0x28) = a3;
-    *(u8 *)(r4 + 0x2c) = a4;
+    ((struct Obj05969 *)r4)->f1C = (int)p;
+    ((struct Obj05969 *)r4)->f20 = (int)func_020120F4(p);
+    ((struct Obj05969 *)r4)->f24 = a1;
+    ((struct Obj05969 *)r4)->f28 = a3;
+    ((struct Obj05969 *)r4)->f2C = a4;
     return r0v;
 }

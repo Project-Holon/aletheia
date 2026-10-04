@@ -12,6 +12,7 @@
  * symbols:
  *   func_0219D324  0x0219D324  thumb  ov021
  */
+#include "../include/Obj03579.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern void func_0219D324(u8 *, Slot *);
 
 void func_0219D390(u8 *s)
 {
-    Slot *e = *(Slot **)(s + 0x20);
+    Slot *e = *(Slot * *)&((struct Obj03579 *)s)->f20;
     int i;
     if (e != 0) {
         for (i = 0; i < 4; i++, e++) {

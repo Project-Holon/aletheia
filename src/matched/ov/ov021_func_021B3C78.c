@@ -17,6 +17,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj02389.h"
 
 typedef unsigned short u16;
 
@@ -30,12 +31,12 @@ extern void func_02049238(void *);
 
 void func_021B3C78(char *p)
 {
-    void *q = func_020490F4(54, *(u16 *)(p + 4));
+    void *q = func_020490F4(54, ((struct Obj02389 *)p)->f4);
 
-    *(void **)(p + 468) = (void *)func_0204AC18(q, 10, 0, 0, 0, 1, *(u16 *)(p + 4));
-    *(void **)(p + 472) = (void *)func_0204A6C8(q, 7, 0, 0, *(u16 *)(p + 4));
-    *(void **)(p + 484) = (void *)func_0204A6C8(q, 4, 0, 0, *(u16 *)(p + 4));
-    *(void **)(p + 476) = (void *)func_0204AF28(q, 8, 9, *(u16 *)(p + 4));
-    *(void **)(p + 488) = (void *)func_0204AF28(q, 5, 6, *(u16 *)(p + 4));
+    ((struct Obj02389 *)p)->f1D4 = (void *)func_0204AC18(q, 10, 0, 0, 0, 1, ((struct Obj02389 *)p)->f4);
+    ((struct Obj02389 *)p)->f1D8 = (void *)func_0204A6C8(q, 7, 0, 0, ((struct Obj02389 *)p)->f4);
+    ((struct Obj02389 *)p)->f1E4 = (void *)func_0204A6C8(q, 4, 0, 0, ((struct Obj02389 *)p)->f4);
+    ((struct Obj02389 *)p)->f1DC = (void *)func_0204AF28(q, 8, 9, ((struct Obj02389 *)p)->f4);
+    ((struct Obj02389 *)p)->f1E8 = (void *)func_0204AF28(q, 5, 6, ((struct Obj02389 *)p)->f4);
     func_02049238(q);
 }

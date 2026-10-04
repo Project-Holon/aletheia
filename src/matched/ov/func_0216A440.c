@@ -18,6 +18,7 @@
  *   func_02159B10  0x02159B10  thumb  ov010
  *   func_021D0A74  0x021D0A74  thumb
  */
+#include "../include/Obj17756.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,7 +58,7 @@ a1 = t6 + 0;
     a0 = (int)func_02159B10((void *)a0, (void *)a1);
 loc_0216A464:
 a1 = a0 + 0;
-a0 = *(int *)((char *)v2);
+a0 = ((struct Obj17756 *)((char *)v2))->f0;
     a0 = func_021D0A74(a0, a1);
 loc_0216A46C:
 a0 = 0;

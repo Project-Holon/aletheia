@@ -13,6 +13,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj02167.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct U16Vec;
@@ -29,14 +30,14 @@ extern void func_0201F73C(void *,int,int,int);
 void func_021F4804(u8 *p,u32 index)
 {
     u32 win;
-    if (*(void **)(p+0x2c)) {
-        func_02045808(*(void **)(p+0x2c));
-        *(u32 *)(p+0x2c)=0;
+    if (((struct Obj02167 *)p)->f2C) {
+        func_02045808(((struct Obj02167 *)p)->f2C);
+        *(u32 *)&((struct Obj02167 *)p)->f2C=0;
     }
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x1c))),15);
-    *(void **)(p+0x2c)=func_02045EC0((struct MsgBank *)(*(u32 *)(p+0x28)),index);
-    win=(u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x1c));
-    func_0201C6FC((struct PrintSys *)(*(u32 *)(p+0x38)),win,0,0,*(void **)(p+0x2c),*(u32 *)(p+0x20));
-    *(u32 *)(p+0x30)=1;
-    func_0201F73C(*(void **)(p+0x1c),1,1,11);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02167 *)p)->f1C)),15);
+    ((struct Obj02167 *)p)->f2C=func_02045EC0((struct MsgBank *)(((struct Obj02167 *)p)->f28),index);
+    win=(u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02167 *)p)->f1C);
+    func_0201C6FC((struct PrintSys *)(((struct Obj02167 *)p)->f38),win,0,0,((struct Obj02167 *)p)->f2C,((struct Obj02167 *)p)->f20);
+    ((struct Obj02167 *)p)->f30=1;
+    func_0201F73C(((struct Obj02167 *)p)->f1C,1,1,11);
 }

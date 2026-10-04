@@ -15,6 +15,7 @@
  *   func_02049238 0x02049238 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj08452.h"
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -26,10 +27,10 @@ extern void func_02049238(void *);
 extern void func_020409B4(unsigned);
 void func_021B9900(unsigned char *p)
 {
-    void *h=func_020490F4(0xCA,*(unsigned short *)p);
-    func_02049B68((void *)((unsigned)h),1,0,0,0x1E0,*(unsigned short *)p);
-    func_02049658((void *)((unsigned)h),4,1,0,0,0,*(unsigned short *)p);
-    func_020498F4((void *)((unsigned)h),6,1,0,0,0,*(unsigned short *)p);
+    void *h=func_020490F4(0xCA,((struct Obj08452 *)p)->f0);
+    func_02049B68((void *)((unsigned)h),1,0,0,0x1E0,((struct Obj08452 *)p)->f0);
+    func_02049658((void *)((unsigned)h),4,1,0,0,0,((struct Obj08452 *)p)->f0);
+    func_020498F4((void *)((unsigned)h),6,1,0,0,0,((struct Obj08452 *)p)->f0);
     func_02049238(h);
     func_020409B4(1);
 }

@@ -15,6 +15,7 @@
  *   d_020A1EB8 0x020A1EB8 data a2
  *   d_021E7AC4 0x021E7AC4 data a4
  */
+#include "../include/Obj04482.h"
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
@@ -28,19 +29,19 @@ extern void *func_02047CFC(u16,u16,u16);
 extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec *,Vec *,Vec *,u16);
 void func_021E30EC(char *p)
 {
-    *(u16 *)(p+0x824)=0xffff;
-    *(u32 *)(p+0x109c)=~0u;
+    ((struct Obj04482 *)p)->f824=0xffff;
+    ((struct Obj04482 *)p)->f109C=~0u;
     func_021E2B14(0x91);
-    *(void **)(p+0x820)=func_02047CFC(20,20,0x91);
-    if (!*(void **)(p+0x83c)) {
+    ((struct Obj04482 *)p)->f820=func_02047CFC(20,20,0x91);
+    if (!((struct Obj04482 *)p)->f83C) {
         Vec a={0,0,0};
         Vec b={0,0,0};
         Vec c;
         u16 heap;
-        heap=*(u16 *)(p+0x5f4);
+        heap=((struct Obj04482 *)p)->f5F4;
         c=d_021E7AF4;
-        *(void **)(p+0x83c)=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&a,&c,&b,heap);
+        ((struct Obj04482 *)p)->f83C=func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&a,&c,&b,heap);
     }
-    if (*(u32 *)(p+0x109c)!=~0u)
+    if (((struct Obj04482 *)p)->f109C!=~0u)
         d_021E7AC4[*(u32 *)(p+0x109c)].call(p);
 }

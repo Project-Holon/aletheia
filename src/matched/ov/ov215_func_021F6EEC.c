@@ -10,4 +10,5 @@
  * status: EXACT
  * leaf: sole overlay blocker of 021F67E0; store and return, pool ends 021F6EF8.
  */
-void func_021F6EEC(char *p){*(int *)(p+0x4814)=1;}
+#include "../include/Obj25763.h"
+void func_021F6EEC(char *p){((struct Obj25763 *)p)->f4814=1;}

@@ -15,6 +15,7 @@
  *   func_021C5A34  0x021C5A34  thumb  ov093
  *   func_021C99A0  0x021C99A0  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -35,7 +36,7 @@ int func_021C96D4(char *w, struct Cmd *c)
     u8 *r = 0;
     int id = c->id;
     if (id != 0x1F) {
-        r = func_021B9934(*(char **)(w + 8), (u8)id);
+        r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, (u8)id);
     }
     if (c->flag && r) func_021C5A1C((u8 *)w, r);
     func_021C99A0(w, (u8 *)c + 4);

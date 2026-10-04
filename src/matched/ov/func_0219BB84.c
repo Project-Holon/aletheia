@@ -21,6 +21,7 @@
  *   func_0216DA50  0x0216DA50  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17960.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ if (func_02197EDC(a, b, c, d) == 0) {
     return 0;
 }
 func_0216DA50(a);
-*(u8 *)((u8 *)(b)) = 0;
+((struct Obj17960 *)((u8 *)(b)))->f0 = 0;
 return 0;
 }
 

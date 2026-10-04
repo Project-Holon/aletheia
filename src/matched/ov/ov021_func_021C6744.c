@@ -15,6 +15,7 @@
  *   func_0204784C  0x0204784C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09694.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,17 +31,17 @@ void func_021C6744(u32 *a, int idx, int mode, u32 val)
     int n, i;
 
     if (((K *)e)->k == 1) {
-        n = *(u8 *)((u8 *)a[2] + *(u16 *)(e + 4) * 0x2c + 0x28);
+        n = *(u8 *)((u8 *)a[2] + ((struct Obj09694 *)e)->f4 * 0x2c + 0x28);
         if (mode == 8) {
             i = 0;
             if (n > 0) {
                 do {
-                    func_0204784C(*(u32 *)(e + 0x44), i, &val);
+                    func_0204784C(((struct Obj09694 *)e)->f44, i, &val);
                     i++;
                 } while (i < n);
             }
         } else if (mode < n) {
-            func_0204784C(*(u32 *)(e + 0x44), mode, &val);
+            func_0204784C(((struct Obj09694 *)e)->f44, mode, &val);
         }
     }
 }

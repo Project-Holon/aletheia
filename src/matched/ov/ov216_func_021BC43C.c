@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10945.h"
 
 typedef unsigned int   u32;
 extern void func_0204AFD8(u32 i);
@@ -27,7 +28,7 @@ extern void func_0204ADA4(u32 i);
 
 void func_021BC43C(void *unused, char *p)
 {
-    func_0204AFD8(*(int *)(p + 8));
-    func_0204A8D4(*(int *)(p + 4));
-    func_0204ADA4(*(int *)(p));
+    func_0204AFD8(((struct Obj10945 *)p)->f8);
+    func_0204A8D4(((struct Obj10945 *)p)->f4);
+    func_0204ADA4(((struct Obj10945 *)p)->f0);
 }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_0216D55C  0x0216D55C  thumb  ov010
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,8 +32,8 @@ t5 = a0 + 0;
 loc_0216D5EC:
     if (a0 != 0) goto loc_0216D5F6;
 loc_0216D5F0:
-a0 = *(u16 *)((char *)t5 + 0x18);
-*(u16 *)((char *)t5 + 0x1c) = a0;
-*(u16 *)((char *)t5 + 0x18) = t4;
+a0 = ((struct Obj00113 *)t5)->f18;
+((struct Obj00113 *)t5)->f1C = a0;
+((struct Obj00113 *)t5)->f18 = t4;
 loc_0216D5F6:
     return;}

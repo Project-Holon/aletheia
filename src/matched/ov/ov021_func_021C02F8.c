@@ -18,6 +18,7 @@
  *   func_0218FEC0  0x0218FEC0  thumb  ov021
  *   func_0218FF00  0x0218FF00  thumb  ov021
  */
+#include "../include/Obj02724.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -37,17 +38,17 @@ void func_021C02F8(u8 *p)
     u32 a;
     u32 b;
 
-    a = (u32)func_02188C58((void *)(*(u32 *)(p + 4)));
-    b = (u32)func_0218FE80((void *)(*(u32 *)(p + 4)));
-    *(u32 *)(p + 0x24) = 0x3c;
-    *(u32 *)(p + 0x68) = 1;
-    *(u32 *)(p + 0x6c) = 1;
-    *(u32 *)(p + 0x70) = b;
+    a = (u32)func_02188C58((void *)(((struct Obj02724 *)p)->f4));
+    b = (u32)func_0218FE80((void *)(((struct Obj02724 *)p)->f4));
+    ((struct Obj02724 *)p)->f24 = 0x3c;
+    ((struct Obj02724 *)p)->f68 = 1;
+    ((struct Obj02724 *)p)->f6C = 1;
+    ((struct Obj02724 *)p)->f70 = b;
     func_0218FEA0((u8 *)b, (u32)(p + 0x24));
-    func_0218FEA4(*(u32 *)(p + 0x70));
+    func_0218FEA4(((struct Obj02724 *)p)->f70);
     func_0218FE78(a, p + 0x28);
     *(Blk32 *)(p + 0x48) = *(Blk32 *)(p + 0x28);
-    *(u32 *)(p + 0x4c) -= 0x64000;
-    func_0218FEC0((u8 *)(*(u32 *)(p + 0x70)));
-    func_0218FF00(*(u32 *)(p + 0x70));
+    ((struct Obj02724 *)p)->f4C -= 0x64000;
+    func_0218FEC0((u8 *)(((struct Obj02724 *)p)->f70));
+    func_0218FF00(((struct Obj02724 *)p)->f70);
 }

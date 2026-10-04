@@ -30,6 +30,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07382.h"
+#include "../include/Obj12522.h"
 
 typedef unsigned char  u8;
 typedef short          s16;
@@ -102,7 +104,7 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         if (func_0217AF38(t) == 0 || func_0217AF4C(w, t) == 0) {
             return 0;
         }
-        *(u16 *)(obj + 0x58) = t;
+        ((struct Obj12522 *)obj)->f58 = t;
         n = func_0217AEFC(t);
         func_021734A8(w, 0, (u32)(&((Work *)w)->entries[n]));
         if (func_0217AEE8(t) == 0) {
@@ -123,12 +125,12 @@ int func_0217BB70(u8 *w, u8 *obj, void *q)
         return 1;
     }
     if (func_0217F7E4((u32)q) == 1) {
-        if (*(int *)(w + 0x3564) == 1) {
+        if (((struct Obj07382 *)w)->f3564 == 1) {
             func_0217BAF0(w, q, 1);
             func_0217B8E4(w, 3);
         }
     } else {
-        *(int *)(w + 0x3564) = 1;
+        ((struct Obj07382 *)w)->f3564 = 1;
     }
     return 0;
 }

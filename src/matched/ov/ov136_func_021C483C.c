@@ -18,6 +18,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj01413.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,35 +42,35 @@ extern void func_021C44FC(u8 *);
 int func_021C483C(u8 *p)
 {
     void *q;
-    switch (*(u16 *)(p + 8)) {
+    switch (((struct Obj01413 *)p)->f8) {
     case 0:
-        func_0202822C(*(void **)(p + 0x128), 1);
-        func_02028218(*(void **)(p + 0x12C), 0);
-        *(u16 *)(p + 8) = 1;
+        func_0202822C(((struct Obj01413 *)p)->f128, 1);
+        func_02028218(((struct Obj01413 *)p)->f12C, 0);
+        ((struct Obj01413 *)p)->f8 = 1;
         break;
     case 1:
-        if (func_02028230(*(void **)(p + 0x128)) != 0) {
-            func_020282A4(*(void **)(p + 0x128));
-            func_02028218(*(void **)(p + 0x128), 1);
+        if (func_02028230(((struct Obj01413 *)p)->f128) != 0) {
+            func_020282A4(((struct Obj01413 *)p)->f128);
+            func_02028218(((struct Obj01413 *)p)->f128, 1);
             func_021C47C4(p, 2);
-            *(u16 *)(p + 8) = 2;
+            ((struct Obj01413 *)p)->f8 = 2;
         }
         break;
     case 2:
-        if (func_0201CE30(*(void **)(p + 0x9C)) == 2) {
+        if (func_0201CE30(((struct Obj01413 *)p)->f9C) == 2) {
             if ((func_020362DC() & 1) || func_02035C60()) {
-                func_0201CE48(*(void **)(p + 0x9C));
-                *(u16 *)(p + 8) = 3;
+                func_0201CE48(((struct Obj01413 *)p)->f9C);
+                ((struct Obj01413 *)p)->f8 = 3;
             }
         }
         break;
     case 3:
-        func_0201F7A8(*(void **)(p + 0x5C), 2);
-        q = *(void **)(p + 0x5C);
+        func_0201F7A8(((struct Obj01413 *)p)->f5C, 2);
+        q = ((struct Obj01413 *)p)->f5C;
         func_020456F8(q);
         func_020409B4(func_02045730(q));
         func_021C44FC(p);
-        *(u16 *)(p + 8) = 0;
+        ((struct Obj01413 *)p)->f8 = 0;
         p[0xB] = p[0xC];
         break;
     }

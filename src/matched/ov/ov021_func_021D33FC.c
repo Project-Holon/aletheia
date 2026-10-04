@@ -32,6 +32,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07605.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,12 +55,12 @@ void func_021D33FC(u8 *a0, u16 a1, u16 a2)
     int t;
     int s;
 
-    r6 = (int)func_02012138(*(void **)a0);
+    r6 = (int)func_02012138(((struct Obj07605 *)a0)->f0);
     if (func_02013D74(a1) != 1)
         return;
     if (r6 == 0)
         return;
-    r4 = func_020120F4(*(void **)a0);
+    r4 = func_020120F4(((struct Obj07605 *)a0)->f0);
     r7 = func_021D3554(r4, a1);
     t = func_0215850C(r6, (int)r4);
     s = 0xffff;

@@ -18,6 +18,7 @@
  *   func_02045770  0x02045770  arm
  *   func_0201C724  0x0201C724  thumb
  */
+#include "../include/Obj01516.h"
 
 typedef unsigned int u32;
 typedef signed short s16;
@@ -29,8 +30,8 @@ extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u
 
 void func_021BB6E0(int p, u32 *obj, u32 str, u16 x, s16 y, u16 color)
 {
-    u32 print = *(u32 *)(p + 0x50C);
+    u32 print = ((struct Obj01516 *)p)->f50C;
 
-    func_0201C724(print, (u32)func_02045770((struct Descriptor *)*obj), (s16)x, y, str, *(u32 *)(p + 0x530), color);
+    func_0201C724(print, (u32)func_02045770((struct Descriptor *)*obj), (s16)x, y, str, ((struct Obj01516 *)p)->f530, color);
     *((unsigned char *)obj + 4) = 1;
 }

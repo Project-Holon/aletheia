@@ -44,6 +44,8 @@
  *   func_020435F4 0x020435F4 arm
  *   func_021DAC60 0x021DAC60 thumb ov119
  */
+#include "../include/Obj03256.h"
+#include "../include/Obj04478.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_02034AC4(int),func_020173EC(void),func_021D8A24(void *);
@@ -81,13 +83,13 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     func_0204363C(1);
     H(0x5f4)=31;
     I(0x118c)=n;
-    *(char **)(p+8)=q;
+    *(char * *)&((struct Obj03256 *)p)->f8=q;
     I(0x5dc)=(int)func_02030734(0x91,func_020173EC(),1,d_021E80B0,0x110b);
     I(0x5e0)=(int)func_02030734(0x91,func_020173EC(),1,d_021E80B0,0x110c);
     I(0x10a4)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110d);
     I(0x10a8)=(int)func_02030734(0x91,512,0,d_021E80B0,0x110e);
-    *(u8 *)(p+0x11f6)=func_0200CA38(func_0200CA1C(*(void **)(q+0x14)));
-    if(q) func_021DC538(p,*(void **)(q+0x14),*(u16 *)(q+0x2e));
+    ((struct Obj03256 *)p)->f11F6=func_0200CA38(func_0200CA1C(((struct Obj04478 *)q)->f14));
+    if(q) func_021DC538(p,((struct Obj04478 *)q)->f14,((struct Obj04478 *)q)->f2E);
     func_021DC5F0(p);func_021DC3EC(p);func_021DC458(p);
     I(0x9c4)=(int)func_0204B100(0x154,0,H(0x5f4));
     if(func_021D8A24(p)) {
@@ -98,8 +100,8 @@ int func_021DC894(int a,int b,char *q,char *p,int n)
     I(0xf60)=0;
     I(0xf84)=-1;I(0x109c)=-1;I(0xf7c)=-1;I(0xf80)=-1;I(0xf98)=-1;I(0xf94)=-1;
     func_021E30EC(p);
-    if(*(int *)(q+8)==1) {
-        func_02043534(16);func_021D8E84(p,(int)func_021E0B34);*(int *)(q+8)=0;return 1;
+    if(((struct Obj04478 *)q)->f8==1) {
+        func_02043534(16);func_021D8E84(p,(int)func_021E0B34);((struct Obj04478 *)q)->f8=0;return 1;
     }
     func_021E10D8(p);func_021E3FE4(p);
     if(I(0x118c)<4) {func_021DC494(p);func_021E3C20(p);func_0203D34C(1,H(0x5f4));}

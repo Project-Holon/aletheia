@@ -13,6 +13,7 @@
  *   func_021BA28C 0x021BA28C thumb ov225
  *   func_021BA368 0x021BA368 thumb ov225
  */
+#include "../include/Obj01788.h"
 typedef unsigned char u8;
 struct Obj;
 extern void func_0204B3DC(struct Obj *,unsigned);
@@ -21,16 +22,16 @@ extern void func_021BA368(char *);
 void func_021BA0F0(char *p,unsigned b,unsigned c)
 {
     p[0xc]=b;p[0xd]=c;
-    if(*(unsigned *)(p+8)==3) {
-        if(*(u8 *)(p+0xc)<=1) {
-            func_0204B3DC(*(struct Obj **)(p+0x38),0);func_0204B3DC(*(struct Obj **)(p+0x3c),0);func_021BA28C(p);return;
+    if(((struct Obj01788 *)p)->f8==3) {
+        if(((struct Obj01788 *)p)->fC<=1) {
+            func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f38,0);func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,0);func_021BA28C(p);return;
         }
-        if(*(u8 *)(p+0xd)==0) {
-            func_0204B3DC(*(struct Obj **)(p+0x38),0);func_0204B3DC(*(struct Obj **)(p+0x3c),1);
-        } else if(*(u8 *)(p+0xd)==b-1) {
-            func_0204B3DC(*(struct Obj **)(p+0x38),1);func_0204B3DC(*(struct Obj **)(p+0x3c),0);
+        if(((struct Obj01788 *)p)->fD==0) {
+            func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f38,0);func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,1);
+        } else if(((struct Obj01788 *)p)->fD==b-1) {
+            func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f38,1);func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,0);
         } else {
-            func_0204B3DC(*(struct Obj **)(p+0x38),1);func_0204B3DC(*(struct Obj **)(p+0x3c),1);
+            func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f38,1);func_0204B3DC(*(struct Obj * *)&((struct Obj01788 *)p)->f3C,1);
         }
         func_021BA368(p);
     }

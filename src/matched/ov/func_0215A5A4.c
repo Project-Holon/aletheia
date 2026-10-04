@@ -14,6 +14,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_0215A738  0x0215A738  thumb  ov010
  */
+#include "../include/Obj04882.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,12 +29,12 @@ int func_0215A5A4(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x1c);
+a0 = ((struct Obj04882 *)t4)->f1C;
     if (a0 == 0) goto loc_0215A5B2;
 loc_0215A5AE:
     a0 = func_020307B0(a0);
 loc_0215A5B2:
-a0 = *(int *)((char *)t4 + 0x14);
+a0 = ((struct Obj04882 *)t4)->f14;
     if (a0 == 0) goto loc_0215A5BC;
 loc_0215A5B8:
     a0 = func_02045C04(a0);

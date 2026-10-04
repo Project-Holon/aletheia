@@ -18,6 +18,7 @@
  *   d_021D83B0 0x021D83B0 data a4
  *   d_021D83F0 0x021D83F0 data a4
  */
+#include "../include/Obj10347.h"
 typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 extern void func_0203F8F4(unsigned);
@@ -32,8 +33,8 @@ void func_021D8304(void *p,unsigned heap) {
  func_02082BCC(p,0,4);
  func_0203F8F4(heap); func_02045088(heap); func_0203FC28(d_021D83B0);
  for(i=0;i<8;i++) {
- q=d_021D83F0+i*44; n=*(unsigned *)q;
- func_0203FCA0(n,q+4,*(unsigned *)(q+36));
- func_020414AC(n); func_02040588(n,*(unsigned *)(q+40));
+ q=d_021D83F0+i*44; n=((struct Obj10347 *)q)->f0;
+ func_0203FCA0(n,q+4,((struct Obj10347 *)q)->f24);
+ func_020414AC(n); func_02040588(n,((struct Obj10347 *)q)->f28);
  }
 }

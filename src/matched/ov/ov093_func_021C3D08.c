@@ -17,6 +17,7 @@
  *  func_021CD64C 0x021CD64C thumb ov093
  *  func_021CC95C 0x021CC95C thumb ov093
  */
+#include "../include/Obj03191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,7 +43,7 @@ void func_021C3D08(u8 *p, u16 *b, u8 *a, u8 *c)
         return;
     case 0xa4:
         if (func_021C4034(p, a)) {
-            f = *(Flag **)(p + 0x4a8);
+            f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;
             if (f->a == 0) {
                 f->a = 1;
                 f->b = 1;
@@ -55,12 +56,12 @@ void func_021C3D08(u8 *p, u16 *b, u8 *a, u8 *c)
         if (func_021C4304(p, b, a, c, &out)) {
             r = func_021C88E4(p);
             if (r == 2) {
-                f = *(Flag **)(p + 0x4a8);
+                f = *(Flag * *)&((struct Obj03191 *)p)->f4A8;
                 if (f->a == 0) f->a = 1;
             }
         }
         if (r <= 1 && out != 0 && ((ByteFlag *)(p + 0x78a))->b == 0) {
-            func_021CD64C(*(void **)(p + 12), 0x5a, 0x47, 0xffff0000);
+            func_021CD64C(((struct Obj03191 *)p)->fC, 0x5a, 0x47, 0xffff0000);
         }
         func_021CC95C(p + 0x1d74, s, 9113);
     }

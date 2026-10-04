@@ -15,6 +15,10 @@
  *   func_021B7F08 0x021B7F08 thumb ov102
  *   func_021B81B0 0x021B81B0 thumb ov102
  */
+#include "../include/Obj10237.h"
+#include "../include/Obj22152.h"
+#include "../include/Obj22153.h"
+#include "../include/Obj22154.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -29,12 +33,12 @@ void func_021B8320(u8 *p, u16 *state)
     switch (*state) {
     case 0:
         func_021B7DFC(p + 0xac, p + 0x9c, 5, 0, 0);
-        func_021B63C4(*(int **)(*(u8 **)(p + 0x48c) + 4));
-        func_021B63BC(*(int **)(*(u8 **)(p + 0x48c) + 4));
+        func_021B63C4(*(int * *)&((struct Obj22152 *)(*(u8 * *)&((struct Obj10237 *)p)->f48C))->f4);
+        func_021B63BC(*(int * *)&((struct Obj22153 *)(*(u8 * *)&((struct Obj10237 *)p)->f48C))->f4);
         *state = 1;
         break;
     case 1:
-        if (func_021B61E8(*(int **)(*(u8 **)(p + 0x48c) + 4)))
+        if (func_021B61E8(*(int * *)&((struct Obj22154 *)(*(u8 * *)&((struct Obj10237 *)p)->f48C))->f4))
             *state = 2;
         break;
     case 2:

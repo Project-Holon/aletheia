@@ -39,6 +39,7 @@
  *   func_022006B4 0x022006B4 thumb ov094
  *   func_02201718 0x02201718 thumb ov094
  */
+#include "../include/Obj13604.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -86,7 +87,7 @@ void func_021FEEA8(char *w, void *src, int key)
         ((Flags *)(w + 0x54 + off))->b0 = 0;
         ((Flags *)(w + 0x54 + off))->b1 = 0;
         ((Flags *)(w + 0x54 + off))->b5 = 0;
-        ((Flags *)(w + 0x54 + off))->b2 = *(u32 *)(w + 0x534);
+        ((Flags *)(w + 0x54 + off))->b2 = ((struct Obj13604 *)w)->f534;
         *(int *)(w + 0x50 + off) = key;
         *(u32 *)(w + 0x3c + off) = func_02017E1C(src, 0, 0);
         *(u32 *)(w + 0x44 + off) = func_02017E1C(src, 0x98, 0);
@@ -94,7 +95,7 @@ void func_021FEEA8(char *w, void *src, int key)
             *(int *)(w + 0x48 + off) |= 2;
         func_022003EC(w, src, (int *)(w + 0xc + off), key);
         func_022018A8(w, &vectors.pos, key);
-        *(void **)(w + 8 + off) = func_020159C8(*(void **)(w + 4), vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
+        *(void **)(w + 8 + off) = func_020159C8(((struct Obj13604 *)w)->f4, vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
         func_0220055C(w, key, 1);
         *(u32 *)(w + 0x34 + off) = func_02017E1C(src, 5, 0);
         *(u32 *)(w + 0x38 + off) = func_02017E1C(src, 0x6f, 0);

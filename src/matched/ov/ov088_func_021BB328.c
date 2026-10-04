@@ -17,6 +17,7 @@
  *   func_0204AFD8  0x0204AFD8  arm
  *   func_0204A5AC  0x0204A5AC  arm
  */
+#include "../include/Obj20817.h"
 
 struct Bank;
 struct Obj;
@@ -33,7 +34,7 @@ void func_021BB328(char *p)
     unsigned i;
     for (i = 0; i < 6; i++)
         func_0204B3B4(*(void **)(p + 0x1c + i * 4));
-    func_0204B1CC(*(void **)(p + 0x18));
+    func_0204B1CC(((struct Obj20817 *)p)->f18);
     for (i = 0; i < 3; i++)
         func_0204A8D4((u32)(*(void **)(p + 0x34 + i * 4)));
     for (i = 0; i < 3; i++)

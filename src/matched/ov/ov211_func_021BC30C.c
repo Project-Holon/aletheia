@@ -11,5 +11,6 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  */
+#include "../include/Obj25638.h"
 struct Node;extern void func_02030EAC(struct Node *);
-void func_021BC30C(unsigned char *p){func_02030EAC(*(struct Node **)(p+4));}
+void func_021BC30C(unsigned char *p){func_02030EAC(*(struct Node * *)&((struct Obj25638 *)p)->f4);}

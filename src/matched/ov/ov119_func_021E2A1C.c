@@ -16,6 +16,7 @@
  *   func_02028148 0x02028148 thumb
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Obj;
@@ -28,12 +29,12 @@ extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_02028148(u8 *p);
 extern void func_02041B6C(u32 bit);
 void func_021E2A1C(char *p,int a,int b) {
-    if (!func_0201C6B4(*(void **)(p+0x740))) func_0201C6EC(*(void **)(p+0x740));
-    if(a) func_0204B3DC(*(void **)(p+0xf04),1);
-    if(b) func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),8,func_021DD2F4(p));
-    if(*(void **)(p+0x648)) {
-        func_02028148(*(void **)(p+0x648));
-        *(void **)(p+0x648)=0;
+    if (!func_0201C6B4(((struct Obj00001 *)p)->f740)) func_0201C6EC(((struct Obj00001 *)p)->f740);
+    if(a) func_0204B3DC(((struct Obj00001 *)p)->fF04,1);
+    if(b) func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,func_021DD2F4(p));
+    if(((struct Obj00001 *)p)->f648) {
+        func_02028148(((struct Obj00001 *)p)->f648);
+        ((struct Obj00001 *)p)->f648=0;
         func_02041B6C(6);
     }
 }

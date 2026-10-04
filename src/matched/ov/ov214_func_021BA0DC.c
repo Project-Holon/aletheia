@@ -16,8 +16,9 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj14700.h"
 struct Descriptor;struct Cfg;struct CharBuf;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(struct CharBuf *,unsigned char),func_02045334(struct Descriptor *),func_02045374(struct Cfg *),func_02041B6C(unsigned);
 extern unsigned char func_02045730(struct Descriptor *);
-void func_021BA0DC(int unused,char *p){struct Descriptor *d;func_02043B5C(func_02045770(*(struct Descriptor **)(p+0x6c)),0);d=*(struct Descriptor **)(p+0x6c);func_02045334(d);func_02045374((struct Cfg *)d);func_02041B6C(func_02045730(d));}
+void func_021BA0DC(int unused,char *p){struct Descriptor *d;func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj14700 *)p)->f6C),0);d=*(struct Descriptor * *)&((struct Obj14700 *)p)->f6C;func_02045334(d);func_02045374((struct Cfg *)d);func_02041B6C(func_02045730(d));}

@@ -23,6 +23,7 @@
  * global stash at 0x02148DB0: root -> bank (+0xD4), bank -> entry (indexed
  * table at bank+6), entry -> node (relative offset at entry+0).
  */
+#include "../include/Obj16622.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,7 +51,7 @@ void func_0206EBB8(u32 *out)
     if (b == 0) goto nullent;
     if (idx >= b->cnt01) goto nullent;
     t = (u8 *)b + b->off06;
-    idx = (u32)(t + 4 + (*(u16 *)t) * idx);
+    idx = (u32)(t + 4 + (((struct Obj16622 *)t)->f0) * idx);
     goto have;
 nullent:
     idx = 0;

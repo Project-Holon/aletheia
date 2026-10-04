@@ -20,6 +20,7 @@
  *   func_021B687C 0x021B687C thumb ov174
  *   func_0204A600 0x0204A600 arm
  */
+#include "../include/Obj00152.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -50,14 +51,14 @@ int func_021B622C(u8 *p)
     u8 i;
     switch(p[12]) {
     case 0:
-        func_0202208C(0,1,1,0,6,1,*(u16 *)p);
+        func_0202208C(0,1,1,0,6,1,((struct Obj00152 *)p)->f0);
         p[12]=1;
         break;
     case 1:
         if(func_020221A4()==1) p[12]=4;
         break;
     case 2:
-        func_0202208C(0,0,0,0,6,1,*(u16 *)p);
+        func_0202208C(0,0,0,0,6,1,((struct Obj00152 *)p)->f0);
         p[12]=3;
         break;
     case 3:
@@ -68,33 +69,33 @@ int func_021B622C(u8 *p)
         break;
     }
     if(p[14]<20) p[14]++;
-    if(*(int *)(p+44)==0 && *(int *)(p+20)==4) {
+    if(*(int *)&((struct Obj00152 *)p)->f2C==0 && ((struct Obj00152 *)p)->f14==4) {
         if(p[13]==0) {a=4;b=10;} else {a=7;b=13;}
         G2_SetBG2Control256x16Affine(SZ1,OVER1,(GXBGScrBase)13,a);
         G2_SetBG3Control256x16Affine(SZ1,OVER1,(GXBGScrBase)14,b);
         p[13]=p[13]==0?1:0;
-        *(int *)(p+20)=0;
+        ((struct Obj00152 *)p)->f14=0;
         p[14]=0;
     }
-    if(*(char **)(p+44)!=0 && func_021B6F2C((int)p,*(char **)(p+44))==1)
-        *(char **)(p+44)=0;
-    if(*(int *)(p+44)==0) {
-        state=*(unsigned *)(p+20);
+    if(*(char * *)&((struct Obj00152 *)p)->f2C!=0 && func_021B6F2C((int)p,*(char * *)&((struct Obj00152 *)p)->f2C)==1)
+        *(char * *)&((struct Obj00152 *)p)->f2C=0;
+    if(*(int *)&((struct Obj00152 *)p)->f2C==0) {
+        state=*(unsigned *)&((struct Obj00152 *)p)->f14;
         switch(state) {
         case 0: case 1: case 2: case 3: {
             u32 index=(u8)state*4;
             u32 table=(u32)p+28;
             if(*(u8 **)(table+index)!=0) {
                 func_021B6F24(p,*(u8 **)(table+index),p[13]);
-                *(u8 **)(p+44)=*(u8 **)(table+index);
-                if(*(int *)(p+8)==2 && *(int *)(p+20)==1) *(int *)(p+20)=4;
-                else (*(int *)(p+20))++;
-            } else *(int *)(p+20)=state+1;
+                *(u8 * *)&((struct Obj00152 *)p)->f2C=*(u8 **)(table+index);
+                if(((struct Obj00152 *)p)->f8==2 && ((struct Obj00152 *)p)->f14==1) ((struct Obj00152 *)p)->f14=4;
+                else (((struct Obj00152 *)p)->f14)++;
+            } else ((struct Obj00152 *)p)->f14=state+1;
             break;
         }
         }
     }
-    for(i=0;i<*(int *)(p+8);i++) {
+    for(i=0;i<((struct Obj00152 *)p)->f8;i++) {
         if(*(u8 **)(p+28+i*4)!=0) func_021B6D3C(p,*(u8 **)(p+28+i*4));
     }
     func_021B687C(p);

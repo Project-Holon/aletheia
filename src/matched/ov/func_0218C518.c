@@ -21,6 +21,7 @@
  *   func_0218C490  0x0218C490  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03573.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern u32 func_0218C490(u32, u32);
 
 int func_0218C518(u32 a, u32 b, u32 c, u32 d)
 {
-func_0216940C(*(u32 *)((u8 *)(b)), *(u16 *)((u8 *)(b) + 8), c, d);
+func_0216940C(*(u32 *)&((struct Obj03573 *)((u8 *)(b)))->f0, ((struct Obj03573 *)((u8 *)(b)))->f8, c, d);
 return func_0218C490(a, b);
 }
 

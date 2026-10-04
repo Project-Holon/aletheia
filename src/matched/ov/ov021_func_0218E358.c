@@ -17,6 +17,7 @@
  *   func_0218E2B4  0x0218E2B4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00428.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ void func_0218E358(u8 *a)
             func_0218F1BC((u32 *)(a + 0x88 + i * 0x18), (u32)(a + 0x54));
         }
     }
-    func_0218E2B4((V *)(a + 0x54), (V *)(a + 0x24), *(u16 *)(a + 0x7A), *(u16 *)(a + 0x78), *(int *)(a + 0x7C));
+    func_0218E2B4((V *)(a + 0x54), (V *)(a + 0x24), ((struct Obj00428 *)a)->f7A, ((struct Obj00428 *)a)->f78, ((struct Obj00428 *)a)->f7C);
     *(V *)(a + 0x3C) = *(V *)(a + 0x24);
     if (a[0xE9] != 0) {
         for (i = 0; i < a[0xE8]; i++) {

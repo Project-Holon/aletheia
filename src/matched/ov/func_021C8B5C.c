@@ -16,6 +16,7 @@
  *   func_021639C0  0x021639C0  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00876.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u32 func_021C8A8C(u32, u32, u32, u32);
 
 int func_021C8B5C(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_021639C0(*(u32 *)((u8 *)(a) + 12), func_021C8A8C(a, b, c, d)) != 0) {
+if (func_021639C0(((struct Obj00876 *)((u8 *)(a)))->fC, func_021C8A8C(a, b, c, d)) != 0) {
     return 1;
 }
 return 0;

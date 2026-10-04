@@ -13,6 +13,7 @@
  *   func_021BE10C  0x021BE10C  thumb  ov204
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10870.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern void func_021BE10C(u8 *, u32, u32 *);
 
 u32 func_021BE11C(u8 *p)
 {
-    u32 t = *(u32 *)(*(u32 *)(p + 4) + 8);
+    u32 t = *(u32 *)(((struct Obj10870 *)p)->f4 + 8);
 
     if (t == 0) {
         t = t + 1;

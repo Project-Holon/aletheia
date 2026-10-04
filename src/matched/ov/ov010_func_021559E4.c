@@ -18,6 +18,7 @@
  *   func_02012EBC  0x02012EBC  thumb
  *   func_0201A920  0x0201A920  thumb
  */
+#include "../include/Obj05876.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -54,7 +55,7 @@ void *func_021559E4(void *a, int b, void *c, int d)
     else
         func_0201232C(c, (int)func_02155478, 0xE8);
     t = func_020124E8(c);
-    *(void **)((u8 *)t + 0x4C) = func_02012EBC(func_020120F4(a));
+    ((struct Obj05876 *)t)->f4C = func_02012EBC(func_020120F4(a));
     t->f04 = func_020120F4(a);
     t->f00 = a;
     for (i = 0; i < 4; i++)

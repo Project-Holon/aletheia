@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12359.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ void func_02164728(void *o)
             u8 *p = d_02171534 + i * 10;
             if (p[3] != 0) {
                 if (func_020056EC(100) < 20) {
-                    func_0201433C(o, *(u16 *)p + 900);
+                    func_0201433C(o, ((struct Obj12359 *)p)->f0 + 900);
                 }
             }
         }

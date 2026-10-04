@@ -13,6 +13,7 @@
  *   func_0204B688  0x0204B688  arm
  *   ov208_func_021BC518  0x021BC518  thumb  ov208
  */
+#include "../include/Obj10905.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,5 +32,5 @@ void ov208_func_021C252C(u16 *heap, u8 *p, int key)
         if (((u32 *)(p + 0x5c))[i] != 0)
             func_0204B688((struct Actor *)(((u32 *)(p + 0x5c))[i]), 1);
     }
-    ov208_func_021BC518(*(u32 *)(p + 0x41c));
+    ov208_func_021BC518(((struct Obj10905 *)p)->f41C);
 }

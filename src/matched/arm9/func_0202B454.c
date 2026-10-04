@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15838.h"
 
 void func_0202B454(char *p)
 {
     int i;
-    *(unsigned short *)(p + 0x1c) = 0xffff;
+    ((struct Obj15838 *)p)->f1C = 0xffff;
     for (i = 0; i < 4; i++) {
         *(unsigned short *)(p + i * 2 + 0x20) = 0;
         *(unsigned short *)(p + i * 2 + 0x28) = 0x100;

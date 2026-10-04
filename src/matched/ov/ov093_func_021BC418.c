@@ -22,6 +22,7 @@
  *   func_021DCFB4  0x021DCFB4  thumb  ov093
  *   func_021BC4CC  0x021BC4CC  thumb  ov093
  */
+#include "../include/Obj00003.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -54,8 +55,8 @@ void func_021BC418(u8 *p, int a, int b)
         return;
     if (b == 0)
         return;
-    t = func_021B9AEC(*(u8 **)(p + 8), a);
-    func_021CD4B0(*(void **)(p + 0xc), 0x48, a, b);
+    t = func_021B9AEC(*(u8 * *)&((struct Obj00003 *)p)->f8, a);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x48, a, b);
     func_021B9C50((u8 **)t, b, &v1, &v2);
     if (func_021D5B68(v1) == 0)
         func_021C5108(p, v1, 1);
@@ -71,5 +72,5 @@ void func_021BC418(u8 *p, int a, int b)
         func_021D8548(v2);
         func_021DCFB4(v2);
     }
-    func_021BC4CC(p + 0x1ab8, b, a, v2, *(u8 **)(p + 8));
+    func_021BC4CC(p + 0x1ab8, b, a, v2, *(u8 * *)&((struct Obj00003 *)p)->f8);
 }

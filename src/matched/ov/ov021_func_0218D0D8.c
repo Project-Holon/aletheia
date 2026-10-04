@@ -17,6 +17,7 @@
  * pixel converter (luma weights 76/151/29 over a lookup table); filing it
  * as an arm9 witness would lift this to EXACT.
  */
+#include "../include/Obj12581.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,8 +35,8 @@ int func_0218D0D8(void *a, void *b)
 {
     u8 *p = func_0206E964(func_02046F48(a));
     if (p != 0) {
-        u32 size = *(u16 *)(p + 0x30) << 3;
-        u32 off = *(u32 *)(p + 0x38);
+        u32 size = ((struct Obj12581 *)p)->f30 << 3;
+        u32 off = ((struct Obj12581 *)p)->f38;
         if (b != 0)
             func_02022040(p + off, size >> 1, b);
         return 1;

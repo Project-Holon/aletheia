@@ -31,6 +31,7 @@
  *   d_021807E4     0x021807E4  data  a4
  *   d_021807E8     0x021807E8  data  a4
  */
+#include "../include/Obj00610.h"
 
 typedef unsigned char u8;
 
@@ -72,12 +73,12 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         return 1;
     switch (*d) {
     case 0:
-        if (*(void **)(a + 0x3540) != 0 || *(void **)(a + 0x3544) != 0)
+        if (((struct Obj00610 *)a)->f3540 != 0 || ((struct Obj00610 *)a)->f3544 != 0)
             func_02034714(d_021807E4, 0, d_021807E4);
-        *(void **)(a + 0x3540) = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
-        *(void **)(a + 0x3544) = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
-        func_0216F40C(*(void **)(a + 0x3540), (*(int **)a)[2], 1, 0, 0x41);
-        func_02082D44(*(void **)(a + 0x3540), *(void **)(a + 0x3544), 0x678);
+        ((struct Obj00610 *)a)->f3540 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
+        ((struct Obj00610 *)a)->f3544 = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
+        func_0216F40C(((struct Obj00610 *)a)->f3540, (*(int **)a)[2], 1, 0, 0x41);
+        func_02082D44(((struct Obj00610 *)a)->f3540, ((struct Obj00610 *)a)->f3544, 0x678);
         func_02039C68((struct Link *)func_020399A8(), 3, 0x14);
         func_0217F210(a, c, func_0217EE4C(a, b->f14[0x26], b->f14[0x27]));
         (*d)++;
@@ -92,9 +93,9 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 3:
         if (b->f5d == 1 && func_0217F1EC(a) == 1) {
-            q = *(u8 **)(a + 0x3544);
+            q = *(u8 * *)&((struct Obj00610 *)a)->f3544;
             q[4] |= 0x20;
-            *(void **)(a + 0x353C) = func_0216F7F4((*(int **)a)[2], *(void **)(a + 0x3544), 0x41);
+            ((struct Obj00610 *)a)->f353C = func_0216F7F4((*(int **)a)[2], ((struct Obj00610 *)a)->f3544, 0x41);
             (*d)++;
         }
         break;
@@ -107,7 +108,7 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
             (*d)++;
         break;
     case 6:
-        func_0217422C(a, 1, (int)(*(void **)(a + 0x353C)));
+        func_0217422C(a, 1, (int)(((struct Obj00610 *)a)->f353C));
         (*d)++;
         break;
     case 7:
@@ -121,11 +122,11 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 9:
         if (func_0217F1EC(a) != 0 && func_02039CB4((struct Link *)func_020399A8(), 5, 0x14) == 1) {
-            func_020307B0(*(void **)(a + 0x3540));
-            func_020307B0(*(void **)(a + 0x3544));
-            *(void **)(a + 0x353C) = 0;
-            *(void **)(a + 0x3540) = 0;
-            *(void **)(a + 0x3544) = 0;
+            func_020307B0(((struct Obj00610 *)a)->f3540);
+            func_020307B0(((struct Obj00610 *)a)->f3544);
+            ((struct Obj00610 *)a)->f353C = 0;
+            ((struct Obj00610 *)a)->f3540 = 0;
+            ((struct Obj00610 *)a)->f3544 = 0;
             if (func_0203D378() == 1)
                 func_0217B8E4(a, 7);
             else

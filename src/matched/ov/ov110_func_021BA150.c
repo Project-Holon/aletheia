@@ -10,19 +10,20 @@
  * symbols:
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj10265.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern u32 func_020221A4(void);
 extern void func_021B9CBC(u8 *);
 void func_021BA150(int unused, u8 *p) {
-    switch (*(int *)(p+0x14)) {
+    switch (((struct Obj10265 *)p)->f14) {
     case 0:
         func_0202208C(0, 1, 1, 0, 5, 1, 42);
-        ++*(int *)(p+0x14);
+        ++((struct Obj10265 *)p)->f14;
         break;
     case 1:
-        if (func_020221A4()) ++*(int *)(p+0x14);
+        if (func_020221A4()) ++((struct Obj10265 *)p)->f14;
         break;
     default:
         func_021B9CBC(p);

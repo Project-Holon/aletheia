@@ -16,6 +16,7 @@
  *   func_021FF914 0x021FF914 thumb ov135
  *   str_02203E44 0x02203E44 data a1
  */
+#include "../include/Obj05419.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,13 +33,13 @@ void func_021FF8B0(u8 *p)
 {
     Anim *a;
     func_021FF6A4(p);
-    *(void **)(p + 0xF98) = func_02030734(0x48, 12, 0, str_02203E44, 0xD4);
-    *(void **)(p + 0xE14) = func_02030DA8(*(void **)(p + 0xF94), func_021FF92C, *(void **)(p + 0xF98), 5);
-    a = func_02030EE8(*(void **)(p + 0xE14));
+    ((struct Obj05419 *)p)->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0xD4);
+    ((struct Obj05419 *)p)->fE14 = func_02030DA8(((struct Obj05419 *)p)->fF94, func_021FF92C, ((struct Obj05419 *)p)->fF98, 5);
+    a = func_02030EE8(((struct Obj05419 *)p)->fE14);
     a->state = 0;
     a->y = -40;
     a->p = p;
-    *(u16 *)(p + 0xE18) = 0;
+    ((struct Obj05419 *)p)->fE18 = 0;
     func_021FF914(a, 0);
     func_020061E4(0x790);
 }

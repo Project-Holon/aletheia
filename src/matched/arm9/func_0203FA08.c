@@ -25,6 +25,7 @@
  * type:l(t:u32->int)); every divide stays unsigned because each dividend
  * is u32.
  */
+#include "../include/Obj11392.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -47,7 +48,7 @@ u32 func_0203FA08(u32 layer, u32 size, u32 top)
 
     f = (size % t != 0);
     n = size / t;
-    base = (layer < 4) ? *(u32 *)(g + 0x168) : *(u32 *)(g + 0x16c);
+    base = (layer < 4) ? ((struct Obj11392 *)g)->f168 : ((struct Obj11392 *)g)->f16C;
     if (top == 0)
         r = func_02033CC0((struct AreaMan *)base, d1, d2, n + f);
     else

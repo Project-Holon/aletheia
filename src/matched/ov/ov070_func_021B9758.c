@@ -12,20 +12,21 @@
  * symbols:
  *   func_0203FB44  0x0203FB44  arm
  */
+#include "../include/Obj06175.h"
 
 extern void func_0203FB44(int, unsigned short, unsigned short);
 
 void func_021B9758(char *p)
 {
     unsigned v;
-    v = *(unsigned *)(p + 0x7FC);
+    v = ((struct Obj06175 *)p)->f7FC;
     func_0203FB44(4, v, v >> 16);
-    v = *(unsigned *)(p + 0x800);
+    v = ((struct Obj06175 *)p)->f800;
     func_0203FB44(5, v, v >> 16);
-    v = *(unsigned *)(p + 0x808);
+    v = ((struct Obj06175 *)p)->f808;
     func_0203FB44(3, v, v >> 16);
-    v = *(unsigned *)(p + 0x7F8);
+    v = ((struct Obj06175 *)p)->f7F8;
     func_0203FB44(0, v, v >> 16);
-    v = *(unsigned *)(p + 0x804);
+    v = ((struct Obj06175 *)p)->f804;
     func_0203FB44(1, v, v >> 16);
 }

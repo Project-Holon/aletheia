@@ -15,6 +15,7 @@
  * symbols:
  *   func_0204B3F4  0x0204B3F4  arm
  */
+#include "../include/Obj23016.h"
 
 typedef unsigned int   u32;
 struct Obj;
@@ -22,5 +23,5 @@ extern u32 func_0204B3F4(struct Obj *p);
 
 int func_021C425C(char *p)
 {
-    return func_0204B3F4(*(void **)(p + 4));
+    return func_0204B3F4(((struct Obj23016 *)p)->f4);
 }

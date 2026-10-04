@@ -18,6 +18,7 @@
  *   d_020A8140     0x020A8140  data  a4
  *   d_020A8148     0x020A8148  data  a4
  */
+#include "../include/Obj07451.h"
 
 typedef unsigned short u16;
 typedef struct { unsigned w[6]; } T24;
@@ -40,11 +41,11 @@ void *func_02194670(u16 *a)
 
     r6 = (unsigned char *)func_02030734(*a, 0xcd0, 1, (const char *)&d_021DDAC4, 0xec);
     *(T24 *)r6 = *(T24 *)a;
-    *(void **)(r6 + 0xc98) = func_0203101C(*a, *a, 0x20, 0x20);
+    ((struct Obj07451 *)r6)->fC98 = func_0203101C(*a, *a, 0x20, 0x20);
     for (i = 0; i < 0x20; i++)
         func_02194A58(r6 + 0x18 + i * 0x64);
-    *(void **)(r6 + 0xcc8) = d_020A8140(0x20, 0, 0);
-    *(void **)(r6 + 0xccc) = d_020A8148(0x20, 0, 0);
-    *(u16 *)(r6 + 0xc9c) = func_021954CC(r6, r6) >> 5;
+    ((struct Obj07451 *)r6)->fCC8 = d_020A8140(0x20, 0, 0);
+    ((struct Obj07451 *)r6)->fCCC = d_020A8148(0x20, 0, 0);
+    ((struct Obj07451 *)r6)->fC9C = func_021954CC(r6, r6) >> 5;
     return r6;
 }

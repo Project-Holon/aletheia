@@ -16,6 +16,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj02206.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -36,11 +37,11 @@ extern void func_020409B4(u32 index);
 void func_021C47C4(u8 *p, int n)
 {
     void *q;
-    func_0201F73C(*(void **)(p + 0x5C), 2, 13, 4);
-    func_02043B5C(func_02045770(*(void **)(p + 0x5C)), 255);
-    func_02045CAC(*(void **)(p + 0x20), n, *(void **)(p + 0x34));
-    *(u32 *)(p + 0x9C) = func_0201CCE4(*(u32 *)(p + 0x5C), 0, 0, *(u32 *)(p + 0x34), *(u32 *)(p + 0x24), *(s8 *)(p + 0x15), *(u32 *)(p + 0x100), 4, (u16)*(u32 *)p, 15);
-    q = *(void **)(p + 0x5C);
+    func_0201F73C(((struct Obj02206 *)p)->f5C, 2, 13, 4);
+    func_02043B5C(func_02045770(((struct Obj02206 *)p)->f5C), 255);
+    func_02045CAC(((struct Obj02206 *)p)->f20, n, ((struct Obj02206 *)p)->f34);
+    ((struct Obj02206 *)p)->f9C = func_0201CCE4(*(u32 *)&((struct Obj02206 *)p)->f5C, 0, 0, *(u32 *)&((struct Obj02206 *)p)->f34, ((struct Obj02206 *)p)->f24, ((struct Obj02206 *)p)->f15, ((struct Obj02206 *)p)->f100, 4, (u16)((struct Obj02206 *)p)->f0, 15);
+    q = ((struct Obj02206 *)p)->f5C;
     func_02045334(q);
     func_02045374(q);
     func_020409B4(func_02045730(q));

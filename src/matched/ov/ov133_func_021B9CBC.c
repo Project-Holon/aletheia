@@ -18,6 +18,8 @@
  *   func_02045808 0x02045808 arm
  *   func_0201ED04 0x0201ED04 thumb
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj14153.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021F4F10(u8 *);
@@ -35,12 +37,12 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 void func_021B9CBC(u8 *p, u8 *entry)
 {
-    void *manager = func_021F4F10(*(u8 **)(p + 0x1884));
+    void *manager = func_021F4F10(*(u8 * *)&((struct Obj00004 *)p)->f1884);
     u8 *data = func_021BA20C(entry);
-    int index = func_021F5158(manager, *(u16 *)data);
-    void *obj = func_0201EC64(*(u16 *)p);
-    void *a = func_02045EC0(*(void **)(p + 0x18dc), *(u16 *)data + 3);
-    void *b = func_02045EC0(*(void **)(p + 0x18e0), index + 16);
+    int index = func_021F5158(manager, ((struct Obj14153 *)data)->f0);
+    void *obj = func_0201EC64(((struct Obj00004 *)p)->f0);
+    void *a = func_02045EC0(((struct Obj00004 *)p)->f18DC, ((struct Obj14153 *)data)->f0 + 3);
+    void *b = func_02045EC0(((struct Obj00004 *)p)->f18E0, index + 16);
     func_0201EE0C(obj, 0, a, 0, 1, 2);
     func_0201EE0C(obj, 1, b, 0, 1, 2);
     func_021B9C08(p, 3, obj);

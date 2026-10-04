@@ -15,6 +15,7 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj05372.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -23,4 +24,4 @@ extern int func_021C4550(int *);
 extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
 extern void func_0204AFD8(u32);
-void func_021C4514(char *p) { if(func_021C4550((int *)(p+0x2e0))==1) { func_0204A8D4(*(u32 *)(p+0x2e0)); *(u32 *)(p+0x2e0)=-1; func_0204ADA4(*(u32 *)(p+0x2e4)); *(u32 *)(p+0x2e4)=-1; func_0204AFD8(*(u32 *)(p+0x2e8)); *(u32 *)(p+0x2e8)=-1; } }
+void func_021C4514(char *p) { if(func_021C4550((int *)(p+0x2e0))==1) { func_0204A8D4(((struct Obj05372 *)p)->f2E0); ((struct Obj05372 *)p)->f2E0=-1; func_0204ADA4(((struct Obj05372 *)p)->f2E4); ((struct Obj05372 *)p)->f2E4=-1; func_0204AFD8(((struct Obj05372 *)p)->f2E8); ((struct Obj05372 *)p)->f2E8=-1; } }

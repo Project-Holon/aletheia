@@ -17,6 +17,7 @@
  *   func_020307B0  0x020307B0  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12092.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ extern int func_021AA7CC(u32 a, u32 b, u32 c, u32 d);
 
 int func_021A9F28(u32 a, u32 b, u32 c, u32 d)
 {
-func_021AA7CC(a, *(u32 *)((u8 *)(a) + 16), c, d);
-func_021AA794(*(u32 *)((u8 *)(a) + 16));
+func_021AA7CC(a, ((struct Obj12092 *)((u8 *)(a)))->f10, c, d);
+func_021AA794(((struct Obj12092 *)((u8 *)(a)))->f10);
 return func_020307B0(a);
 }
 

@@ -12,7 +12,8 @@
  * symbols:
  *   func_021F5388 0x021F5388 thumb ov112
  */
+#include "../include/Obj22568.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021F5388(u8 **p);
-int func_021F8120(int a,u8 *p) { return func_021F5388(*(void **)(p+0x58)); }
+int func_021F8120(int a,u8 *p) { return func_021F5388(((struct Obj22568 *)p)->f58); }

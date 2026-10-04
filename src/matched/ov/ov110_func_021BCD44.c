@@ -12,6 +12,7 @@
  *   func_021BF824 0x021BF824 thumb ov110
  *   func_020282AC 0x020282AC thumb
  */
+#include "../include/Obj06389.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -21,9 +22,9 @@ struct T;
 extern void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
 void func_021BCD44(u8 *p)
 {
-    if (func_021BF824(*(u8 **)(p + 4)) != 0) {
-        func_020282AC(*(void **)(p + 0x64), *(u16 **)(p + 0x34), 8, 0x3545, 0x7b2c);
+    if (func_021BF824(*(u8 * *)&((struct Obj06389 *)p)->f4) != 0) {
+        func_020282AC(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 8, 0x3545, 0x7b2c);
     } else {
-        func_020282AC(*(void **)(p + 0x64), *(u16 **)(p + 0x34), 14, 0x3545, 0x7b2c);
+        func_020282AC(((struct Obj06389 *)p)->f64, *(u16 * *)&((struct Obj06389 *)p)->f34, 14, 0x3545, 0x7b2c);
     }
 }

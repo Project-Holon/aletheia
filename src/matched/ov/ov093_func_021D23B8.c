@@ -17,6 +17,7 @@
  *   func_021EA7C8  0x021EA7C8  thumb  ov093
  *   func_021EA7E8  0x021EA7E8  thumb  ov093
  */
+#include "../include/Obj05206.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u8 b);
@@ -28,19 +29,19 @@ extern int func_021EA7E8(void *w, u32 v);
 
 int func_021D23B8(u8 *p, int *st, u32 *c)
 {
-    u32 t = func_021B8E70(*(void **)p, func_021B8D8C(*(void **)p, *(void **)(p + 4), *c));
+    u32 t = func_021B8E70(((struct Obj05206 *)p)->f0, func_021B8D8C(((struct Obj05206 *)p)->f0, ((struct Obj05206 *)p)->f4, *c));
 
     switch (*st) {
     case 0:
         if (func_021CD9E0(p))
             return 1;
-        if (!func_021B8590(*(void **)p))
+        if (!func_021B8590(((struct Obj05206 *)p)->f0))
             return 1;
-        func_021EA7C8(*(void **)(p + 0x54), t);
+        func_021EA7C8(((struct Obj05206 *)p)->f54, t);
         (*st)++;
         break;
     case 1:
-        if (func_021EA7E8(*(void **)(p + 0x54), t))
+        if (func_021EA7E8(((struct Obj05206 *)p)->f54, t))
             return 1;
         break;
     }

@@ -15,11 +15,12 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj16081.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 u16 func_0204B7F8(u8 *p)
 {
-    return *(u16 *)(p + 0x5e);
+    return ((struct Obj16081 *)p)->f5E;
 }

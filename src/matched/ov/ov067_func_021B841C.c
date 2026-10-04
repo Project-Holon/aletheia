@@ -9,11 +9,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj09864.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 int func_021B841C(u8 *p, int n)
 {
-    if (n < 0) return *(s16 *)(p + 0x62);
-    return *(u16 *)(p + 0x64) - *(s16 *)(p + 0x62);
+    if (n < 0) return ((struct Obj09864 *)p)->f62;
+    return ((struct Obj09864 *)p)->f64 - ((struct Obj09864 *)p)->f62;
 }

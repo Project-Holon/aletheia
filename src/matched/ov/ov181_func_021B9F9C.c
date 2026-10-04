@@ -12,6 +12,8 @@
  * symbols:
  *   d_021BACE4 0x021BACE4 data a4
  */
+#include "../include/Obj06588.h"
+#include "../include/Obj14410.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern const u8 d_021BACE4[];
-void func_021B9F9C(u8 *p){u32 i;*(const void **)p=d_021BACE4;*(u16 *)(p+0x74)=7;*(u16 *)(p+0x78)=0;*(u16 *)(p+0x76)=0;*(u32 *)(p+0x7c)=0;for(i=0;i<16;i++){u8 *q=p+i*4;*(u16 *)(q+0x34)=65535;*(u16 *)(q+0x36)=0;}}
+void func_021B9F9C(u8 *p){u32 i;*(const void * *)&((struct Obj06588 *)p)->f0=d_021BACE4;((struct Obj06588 *)p)->f74=7;((struct Obj06588 *)p)->f78=0;((struct Obj06588 *)p)->f76=0;((struct Obj06588 *)p)->f7C=0;for(i=0;i<16;i++){u8 *q=p+i*4;((struct Obj14410 *)q)->f34=65535;((struct Obj14410 *)q)->f36=0;}}

@@ -41,6 +41,8 @@
  * spelling changes neither bits nor arity. Run02/03 retain identical
  * physical argument stores, with only the five spill offsets corrected.
  */
+#include "../include/Obj02134.h"
+#include "../include/Obj21074.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -78,10 +80,10 @@ u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
     struct State *s;
     struct Flags f;
     p[0x789] = func_021D5440(b);
-    if (func_021B8590(*(void **)(p + 4))) {
+    if (func_021B8590(((struct Obj02134 *)p)->f4)) {
         tag = func_021C1154(p + 0x1ab8, func_021D5440(b));
         if (tag != 6) {
-            func_021CD4B0(*(void **)(p + 0xc), 0x4e,
+            func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4e,
                 func_021C1164(p + 0x1ab8, func_021D5440(a)), tag, 0x27e);
         }
     }
@@ -90,16 +92,16 @@ u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
     f.word = 0;
     for (; i < (*(u8 **)(p + 0x4b4))[0]; i++) {
         old = func_021D62A8((struct Unk021D62A8 *)a);
-        s = *(struct State **)(p + 0x4a8);
+        s = *(struct State * *)&((struct Obj02134 *)p)->f4A8;
         if (s->a == 0) {
             s->a = 1;
             s->b = 1;
         }
-        func_021CD4B0(*(void **)(p + 0xc), 0x30,
-            (*(u8 **)(p + 0x4a8))[2], (*(u8 **)(p + 0x4a8))[3], *(u16 *)q, 0);
-        func_021C0A4C(p, a, d, q, (const u32 *)c, 0x1000, *(struct List **)(p + 0x870));
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x30,
+            (*(u8 **)(p + 0x4a8))[2], (*(u8 **)(p + 0x4a8))[3], ((struct Obj21074 *)q)->f0, 0);
+        func_021C0A4C(p, a, d, q, (const u32 *)c, 0x1000, *(struct List * *)&((struct Obj02134 *)p)->f870);
         sum += func_021C11A4(p, (u32)q, (u32)a, (u32)d,
-            *(u8 **)(p + 0x870), *(u32 *)(p + 0x4b4), 0x1000, f);
+            *(u8 * *)&((struct Obj02134 *)p)->f870, ((struct Obj02134 *)p)->f4B4, 0x1000, f);
         completed++;
         if (func_021D5B68(b)) break;
         if (func_021D5B68(a)) break;
@@ -110,13 +112,13 @@ u32 func_021C0F24(u8 *p, u8 *q, u8 *a, u8 *d, u32 c)
     }
     if (completed != 0) {
         func_021C15AC(p, (*(u8 **)(p + 0x4b4))[5]);
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, 0x20, completed, 0xffff0000);
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5a, 0x20, completed, 0xffff0000);
     }
     if (func_021D5B68(b)) {
-        func_021CD64C(*(void **)(p + 0xc), 0x5b, 0, func_021D5440(b), 0xffff0000);
+        func_021CD64C(((struct Obj02134 *)p)->fC, 0x5b, 0, func_021D5440(b), 0xffff0000);
     }
     if (tag != 6) {
-        func_021CD4B0(*(void **)(p + 0xc), 0x4d,
+        func_021CD4B0(((struct Obj02134 *)p)->fC, 0x4d,
             func_021C1174(p + 0x1ab8, func_021D5440(a)), 0x291);
     }
     p[0x789] = 0x1f;

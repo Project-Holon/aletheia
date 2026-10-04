@@ -11,4 +11,5 @@
  * symbols:
 
  */
-void func_021B9EF0(void *unused,char *p,unsigned a,unsigned b,unsigned c){*(unsigned *)(p+0x34)=a;*(unsigned *)(p+0x38)=b;*(unsigned *)(p+0x3c)=c;}
+#include "../include/Obj10934.h"
+void func_021B9EF0(void *unused,char *p,unsigned a,unsigned b,unsigned c){((struct Obj10934 *)p)->f34=a;((struct Obj10934 *)p)->f38=b;((struct Obj10934 *)p)->f3C=c;}

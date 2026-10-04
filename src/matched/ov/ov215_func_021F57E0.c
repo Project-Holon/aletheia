@@ -19,6 +19,7 @@
  *   func_0203D34C 0x0203D34C arm
  * Legacy void allocator/31324 returns consumed; preserve visible heap input.
  */
+#include "../include/Obj03371.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0203064C(u32,u32,u32);
@@ -35,16 +36,16 @@ int func_021F57E0(void *a,int unused,u32 c)
     func_0203064C(1,143,5<<16);
     p=func_0203159C(a,140,143);
     func_02082BCC(p,0,140);
-    *(u16 *)p=143;
-    *(u32 *)(p+16)=0;
+    ((struct Obj03371 *)p)->f0=143;
+    ((struct Obj03371 *)p)->f10=0;
     p[20]=5;
-    *(u32 *)(p+24)=0;
-    *(u32 *)(p+28)=0;
-    *(u32 *)(p+32)=0;
+    ((struct Obj03371 *)p)->f18=0;
+    ((struct Obj03371 *)p)->f1C=0;
+    ((struct Obj03371 *)p)->f20=0;
     func_021F5C20(c,p);
     func_021F5EB8(c,p);
     func_0204E720(3,16,16,0);
-    *(u32 *)(p+136)=func_02031324(*(u16 *)p);
-    func_0203D34C(0,*(u16 *)p);
+    ((struct Obj03371 *)p)->f88=func_02031324(((struct Obj03371 *)p)->f0);
+    func_0203D34C(0,((struct Obj03371 *)p)->f0);
     return 1;
 }

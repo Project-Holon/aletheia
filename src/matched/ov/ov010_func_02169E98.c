@@ -11,6 +11,8 @@
  * symbols:
  *   func_020452E8  0x020452E8  arm
  */
+#include "../include/Obj19072.h"
+#include "../include/Obj19073.h"
 
 typedef unsigned int u32;
 
@@ -19,5 +21,5 @@ void func_020452E8(struct Descriptor *d);
 
 void func_02169E98(char *p)
 {
-    func_020452E8((struct Descriptor *)(*(u32 *)(*(char **)(p + 0x18) + 8)));
+    func_020452E8((struct Descriptor *)(((struct Obj19073 *)(*(char * *)&((struct Obj19072 *)p)->f18))->f8));
 }

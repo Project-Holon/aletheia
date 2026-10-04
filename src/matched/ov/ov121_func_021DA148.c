@@ -15,6 +15,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj06448.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,4 +27,4 @@ extern void func_0201F7A8(void *,u32);
 extern void func_020456F8(struct Descriptor *d);
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
-void func_021DA148(u8 *p) { func_0202020C(*(void **)(p+16),0,0); func_0201F868(*(void **)(p+20)); func_0201F7A8(*(void **)p,0); func_020456F8(*(void **)p); func_020452E8(*(void **)p); func_020307B0(p); }
+void func_021DA148(u8 *p) { func_0202020C(((struct Obj06448 *)p)->f10,0,0); func_0201F868(((struct Obj06448 *)p)->f14); func_0201F7A8(((struct Obj06448 *)p)->f0,0); func_020456F8(((struct Obj06448 *)p)->f0); func_020452E8(((struct Obj06448 *)p)->f0); func_020307B0(p); }

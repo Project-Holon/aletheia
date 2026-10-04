@@ -21,6 +21,8 @@
  *   func_02009A00 0x02009A00 thumb
  *   func_02009918 0x02009918 thumb
  */
+#include "../include/Obj00298.h"
+#include "../include/Obj23065.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -46,7 +48,7 @@ int func_021C6460(char *p,void *q,u32 arg)
     void *v;
     u64 old,id;
     int valid,result;
-    v=(void *)func_0201283C(*(void **)(p+4));
+    v=(void *)func_0201283C(((struct Obj23065 *)p)->f4);
     old=func_0205994C(func_02009860(v));
     for(i=0;i<32;i++) {
         if(func_02009A1C(v,i)==0) {
@@ -64,5 +66,5 @@ int func_021C6460(char *p,void *q,u32 arg)
     }
     return 0;
 }
-void func_021C6514(char *p,int x) { *(int *)(p+0x60)=x; *(int *)(p+0x64)=1; }
+void func_021C6514(char *p,int x) { ((struct Obj00298 *)p)->f60=x; ((struct Obj00298 *)p)->f64=1; }
 void func_021C651C(char *p,int x) { p[11]=x; }

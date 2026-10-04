@@ -13,6 +13,7 @@
  *   func_020270AC  0x020270AC  thumb
  *   func_0202744C  0x0202744C  thumb
  */
+#include "../include/Obj00121.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ int func_02165490(int a0, int a1)
 
 t4 = a0 + 0;
 a0 = 0x20;
-*(u16 *)((char *)t4 + 0x30) = a0;
+((struct Obj00121 *)t4)->f30 = a0;
 a0 = a1 + 0;
 a1 = t4 + 0;
 a1 = a1 + 0x34;

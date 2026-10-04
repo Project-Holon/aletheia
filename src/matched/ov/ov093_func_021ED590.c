@@ -16,6 +16,8 @@
  *   func_02031290  0x02031290  arm
  *   func_021ED5E8  0x021ED5E8  thumb  ov093
  */
+#include "../include/Obj12173.h"
+#include "../include/Obj13568.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -32,11 +34,11 @@ void func_021ED590(char *p, u8 k, u32 a)
     struct S *t;
 
     if (k != 6) {
-        t = (struct S *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED5E8, 0x18, 1));
+        t = (struct S *)func_02031290(func_020311B8(((struct Obj13568 *)p)->f2C, (void *)func_021ED5E8, 0x18, 1));
         t->p = p;
         t->k = k;
         t->a = a;
-        t->v = func_021B8E70(*(u8 **)(p + 0x134), k);
+        t->v = func_021B8E70(*(u8 * *)&((struct Obj13568 *)p)->f134, k);
         t->cnt = (u8 *)p + 0x40;
         t->c = 0;
         (*t->cnt)++;
@@ -45,7 +47,7 @@ void func_021ED590(char *p, u8 k, u32 a)
 
 int func_021ED5D8(char *p)
 {
-    if (*(u8 *)(p + 0x40) == 0)
+    if (((struct Obj12173 *)p)->f40 == 0)
         return 1;
     return 0;
 }

@@ -23,6 +23,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj02253.h"
 extern void func_0204E720(unsigned,int,int,int);
 extern void func_021BC26C(void *);
 struct PrintSys;
@@ -44,16 +45,16 @@ extern void func_020306F0(unsigned int heap);
 int func_021BCB4C(void *a,int b,int c,char *p)
 {
     func_0204E720(3,16,16,0);
-    if(*(void **)(p+0x20))func_021BC26C(*(void **)(p+0x20));
-    if(*(unsigned *)(p+0x24))func_020307B0((void *)(*(unsigned *)(p+0x24)));
-    func_021BC39C(*(void **)(p+0x1c));
-    func_021BE778(*(void **)(p+0x18));
-    func_021BD954(*(void **)(p+0x14));
-    func_02030EAC(*(void **)(p+0x10));
-    func_0201C6EC((struct PrintSys *)(*(unsigned *)(p+0xc)));
-    func_0201C4C0(*(void **)(p+0xc));
-    func_0201D83C(*(void **)(p+8));
-    func_021BCEC0(*(char **)(p+4));
+    if(((struct Obj02253 *)p)->f20)func_021BC26C(((struct Obj02253 *)p)->f20);
+    if(((struct Obj02253 *)p)->f24)func_020307B0((void *)(((struct Obj02253 *)p)->f24));
+    func_021BC39C(((struct Obj02253 *)p)->f1C);
+    func_021BE778(((struct Obj02253 *)p)->f18);
+    func_021BD954(((struct Obj02253 *)p)->f14);
+    func_02030EAC(((struct Obj02253 *)p)->f10);
+    func_0201C6EC((struct PrintSys *)(*(unsigned *)&((struct Obj02253 *)p)->fC));
+    func_0201C4C0(((struct Obj02253 *)p)->fC);
+    func_0201D83C(((struct Obj02253 *)p)->f8);
+    func_021BCEC0(*(char * *)&((struct Obj02253 *)p)->f4);
     func_020315D4(a);
     func_020306F0(149);
     return 1;

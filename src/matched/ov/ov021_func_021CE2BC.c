@@ -18,6 +18,7 @@
  *   func_021CE9E4  0x021CE9E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
 
 typedef unsigned char u8;
 typedef signed char   s8;
@@ -51,7 +52,7 @@ void func_021CE2BC(u8 *p)
         func_021CE934(p, p + 0x30, 0);
         n++;
     }
-    if (*(s8 *)(p + 0x572) != n) {
+    if (*(s8 *)&((struct Obj00011 *)p)->f572 != n) {
         if (func_021CE84C(p, n) == 1) {
             p[0x572] = n;
             if (p[0x520] == 1 && n == 1) {
@@ -60,7 +61,7 @@ void func_021CE2BC(u8 *p)
         }
     }
     if (p[0x579] == 1) {
-        if (func_021CE78C(p) == 1 && *(u32 *)(p + 0x130) == 0) {
+        if (func_021CE78C(p) == 1 && ((struct Obj00011 *)p)->f130 == 0) {
             if (n == 1) {
                 func_021CE9E4(p, 8);
             }

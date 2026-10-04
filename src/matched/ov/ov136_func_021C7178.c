@@ -12,6 +12,8 @@
  * symbols:
  *   func_0202208C   0x0202208C  thumb
  */
+#include "../include/Obj23637.h"
+#include "../include/Obj23638.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -19,6 +21,6 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 int func_021C7178(u8 *p, u32 v)
 {
     func_0202208C((void *)0, 0, 0, 0, 6, 1, 0x66);
-    *(u32 *)(*(u8 **)(p + 8) + 0x308) = v;
+    ((struct Obj23638 *)(*(u8 * *)&((struct Obj23637 *)p)->f8))->f308 = v;
     return 2;
 }

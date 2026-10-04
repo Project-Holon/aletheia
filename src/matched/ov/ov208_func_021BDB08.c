@@ -12,23 +12,25 @@
  * symbols:
  *   func_021BD2E0 0x021BD2E0 thumb ov208
  */
+#include "../include/Obj10895.h"
+#include "../include/Obj14649.h"
 extern int func_021BD2E0(char *);
 struct State { char pad[0x68]; unsigned char count; };
 unsigned func_021BDB08(const struct State *p)
 {
-    int key=func_021BD2E0(*(char **)((char *)p+0x30));
+    int key=func_021BD2E0(*(char * *)&((struct Obj10895 *)p)->f30);
     unsigned result=0;
     unsigned char i;
     unsigned count;
     char *entry;
     if(key!=-1) {
-        switch(*(unsigned *)((char *)p+0x10)) {
+        switch(((struct Obj10895 *)p)->f10) {
         case 0: case 1: case 2:
             i=0;
             count=p->count;
             for(;i<count;i++) {
                 entry=*(char **)((char *)p+i*8+0x6c);
-                if(key==*(int *)entry) { result=*(unsigned *)(entry+0xc); break; }
+                if(key==((struct Obj14649 *)entry)->f0) { result=((struct Obj14649 *)entry)->fC; break; }
             }
             break;
         }

@@ -15,6 +15,7 @@
  *   func_02045808 0x02045808 arm
  *   func_021B967C 0x021B967C thumb ov100
  */
+#include "../include/Obj00060.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Template { int heap; u8 count,pad[3]; int ptr,flag; u8 x,y,z,w; };
@@ -32,25 +33,25 @@ extern void func_021B967C(int,int);
 void func_021BA1D0(int a) {
  struct Template t;
  int v;
- t.heap=*(u16 *)(a+0x278);
+ t.heap=((struct Obj00060 *)a)->f278;
  t.count=2;
  t.ptr=a+0xcc8;
  t.flag=1;
  t.x=32; t.y=13; t.z=13; t.w=3;
  v=(int)func_020457B0(100,t.heap);
- *(int *)(a+0xcc8)=v;
- func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),26,(void *)v);
- *(u16 *)(a+0xccc)=0x39e3;
- v=(int)func_020457B0(100,*(u16 *)(a+0x278));
- *(int *)(a+0xcd4)=v;
- func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),27,(void *)v);
- *(u16 *)(a+0xcd8)=0x39e3;
- *(int *)(a+0xcd0)=0;
- *(int *)(a+0xcdc)=0;
- v=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(*(int *)(a+0xcc4)));
- *(int *)(a+0xcc0)=v;
- switch(*(int *)(a+0x24c)) {case 9: case 10: case 11: break; default: func_02027CD8(v,1); break;}
- func_02045808((struct U16Vec *)(*(int *)(a+0xcc8)));
- func_02045808((struct U16Vec *)(*(int *)(a+0xcd4)));
+ ((struct Obj00060 *)a)->fCC8=v;
+ func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),26,(void *)v);
+ ((struct Obj00060 *)a)->fCCC=0x39e3;
+ v=(int)func_020457B0(100,((struct Obj00060 *)a)->f278);
+ ((struct Obj00060 *)a)->fCD4=v;
+ func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),27,(void *)v);
+ ((struct Obj00060 *)a)->fCD8=0x39e3;
+ ((struct Obj00060 *)a)->fCD0=0;
+ ((struct Obj00060 *)a)->fCDC=0;
+ v=(int)func_02027778((struct TaskMenuTmpl *)(&t),(void *)(((struct Obj00060 *)a)->fCC4));
+ ((struct Obj00060 *)a)->fCC0=v;
+ switch(((struct Obj00060 *)a)->f24C) {case 9: case 10: case 11: break; default: func_02027CD8(v,1); break;}
+ func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCC8));
+ func_02045808((struct U16Vec *)(((struct Obj00060 *)a)->fCD4));
  func_021B967C(a,1);
 }

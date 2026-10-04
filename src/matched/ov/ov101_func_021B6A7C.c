@@ -14,6 +14,7 @@
  *   func_021B6BA8 0x021B6BA8 thumb ov101
  *   func_021B6A60 0x021B6A60 thumb ov101
  */
+#include "../include/Obj22111.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,7 +30,7 @@ void func_021B6A7C(u8 *p,u16 *state)
         if(func_021B6C20((int *)(p+4),0,58,(int)p)) *state=1;
         break;
     case 1:
-        switch(*(int *)(p+0x20)) {
+        switch(((struct Obj22111 *)p)->f20) {
         case 0: func_021B6A3C(p,(u32)func_021B6AD8); break;
         case 1: func_021B6A3C(p,(u32)func_021B6BA8); break;
         case 2: func_021B6A3C(p,(u32)func_021B6A60); break;

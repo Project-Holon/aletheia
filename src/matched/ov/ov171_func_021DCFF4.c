@@ -14,6 +14,9 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_021DD500 0x021DD500 thumb ov171
  */
+#include "../include/Obj00347.h"
+#include "../include/Obj24051.h"
+#include "../include/Obj24052.h"
 typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -25,7 +28,7 @@ extern void func_020061E4(u32 a);
 extern int func_021DD500(char *,int,int,int);
 int func_021DCFF4(char *p) {
     int choice;
-    if (!func_0201C6B4(*(void **)(p+0xb6c))) return 4;
+    if (!func_0201C6B4(((struct Obj00347 *)p)->fB6C)) return 4;
     choice=func_021DE8A8(p);
     switch(choice) {
     case 0:
@@ -42,18 +45,18 @@ int func_021DCFF4(char *p) {
         break;
     case 2:
         func_020061E4(0x556);
-        *(u16 *)(*(char **)p+6)=1;
+        ((struct Obj24051 *)(*(char * *)&((struct Obj00347 *)p)->f0))->f6=1;
         return func_021DD500(p,14,8,10);
     case 3:
         func_020061E4(0x551);
-        *(u16 *)(*(char **)p+6)=0;
+        ((struct Obj24052 *)(*(char * *)&((struct Obj00347 *)p)->f0))->f6=0;
         return func_021DD500(p,15,9,10);
     case 4:
         func_020061E4(0x54c);
-        *(s8 *)(p+0xc5d)=*(s8 *)(p+0xc5c);
+        ((struct Obj00347 *)p)->fC5D=((struct Obj00347 *)p)->fC5C;
         return 6;
     case 5: case 6: case 7: case 8: case 9: case 10:
-        *(s8 *)(p+0xc5d)=choice-5;
+        ((struct Obj00347 *)p)->fC5D=choice-5;
         func_020061E4(0x54c);
         return 6;
     }

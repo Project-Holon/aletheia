@@ -11,33 +11,34 @@
  * symbols:
  *   func_021BFBC8 0x021BFBC8 thumb ov204
  */
+#include "../include/Obj01974.h"
 
 extern void func_021BFBC8(char *, unsigned int);
 
 int func_021BFB2C(char *p)
 {
-    switch (*(unsigned int *)(p + 28))
+    switch (((struct Obj01974 *)p)->f1C)
     {
     case 0: break;
     case 1:
-        --*(unsigned int *)(p + 40);
-        func_021BFBC8(p, *(unsigned int *)(p + 40));
-        if (*(unsigned int *)(p + 40) == 50) return 1;
+        --((struct Obj01974 *)p)->f28;
+        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
+        if (((struct Obj01974 *)p)->f28 == 50) return 1;
         break;
     case 2:
-        ++*(unsigned int *)(p + 40);
-        func_021BFBC8(p, *(unsigned int *)(p + 40));
-        if (*(unsigned int *)(p + 40) == 70) return 1;
+        ++((struct Obj01974 *)p)->f28;
+        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
+        if (((struct Obj01974 *)p)->f28 == 70) return 1;
         break;
     case 3:
-        --*(unsigned int *)(p + 40);
-        func_021BFBC8(p, *(unsigned int *)(p + 40));
-        if (*(unsigned int *)(p + 40) == 0) return 1;
+        --((struct Obj01974 *)p)->f28;
+        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
+        if (((struct Obj01974 *)p)->f28 == 0) return 1;
         break;
     case 4:
-        ++*(unsigned int *)(p + 40);
-        func_021BFBC8(p, *(unsigned int *)(p + 40));
-        if (*(unsigned int *)(p + 40) == 120) return 1;
+        ++((struct Obj01974 *)p)->f28;
+        func_021BFBC8(p, ((struct Obj01974 *)p)->f28);
+        if (((struct Obj01974 *)p)->f28 == 120) return 1;
         break;
     }
     return 0;

@@ -14,6 +14,7 @@
  *   python tools/match.py one --src src/matched/func_020519E4.c \
  *       --func func_020519E4 --addr 0x020519E4 --cc 1.1p1 --arm
  */
+#include "../include/Obj16190.h"
 
 typedef unsigned short u16;
 
@@ -24,5 +25,5 @@ void func_020519E4(void *p, u16 *q)
     char *r = func_020518AC(p, 3);
 
     if (r != 0)
-        *(u16 *)(r + 2) = *q;
+        ((struct Obj16190 *)r)->f2 = *q;
 }

@@ -14,6 +14,7 @@
  *   func_021F86A8 0x021F86A8 thumb ov135
  *   d_02202ED8 0x02202ED8 data a4
  */
+#include "../include/Obj06512.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,8 +34,8 @@ void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8
     int count;
     Menu src;
     func_02043B5C(func_02045770(win), 15);
-    kind = *(u16 *)(cfg + 6) + *(u16 *)(cfg + 4);
-    count = func_021F86A8(menu, msg, endmsg, *(u16 **)(cfg + 0x18), *(u32 *)(cfg + 0x14), *(u32 *)(cfg + 0x1C), kind, bag);
+    kind = ((struct Obj06512 *)cfg)->f6 + ((struct Obj06512 *)cfg)->f4;
+    count = func_021F86A8(menu, msg, endmsg, *(u16 * *)&((struct Obj06512 *)cfg)->f18, ((struct Obj06512 *)cfg)->f14, ((struct Obj06512 *)cfg)->f1C, kind, bag);
     src = d_02202ED8;
     src.count = count;
     src.w[0] = (u32)*menu;

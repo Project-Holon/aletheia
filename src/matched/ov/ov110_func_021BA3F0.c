@@ -28,6 +28,8 @@
  *   func_021BB6A0 0x021BB6A0 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj01711.h"
+#include "../include/Obj03749.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021BCEE4(u8 *,int);
@@ -48,36 +50,36 @@ extern u16 func_021BF724(u8 *);
 extern void func_021BB6A0(u8 *,unsigned);
 extern void func_021B9CBC(u8 *);
 void func_021BA3F0(void *unused,u8 *p) {
-    u8 *q=*(u8 **)p;
+    u8 *q=*(u8 * *)&((struct Obj03749 *)p)->f0;
     int a,b;
-    switch(*(int *)(p+0x14)) {
+    switch(((struct Obj03749 *)p)->f14) {
     case 0:
-        func_021BCEE4(*(u8 **)(q+0x64),1);
-        func_021BB9C0(*(u8 **)(q+0x58),0);
-        ++*(int *)(p+0x14);
+        func_021BCEE4(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
+        func_021BB9C0(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
+        ++((struct Obj03749 *)p)->f14;
         break;
     case 1:
-        a=func_021BBB0C(*(u8 **)(q+0x58),0);
-        b=func_021BCF38(*(u8 **)(q+0x64),1);
+        a=func_021BBB0C(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
+        b=func_021BCF38(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
         if(a && b) {
-            func_021BCF70(*(u8 **)(q+0x64),1);
-            func_021BF7E0(*(u8 **)(p+4));
-            func_021BCC58(*(u8 **)(q+0x64));
-            func_021BB658(*(u8 **)(q+0x58),0);
-            func_021BB8D8(*(u8 **)(q+0x58));
-            func_021BB8B8(*(u8 **)(q+0x58));
-            if(func_021BF6DC(*(u8 **)(p+4))==1) func_021BB958(*(u8 **)(q+0x58));
-            if(func_021BF6DC(*(u8 **)(p+4))==0) func_021BAD68(p,2);
+            func_021BCF70(*(u8 * *)&((struct Obj01711 *)q)->f64,1);
+            func_021BF7E0(*(u8 * *)&((struct Obj03749 *)p)->f4);
+            func_021BCC58(*(u8 * *)&((struct Obj01711 *)q)->f64);
+            func_021BB658(*(u8 * *)&((struct Obj01711 *)q)->f58,0);
+            func_021BB8D8(*(u8 * *)&((struct Obj01711 *)q)->f58);
+            func_021BB8B8(*(u8 * *)&((struct Obj01711 *)q)->f58);
+            if(func_021BF6DC(*(u8 * *)&((struct Obj03749 *)p)->f4)==1) func_021BB958(*(u8 * *)&((struct Obj01711 *)q)->f58);
+            if(func_021BF6DC(*(u8 * *)&((struct Obj03749 *)p)->f4)==0) func_021BAD68(p,2);
             else func_021BAD68(p,4);
-            ++*(int *)(p+0x14);
+            ++((struct Obj03749 *)p)->f14;
         }
         break;
     case 2:
-        if(func_021BB954(*(u8 **)(q+0x58))) ++*(int *)(p+0x14);
+        if(func_021BB954(*(u8 * *)&((struct Obj01711 *)q)->f58)) ++((struct Obj03749 *)p)->f14;
         break;
     case 3:
-        func_021BB6A0(*(u8 **)(q+0x58),func_021BF724(*(u8 **)(q+0x18)));
-        func_021BB658(*(u8 **)(q+0x58),1);
+        func_021BB6A0(*(u8 * *)&((struct Obj01711 *)q)->f58,func_021BF724(*(u8 * *)&((struct Obj01711 *)q)->f18));
+        func_021BB658(*(u8 * *)&((struct Obj01711 *)q)->f58,1);
         func_021B9CBC(p);
         break;
     }

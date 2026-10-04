@@ -16,11 +16,12 @@
  *     the word it points at.  Both loads are register-offset, so the listing
  *     pools one plain literal 0x1464.
  */
+#include "../include/Obj24391.h"
 
 typedef unsigned long u32;
 
 u32 func_021DC194(char *obj)
 {
-    return *(u32 *)(*(u32 *)(obj + 0x1464));
+    return *(u32 *)(((struct Obj24391 *)obj)->f1464);
 }
 

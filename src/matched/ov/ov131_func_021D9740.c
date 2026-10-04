@@ -28,6 +28,8 @@
  *   func_021DB7D0 0x021DB7D0 thumb ov131
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj00136.h"
+#include "../include/Obj00502.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,11 +57,11 @@ void func_021D9740(u8 *a,u8 *p)
     u8 i;
     int ready;
     void *cell;
-    if(*(u32 *)(p+4)==0 && *(u32 *)(p+8)==0 && *(u32 *)(p+16)==0 && *(u32 *)(p+32)==0) func_021DA958(a,p);
-    if(*(u32 *)(p+4)==1) {
+    if(((struct Obj00502 *)p)->f4==0 && ((struct Obj00502 *)p)->f8==0 && ((struct Obj00502 *)p)->f10==0 && ((struct Obj00502 *)p)->f20==0) func_021DA958(a,p);
+    if(((struct Obj00502 *)p)->f4==1) {
         ready=1;
         for(i=0;i<=7;i++) {
-            if(func_0201C6C4(*(void **)(a+0x84),func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
+            if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
                 ready=0;
                 break;
             }
@@ -72,13 +74,13 @@ void func_021D9740(u8 *a,u8 *p)
                 func_02041B6C(func_02045730(cell));
             }
             func_021D9E44(a,p);
-            *(u32 *)(p+4)=0;
+            ((struct Obj00502 *)p)->f4=0;
         }
     }
-    if(*(u32 *)(p+8)==1) {
+    if(((struct Obj00502 *)p)->f8==1) {
         ready=1;
         for(i=8;i<=11;i++) {
-            if(func_0201C6C4(*(void **)(a+0x84),func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
+            if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(*(void **)((p+i*4)+0x5c)))==1) {
                 ready=0;
                 break;
             }
@@ -91,36 +93,36 @@ void func_021D9740(u8 *a,u8 *p)
                 func_02041B6C(func_02045730(cell));
             }
             func_021D9EF0(a,p);
-            *(u32 *)(p+8)=0;
+            ((struct Obj00502 *)p)->f8=0;
         }
     }
-    if(*(u32 *)(p+12)==1) {
-        if(func_0201C6C4(*(void **)(a+0x84),func_02045770(*(void **)(p+0x8c)))==0) {
-            cell=*(void **)(p+0x8c);
+    if(((struct Obj00502 *)p)->fC==1) {
+        if(func_0201C6C4(((struct Obj00136 *)a)->f84,func_02045770(((struct Obj00502 *)p)->f8C))==0) {
+            cell=((struct Obj00502 *)p)->f8C;
             func_02045334(cell);
             func_02045374(cell);
             func_02041B6C(func_02045730(cell));
-            *(u32 *)(p+12)=0;
+            ((struct Obj00502 *)p)->fC=0;
         }
     }
-    if(*(u32 *)(p+16)==1 && func_0201C6B4(*(void **)(a+0x84))==1) {
-        *(u32 *)(p+20)=0;
+    if(((struct Obj00502 *)p)->f10==1 && func_0201C6B4(((struct Obj00136 *)a)->f84)==1) {
+        ((struct Obj00502 *)p)->f14=0;
         func_021DBA78((p+0xb0)+p[0x2a]*24,0);
         p[0x2a]=5;
         func_021DB468(a,p,p[0x29],0);
-        func_0204B3DC(*(void **)(p+0x9c),0);
-        *(u32 *)(p+16)=0;
+        func_0204B3DC(((struct Obj00502 *)p)->f9C,0);
+        ((struct Obj00502 *)p)->f10=0;
     }
     for(i=0;i<5;i++) func_021DB7D0(a,p,(p+0xb0)+i*24);
-    if(*(u32 *)(p+32)==1) {
+    if(((struct Obj00502 *)p)->f20==1) {
         p[40]++;
         if((int)p[40]%8<4) {
-            if(*(u32 *)(p+36)==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),15);
+            if(((struct Obj00502 *)p)->f24==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),15);
             else func_021DBA78((p+0xb0)+p[41]*24,0);
         } else {
-            if(*(u32 *)(p+36)==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),16);
+            if(((struct Obj00502 *)p)->f24==1) func_0204B878(*(void **)((p+p[41]*24)+0xb8),16);
             else func_021DBA78((p+0xb0)+p[41]*24,1);
         }
-        if(p[40]>16) *(u32 *)(a+80)=2;
+        if(p[40]>16) ((struct Obj00136 *)a)->f50=2;
     }
 }

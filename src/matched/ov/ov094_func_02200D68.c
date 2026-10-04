@@ -15,6 +15,7 @@
  *   func_021F9260  0x021F9260  thumb  ov094
  *   func_02015FBC  0x02015FBC  thumb
  */
+#include "../include/Obj06316.h"
 typedef unsigned char u8;
 
 extern int func_022019F4(char *p, int key);
@@ -24,8 +25,8 @@ extern void func_02015FBC(char *p, u8 v);
 
 void func_02200D68(void *o, char *q)
 {
-    char *p = *(char **)q;
-    int i = func_022019F4(p, *(int *)(q + 4));
+    char *p = *(char * *)&((struct Obj06316 *)q)->f0;
+    int i = func_022019F4(p, ((struct Obj06316 *)q)->f4);
     char *e;
     int off;
     int r;
@@ -40,12 +41,12 @@ void func_02200D68(void *o, char *q)
         func_021F89BC(o);
         return;
     }
-    if (*(int *)(q + 0x50) != *(u8 *)(p + *(int *)(q + 4) + 0x596)) {
+    if (((struct Obj06316 *)q)->f50 != *(u8 *)(p + ((struct Obj06316 *)q)->f4 + 0x596)) {
         func_021F89BC(o);
         return;
     }
     r = func_021F9260(q + 0x14, (int *)(q + 8));
-    func_02015FBC(*(char **)(e + off), *(int *)(q + 8) >> 12);
+    func_02015FBC(*(char **)(e + off), ((struct Obj06316 *)q)->f8 >> 12);
     if (r == 1)
         func_021F89BC(o);
 }

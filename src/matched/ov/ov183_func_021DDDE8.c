@@ -13,6 +13,9 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  */
+#include "../include/Obj06603.h"
+#include "../include/Obj10733.h"
+#include "../include/Obj10734.h"
 typedef unsigned char  u8;
 extern void func_021DE12C(char *p);
 extern void func_021FC734(u8 *p);
@@ -25,14 +28,14 @@ void func_021DDDE8(char *p, char *q)
     func_021DE12C(p + 8);
     for (i = 0; i < 16; i++) {
         slot = p + i * 4;
-        if (*(void **)(slot + 0x34)) {
-            func_021FC734(*(void **)(slot + 0x34));
-            *(int *)(slot + 0x34) = 0;
+        if (((struct Obj10734 *)slot)->f34) {
+            func_021FC734(((struct Obj10734 *)slot)->f34);
+            *(int *)&((struct Obj10734 *)slot)->f34 = 0;
         }
     }
-    func_021FBDA4(*(int *)(q + 8), 10);
-    if (*(void **)(p + 0x1c)) {
-        func_021FD15C(*(void **)(p + 0x1c), *(int *)(q + 8));
-        *(int *)(p + 0x1c) = 0;
+    func_021FBDA4(((struct Obj06603 *)q)->f8, 10);
+    if (((struct Obj10733 *)p)->f1C) {
+        func_021FD15C(((struct Obj10733 *)p)->f1C, ((struct Obj06603 *)q)->f8);
+        *(int *)&((struct Obj10733 *)p)->f1C = 0;
     }
 }

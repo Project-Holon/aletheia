@@ -16,6 +16,7 @@
  *   func_0204B404 0x0204B404 arm
  *   d_021CA6C8 0x021CA6C8 data a2
  */
+#include "../include/Obj00179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -40,14 +41,14 @@ static inline void Outside(int wnd,int effect)
 void func_021C87B0(u8 *p)
 {
     Point pos;
-    func_0204B3DC(*(void **)(p + 0x1a0),1);
-    func_0204B878(*(void **)(p + 0x1a0),1);
-    func_0204B9A0(*(void **)(p + 0x1a0));
-    *(int *)(p + 0x1a8)=0;
-    func_0204B92C(*(void **)(p + 0x1a0),1);
+    func_0204B3DC(((struct Obj00179 *)p)->f1A0,1);
+    func_0204B878(((struct Obj00179 *)p)->f1A0,1);
+    func_0204B9A0(((struct Obj00179 *)p)->f1A0);
+    *(int *)&((struct Obj00179 *)p)->f1A8=0;
+    func_0204B92C(((struct Obj00179 *)p)->f1A0,1);
     pos.x=d_021CA6C8[*(s16 *)(p + 4)].x * 8;
     pos.y=d_021CA6C8[*(s16 *)(p + 4)].y * 8 - 4;
-    func_0204B404(*(void **)(p + 0x1a0),&pos,0);
+    func_0204B404(((struct Obj00179 *)p)->f1A0,&pos,0);
     *(volatile u16 *)0x0400004A=(u16)((*(volatile u16 *)0x0400004A & ~0x3F00) | 0x700);
     Outside(31,1);
     *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000 & ~0xe000) | 0x8000;

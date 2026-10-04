@@ -11,6 +11,7 @@
  *
  * Byte getter 0x8ED bytes into the block.
  */
+#include "../include/Obj18283.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,5 +23,5 @@ typedef int BOOL;
 
 u8 func_021C1C64(char *p)
 {
-    return *(u8 *)(p + 0x8ED);
+    return ((struct Obj18283 *)p)->f8ED;
 }

@@ -26,6 +26,7 @@
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0203D6CC.c  *       --func func_0203D6CC --addr 0x0203D6CC --cc 1.1p1 --arm
  */
+#include "../include/Obj15991.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,5 +43,5 @@ u32 func_0203D6CC(void)
 
     if (p == 0)
         func_02034714(file_020A7CA0, 0x5B1, file_020A7D2C);
-    return *(u16 *)(p + 0x6C);
+    return ((struct Obj15991 *)p)->f6C;
 }

@@ -10,5 +10,6 @@
  * symbols:
  *   func_02006504 0x02006504 thumb
  */
+#include "../include/Obj23186.h"
 extern void func_02006504(void);
-void func_021F9690(char *p){*(int *)(p+0x28)=0;func_02006504();}
+void func_021F9690(char *p){((struct Obj23186 *)p)->f28=0;func_02006504();}

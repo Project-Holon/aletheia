@@ -15,6 +15,7 @@
  *   func_021DEA68 0x021DEA68 thumb ov137
  *   func_02030D28 0x02030D28 arm
  */
+#include "../include/Obj23742.h"
 typedef unsigned char u8;
 extern int (*const d_021E217C[])(void *);
 typedef unsigned int   u32;
@@ -35,7 +36,7 @@ int func_021DEA0C(int a, int b, int c, u8 *p)
     func_021E07A4(p);
     func_021DF864(p);
     func_021DEA68(p);
-    func_02030D28(*(void **)(p + 0xd98));
+    func_02030D28(((struct Obj23742 *)p)->fD98);
     if (func_020221A4() && func_0200FB24()) return 1;
     return 0;
 }

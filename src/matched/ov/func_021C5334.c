@@ -16,6 +16,7 @@
  *   func_021C56F8  0x021C56F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18304.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern int func_021C56F8(int *a);
 
 int func_021C5334(u32 a)
 {
-func_0201C4E4((struct PrintSys *)(*(u32 *)((u8 *)(a) + 108)));
+func_0201C4E4((struct PrintSys *)(((struct Obj18304 *)((u8 *)(a)))->f6C));
 return func_021C56F8((int *)a);
 }
 

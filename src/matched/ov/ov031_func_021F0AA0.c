@@ -21,6 +21,7 @@
  * `j++`/`j--` in the loop body rather than the for header gives i r7 and j r5
  * (the comma form swaps them in both first loops).
  */
+#include "../include/Obj07626.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,22 +41,22 @@ void func_021F0AA0(void *a, char *b, int n)
 
     if (n > 0) {
         for (i = n, j = 0; i < 3; i++) {
-            func_021F0A04(a, i, j, b, *(int *)(b + 0x440) - n);
+            func_021F0A04(a, i, j, b, ((struct Obj07626 *)b)->f440 - n);
             j++;
         }
         for (j = 3 - n; j < 3; j++) {
-            e = func_021BBC2C(b, *(int *)(b + 0x440) - 2 + j);
+            e = func_021BBC2C(b, ((struct Obj07626 *)b)->f440 - 2 + j);
             if (e == 0)
                 func_02034714(d_021F10D0, 0, d_021F10D0);
             func_021F07AC(a, e, (u8)j);
         }
     } else {
         for (i = n + 2, j = 2; i > -1; i--) {
-            func_021F0A04(a, i, j, b, *(int *)(b + 0x440) - n);
+            func_021F0A04(a, i, j, b, ((struct Obj07626 *)b)->f440 - n);
             j--;
         }
         for (j = -1 - n; j > -1; j--) {
-            e = func_021BBC2C(b, *(int *)(b + 0x440) - 2 + j);
+            e = func_021BBC2C(b, ((struct Obj07626 *)b)->f440 - 2 + j);
             if (e == 0)
                 func_02034714(d_021F10D0, 0, d_021F10D0);
             func_021F07AC(a, e, (u8)j);

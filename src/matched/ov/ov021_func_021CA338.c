@@ -15,6 +15,7 @@
  *   func_021CBED8  0x021CBED8  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09722.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,5 +33,5 @@ void func_021CA338(u8 *p, int alt)
     for (i = 0; i < 3; i++)
         p[0x664 + i] = func_021CBED8(p, p + 0x2c8 + i * 0x120, base + i, p[8],
                                      (u16 *)(p + 0x22), (u16 *)(p + 0x2a),
-                                     p + 0x628 + i * 0x14, *(u32 *)(p + 4));
+                                     p + 0x628 + i * 0x14, ((struct Obj09722 *)p)->f4);
 }

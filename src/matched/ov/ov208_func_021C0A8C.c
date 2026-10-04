@@ -16,6 +16,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   ov208_func_021BDC48  0x021BDC48  thumb  ov208
  */
+#include "../include/Obj06683.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,7 +58,7 @@ void ov208_func_021C0A8C(u16 *heap, u8 *p, int key)
         func_0204B92C((struct Obj *)OBJ(next), 1);
         func_0204B878(OBJ(next), nextAnim);
         p[0xd8] = 7;
-        if (*(u32 *)(p + 0x6c) == 0 || *(u32 *)(p + 0x6c) == 5)
+        if (((struct Obj06683 *)p)->f6C == 0 || ((struct Obj06683 *)p)->f6C == 5)
             ov208_func_021BDC48(scene, 1);
     }
 }

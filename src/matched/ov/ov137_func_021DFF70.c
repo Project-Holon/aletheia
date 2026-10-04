@@ -15,6 +15,7 @@
  *   func_02049238 0x02049238 arm
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj00835.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,9 +29,9 @@ void func_021DFF70(u8 *p)
 {
     void *arc;
     arc = func_020490F4(184,114);
-    *(int *)(p+3436) = func_0204A6C8(arc,6,0,0,114);
-    *(int *)(p+3440) = func_0204ABF0(arc,0,0,0,114);
-    *(int *)(p+3444) = func_0204AF28(arc,10,14,114);
+    ((struct Obj00835 *)p)->fD6C = func_0204A6C8(arc,6,0,0,114);
+    ((struct Obj00835 *)p)->fD70 = func_0204ABF0(arc,0,0,0,114);
+    ((struct Obj00835 *)p)->fD74 = func_0204AF28(arc,10,14,114);
     func_02049238(arc);
     func_0203D34C(1,114);
 }

@@ -17,6 +17,7 @@
  *   func_02048A18  0x02048A18  arm
  *   func_0204784C  0x0204784C  arm
  */
+#include "../include/Obj07721.h"
 
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -36,7 +37,7 @@ void func_021B9E7C(int *p, int x)
     void *h;
     v = x << 12;
     func_020115EC((void *)p[3], v);
-    base = func_020489F4((void *)p[0], *(unsigned short *)((char *)p + 4));
+    base = func_020489F4((void *)p[0], ((struct Obj07721 *)p)->f4);
     for (i = 0; i < 3; i++) {
         h = (void *)func_02048A18((void *)p[0], (unsigned short)(base + i));
         func_0204784C(h, 0, &v);

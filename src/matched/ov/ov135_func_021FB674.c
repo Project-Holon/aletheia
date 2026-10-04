@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021FA514 0x021FA514 thumb ov135
  */
+#include "../include/Obj00195.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -28,25 +29,25 @@ int func_021FB674(u8 *p)
     r = func_021FA514(p, p + 0x60);
     switch ((u32)r) {
     case -2:
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
-        *(int *)(p + 0x48) = 3;
-        *(int *)(p + 0x4c) = 20;
-        *(s16 *)(p + 0x38) = -1;
+        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        ((struct Obj00195 *)p)->f48 = 3;
+        ((struct Obj00195 *)p)->f4C = 20;
+        ((struct Obj00195 *)p)->f38 = -1;
         break;
     case 10:
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
-        *(int *)(p + 0x48) = 3;
-        *(int *)(p + 0x4c) = 20;
-        *(s16 *)(p + 0x38) = -2;
+        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj00195 *)p)->f8)) + 9);
+        ((struct Obj00195 *)p)->f48 = 3;
+        ((struct Obj00195 *)p)->f4C = 20;
+        ((struct Obj00195 *)p)->f38 = -2;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 19);
-        *(s16 *)(p + 0x38) = r;
-        *(int *)(p + 0x48) = 20;
+        func_0204B3DC((struct Obj *)((struct Obj00195 *)p)->f8, 1);
+        func_0204B878((struct Obj *)(((struct Obj00195 *)p)->f8), 19);
+        ((struct Obj00195 *)p)->f38 = r;
+        ((struct Obj00195 *)p)->f48 = 20;
         break;
     }
     return -1;

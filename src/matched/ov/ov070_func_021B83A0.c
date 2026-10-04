@@ -14,10 +14,11 @@
  *   func_0202E448 0x0202E448 thumb
  *   func_02012BF8 0x02012BF8 thumb
  */
+#include "../include/Obj20669.h"
 typedef unsigned short u16;
 extern int func_0202E448(u16 value);
 extern int func_02012BF8(int p, int value);
 int func_021B83A0(char *p, int value)
 {
-    return func_02012BF8(*(int *)p, func_0202E448(value));
+    return func_02012BF8(((struct Obj20669 *)p)->f0, func_0202E448(value));
 }

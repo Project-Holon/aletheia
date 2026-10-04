@@ -38,6 +38,7 @@
  *   func_02034714            0x02034714  arm
  *   str_02183B28             0x02183B28  data  a1
  */
+#include "../include/Obj00399.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -94,10 +95,10 @@ void func_0217D1C0(u8 *w, int b)
     int v;
     void *h;
 
-    s1 = (void *)func_02012138(*(void **)w);
-    s2 = func_020120F4(*(void **)w);
+    s1 = (void *)func_02012138(((struct Obj00399 *)w)->f0);
+    s2 = func_020120F4(((struct Obj00399 *)w)->f0);
     p = (u8 *)func_02158344((int)s1);
-    q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
+    q = func_02012AC8((const struct Rec44 *)func_020120F8(((struct Obj00399 *)w)->f0));
     func_0201058C((void *)func_0201283C(s2));
     func_02037174();
     if (p == 0 || (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 0)) {
@@ -109,24 +110,24 @@ void func_0217D1C0(u8 *w, int b)
         }
         w[0x11E] = w[0xDA];
     }
-    func_020310C4(*(void **)(w + 0x20));
-    func_0201C4E4(*(void **)(w + 0x28));
-    h = *(void **)(w + 0x28);
+    func_020310C4(((struct Obj00399 *)w)->f20);
+    func_0201C4E4(((struct Obj00399 *)w)->f28);
+    h = ((struct Obj00399 *)w)->f28;
     if (w[0x48] != 0) {
-        if (func_0201C6C4(h, func_02045770(*(void **)(w + 0x44))) == 0) {
-            func_02045334(*(void **)(w + 0x44));
+        if (func_0201C6C4(h, func_02045770(((struct Obj00399 *)w)->f44)) == 0) {
+            func_02045334(((struct Obj00399 *)w)->f44);
             w[0x48] = 0;
         }
     }
-    h = *(void **)(w + 0x28);
+    h = ((struct Obj00399 *)w)->f28;
     if (w[0x50] != 0) {
-        if (func_0201C6C4(h, func_02045770(*(void **)(w + 0x4C))) == 0) {
-            func_02045334(*(void **)(w + 0x4C));
+        if (func_0201C6C4(h, func_02045770(((struct Obj00399 *)w)->f4C)) == 0) {
+            func_02045334(((struct Obj00399 *)w)->f4C);
             w[0x50] = 0;
         }
     }
     for (i = 0; i < 2; i++) {
-        if (func_0201C6C4(*(void **)(w + 0x28), *(void **)(w + 0xB4 + i * 4)) == 0) {
+        if (func_0201C6C4(((struct Obj00399 *)w)->f28, *(void **)(w + 0xB4 + i * 4)) == 0) {
             func_020257D0(*(void **)(w + 0xC0 + i * 4));
         }
     }
@@ -157,8 +158,8 @@ void func_0217D1C0(u8 *w, int b)
             break;
         case 1:
             if (func_02158428(p) == 1) {
-                func_02188CCC(func_0201210C(*(void **)w));
-                *(u16 *)(w + 0x110) = 0x126;
+                func_02188CCC(func_0201210C(((struct Obj00399 *)w)->f0));
+                ((struct Obj00399 *)w)->f110 = 0x126;
                 w[0x112] = 1;
                 w[0x106] = 0;
             }

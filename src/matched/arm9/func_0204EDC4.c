@@ -20,12 +20,13 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj11444.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 void func_0204EDC4(u8 *dst, u16 a, u16 b)
 {
-    *(u16 *)(dst + 0x36) = a;
-    *(u16 *)(dst + 0x38) = b;
+    ((struct Obj11444 *)dst)->f36 = a;
+    ((struct Obj11444 *)dst)->f38 = b;
 }

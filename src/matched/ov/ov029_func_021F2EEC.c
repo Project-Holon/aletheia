@@ -15,6 +15,7 @@
  *   func_021F0194  0x021F0194  thumb  ov029
  *   func_021F2F60  0x021F2F60  thumb  ov029
  */
+#include "../include/Obj00042.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -27,7 +28,7 @@ extern void func_021F2F60(void);
 
 int func_021F2EEC(char *p, int k)
 {
-    int r = (int)func_020122C0((void *)(*(int *)(p + 0x1c)), 0, func_021F2F60, 8);
+    int r = (int)func_020122C0((void *)(*(int *)&((struct Obj00042 *)p)->f1C), 0, func_021F2F60, 8);
     int *w = func_020124E8((struct Obj *)r);
 
     w[0] = (int)p;
@@ -39,16 +40,16 @@ int func_021F2EEC(char *p, int k)
         func_021F0194((u8 *)w[0]);
         break;
     case 11:
-        *(unsigned char *)(p + 0x416) = 4;
+        ((struct Obj00042 *)p)->f416 = 4;
         break;
     case 7:
-        *(unsigned char *)(p + 0x416) = 3;
+        ((struct Obj00042 *)p)->f416 = 3;
         break;
     case 12:
-        *(unsigned char *)(p + 0x416) = 8;
+        ((struct Obj00042 *)p)->f416 = 8;
         break;
     case 13:
-        *(unsigned char *)(p + 0x416) = 10;
+        ((struct Obj00042 *)p)->f416 = 10;
         break;
     }
     return r;

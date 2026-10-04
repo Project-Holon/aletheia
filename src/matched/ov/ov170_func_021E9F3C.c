@@ -21,6 +21,8 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021DF484 0x021DF484 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23953.h"
 
 extern void func_021EC768(char *w, unsigned i, int flag);
 extern void func_021ECB84(char *w, unsigned i);
@@ -43,12 +45,12 @@ void func_021E9F3C(unsigned char *p, unsigned char i)
     func_021EC768(WORK(p), p[0x16], 0);
     func_021ECB84(WORK(p), p[0x16]);
     func_021ED594(p, 0x24);
-    func_0201AB28(*(void **)(*(char **)p + 8), i - 0x1E);
+    func_0201AB28(((struct Obj23953 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8, i - 0x1E);
     func_021EA1C0(p);
     func_021EE038(p, 2, 2, 1);
     func_021EBA5C(WORK(p), 0x18);
     func_021DD14C(p);
-    *(int *)(p + 0x28) = 0x20;
+    ((struct Obj00000 *)p)->f28 = 0x20;
     p[0x1A] = 1;
     func_021E8FC0(p, func_021DF484, 0x2A);
 }

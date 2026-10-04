@@ -26,6 +26,7 @@
  *   func_06898B40 0x06898B40 thumb ov095
  *   func_06898B50 0x06898B50 thumb ov095
  */
+#include "../include/Obj10161.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,7 +63,7 @@ void func_068989CC(int a, int b, int c, D *d)
                     y = func_06898B30(b, 0x27, k);
                     y[4] = k;
                     y[5] = s;
-                    *(u16 *)(y + 6) = d->w1;
+                    ((struct Obj10161 *)y)->f6 = d->w1;
                     func_06898B40(b, y);
                 }
             }

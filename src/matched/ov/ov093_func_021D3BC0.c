@@ -13,12 +13,13 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D69A0 0x021D69A0 thumb ov093
  */
+#include "../include/Obj21197.h"
 typedef unsigned char u8;
 extern u8 *func_021B9934(char *p, int i);
 extern void func_021D69A0(u8 *, int, u8);
 int func_021D3BC0(char *p, int unused, unsigned int *a)
 {
-    u8 *obj = func_021B9934(*(char **)(p + 4), (u8)a[0]);
+    u8 *obj = func_021B9934(*(char * *)&((struct Obj21197 *)p)->f4, (u8)a[0]);
     func_021D69A0(obj, a[1], a[2]);
     return 1;
 }

@@ -13,6 +13,7 @@
  *   func_021B7F00 0x021B7F00 thumb ov106
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj22261.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021B7FC8(void **);
 extern void func_021B7F00(u32 *);
 extern void func_02082BCC(void *,int,int);
-void func_021B807C(u8 *p) { func_02030EAC(*(void **)(p+36)); func_021B7FC8((void **)(p+16)); func_021B7F00((u32 *)p); func_02082BCC(p,0,40); }
+void func_021B807C(u8 *p) { func_02030EAC(((struct Obj22261 *)p)->f24); func_021B7FC8((void **)(p+16)); func_021B7F00((u32 *)p); func_02082BCC(p,0,40); }

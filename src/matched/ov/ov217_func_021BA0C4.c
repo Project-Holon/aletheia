@@ -34,6 +34,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00511.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -64,8 +65,8 @@ extern u32 func_021C09EC();
 u32 func_021BA0C4(u32 a0)
 {
     func_021BAB68();
-    func_021C09E0(*(u32*)(((u8*)a0)));
-    func_021C09EC(*(u32*)(((u8*)a0)));
+    func_021C09E0(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
+    func_021C09EC(*(u32 *)&((struct Obj00511 *)((u8*)a0))->f0);
     func_021BAB38((char *)a0);
     func_021BAAF4((int *)a0);
     func_021BAAB8((u8 *)a0);
@@ -80,7 +81,7 @@ u32 func_021BA0C4(u32 a0)
     func_021BA748(a0);
     func_021BA624((int *)a0);
     func_021BA5D8((u8 *)a0);
-    *(u32*)(((u8*)a0 + 136)) = 1;
+    ((struct Obj00511 *)((u8*)a0))->f88 = 1;
     func_021BA144((u8 *)a0, 6);
     return func_021BA150(a0);
 }

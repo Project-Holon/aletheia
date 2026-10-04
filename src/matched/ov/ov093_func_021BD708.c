@@ -23,6 +23,7 @@
  *   func_021CD64C 0x021CD64C thumb ov093
  *   func_021D8244 0x021D8244 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 b0:1, b1:1, b2:1, rest:5; } Bits;
@@ -45,8 +46,8 @@ int func_021BD708(u8 *p, u8 *a, int r, int z)
 {
     int k = func_021B8DDC(func_021D5440(a));
     u8 f;
-    if (func_021B86E4(*(u8 **)(p + 4)) == 0) {
-        f = (u8)(func_021B902C(k, func_021B8FF4(*(u8 **)(p + 4))) == 0 ? 1 : 0);
+    if (func_021B86E4(*(u8 * *)&((struct Obj00003 *)p)->f4) == 0) {
+        f = (u8)(func_021B902C(k, func_021B8FF4(*(u8 * *)&((struct Obj00003 *)p)->f4)) == 0 ? 1 : 0);
         if (r == 0 && func_021D5B68(a) == 0) {
             u32 l;
             l = func_021CC8D8(p + 0x1d74, 2888);
@@ -65,17 +66,17 @@ int func_021BD708(u8 *p, u8 *a, int r, int z)
             }
             if (r == 0) {
                 if (f != 0) {
-                    if (func_021B86B8(*(void ****)(p + 4)) == 0)
-                        func_021CD64C(*(void **)(p + 0xc), 0x5c, 0x4b, 0x56a, func_021D5440(a), 0xffff0000);
+                    if (func_021B86B8(*(void *** *)&((struct Obj00003 *)p)->f4) == 0)
+                        func_021CD64C(((struct Obj00003 *)p)->fC, 0x5c, 0x4b, 0x56a, func_021D5440(a), 0xffff0000);
                 } else {
-                    func_021CD64C(*(void **)(p + 0xc), 0x5c, 0x48, 0x56a, 0xffff0000);
+                    func_021CD64C(((struct Obj00003 *)p)->fC, 0x5c, 0x48, 0x56a, 0xffff0000);
                 }
             }
             p[0x78a] |= 4;
         }
     } else {
-        if (func_021B86C0((u8 **)(*(u8 **)(p + 4))) != 0 && ((Bits *)(p + 0x78a))->b2 == 0) {
-            func_021CD64C(*(void **)(p + 0xc), 0x5a, 0xc6, 0xffff0000);
+        if (func_021B86C0((u8 **)(*(u8 * *)&((struct Obj00003 *)p)->f4)) != 0 && ((Bits *)(p + 0x78a))->b2 == 0) {
+            func_021CD64C(((struct Obj00003 *)p)->fC, 0x5a, 0xc6, 0xffff0000);
             p[0x78a] |= 4;
         }
     }

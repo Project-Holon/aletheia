@@ -12,6 +12,7 @@
  * symbols:
  *   func_02012A38  0x02012A38  thumb
  */
+#include "../include/Obj17697.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ int func_0215E34C(int a0)
     a0 = func_02012A38((const struct BigObj *)a0);
 loc_0215E352:
 a1 = 0;
-*(int *)((char *)a0 + 0xc) = a1;
+((struct Obj17697 *)a0)->fC = a1;
     return a0;}

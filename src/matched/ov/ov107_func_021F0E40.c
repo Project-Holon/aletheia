@@ -12,7 +12,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0203E6C0 0x0203E6C0 arm
  */
+#include "../include/Obj10259.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u8 pad[24];unsigned short low:11,flag:1,rest:4;} State;
 extern void func_020307B0(void *),func_0203E6C0(void);
-void func_021F0E40(State *p) { if(*(void **)((u8 *)p+20))func_020307B0(*(void **)((u8 *)p+20));if(p->flag==1)func_0203E6C0();func_020307B0(*(void **)((u8 *)p+16));func_020307B0(p); }
+void func_021F0E40(State *p) { if(((struct Obj10259 *)p)->f14)func_020307B0(((struct Obj10259 *)p)->f14);if(p->flag==1)func_0203E6C0();func_020307B0(((struct Obj10259 *)p)->f10);func_020307B0(p); }

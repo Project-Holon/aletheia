@@ -10,6 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10048.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -45,5 +46,5 @@ u16 func_021D5528(u8 *p, int i, u8 *a, u8 *b)
     u8 *q = p + i * 14;
     *a = q[0x10c];
     *b = q[0x10d];
-    return *(u16 *)(q + 0x10a);
+    return ((struct Obj10048 *)q)->f10A;
 }

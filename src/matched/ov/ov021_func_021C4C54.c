@@ -21,6 +21,7 @@
  *   func_0216D88C  0x0216D88C  thumb  ov010
  *   func_021AC1CC  0x021AC1CC  thumb  ov021
  */
+#include "../include/Obj06076.h"
 
 typedef unsigned short u16;
 
@@ -52,7 +53,7 @@ void func_021C4C54(int a, int *b)
         func_021AC154(a);
         return;
     }
-    h = *(u16 *)(b + 4);
+    h = ((struct Obj06076 *)b)->f10;
     r = func_021ABE18(*(int *)b[0]);
     func_021C6658(r, h);
     if (func_021C6844(r, h) == 0) {

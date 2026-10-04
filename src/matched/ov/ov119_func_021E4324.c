@@ -16,6 +16,7 @@
  *   func_02048F60  0x02048F60  arm
  *   func_021E42B4  0x021E42B4  thumb  ov119
  */
+#include "../include/Obj00908.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,17 +34,17 @@ void func_021E4324(char *p, int d)
     int i;
     u16 e;
 
-    *(Buf **)(p + 0x1174) = func_02048F60(0x66, 0xE, *(u16 *)(p + 0x5F4));
-    *(Buf **)(p + 0x1178) = func_02048F60(0x66, 0xF, *(u16 *)(p + 0x5F4));
-    *(Buf **)(p + 0x117C) = func_02048F60(0x66, 0x19, *(u16 *)(p + 0x5F4));
-    *(Buf **)(p + 0x1180) = func_02048F60(0x66, 0x1A, *(u16 *)(p + 0x5F4));
+    *(Buf * *)&((struct Obj00908 *)p)->f1174 = func_02048F60(0x66, 0xE, ((struct Obj00908 *)p)->f5F4);
+    *(Buf * *)&((struct Obj00908 *)p)->f1178 = func_02048F60(0x66, 0xF, ((struct Obj00908 *)p)->f5F4);
+    *(Buf * *)&((struct Obj00908 *)p)->f117C = func_02048F60(0x66, 0x19, ((struct Obj00908 *)p)->f5F4);
+    *(Buf * *)&((struct Obj00908 *)p)->f1180 = func_02048F60(0x66, 0x1A, ((struct Obj00908 *)p)->f5F4);
     e = d;
     for (i = 0; i < 0x300; i++) {
-        (*(Buf **)(p + 0x1174))->v[i] += (int)e;
+        (*(Buf * *)&((struct Obj00908 *)p)->f1174)->v[i] += (int)e;
         (*(Buf **)(p + 0x1178))->v[i] += (int)e;
         (*(Buf **)(p + 0x117C))->v[i] += (int)e;
         (*(Buf **)(p + 0x1180))->v[i] += (int)e;
     }
-    *(u16 *)(p + 0x107C) = *(u32 *)(p + 0x63C) - 0x50;
+    ((struct Obj00908 *)p)->f107C = ((struct Obj00908 *)p)->f63C - 0x50;
     func_021E42B4(p);
 }

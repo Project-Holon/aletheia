@@ -14,6 +14,7 @@
 
  * Moves the object at +0xB8 from state 1 to state 2.
  */
+#include "../include/Obj00146.h"
 
 
 extern int func_02005E50(int);
@@ -22,11 +23,11 @@ extern void func_02005E64(void);
 
 void func_021C2C1C(int unused, char *p)
 {
-    if (*(int *)(p + 0xb8) == 1) {
-        if (func_02005E50(*(int *)(p + 0xb8)) == 0) {
+    if (((struct Obj00146 *)p)->fB8 == 1) {
+        if (func_02005E50(((struct Obj00146 *)p)->fB8) == 0) {
             func_02005DE4((void *)1);
             func_02005E64();
-            *(int *)(p + 0xb8) = 2;
+            ((struct Obj00146 *)p)->fB8 = 2;
         }
     }
 }

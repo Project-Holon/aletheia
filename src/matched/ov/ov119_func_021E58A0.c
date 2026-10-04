@@ -17,6 +17,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00252.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { u16 x, y, z; u8 a, b; } Sprite;
@@ -35,13 +36,13 @@ void func_021E58A0(int p)
 {
     void *a;
     Sprite s;
-    a = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
-    *(int *)(p + 0x894) = func_0204A6C8(a, 0x18, 0, 1, *(u16 *)(p + 0x5f4));
-    *(int *)(p + 0x880) = func_0204AC18(a, 0x12, 1, 0xc0, 0, 6, *(u16 *)(p + 0x5f4));
-    *(int *)(p + 0x8b0) = func_0204AF28(a, 0x17, 0x16, *(u16 *)(p + 0x5f4));
+    a = func_020490F4(0x66, ((struct Obj00252 *)p)->f5F4);
+    *(int *)&((struct Obj00252 *)p)->f894 = func_0204A6C8(a, 0x18, 0, 1, ((struct Obj00252 *)p)->f5F4);
+    *(int *)&((struct Obj00252 *)p)->f880 = func_0204AC18(a, 0x12, 1, 0xc0, 0, 6, ((struct Obj00252 *)p)->f5F4);
+    *(int *)&((struct Obj00252 *)p)->f8B0 = func_0204AF28(a, 0x17, 0x16, ((struct Obj00252 *)p)->f5F4);
     func_02049238(a);
     s.x = 0x80; s.y = 0xb4; s.z = 2; s.a = 0xe; s.b = 0;
-    *(int *)(p + 0xf04) = (int)func_0204B294((void *)*(int *)(p + 0x9c4), *(int *)(p + 0x894), *(int *)(p + 0x880), *(int *)(p + 0x8b0), &s, 1, *(u16 *)(p + 0x5f4));
-    func_0204B92C((struct Obj *)*(int *)(p + 0xf04), 0);
-    func_0204B3DC((struct Obj *)*(int *)(p + 0xf04), 1);
+    ((struct Obj00252 *)p)->fF04 = (int)func_0204B294((void *)*(int *)&((struct Obj00252 *)p)->f9C4, *(int *)&((struct Obj00252 *)p)->f894, *(int *)&((struct Obj00252 *)p)->f880, *(int *)&((struct Obj00252 *)p)->f8B0, &s, 1, ((struct Obj00252 *)p)->f5F4);
+    func_0204B92C((struct Obj *)((struct Obj00252 *)p)->fF04, 0);
+    func_0204B3DC((struct Obj *)((struct Obj00252 *)p)->fF04, 1);
 }

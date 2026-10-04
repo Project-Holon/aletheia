@@ -16,6 +16,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B8688  0x021B8688  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 extern int func_0201C6B4();
 typedef unsigned int   u32;
@@ -26,8 +27,8 @@ extern void func_021B8688(int p);
 
 void func_021B8640(int p)
 {
-    if (func_0201C6B4(*(int *)((char *)p + 0x50C))) {
-        func_0202208C(0, 1, 1, 0, 6, 1, *(unsigned short *)((char *)p + 0x544));
+    if (func_0201C6B4(*(int *)&((struct Obj00002 *)p)->f50C)) {
+        func_0202208C(0, 1, 1, 0, 6, 1, ((struct Obj00002 *)p)->f544);
         func_020061E4(0x79F);
         func_021B6100((char *)p, (int)func_021B8688);
     }

@@ -23,13 +23,14 @@
  *   python tools/match.py one --src src/matched/func_020515CC.c \
  *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
  */
+#include "../include/Obj08873.h"
 
 extern int func_020525A0(char *p, int b, void (*fn)(void *));
 extern int *g_02146A88;
 int func_020515CC(int *p, int a, int b, int c)
 {
     int r;
-    if (*(int *)((char *)*(int *)p + 8) >= 0x18)
+    if (*(int *)((char *)((struct Obj08873 *)p)->f0 + 8) >= 0x18)
         return -1;
     g_02146A88[0x10] = c;
     r = func_020525A0((void *)p[0], a, (void (*)(void *))b);

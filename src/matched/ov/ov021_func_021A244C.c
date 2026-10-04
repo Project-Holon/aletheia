@@ -21,6 +21,7 @@
  *   g_02148B54  0x02148B54  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00954.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,7 +56,7 @@ void func_021A244C(u8 *o, s32 *outX, s32 *outY)
     fx32 sy;
     void *cam;
 
-    if (*(u32 *)(o + 0x14) == 0) {
+    if (((struct Obj00954 *)o)->f14 == 0) {
         *outX = 0;
         *outY = 0;
         return;

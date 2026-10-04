@@ -17,6 +17,7 @@
  *   func_020409B4  0x020409B4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12066.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_02190550(struct Slot *s, int x, int y, u32 z);
 
 int func_02190740(u32 a, u32 b, u32 c, u32 d)
 {
-func_02190550((struct Slot *)(*(u32 *)((u8 *)(a) + 4)), b, c, d);
-return func_020409B4(func_02045730((struct Descriptor *)(*(u32 *)((u8 *)(a)))));
+func_02190550((struct Slot *)(((struct Obj12066 *)((u8 *)(a)))->f4), b, c, d);
+return func_020409B4(func_02045730((struct Descriptor *)(((struct Obj12066 *)((u8 *)(a)))->f0)));
 }
 

@@ -11,11 +11,13 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  */
+#include "../include/Obj02519.h"
+#include "../include/Obj14429.h"
 typedef unsigned short u16;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
 void func_021DE3E4(char *p, char *q)
 {
-    *(void **)(p + 8) = func_021FD12C(*(int *)(q + 8), (void *)(*(int *)(p + 4)), *(u16 *)(p + 0x6c));
-    func_021FD170(*(void **)(p + 8), (char *)(*(int *)(q + 8)), (void *)0x86);
+    ((struct Obj02519 *)p)->f8 = func_021FD12C(((struct Obj14429 *)q)->f8, (void *)(*(int *)&((struct Obj02519 *)p)->f4), ((struct Obj02519 *)p)->f6C);
+    func_021FD170(((struct Obj02519 *)p)->f8, (char *)(((struct Obj14429 *)q)->f8), (void *)0x86);
 }

@@ -23,6 +23,9 @@
  *   func_02040588  0x02040588  arm
  *   func_020434DC  0x020434DC  arm
  */
+#include "../include/Obj06191.h"
+#include "../include/Obj07706.h"
+#include "../include/Obj20760.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -56,12 +59,12 @@ int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
     case 0:
         m = func_0203159C(a, 0x28, 0x61);
         func_02082BCC(m, 0, 0x28);
-        *(u32 *)(m + 0x24) = 0x30;
+        ((struct Obj20760 *)m)->f24 = 0x30;
         func_021BA3B4();
-        func_021BA420(*(void **)(o + 4));
-        func_021BA44C(*(void **)(o + 4), m);
-        func_021BA4EC(*(void **)(o + 4), m);
-        func_021BA528(o, *(void **)(o + 4), m);
+        func_021BA420(((struct Obj07706 *)o)->f4);
+        func_021BA44C(((struct Obj07706 *)o)->f4, m);
+        func_021BA4EC(((struct Obj07706 *)o)->f4, m);
+        func_021BA528(o, ((struct Obj07706 *)o)->f4, m);
         *b = *b + 1;
         break;
     case 1:
@@ -70,8 +73,8 @@ int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
             t = (*(u32 **)(o + 4))[2];
             e = c + i * 8;
             if (e[0x10] != 0) {
-                if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(e + 0xc)))) == 0) {
-                    func_02045334((struct Descriptor *)*(u32 *)(e + 0xc));
+                if (func_0201C6C4((struct PrintSys *)t, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj06191 *)e)->fC))) == 0) {
+                    func_02045334((struct Descriptor *)((struct Obj06191 *)e)->fC);
                     e[0x10] = 0;
                 }
             }

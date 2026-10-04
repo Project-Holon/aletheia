@@ -14,6 +14,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
  */
+#include "../include/Obj10589.h"
+#include "../include/Obj23436.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,10 +40,10 @@ void func_021FF92C(void *task, Anim *a)
             func_021FF914(a, 1);
         }
         a->y += 2;
-        func_021FFAEC(*(u32 *)(p + 0xD0C), 128, a->y);
+        func_021FFAEC(((struct Obj10589 *)p)->fD0C, 128, a->y);
         break;
     case 1:
-        if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xD0C))) == 0) {
+        if (func_0204B98C((struct Actor *)(((struct Obj10589 *)p)->fD0C)) == 0) {
             func_021FF914(a, 2);
             a->state = 2;
         }
@@ -54,11 +56,11 @@ void func_021FF92C(void *task, Anim *a)
         } else {
             a->y--;
         }
-        func_021FFAEC(*(u32 *)(p + 0xD0C), 128, a->y);
+        func_021FFAEC(((struct Obj10589 *)p)->fD0C, 128, a->y);
         break;
     case 3:
         func_020061E4(0x55C);
-        *(u16 *)(a->p + 0xE18) = 1;
+        ((struct Obj23436 *)(a->p))->fE18 = 1;
         func_020307B0(a);
         func_02030EAC(task);
         break;

@@ -11,11 +11,12 @@
  * note: halfword setter at +0x178; called from ov131 func_021D785C (bl at
  *   +0x78 and +0xB6) with the pooled full-width value 0xD555.
  */
+#include "../include/Obj15659.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 
 void func_02015D80(u8 *p, u16 v)
 {
-    *(u16 *)(p + 0x178) = v;
+    ((struct Obj15659 *)p)->f178 = v;
 }

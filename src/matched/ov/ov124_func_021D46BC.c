@@ -19,6 +19,7 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00068.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,39 +54,39 @@ extern void func_0202843C(u8 *);
 void func_021D46BC(char *p)
 {
     Request req;
-    *(void **)(p + 0x28) = func_0201D7EC(23, 0, 0, 0, *(u16 *)p);
+    ((struct Obj00068 *)p)->f28 = func_0201D7EC(23, 0, 0, 0, ((struct Obj00068 *)p)->f0);
     func_0201DD78(15, 2, 0);
-    *(void **)(p + 0x2c) = func_02045B38(0, 2, 21, *(u16 *)p);
-    func_02049B40(23, 5, 4, 480, 32, *(u16 *)p);
-    func_0201F5BC(5, 1, 13, 0, *(u16 *)p);
-    func_02049B40(5, func_0201F548(0), 4, 416, 64, *(u16 *)p);
+    ((struct Obj00068 *)p)->f2C = func_02045B38(0, 2, 21, ((struct Obj00068 *)p)->f0);
+    func_02049B40(23, 5, 4, 480, 32, ((struct Obj00068 *)p)->f0);
+    func_0201F5BC(5, 1, 13, 0, ((struct Obj00068 *)p)->f0);
+    func_02049B40(5, func_0201F548(0), 4, 416, 64, ((struct Obj00068 *)p)->f0);
     func_0201DD68();
-    *(u32 *)(p + 0x30) = func_0201C440((void *)(u32)*(u16 *)p);
-    *(void **)(p + 0x34) = func_02027F60(4, 11, *(u32 *)(p + 0x28), *(u32 *)(p + 0x30), *(u16 *)p);
-    *(u32 *)(p + 0x24) = func_020450F0(5, 2, 4, 28, 4, 15, 1);
-    *(u32 *)(p + 0x20) = func_020450F0(5, 2, 9, 28, 12, 15, 1);
-    func_02043B5C(func_02045770(*(void **)(p + 0x24)), 1);
-    func_02045334((struct Descriptor *)*(u32 *)(p + 0x24));
-    func_02045374((struct Cfg *)(*(u32 *)(p + 0x24)));
-    func_0201F73C(*(void **)(p + 0x24), 1, 1, 14);
-    func_02043B5C(func_02045770(*(void **)(p + 0x20)), 0);
-    func_02045334((struct Descriptor *)*(u32 *)(p + 0x20));
-    func_02045374((struct Cfg *)(*(u32 *)(p + 0x20)));
+    *(u32 *)&((struct Obj00068 *)p)->f30 = func_0201C440((void *)(u32)((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f34 = func_02027F60(4, 11, *(u32 *)&((struct Obj00068 *)p)->f28, *(u32 *)&((struct Obj00068 *)p)->f30, ((struct Obj00068 *)p)->f0);
+    *(u32 *)&((struct Obj00068 *)p)->f24 = func_020450F0(5, 2, 4, 28, 4, 15, 1);
+    *(u32 *)&((struct Obj00068 *)p)->f20 = func_020450F0(5, 2, 9, 28, 12, 15, 1);
+    func_02043B5C(func_02045770(((struct Obj00068 *)p)->f24), 1);
+    func_02045334((struct Descriptor *)*(u32 *)&((struct Obj00068 *)p)->f24);
+    func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00068 *)p)->f24));
+    func_0201F73C(((struct Obj00068 *)p)->f24, 1, 1, 14);
+    func_02043B5C(func_02045770(((struct Obj00068 *)p)->f20), 0);
+    func_02045334((struct Descriptor *)*(u32 *)&((struct Obj00068 *)p)->f20);
+    func_02045374((struct Cfg *)(*(u32 *)&((struct Obj00068 *)p)->f20));
     func_020409B4(5);
     func_020409B4(4);
-    *(int *)(p + 0x1c) = 0;
-    req.text = (u32)func_02045EC0(*(void **)(p + 0x2c), 24);
+    ((struct Obj00068 *)p)->f1C = 0;
+    req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 24);
     req.color = 0x39e3;
     req.flag = 0;
-    *(u32 *)(p + 0x3c) = func_02027FEC(*(u32 *)(p + 0x34), (u32)&req, 11, 21, 11, *(u16 *)p);
+    ((struct Obj00068 *)p)->f3C = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 11, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
-    req.text = (u32)func_02045EC0(*(void **)(p + 0x2c), 26);
-    *(u32 *)(p + 0x38) = func_02027FEC(*(u32 *)(p + 0x34), (u32)&req, 0, 21, 11, *(u16 *)p);
+    req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 26);
+    *(u32 *)&((struct Obj00068 *)p)->f38 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 0, 21, 11, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
-    req.text = (u32)func_02045EC0(*(void **)(p + 0x2c), 25);
+    req.text = (u32)func_02045EC0(((struct Obj00068 *)p)->f2C, 25);
     req.flag = 1;
-    *(u32 *)(p + 0x40) = func_02027FEC(*(u32 *)(p + 0x34), (u32)&req, 22, 21, 10, *(u16 *)p);
+    ((struct Obj00068 *)p)->f40 = func_02027FEC(*(u32 *)&((struct Obj00068 *)p)->f34, (u32)&req, 22, 21, 10, ((struct Obj00068 *)p)->f0);
     func_02045808((void *)req.text);
-    func_0202843C(*(u8 **)(p + 0x38));
+    func_0202843C(*(u8 * *)&((struct Obj00068 *)p)->f38);
     *(u16 *)0x050005e2 = 0;
 }

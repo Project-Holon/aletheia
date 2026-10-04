@@ -18,6 +18,7 @@
  *   func_0209C494  0x0209C494  arm
  *   func_0207D658  0x0207D658  arm
  */
+#include "../include/Obj01651.h"
 
 typedef unsigned int u32;
 
@@ -34,15 +35,15 @@ void func_02187B38(char *o, int st)
     u32 a, b;
 
     if (st == 2) {
-        a = func_0209BE04(*(u32 *)(o + 0x18));
-        b = func_0209BE04(*(u32 *)(o + 0x1c));
+        a = func_0209BE04(((struct Obj01651 *)o)->f18);
+        b = func_0209BE04(((struct Obj01651 *)o)->f1C);
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209C95C(0xC1800000, b);
         func_0207D658(0x04000050, 8, func_0209C494(b));
     } else if (st == 4) {
-        a = func_0209BE04(*(u32 *)(o + 0x18));
-        b = func_0209BE04(*(u32 *)(o + 0x1c));
+        a = func_0209BE04(((struct Obj01651 *)o)->f18);
+        b = func_0209BE04(((struct Obj01651 *)o)->f1C);
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209CB8C(0, b);

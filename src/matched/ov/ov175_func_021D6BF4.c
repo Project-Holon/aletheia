@@ -15,6 +15,7 @@
  *   func_021D8904 0x021D8904 thumb ov175
  *   func_021D8BC4 0x021D8BC4 thumb ov175
  */
+#include "../include/Obj14328.h"
 typedef unsigned int u32;
 extern void func_021E8AA0(int *p, int v);
 extern void func_021DA36C(u32);
@@ -24,10 +25,10 @@ extern void func_021D8904(u32 sys, int *state, char *p);
 extern void func_021D8BC4(void);
 void func_021D6BF4(u32 sys,void *unused,char *p)
 {
-    switch (((u32 *)*(u32 *)(p+0x104))[3]) {
+    switch (((u32 *)((struct Obj14328 *)p)->f104)[3]) {
     case 0: func_021E8AA0((int *)sys,(int)func_021D6C54); break;
     case 2:
-        func_021DA36C(*(u32 *)(p+0x34));
+        func_021DA36C(((struct Obj14328 *)p)->f34);
     case 1:
         func_021D97D0(p);
         func_021E8AA0((int *)sys,(int)func_021D8904);

@@ -30,6 +30,7 @@
  *   g_02148BCC       0x02148BCC  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00704.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -69,40 +70,40 @@ void func_02189810(u8 *p)
     MtxFx44 saved;
     MtxFx44 m;
 
-    if (*(u32 *)(p + 0x28) != 0)
-        func_0219047C((u8 *)(*(u32 *)(p + 0x28)));
-    func_0218CC64((char *)(*(u32 *)(p + 0x48)), *(u32 *)(p + 0xA4), 1);
-    func_021C7FB4(*(u32 *)(p + 0xA0));
+    if (((struct Obj00704 *)p)->f28 != 0)
+        func_0219047C((u8 *)(((struct Obj00704 *)p)->f28));
+    func_0218CC64((char *)(((struct Obj00704 *)p)->f48), ((struct Obj00704 *)p)->fA4, 1);
+    func_021C7FB4(((struct Obj00704 *)p)->fA0);
     saved = g_02148B54;
 
     m = saved;
-    m.m[3][2] += FX_MUL(m.m[2][2], *(fx32 *)(p + 0x104));
+    m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104);
     MIi_CpuCopyFast(&m, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
     func_0206DB80();
-    func_021ABE0C(*(u32 *)(p + 0x94));
-    func_021C64E0(*(u32 *)(p + 0x130));
-    func_02050790(*(u32 *)(p + 0xB0), *(u32 *)(p + 0xA4), *(u32 *)(p + 0xA8));
-    func_02050790(*(u32 *)(p + 0xB8), *(u32 *)(p + 0xA4), *(u32 *)(p + 0xA8));
-    if (*(u32 *)(p + 0x98) != 0)
-        func_0217F928((char *)(*(u32 *)(p + 0x98)));
+    func_021ABE0C(((struct Obj00704 *)p)->f94);
+    func_021C64E0(((struct Obj00704 *)p)->f130);
+    func_02050790(((struct Obj00704 *)p)->fB0, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    func_02050790(((struct Obj00704 *)p)->fB8, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
+    if (((struct Obj00704 *)p)->f98 != 0)
+        func_0217F928((char *)(((struct Obj00704 *)p)->f98));
 
     m = saved;
-    m.m[3][2] += FX_MUL(m.m[2][2], *(fx32 *)(p + 0x104) / 2);
+    m.m[3][2] += FX_MUL(m.m[2][2], ((struct Obj00704 *)p)->f104 / 2);
     MIi_CpuCopyFast(&m, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
     func_0206DB80();
-    func_02050790(*(u32 *)(p + 0xB4), *(u32 *)(p + 0xA4), *(u32 *)(p + 0xA8));
+    func_02050790(((struct Obj00704 *)p)->fB4, ((struct Obj00704 *)p)->fA4, ((struct Obj00704 *)p)->fA8);
 
     MIi_CpuCopyFast(&saved, &g_02148B54, 0x40);
     g_02148BCC.flag &= ~0x50;
     func_0206A854();
 
-    func_021BB954((u8 *)(*(u32 *)(p + 0xBC)));
-    func_021A1B38((u32 *)(*(u32 *)(p + 0x20)));
-    func_021BE4F8((char *)(*(u32 *)(p + 0x34)));
+    func_021BB954((u8 *)(((struct Obj00704 *)p)->fBC));
+    func_021A1B38((u32 *)(((struct Obj00704 *)p)->f20));
+    func_021BE4F8((char *)(((struct Obj00704 *)p)->f34));
     func_021C1AEC();
-    func_021C1C4C((char *)(*(u32 *)(p + 0x124)));
+    func_021C1C4C((char *)(((struct Obj00704 *)p)->f124));
 }

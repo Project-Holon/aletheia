@@ -20,6 +20,9 @@
  *   func_02165E24 0x02165E24 thumb ov010
  *   func_02165FC0 0x02165FC0 thumb ov010
  */
+#include "../include/Obj00225.h"
+#include "../include/Obj05121.h"
+#include "../include/Obj20436.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,17 +43,17 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     void *t;
     u8 *r;
 
-    t = func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1EAC, 0x18, 0);
+    t = func_020311B8(((struct Obj20436 *)p)->fA0, (void *)func_021F1EAC, 0x18, 0);
     r = func_02031290(t);
     func_02082BCC(r, 0, 0x18);
-    *(char **)(r + 0x10) = p;
-    *(char **)(r + 8) = q;
+    *(char * *)&((struct Obj05121 *)r)->f10 = p;
+    *(char * *)&((struct Obj05121 *)r)->f8 = q;
     r[1] = 0x5a;
-    *(void **)(q + 0x30) = t;
+    ((struct Obj00225 *)q)->f30 = t;
     if (flag)
-        *(u32 *)(r + 0xc) = 1;
+        ((struct Obj05121 *)r)->fC = 1;
     else
-        *(u32 *)(r + 0xc) = func_02165E24((int)x);
-    func_021F0FC8(p, q, func_02165FC0(*(u32 *)(r + 0xc)));
+        ((struct Obj05121 *)r)->fC = func_02165E24((int)x);
+    func_021F0FC8(p, q, func_02165FC0(((struct Obj05121 *)r)->fC));
     func_021F0ED0(q, flag ? 0 : 1);
 }

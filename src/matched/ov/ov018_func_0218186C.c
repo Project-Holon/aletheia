@@ -15,6 +15,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_0218123C  0x0218123C  thumb  ov018
  */
+#include "../include/Obj04963.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ void func_0218186C(void *a, Ov018Src *src)
     func_0201232C(a, (int)func_0218123C, 0xB0);
     t = func_020124E8(a);
     func_02082D44(src, t, 0x98);
-    *(int *)(t + 0xA4) = 1;
-    *(void **)(t + 0x9C) = r;
+    ((struct Obj04963 *)t)->fA4 = 1;
+    ((struct Obj04963 *)t)->f9C = r;
     t[0xA0] = t[0x40];
     t[0xA1] = src->f58;
     t[0xA2] = 2;

@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14735.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ struct Node;
 extern void func_02030EAC(struct Node *n);
 void func_021BD5E0(u32 a0)
 {
-    func_02030EAC((struct Node *)(*(u32*)(((u8*)a0) + 340)));
-    *(u32*)(((u8*)a0) + 340) = 0;
+    func_02030EAC((struct Node *)(((struct Obj14735 *)(((u8*)a0)))->f154));
+    ((struct Obj14735 *)(((u8*)a0)))->f154 = 0;
 }
 

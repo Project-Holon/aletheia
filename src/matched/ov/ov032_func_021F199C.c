@@ -18,6 +18,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_021F1A28 0x021F1A28 thumb
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,10 +43,10 @@ int func_021F199C(char *p, void *x, int flag)
         r = func_02165D20(x);
     if (r == 0x30 || r > 0x2d)
         return 0;
-    if (r == sub_02010EA0(r, *(u8 **)(p + 0x24)))
+    if (r == sub_02010EA0(r, *(u8 * *)&((struct Obj00007 *)p)->f24))
         return 0;
-    func_02165FCC(x, *(u32 *)(p + 0x110), *(u16 *)(p + 0x96));
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x110)), (void *)(*(u32 *)(p + 0x11c)), (void *)(*(u32 *)(p + 0x118)));
+    func_02165FCC(x, *(u32 *)&((struct Obj00007 *)p)->f110, ((struct Obj00007 *)p)->f96);
+    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00007 *)p)->f110), (void *)(*(u32 *)&((struct Obj00007 *)p)->f11C), (void *)(*(u32 *)&((struct Obj00007 *)p)->f118));
     func_021F1A28(p, r, 1, p + 0xa8);
     return 1;
 }

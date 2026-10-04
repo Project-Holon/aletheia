@@ -15,6 +15,8 @@
  *   func_021F0F44 0x021F0F44 thumb
  *   func_021F1080 0x021F1080 thumb
  */
+#include "../include/Obj09797.h"
+#include "../include/Obj13063.h"
 
 typedef unsigned char u8;
 
@@ -27,9 +29,9 @@ void func_021F1268(char *this)
     int i;
     char *e;
 
-    for (i = 0; i < *(u8 *)(this + 0x7d); i++) {
-        e = func_021F0F44(this, func_021659F0(*(u8 **)(this + 0x3c), *(u8 *)(this + 0x7c) + i));
-        if (*(int *)(e + 0x30) == 0 || *(int *)(e + 0x2c) != 0)
+    for (i = 0; i < ((struct Obj09797 *)this)->f7D; i++) {
+        e = func_021F0F44(this, func_021659F0(*(u8 * *)&((struct Obj09797 *)this)->f3C, ((struct Obj09797 *)this)->f7C + i));
+        if (((struct Obj13063 *)e)->f30 == 0 || ((struct Obj13063 *)e)->f2C != 0)
             func_021F1080(this, e, 0, 0);
     }
 }

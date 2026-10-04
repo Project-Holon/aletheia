@@ -17,6 +17,7 @@
  * symbols:
  *   func_0202B8F4  0x0202B8F4  thumb
  */
+#include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -25,7 +26,7 @@ extern void func_0202B8F4(u32 v);
 
 void func_0202B710(u8 *o)
 {
-    if ((*(u32 *)(o + 0xc) & 1) == 0) {
-        func_0202B8F4(*(u32 *)(o + 0x24));
+    if ((((struct Obj02010 *)o)->fC & 1) == 0) {
+        func_0202B8F4(((struct Obj02010 *)o)->f24);
     }
 }

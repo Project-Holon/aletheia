@@ -14,11 +14,12 @@
  *
  * Forward with the byte field at +0x16.
  */
+#include "../include/Obj00000.h"
 
 extern void func_021ED594(char *p, unsigned i);
 
 void func_021ED588(char *p)
 {
-    func_021ED594(p, *(unsigned char *)(p + 0x16));
+    func_021ED594(p, ((struct Obj00000 *)p)->f16);
 }
 

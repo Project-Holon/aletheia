@@ -13,6 +13,7 @@
  *   func_021A3C3C  0x021A3C3C  thumb  ov021
  *   func_021A3C54  0x021A3C54  thumb  ov021
  */
+#include "../include/Obj12731.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,6 +24,6 @@ int func_021A3C54(u32 keys);
 
 void func_021A3C24(u8 *p, int a)
 {
-    *(u16 *)(p + 0x20) = func_021A3C3C(a);
-    *(u16 *)(p + 0x22) = func_021A3C54(a);
+    ((struct Obj12731 *)p)->f20 = func_021A3C3C(a);
+    ((struct Obj12731 *)p)->f22 = func_021A3C54(a);
 }

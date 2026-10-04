@@ -15,6 +15,7 @@
  *   func_02051230  0x02051230  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18282.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_02051230(u32, u32, u32, u32);
 
 int func_021C1AA8(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02051230(*(u32 *)((u8 *)(a) + 12), b, c, d);
+return func_02051230(((struct Obj18282 *)((u8 *)(a)))->fC, b, c, d);
 }
 

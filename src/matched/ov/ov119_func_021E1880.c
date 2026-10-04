@@ -16,6 +16,7 @@
  *   func_02045770 0x02045770 arm
  *   func_0201C7A4 0x0201C7A4 thumb
  */
+#include "../include/Obj00001.h"
 typedef short s16;
 typedef struct { int v[5]; } T5;
 extern const T5 d_021E7984;
@@ -34,9 +35,9 @@ void func_021E1880(int a, int b, int c, int d, char *p)
     int i = 0;
     T5 t = d_021E7984;
     for (; i < 5; i++) {
-        func_02045CAC(*(void **)(p + 0x720), 0x28, *(void **)(p + 0x734));
-        func_0201EFA4(*(void **)(p + 0x724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
-        func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x730), *(void **)(p + 0x734));
-        func_0201C7A4(func_02045770((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), *(void **)(p + 0x730), *(void **)(p + 0x728));
+        func_02045CAC(((struct Obj00001 *)p)->f720, 0x28, ((struct Obj00001 *)p)->f734);
+        func_0201EFA4(((struct Obj00001 *)p)->f724, 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
+        func_0201F250(((struct Obj00001 *)p)->f724, ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f734);
+        func_0201C7A4(func_02045770((struct Descriptor *)b), (s16)c, (s16)(d + i * 16), ((struct Obj00001 *)p)->f730, ((struct Obj00001 *)p)->f728);
     }
 }

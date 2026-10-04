@@ -19,6 +19,7 @@
  *   func_02043598 0x02043598 arm
  *   d_021F0DF0 0x021F0DF0 data ov033 a4
  */
+#include "../include/Obj09802.h"
 
 typedef struct {
     unsigned f00;
@@ -56,7 +57,7 @@ void func_021F06AC(char *p)
         func_02040618(id, 0, 0);
         func_02040618(id, 3, 0);
     }
-    *(void **)(p + 0xC) = func_0204B100(8, 0, *(unsigned short *)p);
-    func_0204B270(*(void **)(p + 0xC));
+    ((struct Obj09802 *)p)->fC = func_0204B100(8, 0, ((struct Obj09802 *)p)->f0);
+    func_0204B270(((struct Obj09802 *)p)->fC);
     func_02043598(0x10, 1);
 }

@@ -22,6 +22,7 @@
  *   func_021D78AC  0x021D78AC  thumb  ov093
  *   func_021B911C  0x021B911C  thumb  ov093
  */
+#include "../include/Obj21084.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -58,7 +59,7 @@ int func_021C2D10(u8 *p, u16 *q, u8 *b, u8 *c)
             t = 1;
         if (t)
             return 1;
-        if (func_021B911C(*(u32 *)(p + 4), 0) != 0)
+        if (func_021B911C(((struct Obj21084 *)p)->f4, 0) != 0)
             return 1;
     }
     return 0;

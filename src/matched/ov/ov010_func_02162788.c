@@ -8,5 +8,6 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj07296.h"
 typedef unsigned short u16;
-void func_02162788(char *p, unsigned i, u16 v) { if(i < *(u16 *)(p+0x14)) *(u16 *)(*(char **)(p+0x20)+i*0x24+10)=v; }
+void func_02162788(char *p, unsigned i, u16 v) { if(i < ((struct Obj07296 *)p)->f14) *(u16 *)(*(char * *)&((struct Obj07296 *)p)->f20+i*0x24+10)=v; }

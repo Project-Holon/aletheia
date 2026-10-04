@@ -16,6 +16,7 @@
  *   func_021BA928 0x021BA928 thumb ov099
  *   func_021BA828 0x021BA828 thumb ov099
  */
+#include "../include/Obj00008.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -31,7 +32,7 @@ int func_021C1724(char *p, int ret)
     func_0203D7BC(1);
     if (func_021BA928(p) != 0) {
         func_021BA828(p);
-        *(int *)(p + 0x1cc) = 54;
+        ((struct Obj00008 *)p)->f1CC = 54;
     }
     return ret;
 }

@@ -13,6 +13,8 @@
  *   func_021EDF5C 0x021EDF5C thumb ov170
  *   func_021EDD38 0x021EDD38 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23883.h"
 typedef struct { unsigned char pad[0xE]; unsigned short fE; } Blk;
 typedef unsigned char  u8;
 struct Sound;
@@ -22,9 +24,9 @@ extern void func_021EDF5C(char *);
 extern void func_021EDD38(char *, int);
 int func_021E1A78(char *p)
 {
-    Blk *b = (Blk *)(*(char **)(p + 0x2C) + 0x58);
+    Blk *b = (Blk *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(*(void **)(*(char **)(p + 0x2C) + 0x70));
+        unsigned r = func_020260E0(((struct Obj23883 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70);
         if (r >= 1 && r <= 4)
             func_021EE008(p, r - 1, 1);
         else

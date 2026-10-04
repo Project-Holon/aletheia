@@ -16,6 +16,7 @@
  *
  * Detach the sub-object and seat the reset handler.
  */
+#include "../include/Obj12187.h"
 
 
 
@@ -24,6 +25,6 @@ extern void func_021DC9B4(char *, int);
 extern int func_021E066C(char *p);
 void func_021EEE7C(char *p, int a, int b)
 {
-    func_021EEF74(*(char **)(p + 0x2c), a, b);
-    func_021DC9B4(*(char **)(p + 0x2c), (int)func_021E066C);
+    func_021EEF74(*(char * *)&((struct Obj12187 *)p)->f2C, a, b);
+    func_021DC9B4(*(char * *)&((struct Obj12187 *)p)->f2C, (int)func_021E066C);
 }

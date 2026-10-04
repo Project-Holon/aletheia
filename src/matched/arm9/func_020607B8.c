@@ -10,11 +10,12 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj00512.h"
 
 void *func_020607B8(int *p, void *node, int *a)
 {
     int *b;
-    *(int *)((char *)node + 8) = (int)a;
+    ((struct Obj00512 *)node)->f8 = (int)a;
     if (a != 0) {
         b = (int *)a[3];
         a[3] = (int)node;
@@ -22,7 +23,7 @@ void *func_020607B8(int *p, void *node, int *a)
         b = (int *)p[0];
         p[0] = (int)node;
     }
-    *(int *)((char *)node + 0xc) = (int)b;
+    *(int *)&((struct Obj00512 *)node)->fC = (int)b;
     if (b != 0)
         b[2] = (int)node;
     else

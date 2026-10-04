@@ -15,6 +15,7 @@
  *   func_0204B9A0  0x0204B9A0  arm
  *   func_0204B92C  0x0204B92C  arm
  */
+#include "../include/Obj06128.h"
 
 typedef struct {
     unsigned short x;
@@ -47,8 +48,8 @@ void func_021F1B50(char *p)
         s.a = 0;
         s.b = 2;
         q = (int *)(p + i * 4);
-        q[0x5c] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
+        q[0x5c] = (int)func_0204B294((void *)((struct Obj06128 *)p)->f34, ((struct Obj06128 *)p)->f2C, ((struct Obj06128 *)p)->f28,
+                                ((struct Obj06128 *)p)->f30, &s, 0, ((struct Obj06128 *)p)->fC);
         func_0204B3DC((struct Obj *)q[0x5c], 0);
         func_0204B954((struct Actor *)q[0x5c], 0x2000);
         func_0204B9A0((struct Actor *)q[0x5c]);

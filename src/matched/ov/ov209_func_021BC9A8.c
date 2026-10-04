@@ -25,6 +25,7 @@
  *   data_021BE7AC 0x021BE7AC data a4
  *   data_020A7370 0x020A7370 data a4
  */
+#include "../include/Obj00123.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,13 +55,13 @@ void func_021BC9A8(struct Context *p)
     void *arc,*str;
     u32 species,i;
     arc=func_020490F4(159,0x806b);
-    species=func_0200CA8C((*(struct Inputs **)p)->save);
+    species=func_0200CA8C((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save);
     tmpl=data_021BE7AC;
     tmpl.count=649;tmpl.p24=p;
-    for(i=0;i<(*(struct Inputs **)p)->count;i++){
-        if(species==(*(struct Inputs **)p)->ids[i]){
-            if(i>(*(struct Inputs **)p)->count-7){
-                tmpl.index=i-((*(struct Inputs **)p)->count-7);
+    for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
+        if(species==(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]){
+            if(i>(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count-7){
+                tmpl.index=i-((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count-7);
                 tmpl.start=i-tmpl.index;
             }else if(i<7){tmpl.index=i;}
             else{tmpl.start=i;}
@@ -74,20 +75,20 @@ void func_021BC9A8(struct Context *p)
     func_021B7A10(p->list,(u32)arc,68,0,2);
     func_021B7A4C(p->list,arc,48,2,3);
     func_02049238(arc);
-    for(i=0;i<(*(struct Inputs **)p)->count;i++){
-        if(func_0200CED4((*(struct Inputs **)p)->save,(*(struct Inputs **)p)->ids[i])==1){
-            str=func_02045EC0(data_020A7370,(*(struct Inputs **)p)->ids[i]);
+    for(i=0;i<(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->count;i++){
+        if(func_0200CED4((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
+            str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=func_02045874(str,107);
             func_02045808(str);
-            func_021B79E4(p->list,0,0x20000000|(*(struct Inputs **)p)->ids[i]);
-        }else if(func_0200D064((*(struct Inputs **)p)->save,(*(struct Inputs **)p)->ids[i])==1){
-            str=func_02045EC0(data_020A7370,(*(struct Inputs **)p)->ids[i]);
+            func_021B79E4(p->list,0,0x20000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
+        }else if(func_0200D064((*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->save,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i])==1){
+            str=func_02045EC0(data_020A7370,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
             *(void **)((u32)p+i*4+0x4c)=func_02045874(str,107);
             func_02045808(str);
-            func_021B79E4(p->list,1,0x10000000|(*(struct Inputs **)p)->ids[i]);
+            func_021B79E4(p->list,1,0x10000000|(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }else{
-            *(void **)((u32)p+i*4+0x4c)=func_02045EC0(*(void **)((u8 *)p+0x3c),7);
-            func_021B79E4(p->list,2,(*(struct Inputs **)p)->ids[i]);
+            *(void **)((u32)p+i*4+0x4c)=func_02045EC0(((struct Obj00123 *)p)->f3C,7);
+            func_021B79E4(p->list,2,(*(struct Inputs * *)&((struct Obj00123 *)p)->f0)->ids[i]);
         }
     }
 }

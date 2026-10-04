@@ -14,6 +14,7 @@
 
  * While the +0xbfc buffer is free, feed the mode word at +0x20 to the dispatch.
  */
+#include "../include/Obj12196.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern void func_021F5CD4(u8 *p, u32 k);
 
 int func_021F65C8(u8 *p)
 {
-    if (func_0204B98C((struct Actor *)(*(u32 *)(p + 0xbfc))) == 0) {
-        func_021F5CD4(p, *(u32 *)(p + 0x20));
+    if (func_0204B98C((struct Actor *)(((struct Obj12196 *)p)->fBFC)) == 0) {
+        func_021F5CD4(p, ((struct Obj12196 *)p)->f20);
     }
     return 2;
 }

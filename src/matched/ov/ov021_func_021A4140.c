@@ -19,6 +19,7 @@
  *   func_021A3CE8  0x021A3CE8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03586.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ u32 *func_021A4140(u32 a, u32 b)
     o = func_02030734(b, 0x20, 1, (const char *)d_021DDECC, 0x17D);
     o[3] = a;
     o[4] = func_021A395C((u8 *)a);
-    *(u16 *)(o + 6) = 0x546;
+    ((struct Obj03586 *)o)->f18 = 0x546;
     func_021A5354((u32)o);
     k = func_021A3974(o[3]);
     switch (k) {

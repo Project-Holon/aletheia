@@ -27,6 +27,7 @@
  *   func_021B9BA4 0x021B9BA4 thumb ov110
  *   func_020490F4 0x020490F4 arm
  */
+#include "../include/Obj01920.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,25 +53,25 @@ void *func_021B9A50(u8 *context,void *arg) {
     int i;
     p=func_02030734(42,0x90,0,d_021C3C20,0xdf);
     if(p!=0) {
-        *(u32 *)(p+0x64)=0;
-        *(u32 *)(p+0x7c)=0;
-        *(u8 **)(p+0x18)=context;
-        *(void **)(p+0x1c)=arg;
-        *(u8 **)(p+0x78)=func_021BF6D4(context);
+        ((struct Obj01920 *)p)->f64=0;
+        ((struct Obj01920 *)p)->f7C=0;
+        *(u8 * *)&((struct Obj01920 *)p)->f18=context;
+        ((struct Obj01920 *)p)->f1C=arg;
+        *(u8 * *)&((struct Obj01920 *)p)->f78=func_021BF6D4(context);
         func_0204A48C(d_020A1448,(u32)d_021C3714,42);
-        *(void **)(p+0x20)=func_0204B100(128,0,42);
+        ((struct Obj01920 *)p)->f20=func_0204B100(128,0,42);
         func_0203F8F4(42);
         func_02045088(42);
         func_0207D534((void *)0x0400006c,-16);
         func_0207D534((void *)0x0400106c,-16);
-        *(void **)p=func_02030DA8(func_021BF7D0(context),(u32)func_021B9BAC,p,2);
-        *(void **)(p+4)=func_021B9BA4((void (*)(void *, u8 *))func_021B9BD0,p,1);
+        ((struct Obj01920 *)p)->f0=func_02030DA8(func_021BF7D0(context),(u32)func_021B9BAC,p,2);
+        ((struct Obj01920 *)p)->f4=func_021B9BA4((void (*)(void *, u8 *))func_021B9BD0,p,1);
         for(i=0;i<4;++i) *(void **)(p+8+i*4)=0;
-        *(u32 *)(p+0x70)=0;
+        ((struct Obj01920 *)p)->f70=0;
         p[0x74]=0;
-        *(u32 *)(p+0x84)=0;
-        *(u32 *)(p+0x88)=0;
-        *(void **)(p+0x8c)=func_020490F4(43,42);
+        ((struct Obj01920 *)p)->f84=0;
+        ((struct Obj01920 *)p)->f88=0;
+        ((struct Obj01920 *)p)->f8C=func_020490F4(43,42);
     }
     return p;
 }

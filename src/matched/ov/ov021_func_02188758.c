@@ -43,6 +43,7 @@
  *   func_021C8660  0x021C8660  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00518.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -93,11 +94,11 @@ extern void func_021C8660(u32 a);
 
 int func_02188758(void *a, u8 *p)
 {
-    if (func_02012104((const struct Ctx *)(*(u32 *)(p + 4))) == 0)
-        func_0201447C(func_02012B38((const struct BigObj *)(*(u32 *)(p + 8))), 0);
-    if (func_02012E40((const u8 *)(*(u32 *)(p + 8))) != 0)
+    if (func_02012104((const struct Ctx *)(((struct Obj00518 *)p)->f4)) == 0)
+        func_0201447C(func_02012B38((const struct BigObj *)(((struct Obj00518 *)p)->f8)), 0);
+    if (func_02012E40((const u8 *)(((struct Obj00518 *)p)->f8)) != 0)
         return 0;
-    if (*(u32 *)(p + 0x140) != 0) {
+    if (((struct Obj00518 *)p)->f140 != 0) {
         func_021888C8(p);
         func_0204A600();
         return 0;
@@ -106,36 +107,36 @@ int func_02188758(void *a, u8 *p)
     func_021892CC(p);
     if (func_020120D8(a) == 0) {
         (*(void (**)(u8 *, void *))(*(u8 **)(p + 0x108) + 8))(p, p + 0xF4);
-        func_02168EEC(*(u32 *)(p + 8));
+        func_02168EEC(((struct Obj00518 *)p)->f8);
     }
-    if (*(u32 *)(p + 0x30) != 0)
-        func_021BC484(*(u32 *)(p + 0x30));
-    func_021C7FAC(*(u32 *)(p + 0xA0));
-    func_021A2EB8((u32 *)(*(u32 *)(p + 0x8C)));
-    if (func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1)
+    if (((struct Obj00518 *)p)->f30 != 0)
+        func_021BC484(((struct Obj00518 *)p)->f30);
+    func_021C7FAC(((struct Obj00518 *)p)->fA0);
+    func_021A2EB8((u32 *)(((struct Obj00518 *)p)->f8C));
+    if (func_02013CC8(((struct Obj00518 *)p)->fD0) == 1 || func_02013CE0(((struct Obj00518 *)p)->fD0) == 1)
         func_021737A4((int)((void *)func_02012138(a)), (int)p);
     else
-        func_0217AE20((int)p, *(u32 *)(p + 4), *(u32 *)(p + 0x8C));
-    func_021A0D68((u32 *)(*(u32 *)(p + 0x24)));
-    if (*(u32 *)(p + 0x38) != 0) {
+        func_0217AE20((int)p, ((struct Obj00518 *)p)->f4, ((struct Obj00518 *)p)->f8C);
+    func_021A0D68((u32 *)(((struct Obj00518 *)p)->f24));
+    if (((struct Obj00518 *)p)->f38 != 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_0216CD64(*(u32 *)(p + 0x38));
+        func_0216CD64(((struct Obj00518 *)p)->f38);
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     func_021BE258(p);
-    func_021ABE04(*(u32 *)(p + 0x94));
-    if (*(u32 *)(p + 0x98) != 0)
-        func_0217F914(*(u32 *)(p + 0x98));
-    func_021BB948((u8 *)(*(u32 *)(p + 0xBC)));
-    if (*(u32 *)(p + 0x28) != 0)
-        func_021903E0((struct Obj *)(*(u32 *)(p + 0x28)));
-    func_02030D28((struct Ctx *)(*(u32 *)(p + 0x110)));
-    func_021C6D90((u8 *)(*(u32 *)(p + 0x134)));
-    if (*(Rec12 **)(p + 0xF0) != 0)
-        *(Rec12 *)(p + 0xF4) = **(Rec12 **)(p + 0xF0);
-    func_0218D158((struct T *)(*(u32 *)(p + 0x48)), (const struct V3 *)(p + 0xF4));
+    func_021ABE04(((struct Obj00518 *)p)->f94);
+    if (((struct Obj00518 *)p)->f98 != 0)
+        func_0217F914(((struct Obj00518 *)p)->f98);
+    func_021BB948((u8 *)(((struct Obj00518 *)p)->fBC));
+    if (((struct Obj00518 *)p)->f28 != 0)
+        func_021903E0((struct Obj *)(((struct Obj00518 *)p)->f28));
+    func_02030D28((struct Ctx *)(((struct Obj00518 *)p)->f110));
+    func_021C6D90((u8 *)(((struct Obj00518 *)p)->f134));
+    if (*(Rec12 * *)&((struct Obj00518 *)p)->fF0 != 0)
+        *(Rec12 *)(p + 0xF4) = **(Rec12 * *)&((struct Obj00518 *)p)->fF0;
+    func_0218D158((struct T *)(((struct Obj00518 *)p)->f48), (const struct V3 *)(p + 0xF4));
     func_02189004(p);
-    func_021C8660(*func_02012ED0(*(u32 *)(p + 8)));
+    func_021C8660(*func_02012ED0(((struct Obj00518 *)p)->f8));
     func_0204A600();
     func_021888C8(p);
     return 0;

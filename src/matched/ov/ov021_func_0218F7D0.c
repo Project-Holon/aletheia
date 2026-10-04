@@ -13,6 +13,8 @@
  *   func_0218F18C  0x0218F18C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02371.h"
+#include "../include/Obj07420.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,9 +28,9 @@ void func_0218F7D0(u8 *s, u8 *d)
 {
     *(V3 *)(d + 0) = *(V3 *)(s + 0x24);
     func_0218F18C(s, d + 0xc);
-    *(u16 *)(d + 0x24) = *(u16 *)(s + 0x78);
-    *(u16 *)(d + 0x26) = *(u16 *)(s + 0x7a);
-    *(u32 *)(d + 0x28) = *(u32 *)(s + 0x7c);
-    *(u16 *)(d + 0x2c) = *(u16 *)(s + 0x80);
+    ((struct Obj07420 *)d)->f24 = ((struct Obj02371 *)s)->f78;
+    ((struct Obj07420 *)d)->f26 = ((struct Obj02371 *)s)->f7A;
+    ((struct Obj07420 *)d)->f28 = ((struct Obj02371 *)s)->f7C;
+    ((struct Obj07420 *)d)->f2C = ((struct Obj02371 *)s)->f80;
     *(V3 *)(d + 0x18) = *(V3 *)(s + 0x60);
 }

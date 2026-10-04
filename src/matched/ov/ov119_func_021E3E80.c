@@ -15,6 +15,7 @@
  *   func_02049990 0x02049990 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -29,14 +30,14 @@ void func_021E3E80(char *p)
     void *v;
     int kind;
     int mode;
-    v = func_020490F4(0x66, *(unsigned short *)(p + 0x5F4));
+    v = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     mode = func_021D8AA8(p);
     kind = 4;
     if (mode == 0)
         kind = 11;
-    func_02049B68(v, 9, 0, 0, 0, *(unsigned short *)(p + 0x5F4));
-    if (*(int *)(p + 0x86C) == 0)
-        *(int *)(p + 0x86C) = func_02049740(v, 10, 2, 0, 0, *(unsigned short *)(p + 0x5F4));
-    func_02049990(v, kind, 2, 0, *(unsigned int *)(p + 0x86C), 0, 0, *(unsigned short *)(p + 0x5F4));
+    func_02049B68(v, 9, 0, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    if (*(int *)&((struct Obj00001 *)p)->f86C == 0)
+        *(int *)&((struct Obj00001 *)p)->f86C = func_02049740(v, 10, 2, 0, 0, ((struct Obj00001 *)p)->f5F4);
+    func_02049990(v, kind, 2, 0, ((struct Obj00001 *)p)->f86C, 0, 0, ((struct Obj00001 *)p)->f5F4);
     func_02049238(v);
 }

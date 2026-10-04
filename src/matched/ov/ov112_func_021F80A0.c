@@ -11,7 +11,8 @@
  * symbols:
  *   func_021F539C 0x021F539C thumb ov112
  */
+#include "../include/Obj13844.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F539C(void **p);
-void func_021F80A0(int a,u8 *p) { func_021F539C(*(void **)(p+0x58)); *(int *)(p+0x4c)=1; }
+void func_021F80A0(int a,u8 *p) { func_021F539C(((struct Obj13844 *)p)->f58); ((struct Obj13844 *)p)->f4C=1; }

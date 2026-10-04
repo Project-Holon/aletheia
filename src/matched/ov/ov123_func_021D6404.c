@@ -14,6 +14,7 @@
  *   func_02049238 0x02049238 arm
  *   func_0204AF28 0x0204AF28 arm
  */
+#include "../include/Obj00343.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,10 +27,10 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 void func_021D6404(u8 *p)
 {
     void *h;
-    h = func_020490F4(7, *(u16 *)(p + 0x43c4));
-    *(void **)(p + 0x28) = (void *)func_0204ACEC(h, func_0201BC3C(), 2, 0, *(u16 *)(p + 0x43c4));
+    h = func_020490F4(7, ((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f28 = (void *)func_0204ACEC(h, func_0201BC3C(), 2, 0, ((struct Obj00343 *)p)->f43C4);
     func_02049238(h);
-    h = func_020490F4(143, *(u16 *)(p + 0x43c4));
-    *(void **)(p + 0x5c) = (void *)func_0204AF28(h, 14, 27, *(u16 *)(p + 0x43c4));
+    h = func_020490F4(143, ((struct Obj00343 *)p)->f43C4);
+    ((struct Obj00343 *)p)->f5C = (void *)func_0204AF28(h, 14, 27, ((struct Obj00343 *)p)->f43C4);
     func_02049238(h);
 }

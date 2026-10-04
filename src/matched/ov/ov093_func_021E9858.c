@@ -14,6 +14,7 @@
  *   func_021E9728  0x021E9728  thumb  ov093
  *   func_021E9884  0x021E9884  thumb  ov093
  */
+#include "../include/Obj21554.h"
 typedef unsigned int u32;
 
 extern void func_021E9874(void *p);
@@ -22,6 +23,6 @@ extern int func_021E9884(void *p);
 
 void func_021E9858(char *p)
 {
-    func_021E9874(*(void **)(p + 0x180));
+    func_021E9874(((struct Obj21554 *)p)->f180);
     func_021E9728(p, (u32)func_021E9884);
 }

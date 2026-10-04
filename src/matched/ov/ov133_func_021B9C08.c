@@ -17,6 +17,7 @@
  *   func_02045808 0x02045808 arm
  *   func_0201C724 0x0201C724 thumb
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -36,17 +37,17 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C724(void *, void *, unsigned int, unsigned int, const void *, void *, u16);
 void func_021B9C08(u8 *p, unsigned int index, void *object)
 {
-    void *text = func_02045EC0(*(void **)(p + 0x18d8), index);
+    void *text = func_02045EC0(((struct Obj00004 *)p)->f18D8, index);
     void *copy;
-    func_0201C6EC(*(void **)(p + 0x18e8));
-    func_02043B5C(func_02045770(*(void **)(p + 0x18ec)), 15);
+    func_0201C6EC(((struct Obj00004 *)p)->f18E8);
+    func_02043B5C(func_02045770(((struct Obj00004 *)p)->f18EC), 15);
     if (object) {
-        copy = func_020457B0(128, *(u16 *)p);
+        copy = func_020457B0(128, ((struct Obj00004 *)p)->f0);
         func_0201F250(object, copy, text);
         func_02045808(text);
         text = copy;
     }
-    func_0201C724(*(void **)(p + 0x18e8), func_02045770(*(void **)(p + 0x18ec)), 2, 2, text, *(void **)(p + 0x18e4), 1088);
+    func_0201C724(((struct Obj00004 *)p)->f18E8, func_02045770(((struct Obj00004 *)p)->f18EC), 2, 2, text, ((struct Obj00004 *)p)->f18E4, 1088);
     func_02045808(text);
-    *(int *)(p + 0x18cc) = 1;
+    *(int *)&((struct Obj00004 *)p)->f18CC = 1;
 }

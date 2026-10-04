@@ -12,9 +12,10 @@
  * symbols:
  *   func_0204B98C 0x0204B98C arm
  */
+#include "../include/Obj06390.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-int func_021BCE30(char *p) { if (func_0204B98C(*(void **)(p+0x8c))==0) return 1; return 0; }
+int func_021BCE30(char *p) { if (func_0204B98C(((struct Obj06390 *)p)->f8C)==0) return 1; return 0; }

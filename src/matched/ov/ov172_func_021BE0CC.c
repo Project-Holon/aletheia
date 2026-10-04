@@ -8,9 +8,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24133.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 void func_021BE0CC(void *p, u32 v)
 {
-    *(u32 *)((char *)p + 0x28) = v;
+    ((struct Obj24133 *)p)->f28 = v;
 }

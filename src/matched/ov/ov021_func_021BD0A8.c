@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj20122.h"
 
 typedef unsigned short u16;
 
 void func_021BD0A8(char *p)
 {
-    *(u16 *)(p + 0x42) = 0;
+    ((struct Obj20122 *)p)->f42 = 0;
 }

@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14100.h"
 
 extern void func_021F9D80(char *p);
 typedef unsigned char  u8;
@@ -24,7 +25,7 @@ int func_021FB1CC(int a, char **pp)
 {
     char *p = *pp;
 
-    func_021F9D80(*(void **)(p + 0x34));
-    func_021F9AD8(*(void **)(p + 0x34), 0, 0);
+    func_021F9D80(((struct Obj14100 *)p)->f34);
+    func_021F9AD8(((struct Obj14100 *)p)->f34, 0, 0);
     return 0;
 }

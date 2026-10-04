@@ -12,13 +12,14 @@
  * symbols:
  *   func_021FD640  0x021FD640  thumb  ov186
  */
+#include "../include/Obj10772.h"
 
 extern void func_021FD640(int *p);
 
 void func_021F8EE8(char *p)
 {
-    if (*(int *)(p + 0x10) != 0) {
-        func_021FD640((int *)(*(int *)(p + 0x10)));
-        *(int *)(p + 0x10) = 0;
+    if (((struct Obj10772 *)p)->f10 != 0) {
+        func_021FD640((int *)(((struct Obj10772 *)p)->f10));
+        ((struct Obj10772 *)p)->f10 = 0;
     }
 }

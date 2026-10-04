@@ -15,8 +15,9 @@
  * symbols:
  *   func_021A21BC 0x021A21BC thumb ov021
  */
+#include "../include/Obj19731.h"
 
 int func_021A21BC(unsigned char *o)
 {
-    return *(int *)(o + 0x778);
+    return ((struct Obj19731 *)o)->f778;
 }

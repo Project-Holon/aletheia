@@ -11,6 +11,7 @@
  * symbols:
  *   func_02005E9C  0x02005E9C  thumb
  */
+#include "../include/Obj22749.h"
 
 typedef unsigned char u8;
 
@@ -21,5 +22,5 @@ void func_021DFD64(void *p)
     u8 *b = p;
 
     func_02005E9C();
-    *(u8 *)(b + 0x11f8) -= 1;
+    ((struct Obj22749 *)b)->f11F8 -= 1;
 }

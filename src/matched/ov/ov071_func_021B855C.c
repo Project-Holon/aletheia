@@ -21,6 +21,7 @@
  *   func_02045334  0x02045334  arm
  *   func_021B8798  0x021B8798  thumb  ov071
  */
+#include "../include/Obj06187.h"
 
 typedef struct {
     char pad0[8];
@@ -62,8 +63,8 @@ int func_021B855C(int a, int *p, C *c, unsigned char *d)
         void *q = c->f4->f8;
         unsigned char *s = d + i * 8;
         if (s[0xc] != 0) {
-            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(*(void **)(s + 8)))) == 0) {
-                func_02045334(*(void **)(s + 8));
+            if (func_0201C6C4(q, (void *)((unsigned)func_02045770(((struct Obj06187 *)s)->f8))) == 0) {
+                func_02045334(((struct Obj06187 *)s)->f8);
                 s[0xc] = 0;
             }
         }

@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00326.h"
 
 typedef unsigned int u32;
 
@@ -22,9 +23,9 @@ extern void func_021DA148(u8 *p);
 
 void func_021D8198(char *p)
 {
-    void *x = *(void **)(p + 0x260);
+    void *x = ((struct Obj00326 *)p)->f260;
     if (x != 0) {
         func_021DA148(x);
-        *(u32 *)(p + 0x260) = 0;
+        *(u32 *)&((struct Obj00326 *)p)->f260 = 0;
     }
 }

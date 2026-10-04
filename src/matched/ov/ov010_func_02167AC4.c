@@ -14,6 +14,8 @@
  *   func_02008494 0x02008494 thumb
  *   func_02087C6C 0x02087C6C arm
  */
+#include "../include/Obj19012.h"
+#include "../include/Obj19013.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_02012944(void *p);
@@ -23,9 +25,9 @@ void *func_02167AC4(u8 *p)
 {
     u8 *q;
     q = p + 0x6f4;
-    func_02008494(func_02012944(*(void **)(p + 0x6c)), q);
+    func_02008494(func_02012944(((struct Obj19012 *)p)->f6C), q);
     func_02087C6C(q + 0x20);
-    *(u16 *)(q + 0x26) = 0x3a0b;
+    ((struct Obj19013 *)q)->f26 = 0x3a0b;
     return q;
 }
 int func_02167AF0(void)

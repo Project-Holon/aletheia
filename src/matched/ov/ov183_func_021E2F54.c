@@ -13,6 +13,8 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_021FD15C 0x021FD15C thumb ov186
  */
+#include "../include/Obj10762.h"
+#include "../include/Obj14445.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
@@ -29,9 +31,9 @@ void func_021E2F54(char *p,char *q)
         }
     }
     func_020409B4(4);
-    func_021FBDA4(*(int *)(q+8),0x1e);
-    if (*(void **)(p+8)) {
-        func_021FD15C(*(void **)(p+8),*(int *)(q+8));
-        *(int *)(p+8)=0;
+    func_021FBDA4(((struct Obj14445 *)q)->f8,0x1e);
+    if (((struct Obj10762 *)p)->f8) {
+        func_021FD15C(((struct Obj10762 *)p)->f8,((struct Obj14445 *)q)->f8);
+        *(int *)&((struct Obj10762 *)p)->f8=0;
     }
 }

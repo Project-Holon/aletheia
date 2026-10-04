@@ -12,6 +12,7 @@
  * symbols:
  *   func_021F88A8  0x021F88A8  thumb  ov094
  */
+#include "../include/Obj06328.h"
 typedef struct {
     unsigned int lo : 4;
     unsigned int b4 : 1;
@@ -22,13 +23,13 @@ extern int func_021F88A8(void);
 int func_02206A7C(char *p)
 {
     if (!((Bf *)(p + 0x68))->b4) {
-        if (*(int *)(p + 0x50) == 2) {
+        if (((struct Obj06328 *)p)->f50 == 2) {
             if (func_021F88A8() == 1) {
-                if (*(int *)(p + 0x278) == 4)
+                if (((struct Obj06328 *)p)->f278 == 4)
                     return 0x65;
                 return 0x5f;
             }
-            if (*(int *)(p + 0x278) == 4)
+            if (((struct Obj06328 *)p)->f278 == 4)
                 return 0x5d;
             return 0x5e;
         }
@@ -36,7 +37,7 @@ int func_02206A7C(char *p)
             return 0x65;
         return 0x5d;
     }
-    if (*(int *)(p + 0x50) == 2 && *(int *)(p + 0x278) != 4) {
+    if (((struct Obj06328 *)p)->f50 == 2 && ((struct Obj06328 *)p)->f278 != 4) {
         if (func_021F88A8() == 1)
             return 0x67;
         return 0x61;

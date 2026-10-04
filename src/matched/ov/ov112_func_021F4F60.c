@@ -10,11 +10,12 @@
  * status: EXACT*
  * extent: fourteen-byte body, two zero padding bytes, existing matched ov112_func_021F4F70 follows.
  */
+#include "../include/Obj13828.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef struct { int x, y; } Offset;
 void func_021F4F60(u8 *p, Offset *out)
 {
-    out->x = *(s8 *)(p + 4);
-    out->y = *(s8 *)(p + 5);
+    out->x = ((struct Obj13828 *)p)->f4;
+    out->y = ((struct Obj13828 *)p)->f5;
 }

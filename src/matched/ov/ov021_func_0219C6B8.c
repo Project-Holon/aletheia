@@ -26,6 +26,7 @@
  *   func_0219C9D0  0x0219C9D0  thumb  ov021
  *   d_021D75D0     0x021D75D0  data  a4
  */
+#include "../include/Obj07474.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -71,11 +72,11 @@ u32 func_0219C6B8(u32 a, V3 *b, int c, u32 d, u16 e)
     s.w = 1;
     s.f1c = (void (*)(void))func_0219C9D0;
     s.f20 = (u32)m;
-    r = func_02050340(*(u32 *)(m + 4), *(u16 *)(m + 8), &s, 1, 0);
+    r = func_02050340(((struct Obj07474 *)m)->f4, ((struct Obj07474 *)m)->f8, &s, 1, 0);
     q = func_0219D3E4(d);
     if (q[0] != 0) {
-        func_02050804((void *)(*(u32 *)(m + 4)), r, q[0], (u16)q[1]);
-        h = *(u32 *)(m + 4);
+        func_02050804((void *)(((struct Obj07474 *)m)->f4), r, q[0], (u16)q[1]);
+        h = ((struct Obj07474 *)m)->f4;
         func_0205082C((void *)h, r, 0);
         func_020507F0((void *)h, r, 1);
     }

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00044.h"
 
 typedef unsigned char u8;
 
@@ -21,11 +22,11 @@ int func_021B9F2C(u8 *p, int i, int v)
             return 0;
         }
     }
-    old = *(int *)(p + 0x2f4);
-    *(int *)(p + 0x2f8) = old;
-    *(int *)(p + 0x2fc) = old;
-    *(int *)(p + 0x2f4) = i;
-    *(int *)(p + 0x304) = 1;
-    *(int *)(p + 0x308) = v;
+    old = ((struct Obj00044 *)p)->f2F4;
+    ((struct Obj00044 *)p)->f2F8 = old;
+    ((struct Obj00044 *)p)->f2FC = old;
+    ((struct Obj00044 *)p)->f2F4 = i;
+    ((struct Obj00044 *)p)->f304 = 1;
+    ((struct Obj00044 *)p)->f308 = v;
     return 1;
 }

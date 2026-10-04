@@ -15,6 +15,8 @@
  *   func_021F0EDC 0x021F0EDC thumb
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj00225.h"
+#include "../include/Obj00710.h"
 
 typedef unsigned char u8;
 
@@ -27,36 +29,36 @@ void func_021F1704(void *h, char *t)
 {
     u8 *e;
 
-    switch (*(int *)t) {
+    switch (((struct Obj00710 *)t)->f0) {
     case 0:
-        if (*(u8 *)(t + 0xd) != 0) {
-            *(u8 *)(t + 0xd) = *(u8 *)(t + 0xd) - 1;
+        if (((struct Obj00710 *)t)->fD != 0) {
+            ((struct Obj00710 *)t)->fD = ((struct Obj00710 *)t)->fD - 1;
             return;
         }
-        *(u8 *)(t + 0xf) = *(u8 *)(t + 0xf) + 1;
-        if (*(u8 *)(t + 0xf) < *(u8 *)(t + 0xe)) {
-            int x = *(int *)(t + 0x14) + *(int *)(t + 0x1c);
-            int y = *(int *)(t + 0x18) + *(int *)(t + 0x20);
-            *(int *)(t + 0x14) = x;
-            *(int *)(t + 0x18) = y;
-            func_021F1218(*(u8 **)(t + 8), (short)(x >> 12), (short)(y >> 12));
+        ((struct Obj00710 *)t)->fF = ((struct Obj00710 *)t)->fF + 1;
+        if (((struct Obj00710 *)t)->fF < ((struct Obj00710 *)t)->fE) {
+            int x = ((struct Obj00710 *)t)->f14 + ((struct Obj00710 *)t)->f1C;
+            int y = ((struct Obj00710 *)t)->f18 + ((struct Obj00710 *)t)->f20;
+            ((struct Obj00710 *)t)->f14 = x;
+            ((struct Obj00710 *)t)->f18 = y;
+            func_021F1218(*(u8 * *)&((struct Obj00710 *)t)->f8, (short)(x >> 12), (short)(y >> 12));
             return;
         }
-        func_021F1218(*(u8 **)(t + 8), *(short *)(t + 0x10), *(short *)(t + 0x12));
-        e = *(u8 **)(t + 8);
+        func_021F1218(*(u8 * *)&((struct Obj00710 *)t)->f8, ((struct Obj00710 *)t)->f10, ((struct Obj00710 *)t)->f12);
+        e = *(u8 * *)&((struct Obj00710 *)t)->f8;
         if (e[2] == 0 || e[2] == 5) {
-            *(int *)t = *(int *)t + 1;
+            ((struct Obj00710 *)t)->f0 = ((struct Obj00710 *)t)->f0 + 1;
             return;
         }
         break;
     case 1:
     default:
-        e = *(u8 **)(t + 8);
-        if (*(int *)(e + 0x2c) != 0)
+        e = *(u8 * *)&((struct Obj00710 *)t)->f8;
+        if (((struct Obj00225 *)e)->f2C != 0)
             return;
         func_021F0EDC(e);
         break;
     }
-    **(int **)(t + 0x24) = **(int **)(t + 0x24) - 1;
+    **(int * *)&((struct Obj00710 *)t)->f24 = **(int * *)&((struct Obj00710 *)t)->f24 - 1;
     func_02031194(h);
 }

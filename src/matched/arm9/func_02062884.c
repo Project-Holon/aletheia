@@ -22,6 +22,7 @@
  * bytes (the original `bl` displacement points at the stub).  So this stays
  * MATCH and src/pending/func_02062820.c cannot be promoted.
  */
+#include "../include/Obj02023.h"
 
 typedef unsigned short u16;
 extern int func_020627F0(int *p);
@@ -33,7 +34,7 @@ void func_02062884(int *p)
     int base;
     p[1] = (int)((char *)p[1] + (int)p);
     base = func_020627F0(p);
-    for (i = 0; i < *(u16 *)p; i++) {
+    for (i = 0; i < ((struct Obj02023 *)p)->f0; i++) {
         int *e = func_0206285C(p, i);
         e[1] = (int)((char *)e[1] + base);
     }

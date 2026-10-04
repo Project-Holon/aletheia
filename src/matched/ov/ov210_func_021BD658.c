@@ -19,6 +19,7 @@
  *   func_021BC5C8 0x021BC5C8 thumb ov210
  *   func_021BCD30 0x021BCD30 thumb ov210
  */
+#include "../include/Obj06695.h"
 typedef unsigned char u8;
 extern void func_021BC8B4(int);
 extern void func_021BE8F8(u8 *);
@@ -40,7 +41,7 @@ int func_021BD658(u8 *p)
         func_021C02DC(p);
         p[0x2BA]++;
     case 1:
-        if (func_021B7A64(*(void **)(p + 0x1E0)) == 0) {
+        if (func_021B7A64(((struct Obj06695 *)p)->f1E0) == 0) {
             func_021BF728(p, 0);
             func_021BF4A4(p);
             func_021BCAF8(p);

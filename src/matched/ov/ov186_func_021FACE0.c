@@ -13,8 +13,9 @@
  *   func_021FB494 0x021FB494 thumb ov186
  *   memset 0x02082BCC arm
  */
+#include "../include/Obj10784.h"
 struct U16Vec;
 extern void func_02045808(struct U16Vec *);
 extern void func_021FB494(char *p);
 extern void *memset(void *,int,unsigned);
-void func_021FACE0(char *p) { if(*(unsigned *)p!=0){func_02045808(*(struct U16Vec **)(p+0x40));func_021FB494(*(void **)(p+8));memset(p,0,0x44);} }
+void func_021FACE0(char *p) { if(((struct Obj10784 *)p)->f0!=0){func_02045808(*(struct U16Vec * *)&((struct Obj10784 *)p)->f40);func_021FB494(((struct Obj10784 *)p)->f8);memset(p,0,0x44);} }

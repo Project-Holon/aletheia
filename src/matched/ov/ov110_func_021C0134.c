@@ -21,6 +21,7 @@
  *   func_02031324 0x02031324 arm
  *   func_021C0490 0x021C0490 thumb ov110
  */
+#include "../include/Obj01713.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const u8 overlay_id[];
@@ -47,16 +48,16 @@ int func_021C0134(void *owner,int unused,void **input) {
     func_0203064C(1,81,0x1c000);
     p=func_0203159C(owner,176,81);
     func_02082BCC(p,0,176);
-    *(u16 *)(p+4)=81;
-    *(void **)(p+0x1c)=*input;
-    *(void **)(p+0x20)=func_02024988((int)(*input));
-    *(void ***)p=input;
-    *(void **)(p+0x58)=func_0201D7EC(23,0,0,0,*(u16 *)(p+4));
-    *(void **)(p+0x60)=func_02045B38(0,2,146,*(u16 *)(p+4));
-    *(void **)(p+0x5c)=(void *)func_0201C440((void *)(*(u16 *)(p+4)));
-    *(void **)(p+0xac)=func_02031324(*(u16 *)(p+4));
-    *(u8 *)(p+0x94)=255;
-    *(u8 *)(p+0x95)=255;
+    ((struct Obj01713 *)p)->f4=81;
+    ((struct Obj01713 *)p)->f1C=*input;
+    ((struct Obj01713 *)p)->f20=func_02024988((int)(*input));
+    *(void ** *)&((struct Obj01713 *)p)->f0=input;
+    ((struct Obj01713 *)p)->f58=func_0201D7EC(23,0,0,0,((struct Obj01713 *)p)->f4);
+    ((struct Obj01713 *)p)->f60=func_02045B38(0,2,146,((struct Obj01713 *)p)->f4);
+    ((struct Obj01713 *)p)->f5C=(void *)func_0201C440((void *)(((struct Obj01713 *)p)->f4));
+    ((struct Obj01713 *)p)->fAC=func_02031324(((struct Obj01713 *)p)->f4);
+    ((struct Obj01713 *)p)->f94=255;
+    ((struct Obj01713 *)p)->f95=255;
     func_021C0490(p);
     return 1;
 }

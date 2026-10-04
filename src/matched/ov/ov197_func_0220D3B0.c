@@ -25,6 +25,12 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00846.h"
+#include "../include/Obj25091.h"
+#include "../include/Obj25092.h"
+#include "../include/Obj25093.h"
+#include "../include/Obj25095.h"
+#include "../include/Obj25097.h"
 typedef unsigned char u8;
 struct PrintSys;
 struct Rec3;
@@ -47,31 +53,31 @@ extern void func_02030EAC(struct Node *);
 extern void func_020307B0(void *);
 int func_0220D3B0(struct Node *task, char *p)
 {
-    if (*(int *)(p + 0x5a0) == 1) {
-        if (func_0201C6B4(*(struct PrintSys **)(p + 0x18)) == 0) {
-            if (*(int *)(*(char **)p + 0x24) == 1) func_0201C6EC(*(struct PrintSys **)(p + 0x18));
+    if (((struct Obj00846 *)p)->f5A0 == 1) {
+        if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18) == 0) {
+            if (((struct Obj25091 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) func_0201C6EC(*(struct PrintSys * *)&((struct Obj00846 *)p)->f18);
             else return 0;
         }
         if (func_020221A4() == 0) {
-            if (*(int *)(*(char **)p + 0x24) == 1) func_020221B8();
+            if (((struct Obj25092 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f24 == 1) func_020221B8();
             else return 0;
         }
-        if (*(struct Rec3 **)(p + 0x1c)) func_0201CE48(*(struct Rec3 **)(p + 0x1c));
+        if (*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C) func_0201CE48(*(struct Rec3 * *)&((struct Obj00846 *)p)->f1C);
         func_0220BD14(p);
         func_0220C448(p);
         func_0220B1A0(p);
         func_0220D7D0(p);
         func_0220D6B8();
-        func_02031140(*(struct S02031140 **)(p + 4));
+        func_02031140(*(struct S02031140 * *)&((struct Obj00846 *)p)->f4);
         func_0220D914((u8 *)p);
-        func_0220AF64(*(void **)(p + 0x148));
-        if (*(int *)(p + 0x598) == 1) {
-            **(u8 **)(*(char **)p + 0x2c) = 1;
+        func_0220AF64(((struct Obj00846 *)p)->f148);
+        if (((struct Obj00846 *)p)->f598 == 1) {
+            **(u8 * *)&((struct Obj25093 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 1;
         } else {
-            **(u8 **)(*(char **)p + 0x2c) = 0;
+            **(u8 * *)&((struct Obj25095 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f2C = 0;
         }
     }
-    *(u8 *)(*(char **)p + 0x19) = 1;
+    ((struct Obj25097 *)(*(char * *)&((struct Obj00846 *)p)->f0))->f19 = 1;
     func_02030EAC(task);
     func_020307B0(p);
     return 1;

@@ -13,6 +13,7 @@
  *   func_021EF948  0x021EF948  thumb  ov093
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj21971.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,5 +34,5 @@ int func_0218979C(int a, int b) {
     r2 = func_0201134C(a);
     t = func_021EF948(r);
     func_0218A0F4((u8 *)a, 2, t, 1, r2);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21971 *)b)->fC4;
 }

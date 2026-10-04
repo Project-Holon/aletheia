@@ -23,6 +23,8 @@
  *   d_021DA830 0x021DA830 data a4
  *   d_021DA84C 0x021DA84C data a4
  */
+#include "../include/Obj00361.h"
+#include "../include/Obj00411.h"
 typedef unsigned char u8;
 typedef short s16;
 typedef unsigned short u16;
@@ -50,82 +52,82 @@ int func_021D8C90(char *p)
     char *q;
     Scale scale;
     Pair first,second;
-    switch(*(int *)(p+0x234)) {
+    switch(((struct Obj00361 *)p)->f234) {
     case 0:
         func_021D9E48(p,0,0);
-        for(i=0;i<*(int *)(p+0x23c);i++) {
+        for(i=0;i<((struct Obj00361 *)p)->f23C;i++) {
             q=p+i*28;
-            if(*(u8 *)(q+24)) {
-                func_0204B454(*(void **)(q+12),(struct PtS *)&first,0);
-                first.x+=*(s16 *)(q+20);
-                first.y+=*(s16 *)(q+22);
-                func_0204B404(*(void **)(q+12),&first,0);
-                (*(u8 *)(q+24))--;
-                if(i>=*(int *)(p+0x248) && i<*(int *)(p+0x24c)) {
-                    scale.x=d_021DA830[*(u8 *)(q+25)];
+            if(((struct Obj00411 *)q)->f18) {
+                func_0204B454(((struct Obj00411 *)q)->fC,(struct PtS *)&first,0);
+                first.x+=((struct Obj00411 *)q)->f14;
+                first.y+=((struct Obj00411 *)q)->f16;
+                func_0204B404(((struct Obj00411 *)q)->fC,&first,0);
+                (((struct Obj00411 *)q)->f18)--;
+                if(i>=((struct Obj00361 *)p)->f248 && i<((struct Obj00361 *)p)->f24C) {
+                    scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
                     scale.y=scale.x;
-                    func_0204B5AC(*(void **)(q+12),&scale);
-                    (*(u8 *)(q+25))++;
+                    func_0204B5AC(((struct Obj00411 *)q)->fC,&scale);
+                    (((struct Obj00411 *)q)->f19)++;
                 }
-                if(i>=*(int *)(p+0x250) && i<*(int *)(p+0x254)) {
-                    scale.x=d_021DA84C[*(u8 *)(q+25)];
+                if(i>=((struct Obj00361 *)p)->f250 && i<((struct Obj00361 *)p)->f254) {
+                    scale.x=d_021DA84C[((struct Obj00411 *)q)->f19];
                     scale.y=scale.x;
-                    func_0204B5AC(*(void **)(q+12),&scale);
-                    (*(u8 *)(q+25))++;
+                    func_0204B5AC(((struct Obj00411 *)q)->fC,&scale);
+                    (((struct Obj00411 *)q)->f19)++;
                 }
             }
         }
         for(i=0;i<2;i++) {
             q=p+i*28;
-            if(*(u8 *)(q+0x168)) {
-                func_0204B454(*(void **)(q+0x15c),(struct PtS *)&second,0);
-                second.x+=*(s16 *)(q+0x164);
-                second.y+=*(s16 *)(q+0x166);
-                func_0204B404(*(void **)(q+0x15c),&second,0);
-                (*(u8 *)(q+0x168))--;
+            if(((struct Obj00411 *)q)->f168) {
+                func_0204B454(((struct Obj00411 *)q)->f15C,(struct PtS *)&second,0);
+                second.x+=((struct Obj00411 *)q)->f164;
+                second.y+=((struct Obj00411 *)q)->f166;
+                func_0204B404(((struct Obj00411 *)q)->f15C,&second,0);
+                (((struct Obj00411 *)q)->f168)--;
             }
         }
-        if(*(u8 *)(p+24)==0) {
-            for(i=*(int *)(p+0x248);i<*(int *)(p+0x24c);i++) {
+        if(((struct Obj00361 *)p)->f18==0) {
+            for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
                 q=p+i*28;
-                func_0204B878(*(void **)(q+12),func_021DA158(*(int *)q,*(int *)(q+8)));
+                func_0204B878(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
-            for(i=*(int *)(p+0x250);i<*(int *)(p+0x254);i++) {
+            for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
                 q=p+i*28;
-                func_0204B878(*(void **)(q+12),func_021DA158(*(int *)q,*(int *)(q+8)));
+                func_0204B878(((struct Obj00411 *)q)->fC,func_021DA158(((struct Obj00411 *)q)->f0,((struct Obj00411 *)q)->f8));
             }
-            (*(int *)(p+0x234))++;
+            (((struct Obj00361 *)p)->f234)++;
         }
-        (*(int *)(p+0x238))++;
+        (((struct Obj00361 *)p)->f238)++;
         break;
     case 1:
-        for(i=*(int *)(p+0x248);i<*(int *)(p+0x24c);i++) {
+        for(i=((struct Obj00361 *)p)->f248;i<((struct Obj00361 *)p)->f24C;i++) {
             q=p+i*28;
-            if(*(u8 *)(q+25)!=6) {
-                scale.x=d_021DA830[*(u8 *)(q+25)];
+            if(((struct Obj00411 *)q)->f19!=6) {
+                scale.x=d_021DA830[((struct Obj00411 *)q)->f19];
                 scale.y=scale.x;
-                func_0204B5AC(*(void **)(q+12),&scale);
-                (*(u8 *)(q+25))++;
+                func_0204B5AC(((struct Obj00411 *)q)->fC,&scale);
+                (((struct Obj00411 *)q)->f19)++;
             }
         }
-        for(i=*(int *)(p+0x250);i<*(int *)(p+0x254);i++) {
+        for(i=((struct Obj00361 *)p)->f250;i<((struct Obj00361 *)p)->f254;i++) {
             q=p+i*28;
-            if(*(u8 *)(q+25)!=6) {
-                scale.x=d_021DA84C[*(u8 *)(q+25)];
+            if(((struct Obj00411 *)q)->f19!=6) {
+                scale.x=d_021DA84C[((struct Obj00411 *)q)->f19];
                 scale.y=scale.x;
-                func_0204B5AC(*(void **)(q+12),&scale);
-                (*(u8 *)(q+25))++;
+                func_0204B5AC(((struct Obj00411 *)q)->fC,&scale);
+                (((struct Obj00411 *)q)->f19)++;
             }
         }
-        (*(int *)(p+0x238))++;
-        if(*(int *)(p+0x238)==6) (*(int *)(p+0x234))++;
+        (((struct Obj00361 *)p)->f238)++;
+        if(((struct Obj00361 *)p)->f238==6) (((struct Obj00361 *)p)->f234)++;
         break;
     default:
         func_021DA320(p);
-        if(*(int *)(p+0x324)==0) n=func_021D97CC(p,*(int *)(p+0x320));
-        else n=func_021D97FC(p,*(int *)(p+0x320));
+        if(((struct Obj00361 *)p)->f324==0) n=func_021D97CC(p,((struct Obj00361 *)p)->f320);
+        else n=func_021D97FC(p,((struct Obj00361 *)p)->f320);
         func_021D9E60(p,n);
-        if(*(int *)(p+0x240)) func_021D9E48(p,0,1);
+        if(((struct Obj00361 *)p)->f240) func_021D9E48(p,0,1);
         func_021D97B8(p);
         func_021D8AF4(p,1);
         break;

@@ -17,6 +17,7 @@
  *     for a byte read, returning the +0x40 word or the 0xFFFF sentinel.
  *     Mirrors func_021D679C.
  */
+#include "../include/Obj00013.h"
 
 typedef unsigned long u32;
 
@@ -25,9 +26,9 @@ extern int func_021E8A90(int **p);
 
 u32 func_021D9A30(char *obj)
 {
-    func_021E8A80(*(u32 *)(obj + 0x3c));
-    if (func_021E8A90((int **)(*(u32 *)(obj + 0x3c))) != 0)
-        return *(u32 *)(obj + 0x40);
+    func_021E8A80(((struct Obj00013 *)obj)->f3C);
+    if (func_021E8A90((int **)(((struct Obj00013 *)obj)->f3C)) != 0)
+        return ((struct Obj00013 *)obj)->f40;
     return 0xFFFF;
 }
 

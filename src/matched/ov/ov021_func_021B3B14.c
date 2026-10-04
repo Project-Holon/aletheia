@@ -17,6 +17,7 @@
  *   func_0203101C 0x0203101C arm
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned short u16;
 
@@ -33,11 +34,11 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 int func_021B3B14(char *p, int a)
 {
-    *(void **)(p + 392) = func_02045B38(0, 3, 423, *(u16 *)(p + 4));
-    *(void **)(p + 396) = func_02045B38(0, 2, 53, *(u16 *)(p + 4));
-    *(void **)(p + 400) = func_0201EC64(*(u16 *)(p + 4));
-    *(void **)(p + 408) = func_020457B0(200, *(u16 *)(p + 4));
-    *(void **)(p + 436) = func_0203101C(*(u16 *)(p + 4), *(u16 *)(p + 4), 32, 32);
-    *(void **)(p + 412) = func_02045EC0(*(void **)(p + 392), 29);
+    ((struct Obj00037 *)p)->f188 = func_02045B38(0, 3, 423, ((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f18C = func_02045B38(0, 2, 53, ((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f190 = func_0201EC64(((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f198 = func_020457B0(200, ((struct Obj00037 *)p)->f4);
+    ((struct Obj00037 *)p)->f1B4 = func_0203101C(((struct Obj00037 *)p)->f4, ((struct Obj00037 *)p)->f4, 32, 32);
+    ((struct Obj00037 *)p)->f19C = func_02045EC0(((struct Obj00037 *)p)->f188, 29);
     return a;
 }

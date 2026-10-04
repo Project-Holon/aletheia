@@ -15,6 +15,7 @@
  *   func_021FF8E4 0x021FF8E4 thumb ov186
  *   d_02200D98 0x02200D98 data a1
  */
+#include "../include/Obj14481.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -26,4 +27,4 @@ extern void func_02034714(const char*,u32,const char*);
 extern void func_021FFB68(char*,int);
 extern void func_021FF8E4(void*,int,int);
 extern const char d_02200D98[];
-void func_021FF900(char*p,int unused,char*q){if(!func_021D67C8(q,*(const Block128**)(q+1448),*(const Block432**)(q+1456)))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}
+void func_021FF900(char*p,int unused,char*q){if(!func_021D67C8(q,*(const Block128* *)&((struct Obj14481 *)q)->f5A8,*(const Block432* *)&((struct Obj14481 *)q)->f5B0))func_02034714(d_02200D98,0,d_02200D98);func_021FFB68(p,(int)func_021FF8E4);}

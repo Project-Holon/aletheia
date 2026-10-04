@@ -13,6 +13,7 @@
  *   func_02039468 0x02039468 arm
  *   func_021B64B8 0x021B64B8 thumb ov101
  */
+#include "../include/Obj22090.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Entry;
@@ -25,7 +26,7 @@ int func_021B6424(int p)
 {
     unsigned int id;
     u8 other;
-    if(*(int *)(p+0x78)) return 1;
+    if(((struct Obj22090 *)p)->f78) return 1;
     id=func_0203D1A4((void *)func_020399A8());
     other=(id == 0);
     if(func_02039468(0xD02,id) == 0) {

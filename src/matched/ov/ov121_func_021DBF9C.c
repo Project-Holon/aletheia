@@ -12,6 +12,7 @@
  *   func_021DC024 0x021DC024 thumb ov121
  *   func_021DC02C 0x021DC02C thumb ov121
  */
+#include "../include/Obj06452.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -25,10 +26,10 @@ int func_021DBF9C(void *p)
     switch(func_021DC024(p)) {
     case 1:
         q=func_021DC02C(p);
-        return func_0201BABC(*(u16 *)(q+26),*(u8 *)(q+28),*(u8 *)(q+53),*(u8 *)(q+92));
+        return func_0201BABC(((struct Obj06452 *)q)->f1A,((struct Obj06452 *)q)->f1C,((struct Obj06452 *)q)->f35,((struct Obj06452 *)q)->f5C);
     case 2:
         q=func_021DC02C(p);
-        return func_02020E60((u16)*(u32 *)q,1);
+        return func_02020E60((u16)((struct Obj06452 *)q)->f0,1);
     default: return 12;
     }
 }

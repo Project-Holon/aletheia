@@ -15,10 +15,11 @@
  *   func_021F01F8 0x021F01F8 thumb ov034
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj20477.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021F0700(char *);
 extern void func_021F0930(int *);
 extern void func_021F01F8(void);
 extern void func_020307B0(void *);
-void func_021EFF34(char *p) { func_02030EAC((struct Node *)(*(unsigned *)(p+0x10c))); func_021F0700(p); func_021F0930((int *)p); func_021F01F8(); func_020307B0(p); }
+void func_021EFF34(char *p) { func_02030EAC((struct Node *)(((struct Obj20477 *)p)->f10C)); func_021F0700(p); func_021F0930((int *)p); func_021F01F8(); func_020307B0(p); }

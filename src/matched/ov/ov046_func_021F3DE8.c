@@ -26,6 +26,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   func_02006210  0x02006210  thumb
  */
+#include "../include/Obj03644.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -75,15 +76,15 @@ int func_021F3DE8(void *a, int *st)
             func_021BE6B0(func_021BE674(t, 0, k, v), 0);
             func_021BE700(t, 0, k, v, 1);
             func_021BE6CC(t, 0, k, v, 0);
-            func_020061E4(*(int *)(w + 0x10));
+            func_020061E4(((struct Obj03644 *)w)->f10);
         }
         (*st)++;
         break;
     case 1:
-        if (func_021BE6BC(func_021BE674(t, 0, w[0], *(int *)(w + 0xc)))) {
+        if (func_021BE6BC(func_021BE674(t, 0, w[0], ((struct Obj03644 *)w)->fC))) {
             func_02006210();
-            if (*(int *)(w + 0x14) != -1)
-                func_020061E4(*(int *)(w + 0x14));
+            if (((struct Obj03644 *)w)->f14 != -1)
+                func_020061E4(((struct Obj03644 *)w)->f14);
             return 1;
         }
         break;

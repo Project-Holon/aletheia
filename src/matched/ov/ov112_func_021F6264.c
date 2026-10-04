@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22545.h"
 
 void func_021F6264(char *p, unsigned short v)
 {
-    *(unsigned short *)(p + 0xfc) = v;
+    ((struct Obj22545 *)p)->fFC = v;
 }

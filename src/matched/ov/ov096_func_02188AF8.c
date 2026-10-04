@@ -12,5 +12,6 @@
  *   func_0201134C 0x0201134C thumb
  *   func_0218A0F4 0x0218A0F4 thumb ov096
  */
+#include "../include/Obj21944.h"
 struct Cursor; extern unsigned int func_0201134C(struct Cursor *); extern int func_0218A0F4(unsigned char *,int,int,int,int);
-int func_02188AF8(struct Cursor *a, unsigned char *b, int c) { int x,y; x=func_0201134C(a); y=func_0201134C(a); return func_0218A0F4((unsigned char *)a,c,*(unsigned short *)(b+2),x,y); }
+int func_02188AF8(struct Cursor *a, unsigned char *b, int c) { int x,y; x=func_0201134C(a); y=func_0201134C(a); return func_0218A0F4((unsigned char *)a,c,((struct Obj21944 *)b)->f2,x,y); }

@@ -14,13 +14,15 @@
  *   func_02017E88 0x02017E88 thumb
  *   func_021DE720 0x021DE720 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23851.h"
 typedef struct {void *p;unsigned short index;unsigned char flags;unsigned char pad[5];} State;
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 extern unsigned func_02017E88(void *,unsigned,unsigned);
 extern int func_021DE720(unsigned short);
 int func_021DE7C8(unsigned char *p)
 {
-    State *s=*(State **)(*(char **)(p+0x2c)+0xa190);
+    State *s=*(State * *)&((struct Obj23851 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA190;
     unsigned short n=s->index;
     unsigned j,i;
     void *m;

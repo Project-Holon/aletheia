@@ -12,6 +12,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
@@ -21,5 +22,5 @@ extern void func_02041B6C(u32 bit);
 
 void func_021DD9DC(unsigned char *p)
 {
-    if(*(int *)(p+0x5bc)){func_020456F8((struct Descriptor *)(*(int *)(p+0x5bc)));func_020452E8((struct Descriptor *)(*(int *)(p+0x5bc)));*(int *)(p+0x5bc)=0;}if(*(int *)(p+0x5c0)){func_020456F8((struct Descriptor *)(*(int *)(p+0x5c0)));func_020452E8((struct Descriptor *)(*(int *)(p+0x5c0)));*(int *)(p+0x5c0)=0;}if(*(int *)(p+0x5d4)){func_020456F8((struct Descriptor *)(*(int *)(p+0x5d4)));func_020452E8((struct Descriptor *)(*(int *)(p+0x5d4)));*(int *)(p+0x5d4)=0;}if(*(int *)(p+0x5d8)){func_020456F8((struct Descriptor *)(*(int *)(p+0x5d8)));func_020452E8((struct Descriptor *)(*(int *)(p+0x5d8)));*(int *)(p+0x5d8)=0;}func_02041B6C(3);
+    if(((struct Obj00001 *)p)->f5BC){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5BC));((struct Obj00001 *)p)->f5BC=0;}if(((struct Obj00001 *)p)->f5C0){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5C0));((struct Obj00001 *)p)->f5C0=0;}if(((struct Obj00001 *)p)->f5D4){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D4));((struct Obj00001 *)p)->f5D4=0;}if(((struct Obj00001 *)p)->f5D8){func_020456F8((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));func_020452E8((struct Descriptor *)(((struct Obj00001 *)p)->f5D8));((struct Obj00001 *)p)->f5D8=0;}func_02041B6C(3);
 }

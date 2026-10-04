@@ -14,8 +14,9 @@
  *   func_021F2608 0x021F2608 thumb ov194
  *   func_021F1A10 0x021F1A10 thumb ov194
  */
+#include "../include/Obj24905.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020452E8(void *),func_020307B0(void *),func_02082BCC(void *,int,u32),func_021F2608(void *),func_021F1A10(void *);
-void func_021F31B8(u8 *p) {int off;func_020452E8(*(void **)(p+0xe0));func_021F2608(p);func_021F1A10(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;func_02082BCC(p,0,off);}
+void func_021F31B8(u8 *p) {int off;func_020452E8(((struct Obj24905 *)p)->fE0);func_021F2608(p);func_021F1A10(p+36);off=0x11c;func_020307B0(*(void **)(p+off));func_020307B0(*(void **)(p+off+4));off+=20;func_02082BCC(p,0,off);}

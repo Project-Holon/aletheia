@@ -18,6 +18,7 @@
  *   func_0201C6FC 0x0201C6FC thumb
  * abi: 0201CCE4 forwards the pointer result of matched 0201CD10; the caller stores it at d8.
  */
+#include "../include/Obj00832.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,26 +39,26 @@ extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 
 void func_021F93D8(u8 *p, u32 index, u32 speed)
 {
     Zero zero;
-    if (*(void **)(p + 0xD8)) {
-        func_0201CE48(*(void **)(p + 0xD8));
-        *(void **)(p + 0xD8) = 0;
+    if (((struct Obj00832 *)p)->fD8) {
+        func_0201CE48(((struct Obj00832 *)p)->fD8);
+        ((struct Obj00832 *)p)->fD8 = 0;
     }
-    if (*(void **)(p + 0xE0)) {
-        func_02045808(*(void **)(p + 0xE0));
-        *(void **)(p + 0xE0) = 0;
+    if (((struct Obj00832 *)p)->fE0) {
+        func_02045808(((struct Obj00832 *)p)->fE0);
+        ((struct Obj00832 *)p)->fE0 = 0;
     }
-    func_02043B5C(func_02045770(*(void **)(p + 0xD0)), 0);
+    func_02043B5C(func_02045770(((struct Obj00832 *)p)->fD0), 0);
     zero = ZERO;
-    *(void **)(p + 0xE0) = func_02045EC0(*(void **)(p + 0xDC), index);
+    ((struct Obj00832 *)p)->fE0 = func_02045EC0(((struct Obj00832 *)p)->fDC, index);
     if (speed != 255) {
-        *(void **)(p + 0xD8) = func_0201CCE4(*(void **)(p + 0xD0), zero, zero,
-            *(void **)(p + 0xE0), *(void **)(p + 0xD4), speed,
-            *(void **)(p + 0xCC), 2, *(u16 *)p, zero);
+        ((struct Obj00832 *)p)->fD8 = func_0201CCE4(((struct Obj00832 *)p)->fD0, zero, zero,
+            ((struct Obj00832 *)p)->fE0, ((struct Obj00832 *)p)->fD4, speed,
+            ((struct Obj00832 *)p)->fCC, 2, ((struct Obj00832 *)p)->f0, zero);
     } else {
-        func_0201C6FC(*(void **)(p + 0xE8), (u32)func_02045770(*(void **)(p + 0xD0)),
-            zero, zero, *(void **)(p + 0xE0), *(u32 *)(p + 0xD4));
-        *(int *)(p + 0xE4) = 1;
-        func_02045808(*(void **)(p + 0xE0));
-        *(void **)(p + 0xE0) = (void *)zero;
+        func_0201C6FC(((struct Obj00832 *)p)->fE8, (u32)func_02045770(((struct Obj00832 *)p)->fD0),
+            zero, zero, ((struct Obj00832 *)p)->fE0, *(u32 *)&((struct Obj00832 *)p)->fD4);
+        ((struct Obj00832 *)p)->fE4 = 1;
+        func_02045808(((struct Obj00832 *)p)->fE0);
+        ((struct Obj00832 *)p)->fE0 = (void *)zero;
     }
 }

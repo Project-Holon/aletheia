@@ -30,6 +30,7 @@
  *   F878/20CF8 retain visibly supplied unused trailing heap arguments.
  * layout-evidence: the template copy is 13 words; count/rows occupy +10/+12.
  */
+#include "../include/Obj01244.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -73,31 +74,31 @@ void func_021BAD74(char *p)
     state = (struct S *)func_021C23B8(func_021B97F4((struct W *)(p + 0x274)) - 1);
     kind = (u16)func_021BDD48((int)p, state);
     func_021C27E0(state);
-    func_021C27E0(*(struct S **)(p + 8));
-    *(struct Slot **)(p + 0xb8) = func_0201F81C(2, 33);
+    func_021C27E0(*(struct S * *)&((struct Obj01244 *)p)->f8);
+    *(struct Slot * *)&((struct Obj01244 *)p)->fB8 = func_0201F81C(2, 33);
     for (i = 0; i < 2; i++) {
         if (i == 0 && kind != 2 && kind != 5 && kind != 1) {
             desc.rows--;
             desc.count--;
             n--;
         } else {
-            func_0201F878(*(struct Slot **)(p + 0xb8), *(u32 *)(p + 0xe0), d_021C3730[i].a, d_021C3730[i].b, 33);
+            func_0201F878(*(struct Slot * *)&((struct Obj01244 *)p)->fB8, ((struct Obj01244 *)p)->fE0, d_021C3730[i].a, d_021C3730[i].b, 33);
         }
     }
-    *(u32 *)(p + 0x1a4) = func_020450F0(2, 16, (3 - n) * 2 + 11, 15, n * 2, 15, 1);
-    func_0201F73C(*(void **)(p + 0x1a4), 2, *(u32 *)(p + 0x1334), 14);
-    desc.w0 = *(u32 *)(p + 0xb8);
-    desc.wc = *(u32 *)(p + 0x1a4);
-    desc.w2c = *(u32 *)(p + 0x1b4);
+    *(u32 *)&((struct Obj01244 *)p)->f1A4 = func_020450F0(2, 16, (3 - n) * 2 + 11, 15, n * 2, 15, 1);
+    func_0201F73C(((struct Obj01244 *)p)->f1A4, 2, ((struct Obj01244 *)p)->f1334, 14);
+    desc.w0 = *(u32 *)&((struct Obj01244 *)p)->fB8;
+    desc.wc = *(u32 *)&((struct Obj01244 *)p)->f1A4;
+    desc.w2c = *(u32 *)&((struct Obj01244 *)p)->f1B4;
     desc.w28 = (u32)(p + 0x1ac);
-    desc.w30 = *(u32 *)(p + 0xe8);
-    *(struct Obj **)(p + 0xbc) = func_0201FF30(&desc, 0, 0, 33);
-    if (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0) {
+    desc.w30 = ((struct Obj01244 *)p)->fE8;
+    *(struct Obj * *)&((struct Obj01244 *)p)->fBC = func_0201FF30(&desc, 0, 0, 33);
+    if (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0) {
         do {
-            func_0201C4E4(*(struct PrintSys **)(p + 0x1b4));
-        } while (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0);
+            func_0201C4E4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4);
+        } while (func_0201C6B4(*(struct PrintSys * *)&((struct Obj01244 *)p)->f1B4) == 0);
     }
-    func_02020CF8(*(struct Obj **)(p + 0xbc), 33);
-    func_02045374(*(struct Cfg **)(p + 0x1a4));
+    func_02020CF8(*(struct Obj * *)&((struct Obj01244 *)p)->fBC, 33);
+    func_02045374(*(struct Cfg * *)&((struct Obj01244 *)p)->f1A4);
     func_02041B6C(2);
 }

@@ -17,6 +17,7 @@
  *   func_020130B4  0x020130B4  thumb
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj03534.h"
 
 typedef int s32;
 
@@ -30,10 +31,10 @@ void func_02154ABC(s32 *p)
         func_020130B4(v);
         p[0x37] = 0;
     }
-    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x14)));
-    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x18)));
-    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c) + 0x1c)));
-    func_020307B0((void *)(*(s32 *)((char *)p + 0x168)));
-    func_020307B0((void *)(*(s32 *)(*(int *)((char *)p + 0x5c))));
-    func_020307B0((void *)(*(int *)((char *)p + 0x5c)));
+    func_020307B0((void *)(*(s32 *)(((struct Obj03534 *)p)->f5C + 0x14)));
+    func_020307B0((void *)(*(s32 *)(((struct Obj03534 *)p)->f5C + 0x18)));
+    func_020307B0((void *)(*(s32 *)(((struct Obj03534 *)p)->f5C + 0x1c)));
+    func_020307B0((void *)(((struct Obj03534 *)p)->f168));
+    func_020307B0((void *)(*(s32 *)(((struct Obj03534 *)p)->f5C)));
+    func_020307B0((void *)(((struct Obj03534 *)p)->f5C));
 }

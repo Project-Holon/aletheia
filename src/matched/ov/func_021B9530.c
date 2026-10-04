@@ -16,6 +16,7 @@
  *   func_021B86A4  0x021B86A4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01203.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,29 +29,29 @@ void func_021B86A4(u8 *t, u8 *q, u32 *out1, u32 *out2, u8 *a5, u32 a6);
 
 void func_021B9530(u16 *t, u8 *p, int dx, int dy, int a6)
 {
-    if (func_021B94D8(t, *(u8 **)(p + 4), *(u8 **)(p + 0x24)) != 0) {
-        u8 *row = func_021B87D8(*(u8 **)(p + 0x24), **(u32 **)(p + 4));
-        u8 *res = func_021B8514(row, a6, *(u8 **)(p + 0x24), t, 0);
+    if (func_021B94D8(t, *(u8 * *)&((struct Obj01203 *)p)->f4, *(u8 * *)&((struct Obj01203 *)p)->f24) != 0) {
+        u8 *row = func_021B87D8(*(u8 * *)&((struct Obj01203 *)p)->f24, **(u32 * *)&((struct Obj01203 *)p)->f4);
+        u8 *res = func_021B8514(row, a6, *(u8 * *)&((struct Obj01203 *)p)->f24, t, 0);
         u32 out1, out2;
 
-        func_021B86A4(*(u8 **)(p + 0x24), *(u8 **)(p + 4), &out1, &out2,
-                      (u8 *)t, *(u32 *)(p + 0x1c));
-        *(int *)(p + 0xc) += dx;
-        *(int *)(p + 0x14) += dy;
-        if (*(int *)(p + 0xc) > (int)out1)
-            *(int *)(p + 0xc) = out1;
+        func_021B86A4(*(u8 * *)&((struct Obj01203 *)p)->f24, *(u8 * *)&((struct Obj01203 *)p)->f4, &out1, &out2,
+                      (u8 *)t, ((struct Obj01203 *)p)->f1C);
+        ((struct Obj01203 *)p)->fC += dx;
+        ((struct Obj01203 *)p)->f14 += dy;
+        if (((struct Obj01203 *)p)->fC > (int)out1)
+            ((struct Obj01203 *)p)->fC = out1;
         if (res == 0) {
-            int f = *(int *)(p + 0x14);
+            int f = ((struct Obj01203 *)p)->f14;
             int a = f < 0 ? -f : f;
             if (a > (int)out2) {
                 if (f > 0)
-                    *(int *)(p + 0x14) = out2;
+                    ((struct Obj01203 *)p)->f14 = out2;
                 else
-                    *(int *)(p + 0x14) = -(int)out2;
+                    ((struct Obj01203 *)p)->f14 = -(int)out2;
             }
         }
         return;
     }
-    *(int *)(p + 0xc) += dx;
-    *(int *)(p + 0x14) += dy;
+    ((struct Obj01203 *)p)->fC += dx;
+    ((struct Obj01203 *)p)->f14 += dy;
 }

@@ -27,6 +27,7 @@
  *   func_0216E57C  0x0216E57C  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00235.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,67 +62,67 @@ int func_021C0E98(u32 unused, int *st, u8 *p)
 
     switch (*st) {
     case 0:
-        if (func_0216D3CC(*(u32 *)(p + 0x1c)) == 0)
+        if (func_0216D3CC(((struct Obj00235 *)p)->f1C) == 0)
             break;
-        if (func_0216D3CC(*(u32 *)(p + 0x20)) == 0 && func_021A5408(*(u32 *)p) == 0)
+        if (func_0216D3CC(((struct Obj00235 *)p)->f20) == 0 && func_021A5408(((struct Obj00235 *)p)->f0) == 0)
             break;
-        func_0216D410(*(u32 *)(p + 0x1c), func_02197E7C(*(u16 *)(p + 4), 8));
-        func_0216D410(*(u32 *)(p + 0x20), func_02197E7C(*(u16 *)(p + 4), 0x20));
+        func_0216D410(((struct Obj00235 *)p)->f1C, func_02197E7C(((struct Obj00235 *)p)->f4, 8));
+        func_0216D410(((struct Obj00235 *)p)->f20, func_02197E7C(((struct Obj00235 *)p)->f4, 0x20));
         func_020061E4(0x674);
         (*st)++;
         break;
     case 1:
-        if (func_0216D454(*(u32 *)(p + 0x1c)) == 0)
+        if (func_0216D454(((struct Obj00235 *)p)->f1C) == 0)
             break;
-        if (func_0216D454(*(u32 *)(p + 0x20)) == 0)
+        if (func_0216D454(((struct Obj00235 *)p)->f20) == 0)
             break;
-        if (*(u16 *)(p + 6) == 0) {
+        if (((struct Obj00235 *)p)->f6 == 0) {
             *st = 4;
             break;
         }
-        func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&a);
-        func_02163E58(*(u32 *)(p + 0x1c), &a, (int *)(p + 0xc));
-        if (func_0216D598((void *)(*(u32 *)(p + 0x1c))) == 0x6d)
-            *(int *)(p + 0xc) -= 14 << 12;
+        func_0216D88C((const struct Actor *)((struct Obj00235 *)p)->f1C, (struct VecFx32 *)&a);
+        func_02163E58(((struct Obj00235 *)p)->f1C, &a, (int *)(p + 0xc));
+        if (func_0216D598((void *)(((struct Obj00235 *)p)->f1C)) == 0x6d)
+            ((struct Obj00235 *)p)->fC -= 14 << 12;
         else
-            *(int *)(p + 0xc) -= 26 << 12;
-        func_0216DB4C(*(u32 *)(p + 0x1c), 1);
-        func_0216DAE0((unsigned int *)(*(u32 *)(p + 0x1c)), 0);
+            ((struct Obj00235 *)p)->fC -= 26 << 12;
+        func_0216DB4C(((struct Obj00235 *)p)->f1C, 1);
+        func_0216DAE0((unsigned int *)(((struct Obj00235 *)p)->f1C), 0);
         func_020061E4(0x675);
         (*st)++;
         break;
     case 2:
-        func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&b);
-        if (*(int *)(p + 0xc) < b.y) {
+        func_0216D88C((const struct Actor *)((struct Obj00235 *)p)->f1C, (struct VecFx32 *)&b);
+        if (((struct Obj00235 *)p)->fC < b.y) {
             b.y -= 0x4000;
-            if (*(int *)(p + 0xc) > b.y)
-                b.y = *(int *)(p + 0xc);
-        } else if (*(int *)(p + 0xc) > b.y) {
+            if (((struct Obj00235 *)p)->fC > b.y)
+                b.y = ((struct Obj00235 *)p)->fC;
+        } else if (((struct Obj00235 *)p)->fC > b.y) {
             b.y += 0x4000;
-            if (*(int *)(p + 0xc) < b.y)
-                b.y = *(int *)(p + 0xc);
+            if (((struct Obj00235 *)p)->fC < b.y)
+                b.y = ((struct Obj00235 *)p)->fC;
         }
-        func_0216D89C(*(u32 *)(p + 0x1c), &b);
-        if (*(int *)(p + 0xc) == b.y) {
-            *(int *)(p + 0x14) = 0x2000;
+        func_0216D89C(((struct Obj00235 *)p)->f1C, &b);
+        if (((struct Obj00235 *)p)->fC == b.y) {
+            ((struct Obj00235 *)p)->f14 = 0x2000;
             (*st)++;
         }
         break;
     case 3:
-        func_0216D8E0(*(u32 *)(p + 0x1c), p + 0x10);
-        *(int *)(p + 0x14) = -*(int *)(p + 0x14);
-        *(s16 *)(p + 8) = *(s16 *)(p + 8) + 1;
-        if (*(s16 *)(p + 8) & 4) {
-            if (*(int *)(p + 0x14) < 0)
-                *(int *)(p + 0x14) += 0x1000;
-            else if (*(int *)(p + 0x14) > 0)
-                *(int *)(p + 0x14) -= 0x1000;
+        func_0216D8E0(((struct Obj00235 *)p)->f1C, p + 0x10);
+        ((struct Obj00235 *)p)->f14 = -((struct Obj00235 *)p)->f14;
+        ((struct Obj00235 *)p)->f8 = ((struct Obj00235 *)p)->f8 + 1;
+        if (((struct Obj00235 *)p)->f8 & 4) {
+            if (((struct Obj00235 *)p)->f14 < 0)
+                ((struct Obj00235 *)p)->f14 += 0x1000;
+            else if (((struct Obj00235 *)p)->f14 > 0)
+                ((struct Obj00235 *)p)->f14 -= 0x1000;
         }
-        if (*(int *)(p + 0x14) == 0) {
-            func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), (struct VecFx32 *)&c);
-            func_0216E014((void *)(*(u32 *)(p + 0x1c)), (int *)(&c), *(u16 *)(p + 4));
-            func_0216D8E0(*(u32 *)(p + 0x1c), p + 0x10);
-            func_0216E57C((void *)(*(u32 *)(p + 0x1c)));
+        if (((struct Obj00235 *)p)->f14 == 0) {
+            func_0216D88C((const struct Actor *)((struct Obj00235 *)p)->f1C, (struct VecFx32 *)&c);
+            func_0216E014((void *)(((struct Obj00235 *)p)->f1C), (int *)(&c), ((struct Obj00235 *)p)->f4);
+            func_0216D8E0(((struct Obj00235 *)p)->f1C, p + 0x10);
+            func_0216E57C((void *)(((struct Obj00235 *)p)->f1C));
             (*st)++;
         }
         break;

@@ -14,6 +14,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj00008.h"
 extern int func_021C1A44(char *);
 extern void func_021C1F74(char *);
 extern void func_02051C6C(void *);
@@ -25,10 +26,10 @@ void func_021C1AC0(char *p)
 {
     if (func_021C1A44(p)) {
         func_021C1F74(p);
-        func_02051C6C(*(void **)(p + 0x8c8));
-        *(void **)(p + 0x8c8) = 0;
-        func_0201ED04(*(void **)(p + 0x8b0));
-        *(void **)(p + 0x8b0) = 0;
+        func_02051C6C(((struct Obj00008 *)p)->f8C8);
+        ((struct Obj00008 *)p)->f8C8 = 0;
+        func_0201ED04(((struct Obj00008 *)p)->f8B0);
+        ((struct Obj00008 *)p)->f8B0 = 0;
         func_02043598(1, 1);
         func_02043598(14, 0);
     }

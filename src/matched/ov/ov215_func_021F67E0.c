@@ -36,6 +36,7 @@
  *   func_021F6E5C 0x021F6E5C thumb ov215
  *   func_021F7048 0x021F7048 thumb ov215
  */
+#include "../include/Obj01083.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_021F6CCC(char *,unsigned,int);
@@ -69,13 +70,13 @@ void func_021F67E0(char *p)
         if(W(16)) {
             W(12)=1;W(24)=0;
             func_021F6CCC(p,1,1);
-            func_021F6EEC(*(char **)(p+68));
+            func_021F6EEC(*(char * *)&((struct Obj01083 *)p)->f44);
         }
         break;
     case 1:
-        if(*(u16 *)(p+8)==490)limit=300;else limit=380;
+        if(((struct Obj01083 *)p)->f8==490)limit=300;else limit=380;
         W(24)++;
-        if(*(u16 *)(p+8)==490) {
+        if(((struct Obj01083 *)p)->f8==490) {
             switch(W(40)) {
             case 0: if(W(24)==10){func_020061E4(1955);W(40)=1;}break;
             case 1: if(!func_02006238()){func_020061E4(1960);W(40)=2;}break;
@@ -120,8 +121,8 @@ void func_021F67E0(char *p)
     case 7:
         if(++W(24)>=65) {
             W(12)=8;
-            a=func_02017E1C(*(void **)(p+4),5,0);
-            b=func_02017E1C(*(void **)(p+4),111,0);
+            a=func_02017E1C(((struct Obj01083 *)p)->f4,5,0);
+            b=func_02017E1C(((struct Obj01083 *)p)->f4,111,0);
             func_02006984(a,b,64,0,0,0,0,0);
         }
         break;
@@ -129,7 +130,7 @@ void func_021F67E0(char *p)
     case 9:break;
     }
     func_021F6D1C(p);
-    func_02014C08(*(char **)(p+48));
-    func_021F6E5C(*(char **)(p+68));
+    func_02014C08(*(char * *)&((struct Obj01083 *)p)->f30);
+    func_021F6E5C(*(char * *)&((struct Obj01083 *)p)->f44);
     func_021F7048(p);
 }

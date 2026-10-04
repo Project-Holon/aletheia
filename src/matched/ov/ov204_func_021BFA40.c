@@ -16,6 +16,7 @@
  *   func_020477A4 0x020477A4 arm
  *   func_021BFBC8 0x021BFBC8 thumb ov204
  */
+#include "../include/Obj06676.h"
 
 extern void func_0207D63C(void *, int, int, int, int);
 typedef unsigned int   u32;
@@ -31,15 +32,15 @@ extern void func_021BFBC8(char *, unsigned int);
 
 int func_021BFA40(char *p)
 {
-    switch (*(unsigned int *)(p + 36))
+    switch (((struct Obj06676 *)p)->f24)
     {
     case 0:
         func_0207D63C((void *)0x04000050, 1, 9, 0, 0);
         func_020061E4(0x555);
-        ++*(unsigned int *)(p + 36);
+        ++((struct Obj06676 *)p)->f24;
     case 1:
     {
-        void *obj = (void *)func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16));
+        void *obj = (void *)func_02048A18(((struct Obj06676 *)p)->f8, ((struct Obj06676 *)p)->f10);
         int a = func_020478B8(obj, 3, 4096);
         int b = func_020478B8(obj, 4, 4096);
         if (a == 0 && b == 0)
@@ -50,7 +51,7 @@ int func_021BFA40(char *p)
             func_020477A4(obj, 1);
             func_020477A4(obj, 2);
             func_021BFBC8(p, 60);
-            ++*(unsigned int *)(p + 36);
+            ++((struct Obj06676 *)p)->f24;
         }
         break;
     }

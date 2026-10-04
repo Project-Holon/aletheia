@@ -13,6 +13,7 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0200C308  0x0200C308  thumb
  */
+#include "../include/Obj03675.h"
 
 typedef unsigned char u8;
 
@@ -30,22 +31,22 @@ void func_021BB9DC(char *p, int flag)
             func_0204B3DC(*(void **)(p + 0x1c + i * 4), flag);
         return;
     }
-    func_0204B3DC(*(void **)(p + 0x1c), 1);
+    func_0204B3DC(((struct Obj03675 *)p)->f1C, 1);
     for (i = 0; i < 8; i++) {
         u8 c = *(u8 *)(p + 0x120 + i);
         if (c == 8)
             return;
         if (c == 3) {
-            if (func_0200C308(*(void **)(p + 8), 1) == 1)
-                func_0204B3DC(*(void **)(p + 0x24), 1);
+            if (func_0200C308(((struct Obj03675 *)p)->f8, 1) == 1)
+                func_0204B3DC(((struct Obj03675 *)p)->f24, 1);
         } else if (c == 4) {
-            if (func_0200C308(*(void **)(p + 8), 2) == 1)
-                func_0204B3DC(*(void **)(p + 0x28), 1);
+            if (func_0200C308(((struct Obj03675 *)p)->f8, 2) == 1)
+                func_0204B3DC(((struct Obj03675 *)p)->f28, 1);
         } else if (c == 7) {
-            if (func_0200C308(*(void **)(p + 8), 3) == 1)
-                func_0204B3DC(*(void **)(p + 0x2c), 1);
+            if (func_0200C308(((struct Obj03675 *)p)->f8, 3) == 1)
+                func_0204B3DC(((struct Obj03675 *)p)->f2C, 1);
         } else if (c == 5) {
-            func_0204B3DC(*(void **)(p + 0x30), 1);
+            func_0204B3DC(((struct Obj03675 *)p)->f30, 1);
         }
     }
 }

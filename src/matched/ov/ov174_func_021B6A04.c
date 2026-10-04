@@ -19,6 +19,7 @@
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201CCE4 0x0201CCE4 thumb
  */
+#include "../include/Obj00919.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct CharBuf;
@@ -33,15 +34,15 @@ extern unsigned func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsig
 void func_021B6A04(u8 *p,unsigned message)
 {
  void *tmp; unsigned speed;
- if(*(void **)(p+100)){func_0201CE48(*(void **)(p+100));*(void **)(p+100)=0;}
- if(*(void **)(p+112)){func_02045808(*(void **)(p+112));*(void **)(p+112)=0;}
- func_02043B5C(func_02045770(*(void **)(p+92)),15);
- *(void **)(p+112)=func_02045EC0(*(void **)(p+108),message);
- if(*(void **)(p+116)){
- tmp=func_020457B0(1024,*(u16 *)p);
- func_0201F250(*(void **)(p+116),tmp,*(void **)(p+112));
- func_02045808(*(void **)(p+112));*(void **)(p+112)=tmp;
+ if(((struct Obj00919 *)p)->f64){func_0201CE48(((struct Obj00919 *)p)->f64);((struct Obj00919 *)p)->f64=0;}
+ if(((struct Obj00919 *)p)->f70){func_02045808(((struct Obj00919 *)p)->f70);((struct Obj00919 *)p)->f70=0;}
+ func_02043B5C(func_02045770(((struct Obj00919 *)p)->f5C),15);
+ ((struct Obj00919 *)p)->f70=func_02045EC0(((struct Obj00919 *)p)->f6C,message);
+ if(((struct Obj00919 *)p)->f74){
+ tmp=func_020457B0(1024,((struct Obj00919 *)p)->f0);
+ func_0201F250(((struct Obj00919 *)p)->f74,tmp,((struct Obj00919 *)p)->f70);
+ func_02045808(((struct Obj00919 *)p)->f70);((struct Obj00919 *)p)->f70=tmp;
  }
  speed=func_02012FFC();
- *(unsigned *)(p+100)=func_0201CCE4(*(unsigned *)(p+92),0,0,*(unsigned *)(p+112),*(unsigned *)(p+96),speed,*(unsigned *)(p+88),2,*(u16 *)p,15);
+ *(unsigned *)&((struct Obj00919 *)p)->f64=func_0201CCE4(*(unsigned *)&((struct Obj00919 *)p)->f5C,0,0,*(unsigned *)&((struct Obj00919 *)p)->f70,((struct Obj00919 *)p)->f60,speed,((struct Obj00919 *)p)->f58,2,((struct Obj00919 *)p)->f0,15);
 }

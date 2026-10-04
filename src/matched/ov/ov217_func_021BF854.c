@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25946.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern u32 func_021BF878(void *p);
 extern u32 func_021BF894(void *p);
 u32 func_021BF854(char *p)
 {
-    switch (*(u32 *)(p + 0x2cc)) {
+    switch (((struct Obj25946 *)p)->f2CC) {
     case 0:
         return func_021BF878(p);
     case 1:

@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06714.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void func_021C0E78(u32 a0, u32 a1, u32 a2)
 {
-    *(u32*)(((u8*)a0)) = (u32)func_02030734(a2, ((u32)a1 << 2), 0, (const char *)0x21C4050, 211);
-    *(u32*)(((u8*)a0) + 4) = a1;
+    ((struct Obj06714 *)((u8*)a0))->f0 = (u32)func_02030734(a2, ((u32)a1 << 2), 0, (const char *)0x21C4050, 211);
+    ((struct Obj06714 *)(((u8*)a0)))->f4 = a1;
 }
 

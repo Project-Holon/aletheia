@@ -15,6 +15,7 @@
  *   func_02157960  0x02157960  thumb
  *   func_02157C48  0x02157C48  thumb
  */
+#include "../include/Obj04915.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,8 +31,8 @@ extern void func_02157C48(struct Object *p);
 void func_02157D0C(int *p)
 {
     if (*((u8 *)p + 0x675) == 0) {
-        *(int *)((u8 *)p + 0x67C) = p[4];
-        *(int *)((u8 *)p + 0x680) = p[5];
+        ((struct Obj04915 *)p)->f67C = p[4];
+        ((struct Obj04915 *)p)->f680 = p[5];
         if (func_0203D3A8(func_020399A8(), (p[0] << 8) + 2, 8, (u32)((u8 *)p + 0x67C)) == 0)
             return;
         func_02157960((int)p, (int)((void *)func_02157C48), 0x1A2);

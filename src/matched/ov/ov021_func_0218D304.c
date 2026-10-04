@@ -21,6 +21,7 @@
  * The inner loop is a guarded do-while: a plain for with y hoisted by the
  * compiler re-tests the bound after the preheader (extra cmp/ble).
  */
+#include "../include/Obj01652.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,24 +56,24 @@ void func_0218D304(char *p, int *v, Elem *e)
     int cc;
     int k;
 
-    w = *(u16 *)(p + 0x14);
-    h = *(u16 *)(p + 0x16);
-    s = *(int *)(p + 4);
-    base = func_0207C768(*(int *)(p + 4), 0x2000);
-    if (*(u8 *)(p + 0x2c) % 2 == 0)
-        coloff = func_0218D934(*(u8 *)(p + 0x2c), s, v[0]);
+    w = ((struct Obj01652 *)p)->f14;
+    h = ((struct Obj01652 *)p)->f16;
+    s = ((struct Obj01652 *)p)->f4;
+    base = func_0207C768(((struct Obj01652 *)p)->f4, 0x2000);
+    if (((struct Obj01652 *)p)->f2C % 2 == 0)
+        coloff = func_0218D934(((struct Obj01652 *)p)->f2C, s, v[0]);
     else
-        coloff = func_0218D970(*(u8 *)(p + 0x2c), s, v[0]);
-    if (*(u8 *)(p + 0x2d) % 2 == 0)
-        rowoff = func_0218D934(*(u8 *)(p + 0x2d), s, v[2]);
+        coloff = func_0218D970(((struct Obj01652 *)p)->f2C, s, v[0]);
+    if (((struct Obj01652 *)p)->f2D % 2 == 0)
+        rowoff = func_0218D934(((struct Obj01652 *)p)->f2D, s, v[2]);
     else
-        rowoff = func_0218D970(*(u8 *)(p + 0x2d), s, v[2]);
-    for (row = 0; row < *(u8 *)(p + 0x2d); row++) {
+        rowoff = func_0218D970(((struct Obj01652 *)p)->f2D, s, v[2]);
+    for (row = 0; row < ((struct Obj01652 *)p)->f2D; row++) {
         rr = rowoff + row;
         if (rr < 0 || rr >= h)
             continue;
         col = 0;
-        if (col >= *(u8 *)(p + 0x2c))
+        if (col >= ((struct Obj01652 *)p)->f2C)
             continue;
 
         y = FX_Mul(rr << 12, s);
@@ -80,11 +81,11 @@ void func_0218D304(char *p, int *v, Elem *e)
             cc = coloff + col;
             if (cc < 0 || cc >= w)
                 continue;
-            k = col + row * *(u8 *)(p + 0x2c);
+            k = col + row * ((struct Obj01652 *)p)->f2C;
             func_0218DD80(e + k, cc + rr * w);
             x = FX_Mul(cc << 12, s);
             func_0218DD9C((u32)(e + k), base + x, 0, base + y);
-        } while (++col < *(u8 *)(p + 0x2c));
+        } while (++col < ((struct Obj01652 *)p)->f2C);
     }
 }
 

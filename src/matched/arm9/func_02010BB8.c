@@ -36,6 +36,7 @@
  *   python tools/match.py one --src src/matched/func_02010BB8.c \
  *       --func func_02010BB8 --addr 0x02010BB8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11242.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -63,7 +64,7 @@ int func_02010BB8(void *ctx, int a1, int a2)
     func_0203064C(1, 0x5b, 0x800);
     p = func_0203159C(ctx, 0x1a8, 0x5b);
     func_02082BCC(p, 0, 0x1a8);
-    *(u32 *)p = (u32)a2;
-    *(u32 *)(p + 8) = func_02031324(0x5b);
+    ((struct Obj11242 *)p)->f0 = (u32)a2;
+    ((struct Obj11242 *)p)->f8 = func_02031324(0x5b);
     return 1;
 }

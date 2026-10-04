@@ -11,5 +11,6 @@
  * symbols:
  *   d_021BC8D8 0x021BC8D8 data a4
  */
+#include "../include/Obj14684.h"
 extern unsigned char d_021BC8D8[];
-int func_021BC290(unsigned char *p){*(unsigned *)(p+12)=(*(unsigned (**)(unsigned char *))(d_021BC8D8+*(unsigned *)(p+12)*4))(p);return *(unsigned *)(p+12)!=6;}
+int func_021BC290(unsigned char *p){((struct Obj14684 *)p)->fC=(*(unsigned (**)(unsigned char *))(d_021BC8D8+*(unsigned *)(p+12)*4))(p);return ((struct Obj14684 *)p)->fC!=6;}

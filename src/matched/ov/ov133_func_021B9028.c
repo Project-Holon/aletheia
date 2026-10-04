@@ -12,6 +12,8 @@
  * symbols:
  *   func_021B9118 0x021B9118 thumb ov133
  */
+#include "../include/Obj03825.h"
+#include "../include/Obj10571.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 func_021B9118(u8 *, u8 *, int);
@@ -23,16 +25,16 @@ void func_021B9028(u8 *p, int kind, u16 start)
     u8 *tmp1;
     u8 **tmp2;
     u16 tmp3, tmp4;
-    for (i = 0; i < *(u16 *)(p + 0xA8); i++) {
-        index = (u16)((start + i) % *(u16 *)(p + 0xA8));
+    for (i = 0; i < ((struct Obj03825 *)p)->fA8; i++) {
+        index = (u16)((start + i) % ((struct Obj03825 *)p)->fA8);
         *(u8 **)(p + index * 4 + 0x1434) = (p + 0xAC) + i * 20;
     }
-    for (i = 0; i < *(u16 *)(p + 0xA8); i++) {
-        position = (u16)((start + i) % *(u16 *)(p + 0xA8));
+    for (i = 0; i < ((struct Obj03825 *)p)->fA8; i++) {
+        position = (u16)((start + i) % ((struct Obj03825 *)p)->fA8);
         best = position;
         tmp1 = p + position * 4;
         positionptr = tmp1;
-        weight = func_021B9118(p, *(u8 **)(positionptr + 0x1434), kind);
+        weight = func_021B9118(p, *(u8 * *)&((struct Obj10571 *)positionptr)->f1434, kind);
         for (j = i + 1; j < *(u16 *)(p + 0xA8); j++) {
             tmp4 = *(u16 *)(p + 0xA8);
             tmp3 = tmp4;

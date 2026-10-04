@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/func_02016984.c \
  *       --func func_02016984 --addr 0x02016984 --cc 1.1p1 --thumb
  */
+#include "../include/Obj02301.h"
 
 typedef unsigned int   u32;
 extern int func_020648B4(u32 a, u32 b);
@@ -39,9 +40,9 @@ extern char data_020A72CC[];
 
 void func_02016984(char *a0, int a1)
 {
-    *(int *)(a0 + 0x98) = (int)func_02030734((unsigned short)*(int *)(a0 + 0x14c),
-                                        func_020648B4(*(int *)(a0 + 0x18), a1),
+    *(int *)&((struct Obj02301 *)a0)->f98 = (int)func_02030734((unsigned short)((struct Obj02301 *)a0)->f14C,
+                                        func_020648B4(((struct Obj02301 *)a0)->f18, a1),
                                         0, data_020A72CC, 0x970);
-    func_02064754((char *)((int)(a0 + 0x34)), (char *)(*(int *)(a0 + 0x98)), (void *)(*(int *)(a0 + 0x20)),
-                  *(int *)(a0 + 0x10), (void *)(*(int *)(a0 + 0x18)), a1);
+    func_02064754((char *)((int)(a0 + 0x34)), (char *)(*(int *)&((struct Obj02301 *)a0)->f98), (void *)(((struct Obj02301 *)a0)->f20),
+                  ((struct Obj02301 *)a0)->f10, (void *)(((struct Obj02301 *)a0)->f18), a1);
 }

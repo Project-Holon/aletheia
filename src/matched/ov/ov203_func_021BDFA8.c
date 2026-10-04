@@ -14,6 +14,7 @@
  *   func_021BE0E8  0x021BE0E8  thumb  ov203
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25311.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ extern void func_021BE0E8(u8 *);
 
 void func_021BDFA8(u32 a, u8 *p)
 {
-    if (*(u32 *)(p + 0x14) == 0) {
+    if (((struct Obj25311 *)p)->f14 == 0) {
         func_021BE07C(p);
         func_021BE0E8(p + 4);
     }

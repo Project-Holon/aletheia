@@ -12,6 +12,7 @@
  *   func_02011324  0x02011324  thumb
  *   func_0203F0A8  0x0203F0A8  arm
  */
+#include "../include/Obj02152.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,14 +31,14 @@ void func_021880BC(int a, u8 *b, int c)
 
     p = func_02011324((struct ScriptVm *)a);
     p[0] = 0;
-    *(u16 *)(p + 2) = 0;
+    ((struct Obj02152 *)p)->f2 = 0;
     p[1] = 0;
-    *(int *)(p + 0x38) = 0;
+    ((struct Obj02152 *)p)->f38 = 0;
     p[0x44] = 0;
     p[0x45] = 0;
     p[0x94] = c;
-    *(int *)(p + 0x3c) = *(int *)(p + 0x40);
-    *(int *)(p + 0xc8) = 4;
+    ((struct Obj02152 *)p)->f3C = ((struct Obj02152 *)p)->f40;
+    ((struct Obj02152 *)p)->fC8 = 4;
     z = 0;
     for (i = 0; i < 4; i++) {
         if (b[i] == 0)
@@ -46,5 +47,5 @@ void func_021880BC(int a, u8 *b, int c)
             *(int *)(p + 0x14 + i * 4) = 100;
         p[0x48 + i] = 100 - (u32)(((u64)func_0203F0A8() * 0x10) >> 32);
     }
-    *(u32 *)(p + 0xcc) = (u32)(((u64)func_0203F0A8() * 0x100) >> 32);
+    ((struct Obj02152 *)p)->fCC = (u32)(((u64)func_0203F0A8() * 0x100) >> 32);
 }

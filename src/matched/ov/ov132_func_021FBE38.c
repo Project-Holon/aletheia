@@ -16,6 +16,8 @@
  *   func_021F6B80 0x021F6B80 thumb ov112
  *   func_021F6BC0 0x021F6BC0 thumb ov112
  */
+#include "../include/Obj14114.h"
+#include "../include/Obj14115.h"
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
 extern void *func_021F9DAC(void *);
@@ -24,4 +26,4 @@ typedef unsigned int   u32;
 extern void func_021F9DB8(void *p, void *v, u32 i);
 extern void func_021F6B80(unsigned int *,unsigned int *);
 extern void func_021F6BC0(char *,unsigned int *,unsigned int);
-int func_021FBE38(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char **)p;n=func_0201134C(*(struct Cursor **)(p+4));ctx=func_021F9DAC(*(void **)(obj+0x34));func_021F6BC0(ctx,func_021F9DB0(*(void **)(obj+0x34),n),1);return 0; }
+int func_021FBE38(int unused,char *p) { char *obj; unsigned int n; void *ctx; obj=*(char * *)&((struct Obj14114 *)p)->f0;n=func_0201134C(*(struct Cursor * *)&((struct Obj14114 *)p)->f4);ctx=func_021F9DAC(((struct Obj14115 *)obj)->f34);func_021F6BC0(ctx,func_021F9DB0(((struct Obj14115 *)obj)->f34,n),1);return 0; }

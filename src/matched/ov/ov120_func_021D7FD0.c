@@ -17,6 +17,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00131.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,20 +54,20 @@ void func_021D7FD0(char *p,void *r)
     c=func_02025C1C(a,b,func_02008564(r));
     d=func_02025C30(a,b,func_02008564(r));
     if(a==c && b==d) {
-        func_0201F048(*(void **)(p+16),0,func_0200856C(r));
+        func_0201F048(((struct Obj00131 *)p)->f10,0,func_0200856C(r));
         a=func_0200856C(r);
-        func_0201F094(*(void **)(p+16),1,a,func_02008570(r));
+        func_0201F094(((struct Obj00131 *)p)->f10,1,a,func_02008570(r));
     } else {
-        func_0201F048(*(void **)(p+16),0,0);
-        func_0201F094(*(void **)(p+16),1,0,0);
+        func_0201F048(((struct Obj00131 *)p)->f10,0,0);
+        func_0201F094(((struct Obj00131 *)p)->f10,1,0,0);
     }
-    func_02045CAC(*(void **)(p+12),34,*(void **)(p+32));
-    func_0201F250(*(void **)(p+16),*(void **)(p+24),*(void **)(p+32));
-    if(!*(void **)(p+0x84)) *(void **)(p+0x84)=(void *)func_020450F0(1,1,15,30,5,11,1);
-    q=*(void **)(p+0x84);
+    func_02045CAC(((struct Obj00131 *)p)->fC,34,((struct Obj00131 *)p)->f20);
+    func_0201F250(((struct Obj00131 *)p)->f10,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f20);
+    if(!((struct Obj00131 *)p)->f84) ((struct Obj00131 *)p)->f84=(void *)func_020450F0(1,1,15,30,5,11,1);
+    q=((struct Obj00131 *)p)->f84;
     func_02043B5C(func_02045770(q),0);
     func_0201DD78(15,2,0);
-    func_0201C7A4(func_02045770(q),5,5,*(void **)(p+24),*(void **)(p+20));
+    func_0201C7A4(func_02045770(q),5,5,((struct Obj00131 *)p)->f18,((struct Obj00131 *)p)->f14);
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(1);

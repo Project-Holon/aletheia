@@ -14,6 +14,7 @@
  *   func_0203159C 0x0203159C arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj24498.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -22,4 +23,4 @@ struct Obj0203159C;
 extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(struct Obj0203159C *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
-int func_021B95A0(struct Obj0203159C *p,int unused,u32 v) { u8 *q; func_0203064C(1,142,0x125000); q=func_0203159C(p,756,142); func_02082BCC(q,0,756); *(u32 *)q=v; return 1; }
+int func_021B95A0(struct Obj0203159C *p,int unused,u32 v) { u8 *q; func_0203064C(1,142,0x125000); q=func_0203159C(p,756,142); func_02082BCC(q,0,756); ((struct Obj24498 *)q)->f0=v; return 1; }

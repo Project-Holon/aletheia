@@ -12,10 +12,11 @@
  *
  * Word setter at +0x14.
  */
+#include "../include/Obj22574.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 void func_021BA874(u8 *p, int v)
 {
-    *(u32 *)(p + 0x14) = v;
+    ((struct Obj22574 *)p)->f14 = v;
 }

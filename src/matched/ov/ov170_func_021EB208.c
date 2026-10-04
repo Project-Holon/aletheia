@@ -17,6 +17,7 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj08244.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -44,10 +45,10 @@ void func_021EB208(char *p, Entry *e, int i)
     bank = func_02045B38(0, 2, 203, 0x804c);
     if (!e->flag) {
         for (; j < 4; j++) {
-            func_021EABD0(p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, *(unsigned *)(p + 0x78), 0x440);
+            func_021EABD0(p, i, bank, *(unsigned short *)((char *)e + 0x14 + j * 2), 0, j * 16, ((struct Obj08244 *)p)->f78, 0x440);
         }
     } else {
-        func_021EABD0(p, i, *(void **)(p + 0x80), 106, 0, 0, *(unsigned *)(p + 0x78), 0x440);
+        func_021EABD0(p, i, ((struct Obj08244 *)p)->f80, 106, 0, 0, ((struct Obj08244 *)p)->f78, 0x440);
     }
     func_02045C04(bank);
     func_021EABA0(windows + i * 2);

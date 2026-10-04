@@ -12,19 +12,20 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj14540.h"
 
 struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_0220AFDC(char *p, void *v)
 {
-    if (*(void **)(p + 0x14) != v)
+    if (((struct Obj14540 *)p)->f14 != v)
     {
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
             func_0204B3DC(*(void **)(p + i * 4), (unsigned int)v);
         }
-        *(void **)(p + 0x14) = v;
+        ((struct Obj14540 *)p)->f14 = v;
     }
 }

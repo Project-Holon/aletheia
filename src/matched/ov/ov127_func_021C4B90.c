@@ -11,6 +11,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00535.h"
 
 typedef unsigned short u16;
 
@@ -21,6 +22,6 @@ struct pair {
 
 void func_021C4B90(char *p, struct pair v)
 {
-    *(u16 *)(p + 8) = v.a;
-    *(u16 *)(p + 0xa) = v.b;
+    ((struct Obj00535 *)p)->f8 = v.a;
+    ((struct Obj00535 *)p)->fA = v.b;
 }

@@ -24,6 +24,7 @@
  *   d_02180814     0x02180814  data  ov019 a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07393.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,12 +41,12 @@ void func_0217FB70(char *p, u32 heap)
 {
     void *h = sub_020490F4((void *)0x59, heap);
 
-    *(u32 *)(p + 0xc8) = (u32)func_02046E24((u32)h, 0x16);
-    *(u32 *)(p + 0xcc) = (u32)func_02046E24((u32)h, 0x17);
-    if (func_02046FF8(*(int **)(p + 0xc8)) == 0) {
+    *(u32 *)&((struct Obj07393 *)p)->fC8 = (u32)func_02046E24((u32)h, 0x16);
+    *(u32 *)&((struct Obj07393 *)p)->fCC = (u32)func_02046E24((u32)h, 0x17);
+    if (func_02046FF8(*(int * *)&((struct Obj07393 *)p)->fC8) == 0) {
         sub_02034714((const char *)d_02180814, 0, (const char *)d_02180814);
     }
-    if (func_02046FF8(*(int **)(p + 0xcc)) == 0) {
+    if (func_02046FF8(*(int * *)&((struct Obj07393 *)p)->fCC) == 0) {
         sub_02034714((const char *)d_02180814, 0, (const char *)d_02180814);
     }
     func_02049238(h);

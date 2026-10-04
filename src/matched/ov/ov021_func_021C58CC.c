@@ -19,6 +19,7 @@
  *   func_0201FF30 0x0201FF30 thumb
  *   d_021DAA80    0x021DAA80 data  a4
  */
+#include "../include/Obj00874.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,11 +58,11 @@ void func_021C58CC(char *p, u16 a, u16 b, u32 heap)
     u32 n;
     u32 i;
 
-    n = func_0200C468(*(void **)(p + 0x20));
-    *(void **)p = func_0201F81C(n, heap);
+    n = func_0200C468(((struct Obj00874 *)p)->f20);
+    ((struct Obj00874 *)p)->f0 = func_0201F81C(n, heap);
     for (i = 0; i < n; i++) {
-        u8 v = func_0200C464(*(void **)(p + 0x20), i);
-        func_0201F878(*(void **)p, *(u32 *)(p + 0x38), v, v, heap);
+        u8 v = func_0200C464(((struct Obj00874 *)p)->f20, i);
+        func_0201F878(((struct Obj00874 *)p)->f0, ((struct Obj00874 *)p)->f38, v, v, heap);
     }
     while (b + a >= n) {
         if (b != 0) {
@@ -72,15 +73,15 @@ void func_021C58CC(char *p, u16 a, u16 b, u32 heap)
     }
     func_021C5880(&a, &b, n);
     t = d_021DAA80;
-    t.arr = *(void **)p;
+    t.arr = ((struct Obj00874 *)p)->f0;
     t.count = n;
     t.cb04 = (void *)func_021C576C;
     t.cb08 = 0;
-    t.w0c = *(u32 *)(p + 8);
+    t.w0c = *(u32 *)&((struct Obj00874 *)p)->f8;
     t.w1c = p;
-    t.w24 = *(u32 *)(p + 0x38);
+    t.w24 = ((struct Obj00874 *)p)->f38;
     t.w28 = p + 0x10;
-    t.w2c = *(u32 *)(p + 0xC);
-    t.w30 = *(u32 *)(p + 0x3C);
-    *(void **)(p + 4) = func_0201FF30(&t, a, b, heap);
+    t.w2c = ((struct Obj00874 *)p)->fC;
+    t.w30 = ((struct Obj00874 *)p)->f3C;
+    ((struct Obj00874 *)p)->f4 = func_0201FF30(&t, a, b, heap);
 }

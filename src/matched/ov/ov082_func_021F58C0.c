@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj06201.h"
 
 void func_021F58C0(char *p)
 {
-    *(int *)p = 1;
-    *(int *)(p + 4) = 0;
-    *(char *)(p + 8) = 0;
-    *(char *)(p + 9) = 0;
-    *(short *)(p + 10) = 0;
+    ((struct Obj06201 *)p)->f0 = 1;
+    ((struct Obj06201 *)p)->f4 = 0;
+    ((struct Obj06201 *)p)->f8 = 0;
+    ((struct Obj06201 *)p)->f9 = 0;
+    ((struct Obj06201 *)p)->fA = 0;
 }

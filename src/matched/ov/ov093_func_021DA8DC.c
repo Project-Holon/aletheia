@@ -19,6 +19,8 @@
  *   func_021C88C8   0x021C88C8  thumb ov093
  *   func_021D76BC   0x021D76BC  thumb ov093
  */
+#include "../include/Obj10060.h"
+#include "../include/Obj21303.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,8 +49,8 @@ void func_021DA8DC(int a, int b, int c)
     if (func_021D5B48(m) == 0) {
         p = func_021C88A4(a, 5, b);
         p[6] = b;
-        *(u16 *)(p + 4) = func_021D7B74(m, c);
-        *(u32 *)p |= 2 << 22;
+        ((struct Obj10060 *)p)->f4 = func_021D7B74(m, c);
+        ((struct Obj10060 *)p)->f0 |= 2 << 22;
         func_021C8838(p + 8, 2, 0x183);
         func_021C8860((struct S *)(p + 8), b);
         func_021C88C8((void *)a, p);
@@ -56,7 +58,7 @@ void func_021DA8DC(int a, int b, int c)
         q = func_021C88A4(a, 4, b);
         func_021C8838(q + 4, 2, 0xd2);
         func_021C8860((struct S *)(q + 4), b);
-        *(u32 *)q |= 2 << 22;
+        ((struct Obj21303 *)q)->f0 |= 2 << 22;
         func_021C88C8((void *)a, q);
     }
     func_021D76BC(0x51, 1);

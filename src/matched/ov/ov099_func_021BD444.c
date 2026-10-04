@@ -16,6 +16,7 @@
  *   func_021BA8EC  0x021BA8EC  thumb  ov099
  *   func_021C18C8  0x021C18C8  thumb  ov099
  */
+#include "../include/Obj06357.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,11 +35,11 @@ int func_021BD444(char *p)
     Tbl8 t;
     u32 s;
 
-    func_021C282C(*(u8 **)(p + 8));
-    *(u8 *)(p + 0x1351) = 0;
+    func_021C282C(*(u8 * *)&((struct Obj06357 *)p)->f8);
+    ((struct Obj06357 *)p)->f1351 = 0;
     t = d_021C38EC;
-    s = t.v[*(u16 *)(p + 0x134E) + *(u16 *)(p + 0x134C) * 2];
-    *(u32 *)(p + 0x1D0) = s;
+    s = t.v[((struct Obj06357 *)p)->f134E + ((struct Obj06357 *)p)->f134C * 2];
+    ((struct Obj06357 *)p)->f1D0 = s;
     func_021BC104(p);
     func_021BA8EC(p);
     func_021C18C8(p, 4, s);

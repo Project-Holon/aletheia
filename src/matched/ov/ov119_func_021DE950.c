@@ -16,6 +16,7 @@
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021DE918  0x021DE918  thumb  ov119
  */
+#include "../include/Obj10362.h"
 
 typedef unsigned int   u32;
 struct MsgBank;
@@ -27,7 +28,7 @@ extern void func_021DE918(void *p);
 
 void func_021DE950(char *p)
 {
-    func_02045CAC(*(void **)(p + 0x720), 0x88, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj10362 *)p)->f720, 0x88, ((struct Obj10362 *)p)->f738);
     func_021E1024(p);
     func_021E1030(p);
     *(p + 0x11F1) = 0x78;

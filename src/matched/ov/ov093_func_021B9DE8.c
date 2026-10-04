@@ -12,6 +12,7 @@
  * symbols:
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj03187.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -25,20 +26,20 @@ void func_021B9DE8(char *p)
 
     for (i = 0; i < 4; i++) {
         q = p + i * 0x28;
-        if (*(void **)(q + 0x20)) {
-            func_020307B0(*(void **)(q + 0x20));
-            *(void **)(q + 0x20) = 0;
+        if (((struct Obj03187 *)q)->f20) {
+            func_020307B0(((struct Obj03187 *)q)->f20);
+            ((struct Obj03187 *)q)->f20 = 0;
         }
-        if (*(void **)(q + 0x24)) {
-            func_020307B0(*(void **)(q + 0x24));
-            *(void **)(q + 0x24) = 0;
+        if (((struct Obj03187 *)q)->f24) {
+            func_020307B0(((struct Obj03187 *)q)->f24);
+            ((struct Obj03187 *)q)->f24 = 0;
         }
     }
     for (i = 0; i < 4; i++) {
         q = p + i * 4;
-        if (*(void **)(q + 0x3e0)) {
-            func_020307B0(*(void **)(q + 0x3e0));
-            *(void **)(q + 0x3e0) = 0;
+        if (((struct Obj03187 *)q)->f3E0) {
+            func_020307B0(((struct Obj03187 *)q)->f3E0);
+            ((struct Obj03187 *)q)->f3E0 = 0;
         }
     }
 }

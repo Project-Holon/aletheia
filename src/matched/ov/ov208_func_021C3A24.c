@@ -12,6 +12,7 @@
  *   func_02041090 0x02041090 arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj06685.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,16 +28,16 @@ void func_021C3A24(u16 *heap,u8 *p,int key)
     u16 index;
     u16 col;
     int base;
-    tile=func_02045768(*(struct Descriptor **)(p+0x20));
+    tile=func_02045768(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
     index=0;
     for(row=0;row<15;row++) {
         base=tile+row*31;
         for(col=0;col<31;col++) {
-            (*(u16 **)(p+0x14))[index]=(u16)(base+(col+*(s16 *)(p+0x1a))%31)|0x1000;
+            (*(u16 **)(p+0x14))[index]=(u16)(base+(col+((struct Obj06685 *)p)->f1A)%31)|0x1000;
             index++;
         }
     }
-    func_02041090(3,*(u32 *)(p+0x14),1,2,31,15);
-    *(u32 *)(p+0x1c)=1;
-    func_02045334(*(struct Descriptor **)(p+0x20));
+    func_02041090(3,((struct Obj06685 *)p)->f14,1,2,31,15);
+    ((struct Obj06685 *)p)->f1C=1;
+    func_02045334(*(struct Descriptor * *)&((struct Obj06685 *)p)->f20);
 }

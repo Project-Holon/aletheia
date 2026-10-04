@@ -30,6 +30,7 @@
  *   func_021B911C 0x021B911C thumb ov093
  *   func_021D78AC 0x021D78AC thumb ov093
  */
+#include "../include/Obj07752.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -87,7 +88,7 @@ int func_021BFA60(u8 *p, u8 *a, u8 *b, struct Q *q)
     if (v > 12) v = 12;
     chance = func_021D7B10(func_021D7908((u8)base, (u8)(s8)v), scale);
     if (chance > 100) chance = 100;
-    if (func_021B911C(*(void **)(p + 4), 6)) chance = 100;
+    if (func_021B911C(((struct Obj07752 *)p)->f4, 6)) chance = 100;
     if (func_021D78AC(100) < (u8)chance) return 1;
     return 0;
 }

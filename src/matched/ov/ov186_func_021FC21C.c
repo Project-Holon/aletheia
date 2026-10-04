@@ -9,7 +9,8 @@
  * status: EXACT
  * trailing: two zero padding bytes at 021FC222, then existing matched 021FC224.
  */
+#include "../include/Obj24831.h"
 int func_021FC21C(char *p)
 {
-    return *(int *)(p+0xf0);
+    return ((struct Obj24831 *)p)->fF0;
 }

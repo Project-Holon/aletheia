@@ -50,6 +50,8 @@
  *   python tools/match.py tu --src src/matched/unit_0200E884.c \
  *       --addr 0x0200E884 --thumb
  */
+#include "../include/Obj17085.h"
+#include "../include/Obj17086.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -93,12 +95,12 @@ void *sub_0200E8D0(void *obj)
 
 u32 sub_0200E8D8(const void *obj)
 {
-    return *(const u32 *)((const u8 *)obj + 0x6200);
+    return *(const u32 *)&((struct Obj17085 *)obj)->f6200;
 }
 
 void sub_0200E8E0(void *obj, u32 value)
 {
-    *(u32 *)((u8 *)obj + 0x6200) = value;
+    ((struct Obj17086 *)obj)->f6200 = value;
 }
 
 u32 sub_0200E8E8(void)

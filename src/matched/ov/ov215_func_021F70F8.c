@@ -13,6 +13,9 @@
  *   021F7116 included, then two-byte padding and rodata beginning 021F7118.
  * function_starts: 0x021F70F8,0x021F7100,0x021F7110
  */
-void func_021F70F8(char *p){*(int *)(p+92)=1;}
-int func_021F7100(char *p){return *(int *)(p+92)==2;}
-void func_021F7110(char *p){*(int *)(p+92)=3;}
+#include "../include/Obj25764.h"
+#include "../include/Obj25765.h"
+#include "../include/Obj25766.h"
+void func_021F70F8(char *p){((struct Obj25764 *)p)->f5C=1;}
+int func_021F7100(char *p){return ((struct Obj25765 *)p)->f5C==2;}
+void func_021F7110(char *p){((struct Obj25766 *)p)->f5C=3;}

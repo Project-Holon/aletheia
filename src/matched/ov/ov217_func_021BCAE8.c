@@ -13,6 +13,7 @@
  *   func_02041B6C 0x02041B6C arm
  * Original narrows the heap before 020490F4; its extern takes u16.
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,8 +31,8 @@ void func_021BCAE8(char *p)
     void *arc;
     void *buf;
     void *screen;
-    arc = func_020490F4(192, (*(u16 *)(p + 8) & 0x7FFF) | 0x8000);
-    buf = func_02049250(arc, 13, *(u16 *)(p + 8));
+    arc = func_020490F4(192, (((struct Obj00025 *)p)->f8 & 0x7FFF) | 0x8000);
+    buf = func_02049250(arc, 13, ((struct Obj00025 *)p)->f8);
     func_02062B30(buf, &screen);
     func_02041090(6, (u32)((char *)screen + 12), 0, 0, 32, 24);
     func_02041B6C(6);

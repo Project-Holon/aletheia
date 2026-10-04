@@ -18,6 +18,13 @@
  *   func_02028230 0x02028230 thumb
  *   func_021BB53C 0x021BB53C thumb ov225
  */
+#include "../include/Obj00691.h"
+#include "../include/Obj26231.h"
+#include "../include/Obj26232.h"
+#include "../include/Obj26233.h"
+#include "../include/Obj26234.h"
+#include "../include/Obj26235.h"
+#include "../include/Obj26239.h"
 typedef unsigned char u8;
 extern void func_021BB504(char *);
 extern void func_021B9FBC(char *);
@@ -30,42 +37,42 @@ int func_021BB31C(char *p)
 {
     int done = 0;
     u8 i;
-    if (*(signed char *)(p+0x1c)==0) done=1;
-    else if (*(signed char *)(p+0x1c)>0) {
-        if (*(signed char *)(p+0x1c)==1) func_021BB504(p);
-        --*(signed char *)(p+0x1c);
+    if (((struct Obj00691 *)p)->f1C==0) done=1;
+    else if (((struct Obj00691 *)p)->f1C>0) {
+        if (((struct Obj00691 *)p)->f1C==1) func_021BB504(p);
+        --((struct Obj00691 *)p)->f1C;
     }
-    if (*(unsigned *)(p+0x18)==0 || *(unsigned *)(p+0x18)==2) {
-        func_021B9FBC(*(char **)(*(char **)(p+4)+0x34));
-        if (*(unsigned *)(p+0x18)==0) {
-            if (func_021BA158(*(char **)(*(char **)(p+4)+0x34))!=-1)
-                *(unsigned *)(p+0x18)=2;
+    if (((struct Obj00691 *)p)->f18==0 || ((struct Obj00691 *)p)->f18==2) {
+        func_021B9FBC(*(char * *)&((struct Obj26231 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34);
+        if (((struct Obj00691 *)p)->f18==0) {
+            if (func_021BA158(*(char * *)&((struct Obj26232 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34)!=-1)
+                ((struct Obj00691 *)p)->f18=2;
         } else {
-            int result=func_021BA154(*(char **)(*(char **)(p+4)+0x34));
+            int result=func_021BA154(*(char * *)&((struct Obj26233 *)(*(char * *)&((struct Obj00691 *)p)->f4))->f34);
             if (result!=-1) {
                 switch (result) {
-                case 1: *(unsigned *)(*(char **)(p)+4)=1; break;
-                case 0: *(unsigned *)(*(char **)(p)+4)=0; break;
+                case 1: ((struct Obj26234 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=1; break;
+                case 0: ((struct Obj26235 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=0; break;
                 }
-                *(unsigned *)(p+0x18)=1;
-                *(signed char *)(p+0x1c)=1;
+                ((struct Obj00691 *)p)->f18=1;
+                ((struct Obj00691 *)p)->f1C=1;
             }
         }
     }
-    if (*(unsigned *)(p+0x18)==0 || *(unsigned *)(p+0x18)==3) {
+    if (((struct Obj00691 *)p)->f18==0 || ((struct Obj00691 *)p)->f18==3) {
         for (i=0;i<2;i++) func_02028178(*(char **)(p+0xc+i*4));
-        if (*(unsigned *)(p+0x18)==0) {
-            if (func_021BB53C(p)) *(unsigned *)(p+0x18)=3;
+        if (((struct Obj00691 *)p)->f18==0) {
+            if (func_021BB53C(p)) ((struct Obj00691 *)p)->f18=3;
         } else {
-            if (func_02028230(*(char **)(p+0xc+**(u8 **)p*4))) {
+            if (func_02028230(*(char **)(p+0xc+**(u8 * *)&((struct Obj00691 *)p)->f0*4))) {
                 unsigned value;
-                if (**(u8 **)p==0) value=2;
-                else if (**(u8 **)p==1) value=3;
+                if (**(u8 * *)&((struct Obj00691 *)p)->f0==0) value=2;
+                else if (**(u8 * *)&((struct Obj00691 *)p)->f0==1) value=3;
                 else goto finish;
-                *(unsigned *)(*(char **)p+4)=value;
+                ((struct Obj26239 *)(*(char * *)&((struct Obj00691 *)p)->f0))->f4=value;
 finish:
-                *(unsigned *)(p+0x18)=1;
-                *(signed char *)(p+0x1c)=1;
+                ((struct Obj00691 *)p)->f18=1;
+                ((struct Obj00691 *)p)->f1C=1;
             }
         }
     }

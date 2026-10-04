@@ -15,6 +15,7 @@
  *
  * Tail call into func_0204B3B4 with the pointer held at +0xbf4.
  */
+#include "../include/Obj18604.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern void func_0204B3B4(struct Obj *p);
 
 void func_02200290(u8 *p)
 {
-    func_0204B3B4((struct Obj *)(*(u32 *)(p + 0xbf4)));
+    func_0204B3B4((struct Obj *)(((struct Obj18604 *)p)->fBF4));
 }

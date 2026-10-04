@@ -28,6 +28,7 @@
  *   python tools/match.py tu --src src/matched/unit_0203BF9C.c \
  *       --addr 0x0203BF9C --arm --cc 1.1p1
  */
+#include "../include/Obj11878.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -44,7 +45,7 @@ void func_0203BF9C(u32 v)
     if (p != 0 && p[0x51] != 0)
         return;
 
-    *(u32 *)(p + 0x28) = v;
+    ((struct Obj11878 *)p)->f28 = v;
     g_021469DC[0x51] = 1;
     func_0203AD80((u32)g_021469DC, (u32)func_0203BF4C, 5, 0x4B7);
 }

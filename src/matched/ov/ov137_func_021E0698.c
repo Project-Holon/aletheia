@@ -13,6 +13,7 @@
  *   func_020520FC 0x020520FC arm
  *   func_02047A60 0x02047A60 arm
  */
+#include "../include/Obj14235.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
@@ -32,7 +33,7 @@ void func_021E0698(u8 *p)
 {
     Transform t;
     void *object;
-    object = func_02048A18(*(void **)(p+2804),*(int *)(p+3492));
+    object = func_02048A18(((struct Obj14235 *)p)->fAF4,((struct Obj14235 *)p)->fDA4);
     VecSet(&t.pos,0,0,0);
     VecSet(&t.scale,4096,4096,4096);
     func_020520FC(0,0,0,(struct Mtx33 *)&t.rot);

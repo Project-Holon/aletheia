@@ -9,15 +9,16 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj08047.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 int func_021D7158(u8 *p)
 {
-    if (*(int *)p < 0) return 1;
-    if (*(u32 *)(p + 4) != 0) return 1;
-    if (*(u32 *)(p + 12) != 0) return 1;
-    if (*(u16 *)(p + 8) != 0) return 1;
+    if (((struct Obj08047 *)p)->f0 < 0) return 1;
+    if (((struct Obj08047 *)p)->f4 != 0) return 1;
+    if (((struct Obj08047 *)p)->fC != 0) return 1;
+    if (((struct Obj08047 *)p)->f8 != 0) return 1;
     return 0;
 }

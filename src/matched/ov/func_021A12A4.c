@@ -16,6 +16,7 @@
  *   func_021A8E10  0x021A8E10  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17993.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ int func_021A12A4(u32 a, u32 b, u32 c, u32 d)
 if (func_021A0F90(a, b, c, d) != 1) {
     return 0;
 }
-return func_021A8E10(*(u32 *)((u8 *)(a) + 32));
+return func_021A8E10(((struct Obj17993 *)((u8 *)(a)))->f20);
 }
 

@@ -14,6 +14,7 @@
  *   func_021B9AF8  0x021B9AF8  thumb  ov093
  *   func_021EAA24  0x021EAA24  thumb  ov093
  */
+#include "../include/Obj10115.h"
 typedef unsigned char u8;
 
 extern u8 *func_021E9100(u8 *p, int n);
@@ -25,6 +26,6 @@ void func_021EAA00(u8 *p)
     u8 *t;
 
     t = func_021E9100(p, 0x3c);
-    func_021B9AF8(*(char **)(p + 8), p[0xc]);
-    func_021EAA24(*(void **)(p + 0x180), t);
+    func_021B9AF8(*(char * *)&((struct Obj10115 *)p)->f8, p[0xc]);
+    func_021EAA24(((struct Obj10115 *)p)->f180, t);
 }

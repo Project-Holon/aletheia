@@ -11,5 +11,6 @@
  * symbols:
  *   func_0201EE0C 0x0201EE0C thumb
  */
+#include "../include/Obj20896.h"
 extern void func_0201EE0C(unsigned int,int,unsigned int,int,int,int);
-void func_021BBA0C(int a,int b,int c,int d,int e) {func_0201EE0C(*(unsigned int *)(b+44),c,d,e,1,2);}
+void func_021BBA0C(int a,int b,int c,int d,int e) {func_0201EE0C(((struct Obj20896 *)b)->f2C,c,d,e,1,2);}

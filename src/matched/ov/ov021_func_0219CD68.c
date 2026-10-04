@@ -13,6 +13,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00429.h"
+#include "../include/Obj12672.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,17 +22,17 @@ typedef unsigned int   u32;
 
 void func_0219CD68(u8 *o, u16 a, u8 b, u8 c, u16 d, u32 e)
 {
-    u8 *ctx = *(u8 **)(o + 0x1c);
+    u8 *ctx = *(u8 * *)&((struct Obj00429 *)o)->f1C;
     u32 i;
-    u32 n = *(u16 *)(ctx + 4);
-    o = *(u8 **)(ctx + 0xc);
+    u32 n = ((struct Obj12672 *)ctx)->f4;
+    o = *(u8 * *)&((struct Obj12672 *)ctx)->fC;
     for (i = 0; i < n; i++, o += 0xc) {
-        if (*(u16 *)o == 0xFFFF) {
-            *(u16 *)o = a;
-            *(u8 *)(o + 4) = b;
+        if (((struct Obj00429 *)o)->f0 == 0xFFFF) {
+            ((struct Obj00429 *)o)->f0 = a;
+            *(u8 *)&((struct Obj00429 *)o)->f4 = b;
             *(u8 *)(o + 5) = c;
-            *(u16 *)(o + 2) = d;
-            *(u32 *)(o + 8) = e;
+            ((struct Obj00429 *)o)->f2 = d;
+            ((struct Obj00429 *)o)->f8 = e;
             return;
         }
     }

@@ -16,6 +16,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj05353.h"
 typedef struct { int a, b; } Pair;
 extern const Pair d_021D8B20;
 extern void *func_020450F0(int, int, int, int, int, int, int);
@@ -39,13 +40,13 @@ void func_021D8484(char *p, int n)
 {
     Pair c = d_021D8B20;
     void *q;
-    if (!*(void **)(p + 0x88)) *(void **)(p + 0x88) = func_020450F0(1, 1, 15, 30, 5, 11, 1);
-    q = *(void **)(p + 0x88);
+    if (!((struct Obj05353 *)p)->f88) ((struct Obj05353 *)p)->f88 = func_020450F0(1, 1, 15, 30, 5, 11, 1);
+    q = ((struct Obj05353 *)p)->f88;
     func_02043B5C(func_02045770(q), 0);
     func_0201DD78(15, 2, 0);
-    func_0202DE5C(*(void **)(p + 0xcc), 0);
-    func_0202DE64(*(void **)(p + 0xcc), 0x3c40);
-    func_0202DC60(*(void **)(p + 0xcc), q, n, 0, &c);
+    func_0202DE5C(((struct Obj05353 *)p)->fCC, 0);
+    func_0202DE64(((struct Obj05353 *)p)->fCC, 0x3c40);
+    func_0202DC60(((struct Obj05353 *)p)->fCC, q, n, 0, &c);
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(1);

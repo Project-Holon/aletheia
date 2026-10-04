@@ -15,6 +15,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj00008.h"
 typedef unsigned short u16;
 extern int func_021BA928(void *);
 extern int func_0203D378(int);
@@ -30,12 +31,12 @@ int func_021BD584(char *p, int v)
     t = func_021BA928(p);
     if (t == 0) return v;
     if (func_0203D378(t) == 0) {
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        func_021BA874(p, ((struct Obj00008 *)p)->f242 - 1);
         func_021BAAB8(p, 0x77, 0);
-        *(int *)(p + 0x1cc) = 0x6f;
+        ((struct Obj00008 *)p)->f1CC = 0x6f;
     } else {
         func_02039C68((struct Link *)func_020399A8(), 0x1b, 10);
-        *(int *)(p + 0x1cc) = 0x49;
+        ((struct Obj00008 *)p)->f1CC = 0x49;
     }
     return v;
 }

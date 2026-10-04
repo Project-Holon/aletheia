@@ -27,6 +27,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,12 +51,12 @@ extern void func_0201EE0C(void *a, u32 b, void *c, u32 d, u32 e, u32 f);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021BF15C(char *p)
 {
-    u32 t = *(u32 *)(p + 0x354);
+    u32 t = ((struct Obj00021 *)p)->f354;
     u8 *o = func_021BF76C(p);
     u32 k;
     u32 a, b, c;
     void *x, *y, *z;
-    if (*(u32 *)(p + 0x3c8) == 0 || *(u32 *)(p + 0x3d0) == 1) {
+    if (((struct Obj00021 *)p)->f3C8 == 0 || ((struct Obj00021 *)p)->f3D0 == 1) {
         func_021C0FF8((u8 *)t, 0);
         return;
     }
@@ -68,14 +69,14 @@ void func_021BF15C(char *p)
 
     b = func_021BF854(p);
     c = func_021C11DC(o, (u8)k);
-    x = func_02045EC0(*(void **)(p + 0xc), 0xd);
-    y = func_02045EC0(*(void **)(p + 0x14), k);
-    z = func_020457B0(0x80, *(u16 *)(p + 4));
-    func_0201EFA4(*(void **)(p + 0x18), 0, a + 1, 2, 1, 1);
-    func_0201EE0C(*(void **)(p + 0x18), 1, y, 0, 1, 2);
-    func_0201EFA4(*(void **)(p + 0x18), 2, b, 5, 1, 1);
-    func_0201EFA4(*(void **)(p + 0x18), 3, c, 3, 1, 1);
-    func_0201F250(*(void **)(p + 0x18), z, x);
+    x = func_02045EC0(((struct Obj00021 *)p)->fC, 0xd);
+    y = func_02045EC0(((struct Obj00021 *)p)->f14, k);
+    z = func_020457B0(0x80, ((struct Obj00021 *)p)->f4);
+    func_0201EFA4(((struct Obj00021 *)p)->f18, 0, a + 1, 2, 1, 1);
+    func_0201EE0C(((struct Obj00021 *)p)->f18, 1, y, 0, 1, 2);
+    func_0201EFA4(((struct Obj00021 *)p)->f18, 2, b, 5, 1, 1);
+    func_0201EFA4(((struct Obj00021 *)p)->f18, 3, c, 3, 1, 1);
+    func_0201F250(((struct Obj00021 *)p)->f18, z, x);
     func_021C0F78(t, z);
     func_021C0FF8((u8 *)t, 1);
     func_02045808(x);

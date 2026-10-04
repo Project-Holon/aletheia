@@ -10,13 +10,14 @@
  * symbols:
  *   func_0201FEBC 0x0201FEBC thumb
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0201FEBC(u8 *);
 u32 func_021BA858(char *p)
 {
-    u32 r = func_0201FEBC(*(u8 **)(p + 0x108));
+    u32 r = func_0201FEBC(*(u8 * *)&((struct Obj00008 *)p)->f108);
     if (r != 0xFFFFFFFF)
-        *(u32 *)(p + 0x108) = 0;
+        *(u32 *)&((struct Obj00008 *)p)->f108 = 0;
     return r;
 }

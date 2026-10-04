@@ -12,6 +12,8 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj08446.h"
+#include "../include/Obj14767.h"
 
 struct arg_021C295C {
     unsigned short a;
@@ -37,8 +39,8 @@ void func_021C295C(unsigned char *p)
     s.e = 0;
     for (i = 0; i < 4; i++) {
         *(int *)(p + 0x10 + i * 4) =
-            (int)func_0204B294((void *)*(int *)(p + 0xc), q[0], q[1], q[2], &s,
-                          *(unsigned short *)((unsigned char *)q + 0xc),
-                          *(unsigned short *)p);
+            (int)func_0204B294((void *)((struct Obj14767 *)p)->fC, q[0], q[1], q[2], &s,
+                          ((struct Obj08446 *)q)->fC,
+                          ((struct Obj14767 *)p)->f0);
     }
 }

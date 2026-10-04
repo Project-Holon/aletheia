@@ -23,6 +23,7 @@
  *   func_021DA318 0x021DA318 thumb ov119
  *   d_021E7594 0x021E7594 data a4
  */
+#include "../include/Obj02826.h"
 
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E7594;
@@ -48,19 +49,19 @@ void func_021DA640(char *p) {
     int n;
     int zero=0;
     func_021DF7AC(p,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),1,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),7,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),9,1);
+    func_021B6558((unsigned char *)(((struct Obj02826 *)p)->f9C0),1,0);
+    func_021B6558((unsigned char *)(((struct Obj02826 *)p)->f9C0),7,0);
+    func_021B6558((unsigned char *)(((struct Obj02826 *)p)->f9C0),9,1);
     t=d_021E7594;
     func_021E1410(p,&t,2);
-    n=(int)func_021D8D4C(*(void ***)(p+0x828),*(int *)(p+0xF98),*(int *)(p+0xF94),p);
-    *(int *)(p+0x10A0)=zero;
+    n=(int)func_021D8D4C(*(void ** *)&((struct Obj02826 *)p)->f828,((struct Obj02826 *)p)->fF98,((struct Obj02826 *)p)->fF94,p);
+    ((struct Obj02826 *)p)->f10A0=zero;
     func_021E1E00(p,0,(void *)n);
     func_020307B0((void *)n);
-    func_0204B3DC((struct Obj *)*(int *)(p+0xF04),0);
+    func_0204B3DC((struct Obj *)((struct Obj02826 *)p)->fF04,0);
     func_021D8C84(p);
     func_021D8B38(p);
-    if(func_020355C4()) func_02027A08((struct TaskMenu *)(*(int *)(p+0x64C)),zero);
-    else func_02027A08((struct TaskMenu *)(*(int *)(p+0x64C)),1);
+    if(func_020355C4()) func_02027A08((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),zero);
+    else func_02027A08((struct TaskMenu *)(((struct Obj02826 *)p)->f64C),1);
     func_021D8E84(p,(int)func_021DA318);
 }

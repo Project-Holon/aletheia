@@ -20,6 +20,8 @@
  *   func_021BD4EC  0x021BD4EC  thumb  ov091
  *   func_021B8418  0x021B8418  thumb  ov091
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj20857.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,57 +38,57 @@ extern void func_021B8418(u8 *p);
 void func_021B7B98(u8 *p)
 {
     func_020409B4(0);
-    switch (*(u32 *)(*(u8 **)(p + 0x280) + 0x34)) {
+    switch (((struct Obj20857 *)(*(u8 * *)&((struct Obj00009 *)p)->f280))->f34) {
     case 0:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 9);
-        *(int *)(p + 0x14) = 1;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 9);
+        ((struct Obj00009 *)p)->f14 = 1;
         break;
     case 1:
         func_021BD4EC(p);
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x1e0), 0);
-        *(int *)(p + 0x14) = 0;
+        func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
+        ((struct Obj00009 *)p)->f14 = 0;
         break;
     case 22:
     case 23:
-        *(int *)(p + 0x14) = 0;
+        ((struct Obj00009 *)p)->f14 = 0;
         break;
     case 5:
     case 16:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 0xd);
-        *(int *)(p + 0x14) = 0;
-        *(int *)(p + 0x28) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0xd);
+        ((struct Obj00009 *)p)->f14 = 0;
+        ((struct Obj00009 *)p)->f28 = 0;
         break;
     case 9:
     case 14:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 0xc);
-        *(int *)(p + 0x14) = 0;
-        *(int *)(p + 0x28) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0xc);
+        ((struct Obj00009 *)p)->f14 = 0;
+        ((struct Obj00009 *)p)->f28 = 0;
         break;
     case 6:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 0xe);
-        *(int *)(p + 0x14) = 0;
-        *(int *)(p + 0x28) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0xe);
+        ((struct Obj00009 *)p)->f14 = 0;
+        ((struct Obj00009 *)p)->f28 = 0;
         break;
     case 18:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 0x10);
-        *(int *)(p + 0x14) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0x10);
+        ((struct Obj00009 *)p)->f14 = 0;
         break;
     case 3:
     case 25:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 9);
-        *(int *)(p + 0x14) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 9);
+        ((struct Obj00009 *)p)->f14 = 0;
         break;
     case 21:
-        func_021BB714(p, *(u32 **)(p + 0x150), 0);
-        func_021BB7E8(p, *(u32 **)(p + 0x150), 0xa3);
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x1e0), 0);
-        *(int *)(p + 0x14) = 0;
+        func_021BB714(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0);
+        func_021BB7E8(p, *(u32 * *)&((struct Obj00009 *)p)->f150, 0xa3);
+        func_0204B3DC((struct Obj *)((struct Obj00009 *)p)->f1E0, 0);
+        ((struct Obj00009 *)p)->f14 = 0;
         break;
     }
     func_021B8418(p);

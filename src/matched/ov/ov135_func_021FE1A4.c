@@ -14,6 +14,7 @@
  *   func_0207D55C 0x0207D55C arm
  *   func_021F4E98 0x021F4E98 thumb ov135
  */
+#include "../include/Obj00018.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -27,24 +28,24 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FE1A4(unsigned char *p)
 {
     if (func_020355C4() == 1)
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 0);
+        func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
     else
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
-    if (*(int *)(p + 0x20) == 15) {
-        if (*(int *)(p + 0xd0) != 0)
+        func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
+    if (((struct Obj00018 *)p)->f20 == 15) {
+        if (((struct Obj00018 *)p)->fD0 != 0)
             func_021FF318(p, 38, 0, 0, 0xf0f);
         else
             func_021FF318(p, 8, 1, 0, 0xf0f);
         if (func_0207D55C((u16 *)0x0400006c) == -16) {
             func_0202208C(0, 1, 1, 0, 16, 1, 0x48);
-            *(int *)(p + 0x28) = 33;
+            *(int *)&((struct Obj00018 *)p)->f28 = 33;
         } else {
-            *(int *)(p + 0x28) = 1;
+            *(int *)&((struct Obj00018 *)p)->f28 = 1;
         }
     } else {
         func_021FF318(p, 8, 1, 0, 0xf0f);
         func_021F4E98(p, 23, 1);
     }
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 1);
+    func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fD38, 1);
     return 2;
 }

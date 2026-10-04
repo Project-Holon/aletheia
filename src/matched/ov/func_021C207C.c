@@ -11,6 +11,7 @@
  *
  * Sets the word at +0x8F4 and the byte at +0x8F1.
  */
+#include "../include/Obj12129.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,6 +23,6 @@ typedef int BOOL;
 
 void func_021C207C(char *p)
 {
-    *(u32 *)(p + 0x8F4) = 1;
-    *(u8 *)(p + 0x8F1) = 1;
+    ((struct Obj12129 *)p)->f8F4 = 1;
+    ((struct Obj12129 *)p)->f8F1 = 1;
 }

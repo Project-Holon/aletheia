@@ -13,6 +13,9 @@
  *   func_0204B98C   0x0204B98C  arm
  *   func_021C66A0 0x021C66A0 thumb
  */
+#include "../include/Obj08207.h"
+#include "../include/Obj23630.h"
+#include "../include/Obj23631.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -21,10 +24,10 @@ extern u32 func_0204B98C(struct Actor *a);
 extern void func_021C66A0(u8 *p, int i, u32 v);
 int func_021C70C0(u8 *p)
 {
-    if (func_0204B98C(*(void **)(*(u8 **)(p + 8) + 0x1FC)) == 0) {
-        *(u32 *)(*(u8 **)(p + 4) + 4) = 0;
-        func_021C66A0(*(u8 **)(p + 8), 7, 0);
-        return *(u32 *)(p + 0x28);
+    if (func_0204B98C(((struct Obj23630 *)(*(u8 * *)&((struct Obj08207 *)p)->f8))->f1FC) == 0) {
+        ((struct Obj23631 *)(*(u8 * *)&((struct Obj08207 *)p)->f4))->f4 = 0;
+        func_021C66A0(*(u8 * *)&((struct Obj08207 *)p)->f8, 7, 0);
+        return ((struct Obj08207 *)p)->f28;
     }
     return 0x18;
 }

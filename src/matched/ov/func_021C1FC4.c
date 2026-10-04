@@ -14,12 +14,13 @@
  *
  * Dispatches on the word at +0x6C: state 0 hands a 3, state 5 hands an 8 to func_021C1920.
  */
+#include "../include/Obj00081.h"
 
 extern void func_021C1920(void *, void *, int, int);
 
 void func_021C1FC4(void *a, char *b, int c)
 {
-    int s = *(int *)(b + 0x6c);
+    int s = ((struct Obj00081 *)b)->f6C;
 
     if (s == 0) {
         func_021C1920(a, b, c, 3);

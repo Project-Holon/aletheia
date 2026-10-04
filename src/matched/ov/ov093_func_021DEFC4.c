@@ -24,6 +24,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   d_021F154C 0x021F154C data a4
  */
+#include "../include/Obj03702.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,7 +52,7 @@ void func_021DEFC4(int a, void *b, int c)
         if (func_021E8D24(func_021D57FC(m), 3)) {
             r = (u8 *)func_021C88A4(b, 5, c);
             r[6] = c;
-            *(u16 *)(r + 4) = func_021D7B74(m, func_021DCFF8(a, 2));
+            ((struct Obj03702 *)r)->f4 = func_021D7B74(m, func_021DCFF8(a, 2));
             func_021C8838(r + 8, 2, 0x392);
             func_021C8860((struct S *)(r + 8), c);
             func_021C8860((struct S *)(r + 8), func_021D70A8((void *)a));
@@ -59,9 +60,9 @@ void func_021DEFC4(int a, void *b, int c)
         } else {
             r = (u8 *)func_021C88A4(b, 7, c);
             r[6] = c;
-            *(u16 *)(r + 4) = func_021D7B74(m, 8);
+            ((struct Obj03702 *)r)->f4 = func_021D7B74(m, 8);
             r[7] |= 2;
-            *(u16 *)(r + 8) = 0x25f;
+            ((struct Obj03702 *)r)->f8 = 0x25f;
             r[10] = func_021C8010(b, c);
             r[11] = 6;
             func_021C8838(r + 12, 2, 0x40e);

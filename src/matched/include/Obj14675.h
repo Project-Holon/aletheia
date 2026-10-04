@@ -1,0 +1,9 @@
+#ifndef ALETHEIA_OBJ14675_H
+#define ALETHEIA_OBJ14675_H
+struct Obj14675 {
+    unsigned char pad_0[12];
+    unsigned int fC;
+    unsigned char pad_10[12];
+    unsigned int f1C;
+};
+#endif

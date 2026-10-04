@@ -14,6 +14,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj08356.h"
 struct WordSet;struct PrintSys;
 extern void func_02045C04(void *),func_0201ED04(struct WordSet *),func_0201C4C0(struct PrintSys *),func_02045808(void *);
-void func_0220D7D0(char *p){func_02045C04(*(void **)(p+12));func_0201ED04(*(struct WordSet **)(p+16));func_0201C4C0(*(struct PrintSys **)(p+24));func_02045808(*(void **)(p+20));}
+void func_0220D7D0(char *p){func_02045C04(((struct Obj08356 *)p)->fC);func_0201ED04(*(struct WordSet * *)&((struct Obj08356 *)p)->f10);func_0201C4C0(*(struct PrintSys * *)&((struct Obj08356 *)p)->f18);func_02045808(((struct Obj08356 *)p)->f14);}

@@ -13,6 +13,7 @@
  *   func_020490F4  0x020490F4  arm
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj24626.h"
 
 typedef unsigned short u16;
 
@@ -21,5 +22,5 @@ extern void func_02049238(void *arc);
 
 void func_021E10DC(char *p)
 {
-    func_02049238(func_020490F4(0x17, *(unsigned short *)(p + 0x34c)));
+    func_02049238(func_020490F4(0x17, ((struct Obj24626 *)p)->f34C));
 }

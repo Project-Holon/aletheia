@@ -17,6 +17,7 @@
  *   func_02191164  0x02191164  thumb  ov021
  *   func_02191184  0x02191184  thumb  ov021
  */
+#include "../include/Obj00005.h"
 
 typedef struct {
     char pad[0x20];
@@ -40,7 +41,7 @@ void func_0215A9C0(int a)
 {
     unsigned short h = 0;
     int r = func_02020D0C((u8 *)a);
-    Q *q = (Q *)(*(char **)(r + 0x20) + 0x34);
+    Q *q = (Q *)(*(char * *)&((struct Obj00005 *)r)->f20 + 0x34);
 
     func_020202EC((struct Obj *)a, &h);
     if (q->k[h] != 0) {

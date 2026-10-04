@@ -19,13 +19,14 @@
  *   python tools/match.py one --src src/matched/func_021B83E8.c \
  *       --func func_021B83E8 --addr 0x021B83E8 --region ov016 --cc dsi/1.1p1 --thumb
  */
+#include "../include/Obj09184.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
 void func_021B83E8(void *rec)
 {
-    *(u32 *)rec = 0;
-    *(u16 *)((char *)rec + 4) = 0;
-    *(u16 *)((char *)rec + 6) = 0;
+    ((struct Obj09184 *)rec)->f0 = 0;
+    ((struct Obj09184 *)rec)->f4 = 0;
+    ((struct Obj09184 *)rec)->f6 = 0;
 }

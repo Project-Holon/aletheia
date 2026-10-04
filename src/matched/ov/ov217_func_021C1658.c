@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26011.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern u32 func_021C0E64();
 extern void func_021C16E8(u32 a0);
 void func_021C1658(u32 a0)
 {
-    if (func_021C0E64(*(u32*)(((u8*)a0) + 12)) == 0) {
+    if (func_021C0E64(((struct Obj26011 *)(((u8*)a0)))->fC) == 0) {
     func_021C16E8(a0);
     }
 }

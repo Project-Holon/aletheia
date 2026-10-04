@@ -13,6 +13,10 @@
  *   func_021EBA84 0x021EBA84 thumb ov170
  * The image leaves the message undefined for kinds above six.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23992.h"
+#include "../include/Obj23993.h"
+#include "../include/Obj23994.h"
 extern int func_021DD2D0(void ***p, int a, unsigned b);
 typedef unsigned int   u32;
 struct WordSet;
@@ -24,14 +28,14 @@ void func_021EBBC8(unsigned char *p, unsigned kind, int i)
     switch (kind) {
     case 0: msg = 2; break;
     case 1: msg = 3;
-        func_0201EF14(*(void **)(*(char **)(p + 0x2c) + 0x84), 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23992 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 2: msg = 4;
-        func_0201EF14(*(void **)(*(char **)(p + 0x2c) + 0x84), 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23993 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 3: msg = 0x1c; break;
     case 4: msg = 0x1d;
-        func_0201EF14(*(void **)(*(char **)(p + 0x2c) + 0x84), 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
+        func_0201EF14(((struct Obj23994 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f84, 0, (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]));
         break;
     case 5: msg = 0x1e; break;
     case 6: msg = 6; break;

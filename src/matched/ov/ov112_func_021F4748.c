@@ -13,6 +13,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02031140 0x02031140 arm
  */
+#include "../include/Obj01924.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
@@ -32,16 +33,16 @@ extern void func_0201D83C(void *);
 extern void func_02031140(struct S02031140 *p);
 void func_021F4748(u8 *p)
 {
-    func_0201C6EC((struct PrintSys *)(*(u32 *)(p+0x38)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p+0x38)));
-    if (*(u8 **)(p+0x34)) {
-        func_0202F038(*(u8 **)(p+0x34));
-        *(u32 *)(p+0x34)=0;
+    func_0201C6EC((struct PrintSys *)(((struct Obj01924 *)p)->f38));
+    func_0201C4C0((struct PrintSys *)(((struct Obj01924 *)p)->f38));
+    if (*(u8 * *)&((struct Obj01924 *)p)->f34) {
+        func_0202F038(*(u8 * *)&((struct Obj01924 *)p)->f34);
+        *(u32 *)&((struct Obj01924 *)p)->f34=0;
     }
-    if (*(void **)(p+0x24)) func_0201CE48(*(void **)(p+0x24));
-    if (*(void **)(p+0x2c)) func_02045808(*(void **)(p+0x2c));
-    func_02045C04(*(void **)(p+0x28));
-    func_020452E8(*(void **)(p+0x1c));
-    func_0201D83C(*(void **)(p+0x20));
-    func_02031140(*(void **)(p+0x18));
+    if (((struct Obj01924 *)p)->f24) func_0201CE48(((struct Obj01924 *)p)->f24);
+    if (((struct Obj01924 *)p)->f2C) func_02045808(((struct Obj01924 *)p)->f2C);
+    func_02045C04(((struct Obj01924 *)p)->f28);
+    func_020452E8(((struct Obj01924 *)p)->f1C);
+    func_0201D83C(((struct Obj01924 *)p)->f20);
+    func_02031140(((struct Obj01924 *)p)->f18);
 }

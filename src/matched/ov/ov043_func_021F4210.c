@@ -15,6 +15,7 @@
  *   func_0218ECC4  0x0218ECC4  thumb  ov021
  *   func_0218ECD4  0x0218ECD4  thumb  ov021
  */
+#include "../include/Obj01223.h"
 
 typedef unsigned char u8;
 
@@ -29,20 +30,20 @@ int func_021F4210(u8 *s)
 
     switch (s[0]) {
     case 0:
-        func_0218EC54((u8 *)(*(int *)(s + 8)));
+        func_0218EC54((u8 *)(((struct Obj01223 *)s)->f8));
         s[0]++;
     case 1:
         if (s[3] % 2 == 0) {
-            func_0218ECC4(*(int *)(s + 8), v);
-            v[1] = v[1] + *(int *)(s + 4);
-            func_0218ECD4(*(int *)(s + 8), v);
-            *(int *)(s + 4) *= -1;
+            func_0218ECC4(((struct Obj01223 *)s)->f8, v);
+            v[1] = v[1] + ((struct Obj01223 *)s)->f4;
+            func_0218ECD4(((struct Obj01223 *)s)->f8, v);
+            ((struct Obj01223 *)s)->f4 *= -1;
             s[1]++;
             if (s[1] >= s[2] * 2) {
-                if (*(int *)(s + 0xC)) {
-                    func_0218EC30(*(int *)(s + 8), *(int *)(s + 0xC));
+                if (((struct Obj01223 *)s)->fC) {
+                    func_0218EC30(((struct Obj01223 *)s)->f8, ((struct Obj01223 *)s)->fC);
                 }
-                func_0218ECD4(*(int *)(s + 8), s + 0x10);
+                func_0218ECD4(((struct Obj01223 *)s)->f8, s + 0x10);
                 return 1;
             }
         }

@@ -16,6 +16,7 @@
  *   func_021BE49C  0x021BE49C  thumb ov210
  *   func_021BE978  0x021BE978  thumb ov210
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -32,10 +33,10 @@ extern void func_021BE978(u8 *p);
 void func_021BE8F8(u8 *p)
 {
     func_021BE49C(p + 0x14C);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f154)), 0);
     func_021BE44C(p, 1, 5, 0, 4, 0x440, 0);
     func_021BE49C(p + 0x154);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1AC))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f1AC)), 0);
     func_021BE44C(p, 0xC, 0xD, 0x28, 0, 0x3C40, 2);
     func_021BE49C(p + 0x1AC);
     func_021BE978(p);

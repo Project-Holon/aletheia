@@ -12,6 +12,8 @@
  * symbols:
  *   func_0218D0D8  0x0218D0D8  thumb
  */
+#include "../include/Obj07415.h"
+#include "../include/Obj19550.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,16 +28,16 @@ extern int func_0218D0D8(void *a, void *b);
 
 void func_0218D104(u8 *a, u8 *b, void *c)
 {
-    u32 v = *(u32 *)(b + 0x20);
+    u32 v = ((struct Obj19550 *)b)->f20;
     if (v != 0) {
         if (v == 1) {
             u32 *q = (u32 *)(b + 0x24);
-            *(u32 *)(a + 0x60) = (u32)func_02046DB8(q[0], q[1]);
+            ((struct Obj07415 *)a)->f60 = (u32)func_02046DB8(q[0], q[1]);
             if (c != 0)
-                func_0218D0D8((void *)(*(u32 *)(a + 0x60)), c);
-            func_020470A8((void *)(*(u32 *)(a + 0x60)));
+                func_0218D0D8((void *)(((struct Obj07415 *)a)->f60), c);
+            func_020470A8((void *)(((struct Obj07415 *)a)->f60));
         }
     } else {
-        *(u32 *)(a + 0x60) = 0;
+        ((struct Obj07415 *)a)->f60 = 0;
     }
 }

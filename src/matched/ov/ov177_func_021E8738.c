@@ -13,6 +13,7 @@
  *   func_02045CAC  0x02045CAC  arm
  *   func_021E8754  0x021E8754  thumb  ov177
  */
+#include "../include/Obj24449.h"
 
 typedef unsigned int   u32;
 struct MsgBank;
@@ -21,6 +22,6 @@ extern void func_021E8754(int *, int);
 
 void func_021E8738(int *p, int a, int b, int c)
 {
-    func_02045CAC((struct MsgBank *)a, b, (void *)(*(int *)((char *)p + 0x18)));
+    func_02045CAC((struct MsgBank *)a, b, (void *)(((struct Obj24449 *)p)->f18));
     func_021E8754(p, c);
 }

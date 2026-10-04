@@ -18,6 +18,10 @@
  *   func_021ED55C 0x021ED55C thumb
  *   d_021F02F0 0x021F02F0 data
  */
+#include "../include/Obj24031.h"
+#include "../include/Obj24032.h"
+#include "../include/Obj24033.h"
+#include "../include/Obj24034.h"
 
 typedef struct { unsigned a; unsigned b; } Pair;
 typedef unsigned int   u32;
@@ -36,11 +40,11 @@ extern const Pair d_021F02F0[];
 
 void func_021EE364(char **p, int idx, int v)
 {
-    int r = func_020260F0(*(void **)(p[11] + 0x70));
+    int r = func_020260F0(((struct Obj24031 *)(p[11]))->f70);
     func_021EE3CC(p);
-    *(void **)(p[11] + 0x70) = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
-    func_02025D1C(*(void **)(p[11] + 0x70));
+    ((struct Obj24032 *)(p[11]))->f70 = func_02025CD0(d_021F02F0[idx].a, d_021F02F0[idx].b, (u32)p, r, v, 0x4C);
+    func_02025D1C(((struct Obj24033 *)(p[11]))->f70);
     func_021EE408(p, v);
     func_021ED55C(p, r);
-    *(int *)(p[11] + 0xA168) = v;
+    ((struct Obj24034 *)(p[11]))->fA168 = v;
 }

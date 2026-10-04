@@ -15,6 +15,7 @@
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj00565.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,10 +32,10 @@ int func_021672B4(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x14);
+a0 = ((struct Obj00565 *)t4)->f14;
     a0 = func_02190788(a0);
 loc_021672BE:
-a0 = *(int *)((char *)t4 + 0x14);
+a0 = ((struct Obj00565 *)t4)->f14;
     a0 = func_021907C0(a0);
 loc_021672C4:
     a0 = func_02045730((struct Descriptor *)a0);

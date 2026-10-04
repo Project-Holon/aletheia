@@ -26,6 +26,7 @@
  *   func_02015C78 0x02015C78 thumb
  *   func_02015E04 0x02015E04 thumb
  */
+#include "../include/Obj00831.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,7 +44,7 @@ int func_021D72E8(u8 *p,u8 *q,int mode)
     u16 delta;
     int height;
     float f;
-    if(*(int *)(q+0x10)==1) return 1;
+    if(((struct Obj00831 *)q)->f10==1) return 1;
     if(mode==1) {
         sum=0;
         for(i=0;i<5;i++) sum+=q[0x94+i];
@@ -51,25 +52,25 @@ int func_021D72E8(u8 *p,u8 *q,int mode)
         if(sum<10) sum=10;
         if(sum>20) sum=20;
         delta=20-sum;
-        *(u16 *)(q+0x68)=2048+(6144*delta)/10;
-        v.y+=*(const s16 *)((u32)d_020A1B38+((u32)((*(u16 *)(q+0x62)*546)>>4)<<2))*4;
-        ++*(u16 *)(q+0x62);
-        if(*(u16 *)(q+0x62)>120) *(u16 *)(q+0x62)=0;
-    } else *(u16 *)(q+0x68)=0;
-    if(*(u16 *)(q+0x66)<*(u16 *)(q+0x68)) ++*(u16 *)(q+0x66);
-    if(*(u16 *)(q+0x66)>*(u16 *)(q+0x68)) {
+        ((struct Obj00831 *)q)->f68=2048+(6144*delta)/10;
+        v.y+=*(const s16 *)((u32)d_020A1B38+((u32)((((struct Obj00831 *)q)->f62*546)>>4)<<2))*4;
+        ++((struct Obj00831 *)q)->f62;
+        if(((struct Obj00831 *)q)->f62>120) ((struct Obj00831 *)q)->f62=0;
+    } else ((struct Obj00831 *)q)->f68=0;
+    if(((struct Obj00831 *)q)->f66<((struct Obj00831 *)q)->f68) ++((struct Obj00831 *)q)->f66;
+    if(((struct Obj00831 *)q)->f66>((struct Obj00831 *)q)->f68) {
         if(mode==0) {
-            if(*(u16 *)(q+0x66)>=32) *(u16 *)(q+0x66)-=32;
-            else *(u16 *)(q+0x66)=0;
-        } else --*(u16 *)(q+0x66);
+            if(((struct Obj00831 *)q)->f66>=32) ((struct Obj00831 *)q)->f66-=32;
+            else ((struct Obj00831 *)q)->f66=0;
+        } else --((struct Obj00831 *)q)->f66;
     }
-    height=*(u16 *)(q+0x66);
+    height=((struct Obj00831 *)q)->f66;
     if(height) f=0.5f+(float)(height*4096);
     else f=(float)(height*4096)-0.5f;
     v.y+=(int)f/16;
     func_021D79A8(p,q,v.y);
-    func_02015C78(*(void **)q,&v);
-    func_02015E04(*(void **)q);
-    if(*(u16 *)(q+0x66)==0 && *(u16 *)(q+0x68)==0) return 1;
+    func_02015C78(((struct Obj00831 *)q)->f0,&v);
+    func_02015E04(((struct Obj00831 *)q)->f0);
+    if(((struct Obj00831 *)q)->f66==0 && ((struct Obj00831 *)q)->f68==0) return 1;
     return 0;
 }

@@ -14,6 +14,7 @@
  *   func_021D9E30 0x021D9E30 thumb ov131
  *   func_021DB7D4 0x021DB7D4 thumb ov131
  */
+#include "../include/Obj04511.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_021DC2C2[];
@@ -28,11 +29,11 @@ void func_021D9C3C(void *a,u8 *p)
     for(i=0;i<13;i++) {
         *(void **)(p+0x5c+i*4)=(void *)func_020450F0(4,d_021DC2C2[i*4],d_021DC2C2[i*4+1],d_021DC2C2[i*4+2],d_021DC2C2[i*4+3],14,1);
     }
-    func_02045798(*(void **)(p+0x60),13);
+    func_02045798(((struct Obj04511 *)p)->f60,13);
     func_021D9E30(a,(int)p);
     for(i=0;i<p[43];i++) func_021DB7D4(a,p,p+0xb0+i*24);
     p[41]=255;
-    *(u32 *)p=1;
-    *(u32 *)(p+32)=0;
+    ((struct Obj04511 *)p)->f0=1;
+    ((struct Obj04511 *)p)->f20=0;
     p[40]=0;
 }

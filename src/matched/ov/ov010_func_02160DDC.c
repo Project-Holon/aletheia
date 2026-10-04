@@ -12,6 +12,7 @@
  *   func_02012134 0x02012134 thumb
  *   func_02029DD8 0x02029DD8 thumb
  */
+#include "../include/Obj12324.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,4 +21,4 @@ extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02012134(u32 *);
 extern int func_02029DD8(int,int);
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-BOOL func_02160DDC(u32 *a, u8 *b) { u32 s=func_02012A30(*(void **)b); func_02029DD8(s,func_02012134(*(u32 **)a[6])); if (*(unsigned short *)(b+14)==0) return FALSE; else return TRUE; }
+BOOL func_02160DDC(u32 *a, u8 *b) { u32 s=func_02012A30(((struct Obj12324 *)b)->f0); func_02029DD8(s,func_02012134(*(u32 **)a[6])); if (((struct Obj12324 *)b)->fE==0) return FALSE; else return TRUE; }

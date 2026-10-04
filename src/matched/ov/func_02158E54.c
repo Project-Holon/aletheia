@@ -14,6 +14,7 @@
  *   func_02082A7C  0x02082A7C  arm
  *   func_02188C54  0x02188C54  thumb
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,12 +39,12 @@ a1 = t5 + 0;
 a2 = 8;
     a0 = func_02082A7C(a0, a1, a2);
 loc_02158E6A:
-*(void **)((char *)t5 + 4) = t4;
+((struct Obj00020 *)t5)->f4 = t4;
     if (t4 == 0) goto loc_02158E78;
 loc_02158E70:
 a0 = (int)t4 + 0; /* int-typed on purpose: pointer local changes codegen */
     a0 = func_02188C54(a0);
 loc_02158E76:
-*(int *)((char *)t5) = a0;
+((struct Obj00020 *)((char *)t5))->f0 = a0;
 loc_02158E78:
     return a0;}

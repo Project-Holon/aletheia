@@ -18,6 +18,7 @@
  *
  * Link shutdown sequence stepped by the word at +0x154: sync 0x18, wait for the sync (600 frame timeout on +0x1a0), stop the two link services, wait 30 frames on +0x134, restart the parent service, then report done (1).
  */
+#include "../include/Obj02513.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,31 +32,31 @@ extern void func_0203C554(u32 a);
 
 int func_021DA390(char *obj)
 {
-    switch (*(u32 *)(obj + 0x154)) {
+    switch (((struct Obj02513 *)obj)->f154) {
     case 0:
         func_021D9ED4(obj, 0x18);
-        *(u32 *)(obj + 0x1a0) = 0;
-        (*(u32 *)(obj + 0x154))++;
+        ((struct Obj02513 *)obj)->f1A0 = 0;
+        (((struct Obj02513 *)obj)->f154)++;
         break;
     case 1:
         if (func_021D9EEC(obj) != 0)
-            (*(u32 *)(obj + 0x154))++;
-        else if ((*(u32 *)(obj + 0x1a0))++ > 600)
-            (*(u32 *)(obj + 0x154))++;
+            (((struct Obj02513 *)obj)->f154)++;
+        else if ((((struct Obj02513 *)obj)->f1A0)++ > 600)
+            (((struct Obj02513 *)obj)->f154)++;
         break;
     case 2:
         func_0203D7B0(0);
         func_0203D7BC(0);
-        *(u32 *)(obj + 0x134) = 0;
-        (*(u32 *)(obj + 0x154))++;
+        ((struct Obj02513 *)obj)->f134 = 0;
+        (((struct Obj02513 *)obj)->f154)++;
         break;
     case 3:
-        if ((*(u32 *)(obj + 0x134))++ > 30)
-            (*(u32 *)(obj + 0x154))++;
+        if ((((struct Obj02513 *)obj)->f134)++ > 30)
+            (((struct Obj02513 *)obj)->f154)++;
         break;
     case 4:
         func_0203C554(1);
-        (*(u32 *)(obj + 0x154))++;
+        (((struct Obj02513 *)obj)->f154)++;
         break;
     case 5:
         return 1;

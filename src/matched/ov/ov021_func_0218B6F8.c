@@ -19,6 +19,7 @@
  *   func_0216DDC0  0x0216DDC0  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07410.h"
 
 typedef unsigned short u16;
 typedef signed short   s16;
@@ -35,8 +36,8 @@ extern void *func_0216DDC0(u32 a, u32 b, u32 c, u32 d);
 
 int func_0218B6F8(char *p, void *q)
 {
-    void *o = func_021A3074(*(void **)(p + 0x18));
-    u16 d = *(u16 *)(p + 0x30);
+    void *o = func_021A3074(((struct Obj07410 *)p)->f18);
+    u16 d = ((struct Obj07410 *)p)->f30;
     int x = func_0216D83C(o);
     int z = func_0216D86C(o);
     int i;

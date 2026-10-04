@@ -15,6 +15,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17785.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef signed short   s16;
 typedef signed char    s8;
 void *func_0216D530(void *p)
 {
-    return *(void **)((u8 *)p + 0x38);
+    return ((struct Obj17785 *)p)->f38;
 }

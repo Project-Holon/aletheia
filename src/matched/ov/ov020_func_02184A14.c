@@ -20,6 +20,7 @@
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   func_021C6E48  0x021C6E48  thumb  ov021
  */
+#include "../include/Obj00082.h"
 
 typedef unsigned char  u8;
 typedef short s16;
@@ -38,8 +39,8 @@ extern int func_021C6E48(int a);
 
 int func_02184A14(int ctx, int *state, u8 *p)
 {
-    int x = *(int *)(p + 0);
-    int z = *(int *)(p + 8);
+    int x = *(int *)&((struct Obj00082 *)p)->f0;
+    int z = *(int *)&((struct Obj00082 *)p)->f8;
     int t = func_02188D38((u8 *)z);
 
     switch (*state) {
@@ -62,7 +63,7 @@ int func_02184A14(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 4:
-        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20((u8 *)z), *(s16 *)&((struct Obj00082 *)p)->f14);
         return 1;
     }
     return 0;

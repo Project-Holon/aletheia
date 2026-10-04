@@ -11,6 +11,7 @@
  * symbols:
  *   func_0204AF28 0x0204AF28 arm
  */
+#include "../include/Obj23174.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,6 +29,6 @@ int func_021DBEA4(u8 *p, int screen, u32 owner)
     default: mode = 0; break;
     }
     if (*(int *)(p + 8 + mode * 4) != -1) return mode;
-    *(int *)(p + 8 + mode * 4) = func_0204AF28((void *)owner, 0x4d, 0x80, *(u16 *)(p + 4));
+    *(int *)(p + 8 + mode * 4) = func_0204AF28((void *)owner, 0x4d, 0x80, ((struct Obj23174 *)p)->f4);
     return mode;
 }

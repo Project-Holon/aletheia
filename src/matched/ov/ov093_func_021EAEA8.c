@@ -12,12 +12,13 @@
  * symbols:
  *   func_0689B780  0x0689B780  thumb  ov095
  */
+#include "../include/Obj07848.h"
 typedef unsigned char u8;
 extern void func_0689B780(void *, void *);
 void func_021EAEA8(u8 *p, int v)
 {
-    *(int *)(p + 0x160) = v;
-    *(int *)(p + 0x164) = v;
-    *(int *)(p + 0x16c) = 3;
-    func_0689B780(*(void **)(p + 0x180), p + 0x160);
+    ((struct Obj07848 *)p)->f160 = v;
+    ((struct Obj07848 *)p)->f164 = v;
+    ((struct Obj07848 *)p)->f16C = 3;
+    func_0689B780(((struct Obj07848 *)p)->f180, p + 0x160);
 }

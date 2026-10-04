@@ -13,6 +13,7 @@
  *   func_02082A60 0x02082A60 arm
  *   d_021C7200 0x021C7200 data a4
  */
+#include "../include/Obj04552.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,11 +26,11 @@ char *func_021B8C3C(int unused, u32 heap)
     char *q;
     u8 i;
     q = func_02030734(heap, 0xac, 1, d_021C7200, 0xd7);
-    *(void **)(q + 0x10) = func_021B9F9C(heap);
-    *(void **)(q + 0x1c) = func_02030734(heap, 0x808, 1, d_021C7200, 0xda);
-    *(void **)(q + 0x20) = *(void **)(q + 0x1c);
-    *(char **)(q + 0x24) = *(char **)(q + 0x1c) + 8;
-    *(u8 *)(q + 0xd) = 4;
+    ((struct Obj04552 *)q)->f10 = func_021B9F9C(heap);
+    ((struct Obj04552 *)q)->f1C = func_02030734(heap, 0x808, 1, d_021C7200, 0xda);
+    ((struct Obj04552 *)q)->f20 = ((struct Obj04552 *)q)->f1C;
+    *(char * *)&((struct Obj04552 *)q)->f24 = *(char * *)&((struct Obj04552 *)q)->f1C + 8;
+    ((struct Obj04552 *)q)->fD = 4;
     func_02082A60((void *)0x05000420, q + 0x5a, 32);
     for (i = 0; i < 16; i++) *(u16 *)(q + i * 2 + 0x3a) = 32767;
     return q;

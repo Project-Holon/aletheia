@@ -28,6 +28,14 @@
  *   func_021EBBBC 0x021EBBBC thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23918.h"
+#include "../include/Obj23919.h"
+#include "../include/Obj23920.h"
+#include "../include/Obj23921.h"
+#include "../include/Obj23922.h"
+#include "../include/Obj23923.h"
+#include "../include/Obj23924.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct WinMgr;
@@ -51,28 +59,28 @@ extern void func_021EBBBC(u8 *, int);
 extern int func_021E8F50(u8 *, int);
 int func_021E7D64(u8 *p)
 {
-    switch (*(u32 *)(*(u8 **)(p + 44) + 0xa194)) {
+    switch (((struct Obj23918 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194) {
     case 0:
-        func_021EC000(*(char **)(p + 44), 4, 0);
+        func_021EC000(*(char * *)&((struct Obj00000 *)p)->f2C, 4, 0);
         func_021ED508(p, 14, 0);
-        func_021EBA5C(*(char **)(p + 44), 24);
+        func_021EBA5C(*(char * *)&((struct Obj00000 *)p)->f2C, 24);
         func_021DD14C(p);
-        func_021EF57C(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
-        (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
+        func_021EF57C(*(struct WinMgr * *)&((struct Obj23919 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
+        (((struct Obj23920 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194)++;
         return func_021E8FC0(p, func_021E0190, 85);
     case 1:
-        *(u32 *)(*(u8 **)(p + 44) + 0xa174) = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
-        func_021DF110(p, *(u32 *)(*(u8 **)(p + 44) + 0xa174));
-        func_021EF6A8(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
+        ((struct Obj23921 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174 = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
+        func_021DF110(p, ((struct Obj23922 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA174);
+        func_021EF6A8(*(struct WinMgr * *)&((struct Obj23923 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f74);
         func_020061E4(0x669);
-        (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
+        (((struct Obj23924 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA194)++;
         return func_021E8FC0(p, func_021E01A8, 85);
     case 2:
         func_021EE364((char **)p, 9, 0);
-        func_021ED888(*(char **)(p + 44), 0);
+        func_021ED888(*(char * *)&((struct Obj00000 *)p)->f2C, 0);
         func_021ECB20(p, 1, 1);
         func_021ECB20(p, 2, 1);
-        func_021ECB60(*(char **)(p + 44), p[22], 0);
+        func_021ECB60(*(char * *)&((struct Obj00000 *)p)->f2C, p[22], 0);
         func_021EBBBC(p, 24);
         return func_021E8F50(p, 86);
     }

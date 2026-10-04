@@ -20,6 +20,8 @@
  *   func_0203F9B4 0x0203F9B4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj05284.h"
+#include "../include/Obj06380.h"
 typedef unsigned char u8;
 extern void func_02049238(void *);
 struct Bank;
@@ -37,23 +39,23 @@ extern void func_020307B0(void *);
 void func_021B9B20(u8 *p) {
     int i, j;
     if (p) {
-        func_02049238(*(void **)(p+0x8C));
+        func_02049238(((struct Obj06380 *)p)->f8C);
         for (i=0; i<4; ++i) {
             void *r = *(void **)(p+8+i*4);
             if (r) func_02030EAC(r);
         }
-        func_02030EAC(*(void **)p);
-        func_02030EAC(*(void **)(p+4));
-        func_021BCA30(*(void **)(p+0x64));
-        func_0204B1CC(*(void **)(p+0x20));
+        func_02030EAC(((struct Obj06380 *)p)->f0);
+        func_02030EAC(((struct Obj06380 *)p)->f4);
+        func_021BCA30(((struct Obj06380 *)p)->f64);
+        func_0204B1CC(((struct Obj06380 *)p)->f20);
         for (j=0; j<2; ++j) {
             u8 *r = p+j*12;
-            func_0204ADA4(*(unsigned int *)(r+0x24));
-            func_0204A8D4(*(unsigned int *)(r+0x28));
-            func_0204AFD8(*(unsigned int *)(r+0x2C));
-            func_0204ADA4(*(unsigned int *)(r+0x3C));
-            func_0204A8D4(*(unsigned int *)(r+0x40));
-            func_0204AFD8(*(unsigned int *)(r+0x44));
+            func_0204ADA4(((struct Obj05284 *)r)->f24);
+            func_0204A8D4(((struct Obj05284 *)r)->f28);
+            func_0204AFD8(((struct Obj05284 *)r)->f2C);
+            func_0204ADA4(((struct Obj05284 *)r)->f3C);
+            func_0204A8D4(((struct Obj05284 *)r)->f40);
+            func_0204AFD8(((struct Obj05284 *)r)->f44);
         }
         func_0204A5AC();
         func_020450C8();

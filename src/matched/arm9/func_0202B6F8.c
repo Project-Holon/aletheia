@@ -14,6 +14,7 @@
  * class now witnesses the ABS32 site.  Every byte is hard, including the
  * two-byte alignment pad the front end emits between the code and the pool.
  */
+#include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -22,5 +23,5 @@ extern void func_0202BEBC(u8 *p);
 
 void func_0202B6F8(u8 *p)
 {
-    func_0202BEBC(*(u8 **)(p + 0x1c));
+    func_0202BEBC(*(u8 * *)&((struct Obj02010 *)p)->f1C);
 }

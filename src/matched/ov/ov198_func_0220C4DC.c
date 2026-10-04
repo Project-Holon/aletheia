@@ -18,6 +18,10 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj04600.h"
+#include "../include/Obj25138.h"
+#include "../include/Obj25139.h"
+#include "../include/Obj25140.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -44,16 +48,16 @@ void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
     void *context;
     u32 width;
     handle=*(void **)(p+0x1F70+slot*8);
-    buf=func_020457B0(16,*(u16 *)(*(char **)p+16));
-    text=func_02045EC0(*(void **)(p+0x1EA0),id);
-    func_0201EF34(*(void **)(p+0x1EA4),0,value);
-    func_0201F250(*(void **)(p+0x1EA4),buf,text);
+    buf=func_020457B0(16,((struct Obj25138 *)(*(char * *)&((struct Obj04600 *)p)->f0))->f10);
+    text=func_02045EC0(((struct Obj04600 *)p)->f1EA0,id);
+    func_0201EF34(((struct Obj04600 *)p)->f1EA4,0,value);
+    func_0201F250(((struct Obj04600 *)p)->f1EA4,buf,text);
     if (x==0xFFFF) {
         width=func_02045738(handle);
-        x=((width<<3)-func_0201D304(buf,*(u32 *)(*(char **)p+12),0))>>1;
+        x=((width<<3)-func_0201D304(buf,((struct Obj25139 *)(*(char * *)&((struct Obj04600 *)p)->f0))->fC,0))>>1;
     }
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)x,y,(u32)buf,*(u32 *)(*(char **)p+12),(u16)color);
+    context=((struct Obj04600 *)p)->f1EAC;
+    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)x,y,(u32)buf,((struct Obj25140 *)(*(char * *)&((struct Obj04600 *)p)->f0))->fC,(u16)color);
     *(u8 *)(p+slot*8+0x1F74)=1;
     func_02045808(text);
     func_02045808(buf);

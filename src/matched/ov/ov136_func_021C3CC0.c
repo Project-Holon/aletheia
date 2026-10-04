@@ -17,6 +17,7 @@
  *   func_02008F48 0x02008F48 thumb
  *   d_021C7EE0 0x021C7EE0 data a1
  */
+#include "../include/Obj01163.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C7EE0[];
@@ -41,13 +42,13 @@ void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
     func_02082AC0(0, p, 0x1C);
     p[0xF] = d;
     p[0xE] = c;
-    *(unsigned *)(p + 0x18) = v;
-    *(u16 *)p = 1;
-    *(unsigned *)(p + 8) = b;
-    *(u16 *)(p + 0xC) = 0;
-    *(void **)(p + 0x10) = func_02012EBC(a);
-    *(void **)(p + 0x14) = func_02008F08((u16)heap);
-    func_02008EAC(*(void **)(p + 0x14));
-    func_02008F48(*(void **)(p + 0x14), 0xFF, c, a);
+    ((struct Obj01163 *)p)->f18 = v;
+    ((struct Obj01163 *)p)->f0 = 1;
+    ((struct Obj01163 *)p)->f8 = b;
+    ((struct Obj01163 *)p)->fC = 0;
+    ((struct Obj01163 *)p)->f10 = func_02012EBC(a);
+    ((struct Obj01163 *)p)->f14 = func_02008F08((u16)heap);
+    func_02008EAC(((struct Obj01163 *)p)->f14);
+    func_02008F48(((struct Obj01163 *)p)->f14, 0xFF, c, a);
     return p;
 }

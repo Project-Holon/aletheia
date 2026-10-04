@@ -12,6 +12,7 @@
  * Saturating increment of the halfword counter at +0xe.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12970.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ typedef unsigned int   u32;
 
 void func_021CA23C(u8 *p)
 {
-    u16 v = *(u16 *)(p + 0xe);
+    u16 v = ((struct Obj12970 *)p)->fE;
     if (v < 0xffff)
-        *(u16 *)(p + 0xe) = v + 1;
+        ((struct Obj12970 *)p)->fE = v + 1;
 }

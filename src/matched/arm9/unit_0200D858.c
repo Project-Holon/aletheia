@@ -56,6 +56,7 @@
  *   MI_CpuFill8  0x02082BCC  arm
  *   MI_CpuCopy8  0x02082D44  arm
  */
+#include "../include/Obj03045.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -143,13 +144,13 @@ void func_0200D914(struct Blk3C *p, u32 id, const void *src)
 {
     switch (id) {
     case 0:
-        p->f2 = *(const u8 *)src;
+        p->f2 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 1:
-        p->unk02 = *(const u8 *)src;
+        p->unk02 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 2:
-        p->unk03 = *(const u8 *)src;
+        p->unk03 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 3:
         p->unk04 = *(const u16 *)src;
@@ -164,19 +165,19 @@ void func_0200D914(struct Blk3C *p, u32 id, const void *src)
         MI_CpuCopy8(src, p->unk28, sizeof(p->unk28));
         break;
     case 7:
-        p->f0 = *(const u8 *)src;
+        p->f0 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 8:
         MI_CpuCopy8(src, p->unk0C, sizeof(p->unk0C));
         break;
     case 9:
-        p->f6 = *(const u8 *)src;
+        p->f6 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 10:
-        p->f9 = *(const u8 *)src;
+        p->f9 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     case 11:
-        p->f10 = *(const u8 *)src;
+        p->f10 = *(const u8 *)&((struct Obj03045 *)src)->f0;
         break;
     }
 }

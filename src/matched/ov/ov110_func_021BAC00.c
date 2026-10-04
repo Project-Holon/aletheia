@@ -18,6 +18,7 @@
  * UNBLOCKED: func_021BC320 is now an EXACT entry in layout/matched/ov110;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
+#include "../include/Obj22338.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,4 +28,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BC320(void *a, u8 *b, int n);
-void func_021BAC00(u8 *p, u8 *b, int n) { func_021BC320(*(void **)(p + 0x54), b, n); }
+void func_021BAC00(u8 *p, u8 *b, int n) { func_021BC320(((struct Obj22338 *)p)->f54, b, n); }

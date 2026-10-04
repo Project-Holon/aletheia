@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_0202BEBC.c \
  *       --func func_0202BEBC --addr 0x0202BEBC --thumb --cc 1.1p1
  */
+#include "../include/Obj02602.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,7 +24,7 @@ extern void func_0202BFF0(u8 *p);
 
 void func_0202BEBC(u8 *p)
 {
-    if (*(u32 *)p != 0) {
+    if (((struct Obj02602 *)p)->f0 != 0) {
         func_0202BFF0(p);
     }
 }

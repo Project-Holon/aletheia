@@ -17,6 +17,7 @@
  *   func_021BA644  0x021BA644  thumb
  *   func_021BB134  0x021BB134  thumb
  */
+#include "../include/Obj13137.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,8 +35,8 @@ int func_021B980C(u32 a, u32 b, u32 c, u8 *w)
 {
     func_021BB120(w + 0xd4);
     func_021B9930(w);
-    func_0201C4E4(*(void **)(w + 0x258));
-    func_020310C4(*(void **)(w + 0x268));
+    func_0201C4E4(((struct Obj13137 *)w)->f258);
+    func_020310C4(((struct Obj13137 *)w)->f268);
     func_021BA644(w + 0x104);
     if (func_021BB134(w + 0xd4) != 0)
         return 1;

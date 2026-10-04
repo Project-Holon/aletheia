@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj11258.h"
 
-int func_02016C38(int a0){ int t0 = func_02030EE8(a0); int t1 = func_020307B0((int)*(int *)(((char *)(*(int *)(((char *)((t0 + 0)) + 4))) + 12))); int t2 = func_020307B0((int)*(int *)(((char *)((t0 + 0)) + 4))); int t3 = func_020307B0((int)((t0 + 0) + 0)); int t4 = func_02030EAC((int)((a0 + 0) + 0)); return t4; }
+int func_02016C38(int a0){ int t0 = func_02030EE8(a0); int t1 = func_020307B0((int)*(int *)(((char *)(((struct Obj11258 *)((char *)((t0 + 0))))->f4) + 12))); int t2 = func_020307B0((int)((struct Obj11258 *)((char *)((t0 + 0))))->f4); int t3 = func_020307B0((int)((t0 + 0) + 0)); int t4 = func_02030EAC((int)((a0 + 0) + 0)); return t4; }

@@ -11,8 +11,11 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj13983.h"
+#include "../include/Obj22954.h"
+#include "../include/Obj22955.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-int func_021D6EBC(u8 *p){u8 *q=*(u8 **)(p+0x20);if(*(int *)(q+0x50)){unsigned int x=*(unsigned short *)(q+0xc);if(x==0)return 1;if(x==4)return 1;}return 0;}
-void func_021D6EDC(u8 *p,u32 v,int unused){*(u32 *)(p+0x50)=v;}
+int func_021D6EBC(u8 *p){u8 *q=*(u8 * *)&((struct Obj22954 *)p)->f20;if(((struct Obj13983 *)q)->f50){unsigned int x=((struct Obj13983 *)q)->fC;if(x==0)return 1;if(x==4)return 1;}return 0;}
+void func_021D6EDC(u8 *p,u32 v,int unused){((struct Obj22955 *)p)->f50=v;}

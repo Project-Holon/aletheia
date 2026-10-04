@@ -30,6 +30,8 @@
  *   ov91_id 0x0000005B data a1
  *   ov131_id 0x00000083 data a1
  */
+#include "../include/Obj00310.h"
+#include "../include/Obj06506.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,52 +64,52 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
     u8 i;
     void *ctx;
     int code;
-    if (*(u32 *)(p + 148) == 1 && *(u16 *)(p + 100) != 0) {
+    if (((struct Obj00310 *)p)->f94 == 1 && ((struct Obj00310 *)p)->f64 != 0) {
         frame = g_02FFFC3C;
-        elapsed = frame - *(u32 *)(p + 200);
+        elapsed = frame - ((struct Obj00310 *)p)->fC8;
         p[196] += elapsed;
-        *(u32 *)(p + 200) = frame;
+        ((struct Obj00310 *)p)->fC8 = frame;
         if (p[196] > 60) {
-            *(u16 *)(p + 100) -= 1;
+            ((struct Obj00310 *)p)->f64 -= 1;
             p[196] -= 60;
         }
     }
     func_021B6114(p + 4);
-    switch (*(u32 *)p) {
+    switch (((struct Obj00310 *)p)->f0) {
     case 0:
         func_02034AC4((int)ov91_id);
-        func_02031348(*(void **)(p + 204), -1, d_021BED00, p + 4);
-        *(u32 *)p = 1;
+        func_02031348(((struct Obj00310 *)p)->fCC, -1, d_021BED00, p + 4);
+        ((struct Obj00310 *)p)->f0 = 1;
         break;
     case 1:
-        if (func_02031330(*(void **)(p + 204)) == 0) *(u32 *)p = 2;
+        if (func_02031330(((struct Obj00310 *)p)->fCC) == 0) ((struct Obj00310 *)p)->f0 = 2;
         break;
     case 2:
         func_02034A5C((int)ov91_id);
-        if (*(u32 *)(p + 68) == 1) {
-            p[171] = *(u32 *)(p + 64);
-            *(u32 *)p = 3;
+        if (((struct Obj00310 *)p)->f44 == 1) {
+            p[171] = ((struct Obj00310 *)p)->f40;
+            ((struct Obj00310 *)p)->f0 = 3;
         } else {
-            *(u32 *)(q + 40) = 0;
-            *(u32 *)p = 6;
+            ((struct Obj06506 *)q)->f28 = 0;
+            ((struct Obj00310 *)p)->f0 = 6;
         }
         break;
     case 6:
         for (i = 0; i < 6; i++) {
             if (p[77 + i] != 0) {
                 void *mon;
-                mon = func_0201AB28(*(void **)(q + 4), p[77 + i] - 1);
-                func_0201A98C(*(void **)(q + 28), mon);
+                mon = func_0201AB28(((struct Obj06506 *)q)->f4, p[77 + i] - 1);
+                func_0201A98C(((struct Obj06506 *)q)->f1C, mon);
             }
         }
-        *(u32 *)p = 7;
+        ((struct Obj00310 *)p)->f0 = 7;
         break;
     case 7:
         ctx = func_020399A8();
         code = func_0201A918();
-        if (func_0203D3F8((u32)ctx, 255, 0x2f00, code, *(u32 *)(q + 28), 0, 0, 1) != 0) {
+        if (func_0203D3F8((u32)ctx, 255, 0x2f00, code, *(u32 *)&((struct Obj06506 *)q)->f1C, 0, 0, 1) != 0) {
             func_02039C68((struct Link *)func_020399A8(), 20, 47);
-            *(u32 *)p = 8;
+            ((struct Obj00310 *)p)->f0 = 8;
         }
         break;
     case 8:
@@ -115,23 +117,23 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         break;
     case 3:
         func_02034AC4((int)ov131_id);
-        func_02031348(*(void **)(p + 204), -1, d_021DC800, p + 156);
-        *(u32 *)p = 4;
+        func_02031348(((struct Obj00310 *)p)->fCC, -1, d_021DC800, p + 156);
+        ((struct Obj00310 *)p)->f0 = 4;
         break;
     case 4:
-        if (*(u32 *)(p + 148) == 1 && *(u16 *)(p + 100) == 0) *(u32 *)(p + 192) = 1;
-        if (func_0200FB24() != 0) *(u32 *)(p + 192) = 1;
-        if (func_02031330(*(void **)(p + 204)) == 0) *(u32 *)p = 5;
+        if (((struct Obj00310 *)p)->f94 == 1 && ((struct Obj00310 *)p)->f64 == 0) ((struct Obj00310 *)p)->fC0 = 1;
+        if (func_0200FB24() != 0) ((struct Obj00310 *)p)->fC0 = 1;
+        if (func_02031330(((struct Obj00310 *)p)->fCC) == 0) ((struct Obj00310 *)p)->f0 = 5;
         break;
     case 5:
         func_02034A5C((int)ov131_id);
-        *(u32 *)(p + 64) = p[171];
-        *(u32 *)p = 0;
+        ((struct Obj00310 *)p)->f40 = p[171];
+        ((struct Obj00310 *)p)->f0 = 0;
         break;
     }
-    if (func_0203CD98() != 0 && *(u32 *)p != 1 && *(u32 *)p != 2 && *(u32 *)p != 4 && *(u32 *)p != 5) {
+    if (func_0203CD98() != 0 && ((struct Obj00310 *)p)->f0 != 1 && ((struct Obj00310 *)p)->f0 != 2 && ((struct Obj00310 *)p)->f0 != 4 && ((struct Obj00310 *)p)->f0 != 5) {
         if (func_02157170(1, 1) != 0) {
-            *(u32 *)(q + 40) = 1;
+            ((struct Obj06506 *)q)->f28 = 1;
             return 1;
         }
     }

@@ -11,7 +11,8 @@
  * symbols:
  *   func_021915B4 0x021915B4 thumb ov021
  */
+#include "../include/Obj00033.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021915B4(u32 a);
-void func_0217F624(char *p) { if (*(void **)(p+0x2818)) { func_021915B4((u32)(*(void **)(p+0x2818))); *(void **)(p+0x2818)=0; } }
+void func_0217F624(char *p) { if (((struct Obj00033 *)p)->f2818) { func_021915B4((u32)(((struct Obj00033 *)p)->f2818)); ((struct Obj00033 *)p)->f2818=0; } }

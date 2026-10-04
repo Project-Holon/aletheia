@@ -24,6 +24,9 @@
  *   d_020A1B38     0x020A1B38  data   a2
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04199.h"
+#include "../include/Obj04200.h"
+#include "../include/Obj12576.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,21 +52,21 @@ u8 *func_0218C724(u8 *owner, u32 *obj)
     u32 tmp[3];
     int k;
 
-    p = func_02030734(*(u16 *)owner, 0x60, 0, (const char *)d_021DD9CC, 0x7E9);
-    *(u8 **)p = owner;
-    *(u32 **)(p + 8) = obj;
-    *(u32 *)(p + 4) = 0xFFFF;
-    k = *(u16 *)(def + 0x10) >> 4;
+    p = func_02030734(((struct Obj04199 *)owner)->f0, 0x60, 0, (const char *)d_021DD9CC, 0x7E9);
+    *(u8 * *)&((struct Obj04200 *)p)->f0 = owner;
+    *(u32 * *)&((struct Obj04200 *)p)->f8 = obj;
+    ((struct Obj04200 *)p)->f4 = 0xFFFF;
+    k = ((struct Obj12576 *)def)->f10 >> 4;
     func_0207AF1C(p + 0x3C, d_020A1B38[k * 2], d_020A1B38[k * 2 + 1]);
     func_02169510((u8 *)obj[0], (struct V3 *)(p + 0x24));
     func_0207C9D0(p + 0x24, def + 4, p + 0x24);
-    func_0218DC5C(*(u32 *)(owner + 4), tmp);
+    func_0218DC5C(((struct Obj04199 *)owner)->f4, tmp);
     func_0207C9D0(p + 0x24, tmp, p + 0x24);
-    *(u32 *)(p + 0x30) = 0x1000;
-    *(u32 *)(p + 0x34) = 0x1000;
-    *(u32 *)(p + 0x38) = 0x1000;
-    func_0218BFB4(owner, p + 0xC, *(u8 **)(owner + 0x1CC) + *(u32 *)def * 0x18);
+    ((struct Obj04200 *)p)->f30 = 0x1000;
+    ((struct Obj04200 *)p)->f34 = 0x1000;
+    ((struct Obj04200 *)p)->f38 = 0x1000;
+    func_0218BFB4(owner, p + 0xC, *(u8 * *)&((struct Obj04199 *)owner)->f1CC + ((struct Obj12576 *)def)->f0 * 0x18);
     func_0218BA70(owner, p);
-    func_0218C54C(*(u32 *)(p + 8), 0);
+    func_0218C54C(*(u32 *)&((struct Obj04200 *)p)->f8, 0);
     return p;
 }

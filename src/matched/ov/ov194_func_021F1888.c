@@ -19,6 +19,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj01772.h"
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned,u16);
 extern int func_0204ABF0(void *,unsigned,unsigned,unsigned,u16);
@@ -38,23 +39,23 @@ void func_021F1888(char *p,unsigned owner,u16 heap)
     int i;
     int zero;
     handle=func_020490F4(118,heap);
-    *(int *)p=func_0204ABF0(handle,9,0,0,heap);
-    *(int *)(p+8)=func_0204AF28(handle,7,6,heap);
-    *(int *)(p+4)=func_0204A6C8(handle,8,0,0,heap);
+    *(int *)&((struct Obj01772 *)p)->f0=func_0204ABF0(handle,9,0,0,heap);
+    *(int *)&((struct Obj01772 *)p)->f8=func_0204AF28(handle,7,6,heap);
+    *(int *)&((struct Obj01772 *)p)->f4=func_0204A6C8(handle,8,0,0,heap);
     func_02049238(handle);
     func_02082BCC(pos,0,8);
     pos[2]=0;
     zero=0;
     for(i=0;i<16;i++)
-        *(void **)(p+i*4+12)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
+        *(void **)(p+i*4+12)=func_0204B294((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
     pos[2]=1;
-    *(void **)(p+0x50)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,zero,heap);
-    func_0204B3DC(*(void **)(p+0x50),zero);
+    ((struct Obj01772 *)p)->f50=func_0204B294((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,zero,heap);
+    func_0204B3DC(((struct Obj01772 *)p)->f50,zero);
     for(i=18;i<20;i++) {
         pos[0]=-32;
         pos[1]=-32;
         pos[2]=i-15;
-        *(void **)(p+i*4+12)=func_0204B294((void *)owner,*(unsigned *)(p+4),*(unsigned *)p,*(unsigned *)(p+8),pos,0,heap);
+        *(void **)(p+i*4+12)=func_0204B294((void *)owner,((struct Obj01772 *)p)->f4,((struct Obj01772 *)p)->f0,((struct Obj01772 *)p)->f8,pos,0,heap);
         func_0204B92C(*(void **)(p+i*4+12),1);
         func_0204B3DC(*(void **)(p+i*4+12),0);
     }

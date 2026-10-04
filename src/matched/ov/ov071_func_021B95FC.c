@@ -18,6 +18,8 @@
  *   func_02049238  0x02049238  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj09894.h"
+#include "../include/Obj09895.h"
 
 typedef unsigned int u32;
 
@@ -37,13 +39,13 @@ void func_021B95FC(void *a, void *b)
     char *r5 = (char *)b;
     void *h;
 
-    func_020498F4(*(void **)(r5 + 0x30), 7, 6, 0, 0, 1, 0x61);
-    func_02049658(*(void **)(r5 + 0x30), 0xe, 5, 0, 0, 1, 0x61);
-    func_020498F4(*(void **)(r5 + 0x30), 9, 5, 0, 0, 1, 0x61);
+    func_020498F4(((struct Obj09895 *)r5)->f30, 7, 6, 0, 0, 1, 0x61);
+    func_02049658(((struct Obj09895 *)r5)->f30, 0xe, 5, 0, 0, 1, 0x61);
+    func_020498F4(((struct Obj09895 *)r5)->f30, 9, 5, 0, 0, 1, 0x61);
     h = func_020490F4(0x53, 0x61);
-    *(void **)(d + 4) = (void *)func_0203FA08(5, 0x80, 1);
-    func_02049658(h, 0x1c, 5, (u32)(*(void **)(d + 4)), 0x80, 0, 0x61);
-    func_02027634(h, 5, 0x61, (int)(*(void **)(d + 4)), 0xc);
+    ((struct Obj09894 *)d)->f4 = (void *)func_0203FA08(5, 0x80, 1);
+    func_02049658(h, 0x1c, 5, (u32)(((struct Obj09894 *)d)->f4), 0x80, 0, 0x61);
+    func_02027634(h, 5, 0x61, (int)(((struct Obj09894 *)d)->f4), 0xc);
     func_02049238(h);
     func_020409B4(5);
     func_020409B4(6);

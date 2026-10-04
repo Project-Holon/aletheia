@@ -21,6 +21,8 @@
  *   func_021B8750 0x021B8750 thumb ov093
  *   func_021BDA00 0x021BDA00 thumb ov093
  */
+#include "../include/Obj00003.h"
+#include "../include/Obj09958.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021B8714(void *);
@@ -38,24 +40,24 @@ int func_021BBB60(u8 *p)
     u32 i;
     int result;
     void *m;
-    u32 *out = *(u32 **)(p + 12);
+    u32 *out = *(u32 * *)&((struct Obj00003 *)p)->fC;
     out[0] = 0;
     result = 0;
     out[1] = 0;
-    initial = func_021B8714(*(void **)(p + 4));
+    initial = func_021B8714(((struct Obj00003 *)p)->f4);
     if (initial[8] && func_021C3B68(p, initial[8], 255)) result = 1;
     for (i = 0; i < 4; i++) {
-        u8 *q = func_021BB878(*(void **)p, i);
+        u8 *q = func_021BB878(((struct Obj00003 *)p)->f0, i);
         if (q) {
             u32 j;
             for (j = 0; j < q[9]; j++) {
-                m = func_021B9BF0(*(void **)(q + 4), j);
+                m = func_021B9BF0(((struct Obj09958 *)q)->f4, j);
                 if (m && !func_021D5B68(m)) func_021BD8F0(p, i, j, j);
             }
-            if (func_021B8588(*(void **)(p + 4)) == 3) {
+            if (func_021B8588(((struct Obj00003 *)p)->f4) == 3) {
                 for (j = 0; j < 3; j++) {
-                    m = func_021B9BF0(*(void **)(q + 4), j);
-                    if (m && !func_021D5B68(m)) func_021B8750(*(void **)(p + 4), i, m);
+                    m = func_021B9BF0(((struct Obj09958 *)q)->f4, j);
+                    if (m && !func_021D5B68(m)) func_021B8750(((struct Obj00003 *)p)->f4, i, m);
                 }
             }
         }

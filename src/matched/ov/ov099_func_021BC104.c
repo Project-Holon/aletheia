@@ -16,6 +16,8 @@
  *   func_021C24A4  0x021C24A4  thumb  ov099
  *   func_021C2864  0x021C2864  thumb  ov099
  */
+#include "../include/Obj00008.h"
+#include "../include/Obj13686.h"
 
 typedef unsigned char u8;
 
@@ -27,14 +29,14 @@ extern void func_021C2864(void *a, u8 v);
 
 void func_021BC104(char *p)
 {
-    char *q = *(char **)(p + 0x248);
+    char *q = *(char * *)&((struct Obj00008 *)p)->f248;
 
-    if (*(u8 *)(q + 0x44) != 0 && *(u8 *)(q + 0x45) != 0) {
+    if (((struct Obj13686 *)q)->f44 != 0 && ((struct Obj13686 *)q)->f45 != 0) {
         func_02156BC4(1);
         func_021563C0(func_02156330());
         func_021C24A4(p, 0x2A);
-        func_021C2864(*(void **)(p + 8), 1);
+        func_021C2864(((struct Obj00008 *)p)->f8, 1);
     } else {
-        func_021C2864(*(void **)(p + 8), 0);
+        func_021C2864(((struct Obj00008 *)p)->f8, 0);
     }
 }

@@ -10,6 +10,7 @@
  * status: EXACT*
  * symbols:
  */
+#include "../include/Obj14332.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void func_021DA044(u8 *p) { *(u32 *)(p+0x12c)=0; *(u32 *)(p+0x128)=0; }
+void func_021DA044(u8 *p) { ((struct Obj14332 *)p)->f12C=0; ((struct Obj14332 *)p)->f128=0; }

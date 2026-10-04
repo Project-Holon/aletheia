@@ -24,6 +24,9 @@
  *   d_02172160     0x02172160  data   ov010  a4
  *   d_02148B98     0x02148B98  data   a4
  */
+#include "../include/Obj03541.h"
+#include "../include/Obj19050.h"
+#include "../include/Obj19051.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,7 +55,7 @@ int func_0216968C(u8 *p)
     int r;
 
     r = 0;
-    if (*(u16 *)p != 0 && *(u32 *)(*(u8 **)(p + 0x2c) + 4) != 0) {
+    if (*(u16 *)&((struct Obj03541 *)p)->f0 != 0 && ((struct Obj19050 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4 != 0) {
         func_0206A9DC(d_0217216C);
         func_02082B60(d_02172178, d_02148C08);
         d_02148BCC.f7c &= ~0xa4;
@@ -61,8 +64,8 @@ int func_0216968C(u8 *p)
         func_0206DDA4(0x15, 0, 0);
         func_0206DDA4(0x17, d_02148B98, 0xc);
         func_0206DDA4(0x1c, p + 4, 3);
-        if (func_021699A0(*(void **)(*(u8 **)(p + 0x2c) + 4)) == 1) {
-            func_02047C8C(*(void **)(p + 0x2c));
+        if (func_021699A0(((struct Obj19051 *)(*(u8 * *)&((struct Obj03541 *)p)->f2C))->f4) == 1) {
+            func_02047C8C(((struct Obj03541 *)p)->f2C);
             r = 1;
         }
     }

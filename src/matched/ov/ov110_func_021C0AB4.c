@@ -14,6 +14,7 @@
  * symbols:
  *   func_021B639C  0x021B639C  thumb  ov067
  */
+#include "../include/Obj22408.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,4 +24,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021B639C(u8 *p);
-void func_021C0AB4(u8 *p) { func_021B639C((u8 *)(*(u32 *)(p + 0x54))); }
+void func_021C0AB4(u8 *p) { func_021B639C((u8 *)(((struct Obj22408 *)p)->f54)); }

@@ -9,5 +9,6 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24849.h"
 typedef unsigned short u16;
-void func_021FE7F4(char *p,u16 value) { *(u16 *)(p+0x24)=value; }
+void func_021FE7F4(char *p,u16 value) { ((struct Obj24849 *)p)->f24=value; }

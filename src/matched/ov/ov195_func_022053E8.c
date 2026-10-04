@@ -22,6 +22,7 @@
  * original pointer r4 / result r5 split and the shared return. See
  * docs/idioms/a-ternary-constant-call-argument-takes-the-opposite-branch-polarity.md.
  */
+#include "../include/Obj10819.h"
 
 typedef unsigned int u32;
 
@@ -42,10 +43,10 @@ int func_022053E8(char *a)
 {
     int r = 0;
 
-    switch (func_0201CE30((void *)(*(u32 *)(a + 0x64)))) {
+    switch (func_0201CE30((void *)(((struct Obj10819 *)a)->f64))) {
     case 0:
         if ((func_0203630C() & 3) != 0 || func_02035C38() != 0) {
-            func_0201CE5C((struct Rec *)(*(u32 *)(a + 0x64)), 0);
+            func_0201CE5C((struct Rec *)(((struct Obj10819 *)a)->f64), 0);
             if ((func_0203630C() & 3) != 0)
                 func_020355D8(0);
             else
@@ -55,7 +56,7 @@ int func_022053E8(char *a)
     case 1:
         if ((func_020362DC() & 3) != 0 || func_02035C60() != 0) {
             func_020061E4(0x547);
-            func_0201CE38((void *)(*(u32 *)(a + 0x64)));
+            func_0201CE38((void *)(((struct Obj10819 *)a)->f64));
             if ((func_020362DC() & 3) != 0)
                 func_020355D8(0);
             else

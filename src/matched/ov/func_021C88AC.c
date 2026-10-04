@@ -22,6 +22,7 @@
  *   func_021C86E8  0x021C86E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18340.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ extern u32 func_021C86E8(u32, u32, u32);
 int func_021C88AC(u32 a, u32 b, u32 c, u32 d)
 {
 func_0215A5F4(b, b, c, d);
-func_021C86E8(*(u32 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))), func_02011330((struct Stream *)a), func_02011330((struct Stream *)a));
+func_021C86E8(((struct Obj18340 *)((u8 *)(func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)b))))))))->f0, func_02011330((struct Stream *)a), func_02011330((struct Stream *)a));
 return 0;
 }
 

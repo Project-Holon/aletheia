@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj03062.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,12 +23,12 @@ typedef unsigned int u32;
 int func_02162298(int a0, int a1, int a2, int a3)
 {
 
-*(u16 *)((char *)a0 + 0x2e) = a2;
-a3 = *(u16 *)((char *)a0 + 4);
-*(u16 *)((char *)a0 + 0x2c) = a1;
-a2 = *(u16 *)((char *)a0 + 2);
+((struct Obj03062 *)a0)->f2E = a2;
+a3 = ((struct Obj03062 *)a0)->f4;
+((struct Obj03062 *)a0)->f2C = a1;
+a2 = ((struct Obj03062 *)a0)->f2;
 a1 = 0x10;
-*(int *)((char *)a0 + 0x28) = a3;
+((struct Obj03062 *)a0)->f28 = a3;
 a1 = a1 | a2;
-*(u16 *)((char *)a0 + 2) = a1;
+((struct Obj03062 *)a0)->f2 = a1;
     return a0;}

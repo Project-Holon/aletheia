@@ -14,6 +14,7 @@
  *   func_021C9818  0x021C9818  thumb  ov093
  *   func_021C99A0  0x021C99A0  thumb  ov093
  */
+#include "../include/Obj09973.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -37,7 +38,7 @@ int func_021C97D0(void *w, const struct Cmd *c)
     v = c->w8;
     pv = &v;
     func_021C7BA8(w, c->id, c->w4, c->b12, pv);
-    if (func_021C9818(c->b12, c->w4, *(u32 *)pv) != 0) {
+    if (func_021C9818(c->b12, c->w4, ((struct Obj09973 *)pv)->f0) != 0) {
         func_021C99A0(w, (u8 *)c + 0x10);
         return 1;
     }

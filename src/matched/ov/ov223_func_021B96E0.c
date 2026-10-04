@@ -17,6 +17,7 @@
  *   func_021B97F8 0x021B97F8 thumb ov223
  *   func_021BC514 0x021BC514 thumb ov223
  */
+#include "../include/Obj03962.h"
 extern int (*callbacks[])(char *,int *);
 typedef unsigned int   u32;
 struct PrintSys;
@@ -31,15 +32,15 @@ int func_021B96E0(void *a,int *state,void *b,char *p)
     int old=*state;
     *state=callbacks[*state](p,(int *)(p+12));
     if(*state!=13) {
-        if(*state!=old) *(int *)(p+12)=0;
+        if(*state!=old) ((struct Obj03962 *)p)->fC=0;
     } else return 1;
     if(*state>=2&&*state<=11) {
-        func_0201C4E4(*(void **)(p+28));
+        func_0201C4E4(((struct Obj03962 *)p)->f1C);
         func_021BAF30((int *)p);
-        func_021BC4F4(*(char **)(p+20));
-        func_021BC508(*(void **)(p+20));
+        func_021BC4F4(*(char * *)&((struct Obj03962 *)p)->f14);
+        func_021BC508(((struct Obj03962 *)p)->f14);
         func_021B97F8(p);
-        func_021BC514(*(void **)(p+20));
+        func_021BC514(((struct Obj03962 *)p)->f14);
     }
     return 0;
 }

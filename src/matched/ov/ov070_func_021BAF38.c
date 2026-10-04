@@ -19,6 +19,7 @@
  *   func_021BB6E0  0x021BB6E0  thumb  ov070
  *   func_021BB724  0x021BB724  thumb  ov070
  */
+#include "../include/Obj01516.h"
 
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -42,11 +43,11 @@ void func_021BAF38(int p, int val)
 {
     int r;
 
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x504))), 0);
-    func_02045CAC((struct MsgBank *)(*(int *)(p + 0x51C)), 0x8B, (void *)(*(int *)(p + 0x524)));
-    func_0201F14C((struct WordSet *)(*(int *)(p + 0x520)), 0, val);
-    func_0201F250((struct WordSet *)(*(int *)(p + 0x520)), (void *)(*(int *)(p + 0x528)), (void *)(*(int *)(p + 0x524)));
-    r = 0x60 - func_0201D304((struct StrObj *)(*(int *)(p + 0x528)), *(int *)(p + 0x530), 0);
-    func_021BB6E0(p, (u32 *)(p + 0x504), *(int *)(p + 0x528), (unsigned short)(r >> 1), 4, 0x3C40);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj01516 *)p)->f504)), 0);
+    func_02045CAC((struct MsgBank *)(((struct Obj01516 *)p)->f51C), 0x8B, (void *)(((struct Obj01516 *)p)->f524));
+    func_0201F14C((struct WordSet *)(((struct Obj01516 *)p)->f520), 0, val);
+    func_0201F250((struct WordSet *)(((struct Obj01516 *)p)->f520), (void *)(((struct Obj01516 *)p)->f528), (void *)(((struct Obj01516 *)p)->f524));
+    r = 0x60 - func_0201D304((struct StrObj *)(((struct Obj01516 *)p)->f528), *(int *)&((struct Obj01516 *)p)->f530, 0);
+    func_021BB6E0(p, (u32 *)(p + 0x504), ((struct Obj01516 *)p)->f528, (unsigned short)(r >> 1), 4, 0x3C40);
     func_021BB724((void **)(p + 0x504));
 }

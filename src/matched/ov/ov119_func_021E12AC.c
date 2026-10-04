@@ -12,6 +12,7 @@
  *   func_02028484 0x02028484 thumb
  *   func_0201CE48 0x0201CE48 thumb
  */
+#include "../include/Obj00001.h"
 typedef signed int     s32;
 struct Blk;
 struct Ctx;
@@ -19,4 +20,4 @@ struct Rec3;
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 extern s32 func_02028484(struct Blk *blk, void *h);
 extern void func_0201CE48(struct Rec3 *p);
-int func_021E12AC(char *p) {int v=1;if(*(int *)(p+0x72c)) {if(*(int *)(p+0x71c))func_020286C4((struct Ctx *)(*(int *)(p+0x74c)),(void *)(*(int *)(p+0x72c)),(void *)(*(int *)(p+0x71c)));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(*(int *)(p+0x72c)));if(v) {if(*(int *)(p+0x72c)) {func_0201CE48((struct Rec3 *)(*(int *)(p+0x72c)));*(int *)(p+0x72c)=0;}}}return v;}
+int func_021E12AC(char *p) {int v=1;if(((struct Obj00001 *)p)->f72C) {if(*(int *)&((struct Obj00001 *)p)->f71C)func_020286C4((struct Ctx *)(*(int *)&((struct Obj00001 *)p)->f74C),(void *)(((struct Obj00001 *)p)->f72C),(void *)(*(int *)&((struct Obj00001 *)p)->f71C));v=func_02028484((struct Blk *)(p+0x11d4),(void *)(((struct Obj00001 *)p)->f72C));if(v) {if(((struct Obj00001 *)p)->f72C) {func_0201CE48((struct Rec3 *)(((struct Obj00001 *)p)->f72C));((struct Obj00001 *)p)->f72C=0;}}}return v;}

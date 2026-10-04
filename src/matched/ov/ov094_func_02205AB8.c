@@ -20,6 +20,7 @@
  *   func_02204C48 0x02204C48 thumb ov094
  *   d_0220AEB0 0x0220AEB0 data ov094 a1
  */
+#include "../include/Obj01049.h"
 typedef unsigned short u16;
 typedef struct { void *entry; int extra; } Entry;
 typedef struct { char pad[0x1c8]; Entry entries[3]; } Work;
@@ -47,16 +48,16 @@ void func_02205AB8(char *p)
             empty = 0;
         }
     }
-    if (*(int *)(p + 0x1c0) != -1) {
-        func_0204AFD8(*(int *)(p + 0x1c0));
-        *(int *)(p + 0x1c0) = -1;
+    if (((struct Obj01049 *)p)->f1C0 != -1) {
+        func_0204AFD8(((struct Obj01049 *)p)->f1C0);
+        ((struct Obj01049 *)p)->f1C0 = -1;
     }
-    if (*(int *)(p + 0x1bc) != -1) {
-        func_0204ADA4(*(int *)(p + 0x1bc));
-        *(int *)(p + 0x1bc) = -1;
+    if (((struct Obj01049 *)p)->f1BC != -1) {
+        func_0204ADA4(((struct Obj01049 *)p)->f1BC);
+        ((struct Obj01049 *)p)->f1BC = -1;
     }
     if (!empty) {
-        ctx = func_02030734((u16)((*(u16 *)(p + 0x240) & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
+        ctx = func_02030734((u16)((((struct Obj01049 *)p)->f240 & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x11b2);
         ctx[0] = (int)p;
         func_0220684C(p, (int)func_020056A0((void *)func_02204C48, ctx, 0), 0);
     }

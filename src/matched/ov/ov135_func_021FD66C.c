@@ -12,7 +12,8 @@
  *   func_020221A4 0x020221A4 thumb
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj08188.h"
 struct Obj;
 extern unsigned func_020221A4(void);
 extern void func_0204B3DC(struct Obj *,unsigned);
-int func_021FD66C(char *p) { (*(unsigned *)(p+0xd3c))++; if(func_020221A4()) {*(unsigned *)(p+0xd3c)=0; *(unsigned *)(p+40)=1; func_0204B3DC(*(struct Obj **)(p+0xd34),1);} return 2; }
+int func_021FD66C(char *p) { (((struct Obj08188 *)p)->fD3C)++; if(func_020221A4()) {((struct Obj08188 *)p)->fD3C=0; ((struct Obj08188 *)p)->f28=1; func_0204B3DC(*(struct Obj * *)&((struct Obj08188 *)p)->fD34,1);} return 2; }

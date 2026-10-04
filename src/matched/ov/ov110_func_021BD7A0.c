@@ -18,6 +18,7 @@
  *   func_021BAE94 0x021BAE94 thumb ov110
  *   func_021BAED0 0x021BAED0 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef int (*Handler)(u8 *,void *);
 extern int func_021BD894(u8 *,void *);
@@ -30,9 +31,9 @@ extern void func_021BAE24(void *,u8 *,void *);
 extern void func_021BAE94(void *,u8 *,void *);
 extern void func_021BAED0(void *,u8 *,void *);
 void func_021BD7A0(u8 *p,Handler fn) {
- *(Handler *)(p+0x24)=fn; *(int *)(p+0x20)=0;
- if(fn==func_021BD894) { func_021BAE24(*(void **)(p+0x14),p,*(void **)(p+0x18)); *(Handler *)(p+0x74)=(Handler)func_021BD8A8; }
- else if(fn==func_021BE4C0) { func_021BAE94(*(void **)(p+0x14),p,*(void **)(p+0x18)); *(Handler *)(p+0x74)=(Handler)func_021BD8B8; }
- else if(fn==func_021BEDEC) { func_021BAED0(*(void **)(p+0x14),p,*(void **)(p+0x18)); *(Handler *)(p+0x74)=(Handler)func_021BD8C8; }
- else *(Handler *)(p+0x74)=0;
+ *(Handler *)&((struct Obj00012 *)p)->f24=fn; ((struct Obj00012 *)p)->f20=0;
+ if(fn==func_021BD894) { func_021BAE24(((struct Obj00012 *)p)->f14,p,((struct Obj00012 *)p)->f18); *(Handler *)&((struct Obj00012 *)p)->f74=(Handler)func_021BD8A8; }
+ else if(fn==func_021BE4C0) { func_021BAE94(((struct Obj00012 *)p)->f14,p,((struct Obj00012 *)p)->f18); *(Handler *)&((struct Obj00012 *)p)->f74=(Handler)func_021BD8B8; }
+ else if(fn==func_021BEDEC) { func_021BAED0(((struct Obj00012 *)p)->f14,p,((struct Obj00012 *)p)->f18); *(Handler *)&((struct Obj00012 *)p)->f74=(Handler)func_021BD8C8; }
+ else *(Handler *)&((struct Obj00012 *)p)->f74=0;
 }

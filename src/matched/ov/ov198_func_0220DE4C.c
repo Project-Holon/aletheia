@@ -14,6 +14,9 @@
  *   func_0220D6DC 0x0220D6DC thumb ov198
  *   sub_0201BD28 0x0201BD28 thumb
  */
+#include "../include/Obj00507.h"
+#include "../include/Obj25183.h"
+#include "../include/Obj25184.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02211B0D[];
@@ -30,7 +33,7 @@ void func_0220DE4C(char *p) {
     char *base,*rec;
     u16 value;
     u8 local[8];
-    *(u8 **)(p+0x253c)=d_02211B0D;
+    *(u8 * *)&((struct Obj00507 *)p)->f253C=d_02211B0D;
     func_0220BDA0(p);
     func_0220BEB8(p,0,(*(u8 **)p)[32],0,0);
     base=p+0x30;
@@ -43,8 +46,8 @@ void func_0220DE4C(char *p) {
             func_0220D6DC(p,rec+offset,i+1);
         }
     }
-    func_0220C4DC(p,*(u16 *)(*(char **)p+0x26),5,0x53,65535,7,0x3dc0);
-    local[2]=sub_0201BD28(*(u16 *)(*(char **)p+0x26),5);
+    func_0220C4DC(p,((struct Obj25183 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5,0x53,65535,7,0x3dc0);
+    local[2]=sub_0201BD28(((struct Obj25184 *)(*(char * *)&((struct Obj00507 *)p)->f0))->f26,5);
     local[3]=local[2];
     func_0220D6DC(p,(char *)local,5);
 }

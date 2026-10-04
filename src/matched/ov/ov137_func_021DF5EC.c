@@ -14,6 +14,7 @@
  *   func_0201088C 0x0201088C thumb
  *   func_0202EE30 0x0202EE30 thumb
  */
+#include "../include/Obj05431.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Entry;
@@ -27,9 +28,9 @@ int func_021DF5EC(u8 *p)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 205, 40)) {
         func_021E1784(p, (*(int **)(p + 40))[3]);
-        *(void **)(p + 3488) = func_0201088C(114, (*(unsigned **)(*(u8 **)(p + 216) + 20))[1]);
-        *(void **)(p + 3496) = func_0202EE30(*(void **)(p + 3480), *(void **)(p + 3312), 15, 16, 114);
-        *(int *)p = 44;
+        ((struct Obj05431 *)p)->fDA0 = func_0201088C(114, (*(unsigned **)(*(u8 * *)&((struct Obj05431 *)p)->fD8 + 20))[1]);
+        ((struct Obj05431 *)p)->fDA8 = func_0202EE30(((struct Obj05431 *)p)->fD98, ((struct Obj05431 *)p)->fCF0, 15, 16, 114);
+        ((struct Obj05431 *)p)->f0 = 44;
     }
     return 0;
 }

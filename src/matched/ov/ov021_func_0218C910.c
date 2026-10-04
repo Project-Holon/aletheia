@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218C43C  0x0218C43C  thumb  ov021
  */
+#include "../include/Obj19540.h"
 
 int func_0218C43C(unsigned char *p, int a);
 
@@ -19,5 +20,5 @@ int func_0218C910(unsigned char *p)
 {
     if (p == 0)
         return 0;
-    return func_0218C43C(p + 0xC, *(int *)(p + 4));
+    return func_0218C43C(p + 0xC, ((struct Obj19540 *)p)->f4);
 }

@@ -15,6 +15,8 @@
  *   func_02045334  0x02045334  arm
  *   func_02031194  0x02031194  arm
  */
+#include "../include/Obj06711.h"
+#include "../include/Obj25799.h"
 
 typedef unsigned char u8;
 
@@ -30,11 +32,11 @@ extern void func_02031194(struct TcblNode *n);
 void func_021BDAD8(int a, int **b)
 {
     u8   *s = (u8 *)b[0] + 8;
-    int   q = *(int *)((char *)b[1] + 0x12c);
+    int   q = ((struct Obj25799 *)((char *)b[1]))->f12C;
 
     if (s[4]) {
-        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)*(int *)s))) == 0) {
-            func_02045334((struct Descriptor *)*(int *)s);
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)((struct Obj06711 *)s)->f0))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj06711 *)s)->f0);
             s[4] = 0;
         }
     }

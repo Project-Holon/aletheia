@@ -16,6 +16,7 @@
  *   func_021A02A8  0x021A02A8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09536.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,8 +32,8 @@ void func_021A0140(u8 *p)
 {
     if (func_021A0250(p + 0x2c)) {
         func_021A0280(p + 0x2c);
-        *(u32 *)(p + 4) = func_021A0290(p + 0x2c);
+        ((struct Obj09536 *)p)->f4 = func_021A0290(p + 0x2c);
         p[2] = func_021A02A8(p + 0x2c);
-        *(u32 *)(p + 0x40) = 1;
+        ((struct Obj09536 *)p)->f40 = 1;
     }
 }

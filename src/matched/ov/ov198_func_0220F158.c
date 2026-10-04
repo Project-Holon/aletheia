@@ -10,17 +10,18 @@
  * symbols:
  *   func_0202D034 0x0202D034 thumb
  */
+#include "../include/Obj10848.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Bits { u8 low:3; u8 kind:4; u8 high:1; };
 extern int func_0202D034(unsigned,unsigned);
 int func_0220F158(char *p)
 {
-    u16 a=*(u16 *)(p+0x10);
+    u16 a=((struct Obj10848 *)p)->f10;
     if (a==0) return 0;
     if (((struct Bits *)(p+0x17))->kind!=8 && ((struct Bits *)(p+0x17))->kind!=6) return 5;
-    if (a==*(u16 *)(p+0x12)) return 1;
-    switch (func_0202D034(a,*(u16 *)(p+0x12))) {
+    if (a==((struct Obj10848 *)p)->f12) return 1;
+    switch (func_0202D034(a,((struct Obj10848 *)p)->f12)) {
     case 0: return 2;
     case 1: return 3;
     case 2: return 4;

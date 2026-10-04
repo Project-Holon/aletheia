@@ -23,6 +23,7 @@
  *   func_021B8B68 0x021B8B68 thumb ov172
  *   func_021BE210 0x021BE210 thumb ov172
  */
+#include "../include/Obj02215.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
@@ -52,18 +53,18 @@ void func_021BDD6C(u8 *p)
     u32 b;
     u32 w;
     found = 0;
-    if (*(u32 *)(p + 8) == 3) {
+    if (((struct Obj02215 *)p)->f8 == 3) {
         return;
     }
     r = func_021BE05C(p);
     for (i = found; i < 4; i++) {
-        if (func_021B8BA4((int)p, *(char **)(p + 0x1e4), i) != 1) continue;
-        if (func_021B8B8C((int)p, *(char **)(p + 0x1e4), i) != 1) continue;
-        if (func_021B7B30((int)p, *(char **)(p + 0x1e0), i) != 0) continue;
+        if (func_021B8BA4((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (func_021B8B8C((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i) != 1) continue;
+        if (func_021B7B30((int)p, *(char * *)&((struct Obj02215 *)p)->f1E0, i) != 0) continue;
         m = 1 << i;
         if (m & p[0x1b4]) continue;
         {
-            char *k = func_021B8B94((int)p, *(char **)(p + 0x1e4), i);
+            char *k = func_021B8B94((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4, i);
             if (r == 1) {
                 if (i == 0) b = 2; else b = 3;
             } else {
@@ -77,7 +78,7 @@ void func_021BDD6C(u8 *p)
     for (i = 0; i < 4; i++) {
         m = 1 << i;
         if (!(p[0x1b5] & m)) continue;
-        if (func_0201C6C4(*(void **)(p + 0x1d0), func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))) != 0) continue;
+        if (func_0201C6C4(((struct Obj02215 *)p)->f1D0, func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))) != 0) continue;
         w = *(u32 *)(p + i * 4 + 0x1b8);
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
@@ -86,7 +87,7 @@ void func_021BDD6C(u8 *p)
         found = 1;
     }
     if (found == 1) {
-        u32 v = func_021B8B68((int)p, *(char **)(p + 0x1e4));
+        u32 v = func_021B8B68((int)p, *(char * *)&((struct Obj02215 *)p)->f1E4);
         if (v != 0xff) {
             func_021BE210(p, v);
         }

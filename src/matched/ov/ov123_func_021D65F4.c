@@ -15,6 +15,7 @@
  *   func_021D6548 0x021D6548 thumb ov123
  *   func_02024230 0x02024230 thumb
  */
+#include "../include/Obj08108.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,9 +30,9 @@ extern void func_02024230(s16 *out, u32 count, u16 step, s32 amp);
 void func_021D65F4(u8 *p)
 {
     void *h;
-    h = func_020490F4(143, *(u16 *)(p + 0x43c4));
-    func_02049990(h, 22, 3, 0, (u16)*(u32 *)(p + 4), 0, 0, *(u16 *)(p + 0x43c4));
+    h = func_020490F4(143, ((struct Obj08108 *)p)->f43C4);
+    func_02049990(h, 22, 3, 0, (u16)((struct Obj08108 *)p)->f4, 0, 0, ((struct Obj08108 *)p)->f43C4);
     func_02049238(h);
-    *(void **)(p + 0x14) = func_02005624((u32)func_021D6548, (u32)p, 0);
+    ((struct Obj08108 *)p)->f14 = func_02005624((u32)func_021D6548, (u32)p, 0);
     func_02024230((s16 *)(p + 0x43c8), 192, 0x5b0, 0x1800);
 }

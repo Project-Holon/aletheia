@@ -8,9 +8,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj23337.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 void func_021BA244(u8 *p, u32 value)
 {
-    *(u32 *)(p+24)=value;
+    ((struct Obj23337 *)p)->f18=value;
 }

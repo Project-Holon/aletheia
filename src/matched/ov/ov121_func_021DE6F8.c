@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22915.h"
 
 typedef unsigned int u32;
 
@@ -24,5 +25,5 @@ extern u32 func_0201058C(void *key);
 void func_021DE6F8(int a, int b, char *c)
 {
     func_02010498(a, b, c);
-    *(u32 *)(c + 0x54) = func_0201058C(0);
+    ((struct Obj22915 *)c)->f54 = func_0201058C(0);
 }

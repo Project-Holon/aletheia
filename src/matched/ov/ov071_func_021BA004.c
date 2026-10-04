@@ -11,6 +11,7 @@
  * symbols:
  *   func_021B9FF8 0x021B9FF8 thumb ov071
  */
+#include "../include/Obj00044.h"
 
 extern void func_021B9FF8(void *, int);
-void func_021BA004(char *p) { if (*(int *)(p + 0x304) == 1) func_021B9FF8(p, *(int *)(p + 0x2f8)); }
+void func_021BA004(char *p) { if (((struct Obj00044 *)p)->f304 == 1) func_021B9FF8(p, ((struct Obj00044 *)p)->f2F8); }

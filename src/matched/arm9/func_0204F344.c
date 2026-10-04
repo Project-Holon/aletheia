@@ -11,6 +11,7 @@
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
  */
+#include "../include/Obj16133.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ struct Rec_0204F344 {
 void func_0204F344(void *a0, int a1, int a2, int *out, int *in, u8 flag)
 {
     struct Rec_0204F344 *p =
-        (struct Rec_0204F344 *)(*(u8 **)((u8 *)a0 + 4) + a1 * 0x28);
+        (struct Rec_0204F344 *)(*(u8 * *)&((struct Obj16133 *)a0)->f4 + a1 * 0x28);
     int q;
 
     switch (p->f14) {

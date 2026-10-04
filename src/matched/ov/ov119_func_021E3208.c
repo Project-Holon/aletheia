@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03779.h"
 
 typedef unsigned int u32;
 typedef void (*Fn)(void *);
@@ -25,7 +26,7 @@ extern Fn tbl_021E7AC4[];
 void func_021E3208(void *p, int a)
 {
     func_021E324C(p, a);
-    if (*(u32 *)((char *)p + 0x109C) != 0xFFFFFFFF) {
+    if (((struct Obj03779 *)p)->f109C != 0xFFFFFFFF) {
         tbl_021E7AC4[*(u32 *)((char *)p + 0x109C) * 2](p);
     }
 }

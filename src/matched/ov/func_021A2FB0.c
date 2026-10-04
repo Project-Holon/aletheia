@@ -17,6 +17,7 @@
  *   func_021A59DC  0x021A59DC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09180.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ extern int func_021A59DC(u32 a);
 
 int func_021A2FB0(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02188CFC(*(u32 *)((u8 *)(a)), b, c, d) == 0) {
-    return func_021A5778(*(u32 *)((u8 *)(a) + 8));
+if (func_02188CFC(((struct Obj09180 *)((u8 *)(a)))->f0, b, c, d) == 0) {
+    return func_021A5778(((struct Obj09180 *)((u8 *)(a)))->f8);
 }
-return func_021A59DC(*(u32 *)((u8 *)(a) + 12));
+return func_021A59DC(((struct Obj09180 *)((u8 *)(a)))->fC);
 }
 

@@ -22,6 +22,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj08141.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,19 +57,19 @@ void func_021DA454(u8 *p,int i)
     bank=func_02045B38(0,2,25,50);
     msg=func_02045EC0(bank,i+3);
     bmp=func_02043678(10,2,32,50);
-    func_0201C7D0(bmp,(80-(int)func_0201D304(msg,*(u32 *)(p+0x314),0))/2,0,msg,*(void **)(p+0x314),0x3dc0);
+    func_0201C7D0(bmp,(80-(int)func_0201D304(msg,*(u32 *)&((struct Obj08141 *)p)->f314,0))/2,0,msg,((struct Obj08141 *)p)->f314,0x3dc0);
     x=(p+(i+22)*4)[0x29a]+20;
     y=((p+(i+22)*4)[0x298]+(p+(i+22)*4)[0x299])/2;
     q.bmp=bmp;
     q.x=x;
     q.y=y-7;
-    q.f8=*(u32 *)(p+0x264);
+    q.f8=((struct Obj08141 *)p)->f264;
     q.fc=zero;
     q.f10=zero;
     q.f11=zero;
     q.f12=zero;
     q.f14=zero;
-    *(void **)(p+0x304+i*4)=func_020255A0(*(void **)(p+0x300),&q);
+    *(void **)(p+0x304+i*4)=func_020255A0(((struct Obj08141 *)p)->f300,&q);
     func_020257D0(*(void **)(p+0x304+i*4));
     func_020437AC(bmp);
     func_02045808(msg);

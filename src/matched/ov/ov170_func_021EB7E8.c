@@ -18,6 +18,8 @@
  *   func_02045808 0x02045808 arm
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj23973.h"
+#include "../include/Obj23974.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -39,9 +41,9 @@ void func_021EB7E8(char **p, unsigned box, int i)
     unsigned n;
     func_0200785C(((void **)p[0])[1], box, s);
     func_02043B5C(*(void **)(p[11] + i * 8 + 8), 0);
-    n = func_0201D304(s, *(unsigned *)(p[11] + 0x78), 0);
+    n = func_0201D304(s, ((struct Obj23973 *)(p[11]))->f78, 0);
     n = (0x60 - n) / 2;
-    func_0201C7D0(*(void **)(p[11] + i * 8 + 8), n, 0, s, *(void **)(p[11] + 0x78), 0x440);
+    func_0201C7D0(*(void **)(p[11] + i * 8 + 8), n, 0, s, ((struct Obj23974 *)(p[11]))->f78, 0x440);
     func_02045808(s);
     func_020257D0(*(void **)(p[11] + i * 8 + 4));
 }

@@ -12,6 +12,7 @@
  *   func_02035C08 0x02035C08 arm
  *   func_021848F4 0x021848F4 thumb ov219
  */
+#include "../include/Obj00302.h"
 extern const char d_02185E00[];
 extern int func_02035C08(const void *);
 extern void func_021848F4(const char *,int,int,int *,int *,int *,int *);
@@ -20,43 +21,43 @@ void func_02184798(char *p)
     int flag=0;
     int result;
     int xf,dx,yf,dy;
-    *(int *)(p+0xc320)=0;
+    ((struct Obj00302 *)p)->fC320=0;
     result=func_02035C08(d_02185E00);
     if(result==0)flag=0x400;
     else if(result==1)flag=2;
-    if(*(int *)(p+0xc35c)!=0){
-        if(flag!=0){*(int *)(p+0xc320)=flag;return;}
-        *(int *)(p+0xc324)=0;
-        *(int *)(p+0xc330)=0;
-        *(int *)(p+0xc334)=0;
-        *(int *)(p+0xc338)=0;
-        *(int *)(p+0xc320)=0;
-        *(int *)(p+0xc328)=*(int *)(p+0xc364);
-        *(int *)(p+0xc32c)=*(int *)(p+0xc368);
-        *(int *)(p+0xc338)=4;
+    if(((struct Obj00302 *)p)->fC35C!=0){
+        if(flag!=0){((struct Obj00302 *)p)->fC320=flag;return;}
+        ((struct Obj00302 *)p)->fC324=0;
+        ((struct Obj00302 *)p)->fC330=0;
+        ((struct Obj00302 *)p)->fC334=0;
+        ((struct Obj00302 *)p)->fC338=0;
+        ((struct Obj00302 *)p)->fC320=0;
+        ((struct Obj00302 *)p)->fC328=((struct Obj00302 *)p)->fC364;
+        ((struct Obj00302 *)p)->fC32C=((struct Obj00302 *)p)->fC368;
+        ((struct Obj00302 *)p)->fC338=4;
     }
-    if(*(int *)(p+0xc360)!=0){
-        switch(*(int *)(p+0xc324)){
+    if(((struct Obj00302 *)p)->fC360!=0){
+        switch(((struct Obj00302 *)p)->fC324){
         case 0:
-            if(*(int *)(p+0xc338)==0)(*(int *)(p+0xc324))++;
-            else (*(int *)(p+0xc338))--;
+            if(((struct Obj00302 *)p)->fC338==0)(((struct Obj00302 *)p)->fC324)++;
+            else (((struct Obj00302 *)p)->fC338)--;
         case 1:
             if(flag!=0)return;
-            func_021848F4(p,*(int *)(p+0xc328),*(int *)(p+0xc32c),&xf,&dx,&yf,&dy);
-            *(int *)(p+0xc320)=xf|yf;
-            *(int *)(p+0xc330)=dx;
-            *(int *)(p+0xc334)=dy;
-            *(int *)(p+0xc328)=*(int *)(p+0xc364);
-            *(int *)(p+0xc32c)=*(int *)(p+0xc368);
+            func_021848F4(p,((struct Obj00302 *)p)->fC328,((struct Obj00302 *)p)->fC32C,&xf,&dx,&yf,&dy);
+            ((struct Obj00302 *)p)->fC320=xf|yf;
+            ((struct Obj00302 *)p)->fC330=dx;
+            ((struct Obj00302 *)p)->fC334=dy;
+            ((struct Obj00302 *)p)->fC328=((struct Obj00302 *)p)->fC364;
+            ((struct Obj00302 *)p)->fC32C=((struct Obj00302 *)p)->fC368;
             return;
         default:return;
         }
     }else{
-        if(flag==0 && *(int *)(p+0xc338)!=0 && *(int *)(p+0xc330)<4 && *(int *)(p+0xc334)<4)
-            *(int *)(p+0xc320)=1;
-        *(int *)(p+0xc324)=0;
-        *(int *)(p+0xc330)=0;
-        *(int *)(p+0xc334)=0;
-        *(int *)(p+0xc338)=0;
+        if(flag==0 && ((struct Obj00302 *)p)->fC338!=0 && ((struct Obj00302 *)p)->fC330<4 && ((struct Obj00302 *)p)->fC334<4)
+            ((struct Obj00302 *)p)->fC320=1;
+        ((struct Obj00302 *)p)->fC324=0;
+        ((struct Obj00302 *)p)->fC330=0;
+        ((struct Obj00302 *)p)->fC334=0;
+        ((struct Obj00302 *)p)->fC338=0;
     }
 }

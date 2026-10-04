@@ -11,6 +11,7 @@
  * symbols:
  *   func_021B9D68 0x021B9D68 thumb ov068
  */
+#include "../include/Obj13138.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,5 +19,5 @@ extern void func_021B9D68(u16 *, u16 *, int, u32, u8, u16, u16);
 void func_021B9BD0(u8 *p)
 {
     func_021B9D68((u16 *)(p + 0x50), (u16 *)(p + 0x4c), 0x400, 7, 1,
-                 *(u16 *)(p + 0x72), *(u16 *)(p + 0x74));
+                 ((struct Obj13138 *)p)->f72, ((struct Obj13138 *)p)->f74);
 }

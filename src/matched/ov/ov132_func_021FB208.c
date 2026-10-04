@@ -14,6 +14,8 @@
  *   func_021F9DA4 0x021F9DA4 thumb ov132
  *   func_021F80D4 0x021F80D4 thumb ov112
  */
+#include "../include/Obj10548.h"
+#include "../include/Obj14101.h"
 typedef unsigned char u8;
 extern int func_0201134C(void *);
 extern int func_021FB1F4(char *, int);
@@ -28,13 +30,13 @@ int func_021FB208(int unused, char *p)
     char *ctx;
     int value;
     u8 i;
-    obj = *(char **)p;
-    mask = func_021FB1F4(p, func_0201134C(*(void **)(p + 4)));
-    value = func_0201134C(*(void **)(p + 4));
-    ctx = func_021F9DA0(*(void **)(obj + 0x34));
+    obj = *(char * *)&((struct Obj10548 *)p)->f0;
+    mask = func_021FB1F4(p, func_0201134C(((struct Obj10548 *)p)->f4));
+    value = func_0201134C(((struct Obj10548 *)p)->f4);
+    ctx = func_021F9DA0(((struct Obj14101 *)obj)->f34);
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80D4(ctx, func_021F9DA4(*(void **)(obj + 0x34), i), value);
+            func_021F80D4(ctx, func_021F9DA4(((struct Obj14101 *)obj)->f34, i), value);
         }
     }
     return 0;

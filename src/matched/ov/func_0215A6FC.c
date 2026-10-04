@@ -13,6 +13,8 @@
  *   func_02197DA0  0x02197DA0  thumb
  *   func_02197DAC  0x02197DAC  thumb
  */
+#include "../include/Obj05852.h"
+#include "../include/Obj17665.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,25 +34,25 @@ t5 = a0 + 0;
 t7 = 0;
 t4 = 0;
 loc_0215A704:
-a0 = *(int *)((char *)t5 + 0x20);
+a0 = ((struct Obj05852 *)t5)->f20;
 t6 = t4 << 2;
 a0 = a0 + t6;
-a0 = *(int *)((char *)a0 + 0x14);
+a0 = ((struct Obj05852 *)a0)->f14;
     if (a0 == 0) goto loc_0215A72E;
 loc_0215A710:
     a0 = func_02197DA0(a0);
 loc_0215A714:
     if (a0 != 1) goto loc_0215A72C;
 loc_0215A718:
-a0 = *(int *)((char *)t5 + 0x20);
+a0 = ((struct Obj05852 *)t5)->f20;
 a0 = a0 + t6;
-a0 = *(int *)((char *)a0 + 0x14);
+a0 = ((struct Obj05852 *)a0)->f14;
     a0 = func_02197DAC(a0);
 loc_0215A722:
-a0 = *(int *)((char *)t5 + 0x20);
+a0 = ((struct Obj05852 *)t5)->f20;
 a1 = a0 + t6;
 a0 = 0;
-*(int *)((char *)a1 + 0x14) = a0;
+((struct Obj17665 *)a1)->f14 = a0;
     goto loc_0215A72E;
 loc_0215A72C:
 t7 = 1;

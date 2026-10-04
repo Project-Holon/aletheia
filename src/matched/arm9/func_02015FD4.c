@@ -16,8 +16,9 @@
  * symbols:
  *   func_02015FD4  0x02015FD4  thumb
  */
+#include "../include/Obj11257.h"
 
 void func_02015FD4(char *p, int v)
 {
-    *(int *)(p + 0x140) = (*(int *)(p + 0x140) & 0xFF803FFF) | ((v & 0x1FF) << 14);
+    ((struct Obj11257 *)p)->f140 = (((struct Obj11257 *)p)->f140 & 0xFF803FFF) | ((v & 0x1FF) << 14);
 }

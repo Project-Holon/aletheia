@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj20861.h"
 typedef unsigned int u32;
 int func_021B9AA0(u32 p) {
-    if (*(u32 *)(*(u32 *)(p + 640) + 52) != 1) return 1;
+    if (*(u32 *)(((struct Obj20861 *)p)->f280 + 52) != 1) return 1;
     return 0;
 }

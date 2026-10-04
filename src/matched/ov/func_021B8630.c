@@ -13,6 +13,7 @@
  *   func_021B8630   0x021B8630  thumb
  * Leaf with no calls and no pool; 8 instructions, 16 bytes: ldr r1, [r0]; ldr r0, [r1]; cmp r0, #1; bhi loc_021B863C; ldr r0, [r1, #0x70]; bx lr; movs r0, #0; bx lr.
  */
+#include "../include/Obj12104.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ u32 func_021B8630(u32 **p)
 {
     u32 *q = *p;
     if (*q <= 1)
-        return *(u32 *)((u8 *)q + 0x70);
+        return ((struct Obj12104 *)q)->f70;
     return 0;
 }
 

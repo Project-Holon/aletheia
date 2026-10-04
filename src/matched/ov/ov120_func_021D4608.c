@@ -18,6 +18,8 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4584 0x021D4584 thumb ov120
  */
+#include "../include/Obj08076.h"
+#include "../include/Obj22823.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -45,14 +47,14 @@ extern void func_021D4584(u8 *p);
 void func_021D4608(u8 *p)
 {
     int ready = 0;
-    int value = *(int *)(*(u8 **)(p + 0x48) + 0x18);
+    int value = ((struct Obj22823 *)(*(u8 * *)&((struct Obj08076 *)p)->f48))->f18;
     int active;
     void *message;
     void *text;
     int result;
     active = func_0217BC90() == 2;
     if (active)
-        ready = *(int *)(p + 0x1a8) > 0;
+        ready = ((struct Obj08076 *)p)->f1A8 > 0;
     if (active) {
         if (ready) {
             message = func_02045B38(0, 2, 0x51, 0x1f);
@@ -61,9 +63,9 @@ void func_021D4608(u8 *p)
             func_020084E4((u16 *)value, text);
             func_02045808(text);
         }
-        func_02008494((void *)value, func_02012950((struct Sub24 *)(*(int *)(p + 0x2c)), 1 - func_02039338()));
+        func_02008494((void *)value, func_02012950((struct Sub24 *)(((struct Obj08076 *)p)->f2C), 1 - func_02039338()));
         result = func_02008530((const struct Sub0200852CObj *)value);
-        func_0200ED54(func_0200ED48((void *)(*(int *)(p + 0x30))), result);
+        func_0200ED54(func_0200ED48((void *)(((struct Obj08076 *)p)->f30)), result);
         func_021D4244((int)p, (void (*)(int))func_021D4584, 0x283);
     }
 }

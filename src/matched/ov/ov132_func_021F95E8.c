@@ -9,4 +9,5 @@
  * status: EXACT
  * symbols:
  */
-void func_021F95E8(char *p){*(int *)(p+0xec)=1;}
+#include "../include/Obj23184.h"
+void func_021F95E8(char *p){((struct Obj23184 *)p)->fEC=1;}

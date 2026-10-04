@@ -28,6 +28,8 @@
  *   func_02015EB0 0x02015EB0 thumb
  *   func_02015EA0 0x02015EA0 thumb
  */
+#include "../include/Obj00112.h"
+#include "../include/Obj00994.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -53,25 +55,25 @@ void func_021D785C(u8 *p,u8 *q,void *mon)
     Vec d=d_021DC1C8;
     void *m=(void *)func_021D60A4((void *)p);
     func_021D7A44((void *)p,(int)q,(int *)&a,(int *)&b);
-    *(void **)q=func_02017270(*(void **)(p+0x78),m,0,0xd8000,0x48000,0);
-    func_02015FD4(*(char **)q,2);
-    func_02015D80(*(u8 **)q,0xd555);
-    func_02015D30(*(void **)q,&b.x);
-    func_020173B4(*(void **)q);
-    func_02015CDC(*(void **)q,&a.x);
-    *(void **)(q+4)=func_02017270(*(void **)(p+0x78),m,1,0xd8000,0x48000,0);
-    func_02015FD4(*(char **)(q+4),2);
-    func_02015D80(*(u8 **)(q+4),0xd555);
-    func_02015D30(*(void **)(q+4),&c.x);
-    func_020173B4(*(void **)(q+4));
-    func_02015CDC(*(void **)(q+4),&a.x);
+    ((struct Obj00994 *)q)->f0=func_02017270(((struct Obj00112 *)p)->f78,m,0,0xd8000,0x48000,0);
+    func_02015FD4(*(char * *)&((struct Obj00994 *)q)->f0,2);
+    func_02015D80(*(u8 * *)&((struct Obj00994 *)q)->f0,0xd555);
+    func_02015D30(((struct Obj00994 *)q)->f0,&b.x);
+    func_020173B4(((struct Obj00994 *)q)->f0);
+    func_02015CDC(((struct Obj00994 *)q)->f0,&a.x);
+    ((struct Obj00994 *)q)->f4=func_02017270(((struct Obj00112 *)p)->f78,m,1,0xd8000,0x48000,0);
+    func_02015FD4(*(char * *)&((struct Obj00994 *)q)->f4,2);
+    func_02015D80(*(u8 * *)&((struct Obj00994 *)q)->f4,0xd555);
+    func_02015D30(((struct Obj00994 *)q)->f4,&c.x);
+    func_020173B4(((struct Obj00994 *)q)->f4);
+    func_02015CDC(((struct Obj00994 *)q)->f4,&a.x);
     func_021D79A8((void *)p,q,0);
     func_021D7A1C((void *)p,q,&d);
-    if(*(int *)(q+0xc)==1) {
-        func_02015EB0(*(void **)q);
-        func_02015EA0(*(void **)(q+4));
+    if(((struct Obj00994 *)q)->fC==1) {
+        func_02015EB0(((struct Obj00994 *)q)->f0);
+        func_02015EA0(((struct Obj00994 *)q)->f4);
         return;
     }
-    func_02015EB0(*(void **)(q+4));
-    func_02015EA0(*(void **)q);
+    func_02015EB0(((struct Obj00994 *)q)->f4);
+    func_02015EA0(((struct Obj00994 *)q)->f0);
 }

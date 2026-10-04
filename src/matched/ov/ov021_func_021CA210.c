@@ -16,6 +16,7 @@
  *   func_02012934  0x02012934  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern void *func_02012934(const struct BigObj *p);
 
 void *func_021CA210(u8 *p)
 {
-    if (func_0200D884((struct Blk3C *)(*(u32 *)(p + 0x70)), 10, 0) == 0)
-        return func_02012934(*(void **)(p + 0x6c));
-    return *(void **)(p + 0x7c8);
+    if (func_0200D884((struct Blk3C *)(((struct Obj00116 *)p)->f70), 10, 0) == 0)
+        return func_02012934(((struct Obj00116 *)p)->f6C);
+    return ((struct Obj00116 *)p)->f7C8;
 }

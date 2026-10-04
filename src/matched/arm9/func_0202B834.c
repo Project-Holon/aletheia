@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_0202B834.c \
  *       --func func_0202B834 --addr 0x0202B834 --thumb --cc 1.1p1
  */
+#include "../include/Obj15844.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,7 +27,7 @@ extern unsigned short func_0202B810(void);
 
 u32 func_0202B834(struct Obj *o)
 {
-    if (*(u32 *)((u8 *)o + 0x8) == func_0202B810()) {
+    if (((struct Obj15844 *)o)->f8 == func_0202B810()) {
         return 0;
     }
     return 1;

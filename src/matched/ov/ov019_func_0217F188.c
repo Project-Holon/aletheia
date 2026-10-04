@@ -17,6 +17,7 @@
  *   d_021807F8     0x021807F8  data   ov019 a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00484.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,11 +34,11 @@ extern u32 d_021807F8[];
 
 void func_0217F188(char *p, u32 arg)
 {
-    if (*(u32 *)(p + 0x280c) == 0) {
+    if (*(u32 *)&((struct Obj00484 *)p)->f280C == 0) {
         func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
     }
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x2808)), arg, (void *)(*(u32 *)(p + 0x2820)));
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x2804)), (void *)(*(u32 *)(p + 0x2824)), (void *)(*(u32 *)(p + 0x2820)));
-    func_021916A8((struct R *)(*(u32 *)(p + 0x280c)), 0, 0, *(u32 *)(p + 0x2824));
-    *(u8 *)(p + 0x2828) = 1;
+    func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00484 *)p)->f2808), arg, (void *)(((struct Obj00484 *)p)->f2820));
+    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00484 *)p)->f2804), (void *)(((struct Obj00484 *)p)->f2824), (void *)(((struct Obj00484 *)p)->f2820));
+    func_021916A8((struct R *)(*(u32 *)(p + 0x280c)), 0, 0, ((struct Obj00484 *)p)->f2824);
+    ((struct Obj00484 *)p)->f2828 = 1;
 }

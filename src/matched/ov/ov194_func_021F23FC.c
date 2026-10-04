@@ -18,6 +18,7 @@
  *   func_021F4E98 0x021F4E98 thumb ov194
  *   func_02045A98 0x02045A98 arm
  */
+#include "../include/Obj01574.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u8 count,pad;u16 values[4];} Group;
@@ -35,20 +36,20 @@ int func_021F23FC(u8 *p,int direction)
  int i,j;
  u16 index;
  pick=direction?func_021F4E58:func_021F4E18;
- for(i=0;i<*(u16 *)(p+0x20);i++){
-  index=func_021F4ED8(*(void **)(p+0x8c),(u16 *)(p+0x16+i*2));
+ for(i=0;i<((struct Obj01574 *)p)->f20;i++){
+  index=func_021F4ED8(((struct Obj01574 *)p)->f8C,(u16 *)(p+0x16+i*2));
   if(index==0xffff)continue;
   for(j=0;j<i;j++)func_021F2190((char *)p,*(u16 *)(p+0x16+j*2));
   for(j=0;j<i;j++)func_021F2150(p);
-  if(pick(*(int *)(p+0x8c),index,group.values,4,&group.count)){
+  if(pick(*(int *)&((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count)){
    for(i=0;i<group.count;i++)func_021F2190((char *)p,*((u16 *)((char *)&group+2)+i));
-   func_021F4DDC(*(void **)(p+0x8c),index,group.values,4,&group.count);
+   func_021F4DDC(((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count);
    for(i=0;i<group.count;i++)func_021F2150(p);
-   func_021F4E98(*(char **)(p+0x8c),index,group.values,4,&group.count);
+   func_021F4E98(*(char * *)&((struct Obj01574 *)p)->f8C,index,group.values,4,&group.count);
    for(i=0;i<group.count;i++){
-    *(u16 *)(p+0x16+*(u16 *)(p+0x20)*2)=*((u16 *)((char *)&group+2)+i);
-    *(u16 *)(p+0x20)+=1;
-    *(u16 *)(p+0x16+*(u16 *)(p+0x20)*2)=func_02045A98();
+    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=*((u16 *)((char *)&group+2)+i);
+    ((struct Obj01574 *)p)->f20+=1;
+    *(u16 *)(p+0x16+((struct Obj01574 *)p)->f20*2)=func_02045A98();
    }
    return 1;
   }

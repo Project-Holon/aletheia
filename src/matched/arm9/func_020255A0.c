@@ -31,6 +31,8 @@
  * longer order the param field loads, and both swaps fall into the image's
  * order at once.  Every body spelling tried in waves 13 and 14 held at 8.
  */
+#include "../include/Obj00934.h"
+#include "../include/Obj06909.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -133,7 +135,7 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
     g->cols = cols;
     g->rows = rows;
     g->f_c8 = param->f12;
-    *(u32 *)((u8 *)g + 0x64) = param->f14;
+    ((struct Obj00934 *)g)->f64 = param->f14;
 
     engine = sys->f8;
     for (i = 0; i < rows; i++) {
@@ -142,7 +144,7 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
             yoff = i << 4;
             mode = func_02025A9C(sys, param->f14, engine);
             cell = row + j * 4;
-            *(void **)(cell + 0x68) =
+            ((struct Obj06909 *)cell)->f68 =
                 (void *)func_0204A7A0(gModeTable[mode].size, param->f14, sys->f4);
             pt.x = (s16)(param->x + (j << 5));
             pt.y = (s16)(param->y + yoff);
@@ -150,14 +152,14 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
             pt.f6 = param->f10;
             pt.f7 = param->f11;
             {
-                void *act = func_0204B294((void *)sys->f0, (u32)*(void **)(cell + 0x68),
+                void *act = func_0204B294((void *)sys->f0, (u32)((struct Obj06909 *)cell)->f68,
                                           f8, sys->slot[mode], &pt,
                                           param->f12, sys->f4);
                 u32 fc = (u8)param->fc;
-                *(void **)(cell + 4) = act;
+                ((struct Obj06909 *)cell)->f4 = act;
                 func_0204B6F4(act, fc, 0);
             }
-            func_0204BA20(*(void **)(cell + 4), 0);
+            func_0204BA20(((struct Obj06909 *)cell)->f4, 0);
         }
     }
     return g;

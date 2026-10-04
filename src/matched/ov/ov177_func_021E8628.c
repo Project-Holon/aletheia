@@ -18,6 +18,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01960.h"
 struct Descriptor;
 struct PrintSys;
 struct Rec3;
@@ -34,20 +35,20 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020307B0(void *p);
 void func_021E8628(char *p)
 {
-    if (*(void **)(p + 8) != 0) {
-        func_0201CE48(*(void **)(p + 8));
-        *(void **)(p + 8) = 0;
+    if (((struct Obj01960 *)p)->f8 != 0) {
+        func_0201CE48(((struct Obj01960 *)p)->f8);
+        ((struct Obj01960 *)p)->f8 = 0;
     }
-    if (*(unsigned char **)(p + 0x10) != 0) {
-        func_0202F038(*(unsigned char **)(p + 0x10));
-        *(void **)(p + 0x10) = 0;
+    if (*(unsigned char * *)&((struct Obj01960 *)p)->f10 != 0) {
+        func_0202F038(*(unsigned char * *)&((struct Obj01960 *)p)->f10);
+        ((struct Obj01960 *)p)->f10 = 0;
     }
-    if (*(int *)(p + 0x34) != 0)
-        func_02028604(*(int *)(p + 0x34));
-    func_02031140(*(void **)(p + 0xC));
-    func_0201F7A8(*(void **)(p + 0x14), 0);
-    func_020452E8(*(void **)(p + 0x14));
-    func_02045808(*(void **)(p + 0x18));
-    func_0201C4C0(*(void **)(p + 0x28));
+    if (((struct Obj01960 *)p)->f34 != 0)
+        func_02028604(((struct Obj01960 *)p)->f34);
+    func_02031140(((struct Obj01960 *)p)->fC);
+    func_0201F7A8(((struct Obj01960 *)p)->f14, 0);
+    func_020452E8(((struct Obj01960 *)p)->f14);
+    func_02045808(((struct Obj01960 *)p)->f18);
+    func_0201C4C0(((struct Obj01960 *)p)->f28);
     func_020307B0(p);
 }

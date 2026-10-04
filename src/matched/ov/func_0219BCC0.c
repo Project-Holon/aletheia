@@ -16,6 +16,7 @@
  *   func_0216D86C  0x0216D86C  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03525.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,11 +28,11 @@ extern int func_0216D86C(void *p);
 
 int func_0219BCC0(u32 a, u32 b, u32 c, u32 d)
 {
-*(u8 *)((u8 *)(b) + 1) = 1;
-*(u16 *)((u8 *)(b) + 2) = func_0216D83C(c, b, c, d);
-*(u16 *)((u8 *)(b) + 4) = func_0216D86C((void *)c);
-*(u16 *)((u8 *)(b) + 6) = 255;
-*(u32 *)((u8 *)(b) + 8) = c;
+((struct Obj03525 *)((u8 *)(b)))->f1 = 1;
+((struct Obj03525 *)((u8 *)(b)))->f2 = func_0216D83C(c, b, c, d);
+((struct Obj03525 *)((u8 *)(b)))->f4 = func_0216D86C((void *)c);
+((struct Obj03525 *)((u8 *)(b)))->f6 = 255;
+((struct Obj03525 *)((u8 *)(b)))->f8 = c;
 return 255;
 }
 

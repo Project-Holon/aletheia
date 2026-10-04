@@ -13,6 +13,7 @@
  *   func_021C44FC 0x021C44FC thumb
  *   func_02021FD8 0x02021FD8 thumb
  */
+#include "../include/Obj01065.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,7 +21,7 @@ struct Chan02021FD8;
 extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 void func_021C44FC(u8 *p)
 {
-    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)(p + 0x38)), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
+    func_02021FD8((struct Chan02021FD8 *)(*(u32 *)&((struct Obj01065 *)p)->f38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
     p[0x19] = 0;
     p[0x18] = 0;
 }

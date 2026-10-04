@@ -15,6 +15,7 @@
  *
  * Releases +0 and re-checks the handle at +8 for the two armed states at +0x10.
  */
+#include "../include/Obj04893.h"
 
 
 typedef unsigned int   u32;
@@ -24,18 +25,18 @@ extern u32 func_02021ED8(const char *ptr);
 
 void func_021BC678(char *p)
 {
-    func_02030D28((struct Ctx *)(*(int *)p));
-    switch (*(int *)(p + 0x10)) {
+    func_02030D28((struct Ctx *)(((struct Obj04893 *)p)->f0));
+    switch (((struct Obj04893 *)p)->f10) {
     case 0:
     case 1:
         break;
     case 2:
-        if (func_02021ED8((const char *)(*(int *)(p + 8))) == 0)
-            *(int *)(p + 0x10) = 0;
+        if (func_02021ED8((const char *)(((struct Obj04893 *)p)->f8)) == 0)
+            ((struct Obj04893 *)p)->f10 = 0;
         break;
     case 3:
-        if (func_02021ED8((const char *)(*(int *)(p + 8))) == 0)
-            *(int *)(p + 0x10) = 1;
+        if (func_02021ED8((const char *)(((struct Obj04893 *)p)->f8)) == 0)
+            ((struct Obj04893 *)p)->f10 = 1;
         break;
     }
 }

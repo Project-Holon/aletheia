@@ -11,5 +11,6 @@
  * leaf: solely blocks assigned 021BDF30; parent cleared ownership.
  * extent: 4-byte accessor; ends at peer-owned 021BE0F4, which is excluded.
  */
+#include "../include/Obj25313.h"
 
-int func_021BE0F0(void *p){return *(int *)p;}
+int func_021BE0F0(void *p){return ((struct Obj25313 *)p)->f0;}

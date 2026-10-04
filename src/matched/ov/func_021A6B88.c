@@ -15,6 +15,7 @@
  *   func_02082BCC  0x02082BCC  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18062.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_02082BCC(void *p, u32 v, u32 n);
 int func_021A6B88(void *a)
 {
     func_02082BCC(a, 0, 8);
-    *(u32 *)((u8 *)a + 4) = 9;
+    ((struct Obj18062 *)a)->f4 = 9;
     return 9;
 }
 

@@ -27,6 +27,7 @@
  *   func_021D83C4 0x021D83C4 thumb ov093
  *   func_021D8434 0x021D8434 thumb ov093
  */
+#include "../include/Obj01236.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D0C78(void *,u8 *);
@@ -57,39 +58,39 @@ int func_021D0D50(u8 *p)
             target = func_021CFD50(p,p[0x1b5]);
             if (target) func_021D09E0(p,order,n,target);
             if (count > n) {
-                if (func_021B8588(*(void ***)p) == 3) {
+                if (func_021B8588(*(void ** *)&((struct Obj01236 *)p)->f0) == 3) {
                     result = func_021D1058(p,p+0x124);
                     if (result) {
-                        *(int *)(p+0xdc) = result;
-                        *(void **)(p+0xd8) = p+0x124;
+                        *(int *)&((struct Obj01236 *)p)->fDC = result;
+                        ((struct Obj01236 *)p)->fD8 = p+0x124;
                         return 1;
                     }
                 }
                 count = n;
             }
             for (i=0;i<count;i++) {
-                func_021B8E28(*(u8 **)p,p[0x1b5+i],pair,pair+1);
+                func_021B8E28(*(u8 * *)&((struct Obj01236 *)p)->f0,p[0x1b5+i],pair,pair+1);
                 func_021D8394(p+0x124+i*4,pair[1],order[i]);
             }
-            *(void **)(p+0xd8) = p+0x124;
-            *(u32 *)(p+0xdc) = count*4;
+            ((struct Obj01236 *)p)->fD8 = p+0x124;
+            ((struct Obj01236 *)p)->fDC = count*4;
         } else {
             if (func_021D102C(p)) {
                 result = func_021D1058(p,p+0x124);
                 if (result) {
-                    *(int *)(p+0xdc) = result;
-                    *(void **)(p+0xd8) = p+0x124;
+                    *(int *)&((struct Obj01236 *)p)->fDC = result;
+                    ((struct Obj01236 *)p)->fD8 = p+0x124;
                     return 1;
                 }
             }
             func_021D83C4(p+0x124);
-            *(void **)(p+0xd8) = p+0x124;
-            *(u32 *)(p+0xdc) = 4;
+            ((struct Obj01236 *)p)->fD8 = p+0x124;
+            ((struct Obj01236 *)p)->fDC = 4;
         }
     } else {
         func_021D8434(p+0x124);
-        *(void **)(p+0xd8) = p+0x124;
-        *(u32 *)(p+0xdc) = 4;
+        ((struct Obj01236 *)p)->fD8 = p+0x124;
+        ((struct Obj01236 *)p)->fDC = 4;
     }
     return 1;
 }

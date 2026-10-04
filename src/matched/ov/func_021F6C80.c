@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj07243.h"
+#include "../include/Obj07244.h"
 
 int func_021F6C80(void *pa, void *pb)
 {
@@ -17,18 +19,18 @@ int func_021F6C80(void *pa, void *pb)
     signed char b4;
     signed char b2;
 
-    if (*(short *)pa != *(short *)pb)
+    if (((struct Obj07243 *)pa)->f0 != ((struct Obj07244 *)pb)->f0)
         return 0;
-    b2 = *(signed char *)((char *)pb + 2);
-    if (b2 != 3 && b2 != *(signed char *)((char *)pa + 2))
+    b2 = ((struct Obj07244 *)pb)->f2;
+    if (b2 != 3 && b2 != ((struct Obj07243 *)pa)->f2)
         return 0;
-    a3 = *(signed char *)((char *)pa + 3);
+    a3 = ((struct Obj07243 *)pa)->f3;
     if (a3 == 0)
         return 0;
-    b3 = *(signed char *)((char *)pb + 3);
+    b3 = ((struct Obj07244 *)pb)->f3;
     if (b3 != 0 && b3 > a3)
         return 0;
-    b4 = *(signed char *)((char *)pb + 4);
+    b4 = ((struct Obj07244 *)pb)->f4;
     if (b4 != 0 && b4 < a3)
         return 0;
     return 1;

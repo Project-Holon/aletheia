@@ -16,6 +16,7 @@
  *   func_021F86F0 0x021F86F0 thumb ov094
  *   func_02201CA4 0x02201CA4 thumb ov094
  */
+#include "../include/Obj21671.h"
 extern int func_0201134C(void *);
 extern int func_021F86F0(void);
 struct Res;
@@ -28,5 +29,5 @@ int func_021FB8F4(void *a, char *s)
 
     func_02201CA4((struct Res *)func_021F86F0(), tab[i]);
     tab[i] = -1;
-    return *(int *)(s + 0x23c);
+    return ((struct Obj21671 *)s)->f23C;
 }

@@ -16,6 +16,7 @@
  * Set the id, re-key the queue, store 0x69 as the frame, then
  *   arm the flag.
  */
+#include "../include/Obj18472.h"
 
 
 typedef unsigned int   u32;
@@ -26,6 +27,6 @@ void func_021E9284(char *p)
 {
     func_020061E4(0x55D);
     func_021DE898(p);
-    *(int *)(p + 0x28) = 0x69;
+    ((struct Obj18472 *)p)->f28 = 0x69;
     func_021E8F90(p, 1);
 }

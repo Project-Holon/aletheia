@@ -14,6 +14,7 @@
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
  *   func_021C82D0  0x021C82D0  thumb  ov093
  */
+#include "../include/Obj21934.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,6 +36,6 @@ void func_02188A08(int a, int b, int c)
     t1 = func_0201134C(a);
     t2 = func_0201134C(a);
     r = func_0218A160((u8 *)b, t0);
-    r = func_021C82D0(*(int *)(b + 0xb4), r, t1);
+    r = func_021C82D0(((struct Obj21934 *)b)->fB4, r, t1);
     func_0218A0F4((u8 *)a, c, r != 0, 1, t2);
 }

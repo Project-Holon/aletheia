@@ -14,6 +14,7 @@
  *   func_021C66A0 0x021C66A0 thumb
  *   func_021C770C 0x021C770C thumb
  */
+#include "../include/Obj14196.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -24,8 +25,8 @@ int func_021C6FA8(u8 *p)
 {
     if (func_021C770C(p) == 1) {
         func_020061E4(0x551);
-        func_021C66A0(*(u8 **)(p + 8), 3, 9);
-        *(u32 *)(p + 0x28) = 0x10;
+        func_021C66A0(*(u8 * *)&((struct Obj14196 *)p)->f8, 3, 9);
+        ((struct Obj14196 *)p)->f28 = 0x10;
         return 0x18;
     }
     return 0xF;

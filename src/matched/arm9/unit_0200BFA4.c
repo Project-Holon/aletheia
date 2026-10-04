@@ -33,6 +33,7 @@
  *
  * Integrator: seed 0x0200C054 (unlabelled follower, member of this unit).
  */
+#include "../include/Obj07120.h"
 
 typedef unsigned char      u8;
 typedef unsigned short     u16;
@@ -60,12 +61,12 @@ u64 func_0200BFA4(u8 *p, void *q, u32 mode)
         g_02146170 = v;
         break;
     case 1:
-        *(u64 *)(p + 0x1A8) = *(u64 *)(p + 0x1A8) + (v - g_02146170);
+        ((struct Obj07120 *)p)->f1A8 = ((struct Obj07120 *)p)->f1A8 + (v - g_02146170);
         break;
     case 2:
-        return *(u64 *)(p + 0x1A8) + (v - g_02146170);
+        return ((struct Obj07120 *)p)->f1A8 + (v - g_02146170);
     }
-    return *(u64 *)(p + 0x1A8);
+    return ((struct Obj07120 *)p)->f1A8;
 }
 
 u32 func_0200C054(void)

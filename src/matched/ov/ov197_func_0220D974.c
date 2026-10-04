@@ -12,11 +12,12 @@
  * symbols:
  *   func_0220AFDC 0x0220AFDC thumb ov196
  */
+#include "../include/Obj06649.h"
 
 extern void func_0220AFDC(char *p, void *v);
 
 void func_0220D974(char *a, int b)
 {
-    *(int *)(a + 0x598) = b;
-    func_0220AFDC((char *)(*(int *)(a + 0x148)), (void *)b);
+    ((struct Obj06649 *)a)->f598 = b;
+    func_0220AFDC((char *)(*(int *)&((struct Obj06649 *)a)->f148), (void *)b);
 }

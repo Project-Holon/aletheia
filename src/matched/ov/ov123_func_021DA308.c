@@ -13,8 +13,9 @@
  *   func_021DA2DC 0x021DA2DC thumb ov123
  *   func_021DA034 0x021DA034 thumb ov123
  */
+#include "../include/Obj22988.h"
 typedef unsigned char u8;
 extern void func_021D9514(char *,int);
 extern void func_021DA2DC(char *);
 extern void func_021DA034(char *,int,int);
-void func_021DA308(char *p) { func_021D9514(*(char **)(p+0x10),2); func_021DA034(p,(int)func_021DA2DC,0x1b7); }
+void func_021DA308(char *p) { func_021D9514(*(char * *)&((struct Obj22988 *)p)->f10,2); func_021DA034(p,(int)func_021DA2DC,0x1b7); }

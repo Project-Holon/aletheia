@@ -16,6 +16,7 @@
  *   func_021C12E4  0x021C12E4  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00657.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,35 +37,35 @@ int func_021C157C(u8 *p)
     Vec3 v;
     void *r4;
 
-    r4 = func_021A3074(*(void **)(p + 0x3c));
+    r4 = func_021A3074(((struct Obj00657 *)p)->f3C);
     func_0216D88C(r4, (struct VecFx32 *)&v);
-    if (v.x < *(int *)(p + 0x24)) {
-        v.x += *(int *)(p + 0x30);
-        if (v.x > *(int *)(p + 0x24))
-            v.x = *(int *)(p + 0x24);
+    if (v.x < ((struct Obj00657 *)p)->f24) {
+        v.x += ((struct Obj00657 *)p)->f30;
+        if (v.x > ((struct Obj00657 *)p)->f24)
+            v.x = ((struct Obj00657 *)p)->f24;
     } else {
-        v.x += *(int *)(p + 0x30);
-        if (v.x < *(int *)(p + 0x24))
-            v.x = *(int *)(p + 0x24);
+        v.x += ((struct Obj00657 *)p)->f30;
+        if (v.x < ((struct Obj00657 *)p)->f24)
+            v.x = ((struct Obj00657 *)p)->f24;
     }
-    if (v.z < *(int *)(p + 0x2c)) {
-        v.z += *(int *)(p + 0x38);
-        if (v.z > *(int *)(p + 0x2c))
-            v.z = *(int *)(p + 0x2c);
+    if (v.z < ((struct Obj00657 *)p)->f2C) {
+        v.z += ((struct Obj00657 *)p)->f38;
+        if (v.z > ((struct Obj00657 *)p)->f2C)
+            v.z = ((struct Obj00657 *)p)->f2C;
     } else {
-        v.z += *(int *)(p + 0x38);
-        if (v.z < *(int *)(p + 0x2c))
-            v.z = *(int *)(p + 0x2c);
+        v.z += ((struct Obj00657 *)p)->f38;
+        if (v.z < ((struct Obj00657 *)p)->f2C)
+            v.z = ((struct Obj00657 *)p)->f2C;
     }
-    v.y += *(int *)(p + 0x34);
-    *(int *)(p + 0x34) += *(int *)(p + 0x10);
-    *(u16 *)(p + 8) += 1;
-    if (*(u16 *)(p + 8) >= 0x10) {
+    v.y += ((struct Obj00657 *)p)->f34;
+    ((struct Obj00657 *)p)->f34 += ((struct Obj00657 *)p)->f10;
+    ((struct Obj00657 *)p)->f8 += 1;
+    if (((struct Obj00657 *)p)->f8 >= 0x10) {
         v = *(Vec3 *)(p + 0x24);
-        *(int *)(p + 0x18) = 0;
-        *(int *)(p + 0x1c) = 0;
-        *(int *)(p + 0x20) = 0;
-        *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
+        ((struct Obj00657 *)p)->f18 = 0;
+        ((struct Obj00657 *)p)->f1C = 0;
+        ((struct Obj00657 *)p)->f20 = 0;
+        ((struct Obj00657 *)p)->f2 = ((struct Obj00657 *)p)->f2 + 1;
     }
     func_0216D89C(r4, &v);
     func_021C12E4(r4, p + 0x18);

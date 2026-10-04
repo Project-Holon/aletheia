@@ -14,11 +14,12 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj18753.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_02158F84(u8 *p)
 {
-    return *(u32 *)(p + 0x38);
+    return ((struct Obj18753 *)p)->f38;
 }

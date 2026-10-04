@@ -16,6 +16,8 @@
  *   func_021BCB70  0x021BCB70  thumb  ov099
  *   func_021BBEB4  0x021BBEB4  thumb  ov099
  */
+#include "../include/Obj07945.h"
+#include "../include/Obj22033.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,9 +39,9 @@ int func_021BCD58(char *p, int v)
     }
     if (func_020362DC() != 0) {
         func_021BA8EC(p);
-        func_021BCB70((void *)(*(int *)(p + 0x1348)), (const struct BigObj *)(*(int *)(p + 0xC4)), (u32 *)(&out));
-        func_021BBEB4(p, out, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 2);
-        *(u32 *)(p + 0x1CC) = 0x77;
+        func_021BCB70((void *)(((struct Obj07945 *)p)->f1348), (const struct BigObj *)(((struct Obj07945 *)p)->fC4), (u32 *)(&out));
+        func_021BBEB4(p, out, ((struct Obj22033 *)(*(u8 * *)&((struct Obj07945 *)p)->f248))->f48, 2);
+        ((struct Obj07945 *)p)->f1CC = 0x77;
     }
     return v;
 }

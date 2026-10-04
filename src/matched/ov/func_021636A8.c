@@ -13,6 +13,8 @@
  *   func_0216D67C  0x0216D67C  thumb  ov010
  *   func_0216D98C  0x0216D98C  thumb  ov010
  */
+#include "../include/Obj00113.h"
+#include "../include/Obj17718.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,8 +34,8 @@ loc_021636B0:
 loc_021636B4:
     if (a0 == 0) goto loc_021636C0;
 loc_021636B8:
-a0 = *(int *)((char *)t4 + 0x10);
-a0 = *(u8 *)((char *)a0 + 4);
+a0 = ((struct Obj17718 *)t4)->f10;
+a0 = *(u8 *)&((struct Obj00113 *)a0)->f4;
     if (a0 != 0) goto loc_021636C4;
 loc_021636C0:
 a0 = 0;

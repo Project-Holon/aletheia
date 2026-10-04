@@ -12,5 +12,6 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_021B7BC0 0x021B7BC0 thumb ov102
  */
+#include "../include/Obj22141.h"
 struct Node; extern void func_02030EAC(struct Node *); extern void func_021B7BC0(void *);
-void func_021B78D0(void *p) { func_02030EAC(*(struct Node **)((char *)p+0x90)); func_021B7BC0(p); }
+void func_021B78D0(void *p) { func_02030EAC(*(struct Node * *)&((struct Obj22141 *)p)->f90); func_021B7BC0(p); }

@@ -15,6 +15,7 @@
  *   func_0204B49C 0x0204B49C arm
  *   func_02030EAC 0x02030EAC arm
  */
+#include "../include/Obj01053.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -30,9 +31,9 @@ int func_021BBF54(Obj *p)
     u8 *b=(u8 *)p;
     if(b[0x19c]>5) return 1;
     if(b[0x19d]) delta=-8; else delta=8;
-    *(s16 *)(b+0x19a)=*(s16 *)(b+0x19a)+delta;
-    *(s16 *)(b+0x198)=*(s16 *)(b+0x198)+delta;
-    func_02040618(4,3,*(s16 *)(b+0x19a));
+    ((struct Obj01053 *)b)->f19A=((struct Obj01053 *)b)->f19A+delta;
+    ((struct Obj01053 *)b)->f198=((struct Obj01053 *)b)->f198+delta;
+    func_02040618(4,3,((struct Obj01053 *)b)->f19A);
     for(i=0;i<2;i++) {
         s16 pos=func_0204B4EC(p->desc[i],i,1)-delta;
         func_0204B49C(p->desc[i],pos,i,1);
@@ -43,11 +44,11 @@ int func_021BBF54(Obj *p)
     }
     b[0x19c]++;
     if(b[0x19d] && b[0x19c]==7) {
-        func_02030EAC(*(void **)(b+0x1a4));
-        *(void **)(b+0x1a4)=0;
-        func_02030EAC(*(void **)(b+0x1b0));
-        *(void **)(b+0x1b0)=0;
+        func_02030EAC(((struct Obj01053 *)b)->f1A4);
+        ((struct Obj01053 *)b)->f1A4=0;
+        func_02030EAC(((struct Obj01053 *)b)->f1B0);
+        ((struct Obj01053 *)b)->f1B0=0;
     }
-    *(int *)(b+0x1b8)=1;
+    ((struct Obj01053 *)b)->f1B8=1;
     return 0;
 }

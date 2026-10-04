@@ -23,6 +23,7 @@
  *   d_021DD5F0     0x021DD5F0  data    ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09751.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,9 +45,9 @@ u8 *func_021D182C(u32 a, u16 b, struct V3 *c, u16 d)
     int *w = func_021BB990(-1, (int *)h, d_021DD5F0);
     u8 *p = (u8 *)func_021BBA6C(w);
 
-    *(int **)(p + 0x188) = w;
-    *(u16 *)(p + 0x19C) = d;
+    *(int * *)&((struct Obj09751 *)p)->f188 = w;
+    ((struct Obj09751 *)p)->f19C = d;
     *(struct V3 *)(p + 0x18C) = *c;
-    *(u32 *)p = (u32)func_0216DE94(t, b);
+    ((struct Obj09751 *)p)->f0 = (u32)func_0216DE94(t, b);
     return p;
 }

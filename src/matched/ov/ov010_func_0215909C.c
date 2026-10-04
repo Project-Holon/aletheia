@@ -13,6 +13,7 @@
  *   func_02030734 0x02030734 arm
  *   d_0217289C 0x0217289C data a1
  */
+#include "../include/Obj18755.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void *func_02158FD0(void *, unsigned int);
@@ -21,7 +22,7 @@ extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern const char d_0217289C[];
 void *func_0215909C(u8 *a)
 {
-    void *p = func_02030734(*(u16 *)(a + 12), 0x7e, 1, d_0217289C, 0x21b);
+    void *p = func_02030734(((struct Obj18755 *)a)->fC, 0x7e, 1, d_0217289C, 0x21b);
     func_02082A60(func_02158FD0(a, 0x8020), p, 0x7e);
     return p;
 }

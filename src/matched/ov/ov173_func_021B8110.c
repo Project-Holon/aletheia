@@ -12,6 +12,7 @@
  *   func_02028230 0x02028230 thumb
  *   func_021B7EB0 0x021B7EB0 thumb ov173
  */
+#include "../include/Obj05452.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -23,12 +24,12 @@ int func_021B8110(u8 *p)
 {
     u8 *s;
     s=p+464;
-    if(*(u16 *)(s+10)==0) {
-        if(func_0204B98C(*(void **)(p+260+*(u16 *)(s+6)*4))==0) return *(u16 *)(s+8);
-    } else if(*(u16 *)(s+10)==1) {
-        if(func_02028230(*(void **)(p+544+*(u16 *)(s+6)*4))!=0) {
+    if(((struct Obj05452 *)s)->fA==0) {
+        if(func_0204B98C(*(void **)(p+260+((struct Obj05452 *)s)->f6*4))==0) return ((struct Obj05452 *)s)->f8;
+    } else if(((struct Obj05452 *)s)->fA==1) {
+        if(func_02028230(*(void **)(p+544+((struct Obj05452 *)s)->f6*4))!=0) {
             func_021B7EB0(p,0);
-            return *(u16 *)(s+8);
+            return ((struct Obj05452 *)s)->f8;
         }
     }
     return 13;

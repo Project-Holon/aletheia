@@ -17,6 +17,7 @@
  *   func_02194940  0x02194940  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03112.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_02194940(u8 *p, int i);
 void func_021917C4(u16 *a, u32 *b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h, u32 i)
 {
     a[3] = 11;
-    b[3] = *(u32 *)((u8 *)a + 0x15C);
+    b[3] = ((struct Obj03112 *)a)->f15C;
     b[2] = d;
     b[1] = i;
     func_02193170(a[0]);

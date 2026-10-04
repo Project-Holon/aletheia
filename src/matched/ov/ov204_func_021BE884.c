@@ -11,8 +11,9 @@
  * symbols:
  *   func_021BFA40 0x021BFA40 thumb ov204
  */
+#include "../include/Obj25374.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021BFA40(char*);
-int func_021BE884(u8*p){if(func_021BFA40(*(char**)(p+12)))return 1;return 0;}
+int func_021BE884(u8*p){if(func_021BFA40(*(char* *)&((struct Obj25374 *)p)->fC))return 1;return 0;}

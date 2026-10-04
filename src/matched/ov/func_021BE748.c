@@ -20,6 +20,8 @@
  *   func_02047674  0x02047674  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18259.h"
+#include "../include/Obj18260.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,6 +32,6 @@ extern int func_02047674(int p);
 
 int func_021BE748(u32 a)
 {
-return ((*(u16 *)((u8 *)(*(u32 *)((u8 *)(func_02047674(*(u32 *)((u8 *)(a) + 12))) + 8)) + 4) << 12) - (1 << 12));
+return ((*(u16 *)((u8 *)(((struct Obj18260 *)((u8 *)(func_02047674(((struct Obj18259 *)((u8 *)(a)))->fC))))->f8) + 4) << 12) - (1 << 12));
 }
 

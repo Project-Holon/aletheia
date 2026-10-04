@@ -19,6 +19,7 @@
  *   func_021C20B4 0x021C20B4 thumb ov217
  *   func_021C20CC 0x021C20CC thumb ov217
  */
+#include "../include/Obj00021.h"
 typedef unsigned char u8;
 typedef signed int s32;
 extern unsigned func_021C20D8(unsigned);
@@ -35,19 +36,19 @@ void func_021BEEA4(char *p)
     u8 *object;
     unsigned index;
     s32 x,y;
-    func_021C20D8(*(unsigned *)(p+0x2d0));
-    if (*(unsigned *)(p+0x3d0)==1) return;
-    if (*(unsigned *)(p+0x3c8)==0) return;
+    func_021C20D8(*(unsigned *)&((struct Obj00021 *)p)->f2D0);
+    if (((struct Obj00021 *)p)->f3D0==1) return;
+    if (((struct Obj00021 *)p)->f3C8==0) return;
     if (func_021BF810(p)==0) return;
     object=func_021BF76C(p);
     index=func_021BF7F4(p);
     if (func_021C11DC(object,index)==0) return;
-    if (*(unsigned *)(p+0x3c8)!=0) {
+    if (((struct Obj00021 *)p)->f3C8!=0) {
         object=func_021BF76C(p);
         index=func_021BF7F4(p);
         func_021C11FC(object,index,&x,&y);
 
-        func_021C20B4(*(unsigned *)(p+0x2d0),104,34,x,y);
-        func_021C20CC(*(unsigned *)(p+0x2d0));
+        func_021C20B4(*(unsigned *)&((struct Obj00021 *)p)->f2D0,104,34,x,y);
+        func_021C20CC(*(unsigned *)&((struct Obj00021 *)p)->f2D0);
     }
 }

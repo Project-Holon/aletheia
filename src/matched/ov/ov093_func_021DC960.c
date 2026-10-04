@@ -14,6 +14,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj06263.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,10 +33,10 @@ void func_021DC960(int a, void *b, int c)
         k = func_021D775C(0x16);
         if (k == 0x10 || k == 6 || k == 7) {
             m = (u8 *)func_021C88A4(b, 0xe, c);
-            *(u32 *)m |= 2 << 22;
+            ((struct Obj06263 *)m)->f0 |= 2 << 22;
             m[0xf] = 1;
             m[0x10] = c;
-            *(u32 *)(m + 4) = 5;
+            ((struct Obj06263 *)m)->f4 = 5;
             m[0xc] = 1;
             func_021C88C8(b, m);
         }

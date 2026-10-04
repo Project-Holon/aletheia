@@ -14,6 +14,7 @@
  *   func_02019D84 0x02019D84 thumb
  *   d_021E7718 0x021E7718 data ov119 a4
  */
+#include "../include/Obj22737.h"
 typedef unsigned int   u32;
 struct Sav;
 extern u32 func_02017E88(void *p, u32 id, u32 v);
@@ -27,7 +28,7 @@ int func_021DD0CC(char *p, int a)
     unsigned i;
     v = func_02017E88((void *)a,5,0);
     i = 0;
-    if (*(int *)(p + 0x118c) == 3) {
+    if (((struct Obj22737 *)p)->f118C == 3) {
         lock = func_02017DBC((struct Sav *)a);
         for (; i < 15; i++) {
             r = func_02017E88((void *)a,d_021E7718[i],0);

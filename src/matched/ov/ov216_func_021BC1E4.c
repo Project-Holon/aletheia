@@ -20,6 +20,8 @@
  *   func_02049238 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  */
+#include "../include/Obj01591.h"
+#include "../include/Obj25769.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -39,24 +41,24 @@ void func_021BC1E4(char *p,u16 heap)
     struct ArcFile *arc;
     arc=func_020490F4(85,heap);
     func_02049B68(arc,0,0,0,512,heap);
-    func_02049B68(*(void **)(p+84),28,4,0,512,heap);
-    func_02049658(*(void **)(p+84),30,4,0,0,1,heap);
-    func_02049658(*(void **)(p+84),30,5,0,0,1,heap);
-    func_02049658(*(void **)(p+84),30,7,0,0,1,heap);
-    func_020498F4(*(void **)(p+84),32,4,0,0,1,heap);
-    func_020498F4(*(void **)(p+84),32,5,0,0,1,heap);
-    func_020498F4(*(void **)(p+84),33,7,0,0,1,heap);
+    func_02049B68(((struct Obj01591 *)p)->f54,28,4,0,512,heap);
+    func_02049658(((struct Obj01591 *)p)->f54,30,4,0,0,1,heap);
+    func_02049658(((struct Obj01591 *)p)->f54,30,5,0,0,1,heap);
+    func_02049658(((struct Obj01591 *)p)->f54,30,7,0,0,1,heap);
+    func_020498F4(((struct Obj01591 *)p)->f54,32,4,0,0,1,heap);
+    func_020498F4(((struct Obj01591 *)p)->f54,32,5,0,0,1,heap);
+    func_020498F4(((struct Obj01591 *)p)->f54,33,7,0,0,1,heap);
     func_020413B0(5,0,0,32,24,1);
     func_020409B4(5);
-    func_02049658(*(void **)(p+84),31,1,0,0,1,heap);
-    func_020498F4(*(void **)(p+84),34,1,0,2048,1,heap);
+    func_02049658(((struct Obj01591 *)p)->f54,31,1,0,0,1,heap);
+    func_020498F4(((struct Obj01591 *)p)->f54,34,1,0,2048,1,heap);
     func_02049658(arc,5,2,0,0,0,heap);
     func_020498F4(arc,17,2,0,2048,0,heap);
     func_02049658(arc,7,3,0,0,0,heap);
     func_020498F4(arc,16,3,0,2048,0,heap);
-    *(void **)(p+288)=func_02049250(*(struct ArcFile **)(p+84),29,*(u16 *)p);
-    func_02062A98(*(struct NitroFileHeader **)(p+288),(void **)(p+280));
-    *(void **)(p+284)=*(void **)(*(char **)(p+280)+12);
+    ((struct Obj01591 *)p)->f120=func_02049250(*(struct ArcFile * *)&((struct Obj01591 *)p)->f54,29,((struct Obj01591 *)p)->f0);
+    func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01591 *)p)->f120,(void **)(p+280));
+    ((struct Obj01591 *)p)->f11C=((struct Obj25769 *)(*(char * *)&((struct Obj01591 *)p)->f118))->fC;
     func_02049238(arc);
     func_0207D63C((u32 *)0x04000050,2,30,11,5);
     func_0207D63C((u32 *)0x04001050,3,31,13,3);

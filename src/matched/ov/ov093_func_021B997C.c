@@ -13,6 +13,7 @@
  *   func_02007B50 0x02007B50 thumb
  *   func_02007C70 0x02007C70 thumb
  */
+#include "../include/Obj13279.h"
 typedef unsigned char u8;
 extern u8 func_021B9114(u8 **);
 typedef unsigned int   u32;
@@ -27,5 +28,5 @@ int func_021B997C(u8 *p, unsigned int i)
             return func_02007C70(*(void **)(q + i * 4));
         return 0;
     }
-    return *(u8 *)((unsigned int)*(u8 **)p + i + 0x44);
+    return *(u8 *)((unsigned int)*(u8 * *)&((struct Obj13279 *)p)->f0 + i + 0x44);
 }

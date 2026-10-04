@@ -14,6 +14,7 @@
  * symbols:
  *   func_02011324 0x02011324 thumb
  */
+#include "../include/Obj21656.h"
 typedef struct {
     unsigned lo : 6;
     unsigned b6 : 1;
@@ -27,7 +28,7 @@ int func_021F9824(void *a)
     Flags *s = func_02011324(a);
     int r = -1;
 
-    if (*(int *)((char *)s + 0x1e8) != 0)
+    if (((struct Obj21656 *)s)->f1E8 != 0)
         r = s->b6;
     return r;
 }

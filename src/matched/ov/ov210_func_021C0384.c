@@ -18,6 +18,7 @@
  *   func_021BCEF4 0x021BCEF4 thumb ov210
  *   d_021C0C48 0x021C0C48 data a4
  */
+#include "../include/Obj04624.h"
 typedef unsigned short u16;
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C48;
@@ -41,10 +42,10 @@ void func_021C0384(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    *(void **)(ctx + 0x1e0) = func_021B7754(&config, 123);
-    *(unsigned *)(ctx + 0x2ac) = config.count;
-    func_021B7A10(*(void **)(ctx + 0x1e0), archive, 97, 0, 0);
-    func_021B7A4C(*(void **)(ctx + 0x1e0), archive, 73, 2, 3);
+    ((struct Obj04624 *)ctx)->f1E0 = func_021B7754(&config, 123);
+    ((struct Obj04624 *)ctx)->f2AC = config.count;
+    func_021B7A10(((struct Obj04624 *)ctx)->f1E0, archive, 97, 0, 0);
+    func_021B7A4C(((struct Obj04624 *)ctx)->f1E0, archive, 73, 2, 3);
     func_02049238(archive);
-    for (i = 0; i <= 16; i++) { func_021B79E4(*(void **)(ctx + 0x1e0), 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(*(void **)(ctx + 0x1d0), func_021BCEF4((int)ctx, i)); }
+    for (i = 0; i <= 16; i++) { func_021B79E4(((struct Obj04624 *)ctx)->f1E0, 0, i); ((void **)(ctx + 0x1e4))[i] = func_02045EC0(((struct Obj04624 *)ctx)->f1D0, func_021BCEF4((int)ctx, i)); }
 }

@@ -23,6 +23,8 @@
  *   func_021D9434 0x021D9434 thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj22747.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern unsigned func_0203D1A4(unsigned);
@@ -58,13 +60,13 @@ void func_021DF210(char *p)
         }
     }
     func_021DD294(p, 0, 0);
-    *(unsigned char *)(p + 0x11EA) = 0;
-    *(unsigned char *)(p + 0x11E8) = 3;
-    *(unsigned char *)(p + 0x11E9) = 3;
+    ((struct Obj00001 *)p)->f11EA = 0;
+    ((struct Obj00001 *)p)->f11E8 = 3;
+    ((struct Obj00001 *)p)->f11E9 = 3;
     if (*(unsigned char *)(p + a + 0x11E0) == 10 && *(unsigned char *)(p + b + 0x11E0) == 10) {
         func_021DD90C(p, 0, 1, 1);
         func_021DD90C(p, 1, 1, 1);
-        if (*(int *)(p + 0x118C) == 3) {
+        if (((struct Obj00001 *)p)->f118C == 3) {
             func_021D8E84(p, (int)func_021DF1C8);
         } else {
             func_021D8E84(p, (int)func_021DEDBC);
@@ -72,7 +74,7 @@ void func_021DF210(char *p)
         return;
     }
     if (*(unsigned char *)(p + a + 0x11E0) == 4 && *(unsigned char *)(p + b + 0x11E0) == 4) {
-        *(int *)(*(char **)(p + 8) + 8) = 3;
+        ((struct Obj22747 *)(*(char * *)&((struct Obj00001 *)p)->f8))->f8 = 3;
         func_021D8E84(p, (int)func_021D9434);
         return;
     }
@@ -81,11 +83,11 @@ void func_021DF210(char *p)
     } else if (*(unsigned char *)(p + a + 0x11E0) == 4) {
         v = 0x66;
     }
-    func_02045CAC(*(void **)(p + 0x720), v, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj00001 *)p)->f720, v, ((struct Obj00001 *)p)->f738);
     func_021E1024(p);
-    *(unsigned char *)(p + 0x11E0) = 0;
-    *(unsigned char *)(p + 0x11E1) = 0;
-    *(unsigned char *)(p + 0x11E8) = 0;
-    *(unsigned char *)(p + 0x11E9) = 0;
+    ((struct Obj00001 *)p)->f11E0 = 0;
+    ((struct Obj00001 *)p)->f11E1 = 0;
+    ((struct Obj00001 *)p)->f11E8 = 0;
+    ((struct Obj00001 *)p)->f11E9 = 0;
     func_021D8E84(p, (int)func_021DAEF0);
 }

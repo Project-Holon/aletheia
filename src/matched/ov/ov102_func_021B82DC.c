@@ -10,6 +10,8 @@
  * symbols:
  *   func_021B7F18 0x021B7F18 thumb ov102
  */
+#include "../include/Obj10235.h"
+#include "../include/Obj22151.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -18,9 +20,9 @@ void func_021B82DC(u8 *p, u16 *state)
 {
     switch (*state) {
     case 0:
-        if (*(u32 *)(*(u8 **)(p + 0x48c) + 12) == 1) {
-            if ((*(u16 *)(p + 0x486))++ > 10) {
-                *(u16 *)(p + 0x486) = 0;
+        if (((struct Obj22151 *)(*(u8 * *)&((struct Obj10235 *)p)->f48C))->fC == 1) {
+            if ((((struct Obj10235 *)p)->f486)++ > 10) {
+                ((struct Obj10235 *)p)->f486 = 0;
                 *state = 1;
             }
         } else {

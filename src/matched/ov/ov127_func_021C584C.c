@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23051.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -27,5 +28,5 @@ extern void func_021C424C(char *p, int a);
 
 void func_021C584C(u8 *p, int a)
 {
-    func_021C424C(*(char **)(p + 4), a);
+    func_021C424C(*(char * *)&((struct Obj23051 *)p)->f4, a);
 }

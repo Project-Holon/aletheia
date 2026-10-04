@@ -17,6 +17,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj01543.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0201DD68(char *);
@@ -34,11 +35,11 @@ void func_021D4A64(char *p)
     func_0201DD68(p);
     func_021D4730(p);
     func_02040DA8(5, 1, 0);
-    func_0203FB44(5, *(u32 *)(p + 0x3c), *(u32 *)(p + 0x3c) >> 16);
+    func_0203FB44(5, ((struct Obj01543 *)p)->f3C, ((struct Obj01543 *)p)->f3C >> 16);
     func_020403F4(5);
     func_020403F4(4);
-    func_02045C04(*(void **)(p + 0x24));
-    func_02045C04(*(void **)(p + 0x28));
-    func_0201D83C(*(void **)(p + 0x30));
-    func_02045808(*(void **)(p + 0x38));
+    func_02045C04(((struct Obj01543 *)p)->f24);
+    func_02045C04(((struct Obj01543 *)p)->f28);
+    func_0201D83C(((struct Obj01543 *)p)->f30);
+    func_02045808(((struct Obj01543 *)p)->f38);
 }

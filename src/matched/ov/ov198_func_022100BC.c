@@ -17,6 +17,7 @@
  *   func_0220B760 0x0220B760 thumb ov198
  * Caller truncates the selection+18 argument to u8 before func_0220B760.
  */
+#include "../include/Obj10851.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ extern void func_02211970(u8 **,u32);
 extern void func_0220B760(u8 *p, unsigned int state);
 int func_022100BC(u8 *p)
 {
-    u32 selection=func_02025DE8(*(struct Sound **)(p+0x2184));
+    u32 selection=func_02025DE8(*(struct Sound * *)&((struct Obj10851 *)p)->f2184);
     u8 tmp;
     switch(selection) {
     case 0: case 1: case 2: case 3: {
@@ -46,12 +47,12 @@ int func_022100BC(u8 *p)
     case 4:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(int *)(p+0x217c)=11;
+        ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(int *)(p+0x217c)=11;
+        ((struct Obj10851 *)p)->f217C=11;
         return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);

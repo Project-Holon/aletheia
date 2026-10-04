@@ -11,8 +11,9 @@
  *
  * Returns the word at offset 0x5c. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16169.h"
 
 int func_020517D0(char *p)
 {
-    return *(int *)(p + 0x5c);
+    return ((struct Obj16169 *)p)->f5C;
 }

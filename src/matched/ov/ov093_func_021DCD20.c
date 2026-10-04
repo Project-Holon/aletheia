@@ -22,6 +22,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10065.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,7 +54,7 @@ void func_021DCD20(int a, void *b, int c)
         p = func_021C7CF4(b, k);
         if (func_021D5B68(func_021C7CF4(b, c)) == 0 && func_021D5B68(p) == 0) {
             m = (u8 *)func_021C88A4(b, 0x33, c);
-            *(u32 *)m |= 2 << 22;
+            ((struct Obj10065 *)m)->f0 |= 2 << 22;
             m[4] = k;
             func_021C8838(m + 8, 2, 0x284);
             func_021C8860((struct S *)(m + 8), c);

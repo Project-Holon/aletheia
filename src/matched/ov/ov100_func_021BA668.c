@@ -23,6 +23,7 @@
  *   d_021BB6A0 0x021BB6A0 data a4
  *   d_021BB698 0x021BB698 data a4
  */
+#include "../include/Obj00060.h"
 struct Word { int x; };
 extern const struct Word d_021BB694,d_021BB690,d_021BB670,d_021BB680,d_021BB684,d_021BB67C,d_021BB66C,d_021BB6A0,d_021BB698;
 extern void func_021BA3A4(struct Word *,int),func_021BA454(int,int),func_021BA530(int,int);
@@ -32,15 +33,15 @@ struct Sub020097BCObj;
 extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_02009A34(struct Sub020097BCObj *obj);
 void func_021BA668(int a) {
- if(*(int *)(a+0xca0)==1) {struct Word t=d_021BB694;func_021BA3A4(&t,a);return;}
- if(*(int *)(a+0x24c)==7) {
-  if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int **)(a+0x244))))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->fCA0==1) {struct Word t=d_021BB694;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->f24C==7) {
+  if(func_02009A34((struct Sub020097BCObj *)func_0201283C((const struct BigObj *)(**(int * *)&((struct Obj00060 *)a)->f244)))==32) {struct Word t=d_021BB690;func_021BA3A4(&t,a);return;}
   else {struct Word t=d_021BB670;func_021BA3A4(&t,a);func_021BA454(0x22,a);return;}
  }
- if(*(int *)(a+0x24c)==6) {struct Word t=d_021BB680;func_021BA3A4(&t,a);return;}
- if(*(int *)(a+0x24c)==5) {struct Word t=d_021BB684;func_021BA3A4(&t,a);return;}
- if(*(int *)(a+0x24c)==9) {struct Word t=d_021BB67C;func_021BA3A4(&t,a);func_021BA530(0x27,a);return;}
- if(*(int *)(a+0x24c)==10) {struct Word t=d_021BB66C;func_021BA3A4(&t,a);return;}
- if(*(int *)(a+0x24c)==11) {struct Word t=d_021BB6A0;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->f24C==6) {struct Word t=d_021BB680;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->f24C==5) {struct Word t=d_021BB684;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->f24C==9) {struct Word t=d_021BB67C;func_021BA3A4(&t,a);func_021BA530(0x27,a);return;}
+ if(((struct Obj00060 *)a)->f24C==10) {struct Word t=d_021BB66C;func_021BA3A4(&t,a);return;}
+ if(((struct Obj00060 *)a)->f24C==11) {struct Word t=d_021BB6A0;func_021BA3A4(&t,a);return;}
  else {struct Word t=d_021BB698;func_021BA3A4(&t,a);return;}
 }

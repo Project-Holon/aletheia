@@ -10,15 +10,16 @@
  * symbols:
  *   func_021B89DC 0x021B89DC thumb ov104
  */
+#include "../include/Obj04434.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021B89DC(int,void *,int,int,u8,u16,u16);
 void func_021B8EB0(u8 *p) {
  int a;
- if(*(int *)(p+0xc) && *(int *)(p+4)) {
-  a=*(u16 *)(p+2)+0x400;
-  if(a>=0x10000) *(u16 *)(p+2)=*(u16 *)(p+2)-0xfc00;
-  else *(u16 *)(p+2)=a;
-  func_021B89DC(15,p,*(u16 *)(p+2),5,3,0x6adf,0x55fe);
+ if(((struct Obj04434 *)p)->fC && ((struct Obj04434 *)p)->f4) {
+  a=((struct Obj04434 *)p)->f2+0x400;
+  if(a>=0x10000) ((struct Obj04434 *)p)->f2=((struct Obj04434 *)p)->f2-0xfc00;
+  else ((struct Obj04434 *)p)->f2=a;
+  func_021B89DC(15,p,((struct Obj04434 *)p)->f2,5,3,0x6adf,0x55fe);
  }
 }

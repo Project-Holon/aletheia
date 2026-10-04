@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05360.h"
 
 typedef unsigned int u32;
 
@@ -28,6 +29,6 @@ extern void func_021D4C4C(char *);
 void func_021D4CA0(char *p)
 {
     if (func_020221A4(p) != 0)
-        func_02051C88(*(void **)(p + 0x20));
+        func_02051C88(((struct Obj05360 *)p)->f20);
     func_021D4C4C(p);
 }

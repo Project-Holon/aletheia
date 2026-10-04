@@ -24,6 +24,7 @@
  *   d_021D3F58     0x021D3F58  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00485.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -60,28 +61,28 @@ void func_02193D30(u8 *o, Src *s, int which)
         if (which == 0) {
             off = i * 0x18;
             if (func_02161ECC((E18 *)((u8 *)s->A + off))) {
-                func_02186818((u32 *)(*(int *)(o + 0xc)), s->A[i].b);
-                func_02193F80(*(u8 **)(o + 4) + i * 0x50, (E18 *)((u8 *)s->A + off),
-                              func_02186844(*(u8 **)(o + 0x118), i),
-                              (u16 *)func_0218682C((char *)(*(int *)(o + 0xc))));
+                func_02186818((u32 *)(((struct Obj00485 *)o)->fC), s->A[i].b);
+                func_02193F80(*(u8 * *)&((struct Obj00485 *)o)->f4 + i * 0x50, (E18 *)((u8 *)s->A + off),
+                              func_02186844(*(u8 * *)&((struct Obj00485 *)o)->f118, i),
+                              (u16 *)func_0218682C((char *)(((struct Obj00485 *)o)->fC)));
             }
         } else {
             off = i * 0x18;
             if (func_02161ECC((E18 *)((u8 *)s->B + off))) {
-                func_02186818((u32 *)(*(int *)(o + 0xc)), s->B[i].b);
-                pair = func_02186844(*(u8 **)(o + 0x118), i);
-                func_0218682C((char *)(*(int *)(o + 0xc)));
-                func_02193F80(*(u8 **)(o + 4) + i * 0x50, (E18 *)((u8 *)s->B + off),
-                              pair, (u16 *)func_0218682C((char *)(*(int *)(o + 0xc))));
+                func_02186818((u32 *)(((struct Obj00485 *)o)->fC), s->B[i].b);
+                pair = func_02186844(*(u8 * *)&((struct Obj00485 *)o)->f118, i);
+                func_0218682C((char *)(((struct Obj00485 *)o)->fC));
+                func_02193F80(*(u8 * *)&((struct Obj00485 *)o)->f4 + i * 0x50, (E18 *)((u8 *)s->B + off),
+                              pair, (u16 *)func_0218682C((char *)(((struct Obj00485 *)o)->fC)));
             }
         }
     }
-    func_02194084(o + 0x11c, s, *(int *)(o + 0xc));
+    func_02194084(o + 0x11c, s, ((struct Obj00485 *)o)->fC);
     if (which == 0)
-        *(Src **)(o + 8) = s;
+        *(Src * *)&((struct Obj00485 *)o)->f8 = s;
     else
-        *(Src **)(o + 8) = 0;
-    func_020493D4((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F58[o[0]]);
-    func_0204932C((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F58[o[0]], (void *)(*(int *)(o + 0x14)));
-    func_02194128(o + 0x11c, *(int *)(o + 0x14), o + 0x18);
+        *(Src * *)&((struct Obj00485 *)o)->f8 = 0;
+    func_020493D4((struct ArcFile *)(*(int *)&((struct Obj00485 *)o)->f10), d_021D3F58[o[0]]);
+    func_0204932C((struct ArcFile *)(*(int *)&((struct Obj00485 *)o)->f10), d_021D3F58[o[0]], (void *)(*(int *)&((struct Obj00485 *)o)->f14));
+    func_02194128(o + 0x11c, *(int *)&((struct Obj00485 *)o)->f14, o + 0x18);
 }

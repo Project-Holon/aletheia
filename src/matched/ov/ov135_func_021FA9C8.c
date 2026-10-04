@@ -22,6 +22,7 @@
  *   func_0202CB4C 0x0202CB4C thumb
  *   func_0202CC58 0x0202CC58 thumb
  */
+#include "../include/Obj01744.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -47,15 +48,15 @@ void func_021FA9C8(u8 *p, int mode, int pos)
     void *str;
     u16 color;
     u8 *g;
-    func_0202CAE4(*(void **)(p + 24), 0, 96, mode == 6 ? 27 : 28, 1);
-    func_0202CF84(*(void **)(p + 24), 0);
+    func_0202CAE4(((struct Obj01744 *)p)->f18, 0, 96, mode == 6 ? 27 : 28, 1);
+    func_0202CF84(((struct Obj01744 *)p)->f18, 0);
     func_021F9260(p, mode);
-    func_021FBEB8(*(void **)(p + 24), *(void **)(p + 32), (*(void ***)p)[14], 74, p + 124);
+    func_021FBEB8(((struct Obj01744 *)p)->f18, ((struct Obj01744 *)p)->f20, (*(void ***)p)[14], 74, p + 124);
     func_02082BCC(p + 96, 1, 26);
     g = p;
     g += 124;
     for (i = 0; i < 9; i++) {
-        str = func_02045EC0(*(void **)(p + 32), i + 116);
+        str = func_02045EC0(((struct Obj01744 *)p)->f20, i + 116);
         if (mode == 4) {
             if (func_021FBFB0(p, i) == 1) {
                 color = 0x3dc2;
@@ -73,14 +74,14 @@ void func_021FA9C8(u8 *p, int mode, int pos)
                 p[i + 96] = 0;
             }
         }
-        func_021FAC50(*(void **)(p + 24), (*(void ***)p)[i], str, 2, color, g);
+        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[i], str, 2, color, g);
         func_02045808(str);
     }
     if (mode == 6) {
-        str = func_02045EC0(*(void **)(p + 32), 188);
-        func_021FAC50(*(void **)(p + 24), (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
+        str = func_02045EC0(((struct Obj01744 *)p)->f20, 188);
+        func_021FAC50(((struct Obj01744 *)p)->f18, (*(void ***)p)[15], str, 2, 0x3dc2, p + 124);
         func_02045808(str);
     }
-    func_0202CB4C(*(void **)(p + 24), 0, pos, 0);
-    func_0202CC58(*(void **)(p + 24), 0);
+    func_0202CB4C(((struct Obj01744 *)p)->f18, 0, pos, 0);
+    func_0202CC58(((struct Obj01744 *)p)->f18, 0);
 }

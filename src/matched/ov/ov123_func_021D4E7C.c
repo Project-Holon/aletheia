@@ -17,6 +17,7 @@
  *   func_02035C38 0x02035C38 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj00626.h"
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
@@ -32,22 +33,22 @@ extern int func_02035C38(void);
 extern void func_020061E4(u32 a);
 int func_021D4E7C(char *p)
 {
-    if (*(void **)(p + 0x228)) {
-        if (*(void **)(p + 0x224))
-            func_020286C4(*(void **)(p + 0x22c), *(void **)(p + 0x228), *(void **)(p + 0x224));
-        switch (func_0201CE30(*(void **)(p + 0x228))) {
+    if (((struct Obj00626 *)p)->f228) {
+        if (((struct Obj00626 *)p)->f224)
+            func_020286C4(((struct Obj00626 *)p)->f22C, ((struct Obj00626 *)p)->f228, ((struct Obj00626 *)p)->f224);
+        switch (func_0201CE30(((struct Obj00626 *)p)->f228)) {
         case 2:
-            func_0201CE48(*(void **)(p + 0x228));
-            *(void **)(p + 0x228) = 0;
+            func_0201CE48(((struct Obj00626 *)p)->f228);
+            ((struct Obj00626 *)p)->f228 = 0;
             break;
         case 1:
             if (func_02035C60()) {
                 func_020061E4(0x547);
-                func_0201CE38(*(void **)(p + 0x228));
+                func_0201CE38(((struct Obj00626 *)p)->f228);
             }
             break;
         case 0:
-            if (func_02035C38()) func_0201CE5C(*(void **)(p + 0x228), 0);
+            if (func_02035C38()) func_0201CE5C(((struct Obj00626 *)p)->f228, 0);
             break;
         }
         return 0;

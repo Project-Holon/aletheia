@@ -21,6 +21,7 @@
  *   python tools/match.py one --src src/matched/func_0201054C.c \
  *       --func func_0201054C --addr 0x0201054C --cc 1.1p1 --thumb
  */
+#include "../include/Obj03426.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_0201054C(const u8 *obj)
 {
-    if (*(const u16 *)(obj + 0xa) == 8) {
+    if (*(const u16 *)&((struct Obj03426 *)obj)->fA == 8) {
         if (func_0203EFC8((const void *)0x020A7250, obj + 0xc, 8) != 0) {
-            if ((*(const u16 *)(obj + 0x2c) & 0x10) == 0) {
+            if ((*(const u16 *)&((struct Obj03426 *)obj)->f2C & 0x10) == 0) {
                 return 1;
             }
         }

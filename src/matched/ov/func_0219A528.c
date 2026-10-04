@@ -23,6 +23,7 @@
  *   func_02163F10  0x02163F10  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17954.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ extern u32 func_0216DA50(u32);
 
 int func_0219A528(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(func_0216D684(a, 8, c, d))) = b;
+((struct Obj17954 *)((u8 *)(func_0216D684(a, 8, c, d))))->f0 = b;
 func_0216D674((void *)a, 0);
 func_0216DA50(a);
 return func_02163F10(a);

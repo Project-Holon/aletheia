@@ -30,6 +30,11 @@
  * 02031348 forwards all four inputs to 020314F4 despite legacy void(void).
  * data: Process setup loads ov194/ov129 and receives their callback tables.
  */
+#include "../include/Obj23097.h"
+#include "../include/Obj23098.h"
+#include "../include/Obj23099.h"
+#include "../include/Obj23100.h"
+#include "../include/Obj23101.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int     s32;
@@ -69,7 +74,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
         break;
     case 1:
         if (func_02031330(p[0]) == 0) {
-            if (*(int *)((u8 *)p[1] + 28) == 0) {
+            if (((struct Obj23097 *)((u8 *)p[1]))->f1C == 0) {
                 func_02031348(p[0], (u32)id129, d_021DA62C, p[2]);
                 b[8] = 2;
             } else {
@@ -82,7 +87,7 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
     case 2:
         if (func_02031330(p[0]) == 0) {
             func_0203133C(p[0]);
-            func_021C6440(b, *(void **)((u8 *)p[1] + 32), *(void **)((u8 *)p[2] + 32));
+            func_021C6440(b, ((struct Obj23098 *)((u8 *)p[1]))->f20, ((struct Obj23099 *)((u8 *)p[2]))->f20);
             func_021C6438(b, 0, 7);
             b[8] = 3;
         }
@@ -105,9 +110,9 @@ int func_021C8C04(void **p, u8 *a, u8 *b, int unused, int heap)
         if (func_02031330(p[0]) == 0) {
             func_0203133C(p[0]);
             *(int *)b = func_020355C4();
-            if (*(int *)((u8 *)p[1] + 28) == 0) {
+            if (((struct Obj23100 *)((u8 *)p[1]))->f1C == 0) {
                 func_021C6438(b, 1, 14);
-                func_021C6440(b, *(void **)((u8 *)p[1] + 32), 0);
+                func_021C6440(b, ((struct Obj23101 *)((u8 *)p[1]))->f20, 0);
                 b[8] = 6;
             } else {
                 func_021C6438(b, 1, 15);

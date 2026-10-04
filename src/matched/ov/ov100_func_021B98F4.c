@@ -10,8 +10,9 @@
  * symbols:
 
  */
+#include "../include/Obj22069.h"
 int func_021B98F4(int a,int b)
 {
- if(a>=0 && a<4) return *(int *)(*(int *)(b+0x244)+a*4+8);
+ if(a>=0 && a<4) return *(int *)(((struct Obj22069 *)b)->f244+a*4+8);
  return 0;
 }

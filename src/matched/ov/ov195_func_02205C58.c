@@ -14,6 +14,7 @@
  *   func_02048AD0 0x02048AD0 arm
  *   func_020479D8 0x020479D8 arm
  */
+#include "../include/Obj24957.h"
 
 extern void func_02047964(void *);
 extern int func_02048AD0(int);
@@ -22,5 +23,5 @@ extern void func_020479D8(int);
 void func_02205C58(char *a)
 {
     func_02047964(a);
-    func_020479D8(func_02048AD0(*(int *)a));
+    func_020479D8(func_02048AD0(((struct Obj24957 *)a)->f0));
 }

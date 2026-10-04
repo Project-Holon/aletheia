@@ -11,6 +11,9 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03291.h"
+#include "../include/Obj10565.h"
+#include "../include/Obj23271.h"
 typedef unsigned char u8;
 extern void func_020307B0(void *);
 void func_021FCA38(char *p)
@@ -19,17 +22,17 @@ void func_021FCA38(char *p)
     char *q;
     for(i=0;i<4;i++) {
         q=p+i*0x30;
-        if(*(void **)(q+0x7c)) {
-            func_020307B0(*(void **)(q+0x8c));
-            func_020307B0(*(void **)(q+0x7c));
+        if(((struct Obj10565 *)q)->f7C) {
+            func_020307B0(((struct Obj10565 *)q)->f8C);
+            func_020307B0(((struct Obj10565 *)q)->f7C);
         }
     }
-    if(*(void **)(p+0x124)) func_020307B0(*(void **)(p+0x124));
-    if(*(void **)(p+0x138)) func_020307B0(*(void **)(p+0x138));
-    if(*(void **)(p+0x128)) func_020307B0(*(void **)(p+0x128));
-    if(*(void **)(p+0x13c)) func_020307B0(*(void **)(p+0x13c));
+    if(((struct Obj03291 *)p)->f124) func_020307B0(((struct Obj03291 *)p)->f124);
+    if(((struct Obj03291 *)p)->f138) func_020307B0(((struct Obj03291 *)p)->f138);
+    if(((struct Obj03291 *)p)->f128) func_020307B0(((struct Obj03291 *)p)->f128);
+    if(((struct Obj03291 *)p)->f13C) func_020307B0(((struct Obj03291 *)p)->f13C);
 }
 void func_021FCAA0(char *p)
 {
-    *(int *)(p+0x10)=1;
+    ((struct Obj23271 *)p)->f10=1;
 }

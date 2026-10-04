@@ -15,6 +15,7 @@
  *   func_02040618 0x02040618 arm
  *   func_0204A600 0x0204A600 arm
  */
+#include "../include/Obj01733.h"
 extern void func_02027974(void *);
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
@@ -38,19 +39,19 @@ int func_021D5320(int a,int b,int c,char *p)
         (*(void (**)(char *))p)(p);
         result=0;
     }
-    if (*(void **)(p+0x238)) func_02027974(*(void **)(p+0x238));
+    if (((struct Obj01733 *)p)->f238) func_02027974(((struct Obj01733 *)p)->f238);
     if (func_0203CD98()) {
-        *(int *)(p+0x27c)=*(int *)(p+0x278);
-        *(int *)(p+0x278)=func_0201058C(0);
+        ((struct Obj01733 *)p)->f27C=((struct Obj01733 *)p)->f278;
+        ((struct Obj01733 *)p)->f278=func_0201058C(0);
     }
-    func_020310C4(*(void **)(p+0x230));
-    func_0201C4E4(*(void **)(p+0x234));
-    func_02040618(4,3,*(int *)(p+0x268));
-    --*(int *)(p+0x268);
+    func_020310C4(((struct Obj01733 *)p)->f230);
+    func_0201C4E4(((struct Obj01733 *)p)->f234);
+    func_02040618(4,3,((struct Obj01733 *)p)->f268);
+    --((struct Obj01733 *)p)->f268;
     func_0204A600();
-    if (!*(int *)(p+0x28c)) func_020121CC(*(void **)(p+0x264));
-    if (func_020221A4() && func_02012204(*(void **)(p+0x264))) {
-        *(int *)(p+8)=0;
+    if (!((struct Obj01733 *)p)->f28C) func_020121CC(((struct Obj01733 *)p)->f264);
+    if (func_020221A4() && func_02012204(((struct Obj01733 *)p)->f264)) {
+        ((struct Obj01733 *)p)->f8=0;
         result=1;
         func_0202223C(0,0);
         func_0202223C(1,0);

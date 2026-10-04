@@ -14,6 +14,7 @@
 
  * Claim the 0xb4/0x48 resource and park it at +0xb88.
  */
+#include "../include/Obj18610.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_02200EB0(u8 *p)
 {
-    *(u32 *)(p + 0xb88) = (u32)func_020457B0(0xb4, 0x48);
+    ((struct Obj18610 *)p)->fB88 = (u32)func_020457B0(0xb4, 0x48);
 }

@@ -15,6 +15,7 @@
  *   func_021B9AD0 0x021B9AD0 thumb ov218
  *   func_021BA94C 0x021BA94C thumb ov218
  */
+#include "../include/Obj10971.h"
 struct S;
 extern void func_0204E720(unsigned int, int, int, int);
 extern int func_0204E804(void);
@@ -34,11 +35,11 @@ int func_021B9674(void *ctx, int *state, void *unused, char *p)
             ++*state;
         break;
     case 2:
-        if (func_021B6144(*(struct S **)(p + 0x24)) != 0)
+        if (func_021B6144(*(struct S * *)&((struct Obj10971 *)p)->f24) != 0)
             result = 1;
         break;
     }
-    func_021B9AD0(*(char **)(p + 0x28));
-    func_021BA94C(*(char **)(p + 4));
+    func_021B9AD0(*(char * *)&((struct Obj10971 *)p)->f28);
+    func_021BA94C(*(char * *)&((struct Obj10971 *)p)->f4);
     return result != 0;
 }

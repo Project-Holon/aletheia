@@ -14,6 +14,7 @@
  *   func_0217EF70 0x0217EF70 thumb ov018
  * interface: r1 holds p[0xd8] at 0x0217EF64 and EF70 reads it.
  */
+#include "../include/Obj03092.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Ctx;
@@ -22,7 +23,7 @@ extern u32 func_02012138(const struct Ctx *p);
 extern void func_0217EF70(void *, int);
 void func_0217EF44(u8 *p)
 {
-    func_020120F4(*(void **)p);
-    func_02012138(*(void **)p);
+    func_020120F4(((struct Obj03092 *)p)->f0);
+    func_02012138(((struct Obj03092 *)p)->f0);
     if (p[0xd8] != p[0x105]) func_0217EF70(p, p[0xd8]);
 }

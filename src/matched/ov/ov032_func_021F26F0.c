@@ -13,13 +13,14 @@
  *   func_021F05E8 0x021F05E8 thumb ov032
  *   func_021F067C 0x021F067C thumb ov032
  */
+#include "../include/Obj00007.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F05E8(u8 *, int, u32);
 extern void func_021F067C(u8 *);
 int func_021F26F0(u8 *p)
 {
-    if (*(int *)(p + 0xa8) != 0)
+    if (((struct Obj00007 *)p)->fA8 != 0)
         return 2;
     func_021F05E8(p, 4, 0);
     func_021F067C(p);

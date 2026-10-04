@@ -16,6 +16,7 @@
  *   func_0201BCB4 0x0201BCB4 thumb
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj06425.h"
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
 typedef signed int     s32;
@@ -28,5 +29,5 @@ extern int func_0201BCB4(void);
 extern void func_02049238(void *);
 void func_021DD528(char *p,int n)
 {
-    void *v;int off;int a;v=func_020490F4(7,*(u16 *)(p+0x5f4));off=96;if(n!=1)off=0;*(int *)(p+0x890)=func_0204ACEC(v,func_0201BC3C(),n,(u16)off,*(u16 *)(p+0x5f4));a=func_0201BC78();*(int *)(p+0x8c0)=func_0204AF28(v,a,func_0201BCB4(),*(u16 *)(p+0x5f4));func_02049238(v);
+    void *v;int off;int a;v=func_020490F4(7,((struct Obj06425 *)p)->f5F4);off=96;if(n!=1)off=0;((struct Obj06425 *)p)->f890=func_0204ACEC(v,func_0201BC3C(),n,(u16)off,((struct Obj06425 *)p)->f5F4);a=func_0201BC78();((struct Obj06425 *)p)->f8C0=func_0204AF28(v,a,func_0201BCB4(),((struct Obj06425 *)p)->f5F4);func_02049238(v);
 }

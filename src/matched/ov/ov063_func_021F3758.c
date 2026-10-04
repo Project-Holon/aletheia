@@ -13,6 +13,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj20594.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,6 +24,6 @@ extern void func_020307B0(void *p);
 
 void func_021F3758(u8 *p)
 {
-    func_02030EAC((struct Node *)(*(u32 *)(p + 0x80)));
+    func_02030EAC((struct Node *)(((struct Obj20594 *)p)->f80));
     func_020307B0((void *)((u32)p));
 }

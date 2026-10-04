@@ -18,6 +18,7 @@
  *   func_021D7DC0   0x021D7DC0  thumb ov093
  *   func_021C88C8   0x021C88C8  thumb ov093
  */
+#include "../include/Obj07810.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,9 +57,9 @@ void func_021DA04C(int a, int b, int c)
     func_021C88B4((void *)b, 2, c);
     p = func_021C88A4(b, 0xc, c);
     p[0xf] = k;
-    *(u32 *)(p + 4) = m;
+    ((struct Obj07810 *)p)->f4 = m;
     if (m == 5 && func_021E8A78(t))
-        *(int *)(p + 8) = t.x;
+        ((struct Obj07810 *)p)->f8 = t.x;
     else
         func_021D7DC0(m, s, p + 8);
     p[0xc] = 1;

@@ -19,6 +19,7 @@
  *   func_0203A338  0x0203A338  arm
  *   func_02039A2C  0x02039A2C  arm
  */
+#include "../include/Obj02672.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -40,16 +41,16 @@ typedef void (*SlotFn)(u16 slot);
 void func_02178204(u8 *obj)
 {
     int ok = 1;
-    u16 mask = 1 << *(u16 *)(obj + 0x10);
+    u16 mask = 1 << ((struct Obj02672 *)obj)->f10;
     SlotFn cb;
     int res;
 
-    if (*(u16 *)(obj + 2) != 0) {
-        func_0217814C(*(u16 *)(obj + 2));
+    if (((struct Obj02672 *)obj)->f2 != 0) {
+        func_0217814C(((struct Obj02672 *)obj)->f2);
         func_02178138(9);
         return;
     }
-    switch (*(u16 *)(obj + 8)) {
+    switch (((struct Obj02672 *)obj)->f8) {
     case 2:
         *(u16 *)(g_021797A8 + 0x1EBA) += 1;
         break;
@@ -57,7 +58,7 @@ void func_02178204(u8 *obj)
         if (*(ConnFn *)(g_021797A8 + 0x1E7C) != 0)
             ok = (*(ConnFn *)(g_021797A8 + 0x1E7C))(obj, func_0203D650());
         if (ok == 0) {
-            res = func_0208F938(0, *(u16 *)(obj + 0x10));
+            res = func_0208F938(0, ((struct Obj02672 *)obj)->f10);
             if (res != 2) {
                 func_0217814C(res);
                 func_02178138(9);
@@ -66,19 +67,19 @@ void func_02178204(u8 *obj)
             *(u16 *)(g_021797A8 + 0x1EAA) |= mask;
             cb = *(SlotFn *)(g_021797A8 + 0x1E84);
             if (cb != 0)
-                cb(*(u16 *)(obj + 0x10));
+                cb(((struct Obj02672 *)obj)->f10);
         }
         break;
     case 9:
     case 0x1A:
-        if (*(u16 *)(g_021797A8 + 0x1EAA) & (1 << *(u16 *)(obj + 0x10))) {
+        if (*(u16 *)(g_021797A8 + 0x1EAA) & (1 << ((struct Obj02672 *)obj)->f10)) {
             *(u16 *)(g_021797A8 + 0x1EAA) &= ~mask;
             cb = *(SlotFn *)(g_021797A8 + 0x1E80);
             if (cb != 0)
-                cb(*(u16 *)(obj + 0x10));
+                cb(((struct Obj02672 *)obj)->f10);
             func_0217807C();
-            func_0203A338(*(u16 *)(obj + 0x10));
-            func_02039A2C(*(u16 *)(obj + 0x10));
+            func_0203A338(((struct Obj02672 *)obj)->f10);
+            func_02039A2C(((struct Obj02672 *)obj)->f10);
         }
         break;
     case 0:

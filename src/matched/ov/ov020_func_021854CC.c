@@ -19,6 +19,7 @@
  *   func_02184CEC  0x02184CEC  thumb  ov020
  *   func_02185EB0  0x02185EB0  thumb  ov020
  */
+#include "../include/Obj00248.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,9 +52,9 @@ void *func_021854CC(void *p, int u, int u2, const S7 *src, u16 h)
     r4 = func_020124E8(r0v);
     func_02184CEC(r4, p);
     *(S7 *)(r4 + 0x10) = *src;
-    *(u16 *)(r4 + 0x18) = h;
-    *(int *)(r4 + 0x2c) = 0;
-    *(u8 *)(r4 + 0x30) = 1;
+    ((struct Obj00248 *)r4)->f18 = h;
+    ((struct Obj00248 *)r4)->f2C = 0;
+    ((struct Obj00248 *)r4)->f30 = 1;
     func_02185EB0((int)r7, (u16 *)(r4 + 0x10));
     return r0v;
 }

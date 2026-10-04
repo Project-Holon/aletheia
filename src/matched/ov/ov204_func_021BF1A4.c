@@ -20,6 +20,7 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01292.h"
 struct U16Vec; struct Descriptor; struct S02031140;
 extern void func_021BF580(void *);
 extern int func_02028604(int);
@@ -39,19 +40,19 @@ extern void func_020307B0(void *);
 void func_021BF1A4(char *p)
 {
     func_021BF580(p);
-    func_02028604(*(int *)(p + 0x20));
-    func_02045808(*(struct U16Vec **)(p + 0x3c));
-    func_02045808(*(struct U16Vec **)(p + 0x40));
-    func_0201D83C(*(void **)(p + 0x10));
-    if (*(unsigned *)(p + 0x14) != 0)
-        func_0201CE48((struct Rec3 *)(*(unsigned *)(p + 0x14)));
-    func_020452E8(*(struct Descriptor **)(p + 0x1c));
-    if (*(void **)(p + 0x38))
-        func_020452E8(*(struct Descriptor **)(p + 0x38));
-    func_02031140(*(struct S02031140 **)(p + 0x18));
-    func_0201C4C0(*(void **)(p + 4));
-    if (*(void **)(p + 0xc))
-        func_02045C04(*(void **)(p + 0xc));
-    func_0201ED04(*(void **)(p + 8));
+    func_02028604(((struct Obj01292 *)p)->f20);
+    func_02045808(*(struct U16Vec * *)&((struct Obj01292 *)p)->f3C);
+    func_02045808(*(struct U16Vec * *)&((struct Obj01292 *)p)->f40);
+    func_0201D83C(((struct Obj01292 *)p)->f10);
+    if (((struct Obj01292 *)p)->f14 != 0)
+        func_0201CE48((struct Rec3 *)(((struct Obj01292 *)p)->f14));
+    func_020452E8(*(struct Descriptor * *)&((struct Obj01292 *)p)->f1C);
+    if (((struct Obj01292 *)p)->f38)
+        func_020452E8(*(struct Descriptor * *)&((struct Obj01292 *)p)->f38);
+    func_02031140(*(struct S02031140 * *)&((struct Obj01292 *)p)->f18);
+    func_0201C4C0(((struct Obj01292 *)p)->f4);
+    if (((struct Obj01292 *)p)->fC)
+        func_02045C04(((struct Obj01292 *)p)->fC);
+    func_0201ED04(((struct Obj01292 *)p)->f8);
     func_020307B0(p);
 }

@@ -12,9 +12,10 @@
  *   func_021C49A4 0x021C49A4 thumb ov127
  *   func_021C5564 0x021C5564 thumb ov127
  */
+#include "../include/Obj10473.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C49A4(u8 *,unsigned int);
 extern void func_021C5564(u8 *,void *,int,int,int);
-int func_021C539C(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=func_021C49A4(p,5);  if(v==0 || v==4) { func_021C5564(out,p,*(u16 *)desc,desc[3],desc[2]); return 1; } return 0; }
+int func_021C539C(u8 *p,int a,int b,const u8 *desc,u8 *out) { int v=func_021C49A4(p,5);  if(v==0 || v==4) { func_021C5564(out,p,((struct Obj10473 *)desc)->f0,desc[3],desc[2]); return 1; } return 0; }
 

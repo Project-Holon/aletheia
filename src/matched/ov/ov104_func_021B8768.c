@@ -13,6 +13,7 @@
  *   func_0203D1A4 0x0203D1A4 arm
  *   func_021B64B8 0x021B64B8 thumb ov101
  */
+#include "../include/Obj04433.h"
 typedef unsigned char u8;
 typedef struct {int words[33];} Block;
 struct Entry;
@@ -22,13 +23,13 @@ struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_021B64B8(u32 p, u32 a, u32 b, u32 c, u8 d, u32 e, u32 f, u32 g);
 int func_021B8768(u8 *p,const Block *q) {
- switch(*(int *)(p+4)) {
- case 0: *(Block *)(p+0x110)=*q; *(int *)(p+4)=1; break;
+ switch(((struct Obj04433 *)p)->f4) {
+ case 0: *(Block *)(p+0x110)=*q; ((struct Obj04433 *)p)->f4=1; break;
  case 1:
-  if(func_021B64B8(*(int *)p,0xf00,0x84,(u32)(p+0x110),(u8)(func_0203D1A4((struct Link *)((int)func_020399A8()))==0),0,0,1)) *(int *)(p+4)=2;
+  if(func_021B64B8(((struct Obj04433 *)p)->f0,0xf00,0x84,(u32)(p+0x110),(u8)(func_0203D1A4((struct Link *)((int)func_020399A8()))==0),0,0,1)) ((struct Obj04433 *)p)->f4=2;
   break;
  case 2:
-  if(*(int *)(p+0x194)) { *(int *)(p+0x194)=0; *(int *)(p+4)=0; return 1; }
+  if(((struct Obj04433 *)p)->f194) { ((struct Obj04433 *)p)->f194=0; ((struct Obj04433 *)p)->f4=0; return 1; }
   break;
  }
  return 0;

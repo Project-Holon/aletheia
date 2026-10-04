@@ -14,6 +14,8 @@
  *   func_021BCBBC 0x021BCBBC thumb ov099
  *   func_021BBEB4 0x021BBEB4 thumb ov099
  */
+#include "../include/Obj07949.h"
+#include "../include/Obj22037.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BA928(char *p, int result);
@@ -27,9 +29,9 @@ int func_021BD500(char *p, int result)
     if (func_021BA928(p, result) == 0) return result;
     if (func_020362DC() != 0) {
         func_021BA8EC(p);
-        func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xcc), &out);
-        func_021BBEB4(p, out, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 3);
-        *(int *)(p + 0x1cc) = 0x6d;
+        func_021BCBBC(((struct Obj07949 *)p)->f1348, ((struct Obj07949 *)p)->fCC, &out);
+        func_021BBEB4(p, out, ((struct Obj22037 *)(*(u8 * *)&((struct Obj07949 *)p)->f248))->f48, 3);
+        ((struct Obj07949 *)p)->f1CC = 0x6d;
     }
     return result;
 }

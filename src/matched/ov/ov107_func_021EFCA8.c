@@ -16,6 +16,7 @@
  *   d_021F6EA0 0x021F6EA0 data ov107 a4
  *   func_021EFC10 0x021EFC10 thumb ov107
  */
+#include "../include/Obj22279.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021F0DDC(void);
@@ -30,7 +31,7 @@ void func_021EFCA8(u8 *p) {
  unsigned v=func_021F0DDC();
  if(v==1) func_021F0AE4(v);
  while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
- if(*(int *)(p+28)==1) {
+ if(((struct Obj22279 *)p)->f1C==1) {
  *(int *)(d_021F6EA0+8)=0;
  while(func_02179570((void (*)(int))((int)func_021EFC10))) func_0208459C(1,1);
  while(*(int *)(d_021F6EA0+8)==0) func_0208459C(1,1);

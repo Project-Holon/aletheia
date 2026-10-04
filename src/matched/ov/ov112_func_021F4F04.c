@@ -11,10 +11,11 @@
  * symbols:
  *   func_021F4F60 0x021F4F60 thumb ov112
  */
+#include "../include/Obj01396.h"
 typedef unsigned char u8;
 typedef struct { int x, y; } Offset;
 extern void func_021F4F60(u8 *, Offset *);
 void func_021F4F04(u8 *p, Offset *out)
 {
-    func_021F4F60(*(u8 **)(p + 32), out);
+    func_021F4F60(*(u8 * *)&((struct Obj01396 *)p)->f20, out);
 }

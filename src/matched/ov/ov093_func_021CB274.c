@@ -18,6 +18,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D7540  0x021D7540  thumb  ov093
  */
+#include "../include/Obj13346.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -35,7 +36,7 @@ u8 func_021CB274(u8 *p, u8 *a, u8 *b, u32 d)
     func_021D74F8(656);
     func_021D75EC(3, func_021D5440(a));
     func_021D75EC(0x16, b[6]);
-    func_021D75EC(0x12, *(u16 *)b);
+    func_021D75EC(0x12, ((struct Obj13346 *)b)->f0);
     func_021D7630(4, d);
     func_021D70F0(p, 0x2a);
     r = func_021D775C(4);

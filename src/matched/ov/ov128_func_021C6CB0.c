@@ -16,6 +16,7 @@
  *   d_021CA810 0x021CA810 data a2
  *   d_021CA818 0x021CA818 data a2
  */
+#include "../include/Obj02481.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,14 +42,14 @@ void func_021C6CB0(char *p,int heap)
     f=0x138;f=0x15c;
     for(i=0;i<2;i++) {
         q=p+i*4;
-        *(void **)(q+d)=func_0204B294(*(u32 *)(p+0x138),*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&d_021CA800[i],0,heap);
+        *(void **)(q+d)=func_0204B294(((struct Obj02481 *)p)->f138,*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&d_021CA800[i],0,heap);
         func_0204B92C(*(void **)(q+e),1);
         func_0204B3DC(*(void **)(q+f),0);
     }
-    handle=func_0204B294(*(u32 *)(p+0x138),*(u32 *)(p+0x148),*(u32 *)(p+0x150),*(u32 *)(p+0x158),&d_021CA810,0,heap);
-    *(void **)(p+0x164)=handle;
+    handle=func_0204B294(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&d_021CA810,0,heap);
+    ((struct Obj02481 *)p)->f164=handle;
     func_0204B3DC(handle,1);
-    handle=func_0204B294(*(u32 *)(p+0x138),*(u32 *)(p+0x148),*(u32 *)(p+0x150),*(u32 *)(p+0x158),&d_021CA818,0,heap);
-    *(void **)(p+0x168)=handle;
+    handle=func_0204B294(((struct Obj02481 *)p)->f138,((struct Obj02481 *)p)->f148,((struct Obj02481 *)p)->f150,((struct Obj02481 *)p)->f158,&d_021CA818,0,heap);
+    ((struct Obj02481 *)p)->f168=handle;
     func_0204B3DC(handle,1);
 }

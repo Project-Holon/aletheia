@@ -15,6 +15,7 @@
  *   func_021CDD94  0x021CDD94  thumb  ov093
  *   func_021E908C  0x021E908C  thumb  ov093
  */
+#include "../include/Obj13269.h"
 
 extern int func_021BAB9C(int a);
 extern int func_021CD97C(int);
@@ -25,7 +26,7 @@ int func_021B83F4(int a)
 {
     int i, found = 0;
     char *p = (char *)a;
-    func_021BAB9C(*(int *)(p + 8));
+    func_021BAB9C(((struct Obj13269 *)p)->f8);
     for (i = 0; i < 4; i++) {
         if (*(int *)(p + i * 4 + 0x10) != 0 &&
             func_021CD97C(*(int *)(p + i * 4 + 0x10)) != 0) {
@@ -33,6 +34,6 @@ int func_021B83F4(int a)
             found = 1;
         }
     }
-    func_021E908C((char *)(*(int *)(p + 4)));
+    func_021E908C((char *)(((struct Obj13269 *)p)->f4));
     return found;
 }

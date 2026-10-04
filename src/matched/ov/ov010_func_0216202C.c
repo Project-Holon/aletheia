@@ -11,11 +11,12 @@
  * symbols:
  *   func_021622D8 0x021622D8 thumb ov010
  */
+#include "../include/Obj18949.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021622D8(char *, void *);
 int func_0216202C(char *p, void *out, u8 *index)
 {
-    *index = *(u16 *)(p + 4);
+    *index = ((struct Obj18949 *)p)->f4;
     return func_021622D8(p, out);
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   func_020310C4 0x020310C4 arm
  */
+#include "../include/Obj13869.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -19,5 +20,5 @@ struct Tcbl;
 extern void func_020310C4(struct Tcbl *p);
 void func_021D7CF4(u8 *p)
 {
-    if (*(u32 *)p != 0) func_020310C4(*(void **)(p + 0x9a8));
+    if (((struct Obj13869 *)p)->f0 != 0) func_020310C4(((struct Obj13869 *)p)->f9A8);
 }

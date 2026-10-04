@@ -16,6 +16,8 @@
  *   func_02061CA4 0x02061CA4 arm
  *   d_021BC708 0x021BC708 data a1
  */
+#include "../include/Obj06727.h"
+#include "../include/Obj26099.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -28,18 +30,18 @@ extern int func_02061CA4(void *, unsigned, unsigned, int);
 extern const u8 d_021BC708[];
 void func_021BB7A4(char *p)
 {
-    void *object = func_020490F4(205, *(u16 *)p);
+    void *object = func_020490F4(205, ((struct Obj06727 *)p)->f0);
     u8 i;
     for (i = 0; i < 4; i++) {
         char *out;
-        void *buffer = func_02049F78(object, d_021BC708[i], (u32)(&out), *(u16 *)p);
-        func_02082D44(*(char **)(out + 0xC) + 256, p + 0x26A + i * 256, 256);
+        void *buffer = func_02049F78(object, d_021BC708[i], (u32)(&out), ((struct Obj06727 *)p)->f0);
+        func_02082D44(*(char * *)&((struct Obj26099 *)out)->fC + 256, p + 0x26A + i * 256, 256);
         func_020307B0(buffer);
     }
     func_02049238(object);
-    *(int *)(p + 0x86C) = 0;
-    *(u8 *)(p + 0x870) = 16;
-    *(u8 *)(p + 0x871) = 3;
+    ((struct Obj06727 *)p)->f86C = 0;
+    ((struct Obj06727 *)p)->f870 = 16;
+    ((struct Obj06727 *)p)->f871 = 3;
     func_02082D44(p + 0x56A, p + 0x76A, 256);
     func_02061CA4((void *)31, 256, (unsigned)(p + 0x76A), 256);
 }

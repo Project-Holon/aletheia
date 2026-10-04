@@ -16,9 +16,11 @@
  *   func_021F9EDC 0x021F9EDC thumb ov132
  *   func_021F9DCC 0x021F9DCC thumb ov132
  */
+#include "../include/Obj10557.h"
+#include "../include/Obj14118.h"
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
 extern void *func_021F9DC0(void *p);
 extern char *func_021F9EDC(char *,unsigned int);
 extern void func_021F9DCC(void *,char *,unsigned char);
-int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char **)p;a=func_0201134C(*(struct Cursor **)(p+4));b=func_0201134C(*(struct Cursor **)(p+4));entry=func_021F9EDC(func_021F9DC0(*(void **)(obj+0x34)),b+0x33);func_021F9DCC(*(void **)(obj+0x34),entry,a);return 0; }
+int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char * *)&((struct Obj10557 *)p)->f0;a=func_0201134C(*(struct Cursor * *)&((struct Obj10557 *)p)->f4);b=func_0201134C(*(struct Cursor * *)&((struct Obj10557 *)p)->f4);entry=func_021F9EDC(func_021F9DC0(((struct Obj14118 *)obj)->f34),b+0x33);func_021F9DCC(((struct Obj14118 *)obj)->f34,entry,a);return 0; }

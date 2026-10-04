@@ -11,6 +11,8 @@
  * symbols:
 
  */
+#include "../include/Obj01753.h"
+#include "../include/Obj23744.h"
 typedef unsigned short u16;
 
-void *func_021DEB10(char *p) {return **(void ***)(*(char **)(p+216)+20);}
+void *func_021DEB10(char *p) {return **(void ** *)&((struct Obj23744 *)(*(char * *)&((struct Obj01753 *)p)->fD8))->f14;}

@@ -22,6 +22,7 @@
  * *(u32 *)(p + 0x12fc) == 0 adds the 0xf/0x23 pair through 49658/498F4 and
  * the second 49B40 window.  Both tests reload the same field.
  */
+#include "../include/Obj00240.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,12 +45,12 @@ void func_021FCFD8(u8 *p)
     h = func_020490F4(0x60, 0x48);
     func_02049658(h, 0x10, 1, 0, 0xc00, 1, 0x48);
     func_02049B68(h, 6, 0, 0, 0x60, 0x48);
-    if (*(u32 *)(p + 0x12fc) == 0) {
+    if (((struct Obj00240 *)p)->f12FC == 0) {
         func_02049658(h, 0xf, 6, 0, 0, 0, 0x48);
         func_020498F4(h, 0x23, 6, 0, 0, 0, 0x48);
     }
     func_02049238(h);
-    if (*(u32 *)(p + 0x12fc) == 0) {
+    if (((struct Obj00240 *)p)->f12FC == 0) {
         func_02049B40(0x17, 5, 4, 0x20, 0x20, 0x48);
     }
 }

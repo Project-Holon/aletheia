@@ -15,6 +15,7 @@
  *   func_021FF914 0x021FF914 thumb ov135
  *   str_02203E44 0x02203E44 data a1
  */
+#include "../include/Obj04530.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int state; int y; u8 *p; } Anim;
@@ -29,9 +30,9 @@ extern void func_020061E4(u32 a);
 void func_021FF9E0(u8 *p)
 {
     Anim *a;
-    *(void **)(p + 0xF98) = func_02030734(0x48, 12, 0, str_02203E44, 0x150);
-    *(void **)(p + 0xE14) = func_02030DA8(*(void **)(p + 0xF94), func_021FFA3C, *(void **)(p + 0xF98), 5);
-    a = func_02030EE8(*(void **)(p + 0xE14));
+    ((struct Obj04530 *)p)->fF98 = func_02030734(0x48, 12, 0, str_02203E44, 0x150);
+    ((struct Obj04530 *)p)->fE14 = func_02030DA8(((struct Obj04530 *)p)->fF94, func_021FFA3C, ((struct Obj04530 *)p)->fF98, 5);
+    a = func_02030EE8(((struct Obj04530 *)p)->fE14);
     a->state = 0;
     a->y = 0x8A;
     a->p = p;

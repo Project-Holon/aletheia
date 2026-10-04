@@ -13,6 +13,7 @@
  *   func_0207D55C 0x0207D55C arm
  *   func_0202208C 0x0202208C thumb
  */
+#include "../include/Obj14178.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021F4FC4(u8 *p);
@@ -22,7 +23,7 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 int func_02202148(u8 *p)
 {
     func_021F4FC4(p);
-    if (*(unsigned *)(p + 0xEB4) == 1) {
+    if (((struct Obj14178 *)p)->fEB4 == 1) {
         if (func_0207D55C((u16 *)0x0400106C) == -16)
             func_0202208C((void *)3, 0, 0, 0, 6, 1, 0x48);
         else
@@ -30,6 +31,6 @@ int func_02202148(u8 *p)
     } else {
         func_0202208C((void *)3, 0, 0, 0, 6, 1, 0x48);
     }
-    *(unsigned *)(p + 0x28) = 0;
+    ((struct Obj14178 *)p)->f28 = 0;
     return 3;
 }

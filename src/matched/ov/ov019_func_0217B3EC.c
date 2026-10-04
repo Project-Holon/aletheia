@@ -9,22 +9,24 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj07379.h"
+#include "../include/Obj07380.h"
 
 typedef unsigned short u16;
 
 int func_0217B3EC(char *base, char *p)
 {
     char *q = base + 0x2830;
-    if (*(char **)(q + 0x14) == p || *(char **)(q + 0x18) == p ||
-        *(char **)(q + 0x1c) == p || *(char **)(q + 0x20) == p) {
-        if (*(u16 *)(p + 0x6c) == 0) {
-            *(u16 *)(p + 0x6c) = 1;
+    if (*(char * *)&((struct Obj07380 *)q)->f14 == p || *(char * *)&((struct Obj07380 *)q)->f18 == p ||
+        *(char * *)&((struct Obj07380 *)q)->f1C == p || *(char * *)&((struct Obj07380 *)q)->f20 == p) {
+        if (((struct Obj07379 *)p)->f6C == 0) {
+            ((struct Obj07379 *)p)->f6C = 1;
         }
         return 1;
     }
-    if (*(u16 *)(p + 0x6c) == 0) {
+    if (((struct Obj07379 *)p)->f6C == 0) {
         return 0;
     }
-    *(u16 *)(p + 0x6c) -= 1;
+    ((struct Obj07379 *)p)->f6C -= 1;
     return 1;
 }

@@ -14,9 +14,10 @@
  *   func_021B6F28 0x021B6F28 thumb ov091
  *   func_021BDABC 0x021BDABC thumb ov091
  */
+#include "../include/Obj00009.h"
 typedef unsigned char u8;
 extern void func_02040588(unsigned int,unsigned int);
 extern void func_021B7034(char *);
 extern void func_021B6F28(char *);
 extern void func_021BDABC(u8 *);
-void func_021BD8B0(char *p) { *(u8 *)(p+0x268)=0; *(unsigned int *)(p+0x26C)=0; *(unsigned int *)(p+0x270)=0; func_02040588(0,0); func_021B7034(p); func_021B6F28(p); func_021BDABC((u8 *)p); p[12]=15; }
+void func_021BD8B0(char *p) { ((struct Obj00009 *)p)->f268=0; ((struct Obj00009 *)p)->f26C=0; ((struct Obj00009 *)p)->f270=0; func_02040588(0,0); func_021B7034(p); func_021B6F28(p); func_021BDABC((u8 *)p); p[12]=15; }

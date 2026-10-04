@@ -14,9 +14,10 @@
  *   func_021EE830 0x021EE830 thumb ov093
  *   func_021D3F48 0x021D3F48 thumb ov093
  */
+#include "../include/Obj13353.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021EE830(void *);
 extern void func_021D3F48(u8 *,u32);
-void func_021CD938(u8 *p,void *a) { p[0x1a7]=2; *(void **)(p+0x14)=a; func_021D3F48(p+0x18,func_021EE830(a)); }
+void func_021CD938(u8 *p,void *a) { p[0x1a7]=2; ((struct Obj13353 *)p)->f14=a; func_021D3F48(p+0x18,func_021EE830(a)); }

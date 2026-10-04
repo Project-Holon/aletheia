@@ -11,5 +11,6 @@
  * symbols:
  *   func_0204B864 0x0204B864 arm
  */
+#include "../include/Obj24827.h"
 extern unsigned func_0204B864(unsigned char *);
-unsigned func_021FB5B8(char *p) { return func_0204B864(*(unsigned char **)p); }
+unsigned func_021FB5B8(char *p) { return func_0204B864(*(unsigned char * *)&((struct Obj24827 *)p)->f0); }

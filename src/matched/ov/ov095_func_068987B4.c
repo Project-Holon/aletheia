@@ -32,6 +32,7 @@
  *   func_068989A0 0x068989A0 thumb ov095
  *   func_068989B0 0x068989B0 thumb ov095
  */
+#include "../include/Obj03722.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -70,7 +71,7 @@ void func_068987B4(void *a, void *b, u8 c)
             flag = 1;
         if (flag != 0) {
             p = func_068988F0(b, 0x37, slot);
-            *(u16 *)(p + 4) = 0x27f;
+            ((struct Obj03722 *)p)->f4 = 0x27f;
             p[6] = c;
             p[7] = 6;
             func_06898900(p + 12, 2, 0x2b9);
@@ -80,7 +81,7 @@ void func_068987B4(void *a, void *b, u8 c)
                 p = func_06898940(b, 5, slot);
                 p[6] = slot;
                 value = func_06898950(m, 14);
-                *(u16 *)(p + 4) = value - func_06898960(m, 13);
+                ((struct Obj03722 *)p)->f4 = value - func_06898960(m, 13);
                 func_06898970(b, p);
             }
             if (func_06898980(m) != 0) {

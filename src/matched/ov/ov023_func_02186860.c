@@ -9,10 +9,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj01674.h"
 void func_02186860(char *p, int x, unsigned char y)
 {
-    if (*(int *)(p + 0x9270) == 0) {
-        *(int *)(p + 0x9270) = x;
-        *(unsigned char *)(p + 0x9274) = y;
+    if (((struct Obj01674 *)p)->f9270 == 0) {
+        ((struct Obj01674 *)p)->f9270 = x;
+        ((struct Obj01674 *)p)->f9274 = y;
     }
 }

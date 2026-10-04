@@ -14,6 +14,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021F5518 0x021F5518 thumb ov075
  */
+#include "../include/Obj13214.h"
 typedef unsigned int u32;
 typedef struct Vec { int x,y,z; } Vec;
 struct Desc;
@@ -30,7 +31,7 @@ void *func_021F529C(void *a,Vec *src,u32 b,u32 c) {
     w=func_020124E8(h);
     func_02082BCC(w,0,0x30);
     *(Vec *)(w+24)=*src;
-    *(u32 *)(w+40)=b;
-    *(u32 *)(w+44)=c;
+    ((struct Obj13214 *)w)->f28=b;
+    ((struct Obj13214 *)w)->f2C=c;
     return h;
 }

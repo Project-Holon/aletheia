@@ -12,6 +12,9 @@
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj00143.h"
+#include "../include/Obj05480.h"
+#include "../include/Obj05481.h"
 typedef unsigned char u8;
 typedef short s16;
 typedef unsigned long u32;
@@ -25,40 +28,40 @@ void func_021E0E90(char *p,int animated) {
     s16 pos;
     char *record,*special;
     Coords coords;
-    pos=*(s16 *)((u32)p+*(int *)(p+0x240)*2+0x214);
+    pos=*(s16 *)((u32)p+((struct Obj00143 *)p)->f240*2+0x214);
     group=0;
-    for(i=0;i<*(int *)(p+0x23C);i++){
-        if(i>=*(int *)(p+0x248)&&i<*(int *)(p+0x24C)){
-            if(i==*(int *)(p+0x248))pos+=20;else pos+=32;
+    for(i=0;i<((struct Obj00143 *)p)->f23C;i++){
+        if(i>=((struct Obj00143 *)p)->f248&&i<((struct Obj00143 *)p)->f24C){
+            if(i==((struct Obj00143 *)p)->f248)pos+=20;else pos+=32;
         }else{
             if(i==0)pos+=20;else pos+=8;
         }
         record=(char *)((u32)p+i*28);
-        func_0204B454(*(void **)(record+12),(struct PtS *)&coords.x,1);
+        func_0204B454(((struct Obj05480 *)record)->fC,(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
-            func_0204B404(*(void **)(record+12),&coords.x,1);
+            func_0204B404(((struct Obj05480 *)record)->fC,&coords.x,1);
         }else{
-            *(s16 *)(record+20)=(pos-coords.x)/4;
-            *(s16 *)(record+22)=0;
-            *(u8 *)(record+24)=4;
-            *(u8 *)(record+25)=0;
+            ((struct Obj05480 *)record)->f14=(pos-coords.x)/4;
+            ((struct Obj05480 *)record)->f16=0;
+            ((struct Obj05480 *)record)->f18=4;
+            ((struct Obj05480 *)record)->f19=0;
         }
         special=(char *)((u32)p+group*28);
-        if(i==*(int *)(special+0x150)&&group!=2){
-            func_0204B454(*(void **)(special+0x15C),(struct PtS *)&coords.a,1);
-            if(*(int *)(p+0x248)==*(int *)(p+0x24C))pos+=8;
+        if(i==((struct Obj05481 *)special)->f150&&group!=2){
+            func_0204B454(((struct Obj05481 *)special)->f15C,(struct PtS *)&coords.a,1);
+            if(((struct Obj00143 *)p)->f248==((struct Obj00143 *)p)->f24C)pos+=8;
             else {
-                if(i>*(int *)(p+0x248)&&i<*(int *)(p+0x24C))pos+=20;
+                if(i>((struct Obj00143 *)p)->f248&&i<((struct Obj00143 *)p)->f24C)pos+=20;
                 else pos+=8;
             }
             if(animated==0){
                 coords.a=pos;
-                func_0204B404(*(void **)(special+0x15C),&coords.a,1);
+                func_0204B404(((struct Obj05481 *)special)->f15C,&coords.a,1);
             }else{
-                *(s16 *)(special+0x164)=(pos-coords.a)/4;
-                *(s16 *)(special+0x166)=0;
-                *(u8 *)(special+0x168)=4;
+                ((struct Obj05481 *)special)->f164=(pos-coords.a)/4;
+                ((struct Obj05481 *)special)->f166=0;
+                ((struct Obj05481 *)special)->f168=4;
             }
             group++;
         }

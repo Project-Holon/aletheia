@@ -16,6 +16,7 @@
  *   func_021FCA04 0x021FCA04 thumb ov094
  *   func_021F7F04 0x021F7F04 thumb ov094
  */
+#include "../include/Obj00177.h"
 extern int func_0201134C(void *);
 extern int func_021FCA04(char *, int, int *);
 extern void func_021F7F04(int);
@@ -31,5 +32,5 @@ int func_021FB298(void *a, char *s)
         for (i = 0; i < n; i++)
             func_021F7F04(ids[i]);
     }
-    return *(int *)(s + 0x23c);
+    return ((struct Obj00177 *)s)->f23C;
 }

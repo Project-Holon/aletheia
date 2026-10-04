@@ -14,6 +14,7 @@
 
  * Move 0x80 bytes between the +0xe4 and +0x10ec sub-objects, latch state 7 and publish the 8/0xa pair.
  */
+#include "../include/Obj12231.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern void func_0220251C(u8 *p, u16 a, u16 b);
 int func_022013E4(u8 *p)
 {
     func_021C86B8(p + 0xe4, p + 0x10ec, 0x80);
-    *(u32 *)(p + 0x28) = 7;
-    *(u32 *)(p + 0xf8c) = 0;
+    ((struct Obj12231 *)p)->f28 = 7;
+    ((struct Obj12231 *)p)->fF8C = 0;
     func_0220251C(p, 8, 0xa);
     return 2;
 }

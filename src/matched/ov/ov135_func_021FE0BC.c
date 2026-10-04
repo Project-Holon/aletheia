@@ -12,6 +12,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02040DA8 0x02040DA8 arm
  */
+#include "../include/Obj14174.h"
 extern void func_02202940(void *);
 typedef unsigned int   u32;
 struct Descriptor;
@@ -21,8 +22,8 @@ void func_021FE0BC(unsigned char *p)
 {
     int i;
     func_02202940(p + 0xfa0);
-    func_020452E8(*(void **)(p + 0xde0));
-    func_020452E8(*(void **)(p + 0xd40));
+    func_020452E8(((struct Obj14174 *)p)->fDE0);
+    func_020452E8(((struct Obj14174 *)p)->fD40);
     for (i = 0; i < 9; ++i)
         func_020452E8(*(void **)(p + i * 4 + 0xd90));
     for (i = 0; i < 2; ++i)

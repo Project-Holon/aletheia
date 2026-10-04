@@ -15,6 +15,7 @@
  *   func_02049B40 0x02049B40 arm
  *   func_0201C450 0x0201C450 thumb
  */
+#include "../include/Obj03814.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 pad[9]; u16 x,y; } Palette;
@@ -26,15 +27,15 @@ extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void *func_0201C450(u16,u32);
 void func_021D51DC(char *p)
 {
-    *(void **)(p+0x80)=func_0201D7EC(23,0,0,0,*(u16 *)p);
-    *(void **)(p+0x7c)=func_02045B38(0,2,158,*(u16 *)p);
-    func_02049B40(23,5,0,448,32,*(u16 *)p);
-    func_02049B40(23,5,4,448,32,*(u16 *)p);
+    ((struct Obj03814 *)p)->f80=func_0201D7EC(23,0,0,0,((struct Obj03814 *)p)->f0);
+    ((struct Obj03814 *)p)->f7C=func_02045B38(0,2,158,((struct Obj03814 *)p)->f0);
+    func_02049B40(23,5,0,448,32,((struct Obj03814 *)p)->f0);
+    func_02049B40(23,5,4,448,32,((struct Obj03814 *)p)->f0);
     {
         enum { COLOR=0x4e59 } color=COLOR;
         enum { BASE=0x050005c0 } base=BASE;
         ((Palette *)base)->x=color;
         ((Palette *)base)->y=0x6a52;
     }
-    *(void **)(p+0x84)=func_0201C450(4096,*(u16 *)p);
+    ((struct Obj03814 *)p)->f84=func_0201C450(4096,((struct Obj03814 *)p)->f0);
 }

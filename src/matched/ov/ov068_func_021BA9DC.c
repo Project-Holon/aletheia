@@ -11,8 +11,9 @@
  *
  * Integer getter at offset 0x4.
  */
+#include "../include/Obj20644.h"
 
 int func_021BA9DC(void *p)
 {
-    return *(int *)((char *)p + 0x4);
+    return ((struct Obj20644 *)p)->f4;
 }

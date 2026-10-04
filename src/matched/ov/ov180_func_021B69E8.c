@@ -19,11 +19,12 @@
  * symbols:
  *   func_02015E04  0x02015E04  thumb
  */
+#include "../include/Obj14403.h"
 
 extern void func_02015E04(void *p);
 
 void func_021B69E8(int *p)
 {
-    func_02015E04((void *)(*(int *)((char *)p + 0x1c)));
-    *(int *)((char *)p + 0x24) = 1;
+    func_02015E04((void *)(((struct Obj14403 *)p)->f1C));
+    ((struct Obj14403 *)p)->f24 = 1;
 }

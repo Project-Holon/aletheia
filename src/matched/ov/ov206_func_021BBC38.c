@@ -13,6 +13,7 @@
  *   func_021BBDA8 0x021BBDA8 thumb ov206
  *   func_021BAA4C 0x021BAA4C thumb ov206
  */
+#include "../include/Obj00031.h"
 typedef unsigned short u16;
 typedef struct S {
     char pad0[8];
@@ -31,7 +32,7 @@ extern void func_021BAA4C(S *);
 void func_021BBC38(S *p)
 {
     func_021BB4E0(p, 6, p->fe0);
-    func_021BBAB0(p, p->fc, p->fe, *(int *)((char *)p + 0x190));
+    func_021BBAB0(p, p->fc, p->fe, ((struct Obj00031 *)p)->f190);
     func_021BBDA8(p, p->f8);
     func_021BAA4C(p);
 }

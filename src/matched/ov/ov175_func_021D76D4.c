@@ -53,6 +53,7 @@
  *   func_021D7BE4 0x021D7BE4 thumb
  *   func_021D8EC8 0x021D8EC8 thumb
  */
+#include "../include/Obj00013.h"
 typedef unsigned int u32;
 typedef struct { unsigned char a,b,c,d; u32 id; } Request;
 typedef struct {char pad[0x48];u32 slots[6];} SlotView;
@@ -145,7 +146,7 @@ void func_021D76D4(u32 sys,int *state,char *p)
         if(r==1) {
             n=func_0201AA18((void *)(ctx[5]+0xd4)); empty=0;
             for(i=0;i<n;i++) if(((SlotView *)p)->slots[i]==0) empty++;
-            if(*(unsigned char *)(p+0x44)==0 && empty==n) *state=20; else *state=19;
+            if(((struct Obj00013 *)p)->f44==0 && empty==n) *state=20; else *state=19;
         } else if(r==3) func_021E8AA0((int *)sys,(int)func_021D9064);
         switch(func_021D9F04((char *)W(0x34),0,0)) {case 1:*state=0;break;case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;}
         break;

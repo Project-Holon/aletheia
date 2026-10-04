@@ -12,23 +12,24 @@
  * symbols:
  *   func_02045A98 0x02045A98 arm
  */
+#include "../include/Obj03896.h"
 
 extern unsigned short func_02045A98(void);
 
 int func_021F2150(unsigned char *p)
 {
-    if (*(unsigned short *)(p + 0x20) != 0) {
-        *(unsigned short *)(p + 0x20) -= 1;
-        *(unsigned short *)(p + 0x16 + *(unsigned short *)(p + 0x20) * 2) =
+    if (((struct Obj03896 *)p)->f20 != 0) {
+        ((struct Obj03896 *)p)->f20 -= 1;
+        *(unsigned short *)(p + 0x16 + ((struct Obj03896 *)p)->f20 * 2) =
             func_02045A98();
-        *(int *)(p + 0x28) = 1;
+        ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }
-    if (*(unsigned short *)(p + 0x1e) != 0) {
-        *(unsigned short *)(p + 0x1e) -= 1;
-        *(unsigned short *)(p + *(unsigned short *)(p + 0x1e) * 2) =
+    if (((struct Obj03896 *)p)->f1E != 0) {
+        ((struct Obj03896 *)p)->f1E -= 1;
+        *(unsigned short *)(p + ((struct Obj03896 *)p)->f1E * 2) =
             func_02045A98();
-        *(int *)(p + 0x28) = 1;
+        ((struct Obj03896 *)p)->f28 = 1;
         return 1;
     }
     return 0;

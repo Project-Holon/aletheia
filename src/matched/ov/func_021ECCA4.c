@@ -13,15 +13,16 @@
  *
  * candidate func_021ECCA4: clear six ints
  */
+#include "../include/Obj02214.h"
 
 
 void func_021ECCA4(char *p)
 {
-    *(int *)(p + 0xA088) = -1;
-    *(int *)(p + 0xA10C) = -1;
-    *(int *)(p + 0xA138) = -1;
-    *(int *)(p + 0xA08C) = -1;
-    *(int *)(p + 0xA110) = -1;
-    *(int *)(p + 0xA13C) = -1;
+    ((struct Obj02214 *)p)->fA088 = -1;
+    ((struct Obj02214 *)p)->fA10C = -1;
+    ((struct Obj02214 *)p)->fA138 = -1;
+    ((struct Obj02214 *)p)->fA08C = -1;
+    ((struct Obj02214 *)p)->fA110 = -1;
+    ((struct Obj02214 *)p)->fA13C = -1;
 }
 

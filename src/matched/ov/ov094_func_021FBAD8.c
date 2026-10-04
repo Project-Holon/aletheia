@@ -19,6 +19,7 @@
  *   func_02006210 0x02006210 thumb
  *   func_020061F8 0x020061F8 thumb
  */
+#include "../include/Obj21673.h"
 extern int func_0201134C(void *);
 extern void func_02006210(void);
 extern void func_020061F8(int i);
@@ -31,5 +32,5 @@ int func_021FBAD8(void *a, char *s)
         func_02006210();
     else
         func_020061F8(r);
-    return *(int *)(s + 0x23c);
+    return ((struct Obj21673 *)s)->f23C;
 }

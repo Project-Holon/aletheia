@@ -18,6 +18,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   d_021F27AC     0x021F27AC  data   ov093  a4
  */
+#include "../include/Obj06276.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ void func_021E6548(int u, void *a, u32 b)
         e = func_021C88A4(a, 0xe, b);
         e[0xf] = 1;
         e[0x10] = b;
-        *(u32 *)(e + 4) = 2;
+        ((struct Obj06276 *)e)->f4 = 2;
         e[0xc] = 1;
         e[0xe] = 1;
         func_021C88C8(a, e);

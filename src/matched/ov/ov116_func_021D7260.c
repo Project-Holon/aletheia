@@ -9,12 +9,13 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj06417.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 void func_021D7260(u8 *p)
 {
-    (*(s16 *)(p + 10))++;
-    if (*(s16 *)(p + 10) == 3600) *(u16 *)(p + 8) = 1;
+    (((struct Obj06417 *)p)->fA)++;
+    if (((struct Obj06417 *)p)->fA == 3600) ((struct Obj06417 *)p)->f8 = 1;
 }

@@ -17,6 +17,7 @@
  *   func_021BF744  0x021BF744  thumb ov204
  *   func_021BF864  0x021BF864  thumb ov204
  */
+#include "../include/Obj08382.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -40,20 +41,20 @@ int func_021BE7A8(u8 *p, u32 *q)
         }
         break;
     case 1:
-        if (func_021BF864((char *)(*(u32 *)(p + 8)), 0x1000, 0xFFFF4800) == 1) {
+        if (func_021BF864((char *)(((struct Obj08382 *)p)->f8), 0x1000, 0xFFFF4800) == 1) {
             func_020061E4(0x7F5);
             (*q)++;
         }
         break;
     case 2:
         if (func_02006238() == 0) {
-            func_021BF744((char *)(*(u32 *)(p + 8)), 1, 0, 1);
-            func_02006A64(*(u32 *)(*(u32 *)(p + 4) + 0x10));
+            func_021BF744((char *)(((struct Obj08382 *)p)->f8), 1, 0, 1);
+            func_02006A64(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10));
             (*q)++;
         }
         break;
     case 3:
-        if (func_02006BD0(*(u32 *)(*(u32 *)(p + 4) + 0x10)) == 0) {
+        if (func_02006BD0(*(u32 *)(((struct Obj08382 *)p)->f4 + 0x10)) == 0) {
             *q = 0;
             return 1;
         }

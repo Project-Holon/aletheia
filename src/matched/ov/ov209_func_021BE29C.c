@@ -16,6 +16,8 @@
  *   func_021BD890 0x021BD890 thumb ov209
  *   func_021BD934 0x021BD934 thumb ov209
  */
+#include "../include/Obj25578.h"
+#include "../include/Obj25579.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -30,7 +32,7 @@ void func_021BE29C(char *p,u16 species,enum Position pos,int mode)
 {
     unsigned out1,outForm,out2;
     int index;
-    func_0200CC40(*(u8 **)(*(char **)p+4),species,&out1,&out2,&outForm,0x806b);
+    func_0200CC40(*(u8 * *)&((struct Obj25579 *)(*(char * *)&((struct Obj25578 *)p)->f0))->f4,species,&out1,&out2,&outForm,0x806b);
     index=func_021BE25C((int)p,mode);
     func_021BE1B8(p,index,species,outForm,out1,mode);
     func_021BD8D8(p,index,1);

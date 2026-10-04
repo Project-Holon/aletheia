@@ -15,6 +15,7 @@
  *
  * Runs the setup, stamps selector 0x83 and re-arms the block 0x274 bytes in.
  */
+#include "../include/Obj18265.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ extern void func_021B9B64(char *p);
 int func_021C0254(char *p, int v)
 {
     func_021BAD50((int)p);
-    *(u32 *)(p + 0x1CC) = 0x83;
+    ((struct Obj18265 *)p)->f1CC = 0x83;
     func_021B9B64(p + 0x274);
     return v;
 }

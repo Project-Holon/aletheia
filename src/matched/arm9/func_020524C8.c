@@ -28,15 +28,17 @@
  *       --func func_020524C8 --addr 0x020524C8 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
+#include "../include/Obj16201.h"
+#include "../include/Obj16202.h"
 
 extern void func_0205250C(char *p, char *q);
 
 void func_020524C8(void *p)
 {
-    void *n = *(void **)((char *)p + 4);
+    void *n = ((struct Obj16201 *)p)->f4;
 
     while (n != 0) {
-        void *next = *(void **)n;
+        void *next = ((struct Obj16202 *)n)->f0;
         func_0205250C(p, n);
         n = next;
     }

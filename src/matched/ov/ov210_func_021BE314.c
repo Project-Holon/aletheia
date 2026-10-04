@@ -14,6 +14,7 @@
  * Unlabelled leaf, filed as the witness for func_021BD19C.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ typedef signed int     s32;
 u32 func_021BE314(u8 *p, u32 a)
 {
     p[0x2ba] = 0;
-    *(u32 *)(p + 0x18) = a;
+    ((struct Obj00085 *)p)->f18 = a;
     return 5;
 }

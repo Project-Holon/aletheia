@@ -11,6 +11,7 @@
  * symbols:
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  */
+#include "../include/Obj10587.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
@@ -18,12 +19,12 @@ extern u32 func_020221A4(void);
 extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 int func_021FD698(unsigned char *p)
 {
-    --*(int *)(p + 0xd3c);
+    --((struct Obj10587 *)p)->fD3C;
     if (func_020221A4()) {
         *(volatile u16 *)0x04000304 = (u16)(*(volatile u16 *)0x04000304 & ~0x8000);
-        *(int *)(p + 0x28) = 2;
+        ((struct Obj10587 *)p)->f28 = 2;
         func_021F4EC0(p, 4, 15);
-        *(int *)(p + 0xd3c) = 16;
+        ((struct Obj10587 *)p)->fD3C = 16;
     }
     return 2;
 }

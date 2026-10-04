@@ -10,5 +10,6 @@
  * status: EXACT
  * leaf: sole blocker of func_021D6710.
  */
+#include "../include/Obj22628.h"
 typedef unsigned char u8;
-int func_021D73D4(u8 *p) { return *(int *)(p+0x9cc); }
+int func_021D73D4(u8 *p) { return ((struct Obj22628 *)p)->f9CC; }

@@ -10,6 +10,7 @@
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj23156.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
@@ -19,7 +20,7 @@ s16 func_021D9440(u8 *p, u32 target)
     u32 position;
     u8 row, remainder;
     s8 delta;
-    position = *(u32 *)(p + 0x14);
+    position = ((struct Obj23156 *)p)->f14;
     row = position / 24u;
     remainder = position % 24u;
     delta = target - (u8)(row % 10);

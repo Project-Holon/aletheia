@@ -22,6 +22,7 @@
  *   func_02047910  0x02047910  arm
  *   d_021BD538     0x021BD538  data  ov088  a4
  */
+#include "../include/Obj03674.h"
 
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -45,7 +46,7 @@ void func_021B9DD0(int *p)
     int base;
     unsigned i;
     void *h;
-    base = func_020489F4((void *)p[0], *(unsigned short *)((char *)p + 4));
+    base = func_020489F4((void *)p[0], ((struct Obj03674 *)p)->f4);
     func_020115C0((void *)p[3], 0x1000);
     func_02011B8C((void *)p[4], (void *)p[3]);
     func_02048AD0((void *)p[4]);

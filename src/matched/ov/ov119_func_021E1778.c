@@ -11,6 +11,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_02045770 0x02045770 arm
  */
+#include "../include/Obj00001.h"
 typedef signed short s16;
 typedef unsigned int   u32;
 struct MsgBank;
@@ -25,11 +26,11 @@ extern void func_0201C7A4(void *,s16,s16,void *,void *);
 void func_021E1778(int a,int b,int x,int y,char *p)
 {
     int v;
-    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),43,(void *)(*(int *)(p+0x734)));
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),43,(void *)(*(int *)&((struct Obj00001 *)p)->f734));
     v=func_02017E1C((void *)a,6,0);
     if(v) {
-        func_0201EF40((struct WordSet *)(*(int *)(p+0x724)),0,v);
-        func_0201F250((struct WordSet *)(*(int *)(p+0x724)),(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x734)));
-        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
+        func_0201EF40((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),0,v);
+        func_0201F250((struct WordSet *)(*(int *)&((struct Obj00001 *)p)->f724),(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f734));
+        func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,((struct Obj00001 *)p)->f730,((struct Obj00001 *)p)->f728);
     }
 }

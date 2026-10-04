@@ -16,6 +16,7 @@
  *   func_021BAAB8  0x021BAAB8  thumb  ov099
  *   func_021BC090  0x021BC090  thumb  ov099
  */
+#include "../include/Obj07947.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,8 +38,8 @@ int func_021BD3A8(char *p, int v)
     int id;
 
     if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0xA) != 0) {
-        a = func_0200AE54((struct Reg *)(*(int *)(p + 0x1348)), 2);
-        b = func_0200AE54((struct Reg *)(*(int *)(p + 0x1348)), 3);
+        a = func_0200AE54((struct Reg *)(((struct Obj07947 *)p)->f1348), 2);
+        b = func_0200AE54((struct Reg *)(((struct Obj07947 *)p)->f1348), 3);
         if (a == 3 && b == 3) {
             id = 0x92;
         } else if (a == 4 && b == 4) {
@@ -50,8 +51,8 @@ int func_021BD3A8(char *p, int v)
         }
         func_021BAAB8(p, id, 0);
         func_021BC090(p);
-        *(u32 *)(p + 0x1E0) = 0x78;
-        *(u32 *)(p + 0x1CC) = 0x69;
+        ((struct Obj07947 *)p)->f1E0 = 0x78;
+        ((struct Obj07947 *)p)->f1CC = 0x69;
     }
     return v;
 }

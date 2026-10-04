@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 
@@ -31,7 +32,7 @@ void func_021E36D8(void *p, int idx)
 
     if (v != 0) {
         func_02015EA0((void *)v);
-        func_02015BA4((void *)(*(u32 *)((char *)p + 0x840)), (void *)(((u32 *)((char *)p + 0x844))[idx]));
+        func_02015BA4((void *)(*(u32 *)&((struct Obj00001 *)p)->f840), (void *)(((u32 *)((char *)p + 0x844))[idx]));
         ((u32 *)((char *)p + 0x844))[idx] = 0;
     }
 }

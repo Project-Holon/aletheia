@@ -15,6 +15,7 @@
  *
  * Matchmaking evaluation callback: reads the candidate's keys 3..6; a candidate with none of them scores 0, one whose key 4 differs from ours scores 0, otherwise 1000 less the key 3 distance and 32 times the distance between the two key5*50/(key6+5) ratios, floored at 0.
  */
+#include "../include/Obj08280.h"
 
 typedef unsigned char u8;
 typedef unsigned long u32;
@@ -34,10 +35,10 @@ int func_021DA4F8(int index, void *param)
 
     if (a == -1 && b == -1 && d == -1 && c == -1)
         return 0;
-    if (d == *(int *)(p + 0xf4)) {
+    if (d == ((struct Obj08280 *)p)->fF4) {
         q1 = b * 50 / (c + 5);
-        q2 = *(int *)(p + 0x100) * 50 / (*(int *)(p + 0x10c) + 5);
-        da = a - *(int *)(p + 0xe8);
+        q2 = ((struct Obj08280 *)p)->f100 * 50 / (((struct Obj08280 *)p)->f10C + 5);
+        da = a - ((struct Obj08280 *)p)->fE8;
         if (da < 0)
             da = -da;
         dq = q1 - q2;

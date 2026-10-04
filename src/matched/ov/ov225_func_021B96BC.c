@@ -36,6 +36,18 @@
  *   func_021BB854 0x021BB854 thumb ov225
  *   func_021B9E60 0x021B9E60 thumb ov225
  */
+#include "../include/Obj00100.h"
+#include "../include/Obj26116.h"
+#include "../include/Obj26117.h"
+#include "../include/Obj26118.h"
+#include "../include/Obj26119.h"
+#include "../include/Obj26120.h"
+#include "../include/Obj26122.h"
+#include "../include/Obj26124.h"
+#include "../include/Obj26125.h"
+#include "../include/Obj26126.h"
+#include "../include/Obj26127.h"
+#include "../include/Obj26128.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum {ZERO=0,ONE=1} Flag;
@@ -73,78 +85,78 @@ int func_021B96BC(void *a,u32 *state,void *unused,char *p)
  case 1: if(!func_0204E804()) *state=2; break;
  case 2:
   done=0;
-  switch(*(u32 *)(p+0x10)) {
+  switch(((struct Obj00100 *)p)->f10) {
   case 0:
-   if(!func_021BB31C(*(char **)(p+0x1c))) goto innerDone;
+   if(!func_021BB31C(*(char * *)&((struct Obj00100 *)p)->f1C)) goto innerDone;
    {
-    if(*(u32 *)(p+0x18)<=1) {
-     if(*(u32 *)(p+0x18)==0) *(u32 *)(*(char **)(p+4)+4)=0;
-     else if(*(u32 *)(p+0x18)==1) *(u32 *)(*(char **)(p+4)+4)=1;
+    if(((struct Obj00100 *)p)->f18<=1) {
+     if(((struct Obj00100 *)p)->f18==0) ((struct Obj26116 *)(*(char * *)&((struct Obj00100 *)p)->f4))->f4=0;
+     else if(((struct Obj00100 *)p)->f18==1) ((struct Obj26117 *)(*(char * *)&((struct Obj00100 *)p)->f4))->f4=1;
      done=1;
     } else {
-     func_021BB308(*(char **)(p+0x1c));
-     if(*(u32 *)(p+0x18)==2) {
-      *(u32 *)(p+0x10)=1;
-      *(u16 *)(p+0x20)=0; *(u16 *)(p+0x22)=0;
-      *(char **)(p+0x2c)=func_021BB6E0(p+0x20,*(char **)(p+8));
-     } else if(*(u32 *)(p+0x18)==3) {
-      *(u32 *)(p+0x10)=2; *(u32 *)(p+0x30)=1;
-      *(u16 *)(p+0x34)=done;
-      *(u16 *)(p+0x36)=done; *(u16 *)(p+0x38)=done;
-      *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
+     func_021BB308(*(char * *)&((struct Obj00100 *)p)->f1C);
+     if(((struct Obj00100 *)p)->f18==2) {
+      ((struct Obj00100 *)p)->f10=1;
+      ((struct Obj00100 *)p)->f20=0; ((struct Obj00100 *)p)->f22=0;
+      *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8);
+     } else if(((struct Obj00100 *)p)->f18==3) {
+      ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=1;
+      ((struct Obj00100 *)p)->f34=done;
+      ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
+      *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
      }
     }
    }
    break;
   case 1:
-   if(!func_021BB844(*(char **)(p+0x2c))) {
+   if(!func_021BB844(*(char * *)&((struct Obj00100 *)p)->f2C)) {
    default:
 innerDone:
     break;
    } else {
-    func_021BB7F4(*(char **)(p+0x2c));
-    if(*(u32 *)(p+0x24)==0) {
-     *(u32 *)(p+0x10)=done;
-     *(char **)(p+0x1c)=func_021BB2B4(p+0x14,*(char **)(p+8));
+    func_021BB7F4(*(char * *)&((struct Obj00100 *)p)->f2C);
+    if(((struct Obj00100 *)p)->f24==0) {
+     ((struct Obj00100 *)p)->f10=done;
+     *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8);
     } else {
-     *(u32 *)(p+0x10)=2; *(u32 *)(p+0x30)=0;
-     *(u16 *)(p+0x34)=*(u16 *)(p+0x28);
-     *(u16 *)(p+0x36)=done; *(u16 *)(p+0x38)=done;
-     *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
+     ((struct Obj00100 *)p)->f10=2; ((struct Obj00100 *)p)->f30=0;
+     ((struct Obj00100 *)p)->f34=((struct Obj00100 *)p)->f28;
+     ((struct Obj00100 *)p)->f36=done; ((struct Obj00100 *)p)->f38=done;
+     *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
     }
    }
    break;
   case 2:
-   if(func_021BBA64(*(char **)(p+0x44))) {
-    func_021BBA14(*(char **)(p+0x44));
-    if(*(u32 *)(p+0x3c)==0) {
-     if(*(u32 *)(p+0x30)==0) { *(u32 *)(p+0x10)=1; *(char **)(p+0x2c)=func_021BB6E0(p+0x20,*(char **)(p+8)); }
-     else if(*(u32 *)(p+0x30)==1) { *(u32 *)(p+0x10)=done; *(char **)(p+0x1c)=func_021BB2B4(p+0x14,*(char **)(p+8)); }
+   if(func_021BBA64(*(char * *)&((struct Obj00100 *)p)->f44)) {
+    func_021BBA14(*(char * *)&((struct Obj00100 *)p)->f44);
+    if(((struct Obj00100 *)p)->f3C==0) {
+     if(((struct Obj00100 *)p)->f30==0) { ((struct Obj00100 *)p)->f10=1; *(char * *)&((struct Obj00100 *)p)->f2C=func_021BB6E0(p+0x20,*(char * *)&((struct Obj00100 *)p)->f8); }
+     else if(((struct Obj00100 *)p)->f30==1) { ((struct Obj00100 *)p)->f10=done; *(char * *)&((struct Obj00100 *)p)->f1C=func_021BB2B4(p+0x14,*(char * *)&((struct Obj00100 *)p)->f8); }
     } else {
-     *(u32 *)(p+0x10)=3;
-     id=*(u16 *)(p+0x40);
-     count=func_021B9BEC(*(char **)(*(char **)(p+8)+0x2c),id);
-     selected=func_021B9BE0(*(char **)(*(char **)(p+8)+0x2c),id);
-     if(!func_021B9C98(*(char **)(*(char **)(p+8)+0x2c),selected,**(int **)(p+8)))
-      func_021B9CB0(*(char **)(*(char **)(p+8)+0x2c),selected,(struct Big *)(**(int **)(p+8)));
-     *(u16 *)(p+0x4a)=func_021B9BC8(*(char **)(*(char **)(p+8)+0x2c),id);
-     *(unsigned char *)(p+0x48)=func_021B9BEC(*(char **)(*(char **)(p+8)+0x2c),id);
+     ((struct Obj00100 *)p)->f10=3;
+     id=((struct Obj00100 *)p)->f40;
+     count=func_021B9BEC(*(char * *)&((struct Obj26118 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
+     selected=func_021B9BE0(*(char * *)&((struct Obj26119 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
+     if(!func_021B9C98(*(char * *)&((struct Obj26120 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,selected,**(int * *)&((struct Obj00100 *)p)->f8))
+      func_021B9CB0(*(char * *)&((struct Obj26122 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,selected,(struct Big *)(**(int * *)&((struct Obj00100 *)p)->f8));
+     ((struct Obj00100 *)p)->f4A=func_021B9BC8(*(char * *)&((struct Obj26124 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
+     ((struct Obj00100 *)p)->f48=func_021B9BEC(*(char * *)&((struct Obj26125 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id);
      for(i=0;i<count;i++) {
-      item=func_021B9C0C(*(char **)(*(char **)(p+8)+0x2c),id,i);
-      if(!func_021B9CC8((unsigned int)(*(char **)(*(char **)(p+8)+0x2c)),item)) item=65535;
+      item=func_021B9C0C(*(char * *)&((struct Obj26126 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id,i);
+      if(!func_021B9CC8((unsigned int)(*(char * *)&((struct Obj26127 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C),item)) item=65535;
       *(u16 *)(p+i*4+0x4c)=item;
-      *(u16 *)(p+i*4+0x4e)=func_021B9BF8(*(char **)(*(char **)(p+8)+0x2c),id,i);
+      *(u16 *)(p+i*4+0x4e)=func_021B9BF8(*(char * *)&((struct Obj26128 *)(*(char * *)&((struct Obj00100 *)p)->f8))->f2C,id,i);
      }
-     *(char **)(p+0x74)=func_021BBA74(p+0x48,*(char **)(p+8));
+     *(char * *)&((struct Obj00100 *)p)->f74=func_021BBA74(p+0x48,*(char * *)&((struct Obj00100 *)p)->f8);
     }
    }
    break;
   case 3:
-   if(func_021BBB0C(*(char **)(p+0x74))) {
-    func_021BBAE8(*(void **)(p+0x74));
-    if(*(u32 *)(p+0x70)==0) {
-     *(u32 *)(p+0x10)=2;
-     *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
+   if(func_021BBB0C(*(char * *)&((struct Obj00100 *)p)->f74)) {
+    func_021BBAE8(((struct Obj00100 *)p)->f74);
+    if(((struct Obj00100 *)p)->f70==0) {
+     ((struct Obj00100 *)p)->f10=2;
+     *(char * *)&((struct Obj00100 *)p)->f44=func_021BB854(p+0x30,*(char * *)&((struct Obj00100 *)p)->f8);
     }
    }
    break;
@@ -154,6 +166,6 @@ innerDone:
  case 3: if(!func_0204E804()) *state=4; break;
  case 4: return 1;
  }
- func_021B9E60(*(char **)(p+8));
+ func_021B9E60(*(char * *)&((struct Obj00100 *)p)->f8);
  return 0;
 }

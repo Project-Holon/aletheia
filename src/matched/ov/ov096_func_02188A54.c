@@ -11,10 +11,11 @@
  * symbols:
  *   func_02188AB4 0x02188AB4 thumb ov096
  */
+#include "../include/Obj21935.h"
 struct Cursor;
 extern int func_02188AB4(struct Cursor *a, unsigned char *b, int c);
 int func_02188A54(int a, int b)
 {
     func_02188AB4((struct Cursor *)a, (unsigned char *)b, 0);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21935 *)b)->fC4;
 }

@@ -9,7 +9,8 @@
  * status: EXACT
  * extent: Accessor ends at 02157E78, followed by labelled callback function.
  */
+#include "../include/Obj18745.h"
 unsigned char func_02157E6C(char *p)
 {
-    return *(unsigned char *)(p + 0x674);
+    return ((struct Obj18745 *)p)->f674;
 }

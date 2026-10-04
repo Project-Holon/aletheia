@@ -49,6 +49,7 @@
  *   python tools/match.py one --src src/matched/func_020234C0.c \
  *       --func func_020234C0 --addr 0x020234C0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00862.h"
 
 typedef unsigned int  u32;
 
@@ -78,7 +79,7 @@ u32 func_020234C0(struct Task *t)
     switch (t->phase) {
     case 1:
         if (func_02023568(obj) == 1) {
-            func_02022DCC(*(u32 *)((char *)obj + 0x44), (void *)t->f18, t->f10);
+            func_02022DCC(((struct Obj00862 *)obj)->f44, (void *)t->f18, t->f10);
             t->phase = t->phase + 1;
         }
         break;

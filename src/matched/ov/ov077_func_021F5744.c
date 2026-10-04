@@ -19,6 +19,7 @@
  *   func_0204E804  0x0204E804  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20795.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -43,7 +44,7 @@ int func_021F5744(void *task, int *st)
     case 0:
         if (func_021F5798(w) == 0)
             break;
-        func_0204E720(*(int *)(w + 0x3074), 0, 0x10, 0);
+        func_0204E720(((struct Obj20795 *)w)->f3074, 0, 0x10, 0);
         (*st)++;
         break;
     case 1:

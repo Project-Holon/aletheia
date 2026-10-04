@@ -16,6 +16,7 @@
  *   func_020113D8  0x020113D8  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17890.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern u32 func_02012984(u32, u32, u32, u32);
 
 int func_02189A38(u32 a, u32 b, u32 c, u32 d)
 {
-return func_020113D8(func_02012984(*(u32 *)((u8 *)(a) + 8), b, c, d));
+return func_020113D8(func_02012984(((struct Obj17890 *)((u8 *)(a)))->f8, b, c, d));
 }
 

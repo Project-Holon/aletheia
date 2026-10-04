@@ -20,6 +20,7 @@
  *   func_021BD554  0x021BD554  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12115.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,8 +36,8 @@ extern void func_021BD588(u32 *p);
 
 int func_021BD19C(u32 a, u32 b, u32 c, u32 d)
 {
-func_021BD2C4(a, *(u32 *)((u8 *)(b) + 32), c, d);
-func_021BD2D0((u8 *)a, *(u16 *)((u8 *)(b) + 36));
+func_021BD2C4(a, ((struct Obj12115 *)((u8 *)(b)))->f20, c, d);
+func_021BD2D0((u8 *)a, ((struct Obj12115 *)((u8 *)(b)))->f24);
 func_021BD30C((char *)a);
 func_021BD57C((u8 *)a);
 func_021BD588((u32 *)a);

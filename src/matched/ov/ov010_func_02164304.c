@@ -17,6 +17,7 @@
  *   func_0216D684  0x0216D684  thumb
  *   func_0216435C  0x0216435C  thumb
  */
+#include "../include/Obj09310.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,10 +43,10 @@ void func_02164304(int a, u8 *p)
     Msg m;
     u16 *q;
 
-    m.a = *(u16 *)(p + 0x1c);
+    m.a = ((struct Obj09310 *)p)->f1C;
     m.b = 1;
     q = (u16 *)(p + 0x1c);
-    m.c = func_0201441C(*(s16 *)(p + 0xc));
+    m.c = func_0201441C(((struct Obj09310 *)p)->fC);
     m.e = q[1];
     m.d = ((s16 *)q)[2];
     if (func_0216D4D4((int)func_0216D67C((void *)a), 0x10) != 0) {

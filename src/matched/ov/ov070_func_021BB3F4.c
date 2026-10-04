@@ -21,6 +21,7 @@
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3F4  0x0204B3F4  arm
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,42 +45,42 @@ void func_021BB3F4(int p, int mode)
 {
     int r;
 
-    if (*(int *)(p + 0x858) == mode) {
+    if (((struct Obj00002 *)p)->f858 == mode) {
         return;
     }
-    *(int *)(p + 0x858) = mode;
-    r = func_02012BF8(*(int *)p, func_021BB368(*(int *)(p + 0x80C)));
+    ((struct Obj00002 *)p)->f858 = mode;
+    r = func_02012BF8(*(int *)&((struct Obj00002 *)p)->f0, func_021BB368(((struct Obj00002 *)p)->f80C));
     if (mode == 1) {
-        func_0202173C(*(int *)(p + 0x854), 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
-        func_0202173C(*(int *)(p + 0x854), 1, 1, 0, 0, 0, 0, func_020056BC());
+        func_0202173C(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 0, 0, 0, func_020056BC());
+        func_0202173C(((struct Obj00002 *)p)->f854, 1, 1, 0, 0, 0, 0, func_020056BC());
         func_0207D658(0x04000050, 6, 0);
         func_021BB5A4((char *)p);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 4);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 5);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f710), 4);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f714), 5);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f71C), 0);
         if (r == 1) {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 7);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 7);
         } else {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 6);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 6);
         }
         func_021BB580((char *)p, 1);
     } else {
-        func_020216D4((struct PalAnmSlot *)(*(int *)(p + 0x854)), 2, 0, 0x200);
-        func_0202173C(*(int *)(p + 0x854), 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
-        func_0202173C(*(int *)(p + 0x854), 1, 1, 0, 8, 8, 0, func_020056BC());
-        if (*(int *)(p + 0x10) == 4 && func_0204B3F4((struct Obj *)(*(int *)(p + 0x710))) == 0) {
+        func_020216D4((struct PalAnmSlot *)(((struct Obj00002 *)p)->f854), 2, 0, 0x200);
+        func_0202173C(((struct Obj00002 *)p)->f854, 4, 0x23CF, 0, 8, 8, 0, func_020056BC());
+        func_0202173C(((struct Obj00002 *)p)->f854, 1, 1, 0, 8, 8, 0, func_020056BC());
+        if (((struct Obj00002 *)p)->f10 == 4 && func_0204B3F4((struct Obj *)(((struct Obj00002 *)p)->f710)) == 0) {
             func_0207D658(0x04000050, 2, -8);
         } else {
             func_0207D658(0x04000050, 6, -8);
         }
-        func_0204B878((struct Obj *)(*(int *)(p + 0x72C)), 4);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 0x12);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 0x13);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0xE);
+        func_0204B878((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 4);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f710), 0x12);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f714), 0x13);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f71C), 0xE);
         if (r == 1) {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x16);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 0x16);
         } else {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x15);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 0x15);
         }
     }
 }

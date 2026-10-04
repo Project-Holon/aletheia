@@ -20,6 +20,7 @@
  *   func_020124E8  0x020124E8  thumb
  *   func_02082C60  0x02082C60  arm
  */
+#include "../include/Obj06158.h"
 
 extern void *func_021F3D6C(int a);
 extern int func_021F3C98(char *a, char *b);
@@ -65,9 +66,9 @@ int func_021F3958(int a, int id, int arg)
     r6 = func_020124E8((struct Obj *)sp1);
     func_02082C60(r6, 0, 0x10);
     r6[0] = arg;
-    *(char **)(r6 + 6) = r5;
+    *(char * *)&((struct Obj06158 *)r6)->fC = r5;
     r6[1] = i;
-    *(char **)(r6 + 4) = r7;
-    *(int *)(r6 + 2) = sp3;
+    *(char * *)&((struct Obj06158 *)r6)->f8 = r7;
+    ((struct Obj06158 *)r6)->f4 = sp3;
     return sp1;
 }

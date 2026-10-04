@@ -16,6 +16,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x43 data
  */
+#include "../include/Obj06394.h"
 extern void func_021C05B0(char *p);
 struct PrintSys;
 struct Rec;
@@ -32,11 +33,11 @@ extern void func_02034A5C(int handle);
 extern char ov067_id[];
 int func_021C01E4(void *p, int a, int b, char *q) {
     func_021C05B0(q);
-    func_0203133C(*(void **)(q+0xac));
-    func_0201C6EC(*(void **)(q+0x5c));
-    func_0201C4C0(*(void **)(q+0x5c));
-    func_02045C04(*(void **)(q+0x60));
-    func_0201D83C(*(void **)(q+0x58));
+    func_0203133C(((struct Obj06394 *)q)->fAC);
+    func_0201C6EC(((struct Obj06394 *)q)->f5C);
+    func_0201C4C0(((struct Obj06394 *)q)->f5C);
+    func_02045C04(((struct Obj06394 *)q)->f60);
+    func_0201D83C(((struct Obj06394 *)q)->f58);
     func_020315D4(p);
     func_020306F0(0x51);
     func_02034A5C((int)ov067_id);

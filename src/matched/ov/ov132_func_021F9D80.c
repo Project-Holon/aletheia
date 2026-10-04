@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj23210.h"
 
 extern void func_021FAAB8(char *p, unsigned flag);
 
 void func_021F9D80(char *p)
 {
-    func_021FAAB8(*(void **)(p + 0xa4), 1);
+    func_021FAAB8(((struct Obj23210 *)p)->fA4, 1);
 }

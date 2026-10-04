@@ -29,6 +29,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj00104.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -49,12 +50,12 @@ void func_020278F4(u8 *p)
     u8 i;
     u8 sel;
 
-    if (*(u32 *)(p + 8) != 1) {
+    if (((struct Obj00104 *)p)->f8 != 1) {
         return;
     }
     sel = 1;
-    for (i = 0; i < *(u8 *)(p + 0x24); i++) {
-        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)(p + 0x34) + 0x14)),
+    for (i = 0; i < ((struct Obj00104 *)p)->f24; i++) {
+        if (func_0201C6C4((struct PrintSys *)(*(u32 *)(*(u32 *)&((struct Obj00104 *)p)->f34 + 0x14)),
                           (void *)((u32)func_02045770((struct Descriptor *)(*(u32 **)(p + 0x18))[i]))) == 1) {
             sel = 0;
         }
@@ -62,11 +63,11 @@ void func_020278F4(u8 *p)
     if (sel != 1) {
         return;
     }
-    for (i = 0; i < *(u8 *)(p + 0x24); i++) {
+    for (i = 0; i < ((struct Obj00104 *)p)->f24; i++) {
         u32 v = (*(u32 **)(p + 0x18))[i];
         func_02045334((struct Descriptor *)v);
         func_02045374((struct Cfg *)v);
         func_02041B6C(func_02045730((struct Descriptor *)v));
     }
-    *(u32 *)(p + 8) = 0;
+    ((struct Obj00104 *)p)->f8 = 0;
 }

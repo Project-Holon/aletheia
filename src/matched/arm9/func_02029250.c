@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00164.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,7 +24,7 @@ void func_02029250(u8 *p)
     if (func_02029434(p) == 0) {
         return;
     }
-    if (*(u32 *)(p + 0xc) != 0 && *(u32 *)(p + 0xc) != *(u32 *)(p + 8)) {
+    if (((struct Obj00164 *)p)->fC != 0 && ((struct Obj00164 *)p)->fC != ((struct Obj00164 *)p)->f8) {
         func_02005D28();
         func_02029344(p, 8);
         return;

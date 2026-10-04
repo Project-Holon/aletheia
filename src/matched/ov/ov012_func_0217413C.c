@@ -13,6 +13,7 @@
  *   func_020124E8 0x020124E8 thumb
  *   func_0217416C 0x0217416C thumb ov012
  */
+#include "../include/Obj19269.h"
 typedef unsigned char u8;
 typedef struct { int f0; int f4; u8 *f8; } Work;
 typedef unsigned int   u32;
@@ -29,6 +30,6 @@ int func_0217413C(int a, int b, u8 *p)
     w->f0 = a;
     w->f4 = b;
     w->f8 = p;
-    *(int *)(p + 0x3548) = 1;
+    ((struct Obj19269 *)p)->f3548 = 1;
     return task;
 }

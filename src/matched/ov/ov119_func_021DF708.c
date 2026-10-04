@@ -18,6 +18,7 @@
  *   func_020399A8  0x020399A8  arm
  *   func_0203D3A8  0x0203D3A8  arm
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned short u16;
 
@@ -34,17 +35,17 @@ extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 
 void func_021DF708(void *p)
 {
-    int v = func_021DD34C(p, *(int *)((char *)p + 0xf98),
-                          *(int *)((char *)p + 0xf94));
+    int v = func_021DD34C(p, ((struct Obj00001 *)p)->fF98,
+                          ((struct Obj00001 *)p)->fF94);
 
     if (func_021D8A24(p) == 0 ||
         func_0203D3A8(func_020399A8(), 0xc0b, 4, (u32)(&v)) != 0) {
-        *(int *)((char *)p + 0xf84) = -1;
-        *(int *)((char *)p + 0xf88) = -1;
-        *(int *)((char *)p + 0xf7c) = -1;
-        *(int *)((char *)p + 0xf80) = -1;
-        *(int *)((char *)p + 0xf94) = -1;
-        *(int *)((char *)p + 0xf98) = -1;
+        ((struct Obj00001 *)p)->fF84 = -1;
+        ((struct Obj00001 *)p)->fF88 = -1;
+        ((struct Obj00001 *)p)->fF7C = -1;
+        ((struct Obj00001 *)p)->fF80 = -1;
+        ((struct Obj00001 *)p)->fF94 = -1;
+        ((struct Obj00001 *)p)->fF98 = -1;
         if (v != -1) {
             func_021DD4F4(p, 0, v);
             func_021E62D4(p, 0, v);

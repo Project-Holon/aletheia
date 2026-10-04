@@ -13,6 +13,7 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj08383.h"
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 extern void func_0204AFD8(unsigned);
@@ -23,10 +24,10 @@ int func_021BED6C(char *p)
     unsigned i;
     for (i = 0; i < 3; i++) {
         char *q = p + i * 4;
-        func_0204A8D4(*(unsigned *)(q + 0x10b4));
-        func_0204ADA4(*(unsigned *)(q + 0x10c0));
-        func_0204AFD8(*(unsigned *)(q + 0x10cc));
-        func_0204B3B4(*(void **)(q + 0x10a8));
+        func_0204A8D4(((struct Obj08383 *)q)->f10B4);
+        func_0204ADA4(((struct Obj08383 *)q)->f10C0);
+        func_0204AFD8(((struct Obj08383 *)q)->f10CC);
+        func_0204B3B4(((struct Obj08383 *)q)->f10A8);
     }
     return 1;
 }

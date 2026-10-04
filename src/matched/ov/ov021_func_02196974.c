@@ -19,6 +19,7 @@
  *   func_021968DC  0x021968DC  thumb  ov021
  *   func_02196944  0x02196944  thumb  ov021
  */
+#include "../include/Obj03115.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -39,44 +40,44 @@ int func_02196974(u32 s, u8 *p)
 {
     int r = 0;
 
-    *(u32 *)(p + 0x300) = s;
+    ((struct Obj03115 *)p)->f300 = s;
     switch (s) {
     case 0:
     case 5:
         func_020061E4(0x73B);
         func_02196034(p, (void *)func_021968DC, 0x3DE);
         r = 1;
-        *(u32 *)(p + 8) = 1;
+        ((struct Obj03115 *)p)->f8 = 1;
         break;
     case 1:
     case 6:
-        if (func_0201AA1C(func_02012934(*(void **)(p + 0x30))) < 2) {
-            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x28)), 0x2C, (void *)(*(u32 *)(p + 0x38)));
+        if (func_0201AA1C(func_02012934(((struct Obj03115 *)p)->f30)) < 2) {
+            func_02045CAC((struct MsgBank *)(((struct Obj03115 *)p)->f28), 0x2C, (void *)(((struct Obj03115 *)p)->f38));
             func_02197644(p, 0);
             func_02196034(p, (void *)func_02196944, 0x3EA);
         } else {
             func_020061E4(0x73B);
-            *(u32 *)(p + 8) = 6;
+            ((struct Obj03115 *)p)->f8 = 6;
             func_02196034(p, (void *)func_021968DC, 0x3F0);
             r = 1;
         }
         break;
     case 2:
         func_020061E4(0x73B);
-        *(u32 *)(p + 8) = 8;
+        ((struct Obj03115 *)p)->f8 = 8;
         func_02196034(p, (void *)func_021968DC, 0x3F6);
         r = 1;
         break;
     case 3:
     case 7:
         func_020061E4(0x73B);
-        *(u32 *)(p + 8) = 7;
+        ((struct Obj03115 *)p)->f8 = 7;
         func_02196034(p, (void *)func_021968DC, 0x3FD);
         r = 1;
         break;
     case 4:
         func_020061E4(0x73C);
-        *(u32 *)(p + 8) = 0xC;
+        ((struct Obj03115 *)p)->f8 = 0xC;
         func_02196034(p, (void *)func_021968DC, 0x404);
         break;
     }

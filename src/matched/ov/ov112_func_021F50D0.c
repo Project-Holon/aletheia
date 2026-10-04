@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22532.h"
 
 int func_021F50D0(const unsigned char *p)
 {
-    if (*(const unsigned short *)(p + 6) & 0x80)
+    if (*(const unsigned short *)&((struct Obj22532 *)p)->f6 & 0x80)
         return 1;
     return 0;
 }

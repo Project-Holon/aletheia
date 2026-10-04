@@ -30,6 +30,8 @@
  *   func_021D8F0C 0x021D8F0C thumb ov131
  *   func_021D8ED0 0x021D8ED0 thumb ov131
  */
+#include "../include/Obj00091.h"
+#include "../include/Obj00136.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -55,11 +57,11 @@ int func_021D8AD0(u8 *a,u8 *p)
     int position;
     if(func_020362DC()==2) {
         func_021D5A9C(a,1);
-        func_0204B878(*(void **)(a+0x194),9);
-        func_0204B3DC(*(void **)(p+0x54),0);
+        func_0204B878(((struct Obj00136 *)a)->f194,9);
+        func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
-        *(u32 *)(p+0x68)=1;
+        ((struct Obj00091 *)p)->f68=1;
         func_021D964C(a,p);
         func_021D9670(a,p);
         a[0x1c]=0;
@@ -69,8 +71,8 @@ int func_021D8AD0(u8 *a,u8 *p)
     if(a[0x1c]==1) {
         if(func_020362DC()==1 || func_020362DC()==128 || func_020362DC()==64) {
             position=-16;
-            *(int *)(p+0x5c)=0;
-            *(int *)(p+0x64)=0;
+            ((struct Obj00091 *)p)->f5C=0;
+            *(int *)&((struct Obj00091 *)p)->f64=0;
             for(i=0;i<10;i++) {
                 if(p[0x59]==*(u16 *)(p+0x70+i*20)) position=func_021D9440(p,i);
             }
@@ -86,7 +88,7 @@ int func_021D8AD0(u8 *a,u8 *p)
         if(index>=10) index-=10;
         if(*(u16 *)(p+0x70+index*20)!=0xffff) {
             p[0x58]=index;
-            *(u32 *)(p+0x68)=1;
+            ((struct Obj00091 *)p)->f68=1;
             if(func_021D9440(p,p[0x58])>128) {
                 narrowDelta=func_021D9440(p,p[0x58])-128;
                 func_021D8F0C(a,p,narrowDelta);
@@ -103,7 +105,7 @@ int func_021D8AD0(u8 *a,u8 *p)
         else index-=1;
         if(*(u16 *)(p+0x70+index*20)!=0xffff) {
             p[0x58]=index;
-            *(u32 *)(p+0x68)=1;
+            ((struct Obj00091 *)p)->f68=1;
             if(func_021D9440(p,p[0x58])<8) {
                 shortDelta=func_021D9440(p,p[0x58])-8;
                 func_021D8F0C(a,p,shortDelta);

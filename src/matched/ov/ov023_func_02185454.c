@@ -26,6 +26,7 @@
  *   func_02186660  0x02186660  thumb  ov023
  *   func_02184560  0x02184560  thumb  ov023
  */
+#include "../include/Obj02741.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -60,16 +61,16 @@ int func_02185454(char *p, int x)
     u32 w;
 
     ((Bits *)(p + 0x4210))->mid = 0;
-    if (*(u8 *)(p + 0x4217) == 2 && func_02039338() != 0) {
+    if (((struct Obj02741 *)p)->f4217 == 2 && func_02039338() != 0) {
         func_02185354(p);
-        func_020278F4(*(void **)(p + 0x178));
+        func_020278F4(((struct Obj02741 *)p)->f178);
         if (func_021864A8(p))
             func_020061E4(0x54b);
         return x;
     }
-    if (func_02039338() == 0 && *(int *)(p + 0x9280) != 0) {
+    if (func_02039338() == 0 && ((struct Obj02741 *)p)->f9280 != 0) {
         func_02185354(p);
-        func_020278F4(*(void **)(p + 0x178));
+        func_020278F4(((struct Obj02741 *)p)->f178);
         return x;
     }
     switch (func_02186660(p)) {
@@ -79,24 +80,24 @@ int func_02185454(char *p, int x)
             func_021861C4(p, 4, 1);
         } else {
             func_02186444(p, 8);
-            func_0201F7A8((void *)(*(u32 *)(p + 0x11c)), 2);
+            func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
         }
-        w = *(u32 *)(p + 0x118);
+        w = ((struct Obj02741 *)p)->f118;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
         break;
     case 1:
         func_02186444(p, 4);
-        func_021852F4((void *)(*(u32 *)(p + 0x100)), 0);
-        func_0201F7A8((void *)(*(u32 *)(p + 0x11c)), 2);
-        w = *(u32 *)(p + 0x118);
+        func_021852F4((void *)(((struct Obj02741 *)p)->f100), 0);
+        func_0201F7A8((void *)(((struct Obj02741 *)p)->f11C), 2);
+        w = ((struct Obj02741 *)p)->f118;
         func_02045334((struct Descriptor *)w);
         func_02045374((struct Cfg *)w);
         func_020409B4(func_02045730((struct Descriptor *)w));
         if (func_02039338() == 0) {
             func_02184560(p, 1);
-            *(int *)(p + 0x9e6c) = 1;
+            ((struct Obj02741 *)p)->f9E6C = 1;
         }
         break;
     }

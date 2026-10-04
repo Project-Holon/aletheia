@@ -13,6 +13,8 @@
  *   func_021E07A4 0x021E07A4 thumb ov137
  *   func_021E0A44 0x021E0A44 thumb ov137
  */
+#include "../include/Obj04539.h"
+#include "../include/Obj10622.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021E0570(u8 *p);
@@ -23,20 +25,20 @@ int func_021DF370(u8 *p)
     int i;
     u8 *entry;
     u16 *values;
-    if (*(int *)(p + 64) == 1) {
+    if (((struct Obj04539 *)p)->f40 == 1) {
         values = (u16 *)(p + 108);
-        *(int *)(p + 284) = values[0] << 12;
-        *(int *)(p + 88) = values[0] << 12;
-        for (i = 0; i < *(int *)(p + 48); i++) {
+        ((struct Obj04539 *)p)->f11C = values[0] << 12;
+        ((struct Obj04539 *)p)->f58 = values[0] << 12;
+        for (i = 0; i < ((struct Obj04539 *)p)->f30; i++) {
             entry = p + 736 + i * 180;
-            *(int *)(entry + 28) = values[*(int *)(entry + 16) + 2] << 12;
-            *(u16 *)(p + 96 + i * 2) = values[*(int *)(entry + 16) + 2];
+            ((struct Obj10622 *)entry)->f1C = values[((struct Obj10622 *)entry)->f10 + 2] << 12;
+            *(u16 *)(p + 96 + i * 2) = values[((struct Obj10622 *)entry)->f10 + 2];
         }
-        *(int *)(p + 28) = values[1];
+        ((struct Obj04539 *)p)->f1C = values[1];
         func_021E0570(p);
         func_021E07A4(p);
-        *(u8 **)(p + 40) = func_021E0A44(p);
-        *(int *)p = 35;
+        *(u8 * *)&((struct Obj04539 *)p)->f28 = func_021E0A44(p);
+        ((struct Obj04539 *)p)->f0 = 35;
     }
     return 0;
 }

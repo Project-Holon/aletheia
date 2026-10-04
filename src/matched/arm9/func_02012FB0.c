@@ -14,8 +14,9 @@
  * symbols:
  *   func_02012FB0  0x02012FB0  thumb
  */
+#include "../include/Obj15639.h"
 
 int func_02012FB0(unsigned char *base)
 {
-    return *(unsigned char *)(base + 0x1CF);
+    return ((struct Obj15639 *)base)->f1CF;
 }

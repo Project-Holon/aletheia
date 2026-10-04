@@ -15,6 +15,7 @@
  * Clears the +0xec last-read length and tail-calls the +0x30 release path
  *     func_021D99F4, so nothing is saved.  Mirrors func_021D6954.
  */
+#include "../include/Obj24319.h"
 
 typedef unsigned long u32;
 
@@ -22,7 +23,7 @@ extern void func_021D99F4(char *obj);
 
 void func_021D9D40(char *obj)
 {
-    *(u32 *)(obj + 0xec) = 0;
+    ((struct Obj24319 *)obj)->fEC = 0;
     func_021D99F4(obj);
 }
 

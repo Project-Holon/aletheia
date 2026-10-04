@@ -30,6 +30,7 @@
  *   func_021DDF28  0x021DDF28  thumb  ov119
  *   func_021DE8C0  0x021DE8C0  thumb  ov119
  */
+#include "../include/Obj01251.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -74,12 +75,12 @@ void func_021DDF74(char *p)
     func_021DD294(p, 0, 0);
     c = (unsigned char)(p + a)[0x11E0];
     if (c == 11 && (unsigned char)(p + b)[0x11E0] == 11) {
-        func_02045CAC(*(void **)(p + 0x720), 0x92, *(void **)(p + 0x73C));
+        func_02045CAC(((struct Obj01251 *)p)->f720, 0x92, ((struct Obj01251 *)p)->f73C);
         do {
-            func_0201EEF4(*(void **)(p + 0x724), i, func_021D8FA4(p, i));
+            func_0201EEF4(((struct Obj01251 *)p)->f724, i, func_021D8FA4(p, i));
             i++;
         } while (i < 2);
-        func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x738), *(void **)(p + 0x73C));
+        func_0201F250(((struct Obj01251 *)p)->f724, ((struct Obj01251 *)p)->f738, ((struct Obj01251 *)p)->f73C);
         func_021E1024(p);
         func_021D8E84(p, (int)func_021DDF28);
         return;
@@ -87,7 +88,7 @@ void func_021DDF74(char *p)
     if ((unsigned char)(p + b)[0x11E0] == 12) {
         (p + 0x11E0)[0x11] = 0x78;
         m = 0x93;
-        if (*(int *)(p + 0x118C) == 3 && (u8)p[0x11FA] >= 3) {
+        if (((struct Obj01251 *)p)->f118C == 3 && (u8)p[0x11FA] >= 3) {
             func_021D89CC(p);
             func_021D8E84(p, (int)func_021D9434);
             return;
@@ -95,19 +96,19 @@ void func_021DDF74(char *p)
     } else if (c == 12) {
         (p + 0x11E0)[0x11] = 0x78;
         m = 0x95;
-        if (*(int *)(p + 0x118C) == 3 && (u8)p[0x11FA] >= 3) {
+        if (((struct Obj01251 *)p)->f118C == 3 && (u8)p[0x11FA] >= 3) {
             func_021D89CC(p);
             func_021D8E84(p, (int)func_021D9434);
             return;
         }
     }
-    func_02045CAC(*(void **)(p + 0x720), m, *(void **)(p + 0x738));
+    func_02045CAC(((struct Obj01251 *)p)->f720, m, ((struct Obj01251 *)p)->f738);
     func_021E1024(p);
     p[0x11E0] = 0;
     p[0x11E1] = 0;
     if (func_021D8A24(p) != 0) {
         func_02039C68((struct Link *)func_020399A8(), 0x19, 8);
     }
-    *(int *)(p + 0xF2C) = 0;
+    ((struct Obj01251 *)p)->fF2C = 0;
     func_021D8E84(p, (int)func_021DE8C0);
 }

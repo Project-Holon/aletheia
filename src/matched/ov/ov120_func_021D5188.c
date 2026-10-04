@@ -17,6 +17,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D50C4 0x021D50C4 thumb ov120
  */
+#include "../include/Obj05344.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern int func_021D7AF4(char *p);
@@ -29,11 +30,11 @@ extern void func_021D4244(int, int, int);
 extern void func_021D50C4(u8 *p);
 void func_021D5188(u8 *p)
 {
-    if (func_021D7AF4(*(void **)(p + 0x40))) {
-        func_021B6558((unsigned char *)func_021D6988(*(void **)(p + 0x3c)), 1, 0);
-        *(void **)(p + 0x38) = func_021D8358(*(void **)(p + 0x40), 1);
-        func_021D63F4(*(void **)(p + 0x3c), 1, 1);
-        func_021D6FD8(*(void **)(p + 0x3c), 0);
+    if (func_021D7AF4(((struct Obj05344 *)p)->f40)) {
+        func_021B6558((unsigned char *)func_021D6988(((struct Obj05344 *)p)->f3C), 1, 0);
+        ((struct Obj05344 *)p)->f38 = func_021D8358(((struct Obj05344 *)p)->f40, 1);
+        func_021D63F4(((struct Obj05344 *)p)->f3C, 1, 1);
+        func_021D6FD8(((struct Obj05344 *)p)->f3C, 0);
         func_021D4244((int)p, (int)func_021D50C4, 0x634);
     }
 }

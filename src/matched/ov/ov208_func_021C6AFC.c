@@ -15,6 +15,7 @@
  *   func_0204B404        0x0204B404  arm
  *   func_0204B3DC        0x0204B3DC  arm
  */
+#include "../include/Obj01979.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,27 +40,27 @@ void ov208_func_021C6AFC(void *a0, u8 *p, int a2)
     u8 mid;
     Ov208Pos pos;
 
-    switch (*(u32 *)(p + 0x6b8)) {
+    switch (((struct Obj01979 *)p)->f6B8) {
     case 0:
         break;
     case 4:
-        if (*(u16 *)(p + 0x548) >= 3)
+        if (((struct Obj01979 *)p)->f548 >= 3)
             on = 1;
         break;
     }
     if (on) {
-        n = ov208_func_021C6E30(a0, p, a2, *(u16 *)(p + 0x54e), *(u16 *)(p + 0x550));
-        ov208_func_021C6D6C((u16)(*(u16 *)(p + 0x548) - 1), n, 0, &mid, 0);
+        n = ov208_func_021C6E30(a0, p, a2, ((struct Obj01979 *)p)->f54E, ((struct Obj01979 *)p)->f550);
+        ov208_func_021C6D6C((u16)(((struct Obj01979 *)p)->f548 - 1), n, 0, &mid, 0);
         pos.x = mid;
         pos.y = 0x30;
-        func_0204B404(*(u32 *)(p + 0x5e8), &pos, 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e4), 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e8), 1);
-        *(u32 *)(p + 0x698) = 0;
-        *(u32 *)(p + 0x6d4) = 0;
-        *(u32 *)(p + 0x69c) = 0;
+        func_0204B404(((struct Obj01979 *)p)->f5E8, &pos, 0);
+        func_0204B3DC((struct Obj *)((struct Obj01979 *)p)->f5E4, 1);
+        func_0204B3DC((struct Obj *)((struct Obj01979 *)p)->f5E8, 1);
+        ((struct Obj01979 *)p)->f698 = 0;
+        ((struct Obj01979 *)p)->f6D4 = 0;
+        ((struct Obj01979 *)p)->f69C = 0;
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e4), 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e8), 0);
+        func_0204B3DC((struct Obj *)((struct Obj01979 *)p)->f5E4, 0);
+        func_0204B3DC((struct Obj *)((struct Obj01979 *)p)->f5E8, 0);
     }
 }

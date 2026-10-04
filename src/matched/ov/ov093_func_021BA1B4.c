@@ -13,11 +13,13 @@
  * symbols:
  *   sub_02008DF0 0x02008DF0 thumb
  */
+#include "../include/Obj20999.h"
+#include "../include/Obj21000.h"
 typedef unsigned int u32;
 struct Sub02008C20Obj;
 extern u32 sub_02008DF0(struct Sub02008C20Obj *, int);
 void func_021BA1B4(char **p, int i)
 {
-    if (*(unsigned char *)(*p + 0x23) == 0)
-        sub_02008DF0(*(struct Sub02008C20Obj **)(*p + 0x6c), i);
+    if (((struct Obj20999 *)(*p))->f23 == 0)
+        sub_02008DF0(*(struct Sub02008C20Obj * *)&((struct Obj21000 *)(*p))->f6C, i);
 }

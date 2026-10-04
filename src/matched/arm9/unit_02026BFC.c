@@ -25,6 +25,8 @@
  * symbols:
  *   g_GameBeacon  0x02146940  data
  */
+#include "../include/Obj11840.h"
+#include "../include/Obj17251.h"
 typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +36,7 @@ extern u8 *g_GameBeacon;
 
 void *sub_02026BFC(u8 *base, int n)
 {
-    int c = *(s8 *)(base + 0xBAE);
+    int c = ((struct Obj17251 *)base)->fBAE;
     if (c == 0 || c - n <= 0)
         return 0;
     return base + 0x64 + n * 0x60;
@@ -47,11 +49,11 @@ void *sub_02026C1C(int n)
 
 void *sub_02026C30(u8 *base, int n)
 {
-    u32 c = *(u32 *)(base + 0xBA8);
+    u32 c = ((struct Obj11840 *)base)->fBA8;
     int j;
     if (c == 0 || c - n == 0)
         return 0;
-    j = *(s8 *)(base + 0xBAD) - (int)(c - 1 - n);
+    j = ((struct Obj11840 *)base)->fBAD - (int)(c - 1 - n);
     if ((j < 0 ? -j : j) >= 30)
         return 0;
     if (j < 0)

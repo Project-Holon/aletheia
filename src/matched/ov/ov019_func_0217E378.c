@@ -19,6 +19,7 @@
  *   func_02174E64  0x02174E64  thumb  ov012
  *   func_020362DC  0x020362DC  arm
  */
+#include "../include/Obj19428.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,7 +37,7 @@ int func_0217E378(u8 *w, void *obj, int a2, u8 *state)
 {
     u8 *p;
 
-    p = *(u8 **)(w + 0x355C);
+    p = *(u8 * *)&((struct Obj19428 *)w)->f355C;
     if (func_0217BB20(w) == 1) {
         func_0217F074(w);
         return 1;

@@ -23,6 +23,7 @@
  * 0203D1B4's forwarding matched void declaration loses its live result.
  * 0203D7BC retains the original caller's unused zero argument.
  */
+#include "../include/Obj08173.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,8 +44,8 @@ int func_021FC6EC(int *state,u8 *p)
  switch(*state) {
  case 0:
   if(func_0203D1B4()<=1) {func_0203CEAC(0);return 1;}
-  if(*(int *)(p+0xC)==1) func_0203A5E4(0x1100);
-  if(*(int *)(p+8)==1) {func_0203D7BC(0);func_021FCDEC((int)p,0x41);*state=1;}
+  if(((struct Obj08173 *)p)->fC==1) func_0203A5E4(0x1100);
+  if(((struct Obj08173 *)p)->f8==1) {func_0203D7BC(0);func_021FCDEC((int)p,0x41);*state=1;}
   else *state=2;
   break;
  case 1:
@@ -52,14 +53,14 @@ int func_021FC6EC(int *state,u8 *p)
   if(func_0203D1B4()<=1 || func_0200FB24()!=0) *state=10;
   break;
  case 2:
-  if(*(int *)(p+8)==0) {func_0203CEAC(0);return 1;}
+  if(((struct Obj08173 *)p)->f8==0) {func_0203CEAC(0);return 1;}
   if(func_0203D378()==0) {
    if(func_0203D3A8(func_020399A8(),1,0,0)==1) return 1;
   } else if(func_0203D1B4()<=1) {func_0203CEAC(0);return 1;}
   if(func_0200FB24()!=0) *state=10;
   break;
  case 10:
-  if(func_0200FB24()!=0) func_02012124(*(struct Ctx **)(p+0x54),1);
+  if(func_0200FB24()!=0) func_02012124(*(struct Ctx * *)&((struct Obj08173 *)p)->f54,1);
   func_0203CEAC(0);return 1;
  }
  return 0;

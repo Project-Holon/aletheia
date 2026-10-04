@@ -26,6 +26,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x00000043 data a1
  */
+#include "../include/Obj01983.h"
 typedef unsigned short u16;
 struct Node;
 struct TaskMenuState;
@@ -59,18 +60,18 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         break;
     case 2: {
         u16 heap;
-        func_02030EAC(*(struct Node **)(p + 0x23c));
+        func_02030EAC(*(struct Node * *)&((struct Obj01983 *)p)->f23C);
         *(volatile u16 *)0x04000050 = 0;
         *(volatile u16 *)0x04001050 = 0;
         func_021B9E28(p);
-        func_021B613C(*(void **)(p + 0x24));
-        func_021B9A80(*(char **)(p + 0x28));
+        func_021B613C(((struct Obj01983 *)p)->f24);
+        func_021B9A80(*(char * *)&((struct Obj01983 *)p)->f28);
         func_021BA4B4(p);
         func_021BA2EC(p);
-        func_02027FD8(*(struct TaskMenuState **)(p + 0x18));
-        func_021B9888(*(void **)(p + 8));
-        func_021BA8F0(*(char **)(p + 4));
-        heap = *(u16 *)p;
+        func_02027FD8(*(struct TaskMenuState * *)&((struct Obj01983 *)p)->f18);
+        func_021B9888(((struct Obj01983 *)p)->f8);
+        func_021BA8F0(*(char * *)&((struct Obj01983 *)p)->f4);
+        heap = ((struct Obj01983 *)p)->f0;
         func_020315D4(ctx);
         func_020306F0(heap);
         func_02034A5C((int)ov067_id);

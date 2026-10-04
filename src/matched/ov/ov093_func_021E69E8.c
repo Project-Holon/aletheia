@@ -19,6 +19,8 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj07834.h"
+#include "../include/Obj13538.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,11 +45,11 @@ void func_021E69E8(int x, void *a, int c)
     if (c == func_021D775C(2)) {
         p = func_021C88A4(a, 0x15, c);
         p[8] = c;
-        *(int *)(p + 4) = 5;
+        ((struct Obj13538 *)p)->f4 = 5;
         func_021C88C8(a, p);
         if (func_021D5C30(func_021C7CF4(a, c)) == 0) {
             q = func_021C88A4(a, 0x37, c);
-            *(u16 *)(q + 4) = 0x272;
+            ((struct Obj07834 *)q)->f4 = 0x272;
             q[6] = func_021C8010(a, c);
             q[7] = 6;
             q[0xb] = 1;

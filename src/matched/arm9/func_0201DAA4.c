@@ -38,6 +38,7 @@
  *       --func func_0201DAA4 --addr 0x0201DAA4 --cc 1.1p1 --thumb
  *   EXACT, 56 bytes, 5 relocation sites, all 5 resolved.
  */
+#include "../include/Obj06870.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,10 +53,10 @@ extern void func_0201E928(const u8 *src, u32 n, u16 *dst);
 
 void func_0201DAA4(char *p, int a, int b)
 {
-    *(u32 *)(p + 0xc) = 0;
-    *(u32 *)(p + 4) = (u32)func_0201DBF4;
+    ((struct Obj06870 *)p)->fC = 0;
+    ((struct Obj06870 *)p)->f4 = (u32)func_0201DBF4;
     if (a == 1)
-        *(u32 *)(p + 8) = (b == 1) ? (u32)func_0201DE40 : (u32)func_0201E538;
+        ((struct Obj06870 *)p)->f8 = (b == 1) ? (u32)func_0201DE40 : (u32)func_0201E538;
     else
-        *(u32 *)(p + 8) = (b == 1) ? (u32)func_0201E738 : (u32)func_0201E928;
+        ((struct Obj06870 *)p)->f8 = (b == 1) ? (u32)func_0201E738 : (u32)func_0201E928;
 }

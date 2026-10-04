@@ -31,6 +31,7 @@
  *   python tools/match.py one --src src/matched/sub_02031F9C.c \
  *       --func func_02031F9C --addr 0x02031F9C --cc 1.1p1 --arm
  */
+#include "../include/Obj16793.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -44,5 +45,5 @@ void func_02031F9C(u32 *out, void *p, void *buf, u32 sel)
 
     q = func_02031EE8(p, buf);
     out[0] = func_02031EF8(p, buf, sel);
-    out[1] = *(u32 *)q;
+    out[1] = ((struct Obj16793 *)q)->f0;
 }

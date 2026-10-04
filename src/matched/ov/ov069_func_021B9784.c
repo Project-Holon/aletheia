@@ -17,6 +17,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj01132.h"
 
 typedef unsigned char u8;
 
@@ -35,13 +36,13 @@ void func_021B9784(u8 *p)
 {
     int i;
 
-    func_020307B0(*(void **)(p + 8));
+    func_020307B0(((struct Obj01132 *)p)->f8);
     for (i = 0; i < 7; i++) {
         func_02045808(*(void **)(p + i * 4 + 0x100));
     }
-    func_02045808(*(void **)(p + 0xfc));
-    func_0201ED04(*(void **)(p + 0xf8));
-    func_02045C04(*(void **)(p + 0xf4));
-    func_02030EAC(*(void **)(p + 0x150));
-    func_02049238(*(void **)p);
+    func_02045808(((struct Obj01132 *)p)->fFC);
+    func_0201ED04(((struct Obj01132 *)p)->fF8);
+    func_02045C04(((struct Obj01132 *)p)->fF4);
+    func_02030EAC(((struct Obj01132 *)p)->f150);
+    func_02049238(((struct Obj01132 *)p)->f0);
 }

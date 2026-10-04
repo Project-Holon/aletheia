@@ -17,6 +17,7 @@
  *   func_02082D44  0x02082D44  arm
  *   func_02012800  0x02012800  thumb
  */
+#include "../include/Obj12421.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -33,7 +34,7 @@ void func_021746EC(int a, int b, void *c, char *d)
     int h;
     int s;
 
-    h = func_02026478((void *)(*(int *)(d + 4)));
+    h = func_02026478((void *)(((struct Obj12421 *)d)->f4));
     s = (int)func_020127D0((u8 *)h, 0);
     func_021861F4(c, func_021583EC((void *)h, a));
     func_02082D44(c, (void *)s, 0x1E8);

@@ -22,6 +22,8 @@
  *   func_0203F4CC 0x0203F4CC arm
  *   func_0203D34C 0x0203D34C arm
  */
+#include "../include/Obj01167.h"
+#include "../include/Obj24197.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct RtcTime{unsigned hour,minute,second;};
@@ -34,18 +36,18 @@ void func_021B6100(u8 *p)
 {
  struct RtcTime time; unsigned config,lo,mid,hi; u8 i; void *task; unsigned one;
  func_021B63DC(p);
- *(void **)(p+24)=func_020490F4(131,*(u16 *)p);
+ ((struct Obj01167 *)p)->f18=func_020490F4(131,((struct Obj01167 *)p)->f0);
  func_021B655C(p);func_021B6594(p);func_021B6760(p);
- config=func_02012984(*(void **)(*(u8 **)(p+48)+4));
+ config=func_02012984(((struct Obj24197 *)(*(u8 * *)&((struct Obj01167 *)p)->f30))->f4);
  lo=func_02011400(config,0);mid=func_02011400(config,2);hi=func_02011400(config,3);
  func_0203F4CC(&time);
- if(time.hour>=lo && time.hour<mid) *(unsigned *)(p+16)=0;
- else if(time.hour>=mid && time.hour<hi) *(unsigned *)(p+16)=1;
- else *(unsigned *)(p+16)=2;
- for(i=0;i<*(int *)(p+8);i++) *(void **)(p+28+i*4)=func_021B6C70(p,i);
+ if(time.hour>=lo && time.hour<mid) ((struct Obj01167 *)p)->f10=0;
+ else if(time.hour>=mid && time.hour<hi) ((struct Obj01167 *)p)->f10=1;
+ else ((struct Obj01167 *)p)->f10=2;
+ for(i=0;i<((struct Obj01167 *)p)->f8;i++) *(void **)(p+28+i*4)=func_021B6C70(p,i);
  task=func_020056A0((unsigned)func_021B63B0,(unsigned)p,8);
- one=1;*(u8 *)(p+13)=one;*(int *)(p+52)=one;
- *(void **)(p+4)=task;*(u8 *)(p+137)=0;
- *(u8 *)(p+14)=0;*(int *)(p+20)=0;*(int *)(p+44)=0;*(u8 *)(p+12)=0;
- func_0203D34C(0,*(u16 *)p);
+ one=1;((struct Obj01167 *)p)->fD=one;((struct Obj01167 *)p)->f34=one;
+ ((struct Obj01167 *)p)->f4=task;((struct Obj01167 *)p)->f89=0;
+ ((struct Obj01167 *)p)->fE=0;((struct Obj01167 *)p)->f14=0;((struct Obj01167 *)p)->f2C=0;((struct Obj01167 *)p)->fC=0;
+ func_0203D34C(0,((struct Obj01167 *)p)->f0);
 }

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22313.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-u8 *func_021B99E4(u8 *p) { return p + 4 + (*(u16 *)(p + 2) - 1) * 2; }
+u8 *func_021B99E4(u8 *p) { return p + 4 + (((struct Obj22313 *)p)->f2 - 1) * 2; }

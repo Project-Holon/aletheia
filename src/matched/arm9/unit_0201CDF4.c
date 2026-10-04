@@ -43,6 +43,8 @@
  *   python tools/match.py tu --src src/matched/unit_0201CDF4.c \
  *       --addr 0x0201CDF4 --thumb
  */
+#include "../include/Obj17219.h"
+#include "../include/Obj17220.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -70,12 +72,12 @@ void sub_0201CE20(void *p)
 
 u32 sub_0201CE30(void *p)
 {
-    return *(u32 *)p;
+    return ((struct Obj17219 *)p)->f0;
 }
 
 u32 sub_0201CE34(void *p)
 {
-    return *(u32 *)((u8 *)p + 4);
+    return ((struct Obj17220 *)p)->f4;
 }
 
 void sub_0201CE38(void *p)

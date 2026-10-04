@@ -16,6 +16,12 @@
  *   func_020403F4 0x020403F4 arm
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj04441.h"
+#include "../include/Obj07997.h"
+#include "../include/Obj22329.h"
+#include "../include/Obj22330.h"
+#include "../include/Obj22331.h"
+#include "../include/Obj22332.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,22 +39,22 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020403F4(u32 i);
 extern void func_021B9CBC(u8 *);
 void func_021B9FB4(int unused, u8 *p) {
-    u8 *q = *(u8 **)p;
-    switch (*(int *)(p+0x14)) {
+    u8 *q = *(u8 * *)&((struct Obj04441 *)p)->f0;
+    switch (((struct Obj04441 *)p)->f14) {
     case 0:
         func_0202208C(0,0,0,0,5,1,42);
-        ++*(int *)(p+0x14);
+        ++((struct Obj04441 *)p)->f14;
         break;
     case 1:
         if (func_020221A4()) {
-            func_020452E8(*(void **)(*(u8 **)p+0x6C));
-            func_021BBCF0(*(void **)(*(u8 **)p+0x54));
-            func_021BB2CC(*(void **)(*(u8 **)p+0x58));
-            func_021BF8BC(*(void **)(*(u8 **)p+0x5C));
-            func_0201D83C(*(void **)(q+0x80));
-            func_0201C6EC(*(void **)(q+0x7C));
-            func_0201C4C0(*(void **)(q+0x7C));
-            *(void **)(q+0x7C) = 0;
+            func_020452E8(((struct Obj22329 *)(*(u8 * *)&((struct Obj04441 *)p)->f0))->f6C);
+            func_021BBCF0(((struct Obj22330 *)(*(u8 * *)&((struct Obj04441 *)p)->f0))->f54);
+            func_021BB2CC(((struct Obj22331 *)(*(u8 * *)&((struct Obj04441 *)p)->f0))->f58);
+            func_021BF8BC(((struct Obj22332 *)(*(u8 * *)&((struct Obj04441 *)p)->f0))->f5C);
+            func_0201D83C(((struct Obj07997 *)q)->f80);
+            func_0201C6EC(((struct Obj07997 *)q)->f7C);
+            func_0201C4C0(((struct Obj07997 *)q)->f7C);
+            ((struct Obj07997 *)q)->f7C = 0;
             func_020403F4(0);
             func_020403F4(1);
             func_020403F4(2);

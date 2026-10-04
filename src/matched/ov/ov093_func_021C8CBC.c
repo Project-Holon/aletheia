@@ -14,6 +14,7 @@
  *   func_021B9934  0x021B9934  thumb  ov093
  *   func_021C5A1C  0x021C5A1C  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021C8CFC(int a, u8 b);
@@ -25,7 +26,7 @@ typedef struct { u32 pad : 8; u32 idx : 5; u32 rest : 19; } Ent;
 int func_021C8CBC(int a, Ent *e)
 {
     if (func_021C8CFC(a + 0x1ab8, e->idx)) {
-        func_021C5A1C((u8 *)a, func_021B9934(*(char **)(a + 8), (u8)e->idx));
+        func_021C5A1C((u8 *)a, func_021B9934(*(char * *)&((struct Obj00003 *)a)->f8, (u8)e->idx));
         return 1;
     }
     return 0;

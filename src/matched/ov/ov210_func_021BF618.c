@@ -12,12 +12,13 @@
  *   func_021BEDF0 0x021BEDF0 thumb ov210
  *   func_021BEE38 0x021BEE38 thumb ov210
  */
+#include "../include/Obj14678.h"
 extern void func_021BED98(char *, int, int);
 extern void func_021BEDF0(int p, int i, int v);
 extern void func_021BEE38(char *p, int idx, unsigned short a, unsigned short b, unsigned short c);
 void func_021BF618(char *p)
 {
-    unsigned char v = (*(unsigned char **)(*(char **)p + 8))[6];
+    unsigned char v = (*(unsigned char **)(*(char * *)&((struct Obj14678 *)p)->f0 + 8))[6];
     if (v != 0xff) {
         func_021BED98(p, 7, v);
         func_021BEE38(p, 7, 0x40, 0x68, 0);

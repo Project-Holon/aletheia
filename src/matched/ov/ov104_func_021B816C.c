@@ -11,6 +11,7 @@
  *
  * Zeroes +0x0c/+0x10 and stores 1 at +0x14.
  */
+#include "../include/Obj10246.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -19,4 +20,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021B816C(u8 *p) { *(u32 *)(p + 0xc) = 0; *(u32 *)(p + 0x10) = 0; *(u32 *)(p + 0x14) = 1; }
+void func_021B816C(u8 *p) { ((struct Obj10246 *)p)->fC = 0; ((struct Obj10246 *)p)->f10 = 0; ((struct Obj10246 *)p)->f14 = 1; }

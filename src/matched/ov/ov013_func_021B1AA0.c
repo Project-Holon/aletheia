@@ -9,11 +9,12 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj01641.h"
 
 void func_021B1AA0(char *p, unsigned short v)
 {
-    *(unsigned short *)(p + 0x68) = v;
-    *(int *)(p + 0x64) = 0x00010001;
-    *(int *)(p + 0x60) = 0;
-    *(int *)(p + 0x5c) = 0;
+    ((struct Obj01641 *)p)->f68 = v;
+    *(int *)&((struct Obj01641 *)p)->f64 = 0x00010001;
+    *(int *)&((struct Obj01641 *)p)->f60 = 0;
+    ((struct Obj01641 *)p)->f5C = 0;
 }

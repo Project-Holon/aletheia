@@ -12,6 +12,7 @@
  *   func_021FFC6C 0x021FFC6C thumb ov186
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj14434.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void func_021FFE70(char *p);
@@ -19,8 +20,8 @@ extern void func_021FFC6C(char *p);
 extern void func_020409B4(u32 index);
 int func_021E0080(char *p)
 {
-    func_021FFE70(*(void **)(p + 0x1c));
-    func_021FFC6C(*(void **)(p + 0x1c));
+    func_021FFE70(((struct Obj14434 *)p)->f1C);
+    func_021FFC6C(((struct Obj14434 *)p)->f1C);
     func_020409B4(4);
     return 1;
 }

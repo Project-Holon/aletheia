@@ -26,6 +26,7 @@
  *   func_02045730  0x02045730  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj01227.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,23 +54,23 @@ void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2)
     u32 w;
 
     func_02082BCC(p, 0, 0x38);
-    *(u16 *)(p + 0x18) = 4;
-    *(u32 *)(p + 0x10) = a1;
-    *(u16 *)(p + 0x1a) = s2;
-    *(u32 *)(p + 4) = a2;
-    *(u32 *)p = a3;
-    *(u32 *)(p + 0x14) = (u32)func_020457B0(0xff, s2);
-    *(u32 *)(p + 0xc) = s0;
-    *(u32 *)(p + 8) = 0;
-    *(u32 *)(p + 0x24) = s1;
-    *(u32 *)(p + 0x28) = 0;
+    ((struct Obj01227 *)p)->f18 = 4;
+    ((struct Obj01227 *)p)->f10 = a1;
+    ((struct Obj01227 *)p)->f1A = s2;
+    ((struct Obj01227 *)p)->f4 = a2;
+    ((struct Obj01227 *)p)->f0 = a3;
+    ((struct Obj01227 *)p)->f14 = (u32)func_020457B0(0xff, s2);
+    ((struct Obj01227 *)p)->fC = s0;
+    ((struct Obj01227 *)p)->f8 = 0;
+    ((struct Obj01227 *)p)->f24 = s1;
+    ((struct Obj01227 *)p)->f28 = 0;
     func_02028470(p + 0x2c, 0x406);
-    func_0201F73C((void *)(*(u32 *)(p + 0x10)), 2, 1, func_02045778((struct Descriptor *)a1));
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x10))), (u8)*(u16 *)(p + 0x18));
-    w = *(u32 *)(p + 0x10);
+    func_0201F73C((void *)(((struct Obj01227 *)p)->f10), 2, 1, func_02045778((struct Descriptor *)a1));
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01227 *)p)->f10)), (u8)((struct Obj01227 *)p)->f18);
+    w = ((struct Obj01227 *)p)->f10;
     func_02045334((struct Descriptor *)w);
     func_02045374((struct Cfg *)w);
     func_020409B4(func_02045730((struct Descriptor *)w));
-    *(u32 *)(p + 0x1c) = *(u32 *)(p + 0x10);
+    ((struct Obj01227 *)p)->f1C = ((struct Obj01227 *)p)->f10;
     p[0x20] = 0;
 }

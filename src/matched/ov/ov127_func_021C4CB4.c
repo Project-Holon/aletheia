@@ -13,6 +13,7 @@
  *   func_021C5334 0x021C5334 thumb ov127
  *   d_021C604C 0x021C604C data a4
  */
+#include "../include/Obj00535.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C49A4(u8 *,unsigned);
@@ -21,6 +22,6 @@ extern int (*d_021C604C)(u8 *);
 void func_021C4CB4(u8 *p)
 {
  int i=func_021C49A4(p,5); int r=(*(int (**)(u8 *))((unsigned)&d_021C604C+i*4))(p);
- (*(u16 *)(p+22))++;
- if(r==1) {func_021C5334((char *)p); *(u16 *)(p+22)=0;}
+ (((struct Obj00535 *)p)->f16)++;
+ if(r==1) {func_021C5334((char *)p); ((struct Obj00535 *)p)->f16=0;}
 }

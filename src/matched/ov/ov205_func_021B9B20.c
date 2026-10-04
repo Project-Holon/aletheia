@@ -17,6 +17,7 @@
  *   func_0200EBD0 0x0200EBD0 thumb
  *   func_02012E4C 0x02012E4C thumb
  */
+#include "../include/Obj08386.h"
 typedef unsigned char u8;
 struct RTCDate;
 extern int func_02088864(struct RTCDate *date);
@@ -39,13 +40,13 @@ void func_021B9B20(char *p)
     unsigned date[4];
     void *save,*object,*record;
     func_02088864((struct RTCDate *)date);
-    object=func_02012934(*(void **)(p+4));
-    save=func_02012EBC(*(void **)(p+4));
+    object=func_02012934(((struct Obj08386 *)p)->f4);
+    save=func_02012EBC(((struct Obj08386 *)p)->f4);
     func_0200725C(save,8,4);
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
         func_0200EBD0(record,object,date,4);
-        func_02012E4C(*(void **)(p+4),8);
-        *(int *)(p+56)=1;
+        func_02012E4C(((struct Obj08386 *)p)->f4,8);
+        ((struct Obj08386 *)p)->f38=1;
     }
 }

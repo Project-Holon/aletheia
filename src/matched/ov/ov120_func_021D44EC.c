@@ -15,6 +15,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D44AC 0x021D44AC thumb ov120
  */
+#include "../include/Obj08075.h"
 typedef unsigned short u16;
 typedef struct { u16 v[4]; } Halfwords;
 extern const Halfwords d_021D8904;
@@ -30,8 +31,8 @@ void func_021D44EC(int a)
     const Halfwords *p = &table;
     if (func_0203CD98() != 0)
         p = (const Halfwords *)(a + 0x174);
-    *(int *)(a + 0x14) = 0xb4;
-    func_021D8430((u8 *)(*(int *)(a + 0x40)), (void *)(*(int *)(a + 0x3c)));
-    func_021D8484(*(int *)(a + 0x40), p);
+    ((struct Obj08075 *)a)->f14 = 0xb4;
+    func_021D8430((u8 *)(((struct Obj08075 *)a)->f40), (void *)(((struct Obj08075 *)a)->f3C));
+    func_021D8484(((struct Obj08075 *)a)->f40, p);
     func_021D4244(a, (void (*)(int))func_021D44AC, 0x232);
 }

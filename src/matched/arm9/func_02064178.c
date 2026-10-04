@@ -30,13 +30,14 @@
  * symbols:
  *   func_02064140  0x02064140  arm
  */
+#include "../include/Obj07023.h"
 typedef unsigned int u32;
 extern void func_02064140(char *p, int v);
 
 void func_02064178(char *o, u32 a)
 {
-    *(u32 *)(o + 0) = 0;
-    *(u32 *)(o + 4) = a;
-    *(u32 *)(o + 8) = 1;
+    *(u32 *)&((struct Obj07023 *)o)->f0 = 0;
+    ((struct Obj07023 *)o)->f4 = a;
+    ((struct Obj07023 *)o)->f8 = 1;
     func_02064140(o + 0xc, 1);
 }

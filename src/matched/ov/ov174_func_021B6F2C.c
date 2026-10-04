@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj24207.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,5 +20,5 @@ typedef signed int s32;
 
 int func_021B6F2C(int unused, char *p)
 {
-    return *(int *)(p + 8) == 5;
+    return ((struct Obj24207 *)p)->f8 == 5;
 }

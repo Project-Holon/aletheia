@@ -20,6 +20,7 @@
  *   func_021B9848 0x021B9848 thumb ov100
  *   func_021BB270 0x021BB270 thumb ov100
  */
+#include "../include/Obj22085.h"
 extern int func_0203CD98(void);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -33,7 +34,7 @@ extern void func_021BB270(void);
 extern void func_021B95B8(u8 *p, u32 v);
 void func_021BAC80(int a) {
  if(func_0203CD98()==1) {
-  switch(*(int *)(a+0x24c)) { case 9: case 10: func_021799C0((int)func_021BAAEC); break; }
+  switch(((struct Obj22085 *)a)->f24C) { case 9: case 10: func_021799C0((int)func_021BAAEC); break; }
   func_0203D060((u32)func_021B9FBC,(u32)func_021B9FF4,(u32)func_021B9848);
   func_021B95B8((u8 *)a,(u32)func_021BB270);
  }

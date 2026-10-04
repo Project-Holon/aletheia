@@ -22,6 +22,7 @@
  *   func_021DE518 0x021DE518 thumb ov119
  *   func_021DEA24 0x021DEA24 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -42,15 +43,15 @@ extern void func_021DEA24(char *p);
 void func_021DE5C4(char *p)
 {
     int v;
-    if(func_020279E8((struct TaskMenu *)(*(int *)(p+0x64c)))) {
-        v=func_02027A04((const u8 *)(*(int *)(p+0x64c)));
+    if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj00001 *)p)->f64C))) {
+        v=func_02027A04((const u8 *)(*(int *)&((struct Obj00001 *)p)->f64C));
         func_021E12F8(p); func_021E1098(p);
-        *(int *)(p+0x64c)=0;
+        *(int *)&((struct Obj00001 *)p)->f64C=0;
         switch(v) {
         case 0: func_021D8E84(p,(int)func_021DE12C); return;
         case 1:
-            func_0202208C((void *)3,0,0,0,6,1,*(u16 *)(p+0x5f4));
-            func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),1,0);
+            func_0202208C((void *)3,0,0,0,6,1,((struct Obj00001 *)p)->f5F4);
+            func_021B6548((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),1,0);
             func_021D8E84(p,(int)func_021DE518); return;
         case 2:
             func_021DEBD4(p); func_021D8980(p); func_021DD09C(p);

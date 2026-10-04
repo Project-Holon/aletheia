@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9E0C 0x021D9E0C thumb ov119
  */
+#include "../include/Obj04474.h"
 
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 struct Obj;
@@ -22,11 +23,11 @@ extern void func_021D8C6C(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021D9E0C(char *p);
 void func_021D9E54(char *p) {
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),7,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),8,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),9,0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9C0)),1,0);
-    func_0204B3DC((struct Obj *)*(int *)(p+0xF04),0);
+    func_021B6558((unsigned char *)(((struct Obj04474 *)p)->f9C0),7,0);
+    func_021B6558((unsigned char *)(((struct Obj04474 *)p)->f9C0),8,0);
+    func_021B6558((unsigned char *)(((struct Obj04474 *)p)->f9C0),9,0);
+    func_021B6558((unsigned char *)(((struct Obj04474 *)p)->f9C0),1,0);
+    func_0204B3DC((struct Obj *)((struct Obj04474 *)p)->fF04,0);
     func_021D8C6C(p);
     func_021D8E84(p,(int)func_021D9E0C);
 }

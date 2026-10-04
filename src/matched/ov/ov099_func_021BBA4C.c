@@ -28,6 +28,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj01245.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -62,13 +63,13 @@ void func_021BBA4C(char *p,void *party)
     u32 species,gender,name,form;
     void **w;
     void *win;
-    if (*(void **)(p+0x1a0)==0)
-        *(void **)(p+0x1a0)=(void *)func_020450F0(2,1,5,30,6,15,1);
-    func_0201F73C(*(void **)(p+0x1a0),2,*(u32 *)(p+0x1334),14);
+    if (((struct Obj01245 *)p)->f1A0==0)
+        ((struct Obj01245 *)p)->f1A0=(void *)func_020450F0(2,1,5,30,6,15,1);
+    func_0201F73C(((struct Obj01245 *)p)->f1A0,2,((struct Obj01245 *)p)->f1334,14);
     s=func_020457B0(0x40,0x21);
     t=func_020457B0(0x40,0x21);
-    func_02043B5C(func_02045770(*(void **)(p+0x1a0)),255);
-    func_020456F8(*(void **)(p+0x1a0));
+    func_02043B5C(func_02045770(((struct Obj01245 *)p)->f1A0),255);
+    func_020456F8(((struct Obj01245 *)p)->f1A0);
     n=func_0201AA18(party);
     for (i=0;i<n;i++) {
         mon=func_0201AB28(party,i);
@@ -77,27 +78,27 @@ void func_021BBA4C(char *p,void *party)
             form=func_02017E1C(mon,0xad,0);
             name=func_02017E1C(mon,0x9e,0);
             gender=func_02017E1C(mon,0x6e,0);
-            func_02045CAC(*(void **)(p+0xe0),0x74,t);
-            func_0201EFA4(*(void **)(p+0xdc),0,name,3,0,1);
-            func_0201F250(*(void **)(p+0xdc),s,t);
+            func_02045CAC(((struct Obj01245 *)p)->fE0,0x74,t);
+            func_0201EFA4(((struct Obj01245 *)p)->fDC,0,name,3,0,1);
+            func_0201F250(((struct Obj01245 *)p)->fDC,s,t);
             off=i*40;
-            func_0201C7A4(func_02045770(*(void **)(p+0x1a0)),off+1,32,s,*(void **)(p+0xec));
+            func_0201C7A4(func_02045770(((struct Obj01245 *)p)->f1A0),off+1,32,s,((struct Obj01245 *)p)->fEC);
             if (gender!=2 && ((species!=0x1d && species!=0x20) || form!=0)) {
                 if (gender==0) {
                     w=(void **)(p+0x1a0);
-                    func_02045CAC(*(void **)(p+0xe0),0x75,t);
+                    func_02045CAC(((struct Obj01245 *)p)->fE0,0x75,t);
                     win=*w;
                 } else {
-                    func_02045CAC(*(void **)(p+0xe0),0x76,t);
-                    win=*(void **)(p+0x1a0);
+                    func_02045CAC(((struct Obj01245 *)p)->fE0,0x76,t);
+                    win=((struct Obj01245 *)p)->f1A0;
                 }
-                func_0201C7A4(func_02045770(win),off+30,16,t,*(void **)(p+0xe8));
+                func_0201C7A4(func_02045770(win),off+30,16,t,((struct Obj01245 *)p)->fE8);
             }
         }
     }
     func_02045808(s);
     func_02045808(t);
-    func_02045374(*(void **)(p+0x1a0));
-    func_02045334(*(void **)(p+0x1a0));
+    func_02045374(((struct Obj01245 *)p)->f1A0);
+    func_02045334(((struct Obj01245 *)p)->f1A0);
     func_02041B6C(2);
 }

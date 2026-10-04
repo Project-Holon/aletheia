@@ -17,6 +17,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj06692.h"
 struct S_02021D50;
 extern unsigned d_02FE0000[];
 extern void func_020419E4(void);
@@ -28,7 +29,7 @@ void func_021BC2B8(void *unused,unsigned char *p)
 {
     func_020419E4();
     func_0204A648();
-    func_02021D50(*(struct S_02021D50 **)(p+12));
+    func_02021D50(*(struct S_02021D50 * *)&((struct Obj06692 *)p)->fC);
     if (p[0x2b8]==1) {
         func_020434DC(10,1);
         func_02043598(2,1);

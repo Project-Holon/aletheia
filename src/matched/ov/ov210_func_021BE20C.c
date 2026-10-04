@@ -14,6 +14,7 @@
  *   func_021BF81C  0x021BF81C  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern void func_021BF81C(u8 *p);
 
 void func_021BE20C(u8 *p)
 {
-    (*(u8 **)(*(u8 **)p + 8))[3] = 0xff;
-    (*(u8 **)(*(u8 **)p + 8))[4] = 0xff;
+    (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[3] = 0xff;
+    (*(u8 **)(*(u8 * *)&((struct Obj00222 *)p)->f0 + 8))[4] = 0xff;
     func_021BEA54(p);
     func_021BF81C(p);
 }

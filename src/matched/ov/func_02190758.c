@@ -15,6 +15,7 @@
  *   func_02190590  0x02190590  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17927.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,6 +26,6 @@ extern u32 func_02190590(u32, u32, u32, u32);
 
 int func_02190758(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02190590(*(u32 *)((u8 *)(a) + 4), b, c, d);
+return func_02190590(((struct Obj17927 *)((u8 *)(a)))->f4, b, c, d);
 }
 

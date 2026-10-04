@@ -16,6 +16,7 @@
  *   func_02012374  0x02012374  thumb
  *   func_021C622C  0x021C622C  thumb  ov021
  */
+#include "../include/Obj06083.h"
 
 typedef unsigned char u8;
 
@@ -40,6 +41,6 @@ void func_021C61EC(void *a, void *b, void *c)
     w[1] = 0;
     w[2] = 2;
     w[3] = 0;
-    *(int *)(w + 4) = func_02188E30(c);
+    ((struct Obj06083 *)w)->f4 = func_02188E30(c);
     func_02012374(a, task);
 }

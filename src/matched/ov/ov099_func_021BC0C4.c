@@ -16,6 +16,7 @@
  *   func_0202020C  0x0202020C  thumb
  *   func_0201F868  0x0201F868  thumb
  */
+#include "../include/Obj05261.h"
 
 typedef unsigned short u16;
 struct Obj;
@@ -27,12 +28,12 @@ extern void func_0201F868(void *a);
 
 void func_021BC0C4(char *p)
 {
-    if (*(void **)(p + 0x1A4) != 0) {
+    if (((struct Obj05261 *)p)->f1A4 != 0) {
         func_021BBD80(p);
         func_021BBC0C(p);
-        *(void **)(p + 0x1A4) = (void *)func_021BA8BC(*(void **)(p + 0x1A4));
-        func_0202020C(*(void **)(p + 0xBC), 0, 0);
-        func_0201F868(*(void **)(p + 0xB8));
-        *(void **)(p + 0xB8) = 0;
+        ((struct Obj05261 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj05261 *)p)->f1A4);
+        func_0202020C(((struct Obj05261 *)p)->fBC, 0, 0);
+        func_0201F868(((struct Obj05261 *)p)->fB8);
+        ((struct Obj05261 *)p)->fB8 = 0;
     }
 }

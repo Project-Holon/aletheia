@@ -12,6 +12,7 @@
  * symbols:
  *   func_021DFE00    0x021DFE00  thumb
  */
+#include "../include/Obj15587.h"
 
 typedef unsigned char u8;
 
@@ -22,7 +23,7 @@ extern int func_02012DD0(u8 *p);
 int func_0200A2D8(void *a0, int a1)
 {
     if (func_0200A350() == 0) {
-        if (func_021DFE00(*(void **)((u8 *)a0 + 8)) != 0)
+        if (func_021DFE00(((struct Obj15587 *)a0)->f8) != 0)
             return 2;
         return 0;
     }

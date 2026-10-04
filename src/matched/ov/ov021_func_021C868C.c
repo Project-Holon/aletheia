@@ -13,6 +13,7 @@
  *   func_021C87E0  0x021C87E0  thumb  ov021
  *   func_02158768  0x02158768  thumb  ov010
  */
+#include "../include/Obj07575.h"
 
 extern int func_021C87E0(char *p);
 struct Desc;
@@ -27,14 +28,14 @@ int func_021C868C(int a, char *b)
     if (b == 0) {
         return 0;
     }
-    if (*(int *)(b + 0x1b4) != 0) {
+    if (((struct Obj07575 *)b)->f1B4 != 0) {
         return 0;
     }
-    *(short *)(b + 4) = *(short *)(b + 4) + 1;
+    ((struct Obj07575 *)b)->f4 = ((struct Obj07575 *)b)->f4 + 1;
     v = func_021C87E0(b);
     switch (v) {
     case 1:
-        *(int *)b = 1;
+        ((struct Obj07575 *)b)->f0 = 1;
         flag = 0;
         break;
     case 2:

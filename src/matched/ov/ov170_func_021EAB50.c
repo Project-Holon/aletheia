@@ -13,6 +13,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj08242.h"
 #define WORK(p) (*(char **)((p)+0x2C))
 typedef unsigned int   u32;
 struct Descriptor;
@@ -23,9 +24,9 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(struct Descriptor *d);
 void func_021EAB50(unsigned char *w) {
  unsigned i; void *print;
- func_0201C4E4(*(void **)(w+0x8C));
+ func_0201C4E4(((struct Obj08242 *)w)->f8C);
  for(i=0;i<28;i++) {
-  print=*(void **)(w+0x8C);
+  print=((struct Obj08242 *)w)->f8C;
   if(w[0x98+i*8]) {
    if(func_0201C6C4(print,func_02045770(*(void **)(w+i*8+0x94)))==0) {
     func_02045334(*(void **)(w+i*8+0x94));

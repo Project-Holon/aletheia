@@ -19,6 +19,7 @@
  *   func_0218CC64  0x0218CC64  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04887.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,10 +36,10 @@ extern void func_021A0568(u8 *p, int force);
 
 int func_021897DC(u32 a, u32 b, u32 c, u32 d)
 {
-func_021A0170(*(u32 *)((u8 *)(a) + 24), b, c, d);
-func_021A0568((u8 *)(*(u32 *)((u8 *)(a) + 20)), 0);
+func_021A0170(((struct Obj04887 *)((u8 *)(a)))->f18, b, c, d);
+func_021A0568((u8 *)(((struct Obj04887 *)((u8 *)(a)))->f14), 0);
 func_02048AD0((struct Light *)(*(u32 *)((u8 *)((a + 164)))));
 func_02048C58((struct LightSlot *)(*(u32 *)((u8 *)((a + 168)))));
-return func_0218CC64(*(u32 *)((u8 *)(a) + 72), *(u32 *)((u8 *)((a + 164))), 0);
+return func_0218CC64(((struct Obj04887 *)((u8 *)(a)))->f48, *(u32 *)((u8 *)((a + 164))), 0);
 }
 

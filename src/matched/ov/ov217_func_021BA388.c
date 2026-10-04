@@ -12,15 +12,16 @@
  * symbols:
  *   func_021BA3B4  0x021BA3B4  thumb  ov217
  */
+#include "../include/Obj00511.h"
 
 typedef unsigned int   u32;
 extern u32 func_021BA3B4(u32 a0, u32 a1);
 
 void func_021BA388(char *self, int d)
 {
-    int n = *(int *)(self + 0x28);
+    int n = *(int *)&((struct Obj00511 *)self)->f28;
     do {
         n = (n + d + 2) % 2;
     } while (!func_021BA3B4((u32)self, n));
-    *(int *)(self + 0x28) = n;
+    *(int *)&((struct Obj00511 *)self)->f28 = n;
 }

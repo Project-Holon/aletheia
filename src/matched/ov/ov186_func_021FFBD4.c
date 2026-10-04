@@ -15,6 +15,7 @@
  *   func_0220014C 0x0220014C thumb ov186
  *   d_02200D9C 0x02200D9C data a1
  */
+#include "../include/Obj01967.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -29,16 +30,16 @@ char *func_021FFBD4(void *owner, void *table, int a, int b, int c, int d, int e,
     int i = 0;
     p = func_02030734(heap, 0x90, 0, d_02200D9C, 0x11a);
     func_02082BCC(p, 0, 0x90);
-    *(unsigned short *)(p + 0x24) = heap;
-    *(void **)(p + 0x7c) = owner;
-    *(void **)(p + 0x28) = table;
-    *(int *)(p + 0x30) = c;
-    *(int *)(p + 0x34) = a;
-    *(int *)(p + 0x38) = b;
-    *(void **)(p + 0x3c) = (void *)func_0201C440((void *)(*(unsigned short *)(p + 0x24)));
-    *(int *)(p + 0x80) = func_02200228((heap & 0x7fff) | 0x8000, (unsigned *)(p + 0x84));
-    *(int *)(p + 0x74) = d;
-    *(int *)(p + 0x78) = e;
-    for (; i < 9; i++) *(unsigned char *)(p + i + 0x14) = func_0220014C(*(void **)(p + 0x7c), i, (const u16 *)(*(unsigned *)(p + 0x80)));
+    ((struct Obj01967 *)p)->f24 = heap;
+    ((struct Obj01967 *)p)->f7C = owner;
+    ((struct Obj01967 *)p)->f28 = table;
+    ((struct Obj01967 *)p)->f30 = c;
+    ((struct Obj01967 *)p)->f34 = a;
+    ((struct Obj01967 *)p)->f38 = b;
+    ((struct Obj01967 *)p)->f3C = (void *)func_0201C440((void *)(((struct Obj01967 *)p)->f24));
+    *(int *)&((struct Obj01967 *)p)->f80 = func_02200228((heap & 0x7fff) | 0x8000, (unsigned *)(p + 0x84));
+    ((struct Obj01967 *)p)->f74 = d;
+    ((struct Obj01967 *)p)->f78 = e;
+    for (; i < 9; i++) *(unsigned char *)(p + i + 0x14) = func_0220014C(((struct Obj01967 *)p)->f7C, i, (const u16 *)(((struct Obj01967 *)p)->f80));
     return p;
 }

@@ -19,6 +19,7 @@
  *   func_0200B6E0  0x0200B6E0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12976.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,7 +44,7 @@ int func_021CBC14(u32 unused, u32 a)
     t = func_020120F4(func_02158F54(func_0215A5F4((void *)a)));
     p = func_02012ED8(t);
     id = 20;
-    v = *(u16 *)(p + 0x10);
+    v = ((struct Obj12976 *)p)->f10;
     switch (p[9]) {
     case 0:
     case 4:

@@ -21,6 +21,7 @@
  *   func_02162370  0x02162370  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18255.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,6 +33,6 @@ extern u32 func_021BE180(u32, u32, u32, u32);
 
 int func_021BE1A0(u32 a, u32 b, u32 c, u32 d)
 {
-return func_02162370(*(u32 *)((u8 *)(func_021BE180(a, b, c, d))));
+return func_02162370(((struct Obj18255 *)((u8 *)(func_021BE180(a, b, c, d))))->f0);
 }
 

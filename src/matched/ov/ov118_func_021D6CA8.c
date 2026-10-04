@@ -11,14 +11,15 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13881.h"
 
 extern void func_020307B0(void *);
 
 void func_021D6CA8(void *p)
 {
-    void *q = *(void **)((char *)p + 0x85C);
+    void *q = ((struct Obj13881 *)p)->f85C;
     if (q != 0) {
         func_020307B0(q);
-        *(void **)((char *)p + 0x85C) = 0;
+        ((struct Obj13881 *)p)->f85C = 0;
     }
 }

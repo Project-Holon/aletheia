@@ -14,6 +14,7 @@
  *   func_02012B58 0x02012B58 thumb
  *   func_02158590 0x02158590 thumb ov010
  */
+#include "../include/Obj12494.h"
 typedef unsigned char u8;
 struct BigObj;
 struct Ctx;
@@ -22,7 +23,7 @@ extern u8 func_02012B58(const struct BigObj *p);
 extern int func_02158590(void *);
 int func_0217F284(u8 *p)
 {
-    void *q = func_020120F4(*(void **)p);
-    if (*(int *)(p + 0xe4) == 0 && func_02012B58(q) == 0 && func_02158590(q) == 0) return 1;
+    void *q = func_020120F4(((struct Obj12494 *)p)->f0);
+    if (((struct Obj12494 *)p)->fE4 == 0 && func_02012B58(q) == 0 && func_02158590(q) == 0) return 1;
     return 0;
 }

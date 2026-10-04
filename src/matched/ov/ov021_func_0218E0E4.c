@@ -12,6 +12,7 @@
  * symbols:
  *   func_0218EFD4  0x0218EFD4  thumb
  */
+#include "../include/Obj04202.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern void func_020307B0(void *a);
 
 void func_0218E0E4(u8 *a)
 {
-    func_02049238(*(u32 *)(a + 4));
-    func_02049238(*(u32 *)(a + 8));
+    func_02049238(((struct Obj04202 *)a)->f4);
+    func_02049238(((struct Obj04202 *)a)->f8);
     func_0218EFD4(a);
     func_020307B0(a);
 }

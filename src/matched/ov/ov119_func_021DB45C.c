@@ -16,6 +16,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB41C 0x021DB41C thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 extern void func_021DF7AC(void *,int);
@@ -26,11 +27,11 @@ extern void func_021D8E84(void *,int);
 extern void func_021DB41C(char *p);
 void func_021DB45C(char *p)
 {
-    func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),7,0);
+    func_021B6548((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),7,0);
     func_021DF7AC(p,0);
     func_0207D658((u32)((void *)0x04001050),10,-8);
     func_021E71E0(p,1);
     if(func_021DD2F4(p))
-        func_021B6548((unsigned char *)(*(int *)(p+0x9c0)),8,0);
+        func_021B6548((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
     func_021D8E84(p,(int)func_021DB41C);
 }

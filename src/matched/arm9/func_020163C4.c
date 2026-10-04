@@ -22,6 +22,7 @@
  *   func_02016880  0x02016880  thumb
  *   func_02016630  0x02016630  thumb
  */
+#include "../include/Obj01018.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -100,9 +101,9 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     {
         u32 t;
         if (a2->f20 == 1) {
-            t = (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000);
+            t = (u16)(((u16)((struct Obj01018 *)a1)->f14C & 0x7FFF) | 0x8000);
         } else {
-            t = *(u32 *)(a1 + 0x14C);
+            t = ((struct Obj01018 *)a1)->f14C;
         }
         h = (u16)t;
     }
@@ -116,16 +117,16 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     func_02063790(a1 + 0x9C);
     func_020637D4(a1 + 0xC0);
 
-    *(void **)(a1 + 0x0C) = func_02049FBC(a2->f00, a2->f0c, 0, a1 + 0x10, h);
-    *(void **)(a1 + 0x1C) = func_0204A03C(a2->f00, a2->f10, 1, a1 + 0x20, h);
+    ((struct Obj01018 *)a1)->fC = func_02049FBC(a2->f00, a2->f0c, 0, a1 + 0x10, h);
+    ((struct Obj01018 *)a1)->f1C = func_0204A03C(a2->f00, a2->f10, 1, a1 + 0x20, h);
     flag = 1;
-    *(void **)(a1 + 0x14) = func_0204A0BC(a2->f00, a2->f14, 0, a1 + 0x18, h);
-    *(void **)(a1 + 0x24) = func_0204A13C(a2->f00, a2->f18, 0, a1 + 0x28, h);
+    ((struct Obj01018 *)a1)->f14 = func_0204A0BC(a2->f00, a2->f14, 0, a1 + 0x18, h);
+    ((struct Obj01018 *)a1)->f24 = func_0204A13C(a2->f00, a2->f18, 0, a1 + 0x28, h);
     sub_02016028(a1, 0);
 
     q = func_02048F60((u32)a2->f00, (u32)a2->f1c, h);
-    *(u32 **)(a1 + 0x2C) = q;
-    *(u32 **)(a1 + 0x30) = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
+    *(u32 * *)&((struct Obj01018 *)a1)->f2C = q;
+    *(u32 * *)&((struct Obj01018 *)a1)->f30 = (u32 *)((u8 *)q + ((0x30 * q[0] + 0xC) & ~3u));
 
     p = (struct Obj *)func_02030734((u16)(((u16)*(u32 *)(a1 + (5 << 6) + 0xC) & (0xFFFFDFFFu >> 0x11)) | (flag << 0xF)),
                                     0x2C, 1, data_020A72CC, 0x840);
@@ -141,18 +142,18 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
     p->f24 = a1;
 
     p->f10 = func_02049DB4((u32)a2->f00, (u32)a2->f04, 1, (u32)p,
-                           (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
+                           (u16)(((u16)((struct Obj01018 *)a1)->f14C & 0x7FFF) | 0x8000));
     p->f14 = func_02049F34((u32)a2->f00, (u32)a2->f08, (u32)(&p->f04),
-                           (u16)(((u16)*(u32 *)(a1 + 0x14C) & 0x7FFF) | 0x8000));
+                           (u16)(((u16)((struct Obj01018 *)a1)->f14C & 0x7FFF) | 0x8000));
 
-    *(void **)(a1 + 0xD4) = func_02030734(h,
+    ((struct Obj01018 *)a1)->fD4 = func_02030734(h,
                                           (u32)((struct Src *)p->f04)->f08, 0,
                                           data_020A72CC, 0x858);
-    *(void **)(a1 + 0xD8) = func_02030734(h,
+    ((struct Obj01018 *)a1)->fD8 = func_02030734(h,
                                           (u32)((struct Src *)p->f04)->f08, 0,
                                           data_020A72CC, 0x858 + 1);
-    *(void **)(a1 + 0xDC) = ((struct Src *)p->f04)->f08;
-    MIi_CpuCopy16(((struct Src *)p->f04)->f0c, *(void **)(a1 + 0xD4),
+    ((struct Obj01018 *)a1)->fDC = ((struct Src *)p->f04)->f08;
+    MIi_CpuCopy16(((struct Src *)p->f04)->f0c, ((struct Obj01018 *)a1)->fD4,
                   (u32)((struct Src *)p->f04)->f08);
 
     if (a0->f38 != 0) {
@@ -165,8 +166,8 @@ void func_020163C4(struct Ctx *a0, u32 idx, const struct Src *a2)
         func_02016C60(a1, p);
     }
     if (a0->f08 != 0) {
-        *(void **)a1 = func_02030DA8(a0->f08, func_02016880, p, 0);
+        ((struct Obj01018 *)a1)->f0 = func_02030DA8(a0->f08, func_02016880, p, 0);
     } else {
-        *(void **)a1 = func_020056A0(func_02016880, p, 0);
+        ((struct Obj01018 *)a1)->f0 = func_020056A0(func_02016880, p, 0);
     }
 }

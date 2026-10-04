@@ -12,13 +12,15 @@
  *
  * two int getters at +c, +10.
  */
+#include "../include/Obj20782.h"
+#include "../include/Obj20783.h"
 
 int func_021BB0DC(void *p)
 {
-    return *(int *)((char *)p + 0xC);
+    return ((struct Obj20782 *)p)->fC;
 }
 
 int func_021BB0E0(void *p)
 {
-    return *(int *)((char *)p + 0x10);
+    return ((struct Obj20783 *)p)->f10;
 }

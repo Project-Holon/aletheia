@@ -14,13 +14,14 @@
  *
  * 1 when the p+0x2c+0x74 object is live.
  */
+#include "../include/Obj18461.h"
 
 
 struct WinMgr;
 extern int func_021EF5C4(struct WinMgr *mgr);
 int func_021E0190(char *p)
 {
-    if (func_021EF5C4(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74)) != 0)
+    if (func_021EF5C4(*(struct WinMgr **)(((struct Obj18461 *)p)->f2C + 0x74)) != 0)
         return 1;
     return 0;
 }

@@ -13,6 +13,9 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E21E0 0x021E21E0 thumb ov183
  */
+#include "../include/Obj14442.h"
+#include "../include/Obj24649.h"
+#include "../include/Obj24650.h"
 extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
@@ -20,8 +23,8 @@ extern void func_021E21E0(int task, int *state, char *p);
 void func_021E214C(int *task,int *state,char *p)
 {
     switch (*state) {
-    case 0: func_021FE784(*(int *)(*(char **)(p+0x20)+4),2,3,0); *state=1; break;
-    case 1: if (func_021FE7B0(*(int **)(*(char **)(p+0x20)+4))) *state=2; break;
+    case 0: func_021FE784(((struct Obj24649 *)(*(char * *)&((struct Obj14442 *)p)->f20))->f4,2,3,0); *state=1; break;
+    case 1: if (func_021FE7B0(*(int * *)&((struct Obj24650 *)(*(char * *)&((struct Obj14442 *)p)->f20))->f4)) *state=2; break;
     case 2: func_021FD73C(task,(int)func_021E21E0); break;
     }
 }

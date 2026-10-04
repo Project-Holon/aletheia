@@ -22,6 +22,7 @@
  *   func_021EA600 0x021EA600 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
  */
+#include "../include/Obj00066.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,11 +47,11 @@ int func_021D171C(u8 *p, int *state)
     case 0:
         if (((Flags *)p)->flag != 0) return 1;
         mode = func_021D13A4(p);
-        func_021B916C(*(void **)p, mode);
-        if (mode == 1) func_021F878C(func_021B86DC(*(void **)p));
+        func_021B916C(((struct Obj00066 *)p)->f0, mode);
+        if (mode == 1) func_021F878C(func_021B86DC(((struct Obj00066 *)p)->f0));
         if (mode <= 1) {
-            idx = func_021B904C(*(void **)p, 0);
-            func_021F7F58(func_021BA020(*(void **)p, idx), 9, 0, 0, 0);
+            idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
+            func_021F7F58(func_021BA020(((struct Obj00066 *)p)->f0, idx), 9, 0, 0, 0);
             func_021F7998(0x270);
             func_021D185C(p, mode, 0);
             *state = 1;
@@ -58,14 +59,14 @@ int func_021D171C(u8 *p, int *state)
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021EA600(*(void **)(p + 0x54));
+            func_021EA600(((struct Obj00066 *)p)->f54);
             *state = 2;
         }
         break;
     case 2:
-        if (func_021EA710(*(void **)(p + 0x54)) != 0) {
-            idx = func_021B904C(*(void **)p, 0);
-            if (idx == func_021B904C(*(void **)p, 1)) return 1;
+        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0) {
+            idx = func_021B904C(((struct Obj00066 *)p)->f0, 0);
+            if (idx == func_021B904C(((struct Obj00066 *)p)->f0, 1)) return 1;
             func_021F7998(0x271);
             *state = 3;
         }
@@ -73,8 +74,8 @@ int func_021D171C(u8 *p, int *state)
     case 3:
         if (func_021F7EB4() == 0) {
             mode = func_021D13A4(p);
-            idx = func_021B904C(*(void **)p, 1);
-            func_021F7F58(func_021BA020(*(void **)p, idx), 9, 0, 0, 0);
+            idx = func_021B904C(((struct Obj00066 *)p)->f0, 1);
+            func_021F7F58(func_021BA020(((struct Obj00066 *)p)->f0, idx), 9, 0, 0, 0);
             func_021F7998(0x270);
             func_021D185C(p, mode, 1);
             *state = 4;
@@ -82,12 +83,12 @@ int func_021D171C(u8 *p, int *state)
         break;
     case 4:
         if (func_021F7EB4() == 0) {
-            func_021EA600(*(void **)(p + 0x54));
+            func_021EA600(((struct Obj00066 *)p)->f54);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021EA710(*(void **)(p + 0x54)) != 0) return 1;
+        if (func_021EA710(((struct Obj00066 *)p)->f54) != 0) return 1;
         break;
     }
     return 0;

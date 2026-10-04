@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16615.h"
 
-int func_0206E954(int p0, int p1, int p2, int p3){ return (p0 + *(int *)((p0 + (*(unsigned short *)((p0 + 12)) << 0)))); }
+int func_0206E954(int p0, int p1, int p2, int p3){ return (p0 + *(int *)((p0 + (((struct Obj16615 *)p0)->fC << 0)))); }

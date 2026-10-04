@@ -11,9 +11,10 @@
  * symbols:
  *   func_021D7414 0x021D7414 thumb ov125
  */
+#include "../include/Obj24860.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021D7414(char*,void*,int);
-int func_021FF6B4(char*p,void*buffer,int count,int*out){int present;present=*(int*)(p+1480);if(present)*out=func_021D7414(p,buffer,count);if(*out!=0 && present!=0)return 1;return 0;}
+int func_021FF6B4(char*p,void*buffer,int count,int*out){int present;present=((struct Obj24860 *)p)->f5C8;if(present)*out=func_021D7414(p,buffer,count);if(*out!=0 && present!=0)return 1;return 0;}

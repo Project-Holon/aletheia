@@ -13,6 +13,7 @@
  *   func_0204A380  0x0204A380  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04228.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ void func_021A030C(u8 *p, u32 a)
     if (p[0] == 1) {
         ((s8 *)p)[1]--;
         if (((s8 *)p)[1] <= 0) {
-            *(u32 *)(p + 4) = func_0204A380(*(u32 *)(p + 0xc), *(u16 *)(p + 2), 0, a);
+            ((struct Obj04228 *)p)->f4 = func_0204A380(((struct Obj04228 *)p)->fC, ((struct Obj04228 *)p)->f2, 0, a);
             p[0] = 0;
         }
     }

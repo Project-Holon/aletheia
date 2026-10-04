@@ -26,6 +26,7 @@
  *   python tools/match.py one --src src/matched/func_0201A570.c \
  *       --func func_0201A570 --addr 0x0201A570 --cc 1.1p1 --thumb
  */
+#include "../include/Obj15719.h"
 
 typedef unsigned int u32;
 
@@ -43,6 +44,6 @@ void func_0201A570(void *a0)
         func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 4)));
         func_02045808((struct U16Vec *)(*(u32 *)((char *)a0 + i * 4 + 0x1C)));
     }
-    func_02045C04((struct Rec *)(*(u32 *)a0));
+    func_02045C04((struct Rec *)(((struct Obj15719 *)a0)->f0));
     func_020307B0(a0);
 }

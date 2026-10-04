@@ -12,6 +12,7 @@
  *   func_02015EB0 0x02015EB0 thumb
  *   func_021C595C 0x021C595C thumb ov208
  */
+#include "../include/Obj00147.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02015EA0(void *p);
@@ -19,21 +20,21 @@ extern void func_02015EB0(void *p);
 extern void func_021C595C(u16 *heap,u8 *p,int key);
 void func_021C526C(u16 *heap,u8 *p,int key)
 {
-    if(*(int *)(p+0x124)) {
-        func_02015EA0(*(void **)(p+0xc));
-        if(*(void **)(p+0x94))func_02015EA0(*(void **)(p+0x94));
-        *(int *)(p+0x124)=0;
+    if(*(int *)&((struct Obj00147 *)p)->f124) {
+        func_02015EA0(((struct Obj00147 *)p)->fC);
+        if(((struct Obj00147 *)p)->f94)func_02015EA0(((struct Obj00147 *)p)->f94);
+        *(int *)&((struct Obj00147 *)p)->f124=0;
     } else {
-        func_02015EA0(*(void **)(p+0x50));
-        if(*(void **)(p+0xd8))func_02015EA0(*(void **)(p+0xd8));
-        *(int *)(p+0x124)=1;
+        func_02015EA0(((struct Obj00147 *)p)->f50);
+        if(((struct Obj00147 *)p)->fD8)func_02015EA0(((struct Obj00147 *)p)->fD8);
+        *(int *)&((struct Obj00147 *)p)->f124=1;
     }
     func_021C595C(heap,p,key);
-    if(*(int *)(p+0x124)) {
-        func_02015EB0(*(void **)(p+0xc));
-        if(*(void **)(p+0x94))func_02015EB0(*(void **)(p+0x94));
+    if(*(int *)&((struct Obj00147 *)p)->f124) {
+        func_02015EB0(((struct Obj00147 *)p)->fC);
+        if(((struct Obj00147 *)p)->f94)func_02015EB0(((struct Obj00147 *)p)->f94);
     } else {
-        func_02015EB0(*(void **)(p+0x50));
-        if(*(void **)(p+0xd8))func_02015EB0(*(void **)(p+0xd8));
+        func_02015EB0(((struct Obj00147 *)p)->f50);
+        if(((struct Obj00147 *)p)->fD8)func_02015EB0(((struct Obj00147 *)p)->fD8);
     }
 }

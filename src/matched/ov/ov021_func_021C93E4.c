@@ -15,6 +15,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20227.h"
+#include "../include/Obj20228.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +33,7 @@ void func_021C93E4(u32 a, u8 *q, u32 x, u32 y, u32 z, u32 w, u32 n, u32 cnt)
     u32 i;
 
     for (i = 0; i < cnt; i++) {
-        func_02082D44(tb + (x + (y + i) * *(u16 *)t) * 0x18,
-                      qb + (z + (w + i) * *(u16 *)q) * 0x18, n * 0x18);
+        func_02082D44(tb + (x + (y + i) * ((struct Obj20228 *)t)->f0) * 0x18,
+                      qb + (z + (w + i) * ((struct Obj20227 *)q)->f0) * 0x18, n * 0x18);
     }
 }

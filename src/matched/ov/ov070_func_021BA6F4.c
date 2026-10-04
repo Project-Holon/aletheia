@@ -19,6 +19,7 @@
  *   d_021BBA68     0x021BBA68  data  a1
  *   d_021BBA64     0x021BBA64  data  ov070  a1
  */
+#include "../include/Obj01515.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -67,16 +68,16 @@ void func_021BA6F4(char *p)
         if (i == 2) {
             r.b += 4;
         }
-        *(int *)(p + i * 4 + 0x710) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
+        *(int *)(p + i * 4 + 0x710) = (int)func_0204B294((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x710), 1);
     }
-    func_0204B92C((struct Obj *)*(int *)(p + 0x710), 1);
-    func_0204B92C((struct Obj *)*(int *)(p + 0x714), 1);
+    func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f710, 1);
+    func_0204B92C((struct Obj *)((struct Obj01515 *)p)->f714, 1);
     if (func_021B811C(p) == 0) {
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x718), 0);
+        func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f718, 0);
     }
-    if (*(int *)(p + 0x10) == 2) {
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x71C), 0);
+    if (((struct Obj01515 *)p)->f10 == 2) {
+        func_0204B3DC((struct Obj *)((struct Obj01515 *)p)->f71C, 0);
     }
     t3 = d_021BBA68;
     t4 = d_021BBA64;
@@ -85,7 +86,7 @@ void func_021BA6F4(char *p)
         r.b = t4.v[i];
         r.c = t3.v[i];
         r.e = 0;
-        *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
+        *(int *)(p + (u8)(i + 5) * 4 + 0x710) = (int)func_0204B294((void *)((struct Obj01515 *)p)->f69C, ((struct Obj01515 *)p)->f564, ((struct Obj01515 *)p)->f55C, ((struct Obj01515 *)p)->f570, &r, 0, ((struct Obj01515 *)p)->f544);
         func_0204B92C((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
         func_0204B3DC((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
     }

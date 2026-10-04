@@ -12,6 +12,7 @@
  * symbols:
  *   func_021F50D0  0x021F50D0  thumb  ov112
  */
+#include "../include/Obj22521.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_021F50D0(const unsigned char *p);
-void func_021F4B24(u8 *p) { func_021F50D0((const unsigned char *)(*(u32 *)(p + 0x20))); }
+void func_021F4B24(u8 *p) { func_021F50D0((const unsigned char *)(((struct Obj22521 *)p)->f20)); }

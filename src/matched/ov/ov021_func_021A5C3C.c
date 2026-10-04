@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04234.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -28,9 +29,9 @@ extern int func_021A5E28(void *a, void *b, int c, int d, int e, int f);
 
 int func_021A5C3C(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
-    int sw = *(int *)p;
+    int sw = ((struct Obj04234 *)p)->f0;
     int r = 0;
-    void *a = *(void **)(p + 0x1c);
+    void *a = ((struct Obj04234 *)p)->f1C;
 
     switch (sw) {
     case 0:

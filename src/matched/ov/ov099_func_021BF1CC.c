@@ -17,6 +17,7 @@
  *   func_021BE21C 0x021BE21C thumb ov099
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj22050.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void *func_021BE2A8(char *p, int key);
@@ -34,7 +35,7 @@ void func_021BF1CC(char *p)
     for (i = 0; i < 32; i++) {
         if (*(u8 *)(p + i + 0x10) && !func_021BE2A8(p, *(u8 *)(p + i + 0x10))) {
             s = (char *)func_021C23B8(*(u8 *)(p + i + 0x10) - 1);
-            v = func_021B9968(p + 0x274, *(u8 *)(s + 0x14), *(u8 *)(p + i + 0x10));
+            v = func_021B9968(p + 0x274, ((struct Obj22050 *)s)->f14, *(u8 *)(p + i + 0x10));
             if (v) {
                 func_021C2028(p, *(u8 *)(p + i + 0x10), 2);
                 func_021BE21C(p, v);

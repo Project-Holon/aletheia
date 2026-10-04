@@ -18,6 +18,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F254C     0x021F254C  data   ov093  a4
  */
+#include "../include/Obj10095.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_021E5680(int a, void *b, int c)
 
     if (c == func_021D775C(3) && func_021C7F24(b, c) != 0) {
         m = (u8 *)func_021C88A4(b, 0x1e, c);
-        *(int *)(m + 4) = 2;
+        ((struct Obj10095 *)m)->f4 = 2;
         m[8] = func_021C8010(b, c);
         func_021C88C8(b, m);
         m = (u8 *)func_021C88A4(b, 0x13, c);

@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj09169.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,14 +24,14 @@ int func_0216E490(int a0, int a1, int a2)
 {
 
 a1 = 0;
-a2 = *(int *)((char *)a0);
+a2 = ((struct Obj09169 *)((char *)a0))->f0;
 a1 = ~a1;
     if (a2 != a1) goto loc_0216E4A6;
 loc_0216E49A:
-a2 = *(int *)((char *)a0 + 4);
+a2 = ((struct Obj09169 *)a0)->f4;
     if (a2 != a1) goto loc_0216E4A6;
 loc_0216E4A0:
-a0 = *(int *)((char *)a0 + 8);
+a0 = ((struct Obj09169 *)a0)->f8;
     if (a0 == a1) goto loc_0216E4AA;
 loc_0216E4A6:
 a0 = 1;

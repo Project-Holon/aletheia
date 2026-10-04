@@ -20,6 +20,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D4FD0 0x021D4FD0 thumb ov120
  */
+#include "../include/Obj04485.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D8664(u8 *p);
@@ -35,16 +36,16 @@ extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D4FD0(u8 *p);
 void func_021D4FF4(u8 *p)
 {
-    if (func_021D8664(*(void **)(p + 0x40))) {
+    if (func_021D8664(((struct Obj04485 *)p)->f40)) {
         func_020435F4(8);
-        func_021D7EC4(*(void **)(p + 0x40));
-        func_021D68C4(*(void **)(p + 0x3c));
-        func_021D63F4(*(void **)(p + 0x3c), 0, 0);
-        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+        func_021D7EC4(((struct Obj04485 *)p)->f40);
+        func_021D68C4(((struct Obj04485 *)p)->f3C);
+        func_021D63F4(((struct Obj04485 *)p)->f3C, 0, 0);
+        func_021D69F4(((struct Obj04485 *)p)->f3C, 0, 9);
         func_02041B6C(5);
-        if (*(int *)(p + 0x138) == 1) {
+        if (((struct Obj04485 *)p)->f138 == 1) {
             func_02040588(4, 0);
-            func_021D6D94(*(void **)(p + 0x3c));
+            func_021D6D94(((struct Obj04485 *)p)->f3C);
         }
         func_021D4244((int)p, (void (*)(int))func_021D4FD0, 0x5dd);
     }

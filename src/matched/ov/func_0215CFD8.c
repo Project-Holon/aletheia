@@ -16,6 +16,7 @@
  *   func_02188D50  0x02188D50  thumb
  *   func_021C34C4  0x021C34C4  thumb
  */
+#include "../include/Obj17695.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -45,6 +46,6 @@ loc_0215CFEC:
     a0 = func_021C34C4((void **)func_02188D50(v2));
 loc_0215CFF0:
 loc_0215CFF4:
-*(u16 *)((char *)v0) = a0;
+((struct Obj17695 *)((char *)v0))->f0 = a0;
 a0 = 0;
     return a0;}

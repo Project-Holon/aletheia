@@ -36,6 +36,7 @@
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT*.
 */
+#include "../include/Obj04909.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,14 +57,14 @@ int func_02201D30(u8 *p)
 
     if (func_021C866C(p) != 0) {
         n = func_021C86A8();
-        *(u32 *)(p + 0xf8c) = 0;
+        ((struct Obj04909 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:
-            *(u32 *)(p + 0x28) = 0x25;
+            ((struct Obj04909 *)p)->f28 = 0x25;
             break;
         case 12:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj04909 *)p)->f38 = n;
+            ((struct Obj04909 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
@@ -71,7 +72,7 @@ int func_02201D30(u8 *p)
             break;
         case 3:
         case 11:
-            *(u32 *)(p + 0x38) = n;
+            ((struct Obj04909 *)p)->f38 = n;
         case 0:
         case 1:
         case 13:
@@ -82,7 +83,7 @@ int func_02201D30(u8 *p)
             break;
         }
     } else {
-        if (++*(u32 *)(p + 0xf8c) == 0xe10) {
+        if (++((struct Obj04909 *)p)->fF8C == 0xe10) {
             func_021F513C(p);
         }
     }

@@ -17,6 +17,7 @@
  * Seeded from ov048/ov171/ov205 (0x02012F68) and ov010 func_0215DDC8 and
  * func_0215DE0C (0x02012F74).
  */
+#include "../include/Obj17167.h"
 
 typedef unsigned int u32;
 
@@ -30,5 +31,5 @@ void *func_02012F68(void **h)
 
 void func_02012F74(void *h, void *w)
 {
-    *(void **)((char *)h + 0x6a8) = w;
+    ((struct Obj17167 *)h)->f6A8 = w;
 }

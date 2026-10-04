@@ -10,6 +10,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00005.h"
 
 #define W(p) (*(int *)((char *)(p)))
 #define S(p, o) (*(unsigned short *)((char *)(*(int *)((char *)(p) + 0x20)) + (o)))
@@ -53,7 +54,7 @@ void func_0215A6D0(int *p, int v)
 void func_0215A6DC(int *p, int v)
 {
     int i;
-    char *q = (char *)*(int *)((char *)p + 0x20);
+    char *q = (char *)*(int *)&((struct Obj00005 *)p)->f20;
     for (i = 0; i < 8; i++) {
         int *e = (int *)(q + i * 4);
         if (e[5] == 0) {

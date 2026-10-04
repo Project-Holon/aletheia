@@ -11,8 +11,9 @@
  *
  * Returns the word at offset 0x60. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16171.h"
 
 int func_020517E0(char *p)
 {
-    return *(int *)(p + 0x60);
+    return ((struct Obj16171 *)p)->f60;
 }

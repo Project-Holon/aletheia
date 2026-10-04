@@ -21,6 +21,7 @@
  *   func_02008550  0x02008550  thumb
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj00963.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -42,19 +43,19 @@ void func_021B9EF4(char *p)
     void *bg;
     int i;
 
-    bg = func_020490F4(0x58, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x574) = func_0204AC18(bg, 0x20, 0, 0x1a0, 0, 1, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x578) = func_0204A6C8(bg, 0x1f, 0, 0, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x57C) = func_0204AF28(bg, 0x1e, 0x1d, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x554) = func_0204AC18(bg, 0x1c, 0, 0x60, 0, 1, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x560) = func_0204A6C8(bg, 0x1b, 0, 0, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x568) = func_0204AF28(bg, 0x1a, 0x19, *(u16 *)(p + 0x544));
+    bg = func_020490F4(0x58, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f574 = func_0204AC18(bg, 0x20, 0, 0x1a0, 0, 1, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f578 = func_0204A6C8(bg, 0x1f, 0, 0, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f57C = func_0204AF28(bg, 0x1e, 0x1d, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f554 = func_0204AC18(bg, 0x1c, 0, 0x60, 0, 1, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f560 = func_0204A6C8(bg, 0x1b, 0, 0, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f568 = func_0204AF28(bg, 0x1a, 0x19, ((struct Obj00963 *)p)->f544);
     for (i = 0; i < 8; i++) {
-        *(int *)(p + i * 4 + 0x614) = (int)func_02043678(0xc, 2, 0x20, *(u16 *)(p + 0x544));
-        *(int *)(p + i * 4 + 0x5F4) =func_0204A6C8(bg, 0x14, 0, 0, *(u16 *)(p + 0x544));
+        *(int *)(p + i * 4 + 0x614) = (int)func_02043678(0xc, 2, 0x20, ((struct Obj00963 *)p)->f544);
+        *(int *)(p + i * 4 + 0x5F4) =func_0204A6C8(bg, 0x14, 0, 0, ((struct Obj00963 *)p)->f544);
     }
-    func_02008550((const struct Sub0200852CObj *)(*(int *)(p + 8)));
-    *(int *)(p + 0x588) = func_0204AC18(bg, 0x15, 0, 0, 0, 3, *(u16 *)(p + 0x544));
-    *(int *)(p + 0x56C) = func_0204AF28(bg, 0x13, 0x12, *(u16 *)(p + 0x544));
+    func_02008550((const struct Sub0200852CObj *)(((struct Obj00963 *)p)->f8));
+    ((struct Obj00963 *)p)->f588 = func_0204AC18(bg, 0x15, 0, 0, 0, 3, ((struct Obj00963 *)p)->f544);
+    ((struct Obj00963 *)p)->f56C = func_0204AF28(bg, 0x13, 0x12, ((struct Obj00963 *)p)->f544);
     func_02049238(bg);
 }

@@ -10,5 +10,6 @@
  * symbols:
  *   func_021C5CFC 0x021C5CFC arm ov114
  */
+#include "../include/Obj06461.h"
 extern int func_021C5CFC(void *fileinfo, char *buf, unsigned int size);
-int func_021D5D24(char *p){int ok=1;*(int *)(p+0xb0)=0;*(int *)(p+0xcc)=1;*(int *)(p+0xd0)=0;if(!func_021C5CFC(p,*(void **)(p+0xb8),*(int *)(p+0xbc)+0x40))ok=0;return ok;}
+int func_021D5D24(char *p){int ok=1;((struct Obj06461 *)p)->fB0=0;((struct Obj06461 *)p)->fCC=1;((struct Obj06461 *)p)->fD0=0;if(!func_021C5CFC(p,((struct Obj06461 *)p)->fB8,((struct Obj06461 *)p)->fBC+0x40))ok=0;return ok;}

@@ -13,6 +13,7 @@
  *   func_021B8BEC  0x021B8BEC  thumb  ov093
  *   d_021EFD38     0x021EFD38  data   a4
  */
+#include "../include/Obj02129.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,14 +32,14 @@ int func_021B7488(int *sp, u8 *p)
         p[0x42b] = 1;
         p[0x42c] = 0;
         p[0x42d] = 1;
-        p[0x46c] = *(u8 *)(*(u32 *)p + 0x21);
+        p[0x46c] = *(u8 *)(((struct Obj02129 *)p)->f0 + 0x21);
         p[0x46d] = func_021B8BEC(p, p[0x46c], 0);
         *sp = *sp + 1;
         return 0;
     }
     if ((u32)*sp < 7) {
         if (d_021EFD38[*sp](p, p + 0x460)) {
-            *(u32 *)(p + 0x460) = 0;
+            ((struct Obj02129 *)p)->f460 = 0;
             *sp = *sp + 1;
         }
         return 0;

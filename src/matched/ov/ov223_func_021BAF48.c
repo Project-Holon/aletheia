@@ -18,6 +18,8 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj08461.h"
+#include "../include/Obj26093.h"
 typedef unsigned char u8;
 struct Descriptor;
 struct Cfg;
@@ -34,16 +36,16 @@ int func_021BAF48(char *p)
     u8 i;
     for (i = 0; i < 3; i++) {
         char *q = p + i * 4;
-        if (*(int *)(q + 0x244) == 0) {
-            if (func_0201C6C4(*(struct PrintSys **)(p + 0x1C),
-                            func_02045770(*(struct Descriptor **)(q + 0x238))) != 0) {
+        if (((struct Obj08461 *)q)->f244 == 0) {
+            if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj26093 *)p)->f1C,
+                            func_02045770(*(struct Descriptor * *)&((struct Obj08461 *)q)->f238)) != 0) {
                 finished = 0;
             } else {
-                struct Descriptor *d = *(struct Descriptor **)(q + 0x238);
+                struct Descriptor *d = *(struct Descriptor * *)&((struct Obj08461 *)q)->f238;
                 func_02045334(d);
                 func_02045374((struct Cfg *)d);
                 func_02041B6C(func_02045730(d));
-                *(int *)(q + 0x244) = 1;
+                ((struct Obj08461 *)q)->f244 = 1;
             }
         }
     }

@@ -15,8 +15,9 @@
  *   func_02021540 0x02021540 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj06634.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct PalAnmSlot; extern void func_020215A0(struct PalAnmSlot *,u32); extern void func_02021540(void *); extern void func_020307B0(void *);
-void func_021FE734(char *p) { func_020215A0(*(struct PalAnmSlot **)(p+0x20),2); func_020215A0(*(struct PalAnmSlot **)(p+0x20),0); func_020215A0(*(struct PalAnmSlot **)(p+0x20),3); func_020215A0(*(struct PalAnmSlot **)(p+0x20),1); func_02021540(*(void **)(p+0x20)); func_020307B0(p); }
+void func_021FE734(char *p) { func_020215A0(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,2); func_020215A0(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,0); func_020215A0(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,3); func_020215A0(*(struct PalAnmSlot * *)&((struct Obj06634 *)p)->f20,1); func_02021540(((struct Obj06634 *)p)->f20); func_020307B0(p); }

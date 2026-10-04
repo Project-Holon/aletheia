@@ -22,6 +22,13 @@
  *   func_021F88B0 0x021F88B0 thumb ov185
  *   func_021F8A0C 0x021F8A0C thumb ov185
  */
+#include "../include/Obj01276.h"
+#include "../include/Obj24723.h"
+#include "../include/Obj24724.h"
+#include "../include/Obj24725.h"
+#include "../include/Obj24726.h"
+#include "../include/Obj24727.h"
+#include "../include/Obj24728.h"
 typedef unsigned short u16;
 typedef struct Cfg {u16 heap;unsigned char rest[6];} Cfg;
 typedef struct Pair {int x,y;} Pair;
@@ -43,36 +50,36 @@ void func_021F8790(int *task,unsigned *state,char *p)
     switch(*state) {
     case 0:
         func_02082BCC(&cfg,0,8);
-        cfg.heap=*(u16 *)(p+8);
-        *(u16 *)(p+10)=0;
-        func_021FF54C(*(char **)(*(char **)(p+0x34)+0x14),1,&cfg);
+        cfg.heap=((struct Obj01276 *)p)->f8;
+        ((struct Obj01276 *)p)->fA=0;
+        func_021FF54C(*(char * *)&((struct Obj24723 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,1,&cfg);
         *state=1; break;
     case 1:
-        *(u16 *)(p+10)=*(u16 *)(p+10)+1;
-        if(func_021FF648(*(char **)(*(char **)(p+0x34)+0x14)) && *(u16 *)(p+10)>0x60) {
-            func_021FD860(*(int *)(p+0x38),0,0);
+        ((struct Obj01276 *)p)->fA=((struct Obj01276 *)p)->fA+1;
+        if(func_021FF648(*(char * *)&((struct Obj24724 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14) && ((struct Obj01276 *)p)->fA>0x60) {
+            func_021FD860(((struct Obj01276 *)p)->f38,0,0);
             *state=2;
         }
         break;
     case 2:
-        if(!func_021FF72C(*(char **)(*(char **)(p+0x34)+0x14),&out)) {
-            if(func_021FF660(*(char **)(*(char **)(p+0x34)+0x14),(int)(p+0x40),5,(int *)(p+0x54)) && *(int *)(p+0x54)) {
-                *(u16 *)(p+12)=0;
+        if(!func_021FF72C(*(char * *)&((struct Obj24725 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,&out)) {
+            if(func_021FF660(*(char * *)&((struct Obj24726 *)(*(char * *)&((struct Obj01276 *)p)->f34))->f14,(int)(p+0x40),5,(int *)(p+0x54)) && ((struct Obj01276 *)p)->f54) {
+                ((struct Obj01276 *)p)->fC=0;
                 func_021FD73C(task,(int)func_021F88B0);
                 break;
             }
             *state=3;
-            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),(void *)0x14d);
+            func_021FD170(((struct Obj01276 *)p)->f4,((struct Obj24727 *)(*(char * *)&((struct Obj01276 *)p)->f34))->fC,(void *)0x14d);
         }else{
             *state=3;
-            func_021FD170(*(void **)(p+4),*(void **)(*(char **)(p+0x34)+12),(void *)out);
+            func_021FD170(((struct Obj01276 *)p)->f4,((struct Obj24728 *)(*(char * *)&((struct Obj01276 *)p)->f34))->fC,(void *)out);
         }
         break;
     case 3:
         if(func_02035C60()) {
             func_02035D20(&x,&y);
             pair.x=x;pair.y=y;
-            func_021FD860(*(int *)(p+0x3c),1,&pair);
+            func_021FD860(((struct Obj01276 *)p)->f3C,1,&pair);
             func_020061E4(0x703);
             func_021FD73C(task,(int)func_021F8A0C);
         }

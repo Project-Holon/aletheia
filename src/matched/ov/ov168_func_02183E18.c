@@ -19,6 +19,7 @@
  * Three-state step over the object at *(x+0xC): start on 0, poll on 1,
  *   install 0x2183E60 on 2.
  */
+#include "../include/Obj14259.h"
 
 
 typedef unsigned short u16;
@@ -36,11 +37,11 @@ void func_02183E18(int a, int *state)
     int x = func_02183D3C((unsigned int *)a);
     switch (*state) {
     case 0:
-        func_0204B878((struct Obj *)(*(int *)(x + 0xC)), 1);
+        func_0204B878((struct Obj *)(((struct Obj14259 *)x)->fC), 1);
         *state = 1;
         break;
     case 1:
-        if (func_0204B98C((struct Actor *)(*(int *)(x + 0xC))) == 0)
+        if (func_0204B98C((struct Actor *)(((struct Obj14259 *)x)->fC)) == 0)
             *state = 2;
         break;
     case 2:

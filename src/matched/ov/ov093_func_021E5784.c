@@ -22,6 +22,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F29E8     0x021F29E8  data   ov093  a4
  */
+#include "../include/Obj06273.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,10 +52,10 @@ void func_021E5784(void *a, void *b, int c, int d)
             d = func_021B8C20(func_021C815C(b), n, 0);
         }
         m = (u8 *)func_021C88A4(b, 0x1e, c);
-        *(int *)(m + 4) = 3;
+        ((struct Obj06273 *)m)->f4 = 3;
         m[8] = d;
-        *(int *)(m + 0xc) = func_021C8138(b) + 2;
-        *(int *)(m + 0x10) = func_021D70A8(a);
+        ((struct Obj06273 *)m)->fC = func_021C8138(b) + 2;
+        ((struct Obj06273 *)m)->f10 = func_021D70A8(a);
         m[0x1c] = 2;
         func_021C88C8(b, m);
     }

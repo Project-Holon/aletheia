@@ -12,6 +12,9 @@
  * symbols:
  *   func_02046EFC  0x02046EFC  arm
  */
+#include "../include/Obj00429.h"
+#include "../include/Obj06001.h"
+#include "../include/Obj12676.h"
 
 struct Tagged;
 extern void func_02046EFC(struct Tagged *p);
@@ -27,11 +30,11 @@ int func_0219CF54(int *t, unsigned int id)
 
     t = (int *)t[7];
     i = 0;
-    n = *(unsigned short *)((char *)t + 4);
+    n = *(unsigned short *)&((struct Obj00429 *)t)->f4;
     p = (unsigned char *)t[3];
     for (; i < n; i++, p += 12) {
-        if (*(unsigned short *)p == id) {
-            *(unsigned short *)p = 0xFFFF;
+        if (((struct Obj12676 *)p)->f0 == id) {
+            ((struct Obj12676 *)p)->f0 = 0xFFFF;
             return 1;
         }
     }
@@ -39,10 +42,10 @@ int func_0219CF54(int *t, unsigned int id)
     j = 0;
     q = (unsigned char *)t[4];
     for (; j < m; j++, q += 20) {
-        if (*(int *)(q + 0x10) != 0 && *(unsigned short *)(q + 8) == id) {
+        if (*(int *)&((struct Obj06001 *)q)->f10 != 0 && ((struct Obj06001 *)q)->f8 == id) {
             *q = 0;
-            func_02046EFC(*(void **)(q + 0x10));
-            *(int *)(q + 0x10) = 0;
+            func_02046EFC(((struct Obj06001 *)q)->f10);
+            *(int *)&((struct Obj06001 *)q)->f10 = 0;
             return 1;
         }
     }

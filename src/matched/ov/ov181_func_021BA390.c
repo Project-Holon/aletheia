@@ -14,6 +14,7 @@
  *   func_021BA354 0x021BA354 thumb ov181
  *   func_021B9DCC 0x021B9DCC thumb ov181
  */
+#include "../include/Obj04570.h"
 typedef unsigned short u16;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -27,14 +28,14 @@ void func_021BA390(char *p)
     unsigned n;
     u16 i, j, k, l, m, o;
     unsigned x, y;
-    if (*(int *)(p + 0x2e0) == 0) return;
-    *(int *)(p + 0x2dc) += 0x1000;
-    if (*(int *)(p + 0x2dc) < 0x1000) return;
-    *(int *)(p + 0x2dc) -= 0x1000;
+    if (((struct Obj04570 *)p)->f2E0 == 0) return;
+    ((struct Obj04570 *)p)->f2DC += 0x1000;
+    if (((struct Obj04570 *)p)->f2DC < 0x1000) return;
+    ((struct Obj04570 *)p)->f2DC -= 0x1000;
     n = 1;
-    if (*(unsigned char *)(p + 0x2d2)) n = 4;
-    a = func_020437D4(func_02045770(*(void **)(p + 0x2bc)));
-    b = func_020437D4(func_02045770(*(void **)(p + 0x2c4)));
+    if (((struct Obj04570 *)p)->f2D2) n = 4;
+    a = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2BC));
+    b = func_020437D4(func_02045770(((struct Obj04570 *)p)->f2C4));
     x = 0;
     for (i = 0; i < 32; i++, x += 32) func_021BA354(a + x, 0, n);
     for (j = 1; j < 25; j++) {

@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj03813.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ struct Obj;
 extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
-void func_021CA3A0(char *p) {func_0204B8C4(*(void **)(p+356),0);func_0204B878(*(void **)(p+356),9);func_0204B92C(*(void **)(p+356),1);}
+void func_021CA3A0(char *p) {func_0204B8C4(((struct Obj03813 *)p)->f164,0);func_0204B878(((struct Obj03813 *)p)->f164,9);func_0204B92C(((struct Obj03813 *)p)->f164,1);}

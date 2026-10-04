@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj18988.h"
 
 typedef unsigned int u32;
 
 void func_02164FC4(char *p)
 {
-    *(u32 *)(p + 0xc) = 0x708;
+    ((struct Obj18988 *)p)->fC = 0x708;
 }

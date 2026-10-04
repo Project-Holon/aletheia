@@ -13,11 +13,12 @@
  *
  * Store v at +0x28, return 13.
  */
+#include "../include/Obj18471.h"
 
 
 int func_021E8FE0(char *p, int v)
 {
-    *(int *)(p + 0x28) = v;
+    ((struct Obj18471 *)p)->f28 = v;
     return 0xd;
 }
 

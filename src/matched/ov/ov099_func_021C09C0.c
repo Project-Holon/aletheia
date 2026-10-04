@@ -27,6 +27,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_021BA828 0x021BA828 thumb ov099
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,7 +57,7 @@ int func_021C09C0(char *p, int ret)
     Off off;
     u32 counter;
     func_021BA928((struct W *)p);
-    if (func_02156B8C() != -1) *(int *)(p + 0x1cc) = 11;
+    if (func_02156B8C() != -1) ((struct Obj00008 *)p)->f1CC = 11;
     off = K242;
     if (func_021C23C0(*(u16 *)(p + off) - 1) == 0) {
         func_021BA874((struct Work *)p, *(u16 *)(p + off) - 1);
@@ -64,10 +65,10 @@ int func_021C09C0(char *p, int ret)
         *(int *)(p + (off - 0x76)) = 0x13;
         return ret;
     }
-    counter = *(u32 *)(p + 0x1e0) + 1u;
-    *(u32 *)(p + 0x1e0) = counter;
+    counter = *(u32 *)&((struct Obj00008 *)p)->f1E0 + 1u;
+    *(u32 *)&((struct Obj00008 *)p)->f1E0 = counter;
     if ((int)counter % 900 == 0) {
-        func_021C2810(*(struct S **)(p + 8), (char *)func_021C23B8(*(u16 *)(p + off) - 1));
+        func_021C2810(*(struct S * *)&((struct Obj00008 *)p)->f8, (char *)func_021C23B8(*(u16 *)(p + off) - 1));
         func_021C18C8(p, 3, 3);
     }
     off = K1e0;

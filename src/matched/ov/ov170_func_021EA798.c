@@ -19,6 +19,7 @@
  *   func_021E0128 0x021E0128 thumb
  *   func_021E00C4 0x021E00C4 thumb
  */
+#include "../include/Obj00000.h"
 
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(unsigned char *p, int box);
@@ -44,12 +45,12 @@ void func_021EA798(unsigned char *p, int sel)
         cb = func_021E00C4;
     switch (sel) {
     case 0:
-        *(int *)(p + 0x28) = 0x15;
+        ((struct Obj00000 *)p)->f28 = 0x15;
         break;
     case 1:
-        *(int *)(p + 0x28) = 0x63;
+        ((struct Obj00000 *)p)->f28 = 0x63;
         break;
     }
     func_020061E4(0x548);
-    func_021E8FC0(p, cb, *(int *)(p + 0x28));
+    func_021E8FC0(p, cb, ((struct Obj00000 *)p)->f28);
 }

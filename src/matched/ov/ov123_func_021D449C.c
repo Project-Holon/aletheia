@@ -14,6 +14,7 @@
  *   func_021D4A04 0x021D4A04 thumb ov123
  *   func_021D4D40 0x021D4D40 thumb ov123
  */
+#include "../include/Obj00273.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
@@ -27,16 +28,16 @@ extern void func_021D4A04(char *p);
 extern void func_021D4D40(char *, int);
 void func_021D449C(char *p)
 {
-    if (func_020279E8(*(void **)(p + 0x238))) {
-        if (!func_02027A04(*(void **)(p + 0x238))) {
+    if (func_020279E8(((struct Obj00273 *)p)->f238)) {
+        if (!func_02027A04(((struct Obj00273 *)p)->f238)) {
             func_021D4244(p, func_021D4FB8, 0x1b6);
         } else {
             func_020414EC(5);
-            *(int *)(p + 8) = 0;
+            ((struct Obj00273 *)p)->f8 = 0;
             func_021D4244(p, func_021D4A04, 0x1bb);
         }
-        func_02027858(*(void **)(p + 0x238));
-        *(int *)(p + 0x238) = 0;
+        func_02027858(((struct Obj00273 *)p)->f238);
+        *(int *)&((struct Obj00273 *)p)->f238 = 0;
         func_021D4D40(p, 0);
     }
 }

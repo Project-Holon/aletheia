@@ -35,6 +35,7 @@
  *   func_02175094  0x02175094  thumb  ov012
  *   d_021807E4     0x021807E4  data  a4
  */
+#include "../include/Obj19418.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -87,7 +88,7 @@ extern u8 d_021807E4[];
 
 int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
 {
-    Work *w = *(Work **)((u8 *)ctx + 0x355c);
+    Work *w = *(Work * *)&((struct Obj19418 *)ctx)->f355C;
     int me;
     int n;
     int i;

@@ -31,6 +31,7 @@
  *   func_02039CB4  0x02039CB4  arm
  *   func_0203D378  0x0203D378  arm
  */
+#include "../include/Obj09416.h"
 
 typedef unsigned char u8;
 
@@ -73,7 +74,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
     int idx;
     void *h;
 
-    p = *(u8 **)(w + 0x355C);
+    p = *(u8 * *)&((struct Obj09416 *)w)->f355C;
     idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
     if (func_0217BB20(w) == 1) {
         func_0217F074(w);
@@ -84,7 +85,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
         switch (p[0x16d]) {
         case 0:
         default:
-            func_0201AC2C(func_02012934((*(Sys **)w)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
+            func_0201AC2C(func_02012934((*(Sys * *)&((struct Obj09416 *)w)->f0)->f8), (struct Rec534 *)(((int *)(p + 0x148))[idx]));
             break;
         case 1:
             h = func_0217B9CC(w);
@@ -92,7 +93,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
             func_0217B9F4(h);
             break;
         }
-        func_0201A2A8((void *)(*(int *)(w + 0x352C)), (void *)(((int *)(p + 0x148))[idx]));
+        func_0201A2A8((void *)(((struct Obj09416 *)w)->f352C), (void *)(((int *)(p + 0x148))[idx]));
         (*state)++;
         break;
     case 1:

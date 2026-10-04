@@ -10,10 +10,11 @@
  * symbols:
  *   func_0209C0A4 0x0209C0A4 arm
  */
+#include "../include/Obj22704.h"
 extern int func_0209C0A4(int a, int b);
 int func_021D8AF4(int a, char *p)
 {
     if (a >= 2)
         return func_0209C0A4(a - 2, 6);
-    return *(int *)(p + 0x630);
+    return ((struct Obj22704 *)p)->f630;
 }

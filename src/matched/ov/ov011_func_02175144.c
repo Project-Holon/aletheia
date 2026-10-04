@@ -12,6 +12,7 @@
  * symbols:
  *   d_02176AA0  0x02176AA0  data ov011 a2
  */
+#include "../include/Obj02670.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ int func_02175144(u16 v, u8 *out)
     int i;
     u8 k;
 
-    *(u16 *)out = v;
+    ((struct Obj02670 *)out)->f0 = v;
     for (i = 0; i < 8; i++) {
         if (v == d_02176AA0[i].a) {
             k = 0;

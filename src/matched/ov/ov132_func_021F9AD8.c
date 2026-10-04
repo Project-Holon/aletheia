@@ -17,6 +17,8 @@
  *   _ll_mul 0x0209C054 arm
  *   _ull_mul 0x0209C054 arm
  */
+#include "../include/Obj03287.h"
+#include "../include/Obj08155.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -35,15 +37,15 @@ static inline u32 random_below(u32 n)
 void func_021F9AD8(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ***)(p + 0x30) && func_0203D378() != 1) return;
+    if (**(void ** *)&((struct Obj08155 *)p)->f30 && func_0203D378() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
-        char *record = *(char **)(*(char **)(p + 0x30) + i * 4 + 4);
+        char *record = *(char **)(*(char * *)&((struct Obj08155 *)p)->f30 + i * 4 + 4);
         Action action;
         int value;
-        if (*(int *)record != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
-        if (*(u16 *)(record + 0x3E) != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
-        if (*(u16 *)(record + 0x44) != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
+        if (((struct Obj03287 *)record)->f0 != 2 || func_021F9774(p, i) == 1 || *(u16 *)(p + i * 2 + 0x124) != 0) continue;
+        if (((struct Obj03287 *)record)->f3E != 255 && !*(int *)(p + i * 8 + 0x13C)) eligible[0] = 1;
+        if (((struct Obj03287 *)record)->f44 != 255 && !*(int *)(p + i * 8 + 0x140)) eligible[1] = 1;
         if (!eligible[0] && !eligible[1]) continue;
         if (eligible[0] == 1 && eligible[1] == 0) action = ACTION7;
         else if (eligible[1] == 1 && eligible[0] == 0) action = ACTION8;
@@ -52,24 +54,24 @@ void func_021F9AD8(char *p, int mode, u8 slot)
         }
         switch (mode) {
         case 1:
-            if (*(u16 *)(record + 0x78) == 65533 && i == slot) {
+            if (((struct Obj03287 *)record)->f78 == 65533 && i == slot) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(30) + 30;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
             break;
         case 2:
-            if (*(u16 *)(record + 0x78) == 65535 && random_below(100) < 50) {
+            if (((struct Obj03287 *)record)->f78 == 65535 && random_below(100) < 50) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
-            if (*(u16 *)(record + 0x78) == 65534 && random_below(100) < 25) {
+            if (((struct Obj03287 *)record)->f78 == 65534 && random_below(100) < 25) {
                 *(u16 *)(p + i * 2 + 0x124) = random_below(60) + 60;
                 *(int *)(p + i * 4 + 0x12C) = action;
             }
             break;
         case 0:
-            if (*(u16 *)(record + 0x78) != 0 && *(u16 *)(record + 0x78) < 65533) {
-                value = *(u16 *)(record + 0x78) + (s8)(random_below(121) - 60);
+            if (((struct Obj03287 *)record)->f78 != 0 && ((struct Obj03287 *)record)->f78 < 65533) {
+                value = ((struct Obj03287 *)record)->f78 + (s8)(random_below(121) - 60);
                 if (value < 0) *(u16 *)(p + i * 2 + 0x124) = 0;
                 else *(u16 *)(p + i * 2 + 0x124) = value;
                 *(int *)(p + i * 4 + 0x12C) = action;

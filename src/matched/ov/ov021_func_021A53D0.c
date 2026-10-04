@@ -17,6 +17,7 @@
  *   func_0216D674  0x0216D674  thumb  ov010
  *   func_021A3964  0x021A3964  thumb  ov021
  */
+#include "../include/Obj09569.h"
 
 typedef unsigned int u32;
 
@@ -35,7 +36,7 @@ void func_021A53D0(u32 *p)
     int v;
 
     if (p[0] == 3) {
-        h = func_021A3960(*(unsigned char **)(p + 3));
+        h = func_021A3960(*(unsigned char * *)&((struct Obj09569 *)p)->fC);
         v = func_0216D5F8(h);
         func_0216D4B4(h);
         func_0216D5E0((int)h, v);

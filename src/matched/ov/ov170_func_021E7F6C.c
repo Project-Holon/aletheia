@@ -20,6 +20,8 @@
  *   func_021E01A8 0x021E01A8 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23927.h"
 struct WinMgr;
 extern void func_021EE364(char **p, int idx, int v);
 extern void func_021ED888(char *w, int a);
@@ -36,7 +38,7 @@ extern int func_021E8F50(unsigned char *p, int v);
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 int func_021E7F6C(unsigned char *p)
 {
-    switch (*(int *)(*(char **)p + 0x24)) {
+    switch (((struct Obj23927 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 0:
         func_021EE364((char **)p, 0, 10);
         break;

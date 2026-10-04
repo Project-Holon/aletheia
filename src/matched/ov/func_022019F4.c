@@ -16,6 +16,7 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj12236.h"
 
 int func_022019F4(char *p, int key)
 {
@@ -24,7 +25,7 @@ int func_022019F4(char *p, int key)
     for (i = 0; i < 14; i++) {
         char *e = p + i * 0x5c;
 
-        if (*(int *)(e + 8) != 0 && key == *(int *)(e + 0x50))
+        if (((struct Obj12236 *)e)->f8 != 0 && key == ((struct Obj12236 *)e)->f50)
             return i;
     }
     return -1;

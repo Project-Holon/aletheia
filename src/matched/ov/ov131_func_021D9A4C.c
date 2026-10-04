@@ -18,6 +18,8 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_021DB700 0x021DB700 thumb ov131
  */
+#include "../include/Obj00344.h"
+#include "../include/Obj01939.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,25 +39,25 @@ void func_021D9A4C(u8 *a,u8 *p)
     pos.flags=1;
     i=0;
     pos.z=0;
-    *(u32 *)(p+0x90)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xe4),*(u32 *)(a+0xac),*(u32 *)(a+0x114),&pos,1,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0x90),0);
+    *(u32 *)&((struct Obj01939 *)p)->f90=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fE4,((struct Obj00344 *)a)->fAC,((struct Obj00344 *)a)->f114,&pos,1,((struct Obj00344 *)a)->f0);
+    func_0204B3DC(((struct Obj01939 *)p)->f90,0);
     pos.x=172;
     pos.y=56;
-    *(u32 *)(p+0x94)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xd8),*(u32 *)(a+0xa8),*(u32 *)(a+0x10c),&pos,1,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0x94),0);
+    *(u32 *)&((struct Obj01939 *)p)->f94=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fD8,((struct Obj00344 *)a)->fA8,*(u32 *)&((struct Obj00344 *)a)->f10C,&pos,1,((struct Obj00344 *)a)->f0);
+    func_0204B3DC(((struct Obj01939 *)p)->f94,0);
     pos.flags=0;
-    *(u32 *)(p+0x98)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xec),*(u32 *)(a+0xc4),*(u32 *)(a+0x11c),&pos,0,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0x98),0);
+    *(u32 *)&((struct Obj01939 *)p)->f98=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fEC,((struct Obj00344 *)a)->fC4,((struct Obj00344 *)a)->f11C,&pos,0,((struct Obj00344 *)a)->f0);
+    func_0204B3DC(((struct Obj01939 *)p)->f98,0);
     pos.z=5;
     pos.priority=8;
-    *(u32 *)(p+0x9c)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xec),*(u32 *)(a+0xc4),*(u32 *)(a+0x11c),&pos,0,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0x9c),0);
-    func_0204B92C(*(void **)(p+0x9c),1);
+    *(u32 *)&((struct Obj01939 *)p)->f9C=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fEC,((struct Obj00344 *)a)->fC4,((struct Obj00344 *)a)->f11C,&pos,0,((struct Obj00344 *)a)->f0);
+    func_0204B3DC(((struct Obj01939 *)p)->f9C,0);
+    func_0204B92C(((struct Obj01939 *)p)->f9C,1);
     pos.z=2;
     pos.priority=4;
     pos.flags=0;
-    *(u32 *)(p+0xa0)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xec),*(u32 *)(a+0xc4),*(u32 *)(a+0x11c),&pos,0,*(u16 *)a);
-    func_0204B3DC(*(void **)(p+0xa0),0);
-    func_0204B92C(*(void **)(p+0xa0),1);
+    *(u32 *)&((struct Obj01939 *)p)->fA0=(u32)func_0204B294((void *)*(u32 *)&((struct Obj00344 *)a)->f174,((struct Obj00344 *)a)->fEC,((struct Obj00344 *)a)->fC4,((struct Obj00344 *)a)->f11C,&pos,0,((struct Obj00344 *)a)->f0);
+    func_0204B3DC(((struct Obj01939 *)p)->fA0,0);
+    func_0204B92C(((struct Obj01939 *)p)->fA0,1);
     for(;i<p[0x2b];i++) func_021DB700(a,p,(p+0xb0)+i*24,i);
 }

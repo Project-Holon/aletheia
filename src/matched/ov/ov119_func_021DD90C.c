@@ -22,6 +22,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int a,b; } Pair;
@@ -55,8 +56,8 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
     items=(int *)(p+0x5bc); items[i]=func_020450F0(3,((int *)&t)[i],16,12,2,5,0); w=items[i];
     func_0201DD78(5,6,0);
     msg+=0x72;
-    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),msg,(void *)(*(int *)(p+0x730)));
-    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,(void *)(*(int *)(p+0x730)),(void *)(*(int *)(p+0x728)));
+    func_02045CAC((struct MsgBank *)(*(int *)&((struct Obj00001 *)p)->f720),msg,(void *)(*(int *)&((struct Obj00001 *)p)->f730));
+    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,(void *)(*(int *)&((struct Obj00001 *)p)->f730),(void *)(*(int *)&((struct Obj00001 *)p)->f728));
     func_02045334((struct Descriptor *)w);
     func_02045374((struct Cfg *)w);
     func_02041B6C(3);

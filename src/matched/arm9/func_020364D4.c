@@ -20,12 +20,13 @@
  *   func_02036568  0x02036568  arm
  *   func_02036624  0x02036624  arm
  */
+#include "../include/Obj01465.h"
 
 extern int func_02036568(void *p, unsigned char *dst, int len, int max);
 extern int func_02036624(void *p, int v);
 int func_020364D4(char *p, unsigned char *dst, int len, int max)
 {
     int d = func_02036568(p, dst, len, max);
-    *(short *)(p + 0xc) = (short)func_02036624(p, *(short *)(p + 0xc) + d);
+    ((struct Obj01465 *)p)->fC = (short)func_02036624(p, ((struct Obj01465 *)p)->fC + d);
     return d;
 }

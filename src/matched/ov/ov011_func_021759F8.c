@@ -13,6 +13,7 @@
  *   func_0203F4FC 0x0203F4FC arm
  *   func_0203D378 0x0203D378 arm
  */
+#include "../include/Obj09352.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,6 +22,6 @@ extern u32 func_0203D378(void);
 void func_021759F8(u8 *p, u16 n)
 {
     p[0x1A5] |= 2;
-    *(u16 *)(p + 0xAA) = n;
-    if (func_0203D378() == 0) *(u32 *)(p + 0x190) = func_0203F4FC();
+    ((struct Obj09352 *)p)->fAA = n;
+    if (func_0203D378() == 0) ((struct Obj09352 *)p)->f190 = func_0203F4FC();
 }

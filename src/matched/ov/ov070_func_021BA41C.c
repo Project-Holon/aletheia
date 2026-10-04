@@ -19,6 +19,7 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B908  0x0204B908  arm
  */
+#include "../include/Obj01365.h"
 
 typedef struct {
     unsigned short a, b;
@@ -43,14 +44,14 @@ void func_021BA41C(char *p)
 {
     Pt pt;
     func_021BB398((int)p, 0);
-    func_0204B454((struct Actor *)*(int *)(p + 0x6A4), (struct PtS *)&pt, 0xFFFF);
-    pt.b = (*(int *)(p + 0x810) + 1) * 0x18;
-    func_0204B404(*(int *)(p + 0x6A4), &pt, 0xFFFF);
+    func_0204B454((struct Actor *)((struct Obj01365 *)p)->f6A4, (struct PtS *)&pt, 0xFFFF);
+    pt.b = (((struct Obj01365 *)p)->f810 + 1) * 0x18;
+    func_0204B404(((struct Obj01365 *)p)->f6A4, &pt, 0xFFFF);
     if (func_020355C4() == 0) {
         func_021BB398((int)p, 1);
     }
-    func_0202EB04((struct CodeIn *)(*(int *)(p + 0x850)));
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x6A8), func_021B61C8(p) >= 7);
-    func_0204B908(*(int *)(p + 0x6A4), 0);
-    func_0204B908(*(int *)(p + 0x6A8), 0);
+    func_0202EB04((struct CodeIn *)(((struct Obj01365 *)p)->f850));
+    func_0204B3DC((struct Obj *)((struct Obj01365 *)p)->f6A8, func_021B61C8(p) >= 7);
+    func_0204B908(((struct Obj01365 *)p)->f6A4, 0);
+    func_0204B908(((struct Obj01365 *)p)->f6A8, 0);
 }

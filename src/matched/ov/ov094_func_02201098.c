@@ -20,6 +20,7 @@
  * loads first (the +0x50 twins' order); with two spellings key is
  * copy-propagated and c->w loads first, as the image does.
  */
+#include "../include/Obj06318.h"
 typedef unsigned char u8;
 typedef int fx32;
 
@@ -62,5 +63,5 @@ void func_02201098(void *h)
     Ctx *c = func_02030EE8(h);
 
     if (c->tag == c->w->tag[c->key])
-        c->w->mask &= func_021F935C(*(int *)((char *)c + 4)) ^ 0xFFFFFFFF;
+        c->w->mask &= func_021F935C(((struct Obj06318 *)c)->f4) ^ 0xFFFFFFFF;
 }

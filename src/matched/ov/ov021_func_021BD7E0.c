@@ -19,6 +19,7 @@
  *   func_02012374  0x02012374  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03588.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 u32 func_021BD7E0(u32 a, int *st, u32 *ctx)
 {
     u8 *p = (u8 *)ctx[2];
-    u32 h = (u32)func_02188C58((void *)(*(u32 *)(p + 0xc)));
+    u32 h = (u32)func_02188C58((void *)(*(u32 *)&((struct Obj03588 *)p)->fC));
 
     switch (*st) {
     case 0:

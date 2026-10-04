@@ -16,6 +16,7 @@
  *   func_021F4DF4  0x021F4DF4  thumb  ov048
  *   func_021F4E3C  0x021F4E3C  thumb  ov048
  */
+#include "../include/Obj03646.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,17 +38,17 @@ u8 *func_021F3C2C(u8 *o)
     int c;
     int d;
 
-    a = func_02188C9C((u8 *)(*(u32 *)(o + 4)));
-    b = func_0201296C((const struct BigObj *)(*(u32 *)(o + 8)));
-    if (*(u8 **)(o + 0x20) == 0) {
+    a = func_02188C9C((u8 *)(((struct Obj03646 *)o)->f4));
+    b = func_0201296C((const struct BigObj *)(((struct Obj03646 *)o)->f8));
+    if (*(u8 * *)&((struct Obj03646 *)o)->f20 == 0) {
         return 0;
     }
-    for (i = 0; i < *(u8 *)(o + 0x24); i++) {
+    for (i = 0; i < ((struct Obj03646 *)o)->f24; i++) {
         off = i * 0x24;
-        c = func_020142E8(b, (u16)*(u32 *)(*(u8 **)(o + 0x20) + off + 4));
-        d = func_021F4DF4((int *)(*(u8 **)(o + 0x20) + off), a);
-        if (func_021F4E3C((int *)(*(u8 **)(o + 0x20) + off)) && c && d) {
-            return *(u8 **)(o + 0x20) + off;
+        c = func_020142E8(b, (u16)*(u32 *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off + 4));
+        d = func_021F4DF4((int *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off), a);
+        if (func_021F4E3C((int *)(*(u8 * *)&((struct Obj03646 *)o)->f20 + off)) && c && d) {
+            return *(u8 * *)&((struct Obj03646 *)o)->f20 + off;
         }
     }
     return 0;

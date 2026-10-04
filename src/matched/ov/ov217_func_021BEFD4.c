@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25923.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -22,7 +23,7 @@ void func_021BEFD4(char *p)
 {
     int i;
     int n;
-    n = *(u8 *)(p + 0x2fc);
+    n = ((struct Obj25923 *)p)->f2FC;
     for (i = 0; i < n; i++) {
         func_021BEFC0(p, (u8)i);
     }

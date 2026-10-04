@@ -13,6 +13,7 @@
  *   func_021DA268 0x021DA268 thumb ov123
  *   func_021DA054 0x021DA054 thumb ov123
  */
+#include "../include/Obj06471.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct TaskMenu;
@@ -25,13 +26,13 @@ extern void func_021DA268(char *p);
 extern void func_021DA054(char *p);
 void func_021DA290(char *p)
 {
-    if (func_020279E8(*(void **)(p + 0x14))) {
-        if (!func_02027A04(*(void **)(p + 0x14)))
+    if (func_020279E8(((struct Obj06471 *)p)->f14)) {
+        if (!func_02027A04(((struct Obj06471 *)p)->f14))
             func_021DA034(p, (int)func_021DA268, 0x18d);
         else
             func_021DA034(p, (int)func_021DA054, 0x190);
-        func_021D9634(*(void **)(p + 0x10));
-        func_02027858(*(void **)(p + 0x14));
-        *(int *)(p + 0x14) = 0;
+        func_021D9634(((struct Obj06471 *)p)->f10);
+        func_02027858(((struct Obj06471 *)p)->f14);
+        *(int *)&((struct Obj06471 *)p)->f14 = 0;
     }
 }

@@ -62,6 +62,7 @@
  *       --func func_02052770 --addr 0x02052770 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
+#include "../include/Obj16203.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -134,7 +135,7 @@ void func_02052770(struct Head *h)
                 }
             }
             if (n->f24_b2 == 0) {
-                idx = (*(u32 *)((char *)n + 0x80) << 13) >> 29;
+                idx = (((struct Obj16203 *)n)->f80 << 13) >> 29;
                 if (idx == 0 || h->f48 == idx - 1)
                     func_02053218(h, n);
             }

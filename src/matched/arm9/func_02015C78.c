@@ -15,12 +15,13 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08754.h"
 
 typedef unsigned int u32;
 
 void func_02015C78(void *p, u32 *src)
 {
-    *(u32 *)((char *)p + 0x11C) = src[0];
-    *(u32 *)((char *)p + 0x120) = src[1];
-    *(u32 *)((char *)p + 0x124) = src[2];
+    ((struct Obj08754 *)p)->f11C = src[0];
+    ((struct Obj08754 *)p)->f120 = src[1];
+    ((struct Obj08754 *)p)->f124 = src[2];
 }

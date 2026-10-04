@@ -19,6 +19,7 @@
  *   func_02025588  0x02025588  thumb
  *   func_0201C4C0  0x0201C4C0  thumb
  */
+#include "../include/Obj01175.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -36,22 +37,22 @@ void func_021F9F48(u8 *p)
 {
     int i;
 
-    func_021FD714((void *)(*(u32 *)(p + 0xc)));
-    if (*(u32 *)(p + 0x50) != 0) {
-        func_021FD15C((void *)(*(u32 *)(p + 0x50)), *(u32 *)(p + 4));
-        *(u32 *)(p + 0x50) = 0;
+    func_021FD714((void *)(((struct Obj01175 *)p)->fC));
+    if (((struct Obj01175 *)p)->f50 != 0) {
+        func_021FD15C((void *)(((struct Obj01175 *)p)->f50), ((struct Obj01175 *)p)->f4);
+        ((struct Obj01175 *)p)->f50 = 0;
     }
-    for (i = 0; i < *(u8 *)(p + 0x3b); i++)
-        func_021FACE0((u8 *)(*(u32 *)(p + 0x3c) + i * 0x44));
-    func_020307B0((void *)*(u32 *)(p + 0x3c));
-    for (i = 0; i < *(u8 *)(p + 0x39); i++)
-        func_021FACE0((u8 *)(*(u32 *)(p + 0x40) + i * 0x44));
-    func_020307B0((void *)*(u32 *)(p + 0x40));
-    func_021FC0C8((char *)(*(u32 *)(p + 4)), *(u32 *)(p + 0x10));
-    func_021FC0C8((char *)(*(u32 *)(p + 4)), *(u32 *)(p + 0x10) + 1);
-    func_021FB63C((void *)(*(u32 *)(p + 0x44)));
-    func_02025588((void *)(*(u32 *)(p + 0x48)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x4c)));
+    for (i = 0; i < ((struct Obj01175 *)p)->f3B; i++)
+        func_021FACE0((u8 *)(((struct Obj01175 *)p)->f3C + i * 0x44));
+    func_020307B0((void *)((struct Obj01175 *)p)->f3C);
+    for (i = 0; i < ((struct Obj01175 *)p)->f39; i++)
+        func_021FACE0((u8 *)(((struct Obj01175 *)p)->f40 + i * 0x44));
+    func_020307B0((void *)((struct Obj01175 *)p)->f40);
+    func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10);
+    func_021FC0C8((char *)(((struct Obj01175 *)p)->f4), ((struct Obj01175 *)p)->f10 + 1);
+    func_021FB63C((void *)(((struct Obj01175 *)p)->f44));
+    func_02025588((void *)(((struct Obj01175 *)p)->f48));
+    func_0201C4C0((struct PrintSys *)(((struct Obj01175 *)p)->f4C));
     func_020307B0(p);
 }
 

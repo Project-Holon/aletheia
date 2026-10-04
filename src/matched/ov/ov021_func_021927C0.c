@@ -14,6 +14,8 @@
  *   func_02082BCC  0x02082BCC  arm  arm9
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00126.h"
+#include "../include/Obj19604.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,5 +42,5 @@ extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth,
 void func_021927C0(G *g, Fx *a)
 {
     func_02082BCC(g, 0, 8);
-    g->f04 = (u32)func_020436FC((void *)(*(u32 *)(*(u8 **)((u8 *)a + 0x178) + 0x14)), 1, 1, 0x20, a->f00);
+    g->f04 = (u32)func_020436FC((void *)(((struct Obj19604 *)(*(u8 * *)&((struct Obj00126 *)a)->f178))->f14), 1, 1, 0x20, a->f00);
 }

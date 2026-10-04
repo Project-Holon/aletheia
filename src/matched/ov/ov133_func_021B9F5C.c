@@ -21,6 +21,8 @@
  *   func_0204B98C 0x0204B98C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj06502.h"
+#include "../include/Obj10572.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,22 +53,22 @@ void func_021B9F5C(u8 *p)
     d = 0x1890; d = 0x18b8;
     for (i = 0; i < 8; i++) {
         q = p + i * 4;
-        func_0204B84C(*(void **)(q + 0x1890), func_020416D4(4));
-        func_0204B688(*(void **)(q + 0x1890), 0);
+        func_0204B84C(((struct Obj06502 *)q)->f1890, func_020416D4(4));
+        func_0204B688(((struct Obj06502 *)q)->f1890, 0);
         t = p + i;
         if (*(u8 *)((u32)p+(u32)i+(u32)d) == 0) {
             pos.x = ((u64)func_0203F0A8() * 56) >> 32;
             if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
             pos.y = ((u64)func_0203F0A8() * 192) >> 32;
-            func_0204B404(*(void **)(q + 0x1890), &pos, 1);
-            if (pos.y > 90) func_0204B878(*(void **)(q + 0x1890), ((u64)func_0203F0A8() * 2) >> 32);
-            else func_0204B878(*(void **)(q + 0x1890), (((u64)func_0203F0A8() * 2) >> 32) + 2);
+            func_0204B404(((struct Obj06502 *)q)->f1890, &pos, 1);
+            if (pos.y > 90) func_0204B878(((struct Obj06502 *)q)->f1890, ((u64)func_0203F0A8() * 2) >> 32);
+            else func_0204B878(((struct Obj06502 *)q)->f1890, (((u64)func_0203F0A8() * 2) >> 32) + 2);
             t[c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;
         } else {
             t[b] = t[a] - 1;
         }
     }
-    if (func_0204B3F4(*(void **)(p + 0x18b4)) == 1 && func_0204B98C(*(void **)(p + 0x18b4)) == 0) {
-        func_0204B3DC(*(void **)(p + 0x18b4), 0);
+    if (func_0204B3F4(((struct Obj10572 *)p)->f18B4) == 1 && func_0204B98C(((struct Obj10572 *)p)->f18B4) == 0) {
+        func_0204B3DC(((struct Obj10572 *)p)->f18B4, 0);
     }
 }

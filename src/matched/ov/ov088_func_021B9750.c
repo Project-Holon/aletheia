@@ -31,6 +31,7 @@
  *   func_02005E50  0x02005E50  thumb
  *   func_02005D28  0x02005D28  thumb
  */
+#include "../include/Obj00462.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -59,25 +60,25 @@ extern void func_02005D28(void);
 
 int func_021B9750(int a0, int a1, int a2, char *p)
 {
-    switch (*(u16 *)p) {
+    switch (((struct Obj00462 *)p)->f0) {
     case 0:
         func_021B98BC();
         func_021B9910();
-        *(u16 *)p = 1;
+        ((struct Obj00462 *)p)->f0 = 1;
         break;
     case 1:
-        func_021B997C(p + 8, *(u16 *)(p + 2));
-        func_021B9A1C(p + 0x14, *(u16 *)(p + 2));
-        func_021B9C2C(p + 0x40, *(u16 *)(p + 2));
-        func_021B9EC4(p + 0x54, *(u16 *)(p + 2));
+        func_021B997C(p + 8, ((struct Obj00462 *)p)->f2);
+        func_021B9A1C(p + 0x14, ((struct Obj00462 *)p)->f2);
+        func_021B9C2C(p + 0x40, ((struct Obj00462 *)p)->f2);
+        func_021B9EC4(p + 0x54, ((struct Obj00462 *)p)->f2);
         func_0204E720(3, 0x10, 0, 2);
-        *(u32 *)(p + 0x8C) = 0;
-        *(u16 *)p = 2;
+        ((struct Obj00462 *)p)->f8C = 0;
+        ((struct Obj00462 *)p)->f0 = 2;
         func_02005DAC((void *)0x3EF);
         break;
     case 2:
         if (func_0204E804() == 0) {
-            *(u16 *)p = 3;
+            ((struct Obj00462 *)p)->f0 = 3;
         }
         func_021B9928(p);
         break;
@@ -87,21 +88,21 @@ int func_021B9750(int a0, int a1, int a2, char *p)
         func_021B95CC(p);
         break;
     case 4:
-        if (func_02006BD0(*(u32 *)(p + 0x90)) == 0) {
-            *(u16 *)p = 5;
+        if (func_02006BD0(*(u32 *)&((struct Obj00462 *)p)->f90) == 0) {
+            ((struct Obj00462 *)p)->f0 = 5;
         }
         func_021B9928(p);
         break;
     case 5:
         func_0204E720(3, 0, 0x10, 2);
-        *(u16 *)p = 6;
+        ((struct Obj00462 *)p)->f0 = 6;
         func_021B9928(p);
         func_02005E30(0x10);
         break;
     case 6:
         if (func_0204E804() == 0 && func_02005E50() == 0) {
             func_02005D28();
-            *(u16 *)p = 7;
+            ((struct Obj00462 *)p)->f0 = 7;
         }
         func_021B9928(p);
         break;

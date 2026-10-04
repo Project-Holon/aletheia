@@ -13,6 +13,8 @@
  *   func_021B61F8 0x021B61F8 thumb ov067
  *   func_021B9830 0x021B9830 thumb ov213
  */
+#include "../include/Obj14692.h"
+#include "../include/Obj25691.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,4 +22,4 @@ extern int func_021B98DC(int,int);
 extern void func_020061E4(u32 a);
 extern void func_021B61F8(u8 *,u16);
 extern void func_021B9830(u8 *task, char *p);
-int func_021B9D4C(u8 *task,char *p) {if(*(u32 *)(p+0x49CC)==2){func_020061E4(func_021B98DC(4,*(int *)(*(char **)(p+4)+0x50)));func_021B61F8(task,2);return 1;}func_021B9830(task,p);return 1;}
+int func_021B9D4C(u8 *task,char *p) {if(((struct Obj14692 *)p)->f49CC==2){func_020061E4(func_021B98DC(4,((struct Obj25691 *)(*(char * *)&((struct Obj14692 *)p)->f4))->f50));func_021B61F8(task,2);return 1;}func_021B9830(task,p);return 1;}

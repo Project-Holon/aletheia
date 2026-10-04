@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj14129.h"
 typedef unsigned char u8;
 void *func_021FD328(int a,char *p)
 {
     u8 i;
     for(i=0;i<4;i++) *(int *)(p+i*0x30+0x68)=0;
-    *(int *)(p+0x158)=0;
-    return *(void **)(p+0x13c);
+    ((struct Obj14129 *)p)->f158=0;
+    return ((struct Obj14129 *)p)->f13C;
 }

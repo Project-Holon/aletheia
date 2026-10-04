@@ -27,6 +27,7 @@
  *   ov197_id 0x000000C5 data
  *   ov198_id 0x000000C6 data
  */
+#include "../include/Obj00665.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021E9FAC(void *, int);
@@ -47,13 +48,13 @@ int func_021E9E80(u8 *p)
     switch (p[0x174]) {
     case 0: break;
     case 1:
-        func_021E9FAC(*(void **)(p + 0x180), 1);
+        func_021E9FAC(((struct Obj00665 *)p)->f180, 1);
         func_02034AC4((int)ov196_id);
         p[0x174] = 2;
         break;
     case 2:
-        if (func_021E9FBC(*(void **)(p + 0x180))) {
-            func_021E9FCC(*(void **)(p + 0x180));
+        if (func_021E9FBC(((struct Obj00665 *)p)->f180)) {
+            func_021E9FCC(((struct Obj00665 *)p)->f180);
             func_02034AC4((int)ov197_id);
             func_0220C834(p + 0xc8);
             p[0x174] = 3;
@@ -62,13 +63,13 @@ int func_021E9E80(u8 *p)
     case 3:
         if (p[0xe1]) {
             func_02034A5C((int)ov197_id);
-            if (*(int *)(p + 0xe8) == 0) p[0x174] = 4;
+            if (((struct Obj00665 *)p)->fE8 == 0) p[0x174] = 4;
             else p[0x174] = 6;
         }
         break;
     case 4:
-        if (*(u16 *)(p + 0xde) && p[0xf2] != 2 && !func_021E9FDC(*(u16 *)(p + 0xde), p[0xf2])) {
-            *(u16 *)(p + 0x130) = *(u16 *)(p + 0xde);
+        if (((struct Obj00665 *)p)->fDE && p[0xf2] != 2 && !func_021E9FDC(((struct Obj00665 *)p)->fDE, p[0xf2])) {
+            ((struct Obj00665 *)p)->f130 = ((struct Obj00665 *)p)->fDE;
             func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
             p[0x174] = 5;
@@ -81,12 +82,12 @@ int func_021E9E80(u8 *p)
         }
         break;
     case 6:
-        func_021E9FEC(*(void **)(p + 0x180));
-        func_021E9FFC(*(void **)(p + 0x180));
+        func_021E9FEC(((struct Obj00665 *)p)->f180);
+        func_021E9FFC(((struct Obj00665 *)p)->f180);
         p[0x174] = 7;
         break;
     case 7:
-        if (func_021EA00C(*(void **)(p + 0x180))) {
+        if (func_021EA00C(((struct Obj00665 *)p)->f180)) {
             func_02034A5C((int)ov196_id);
             p[0x174] = 0;
             return 1;

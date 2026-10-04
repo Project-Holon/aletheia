@@ -13,6 +13,7 @@
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj00008.h"
 typedef unsigned short u16;
 
 extern int func_021BA928(char *, int);
@@ -27,7 +28,7 @@ int func_021BFD68(char *p, int ret)
     if (!func_021BA928(p, ret)) return ret;
     if (func_0203D3A8(func_020399A8(), 0xa08, 0, 0)) {
         func_02039C68((struct Link *)func_020399A8(), 0x12, 0xa);
-        *(int *)(p + 0x1cc) = 0x93;
+        ((struct Obj00008 *)p)->f1CC = 0x93;
     }
     return ret;
 }

@@ -19,6 +19,7 @@
  * ov010/ov021 overlay pair.  Element lookup: stride 0x10, null when the +8
  * slot is zero or the index is out of range, else base + index*0x44 + 8.
  */
+#include "../include/Obj12119.h"
 
 typedef unsigned int u32;
 
@@ -26,9 +27,9 @@ int func_021BE480(char *p, unsigned i, int j)
 {
     char *e = p + i * 0x10;
 
-    if (*(u32 *)(e + 8) == 0)
+    if (((struct Obj12119 *)e)->f8 == 0)
         return 0;
     if (i >= 4)
         return 0;
-    return *(int *)(e + 0xc) + j * 0x44 + 8;
+    return ((struct Obj12119 *)e)->fC + j * 0x44 + 8;
 }

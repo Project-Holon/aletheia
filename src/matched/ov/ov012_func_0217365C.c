@@ -11,6 +11,7 @@
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  */
+#include "../include/Obj09359.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ void func_0217365C(u8 *p)
         func_02082BCC(p + i * 0x24 + 0x1a, 0xff, 6);
     }
     v = -1;
-    *(int *)(p + 0x43C) = v;
-    *(int *)(p + 0x440) = v;
-    *(int *)(p + 0x444) = v;
+    ((struct Obj09359 *)p)->f43C = v;
+    ((struct Obj09359 *)p)->f440 = v;
+    ((struct Obj09359 *)p)->f444 = v;
 }

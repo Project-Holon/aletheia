@@ -27,6 +27,7 @@
  * function-pointer globals) and func_0204F214 (unguarded, same two globals);
  * neither is contiguous with this one.
  */
+#include "../include/Obj05758.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,10 +41,10 @@ void func_0204F150(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 
-    if (*(u32 *)(*(u32 *)(a0 + 4) + off) != 0) {
-        func_020470D0((u32 *)(*(u32 *)(*(u32 *)(a0 + 4) + off)));
-        func_02046EFC((struct Tagged *)(*(u32 *)(*(u32 *)(a0 + 4) + off)));
-        *(u32 *)(*(u32 *)(a0 + 4) + off) = 0;
+    if (*(u32 *)(((struct Obj05758 *)a0)->f4 + off) != 0) {
+        func_020470D0((u32 *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
+        func_02046EFC((struct Tagged *)(*(u32 *)(((struct Obj05758 *)a0)->f4 + off)));
+        *(u32 *)(((struct Obj05758 *)a0)->f4 + off) = 0;
     }
-    *(u32 *)(*(u32 *)(a0 + 4) + off + 0x14) = 5;
+    *(u32 *)(((struct Obj05758 *)a0)->f4 + off + 0x14) = 5;
 }

@@ -14,6 +14,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D706C 0x021D706C thumb ov123
  */
+#include "../include/Obj22958.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,4 +23,4 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D706C(char *p);
-void func_021D7088(char *p) { if(func_021D580C(*(char **)(p+24)) && (func_020362DC() || func_02035C60())) func_021D6EE0(p,(int)func_021D706C,0x1d9); }
+void func_021D7088(char *p) { if(func_021D580C(*(char * *)&((struct Obj22958 *)p)->f18) && (func_020362DC() || func_02035C60())) func_021D6EE0(p,(int)func_021D706C,0x1d9); }

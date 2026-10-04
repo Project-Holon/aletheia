@@ -14,6 +14,7 @@
  *   func_0204779C  0x0204779C  arm
  *   func_020478B8  0x020478B8  arm
  */
+#include "../include/Obj05076.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,12 +32,12 @@ int func_021C223C(char *p)
     int r;
     int n;
 
-    if (*(int *)(p + 0x80) == 0)
+    if (((struct Obj05076 *)p)->f80 == 0)
         return 1;
-    if (*(u16 *)(p + 0x60) != 0) {
-        (*(u16 *)(p + 0x60))--;
+    if (((struct Obj05076 *)p)->f60 != 0) {
+        (((struct Obj05076 *)p)->f60)--;
     } else {
-        a = func_02048A18((u8 *)(*(int *)(p + 0x14)), func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18)));
+        a = func_02048A18((u8 *)(((struct Obj05076 *)p)->f14), func_020489F4(((struct Obj05076 *)p)->f14, ((struct Obj05076 *)p)->f18));
         n = func_0204779C((int *)a);
         for (k = 0; k < n; k++)
             r = func_020478B8((void *)a, k, 0x1000);

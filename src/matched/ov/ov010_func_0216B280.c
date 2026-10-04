@@ -16,6 +16,7 @@
  *   func_02176850  0x02176850  thumb  ov011
  *   func_02176870  0x02176870  thumb  ov011
  */
+#include "../include/Obj09327.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ int func_0216B280(int a0, int *state, u8 **work)
 
     r = func_02158344(func_02012138((const struct Ctx *)func_020124E4((struct Obj *)a0)));
     if (r == 0) {
-        p = *(u16 **)work;
+        p = *(u16 * *)&((struct Obj09327 *)work)->f0;
         if (p != 0)
             *p = 0;
         return 1;
@@ -51,7 +52,7 @@ int func_0216B280(int a0, int *state, u8 **work)
             (*state)++;
         break;
     case 2:
-        p = *(u16 **)work;
+        p = *(u16 * *)&((struct Obj09327 *)work)->f0;
         if (p != 0)
             *p = 1;
         return 1;

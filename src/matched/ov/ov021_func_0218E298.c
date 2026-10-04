@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj00428.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,7 +22,7 @@ typedef struct { u32 a, b, c; } Vec3;
 
 int func_0218E298(u8 *a)
 {
-    Vec3 *p = *(Vec3 **)(a + 0x20);
+    Vec3 *p = *(Vec3 * *)&((struct Obj00428 *)a)->f20;
     if (p != 0) {
         *(Vec3 *)(a + 0x24) = *p;
         return 1;

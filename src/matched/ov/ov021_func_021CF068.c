@@ -19,6 +19,8 @@
  *   func_021909BC  0x021909BC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00011.h"
+#include "../include/Obj04295.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,18 +43,18 @@ int func_021CF068(u8 *p)
     switch (q[8]) {
     case 0:
         if (func_020362DC() & 2) {
-            *(u32 *)q = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)(*(u32 *)p)), 0);
+            ((struct Obj04295 *)q)->f0 = (u32)func_02190BE4((u16 *)func_02188C54((u8 *)(((struct Obj00011 *)p)->f0)), 0);
             func_021CE9E4(p, 0x23);
             q[8] = 1;
         }
         break;
     case 1:
-        r = func_02190C78((struct Handle *)(*(u32 *)q));
-        if (func_0219049C(func_02188C54((u8 *)(*(u32 *)p))) == 1 && p[0x576] == 1)
+        r = func_02190C78((struct Handle *)(((struct Obj04295 *)q)->f0));
+        if (func_0219049C(func_02188C54((u8 *)(((struct Obj00011 *)p)->f0))) == 1 && p[0x576] == 1)
             r = 1;
         if (r != 2) {
-            func_021909BC(*(u32 *)q);
-            *(u32 *)q = 0;
+            func_021909BC(((struct Obj04295 *)q)->f0);
+            ((struct Obj04295 *)q)->f0 = 0;
             if (r == 1) {
                 q[8] = 0;
                 func_021CE9E4(p, 0x22);

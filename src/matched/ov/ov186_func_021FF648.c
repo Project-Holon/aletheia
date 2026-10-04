@@ -11,9 +11,10 @@
  *   func_021FFB70 0x021FFB70 thumb ov186
  *   func_021FF8E0 0x021FF8E0 thumb ov186
  */
+#include "../include/Obj24855.h"
 extern int func_021FFB70(int *,int);
 extern void func_021FF8E0(void);
 int func_021FF648(char *p)
 {
-    return func_021FFB70(*(int **)(p+0x5ac),(int)func_021FF8E0);
+    return func_021FFB70(*(int * *)&((struct Obj24855 *)p)->f5AC,(int)func_021FF8E0);
 }

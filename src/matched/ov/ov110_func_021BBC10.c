@@ -14,6 +14,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021BF6DC 0x021BF6DC thumb ov110
  */
+#include "../include/Obj04446.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -26,12 +27,12 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_021BF6DC(u8 *);
 int func_021BBC10(u8 *p)
 {
-    u16 state = func_0204B898(*(void **)(p + 0x54));
+    u16 state = func_0204B898(((struct Obj04446 *)p)->f54);
     if (state != 31 && state != 30) return 1;
-    if (func_0204B98C(*(void **)(p + 0x54)) == 0) {
-        func_0204B3DC(*(void **)(p + 0x54), *(unsigned *)(p + 0x58));
-        func_0204B878(*(void **)(p + 0x54), func_021BF6DC(*(u8 **)(p + 4)) == 0 ? 4 : 6);
-        *(int *)(p + 0x58) = 0;
+    if (func_0204B98C(((struct Obj04446 *)p)->f54) == 0) {
+        func_0204B3DC(((struct Obj04446 *)p)->f54, ((struct Obj04446 *)p)->f58);
+        func_0204B878(((struct Obj04446 *)p)->f54, func_021BF6DC(*(u8 * *)&((struct Obj04446 *)p)->f4) == 0 ? 4 : 6);
+        *(int *)&((struct Obj04446 *)p)->f58 = 0;
         return 1;
     }
     return 0;

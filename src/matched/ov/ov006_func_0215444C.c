@@ -29,6 +29,7 @@
  *   func_0201A948 0x0201A948 thumb
  *   func_02013128 0x02013128 thumb
  */
+#include "../include/Obj12251.h"
 typedef struct {
     int f0, f4, f8;
     unsigned char fc;
@@ -91,5 +92,5 @@ void func_0215444C(O *a, void *b)
 
 void func_021544BC(O *a)
 {
-    func_02013128(*(void **)((unsigned int)a + 0xdc), a->f168, 0);
+    func_02013128(((struct Obj12251 *)((unsigned int)a))->fDC, a->f168, 0);
 }

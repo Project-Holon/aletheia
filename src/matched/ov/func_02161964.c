@@ -12,6 +12,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj12046.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,10 +28,10 @@ t4 = 0;
 loc_02161968:
 a2 = t4 << 2;
 a3 = a0 + a2;
-a2 = *(int *)((char *)a3 + 0x14);
+a2 = ((struct Obj12046 *)a3)->f14;
     if (a2 != 0) goto loc_02161978;
 loc_02161972:
-*(int *)((char *)a3 + 0x14) = a1;
+((struct Obj12046 *)a3)->f14 = a1;
     return a0;
 loc_02161978:
 t4 = t4 + 1;

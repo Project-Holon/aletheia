@@ -14,13 +14,14 @@
 
  * Calls func_021BD140 on +8 when the word at +0x10 is set.
  */
+#include "../include/Obj18204.h"
 
 
 extern void func_021BD140(char *);
 
 void func_021BCF3C(char *p)
 {
-    if (*(int *)(p + 0x10) != 0)
+    if (((struct Obj18204 *)p)->f10 != 0)
         func_021BD140(p + 8);
 }
 

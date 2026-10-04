@@ -20,6 +20,7 @@
  *   func_021BB13C 0x021BB13C thumb ov206
  *   func_021BBE34 0x021BBE34 thumb ov206
  */
+#include "../include/Obj00551.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0201ADE4(unsigned int a, int b, unsigned int c);
@@ -38,25 +39,25 @@ void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int 
     int x;
     u32 h;
     int y;
-    if (*(void **)(p+0x26c) != 0) func_0201AE14(*(void **)(p+0x26c));
-    *(void **)(p+0x26c) = func_0201ADE4(a1, a2, *(u16 *)p);
-    if (*(int *)(p+0xb4) != 0) *(int *)(p+0xb4) = 0; else *(int *)(p+0xb4) = 1;
-    if (*(int *)(p+0xe0) != 0) *(int *)(p+0xe0) = 0; else *(int *)(p+0xe0) = 1;
-    if (*(int *)(p+0x190) != 0) *(int *)(p+0x190) = 0; else *(int *)(p+0x190) = 1;
-    func_021BB160(p, *(int *)(p+0xb4));
+    if (((struct Obj00551 *)p)->f26C != 0) func_0201AE14(((struct Obj00551 *)p)->f26C);
+    ((struct Obj00551 *)p)->f26C = func_0201ADE4(a1, a2, ((struct Obj00551 *)p)->f0);
+    if (((struct Obj00551 *)p)->fB4 != 0) ((struct Obj00551 *)p)->fB4 = 0; else ((struct Obj00551 *)p)->fB4 = 1;
+    if (((struct Obj00551 *)p)->fE0 != 0) ((struct Obj00551 *)p)->fE0 = 0; else ((struct Obj00551 *)p)->fE0 = 1;
+    if (((struct Obj00551 *)p)->f190 != 0) ((struct Obj00551 *)p)->f190 = 0; else ((struct Obj00551 *)p)->f190 = 1;
+    func_021BB160(p, ((struct Obj00551 *)p)->fB4);
     func_021BA4F4(p);
-    *(u16 *)(p+0xc) = a1;
-    *(u16 *)(p+0xe) = a2;
-    *(u16 *)(p+0x10) = a3;
-    *(u16 *)(p+0x12) = a4;
-    *(int *)(p+0x14) = a5;
-    *(int *)(p+8) = a6;
-    h = (u16)func_0201AE1C(*(void **)(p+0x26c), 0x20);
-    if (*(u16 *)(p+0xe) >= h) *(u16 *)(p+0xe) = 0;
+    ((struct Obj00551 *)p)->fC = a1;
+    ((struct Obj00551 *)p)->fE = a2;
+    ((struct Obj00551 *)p)->f10 = a3;
+    ((struct Obj00551 *)p)->f12 = a4;
+    ((struct Obj00551 *)p)->f14 = a5;
+    ((struct Obj00551 *)p)->f8 = a6;
+    h = (u16)func_0201AE1C(((struct Obj00551 *)p)->f26C, 0x20);
+    if (((struct Obj00551 *)p)->fE >= h) ((struct Obj00551 *)p)->fE = 0;
     func_021BB0FC(p);
-    if (a7 == 6 || *(u16 *)(p+0xc) > 0x1ed) func_021BBC38(p);
+    if (a7 == 6 || ((struct Obj00551 *)p)->fC > 0x1ed) func_021BBC38(p);
     else func_021BBC68(p, a7);
-    switch (*(int *)(p+0x18)) {
+    switch (((struct Obj00551 *)p)->f18) {
     case 0:
     case 2:
         x = 0x32;
@@ -67,6 +68,6 @@ void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int 
         y = 0x48;
         break;
     }
-    func_021BB13C(p, (void *)x, (void *)((u16)(y + *(int *)(p+0x1b4))), (void *)(*(int *)(p+0xb4)));
-    func_021BBE34(p, (*(int *)(p+0x44) != 0) ? 0 : 1);
+    func_021BB13C(p, (void *)x, (void *)((u16)(y + ((struct Obj00551 *)p)->f1B4)), (void *)(((struct Obj00551 *)p)->fB4));
+    func_021BBE34(p, (((struct Obj00551 *)p)->f44 != 0) ? 0 : 1);
 }

@@ -15,6 +15,7 @@
  * symbols:
  *   func_02012FFC  0x02012FFC  thumb
  */
+#include "../include/Obj13144.h"
 
 void func_021BB0D0(void)
 {
@@ -24,7 +25,7 @@ void func_021BB0D0(void)
 
 int func_021BB0D8(void *p)
 {
-    unsigned char old = *(unsigned char *)((char *)p + 5);
-    *(unsigned char *)((char *)p + 5) = 0xb;
+    unsigned char old = ((struct Obj13144 *)p)->f5;
+    ((struct Obj13144 *)p)->f5 = 0xb;
     return old;
 }

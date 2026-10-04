@@ -21,6 +21,7 @@
  *   python tools/match.py one --src src/matched/func_02037234.c \
  *       --func func_02037234 --addr 0x02037234 --cc 1.1p1 --arm
  */
+#include "../include/Obj05733.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,9 +29,9 @@ typedef unsigned int   u32;
 
 void func_02037234(u8 *p)
 {
-    *(u16 *)(p + 0x0C) = 0;
-    *(u16 *)(p + 0x08) = 0xFFFF;
-    *(u16 *)(p + 0x0A) = 0xFFFF;
-    *(u32 *)(p + 0x04) = 0;
-    *(u32 *)(p + 0x00) = 0;
+    ((struct Obj05733 *)p)->fC = 0;
+    ((struct Obj05733 *)p)->f8 = 0xFFFF;
+    ((struct Obj05733 *)p)->fA = 0xFFFF;
+    ((struct Obj05733 *)p)->f4 = 0;
+    ((struct Obj05733 *)p)->f0 = 0;
 }

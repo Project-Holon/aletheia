@@ -19,6 +19,7 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj00060.h"
 struct Word { int x; };
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,16 +39,16 @@ extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_02045334(struct Descriptor *);
 void func_021BA3A4(struct Word *p,int a) {
- func_02049B40(23,5,4,0x1a0,32,*(unsigned short *)(a+0x278));
- if(*(int *)(a+0x27c)==0) {
+ func_02049B40(23,5,4,0x1a0,32,((struct Obj00060 *)a)->f278);
+ if(*(int *)&((struct Obj00060 *)a)->f27C==0) {
   int v=func_020450F0(5,1,1,30,5,13,0);
-  *(int *)(a+0x27c)=v;
+  *(int *)&((struct Obj00060 *)a)->f27C=v;
   func_02045374((struct Cfg *)v);
-  func_0201F73C(*(int *)(a+0x27c),0,*(int *)(a+0x304),14);
+  func_0201F73C(*(int *)&((struct Obj00060 *)a)->f27C,0,((struct Obj00060 *)a)->f304,14);
  }
- func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(a+0x27c))),255);
- *(int *)(a+0xcb0)=p->x;
- func_02045CAC((struct MsgBank *)(*(int *)(a+0x288)),p->x,(void *)(*(int *)(a+0x298)));
- func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)*(int *)(a+0x27c))),4,4,(void *)(*(int *)(a+0x298)),(void *)(*(int *)(a+0x290)));
- func_02045334((struct Descriptor *)*(int *)(a+0x27c));
+ func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),255);
+ ((struct Obj00060 *)a)->fCB0=p->x;
+ func_02045CAC((struct MsgBank *)(((struct Obj00060 *)a)->f288),p->x,(void *)(((struct Obj00060 *)a)->f298));
+ func_0201C7A4((void *)((int)func_02045770((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C)),4,4,(void *)(((struct Obj00060 *)a)->f298),(void *)(((struct Obj00060 *)a)->f290));
+ func_02045334((struct Descriptor *)*(int *)&((struct Obj00060 *)a)->f27C);
 }

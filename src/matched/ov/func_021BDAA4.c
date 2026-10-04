@@ -15,6 +15,7 @@
  *
  * Early-returns the selector when the guard is false, else runs the setup and stamps 0xAB.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,6 +35,6 @@ int func_021BDAA4(char *p, int v)
     }
 
     func_021BA828(p);
-    *(u32 *)(p + 0x1CC) = 0xAB;
+    *(u32 *)&((struct Obj00008 *)p)->f1CC = 0xAB;
     return v;
 }

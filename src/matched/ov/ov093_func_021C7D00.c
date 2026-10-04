@@ -12,7 +12,8 @@
  *   func_021C7D24 0x021C7D24 thumb ov093
  *   func_021B86A0 0x021B86A0 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 extern int func_021C7D24(u8 *);
 extern int func_021B86A0(unsigned int **, unsigned int);
-int func_021C7D00(u8 *p) { int i = func_021C7D24(p + 0x1ab8); if (!func_021B86A0(*(unsigned int ***)(p + 4), i)) i = 6; return i; }
+int func_021C7D00(u8 *p) { int i = func_021C7D24(p + 0x1ab8); if (!func_021B86A0(*(unsigned int ** *)&((struct Obj00003 *)p)->f4, i)) i = 6; return i; }

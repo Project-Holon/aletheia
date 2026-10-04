@@ -19,6 +19,9 @@
  *   func_021DF0DC 0x021DF0DC thumb ov183
  *   func_021DEB4C 0x021DEB4C thumb ov183
  */
+#include "../include/Obj02229.h"
+#include "../include/Obj06605.h"
+#include "../include/Obj24581.h"
 typedef unsigned short u16;
 extern u16 func_021F9B9C(void *);
 extern void *func_0203159C(void *, int, u16);
@@ -33,19 +36,19 @@ extern void func_021DF0DC(int *p, int *state, char *q);
 extern void func_021DEB4C(int *task, int *state, char *p);
 int func_021DE9A0(void *a, int b, char *q)
 {
-    char *p = func_0203159C(a, 0x10C, func_021F9B9C(*(void **)(q + 0x14)));
+    char *p = func_0203159C(a, 0x10C, func_021F9B9C(((struct Obj06605 *)q)->f14));
     int i;
     func_02082BCC(p, 0, 0x10C);
-    *(char **)(p + 0x108) = q;
-    *(u16 *)(p + 0x18) = func_021F9B9C(*(void **)(q + 0x14));
-    *(void **)p = func_02025538(*(u16 *)(p + 0x18), *(void **)(q + 0xC));
-    *(void **)(p + 0x14) = (void *)func_0201C440((void *)(*(u16 *)(p + 0x18)));
+    *(char * *)&((struct Obj02229 *)p)->f108 = q;
+    ((struct Obj02229 *)p)->f18 = func_021F9B9C(((struct Obj06605 *)q)->f14);
+    ((struct Obj02229 *)p)->f0 = func_02025538(((struct Obj02229 *)p)->f18, ((struct Obj06605 *)q)->fC);
+    ((struct Obj02229 *)p)->f14 = (void *)func_0201C440((void *)(((struct Obj02229 *)p)->f18));
     for (i = 0; i < 2; i++)
-        *(void **)(p + i * 4 + 0x1C) = func_021FD760((unsigned int)(*(void **)(q + 0xC)), (char *)(*(int *)(q + 0x10)), i, *(u16 *)(p + 0x18));
-    *(void **)(p + 0x10) = func_021FD6D8((int)p, (int)func_021DF0DC, *(u16 *)(p + 0x18));
-    if (*(int *)(*(char **)(p + 0x108) + 4) != 0)
-        func_021FD73C(*(void **)(p + 0x10), (int)func_021DEB4C);
+        *(void **)(p + i * 4 + 0x1C) = func_021FD760((unsigned int)(((struct Obj06605 *)q)->fC), (char *)(((struct Obj06605 *)q)->f10), i, ((struct Obj02229 *)p)->f18);
+    ((struct Obj02229 *)p)->f10 = func_021FD6D8((int)p, (int)func_021DF0DC, ((struct Obj02229 *)p)->f18);
+    if (((struct Obj24581 *)(*(char * *)&((struct Obj02229 *)p)->f108))->f4 != 0)
+        func_021FD73C(((struct Obj02229 *)p)->f10, (int)func_021DEB4C);
     else
-        func_021FD73C(*(void **)(p + 0x10), (int)func_021DF0DC);
+        func_021FD73C(((struct Obj02229 *)p)->f10, (int)func_021DF0DC);
     return 1;
 }

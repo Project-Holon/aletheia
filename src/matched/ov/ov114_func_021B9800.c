@@ -12,6 +12,7 @@
  *
  * Allocates the 0x5a8-byte block, publishes it at 0x021CF960 and stamps the two caller fields.
  */
+#include "../include/Obj13848.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -23,7 +24,7 @@ u8 *func_021B9800(int a, int b, int c)
     u8 *p = func_02030734(a, 0x5a8, 1, (const char *)0x021CE310, 0x1aa);
 
     *(u32 *)0x021CF960 = (u32)p;
-    *(u32 *)(p + 0x5a4) = b;
-    *(u32 *)(p + 8) = c;
+    ((struct Obj13848 *)p)->f5A4 = b;
+    ((struct Obj13848 *)p)->f8 = c;
     return p;
 }

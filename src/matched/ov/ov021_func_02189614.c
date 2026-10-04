@@ -24,6 +24,7 @@
  *   func_02193AFC  0x02193AFC  thumb  ov021
  *
  */
+#include "../include/Obj00571.h"
 
 typedef unsigned short u16;
 
@@ -52,16 +53,16 @@ void func_02189614(void *p, char *q)
     void *a;
 
     t = func_02012B38(p);
-    if (func_02013DD0(*(u16 *)(q + 0xd0)) != 0) {
+    if (func_02013DD0(((struct Obj00571 *)q)->fD0) != 0) {
         k = func_0201444C(t);
         if (k == 0)
-            m = func_020127C4(*(void **)(q + 8));
+            m = func_020127C4(((struct Obj00571 *)q)->f8);
         else
-            m = func_020127D0(*(void **)(q + 8), 0);
-        func_0218DC74((u32)(*(void **)(q + 0x48)), (u32)m, k);
-        a = func_0218DC70(*(void **)(q + 0x48));
-        func_021939C0(a, (void *)func_02012844(p), k, *(u16 *)q);
-        func_02193ABC(a, *(int *)(q + 0x10), *(u16 *)q);
-        func_02193AFC(a, func_02012964(*(void **)(q + 8)));
+            m = func_020127D0(((struct Obj00571 *)q)->f8, 0);
+        func_0218DC74((u32)(((struct Obj00571 *)q)->f48), (u32)m, k);
+        a = func_0218DC70(((struct Obj00571 *)q)->f48);
+        func_021939C0(a, (void *)func_02012844(p), k, ((struct Obj00571 *)q)->f0);
+        func_02193ABC(a, *(int *)&((struct Obj00571 *)q)->f10, ((struct Obj00571 *)q)->f0);
+        func_02193AFC(a, func_02012964(((struct Obj00571 *)q)->f8));
     }
 }

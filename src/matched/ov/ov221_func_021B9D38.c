@@ -13,6 +13,8 @@
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj02558.h"
+#include "../include/Obj26068.h"
 struct Obj;
 struct Vec2 { short x,y; };
 extern unsigned func_02040804(unsigned);
@@ -24,7 +26,7 @@ extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
 void func_021B9D38(unsigned char *p)
 {
     int amount;
-    if(*(unsigned *)(*(unsigned char **)(p+4)+4)!=0) return;
+    if(((struct Obj26068 *)(*(unsigned char * *)&((struct Obj02558 *)p)->f4))->f4!=0) return;
     amount=func_02040804(1);
     if(!amount) return;
     if(p[0x44]==0) {
@@ -32,9 +34,9 @@ void func_021B9D38(unsigned char *p)
         if(amount>=2) amount=2;
         func_02041EE4(1,5,amount);
         func_02041EE4(2,5,amount);
-        func_0204B454((struct Actor *)*(struct Obj **)(p+0x54),(struct PtS *)&pair,0);
+        func_0204B454((struct Actor *)*(struct Obj * *)&((struct Obj02558 *)p)->f54,(struct PtS *)&pair,0);
         pair.y+=(short)amount;
-        func_0204B404(*(struct Obj **)(p+0x54),&pair,0);
+        func_0204B404(*(struct Obj * *)&((struct Obj02558 *)p)->f54,&pair,0);
         p[0x44]=0;
         return;
     }

@@ -19,6 +19,9 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj25339.h"
+#include "../include/Obj25341.h"
+#include "../include/Obj25343.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(u32,u16);
@@ -33,7 +36,7 @@ int func_021BE23C(char *p,void *unused,int *state)
 {
     u16 heap;
     void *arc,*out,*buf;
-    heap=*(u16 *)p;
+    heap=((struct Obj25339 *)p)->f0;
     arc=func_020490F4(0xAA,heap);
     func_02049B68(arc,1,0,0,64,heap);
     func_02049B68(arc,1,4,0,32,heap);
@@ -52,7 +55,7 @@ int func_021BE23C(char *p,void *unused,int *state)
 }
 int func_021BE308(char *p,void *unused,u32 *r)
 {
-    *(u32 *)(*(char **)(p+4)+0x14)=*r;
+    ((struct Obj25343 *)(*(char * *)&((struct Obj25341 *)p)->f4))->f14=*r;
     return 1;
 }
 int func_021BE314(void *unused,int *q,int *r)

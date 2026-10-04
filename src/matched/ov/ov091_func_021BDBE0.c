@@ -12,11 +12,12 @@
  *   func_02050DB8 0x02050DB8 arm
  *   func_0203D7FC 0x0203D7FC arm
  */
+#include "../include/Obj09935.h"
 typedef unsigned char u8;
 extern void func_02050DB8(u8 *);
 extern void func_0203D7FC(void *);
 void func_021BDBE0(unsigned int p)
 {
-    func_02050DB8(*(u8 **)(p + 0x260));
-    func_0203D7FC(*(void **)(p + 0x25c));
+    func_02050DB8(*(u8 * *)&((struct Obj09935 *)p)->f260);
+    func_0203D7FC(((struct Obj09935 *)p)->f25C);
 }

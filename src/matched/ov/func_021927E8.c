@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12068.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ extern void func_020437AC(struct Obj020437AC *p);
 
 void func_021927E8(u32 *p)
 {
-    *(u8 *)p = 0;
+    ((struct Obj12068 *)p)->f0 = 0;
     func_020437AC((struct Obj020437AC *)p[1]);
 }

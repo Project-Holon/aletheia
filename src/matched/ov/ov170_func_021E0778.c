@@ -15,6 +15,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_021ED7C4 0x021ED7C4 thumb ov170
  */
+#include "../include/Obj02502.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021ED544(u8 *,int);
@@ -28,28 +29,28 @@ int func_021E0778(u8 *p)
     char *s=W(p)+0x58;
     short xy[2];
     int k;
-    switch(*(u16 *)(s+12)) {
+    switch(((struct Obj02502 *)s)->fC) {
     case 0:
         func_021ED544(p,7);
-        (*(u16 *)(s+12))++;
+        (((struct Obj02502 *)s)->fC)++;
     case 1:
-        if(*(u16 *)(s+14)==4) {
-            *(u16 *)(s+14)=0;
-            (*(u16 *)(s+12))++;
+        if(((struct Obj02502 *)s)->fE==4) {
+            ((struct Obj02502 *)s)->fE=0;
+            (((struct Obj02502 *)s)->fC)++;
             break;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
         func_021EC08C(W(p),4,xy[1],xy[0]+2,0);
-        (*(u16 *)(s+14))++;
+        (((struct Obj02502 *)s)->fE)++;
         break;
     case 2:
         func_020061E4(0x666);
         func_021ED544(p,8);
-        (*(u16 *)(s+12))++;
+        (((struct Obj02502 *)s)->fC)++;
     case 3:
-        if(*(u16 *)(s+14)==4) {
-            *(u16 *)(s+14)=0;
-            *(u16 *)(s+12)=0;
+        if(((struct Obj02502 *)s)->fE==4) {
+            ((struct Obj02502 *)s)->fE=0;
+            ((struct Obj02502 *)s)->fC=0;
             return 0;
         }
         func_021EC0B0(W(p),4,&xy[1],&xy[0],0);
@@ -58,7 +59,7 @@ int func_021E0778(u8 *p)
         func_021EC0B0(W(p),k,&xy[1],&xy[0],0);
         func_021EC08C(W(p),k,xy[1],xy[0]-2,0);
         func_021ED7C4(W(p),0x24);
-        (*(u16 *)(s+14))++;
+        (((struct Obj02502 *)s)->fE)++;
         break;
     }
     return 1;

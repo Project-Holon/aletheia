@@ -17,6 +17,7 @@
  *   func_020127AC  0x020127AC  thumb
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj19172.h"
 
 typedef unsigned int   u32;
 struct Link;
@@ -34,7 +35,7 @@ void func_02173D5C(int a, int b, char *c, char *d)
     int v;
     int t;
 
-    v = func_02026478((void *)(*(int *)(d + 4)));
+    v = func_02026478((void *)(((struct Obj19172 *)d)->f4));
     t = (unsigned char)c[0x24];
     func_02175938(d + 0x1AC, c, t);
     if (t != func_0203D1A4((struct Link *)((int)func_020399A8()))) {

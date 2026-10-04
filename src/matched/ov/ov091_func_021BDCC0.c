@@ -15,6 +15,9 @@
  *   func_02011400  0x02011400  thumb
  *   func_0203F4CC  0x0203F4CC  arm
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj20929.h"
+#include "../include/Obj20930.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -29,16 +32,16 @@ int func_021BDCC0(char *p)
     u32 t[3];
     u32 lo, hi;
     int r = 0;
-    if (func_02017E1C(*(void **)(p + 0x38), 5, 0) != 0x1EC)
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 5, 0) != 0x1EC)
         return r;
-    if (func_02017E1C(*(void **)(p + 0x38), 0x6F, r) != 0)
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 0x6F, r) != 0)
         return r;
-    if (func_02017E1C(*(void **)(p + 0x38), 0x6D, r) != 1)
+    if (func_02017E1C(((struct Obj00009 *)p)->f38, 0x6D, r) != 1)
         return r;
-    if (func_02017F90(*(void **)(p + 0x38)) & 0x20)
+    if (func_02017F90(((struct Obj00009 *)p)->f38) & 0x20)
         return r;
-    lo = func_02011400(*(u8 *)(*(char **)(p + 0x280) + 0x5F), r);
-    hi = func_02011400(*(u8 *)(*(char **)(p + 0x280) + 0x5F), 3);
+    lo = func_02011400(((struct Obj20929 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, r);
+    hi = func_02011400(((struct Obj20930 *)(*(char * *)&((struct Obj00009 *)p)->f280))->f5F, 3);
     func_0203F4CC(t);
     if (t[0] < lo || t[0] >= hi)
         return 0;

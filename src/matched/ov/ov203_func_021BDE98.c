@@ -17,6 +17,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10861.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BE12C(int *);
@@ -27,9 +28,9 @@ extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_020307B0(void *);
 void func_021BDE98(char *ctx)
 {
-    if (*(int *)(ctx + 20) == 0) func_02030EAC(*(void **)(ctx + 16));
+    if (((struct Obj10861 *)ctx)->f14 == 0) func_02030EAC(((struct Obj10861 *)ctx)->f10);
     func_021BE12C((int *)(ctx + 8));
-    if (*(int *)(ctx + 20) == 0) {
+    if (((struct Obj10861 *)ctx)->f14 == 0) {
         func_021BE0C4(ctx + 4);
         func_021BE02C(ctx);
     }

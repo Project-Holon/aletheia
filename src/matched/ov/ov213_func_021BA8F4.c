@@ -12,9 +12,10 @@
  * symbols:
  *   func_021BA8E8 0x021BA8E8 thumb ov213
  */
+#include "../include/Obj25710.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_021BA8E8(char *,u16,int);
-void func_021BA8F4(char *p,int v) { int i; for(i=0;i<*(u8 *)(p+0x4814);i++) func_021BA8E8(p,i,v); }
+void func_021BA8F4(char *p,int v) { int i; for(i=0;i<((struct Obj25710 *)p)->f4814;i++) func_021BA8E8(p,i,v); }

@@ -15,6 +15,7 @@
  *   func_021A2154 0x021A2154 thumb ov021
  *   func_021A063C 0x021A063C thumb ov021
  */
+#include "../include/Obj00954.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -23,5 +24,5 @@ extern void func_021A063C(u8 *p, u32 b, u32 c);
 
 void func_021A2154(u8 *p, u32 b, u32 c)
 {
-    func_021A063C(*(u8 **)(p + 8), b, c);
+    func_021A063C(*(u8 * *)&((struct Obj00954 *)p)->f8, b, c);
 }

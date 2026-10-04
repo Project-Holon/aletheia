@@ -37,6 +37,7 @@
  *   func_021BB91C 0x021BB91C thumb ov217
  *   func_021BB910 0x021BB910 thumb ov217
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 extern void func_021BC688(char *);
 extern void func_021BD5E0(unsigned);
@@ -92,6 +93,6 @@ void func_021BB84C(u8 *p)
     func_021BB940(p, 0);
     func_021BB91C(p);
     func_021BB910(p, 14);
-    *(unsigned *)(p + 0x164) = 1;
+    ((struct Obj00025 *)p)->f164 = 1;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
 }

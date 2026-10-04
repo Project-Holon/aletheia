@@ -17,6 +17,7 @@
  *   func_021C88B4  0x021C88B4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj06256.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,14 +43,14 @@ void func_021DA9E0(int unused, void *a, int id)
             func_021C88B4(a, 2, id);
             r = (u8 *)func_021C88A4(a, 7, id);
             r[6] = id;
-            *(u16 *)(r + 4) = func_021D7B74(m, 8);
+            ((struct Obj06256 *)r)->f4 = func_021D7B74(m, 8);
             func_021C88C8(a, r);
             func_021C88B4(a, 3, id);
         } else if (c == 2) {
             r = (u8 *)func_021C88A4(a, 5, id);
-            *(u32 *)r |= 0x800000;
+            ((struct Obj06256 *)r)->f0 |= 0x800000;
             r[6] = id;
-            *(u16 *)(r + 4) = func_021D7B74(m, 8);
+            ((struct Obj06256 *)r)->f4 = func_021D7B74(m, 8);
             func_021C88C8(a, r);
         }
     }

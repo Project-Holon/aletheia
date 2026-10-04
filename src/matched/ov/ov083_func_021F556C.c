@@ -15,6 +15,7 @@
  *   func_0201F250  0x0201F250  thumb
  *   func_02190844  0x02190844  thumb  ov021
  */
+#include "../include/Obj00815.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,9 +31,9 @@ extern void func_02190844(struct Slot **p, int x, int y, u32 z);
 
 void func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4)
 {
-    func_0201F184((struct WordSet *)(*(u32 *)(p + 0x2C)), 0, a2);
-    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x2C)), 1, a3 / 60, 2, 1, 1);
-    func_0201EFA4((struct WordSet *)(*(u32 *)(p + 0x2C)), 2, a3 % 60, 2, 2, 1);
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x2C)), (void *)(*(u32 *)(p + 0x38)), (void *)a1);
-    func_02190844((struct Slot **)(*(u32 *)(p + 0x18)), 8, (u16)(a4 << 4), *(u32 *)(p + 0x38));
+    func_0201F184((struct WordSet *)(((struct Obj00815 *)p)->f2C), 0, a2);
+    func_0201EFA4((struct WordSet *)(((struct Obj00815 *)p)->f2C), 1, a3 / 60, 2, 1, 1);
+    func_0201EFA4((struct WordSet *)(((struct Obj00815 *)p)->f2C), 2, a3 % 60, 2, 2, 1);
+    func_0201F250((struct WordSet *)(((struct Obj00815 *)p)->f2C), (void *)(((struct Obj00815 *)p)->f38), (void *)a1);
+    func_02190844((struct Slot **)(((struct Obj00815 *)p)->f18), 8, (u16)(a4 << 4), ((struct Obj00815 *)p)->f38);
 }

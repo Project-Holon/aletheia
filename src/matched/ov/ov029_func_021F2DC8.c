@@ -14,6 +14,7 @@
  *   func_021F05B4  0x021F05B4  thumb  ov029
  *   func_021F0F28  0x021F0F28  thumb  ov029
  */
+#include "../include/Obj00042.h"
 
 extern int func_021F2DA8(char *p);
 extern int func_021F05B4(char *p);
@@ -21,14 +22,14 @@ extern void func_021F0F28(char *p, int a);
 
 void func_021F2DC8(char *p)
 {
-    if (func_021F2DA8(p) == 0 && *(unsigned char *)(p + 0x465) != 0) {
-        *(unsigned char *)(p + 0x466) += 1;
-        if (*(unsigned char *)(p + 0x466) >= 8) {
+    if (func_021F2DA8(p) == 0 && ((struct Obj00042 *)p)->f465 != 0) {
+        ((struct Obj00042 *)p)->f466 += 1;
+        if (((struct Obj00042 *)p)->f466 >= 8) {
             if (func_021F05B4(p) != 0)
                 func_021F0F28(p, 1);
             else
                 func_021F0F28(p, 0);
-            *(unsigned char *)(p + 0x465) = 0;
+            ((struct Obj00042 *)p)->f465 = 0;
         }
     }
 }

@@ -16,6 +16,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8B0C 0x021D8B0C thumb ov123
  */
+#include "../include/Obj05369.h"
 typedef unsigned int u32;
 struct RtcDate { u32 year, month, day, week; };
 struct Sub02009210Obj;
@@ -36,7 +37,7 @@ void func_021D8B7C(char *p)
 {
     void *q;
     struct RtcDate date;
-    q=func_02009448(*(void **)(p+0x28));
+    q=func_02009448(((struct Obj05369 *)p)->f28);
     p[0xaa]=0;
     func_0203F4E4(&date);
     func_020093CC(q, (date.year << 24) | ((date.month & 255) << 16) | ((date.day & 255) << 8) | date.week);
@@ -44,9 +45,9 @@ void func_021D8B7C(char *p)
         func_02009428(q,1);
         func_020093F0(q,126);
     }
-    *(int *)(p+0x70)=50;
-    func_02008DF0(func_02012F2C(*(void **)(p+0x2c)),119);
+    ((struct Obj05369 *)p)->f70=50;
+    func_02008DF0(func_02012F2C(((struct Obj05369 *)p)->f2C),119);
     p[0xad]=1;
-    func_02012DAC((int)(*(void **)(p+0x2c)));
+    func_02012DAC((int)(((struct Obj05369 *)p)->f2C));
     func_021D6EE0(p,(int)func_021D8B0C,0x914);
 }

@@ -11,25 +11,27 @@
  * symbols:
  *   func_0201AA18 0x0201AA18 thumb
  */
+#include "../include/Obj08421.h"
+#include "../include/Obj10932.h"
 extern unsigned func_0201AA18(void *list);
 void func_021BAA20(unsigned char *p)
 {
     int i;
-    if(*(int *)(p+0x44)==1) {
+    if(((struct Obj10932 *)p)->f44==1) {
         int j;
         unsigned char *row;
         for(i=0;i<2;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(*(void **)row);j++) row[10+j]=0;
+            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
         return;
     }
-    if(*(int *)(p+0x44)==3) {
+    if(((struct Obj10932 *)p)->f44==3) {
         unsigned char *row;
         int j;
         for(i=0;i<4;i++) {
             row=p+16*i;
-            for(j=0;j<(int)func_0201AA18(*(void **)row);j++) row[10+j]=0;
+            for(j=0;j<(int)func_0201AA18(((struct Obj08421 *)row)->f0);j++) row[10+j]=0;
         }
     }
 }

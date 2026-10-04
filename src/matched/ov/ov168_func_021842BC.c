@@ -23,6 +23,7 @@
  *   d_02184888 0x02184888 data a1
  *   d_02184868 0x02184868 data a2
  */
+#include "../include/Obj03845.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -56,7 +57,7 @@ void func_021842BC(void **p, int heap)
     p[3] = func_02045B38(0,2,65,heap);
     for (i=0;i<3;i++) {
         row = d_02184888+i*12;
-        p[i] = func_02045180(row[0],row[1],row[2],row[3],row[4],row[5],*(u16 *)(row+6));
+        p[i] = func_02045180(row[0],row[1],row[2],row[3],row[4],row[5],((struct Obj03845 *)row)->f6);
         a = func_02045770(p[i]);
         func_02043B5C(a,0);
         func_020456F8(p[i]);

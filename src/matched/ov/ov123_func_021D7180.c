@@ -23,6 +23,7 @@
  *   func_021D70BC  0x021D70BC  thumb  ov123
  *   func_021D7130  0x021D7130  thumb  ov123
  */
+#include "../include/Obj03792.h"
 
 typedef unsigned int u32;
 
@@ -42,21 +43,21 @@ extern void func_021D7130(void);
 
 void func_021D7180(int a)
 {
-    if (func_021D580C((char *)(*(int *)(a + 0x18))) == 0)
+    if (func_021D580C((char *)(((struct Obj03792 *)a)->f18)) == 0)
         return;
     if (func_020362DC() == 0 && func_02035C60() == 0)
         return;
-    if (*(int *)(a + 0x6c) == 0) {
+    if (((struct Obj03792 *)a)->f6C == 0) {
         func_021D6EE0((u8 *)a, (int)func_021D70BC, 0x217);
         return;
     }
-    func_021D5A60((char *)(*(int *)(a + 0x18)));
-    func_021D57D0(*(int *)(a + 0x18), 0x16, *(int *)(a + 0x6c),
-                 *(int *)(a + 0xc));
-    func_021D56FC((char *)(*(int *)(a + 0x18)), 0);
+    func_021D5A60((char *)(((struct Obj03792 *)a)->f18));
+    func_021D57D0(((struct Obj03792 *)a)->f18, 0x16, ((struct Obj03792 *)a)->f6C,
+                 ((struct Obj03792 *)a)->fC);
+    func_021D56FC((char *)(((struct Obj03792 *)a)->f18), 0);
     func_02005DE4((void *)1);
     func_02005E64();
     func_02005D90(0x515, 0xffff);
-    *(int *)(a + 0x78) = 0xb4;
+    ((struct Obj03792 *)a)->f78 = 0xb4;
     func_021D6EE0((u8 *)a, (int)func_021D7130, 0x222);
 }

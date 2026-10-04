@@ -14,10 +14,11 @@
  *
  * Field getter, u32 at +0x2c.
  */
+#include "../include/Obj24134.h"
 
 typedef unsigned long u32;
 
 u32 func_021BE0D0(void *p)
 {
-    return *(u32 *)((char *)p + 0x2c);
+    return ((struct Obj24134 *)p)->f2C;
 }

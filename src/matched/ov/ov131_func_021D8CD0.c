@@ -30,6 +30,8 @@
  *   func_02035C60 0x02035C60 arm
  *   func_02035C38 0x02035C38 arm
  */
+#include "../include/Obj00091.h"
+#include "../include/Obj00136.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -50,56 +52,56 @@ extern int func_02035C38(void);
 void func_021D8CD0(u8 *a,u8 *p)
 {
     int index, delta, velocity;
-    if(*(u32 *)(a+0x24)==7) {
+    if(((struct Obj00136 *)a)->f24==7) {
         func_021D5A9C(a,1);
-        func_0204B878(*(void **)(a+0x194),9);
-        func_0204B3DC(*(void **)(p+0x54),0);
+        func_0204B878(((struct Obj00136 *)a)->f194,9);
+        func_0204B3DC(((struct Obj00091 *)p)->f54,0);
         p[0x58]=255;
         p[0x59]=255;
-        *(u32 *)(p+0x68)=1;
+        ((struct Obj00091 *)p)->f68=1;
         a[0x1c]=1;
         func_021D964C(a,p);
         func_021D9670(a,p);
         func_020061E4(1361);
         return;
     }
-    if(func_02035C60()==1 && *(u32 *)(a+0x28)>8 && *(u32 *)(a+0x28)<144) {
+    if(func_02035C60()==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
         index=func_021D8E24(a,p);
         if(index!=-1) {
             p[0x58]=(u8)index;
-            *(u32 *)(p+0x68)=1;
+            ((struct Obj00091 *)p)->f68=1;
             p[0x59]=func_021D9428(p,(u8)index);
-            *(u32 *)(p+0x64)=1;
-            *(int *)(p+0x5c)=0;
-            func_0204B3DC(*(void **)(p+0x54),0);
+            ((struct Obj00091 *)p)->f64=1;
+            ((struct Obj00091 *)p)->f5C=0;
+            func_0204B3DC(((struct Obj00091 *)p)->f54,0);
             func_021D964C(a,p);
             func_021D949C(a,p);
         }
         a[0x1c]=1;
         return;
     }
-    if(func_02035C38()==1 && *(u32 *)(p+0x64)==1 && *(u32 *)(a+0x28)>8 && *(u32 *)(a+0x28)<144) {
-        delta=(s16)(*(u32 *)(a+0x34)-*(u32 *)(a+0x2c));
+    if(func_02035C38()==1 && ((struct Obj00091 *)p)->f64==1 && ((struct Obj00136 *)a)->f28>8 && ((struct Obj00136 *)a)->f28<144) {
+        delta=(s16)(((struct Obj00136 *)a)->f34-((struct Obj00136 *)a)->f2C);
         velocity=delta*2;
         func_021D8F0C(a,p,delta);
-        if(velocity>=0 && *(int *)(p+0x5c)>0 && velocity<*(int *)(p+0x5c)) {
-            *(int *)(p+0x5c)=(int)((u32)*(int *)(p+0x5c)+(u32)velocity)/2;
+        if(velocity>=0 && ((struct Obj00091 *)p)->f5C>0 && velocity<((struct Obj00091 *)p)->f5C) {
+            ((struct Obj00091 *)p)->f5C=(int)((u32)((struct Obj00091 *)p)->f5C+(u32)velocity)/2;
             return;
         }
-        if(velocity<=0 && *(int *)(p+0x5c)<0 && velocity>*(int *)(p+0x5c)) {
-            *(int *)(p+0x5c)=(int)((u32)*(int *)(p+0x5c)+(u32)velocity)/2;
+        if(velocity<=0 && ((struct Obj00091 *)p)->f5C<0 && velocity>((struct Obj00091 *)p)->f5C) {
+            ((struct Obj00091 *)p)->f5C=(int)((u32)((struct Obj00091 *)p)->f5C+(u32)velocity)/2;
             return;
         }
-        *(int *)(p+0x5c)=velocity;
+        ((struct Obj00091 *)p)->f5C=velocity;
         return;
     }
-    *(u32 *)(p+0x64)=0;
-    if(*(int *)(p+0x5c)<0) {
-        *(int *)(p+0x5c)+=1;
-        func_021D8F0C(a,p,(s16)(*(int *)(p+0x5c)/2));
+    ((struct Obj00091 *)p)->f64=0;
+    if(((struct Obj00091 *)p)->f5C<0) {
+        ((struct Obj00091 *)p)->f5C+=1;
+        func_021D8F0C(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
     }
-    if(*(int *)(p+0x5c)>0) {
-        *(int *)(p+0x5c)-=1;
-        func_021D8F0C(a,p,(s16)(*(int *)(p+0x5c)/2));
+    if(((struct Obj00091 *)p)->f5C>0) {
+        ((struct Obj00091 *)p)->f5C-=1;
+        func_021D8F0C(a,p,(s16)(((struct Obj00091 *)p)->f5C/2));
     }
 }

@@ -56,6 +56,9 @@
  *   func_02045C04 0x02045C04 arm
  *   d_021F0A70 0x021F0A70 data a1
  */
+#include "../include/Obj00166.h"
+#include "../include/Obj09806.h"
+#include "../include/Obj13076.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -107,8 +110,8 @@ extern void func_02045C04(void *);
 extern const u8 d_021F0A70[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
 {
-    u32 owner=*(u32 *)(p+8);
-    func_0201C724(owner,func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,dst,*(void **)(p+0x4C),color);
+    u32 owner=((struct Obj09806 *)p)->f8;
+    func_0201C724(owner,func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,dst,((struct Obj09806 *)p)->f4C,color);
     p[16+index*8]=one;
     func_02045808(s);
 }
@@ -117,18 +120,18 @@ void func_021F0284(u8 *p)
     u32 i,one=1;
     void *bank,*ws,*dst,*ctx,*ctrl,*s0,*s1,*s2,*s3,*s4,*s5,*s6,*s7,*time,*t;
     u32 date[4],clock[3];
-    *(u32 *)(p+8)=func_0201C440((void *)(*(u16 *)(p+0x12C)));
+    ((struct Obj00166 *)p)->f8=func_0201C440((void *)(((struct Obj00166 *)p)->f12C));
     for(i=0;i<8;i++) {
         const u8 *r=d_021F0A70+i*6;
         u8 *entry=p+i*8;
-        *(u32 *)(entry+12)=func_020450F0(r[0],r[1],r[2],r[3],r[4],r[5],one);
-        func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(entry+12)),0);
+        ((struct Obj13076 *)entry)->fC=func_020450F0(r[0],r[1],r[2],r[3],r[4],r[5],one);
+        func_02043B5C(func_02045770((struct Descriptor *)((struct Obj13076 *)entry)->fC),0);
     }
-    *(void **)(p+0x4C)=func_0201D7EC(23,0,0,0,*(u16 *)(p+0x12C));
-    bank=func_02045B38(0,2,168,*(u16 *)(p+0x12C));
-    ws=func_0201EC64(*(u16 *)(p+0x12C));
-    dst=func_020457B0(256,*(u16 *)(p+0x12C));
-    ctx=func_020120F4(*(void **)p);
+    ((struct Obj00166 *)p)->f4C=func_0201D7EC(23,0,0,0,((struct Obj00166 *)p)->f12C);
+    bank=func_02045B38(0,2,168,((struct Obj00166 *)p)->f12C);
+    ws=func_0201EC64(((struct Obj00166 *)p)->f12C);
+    dst=func_020457B0(256,((struct Obj00166 *)p)->f12C);
+    ctx=func_020120F4(((struct Obj00166 *)p)->f0);
     ctrl=func_02012EBC(ctx);
     s0=func_02045EC0(bank,0);
     func_0201F02C(ws,0,func_02012944(ctx));
@@ -148,16 +151,16 @@ void func_021F0284(u8 *p)
     func_0201F250(ws,dst,s2);
     print_record(p,2,dst,s2,0,0x3DC0,one);
     s3=func_02045EC0(bank,3);
-    func_0201F158(ws,0,func_02013E4C(func_02012AC8(func_020120F8(*(void **)p))));
+    func_0201F158(ws,0,func_02013E4C(func_02012AC8(func_020120F8(((struct Obj00166 *)p)->f0))));
     func_0201F250(ws,dst,s3);
     print_record(p,3,dst,s3,0,0x3DC0,one);
     s4=func_02045EC0(bank,4);
     func_0201EFA4(ws,0,func_0200C258(func_02012F08(ctx)),2,0,1);
     func_0201F250(ws,dst,s4);
     print_record(p,4,dst,s4,0,0x3DC0,one);
-    if(func_020142E8((void *)func_0201296C(func_020120F4(*(void **)p)),0x962)==1) {
+    if(func_020142E8((void *)func_0201296C(func_020120F4(((struct Obj00166 *)p)->f0)),0x962)==1) {
         s5=func_02045EC0(bank,5);
-        func_0201EFA4(ws,0,func_0200D0AC(func_0200CA1C(ctx),*(u16 *)(p+0x12C)),3,0,1);
+        func_0201EFA4(ws,0,func_0200D0AC(func_0200CA1C(ctx),((struct Obj00166 *)p)->f12C),3,0,1);
         func_0201F250(ws,dst,s5);
         print_record(p,5,dst,s5,0,0x3DC0,one);
     }
@@ -177,7 +180,7 @@ void func_021F0284(u8 *p)
         func_0201EFA4(ws,4,func_020086E8(t),2,2,1);
         func_0201F250(ws,dst,s7);
         print_record(p,7,dst,s7,4,0x3580,one);
-    } else func_02045334((struct Descriptor *)*(u32 *)(p+68));
+    } else func_02045334((struct Descriptor *)((struct Obj00166 *)p)->f44);
     func_02045808(dst);
     func_0201ED04(ws);
     func_02045C04(bank);

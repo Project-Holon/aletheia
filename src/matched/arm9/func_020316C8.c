@@ -38,6 +38,7 @@
  *   python tools/match.py one --src src/pending/func_020316C8.c \
  *       --func func_020316C8 --addr 0x020316C8 --cc 1.1p1 --arm
  */
+#include "../include/Obj15875.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,6 +62,6 @@ void func_020316C8(u32 a0, u32 a1, u32 a2)
     func_020819B8((struct MATHCRC16Table *)(g_02146994 + 4), 0x1100 - 0xdf);
     *(u32 *)(g_02146994 + 0x204) = a1;
     p = g_02146994;
-    *(u32 *)(p + 0x208) = a2;
+    ((struct Obj15875 *)p)->f208 = a2;
     *(u32 *)g_02146994 = func_02033534((u32)p);
 }

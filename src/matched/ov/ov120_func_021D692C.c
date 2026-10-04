@@ -12,6 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021B62E0 0x021B62E0 thumb ov067
  */
+#include "../include/Obj00199.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,11 +28,11 @@ void func_021D692C(u8 *p, int n)
     func_02082BCC(&c, 0, 32);
     c.f0 = &data;
     c.f4 = 1;
-    c.f8 = *(u32 *)(p + 0x10);
+    c.f8 = *(u32 *)&((struct Obj00199 *)p)->f10;
     c.fC = 7;
     c.f10 = 15;
     c.f18 = 2;
     c.f1c = 0;
     c.f14 = n;
-    *(void **)(p + 0xc) = func_021B62E0(&c, *(u16 *)(p + 0xf4));
+    ((struct Obj00199 *)p)->fC = func_021B62E0(&c, ((struct Obj00199 *)p)->fF4);
 }

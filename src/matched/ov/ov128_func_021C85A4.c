@@ -13,6 +13,7 @@
  *   func_021C899C 0x021C899C thumb ov128
  *   func_021CA2DC 0x021CA2DC thumb ov128
  */
+#include "../include/Obj00179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -25,13 +26,13 @@ void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c)
     int offset;
     u8 *base;
     if (n == 0) {
-        *(s16 *)p = x;
-        *(s16 *)(p + 4) = y;
+        ((struct Obj00179 *)p)->f0 = x;
+        ((struct Obj00179 *)p)->f4 = y;
         func_021CA40C(p, x);
     }
     offset = n * 0x4c;
     base = p + 12;
     func_021C88C0((s16 *)(base + offset), b, b + 0x16c);
-    func_021C899C(base + offset, a, b, *(void **)(p + 0x104), b + 0x16c, a + 16, x, c);
+    func_021C899C(base + offset, a, b, ((struct Obj00179 *)p)->f104, b + 0x16c, a + 16, x, c);
     func_021CA2DC(p);
 }

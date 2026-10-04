@@ -16,6 +16,7 @@
  *   d_021E7D40 0x021E7D40 data a4
  *   d_021E7CC8 0x021E7CC8 data a4
  */
+#include "../include/Obj22814.h"
 extern void func_020433E0(const void *);
 extern void func_0204A48C(const void *, const void *, unsigned int);
 extern void func_021E57E8(int);
@@ -27,7 +28,7 @@ extern const char d_021E7CC8[];
 void func_021E53F8(char *p)
 {
     func_020433E0(d_021E7D40);
-    func_0204A48C(d_021E7CC8, d_021E7D40, *(unsigned short *)(p + 0x5F4));
+    func_0204A48C(d_021E7CC8, d_021E7D40, ((struct Obj22814 *)p)->f5F4);
     func_021E57E8(0);
     func_02043534(0);
     func_020435F4(0);

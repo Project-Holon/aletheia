@@ -32,6 +32,7 @@
  *   func_02201304 0x02201304 thumb ov094
  *   d_0220AE7C 0x0220AE7C data a4
  */
+#include "../include/Obj13608.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -72,8 +73,8 @@ void func_02201718(int i)
     draw = func_0203F0A8();
     if ((u32)(((u64)draw * n) >> 32) != 0) return;
     ((Flags *)(p + 0x54 + off))->count = 3;
-    q = func_02030734((u16)((*(u16 *)(p + 0x540) & 0x7fff) | 0x8000), 12, 1, d_0220AE7C, 0xd5e);
+    q = func_02030734((u16)((((struct Obj13608 *)p)->f540 & 0x7fff) | 0x8000), 12, 1, d_0220AE7C, 0xd5e);
     q[1] = i;
     if (func_02015EEC(*(void **)(e + off)) > 1) func_02016028(*(void **)(e + off), 1);
-    *(void **)(p + off + 0x30) = func_02030DA8(*(void **)p, func_02201304, q, 0);
+    *(void **)(p + off + 0x30) = func_02030DA8(((struct Obj13608 *)p)->f0, func_02201304, q, 0);
 }

@@ -13,6 +13,7 @@
  *   func_021B8DDC 0x021B8DDC thumb ov093
  *   func_021CD4B0 0x021CD4B0 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
@@ -24,5 +25,5 @@ void func_021BDC78(u8 *p, u8 *a)
     int value;
     id = func_021D5440(a);
     value = func_021B8DDC(id);
-    func_021CD4B0(*(void **)(p + 0xc), 0x3b, value, id);
+    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x3b, value, id);
 }

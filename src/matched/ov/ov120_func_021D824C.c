@@ -15,6 +15,8 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj08083.h"
+#include "../include/Obj08084.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Cfg;
@@ -28,15 +30,15 @@ void func_021D824C(char *p)
 {
     int i;
     char *t;
-    if(*(void **)(p+0x6c)) {func_020452E8(*(void **)(p+0x6c));*(void **)(p+0x6c)=0;}
+    if(((struct Obj08083 *)p)->f6C) {func_020452E8(((struct Obj08083 *)p)->f6C);((struct Obj08083 *)p)->f6C=0;}
     for(i=1;i<6;i++) {
         t=p+4*i;
-        if(*(void **)(t+0x6c)) {
-            func_02045788(*(void **)(t+0x6c),func_02045760(*(void **)(t+0x6c))-6);
-            func_02045374(*(void **)(t+0x6c));
+        if(((struct Obj08084 *)t)->f6C) {
+            func_02045788(((struct Obj08084 *)t)->f6C,func_02045760(((struct Obj08084 *)t)->f6C)-6);
+            func_02045374(((struct Obj08084 *)t)->f6C);
         }
     }
     func_02041B6C(6);
     for(i=0;i<5;i++) *(void **)(p+0x6c+4*i)=*(void **)(p+0x70+4*i);
-    *(void **)(p+0x80)=0;
+    ((struct Obj08083 *)p)->f80=0;
 }

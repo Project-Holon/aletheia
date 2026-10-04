@@ -14,6 +14,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204AFD8 0x0204AFD8 arm
  */
+#include "../include/Obj10805.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ extern void func_0204B3B4(void *);
 extern void func_0204ADA4(int);
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(int);
-void func_021F1968(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)func_0204B3B4(q); } func_0204ADA4(*(int *)p);func_0204A8D4((u32)(*(void **)(p+4)));func_0204AFD8(*(int *)(p+8)); }
+void func_021F1968(u8 *p) { int i; for(i=0;i<21;i++) { void *q=*(void **)((u32)p+(u32)i*4+12); if(q)func_0204B3B4(q); } func_0204ADA4(((struct Obj10805 *)p)->f0);func_0204A8D4((u32)(((struct Obj10805 *)p)->f4));func_0204AFD8(((struct Obj10805 *)p)->f8); }

@@ -15,6 +15,7 @@
  *   func_020355C4 0x020355C4 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00018.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020221A4(void);
@@ -27,17 +28,17 @@ int func_021F5A18(u8 *p)
 {
     int index;
     if (func_020221A4()) {
-        if (*(int *)(p + 0x20) == 5) {
+        if (((struct Obj00018 *)p)->f20 == 5) {
             index = 0x15;
-        } else if (*(int *)(p + 0x20) == 6) {
+        } else if (((struct Obj00018 *)p)->f20 == 6) {
             index = 0x11;
         }
         func_021F663C(p, index, 1, 0, 0xf0f, 0);
         func_021F4E98(p, 3, 1);
         if (func_020355C4() == 1) {
-            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 0);
+            func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 0);
         } else {
-            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
+            func_0204B3DC((struct Obj *)((struct Obj00018 *)p)->fBF4, 1);
         }
     }
     return 2;

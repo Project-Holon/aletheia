@@ -13,6 +13,7 @@
  * now have EXACT manifest entries, so the two THM_CALL fields resolve through
  * the `matched` class and every byte is hard.
  */
+#include "../include/Obj15840.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,5 +24,5 @@ extern void func_0202BEDC(u32 a, u32 b);
 
 void func_0202B744(u8 *o)
 {
-    func_0202BEDC(*(u32 *)(o + 0x1c), func_0202B804((struct Obj *)o));
+    func_0202BEDC(((struct Obj15840 *)o)->f1C, func_0202B804((struct Obj *)o));
 }

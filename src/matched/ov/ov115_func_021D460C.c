@@ -16,7 +16,9 @@
  *   func_021D456C 0x021D456C thumb ov115
  *   func_021D5D3C 0x021D5D3C thumb ov115
  */
+#include "../include/Obj08040.h"
+#include "../include/Obj22590.h"
 typedef unsigned char u8; typedef unsigned int u32;
 extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern void func_021D456C(u8 *); extern void func_021D5D3C(int);
-void func_021D460C(u8 *p) { if(func_020221A4()) { func_021D5D3C(*(int *)(p+0x38)); *(void **)(p+0x30)=func_021D5D5C(*(u8 **)(p+0x38),1,!*(int *)(*(u8 **)(p+0x40)+4),0); func_021D426C(p,(u32)func_021D456C); } }
+void func_021D460C(u8 *p) { if(func_020221A4()) { func_021D5D3C(*(int *)&((struct Obj08040 *)p)->f38); ((struct Obj08040 *)p)->f30=func_021D5D5C(*(u8 * *)&((struct Obj08040 *)p)->f38,1,!((struct Obj22590 *)(*(u8 * *)&((struct Obj08040 *)p)->f40))->f4,0); func_021D426C(p,(u32)func_021D456C); } }

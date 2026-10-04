@@ -9,4 +9,5 @@
  * status: EXACT
  * symbols:
  */
-int func_021D730C(char *p) { if (*(unsigned int *)(p+984)==0x55f4 && *(unsigned int *)(p+988)==0x55f4) return 1; return 0; }
+#include "../include/Obj02838.h"
+int func_021D730C(char *p) { if (*(unsigned int *)&((struct Obj02838 *)p)->f3D8==0x55f4 && ((struct Obj02838 *)p)->f3DC==0x55f4) return 1; return 0; }

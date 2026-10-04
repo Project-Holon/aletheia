@@ -14,6 +14,7 @@
  *   func_0204B084 0x0204B084 arm
  *   func_021B756C 0x021B756C thumb ov180
  */
+#include "../include/Obj04569.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 extern void func_021B77C4(int *),func_021B7604(int *);
 extern void func_0204B084(void *);
 extern void func_021B756C(char *);
-void func_021B7F0C(int *p) { func_021B77C4(p); func_021B7604(p); func_0204B084(*(void **)((u8 *)p+0x9118)); func_021B756C((char *)p); }
+void func_021B7F0C(int *p) { func_021B77C4(p); func_021B7604(p); func_0204B084(((struct Obj04569 *)p)->f9118); func_021B756C((char *)p); }

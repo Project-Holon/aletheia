@@ -12,6 +12,8 @@
  * symbols:
  *   func_0219CB24  0x0219CB24  thumb  ov021
  */
+#include "../include/Obj03117.h"
+#include "../include/Obj07477.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -27,13 +29,13 @@ void func_0219CEAC(int *obj)
     if (t != 0 && t[0] == 1) {
         i = 0;
         p = (int *)t[4];
-        if (!(i < *(unsigned short *)((char *)t + 6))) {
+        if (!(i < ((struct Obj07477 *)t)->f6)) {
             return;
         }
-        for (; i < *(unsigned short *)((char *)t + 6); i++, p += 5) {
-            if (p[4] != 0 && *(unsigned char *)p == 1) {
-                *(unsigned char *)p = 0;
-                func_0219CB24((u8 *)obj, p[4], *(unsigned short *)(p + 2), *((unsigned char *)p + 0xa),
+        for (; i < ((struct Obj07477 *)t)->f6; i++, p += 5) {
+            if (p[4] != 0 && ((struct Obj03117 *)p)->f0 == 1) {
+                ((struct Obj03117 *)p)->f0 = 0;
+                func_0219CB24((u8 *)obj, p[4], ((struct Obj03117 *)p)->f8, *((unsigned char *)p + 0xa),
                               *((unsigned char *)p + 0xb), p[1]);
                 p[4] = 0;
             }

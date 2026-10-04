@@ -22,6 +22,7 @@
  *   d_021F815C 0x021F815C data a4
  *   d_020A1448 0x020A1448 data a4
  */
+#include "../include/Obj10296.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020434CC(void);
@@ -49,9 +50,9 @@ void func_021F3A54(u8 *p)
     func_02022224((void *)1);
     *(volatile u16 *)0x04000304 |= 0x8000;
     func_020433E0(d_021F816C);
-    func_0203F8F4(*(u16 *)p);
-    func_02045088(*(u16 *)p);
+    func_0203F8F4(((struct Obj10296 *)p)->f0);
+    func_02045088(((struct Obj10296 *)p)->f0);
     func_0203FC28(d_021F815C);
-    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021F816C,*(u16 *)p);
+    func_0204A48C((const struct Cfg *)d_020A1448,(u32)d_021F816C,((struct Obj10296 *)p)->f0);
     func_020434DC(16,1);
 }

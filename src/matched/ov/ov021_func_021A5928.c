@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05027.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,10 +36,10 @@ extern void func_0219E2C0(void *a, void *r);
 
 void func_021A5928(u8 *p, int v)
 {
-    if (func_0216D5A0((void *)(*(int *)(p + 0x1c))) != 0x45) {
-        d_021DDEE0[1] = func_0216D598((void *)(*(int *)(p + 0x1c)));
-        func_0216E0AC((void *)(*(int *)(p + 0x1c)), d_021DDEE0b);
+    if (func_0216D5A0((void *)(((struct Obj05027 *)p)->f1C)) != 0x45) {
+        d_021DDEE0[1] = func_0216D598((void *)(((struct Obj05027 *)p)->f1C));
+        func_0216E0AC((void *)(((struct Obj05027 *)p)->f1C), d_021DDEE0b);
     }
-    *(int *)(p + 0x20) = (int)func_0219E348((void *)(*(int *)(p + 0x1c)));
-    func_0219E2C0((void *)(*(int *)(p + 0x1c)), (void *)v);
+    ((struct Obj05027 *)p)->f20 = (int)func_0219E348((void *)(((struct Obj05027 *)p)->f1C));
+    func_0219E2C0((void *)(((struct Obj05027 *)p)->f1C), (void *)v);
 }

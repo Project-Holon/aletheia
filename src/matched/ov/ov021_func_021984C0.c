@@ -20,6 +20,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05004.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,11 +42,11 @@ void func_021984C0(u8 *a, u32 b, u32 c, u32 d, u16 e, s16 f, u16 g, u32 h)
 
     r = func_0216D6BC(a, 16);
     r[12] = b;
-    *(u32 *)r = c;
+    ((struct Obj05004 *)r)->f0 = c;
     r[13] = d;
     r[14] = e;
     r[15] = f;
-    *(u16 *)(r + 8) = g;
+    ((struct Obj05004 *)r)->f8 = g;
     if (c == 0) {
         func_02163F10(a);
     } else {

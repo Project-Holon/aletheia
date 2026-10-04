@@ -33,6 +33,8 @@
  *       --func func_02052634 --addr 0x02052634 --cc ../1.2/sp2 --arm \
  *       --flags "-O4,p -proc arm946e"
  */
+#include "../include/Obj00077.h"
+#include "../include/Obj11462.h"
 
 typedef unsigned int u32;
 
@@ -47,11 +49,11 @@ int func_02052634(char *p, int b, int c)
 {
     void *r = 0;
 
-    if (*(u32 *)(p + 0x10) != 0) {
+    if (((struct Obj11462 *)p)->f10 != 0) {
         r = func_02058380(p + 0x10);
-        func_02053A60(r, (void *)(*(u32 *)(p + 0x28) + (b << 5)), (const struct Vec3 *)c);
+        func_02053A60(r, (void *)(((struct Obj11462 *)p)->f28 + (b << 5)), (const struct Vec3 *)c);
         func_020583CC(p + 4, r);
-        if ((*(u32 *)(*(u32 *)(*(u32 *)((char *)r + 0x20))) << 0x11 >> 0x1f) != 0)
+        if ((*(u32 *)(*(u32 *)(*(u32 *)&((struct Obj00077 *)r)->f20)) << 0x11 >> 0x1f) != 0)
             r = 0;
     }
     return (int)r;

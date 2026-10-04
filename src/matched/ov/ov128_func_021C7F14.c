@@ -16,6 +16,7 @@
  *   func_021C7E78 0x021C7E78 thumb ov128
  *   func_021CA2C4 0x021CA2C4 thumb ov128
  */
+#include "../include/Obj03810.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -34,20 +35,20 @@ int func_021C7F14(s16 *p, u8 *a, u8 *ctx)
     int dir;
     if(func_020362DC() & 2) {
         func_020355D8(0);
-        *(int *)a=0;
+        ((struct Obj03810 *)a)->f0=0;
         return func_021C7E78(p,a,ctx,0);
     }
     if(func_020362DC() & 1024) {
         func_020355D8(0);
-        *(int *)a=0;
+        ((struct Obj03810 *)a)->f0=0;
         return func_021C7E78(p,a,ctx,6);
     }
-    if(*(int *)a==1) {
+    if(((struct Obj03810 *)a)->f0==1) {
         if(func_020362DC() & 0xcf3) {
             func_020061E4(0x548);
             func_021CA2C4(ctx,p[2],p[2]);
             func_020355D8(0);
-            *(int *)a=0;
+            ((struct Obj03810 *)a)->f0=0;
         }
         return 0;
     }

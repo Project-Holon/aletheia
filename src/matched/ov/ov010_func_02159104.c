@@ -12,11 +12,12 @@
  * Store of a word at +0x140.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18756.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 void func_02159104(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x140) = v;
+    ((struct Obj18756 *)p)->f140 = v;
 }

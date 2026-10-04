@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25931.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ void func_021BF6D4(char *p)
     if (func_020270E0() == 1) {
         u16 a = func_021BF834(p);
         if (a != (u16)func_021BF9CC(p)) {
-            *(u32 *)(p + 0x3d8) = 1;
+            ((struct Obj25931 *)p)->f3D8 = 1;
         }
     }
 }

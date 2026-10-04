@@ -16,6 +16,7 @@
  *   func_020315D4  0x020315D4  arm
  *   func_020306F0  0x020306F0  arm
  */
+#include "../include/Obj18645.h"
 
 typedef unsigned char u8;
 
@@ -30,7 +31,7 @@ extern void func_020306F0(u32 heap);
 
 int func_02154CC8(void *a0, int a1, char *a2, int *a3)
 {
-    if (*(int *)(a2 + 0x14) == 1) {
+    if (((struct Obj18645 *)a2)->f14 == 1) {
         if (func_0200FB24() != 0)
             func_0200FB38();
     }

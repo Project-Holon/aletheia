@@ -15,6 +15,7 @@
  *   func_021BA218 0x021BA218 thumb ov070
  *   func_021B81F4 0x021B81F4 thumb ov070
  */
+#include "../include/Obj20660.h"
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
 extern void func_021B9850(char *p);
@@ -29,5 +30,5 @@ void func_021B6138(char *p)
         func_021B9AAC(p);
     func_021BA218(p);
     func_021B81F4(p);
-    *(unsigned short *)(p + 0x83E) = 1;
+    ((struct Obj20660 *)p)->f83E = 1;
 }

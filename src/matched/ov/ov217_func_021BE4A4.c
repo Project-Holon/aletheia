@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,9 +34,9 @@ extern u32 func_021C0E54(struct Ring *r);
 extern u32 func_021C0E64();
 void func_021BE4A4(u32 a0)
 {
-    if (*(u32*)(((u8*)a0) + 988) != 0) {
-    if (func_021C0E64(*(u32*)(((u8*)a0) + 28)) == 0) {
-    func_021BE4CC((void *)a0, func_021C0E54((struct Ring *)(*(u32*)(((u8*)a0) + 28))));
+    if (((struct Obj00021 *)(((u8*)a0)))->f3DC != 0) {
+    if (func_021C0E64(((struct Obj00021 *)(((u8*)a0)))->f1C) == 0) {
+    func_021BE4CC((void *)a0, func_021C0E54((struct Ring *)(((struct Obj00021 *)(((u8*)a0)))->f1C)));
     }
     }
 }

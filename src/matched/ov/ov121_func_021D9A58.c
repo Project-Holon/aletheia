@@ -11,7 +11,8 @@
  * symbols:
  *   func_020456F8 0x020456F8 arm
  */
+#include "../include/Obj22875.h"
 typedef unsigned char u8;
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
-void func_021D9A58(u8 *p) { func_020456F8(*(void **)(p+0xc)); }
+void func_021D9A58(u8 *p) { func_020456F8(((struct Obj22875 *)p)->fC); }

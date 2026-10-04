@@ -12,7 +12,9 @@
  * symbols:
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj14170.h"
+#include "../include/Obj23406.h"
 struct U16Vec;
 extern void func_02045808(struct U16Vec *);
-void func_021FC568(char *p) {int i;for(i=0;i<10;i++) func_02045808(*(struct U16Vec **)((unsigned)p+i*4+0xb90));func_02045808(*(struct U16Vec **)(p+0xb88));func_02045808(*(struct U16Vec **)(p+0xb8c));}
-int func_021FC598(char *p) {*(unsigned *)(p+40)=1;return 2;}
+void func_021FC568(char *p) {int i;for(i=0;i<10;i++) func_02045808(*(struct U16Vec **)((unsigned)p+i*4+0xb90));func_02045808(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB88);func_02045808(*(struct U16Vec * *)&((struct Obj14170 *)p)->fB8C);}
+int func_021FC598(char *p) {((struct Obj23406 *)p)->f28=1;return 2;}

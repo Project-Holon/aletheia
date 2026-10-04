@@ -15,6 +15,7 @@
  *   func_0216D89C  0x0216D89C  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07482.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ void func_0219EAEC(u8 *p, u32 a)
 {
     u8 buf[12];
     if (p[6] != 2) {
-        func_021B7EE4(*(void **)p, p + 4);
-        func_021B8028(*(void **)p, buf);
+        func_021B7EE4(((struct Obj07482 *)p)->f0, p + 4);
+        func_021B8028(((struct Obj07482 *)p)->f0, buf);
         func_0216D89C(a, buf);
     }
 }

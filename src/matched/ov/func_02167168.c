@@ -12,6 +12,7 @@
  * symbols:
  *   func_02045C04  0x02045C04  arm
  */
+#include "../include/Obj00565.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ int func_02167168(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x18);
+a0 = *(int *)&((struct Obj00565 *)t4)->f18;
     a0 = func_02045C04(a0);
 loc_02167172:
 a0 = 0;
-*(int *)((char *)t4 + 0x18) = a0;
+*(int *)&((struct Obj00565 *)t4)->f18 = a0;
     return a0;}

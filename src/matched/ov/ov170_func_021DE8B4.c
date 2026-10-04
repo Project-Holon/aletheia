@@ -13,6 +13,9 @@
  *   func_021EC0B0 0x021EC0B0 thumb ov170
  *   func_021EC548 0x021EC548 thumb ov170
  */
+#include "../include/Obj10648.h"
+#include "../include/Obj10649.h"
+#include "../include/Obj23852.h"
 typedef struct {
     unsigned short idx, slot;
     int mode, x, y, vx, vy;
@@ -23,16 +26,16 @@ extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
 extern void func_021EC548(unsigned, short *, short *, int);
 void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag)
 {
-    Mover *o = *(Mover **)(*(char **)(p+0x2c)+0x60);
+    Mover *o = *(Mover * *)&((struct Obj23852 *)(*(char * *)&((struct Obj10648 *)p)->f2C))->f60;
     short pos[2];
     short to[2];
     int d;
-    func_021EC0B0(*(char **)(p+0x2c),10,&pos[1],&pos[0],0);
+    func_021EC0B0(*(char * *)&((struct Obj10648 *)p)->f2C,10,&pos[1],&pos[0],0);
     func_021EC548(idx,&to[1],&to[0],mode);
     if(flag==1){to[1]+=8;to[0]+=8;}else{to[0]+=4;}
     o->idx=idx;
     o->slot=slot;
-    *(unsigned *)((char *)o+0x18)&=3;
+    ((struct Obj10649 *)o)->f18&=3;
     o->mode=mode;
     {
         int tx=to[1];
@@ -43,8 +46,8 @@ void func_021DE8B4(unsigned char *p, int slot, unsigned idx, int mode, int flag)
         o->vx=(d<<8)/8;
         ty=to[0];
         py=pos[0];
-        if(py>ty){*(unsigned *)((char *)o+0x18)|=2;d=py-ty;}
-        else{*(unsigned *)((char *)o+0x18)&=~2;d=ty-py;}
+        if(py>ty){((struct Obj10649 *)o)->f18|=2;d=py-ty;}
+        else{((struct Obj10649 *)o)->f18&=~2;d=ty-py;}
         o->vy=(d<<8)/8;
         o->x=px<<8;
         o->y=py<<8;

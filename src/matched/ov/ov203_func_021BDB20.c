@@ -17,6 +17,7 @@
  *   func_021BDE98 0x021BDE98 thumb ov203
  *   ov067_id 0x00000043 data a1
  */
+#include "../include/Obj06664.h"
 typedef unsigned int   u32;
 struct PrintSys;
 struct Rec;
@@ -34,11 +35,11 @@ extern const char ov067_id[];
 int func_021BDB20(void *a, void *b, void *c, char *work)
 {
     func_02023F98(3);
-    func_021BDD18(*(char **)(work + 0x1c));
-    func_02045C04(*(void **)(work + 0x14));
-    func_0201C4C0(*(void **)(work + 0x10));
-    func_021BE4B4(*(void **)(work + 0x18));
-    func_021BDE98(*(void **)(work + 0xc));
+    func_021BDD18(*(char * *)&((struct Obj06664 *)work)->f1C);
+    func_02045C04(((struct Obj06664 *)work)->f14);
+    func_0201C4C0(((struct Obj06664 *)work)->f10);
+    func_021BE4B4(((struct Obj06664 *)work)->f18);
+    func_021BDE98(((struct Obj06664 *)work)->fC);
     func_020315D4(a);
     func_020306F0(0x6c);
     func_02034A5C((int)ov067_id);

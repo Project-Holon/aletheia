@@ -20,6 +20,7 @@
  *   func_02184120  0x02184120  thumb  ov020
  *   func_021BD9BC  0x021BD9BC  thumb  ov021
  */
+#include "../include/Obj00082.h"
 
 typedef unsigned char u8;
 
@@ -36,7 +37,7 @@ extern int func_021BD9BC(u8 *p);
 
 int func_02184388(int a, int *state, u8 *p)
 {
-    void *w = *(void **)(p + 8);
+    void *w = ((struct Obj00082 *)p)->f8;
 
     switch (*state) {
     case 0:

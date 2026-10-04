@@ -10,17 +10,18 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00001.h"
 extern void func_020307B0(void *);
 void func_021E43DC(char *p)
 {
-    if (*(void **)(p + 0x1174)) {
-        func_020307B0(*(void **)(p + 0x1174));
-        *(void **)(p + 0x1174) = 0;
-        func_020307B0(*(void **)(p + 0x1178));
-        *(void **)(p + 0x1178) = 0;
-        func_020307B0(*(void **)(p + 0x117c));
-        *(void **)(p + 0x117c) = 0;
-        func_020307B0(*(void **)(p + 0x1180));
-        *(void **)(p + 0x1180) = 0;
+    if (((struct Obj00001 *)p)->f1174) {
+        func_020307B0(((struct Obj00001 *)p)->f1174);
+        ((struct Obj00001 *)p)->f1174 = 0;
+        func_020307B0(((struct Obj00001 *)p)->f1178);
+        ((struct Obj00001 *)p)->f1178 = 0;
+        func_020307B0(((struct Obj00001 *)p)->f117C);
+        ((struct Obj00001 *)p)->f117C = 0;
+        func_020307B0(((struct Obj00001 *)p)->f1180);
+        ((struct Obj00001 *)p)->f1180 = 0;
     }
 }

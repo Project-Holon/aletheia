@@ -11,10 +11,11 @@
  * symbols:
  *   func_020480E4 0x020480E4 arm
  */
+#include "../include/Obj02551.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Ctx;
 extern void func_020480E4(struct Ctx *,u32);
-void func_021BA9AC(char *p) { func_020480E4(*(struct Ctx **)(p+8),*(u16 *)(p+12)); *(u8 *)(p+15)=0; *(u8 *)(p+14)=0; }
+void func_021BA9AC(char *p) { func_020480E4(*(struct Ctx * *)&((struct Obj02551 *)p)->f8,((struct Obj02551 *)p)->fC); ((struct Obj02551 *)p)->fF=0; ((struct Obj02551 *)p)->fE=0; }

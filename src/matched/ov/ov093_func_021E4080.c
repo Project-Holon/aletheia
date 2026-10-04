@@ -18,6 +18,7 @@
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
+#include "../include/Obj02790.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D775C(int);
@@ -45,9 +46,9 @@ void func_021E4080(void *a, void *b, int c)
     p = func_021C88A4(b, 8, c);
     p[4] = 2;
     p[7] = c;
-    *(u32 *)(p + 16) = avg - x;
+    ((struct Obj02790 *)p)->f10 = avg - x;
     p[8] = k;
-    *(u32 *)(p + 20) = avg - y;
+    ((struct Obj02790 *)p)->f14 = avg - y;
     p[6] = 1;
     func_021C88C8(b, p);
     p = func_021C88A4(b, 4, c);
@@ -55,11 +56,11 @@ void func_021E4080(void *a, void *b, int c)
     func_021C88C8(b, p);
     p = func_021C88A4(b, 33, c);
     p[4] = c;
-    *(u32 *)(p + 8) = 1;
+    ((struct Obj02790 *)p)->f8 = 1;
     func_021C88C8(b, p);
     p = func_021C88A4(b, 33, c);
     p[4] = k;
-    *(u32 *)(p + 8) = 1;
+    ((struct Obj02790 *)p)->f8 = 1;
     func_021C88C8(b, p);
 }
 extern u32 data_021F27B4[];

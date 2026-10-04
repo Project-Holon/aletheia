@@ -16,6 +16,7 @@
  *   func_02166C7C  0x02166C7C  thumb
  *   func_021BBB48  0x021BBB48  thumb  ov072
  */
+#include "../include/Obj25500.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ u8 ov208_func_021C0C14(u16 *heap, u8 *p, int key)
     a = ov208_func_021BC3A4(key);
     m = func_02012AC8((const struct Rec44 *)func_020127A4((struct SaveBlock *)a));
     r = 0xff;
-    v = func_021BBB48(*(u32 *)(p + 0x3c8), func_02166C7C(a, m));
+    v = func_021BBB48(((struct Obj25500 *)p)->f3C8, func_02166C7C(a, m));
     if (v != 0xffff)
         r = v;
     return r;

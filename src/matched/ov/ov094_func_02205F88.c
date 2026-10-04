@@ -20,6 +20,7 @@
  *   func_0201C7A4  0x0201C7A4  thumb
  *   func_0201ED04  0x0201ED04  thumb
  */
+#include "../include/Obj01384.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -73,26 +74,26 @@ void func_02205F88(char *p)
     int i;
     enum { VRAM_BASE = 0x06600000 } vram;
 
-    *(void **)(p + 0x21c) = func_0204B294((void *)*(u32 *)(p + 0x218), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
+    ((struct Obj01384 *)p)->f21C = func_0204B294((void *)((struct Obj01384 *)p)->f218, ((struct Obj01384 *)p)->f104, ((struct Obj01384 *)p)->f108, ((struct Obj01384 *)p)->f10C, d_0220A392, 1, ((struct Obj01384 *)p)->f240);
     pos.x = 0x80;
     pos.y = 0x50;
-    func_0204B404(*(void **)(p + 0x21c), &pos, 1);
-    func_0204B92C(*(void **)(p + 0x21c), 1);
-    func_0204B878(*(void **)(p + 0x21c), 0x14);
-    str = func_020457B0(0x10, *(u16 *)(p + 0x240));
-    msg = func_02045EC0(*(void **)(p + 0x5c), 0);
-    font = (int)func_0201EC64(*(u16 *)(p + 0x240));
-    bmp = func_02043678(0xe, 4, 0x20, *(u16 *)(p + 0x240));
+    func_0204B404(((struct Obj01384 *)p)->f21C, &pos, 1);
+    func_0204B92C(((struct Obj01384 *)p)->f21C, 1);
+    func_0204B878(((struct Obj01384 *)p)->f21C, 0x14);
+    str = func_020457B0(0x10, ((struct Obj01384 *)p)->f240);
+    msg = func_02045EC0(((struct Obj01384 *)p)->f5C, 0);
+    font = (int)func_0201EC64(((struct Obj01384 *)p)->f240);
+    bmp = func_02043678(0xe, 4, 0x20, ((struct Obj01384 *)p)->f240);
     func_02043B5C(bmp, 0);
     func_0201DE00(&c[2], &c[1], &c[0]);
     func_0201DD78(0xe, 0xa, 0);
     func_0201EF34((struct WordSet *)font, 0, 0xa5);
     func_0201F250((struct WordSet *)font, str, msg);
-    func_02204C98((int)str, (int)(*(void **)(p + 0x224)), &w, &h);
-    func_0201C7A4(bmp, 0x38 - w / 2, 8, str, *(void **)(p + 0x224));
+    func_02204C98((int)str, (int)(((struct Obj01384 *)p)->f224), &w, &h);
+    func_0201C7A4(bmp, 0x38 - w / 2, 8, str, ((struct Obj01384 *)p)->f224);
     func_0201DD78(c[2], c[1], c[0]);
     pixels = func_020437D4(bmp);
-    func_0204B7C8(*(void **)(p + 0x21c), &buf);
+    func_0204B7C8(((struct Obj01384 *)p)->f21C, &buf);
     vram = VRAM_BASE;
     for (i = 0; i < 4; i++) {
         func_02082A60(pixels + i * 0x1c0, (void *)(vram + (i * 8 + 0xcd) * 32 + buf.w[2]), 0x100);

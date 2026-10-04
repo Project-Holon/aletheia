@@ -14,11 +14,12 @@
  *
  * Forward with the byte field at +0x14.
  */
+#include "../include/Obj18458.h"
 
 extern int func_021DEF98(char *p, int a, unsigned b);
 
 void func_021DEFEC(char *p, int b)
 {
-    func_021DEF98(p, *(unsigned char *)(p + 0x14), b);
+    func_021DEF98(p, ((struct Obj18458 *)p)->f14, b);
 }
 

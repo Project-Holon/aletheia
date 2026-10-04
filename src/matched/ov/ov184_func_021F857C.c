@@ -17,6 +17,9 @@
  *   func_021FD1BC 0x021FD1BC thumb ov186
  *   func_021F3C50 0x021F3C50 thumb ov112
  */
+#include "../include/Obj03336.h"
+#include "../include/Obj24698.h"
+#include "../include/Obj24699.h"
 extern int func_021FF88C(char *);
 extern void func_021F9C6C(char *);
 extern void func_021FD71C(char *);
@@ -30,15 +33,15 @@ extern void func_021F3C50(char *);
 int func_021F857C(int a,int b,int c,char *p)
 {
     int i;
-    if (func_021FF88C(*(char **)(*(char **)(p+48)+20))==2) {
-        func_021F9C6C(*(char **)(*(char **)(p+48)+16));
+    if (func_021FF88C(*(char * *)&((struct Obj24698 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f14)==2) {
+        func_021F9C6C(*(char * *)&((struct Obj24699 *)(*(char * *)&((struct Obj03336 *)p)->f30))->f10);
         return 1;
     }
-    func_021FD71C(*(char **)(p+12));
-    if (func_021FD72C(*(int **)(p+12))) return 1;
+    func_021FD71C(*(char * *)&((struct Obj03336 *)p)->fC);
+    if (func_021FD72C(*(int * *)&((struct Obj03336 *)p)->fC)) return 1;
     for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+20));
-    func_0201C4E4((struct PrintSys *)(*(int *)(p+32)));
-    if (*(char **)(p+16)) func_021FD1BC(*(char **)(p+16));
-    if (*(char **)p) func_021F3C50(*(char **)p);
+    func_0201C4E4((struct PrintSys *)(((struct Obj03336 *)p)->f20));
+    if (*(char * *)&((struct Obj03336 *)p)->f10) func_021FD1BC(*(char * *)&((struct Obj03336 *)p)->f10);
+    if (*(char * *)&((struct Obj03336 *)p)->f0) func_021F3C50(*(char * *)&((struct Obj03336 *)p)->f0);
     return 0;
 }

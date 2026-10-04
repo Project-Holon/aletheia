@@ -12,10 +12,11 @@
  * symbols:
  *   func_021BE9B8 0x021BE9B8 thumb
  */
+#include "../include/Obj14597.h"
 
 extern void *func_021BE9B8(void *p, unsigned a, unsigned b);
 
 void func_021BF78C(char *a, int unused, int *p)
 {
-    *(int *)(a + 0x2c) = (int)func_021BE9B8((void *)(*(int *)(a + 0x20)), p[0], p[1]);
+    ((struct Obj14597 *)a)->f2C = (int)func_021BE9B8((void *)(((struct Obj14597 *)a)->f20), p[0], p[1]);
 }

@@ -21,6 +21,7 @@
  *   d_021DB810     0x021DB810  data   ov021  a2
  *   d_021DB834     0x021DB834  data   ov021  a2
  */
+#include "../include/Obj12483.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,7 +70,7 @@ int func_0217BDE0(int a, u8 *b, int c)
         goto fail;
     n = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
     func_0216D828(func_021A3074((void *)c), &v);
-    idx = *(u16 *)(e + 0x14);
+    idx = ((struct Obj12483 *)e)->f14;
     if (n != d_021DB810[idx])
         goto fail;
     if (v.x != d_021DB834[idx].x)

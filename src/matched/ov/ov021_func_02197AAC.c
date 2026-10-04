@@ -25,6 +25,7 @@
  *   func_0202223C  0x0202223C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01495.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,28 +57,28 @@ u32 func_02197AAC(u32 r0, u32 r1, u32 r2, u8 *a)
 
     cb = *(void (**)(u8 *))a;
     ret = 1;
-    func_0201058C((void *)func_0201283C((const struct BigObj *)(*(u32 *)(a + 0x30))));
+    func_0201058C((void *)func_0201283C((const struct BigObj *)(((struct Obj01495 *)a)->f30)));
     if (cb != 0) {
         cb(a);
         ret = 0;
     }
-    if (*(u32 *)(a + 0x2c0) != 0) {
-        func_02027974(*(u32 *)(a + 0x2c0));
+    if (((struct Obj01495 *)a)->f2C0 != 0) {
+        func_02027974(((struct Obj01495 *)a)->f2C0);
     }
-    if (*(u32 *)(a + 0x2e0) != 0) {
-        func_02028178((u8 *)(*(u32 *)(a + 0x2e0)));
+    if (((struct Obj01495 *)a)->f2E0 != 0) {
+        func_02028178((u8 *)(((struct Obj01495 *)a)->f2E0));
     }
-    func_02040618(4, 3, *(u32 *)(a + 0x2ac));
-    *(u32 *)(a + 0x2ac) = *(u32 *)(a + 0x2ac) - 1;
-    func_020310C4((struct Tcbl *)(*(u32 *)(a + 0x2b8)));
-    func_0201C4E4((struct PrintSys *)(*(u32 *)(a + 0x2bc)));
+    func_02040618(4, 3, ((struct Obj01495 *)a)->f2AC);
+    ((struct Obj01495 *)a)->f2AC = ((struct Obj01495 *)a)->f2AC - 1;
+    func_020310C4((struct Tcbl *)(((struct Obj01495 *)a)->f2B8));
+    func_0201C4E4((struct PrintSys *)(((struct Obj01495 *)a)->f2BC));
     func_0204A600();
-    if (*(u8 *)(a + 0x306) == 0) {
-        func_020121CC((struct IcaAnime *)func_02155A90((u8 *)(*(u32 *)(a + 0x2e4))));
+    if (((struct Obj01495 *)a)->f306 == 0) {
+        func_020121CC((struct IcaAnime *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4)));
     }
     if (func_020221A4() != 0) {
-        if (func_02012204((const struct Ctx *)func_02155A90((u8 *)(*(u32 *)(a + 0x2e4)))) != 0) {
-            *(u32 *)(a + 8) = 12;
+        if (func_02012204((const struct Ctx *)func_02155A90((u8 *)(((struct Obj01495 *)a)->f2E4))) != 0) {
+            ((struct Obj01495 *)a)->f8 = 12;
             ret = 1;
             func_0202223C(0, 0);
             func_0202223C(1, 0);

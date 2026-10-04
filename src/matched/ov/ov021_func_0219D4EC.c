@@ -13,6 +13,7 @@
  *   func_021C6580  0x021C6580  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj06002.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,13 +27,13 @@ extern void func_020307B0(void *p);
 void func_0219D4EC(u8 *s)
 {
     int i = 0;
-    E4 *e = *(E4 **)(s + 0xc);
-    if (i < *(u16 *)(s + 8)) {
-        for (; i < *(u16 *)(s + 8); i++, e++) {
+    E4 *e = *(E4 * *)&((struct Obj06002 *)s)->fC;
+    if (i < ((struct Obj06002 *)s)->f8) {
+        for (; i < ((struct Obj06002 *)s)->f8; i++, e++) {
             if (e->b != 0xFFFF) {
-                func_021C6580((u8 *)(*(u32 *)(s + 4)), e->a);
+                func_021C6580((u8 *)(((struct Obj06002 *)s)->f4), e->a);
             }
         }
     }
-    func_020307B0(*(void **)(s + 0xc));
+    func_020307B0(((struct Obj06002 *)s)->fC);
 }

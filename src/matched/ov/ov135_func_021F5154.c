@@ -20,6 +20,7 @@
  *   func_021F68A4 0x021F68A4 thumb ov135
  *   func_021F9254 0x021F9254 thumb ov135
  */
+#include "../include/Obj10575.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,9 +50,9 @@ int func_021F5154(u8 *p)
     } else {
         func_0202208C(0, 1, 1, 0, 6, 1, 0x48);
     }
-    func_021F68A4(p, *(u16 *)(p + 0xc4));
+    func_021F68A4(p, ((struct Obj10575 *)p)->fC4);
     func_021F9254(p);
-    *(u32 *)(p + 0x28) = 0;
-    *(u32 *)(p + 0x12e4) = 0;
+    ((struct Obj10575 *)p)->f28 = 0;
+    ((struct Obj10575 *)p)->f12E4 = 0;
     return 1;
 }

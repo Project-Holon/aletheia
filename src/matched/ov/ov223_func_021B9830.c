@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00739.h"
 
 typedef unsigned short u16;
 
@@ -21,6 +22,6 @@ extern int func_02047CFC(int, int, u16);
 
 void func_021B9830(char *p)
 {
-    *(int *)(p + 0x28) = func_02047CFC(5, 4, *(u16 *)p);
-    *(u16 *)(p + 0x3a) = 0;
+    ((struct Obj00739 *)p)->f28 = func_02047CFC(5, 4, ((struct Obj00739 *)p)->f0);
+    ((struct Obj00739 *)p)->f3A = 0;
 }

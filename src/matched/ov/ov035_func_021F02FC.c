@@ -17,6 +17,7 @@
  *   func_02027CD8 0x02027CD8 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj06146.h"
 
 extern int d_021F0640[];
 extern char d_021F064C[];
@@ -33,10 +34,10 @@ void func_021F02FC(char *p, int a1)
     int *d = d_021F0640;
 
     d[3] = a1;
-    d[8] = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x38)), 5);
-    d[11] = (int)func_02045EC0((struct MsgBank *)(*(int *)(p + 0x38)), 6);
-    *(int *)(p + 0x44) = func_0202784C(d_021F064C, *(int *)(p + 0x40));
-    func_02027CD8(*(int *)(p + 0x44), 1);
+    d[8] = (int)func_02045EC0((struct MsgBank *)(((struct Obj06146 *)p)->f38), 5);
+    d[11] = (int)func_02045EC0((struct MsgBank *)(((struct Obj06146 *)p)->f38), 6);
+    ((struct Obj06146 *)p)->f44 = func_0202784C(d_021F064C, ((struct Obj06146 *)p)->f40);
+    func_02027CD8(((struct Obj06146 *)p)->f44, 1);
     func_02045808((struct U16Vec *)d[8]);
     func_02045808((struct U16Vec *)d[11]);
 }

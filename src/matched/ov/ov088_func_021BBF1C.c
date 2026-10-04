@@ -24,6 +24,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj02427.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,14 +49,14 @@ extern void func_02041B6C(u32 bit);
 void func_021BBF1C(char *p, u32 a1)
 {
     void *h;
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x5c)), a1, (void *)(*(u32 *)(p + 0x64)));
-    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xe8)), 0xf);
-    func_0201F73C(*(void **)(p + 0xe8), 2, 1, 0xe);
-    *(u32 *)(p + 0x6c) = func_0201CCE4(*(u32 *)(p + 0xe8), 0, 0, *(u32 *)(p + 0x64),
-                                       *(u32 *)(p + 0x58), func_02012FFC(),
-                                       *(u32 *)(p + 0x70), 0xa, 0xb, 0xf);
-    *(u32 *)(p + 0x78) = 0;
-    h = *(void **)(p + 0xe8);
+    func_02045CAC((struct MsgBank *)(((struct Obj02427 *)p)->f5C), a1, (void *)(((struct Obj02427 *)p)->f64));
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj02427 *)p)->fE8), 0xf);
+    func_0201F73C(((struct Obj02427 *)p)->fE8, 2, 1, 0xe);
+    ((struct Obj02427 *)p)->f6C = func_0201CCE4(*(u32 *)&((struct Obj02427 *)p)->fE8, 0, 0, ((struct Obj02427 *)p)->f64,
+                                       ((struct Obj02427 *)p)->f58, func_02012FFC(),
+                                       ((struct Obj02427 *)p)->f70, 0xa, 0xb, 0xf);
+    ((struct Obj02427 *)p)->f78 = 0;
+    h = ((struct Obj02427 *)p)->fE8;
     func_02045334(h);
     func_02045374(h);
     func_02041B6C(func_02045730(h));

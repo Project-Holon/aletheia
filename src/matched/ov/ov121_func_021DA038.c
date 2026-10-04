@@ -19,6 +19,8 @@
  *   d_021DFBA0 0x021DFBA0 data a1
  *   d_021DF78C 0x021DF78C data a4
  */
+#include "../include/Obj01542.h"
+#include "../include/Obj01731.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,29 +51,29 @@ void *func_021DA038(const u8 *p,u16 heap)
     Config cfg;
     out=func_02030734(heap,24,0,d_021DFBA0,0x2cb);
     func_02082BCC(out,0,24);
-    *(u32 *)(out+4)=*(u32 *)(p+8);
-    *(void **)out=func_020450F0(*(u16 *)(p+0x1c),19,(u8)(17-(u8)(*(u32 *)(p+0x18)*2)),12,(u8)(*(u32 *)(p+0x18)*2),*(u16 *)(p+0x1e),1);
-    func_0201F73C(*(void **)out,2,*(u16 *)(p+0x22),*(u16 *)(p+0x20));
-    q=*(void **)out;
+    ((struct Obj01731 *)out)->f4=((struct Obj01542 *)p)->f8;
+    ((struct Obj01731 *)out)->f0=func_020450F0(((struct Obj01542 *)p)->f1C,19,(u8)(17-(u8)(((struct Obj01542 *)p)->f18*2)),12,(u8)(((struct Obj01542 *)p)->f18*2),((struct Obj01542 *)p)->f1E,1);
+    func_0201F73C(((struct Obj01731 *)out)->f0,2,((struct Obj01542 *)p)->f22,((struct Obj01542 *)p)->f20);
+    q=((struct Obj01731 *)out)->f0;
     func_02045334(q);
     func_02045374(q);
     func_020409B4(func_02045730(q));
-    *(void **)(out+8)=*(void **)out;
+    ((struct Obj01731 *)out)->f8=((struct Obj01731 *)out)->f0;
     out[12]=0;
-    *(void **)(out+20)=func_0201F81C(*(u32 *)(p+0x18),heap);
-    for(i=0;i<*(u32 *)(p+0x18);i++)
-        func_0201F878(*(void **)(out+20),*(u32 *)p,*(u32 *)(p+12+i*4),i,heap);
+    ((struct Obj01731 *)out)->f14=func_0201F81C(((struct Obj01542 *)p)->f18,heap);
+    for(i=0;i<((struct Obj01542 *)p)->f18;i++)
+        func_0201F878(((struct Obj01731 *)out)->f14,((struct Obj01542 *)p)->f0,*(u32 *)(p+12+i*4),i,heap);
     cfg=d_021DF78C;
-    cfg.word[0]=*(u32 *)(out+20);
-    *(u16 *)((u8 *)&cfg+0x10)=*(u32 *)(p+0x18);
-    *(u16 *)((u8 *)&cfg+0x12)=*(u32 *)(p+0x18);
-    cfg.word[3]=*(u32 *)out;
-    cfg.word[9]=*(u32 *)p;
+    cfg.word[0]=*(u32 *)&((struct Obj01731 *)out)->f14;
+    *(u16 *)((u8 *)&cfg+0x10)=((struct Obj01542 *)p)->f18;
+    *(u16 *)((u8 *)&cfg+0x12)=((struct Obj01542 *)p)->f18;
+    cfg.word[3]=*(u32 *)&((struct Obj01731 *)out)->f0;
+    cfg.word[9]=((struct Obj01542 *)p)->f0;
     cfg.word[10]=(u32)(out+8);
-    cfg.word[11]=*(u32 *)(p+8);
-    cfg.word[12]=*(u32 *)(p+4);
-    *(void **)(out+16)=func_0201FF30(&cfg,0,0,heap);
-    func_02020CF8(*(void **)(out+16),heap);
-    func_02020D10(*(void **)(out+16),0);
+    cfg.word[11]=((struct Obj01542 *)p)->f8;
+    cfg.word[12]=((struct Obj01542 *)p)->f4;
+    ((struct Obj01731 *)out)->f10=func_0201FF30(&cfg,0,0,heap);
+    func_02020CF8(((struct Obj01731 *)out)->f10,heap);
+    func_02020D10(((struct Obj01731 *)out)->f10,0);
     return out;
 }

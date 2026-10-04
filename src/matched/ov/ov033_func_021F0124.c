@@ -19,6 +19,7 @@
  *   func_021F07DC 0x021F07DC thumb ov033
  *   func_021F0738 0x021F0738 thumb ov033
  */
+#include "../include/Obj09801.h"
 
 struct Node;
 extern void func_021EFEE4(void *p);
@@ -33,10 +34,10 @@ extern void func_021F0738(char *p);
 void func_021F0124(char *p)
 {
     *(volatile unsigned short *)0x04001050 = 0;
-    func_021EFEE4((void *)(*(unsigned *)(p + 0xD0)));
+    func_021EFEE4((void *)(((struct Obj09801 *)p)->fD0));
     func_021F0C0C(p);
-    func_02030EAC((struct Node *)(*(unsigned *)(p + 0xA8)));
-    func_020307B0(*(void **)(p + 0x60));
+    func_02030EAC((struct Node *)(((struct Obj09801 *)p)->fA8));
+    func_020307B0(((struct Obj09801 *)p)->f60);
     func_021F0A90(p);
     func_021F08EC(p);
     func_021F07DC(p);

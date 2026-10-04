@@ -18,6 +18,7 @@
  *   func_020450C8 0x020450C8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00534.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,32 +50,32 @@ void func_021D941C(u8 *p)
 {
     u32 a;
     int i;
-    func_0203FB44(1,*(u32 *)p,*(u32 *)p>>16);
-    a=*(u32 *)(p+8)>>16;
-    func_0203FB44(5,*(u32 *)(p+8),a);
-    a=*(u32 *)(p+4)>>16;
-    func_0203FB44(6,*(u32 *)(p+4),a);
+    func_0203FB44(1,((struct Obj00534 *)p)->f0,((struct Obj00534 *)p)->f0>>16);
+    a=((struct Obj00534 *)p)->f8>>16;
+    func_0203FB44(5,((struct Obj00534 *)p)->f8,a);
+    a=((struct Obj00534 *)p)->f4>>16;
+    func_0203FB44(6,((struct Obj00534 *)p)->f4,a);
     func_021D92B8(p);
     func_0201DD68();
-    func_02045C04(*(void **)(p+0x20));
-    func_0201D83C(*(void **)(p+0x28));
-    func_02045808(*(void **)(p+0x2c));
-    func_02045808(*(void **)(p+0x30));
-    func_0201ED04(*(void **)(p+0x24));
-    func_02027FD8(*(void **)(p+0xac));
-    func_0201C6EC(*(void **)(p+0x8c));
-    func_0201C4C0(*(void **)(p+0x8c));
-    if (*(void **)(p+0x80)) func_0201CE48(*(void **)(p+0x80));
-    if (*(void **)(p+0x90)) {
-        func_0202F038(*(void **)(p+0x90));
-        *(void **)(p+0x90)=0;
+    func_02045C04(((struct Obj00534 *)p)->f20);
+    func_0201D83C(((struct Obj00534 *)p)->f28);
+    func_02045808(((struct Obj00534 *)p)->f2C);
+    func_02045808(((struct Obj00534 *)p)->f30);
+    func_0201ED04(((struct Obj00534 *)p)->f24);
+    func_02027FD8(((struct Obj00534 *)p)->fAC);
+    func_0201C6EC(((struct Obj00534 *)p)->f8C);
+    func_0201C4C0(((struct Obj00534 *)p)->f8C);
+    if (((struct Obj00534 *)p)->f80) func_0201CE48(((struct Obj00534 *)p)->f80);
+    if (((struct Obj00534 *)p)->f90) {
+        func_0202F038(((struct Obj00534 *)p)->f90);
+        ((struct Obj00534 *)p)->f90=0;
     }
-    if (*(void **)(p+0x40)) func_020452E8(*(void **)(p+0x40));
-    if (*(void **)(p+0x44)) func_020452E8(*(void **)(p+0x44));
-    if (*(void **)(p+0x48)) func_020452E8(*(void **)(p+0x48));
-    if (*(void **)(p+0x4c)) func_020452E8(*(void **)(p+0x4c));
+    if (((struct Obj00534 *)p)->f40) func_020452E8(((struct Obj00534 *)p)->f40);
+    if (((struct Obj00534 *)p)->f44) func_020452E8(((struct Obj00534 *)p)->f44);
+    if (((struct Obj00534 *)p)->f48) func_020452E8(((struct Obj00534 *)p)->f48);
+    if (((struct Obj00534 *)p)->f4C) func_020452E8(((struct Obj00534 *)p)->f4C);
     for(i=0;i<12;i++) if (*(void **)(p+i*4+0x50)) func_020452E8(*(void **)(p+i*4+0x50));
-    func_02031140(*(void **)(p+0x88));
+    func_02031140(((struct Obj00534 *)p)->f88);
     func_020450C8();
     func_020307B0(p);
 }

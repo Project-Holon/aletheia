@@ -15,6 +15,7 @@
  *   func_0201AE1C 0x0201AE1C thumb
  *   func_0204B604 0x0204B604 arm
  */
+#include "../include/Obj00790.h"
 typedef struct { short x,y,z,w; } Pos;
 extern void func_02082BCC(void *,int,int);
 struct Obj;
@@ -31,12 +32,12 @@ void func_021BB23C(char *p,int x,int y,int index)
 {
     int flag=0;
     Pos pos;
-    if (*(int *)(p+0x1c)) flag=1;
+    if (((struct Obj00790 *)p)->f1C) flag=1;
     func_02082BCC(&pos,0,8);
     pos.x=x;
     pos.y=y;
-    *(int *)(p+0xac+index*4)=(int)func_0204B294((void *)*(int *)(p+0x24),*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,*(unsigned short *)p);
+    *(int *)(p+0xac+index*4)=(int)func_0204B294((void *)((struct Obj00790 *)p)->f24,*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,((struct Obj00790 *)p)->f0);
     func_0204B800((struct Node *)(*(int *)(p+0xac+index*4)),0);
-    if(*(int *)(p+0x18)==2) func_0204B688((struct Actor *)(*(int *)(p+0xac+index*4)),1);
-    if(func_0201AE1C((const struct Personal *)(*(int *)(p+0x26c)),34)==0) func_0204B604((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
+    if(((struct Obj00790 *)p)->f18==2) func_0204B688((struct Actor *)(*(int *)(p+0xac+index*4)),1);
+    if(func_0201AE1C((const struct Personal *)(((struct Obj00790 *)p)->f26C),34)==0) func_0204B604((struct Actor *)(*(int *)(p+0xac+index*4)),1,1);
 }

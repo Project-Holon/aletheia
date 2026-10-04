@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj21120.h"
 
 void func_021C83DC(char *p, char x)
 {
-    *(char *)(*(int *)(p + 0x4a8) + 4) = x;
+    *(char *)(((struct Obj21120 *)p)->f4A8 + 4) = x;
 }

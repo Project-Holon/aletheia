@@ -54,6 +54,7 @@
  *   func_0200C1F4    0x0200C1F4  thumb
  *   func_0202744C    0x0202744C  thumb
  */
+#include "../include/Obj15760.h"
 typedef signed short   s16;
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -164,7 +165,7 @@ void func_02026D88(struct Rec *o, void *sys)
     o->b00 = 0xff;
     o->mode = func_02012AC8(func_020127A4(sys));
     if (func_02013CC8(o->mode) == 1 || func_02013CE0(o->mode) == 1) {
-        o->mode = *(s16 *)((u8 *)func_02012894(sys) + 4);
+        o->mode = ((struct Obj15760 *)((u8 *)func_02012894(sys)))->f4;
     }
     o->f08hi = func_02166C7C(sys, o->mode);
     o->b03lo = 0x30;

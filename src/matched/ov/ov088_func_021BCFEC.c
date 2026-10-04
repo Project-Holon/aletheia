@@ -20,6 +20,7 @@
  *   func_0203101C  0x0203101C  arm
  *   func_02028590  0x02028590  thumb
  */
+#include "../include/Obj04350.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,9 +42,9 @@ void func_021BCFEC(u8 *p)
 {
     p[0xc] = func_020461E4();
     func_020461D4(0);
-    *(void **)(p + 8) = func_02045B38(0, 2, 1, 0x81);
-    *(void **)(p + 4) = func_0201D7EC(0x17, 0, 0, 0, 0x81);
-    *(void **)(p + 0x10) = func_020457B0(0x400, 0x81);
-    *(void **)(p + 0x18) = func_0203101C(0x81, 0x81, 1, 4);
-    *(void **)(p + 0x24) = func_02028590(0xf, 1, 0, 0x81);
+    ((struct Obj04350 *)p)->f8 = func_02045B38(0, 2, 1, 0x81);
+    ((struct Obj04350 *)p)->f4 = func_0201D7EC(0x17, 0, 0, 0, 0x81);
+    ((struct Obj04350 *)p)->f10 = func_020457B0(0x400, 0x81);
+    ((struct Obj04350 *)p)->f18 = func_0203101C(0x81, 0x81, 1, 4);
+    ((struct Obj04350 *)p)->f24 = func_02028590(0xf, 1, 0, 0x81);
 }

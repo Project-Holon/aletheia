@@ -13,6 +13,7 @@
  *   d_021EFCF4  0x021EFCF4  data  ov093  a1
  *   d_021EFCFA  0x021EFCFA  data  ov093  a1
  */
+#include "../include/Obj13271.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ u8 func_021B8E70(u8 *p, u32 k)
         s0 = 0;
     }
     s = s0;
-    mode = *(u32 *)(*(u32 *)p + 4);
+    mode = *(u32 *)(((struct Obj13271 *)p)->f0 + 4);
     if (mode == 0) {
         r = 0;
         if (s == 0) {

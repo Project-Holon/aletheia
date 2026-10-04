@@ -26,6 +26,7 @@
  *   d_021F4080     0x021F4080  data  ov059  a1
  *   d_021F3E74     0x021F3E74  data  a4
  */
+#include "../include/Obj20584.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -59,7 +60,7 @@ void func_021F3868(void *a)
     h = (func_02188C84(a) & 0x7FFF) | 0x8000;
     func_02189764(a, 1, h, 0x28);
     w = func_021897BC(a, 1);
-    *(void **)(w + 0x24) = func_02030734((u16)h, 4, 1, d_021F4080, 0x1D1);
+    ((struct Obj20584 *)w)->f24 = func_02030734((u16)h, 4, 1, d_021F4080, 0x1D1);
     i = 0;
     func_021BE310(s, d_021F3E74, 0);
     func_021BE4B4(s, 0, 1, 1);

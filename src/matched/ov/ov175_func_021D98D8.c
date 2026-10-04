@@ -11,9 +11,10 @@
  * symbols:
  *   func_021E8420 0x021E8420 thumb ov177
  */
+#include "../include/Obj24308.h"
 typedef struct Work Work;
 extern int func_021E8420(Work *);
 int func_021D98D8(char *p)
 {
-    return func_021E8420(*(Work **)(p+0x24));
+    return func_021E8420(*(Work * *)&((struct Obj24308 *)p)->f24);
 }

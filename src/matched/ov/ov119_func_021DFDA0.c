@@ -30,6 +30,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00906.h"
+#include "../include/Obj22751.h"
+#include "../include/Obj22752.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -54,26 +57,26 @@ void func_021DFDA0(void *p)
     u8 *b = p;
     int st;
 
-    func_0204B1CC(*(void **)(b + 0x9c4));
+    func_0204B1CC(((struct Obj00906 *)b)->f9C4);
     func_0204A5AC();
     func_021E3E60(p);
-    *(void **)(b + 0x9c4) = func_0204B100(0x154, 0, *(u16 *)(b + 0x5f4));
-    st = *(int *)(b + 0x118c);
+    ((struct Obj00906 *)b)->f9C4 = func_0204B100(0x154, 0, ((struct Obj00906 *)b)->f5F4);
+    st = ((struct Obj00906 *)b)->f118C;
     if (st == 5) {
         func_021DFD3C(p);
-        *(int *)(*(int **)(b + 8) + 2) = 3;
+        ((struct Obj22751 *)(*(int * *)&((struct Obj00906 *)b)->f8))->f8 = 3;
         func_021D8E84(p, (int)func_021D9434);
     } else if (st == 6) {
         func_021DFD3C(p);
-        *(int *)(*(int **)(b + 8) + 2) = 3;
+        ((struct Obj22752 *)(*(int * *)&((struct Obj00906 *)b)->f8))->f8 = 3;
         func_021D8E84(p, 0);
     } else {
         func_021E10D8(p);
         func_02005DE4((void *)1);
         func_02005E64();
-        (*(u8 *)(b + 0x11f8))++;
+        (((struct Obj00906 *)b)->f11F8)++;
         func_02005E30(6);
-        *(int *)(b + 0xf2c) = 0;
+        ((struct Obj00906 *)b)->fF2C = 0;
         func_021D8E84(p, (int)func_021DFE48);
     }
 }

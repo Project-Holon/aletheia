@@ -17,6 +17,7 @@
  *   func_0216D410  0x0216D410  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07222.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ extern int func_02197E7C(int a, int b);
 
 int func_021AE604(u32 a)
 {
-if (func_0216D3CC(*(u32 *)((u8 *)(a) + 8)) == 1) {
-    func_0216D410(*(u32 *)((u8 *)(a) + 8), func_02197E7C(((*(u32 *)((u8 *)(a) + 16) << 16) >> 16), 12));
-    *(u32 *)((u8 *)(a)) = 12;
+if (func_0216D3CC(((struct Obj07222 *)((u8 *)(a)))->f8) == 1) {
+    func_0216D410(((struct Obj07222 *)((u8 *)(a)))->f8, func_02197E7C(((((struct Obj07222 *)((u8 *)(a)))->f10 << 16) >> 16), 12));
+    ((struct Obj07222 *)((u8 *)(a)))->f0 = 12;
 }
 return 0;
 }

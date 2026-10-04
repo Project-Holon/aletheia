@@ -16,6 +16,7 @@
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EE4  0x02012EE4  thumb
  */
+#include "../include/Obj05093.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,13 +32,13 @@ extern void func_02012EE4(char *base, int v);
 void func_021C9B24(u32 a, u8 *p)
 {
     if (p != 0) {
-        if (*(void **)(p + 0x7C8) != 0) {
-            func_020307B0(*(void **)(p + 0x7C8));
-            *(void **)(p + 0x7C8) = 0;
+        if (((struct Obj05093 *)p)->f7C8 != 0) {
+            func_020307B0(((struct Obj05093 *)p)->f7C8);
+            ((struct Obj05093 *)p)->f7C8 = 0;
         }
-        if (*(void **)(p + 0x7CC) != 0) {
-            func_020130B4((int)(*(void **)(p + 0x7CC)));
-            *(void **)(p + 0x7CC) = 0;
+        if (((struct Obj05093 *)p)->f7CC != 0) {
+            func_020130B4((int)(((struct Obj05093 *)p)->f7CC));
+            ((struct Obj05093 *)p)->f7CC = 0;
         }
         func_02082BCC(p, 0, 0x7EC);
         func_020307B0(p);

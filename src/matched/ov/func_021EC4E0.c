@@ -14,6 +14,7 @@
  *
  * Loop 0x1e entries forwarding (p[0x14], i, i+0x33).
  */
+#include "../include/Obj18520.h"
 
 
 extern void func_021EC48C(char *, int, unsigned, unsigned);
@@ -21,5 +22,5 @@ void func_021EC4E0(char *p)
 {
     unsigned i;
     for (i = 0; i < 0x1e; i++)
-        func_021EC48C(p, *(unsigned char *)(p + 0x14), i, i + 0x33);
+        func_021EC48C(p, ((struct Obj18520 *)p)->f14, i, i + 0x33);
 }

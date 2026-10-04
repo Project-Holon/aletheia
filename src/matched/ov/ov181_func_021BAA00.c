@@ -10,19 +10,21 @@
  * symbols:
  *   func_021BA558 0x021BA558 thumb ov181
  */
+#include "../include/Obj06591.h"
+#include "../include/Obj06592.h"
 extern void func_021BA558(char *, unsigned char *);
 int func_021BAA00(char *p, unsigned char *q)
 {
-    if (*(unsigned *)q == 0xffff) {
-        *(short *)(p + 0x2da) = *(unsigned short *)(q + 4);
-        *(int *)(p + 0x2ec) = 1;
+    if (((struct Obj06592 *)q)->f0 == 0xffff) {
+        ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
+        ((struct Obj06591 *)p)->f2EC = 1;
         return 1;
     }
-    if (*(short *)(p + 0x2da) == 0)
-        *(short *)(p + 0x2da) = *(unsigned short *)(q + 4);
+    if (((struct Obj06591 *)p)->f2DA == 0)
+        ((struct Obj06591 *)p)->f2DA = ((struct Obj06592 *)q)->f4;
     func_021BA558(p, q);
-    if (q[0x16] != 0 || *(unsigned short *)(q + 0x14) != 0) {
-        *(int *)(p + 0x2ec) = 1;
+    if (q[0x16] != 0 || ((struct Obj06592 *)q)->f14 != 0) {
+        ((struct Obj06591 *)p)->f2EC = 1;
         return 1;
     }
     return 0;

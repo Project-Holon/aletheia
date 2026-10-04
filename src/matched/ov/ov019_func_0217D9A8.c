@@ -36,6 +36,7 @@
  *   func_021CD688  0x021CD688  thumb  ov021
  *   d_021807E4     0x021807E4  data  a4
  */
+#include "../include/Obj07386.h"
 
 typedef unsigned char u8;
 
@@ -97,7 +98,7 @@ extern u8 d_021807E4[];
 
 int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
 {
-    Work *w = *(Work **)((u8 *)ctx + 0x355c);
+    Work *w = *(Work * *)&((struct Obj07386 *)ctx)->f355C;
     int r;
 
     func_0203D1A4((int)func_020399A8());

@@ -26,6 +26,7 @@
  *   d_02209E10 0x02209E10 data
  *   d_02209DB4 0x02209DB4 data
  */
+#include "../include/Obj00325.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -56,9 +57,9 @@ int func_021FDFA0(void *a, char *s, int mode)
     idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     x = func_0201134C(a);
     flags = 0;
-    *(int **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x40, 0, d_0220AE68, 0x1c79);
-    p = *(int **)(s + 0x1f4 + *(int *)(s + 0x234) * 4);
-    *(int *)(s + 0x234) += 1;
+    *(int **)(s + 0x1f4 + ((struct Obj00325 *)s)->f234 * 4) = func_02030734((u16)((((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000), 0x40, 0, d_0220AE68, 0x1c79);
+    p = *(int **)(s + 0x1f4 + ((struct Obj00325 *)s)->f234 * 4);
+    ((struct Obj00325 *)s)->f234 += 1;
     p[0] = func_0201134C(a);
     p[4] = func_0201134C(a);
     p[5] = func_0201134C(a);
@@ -90,7 +91,7 @@ int func_021FDFA0(void *a, char *s, int mode)
             desc.v[5] = 0x1000;
             desc.v[6] = 0x200000;
             desc.v[7] = 0x1000;
-            func_02051648(*(void **)(s + 0xc + idx * 4), &desc, 0x2000, &zero, &v1, &v2, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
+            func_02051648(*(void **)(s + 0xc + idx * 4), &desc, 0x2000, &zero, &v1, &v2, (((struct Obj00325 *)s)->f238 & 0x7fff) | 0x8000);
         }
     }
     switch (p[0]) {
@@ -117,5 +118,5 @@ int func_021FDFA0(void *a, char *s, int mode)
     if (func_020515CC(*(int **)(s + 0xc + idx * 4), x, (int)func_021FD9F0, (int)p) == -1)
         func_020307B0(p);
 end:
-    return *(int *)(s + 0x23c);
+    return ((struct Obj00325 *)s)->f23C;
 }

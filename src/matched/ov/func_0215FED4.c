@@ -16,6 +16,8 @@
  *   func_02188CCC   0x02188CCC  thumb
  *   func_021A12BC   0x021A12BC  thumb
  */
+#include "../include/Obj12045.h"
+#include "../include/Obj17708.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,10 +28,10 @@ extern void func_021A12BC(void *, int);
 
 int func_0215FED4(void *a0, void *a1)
 {
-    void *v = func_02188CCC(*(int *)((char *)a1 + 0xC));
+    void *v = func_02188CCC(((struct Obj12045 *)a1)->fC);
 
-    if (*(int *)((char *)a0 + 0x24) == 0)
-        func_021A12BC(v, *(int *)((char *)a1 + 0x10));
+    if (((struct Obj17708 *)a0)->f24 == 0)
+        func_021A12BC(v, ((struct Obj12045 *)a1)->f10);
 
     return 1;
 }

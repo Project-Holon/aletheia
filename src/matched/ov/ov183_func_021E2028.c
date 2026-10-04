@@ -19,6 +19,8 @@
  *   func_021E23C8 0x021E23C8 thumb ov183
  *   func_021FD760 0x021FD760 thumb ov186
  */
+#include "../include/Obj01567.h"
+#include "../include/Obj04580.h"
 typedef unsigned short u16;
 extern char d_021E39B4[];
 typedef unsigned int   u32;
@@ -35,14 +37,14 @@ int func_021E2028(int obj,int unused,char *arg)
 {
     char *p;
     int i;
-    if (*(int *)arg>=4) func_02034714(d_021E39B4,0,d_021E39B4);
-    p=func_0203159C(obj,40,func_021F9B9C((char *)(*(int *)(arg+0x10))));
+    if (*(int *)&((struct Obj01567 *)arg)->f0>=4) func_02034714(d_021E39B4,0,d_021E39B4);
+    p=func_0203159C(obj,40,func_021F9B9C((char *)(((struct Obj01567 *)arg)->f10)));
     func_02082BCC(p,0,40);
-    *(char **)(p+0x20)=arg;
-    *(u16 *)(p+0x1c)=func_021F9B9C((char *)(*(int *)(arg+0x10)));
-    *(int *)(p+8)=(int)func_021FD6D8((int)p,(int)func_021E214C,*(u16 *)(p+0x1c));
-    *(int *)p=func_0201C440((void *)(*(u16 *)(p+0x1c)));
+    *(char * *)&((struct Obj04580 *)p)->f20=arg;
+    ((struct Obj04580 *)p)->f1C=func_021F9B9C((char *)(((struct Obj01567 *)arg)->f10));
+    ((struct Obj04580 *)p)->f8=(int)func_021FD6D8((int)p,(int)func_021E214C,((struct Obj04580 *)p)->f1C);
+    ((struct Obj04580 *)p)->f0=func_0201C440((void *)(((struct Obj04580 *)p)->f1C));
     func_021E23C8(p,arg);
-    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)func_021FD760(*(int *)(arg+8),(char *)(*(int *)(arg+0xc)),i,*(u16 *)(p+0x1c));
+    for (i=0;i<2;i++) *(int *)(p+i*4+0x14)=(int)func_021FD760(((struct Obj01567 *)arg)->f8,(char *)(*(int *)&((struct Obj01567 *)arg)->fC),i,((struct Obj04580 *)p)->f1C);
     return 1;
 }

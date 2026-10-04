@@ -15,6 +15,7 @@
 
  * Swaps in the cleared state flag and frees the handle at +0x30.
  */
+#include "../include/Obj12118.h"
 
 
 typedef unsigned int   u32;
@@ -27,7 +28,7 @@ void func_021BD89C(char *p)
     int f = func_021BD868(p) == 0;
 
     func_021BD848(p, f);
-    if (*(int *)(p + 0x30) != 0)
-        func_020061E4(*(int *)(p + 0x30));
+    if (((struct Obj12118 *)p)->f30 != 0)
+        func_020061E4(((struct Obj12118 *)p)->f30);
 }
 

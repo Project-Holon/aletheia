@@ -11,15 +11,16 @@
  *   func_02030734 0x02030734 arm
  *   d_021C408C 0x021C408C data ov217 a1
  */
+#include "../include/Obj06721.h"
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern char d_021C408C[];
 void func_021C2DE0(char *p, unsigned short *dst, unsigned short *src, int count)
 {
     int i;
-    *(int *)(p + 4) = 1;
-    *(unsigned short **)(p + 8) = dst;
-    *(unsigned char *)(p + 16) = count;
-    *(unsigned short **)(p + 12) = func_02030734(*(unsigned short *)p, count * 2, 0, d_021C408C, 728);
+    ((struct Obj06721 *)p)->f4 = 1;
+    *(unsigned short * *)&((struct Obj06721 *)p)->f8 = dst;
+    ((struct Obj06721 *)p)->f10 = count;
+    *(unsigned short * *)&((struct Obj06721 *)p)->fC = func_02030734(((struct Obj06721 *)p)->f0, count * 2, 0, d_021C408C, 728);
     for (i = 0; i < count; i++)
         (*(unsigned short **)(p + 12))[i] = src[i];
 }

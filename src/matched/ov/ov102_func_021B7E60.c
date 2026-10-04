@@ -22,6 +22,7 @@
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_0201C724 0x0201C724 thumb
  */
+#include "../include/Obj02809.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -50,13 +51,13 @@ void func_021B7E60(u8 *p, void *q, int n)
     a = func_021B7CC4(q);
     b = func_021B7CC0(q);
     c = func_021B7CBC(q);
-    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)p)), *(u16 *)(p + 16));
-    func_02045CAC((struct MsgBank *)a, n, (void *)(*(int *)(p + 12)));
-    x = func_02045738((struct Descriptor *)(*(int *)p)) * 4;
-    y = func_02045740((struct Descriptor *)(*(int *)p)) * 4;
-    x -= (u16)(func_0201D304((struct StrObj *)(*(int *)(p + 12)), c, 0) >> 1);
-    y -= (u16)(func_0201D42C((struct StrObj *)(*(int *)(p + 12)), (void *)c) >> 1);
+    func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj02809 *)p)->f0)), ((struct Obj02809 *)p)->f10);
+    func_02045CAC((struct MsgBank *)a, n, (void *)(((struct Obj02809 *)p)->fC));
+    x = func_02045738((struct Descriptor *)(((struct Obj02809 *)p)->f0)) * 4;
+    y = func_02045740((struct Descriptor *)(((struct Obj02809 *)p)->f0)) * 4;
+    x -= (u16)(func_0201D304((struct StrObj *)(((struct Obj02809 *)p)->fC), c, 0) >> 1);
+    y -= (u16)(func_0201D42C((struct StrObj *)(((struct Obj02809 *)p)->fC), (void *)c) >> 1);
     func_0201C6EC((struct PrintSys *)b);
-    func_0201C724(b, (int)func_02045770((struct Descriptor *)*(int *)(p + 4)), x, y, *(int *)(p + 12), c, 0x3dc1);
+    func_0201C724(b, (int)func_02045770((struct Descriptor *)((struct Obj02809 *)p)->f4), x, y, ((struct Obj02809 *)p)->fC, c, 0x3dc1);
     p[8] = 1;
 }

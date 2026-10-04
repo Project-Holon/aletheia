@@ -10,6 +10,7 @@
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  */
+#include "../include/Obj00160.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -19,13 +20,13 @@ extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 void func_021C5268(u8 *p)
 {
     if (p[0xB] == 1) {
-        *(u32 *)(p + 0x130) = (u32)func_02045EC0(*(void **)(p + 0x20), 0);
-        *(u16 *)(p + 0x134) = 0x39E3;
-        *(u32 *)(p + 0x138) = 0;
-        *(u32 *)(p + 0x13C) = (u32)func_02045EC0(*(void **)(p + 0x20), 1);
-        *(u16 *)(p + 0x140) = 0x39E3;
-        *(u32 *)(p + 0x144) = 1;
-        *(u32 *)(p + 0x128) = func_02027FEC(*(u32 *)(p + 0x108), (u32)(p + 0x130), 21, 18, 10, (u16)*(u32 *)p);
-        *(u32 *)(p + 0x12C) = func_02027FEC(*(u32 *)(p + 0x108), (u32)(p + 0x13C), 21, 21, 10, (u16)*(u32 *)p);
+        ((struct Obj00160 *)p)->f130 = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 0);
+        ((struct Obj00160 *)p)->f134 = 0x39E3;
+        ((struct Obj00160 *)p)->f138 = 0;
+        ((struct Obj00160 *)p)->f13C = (u32)func_02045EC0(((struct Obj00160 *)p)->f20, 1);
+        ((struct Obj00160 *)p)->f140 = 0x39E3;
+        ((struct Obj00160 *)p)->f144 = 1;
+        ((struct Obj00160 *)p)->f128 = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x130), 21, 18, 10, (u16)((struct Obj00160 *)p)->f0);
+        ((struct Obj00160 *)p)->f12C = func_02027FEC(*(u32 *)&((struct Obj00160 *)p)->f108, (u32)(p + 0x13C), 21, 21, 10, (u16)((struct Obj00160 *)p)->f0);
     }
 }

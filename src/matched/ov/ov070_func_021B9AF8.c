@@ -19,6 +19,7 @@
  *   func_0204B1CC  0x0204B1CC  arm
  *   func_0204A5AC  0x0204A5AC  arm
  */
+#include "../include/Obj01682.h"
 
 struct Bank;
 struct Descriptor;
@@ -37,23 +38,23 @@ extern void func_0204A5AC(void);
 void func_021B9AF8(char *p)
 {
     int i;
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x73C)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x74C)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x744)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x734)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x754)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x76C)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x774)));
-    func_0204B3B4((struct Obj *)(*(int *)(p + 0x6A8)));
-    if (*(int *)(p + 0x6A0) != 0) {
-        func_0204B3B4((struct Obj *)(*(int *)(p + 0x6A0)));
-        func_0204A8D4(*(int *)(p + 0x54C));
-        func_0204ADA4(*(int *)(p + 0x548));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f73C));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f74C));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f744));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f734));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f754));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f76C));
+    func_020452E8((struct Descriptor *)(((struct Obj01682 *)p)->f774));
+    func_0204B3B4((struct Obj *)(((struct Obj01682 *)p)->f6A8));
+    if (((struct Obj01682 *)p)->f6A0 != 0) {
+        func_0204B3B4((struct Obj *)(((struct Obj01682 *)p)->f6A0));
+        func_0204A8D4(((struct Obj01682 *)p)->f54C);
+        func_0204ADA4(((struct Obj01682 *)p)->f548);
     }
-    func_0204AFD8(*(int *)(p + 0x550));
+    func_0204AFD8(((struct Obj01682 *)p)->f550);
     for (i = 0; i < 8; i++) {
         func_020437AC((struct Obj020437AC *)(*(int *)(p + i * 4 + 0x614)));
     }
-    func_0204B1CC((struct Bank *)(*(int *)(p + 0x69C)));
+    func_0204B1CC((struct Bank *)(((struct Obj01682 *)p)->f69C));
     func_0204A5AC();
 }

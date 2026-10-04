@@ -13,6 +13,7 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204BA20  0x0204BA20  arm
  */
+#include "../include/Obj00709.h"
 
 typedef struct {
     unsigned short x;
@@ -38,28 +39,28 @@ void func_021F1C0C(char *p)
     s.z = 0x28;
     s.a = 0;
     s.b = 2;
-    *(int *)(p + 0x164) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                        *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x164), 0);
-    func_0204BA20((struct Actor *)(*(int *)(p + 0x164)), 0);
+    ((struct Obj00709 *)p)->f164 = (int)func_0204B294((void *)((struct Obj00709 *)p)->f34, ((struct Obj00709 *)p)->f2C, ((struct Obj00709 *)p)->f28,
+                                        ((struct Obj00709 *)p)->f30, &s, 0, ((struct Obj00709 *)p)->fC);
+    func_0204B3DC((struct Obj *)((struct Obj00709 *)p)->f164, 0);
+    func_0204BA20((struct Actor *)(((struct Obj00709 *)p)->f164), 0);
 
     s.x = 0x68;
     s.y = 0xaa;
     s.z = 0x27;
     s.a = 0x14;
     s.b = 2;
-    *(int *)(p + 0x168) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                        *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x168), 0);
-    func_0204BA20((struct Actor *)(*(int *)(p + 0x168)), 0);
+    ((struct Obj00709 *)p)->f168 = (int)func_0204B294((void *)((struct Obj00709 *)p)->f34, ((struct Obj00709 *)p)->f2C, ((struct Obj00709 *)p)->f28,
+                                        ((struct Obj00709 *)p)->f30, &s, 0, ((struct Obj00709 *)p)->fC);
+    func_0204B3DC((struct Obj *)((struct Obj00709 *)p)->f168, 0);
+    func_0204BA20((struct Actor *)(((struct Obj00709 *)p)->f168), 0);
 
     s.x = 0x22;
     s.y = 0xaa;
     s.z = 0x10;
     s.a = 0;
     s.b = 2;
-    *(int *)(p + 0x16c) = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
-                                        *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x16c), 0);
-    func_0204BA20((struct Actor *)(*(int *)(p + 0x16c)), 0);
+    ((struct Obj00709 *)p)->f16C = (int)func_0204B294((void *)((struct Obj00709 *)p)->f34, ((struct Obj00709 *)p)->f2C, ((struct Obj00709 *)p)->f28,
+                                        ((struct Obj00709 *)p)->f30, &s, 0, ((struct Obj00709 *)p)->fC);
+    func_0204B3DC((struct Obj *)((struct Obj00709 *)p)->f16C, 0);
+    func_0204BA20((struct Actor *)(((struct Obj00709 *)p)->f16C), 0);
 }

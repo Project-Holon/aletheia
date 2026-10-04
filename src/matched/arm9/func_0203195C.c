@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0203195C.c \
  *       --func func_0203195C --addr 0x0203195C --arm --cc 1.1p1
  */
+#include "../include/Obj06929.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -34,10 +35,10 @@ extern void func_020339B4(int *p);
 
 void func_0203195C(u8 *p)
 {
-    func_020339B4((int *)(*(u32 *)(p + 0x2c)));
-    func_020307B0(*(void **)(p + 0x138));
+    func_020339B4((int *)(((struct Obj06929 *)p)->f2C));
+    func_020307B0(((struct Obj06929 *)p)->f138);
     if (p[0x1d] == 1) {
-        func_020307B0(*(void **)(p + 0x34));
+        func_020307B0(((struct Obj06929 *)p)->f34);
     }
     func_020307B0(p);
 }

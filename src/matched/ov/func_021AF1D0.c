@@ -17,6 +17,7 @@
  *   func_02028BDC  0x02028BDC  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18089.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_02028BDC(struct S *s, u32 mask);
 
 int func_021AF1D0(u32 a, u32 b, u32 c, u32 d)
 {
-func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(*(u32 *)((u8 *)(a)), b, c, d)), 2);
+func_02028BDC((struct S *)func_02012A30((const struct BigObj *)func_020120F4(((struct Obj18089 *)((u8 *)(a)))->f0, b, c, d)), 2);
 return 1;
 }
 

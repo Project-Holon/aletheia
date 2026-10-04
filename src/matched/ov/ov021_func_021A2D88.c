@@ -21,6 +21,7 @@
  *   func_02188CAC  0x02188CAC  thumb  ov021
  *   d_021DDE90     0x021DDE90  data  a4
  */
+#include "../include/Obj12722.h"
 
 typedef unsigned short u16;
 
@@ -47,8 +48,8 @@ void func_021A2D88(int obj, int unused, int y)
 
     h = func_02188C84((u8 *)obj);
     p = (char *)func_02030734(h, 0x10, 1, (const char *)&d_021DDE90, 0x68);
-    *(u16 *)p = h;
-    *(int *)(p + 4) = obj;
+    ((struct Obj12722 *)p)->f0 = h;
+    ((struct Obj12722 *)p)->f4 = obj;
     a = func_02188CB4((void *)obj);
     b = func_021A3074((void *)a);
     func_0216D5E0((int)b, y);

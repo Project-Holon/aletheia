@@ -66,6 +66,7 @@
  *   MATCH, 72 bytes, 7 relocation sites, 6 resolved, 1 wildcard:
  *     +001A THM_CALL func_0217963C - unresolved, no outside witness.
  */
+#include "../include/Obj11238.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -85,7 +86,7 @@ void func_020103E4(u8 *p)
         func_02034714(&sWihDwc, 0, &sWihDwc);
     }
     func_0217963C(0);
-    func_0203D7FC((void *)*(u32 *)(p + 0x300));
+    func_0203D7FC((void *)((struct Obj11238 *)p)->f300);
     func_0203D7FC(p);
     g_021461E0 = 0;
     func_02034A5C((int)ov015_id);

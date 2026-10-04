@@ -13,6 +13,7 @@
  *   func_021FCD0C 0x021FCD0C thumb ov186
  *   func_021DF620 0x021DF620 thumb ov183
  */
+#include "../include/Obj00786.h"
 typedef signed char s8;
 extern int func_021FCE0C(char *p, unsigned field);
 extern void func_021FCD0C(char *p);
@@ -21,9 +22,9 @@ void func_021DF3DC(char *p, int a)
 {
     unsigned int old, current;
     s8 direction;
-    old = func_021FCE0C(*(void **)(p + 4), 1);
-    func_021FCD0C(*(void **)(p + 4));
-    current = func_021FCE0C(*(void **)(p + 4), 1);
-    direction = func_021FCE0C(*(void **)(p + 4), 2);
+    old = func_021FCE0C(((struct Obj00786 *)p)->f4, 1);
+    func_021FCD0C(((struct Obj00786 *)p)->f4);
+    current = func_021FCE0C(((struct Obj00786 *)p)->f4, 1);
+    direction = func_021FCE0C(((struct Obj00786 *)p)->f4, 2);
     if (direction != 0 && old != current) func_021DF620(p, current, direction, a);
 }

@@ -11,6 +11,7 @@
  *   func_020056BC 0x020056BC thumb
  *   func_0202173C 0x0202173C thumb
  */
+#include "../include/Obj01779.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -19,8 +20,8 @@ extern void *func_020056BC(void);
 extern int func_0202173C(struct PalAnmObj *,u16,u16,s16,u8,u8,u16,void *);
 void func_021BC82C(char *p,u8 b,u8 c)
 {
-    func_0202173C(*(struct PalAnmObj **)(p+12),1,0xbfff,-14,b,c,0,func_020056BC());
-    func_0202173C(*(struct PalAnmObj **)(p+12),2,0x7fef,-14,b,c,0,func_020056BC());
-    func_0202173C(*(struct PalAnmObj **)(p+12),4,0xfe1f,-14,b,c,0,func_020056BC());
-    func_0202173C(*(struct PalAnmObj **)(p+12),8,0xbfff,-14,b,c,0,func_020056BC());
+    func_0202173C(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,1,0xbfff,-14,b,c,0,func_020056BC());
+    func_0202173C(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,2,0x7fef,-14,b,c,0,func_020056BC());
+    func_0202173C(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,4,0xfe1f,-14,b,c,0,func_020056BC());
+    func_0202173C(*(struct PalAnmObj * *)&((struct Obj01779 *)p)->fC,8,0xbfff,-14,b,c,0,func_020056BC());
 }

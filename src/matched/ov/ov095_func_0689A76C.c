@@ -20,6 +20,7 @@
  *   d_0689DF64     0x0689DF64  data   ov095
  *   d_0689D828     0x0689D828  data   ov095
  */
+#include "../include/Obj06337.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,14 +43,14 @@ int func_0689A76C(int *st, u8 *s)
 
     switch (*st) {
     case 0:
-        i = func_0689A7EC(*(u32 *)(s + 0xb0), d_0689D8D4, d_0689DF64);
+        i = func_0689A7EC(((struct Obj06337 *)s)->fB0, d_0689D8D4, d_0689DF64);
         if (i == -1)
             break;
         v = d_0689D828[i];
-        *(u32 *)(s + 0x98) = v;
+        ((struct Obj06337 *)s)->f98 = v;
         if (v == 4) {
-            func_0689A7FC(*(u32 *)(s + 0x70));
-            func_0689A80C(*(u32 *)(s + 0xb0), 0, 0);
+            func_0689A7FC(((struct Obj06337 *)s)->f70);
+            func_0689A80C(((struct Obj06337 *)s)->fB0, 0, 0);
             func_0689A81C(8);
             func_0689A82C();
             *st = *st + 1;
@@ -57,7 +58,7 @@ int func_0689A76C(int *st, u8 *s)
         }
         return 1;
     case 1:
-        if (func_0689A83C(*(u32 *)(s + 0xb0)) == 0)
+        if (func_0689A83C(((struct Obj06337 *)s)->fB0) == 0)
             return 1;
         break;
     }

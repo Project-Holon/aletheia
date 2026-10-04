@@ -29,6 +29,7 @@
  *   python tools/match.py tu --src src/matched/unit_02010848.c \
  *       --addr 0x02010848 --thumb
  */
+#include "../include/Obj11819.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,8 +48,8 @@ void func_02010864(u32 v)
 {
     u8 *o = g_021461E0;
 
-    if (o != 0 && (int)*(u16 *)(o + 0x314) < (int)v && v < 4)
-        *(u16 *)(o + 0x314) = v;
+    if (o != 0 && (int)((struct Obj11819 *)o)->f314 < (int)v && v < 4)
+        ((struct Obj11819 *)o)->f314 = v;
 }
 
 void func_02010884(void)

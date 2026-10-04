@@ -13,6 +13,7 @@
  *   func_021BCEF0 0x021BCEF0 thumb
  *   func_021BEE38 0x021BEE38 thumb
  */
+#include "../include/Obj04619.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -23,7 +24,7 @@ extern void func_021BEE38(char *, int, unsigned short, short, unsigned short);
 
 void func_021BF89C(char *p, u8 a, u8 b)
 {
-    u8 cur = (u8)func_021B93B8(*(void **)(p + 0x1E0));
+    u8 cur = (u8)func_021B93B8(((struct Obj04619 *)p)->f1E0);
     u8 d;
     int y;
 

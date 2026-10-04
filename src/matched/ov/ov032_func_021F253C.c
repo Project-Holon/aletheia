@@ -10,13 +10,15 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj20459.h"
+#include "../include/Obj20460.h"
 
 void func_021F253C(char *p, unsigned short v)
 {
-    *(unsigned short *)(p + 0x70) = v;
+    ((struct Obj20459 *)p)->f70 = v;
 }
 
 void func_021F2544(char *p)
 {
-    *(unsigned short *)(p + 0x70) = 0;
+    ((struct Obj20460 *)p)->f70 = 0;
 }

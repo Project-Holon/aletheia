@@ -20,6 +20,9 @@
  *   func_02188D2C   0x02188D2C  thumb
  *   func_021BE480   0x021BE480  thumb  ov021
  */
+#include "../include/Obj01029.h"
+#include "../include/Obj17767.h"
+#include "../include/Obj17768.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,9 +39,9 @@ void *func_0216C280(void *p)
     char v[12];
     void *q;
 
-    func_02011610(*(void **)((char *)p + 0x10), (struct Rec12 *)v);
-    q = (void *)func_021BE480(func_02188D2C(*(void **)((char *)p + 8)), 0, 0);
-    *(void **)((char *)q + 4) = *(void **)(v + 4);
+    func_02011610(((struct Obj01029 *)p)->f10, (struct Rec12 *)v);
+    q = (void *)func_021BE480(func_02188D2C(((struct Obj01029 *)p)->f8), 0, 0);
+    ((struct Obj17768 *)q)->f4 = ((struct Obj17767 *)v)->f4;
 
     return q;
 }

@@ -17,6 +17,8 @@
  *   func_021AAB74  0x021AAB74  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07219.h"
+#include "../include/Obj09585.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +31,7 @@ extern u32 func_021AAB74(u32, u32);
 
 int func_021AA7AC(u32 a, u32 b, u32 c, u32 d)
 {
-*(u32 *)((u8 *)(b)) = func_02188CD0(*(u32 *)((u8 *)(a)), b, c, d);
+((struct Obj09585 *)((u8 *)(b)))->f0 = func_02188CD0(*(u32 *)&((struct Obj07219 *)((u8 *)(a)))->f0, b, c, d);
 func_021AA7DC(a, b);
 return func_021AAB74(a, b);
 }

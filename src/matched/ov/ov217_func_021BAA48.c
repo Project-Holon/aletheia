@@ -15,6 +15,7 @@
  *   d_021C2EFC 0x021C2EFC data a4
  * B294's returned r0 is stored and passed to B3DC in the original.
  */
+#include "../include/Obj01785.h"
 typedef unsigned short u16;
 struct Vec {short x,y,z;unsigned char a,b;};
 struct Entry {struct Vec vec;unsigned first,second,third,fourth;u16 arg,pad;};
@@ -34,6 +35,6 @@ void func_021BAA48(char *p)
     second=func_021BA3D0(p,d_021C2EFC.second);
     third=func_021BA3D0(p,d_021C2EFC.third);
     fourth=func_021BA3D0(p,d_021C2EFC.fourth);
-    *(unsigned *)(p+0x7c)=(unsigned)func_0204B294((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,*(u16 *)(p+4));
-    func_0204B3DC(*(struct Obj **)(p+0x7c),0);
+    *(unsigned *)&((struct Obj01785 *)p)->f7C=(unsigned)func_0204B294((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,((struct Obj01785 *)p)->f4);
+    func_0204B3DC(*(struct Obj * *)&((struct Obj01785 *)p)->f7C,0);
 }

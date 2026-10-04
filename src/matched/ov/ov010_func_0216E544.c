@@ -13,9 +13,10 @@
  *   func_0216D67C 0x0216D67C thumb ov010
  *   func_0216E490 0x0216E490 thumb ov010
  */
+#include "../include/Obj19139.h"
 
 typedef struct { int x,y,z; } Vec;
 extern int func_0216E4EC(void *);
 extern void *func_0216D67C(void *);
 extern int func_0216E490(void *);
-int func_0216E544(void *a, Vec *out) { int i; Vec *p; unsigned int base; i=func_0216E4EC(a); if(i!=30) { base=*(unsigned int *)((char *)func_0216D67C(a)+44); p=(Vec *)(base+i*12); if(func_0216E490(p)) { *out=*p; return 1; } } return 0; }
+int func_0216E544(void *a, Vec *out) { int i; Vec *p; unsigned int base; i=func_0216E4EC(a); if(i!=30) { base=((struct Obj19139 *)((char *)func_0216D67C(a)))->f2C; p=(Vec *)(base+i*12); if(func_0216E490(p)) { *out=*p; return 1; } } return 0; }

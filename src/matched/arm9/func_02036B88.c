@@ -10,6 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15906.h"
 
 extern void func_020307B0(int, int, int, int);
-void func_02036B88(int a0, int a1, int a2, int a3){ func_020307B0((int)*(int *)(((char *)(a0) + 24)), (int)a1, (int)a2, (int)a3); }
+void func_02036B88(int a0, int a1, int a2, int a3){ func_020307B0((int)((struct Obj15906 *)((char *)(a0)))->f18, (int)a1, (int)a2, (int)a3); }

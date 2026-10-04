@@ -10,6 +10,7 @@
  * symbols:
  *   func_0204B454 0x0204B454 arm
  */
+#include "../include/Obj00143.h"
 typedef short s16;
 typedef unsigned char u8;
 struct Actor;
@@ -19,8 +20,8 @@ void func_021E1008(char *p)
 {
     int i, x, y;
     s16 pos[2];
-    for (i = 0; i < *(int *)(p + 0x23c); i++) {
-        if (i >= *(int *)(p + 0x248) && i < *(int *)(p + 0x24c)) {
+    for (i = 0; i < ((struct Obj00143 *)p)->f23C; i++) {
+        if (i >= ((struct Obj00143 *)p)->f248 && i < ((struct Obj00143 *)p)->f24C) {
             x = 16;
             y = 16;
         } else {

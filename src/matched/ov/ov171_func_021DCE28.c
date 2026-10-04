@@ -10,6 +10,7 @@
  * symbols:
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj14285.h"
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 void func_021DCE28(char *p)
@@ -21,8 +22,8 @@ void func_021DCE28(char *p)
         row=p+i*0xbc;
         for(j=0;j<6;j++) {
             cell=row+j*0x1c;
-            func_02045808(*(void **)(cell+0xc));
-            func_02045808(*(void **)(cell+0x10));
+            func_02045808(((struct Obj14285 *)cell)->fC);
+            func_02045808(((struct Obj14285 *)cell)->f10);
         }
     }
 }

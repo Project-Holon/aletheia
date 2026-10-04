@@ -22,6 +22,7 @@
  *   func_021ECEB8 0x021ECEB8 thumb ov093
  *   func_021ECF68 0x021ECF68 thumb ov093
  */
+#include "../include/Obj00027.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,8 +49,8 @@ int func_021EC0DC(u8 *p, int *state, u16 i, u16 j)
     case 0:
         b[0] = 11;
         b[1] = 13;
-        func_021F7F58(func_021BA020(*(char **)(p + 0x134), i), b[0], 0, 0, 0);
-        func_021F7F58(func_021BA020(*(char **)(p + 0x134), j), b[1], 0, 0, 0);
+        func_021F7F58(func_021BA020(*(char * *)&((struct Obj00027 *)p)->f134, i), b[0], 0, 0, 0);
+        func_021F7F58(func_021BA020(*(char * *)&((struct Obj00027 *)p)->f134, j), b[1], 0, 0, 0);
         func_021ED798(p + 0x154);
         (*state)++;
         break;
@@ -62,12 +63,12 @@ int func_021EC0DC(u8 *p, int *state, u16 i, u16 j)
         break;
     case 2:
         if (!func_021F7EB4()) {
-            if ((int)func_021B86B8(*(void ****)(p + 0x134)) != 3) msg = 9;
+            if ((int)func_021B86B8(*(void *** *)&((struct Obj00027 *)p)->f134) != 3) msg = 9;
             else msg = 10;
             func_021EE104(p, buf, i, j, 1);
             func_021F823C(buf);
-            func_021EEE24(*(u32 *)(p + 0x34), msg, 2, i, j);
-            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            func_021EEE24(((struct Obj00027 *)p)->f34, msg, 2, i, j);
+            func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
             (*state)++;
         }
         break;

@@ -9,10 +9,11 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj00610.h"
 typedef unsigned char u8;
 int func_02174268(u8 *p)
 {
-    if (*(int *)(p + 0x354c) == 0 && *(int *)(p + 0x3548) == 0)
+    if (((struct Obj00610 *)p)->f354C == 0 && ((struct Obj00610 *)p)->f3548 == 0)
         return 0;
     return 1;
 }

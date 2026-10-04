@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj05146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,7 +22,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_020061E4(u32 a);
 void func_021B6A28(u8 *p)
 {
-    *(u32 *)(p + 8) = *(u16 *)(p + 0x2a);
-    func_0204B878(*(void **)p, *(u32 *)(p + 8));
-    if (*(void **)(p + 0x34)) func_020061E4((u32)(*(void **)(p + 0x34)));
+    ((struct Obj05146 *)p)->f8 = ((struct Obj05146 *)p)->f2A;
+    func_0204B878(((struct Obj05146 *)p)->f0, ((struct Obj05146 *)p)->f8);
+    if (((struct Obj05146 *)p)->f34) func_020061E4((u32)(((struct Obj05146 *)p)->f34));
 }

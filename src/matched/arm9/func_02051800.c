@@ -11,8 +11,9 @@
  *
  * Stores the word at offset 0x64. Filed as the witness for ov094 func_021FD1CC.
  */
+#include "../include/Obj16174.h"
 
 void func_02051800(char *p, int v)
 {
-    *(int *)(p + 0x64) = v;
+    ((struct Obj16174 *)p)->f64 = v;
 }

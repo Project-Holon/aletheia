@@ -13,6 +13,7 @@
  *   func_021BC964 0x021BC964 thumb ov110
  *   func_021B9BA4 0x021B9BA4 thumb ov110
  */
+#include "../include/Obj03241.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_0207D658(u32 addr, int plane, int brightness);
@@ -21,11 +22,11 @@ extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
 void func_021BC8FC(u8 *p,int a,int start,int end,int n)
 {
     func_0207D658(0x4000050,a,start);
-    *(int *)p=a;
-    *(int *)(p+0x14)=n;
-    *(int *)(p+8)=start<<12;
-    *(int *)(p+0xc)=end<<12;
-    *(int *)(p+0x10)=(*(int *)(p+0xc)-*(int *)(p+8))/n;
-    *(int *)(p+0x18)=0;
-    *(void **)(p+0x1c)=func_021B9BA4(func_021BC964,p,0);
+    ((struct Obj03241 *)p)->f0=a;
+    ((struct Obj03241 *)p)->f14=n;
+    ((struct Obj03241 *)p)->f8=start<<12;
+    ((struct Obj03241 *)p)->fC=end<<12;
+    ((struct Obj03241 *)p)->f10=(((struct Obj03241 *)p)->fC-((struct Obj03241 *)p)->f8)/n;
+    ((struct Obj03241 *)p)->f18=0;
+    ((struct Obj03241 *)p)->f1C=func_021B9BA4(func_021BC964,p,0);
 }

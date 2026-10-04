@@ -11,6 +11,7 @@
  *
  * True when the word 0x8C8 bytes into the block is set.
  */
+#include "../include/Obj18281.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ typedef int BOOL;
 
 BOOL func_021C1A44(char *p)
 {
-    if (*(u32 *)(p + 0x8C8) != 0) {
+    if (((struct Obj18281 *)p)->f8C8 != 0) {
         return 1;
     }
 

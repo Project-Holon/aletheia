@@ -19,6 +19,7 @@
  *   func_021BBD2C  0x021BBD2C  thumb  ov093
  *   func_0203EFC8  0x0203EFC8  arm
  */
+#include "../include/Obj03190.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -34,28 +35,28 @@ extern int func_0203EFC8(const void *, const void *, u32);
 
 int func_021BB570(u8 *p, int sel, void *data, u32 n)
 {
-    u32 *s = *(u32 **)(p + 0xcb0);
+    u32 *s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;
 
     s[0] = 0;
     s[1] = 0;
     switch (sel) {
     case 4:
-        func_021BBB60(*(u8 **)(p + 0x44));
+        func_021BBB60(*(u8 * *)&((struct Obj03190 *)p)->f44);
         break;
     case 1:
-        func_021BBC34(*(u8 **)(p + 0x44));
-        func_021BBC44(*(u8 **)(p + 0x44), (int)(p + 0xb4));
+        func_021BBC34(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        func_021BBC44(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     case 2:
-        func_021BBD80(*(u8 **)(p + 0x44));
-        func_021BBD8C(*(u8 **)(p + 0x44), (int)(p + 0xb4));
+        func_021BBD80(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        func_021BBD8C(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     case 3:
-        func_021BBD20(*(u8 **)(p + 0x44));
-        func_021BBD2C(*(u8 **)(p + 0x44), (int)(p + 0xb4));
+        func_021BBD20(*(u8 * *)&((struct Obj03190 *)p)->f44);
+        func_021BBD2C(*(u8 * *)&((struct Obj03190 *)p)->f44, (int)(p + 0xb4));
         break;
     }
-    s = *(u32 **)(p + 0xcb0);
+    s = *(u32 * *)&((struct Obj03190 *)p)->fCB0;
     if (s[0] == n && func_0203EFC8(s + 2, data, n) == 0)
         return 0;
     return 1;

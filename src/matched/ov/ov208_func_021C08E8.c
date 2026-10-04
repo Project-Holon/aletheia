@@ -16,6 +16,7 @@
  *   func_02049990  0x02049990  arm
  *   func_02049238  0x02049238  arm
  */
+#include "../include/Obj14653.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ void ov208_func_021C08E8(u16 *heap, u8 *p, int key)
 
     h = func_020490F4(0x9f, *heap);
     func_02049BDC(h, 2, 4, 0, 0, 0x100, *heap);
-    *(u32 *)(p + 0x68) = func_02049740(h, 12, 7, 0, 0, *heap);
-    func_02049990(h, 0x26, 7, 0, (u16)*(u32 *)(p + 0x68), 0, 0, *heap);
+    ((struct Obj14653 *)p)->f68 = func_02049740(h, 12, 7, 0, 0, *heap);
+    func_02049990(h, 0x26, 7, 0, (u16)((struct Obj14653 *)p)->f68, 0, 0, *heap);
     func_02049238(h);
 }

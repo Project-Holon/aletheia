@@ -10,15 +10,16 @@
  * symbols:
  *   func_021BF734 0x021BF734 thumb ov110
  */
+#include "../include/Obj02165.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_021BF734(u8 *p);
 void func_021BED84(u8 *p, void *q) {
-    *(u16 *)p=0; p[6]=0; p[7]=0;
-    *(u16 *)(p+4)=func_021BF734(q);
-    *(u32 *)(p+8)=0;
-    *(u16 *)(p+12)=0; *(u16 *)(p+14)=65535;
-    if (*(u16 *)(p+4)>14) *(u16 *)(p+2)=(*(u16 *)(p+4)-14)/2+(*(u16 *)(p+4)&1);
-    else *(u16 *)(p+2)=0;
+    ((struct Obj02165 *)p)->f0=0; p[6]=0; p[7]=0;
+    ((struct Obj02165 *)p)->f4=func_021BF734(q);
+    ((struct Obj02165 *)p)->f8=0;
+    ((struct Obj02165 *)p)->fC=0; ((struct Obj02165 *)p)->fE=65535;
+    if (((struct Obj02165 *)p)->f4>14) ((struct Obj02165 *)p)->f2=(((struct Obj02165 *)p)->f4-14)/2+(((struct Obj02165 *)p)->f4&1);
+    else ((struct Obj02165 *)p)->f2=0;
 }

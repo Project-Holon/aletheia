@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0202F038.c \
  *       --func func_0202F038 --addr 0x0202F038 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01809.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -46,24 +47,24 @@ extern void func_02031194(struct TcblNode *n);
 
 void func_0202F038(u8 *p)
 {
-    if (*(u32 *)p == 0 && *(u32 *)(p + 4) == 0) {
-        func_020437AC((struct Obj020437AC *)(*(u32 *)(p + 0xC)));
+    if (((struct Obj01809 *)p)->f0 == 0 && ((struct Obj01809 *)p)->f4 == 0) {
+        func_020437AC((struct Obj020437AC *)(((struct Obj01809 *)p)->fC));
         func_020307B0(p);
         return;
     }
 
-    *(u32 *)(p + 0x18) = 0;
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 8))), *(u8 *)(p + 0x12));
-    func_02045334((struct Descriptor *)*(u32 *)(p + 8));
-    func_020452E8((struct Descriptor *)(*(u32 *)(p + 8)));
-    func_020437AC((struct Obj020437AC *)(*(u32 *)(p + 0xC)));
+    ((struct Obj01809 *)p)->f18 = 0;
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01809 *)p)->f8)), ((struct Obj01809 *)p)->f12);
+    func_02045334((struct Descriptor *)((struct Obj01809 *)p)->f8);
+    func_020452E8((struct Descriptor *)(((struct Obj01809 *)p)->f8));
+    func_020437AC((struct Obj020437AC *)(((struct Obj01809 *)p)->fC));
 
-    if (*(u32 *)p != 0) {
-        func_02030EAC((struct Node *)(*(u32 *)p));
+    if (((struct Obj01809 *)p)->f0 != 0) {
+        func_02030EAC((struct Node *)(((struct Obj01809 *)p)->f0));
         func_020307B0(p);
         return;
     }
 
-    if (*(u32 *)(p + 4) != 0)
-        func_02031194((struct TcblNode *)(*(u32 *)(p + 4)));
+    if (((struct Obj01809 *)p)->f4 != 0)
+        func_02031194((struct TcblNode *)(((struct Obj01809 *)p)->f4));
 }

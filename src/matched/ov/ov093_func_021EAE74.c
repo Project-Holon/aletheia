@@ -12,14 +12,15 @@
  * symbols:
  *   func_021EAE98  0x021EAE98  thumb  ov093
  */
+#include "../include/Obj07847.h"
 typedef unsigned int u32;
 
 extern void func_021EAE98(void *a, void *b);
 
 void func_021EAE74(char *p, u32 a, u32 b)
 {
-    *(u32 *)(p + 0x160) = a;
-    *(u32 *)(p + 0x164) = b;
-    *(u32 *)(p + 0x16c) = 0;
-    func_021EAE98(*(void **)(p + 0x180), p + 0x160);
+    ((struct Obj07847 *)p)->f160 = a;
+    ((struct Obj07847 *)p)->f164 = b;
+    ((struct Obj07847 *)p)->f16C = 0;
+    func_021EAE98(((struct Obj07847 *)p)->f180, p + 0x160);
 }

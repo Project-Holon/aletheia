@@ -16,6 +16,8 @@
  *   func_0203D3F8 0x0203D3F8 arm
  *   d_021FDE5C 0x021FDE5C data a4
  */
+#include "../include/Obj06494.h"
+#include "../include/Obj23284.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_020307B0(void *);
@@ -32,16 +34,16 @@ void func_021FD350(char *p,char *src)
     void *h;
     u32 n;
     int zero;
-    if(*(void **)(p+0x124)) func_020307B0(*(void **)(p+0x124));
+    if(((struct Obj06494 *)p)->f124) func_020307B0(((struct Obj06494 *)p)->f124);
     n=func_020173EC();
-    q=func_02030734(*(u16 *)p,n+0x7c,0,d_021FDE5C,0x5be);
+    q=func_02030734(((struct Obj06494 *)p)->f0,n+0x7c,0,d_021FDE5C,0x5be);
     zero=0;
-    *(void **)(p+0x124)=q;
+    ((struct Obj06494 *)p)->f124=q;
     func_02082D44(src,q,0x7c);
     n=func_020173EC();
     q+=0x7c;
-    func_02082D44(*(void **)(src+4),q,n);
+    func_02082D44(((struct Obj23284 *)src)->f4,q,n);
     h=func_020399A8();
     n=func_020173EC();
-    func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(*(void **)(p+0x124)),1,zero,1);
+    func_0203D3F8((u32)h,0xff,0x1103,n+0x7c,(u32)(((struct Obj06494 *)p)->f124),1,zero,1);
 }

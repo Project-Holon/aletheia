@@ -15,6 +15,7 @@
  *   func_0201CE38 0x0201CE38 thumb
  *   func_0201CE48 0x0201CE48 thumb
  */
+#include "../include/Obj05428.h"
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -29,17 +30,17 @@ extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *p);
 int func_021DE55C(char *p) {
     int state;
-    if (*(void **)(p+0xf0) == 0) return 1;
-    state = func_0201CE30(*(void **)(p+0xf0));
+    if (((struct Obj05428 *)p)->fF0 == 0) return 1;
+    state = func_0201CE30(((struct Obj05428 *)p)->fF0);
     if (state == 0) {
         if (func_0203630C() & 1)
-            func_0201CE5C(*(void **)(p+0xf0), 0);
+            func_0201CE5C(((struct Obj05428 *)p)->fF0, 0);
     } else if (state == 1) {
         if (func_020362DC() & 1)
-            func_0201CE38(*(void **)(p+0xf0));
+            func_0201CE38(((struct Obj05428 *)p)->fF0);
     } else if (state == 2) {
-        func_0201CE48(*(void **)(p+0xf0));
-        *(void **)(p+0xf0) = 0;
+        func_0201CE48(((struct Obj05428 *)p)->fF0);
+        ((struct Obj05428 *)p)->fF0 = 0;
         return 1;
     }
     return 0;

@@ -14,6 +14,7 @@
 
  * Tear the object down: unhook the two sub-objects, release the +0xd40 resource, wire the 0/1/2 quad, then drain the four engine hooks.
  */
+#include "../include/Obj01063.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,11 +39,11 @@ void func_021FD6F4(u8 *p, u32 k)
 {
     u32 v;
 
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0xb6c)), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xd40))), 0xf);
-    func_0201F73C((void *)(*(u32 *)(p + 0xd40)), 0, 1, 0x2);
-    func_02202858((void *)(*(u32 *)(p + 0xd40)), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
-    v = *(u32 *)(p + 0xd40);
+    func_02045CAC((struct MsgBank *)(((struct Obj01063 *)p)->fB6C), k, (void *)(*(u32 *)(p + 0xb6c + 0x1c)));
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01063 *)p)->fD40)), 0xf);
+    func_0201F73C((void *)(((struct Obj01063 *)p)->fD40), 0, 1, 0x2);
+    func_02202858((void *)(((struct Obj01063 *)p)->fD40), 0, (void *)(*(u32 *)(p + 0xb6c + 0x1c)), 0, 0, p + 0xfa0);
+    v = ((struct Obj01063 *)p)->fD40;
     func_02045334((struct Descriptor *)v);
     func_02045374((struct Cfg *)v);
     func_020409B4(func_02045730((struct Descriptor *)v));

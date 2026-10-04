@@ -14,6 +14,7 @@
  *   func_021DA3C0 0x021DA3C0 thumb ov121
  *   func_021DBEE4 0x021DBEE4 thumb ov121
  */
+#include "../include/Obj03789.h"
 typedef unsigned char  u8;
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -23,13 +24,13 @@ typedef unsigned int   u32;
 extern void func_021DBEE4(u32 p);
 void func_021DD980(char *p)
 {
-    if (*(void **)(p+0x128)) {
-        func_02030EAC(*(void **)(p+0x128));
-        *(void **)(p+0x128)=0;
+    if (((struct Obj03789 *)p)->f128) {
+        func_02030EAC(((struct Obj03789 *)p)->f128);
+        ((struct Obj03789 *)p)->f128=0;
     }
-    if (*(void **)(p+0x13c)) func_020307B0(*(void **)(p+0x13c));
-    if (*(void **)(p+0x134)) func_020307B0(*(void **)(p+0x134));
-    func_021DA3C0(*(void **)(p+0x144));
+    if (((struct Obj03789 *)p)->f13C) func_020307B0(((struct Obj03789 *)p)->f13C);
+    if (((struct Obj03789 *)p)->f134) func_020307B0(((struct Obj03789 *)p)->f134);
+    func_021DA3C0(((struct Obj03789 *)p)->f144);
     func_021DBEE4((u32)p);
     func_020307B0(p);
 }

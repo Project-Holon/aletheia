@@ -15,6 +15,7 @@
  *   func_021BF564  0x021BF564  thumb  ov021
  *   func_021BF584  0x021BF584  thumb  ov021
  */
+#include "../include/Obj06060.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,15 +31,15 @@ int func_021BEEB4(u32 p0, int *st, u8 *q)
 {
     switch (*st) {
     case 0:
-        if (*(u32 *)(q + 0x18) != 0) {
-            func_021BF564(*(u32 *)(q + 4));
-            func_021BF584(*(u32 *)(q + 4));
+        if (((struct Obj06060 *)q)->f18 != 0) {
+            func_021BF564(((struct Obj06060 *)q)->f4);
+            func_021BF584(((struct Obj06060 *)q)->f4);
         }
-        func_0204E720(*(u32 *)(q + 0xC), 0x10, 0, -1);
+        func_0204E720(((struct Obj06060 *)q)->fC, 0x10, 0, -1);
         *st = *st + 1;
         break;
     case 1:
-        if (*(u32 *)(q + 0x14) == 1)
+        if (((struct Obj06060 *)q)->f14 == 1)
             return 1;
         if (func_0204E804() == 0)
             return 1;

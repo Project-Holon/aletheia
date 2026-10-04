@@ -24,6 +24,8 @@
  *   func_021ED55C 0x021ED55C thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23942.h"
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -49,7 +51,7 @@ int func_021E9010(unsigned char *p)
     unsigned item;
     void *mon;
     item = func_021DD25C(p, p[0x16], p[0x14], 6, 0);
-    if (func_02007E50(*(void **)(*(char **)p + 0xC), item, 1, 0x4C) == 1) {
+    if (func_02007E50(((struct Obj23942 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC, item, 1, 0x4C) == 1) {
         mon = (void *)func_021DD2D0((void ***)p, p[0x14], p[0x16]);
         func_021EBB34(p, item, 0x18);
         func_021DD2B4((int)p, p[0x16], p[0x14], 6, 0);
@@ -68,6 +70,6 @@ int func_021E9010(unsigned char *p)
         func_020260F4(*(void **)(WORK(p) + 0x70), 1);
         func_021ED55C((char **)p, 0);
     }
-    *(int *)(p + 0x28) = 0xE;
+    ((struct Obj00000 *)p)->f28 = 0xE;
     return func_021E8F50(p, 6);
 }

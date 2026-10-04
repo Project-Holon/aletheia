@@ -30,6 +30,7 @@
  *   g_020A8140   0x020A8140  data
  *   g_02146A88   0x02146A88  data
  */
+#include "../include/Obj11459.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,9 +48,9 @@ u32 func_02051A54(u32 a, u32 b)
 {
     u32 v = g_020A8140(a, b, 0);
     u8 *base = g_02146A88->base;
-    u16 n = *(u16 *)(base + 0x25c);
+    u16 n = ((struct Obj11459 *)base)->f25C;
 
-    *(u16 *)(base + 0x25c) = n + 1;
+    ((struct Obj11459 *)base)->f25C = n + 1;
     *(u32 *)(base + 0x58 + n * 4) = v;
 
     return (u16)v * 8;

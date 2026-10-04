@@ -16,6 +16,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  */
+#include "../include/Obj14260.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,4 +27,4 @@ extern void func_020456F8(struct Descriptor *);
 extern void func_020452E8(struct Descriptor *);
 extern void func_02045C04(struct Rec *);
 extern void func_0201D83C(void *);
-void func_02184360(char *p) { int i; for(i=0;i<3;i++) {func_02043B5C(func_02045770(*(void **)(p+i*4)),0);func_020456F8(*(struct Descriptor **)(p+i*4));func_020452E8(*(struct Descriptor **)(p+i*4));} func_02045C04(*(struct Rec **)(p+12));func_0201D83C(*(void **)(p+16)); }
+void func_02184360(char *p) { int i; for(i=0;i<3;i++) {func_02043B5C(func_02045770(*(void **)(p+i*4)),0);func_020456F8(*(struct Descriptor **)(p+i*4));func_020452E8(*(struct Descriptor **)(p+i*4));} func_02045C04(*(struct Rec * *)&((struct Obj14260 *)p)->fC);func_0201D83C(((struct Obj14260 *)p)->f10); }

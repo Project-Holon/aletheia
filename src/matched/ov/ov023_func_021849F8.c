@@ -18,6 +18,7 @@
  *   func_02030734  0x02030734  arm
  *   d_02186F58     0x02186F58  data  ov023  a4
  */
+#include "../include/Obj00049.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,23 +48,23 @@ void func_021849F8(u8 *p)
         *(u32 *)(p + 0x1C8 + i * 8) = z;
         *(u32 *)(p + 0x1CC + i * 8) = z;
     }
-    *(u32 *)(p + 0x2C) = (u32)func_020457B0(0xA, 0x28);
-    *(u32 *)(p + 0x30) = (u32)func_020457B0(0x50, 0x28);
-    *(u8 *)(p + 0x420A) = z;
-    *(u8 *)(p + 0x420B) = 1;
-    *(u32 *)(p + 0x9E6C) = 1;
-    *(u32 *)(p + 0x9E70) = z;
-    *(u32 *)(p + 0x1AC) = 2;
-    *(u32 *)(p + 0x1B0) = func_02186558(p);
-    *(u32 *)(p + 0x9E74) = z;
-    *(u32 *)(p + 0x9E78) = z;
-    *(u32 *)(p + 0x198) = z;
-    *(u32 *)(p + 0x9E7C) = z;
-    *(u32 *)(p + 0x9E80) = z;
-    *(u32 *)(p + 0x178) = z;
+    ((struct Obj00049 *)p)->f2C = (u32)func_020457B0(0xA, 0x28);
+    ((struct Obj00049 *)p)->f30 = (u32)func_020457B0(0x50, 0x28);
+    ((struct Obj00049 *)p)->f420A = z;
+    ((struct Obj00049 *)p)->f420B = 1;
+    ((struct Obj00049 *)p)->f9E6C = 1;
+    ((struct Obj00049 *)p)->f9E70 = z;
+    ((struct Obj00049 *)p)->f1AC = 2;
+    ((struct Obj00049 *)p)->f1B0 = func_02186558(p);
+    ((struct Obj00049 *)p)->f9E74 = z;
+    ((struct Obj00049 *)p)->f9E78 = z;
+    ((struct Obj00049 *)p)->f198 = z;
+    ((struct Obj00049 *)p)->f9E7C = z;
+    ((struct Obj00049 *)p)->f9E80 = z;
+    ((struct Obj00049 *)p)->f178 = z;
     func_02039338();
     func_02186444(p, 4);
-    func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x14)), 7, (void *)(*(u32 *)(p + 0x2C)));
-    *(void **)(p + 0x4288) = func_02030734(0x28, 0x3C00, z, d_02186F58, 0x31D);
-    *(u32 *)(p + 0x1A8) = z;
+    func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00049 *)p)->f14), 7, (void *)(((struct Obj00049 *)p)->f2C));
+    ((struct Obj00049 *)p)->f4288 = func_02030734(0x28, 0x3C00, z, d_02186F58, 0x31D);
+    ((struct Obj00049 *)p)->f1A8 = z;
 }

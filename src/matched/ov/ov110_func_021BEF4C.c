@@ -20,6 +20,7 @@
  *   func_021BF3A0 0x021BF3A0 thumb ov110
  *   func_021BF3D4 0x021BF3D4 thumb ov110
  */
+#include "../include/Obj00493.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,25 +44,25 @@ int func_021BEF4C(u8 *p)
     u16 index;
     if (func_02035C08(d_021C3900) == 0) {
         func_02035D20(&x, &y);
-        switch (func_021BACDC(*(u8 **)(p + 20), x, y)) {
+        switch (func_021BACDC(*(u8 * *)&((struct Obj00493 *)p)->f14, x, y)) {
         case 0:
             p[106] = 1;
             func_020061E4(1352);
             return 0;
         case 1:
             p[106] = 1;
-            func_021BAD14(*(u8 **)(p + 20), y);
-            return func_021BF3A0(*(u8 **)(p + 20), p + 84);
+            func_021BAD14(*(u8 * *)&((struct Obj00493 *)p)->f14, y);
+            return func_021BF3A0(*(u8 * *)&((struct Obj00493 *)p)->f14, p + 84);
         case 2:
             p[106] = 1;
-            func_021BAD14(*(u8 **)(p + 20), y);
-            return func_021BF3D4(*(u8 **)(p + 20), p + 84);
+            func_021BAD14(*(u8 * *)&((struct Obj00493 *)p)->f14, y);
+            return func_021BF3D4(*(u8 * *)&((struct Obj00493 *)p)->f14, p + 84);
         case 3:
             break;
         }
     }
     func_02035D20(&x, &y);
-    index = *(u16 *)(p + 84) * 2;
+    index = ((struct Obj00493 *)p)->f54 * 2;
     stop = 0;
     for (outer = 0; outer < 6; outer++) {
         box.b[0] = 24 * outer + 13;
@@ -70,13 +71,13 @@ int func_021BEF4C(u8 *p)
             box.b[2] = 112 * inner + 16;
             box.b[3] = box.b[2] + 102;
             if (func_02035D40((struct Ctx *)&box, x, y) != (u32)-1) {
-                *(u16 *)(p + 98) = index;
+                ((struct Obj00493 *)p)->f62 = index;
                 p[90] = inner;
                 p[91] = outer;
                 return 5;
             }
             index++;
-            if (index >= *(u16 *)(p + 88) - 2) {
+            if (index >= ((struct Obj00493 *)p)->f58 - 2) {
                 stop = 1;
                 break;
             }

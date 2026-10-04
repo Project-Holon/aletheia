@@ -23,6 +23,7 @@
  * 48AC4 forwards that sole pointer to 307B0. Caller supplies no r2/r3.
  * 8BC receives visibly live p and p10 at 021BA82A.
  */
+#include "../include/Obj02925.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,8 +43,8 @@ void func_021BA81C(u8 *p,unsigned code)
     struct Src648 config;
     int resource;
     u32 context;
-    if(*(int *)(p+16)) func_021BA8BC(p,*(int *)(p+16));
-    *(int *)(p+16)=func_02050C04((int)(p+20),0x4800,1,*(u16 *)(p+4));
+    if(*(int *)&((struct Obj02925 *)p)->f10) func_021BA8BC(p,*(int *)&((struct Obj02925 *)p)->f10);
+    *(int *)&((struct Obj02925 *)p)->f10=func_02050C04((int)(p+20),0x4800,1,((struct Obj02925 *)p)->f4);
     config.f04=0x3000;
     config.f08=-0x3000;
     config.f00=2;
@@ -52,10 +53,10 @@ void func_021BA81C(u8 *p,unsigned code)
     config.f14=0x1000;
     config.f18=0x400000;
     config.f1c=0;
-    func_02051758(*(int *)(p+16));
-    func_02051648(*(struct Dst648 **)(p+16),&config,0x2000,d_021BB330,d_021BB324,d_021BB360,*(u16 *)(p+4));
-    resource=func_0205121C(0xB5,code,*(u16 *)(p+4));
+    func_02051758(*(int *)&((struct Obj02925 *)p)->f10);
+    func_02051648(*(struct Dst648 * *)&((struct Obj02925 *)p)->f10,&config,0x2000,d_021BB330,d_021BB324,d_021BB360,((struct Obj02925 *)p)->f4);
+    resource=func_0205121C(0xB5,code,((struct Obj02925 *)p)->f4);
     p[0x4814]=func_02051B04((void *)resource);
     context=func_020056BC();
-    func_02051230(*(u8 **)(p+16),resource,0,context);
+    func_02051230(*(u8 * *)&((struct Obj02925 *)p)->f10,resource,0,context);
 }

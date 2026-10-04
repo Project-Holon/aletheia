@@ -12,6 +12,7 @@
  * symbols:
  *   func_02046F48  0x02046F48  arm
  */
+#include "../include/Obj02337.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,17 +29,17 @@ void *func_02169A68(int a0)
 
 t4 = a0 + 0;
 a0 = a0 + 0x88;
-a0 = *(int *)((char *)a0);
+a0 = *(int *)&((struct Obj02337 *)((char *)a0))->f0;
     p = func_02046F48((struct Tagged *)a0);
 loc_02169A74:
     if (p != 0) goto loc_02169A82;
 loc_02169A78:
 a0 = t4 + 0;
 a0 = a0 + 0x94;
-p = *(void **)((char *)a0);
+p = ((struct Obj02337 *)((char *)a0))->f0;
     if (p != 0) goto loc_02169A86;
 loc_02169A82:
 t4 = t4 + 0x88;
-p = *(void **)((char *)t4);
+p = ((struct Obj02337 *)((char *)t4))->f0;
 loc_02169A86:
     return p;}

@@ -33,6 +33,7 @@
  * The call to 0x021E3E40 (ov119 tail-call wrapper to 0x0204A48C) attests
  * through src/matched/ov119_func_021E3E40.c, seeded in function_starts.txt.
  */
+#include "../include/Obj02829.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -66,7 +67,7 @@ void func_021D4BF4(u8 *p)
     func_021DC720(p);
     func_0204A5AC();
     func_021E3E40(p);
-    *(int *)(p + 0x9C4) = (int)func_0204B100(3, 0, HEAP);
+    ((struct Obj02829 *)p)->f9C4 = (int)func_0204B100(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D55CC, 0x65);
     *(u16 *)(WORK + 0xBA) = HEAP;
     func_021E5284(p, 1);

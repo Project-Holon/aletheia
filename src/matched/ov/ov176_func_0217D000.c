@@ -11,6 +11,7 @@
  * symbols:
  *   func_021E8844 0x021E8844 thumb ov177
  */
+#include "../include/Obj24422.h"
 typedef unsigned char u8;
 extern int func_021E8844(const int *);
-int func_0217D000(u8 *p){return func_021E8844(*(int **)(p+0x1a4));}
+int func_0217D000(u8 *p){return func_021E8844(*(int * *)&((struct Obj24422 *)p)->f1A4);}

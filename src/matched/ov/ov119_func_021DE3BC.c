@@ -14,6 +14,7 @@
  *   func_021D8E84  0x021D8E84  thumb  ov119
  *   func_021DE3E8  0x021DE3E8  thumb  ov119
  */
+#include "../include/Obj22743.h"
 
 typedef unsigned int   u32;
 extern u32 func_0203D29C(void);
@@ -27,7 +28,7 @@ void func_021DE3BC(char *p)
     if (func_0203D29C() != 0) {
         lim = 10;
     }
-    if (*(int *)(p + 0xF2C) > lim) {
+    if (((struct Obj22743 *)p)->fF2C > lim) {
         func_021D8E84(p, (int)func_021DE3E8);
     }
 }

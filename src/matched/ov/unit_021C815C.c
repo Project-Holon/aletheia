@@ -16,6 +16,8 @@
  *   func_021B8588  0x021B8588  thumb  ov093
  *   func_021B86B8  0x021B86B8  thumb  ov093
  */
+#include "../include/Obj26329.h"
+#include "../include/Obj26330.h"
 
 typedef unsigned int   u32;
 extern u32 func_021B8588(void **p);
@@ -23,10 +25,10 @@ extern void *func_021B86B8(void ***p);
 
 void func_021C815C(int *p)
 {
-    func_021B8588((void **)(*(int *)((char *)p + 4)));
+    func_021B8588((void **)(((struct Obj26329 *)p)->f4));
 }
 
 void func_021C8168(int *p)
 {
-    func_021B86B8((void ***)(*(int *)((char *)p + 4)));
+    func_021B86B8((void ***)(((struct Obj26330 *)p)->f4));
 }

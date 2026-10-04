@@ -28,6 +28,7 @@
  *   d_021CA5CC 0x021CA5CC data a4
  *   d_021CA7D0 0x021CA7D0 data a4
  */
+#include "../include/Obj01936.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,20 +61,20 @@ void func_021C67A8(char *p,int heap)
     config.d=112;
     func_0204A48C(&config,(u32)d_021CA5CC,heap);
     bank=func_0204B100(32,0,heap);
-    *(void **)(p+0x138)=bank;
+    ((struct Obj01936 *)p)->f138=bank;
     func_0204B270(bank);
-    *(void **)(p+0x140)=func_0204B034(d_021CA7D0,1,heap);
+    ((struct Obj01936 *)p)->f140=func_0204B034(d_021CA7D0,1,heap);
     bank=func_0204B100(18,1,heap);
-    *(void **)(p+0x13c)=bank;
-    func_0204B258(bank,*(void **)(p+0x140));
-    *(int *)(p+0x144)=func_0204A6C8(*(void **)(p+8),4,0,0,heap);
-    *(int *)(p+0x14c)=func_0204ABF0(*(void **)(p+8),1,0,0,heap);
-    *(int *)(p+0x154)=func_0204AF28(*(void **)(p+8),15,16,heap);
+    ((struct Obj01936 *)p)->f13C=bank;
+    func_0204B258(bank,((struct Obj01936 *)p)->f140);
+    ((struct Obj01936 *)p)->f144=func_0204A6C8(((struct Obj01936 *)p)->f8,4,0,0,heap);
+    ((struct Obj01936 *)p)->f14C=func_0204ABF0(((struct Obj01936 *)p)->f8,1,0,0,heap);
+    ((struct Obj01936 *)p)->f154=func_0204AF28(((struct Obj01936 *)p)->f8,15,16,heap);
     archive=func_020490F4(func_020275E4(),heap);
-    *(int *)(p+0x148)=func_0204A6C8(archive,func_02027618(),0,0,heap);
-    *(int *)(p+0x150)=func_0204ABF0(archive,func_02027614(),0,96,heap);
+    ((struct Obj01936 *)p)->f148=func_0204A6C8(archive,func_02027618(),0,0,heap);
+    ((struct Obj01936 *)p)->f150=func_0204ABF0(archive,func_02027614(),0,96,heap);
     first=func_0202761C(2);
     second=func_02027620(2);
-    *(int *)(p+0x158)=func_0204AF28(archive,first,second,heap);
+    ((struct Obj01936 *)p)->f158=func_0204AF28(archive,first,second,heap);
     func_02049238(archive);
 }

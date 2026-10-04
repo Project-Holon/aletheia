@@ -12,11 +12,12 @@
  * Unlabelled leaf (no lr-saving prologue): the listing prints it as .word
  * data.  Entry of the ov179 command table (pool word 0x021B6831 at 0x021B6A68).
  */
+#include "../include/Obj08295.h"
 int func_021B6830(char *p, int *q)
 {
-    *(int *)(p + 0x6034) = q[1];
-    *(int *)(p + 0x6038) = q[2];
-    *(int *)(p + 0x6050) = 3;
-    *(int *)(p + 0x6054) = 5;
+    ((struct Obj08295 *)p)->f6034 = q[1];
+    ((struct Obj08295 *)p)->f6038 = q[2];
+    ((struct Obj08295 *)p)->f6050 = 3;
+    ((struct Obj08295 *)p)->f6054 = 5;
     return 2;
 }

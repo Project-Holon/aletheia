@@ -12,6 +12,7 @@
  *   func_02006210 0x02006210 thumb
  *   func_0200F7DC 0x0200F7DC thumb
  */
+#include "../include/Obj24863.h"
 extern int func_02157170(int, int);
 extern void func_02006210(void);
 extern void func_0200F7DC(void);
@@ -20,7 +21,7 @@ int func_021FF88C(char *p)
     if (!p) return 0;
     switch (func_02157170(1, 0)) {
     case 1: func_02006210(); return 1;
-    case 2: func_02006210(); *(int *)(p + 0x5dc) = 1; return 2;
+    case 2: func_02006210(); ((struct Obj24863 *)p)->f5DC = 1; return 2;
     case 3: func_02006210(); func_0200F7DC(); break;
     }
     return 0;

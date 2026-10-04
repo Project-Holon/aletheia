@@ -17,6 +17,7 @@
  *   func_020140D8  0x020140D8  thumb
  *   func_020140B4  0x020140B4  thumb
  */
+#include "../include/Obj00082.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,17 +39,17 @@ void func_0218403C(u8 *p)
     int flag;
     u16 hi;
 
-    func_0202E848(*(int *)(p + 4), &s[1], &s[0]);
-    r4 = func_02188C84((u8 *)(*(int *)(p + 8)));
-    r6 = func_0201407C(r4, func_02013B38(*(u16 *)(p + 0x14)), 0);
+    func_0202E848(((struct Obj00082 *)p)->f4, &s[1], &s[0]);
+    r4 = func_02188C84((u8 *)(*(int *)&((struct Obj00082 *)p)->f8));
+    r6 = func_0201407C(r4, func_02013B38(((struct Obj00082 *)p)->f14), 0);
     flag = 0;
     if (func_020140D8((struct Sub020140BCObj *)r6) != 0)
         flag = 1;
     func_020140B4(r6);
     hi = s[1];
     if (s[0] != hi && flag) {
-        *(int *)(p + 0x44) = 1;
-        *(u16 *)(p + 0x48) = hi;
-        *(u16 *)(p + 0x4a) = s[0];
+        ((struct Obj00082 *)p)->f44 = 1;
+        ((struct Obj00082 *)p)->f48 = hi;
+        ((struct Obj00082 *)p)->f4A = s[0];
     }
 }

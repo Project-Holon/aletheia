@@ -9,8 +9,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22897.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021DA9EC(u8 *p,int a) { *(u16 *)(p+4)=a; }
+void func_021DA9EC(u8 *p,int a) { ((struct Obj22897 *)p)->f4=a; }

@@ -19,6 +19,7 @@
  *   func_021C99A0  0x021C99A0  thumb  ov093
  *   func_021BD4E4  0x021BD4E4  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -41,10 +42,10 @@ int func_021CA3D0(u8 *p, u8 *q)
         a = func_021B8DDC(q[4]);
         b = func_021B8DDC(q[5]);
         if (a == b) {
-            m1 = func_021B9934(*(char **)(p + 8), q[4]);
-            m2 = func_021B9934(*(char **)(p + 8), q[5]);
+            m1 = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[4]);
+            m2 = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q[5]);
             if (!func_021D5B68(m1) && !func_021D5B68(m2)) {
-                o = func_021B9AEC(*(char **)(p + 8), a);
+                o = func_021B9AEC(*(char * *)&((struct Obj00003 *)p)->f8, a);
                 i = func_021B9C98(o, m1);
                 j = func_021B9C98(o, m2);
                 if (i >= 0 && j >= 0) {

@@ -16,6 +16,7 @@
  * class.  Every byte is hard; the listing extent is two bytes longer than the
  * code because of the Thumb alignment pad the front end emits after `pop`.
  */
+#include "../include/Obj00563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern u8 *func_0202BE68(u32 heapId);
 
 void func_0202B63C(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x1c) = (u32)func_0202BE68(*(u16 *)o);
+    ((struct Obj00563 *)o)->f1C = (u32)func_0202BE68(((struct Obj00563 *)o)->f0);
 }

@@ -12,6 +12,12 @@
  *   func_02021ED8 0x02021ED8 thumb
  *   func_0220687C 0x0220687C thumb ov094
  */
+#include "../include/Obj21789.h"
+#include "../include/Obj21791.h"
+#include "../include/Obj21793.h"
+#include "../include/Obj21794.h"
+#include "../include/Obj21796.h"
+#include "../include/Obj21798.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,22 +32,22 @@ void func_0220663C(void *task, Ctx *c)
     switch (c->state) {
     case 0:
         if (c->flag == 1)
-            func_0202173C(*(PalAnmObj **)(c->p + 0x64), 8, 2, 0, 0, 8, 0x7fff, *(void **)c->p);
+            func_0202173C(*(PalAnmObj * *)&((struct Obj21789 *)(c->p))->f64, 8, 2, 0, 0, 8, 0x7fff, *(void **)c->p);
         else
-            func_0202173C(*(PalAnmObj **)(c->p + 0x64), 2, c->colour, 0, 0, 8, 0x7fff, *(void **)c->p);
+            func_0202173C(*(PalAnmObj * *)&((struct Obj21791 *)(c->p))->f64, 2, c->colour, 0, 0, 8, 0x7fff, *(void **)c->p);
         c->state++;
         break;
     case 1:
-        if (func_02021ED8(*(char **)(c->p + 0x64)) == 0) {
+        if (func_02021ED8(*(char * *)&((struct Obj21793 *)(c->p))->f64) == 0) {
             if (c->flag == 1)
-                func_0202173C(*(PalAnmObj **)(c->p + 0x64), 8, 2, 0, 8, 0, 0x7fff, *(void **)c->p);
+                func_0202173C(*(PalAnmObj * *)&((struct Obj21794 *)(c->p))->f64, 8, 2, 0, 8, 0, 0x7fff, *(void **)c->p);
             else
-                func_0202173C(*(PalAnmObj **)(c->p + 0x64), 2, c->colour, 0, 8, 0, 0x7fff, *(void **)c->p);
+                func_0202173C(*(PalAnmObj * *)&((struct Obj21796 *)(c->p))->f64, 2, c->colour, 0, 8, 0, 0x7fff, *(void **)c->p);
             c->state++;
         }
         break;
     case 2:
-        if (func_02021ED8(*(char **)(c->p + 0x64)) == 0)
+        if (func_02021ED8(*(char * *)&((struct Obj21798 *)(c->p))->f64) == 0)
             func_0220687C(c->p, task);
         break;
     }

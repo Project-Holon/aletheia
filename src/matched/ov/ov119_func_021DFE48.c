@@ -24,6 +24,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DFF40 0x021DFF40 thumb ov119
  */
+#include "../include/Obj00985.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,24 +48,24 @@ void func_021DFE48(char *p)
 {
     void *mon;
     int z,state;
-    if(*(int *)(p+0xf2c)<6) return;
+    if(((struct Obj00985 *)p)->fF2C<6) return;
     func_02005D90(0x518,0xffff);
     func_02005DF8(6);
-    state=*(int *)(p+0x118c);
-    if(state==7) func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),153,(void *)(*(int *)(p+0x73c)));
-    else if(state==8) func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),156,(void *)(*(int *)(p+0x73c)));
-    else if(*(u8 *)(p+0x11ee)) func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),131,(void *)(*(int *)(p+0x73c)));
-    else func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),48,(void *)(*(int *)(p+0x73c)));
+    state=((struct Obj00985 *)p)->f118C;
+    if(state==7) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),153,(void *)(((struct Obj00985 *)p)->f73C));
+    else if(state==8) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),156,(void *)(((struct Obj00985 *)p)->f73C));
+    else if(((struct Obj00985 *)p)->f11EE) func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),131,(void *)(((struct Obj00985 *)p)->f73C));
+    else func_02045CAC((struct MsgBank *)(((struct Obj00985 *)p)->f720),48,(void *)(((struct Obj00985 *)p)->f73C));
     if(func_021D8AA8(p)) mon=func_021D8FA4(p,0);
     else mon=func_021D8FA4(p,1);
-    func_0201EEF4(*(void **)(p+0x724),1,mon);
+    func_0201EEF4(((struct Obj00985 *)p)->f724,1,mon);
     z=0;
-    func_0201F02C((struct WordSet *)(*(int *)(p+0x724)),0,(void *)(*(int *)(p+0x834)));
-    func_0201F250((struct WordSet *)(*(int *)(p+0x724)),(void *)(*(int *)(p+0x738)),(void *)(*(int *)(p+0x73c)));
-    *(int *)(p+0x644)=(int)func_0201F5DC((void *)6,15,0,*(u16 *)(p+0x5f4));
+    func_0201F02C((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),0,(void *)(((struct Obj00985 *)p)->f834));
+    func_0201F250((struct WordSet *)(*(int *)&((struct Obj00985 *)p)->f724),(void *)(((struct Obj00985 *)p)->f738),(void *)(((struct Obj00985 *)p)->f73C));
+    ((struct Obj00985 *)p)->f644=(int)func_0201F5DC((void *)6,15,0,((struct Obj00985 *)p)->f5F4);
     func_021E0FF4(p,1,0);
     func_021DFD30((u8 *)p,0);
     func_02040588(6,1);
-    *(int *)(p+0xf2c)=z;
+    ((struct Obj00985 *)p)->fF2C=z;
     func_021D8E84(p,(int)func_021DFF40);
 }

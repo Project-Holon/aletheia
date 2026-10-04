@@ -13,6 +13,7 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_021D5B68 0x021D5B68 thumb ov093
  */
+#include "../include/Obj00041.h"
 typedef unsigned int   u32;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_021D5B68(void *);
@@ -20,7 +21,7 @@ int func_021D5B7C(void *m)
 {
     int ok;
     ok = 0;
-    if (func_02017E1C(*(void **)m, 0x4c, 0)) return ok;
+    if (func_02017E1C(((struct Obj00041 *)m)->f0, 0x4c, 0)) return ok;
     if (func_021D5B68(m) == 0) ok = 1;
     return ok;
 }

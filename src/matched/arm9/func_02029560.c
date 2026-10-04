@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/pending/func_02029560.c \
  *       --func func_02029560 --addr 0x02029560 --thumb --cc 1.1p1
  */
+#include "../include/Obj11302.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,11 +34,11 @@ extern u32 func_020289B8(struct Sys *s);
 
 int func_02029560(u32 unused, u32 *state, u8 *cfg)
 {
-    u32 v = *(u32 *)(cfg + 4);
+    u32 v = ((struct Obj11302 *)cfg)->f4;
 
     switch (*state) {
     case 0:
-        func_020289F8((struct Sys *)v, 3, 0, *(u16 *)(cfg + 0xe), 0);
+        func_020289F8((struct Sys *)v, 3, 0, ((struct Obj11302 *)cfg)->fE, 0);
         (*state)++;
         break;
     case 1:

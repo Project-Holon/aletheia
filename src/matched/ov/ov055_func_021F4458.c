@@ -11,5 +11,6 @@
  * symbols:
  *   func_021F45A4 0x021F45A4 thumb ov055
  */
+#include "../include/Obj20580.h"
 extern void func_021F45A4(unsigned short *,unsigned int);
-void func_021F4458(unsigned char *p) { int i; for (i=0;i<16;i++) func_021F45A4((unsigned short *)(p+16+i*8),*(unsigned int *)(p+12)); }
+void func_021F4458(unsigned char *p) { int i; for (i=0;i<16;i++) func_021F45A4((unsigned short *)(p+16+i*8),((struct Obj20580 *)p)->fC); }

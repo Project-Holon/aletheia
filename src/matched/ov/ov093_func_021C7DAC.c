@@ -16,6 +16,7 @@
  *   func_021C64B4  0x021C64B4  thumb  ov093
  *   func_021C6E3C  0x021C6E3C  thumb  ov093
  */
+#include "../include/Obj02135.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,14 +32,14 @@ int func_021C7DAC(u8 *p, int a, int b, int c)
 {
     int buf[5];
     int r;
-    u8 *x = func_021B9934(*(char **)(p + 8), a);
-    u8 *y = func_021B9934(*(char **)(p + 8), b);
-    *(int *)(p + 0x774) += 1;
+    u8 *x = func_021B9934(*(char * *)&((struct Obj02135 *)p)->f8, a);
+    u8 *y = func_021B9934(*(char * *)&((struct Obj02135 *)p)->f8, b);
+    ((struct Obj02135 *)p)->f774 += 1;
     if (func_021D6C24((struct R4 *)y)) {
-        y = func_021B937C(*(int *)(p + 4), *(char **)(p + 8), y);
+        y = func_021B937C(((struct Obj02135 *)p)->f4, *(char * *)&((struct Obj02135 *)p)->f8, y);
     }
     func_021C64B4(p, c, x, (struct Out64B4 *)buf);
     r = func_021C6E3C(p, x, y, (u8 *)buf, 0);
-    *(int *)(p + 0x774) -= 1;
+    ((struct Obj02135 *)p)->f774 -= 1;
     return r;
 }

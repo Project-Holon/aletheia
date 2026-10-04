@@ -23,6 +23,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
+#include "../include/Obj00810.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,18 +56,18 @@ void func_021B45A0(u32 ctx, int a, u8 b)
 
     w = (char *)func_02020D0C((void *)ctx);
     if (a != -2) {
-        if (func_02007F68((u8 *)(*(u32 *)(w + 0x10)), ((Ent *)(w + 0x20))[a].id, 1, *(u16 *)(w + 4)) != 0) {
-            lo = func_0201D304((struct StrObj *)(*(u32 *)(w + 0x1A0)), *(u32 *)(w + 8), 0);
-            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C))));
-            func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
-                          *(u32 *)(w + 0x1A0), *(u32 *)(w + 8), 0x31A0);
+        if (func_02007F68((u8 *)(((struct Obj00810 *)w)->f10), ((Ent *)(w + 0x20))[a].id, 1, ((struct Obj00810 *)w)->f4) != 0) {
+            lo = func_0201D304((struct StrObj *)(((struct Obj00810 *)w)->f1A0), ((struct Obj00810 *)w)->f8, 0);
+            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C)));
+            func_021B44CC(((struct Obj00810 *)w)->f1B0, (u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C), hi - lo, b,
+                          ((struct Obj00810 *)w)->f1A0, ((struct Obj00810 *)w)->f8, 0x31A0);
         } else {
-            func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 1, ((Ent *)(w + 0x20))[a].v, 5, 1, 1);
-            func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)(*(u32 *)(w + 0x198)), (void *)(*(u32 *)(w + 0x194)));
-            lo = func_0201D304((struct StrObj *)(*(u32 *)(w + 0x198)), *(u32 *)(w + 8), 0);
-            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C))));
-            func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
-                          *(u32 *)(w + 0x198), *(u32 *)(w + 8), 0x31A0);
+            func_0201EFA4((struct WordSet *)(((struct Obj00810 *)w)->f190), 1, ((Ent *)(w + 0x20))[a].v, 5, 1, 1);
+            func_0201F250((struct WordSet *)(((struct Obj00810 *)w)->f190), (void *)(((struct Obj00810 *)w)->f198), (void *)(((struct Obj00810 *)w)->f194));
+            lo = func_0201D304((struct StrObj *)(((struct Obj00810 *)w)->f198), ((struct Obj00810 *)w)->f8, 0);
+            hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C)));
+            func_021B44CC(((struct Obj00810 *)w)->f1B0, (u32)func_02045770((struct Descriptor *)((struct Obj00810 *)w)->f16C), hi - lo, b,
+                          ((struct Obj00810 *)w)->f198, ((struct Obj00810 *)w)->f8, 0x31A0);
         }
     }
 }

@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj06416.h"
 typedef unsigned short u16;
 int func_021D7184(int *p) {
     int result=0;
@@ -29,7 +30,7 @@ int func_021D7184(int *p) {
             switch(p[3]) {
             case 1: result=23; break;
             case 2: result=23; break;
-            case 0: if(*(u16 *)((char *)p+8)!=0) result=16; break;
+            case 0: if(((struct Obj06416 *)p)->f8!=0) result=16; break;
             }
             break;
         }

@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj02011.h"
 
 typedef unsigned char  u8;
 extern void func_0202B3EC(u8 *p);
 void func_0202B68C(int a0)
 {
-    func_0202B3EC((u8 *)(*(int *)((char *)a0 + 24)));
-    *(int *)((char *)a0 + 24) = 0;
+    func_0202B3EC((u8 *)(((struct Obj02011 *)a0)->f18));
+    ((struct Obj02011 *)a0)->f18 = 0;
 }

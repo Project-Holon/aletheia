@@ -18,6 +18,7 @@
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  *   func_021BB930  0x021BB930  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -37,13 +38,13 @@ extern void func_021BB930(u8 *p, u32 value);
 
 int func_021CA158(u8 *w, struct Cmd *c)
 {
-    u8 *r = func_021B9934(*(char **)(w + 8), c->b4c);
-    if (func_021BC2B0(w) == 0 && func_021C8374(w, c->b4c) == 0 && *(int *)(w + 0x14) == 0) {
+    u8 *r = func_021B9934(*(char * *)&((struct Obj00003 *)w)->f8, c->b4c);
+    if (func_021BC2B0(w) == 0 && func_021C8374(w, c->b4c) == 0 && ((struct Obj00003 *)w)->f14 == 0) {
         func_021C99A0(w, (u8 *)c + 4);
         if (func_021BDD00(w, r, c->b4d) != 0) {
-            func_021BB930(*(void **)w, func_021B8D8C(*(void **)(w + 4), *(void **)(w + 8), c->b4c));
+            func_021BB930(((struct Obj00003 *)w)->f0, func_021B8D8C(((struct Obj00003 *)w)->f4, ((struct Obj00003 *)w)->f8, c->b4c));
             func_021C99A0(w, (u8 *)c + 0x28);
-            *(int *)(w + 0x14) = 1;
+            ((struct Obj00003 *)w)->f14 = 1;
             return 1;
         }
     }

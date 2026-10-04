@@ -15,11 +15,12 @@
  *   func_0201134C 0x0201134C thumb
  *   func_021FDBB0 0x021FDBB0 thumb ov094
  */
+#include "../include/Obj13595.h"
 extern int func_0201134C(void *);
 extern int func_021FDBB0(char *, int);
 
 int func_021FBE74(void *a, char *s)
 {
-    *(int *)(s + 4) = func_021FDBB0(s, func_0201134C(a));
-    return *(int *)(s + 0x23c);
+    ((struct Obj13595 *)s)->f4 = func_021FDBB0(s, func_0201134C(a));
+    return ((struct Obj13595 *)s)->f23C;
 }

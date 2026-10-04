@@ -64,6 +64,8 @@
  *   d_021DA710     0x021DA710  data  ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00576.h"
+#include "../include/Obj06072.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -142,27 +144,27 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
     u32 s14;
     BgMode m;
 
-    p = *(u8 **)ctx;
+    p = *(u8 * *)&((struct Obj06072 *)ctx)->f0;
     h = (int)func_020124E4((struct Obj *)a);
     sys = func_0201210C((void *)h);
     switch (*st) {
     case 0:
-        if (*(u32 *)(ctx + 0x38))
+        if (((struct Obj06072 *)ctx)->f38)
             func_0216D9A0(func_02188C7C((void *)sys));
         func_021C27A4(p);
         func_021C27C0(p);
-        if (func_021C2BD4(*(u16 *)(p + 0x66)) == 0)
+        if (func_021C2BD4(((struct Obj00576 *)p)->f66) == 0)
             func_02012374((struct Evt *)a, (struct Evt **)func_020122C0((void *)h, (void *)a, func_021C2B1C, 0));
         (*st)++;
         break;
     case 1:
         (*st)++;
-        if (*(u16 *)(p + 0x66) == 0xb || *(u16 *)(p + 0x66) == 0x12) {
+        if (((struct Obj00576 *)p)->f66 == 0xb || ((struct Obj00576 *)p)->f66 == 0x12) {
             func_0216DAC8(func_021A3074(func_02188CB4((void *)sys)), 1);
             break;
         }
-        if (*(u16 *)(p + 0x66) == 0x11) {
-            u32 x = (u32)func_0216DE94(func_02188C7C((void *)sys), (u16)*(u32 *)(p + 0x9c));
+        if (((struct Obj00576 *)p)->f66 == 0x11) {
+            u32 x = (u32)func_0216DE94(func_02188C7C((void *)sys), (u16)((struct Obj00576 *)p)->f9C);
             if (x)
                 func_0216CF2C(x);
             break;
@@ -173,7 +175,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         (*st)++;
         break;
     case 3:
-        if (*(u32 *)(p + 0x70) == 0)
+        if (((struct Obj00576 *)p)->f70 == 0)
             break;
         func_0204047C(0, 0);
         func_0204047C(2, 1);
@@ -187,17 +189,17 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         (*st)++;
         break;
     case 4:
-        func_021C2320(a, p, ctx + 4, (u8)*(u16 *)(p + 0x66));
+        func_021C2320(a, p, ctx + 4, (u8)((struct Obj00576 *)p)->f66);
         func_02040588(2, 1);
         func_02040588(0, 1);
-        func_02030830(*(u16 *)(p + 0x10));
+        func_02030830(((struct Obj00576 *)p)->f10);
         func_021899F8(sys, 1);
-        if (*(u32 *)(ctx + 0x34))
-            func_021C30D4(*(u32 *)(ctx + 0x34));
+        if (((struct Obj06072 *)ctx)->f34)
+            func_021C30D4(((struct Obj06072 *)ctx)->f34);
         (*st)++;
         break;
     case 5:
-        if (func_021C2BD4(*(u16 *)(p + 0x66)))
+        if (func_021C2BD4(((struct Obj00576 *)p)->f66))
             func_02012374((struct Evt *)a, (struct Evt **)func_020122C0((void *)h, (void *)a, func_021C2B98, 0));
         else
             func_02012374((struct Evt *)a, (struct Evt **)func_020122C0((void *)h, (void *)a, func_021C2B5C, 0));
@@ -212,18 +214,18 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
             int r7v;
             int ok;
 
-            *(u16 *)(p + 0x134) += 1;
+            ((struct Obj00576 *)p)->f134 += 1;
             r7v = func_021C21B4(p);
             r1v = func_021C223C(p);
             r2v = func_021C22AC(p);
-            *(int *)(p + 0x11c) = r7v;
-            *(int *)(p + 0x120) = r1v;
-            *(int *)(p + 0x124) = r2v;
+            ((struct Obj00576 *)p)->f11C = r7v;
+            ((struct Obj00576 *)p)->f120 = r1v;
+            ((struct Obj00576 *)p)->f124 = r2v;
             func_021C3158(p);
             ok = 0;
-            if (*(StepFn *)(p + 0x12c))
+            if (*(StepFn *)&((struct Obj00576 *)p)->f12C)
                 ok = (*(StepFn *)(p + 0x12c))(a, p);
-            else if (*(int *)(p + 0x11c) && *(int *)(p + 0x120) && *(int *)(p + 0x124))
+            else if (((struct Obj00576 *)p)->f11C && ((struct Obj00576 *)p)->f120 && ((struct Obj00576 *)p)->f124)
                 ok = 1;
             if (ok == 0)
                 break;
@@ -233,7 +235,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
     case 8:
         func_021899F8(sys, 0);
         func_021C2484(p, ctx + 4);
-        if (func_021C2BD4(*(u16 *)(p + 0x66))) {
+        if (func_021C2BD4(((struct Obj00576 *)p)->f66)) {
             void *o = func_021A3074(func_02188CB4((void *)sys));
             func_0216DAC8(o, 0);
             func_0216D5E0((int)o, 1);
@@ -247,14 +249,14 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         break;
     case 9:
         func_021A0568((u8 *)func_02188C60(sys), 1);
-        *(u32 *)(p + 0x74) = 0;
+        ((struct Obj00576 *)p)->f74 = 0;
         func_020056A0(func_021C3198, p + 0x74, 0);
         (*st)++;
         break;
     case 10:
-        if (*(u32 *)(p + 0x74) == 0)
+        if (((struct Obj00576 *)p)->f74 == 0)
             break;
-        func_02030830(*(u16 *)(p + 0x10));
+        func_02030830(((struct Obj00576 *)p)->f10);
         s10 = func_02188C54(sys);
         s14 = func_02188D20(sys);
         func_02193068((char *)s10);
@@ -265,7 +267,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         func_021C27CC(p);
         func_021C27E8(p);
         func_02189A58(sys, 0);
-        if (*(u32 *)(ctx + 0x38))
+        if (((struct Obj06072 *)ctx)->f38)
             func_0216D9E4(func_02188C7C((void *)sys));
         (*st)++;
         break;

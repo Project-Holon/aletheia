@@ -12,6 +12,7 @@
  * symbols:
  *   func_021C7430 0x021C7430 thumb
  */
+#include "../include/Obj08206.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,11 +24,11 @@ struct Bf7 {
 extern void func_021C7430(u8 *, int, u16, u16);
 int func_021C7094(u8 *p)
 {
-    if (*(u32 *)(p + 0x24) == 0) {
-        *(u32 *)(p + 0x28) = 0x15;
+    if (((struct Obj08206 *)p)->f24 == 0) {
+        ((struct Obj08206 *)p)->f28 = 0x15;
         return 0;
     }
-    func_021C7430(p, 0xB, *(u16 *)(p + 0x22), ((struct Bf7 *)(p + 0x21))->v);
-    *(u32 *)(p + 0x14) = 3;
+    func_021C7430(p, 0xB, ((struct Obj08206 *)p)->f22, ((struct Bf7 *)(p + 0x21))->v);
+    ((struct Obj08206 *)p)->f14 = 3;
     return 6;
 }

@@ -11,10 +11,11 @@
  * symbols:
  *   func_02045B38 0x02045B38 arm
  */
+#include "../include/Obj05883.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void *func_02045B38(unsigned, u16, u16, unsigned);
 void func_0215A760(u8 *a, unsigned b, unsigned c) {
- *(void **)(a + 20) = func_02045B38(0, b, c, *(u16 *)a);
- *(u16 *)(a + 24) = c;
+ ((struct Obj05883 *)a)->f14 = func_02045B38(0, b, c, ((struct Obj05883 *)a)->f0);
+ ((struct Obj05883 *)a)->f18 = c;
 }

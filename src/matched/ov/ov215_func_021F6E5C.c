@@ -13,6 +13,7 @@
  *   func_02051620 0x02051620 arm
  *   d_021F73B4 0x021F73B4 data a4
  */
+#include "../include/Obj02263.h"
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 extern const Vec d_021F73B4;
@@ -20,21 +21,21 @@ extern void func_020515B4(void *,int,Vec *);
 extern void func_02051620(void *);
 void func_021F6E5C(char *p)
 {
-    if (*(int *)(p+0x4814)) {
+    if (((struct Obj02263 *)p)->f4814) {
         Vec v=d_021F73B4;
-        while (*(u16 *)(p+2)<*(u16 *)(p+4)) {
-            const char *table=*(const char **)(p+8);
-            unsigned index=*(u16 *)(p+2);
-            u16 frame=*(u16 *)p;
+        while (((struct Obj02263 *)p)->f2<((struct Obj02263 *)p)->f4) {
+            const char *table=*(const char * *)&((struct Obj02263 *)p)->f8;
+            unsigned index=((struct Obj02263 *)p)->f2;
+            u16 frame=((struct Obj02263 *)p)->f0;
             u16 key=*(u16 *)(table+(int)index*4);
             if (frame!=key) break;
             func_020515B4(*(void **)(p+*(unsigned char *)(table+index*4+2)*0x4808+0x480c),*(unsigned char *)(table+index*4+3),&v);
-            (*(u16 *)(p+2))++;
+            (((struct Obj02263 *)p)->f2)++;
         }
-        (*(u16 *)p)++;
+        (((struct Obj02263 *)p)->f0)++;
     }
-    if (*(int *)(p+0x4818)>=0) {
-        if (*(int *)(p+0x4818)==0) func_02051620(*(void **)(p+0x480c));
-        (*(int *)(p+0x4818))--;
+    if (((struct Obj02263 *)p)->f4818>=0) {
+        if (((struct Obj02263 *)p)->f4818==0) func_02051620(((struct Obj02263 *)p)->f480C);
+        (((struct Obj02263 *)p)->f4818)--;
     }
 }

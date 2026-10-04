@@ -10,8 +10,10 @@
  * symbols:
  *   func_021E078C 0x021E078C thumb ov137
  */
+#include "../include/Obj08224.h"
+#include "../include/Obj08225.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021E078C(char *,char *);
-int func_021E0CA4(char *p) { char *q; q=*(char **)(p+16); *(int *)(q+56)=4096; *(int *)(q+60)=4096; *(int *)(q+64)=4096; *(int *)(q+84)=0xc0000; func_021E078C(*(char **)(p+20),q); *(int *)(p+12)=0x8000; *(int *)p=1; return 0; }
+int func_021E0CA4(char *p) { char *q; q=*(char * *)&((struct Obj08224 *)p)->f10; ((struct Obj08225 *)q)->f38=4096; ((struct Obj08225 *)q)->f3C=4096; ((struct Obj08225 *)q)->f40=4096; ((struct Obj08225 *)q)->f54=0xc0000; func_021E078C(*(char * *)&((struct Obj08224 *)p)->f14,q); ((struct Obj08224 *)p)->fC=0x8000; ((struct Obj08224 *)p)->f0=1; return 0; }

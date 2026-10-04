@@ -20,6 +20,7 @@
  *   func_021BE110  0x021BE110  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ extern void func_021BE110(u8 *p);
 
 u32 func_021BD568(u8 *p)
 {
-    int r5 = func_021B7AB0((struct S *)(*(u32 *)(p + 0x1e0)));
+    int r5 = func_021B7AB0((struct S *)(*(u32 *)&((struct Obj00085 *)p)->f1E0));
 
     if (r5 != -1) {
         switch (r5) {

@@ -15,6 +15,7 @@
  *   d_021DB834  0x021DB834  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12992.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,7 +38,7 @@ int func_021CFAC0(u8 *base, int a, int b, int c, int d)
 
     for (i = 0; i < 20; i++, p += 0x14) {
         const Row *r;
-        if (*(u16 *)(p + 0x10) == 0) {
+        if (((struct Obj12992 *)p)->f10 == 0) {
             return 0xff;
         }
         r = &d_021DB834[p[0x12]];

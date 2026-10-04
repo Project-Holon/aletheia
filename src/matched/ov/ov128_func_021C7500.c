@@ -14,6 +14,7 @@
  *   func_020456F8 0x020456F8 arm
  *   func_02045730 0x02045730 arm
  */
+#include "../include/Obj23075.h"
 typedef unsigned char u8;
 extern void func_021C6B38(u8 *);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
@@ -29,7 +30,7 @@ void func_021C7500(u8 *p,u8 *q)
     func_02041B6C(2);
     func_02041300(3,0,0,0,32,24,16);
     func_02041B6C(3);
-    obj=*(void **)(p+12);
+    obj=((struct Obj23075 *)p)->fC;
     func_020456F8(obj);
     func_02041B6C(func_02045730(obj));
 }

@@ -11,6 +11,7 @@
  *   func_020173EC 0x020173EC thumb
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj08061.h"
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
 extern void func_02082BCC(void *, int, int);
@@ -20,9 +21,9 @@ void func_021DD1B8(char *p)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
             char *q = p + i * 12 + j * 4;
-            *(int *)(q + 0xfa4) = -1;
-            *(int *)(q + 0xfbc) = -1;
-            if (*(void **)(q + 0xfd8)) func_02082BCC(*(void **)(q + 0xfd8), 0, func_020173EC());
+            ((struct Obj08061 *)q)->fFA4 = -1;
+            ((struct Obj08061 *)q)->fFBC = -1;
+            if (((struct Obj08061 *)q)->fFD8) func_02082BCC(((struct Obj08061 *)q)->fFD8, 0, func_020173EC());
         }
     }
 }

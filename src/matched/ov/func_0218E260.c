@@ -16,6 +16,7 @@
  *   func_0204944C  0x0204944C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09175.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern void func_0204944C(struct ArcFile *, u32, u32, u32, void *);
 
 void func_0218E260(void *a, void *b)
 {
-func_020493D4((struct ArcFile *)(*(u32 *)((u8 *)(a) + 4)), 0);
-func_0204944C((struct ArcFile *)*(u32 *)((u8 *)(a) + 4), 0, (44 * *(u32 *)((u8 *)(a) + 16)), 44, b);
+func_020493D4((struct ArcFile *)(((struct Obj09175 *)((u8 *)(a)))->f4), 0);
+func_0204944C((struct ArcFile *)((struct Obj09175 *)((u8 *)(a)))->f4, 0, (44 * ((struct Obj09175 *)((u8 *)(a)))->f10), 44, b);
 }
 

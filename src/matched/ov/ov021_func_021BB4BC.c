@@ -18,6 +18,7 @@
  *   d_021D9A6C     0x021D9A6C  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02715.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -41,5 +42,5 @@ void func_021BB4BC(u32 *p)
         p[5 + i] = (u32)func_02047400((void *)p[1 + i], 0, (void *)p[1 + i]);
         p[9 + i] = (u32)func_0204767C(p[5 + i], 0, 0);
     }
-    *(u16 *)((char *)p + 0x34) = 4;
+    ((struct Obj02715 *)p)->f34 = 4;
 }

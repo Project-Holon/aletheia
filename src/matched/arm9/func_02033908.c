@@ -33,6 +33,7 @@
  *   python tools/match.py one --src src/matched/func_02033908.c \
  *       --func func_02033908 --addr 0x02033908 --cc 1.1p1 --arm
  */
+#include "../include/Obj01312.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -48,12 +49,12 @@ void *func_02033908(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6)
     u8 *p = (u8 *)func_02030734(a0, 0x1c, 0, (const char *)g_020A78CC, 0x49);
 
     MIi_CpuClear32(0, p, 0x1c);
-    *(u32 *)(p + 0x00) = a1;
-    *(u32 *)(p + 0x04) = a2;
-    *(u32 *)(p + 0x10) = a3;
-    *(u32 *)(p + 0x08) = a4;
-    *(u32 *)(p + 0x14) = (u32)func_02030734(a0, a2 * 12, 1, (const char *)g_020A78CC, 0x4f);
-    *(u32 *)(p + 0x18) = a6;
+    *(u32 *)&((struct Obj01312 *)p)->f0 = a1;
+    ((struct Obj01312 *)p)->f4 = a2;
+    ((struct Obj01312 *)p)->f10 = a3;
+    ((struct Obj01312 *)p)->f8 = a4;
+    *(u32 *)&((struct Obj01312 *)p)->f14 = (u32)func_02030734(a0, a2 * 12, 1, (const char *)g_020A78CC, 0x4f);
+    ((struct Obj01312 *)p)->f18 = a6;
     func_02033A88(p, a5);
     return p;
 }

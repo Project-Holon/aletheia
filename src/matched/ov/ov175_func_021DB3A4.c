@@ -25,6 +25,7 @@
  *
  * Selects a request kind 0..4: stores the table and its count at +0x194/+0x198 and the step callback at +0x17c, after resetting the step word at +0x12c and storing the two arguments.
  */
+#include "../include/Obj01170.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,34 +49,34 @@ extern char d_021E2DF0[];
 
 void func_021DB3A4(char *obj, u32 target, int kind, u32 arg)
 {
-    *(u32 *)(obj + 0x12c) = 0;
-    *(u32 *)(obj + 0x178) = arg;
-    *(u32 *)(obj + 0x1b0) = target;
+    ((struct Obj01170 *)obj)->f12C = 0;
+    ((struct Obj01170 *)obj)->f178 = arg;
+    ((struct Obj01170 *)obj)->f1B0 = target;
     switch (kind) {
     case 0:
-        *(char **)(obj + 0x194) = func_021DD02C();
-        *(u32 *)(obj + 0x198) = func_021DD034();
-        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DB7C0;
+        *(char * *)&((struct Obj01170 *)obj)->f194 = func_021DD02C();
+        ((struct Obj01170 *)obj)->f198 = func_021DD034();
+        *(StepFn *)&((struct Obj01170 *)obj)->f17C = (StepFn)func_021DB7C0;
         break;
     case 1:
-        *(char **)(obj + 0x194) = func_021DD038();
-        *(u32 *)(obj + 0x198) = func_021DD040();
-        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBA00;
+        *(char * *)&((struct Obj01170 *)obj)->f194 = func_021DD038();
+        ((struct Obj01170 *)obj)->f198 = func_021DD040();
+        *(StepFn *)&((struct Obj01170 *)obj)->f17C = (StepFn)func_021DBA00;
         break;
     case 2:
-        *(char **)(obj + 0x194) = d_021E2DF4;
-        *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBB00;
+        *(char * *)&((struct Obj01170 *)obj)->f194 = d_021E2DF4;
+        ((struct Obj01170 *)obj)->f198 = 1;
+        *(StepFn *)&((struct Obj01170 *)obj)->f17C = (StepFn)func_021DBB00;
         break;
     case 3:
-        *(char **)(obj + 0x194) = d_021E2DEC;
-        *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBB54;
+        *(char * *)&((struct Obj01170 *)obj)->f194 = d_021E2DEC;
+        ((struct Obj01170 *)obj)->f198 = 1;
+        *(StepFn *)&((struct Obj01170 *)obj)->f17C = (StepFn)func_021DBB54;
         break;
     case 4:
-        *(char **)(obj + 0x194) = d_021E2DF0;
-        *(u32 *)(obj + 0x198) = 1;
-        *(StepFn *)(obj + 0x17c) = (StepFn)func_021DBBAC;
+        *(char * *)&((struct Obj01170 *)obj)->f194 = d_021E2DF0;
+        ((struct Obj01170 *)obj)->f198 = 1;
+        *(StepFn *)&((struct Obj01170 *)obj)->f17C = (StepFn)func_021DBBAC;
         break;
     }
 }

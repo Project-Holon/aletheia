@@ -13,6 +13,7 @@
  *   func_021F462C  0x021F462C  thumb  ov194
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj24920.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ extern void func_021F462C(u8 *, u32);
 void func_021F45EC(u8 *a, u32 b, u32 c)
 {
     func_02082BCC(a, 0, 0x10);
-    *(u32 *)(a + 0xc) = b;
+    ((struct Obj24920 *)a)->fC = b;
     func_021F462C(a, c);
 }
 

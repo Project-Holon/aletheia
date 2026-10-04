@@ -11,6 +11,7 @@
  *   func_0202DC08 0x0202DC08 thumb
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj22409.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -19,4 +20,4 @@ struct Descriptor;
 struct Obj;
 extern void func_0202DC08(struct Obj *p);
 extern void func_020452E8(struct Descriptor *d);
-void func_021C0C18(u8 *p) { int i; func_0202DC08(*(void **)(p+0x8c)); for(i=0;i<4;i++) func_020452E8(*(void **)(p+0x6c+i*4)); }
+void func_021C0C18(u8 *p) { int i; func_0202DC08(((struct Obj22409 *)p)->f8C); for(i=0;i<4;i++) func_020452E8(*(void **)(p+0x6c+i*4)); }

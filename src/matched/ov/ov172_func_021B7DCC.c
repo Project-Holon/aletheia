@@ -13,6 +13,7 @@
  *   func_0203D7FC 0x0203D7FC arm
  *   func_021BE0D8 0x021BE0D8 thumb ov172
  */
+#include "../include/Obj06559.h"
 typedef unsigned char u8;
 extern void func_0203E6C0(void);
 extern void func_020307B0(void *);
@@ -22,11 +23,11 @@ void func_021B7DCC(void *p, char *q)
 {
     u8 i;
     func_0203E6C0();
-    func_020307B0(*(void **)(q + 0x1a8));
-    func_020307B0(*(void **)(q + 0x1a4));
-    func_0203D7FC(*(void **)(q + 0x18c));
-    func_0203D7FC(*(void **)(q + 0x190));
-    func_0203D7FC(*(void **)(q + 0x188));
+    func_020307B0(((struct Obj06559 *)q)->f1A8);
+    func_020307B0(((struct Obj06559 *)q)->f1A4);
+    func_0203D7FC(((struct Obj06559 *)q)->f18C);
+    func_0203D7FC(((struct Obj06559 *)q)->f190);
+    func_0203D7FC(((struct Obj06559 *)q)->f188);
     for (i = 0; i < 3; i++) {
         if (func_021BE0D8(p) == 0 || i == 0)
             func_0203D7FC(*(void **)(q + i * 4 + 0x164));

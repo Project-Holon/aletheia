@@ -19,6 +19,7 @@
  * symbols:
  *   func_0202C070  0x0202C070  thumb
  */
+#include "../include/Obj00563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,5 +31,5 @@ extern u8 *func_0202C070(u32 heap);
 
 void func_0202B64C(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x20) = (u32)func_0202C070(*(u16 *)o);
+    ((struct Obj00563 *)o)->f20 = (u32)func_0202C070(((struct Obj00563 *)o)->f0);
 }

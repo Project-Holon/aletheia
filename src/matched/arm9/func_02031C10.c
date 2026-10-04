@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_02031C10.c \\
  *       --func func_02031C10 --addr 0x02031C10 --arm --cc 1.1p1
  */
+#include "../include/Obj08815.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -23,7 +24,7 @@ extern void func_020331D0(struct SaveBackup *p);
 
 void func_02031C10(u8 *a, u8 *b, u32 v)
 {
-    *(u32 *)(a + 0x20) = v;
+    ((struct Obj08815 *)a)->f20 = v;
     a[0x1e] = 0;
     a[0x1f] = 2;
     b[0x1e] = 0;

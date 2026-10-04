@@ -16,6 +16,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb
  *   d_021D4ACC     0x021D4ACC  data  a4
  */
+#include "../include/Obj12643.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ int func_02199F50(u32 a)
     Vec t = d_021D4ACC;
     p = func_0216D6BC(a, 6);
     *p = 0;
-    *(u8 *)((u8 *)p + 2) = 0;
+    ((struct Obj12643 *)p)->f2 = 0;
     func_0216D8C0(a, &t);
     func_0216D674((void *)a, 10);
     func_0216D7CC(a);

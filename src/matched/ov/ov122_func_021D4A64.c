@@ -21,6 +21,7 @@
  *   func_021D4244 0x021D4244 thumb ov122
  *   func_02051B84 0x02051B84 arm
  */
+#include "../include/Obj10431.h"
 typedef struct Pair { int a, b; } Pair;
 extern const Pair d_021D575C;
 extern int d_021D5890[], d_021D5720[], d_021D5718[], d_021D5728[];
@@ -36,8 +37,8 @@ void func_021D4A64(char *p)
 {
     Pair pair = d_021D575C;
     func_021D4384(2, &pair, p, d_021D5890, d_021D5720, d_021D5718);
-    *(void **)(p + 0x40) = func_02051B84(d_021D5728, (int)func_021D4630, (int)p, *(unsigned short *)(p + 0xc));
-    *(void **)(p + 4) = func_021D4C50;
+    ((struct Obj10431 *)p)->f40 = func_02051B84(d_021D5728, (int)func_021D4630, (int)p, ((struct Obj10431 *)p)->fC);
+    ((struct Obj10431 *)p)->f4 = func_021D4C50;
     func_021D5004(p);
     func_021D4244(p, func_021D4FE4, 0x31b);
 }

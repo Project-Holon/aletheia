@@ -12,6 +12,7 @@
  * symbols:
  *   func_02082D44  0x02082D44  arm
  */
+#include "../include/Obj11710.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,8 +24,8 @@ void sub_0200DEA8(u8 *base, u8 *out, int idx)
 {
     u8 *rec = base + 0x104 + idx * 0xf0;
 
-    *(u32 *)out = 0xffff;
-    *(u16 *)(out + 4) = rec[0xd5];
+    ((struct Obj11710 *)out)->f0 = 0xffff;
+    ((struct Obj11710 *)out)->f4 = rec[0xd5];
     func_02082D44(rec + 0xb4, out + 8, 0x10);
     func_02082D44(rec + 0xd6, out + 0x18, 8);
     func_02082D44(rec + 0xde, out + 0x20, 8);

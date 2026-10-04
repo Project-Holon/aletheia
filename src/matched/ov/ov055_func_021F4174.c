@@ -16,6 +16,7 @@
  *   func_021F3DD4  0x021F3DD4  thumb  ov055
  *   func_021F3DBC  0x021F3DBC  thumb  ov055
  */
+#include "../include/Obj00204.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,20 +34,20 @@ void func_021F4174(u8 *a, u32 b)
 
     switch (a[1]) {
     case 0:
-        if (func_0216D454(*(u32 *)(a + 0xc)) == 0) {
+        if (func_0216D454(*(u32 *)&((struct Obj00204 *)a)->fC) == 0) {
             return;
         }
         a[1] = a[1] + 1;
     case 1:
-        if (*(u16 *)(a + 4) == 0) {
+        if (((struct Obj00204 *)a)->f4 == 0) {
             a[1] = 2;
             return;
         }
         if (func_021F42AC(a, (void *)b, &loc, 2, 0)) {
             func_021F3DD4(a, loc);
         } else {
-            func_0216D410((void *)(*(u32 *)(a + 0xc)), (u16)(*(u16 *)(a + 0xa) + a[3]));
-            *(u16 *)(a + 4) = *(u16 *)(a + 4) - 1;
+            func_0216D410((void *)(*(u32 *)&((struct Obj00204 *)a)->fC), (u16)(((struct Obj00204 *)a)->fA + a[3]));
+            ((struct Obj00204 *)a)->f4 = ((struct Obj00204 *)a)->f4 - 1;
         }
         a[1] = 0;
         return;

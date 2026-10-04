@@ -17,6 +17,11 @@
  *   func_021D43B8 0x021D43B8 thumb ov093
  *   func_021D440C 0x021D440C thumb ov093
  */
+#include "../include/Obj00966.h"
+#include "../include/Obj20944.h"
+#include "../include/Obj20945.h"
+#include "../include/Obj20946.h"
+#include "../include/Obj20947.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,11 +58,11 @@ int func_021B75A8(u8 *p,u32 *state)
         break;
     case 2:
         *(Copy *)(p + 0x408) = *(Copy *)(p + 0x3f0);
-        *(u16 *)(p + 0x420) = *(u16 *)(*(u8 **)p + 0x86);
-        *(u16 *)(p + 0x422) = *(u16 *)(*(u8 **)p + 0x74);
-        *(u16 *)(p + 0x424) = *(u16 *)(*(u8 **)p + 0x76);
+        ((struct Obj00966 *)p)->f420 = ((struct Obj20944 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f86;
+        ((struct Obj00966 *)p)->f422 = ((struct Obj20945 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f74;
+        ((struct Obj00966 *)p)->f424 = ((struct Obj20946 *)(*(u8 * *)&((struct Obj00966 *)p)->f0))->f76;
         if (func_021BA1A8(p,0x1000)) {
-            p[0x426] = *(u32 *)(p + 0x43c);
+            p[0x426] = ((struct Obj00966 *)p)->f43C;
             ((Nibbles *)(p + 0x427))->a = ((Bits *)(p + 0x473))->c;
         } else {
             p[0x426] = 2;
@@ -67,14 +72,14 @@ int func_021B75A8(u8 *p,u32 *state)
         break;
     case 3:
         if (func_021D440C(p + 0x408)) {
-            q = *(u8 **)p;
-            *(u16 *)(q + 0x86) = *(u16 *)(p + 0x420);
+            q = *(u8 * *)&((struct Obj00966 *)p)->f0;
+            ((struct Obj20947 *)q)->f86 = ((struct Obj00966 *)p)->f420;
             *(Copy *)(q + 0x9c) = *(Copy *)(p + 0x408);
             *(Copy *)(p + 0x3f0) = *(Copy *)(p + 0x408);
             ((Bits *)(p + 0x473))->c = ((Nibbles *)(p + 0x427))->a;
-            *(u32 *)(p + 0x43c) = p[0x426];
-            *(u16 *)(p + 0x440) = *(u16 *)(p + 0x422);
-            *(u16 *)(p + 0x442) = *(u16 *)(p + 0x424);
+            ((struct Obj00966 *)p)->f43C = p[0x426];
+            ((struct Obj00966 *)p)->f440 = ((struct Obj00966 *)p)->f422;
+            ((struct Obj00966 *)p)->f442 = ((struct Obj00966 *)p)->f424;
             return 1;
         }
         break;

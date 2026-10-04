@@ -13,6 +13,7 @@
  *   func_021A0260  0x021A0260  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12696.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ extern void func_021A0260(u8 *p, u32 a, u32 b, u16 c, u16 d, u16 e);
 
 void func_021A01FC(u8 *p, u32 a, u32 b, u32 c)
 {
-    func_021A0260(p + 0x2c, *(u32 *)(p + 4), a, p[2], b, c);
+    func_021A0260(p + 0x2c, ((struct Obj12696 *)p)->f4, a, p[2], b, c);
 }

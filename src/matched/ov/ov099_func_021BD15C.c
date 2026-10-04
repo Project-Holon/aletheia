@@ -15,6 +15,7 @@
  *   func_02012934  0x02012934  thumb
  *   func_021BBD0C  0x021BBD0C  thumb  ov099
  */
+#include "../include/Obj07946.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ int func_021BD15C(char *p, int v)
     if (func_021BA928(p, v) == 0) {
         return v;
     }
-    *(u8 *)(p + 0x1354) = 2;
+    ((struct Obj07946 *)p)->f1354 = 2;
     func_021BBE7C(p);
-    func_021BBD0C(p, (int)func_02012934(*(void **)(p + 0xC4)), *(int *)(p + 0xCC));
-    *(u32 *)(p + 0x1CC) = 0x66;
+    func_021BBD0C(p, (int)func_02012934(((struct Obj07946 *)p)->fC4), ((struct Obj07946 *)p)->fCC);
+    ((struct Obj07946 *)p)->f1CC = 0x66;
     return v;
 }

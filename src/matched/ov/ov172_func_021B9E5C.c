@@ -21,6 +21,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04553.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,9 +50,9 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, int a3, int idx, u16 v)
     if (idx < 0)
         return;
     n = func_0209C0A4(idx * 0x7B, v);
-    dev = func_020437D4(func_02045770(*(void **)(obj + 0x2C)));
+    dev = func_020437D4(func_02045770(((struct Obj04553 *)obj)->f2C));
     flag = 0;
-    c = *(u8 *)(obj + 0x30);
+    c = ((struct Obj04553 *)obj)->f30;
     if (c < n) {
         flag = 1;
         while (c < n) {
@@ -68,12 +69,12 @@ void func_021B9E5C(int a0, char *obj, s16 *tbl, int a3, int idx, u16 v)
                 if (h < t)
                     h = t;
             }
-            func_021B9AB8(a0, obj, dev, c, *(u8 *)(obj + 0x31), (u8)c1, (u8)h, a3);
-            *(u8 *)(obj + 0x30) += 1;
-            *(u8 *)(obj + 0x31) = (u8)h;
-            c = *(u8 *)(obj + 0x30);
+            func_021B9AB8(a0, obj, dev, c, ((struct Obj04553 *)obj)->f31, (u8)c1, (u8)h, a3);
+            ((struct Obj04553 *)obj)->f30 += 1;
+            ((struct Obj04553 *)obj)->f31 = (u8)h;
+            c = ((struct Obj04553 *)obj)->f30;
         }
     }
     if (flag == 1)
-        func_02045334((struct Descriptor *)*(int *)(obj + 0x2C));
+        func_02045334((struct Descriptor *)*(int *)&((struct Obj04553 *)obj)->f2C);
 }

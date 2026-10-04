@@ -18,6 +18,7 @@
  *   func_021DE6F8 0x021DE6F8 thumb ov121
  *   d_021DFABC 0x021DFABC data a4
  */
+#include "../include/Obj10424.h"
 extern void func_0203CBAC(void *, unsigned, unsigned);
 typedef unsigned int   u32;
 extern void func_02043598(u32 mask, u32 enable);
@@ -39,8 +40,8 @@ void func_021DE61C(void *a, int *state, char *p)
         break;
     case 1:
         if (func_0203CD98()) {
-            func_0203D34C(1, *(unsigned short *)(p + 0x58));
-            *(void **)(p + 0x10) = func_02010360(4, (void *)(*(unsigned short *)(p + 0x58)));
+            func_0203D34C(1, ((struct Obj10424 *)p)->f58);
+            ((struct Obj10424 *)p)->f10 = func_02010360(4, (void *)(((struct Obj10424 *)p)->f58));
             func_0203D010();
             *state = 2;
         }

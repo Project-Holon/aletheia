@@ -16,6 +16,7 @@
  *   func_021C93E4  0x021C93E4  thumb  ov212
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08413.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,10 +32,10 @@ extern void func_021C93E4(u32 a, u32 b, u8 *c);
 
 u32 func_021BCF50(u8 *p)
 {
-    u32 s = *(u32 *)(p + 0x10);
+    u32 s = ((struct Obj08413 *)p)->f10;
 
     s = d_021C0894[s](p);
-    *(u32 *)(p + 0x10) = s;
+    ((struct Obj08413 *)p)->f10 = s;
     if (s == 0x1b) {
         return 0;
     }

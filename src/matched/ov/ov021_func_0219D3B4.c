@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj00429.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ typedef struct { u32 p; u16 id; u16 pad; u32 x; } Slot;
 
 int func_0219D3B4(u8 *s, u32 p, u16 id)
 {
-    Slot *e = *(Slot **)(s + 0x20);
+    Slot *e = *(Slot * *)&((struct Obj00429 *)s)->f20;
     int i;
     if (e != 0) {
         for (i = 0; i < 4; i++, e++) {

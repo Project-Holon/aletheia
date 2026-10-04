@@ -15,6 +15,8 @@
  *   func_020260F4 0x020260F4 thumb
  *   func_021BCF0C 0x021BCF0C thumb ov210
  */
+#include "../include/Obj03936.h"
+#include "../include/Obj14677.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C00FC(u8 *);
@@ -28,17 +30,17 @@ extern void func_021BCF0C(u8 *);
 int func_021BD4AC(u8 *p)
 {
     if (func_021C00FC(p) == 1) {
-        u8 *head = *(u8 **)p;
-        if (*(u16 *)(head + 20) != 0) {
-            *(int *)(head + 12) = 0;
+        u8 *head = *(u8 * *)&((struct Obj03936 *)p)->f0;
+        if (((struct Obj14677 *)head)->f14 != 0) {
+            ((struct Obj14677 *)head)->fC = 0;
             return 26;
         }
         func_021BCCA8((char *)p);
         func_021BE7E4(p);
         if (func_020355C4() == 1)
-            func_020260F4(*(void **)(p + 0x2B0), 0);
+            func_020260F4(((struct Obj03936 *)p)->f2B0, 0);
         else
-            func_020260F4(*(void **)(p + 0x2B0), 1);
+            func_020260F4(((struct Obj03936 *)p)->f2B0, 1);
         func_021BCF0C(p);
         return 4;
     }

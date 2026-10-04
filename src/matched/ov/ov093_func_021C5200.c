@@ -21,6 +21,7 @@
  *   func_021C5308 0x021C5308 thumb ov093
  *   func_021C52F8 0x021C52F8 thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Flags { u8 a:1; u8 b:1; u8 rest:6; };
@@ -43,13 +44,13 @@ int func_021C5200(u8 *p)
     u32 i;
     u32 count;
     u8 *a;
-    if (func_021B85EC(*(void **)(p + 4))) {
+    if (func_021B85EC(((struct Obj00003 *)p)->f4)) {
         count = func_021C52C8(p + 0x3e0, 0);
         for (i = 0; i < count; i++) {
             if (!func_021C52D8(p + 0x3e0, 0, i)) {
-                a = func_021B9934(*(u8 **)(p + 8), func_021C52E8(p + 0x3e0, 0, i));
-                if (!func_021B86B8(*(void **)(p + 4)) && !((struct Flags *)(p + 0x78a))->b && func_021BC2B0(p) && func_021BC310(p)) {
-                    func_021CD4B0(*(void **)(p + 12), 0x55, func_021B86DC(*(void **)(p + 4)));
+                a = func_021B9934(*(u8 * *)&((struct Obj00003 *)p)->f8, func_021C52E8(p + 0x3e0, 0, i));
+                if (!func_021B86B8(((struct Obj00003 *)p)->f4) && !((struct Flags *)(p + 0x78a))->b && func_021BC2B0(p) && func_021BC310(p)) {
+                    func_021CD4B0(((struct Obj00003 *)p)->fC, 0x55, func_021B86DC(((struct Obj00003 *)p)->f4));
                     ((struct Flags *)(p + 0x78a))->b = 1;
                 }
                 if (func_021C5308(p, a)) result = 1;

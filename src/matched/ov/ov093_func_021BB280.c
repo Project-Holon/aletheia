@@ -23,6 +23,7 @@
  *   func_021BB43C  0x021BB43C  thumb  ov093
  *   func_021BB484  0x021BB484  thumb  ov093
  */
+#include "../include/Obj05188.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,12 +44,12 @@ extern int func_021BB484(u8 *, int *);
 
 int func_021BB280(u8 *p)
 {
-    int r5 = func_021B917C(*(u8 **)(p + 0xc));
+    int r5 = func_021B917C(*(u8 * *)&((struct Obj05188 *)p)->fC);
 
-    *(u16 *)(p + 0xaa) = r5;
-    *(u16 *)(p + 0xa8) = func_021B8FF4(*(u8 **)(p + 0xc));
+    ((struct Obj05188 *)p)->fAA = r5;
+    ((struct Obj05188 *)p)->fA8 = func_021B8FF4(*(u8 * *)&((struct Obj05188 *)p)->fC);
 
-    switch ((int)func_021B86B8(*(void ****)(p + 0xc))) {
+    switch ((int)func_021B86B8(*(void *** *)&((struct Obj05188 *)p)->fC)) {
     case 1:
         func_021BABEC(p, (void *)func_021BB43C);
         break;
@@ -69,7 +70,7 @@ int func_021BB280(u8 *p)
         break;
     default:
         if (r5 == 1) {
-            func_02005D90(func_021B86DC(*(void ***)(p + 0xc)), 0xffff);
+            func_02005D90(func_021B86DC(*(void ** *)&((struct Obj05188 *)p)->fC), 0xffff);
         }
         func_021BABEC(p, (void *)func_021BB320);
         break;

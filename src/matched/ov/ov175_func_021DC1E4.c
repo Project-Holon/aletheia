@@ -14,14 +14,15 @@
  *
  * Take-and-clear: returns the word at +0x13c; when it is set, clears it and hands back the address of the +0x218 block through out.
  */
+#include "../include/Obj14344.h"
 
 typedef unsigned long u32;
 
 u32 func_021DC1E4(char *obj, char **out)
 {
-    u32 v = *(u32 *)(obj + 0x13c);
+    u32 v = ((struct Obj14344 *)obj)->f13C;
     if (v != 0) {
-        *(u32 *)(obj + 0x13c) = 0;
+        ((struct Obj14344 *)obj)->f13C = 0;
         *out = obj + 0x218;
     }
     return v;

@@ -31,6 +31,7 @@
  *   d_021DF8FC 0x021DF8FC data a4
  *   d_021DF890 0x021DF890 data a4
  */
+#include "../include/Obj00910.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -73,38 +74,38 @@ char *func_021DAC18(const Input *src,u16 heap)
     void *callback;
     out=func_02030734(heap,0xc70,0,d_021DFBB0,0x19f);
     func_02082BCC(out,0,0xc70);
-    *(int *)(out+0xad0)=1;
+    ((struct Obj00910 *)out)->fAD0=1;
     *(Input *)out=*src;
-    *(u16 *)(out+36)=heap;
+    ((struct Obj00910 *)out)->f24=heap;
     func_02082A7C(-1,out+0xb48,32);
     func_02082A7C(-1,out+0xb88,32);
     func_02082A7C(-1,out+0xb68,32);
-    for(i=0;i<func_0200A348(*(void **)(out+12));i++) {
-        if(func_0200A0E4(*(void **)(out+12),i)) {
+    for(i=0;i<func_0200A348(((struct Obj00910 *)out)->fC);i++) {
+        if(func_0200A0E4(((struct Obj00910 *)out)->fC,i)) {
             count++;
-            func_0200A000(*(void **)(out+12),i,&record);
+            func_0200A000(((struct Obj00910 *)out)->fC,i,&record);
             func_021DBDF4(out+40+i*0xdc,&record,out,heap);
         }
     }
     callback=(void *)func_021DC08C;
-    if(*(int *)out) callback=(void *)func_021DCEC4;
-    *(void **)(out+0xac4)=func_021DA854(out,callback,heap);
+    if(((struct Obj00910 *)out)->f0) callback=(void *)func_021DCEC4;
+    ((struct Obj00910 *)out)->fAC4=func_021DA854(out,callback,heap);
     func_021DB018(out,heap);
-    func_021DB478(out,1,0,*(int *)(out+0xac8),heap);
+    func_021DB478(out,1,0,((struct Obj00910 *)out)->fAC8,heap);
     if(count) {table=d_021DF8FC;n=3;}
     else {table=d_021DF890;n=2;}
-    *(void **)(out+0xab8)=func_021DA1BC(0,table,n,1,3,*(u32 *)(out+20),*(u32 *)(out+28),*(int *)(out+16),heap);
+    ((struct Obj00910 *)out)->fAB8=func_021DA1BC(0,table,n,1,3,((struct Obj00910 *)out)->f14,((struct Obj00910 *)out)->f1C,*(int *)&((struct Obj00910 *)out)->f10,heap);
     func_02082BCC(&d,0,48);
     d.w[0]=6;d.w[1]=4;d.w[2]=14;d.w[3]=15;d.w[4]=11;d.w[5]=14;
-    d.w[6]=*(u32 *)(out+8);d.w[7]=*(u32 *)(out+12);d.w[8]=*(u32 *)(out+28);
-    d.w[9]=*(u32 *)(out+16);d.w[10]=*(u32 *)(out+20);d.w[11]=*(u32 *)(out+24);
-    *(void **)(out+0xab0)=func_021DCFC8(&d,heap);
+    d.w[6]=((struct Obj00910 *)out)->f8;d.w[7]=*(u32 *)&((struct Obj00910 *)out)->fC;d.w[8]=((struct Obj00910 *)out)->f1C;
+    d.w[9]=((struct Obj00910 *)out)->f10;d.w[10]=((struct Obj00910 *)out)->f14;d.w[11]=((struct Obj00910 *)out)->f18;
+    ((struct Obj00910 *)out)->fAB0=func_021DCFC8(&d,heap);
     if(func_021DBDBC((u32)out)) {
         for(j=0;j<12;j++) {
             if(func_021DBF04(out+40+j*0xdc))
-                *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),*(void **)(out+0xab0),(void *)src->w[8],heap);
+                *(void **)(out+0xa7c+j*4)=func_021DD24C(func_021DC02C(out+40+j*0xdc),((struct Obj00910 *)out)->fAB0,(void *)src->w[8],heap);
         }
-        func_021DE0AC(*(void **)(out+0xa7c),0);
+        func_021DE0AC(((struct Obj00910 *)out)->fA7C,0);
         func_0203084C(29);
     }
     func_02040618(3,3,0);

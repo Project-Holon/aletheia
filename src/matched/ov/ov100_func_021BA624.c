@@ -13,12 +13,13 @@
  *   func_02045088 0x02045088 arm
  *   func_0201DD60 0x0201DD60 thumb
  */
+#include "../include/Obj13711.h"
 typedef unsigned short u16;
 extern void func_0203F8F4(u16),func_02045088(u16);
 extern void func_0201DD60(void);
 void func_021BA624(unsigned a)
 {
- func_0203F8F4(*(u16 *)(a+0x278));
- func_02045088(*(u16 *)(a+0x278));
+ func_0203F8F4(((struct Obj13711 *)a)->f278);
+ func_02045088(((struct Obj13711 *)a)->f278);
  func_0201DD60();
 }

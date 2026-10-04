@@ -17,6 +17,8 @@
  * Interface: 02031324 veneer forwards heap in r0 and returns allocation from
  * 02031354; 02031348 forwards all four arguments to 020314F4.
  */
+#include "../include/Obj01640.h"
+#include "../include/Obj19155.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02031324(u16);
@@ -25,4 +27,4 @@ extern void *func_02012EBC(struct Big *p);
 extern void func_02031348(void *,u32,const void *,void *);
 extern const u32 d_021C39D4[];
 extern char ov110_id[];
-int func_0216F2E0(char *p) { if (*(void **)(p+8)==0) *(void **)(p+8)=func_02031324(*(u32 *)p); *(void **)(p+12)=func_02012EBC(*(void **)(*(char **)(p+24)+4)); func_02031348(*(void **)(p+8),(u32)ov110_id,d_021C39D4,p+12); return 4; }
+int func_0216F2E0(char *p) { if (((struct Obj01640 *)p)->f8==0) ((struct Obj01640 *)p)->f8=func_02031324(((struct Obj01640 *)p)->f0); ((struct Obj01640 *)p)->fC=func_02012EBC(((struct Obj19155 *)(*(char * *)&((struct Obj01640 *)p)->f18))->f4); func_02031348(((struct Obj01640 *)p)->f8,(u32)ov110_id,d_021C39D4,p+12); return 4; }

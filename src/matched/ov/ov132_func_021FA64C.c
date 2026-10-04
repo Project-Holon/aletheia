@@ -16,6 +16,7 @@
  *   func_0204B1CC 0x0204B1CC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj01550.h"
 typedef unsigned short u16;
 struct Bank;
 struct Obj;
@@ -29,18 +30,18 @@ extern void func_020307B0(void *);
 void func_021FA64C(char *p)
 {
     *(volatile unsigned *)0x04001000 &= ~0xe000;
-    if (*(u16 *)(p + 0x48) != 255) func_0204B3B4(*(void **)(p + 0x4c));
-    if (*(u16 *)(p + 0x4a) != 255) func_0204B3B4(*(void **)(p + 0x50));
-    func_0204B3B4(*(void **)(p + 0x5c));
-    func_0204ADA4((u32)(*(void **)(p + 0x1c)));
-    func_0204A8D4((u32)(*(void **)(p + 0x28)));
-    func_0204AFD8((u32)(*(void **)(p + 0x34)));
-    func_0204ADA4((u32)(*(void **)(p + 0x20)));
-    func_0204A8D4((u32)(*(void **)(p + 0x2c)));
-    func_0204AFD8((u32)(*(void **)(p + 0x38)));
-    func_0204ADA4((u32)(*(void **)(p + 0x24)));
-    func_0204A8D4((u32)(*(void **)(p + 0x30)));
-    func_0204AFD8((u32)(*(void **)(p + 0x3c)));
-    func_0204B1CC(*(void **)(p + 0x18));
+    if (((struct Obj01550 *)p)->f48 != 255) func_0204B3B4(((struct Obj01550 *)p)->f4C);
+    if (((struct Obj01550 *)p)->f4A != 255) func_0204B3B4(((struct Obj01550 *)p)->f50);
+    func_0204B3B4(((struct Obj01550 *)p)->f5C);
+    func_0204ADA4((u32)(((struct Obj01550 *)p)->f1C));
+    func_0204A8D4((u32)(((struct Obj01550 *)p)->f28));
+    func_0204AFD8((u32)(((struct Obj01550 *)p)->f34));
+    func_0204ADA4((u32)(((struct Obj01550 *)p)->f20));
+    func_0204A8D4((u32)(((struct Obj01550 *)p)->f2C));
+    func_0204AFD8((u32)(((struct Obj01550 *)p)->f38));
+    func_0204ADA4((u32)(((struct Obj01550 *)p)->f24));
+    func_0204A8D4((u32)(((struct Obj01550 *)p)->f30));
+    func_0204AFD8((u32)(((struct Obj01550 *)p)->f3C));
+    func_0204B1CC(((struct Obj01550 *)p)->f18);
     func_020307B0(p);
 }

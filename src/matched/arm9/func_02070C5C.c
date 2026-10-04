@@ -38,6 +38,7 @@
  * that saves no lr), now seeded in layout/function_starts.txt and matched
  * in src/matched/arm9/func_02070CD8.c; the extent is 124 bytes and EXACT.
  */
+#include "../include/Obj11669.h"
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
@@ -47,7 +48,7 @@ void func_02070C5C(u8 *a)
 {
     u32 f;
 
-    f = *(u32 *)a;
+    f = ((struct Obj11669 *)a)->f0;
     if ((f & 4) == 0) {
         if ((f & 2) == 0)
             func_0206DDA4(0x19, a + 0x28, 0xc);
@@ -58,7 +59,7 @@ void func_02070C5C(u8 *a)
             func_0206DDA4(0x1a, a + 0x28, 9);
     }
 
-    f = *(u32 *)a;
+    f = ((struct Obj11669 *)a)->f0;
     if ((f & 1) == 0)
         func_0206DDA4(0x1b, a + 4, 3);
 }

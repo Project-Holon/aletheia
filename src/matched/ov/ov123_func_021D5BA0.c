@@ -9,4 +9,5 @@
  * status: EXACT*
  * symbols:
  */
-int func_021D5BA0(char *p){return *(int *)(p+0xb8);}
+#include "../include/Obj22943.h"
+int func_021D5BA0(char *p){return ((struct Obj22943 *)p)->fB8;}

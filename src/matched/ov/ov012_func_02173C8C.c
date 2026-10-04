@@ -11,6 +11,7 @@
  * symbols:
  *   func_02034714  0x02034714  arm
  */
+#include "../include/Obj19260.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,7 +21,7 @@ extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_02173C8C(int a, int b, int c, u8 *p)
 {
     u8 *q;
-    q = *(u8 **)(p + 0x355C);
+    q = *(u8 * *)&((struct Obj19260 *)p)->f355C;
     if (q == 0) {
         func_02034714((void *)0x02175624, 0, (void *)0x02175624);
         return;

@@ -15,6 +15,7 @@
  *   func_02010F8C 0x02010F8C thumb
  *   func_0216D9E4 0x0216D9E4 thumb ov010
  */
+#include "../include/Obj05165.h"
 typedef unsigned char u8;
 struct Rec;
 struct U16Vec;
@@ -24,4 +25,4 @@ extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_02010F8C(void *p);
 extern void func_0216D9E4(void *p);
-void func_021F5400(u8 *p) { func_02045808(*(void **)(p+0x38));func_02045808(*(void **)(p+0x34));func_0201ED04(*(void **)(p+0x2c));func_02045C04(*(void **)(p+0x28));func_02010F8C(*(void **)(p+0x30));func_0216D9E4(*(void **)(p+0x1c)); }
+void func_021F5400(u8 *p) { func_02045808(((struct Obj05165 *)p)->f38);func_02045808(((struct Obj05165 *)p)->f34);func_0201ED04(((struct Obj05165 *)p)->f2C);func_02045C04(((struct Obj05165 *)p)->f28);func_02010F8C(((struct Obj05165 *)p)->f30);func_0216D9E4(((struct Obj05165 *)p)->f1C); }

@@ -14,13 +14,14 @@
  * symbols:
  *   func_021E66E8  0x021E66E8  thumb  ov119
  */
+#include "../include/Obj04474.h"
 
 extern void func_021E66E8(void *p);
 
 void func_021D8C6C(void *p)
 {
-    if (*(int *)((char *)p + 0xf60) != 0)
-        *(int *)((char *)p + 0xf60) = 0;
+    if (((struct Obj04474 *)p)->fF60 != 0)
+        ((struct Obj04474 *)p)->fF60 = 0;
     func_021E66E8(p);
 }
 

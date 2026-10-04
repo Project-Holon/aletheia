@@ -18,6 +18,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  */
+#include "../include/Obj05127.h"
 typedef unsigned int   u32;
 struct PrintSys;
 struct Rec;
@@ -29,4 +30,4 @@ extern void func_0201C6EC(struct PrintSys *p);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-void func_021EFFD4(char *p) { func_021A0FB4(*(void **)(p+0xc),*(unsigned short *)p); func_021F0218(p); func_021F015C(p); func_021F0100(p); func_0201C6EC(*(void **)(p+0x3c)); func_0201C4C0(*(void **)(p+0x3c)); func_02045C04(*(void **)(p+0x38)); func_0201D83C(*(void **)(p+0x34)); }
+void func_021EFFD4(char *p) { func_021A0FB4(((struct Obj05127 *)p)->fC,((struct Obj05127 *)p)->f0); func_021F0218(p); func_021F015C(p); func_021F0100(p); func_0201C6EC(((struct Obj05127 *)p)->f3C); func_0201C4C0(((struct Obj05127 *)p)->f3C); func_02045C04(((struct Obj05127 *)p)->f38); func_0201D83C(((struct Obj05127 *)p)->f34); }

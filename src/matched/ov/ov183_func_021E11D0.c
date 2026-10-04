@@ -9,21 +9,22 @@
  * status: EXACT*
  * Extent remainder: zero alignment halfword at 021E1242.
  */
+#include "../include/Obj01768.h"
 typedef unsigned short u16;
 void func_021E11D0(char *p,int state)
 {
-    *(int *)(p+0x244)=*(int *)(p+0x240);
-    *(int *)(p+0x240)=state;
-    *(int *)(p+0x248)=0;
-    *(int *)(p+0x24c)=0;
-    *(int *)(p+0x250)=0;
-    *(int *)(p+0x254)=0;
+    ((struct Obj01768 *)p)->f244=((struct Obj01768 *)p)->f240;
+    ((struct Obj01768 *)p)->f240=state;
+    ((struct Obj01768 *)p)->f248=0;
+    ((struct Obj01768 *)p)->f24C=0;
+    ((struct Obj01768 *)p)->f250=0;
+    ((struct Obj01768 *)p)->f254=0;
     if (state) {
-        *(int *)(p+0x248)=*(u16 *)(p+(state-1)*4+0x21c);
-        *(int *)(p+0x24c)=*(u16 *)(p+(state-1)*4+0x21e);
+        ((struct Obj01768 *)p)->f248=*(u16 *)(p+(state-1)*4+0x21c);
+        ((struct Obj01768 *)p)->f24C=*(u16 *)(p+(state-1)*4+0x21e);
     }
-    if (*(int *)(p+0x244)) {
-        *(int *)(p+0x250)=*(u16 *)(p+(*(int *)(p+0x244)-1)*4+0x21c);
-        *(int *)(p+0x254)=*(u16 *)(p+(*(int *)(p+0x244)-1)*4+0x21e);
+    if (((struct Obj01768 *)p)->f244) {
+        ((struct Obj01768 *)p)->f250=*(u16 *)(p+(((struct Obj01768 *)p)->f244-1)*4+0x21c);
+        ((struct Obj01768 *)p)->f254=*(u16 *)(p+(((struct Obj01768 *)p)->f244-1)*4+0x21e);
     }
 }

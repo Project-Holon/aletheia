@@ -16,6 +16,7 @@
  *   func_021E0D00 0x021E0D00 thumb ov183
  *   func_021E1C00 0x021E1C00 thumb ov183
  */
+#include "../include/Obj00478.h"
 extern void func_021E11D0(char *,int);
 extern void func_021E0E4C(char *);
 extern void func_021E0E90(char *,int);
@@ -24,17 +25,17 @@ extern void func_021E0D00(char *,int);
 extern void func_021E1C00(char *);
 void func_021E1BA8(char *p)
 {
-    switch (*(int *)(p+0x318)) {
+    switch (((struct Obj00478 *)p)->f318) {
     case 0: break;
     case 1:
-        func_021E11D0(p,*(int *)(p+0x31c));
+        func_021E11D0(p,((struct Obj00478 *)p)->f31C);
         func_021E0E4C(p);
         func_021E0E90(p,1);
         func_021E1374(p,2);
-        *(int *)(p+0x318)=255;
+        ((struct Obj00478 *)p)->f318=255;
         break;
     case 2:
-        func_021E0D00(p,*(int *)(p+0x31c));
+        func_021E0D00(p,((struct Obj00478 *)p)->f31C);
         func_021E1C00(p);
         break;
     case 255: break;

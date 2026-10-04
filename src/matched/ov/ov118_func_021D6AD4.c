@@ -23,6 +23,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00984.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -43,19 +44,19 @@ extern void func_021E7208(void *p, int a);
 
 void func_021D6AD4(u8 *p)
 {
-    func_0203D34C(0, *(u16 *)(p + 0x5F4));
-    if (*(u32 *)(p + 0x118C) == 6) {
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x720)), 0x98, (void *)(*(u32 *)(p + 0x73C)));
-    } else if (*(u32 *)(p + 0x118C) == 8) {
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x720)), 0x9B, (void *)(*(u32 *)(p + 0x73C)));
-    } else if (*(u8 *)(p + 0x11ED) != 0) {
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x720)), 0x82, (void *)(*(u32 *)(p + 0x73C)));
+    func_0203D34C(0, ((struct Obj00984 *)p)->f5F4);
+    if (((struct Obj00984 *)p)->f118C == 6) {
+        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x98, (void *)(((struct Obj00984 *)p)->f73C));
+    } else if (((struct Obj00984 *)p)->f118C == 8) {
+        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x9B, (void *)(((struct Obj00984 *)p)->f73C));
+    } else if (((struct Obj00984 *)p)->f11ED != 0) {
+        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x82, (void *)(((struct Obj00984 *)p)->f73C));
     } else {
-        func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x720)), 0x81, (void *)(*(u32 *)(p + 0x73C)));
+        func_02045CAC((struct MsgBank *)(((struct Obj00984 *)p)->f720), 0x81, (void *)(((struct Obj00984 *)p)->f73C));
     }
-    func_0201EEF4(*(void **)(p + 0x724), 0, func_021D8FA4(p, func_021D8AA8(p)));
-    func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x724)), 1, (void *)(*(u32 *)(p + 0x834)));
-    func_0201F250((struct WordSet *)(*(u32 *)(p + 0x724)), (void *)(*(u32 *)(p + 0x738)), (void *)(*(u32 *)(p + 0x73C)));
+    func_0201EEF4(((struct Obj00984 *)p)->f724, 0, func_021D8FA4(p, func_021D8AA8(p)));
+    func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00984 *)p)->f724), 1, (void *)(((struct Obj00984 *)p)->f834));
+    func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00984 *)p)->f724), (void *)(((struct Obj00984 *)p)->f738), (void *)(((struct Obj00984 *)p)->f73C));
     func_02041300(4, 0, 0, 0, 0x20, 0x18, 0x11);
     func_021E0FF4(p, 1, 0);
     func_021E7208(p, 0x14);

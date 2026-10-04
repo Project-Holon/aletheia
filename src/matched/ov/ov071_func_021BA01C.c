@@ -16,6 +16,7 @@
  *   func_021B6BEC  0x021B6BEC  thumb  ov071
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj00044.h"
 
 typedef unsigned char u8;
 
@@ -31,17 +32,17 @@ void func_021BA01C(void *a, u8 *p)
     int v;
     int m;
 
-    if (*(int *)(p + 0x304) == 1) {
-        func_021B9FEC(p, *(int *)(p + 0x2f4));
-        v = *(int *)(p + 0x2f4);
+    if (((struct Obj00044 *)p)->f304 == 1) {
+        func_021B9FEC(p, ((struct Obj00044 *)p)->f2F4);
+        v = ((struct Obj00044 *)p)->f2F4;
         if (v == 0xffff) {
             func_021B6C30(a, 0, 1);
         } else {
-            m = *(int *)(p + 0x308);
-            if ((m == 2 && v == *(int *)(p + 0x2fc)) || (m == 1 && v == *(int *)(p + 0x2f8))) {
+            m = ((struct Obj00044 *)p)->f308;
+            if ((m == 2 && v == ((struct Obj00044 *)p)->f2FC) || (m == 1 && v == ((struct Obj00044 *)p)->f2F8)) {
                 if (*(int *)(p + 0x1b4 + v * 4) == 0) {
-                    *(int *)(p + 0x300) = v;
-                    if (*(int *)(p + 0x308) == 1) {
+                    ((struct Obj00044 *)p)->f300 = v;
+                    if (((struct Obj00044 *)p)->f308 == 1) {
                         func_021B6C48(a, 1);
                     } else {
                         func_021B6BEC(a, (int *)(p + 8), 1, 0, 3);
@@ -54,6 +55,6 @@ void func_021BA01C(void *a, u8 *p)
             }
         }
         func_02041B6C(6);
-        *(int *)(p + 0x304) = 0;
+        ((struct Obj00044 *)p)->f304 = 0;
     }
 }

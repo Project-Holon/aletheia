@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/pending/func_0202B49C.c \
  *       --func func_0202B49C --addr 0x0202B49C --thumb --cc 1.1p1
  */
+#include "../include/Obj02009.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -34,10 +35,10 @@ extern void func_0202B2CC(u8 *p, u32 idx);
 
 void func_0202B49C(u8 *p, u32 id)
 {
-    u32 r = func_0202B374(*(u32 *)(p + 0x14), id);
+    u32 r = func_0202B374(((struct Obj02009 *)p)->f14, id);
 
-    *(u32 *)(p + 0x18) = r;
+    ((struct Obj02009 *)p)->f18 = r;
     if (r != 0) {
-        func_0202B2CC((u8 *)(*(u32 *)(p + 0x18)), func_02012984((const struct BigObj *)(*(u32 *)(p + 8))));
+        func_0202B2CC((u8 *)(((struct Obj02009 *)p)->f18), func_02012984((const struct BigObj *)(((struct Obj02009 *)p)->f8)));
     }
 }

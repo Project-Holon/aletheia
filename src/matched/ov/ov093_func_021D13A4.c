@@ -13,6 +13,7 @@
  *   func_021EEC20  0x021EEC20  thumb  ov093
  *   func_021B902C  0x021B902C  thumb  ov093
  */
+#include "../include/Obj00066.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ int func_021D13A4(BattleSeq *s)
 {
     u16 *q;
 
-    func_021EEC20(*(int *)((u8 *)s + 0x50), &q);
+    func_021EEC20(((struct Obj00066 *)s)->f50, &q);
     switch (q[1]) {
     case 0:
         if (func_021B902C(q[0], s->unk1A6) == 0)

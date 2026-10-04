@@ -16,6 +16,7 @@
  *   func_02169444  0x02169444  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04988.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ u32 *func_0218C4A0(u8 *base, u32 a, u32 b, u16 c)
             func_021693D4((u8 *)a, (u8 *)b, c);
             e[0] = a;
             e[1] = -1;
-            *(u16 *)(e + 2) = c;
+            ((struct Obj04988 *)e)->f8 = c;
             *((u16 *)(e + 2) + 1) = 1;
             e[3] = (u32)func_02169444((u8 *)a, c);
             return e;

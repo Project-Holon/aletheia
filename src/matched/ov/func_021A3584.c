@@ -16,6 +16,7 @@
  *   func_021A5764  0x021A5764  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12087.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,8 +28,8 @@ extern u32 func_021A5764(u8 *p);
 
 int func_021A3584(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_02188CFC(*(u32 *)((u8 *)(a)), b, c, d) == 0) {
-    return func_021A5764((u8 *)(*(u32 *)((u8 *)(a) + 8)));
+if (func_02188CFC(((struct Obj12087 *)((u8 *)(a)))->f0, b, c, d) == 0) {
+    return func_021A5764((u8 *)(((struct Obj12087 *)((u8 *)(a)))->f8));
 }
 return 0;
 }

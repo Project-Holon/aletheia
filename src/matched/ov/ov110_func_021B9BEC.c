@@ -15,6 +15,7 @@
  *   func_021BF7D0 0x021BF7D0 thumb ov110
  *   func_02030DA8 0x02030DA8 arm
  */
+#include "../include/Obj10264.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,12 +37,12 @@ void func_021B9BEC(u8 *p, int id) {
     q->state = 0;
     q->id = id;
     q->owner = (u8 *)p;
-    q->field4 = *(u32 *)(p+0x18);
-    q->field8 = *(u32 *)(p+0x1C);
+    q->field4 = *(u32 *)&((struct Obj10264 *)p)->f18;
+    q->field8 = ((struct Obj10264 *)p)->f1C;
     for (i=0; i<4; ++i) {
         if (!*(void **)(p+i*4+8)) {
             q->slot = i;
-            *(void **)((u32)p+i*4+8) = func_02030DA8(func_021BF7D0(*(u8 **)(p+0x18)), table.entries[id], q, 1);
+            *(void **)((u32)p+i*4+8) = func_02030DA8(func_021BF7D0(*(u8 * *)&((struct Obj10264 *)p)->f18), table.entries[id], q, 1);
             return;
         }
     }

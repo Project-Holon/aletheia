@@ -15,6 +15,8 @@
  * symbols:
  *   func_021BA558    0x021BA558  thumb  ov181
  */
+#include "../include/Obj14416.h"
+#include "../include/Obj14417.h"
 
 extern void func_021BA558(char *ctx, unsigned char *rec);
 
@@ -22,7 +24,7 @@ int func_021BAB00(char *ctx, unsigned char *rec)
 {
     rec = rec + (rec[7] << 4);
     func_021BA558(ctx, rec);
-    *(unsigned short *)(ctx + 0x2DA) = *(unsigned short *)(rec + 4);
-    *(int *)(ctx + 0x2EC) = 1;
+    ((struct Obj14416 *)ctx)->f2DA = ((struct Obj14417 *)rec)->f4;
+    ((struct Obj14416 *)ctx)->f2EC = 1;
     return 1;
 }

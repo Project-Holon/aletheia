@@ -11,6 +11,7 @@
  * symbols:
  *   (none - no data references)
  */
+#include "../include/Obj11229.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -20,5 +21,5 @@ extern void func_02082BCC(void *p, int c, u32 n);
 void func_0200AB2C(void *a0)
 {
     func_02082BCC(a0, 0, 0x34c);
-    *(u32 *)((u8 *)a0 + 0x348) = (*(u32 *)((u8 *)a0 + 0x348) & ~0xff) | 0x7f;
+    ((struct Obj11229 *)a0)->f348 = (((struct Obj11229 *)a0)->f348 & ~0xff) | 0x7f;
 }

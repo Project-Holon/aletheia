@@ -14,6 +14,7 @@
  *
  * Tail call into ov127 on the pointer 0x590 bytes into the block.
  */
+#include "../include/Obj18154.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ extern void func_021C5608(u8 *p);
 
 void func_021B9D5C(char *p)
 {
-    func_021C5608(*(void **)(p + 0x590));
+    func_021C5608(((struct Obj18154 *)p)->f590);
 }

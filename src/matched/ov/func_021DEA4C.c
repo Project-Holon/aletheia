@@ -14,10 +14,11 @@
  *
  * lane O46
  */
+#include "../include/Obj10648.h"
 
 
 extern void func_021DE8B4(char *, int, int, int, int);
 void func_021DEA4C(char *p, int a, int b)
 {
-    func_021DE8B4(p, *(unsigned char *)(*(int *)(p + 0x2c) + 0xA17E), a, b, 0);
+    func_021DE8B4(p, *(unsigned char *)(*(int *)&((struct Obj10648 *)p)->f2C + 0xA17E), a, b, 0);
 }

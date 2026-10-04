@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj21240.h"
 
 void func_021D6D70(unsigned char *p)
 {
-    *(unsigned short *)(p + 0x1F2) = 0;
+    ((struct Obj21240 *)p)->f1F2 = 0;
 }

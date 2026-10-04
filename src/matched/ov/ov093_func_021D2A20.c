@@ -48,6 +48,7 @@
  *   func_021B9358 0x021B9358 thumb ov093
  *   d_021F3B64 0x021F3B64 data a4
  */
+#include "../include/Obj00268.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -108,8 +109,8 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     int enabled;
     u32 remaining;
     id = (u8)args[0];
-    obj = func_021B9934(*(char **)(p + 4), id);
-    index = func_021B8DC0(*(void **)p, *(void **)(p + 4), id);
+    obj = func_021B9934(*(char * *)&((struct Obj00268 *)p)->f4, id);
+    index = func_021B8DC0(((struct Obj00268 *)p)->f0, ((struct Obj00268 *)p)->f4, id);
     enabled = 0;
     if (index != 0xff && func_021F8204(index)) enabled = 1;
     switch (*state) {
@@ -145,27 +146,27 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         break;
     case 4:
         if (!func_021F8180() && !func_02006238()) {
-            func_021EA3B8(*(void **)(p + 0x54), index, 0x25d);
+            func_021EA3B8(((struct Obj00268 *)p)->f54, index, 0x25d);
             *state = 5;
         }
         break;
     case 5:
-        if (func_021EA3D4(*(void **)(p + 0x54))) *state = 6;
+        if (func_021EA3D4(((struct Obj00268 *)p)->f54)) *state = 6;
         break;
     case 6:
         func_021EAF18((struct L *)(p + 0x58), 1, 0x3c);
         func_021EAF50(p + 0x58, id);
         func_021EAF50(p + 0x58, d_021F3B64.result[0]);
-        func_021EA614(*(void **)(p + 0x54), p + 0x58);
+        func_021EA614(((struct Obj00268 *)p)->f54, p + 0x58);
         *state = 7;
         break;
     case 7:
-        if (func_021EA720(*(void **)(p + 0x54))) {
+        if (func_021EA720(((struct Obj00268 *)p)->f54)) {
             func_02005DE4((void *)1);
             func_02005E64();
             func_02005D90(0x515, 0xffff);
         }
-        if (func_021EA710(*(void **)(p + 0x54)) && !func_02005F38()) {
+        if (func_021EA710(((struct Obj00268 *)p)->f54) && !func_02005F38()) {
             func_02005E9C();
             func_02005DE4(0);
             d_021F3B64.counter = 0;
@@ -176,25 +177,25 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         d_021F3B64.counter++;
         if ((func_020362DC() & 3) || func_02035C60() || d_021F3B64.counter > 80) {
             d_021F3B64.counter = 0;
-            func_021BA238(*(void **)p, obj);
-            func_021EADA4(*(u8 **)(p + 0x54), (int)obj, (struct T *)d_021F3B64.result);
+            func_021BA238(((struct Obj00268 *)p)->f0, obj);
+            func_021EADA4(*(u8 * *)&((struct Obj00268 *)p)->f54, (int)obj, (struct T *)d_021F3B64.result);
             *state = 9;
         }
         break;
     case 9:
-        if (func_021EADB4(*(void **)(p + 0x54)) && ((func_020362DC() & 3) || func_02035C60())) {
-            func_021EADC4(*(void **)(p + 0x54));
+        if (func_021EADB4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || func_02035C60())) {
+            func_021EADC4(((struct Obj00268 *)p)->f54);
             *state = 10;
         }
         break;
     case 10:
-        if (func_021EADD4(*(void **)(p + 0x54)) && ((func_020362DC() & 3) || func_02035C60())) {
-            func_021EADE4(*(void **)(p + 0x54));
+        if (func_021EADD4(((struct Obj00268 *)p)->f54) && ((func_020362DC() & 3) || func_02035C60())) {
+            func_021EADE4(((struct Obj00268 *)p)->f54);
             *state = 11;
         }
         break;
     case 11:
-        if (func_021EADF4(*(void **)(p + 0x54))) {
+        if (func_021EADF4(((struct Obj00268 *)p)->f54)) {
             d_021F3B64.counter = 0;
             *state = 12;
         }
@@ -203,7 +204,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
         if (func_021D2CA8((LearnSeq *)p, &d_021F3B64.counter, obj)) *state = 1;
         break;
     case 13:
-        func_021B9358(*(void **)p, id);
+        func_021B9358(((struct Obj00268 *)p)->f0, id);
         return 1;
     }
     return 0;

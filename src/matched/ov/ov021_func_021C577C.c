@@ -18,6 +18,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021C59F8 0x021C59F8 thumb ov021
  */
+#include "../include/Obj04282.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,25 +47,25 @@ void func_021C577C(void *list)
     w = (char *)func_02020350(list, 0x13);
     x = func_02020314(list) >> 3;
     y = func_02020350(list, 9) >> 3;
-    if (*(u32 *)(w + 0x24) == 0) {
+    if (((struct Obj04282 *)w)->f24 == 0) {
         func_020413B0(1, 1, 12, 30, 12, 11);
         func_020413B0(1, 1, x + 12, 30, y, 12);
         func_020413B0(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
-    } else if (*(u32 *)(w + 0x24) == 1) {
+    } else if (((struct Obj04282 *)w)->f24 == 1) {
         func_020413B0(1, 1, 12, 30, 12, 11);
         func_020202FC(list, &v[1], &v[0]);
         s = func_02020350(list, 8);
         t = func_02020350(list, 9);
-        d = *(u16 *)(w + 0x1E) + *(u16 *)(w + 0x1C) - v[1];
+        d = ((struct Obj04282 *)w)->f1E + ((struct Obj04282 *)w)->f1C - v[1];
         s = s + d * t;
         func_020413B0(1, 1, (s >> 3) + 12, 30, y, 12);
         func_020413B0(1, 0, 11, 32, 1, 10);
         func_02041B6C(1);
     }
-    if (*(u32 *)(w + 0x40) == 1) {
-        a = func_02020350(*(void **)(w + 4), 3);
-        a = func_02020324(*(void **)(w + 4), a) >> 3;
+    if (((struct Obj04282 *)w)->f40 == 1) {
+        a = func_02020350(((struct Obj04282 *)w)->f4, 3);
+        a = func_02020324(((struct Obj04282 *)w)->f4, a) >> 3;
         func_021C59F8(w, (a + 12) << 3);
     } else {
         func_021C59F8(w, (x + 12) << 3);

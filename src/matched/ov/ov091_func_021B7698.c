@@ -64,6 +64,7 @@
  *   func_021BA098 0x021BA098 thumb ov091
  *   func_021B9EB0 0x021B9EB0 thumb ov091
  */
+#include "../include/Obj00009.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -148,7 +149,7 @@ void func_021B7698(u8 *p)
             if (r != -1) {
                 W(0x2c)=r; W(0x38)=(u32)func_0201AB28((void *)T(0),r);
                 func_021BC350(p,0);
-                func_021BE2B4(W(0x38),H(0x44),0,H(0x30),*(u16 *)p);
+                func_021BE2B4(W(0x38),H(0x44),0,H(0x30),((struct Obj00009 *)p)->f0);
                 func_021BB2C0(p,(u8 *)(*(u32 *)((p+W(0x2c)*4)+0x160)));
                 W(0x24)=1; p[0xd]=p[0xc]; p[0xc]=0;
                 func_021BA670(p,H(0x44)); return;

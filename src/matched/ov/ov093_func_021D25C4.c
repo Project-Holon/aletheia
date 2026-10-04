@@ -16,6 +16,7 @@
  *   func_021EA838  0x021EA838  thumb  ov093
  *   func_021EA850  0x021EA850  thumb  ov093
  */
+#include "../include/Obj06241.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u8 b);
@@ -26,19 +27,19 @@ extern int func_021EA850(u32 *p, u32 k);
 
 int func_021D25C4(u8 *p, int *st, u32 *c)
 {
-    int t = func_021B8D8C(*(void **)p, *(void **)(p + 4), *c);
+    int t = func_021B8D8C(((struct Obj06241 *)p)->f0, ((struct Obj06241 *)p)->f4, *c);
 
     switch (*st) {
     case 0:
         if (func_021CD9E0(p))
             return 1;
-        if (!func_021B8590(*(void **)p))
+        if (!func_021B8590(((struct Obj06241 *)p)->f0))
             return 1;
-        func_021EA838(*(void **)(p + 0x54), t);
+        func_021EA838(((struct Obj06241 *)p)->f54, t);
         (*st)++;
         break;
     case 1:
-        if (func_021EA850(*(void **)(p + 0x54), t))
+        if (func_021EA850(((struct Obj06241 *)p)->f54, t))
             return 1;
         break;
     }

@@ -18,6 +18,8 @@
  *   func_02049238 0x02049238 arm
  *   d_021E8530 0x021E8530 data a4
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj22808.h"
 typedef unsigned short u16;
 extern char d_021E8530[];
 extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
@@ -34,19 +36,19 @@ void func_021E5098(char *p, int b)
 {
     int i, n, x, t, out;
     void *a;
-    if (b == 0) *(int *)(p + 0x1184) = (int)func_02030734(*(u16 *)(p + 0x5f4), 0x5ac00, 0, d_021E8530, 0x50b);
-    a = func_020490F4(7, *(u16 *)(p + 0x5f4));
+    if (b == 0) *(int *)&((struct Obj00001 *)p)->f1184 = (int)func_02030734(((struct Obj00001 *)p)->f5F4, 0x5ac00, 0, d_021E8530, 0x50b);
+    a = func_020490F4(7, ((struct Obj00001 *)p)->f5F4);
     goto check;
 body:
     {
         n = b * 30;
         for (i = 0; i < 30; i++) {
             if (b == 24 && i == 6) break;
-            x = (int)func_021D8DD0((void *)(*(int *)(p + 0x828)), b, i, p);
+            x = (int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828), b, i, p);
             if (x) x = func_0201BA68(x);
             else x = func_0201BABC(0, 0, 0, 0);
-            t = func_02049DF4(a, x, 0, &out, *(u16 *)(p + 0x5f4));
-            func_02082D44(*(void **)(out + 0x14), (void *)(*(int *)(p + 0x1184) + n * 512), 512);
+            t = func_02049DF4(a, x, 0, &out, ((struct Obj00001 *)p)->f5F4);
+            func_02082D44(((struct Obj22808 *)out)->f14, (void *)(*(int *)&((struct Obj00001 *)p)->f1184 + n * 512), 512);
             n++;
             func_020307B0((void *)t);
         }

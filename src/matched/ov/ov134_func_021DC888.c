@@ -17,6 +17,7 @@
  *   tbl_021DCC9C 0x021DCC9C data a4
  *   g_02FFFC3C 0x02FFFC3C data a4
  */
+#include "../include/Obj05411.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,13 +36,13 @@ int func_021DC888(void *ctx, int unused, const Args *args)
     p = func_0203159C(ctx, 0x100, 4);
     func_02082BCC(p, 0, 0x100);
     *(Args *)(p + 0xd0) = *args;
-    *(u16 *)(p + 0xfc) = 4;
-    *(void **)(p + 0xcc) = func_02031324(*(u16 *)(p + 0xfc));
+    ((struct Obj05411 *)p)->fFC = 4;
+    ((struct Obj05411 *)p)->fCC = func_02031324(((struct Obj05411 *)p)->fFC);
     func_0203A574(0x2f00, (u32)tbl_021DCC9C, 1, (u32)p);
     func_021DCB48(args, p, p + 4);
     func_021DCC48(args, p, p + 0x9c);
     p[0xc4] = 0;
-    *(u32 *)(p + 0xc8) = g_02FFFC3C;
-    *(u32 *)p = 0;
+    ((struct Obj05411 *)p)->fC8 = g_02FFFC3C;
+    ((struct Obj05411 *)p)->f0 = 0;
     return 1;
 }

@@ -15,6 +15,7 @@
  *   func_021E066C 0x021E066C thumb ov170
  *   func_021E0190 0x021E0190 thumb ov170
  */
+#include "../include/Obj08235.h"
 extern int func_021EC01C(char *w, int i);
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
@@ -28,25 +29,25 @@ int func_021E0E50(char *p)
     int a;
     int b;
     s = WORK(p) + 0x58;
-    switch (*(unsigned short *)(s + 12)) {
+    switch (((struct Obj08235 *)s)->fC) {
     case 0:
         if (func_021EC01C(WORK(p), 10) == 1) {
             func_021ED108(WORK(p), 1);
             func_021EBFA8(WORK(p), 10, 2);
         }
-        (*(unsigned short *)(s + 12))++;
+        (((struct Obj08235 *)s)->fC)++;
     case 1:
         a = func_021E066C(p);
         b = func_021E0190(p);
         if (a == 0 && b == 0)
-            (*(unsigned short *)(s + 12))++;
+            (((struct Obj08235 *)s)->fC)++;
         break;
     case 2:
         if (func_021EC01C(WORK(p), 10) == 1) {
             func_021ED108(WORK(p), 0);
             func_021EC000(WORK(p), 10, 0);
         }
-        *(unsigned short *)(s + 12) = 0;
+        ((struct Obj08235 *)s)->fC = 0;
         return 0;
     }
     return 1;

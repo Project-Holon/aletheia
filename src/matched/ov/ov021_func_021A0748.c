@@ -16,6 +16,7 @@
  *   func_0207CDB8  0x0207CDB8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12699.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,9 +34,9 @@ void func_021A0748(u8 *a, u32 b, u32 c)
     s32 j;
     u8 *q;
 
-    *(u32 *)(a + 0xc) = func_020490A8(b, c) / 0x34;
+    ((struct Obj12699 *)a)->fC = func_020490A8(b, c) / 0x34;
     func_02048F4C(a + 0x10, b, c);
-    for (i = 0; i < *(u32 *)(a + 0xc); i++) {
+    for (i = 0; i < ((struct Obj12699 *)a)->fC; i++) {
         q = a + 0x20 + i * 0x34;
         for (j = 0; j < 4; j++) {
             func_0207CDB8(q + j * 6, q + j * 6);

@@ -12,6 +12,9 @@
  * symbols:
  *   func_0204B98C   0x0204B98C  arm
  */
+#include "../include/Obj10609.h"
+#include "../include/Obj23632.h"
+#include "../include/Obj23633.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -19,9 +22,9 @@ struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
 int func_021C70EC(u8 *p)
 {
-    if (func_0204B98C(*(void **)(*(u8 **)(p + 8) + 0x20C)) == 0) {
-        *(u32 *)(*(u8 **)(p + 4) + 4) = 1;
-        return *(u32 *)(p + 0x28);
+    if (func_0204B98C(((struct Obj23632 *)(*(u8 * *)&((struct Obj10609 *)p)->f8))->f20C) == 0) {
+        ((struct Obj23633 *)(*(u8 * *)&((struct Obj10609 *)p)->f4))->f4 = 1;
+        return ((struct Obj10609 *)p)->f28;
     }
     return 0x19;
 }

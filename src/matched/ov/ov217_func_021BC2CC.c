@@ -13,6 +13,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01084.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,8 +22,8 @@ typedef signed int     s32;
 
 void func_021BC2CC(void *p, u32 a, u32 b, u32 c)
 {
-    *(u32 *)((char *)p + 0x3c) = a;
-    *(u32 *)((char *)p + 0x40) = b;
-    *(u32 *)((char *)p + 0x44) = c;
-    *(u32 *)((char *)p + 0x48) = 0;
+    ((struct Obj01084 *)p)->f3C = a;
+    ((struct Obj01084 *)p)->f40 = b;
+    *(u32 *)&((struct Obj01084 *)p)->f44 = c;
+    *(u32 *)&((struct Obj01084 *)p)->f48 = 0;
 }

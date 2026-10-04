@@ -18,6 +18,8 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13523.h"
+#include "../include/Obj13524.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct Rec {
@@ -46,8 +48,8 @@ void func_021E4FF4(int a, void *b, int c)
         q = func_021C7CF4(b, c);
         r = func_021C88A4(b, 0x11, c);
         r->id = c;
-        *(u16 *)((u8 *)r + 4) = func_021D58A8(q, 9);
-        *(u16 *)((u8 *)r + 6) = func_021D58A8(q, 8);
+        ((struct Obj13523 *)r)->f4 = func_021D58A8(q, 9);
+        ((struct Obj13523 *)r)->f6 = func_021D58A8(q, 8);
         r->f0 = 1;
         r->f1 = 1;
         func_021C8838((u8 *)r + 0x10, 2, 0x305);
@@ -55,7 +57,7 @@ void func_021E4FF4(int a, void *b, int c)
         func_021C88C8(b, r);
         w = func_021C88A4(b, 0x17, c);
         w[8] = c;
-        *(int *)(w + 4) = 0xa;
+        ((struct Obj13524 *)w)->f4 = 0xa;
         func_021C88C8(b, w);
     }
 }

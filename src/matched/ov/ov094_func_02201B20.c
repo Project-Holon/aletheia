@@ -21,6 +21,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj03216.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
@@ -43,7 +44,7 @@ extern void func_02049238(void *);
 int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
 {
     Config cfg = d_0220A368;
-    void *archive = func_020490F4(archiveId, (*(u16 *)(p + 0x80) & 0x7fff) | 0x8000);
+    void *archive = func_020490F4(archiveId, (((struct Obj03216 *)p)->f80 & 0x7fff) | 0x8000);
     int i, off;
     void *slots;
     u32 pal;
@@ -51,20 +52,20 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
         if (*(u32 *)(p + i * 16 + 8) == 0) break;
     }
     off = i * 16;
-    *(int *)(p + 12 + off) = func_0204A6C8(archive, a, 0, 0, *(u16 *)(p + 0x80));
-    *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, i * 32 + 0x140, *(u16 *)(p + 0x80));
-    *(int *)(p + 20 + off) = func_0204AF28(archive, c, d, *(u16 *)(p + 0x80));
+    *(int *)(p + 12 + off) = func_0204A6C8(archive, a, 0, 0, ((struct Obj03216 *)p)->f80);
+    *(int *)(p + 16 + off) = func_0204ACEC(archive, b, 0, i * 32 + 0x140, ((struct Obj03216 *)p)->f80);
+    *(int *)(p + 20 + off) = func_0204AF28(archive, c, d, ((struct Obj03216 *)p)->f80);
     slots = (void *)func_021F86E0();
     pal = func_0204AEF4(*(int *)(p + 16 + off), 0);
-    func_02021640(slots, archiveId, b, *(u16 *)(p + 0x80), 2, 32, (pal & 0x3ff) >> 1);
+    func_02021640(slots, archiveId, b, ((struct Obj03216 *)p)->f80, 2, 32, (pal & 0x3ff) >> 1);
     cfg.x = x;
     cfg.y = y;
     if (e == 0 && f == 0) {
-        *(u32 *)(p + 8 + off) = (u32)func_0204B294((void *)*(u32 *)(p + 4), *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, *(u16 *)(p + 0x80));
+        *(u32 *)(p + 8 + off) = (u32)func_0204B294((void *)((struct Obj03216 *)p)->f4, *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, ((struct Obj03216 *)p)->f80);
     } else {
         cfg.a = e;
         cfg.b = f;
-        *(u32 *)(p + 8 + off) = func_0204B324(*(u32 *)(p + 4), *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, *(u16 *)(p + 0x80));
+        *(u32 *)(p + 8 + off) = func_0204B324(((struct Obj03216 *)p)->f4, *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, ((struct Obj03216 *)p)->f80);
     }
     func_0204B92C((struct Obj *)*(u32 *)(p + 8 + off), 1);
     func_02049238(archive);

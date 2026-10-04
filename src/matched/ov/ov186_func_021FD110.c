@@ -9,7 +9,8 @@
  * status: EXACT
  * follower: accessor after func_021FD0B8; two alignment bytes after return.
  */
+#include "../include/Obj08333.h"
 void func_021FD110(char *p)
 {
-    *(int *)(p+0x48)=((int *)(*(int *)p+(*(unsigned short *)(p+0x40)+*(unsigned short *)(p+0x42))*8))[1];
+    ((struct Obj08333 *)p)->f48=((int *)(((struct Obj08333 *)p)->f0+(((struct Obj08333 *)p)->f40+((struct Obj08333 *)p)->f42)*8))[1];
 }

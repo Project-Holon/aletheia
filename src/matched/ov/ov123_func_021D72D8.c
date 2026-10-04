@@ -21,6 +21,7 @@
  *   func_021D7180 0x021D7180 thumb ov123
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  */
+#include "../include/Obj01254.h"
 typedef unsigned short u16;
 typedef struct { u16 f0; char *f4; void (*f8)(char *); } Callback;
 typedef unsigned int   u32;
@@ -45,22 +46,22 @@ extern void func_021D6EE0(char *,int,int);
 void func_021D72D8(char *p)
 {
     Callback cb;
-    func_02009448(*(void **)(p+0x28));
-    if (func_02012DD0(*(void **)(p+0x2c))==2) {
-        *(unsigned char *)(p+0xad)=0;
-        *(unsigned char *)(p+0xab)=0;
-        *(unsigned char *)(p+0xae)=0;
-        func_021D584C(*(char **)(p+0x18));
-        func_021D57D0(*(char **)(p+0x18),45,0,*(int *)(p+0xc));
-        func_021D5960(*(char **)(p+0x18),1,4);
-        func_021D62B4(*(char **)(p+0x14),0);
-        func_021D62BC(*(char **)(p+0x14),6,7);
-        func_021D62BC(*(char **)(p+0x14),0,1);
+    func_02009448(((struct Obj01254 *)p)->f28);
+    if (func_02012DD0(((struct Obj01254 *)p)->f2C)==2) {
+        ((struct Obj01254 *)p)->fAD=0;
+        ((struct Obj01254 *)p)->fAB=0;
+        ((struct Obj01254 *)p)->fAE=0;
+        func_021D584C(*(char * *)&((struct Obj01254 *)p)->f18);
+        func_021D57D0(*(char * *)&((struct Obj01254 *)p)->f18,45,0,*(int *)&((struct Obj01254 *)p)->fC);
+        func_021D5960(*(char * *)&((struct Obj01254 *)p)->f18,1,4);
+        func_021D62B4(*(char * *)&((struct Obj01254 *)p)->f14,0);
+        func_021D62BC(*(char * *)&((struct Obj01254 *)p)->f14,6,7);
+        func_021D62BC(*(char * *)&((struct Obj01254 *)p)->f14,0,1);
         cb.f0=0; cb.f4=p; cb.f8=func_021D7204;
-        func_021D62D0(*(char **)(p+0x14),0,(int)&cb);
-        func_021D6650(*(char **)(p+0x14),0);
-        func_021D6458(*(char **)(p+0x14),func_020185F0(*(void **)(p+0xc)),0);
-        func_021D652C(*(char **)(p+0x14));
+        func_021D62D0(*(char * *)&((struct Obj01254 *)p)->f14,0,(int)&cb);
+        func_021D6650(*(char * *)&((struct Obj01254 *)p)->f14,0);
+        func_021D6458(*(char * *)&((struct Obj01254 *)p)->f14,func_020185F0(((struct Obj01254 *)p)->fC),0);
+        func_021D652C(*(char * *)&((struct Obj01254 *)p)->f14);
         func_020061E4(0x658);
         func_021D6EE0(p,(int)func_021D7180,0x295);
     }

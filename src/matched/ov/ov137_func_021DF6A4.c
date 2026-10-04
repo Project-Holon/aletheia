@@ -10,5 +10,6 @@
  * symbols:
  *   func_021E0130 0x021E0130 thumb ov137
  */
+#include "../include/Obj23763.h"
 typedef unsigned char u8;extern void func_021E0130(u8 *,int);
-int func_021DF6A4(u8 *p){func_021E0130(p,12);*(int *)p=46;return 0;}
+int func_021DF6A4(u8 *p){func_021E0130(p,12);((struct Obj23763 *)p)->f0=46;return 0;}

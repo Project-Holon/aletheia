@@ -20,6 +20,7 @@
  *   func_021D5B48  0x021D5B48  thumb  ov093
  *   func_021D70A8  0x021D70A8  thumb  ov093
  */
+#include "../include/Obj13496.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -47,7 +48,7 @@ void func_021DEF48(int a, void *b, int c)
         if (func_021D5B48(m) == 0) {
             r = (u8 *)func_021C88A4(b, 5, c);
             r[6] = c;
-            *(u16 *)(r + 4) = func_021D7B74(m, 16);
+            ((struct Obj13496 *)r)->f4 = func_021D7B74(m, 16);
             func_021C8838(r + 8, 2, 0x392);
             func_021C8860((struct S *)(r + 8), c);
             func_021C8860((struct S *)(r + 8), func_021D70A8((void *)a));

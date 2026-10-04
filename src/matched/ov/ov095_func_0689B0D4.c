@@ -20,6 +20,7 @@
  *   func_0689B1C4  0x0689B1C4  thumb  ov095
  *   func_0689B1D4  0x0689B1D4  thumb  ov095
  */
+#include "../include/Obj00409.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,20 +47,20 @@ int func_0689B0D4(int unused, u8 *s)
     u8 c;
 
     func_0689B354(s + 0x80, s);
-    if (func_0689B174(*(u32 *)(s + 0xa0)) == 2) {
+    if (func_0689B174(*(u32 *)&((struct Obj00409 *)s)->fA0) == 2) {
         c = 6;
         if (s[0x80] != 0) {
-            func_0689B194(*(u32 *)(s + 0xa0), *(u32 *)(s + 0xa4),
-                          func_0689B184(*(u32 *)(s + 0x6c)));
+            func_0689B194(*(u32 *)&((struct Obj00409 *)s)->fA0, *(u32 *)&((struct Obj00409 *)s)->fA4,
+                          func_0689B184(*(u32 *)&((struct Obj00409 *)s)->f6C));
             c = func_0689B1A4()[4];
         }
-        func_0689B1B4(*(Q **)(s + 0x70), (*(Q **)(s + 0x70))->id, c);
+        func_0689B1B4(*(Q * *)&((struct Obj00409 *)s)->f70, (*(Q * *)&((struct Obj00409 *)s)->f70)->id, c);
         s[0x89] = 1;
     }
     func_0689B098(s + 0x80, s);
     s[0x89] = 0;
-    s[0x8a] = func_0689B1C4((*(Q **)(s + 0x70))->id, 0x1b);
-    if ((*(Q **)(s + 0x70))->id == 0xae)
-        s[0x8a] = func_0689B1D4(*(u32 *)(s + 0x6c));
+    s[0x8a] = func_0689B1C4((*(Q * *)&((struct Obj00409 *)s)->f70)->id, 0x1b);
+    if ((*(Q * *)&((struct Obj00409 *)s)->f70)->id == 0xae)
+        s[0x8a] = func_0689B1D4(*(u32 *)&((struct Obj00409 *)s)->f6C);
     return 1;
 }

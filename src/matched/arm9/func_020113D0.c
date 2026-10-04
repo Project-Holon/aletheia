@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00005.h"
 
 void func_020113D0(char *p, int val)
 {
     p[0xd] = 2;
-    *(int *)(p + 0x10) = val;
+    *(int *)&((struct Obj00005 *)p)->f10 = val;
 }

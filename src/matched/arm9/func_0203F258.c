@@ -25,6 +25,7 @@
  * pairs each low/high half and it is byte-exact.  Reached only as a
  * function pointer (pool word 0x020056CC).
  */
+#include "../include/Obj16002.h"
 typedef unsigned char u8;
 typedef unsigned int  u32;
 typedef unsigned long long u64;
@@ -54,7 +55,7 @@ void func_0203F258(struct Lcg64 *out)
     sub_0208142C(d, c, 0x20);
     sub_020814C0(d, b);
     sub_02082D44(b, a, 8);
-    out->x = *(u64 *)a;
+    out->x = ((struct Obj16002 *)a)->f0;
     out->mul = 0x5D588B656C078965ULL;
     out->add = 0x269EC3;
 }

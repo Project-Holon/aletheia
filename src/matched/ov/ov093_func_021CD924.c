@@ -11,8 +11,9 @@
  * symbols:
  *   func_021EE63C 0x021EE63C thumb ov093
  */
+#include "../include/Obj13352.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 *func_021EE63C(u16 *, u32 *);
-u16 *func_021CD924(u8 *p, u32 *out) { if (*(u16 **)(p+0x10)) return func_021EE63C(*(u16 **)(p+0x10),out); return 0; }
+u16 *func_021CD924(u8 *p, u32 *out) { if (*(u16 * *)&((struct Obj13352 *)p)->f10) return func_021EE63C(*(u16 * *)&((struct Obj13352 *)p)->f10,out); return 0; }

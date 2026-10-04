@@ -36,6 +36,7 @@
  *   d_021F82B8 0x021F82B8 data a4
  *   d_021F82D8 0x021F82D8 data a4
  */
+#include "../include/Obj00721.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -76,32 +77,32 @@ void func_021F44F8(u8 *p)
     func_021F4684(d_021F8298,4,0);
     func_021F4684(d_021F82B8,6,0);
     func_021F4684(d_021F82D8,7,0);
-    *(void **)(p+72)=func_0204B100(8,0,*(u16 *)p);
-    func_0204B270(*(void **)(p+72));
+    ((struct Obj00721 *)p)->f48=func_0204B100(8,0,((struct Obj00721 *)p)->f0);
+    func_0204B270(((struct Obj00721 *)p)->f48);
     func_02043598(16,1);
-    t=func_020490F4((unsigned int)46,*(u16 *)p);
-    func_02049B68((void *)((u32)t),4,4,0,0,*(u16 *)p);
-    func_02049658((void *)((u32)t),7,7,0,0,0,*(u16 *)p);
-    func_020498F4((void *)((u32)t),12,7,0,0,0,*(u16 *)p);
+    t=func_020490F4((unsigned int)46,((struct Obj00721 *)p)->f0);
+    func_02049B68((void *)((u32)t),4,4,0,0,((struct Obj00721 *)p)->f0);
+    func_02049658((void *)((u32)t),7,7,0,0,0,((struct Obj00721 *)p)->f0);
+    func_020498F4((void *)((u32)t),12,7,0,0,0,((struct Obj00721 *)p)->f0);
     func_02049238(t);
-    if (*(u32 *)(p+12)==0) {
-        t=func_020490F4((unsigned int)func_020275E4(),*(u16 *)p);
-        func_02049B68((void *)((u32)t),func_02027624(),4,288,32,*(u16 *)p);
-        func_02049658((void *)((u32)t),func_02027628(),6,0,0,0,*(u16 *)p);
-        func_020498F4((void *)((u32)t),func_0202762C(),6,0,0,0,*(u16 *)p);
+    if (((struct Obj00721 *)p)->fC==0) {
+        t=func_020490F4((unsigned int)func_020275E4(),((struct Obj00721 *)p)->f0);
+        func_02049B68((void *)((u32)t),func_02027624(),4,288,32,((struct Obj00721 *)p)->f0);
+        func_02049658((void *)((u32)t),func_02027628(),6,0,0,0,((struct Obj00721 *)p)->f0);
+        func_020498F4((void *)((u32)t),func_0202762C(),6,0,0,0,((struct Obj00721 *)p)->f0);
         func_020413B0(6,0,21,32,3,9);
         func_020409B4(6);
-        *(u32 *)(p+76)=func_0204AC18((void *)((u32)t),func_02027614(),1,0,0,3,*(u16 *)p);
-        *(u32 *)(p+80)=func_0204A6C8((void *)((u32)t),func_02027618(),0,1,*(u16 *)p);
+        ((struct Obj00721 *)p)->f4C=func_0204AC18((void *)((u32)t),func_02027614(),1,0,0,3,((struct Obj00721 *)p)->f0);
+        ((struct Obj00721 *)p)->f50=func_0204A6C8((void *)((u32)t),func_02027618(),0,1,((struct Obj00721 *)p)->f0);
         v=func_0202761C(0);
         w=func_02027620(0);
-        *(u32 *)(p+84)=func_0204AF28((void *)((u32)t),v,w,*(u16 *)p);
+        ((struct Obj00721 *)p)->f54=func_0204AF28((void *)((u32)t),v,w,((struct Obj00721 *)p)->f0);
         func_02049238(t);
         d.x=232;
         d.y=168;
         d.z=1;
         d.b=0;
         d.a=0;
-        *(void **)(p+88)=func_0204B294((void *)*(u32 *)(p+72),*(u32 *)(p+80),*(u32 *)(p+76),*(u32 *)(p+84),&d,1,*(u16 *)p);
+        ((struct Obj00721 *)p)->f58=func_0204B294((void *)*(u32 *)&((struct Obj00721 *)p)->f48,((struct Obj00721 *)p)->f50,((struct Obj00721 *)p)->f4C,((struct Obj00721 *)p)->f54,&d,1,((struct Obj00721 *)p)->f0);
     }
 }

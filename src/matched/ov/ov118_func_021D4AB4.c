@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08049.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -40,11 +41,11 @@ extern const Vec d_021D7C90;
 void func_021D4AB4(u8 *p)
 {
     func_021D4490(p);
-    *(u32 *)(p + 0x854) = 1;
-    func_02016028((void *)(*(u32 *)(p + 0x844)), 0);
-    if (*(u32 *)(p + 0x118C) == 6) {
+    ((struct Obj08049 *)p)->f854 = 1;
+    func_02016028((void *)(((struct Obj08049 *)p)->f844), 0);
+    if (((struct Obj08049 *)p)->f118C == 6) {
         Vec v = d_021D7C90;
-        func_02015C48(*(u32 *)(p + 0x844), &v);
+        func_02015C48(((struct Obj08049 *)p)->f844, &v);
     }
     func_021D4484(p, 0);
     func_021D8E84(p, (int)func_021D449C);

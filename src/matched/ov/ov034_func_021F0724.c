@@ -34,6 +34,7 @@
  *   func_02043598 0x02043598 arm
  *   d_021F0A60    0x021F0A60 data a2
  */
+#include "../include/Obj00166.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -89,25 +90,25 @@ void func_021F0724(int *p)
 
     list = func_02012934(func_020120F4((const struct Ctx *)p[0]));
     n = func_0201AA18(list);
-    p[0x14] = (int)func_0204B100(0x10, 0, *(u16 *)(p + 0x4B));
-    h = func_020490F4(7, *(u16 *)(p + 0x4B));
+    p[0x14] = (int)func_0204B100(0x10, 0, ((struct Obj00166 *)p)->f12C);
+    h = func_020490F4(7, ((struct Obj00166 *)p)->f12C);
     for (i = 0; i < n; i++)
         p[0x25 + i] = func_0204A6C8(h, func_0201BA68(func_020185F4(func_0201AB28(list, i))), 0, 1,
-                                    *(u16 *)(p + 0x4B));
-    p[0x34] = func_0204ACEC(h, func_0201BC3C(), 1, 0, *(u16 *)(p + 0x4B));
+                                    ((struct Obj00166 *)p)->f12C);
+    p[0x34] = func_0204ACEC(h, func_0201BC3C(), 1, 0, ((struct Obj00166 *)p)->f12C);
     t = func_0201BC40();
-    p[0x41] = func_0204AF28(h, t, func_0201BCB4(), *(u16 *)(p + 0x4B));
+    p[0x41] = func_0204AF28(h, t, func_0201BCB4(), ((struct Obj00166 *)p)->f12C);
     func_02049238(h);
-    h = func_020490F4(0xC4, *(u16 *)(p + 0x4B));
-    p[0x2B] = func_0204A6C8(h, 3, 1, 1, *(u16 *)(p + 0x4B));
-    p[0x35] = func_0204AC18(h, 4, 1, 0x60, 0, 1, *(u16 *)(p + 0x4B));
-    p[0x42] = func_0204AF28(h, 5, 6, *(u16 *)(p + 0x4B));
+    h = func_020490F4(0xC4, ((struct Obj00166 *)p)->f12C);
+    p[0x2B] = func_0204A6C8(h, 3, 1, 1, ((struct Obj00166 *)p)->f12C);
+    p[0x35] = func_0204AC18(h, 4, 1, 0x60, 0, 1, ((struct Obj00166 *)p)->f12C);
+    p[0x42] = func_0204AF28(h, 5, 6, ((struct Obj00166 *)p)->f12C);
     func_02049238(h);
     r = d_021F0A60[0];
     for (i = 0; i < n; i++) {
         e = func_0201AB28(list, i);
         p[0x15 + i] = (int)func_0204B294((void *)p[0x14], p[0x25 + i], p[0x34], p[0x41], &r, 1,
-                                    *(u16 *)(p + 0x4B));
+                                    ((struct Obj00166 *)p)->f12C);
         func_0204B3DC((struct Obj *)p[0x15 + i], 0);
         r.x += 0x20;
         func_0204B6F4((struct Obj *)p[0x15 + i], func_0201BBE8(func_020185F4(e)), 1);
@@ -115,7 +116,7 @@ void func_021F0724(int *p)
     r = d_021F0A60[1];
     for (i = 6; i <= 15; i++) {
         p[0x15 + i] = (int)func_0204B294((void *)p[0x14], p[0x2B], p[0x35], p[0x42], &r, 1,
-                                    *(u16 *)(p + 0x4B));
+                                    ((struct Obj00166 *)p)->f12C);
         func_0204B3DC((struct Obj *)p[0x15 + i], 0);
         r.x += 0xC;
     }

@@ -23,6 +23,7 @@
  *   d_021E7AC8  0x021E7AC8  data a4
  *   d_021E8144  0x021E8144  data a4
  */
+#include "../include/Obj00907.h"
 
 typedef unsigned short u16;
 
@@ -71,36 +72,36 @@ void func_021E32EC(char *p)
     int i;
     int idx;
 
-    idx = *(int *)(p + 0x109C);
+    idx = ((struct Obj00907 *)p)->f109C;
     if (idx == -1)
         return;
     if (d_021E7AC8[idx].fn != 0)
         d_021E7AC8[idx].fn(p, buf);
-    if (*(u16 *)(p + 0x824) != 0xFFFF) {
-        q = (void *)func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824));
+    if (((struct Obj00907 *)p)->f824 != 0xFFFF) {
+        q = (void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824);
         n = func_0204779C(q);
         for (i = 0; i < n; i++)
             func_02047910(q, (u16)i, d_021E8144.amount);
     }
     func_02047964();
-    func_02048AD0(*(void **)(p + 0x83C));
+    func_02048AD0(((struct Obj00907 *)p)->f83C);
     func_020479D8();
-    if (*(void **)(p + 0xC) != 0) {
+    if (((struct Obj00907 *)p)->fC != 0) {
         func_02051534();
         func_02051574();
     }
-    if (*(u16 *)(p + 0x824) != 0xFFFF)
-        func_02047A60((void *)func_02048A18(*(void **)(p + 0x820), *(u16 *)(p + 0x824)), buf);
-    if (*(Sub **)(p + 0xC) != 0) {
-        if ((*(Sub **)(p + 0xC))->a90 != 0) {
-            if ((*(Sub **)(p + 0xC))->aA8 == 0)
-                (*(Sub **)(p + 0xC))->aA8 = func_02011590((*(Sub **)(p + 0xC))->a90, d_021E8144.amount);
-            if ((*(Sub **)(p + 0xC))->aAC == 0)
-                (*(Sub **)(p + 0xC))->aAC = func_02011590((*(Sub **)(p + 0xC))->a94, d_021E8144.amount);
+    if (((struct Obj00907 *)p)->f824 != 0xFFFF)
+        func_02047A60((void *)func_02048A18(((struct Obj00907 *)p)->f820, ((struct Obj00907 *)p)->f824), buf);
+    if (*(Sub * *)&((struct Obj00907 *)p)->fC != 0) {
+        if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90 != 0) {
+            if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 == 0)
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aA8 = func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a90, d_021E8144.amount);
+            if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC == 0)
+                (*(Sub * *)&((struct Obj00907 *)p)->fC)->aAC = func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a94, d_021E8144.amount);
         }
-        if ((*(Sub **)(p + 0xC))->a9C != 0)
-            func_02011590((*(Sub **)(p + 0xC))->a9C, d_021E8144.amount);
-        if ((*(Sub **)(p + 0xC))->a98 != 0)
-            func_02011590((*(Sub **)(p + 0xC))->a98, d_021E8144.amount);
+        if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C != 0)
+            func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a9C, d_021E8144.amount);
+        if ((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98 != 0)
+            func_02011590((*(Sub * *)&((struct Obj00907 *)p)->fC)->a98, d_021E8144.amount);
     }
 }

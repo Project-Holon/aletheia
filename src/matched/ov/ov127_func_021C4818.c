@@ -11,6 +11,7 @@
  * symbols:
  *   d_021C600C 0x021C600C data a4
  */
+#include "../include/Obj08123.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -20,6 +21,6 @@ extern Cell d_021C600C;
 Cell func_021C4818(u8 *p, u32 x, u32 y)
 {
  Cell r = d_021C600C;
- if (*(u16 *)p > x && *(u16 *)(p+2) > y) r=*(Cell *)(*(u32 *)(p+4) + (x + *(u16 *)p*y)*4);
+ if (((struct Obj08123 *)p)->f0 > x && ((struct Obj08123 *)p)->f2 > y) r=*(Cell *)(((struct Obj08123 *)p)->f4 + (x + ((struct Obj08123 *)p)->f0*y)*4);
  return r;
 }

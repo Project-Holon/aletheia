@@ -30,6 +30,7 @@
  *   python tools/match.py one --src src/matched/func_020507A0.c \
  *       --func func_020507A0 --addr 0x020507A0 --cc 1.1p1 --arm
  */
+#include "../include/Obj11454.h"
 
 typedef unsigned int u32;
 
@@ -37,7 +38,7 @@ extern int func_0204F720(u32 a, u32 b, void *buf);
 
 int func_020507A0(void *p, int idx, u32 x)
 {
-    return func_0204F720(*(u32 *)((char *)p + 4),
-                         *(u32 *)(*(u32 *)((char *)p + 24) + idx * 40),
+    return func_0204F720(((struct Obj11454 *)p)->f4,
+                         *(u32 *)(((struct Obj11454 *)p)->f18 + idx * 40),
                          &x);
 }

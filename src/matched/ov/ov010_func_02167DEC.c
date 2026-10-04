@@ -10,6 +10,7 @@
  * symbols:
  *   func_02039338 0x02039338 arm
  */
+#include "../include/Obj09320.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {
@@ -23,8 +24,8 @@ void func_02167DEC(u16 a, int b, u16 *c, u8 *p)
 {
     p[0x724]++;
     if (a != func_02039338()) {
-        *(u16 *)(p + 0x728) = 0;
+        ((struct Obj09320 *)p)->f728 = 0;
         if (((Flags *)p)->flag != 0 || *c != 0)
-            *(u16 *)(p + 0x728) = 1;
+            ((struct Obj09320 *)p)->f728 = 1;
     }
 }

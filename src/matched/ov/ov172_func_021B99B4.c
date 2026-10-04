@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06561.h"
 
 typedef unsigned int u32;
 
@@ -26,18 +27,18 @@ extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021B99B4(void *a0, char *a1)
 {
-    u32 v = *(u32 *)(a1 + 0xa4);
-    u32 w = *(u32 *)(a1 + 0xa8);
+    u32 v = ((struct Obj06561 *)a1)->fA4;
+    u32 w = ((struct Obj06561 *)a1)->fA8;
 
     if (v == w)
         return;
     if (v == 1) {
-        func_0204B878(*(void **)(a1 + 0xa0), 0x17);
+        func_0204B878(((struct Obj06561 *)a1)->fA0, 0x17);
         return;
     }
     if (v == 2) {
-        func_0204B878(*(void **)(a1 + 0xa0), 0x23);
+        func_0204B878(((struct Obj06561 *)a1)->fA0, 0x23);
         return;
     }
-    func_0204B878(*(void **)(a1 + 0xa0), 0x18);
+    func_0204B878(((struct Obj06561 *)a1)->fA0, 0x18);
 }

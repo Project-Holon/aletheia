@@ -27,6 +27,7 @@
  *   func_021CFBBC 0x021CFBBC thumb ov093
  *   func_021CFBE0 0x021CFBE0 thumb ov093
  */
+#include "../include/Obj00489.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,11 +61,11 @@ int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
     u8 ok;
     choice = 6;
     if (func_021CF8D4(g, m, &id, &k) != 4) return 0;
-    if (func_021B9B98(*(void **)(g + 0x118)) <= g[0x11c]) return 0;
-    q = func_021CFD50(g, func_021B8D8C(*(void **)g, *(void **)(g + 4), func_021D5440(m)));
+    if (func_021B9B98(((struct Obj00489 *)g)->f118) <= g[0x11c]) return 0;
+    q = func_021CFD50(g, func_021B8D8C(((struct Obj00489 *)g)->f0, ((struct Obj00489 *)g)->f4, func_021D5440(m)));
     if (!q) return 0;
     if (func_021D6C24(q))
-        q = func_021B937C(*(int *)g, *(char **)(g + 4), q);
+        q = func_021B937C(*(int *)&((struct Obj00489 *)g)->f0, *(char * *)&((struct Obj00489 *)g)->f4, q);
     if (func_021CFDCC(g, m)) ok = 1;
     else if (func_021CFE08(g, m, q)) ok = 1;
     else if (func_021CFE98(g, m, q)) ok = 1;

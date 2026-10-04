@@ -15,6 +15,7 @@
  *   func_021A3980  0x021A3980  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19765.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -23,5 +24,5 @@ extern void func_021A3980(u32 a, u32 b);
 
 void func_021A30A4(u8 *p, u32 b)
 {
-    func_021A3980(*(u32 *)(p + 4), b);
+    func_021A3980(((struct Obj19765 *)p)->f4, b);
 }

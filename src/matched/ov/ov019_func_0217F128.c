@@ -16,6 +16,7 @@
  *   func_0217F044  0x0217F044  thumb  ov019
  *   func_021904C8  0x021904C8  thumb  ov021
  */
+#include "../include/Obj00033.h"
 
 struct U16Vec;
 extern void func_0219160C(int *p);
@@ -27,19 +28,19 @@ extern void func_021904C8(int a);
 
 void func_0217F128(unsigned char *base)
 {
-    if (*(int *)(base + 0x280C) != 0) {
-        func_0219160C((int *)(*(int *)(base + 0x280C)));
-        func_021915B4(*(int *)(base + 0x280C));
-        *(int *)(base + 0x280C) = 0;
+    if (*(int *)&((struct Obj00033 *)base)->f280C != 0) {
+        func_0219160C((int *)(*(int *)&((struct Obj00033 *)base)->f280C));
+        func_021915B4(*(int *)&((struct Obj00033 *)base)->f280C);
+        *(int *)&((struct Obj00033 *)base)->f280C = 0;
         *(base + 0x2828) = 0;
-        func_02045808((struct U16Vec *)(*(int *)(base + 0x2820)));
-        func_02045808((struct U16Vec *)(*(int *)(base + 0x2824)));
-        *(int *)(base + 0x2820) = 0;
-        *(int *)(base + 0x2824) = 0;
+        func_02045808((struct U16Vec *)(((struct Obj00033 *)base)->f2820));
+        func_02045808((struct U16Vec *)(((struct Obj00033 *)base)->f2824));
+        ((struct Obj00033 *)base)->f2820 = 0;
+        ((struct Obj00033 *)base)->f2824 = 0;
     }
-    if (*(int *)(base + 0x2808) != 0) {
+    if (((struct Obj00033 *)base)->f2808 != 0) {
         func_0217F044(base);
-        func_021904C8(*(int *)(base + 0x2808));
-        *(int *)(base + 0x2808) = 0;
+        func_021904C8(((struct Obj00033 *)base)->f2808);
+        ((struct Obj00033 *)base)->f2808 = 0;
     }
 }

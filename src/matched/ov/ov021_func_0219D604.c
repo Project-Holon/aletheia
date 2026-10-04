@@ -12,6 +12,7 @@
  * symbols:
  *   func_021C6580  0x021C6580  thumb  ov021
  */
+#include "../include/Obj07479.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,11 +25,11 @@ extern void func_021C6580(u8 *p, int i);
 void func_0219D604(u8 *s, u16 k)
 {
     int i;
-    int n = *(u16 *)(s + 8);
-    E4 *e = *(E4 **)(s + 0xc);
+    int n = ((struct Obj07479 *)s)->f8;
+    E4 *e = *(E4 * *)&((struct Obj07479 *)s)->fC;
     for (i = 0; i < n; i++, e++) {
         if (e->b == k) {
-            func_021C6580((u8 *)(*(u32 *)(s + 4)), e->a);
+            func_021C6580((u8 *)(((struct Obj07479 *)s)->f4), e->a);
             e->b = 0xFFFF;
             return;
         }

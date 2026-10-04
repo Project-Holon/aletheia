@@ -15,6 +15,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj04419.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -26,9 +27,9 @@ extern void func_02049238(void *);
 void func_021B96EC(char *p)
 {
     void *owner;
-    owner = func_020490F4(28, *(u16 *)(p + 0x278));
-    *(int *)(p + 0x2bc) = func_0204A6C8((void *)((u32)owner), 7, 0, 0, *(u16 *)(p + 0x278));
-    *(int *)(p + 0x2b8) = func_0204AC18((void *)((u32)owner), 3, 0, 0, 0, 3, *(u16 *)(p + 0x278));
-    *(int *)(p + 0x2c0) = func_0204AF28((void *)((u32)owner), 9, 15, *(u16 *)(p + 0x278));
+    owner = func_020490F4(28, ((struct Obj04419 *)p)->f278);
+    ((struct Obj04419 *)p)->f2BC = func_0204A6C8((void *)((u32)owner), 7, 0, 0, ((struct Obj04419 *)p)->f278);
+    ((struct Obj04419 *)p)->f2B8 = func_0204AC18((void *)((u32)owner), 3, 0, 0, 0, 3, ((struct Obj04419 *)p)->f278);
+    ((struct Obj04419 *)p)->f2C0 = func_0204AF28((void *)((u32)owner), 9, 15, ((struct Obj04419 *)p)->f278);
     func_02049238(owner);
 }

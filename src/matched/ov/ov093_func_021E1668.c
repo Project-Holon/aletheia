@@ -19,6 +19,7 @@
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  */
+#include "../include/Obj00889.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D775C(int);
@@ -59,7 +60,7 @@ void func_021E1668(int unused, void *q, int id)
         r[14] = 1;
         func_021C88C8(q, r);
         r = func_021C88A4(q, 38, id);
-        *(u32 *)r |= 0x1000000;
+        ((struct Obj00889 *)r)->f0 |= 0x1000000;
         r[4] = id;
         r[5] = 1;
         r[6] = func_021D69AC(m, 1) + 1;
@@ -72,7 +73,7 @@ void func_021E1668(int unused, void *q, int id)
         r[14] = 1;
         func_021C88C8(q, r);
         r = func_021C88A4(q, 38, id);
-        *(u32 *)r |= 0x1000000;
+        ((struct Obj00889 *)r)->f0 |= 0x1000000;
         r[4] = id;
         r[5] = 2;
         r[6] = func_021D69AC(m, 2) + 1;

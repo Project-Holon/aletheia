@@ -15,6 +15,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07224.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ typedef signed char    s8;
 
 void func_021BB978(u32 a, u32 b, u32 c, u32 d)
 {
-if (*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20) != 0) {
-    ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20))(b, *(u32 *)((u8 *)(*(u32 *)((u8 *)(b)))), *(u32 *)((u8 *)(b) + 16), *(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20));
+if (*(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20) != 0) {
+    ((void (*)(u32, u32, u32, u32))*(u32 *)((u8 *)(*(u32 *)((u8 *)(b) + 12)) + 20))(b, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->f0)), ((struct Obj07224 *)((u8 *)(b)))->f10, *(u32 *)((u8 *)(((struct Obj07224 *)((u8 *)(b)))->fC) + 20));
 }
 }
 

@@ -13,6 +13,8 @@
  *   func_020409B4 0x020409B4 arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj23151.h"
+#include "../include/Obj23152.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -27,6 +29,6 @@ void func_021D90C0(unsigned char *a, unsigned char *p)
     for(i=0;i<10;i++) func_021DBCA4(*(void **)(p+0x80+i*20),0);
     func_02041300(1,0,0,0,19,21,16);
     func_020409B4(1);
-    *(int *)p=0;
-    func_0204B878(*(void **)(a+0x180),2);
+    ((struct Obj23152 *)p)->f0=0;
+    func_0204B878(((struct Obj23151 *)a)->f180,2);
 }

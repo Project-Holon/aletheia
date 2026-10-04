@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03853.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,20 +29,20 @@ extern int func_0203CEAC(int a);
 
 void func_021B8084(void *a, char *q)
 {
-    if (*(u8 *)(q + 4) <= 1) {
-        if (*(u32 *)(q + 0x174) == 5) {
-            *(u32 *)(q + 8) = 0xc;
+    if (((struct Obj03853 *)q)->f4 <= 1) {
+        if (((struct Obj03853 *)q)->f174 == 5) {
+            ((struct Obj03853 *)q)->f8 = 0xc;
             func_0203A5E4(0x2000);
         } else {
             func_0203CEAC(0);
-            *(u32 *)(q + 8) = 0xb;
+            ((struct Obj03853 *)q)->f8 = 0xb;
         }
     } else {
-        if (*(u32 *)(q + 0x174) == 5) {
-            *(u32 *)(q + 8) = 9;
+        if (((struct Obj03853 *)q)->f174 == 5) {
+            ((struct Obj03853 *)q)->f8 = 9;
         } else {
-            *(u32 *)(q + 8) = 8;
+            ((struct Obj03853 *)q)->f8 = 8;
         }
     }
-    *(u32 *)(q + 0x178) = 1;
+    ((struct Obj03853 *)q)->f178 = 1;
 }

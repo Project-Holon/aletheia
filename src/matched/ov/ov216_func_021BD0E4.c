@@ -13,6 +13,8 @@
  *   func_0202DCB0 0x0202DCB0 thumb
  *   sub_02040588 0x02040588 arm
  */
+#include "../include/Obj00051.h"
+#include "../include/Obj08428.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Obj;
@@ -26,10 +28,10 @@ void func_021BD0E4(char *p, u32 index, u32 enable)
 {
     char *entry;
     entry = p + 0x15c + index * 128;
-    sub_0204B3DC(*(struct Obj **)(entry + 0x78), enable);
-    if (*(u8 *)(entry + 0x7d) != 0)
-        sub_0204B3DC(*(struct Obj **)(entry + 0x74), enable);
-    if (sub_0202DCC4(*(struct Obj0202DCC4 **)(p + 0x158), index) != 0)
-        func_0202DCB0(*(struct Obj0202DC98 **)(p + 0x158), index, enable);
-    sub_02040588(*(u8 *)(entry + 0x7e), enable);
+    sub_0204B3DC(*(struct Obj * *)&((struct Obj08428 *)entry)->f78, enable);
+    if (((struct Obj08428 *)entry)->f7D != 0)
+        sub_0204B3DC(*(struct Obj * *)&((struct Obj08428 *)entry)->f74, enable);
+    if (sub_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158, index) != 0)
+        func_0202DCB0(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158, index, enable);
+    sub_02040588(((struct Obj08428 *)entry)->f7E, enable);
 }

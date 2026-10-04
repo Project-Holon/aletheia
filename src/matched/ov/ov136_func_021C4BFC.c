@@ -20,6 +20,7 @@
  *   func_021C5268 0x021C5268 thumb ov136
  *   func_021C4C9C 0x021C4C9C thumb ov136
  */
+#include "../include/Obj00160.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,10 +40,10 @@ extern void func_021C5268(u8 *);
 extern void func_021C4C9C(u8 *);
 int func_021C4BFC(u8 *p)
 {
-    switch (*(u16 *)(p + 8)) {
+    switch (((struct Obj00160 *)p)->f8) {
     case 0:
-        *(void **)(p + 0x20) = func_02045B38(0, 2, 60, (u16)*(u32 *)p);
-        *(void **)(p + 0x34) = func_020457B0(128, (u16)*(u32 *)p);
+        ((struct Obj00160 *)p)->f20 = func_02045B38(0, 2, 60, (u16)((struct Obj00160 *)p)->f0);
+        ((struct Obj00160 *)p)->f34 = func_020457B0(128, (u16)((struct Obj00160 *)p)->f0);
         func_021C4DE4(p);
         break;
     case 1:
@@ -53,14 +54,14 @@ int func_021C4BFC(u8 *p)
         break;
     case 3:
         func_021C5420(p);
-        *(void **)(p + 0x108) = func_02027F60(0, 8, (u32)(*(void **)(p + 0x24)), (u32)(*(void **)(p + 0x98)), (u16)*(u32 *)p);
-        *(u16 *)(p + 8) = 0;
+        ((struct Obj00160 *)p)->f108 = func_02027F60(0, 8, (u32)(((struct Obj00160 *)p)->f24), (u32)(((struct Obj00160 *)p)->f98), (u16)((struct Obj00160 *)p)->f0);
+        ((struct Obj00160 *)p)->f8 = 0;
         func_021C4D54(p);
         func_021C5360(p);
         func_021C5268(p);
         func_021C4C9C(p);
         return 1;
     }
-    (*(u16 *)(p + 8))++;
+    (((struct Obj00160 *)p)->f8)++;
     return 0;
 }

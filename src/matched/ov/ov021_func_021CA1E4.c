@@ -18,6 +18,7 @@
  *   func_0200BAF4  0x0200BAF4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07584.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void *func_0200BAF4(int a0, int a1);
 
 void func_021CA1E4(u8 *p)
 {
-    if (*(void **)(p + 0x7c8) != 0)
-        func_020307B0(*(void **)(p + 0x7c8));
-    *(void **)(p + 0x7c8) = func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)(*(u32 *)(p + 0x6c)))), 4);
+    if (((struct Obj07584 *)p)->f7C8 != 0)
+        func_020307B0(((struct Obj07584 *)p)->f7C8);
+    ((struct Obj07584 *)p)->f7C8 = func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)(((struct Obj07584 *)p)->f6C))), 4);
 }

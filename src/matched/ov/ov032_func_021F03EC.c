@@ -14,6 +14,7 @@
  *   func_021F029C  0x021F029C  thumb  ov032
  *   func_021F1A08  0x021F1A08  thumb  ov032
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -24,19 +25,19 @@ extern void func_021F1A08(u8 *p);
 
 int func_021F03EC(u8 *p)
 {
-    int s = *(int *)(p + 0x6c);
+    int s = ((struct Obj00007 *)p)->f6C;
 
     switch (s) {
     case 0:
         func_021F05E8(p, 0, 1);
         func_021F029C(p, 1);
         func_021F1A08(p);
-        *(int *)(p + 0x6c) = *(int *)(p + 0x6c) + 1;
+        ((struct Obj00007 *)p)->f6C = ((struct Obj00007 *)p)->f6C + 1;
         break;
     case 1:
-        if (*(int *)(p + 0xa8) == 0) {
+        if (((struct Obj00007 *)p)->fA8 == 0) {
             func_021F029C(p, 0);
-            *(int *)(p + 0x6c) = 0;
+            ((struct Obj00007 *)p)->f6C = 0;
             return 1;
         }
         break;

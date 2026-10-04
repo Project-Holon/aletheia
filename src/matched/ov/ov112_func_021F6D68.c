@@ -24,6 +24,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00771.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,29 +49,29 @@ void func_021F6D68(char *p)
     char *ctx;
     char *model;
     u16 n;
-    if(*(int *)(p+136)==0 && func_021F9E18(*(char **)(p+4))!=4) {
-        *(int *)(p+136)=1;
+    if(((struct Obj00771 *)p)->f88==0 && func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)!=4) {
+        ((struct Obj00771 *)p)->f88=1;
         d.x=128;
         d.y=96;
         d.z=0;
         d.a=0;
         d.b=2;
-        a=func_0204B294((void *)*(u32 *)(p+168),*(u32 *)(p+176),*(u32 *)(p+172),*(u32 *)(p+180),&d.x,0,*(u16 *)p);
-        *(void **)(p+164)=a;
+        a=func_0204B294((void *)((struct Obj00771 *)p)->fA8,((struct Obj00771 *)p)->fB0,((struct Obj00771 *)p)->fAC,((struct Obj00771 *)p)->fB4,&d.x,0,((struct Obj00771 *)p)->f0);
+        ((struct Obj00771 *)p)->fA4=a;
         func_0204B3DC(a,1);
     }
-    if(*(int *)(p+136)==1) {
-        if(func_021F9E18(*(char **)(p+4))==4) {
-            func_0204B3B4(*(void **)(p+164));
-            *(int *)(p+136)=0;
+    if(((struct Obj00771 *)p)->f88==1) {
+        if(func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4)==4) {
+            func_0204B3B4(((struct Obj00771 *)p)->fA4);
+            ((struct Obj00771 *)p)->f88=0;
             return;
         }
-        ctx=func_021F9DA0(*(void **)(p+4));
-        model=func_021F9DA4(*(void **)(p+4),func_021F9E18(*(char **)(p+4)));
-        n=func_021F9E04(*(void **)(p+4));
+        ctx=func_021F9DA0(((struct Obj00771 *)p)->f4);
+        model=func_021F9DA4(((struct Obj00771 *)p)->f4,func_021F9E18(*(char * *)&((struct Obj00771 *)p)->f4));
+        n=func_021F9E04(((struct Obj00771 *)p)->f4);
         func_021F8044(ctx,model,&v);
         d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
         d.pos.y=(short)((float)v.y/4096.0f-32.0f);
-        func_0204B404(*(void **)(p+164),&d.pos,0);
+        func_0204B404(((struct Obj00771 *)p)->fA4,&d.pos,0);
     }
 }

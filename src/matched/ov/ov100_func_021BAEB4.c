@@ -15,6 +15,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B96B8 0x021B96B8 thumb ov100
  */
+#include "../include/Obj22086.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_02035C60(void);
@@ -24,7 +25,7 @@ extern void func_021B96B8(u8 *a);
 void func_021BAEB4(int p) {
     if(func_02035C60()!=0) {
         func_021B95C0((u8 *)p);
-        *(int *)(*(int *)(p+0x244)+0x1c)=13;
+        *(int *)(((struct Obj22086 *)p)->f244+0x1c)=13;
         func_021B95B8((u8 *)p,(u32)func_021B96B8);
     }
 }

@@ -19,6 +19,8 @@
  *   func_021F9CB8 0x021F9CB8 thumb ov186
  *   func_021FE840 0x021FE840 thumb ov186
  */
+#include "../include/Obj01072.h"
+#include "../include/Obj02517.h"
 extern char *func_0203159C(int *,int,unsigned);
 extern void func_02082BCC(void *,int,int);
 extern unsigned func_021F9B9C(char *);
@@ -31,19 +33,19 @@ extern void func_021FE840(int,int,int);
 int func_021DB698(int *task,int b,char *p)
 {
     char *s;
-    s=func_0203159C(task,24,func_021F9B9C(*(char **)(p+0x1c)));
+    s=func_0203159C(task,24,func_021F9B9C(*(char * *)&((struct Obj01072 *)p)->f1C));
     func_02082BCC(s,0,24);
-    *(char **)(s+0xc)=p;
-    *(unsigned short *)(s+0x14)=func_021F9B9C(*(char **)(p+0x1c));
-    func_021FC1F8(*(int **)(p+0x18),0);
-    func_021FC1F8(*(int **)(p+0x18),1);
-    func_021FC148(*(int **)(p+0x18),0,*(unsigned short *)(s+0x14));
-    func_021FC148(*(int **)(p+0x18),1,*(unsigned short *)(s+0x14));
-    if(*(int *)p<5) func_021FB964(*(int **)(p+0x18),3,*(unsigned short *)(s+0x14));
-    else func_021FB964(*(int **)(p+0x18),4,*(unsigned short *)(s+0x14));
-    *(int *)(s+4)=(int)func_021FD760(*(int *)(p+0x14),(char *)(*(int *)(p+0x18)),1,*(unsigned short *)(s+0x14));
-    *(int *)s=func_021F9CB8(*(int *)p,*(int *)(p+0x14),*(int *)(p+0x18),*(int *)(p+0x20),*(int *)(p+0x24),*(int *)(s+4),*(unsigned short *)(s+0x14));
-    if(*(int *)(p+0xc)==4) func_021FE840(*(int *)(p+0x10),2,0);
-    else func_021FE840(*(int *)(p+0x10),3,0);
+    *(char * *)&((struct Obj02517 *)s)->fC=p;
+    ((struct Obj02517 *)s)->f14=func_021F9B9C(*(char * *)&((struct Obj01072 *)p)->f1C);
+    func_021FC1F8(*(int * *)&((struct Obj01072 *)p)->f18,0);
+    func_021FC1F8(*(int * *)&((struct Obj01072 *)p)->f18,1);
+    func_021FC148(*(int * *)&((struct Obj01072 *)p)->f18,0,((struct Obj02517 *)s)->f14);
+    func_021FC148(*(int * *)&((struct Obj01072 *)p)->f18,1,((struct Obj02517 *)s)->f14);
+    if(((struct Obj01072 *)p)->f0<5) func_021FB964(*(int * *)&((struct Obj01072 *)p)->f18,3,((struct Obj02517 *)s)->f14);
+    else func_021FB964(*(int * *)&((struct Obj01072 *)p)->f18,4,((struct Obj02517 *)s)->f14);
+    ((struct Obj02517 *)s)->f4=(int)func_021FD760(((struct Obj01072 *)p)->f14,(char *)(*(int *)&((struct Obj01072 *)p)->f18),1,((struct Obj02517 *)s)->f14);
+    ((struct Obj02517 *)s)->f0=func_021F9CB8(((struct Obj01072 *)p)->f0,((struct Obj01072 *)p)->f14,*(int *)&((struct Obj01072 *)p)->f18,((struct Obj01072 *)p)->f20,((struct Obj01072 *)p)->f24,((struct Obj02517 *)s)->f4,((struct Obj02517 *)s)->f14);
+    if(((struct Obj01072 *)p)->fC==4) func_021FE840(((struct Obj01072 *)p)->f10,2,0);
+    else func_021FE840(((struct Obj01072 *)p)->f10,3,0);
     return 1;
 }

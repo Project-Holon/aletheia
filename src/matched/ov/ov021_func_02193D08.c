@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19618.h"
 
 int func_02193D08(unsigned char *p)
 {
     int count = 0;
     int i;
-    unsigned char *q = *(unsigned char **)(p + 4);
+    unsigned char *q = *(unsigned char * *)&((struct Obj19618 *)p)->f4;
 
     if (q != 0) {
         for (i = 0; i < 10; i++) {

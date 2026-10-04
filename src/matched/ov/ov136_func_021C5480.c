@@ -14,6 +14,7 @@
  *   func_02008FEC 0x02008FEC thumb
  *   func_02031324 0x02031324 arm
  */
+#include "../include/Obj06527.h"
 typedef unsigned char u8;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(void *,int,int);
@@ -27,10 +28,10 @@ int func_021C5480(void *a, int unused, void **arg)
     func_0203064C(1,101,65536);
     p = func_0203159C(a,52,101);
     func_02082AC0(0,p,52);
-    *(void **)(p+4) = arg;
-    *(void **)p = func_02008FEC(*arg);
-    *(int *)(p+40) = 8;
-    *(int *)(p+44) = 0;
-    *(void **)(p+48) = func_02031324(101);
+    ((struct Obj06527 *)p)->f4 = arg;
+    ((struct Obj06527 *)p)->f0 = func_02008FEC(*arg);
+    ((struct Obj06527 *)p)->f28 = 8;
+    ((struct Obj06527 *)p)->f2C = 0;
+    ((struct Obj06527 *)p)->f30 = func_02031324(101);
     return 1;
 }

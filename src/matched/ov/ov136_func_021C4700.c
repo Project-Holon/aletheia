@@ -13,6 +13,7 @@
  *   func_021C446C 0x021C446C thumb ov136
  *   d_021C7784 0x021C7784 data a4
  */
+#include "../include/Obj00274.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_02035C08(void *);
@@ -35,7 +36,7 @@ int func_021C4700(u8 *p)
     }
     if (n < 4) {
         (*(u8 **)(p + 0x1C))[2] = n;
-        *(u16 *)*(u8 **)(p + 0x1C) = (*(u8 **)(p + 0x1C))[2];
+        *(u16 *)*(u8 * *)&((struct Obj00274 *)p)->f1C = (*(u8 **)(p + 0x1C))[2];
         (*(u8 **)(p + 0x1C))[3] = p[0x17];
         func_020061E4(0x54D);
         return 1;
@@ -45,11 +46,11 @@ int func_021C4700(u8 *p)
         p[0xB] = 2;
         return 0;
     }
-    *(u16 *)*(u8 **)(p + 0x1C) = 4;
+    *(u16 *)*(u8 * *)&((struct Obj00274 *)p)->f1C = 4;
     func_020061E4(0x54E);
     (*(u8 **)(p + 0x1C))[2] = 0;
     (*(u8 **)(p + 0x1C))[3] = 0;
-    func_0202822C(*(void **)(p + 0x128), 1);
-    func_02028218(*(void **)(p + 0x12C), 0);
+    func_0202822C(((struct Obj00274 *)p)->f128, 1);
+    func_02028218(((struct Obj00274 *)p)->f12C, 0);
     return 1;
 }

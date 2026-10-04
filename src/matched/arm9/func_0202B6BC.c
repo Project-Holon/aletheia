@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj02011.h"
 
 struct Obj;
 extern void func_0202B8E4(struct Obj *o);
 void func_0202B6BC(int a0)
 {
-    func_0202B8E4((struct Obj *)(*(int *)((char *)a0 + 36)));
-    *(int *)((char *)a0 + 36) = 0;
+    func_0202B8E4((struct Obj *)(((struct Obj02011 *)a0)->f24));
+    ((struct Obj02011 *)a0)->f24 = 0;
 }

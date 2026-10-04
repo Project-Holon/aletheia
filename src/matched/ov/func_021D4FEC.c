@@ -19,8 +19,9 @@
  *   python tools/match.py one --src src/matched/func_021D4FEC.c \
  *       --func func_021D4FEC --addr 0x021D4FEC --region ov016 --cc dsi/1.1p1 --arm
  */
+#include "../include/Obj18403.h"
 
 unsigned char func_021D4FEC(char *p)
 {
-    return *(unsigned char *)(p + 0xc);
+    return ((struct Obj18403 *)p)->fC;
 }

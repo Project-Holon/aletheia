@@ -15,6 +15,7 @@
  *
  * Closed: every byte reproduces and the site that held it open is now attested.
  */
+#include "../include/Obj02011.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -27,6 +28,6 @@ extern void func_0202C0C0(void);
 
 void func_0202B67C(u8 *p)
 {
-    func_0202AB28(*(u8 **)(p + 0x10));
-    *(u32 *)(p + 0x10) = 0;
+    func_0202AB28(*(u8 * *)&((struct Obj02011 *)p)->f10);
+    *(u32 *)&((struct Obj02011 *)p)->f10 = 0;
 }

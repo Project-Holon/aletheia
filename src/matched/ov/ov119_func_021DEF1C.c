@@ -40,6 +40,7 @@
  *   func_02156ED0 0x02156ED0 thumb ov009
  *   func_02156DC4 0x02156DC4 thumb ov009
  */
+#include "../include/Obj01927.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -81,11 +82,11 @@ void func_021DEF1C(u8 *p)
     const u16 *heap;
     void *mon, *bank, *text, *name;
     u32 value;
-    status=func_021B99DC(*(u8 **)p);
-    result=func_021B9790(*(u8 **)p);
+    status=func_021B99DC(*(u8 * *)&((struct Obj01927 *)p)->f0);
+    result=func_021B9790(*(u8 * *)&((struct Obj01927 *)p)->f0);
     if(result==0) {
     if(status==200) {
-        data=func_021B97F4(*(u8 **)p);
+        data=func_021B97F4(*(u8 * *)&((struct Obj01927 *)p)->f0);
         p[0x11e6]=func_021B99F0(data);
         if(p[0x11e6]==1) {
             off1=0x109a;
@@ -100,7 +101,7 @@ void func_021DEF1C(u8 *p)
                         mon=*(void **)(p+i*4+off2);
                         if(func_021B99F4((u32)data,n)) {
                             value=func_02017E1C(mon,6,0);
-                            bank=func_02045B38(0,2,81,*(u16 *)(p+0x5f4));
+                            bank=func_02045B38(0,2,81,((struct Obj01927 *)p)->f5F4);
                             text=func_02045EC0(bank,15);
                             func_02045C04(bank);
                             if(func_0202136C(value)) {
@@ -118,7 +119,7 @@ void func_021DEF1C(u8 *p)
                     }
                     i++;
                 } while(i<3);
-                *(u16 *)(p+0x109a)=1;
+                ((struct Obj01927 *)p)->f109A=1;
                 func_021D8E84(p,(int)func_021DF0B8);
                 goto cleanup;
             }
@@ -137,14 +138,14 @@ failed:
         default: error=255; break;
         }
         p[0x11e6]=error;
-        func_021B9774(*(u8 **)p);
+        func_021B9774(*(u8 * *)&((struct Obj01927 *)p)->f0);
     }
     func_021D8E84(p,(int)func_021DEEA8);
 cleanup:
-    if(*(u8 **)p) {
-        func_021B99B8(*(u8 **)p);
-        func_021B9838(*(u8 **)p);
-        *(u8 **)p=0;
+    if(*(u8 * *)&((struct Obj01927 *)p)->f0) {
+        func_021B99B8(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        func_021B9838(*(u8 * *)&((struct Obj01927 *)p)->f0);
+        *(u8 * *)&((struct Obj01927 *)p)->f0=0;
         func_02156ED0();
         func_02156DC4(0,0);
     }

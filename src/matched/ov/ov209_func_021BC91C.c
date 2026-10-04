@@ -12,6 +12,7 @@
  *   func_021BD958 0x021BD958 thumb ov209
  *   func_021BD934 0x021BD934 thumb ov209
  */
+#include "../include/Obj00088.h"
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
@@ -23,16 +24,16 @@ int func_021BC91C(char *p)
     unsigned i;
     s16 pair[2];
     int d;
-    if (*(u16 *)(p + 0xC40) == 0) return 0;
-    func_02041EE4(5, 4, *(s16 *)(p + 0xC42));
-    func_02041EE4(1, 5, *(s16 *)(p + 0xC42));
+    if (((struct Obj00088 *)p)->fC40 == 0) return 0;
+    func_02041EE4(5, 4, ((struct Obj00088 *)p)->fC42);
+    func_02041EE4(1, 5, ((struct Obj00088 *)p)->fC42);
     for (i = 3; i <= 9; i++) {
         func_021BD958(p, i, &pair[1], &pair[0], 0);
-        pair[0] += *(s16 *)(p + 0xC42);
+        pair[0] += ((struct Obj00088 *)p)->fC42;
         func_021BD934(p, i, pair[1], pair[0], 0);
     }
-    d = *(s16 *)(p + 0xC42);
+    d = ((struct Obj00088 *)p)->fC42;
     if (d < 0) d = -d;
-    *(u16 *)(p + 0xC40) -= d;
+    ((struct Obj00088 *)p)->fC40 -= d;
     return 1;
 }

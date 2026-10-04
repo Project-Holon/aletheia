@@ -11,5 +11,6 @@
  * symbols:
  *   func_021FB494 0x021FB494 thumb ov186
  */
+#include "../include/Obj24877.h"
 extern void func_021FB494(char *p);
-void func_021FFF1C(char *p) {func_021FB494(*(void **)(p+44));}
+void func_021FFF1C(char *p) {func_021FB494(((struct Obj24877 *)p)->f2C);}

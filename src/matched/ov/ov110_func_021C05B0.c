@@ -22,6 +22,7 @@
  *   func_021C16B0 0x021C16B0 thumb ov110
  *   func_020355D8 0x020355D8 arm
  */
+#include "../include/Obj06395.h"
 struct PrintSys;
 struct TaskMenuState;
 extern void func_0201C6EC(struct PrintSys *p);
@@ -41,15 +42,15 @@ static inline u8 Clear(char *p, u8 i) {
 }
 void func_021C05B0(char *p) {
     u8 z;
-    func_0201C6EC(*(void **)(p+0x5c));
+    func_0201C6EC(((struct Obj06395 *)p)->f5C);
     z=Clear(p, 0);
-    *(int *)(p+0x4c)=z;
+    ((struct Obj06395 *)p)->f4C=z;
     func_021B6284((unsigned int *)(p+0xc));
     func_021C0AB4((u8 *)p);
-    func_02027FD8(*(void **)(p+0x64));
+    func_02027FD8(((struct Obj06395 *)p)->f64);
     func_021C0C18((u8 *)p);
     func_021C07E8((u8 *)(p+0x24));
-    func_021C16B0(*(void **)(p+0x50));
-    if (*(int *)(p+0xa8)) z=1;
+    func_021C16B0(((struct Obj06395 *)p)->f50);
+    if (((struct Obj06395 *)p)->fA8) z=1;
     func_020355D8(z);
 }

@@ -24,6 +24,12 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj00315.h"
+#include "../include/Obj25015.h"
+#include "../include/Obj25016.h"
+#include "../include/Obj25017.h"
+#include "../include/Obj25018.h"
+#include "../include/Obj25019.h"
 typedef unsigned short u16;
 extern unsigned func_0202F138(unsigned);
 extern unsigned func_02020F08(void),func_02020E60(unsigned,unsigned);
@@ -39,14 +45,14 @@ void func_0220C0B4(char *p)
     void *arc;
     unsigned first,second;
     int a;
-    if(*(int *)(*(char **)p+8)==1) {item=func_0202F138(0);first=3;second=4;}
+    if(((struct Obj25015 *)(*(char * *)&((struct Obj00315 *)p)->f0))->f8==1) {item=func_0202F138(0);first=3;second=4;}
     else {first=1;item=1;second=2;}
-    arc=func_020490F4(func_02020F08(),(*(u16 *)(*(char **)p+0xc)&0x7fff)|0x8000);
+    arc=func_020490F4(func_02020F08(),(((struct Obj25016 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC&0x7fff)|0x8000);
     for(i=0;i<7;i++) {
-        *(int *)(p+i*4+0x544)=func_0204A6C8(arc,func_02020E60(item,first),0,1,*(u16 *)(*(char **)p+0xc));
-        *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,i*32,*(u16 *)(*(char **)p+0xc));
+        *(int *)(p+i*4+0x544)=func_0204A6C8(arc,func_02020E60(item,first),0,1,((struct Obj25017 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
+        *(int *)(p+i*4+0x568)=func_0204ABF0(arc,func_02020E60(item,second),1,i*32,((struct Obj25018 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     }
     a=func_02020F0C();
-    *(int *)(p+0x58c)=func_0204AF28(arc,a,func_02020F10(),*(u16 *)(*(char **)p+0xc));
+    ((struct Obj00315 *)p)->f58C=func_0204AF28(arc,a,func_02020F10(),((struct Obj25019 *)(*(char * *)&((struct Obj00315 *)p)->f0))->fC);
     func_02049238(arc);
 }

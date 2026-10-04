@@ -20,6 +20,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   d_021BA140 0x021BA140 data a2
  */
+#include "../include/Obj01592.h"
 typedef unsigned short u16;
 
 struct Obj; struct Vec2 { short x,y; };
@@ -37,12 +38,12 @@ extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_0204B92C(struct Obj *,unsigned);
 void func_021B9C4C(unsigned char *p)
 {
-    void *h=func_020490F4(0xCA,*(unsigned short *)p);
-    *(int *)(p+0x4C)=func_0204AC18((void *)((unsigned)h),0,0,0,0,2,*(unsigned short *)p);
-    *(int *)(p+0x48)=func_0204A6C8((void *)((unsigned)h),3,0,0,*(unsigned short *)p);
-    *(int *)(p+0x50)=func_0204AF28((void *)((unsigned)h),8,9,*(unsigned short *)p);
+    void *h=func_020490F4(0xCA,((struct Obj01592 *)p)->f0);
+    *(int *)&((struct Obj01592 *)p)->f4C=func_0204AC18((void *)((unsigned)h),0,0,0,0,2,((struct Obj01592 *)p)->f0);
+    *(int *)&((struct Obj01592 *)p)->f48=func_0204A6C8((void *)((unsigned)h),3,0,0,((struct Obj01592 *)p)->f0);
+    *(int *)&((struct Obj01592 *)p)->f50=func_0204AF28((void *)((unsigned)h),8,9,((struct Obj01592 *)p)->f0);
     func_02049238(h);
-    *(struct Obj **)(p+0x54)=func_0204B294((void *)func_021B9F90(*(void **)(p+8)),*(unsigned *)(p+0x48),*(unsigned *)(p+0x4C),*(unsigned *)(p+0x50),&d_021BA140,0,*(unsigned short *)p);
-    func_0204B3DC(*(struct Obj **)(p+0x54),1);
-    func_0204B92C(*(struct Obj **)(p+0x54),1);
+    *(struct Obj * *)&((struct Obj01592 *)p)->f54=func_0204B294((void *)func_021B9F90(((struct Obj01592 *)p)->f8),((struct Obj01592 *)p)->f48,((struct Obj01592 *)p)->f4C,((struct Obj01592 *)p)->f50,&d_021BA140,0,((struct Obj01592 *)p)->f0);
+    func_0204B3DC(*(struct Obj * *)&((struct Obj01592 *)p)->f54,1);
+    func_0204B92C(*(struct Obj * *)&((struct Obj01592 *)p)->f54,1);
 }

@@ -12,6 +12,7 @@
  *
  * Word setter at +0x18.
  */
+#include "../include/Obj22579.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,5 +21,5 @@ typedef unsigned char u8;
 
 void func_021C245C(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x18) = v;
+    ((struct Obj22579 *)p)->f18 = v;
 }

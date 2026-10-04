@@ -22,6 +22,9 @@
  *   python tools/match.py one --src src/matched/sub_0200F0CC.c \
  *       --func sub_0200F0CC --addr 0x0200F0CC --cc 1.1p1
  */
+#include "../include/Obj11712.h"
+#include "../include/Obj16720.h"
+#include "../include/Obj16721.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,16 +32,16 @@ typedef unsigned int u32;
 
 u32 sub_0200F0CC(const void *obj, void *out, u32 *idxptr)
 {
-    u32 count = *(const u16 *)((const u8 *)obj + 4);
+    u32 count = *(const u16 *)&((struct Obj11712 *)obj)->f4;
     u32 idx = *idxptr;
     u8 *rec;
 
     if (idx < count) {
-        rec = *(u8 **)((const u8 *)obj + 0x18) + idx * 0x100;
+        rec = *(u8 * *)&((struct Obj11712 *)obj)->f18 + idx * 0x100;
         do {
             *idxptr = *idxptr + 1;
-            if (*(u32 *)rec & 1) {
-                *(void **)out = rec;
+            if (((struct Obj16721 *)rec)->f0 & 1) {
+                ((struct Obj16720 *)out)->f0 = rec;
                 return 1;
             }
             rec += 0x100;

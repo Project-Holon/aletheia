@@ -13,6 +13,7 @@
  *   func_021B9EB0 0x021B9EB0 thumb ov213
  *   func_0204B8A0 0x0204B8A0 arm
  */
+#include "../include/Obj25696.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021B9EB0(void *,u32);
 struct Obj;
 extern void func_0204B8A0(struct Obj *p, u16 v);
-void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)func_0201AA18(list))entry=func_0201AB28(*(void **)p,index);value=func_021B9EB0(entry,flags[index]);func_0204B8A0((struct Obj *)(*(u32 *)(p+12+index*4)),value);}
+void func_021BA1C8(char *p,void *list,const u8 *flags,int index) {void *entry=0;int value;if(index<(int)func_0201AA18(list))entry=func_0201AB28(((struct Obj25696 *)p)->f0,index);value=func_021B9EB0(entry,flags[index]);func_0204B8A0((struct Obj *)(*(u32 *)(p+12+index*4)),value);}

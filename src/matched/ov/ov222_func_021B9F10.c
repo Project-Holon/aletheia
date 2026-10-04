@@ -27,6 +27,7 @@
  *   d_021BA390 0x021BA390 data a1
  *   d_021BA2CC 0x021BA2CC data a4
  */
+#include "../include/Obj26083.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -67,6 +68,6 @@ void* func_021B9F10(u32 swap,u32 heap)
  func_021BA048(p,heap);
  func_021BA0EC((unsigned char*)p+4,(int)g,heap);
  func_021BA15C((u32**)(p+8),heap);
- *(void**)(p+12)=func_020056A0((u32)func_021BA034,(u32)p,0);
+ *(void* *)&((struct Obj26083 *)p)->fC=func_020056A0((u32)func_021BA034,(u32)p,0);
  return p;
 }

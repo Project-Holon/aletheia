@@ -18,6 +18,7 @@
  *   func_021C54C8  0x021C54C8  thumb  ov093
  *   func_021D7AF0  0x021D7AF0  thumb  ov093
  */
+#include "../include/Obj04359.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -32,14 +33,14 @@ extern int func_021D7AF0(u32 pct);
 int func_021C031C(u8 *p, u8 *a)
 {
     int k = 6;
-    if (*(int *)(p + 0x1F78) == 3) {
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, 0xbc, func_021D5440(a), 0xffff0000);
+    if (((struct Obj04359 *)p)->f1F78 == 3) {
+        func_021CD64C(((struct Obj04359 *)p)->fC, 0x5a, 0xbc, func_021D5440(a), 0xffff0000);
         return 1;
     }
     if (func_021D62C4(a, k) != 0) {
         if (func_021D61A8(a) != 0) {
             func_021C5620(p, a, k, 0);
-            func_021CD64C(*(void **)(p + 0xc), 0x5b, 0x15f, func_021D5440(a), 0xffff0000);
+            func_021CD64C(((struct Obj04359 *)p)->fC, 0x5b, 0x15f, func_021D5440(a), 0xffff0000);
             return 0;
         }
         func_021C54C8(p, a);

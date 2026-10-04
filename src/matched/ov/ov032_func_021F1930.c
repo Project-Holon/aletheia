@@ -16,6 +16,8 @@
  *   func_021F0BA8 0x021F0BA8 thumb
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj02751.h"
+#include "../include/Obj20431.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,25 +30,25 @@ extern void func_02031194(struct TcblNode *n);
 
 void func_021F1930(void *task, u8 *s)
 {
-    if (*(int *)(s + 4) != 0)
+    if (((struct Obj02751 *)s)->f4 != 0)
         return;
     switch (s[0]) {
     case 0:
-        func_021F0B80(*(char **)(s + 8), (void *)(*(u32 *)(*(char **)(s + 8) + 0x120)), (unsigned int)(s + 4));
+        func_021F0B80(*(char * *)&((struct Obj02751 *)s)->f8, (void *)(((struct Obj20431 *)(*(char * *)&((struct Obj02751 *)s)->f8))->f120), (unsigned int)(s + 4));
         s[0]++;
         return;
     case 1:
-        func_021F178C(*(char **)(s + 8), 0, (int *)(s + 4));
+        func_021F178C(*(char * *)&((struct Obj02751 *)s)->f8, 0, (int *)(s + 4));
         s[0]++;
         return;
     case 2:
         if (func_021F0BA8(s + 1) != 0) {
-            func_021F178C(*(char **)(s + 8), 1, (int *)(s + 4));
+            func_021F178C(*(char * *)&((struct Obj02751 *)s)->f8, 1, (int *)(s + 4));
             s[0]++;
         }
         return;
     default:
-        (**(int **)(s + 0xc))--;
+        (**(int * *)&((struct Obj02751 *)s)->fC)--;
         func_02031194(task);
         return;
     }

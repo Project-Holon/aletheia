@@ -13,14 +13,15 @@
  *   func_021D580C 0x021D580C thumb ov123
  *   func_021D57B8 0x021D57B8 thumb ov123
  */
+#include "../include/Obj13996.h"
 extern void func_021D6EE0(char *, int, int);
 extern void func_021D85F0(char *);
 extern int func_021D580C(char *);
 extern void func_021D57B8(char *, int);
 void func_021D8624(char *p)
 {
-    if (func_021D580C(*(char **)(p + 0x18))) {
-        func_021D57B8(*(char **)(p + 0x18), 20);
+    if (func_021D580C(*(char * *)&((struct Obj13996 *)p)->f18)) {
+        func_021D57B8(*(char * *)&((struct Obj13996 *)p)->f18, 20);
         func_021D6EE0(p, (int)func_021D85F0, 0x758);
     }
 }

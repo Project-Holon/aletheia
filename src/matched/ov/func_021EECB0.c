@@ -19,6 +19,7 @@
  *   and the stored value is the reloaded 0xA168 word, not the call's
  *   result (the field is re-read after the 0x70 call).
  */
+#include "../include/Obj07241.h"
 
 typedef unsigned char  u8;
 struct Sound;
@@ -30,13 +31,13 @@ void func_021EECB0(char *p, int a)
 {
     int v;
     if (a == 0 || (unsigned)(a - 5) <= 1) {
-        func_020260E4((struct Sound *)(*(int *)(*(int *)(p + 0x2c) + 0x70)),
-                      *(int *)(*(int *)(p + 0x2c) + 0xA168) & 0xff);
-        v = *(int *)(*(int *)(p + 0x2c) + 0xA168);
+        func_020260E4((struct Sound *)(*(int *)(((struct Obj07241 *)p)->f2C + 0x70)),
+                      *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) & 0xff);
+        v = *(int *)(((struct Obj07241 *)p)->f2C + 0xA168);
     } else {
         func_021EE408(p, a);
         v = a;
     }
-    *(int *)(*(int *)(p + 0x2c) + 0xA168) = v;
+    *(int *)(((struct Obj07241 *)p)->f2C + 0xA168) = v;
 }
 

@@ -14,6 +14,7 @@
  *   func_02027FD8 0x02027FD8 thumb
  *   func_0201C4C0 0x0201C4C0 thumb
  */
+#include "../include/Obj00362.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern void func_021B7EB0(u8 *, int);
@@ -26,10 +27,10 @@ extern void func_0201C4C0(struct PrintSys *p);
 void func_021B6348(u8 *p)
 {
     func_021B7EB0(p, 0);
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1e4)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1f0)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1fc)));
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x208)));
-    func_02027FD8((struct TaskMenuState *)(*(u32 *)(p + 0x1dc)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x218)));
+    func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1E4));
+    func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1F0));
+    func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f1FC));
+    func_02045808((struct U16Vec *)(((struct Obj00362 *)p)->f208));
+    func_02027FD8((struct TaskMenuState *)(((struct Obj00362 *)p)->f1DC));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00362 *)p)->f218));
 }

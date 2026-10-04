@@ -13,6 +13,7 @@
  *
  * Sibling of func_021EA1C0 with (0x1c, 0) and the 0x228F buffer.
  */
+#include "../include/Obj18488.h"
 
 extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 
@@ -20,5 +21,5 @@ extern void *func_02030734(unsigned int heap, unsigned int size, int clear, cons
 void func_021EA728(void *p)
 {
     int v = (int)func_02030734(0x4c, 0x1c, 0, (const char *)0x021F140C, 0x228F);
-    *(int *)(*(int *)((char *)p + 0x2c) + 0x60) = v;
+    *(int *)(((struct Obj18488 *)p)->f2C + 0x60) = v;
 }

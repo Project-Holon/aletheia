@@ -22,6 +22,9 @@
  *   func_0217B75C  0x0217B75C  thumb  ov019
  *   func_0217B264  0x0217B264  thumb  ov019
  */
+#include "../include/Obj00610.h"
+#include "../include/Obj19233.h"
+#include "../include/Obj19234.h"
 
 typedef unsigned char u8;
 
@@ -54,7 +57,7 @@ void func_021737A4(int a, int b)
     if (func_0201212C(func_02188C80((void *)b)) == 1) {
         return;
     }
-    if (func_020123C4((void *)*(int *)(*(u8 **)r4 + 0xc)) == 1) {
+    if (func_020123C4((void *)((struct Obj19233 *)(*(u8 * *)&((struct Obj00610 *)r4)->f0))->fC) == 1) {
         return;
     }
     if (func_02173840(r4) != 1) {
@@ -76,5 +79,5 @@ void func_021737A4(int a, int b)
     }
     func_0217B75C(r4);
     func_0217B840(r4, b);
-    func_0217B264(r4, (void *)(*(int *)(*(u8 **)r4 + 8)), (void *)b);
+    func_0217B264(r4, (void *)(((struct Obj19234 *)(*(u8 * *)&((struct Obj00610 *)r4)->f0))->f8), (void *)b);
 }

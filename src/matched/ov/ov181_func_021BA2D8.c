@@ -11,12 +11,13 @@
  * symbols:
  *   func_0207D658 0x0207D658 arm
  */
+#include "../include/Obj03877.h"
 extern void func_0207D658(unsigned, int, int);
 void func_021BA2D8(char *p)
 {
-    int v = *(int *)(p + 0x1c);
+    int v = ((struct Obj03877 *)p)->f1C;
     if (v <= 0x10000) {
-        *(int *)(p + 0x1c) = v + (*(unsigned char *)(p + 0x2d2) == 1 ? 0x400 : 0x100);
-        func_0207D658(0x04000050, 1, *(volatile int *)(p + 0x1c) / 0x1000 - 0x10);
+        ((struct Obj03877 *)p)->f1C = v + (((struct Obj03877 *)p)->f2D2 == 1 ? 0x400 : 0x100);
+        func_0207D658(0x04000050, 1, *(volatile int *)&((struct Obj03877 *)p)->f1C / 0x1000 - 0x10);
     }
 }

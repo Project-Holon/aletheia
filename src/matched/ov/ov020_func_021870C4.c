@@ -34,6 +34,7 @@
  *   func_02186090  0x02186090  thumb  ov020
  *   func_0219390C  0x0219390C  thumb  ov021
  */
+#include "../include/Obj01343.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -97,18 +98,18 @@ void *func_021870C4(void *a0, void *a1)
     w = func_02158434(w);
     ret = func_020122C0(a0, 0, func_021871F8, 0x58);
     o = func_020124E8(ret);
-    *(void **)(o + 0) = a0;
-    *(void **)(o + 4) = a1;
-    *(int *)(o + 0x20) = (int)func_020457B0(0x100, n);
-    *(int *)(o + 0x24) = (int)func_020457B0(0x100, n);
-    *(int *)(o + 0x18) = (int)func_02045B38(0, 3, 0x142, n);
-    *(int *)(o + 0x1c) = (int)func_0201EC64(n);
-    *(int *)(o + 0xc) = c54;
-    *(void **)(o + 0x40) = w;
-    *(u8 *)(o + 0x56) = 1;
-    *(u16 *)(o + 8) = (n & 0x7FFF) | 0x8000;
-    *(int *)(o + 0x44) = (int)func_020127D0(h, 1);
-    *(int *)(o + 0x48) = (int)func_020127D0(h, 0);
+    ((struct Obj01343 *)o)->f0 = a0;
+    ((struct Obj01343 *)o)->f4 = a1;
+    ((struct Obj01343 *)o)->f20 = (int)func_020457B0(0x100, n);
+    ((struct Obj01343 *)o)->f24 = (int)func_020457B0(0x100, n);
+    ((struct Obj01343 *)o)->f18 = (int)func_02045B38(0, 3, 0x142, n);
+    ((struct Obj01343 *)o)->f1C = (int)func_0201EC64(n);
+    ((struct Obj01343 *)o)->fC = c54;
+    ((struct Obj01343 *)o)->f40 = w;
+    ((struct Obj01343 *)o)->f56 = 1;
+    ((struct Obj01343 *)o)->f8 = (n & 0x7FFF) | 0x8000;
+    ((struct Obj01343 *)o)->f44 = (int)func_020127D0(h, 1);
+    ((struct Obj01343 *)o)->f48 = (int)func_020127D0(h, 0);
     a = func_0218DC70((u8 *)func_02188C98(a1));
     b = func_02188CB4(a1);
     c = func_02188C7C(a1);
@@ -118,9 +119,9 @@ void *func_021870C4(void *a0, void *a1)
     func_0216D88C((const struct Actor *)d, (struct VecFx32 *)(o + 0x34));
     e = func_02186090((void *)d);
     x = func_0219390C(a, e);
-    *(void **)(o + 0x28) = a;
-    *(void **)(o + 0x2c) = x;
-    *(int *)(o + 0x30) = d;
-    *(u16 *)(o + 0x4c) = e;
+    ((struct Obj01343 *)o)->f28 = a;
+    ((struct Obj01343 *)o)->f2C = x;
+    ((struct Obj01343 *)o)->f30 = d;
+    ((struct Obj01343 *)o)->f4C = e;
     return ret;
 }

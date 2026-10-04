@@ -14,6 +14,7 @@
  *
  * Reads the u32 field at offset 0 of the argument and returns it.
  */
+#include "../include/Obj00041.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D5844  ldr r0,[r0] */
-void *func_021D5844(void *m) { return *(void **)m; }
+void *func_021D5844(void *m) { return ((struct Obj00041 *)m)->f0; }
 

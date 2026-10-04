@@ -11,6 +11,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00008.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
@@ -27,8 +28,8 @@ void func_021C1F74(char *p)
         func_020452E8(((Work *)p)->windows[i]);
         for (j = 0; j < 2; j++) func_020452E8(((Work *)p)->pairs[i][j]);
     }
-    func_020452E8(*(void **)(p + 0x958));
-    func_020452E8(*(void **)(p + 0x95c));
-    func_020307B0(*(void **)(p + 0x8b4));
-    func_020307B0(*(void **)(p + 0x8bc));
+    func_020452E8(((struct Obj00008 *)p)->f958);
+    func_020452E8(((struct Obj00008 *)p)->f95C);
+    func_020307B0(((struct Obj00008 *)p)->f8B4);
+    func_020307B0(((struct Obj00008 *)p)->f8BC);
 }

@@ -37,6 +37,8 @@
  *   func_02082AC0  0x02082AC0  arm
  *   func_02080B98  0x02080B98  arm
  */
+#include "../include/Obj02684.h"
+#include "../include/Obj19450.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -93,7 +95,7 @@ int func_02183F5C(int a0, u8 *a1)
     s = func_020124E8((struct Obj *)t0);
     s[0] = a0;
     s[1] = (int)func_020120F4((const struct Ctx *)a0);
-    *(u16 *)(s + 2) = *(u16 *)(a1 + 0x10);
+    ((struct Obj02684 *)s)->f8 = ((struct Obj19450 *)a1)->f10;
     r5 = func_0201296C((const struct BigObj *)s[1]);
     s[3] = func_020142E8((void *)r5, 0x966);
     func_0201433C((char *)r5, 0x966);

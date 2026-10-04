@@ -17,6 +17,7 @@
  *   func_0201C6FC 0x0201C6FC thumb
  *   func_021BA2B8 0x021BA2B8 thumb ov214
  */
+#include "../include/Obj01082.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct CharBuf;
@@ -34,12 +35,12 @@ extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 
 extern int func_021BA2B8(void*,char*);
 void func_021BA254(void*obj,char*p,unsigned entry)
 {
-    func_02043B5C(func_02045770(*(void**)(p+0x6c)),15);
-    if(*(void**)(p+0x5c))func_0201CE48(*(void**)(p+0x5c));
-    *(int*)(p+0x5c)=0;
-    if(*(void**)(p+0x78))func_02045808(*(void**)(p+0x78));
-    *(void**)(p+0x78)=func_02045EC0(*(void**)(p+0x58),entry);
-    *(int*)(p+0x7c)=0;
-    func_0201C6FC(*(void**)(p+0xc),(unsigned)func_02045770(*(void**)(p+0x6c)),0,0,*(void**)(p+0x78),*(unsigned*)(p+8));
+    func_02043B5C(func_02045770(*(void* *)&((struct Obj01082 *)p)->f6C),15);
+    if(*(void* *)&((struct Obj01082 *)p)->f5C)func_0201CE48(*(void* *)&((struct Obj01082 *)p)->f5C);
+    *(int *)&((struct Obj01082 *)p)->f5C=0;
+    if(*(void* *)&((struct Obj01082 *)p)->f78)func_02045808(*(void* *)&((struct Obj01082 *)p)->f78);
+    *(void* *)&((struct Obj01082 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01082 *)p)->f58,entry);
+    *(int *)&((struct Obj01082 *)p)->f7C=0;
+    func_0201C6FC(*(void* *)&((struct Obj01082 *)p)->fC,(unsigned)func_02045770(*(void* *)&((struct Obj01082 *)p)->f6C),0,0,*(void* *)&((struct Obj01082 *)p)->f78,((struct Obj01082 *)p)->f8);
     func_021BA2B8(obj,p);
 }

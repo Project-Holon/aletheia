@@ -25,6 +25,7 @@
  *   func_021D5B68  0x021D5B68  thumb  ov093
  *   func_021D5440  0x021D5440  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -55,19 +56,19 @@ bad:
     k = 0x1f;
 ok:
     if (k != 0x1f) {
-        w = func_021B9934(*(char **)(p + 8), k);
+        w = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, k);
         if (func_021D62C4((struct Unk021D62A8 *)w, 0x21) != 0) {
             func_021C5620(p, w, 0x21, 0);
             func_021C6110(p, w, 3);
             if (func_021C000C(p + 0x1ab8, k) != 0) {
-                func_021CD4B0(*(void **)(p + 0xc), 0x31, k, 0);
+                func_021CD4B0(((struct Obj00003 *)p)->fC, 0x31, k, 0);
                 func_021C5D88(p, w, 0x465);
             }
         }
         func_021C0780(p, a, 4, 0);
         k = 0;
         if (z == 0 && func_021D5B68(a) == 0) {
-            func_021CD4B0(*(void **)(p + 0xc), 0x31, func_021D5440(a), k);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 0x31, func_021D5440(a), k);
         }
     }
 }

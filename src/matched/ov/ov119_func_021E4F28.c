@@ -15,6 +15,8 @@
  *   func_0204B800 0x0204B800 arm
  *   func_0204B404 0x0204B404 arm
  */
+#include "../include/Obj05334.h"
+#include "../include/Obj08071.h"
 typedef short s16;
 typedef unsigned char u8;
 typedef struct Pt { s16 x, y; } Pt;
@@ -32,12 +34,12 @@ void func_021E4F28(char *p)
     int i, off, y, row, j, x, ty, col;
     Pt b, a;
     off = 0;
-    y = *(s16 *)(p + 0x1080);
+    y = ((struct Obj05334 *)p)->f1080;
     for (i = 0; i < 12; i++) {
-        row = func_021E5158(*(s16 *)(p + 0x1080) + i);
-        if (y >= *(int *)(p + 0x634)) {
-            y -= *(int *)(p + 0x634);
-            off = *(int *)(p + 0x63c);
+        row = func_021E5158(((struct Obj05334 *)p)->f1080 + i);
+        if (y >= ((struct Obj05334 *)p)->f634) {
+            y -= ((struct Obj05334 *)p)->f634;
+            off = ((struct Obj05334 *)p)->f63C;
         }
         for (j = 0; j < 5; j++) {
             ty = j * 24 + 0x20;
@@ -48,23 +50,23 @@ void func_021E4F28(char *p)
                 col += (y - 2) % 6 * 24 + 0x14;
                 x = col + 0x60;
             }
-            b.x = off + (x - *(s16 *)(p + 0x107c));
+            b.x = off + (x - ((struct Obj05334 *)p)->f107C);
             b.y = ty;
             a = b;
             if (func_021DF6B4(p, y, j) && func_020355C4() == 1) {
                 b.y -= 8;
                 q = p + row * 20 + j * 4;
-                func_0204B800(*(int *)(q + 0xac0), 11);
+                func_0204B800(((struct Obj08071 *)q)->fAC0, 11);
             } else {
                 q = p + row * 20 + j * 4;
-                func_0204B800(*(int *)(q + 0xac0), 0x1c - i);
+                func_0204B800(((struct Obj08071 *)q)->fAC0, 0x1c - i);
             }
-            func_0204B404((struct Obj *)(*(int *)(q + 0xac0)), (const struct Vec2 *)(&b), 1);
+            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fAC0), (const struct Vec2 *)(&b), 1);
             if (*(u8 *)(p + row * 5 + j + 0xebc)) {
                 *(Pt *)(q + 0xdcc) = a;
             }
             b.y = ty + 3;
-            func_0204B404((struct Obj *)(*(int *)(q + 0xbb0)), (const struct Vec2 *)(&b), 1);
+            func_0204B404((struct Obj *)(((struct Obj08071 *)q)->fBB0), (const struct Vec2 *)(&b), 1);
         }
         y++;
     }

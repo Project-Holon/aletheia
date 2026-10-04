@@ -15,6 +15,7 @@
  *           runs to 0x020965B4.  Wants seeds for both addresses in
  *           layout/function_starts.txt.
  */
+#include "../include/Obj00749.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -23,16 +24,16 @@ int func_02096508(u8 *p, int v)
 {
     u32 f;
 
-    if (p == 0 || ((*(u32 *)(p + 4) << 22) >> 29) == 0)
+    if (p == 0 || ((((struct Obj00749 *)p)->f4 << 22) >> 29) == 0)
         return 0;
 
-    f = *(u32 *)(p + 4);
+    f = ((struct Obj00749 *)p)->f4;
     switch ((f << 20) >> 30) {
     case 0:
         if (v > 0)
-            *(u32 *)(p + 4) = (f & ~0xc00u) | 0x800u;
+            ((struct Obj00749 *)p)->f4 = (f & ~0xc00u) | 0x800u;
         else if (v < 0)
-            *(u32 *)(p + 4) = (f & ~0xc00u) | 0x400u;
+            ((struct Obj00749 *)p)->f4 = (f & ~0xc00u) | 0x400u;
         break;
     case 1:
         v = -1;

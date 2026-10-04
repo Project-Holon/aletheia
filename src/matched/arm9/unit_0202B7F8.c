@@ -22,6 +22,7 @@
  *   python tools/match.py tu --src src/matched/unit_0202B7F8.c \
  *       --addr 0x0202B7F8 --thumb --cc 1.1p1
  */
+#include "../include/Obj17267.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -37,7 +38,7 @@ extern u16 func_02005C44(void);
 
 void *func_0202B7F8(struct Obj *o)
 {
-    return func_020127A4((struct SaveBlock *)*(u32 *)((u8 *)o + 0x4));
+    return func_020127A4((struct SaveBlock *)((struct Obj17267 *)o)->f4);
 }
 
 u16 func_0202B804(struct Obj *o)

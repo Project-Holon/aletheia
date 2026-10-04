@@ -13,10 +13,11 @@
  * +0x3568.  Callee of ov021 func_0218A0E4.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19240.h"
 
 typedef unsigned char u8;
 
 int func_0217391C(u8 *p)
 {
-    return *(int *)(p + 0x3568);
+    return ((struct Obj19240 *)p)->f3568;
 }

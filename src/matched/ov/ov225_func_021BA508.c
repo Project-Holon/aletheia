@@ -18,6 +18,7 @@
  *   func_0204B98C 0x0204B98C arm
  *   d_021BBF14 0x021BBF14 data a4
  */
+#include "../include/Obj00367.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,21 +37,21 @@ void func_021BA508(char *p)
  u8 i;
  u32 found,x,y;
  const struct Entry *row;
- switch(*(u32 *)(p+0x44)) {
+ switch(((struct Obj00367 *)p)->f44) {
  case 0:
   found=0;
   for(i=0;i<2;i++) {
    if(func_0204B3F4(*(struct Obj **)(p+i*4+0x38))) {
     row=&d_021BBF14[i];
     if(func_0203633C()&row->mask) {
-     *(u8 *)(p+0x40)=i;
+     ((struct Obj00367 *)p)->f40=i;
      func_020355D8(0);
      found=1;
      break;
     }
     if(func_02035D20(&x,&y)) {
      if(row->left<=x && x<=row->right && row->top<=y && y<=row->bottom) {
-      *(u8 *)(p+0x40)=i;
+      ((struct Obj00367 *)p)->f40=i;
       found=1;
       func_020355D8(1);
       break;
@@ -59,18 +60,18 @@ void func_021BA508(char *p)
    }
   }
   if(found) {
-   func_0204B878(*(struct Obj **)(p+*(u8 *)(p+0x40)*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
+   func_0204B878(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].active);
    if(d_021BBF14[*(u8 *)(p+0x40)].sound) func_020061E4(d_021BBF14[*(u8 *)(p+0x40)].sound);
-   *(u32 *)(p+0x44)=1;
+   ((struct Obj00367 *)p)->f44=1;
   }
   break;
- case 1: *(u32 *)(p+0x44)=2; break;
+ case 1: ((struct Obj00367 *)p)->f44=2; break;
  case 2:
-  if(!func_0204B98C(*(struct Actor **)(p+*(u8 *)(p+0x40)*4+0x38))) {
-   func_0204B878(*(struct Obj **)(p+*(u8 *)(p+0x40)*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
-   *(u32 *)(p+0x44)=3;
+  if(!func_0204B98C(*(struct Actor **)(p+((struct Obj00367 *)p)->f40*4+0x38))) {
+   func_0204B878(*(struct Obj **)(p+((struct Obj00367 *)p)->f40*4+0x38),d_021BBF14[*(u8 *)(p+0x40)].normal);
+   ((struct Obj00367 *)p)->f44=3;
   }
   break;
- case 3: *(u32 *)(p+0x44)=0; *(u8 *)(p+0x40)=255; break;
+ case 3: ((struct Obj00367 *)p)->f44=0; ((struct Obj00367 *)p)->f40=255; break;
  }
 }

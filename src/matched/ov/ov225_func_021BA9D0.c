@@ -18,6 +18,10 @@
  *   func_021BB034 0x021BB034 thumb ov225
  *   func_02028218 0x02028218 thumb
  */
+#include "../include/Obj00074.h"
+#include "../include/Obj26197.h"
+#include "../include/Obj26198.h"
+#include "../include/Obj26199.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct R;
@@ -32,13 +36,13 @@ extern void func_02028218(struct Obj *, unsigned);
 void func_021BA9D0(char *p)
 {
     func_020414AC(5);
-    *(struct R **)(p + 8) = func_02027F60(5, 4, *(unsigned *)(*(char **)(p + 4) + 0xc), *(unsigned *)(*(char **)(p + 4) + 0x14), *(u16 *)(*(char **)(p + 4) + 4));
-    *(u16 *)(p + 0x4c) = 0x1ce7;
+    *(struct R * *)&((struct Obj00074 *)p)->f8 = func_02027F60(5, 4, ((struct Obj26197 *)(*(char * *)&((struct Obj00074 *)p)->f4))->fC, ((struct Obj26198 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f14, ((struct Obj26199 *)(*(char * *)&((struct Obj00074 *)p)->f4))->f4);
+    ((struct Obj00074 *)p)->f4C = 0x1ce7;
     func_02061CA4((void *)31, 154, p + 0x4c, 2);
     func_02061CA4((void *)31, 186, p + 0x4c, 2);
     func_021BB088(p);
     if (func_020355C4() == 0) {
         func_02028218(*(struct Obj **)(p + func_021BB034((u16 **)p) * 4 + 0xc), 1);
-        *(unsigned *)(p + 0x8c) = 0;
+        ((struct Obj00074 *)p)->f8C = 0;
     }
 }

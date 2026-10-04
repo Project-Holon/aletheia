@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj24075.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 u32 func_021B80CC(int unused, char *p)
 {
-    if (*(u32 *)(p + 8) == 12)
+    if (((struct Obj24075 *)p)->f8 == 12)
         return 1;
     return 0;
 }

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00535.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -18,37 +19,37 @@ void func_021C4A00(void *p, int i, int v)
     switch (i)
     {
     case 0:
-        *(u16 *)((char *)p + 4) = (u16)v;
+        ((struct Obj00535 *)p)->f4 = (u16)v;
         break;
     case 1:
-        *(u16 *)((char *)p + 6) = (u16)v;
+        ((struct Obj00535 *)p)->f6 = (u16)v;
         break;
     case 2:
-        *(u16 *)((char *)p + 8) = (u16)v;
+        ((struct Obj00535 *)p)->f8 = (u16)v;
         break;
     case 3:
-        *(u16 *)((char *)p + 0xa) = (u16)v;
+        ((struct Obj00535 *)p)->fA = (u16)v;
         break;
     case 4:
-        *(u16 *)((char *)p + 0xc) = (u16)v;
+        ((struct Obj00535 *)p)->fC = (u16)v;
         break;
     case 5:
-        *(u8 *)((char *)p + 0x15) = (u8)v;
+        ((struct Obj00535 *)p)->f15 = (u8)v;
         break;
     case 6:
-        *(u8 *)((char *)p + 0x14) = (u8)v;
+        ((struct Obj00535 *)p)->f14 = (u8)v;
         break;
     case 7:
-        *(u16 *)((char *)p + 0xe) = (u16)v;
+        ((struct Obj00535 *)p)->fE = (u16)v;
         break;
     case 8:
-        *(u16 *)((char *)p + 0x10) = (u16)v;
+        ((struct Obj00535 *)p)->f10 = (u16)v;
         break;
     case 9:
-        *(u16 *)((char *)p + 0x12) = (u16)v;
+        ((struct Obj00535 *)p)->f12 = (u16)v;
         break;
     case 10:
-        *(u16 *)((char *)p + 0x16) = (u16)v;
+        ((struct Obj00535 *)p)->f16 = (u16)v;
         break;
     default:
         break;

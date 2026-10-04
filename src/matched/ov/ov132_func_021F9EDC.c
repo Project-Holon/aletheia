@@ -13,6 +13,8 @@
  *   func_020056BC 0x020056BC thumb
  *   func_02051230 0x02051230 arm
  */
+#include "../include/Obj10535.h"
+#include "../include/Obj14089.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -28,10 +30,10 @@ char *func_021F9EDC(char *p, u16 a)
     u8 j;
     for (i = 0; i < 8; i++) if (*(int *)(p + i * 0x4848 + 4) == 0) q = (p + 4) + i * 0x4848;
     j = 0;
-    *(void **)(q + 0x4804) = (void *)func_02050C04((int)(q + 4), 0x4800, 0, *(u16 *)p);
-    v = (void *)func_0205121C(47, a, *(u16 *)p);
-    func_02051230(*(void **)(q + 0x4804), v, 0, func_020056BC());
+    ((struct Obj10535 *)q)->f4804 = (void *)func_02050C04((int)(q + 4), 0x4800, 0, ((struct Obj14089 *)p)->f0);
+    v = (void *)func_0205121C(47, a, ((struct Obj14089 *)p)->f0);
+    func_02051230(((struct Obj10535 *)q)->f4804, v, 0, func_020056BC());
     for (; j < 4; j++) *(int *)(q + j * 16 + 0x4808) = 0;
-    *(int *)q = 1;
+    ((struct Obj10535 *)q)->f0 = 1;
     return q;
 }

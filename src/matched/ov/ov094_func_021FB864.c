@@ -16,6 +16,7 @@
  *   func_021F86F0 0x021F86F0 thumb ov094
  *   func_02201DA0 0x02201DA0 thumb ov094
  */
+#include "../include/Obj13589.h"
 extern int func_0201134C(void *);
 extern int func_021F86F0(void);
 typedef unsigned int   u32;
@@ -27,5 +28,5 @@ int func_021FB864(void *a, char *s)
     int x = func_0201134C(a);
 
     func_02201DA0((char *)func_021F86F0(), ((int *)(s + 0xcc))[i], x);
-    return *(int *)(s + 0x23c);
+    return ((struct Obj13589 *)s)->f23C;
 }

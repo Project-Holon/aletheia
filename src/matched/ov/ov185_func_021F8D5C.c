@@ -15,6 +15,8 @@
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FEEC0 0x021FEEC0 thumb ov186
  */
+#include "../include/Obj03337.h"
+#include "../include/Obj04583.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,4 +26,4 @@ extern void func_021FC640(void *,unsigned);
 extern void func_021FC148(char *,unsigned,unsigned);
 extern void func_021FB964(void *,unsigned,u16);
 extern void func_021FEEC0(char *p, int mode, u32 value);
-void func_021F8D5C(char *p,char *q) { if(*(void **)(p+0x14)){func_021F3BF0(*(void **)(p+0x14));*(void **)(p+0x14)=0;func_021FC640(*(void **)(q+8),*(u16 *)(p+0x30));func_021FC148(*(char **)(q+12),0,*(u16 *)(p+0x30));func_021FB964(*(void **)(q+12),0,*(u16 *)(p+0x30));func_021FEEC0((char *)(*(int *)(q+4)),0,1);} }
+void func_021F8D5C(char *p,char *q) { if(((struct Obj03337 *)p)->f14){func_021F3BF0(((struct Obj03337 *)p)->f14);((struct Obj03337 *)p)->f14=0;func_021FC640(((struct Obj04583 *)q)->f8,((struct Obj03337 *)p)->f30);func_021FC148(*(char * *)&((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);func_021FB964(((struct Obj04583 *)q)->fC,0,((struct Obj03337 *)p)->f30);func_021FEEC0((char *)(((struct Obj04583 *)q)->f4),0,1);} }

@@ -18,6 +18,7 @@
  *   func_0201ED04  0x0201ED04  thumb
  *   func_02045EC0  0x02045EC0  arm
  */
+#include "../include/Obj06686.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     switch (*(u32 *)(p + 0x148 + idx * 16)) {
     case 0:
         ws = (u32)func_0201EC64(*heap);
-        src = *(u32 *)(p + 0x5a4);
+        src = ((struct Obj06686 *)p)->f5A4;
         str = (u32)func_020457B0(0x40, *heap);
         func_0201EE60((struct WordSet *)ws, 0, k);
         func_0201F250((struct WordSet *)ws, (void *)str, (void *)src);
@@ -61,10 +62,10 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     case 1:
         switch (*(u16 *)(p + 0x150 + idx * 16)) {
         case 0:
-            str = *(u32 *)(p + 0x5a8);
+            str = ((struct Obj06686 *)p)->f5A8;
             break;
         case 1:
-            str = *(u32 *)(p + 0x5ac);
+            str = ((struct Obj06686 *)p)->f5AC;
             break;
         }
         break;
@@ -75,7 +76,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
             if (k == 0)
                 break;
         }
-        str = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x598)), k);
+        str = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06686 *)p)->f598), k);
         c = 1;
         break;
     }
@@ -84,7 +85,7 @@ void ov208_func_021C47C4(u16 *heap, u8 *p, int key, u32 *outStr, u32 *outB, int 
     case 1:
         break;
     case 2:
-        b = *(u32 *)(p + 0x5b0);
+        b = ((struct Obj06686 *)p)->f5B0;
         d = 0;
         break;
     }

@@ -20,6 +20,7 @@
  *   func_02045808 0x02045808 arm
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj05432.h"
 typedef unsigned char u8;
 struct Descriptor;
 extern void func_020456F8(struct Descriptor *d);
@@ -36,15 +37,15 @@ void func_021E00D4(u8 *p)
     void *obj;
     int i;
     s=p+3296;
-    obj=*(void **)(s+16);
+    obj=((struct Obj05432 *)s)->f10;
     func_020456F8(obj);
     func_020409B4(func_02045730(obj));
-    func_020452E8(*(void **)(s+16));
+    func_020452E8(((struct Obj05432 *)s)->f10);
     func_021E03A0(p);
-    func_02045C04(*(void **)(s+8));
-    func_0201ED04(*(void **)(s+12));
-    func_0201D83C(*(void **)(s+4));
-    func_02045808(*(void **)(s+92));
+    func_02045C04(((struct Obj05432 *)s)->f8);
+    func_0201ED04(((struct Obj05432 *)s)->fC);
+    func_0201D83C(((struct Obj05432 *)s)->f4);
+    func_02045808(((struct Obj05432 *)s)->f5C);
     for(i=0;i<5;i++) func_02045808(*(void **)(p+164+i*4));
     func_020450C8();
 }

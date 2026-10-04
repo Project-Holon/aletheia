@@ -15,6 +15,7 @@
  * Clears the word at +0xe4 (the last-read length) and then tail-calls the
  *     +0x28 release path func_021D65C8, which is why nothing is saved.
  */
+#include "../include/Obj24232.h"
 
 typedef unsigned long u32;
 
@@ -22,7 +23,7 @@ extern void func_021D65C8(char *obj);
 
 void func_021D6954(char *obj)
 {
-    *(u32 *)(obj + 0xe4) = 0;
+    ((struct Obj24232 *)obj)->fE4 = 0;
     func_021D65C8(obj);
 }
 

@@ -21,6 +21,7 @@
  *   func_068996A8  0x068996A8  thumb
  *   func_068996B8  0x068996B8  thumb
  */
+#include "../include/Obj13633.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -61,7 +62,7 @@ void func_068995B0(int a, int p, int x)
         t = func_06899668(p, 7, 0x1f);
         w = func_06899678(p, v);
         t[6] = v;
-        *(u16 *)(t + 4) = func_06899688(w, n);
+        ((struct Obj13633 *)t)->f4 = func_06899688(w, n);
         func_06899698(t + 0xc, 2, 0x353);
         func_068996A8(t + 0xc, v);
         func_068996B8(p, t);

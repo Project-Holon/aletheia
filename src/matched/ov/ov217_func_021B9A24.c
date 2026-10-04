@@ -22,6 +22,8 @@
  *   sub_020409B4 0x020409B4 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj14724.h"
+#include "../include/Obj25805.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,11 +50,11 @@ void func_021B9A24(u32 heap)
     arc = sub_020490F4(192, (heap & 0x7fff) | 0x8000);
     buffer = func_02049250(arc, 0, heap);
     func_02062A98(buffer, &palette);
-    func_02040E78(1, *(void **)((char *)palette + 12), 512, 0);
+    func_02040E78(1, ((struct Obj25805 *)palette)->fC, 512, 0);
     sub_020307B0(buffer);
     buffer = func_02049250(arc, 1, heap);
     func_02062A4C(buffer, &character);
-    func_02040B1C(1, *(void **)((char *)character + 20), *(u32 *)((char *)character + 16), 0);
+    func_02040B1C(1, ((struct Obj14724 *)character)->f14, ((struct Obj14724 *)character)->f10, 0);
     sub_020307B0(buffer);
     buffer = func_02049250(arc, 2, heap);
     func_02062B30(buffer, &screen);

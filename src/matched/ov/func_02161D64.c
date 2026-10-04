@@ -12,6 +12,7 @@
  * symbols:
  *   func_02013A80  0x02013A80  thumb
  */
+#include "../include/Obj12047.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,7 +25,7 @@ int func_02161D64(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(u16 *)((char *)t4 + 2);
+a0 = ((struct Obj12047 *)t4)->f2;
     if (a0 != 1) goto loc_02161D7E;
 loc_02161D6E:
 a0 = 0;
@@ -35,7 +36,7 @@ a0 = 1;
 a1 = 1;
     a0 = func_02013A80(a0, a1);
 loc_02161D7E:
-a0 = *(u16 *)((char *)t4 + 2);
+a0 = ((struct Obj12047 *)t4)->f2;
     if (a0 != 0) goto loc_02161D94;
 loc_02161D84:
 a0 = 0;

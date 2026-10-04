@@ -16,6 +16,8 @@
  *   func_021D5B7C  0x021D5B7C  thumb  ov093
  *   func_021D78AC  0x021D78AC  thumb  ov093
  */
+#include "../include/Obj09971.h"
+#include "../include/Obj21091.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -35,11 +37,11 @@ int func_021C39F4(u8 *a, u8 *b)
     u32 i;
     int c;
 
-    n = func_021B9B94(*(void **)(b + 4));
-    i = func_021B99C0(*(void **)(a + 4), b[0xb]);
+    n = func_021B9B94(((struct Obj09971 *)b)->f4);
+    i = func_021B99C0(((struct Obj21091 *)a)->f4, b[0xb]);
     c = 0;
     for (; i < n; i++) {
-        if (func_021D5B7C(func_021B9C00(*(void **)(b + 4), (u8)i))) {
+        if (func_021D5B7C(func_021B9C00(((struct Obj09971 *)b)->f4, (u8)i))) {
             buf[c] = i;
             c++;
         }

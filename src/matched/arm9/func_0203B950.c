@@ -18,6 +18,7 @@
  *   python tools/match.py one --src src/matched/func_0203B950.c \
  *       --func func_0203B950 --addr 0x0203B950 --cc 1.1p1 --arm
  */
+#include "../include/Obj08841.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,8 +40,8 @@ void func_0203B950(u8 *p)
     if (p[0x56] == 2)
         return;
 
-    if (*(u16 *)(p + 0x46) != 0) {
-        (*(u16 *)(p + 0x46))--;
+    if (((struct Obj08841 *)p)->f46 != 0) {
+        (((struct Obj08841 *)p)->f46)--;
         return;
     }
 

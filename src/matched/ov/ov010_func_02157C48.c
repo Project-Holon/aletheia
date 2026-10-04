@@ -23,6 +23,7 @@
  *   func_02157AF0  0x02157AF0  thumb
  *   func_02157B88  0x02157B88  thumb
  */
+#include "../include/Obj01831.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -58,7 +59,7 @@ void func_02157C48(Object *p)
         n = p->n;
         for (i = 0; i < p->n; i++) {
             e = (int *)(b + 8 + i * 16);
-            if (e[2] == *(int *)(b + 0x67C) && (e[3] & *(int *)(b + 0x680))) {
+            if (e[2] == ((struct Obj01831 *)b)->f67C && (e[3] & ((struct Obj01831 *)b)->f680)) {
                 b[0x677] = i;
                 b[0x676] = 1;
                 break;
@@ -67,9 +68,9 @@ void func_02157C48(Object *p)
         func_02157960((int)p, (int)func_02157B88, 0x188);
         if (b[0x676] == 1) {
             u32 t = func_020056EC(0);
-            *(int *)(b + 0x668) = t;
+            ((struct Obj01831 *)b)->f668 = t;
             func_0203F328((u16 *)e[1], e[0], t);
-            *(int **)(b + 0x664) = e;
+            *(int * *)&((struct Obj01831 *)b)->f664 = e;
         }
         return;
     }

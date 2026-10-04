@@ -14,6 +14,7 @@
  *   func_0216D410  0x0216D410  thumb  ov010
  *   func_021A3964  0x021A3964  thumb  ov021
  */
+#include "../include/Obj07499.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ void func_021A3964(u8 *p, u32 v);
 
 void func_021A51D8(u32 *p, int b, u8 *c)
 {
-    int a = (*(u32 *)(c + 0x10) == 1) ? 0x14 : 0x10;
+    int a = (((struct Obj07499 *)c)->f10 == 1) ? 0x14 : 0x10;
 
-    func_0216D410(b, func_02197E7C(*(u16 *)(c + 8), a));
+    func_0216D410(b, func_02197E7C(((struct Obj07499 *)c)->f8, a));
     p[0] = 1;
     func_021A3964((u8 *)p[3], 1);
 }

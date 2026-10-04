@@ -29,6 +29,7 @@
  *   func_0209159C  0x0209159C  arm
  *   func_0209C2B0  0x0209C2B0  arm
  */
+#include "../include/Obj16696.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -122,7 +123,7 @@ size_t func_020917D4(void *ptr, size_t memb_size, size_t num_memb, FILE *file)
     if (bytes_requested && file->state.io_state >= __rereading) {
         do {
             if (func_02096508(file, 0) == 1) {
-                *(wchar_t *)read_ptr = file->ungetwc_buffer[file->state.io_state - __rereading];
+                ((struct Obj16696 *)read_ptr)->f0 = file->ungetwc_buffer[file->state.io_state - __rereading];
                 read_ptr += sizeof(wchar_t);
                 bytes_read += sizeof(wchar_t);
                 bytes_requested -= sizeof(wchar_t);

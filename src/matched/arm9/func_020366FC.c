@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/func_020366FC.c \
  *       --func func_020366FC --addr 0x020366FC --cc 1.1p1 --arm
  */
+#include "../include/Obj11348.h"
 
 typedef unsigned int u32;
 
@@ -32,10 +33,10 @@ u32 func_020366FC(u32 *p)
 
     v = p[0];
     if (v != 0) {
-        v = *(u32 *)(v + 8);
+        v = ((struct Obj11348 *)v)->f8;
         if (v != 0) {
             p[0] = v;
-            *(u32 *)(v + 4) = 0;
+            ((struct Obj11348 *)v)->f4 = 0;
         } else {
             p[0] = 0;
             p[1] = 0;

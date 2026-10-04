@@ -15,6 +15,7 @@
  *   func_0217B380 0x0217B380 thumb ov176
  *   func_021E8A3C 0x021E8A3C thumb ov177
  */
+#include "../include/Obj10698.h"
 typedef struct Data { unsigned words[8]; } Data;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -31,8 +32,8 @@ void *func_0217B2E4(const Data *src,unsigned heap)
     p=func_02030734(heap,0x3c,0,d_0217E5E4,0xaf);
     func_02082BCC(p,0,0x3c);
     *(Data *)(p+0x14)=*src;
-    *(unsigned short *)(p+0x34)=heap;
-    *(void **)(p+0xc)=func_02045B38(0,3,0x9e,heap);
-    *(void **)p=func_021E8A3C((int)p,(int)func_0217B380,heap);
+    ((struct Obj10698 *)p)->f34=heap;
+    ((struct Obj10698 *)p)->fC=func_02045B38(0,3,0x9e,heap);
+    ((struct Obj10698 *)p)->f0=func_021E8A3C((int)p,(int)func_0217B380,heap);
     return p;
 }

@@ -14,6 +14,7 @@
  * symbols:
  *   func_0201134C 0x0201134C thumb
  */
+#include "../include/Obj21665.h"
 extern int func_0201134C(void *);
 
 int func_021FB524(void *a, char *s)
@@ -23,5 +24,5 @@ int func_021FB524(void *a, char *s)
     func_0201134C(a);
     func_0201134C(a);
     func_0201134C(a);
-    return *(int *)(s + 0x23c);
+    return ((struct Obj21665 *)s)->f23C;
 }

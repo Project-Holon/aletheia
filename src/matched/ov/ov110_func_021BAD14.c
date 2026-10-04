@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BFE24  0x021BFE24  thumb  ov110
  */
+#include "../include/Obj22345.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void func_021BFE24(u8 *p, int y);
-void func_021BAD14(u8 *p, u32 v) { func_021BFE24((u8 *)(*(u32 *)(p + 0x5c)), v); }
+void func_021BAD14(u8 *p, u32 v) { func_021BFE24((u8 *)(((struct Obj22345 *)p)->f5C), v); }

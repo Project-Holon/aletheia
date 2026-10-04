@@ -19,6 +19,7 @@
  *   func_02179288  0x02179288  thumb  ov014
  *   func_0217727C  0x0217727C  thumb  ov014
  */
+#include "../include/Obj03088.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,9 +57,9 @@ void func_02177C4C(u8 *p)
         else
             r6 = p[0xCE6];
         if (st[0x66] != 0)
-            *(u16 *)(p + 0xC68) = func_0208F1B4();
+            ((struct Obj03088 *)p)->fC68 = func_0208F1B4();
         func_0217778C();
-        func_02179288(buf[st[0x64]], *(u16 *)(p + 0xC68), r6, st[0x60] - 1);
+        func_02179288(buf[st[0x64]], ((struct Obj03088 *)p)->fC68, r6, st[0x60] - 1);
         func_0217727C((u32 *)g_021797A4, 0);
     }
 }

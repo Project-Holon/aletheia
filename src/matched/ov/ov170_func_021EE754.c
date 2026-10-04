@@ -14,6 +14,8 @@
  *   func_021DD25C 0x021DD25C thumb
  *   func_021EE038 0x021EE038 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj24038.h"
 
 typedef struct {
     int pad[9];
@@ -31,12 +33,12 @@ void func_021EE754(unsigned char *p, unsigned r)
     int f = 0;
     if (p[0x18] == 1) {
         a = 2;
-        if ((*(Top **)p)->x24 == 3)
+        if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3)
             f = 1;
-    } else if ((*(Top **)p)->x24 == 3) {
+    } else if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 3) {
         f = 1;
     } else if (r >= 0x1E) {
-        if (func_021EF45C(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 0 || func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
+        if (func_021EF45C(*(struct WinMgr * *)&((struct Obj24038 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f74) == 0 || func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     } else {
         if (func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)

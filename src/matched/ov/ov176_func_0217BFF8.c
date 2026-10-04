@@ -44,6 +44,7 @@
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  */
+#include "../include/Obj00053.h"
 typedef unsigned char u8;
 typedef unsigned u32;
 extern void func_0217D028(u8 *);
@@ -111,10 +112,10 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
     case 8:if(func_0217D2B0(p)){func_0217D290(p);*state=9;}break;
     case 9:{
         u32 mask=0;
-        void *v=func_0200AE14(*(void **)(p+0x38));
-        func_0217D2BC(p,*(void **)(p+0x30));
-        if(func_0201AA50(*(void **)(p+0x30))==0)*state=11;
-        else if(func_0201A090(v,*(void **)(p+0x30),&mask)==0)*state=13;
+        void *v=func_0200AE14(((struct Obj00053 *)p)->f38);
+        func_0217D2BC(p,((struct Obj00053 *)p)->f30);
+        if(func_0201AA50(((struct Obj00053 *)p)->f30)==0)*state=11;
+        else if(func_0201A090(v,((struct Obj00053 *)p)->f30,&mask)==0)*state=13;
         else *state=10;
         break;
     }
@@ -122,19 +123,19 @@ void func_0217BFF8(int *sys,u32 *state,u8 *p)
     case 11:func_0217CFE8(p,37,1);*state=21;func_021E8AB4((u32)sys,12);break;
     case 12:if(func_0217D194(p)){func_0217D174((int *)p);*state=20;}break;
     case 13:{
-        void *base=func_02012EBC(*(void **)(p+0x1b8));
+        void *base=func_02012EBC(((struct Obj00053 *)p)->f1B8);
         void *rules=func_0200BAC8(base);
         void *entry=func_0200B204(func_0200B358(base),1);
         void *tmp=func_0200BAF4((int)rules,0x8056);
         func_0200BBC8(rules,2);
-        func_0200B110(*(void **)(p+0x38),10,2);
+        func_0200B110(((struct Obj00053 *)p)->f38,10,2);
         func_0200B2A4((int)entry,(int)tmp);
         func_020307B0(tmp);
         *state=14;break;
     }
     case 14:func_0217CFE8(p,10,2);*state=21;func_021E8AB4((u32)sys,15);break;
-    case 15:func_02012DAC(*(int *)(p+0x1b8));*state=16;break;
-    case 16:if(func_02012DD0(*(u8 **)(p+0x1b8))==2)*state=17;break;
+    case 15:func_02012DAC(*(int *)&((struct Obj00053 *)p)->f1B8);*state=16;break;
+    case 16:if(func_02012DD0(*(u8 * *)&((struct Obj00053 *)p)->f1B8)==2)*state=17;break;
     case 17:func_0217D1A0(p,0);func_0217CFE8(p,11,1);*state=21;func_021E8AB4((u32)sys,18);break;
     case 18:func_021E8AA0(sys,(int)func_0217C2EC);break;
     case 19:{

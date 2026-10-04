@@ -18,6 +18,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj04649.h"
 struct Node;
 struct S020315D4;
 extern void func_021BB308(char *p);
@@ -30,14 +31,14 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
 int func_021B9660(void *proc, void *a, void *b, char *work)
 {
-    switch (*(unsigned int *)(work + 16)) {
-    case 0: func_021BB308(*(void **)(work + 28)); break;
-    case 1: func_021BB7F4(*(void **)(work + 44)); break;
-    case 2: func_021BBA14(*(void **)(work + 68)); break;
-    case 3: func_021BBAE8(*(void **)(work + 116)); break;
+    switch (((struct Obj04649 *)work)->f10) {
+    case 0: func_021BB308(((struct Obj04649 *)work)->f1C); break;
+    case 1: func_021BB7F4(((struct Obj04649 *)work)->f2C); break;
+    case 2: func_021BBA14(((struct Obj04649 *)work)->f44); break;
+    case 3: func_021BBAE8(((struct Obj04649 *)work)->f74); break;
     }
-    func_02030EAC(*(void **)(work + 12));
-    func_021B9DEC(*(void **)(work + 8));
+    func_02030EAC(((struct Obj04649 *)work)->fC);
+    func_021B9DEC(((struct Obj04649 *)work)->f8);
     func_020315D4(proc);
     func_020306F0(0x90);
     return 1;

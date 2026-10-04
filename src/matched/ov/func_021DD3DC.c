@@ -16,6 +16,8 @@
  * Rebuild the row then forward it and the two tag shorts; the
  *   three callers share p[0x14] as the id.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj09221.h"
 
 
 typedef unsigned int u32;
@@ -28,10 +30,10 @@ extern void func_021DD314(char *, int, unsigned);
 extern void func_021EDAB0(char *, int);
 void func_021DD3DC(char *p, unsigned char *a)
 {
-    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)p + 8),
-                                        *(unsigned short *)(a + 4) - 0x1e));
-    func_020075B0((void *)(*(int *)(*(int *)p + 4)), *(unsigned char *)(p + 0x14),
-                  *(unsigned short *)(a + 2), (const struct Sub020075B0Entry *)x);
-    func_021DD314(p, *(unsigned char *)(p + 0x14), *(unsigned short *)(a + 4));
-    func_021EDAB0(p, *(unsigned char *)(p + 0x14));
+    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)&((struct Obj00000 *)p)->f0 + 8),
+                                        ((struct Obj09221 *)a)->f4 - 0x1e));
+    func_020075B0((void *)(*(int *)(*(int *)&((struct Obj00000 *)p)->f0 + 4)), ((struct Obj00000 *)p)->f14,
+                  ((struct Obj09221 *)a)->f2, (const struct Sub020075B0Entry *)x);
+    func_021DD314(p, ((struct Obj00000 *)p)->f14, ((struct Obj09221 *)a)->f4);
+    func_021EDAB0(p, ((struct Obj00000 *)p)->f14);
 }

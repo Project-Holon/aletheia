@@ -15,6 +15,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj14315.h"
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
@@ -28,8 +29,8 @@ void func_021B74D8(char *p)
 {
     u32 x;
 
-    func_0201F7A8((void *)(*(u32 *)(p + 0x20)), 2);
-    x = *(u32 *)(p + 0x20);
+    func_0201F7A8((void *)(((struct Obj14315 *)p)->f20), 2);
+    x = ((struct Obj14315 *)p)->f20;
     func_020456F8((struct Descriptor *)x);
     func_02041B6C(func_02045730((struct Descriptor *)x));
 }

@@ -10,13 +10,14 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj22705.h"
 
 char *func_021D8E24(int a, int b, char *p)
 {
     int n;
 
     if (a != -1) {
-        n = *(int *)(p + 0x630);
+        n = ((struct Obj22705 *)p)->f630;
         if (a > n)
             return 0;
         if (a != n && b != -1)

@@ -19,6 +19,7 @@
  *   func_021CA8E8 0x021CA8E8 thumb ov093
  *   func_021CAFD8 0x021CAFD8 thumb ov093
  */
+#include "../include/Obj09976.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -35,7 +36,7 @@ extern u8 func_021CA8E8(void *, u8);
 extern int func_021CAFD8(u8 *, u32, u8 *, const u8 *, u16, void *);
 int func_021CA7F4(u8 *p, u8 *a, u16 b, const u8 *q, void *out)
 {
-    u32 mode = func_021B8588(*(void **)(p + 4));
+    u32 mode = func_021B8588(((struct Obj09976 *)p)->f4);
     u32 id = 31;
     if (!((struct Flags *)(q + 16))->a) id = func_021CB214(p, a, q);
     func_021CA8C8(out);

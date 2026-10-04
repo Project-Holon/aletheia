@@ -31,6 +31,7 @@
  *   func_0202208C  0x0202208C  thumb
  *   func_0203D34C  0x0203D34C  arm
  */
+#include "../include/Obj00432.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -72,8 +73,8 @@ int func_021B95A0(void *a, u32 b, u32 c)
     func_021B9C44(p);
     func_021B9D08(p);
     func_021B9F24(p);
-    func_021BA384((char *)p, *(u16 *)(p + 0x160), *(u16 *)(p + 0x162));
-    func_021BA438(p, *(u16 *)(p + 0x160));
+    func_021BA384((char *)p, ((struct Obj00432 *)p)->f160, ((struct Obj00432 *)p)->f162);
+    func_021BA438(p, ((struct Obj00432 *)p)->f160);
     func_0202208C(0, 1, 1, 0, 0x10, 1, 0x80);
     func_0203D34C(1, 0x80);
     return 1;

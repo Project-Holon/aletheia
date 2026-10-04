@@ -15,6 +15,8 @@
  *   func_0203633C 0x0203633C arm
  *   func_021DD238 0x021DD238 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj24040.h"
 
 typedef unsigned int u32;
 
@@ -27,7 +29,7 @@ extern void func_021DD238(char *p);
 
 unsigned func_021EE96C(char *p)
 {
-    unsigned r = func_02025DE8(*(void **)(*(char **)(p + 0x2C) + 0x70));
+    unsigned r = func_02025DE8(((struct Obj24040 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70);
     if (r == -1) {
         if (func_020362DC() & 0x800) {
             func_021DD238(p);

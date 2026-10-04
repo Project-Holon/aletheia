@@ -13,6 +13,8 @@
  *   func_021FFE90 0x021FFE90 thumb ov186
  *   func_021E03B0 0x021E03B0 thumb ov183
  */
+#include "../include/Obj00277.h"
+#include "../include/Obj00351.h"
 typedef unsigned short u16;
 extern int func_021FFC9C(char *);
 extern int func_021FFE90(int *, u16 *);
@@ -21,15 +23,15 @@ int func_021E009C(char *p, char *q)
 {
     u16 out;
     int result;
-    func_021FFC9C(*(char **)(p + 0x1c));
-    result = func_021FFE90(*(int **)(p + 0x1c), &out);
+    func_021FFC9C(*(char * *)&((struct Obj00277 *)p)->f1C);
+    result = func_021FFE90(*(int * *)&((struct Obj00277 *)p)->f1C, &out);
     if (result) {
         if (result == 2) {
-            *(u16 *)(q + 0x14) = out;
+            ((struct Obj00351 *)q)->f14 = out;
             func_021E03B0(p, q, 1);
-            *(int *)(p + 0x50) = 0;
+            ((struct Obj00277 *)p)->f50 = 0;
         } else {
-            *(int *)(p + 0x50) = 0;
+            ((struct Obj00277 *)p)->f50 = 0;
         }
         return 1;
     }

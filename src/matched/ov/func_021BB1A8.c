@@ -21,6 +21,7 @@
  * at +0x9B0.  The offsets are spelled per access, which is why the listing
  * re-materialises 0x17C as `movs #0x5f; lsls #2` and adds small deltas to it.
  */
+#include "../include/Obj03526.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,12 +50,12 @@ typedef struct {
 
 void func_021BB1A8(char *s)
 {
-    *(void **)(s + 0xF4) = sub_020457B0(0x17C, 0x21);
-    *(void **)(s + 0xFC) = sub_020457B0(0x17C, 0x21);
-    *(void **)(s + 0xF0) = sub_020457B0(0x17C, 0x21);
-    *(void **)(s + 0xF8) = sub_020457B0(0xB4, 0x21);
-    *(void **)(s + 0x1B8) = unit_0201C440(0x21);
-    *(void **)(s + 0x1B4) = unit_0201C440(0x21);
-    *(void **)(s + 0x1C0) = sub_0203101C(0x21, 0x21, 2, 0);
-    *(void **)(s + 0x9B0) = func_02028590(0xF, 1, 0, 0x21);
+    ((struct Obj03526 *)s)->fF4 = sub_020457B0(0x17C, 0x21);
+    ((struct Obj03526 *)s)->fFC = sub_020457B0(0x17C, 0x21);
+    ((struct Obj03526 *)s)->fF0 = sub_020457B0(0x17C, 0x21);
+    ((struct Obj03526 *)s)->fF8 = sub_020457B0(0xB4, 0x21);
+    ((struct Obj03526 *)s)->f1B8 = unit_0201C440(0x21);
+    ((struct Obj03526 *)s)->f1B4 = unit_0201C440(0x21);
+    ((struct Obj03526 *)s)->f1C0 = sub_0203101C(0x21, 0x21, 2, 0);
+    ((struct Obj03526 *)s)->f9B0 = func_02028590(0xF, 1, 0, 0x21);
 }

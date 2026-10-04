@@ -13,6 +13,7 @@
  *   func_0218774C  0x0218774C  thumb  ov020
  *   func_02012374  0x02012374  thumb
  */
+#include "../include/Obj07553.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,8 +25,8 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021BF0A4(u32 p0, int *st, u8 *q)
 {
-    u32 a = *(u32 *)q;
-    u32 b = *(u32 *)(q + 4);
+    u32 a = ((struct Obj07553 *)q)->f0;
+    u32 b = ((struct Obj07553 *)q)->f4;
 
     switch (*st) {
     case 0: {

@@ -11,5 +11,6 @@
  * symbols:
  *   func_0218A0A4 0x0218A0A4 thumb ov096
  */
+#include "../include/Obj21986.h"
 extern int func_0218A0A4(unsigned char *, unsigned char *, int);
-int func_0218A094(unsigned char *a, unsigned char *b) { func_0218A0A4(a,b,2); return *(int *)(b+0xc4); }
+int func_0218A094(unsigned char *a, unsigned char *b) { func_0218A0A4(a,b,2); return ((struct Obj21986 *)b)->fC4; }

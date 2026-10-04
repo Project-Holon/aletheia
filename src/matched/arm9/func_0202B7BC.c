@@ -20,6 +20,7 @@
  * symbols:
  *   func_0202AB5C  0x0202AB5C  thumb
  */
+#include "../include/Obj15841.h"
 
 typedef unsigned int u32;
 
@@ -30,5 +31,5 @@ extern void func_0202AB5C(u8 *p, u32 a1);
 
 void func_0202B7BC(struct Obj *o, u32 a1)
 {
-    func_0202AB5C((u8 *)(*(u32 *)((char *)o + 0x10)), a1);
+    func_0202AB5C((u8 *)(((struct Obj15841 *)o)->f10), a1);
 }

@@ -23,6 +23,7 @@
  *   func_0201AC2C  0x0201AC2C  thumb
  *   data_021EFCF0  0x021EFCF0  data  ov093
  */
+#include "../include/Obj07747.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -59,19 +60,19 @@ void func_021B97A0(char *a, char *b, int k)
     list = (void *)func_021B985C(a, k);
     g = func_021B9AEC(a, k);
     n = func_0201AA18(list);
-    func_0201A948(*(void **)(b + 0x2b8));
+    func_0201A948(((struct Obj07747 *)b)->f2B8);
     t = data_021EFCF0[k];
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             m = (void *)func_021B9BF0((struct S2 *)g, (u8)j);
             if (t + i == func_021D5440(m)) {
                 func_021D6B84(m, 1);
-                func_0201A98C(*(void **)(b + 0x2b8), func_021D5844(m));
+                func_0201A98C(((struct Obj07747 *)b)->f2B8, func_021D5844(m));
                 if (func_021D67D0(m) != 0)
-                    *(u8 *)(*(char **)b + i + 0xc2) = 1;
+                    *(u8 *)(*(char * *)&((struct Obj07747 *)b)->f0 + i + 0xc2) = 1;
                 break;
             }
         }
     }
-    func_0201AC2C(*(void **)(b + 0x2b8), list);
+    func_0201AC2C(((struct Obj07747 *)b)->f2B8, list);
 }

@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25974.h"
 
 extern int func_020056A0(void (*)(void), void *, int);
 typedef unsigned int   u32;
@@ -22,5 +23,5 @@ extern u32 func_021BF6BC(u32 a0, u32 a1);
 
 void func_021C08D4(char *p)
 {
-    *(int *)(p + 0x3c0) = func_020056A0((void (*)(void))func_021BF6BC, p, 0);
+    ((struct Obj25974 *)p)->f3C0 = func_020056A0((void (*)(void))func_021BF6BC, p, 0);
 }

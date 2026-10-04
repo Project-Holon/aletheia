@@ -16,7 +16,8 @@
  *   func_021D4240 0x021D4240 thumb ov115
  *   func_021D4AB0 0x021D4AB0 thumb ov115
  */
+#include "../include/Obj22585.h"
 typedef unsigned char u8; typedef unsigned int u32;
 extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern int func_021D4240(u8 *); extern void func_021D4AB0(u8 *);
-void func_021D42E0(u8 *p) { if(func_020221A4() && func_021D5C70(*(int *)(p+0x38)) && func_021D4240(p)) func_021D426C(p,(u32)func_021D4AB0); }
+void func_021D42E0(u8 *p) { if(func_020221A4() && func_021D5C70(((struct Obj22585 *)p)->f38) && func_021D4240(p)) func_021D426C(p,(u32)func_021D4AB0); }

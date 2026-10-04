@@ -14,6 +14,8 @@
  *   d_021DDE5C     0x021DDE5C  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06005.h"
+#include "../include/Obj07489.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,10 +28,10 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 u8 *func_021A15A4(u8 *p, u32 heap)
 {
     u8 *q = (u8 *)func_02030734((u16)heap, 0x70, 1, d_021DDE5C, 0x95);
-    *(u16 *)q = *(u16 *)p;
-    *(u16 *)(q + 2) = *(u16 *)(p + 2);
-    *(u32 *)(q + 4) = *(u32 *)(p + 4);
+    ((struct Obj06005 *)q)->f0 = ((struct Obj07489 *)p)->f0;
+    ((struct Obj06005 *)q)->f2 = ((struct Obj07489 *)p)->f2;
+    ((struct Obj06005 *)q)->f4 = ((struct Obj07489 *)p)->f4;
     q[0x1e] = p[8];
-    *(u32 *)(q + 8) = 1;
+    ((struct Obj06005 *)q)->f8 = 1;
     return q;
 }

@@ -33,6 +33,8 @@
  *   func_0200B078  0x0200B078  thumb
  *   ov067_id       0x00000043  data
  */
+#include "../include/Obj06578.h"
+#include "../include/Obj06579.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 
@@ -56,11 +58,11 @@ extern s32 func_0200B078(struct Reg2 *p, u32 id);
 
 void func_0217D2F0(u8 *p, u8 *q)
 {
-    u8 *r = *(u8 **)(q + 0x1b8);
+    u8 *r = *(u8 * *)&((struct Obj06579 *)q)->f1B8;
     u32 x;
     u32 a;
 
-    *(u32 *)(p + 0x44) = 0x64;
+    ((struct Obj06578 *)p)->f44 = 0x64;
     x = (u32)func_02012944(r);
     func_02082D44(x, p, func_02008468());
     func_02087C6C(p + 0x20);
@@ -68,10 +70,10 @@ void func_0217D2F0(u8 *p, u8 *q)
     a = (u32)func_0200BAF4((int)func_0200BAC8(func_02012EBC((struct Big *)r)), 0x8056);
     func_02082D44(a, p + 0xd4, func_0201A918());
     func_020307B0((void *)a);
-    *(u32 *)(p + 0x28) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 1);
-    *(u32 *)(p + 0x2c) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 2);
-    *(u32 *)(p + 0x30) = func_0200E918((const u8 *)(*(u32 *)(q + 0x34)), 0);
-    *(u32 *)(p + 0x40) = func_0200B078((struct Reg2 *)(*(u32 *)(q + 0x38)), 2);
+    ((struct Obj06578 *)p)->f28 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 1);
+    ((struct Obj06578 *)p)->f2C = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 2);
+    ((struct Obj06578 *)p)->f30 = func_0200E918((const u8 *)(((struct Obj06579 *)q)->f34), 0);
+    ((struct Obj06578 *)p)->f40 = func_0200B078((struct Reg2 *)(((struct Obj06579 *)q)->f38), 2);
 }
 
 

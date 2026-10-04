@@ -14,6 +14,7 @@
  *   func_022060BC 0x022060BC thumb ov195
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj02911.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Owner Owner;
@@ -21,4 +22,4 @@ extern void func_022065C8(char *);
 extern void func_0220623C(struct Owner *o);
 extern void func_022060BC(char *);
 extern void func_020307B0(void *);
-void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)p);func_022060BC(p);if(*(void **)(p+16))func_020307B0(*(void **)(p+16));func_020307B0(p);}
+void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)p);func_022060BC(p);if(((struct Obj02911 *)p)->f10)func_020307B0(((struct Obj02911 *)p)->f10);func_020307B0(p);}

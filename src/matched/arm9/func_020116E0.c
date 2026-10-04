@@ -28,6 +28,7 @@
  *   python tools/match.py one --src src/matched/func_020116E0.c \
  *       --func func_020116E0 --addr 0x020116E0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj00064.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,18 +43,18 @@ void func_020116E0(u8 *p, u32 a1, u32 a2, u32 a3)
     u8 buf[4];
     u32 v;
 
-    *(u16 *)p = (u16)a3;
-    *(void **)(p + 4) = sub_020490F4(a1, a3);
-    *(u32 *)(p + 8) = a2;
-    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), a2, 0, 4, p + 0xc);
-    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 4, 1, buf + 2);
-    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 5, 1, buf + 1);
-    sub_0204944C((struct ArcFile *)*(u32 *)(p + 4), *(u32 *)(p + 8), 6, 1, buf);
+    ((struct Obj00064 *)p)->f0 = (u16)a3;
+    ((struct Obj00064 *)p)->f4 = sub_020490F4(a1, a3);
+    ((struct Obj00064 *)p)->f8 = a2;
+    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, a2, 0, 4, p + 0xc);
+    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 4, 1, buf + 2);
+    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 5, 1, buf + 1);
+    sub_0204944C((struct ArcFile *)*(u32 *)&((struct Obj00064 *)p)->f4, ((struct Obj00064 *)p)->f8, 6, 1, buf);
     v = 1;
     if (buf[2] == 0) {
         v = 0;
     }
-    *(u32 *)(p + 0x30) = v;
-    *(u32 *)(p + 0x2c) = (buf[1] != 0);
-    *(u32 *)(p + 0x28) = (buf[0] != 0);
+    ((struct Obj00064 *)p)->f30 = v;
+    ((struct Obj00064 *)p)->f2C = (buf[1] != 0);
+    ((struct Obj00064 *)p)->f28 = (buf[0] != 0);
 }

@@ -14,6 +14,7 @@
  *
  * ldrh at #0x13e (pool constant)
  */
+#include "../include/Obj18419.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ typedef signed int s32;
 
 u16 func_021D67E8(u8 *p)
 {
-    return *(u16 *)(p + 0x13e);
+    return ((struct Obj18419 *)p)->f13E;
 }

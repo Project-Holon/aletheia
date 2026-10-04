@@ -20,6 +20,7 @@
  *   d_02183B44  0x02183B44  data ov018 a1
  *   d_0218374C  0x0218374C  data ov018 a4
  */
+#include "../include/Obj12502.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ void func_021808C4(void *task, const void *src);
 
 void func_021802A8(int x, u8 *y)
 {
-    void *p = func_02030734((u16)((*(u16 *)y & 0x7fff) | 0x8000), 0x98, 1, d_02183B30, 0x329);
+    void *p = func_02030734((u16)((((struct Obj12502 *)y)->f0 & 0x7fff) | 0x8000), 0x98, 1, d_02183B30, 0x329);
     unsigned int c;
 
     MI_CpuCopy8(y, p, 0x98);

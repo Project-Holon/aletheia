@@ -12,10 +12,11 @@
  *
  * Word setter at +0x10.
  */
+#include "../include/Obj22575.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 void func_021BA87C(u8 *p, int v)
 {
-    *(u32 *)(p + 0x10) = v;
+    ((struct Obj22575 *)p)->f10 = v;
 }

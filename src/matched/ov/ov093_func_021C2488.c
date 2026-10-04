@@ -18,6 +18,7 @@
  *   func_021C25A4 0x021C25A4 thumb ov093
  *   func_021C5718 0x021C5718 thumb ov093
  */
+#include "../include/Obj21083.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,7 +50,7 @@ void func_021C2488(u8 *p, u16 id, u8 *a, u32 c)
         for (t = func_021C2584(c); t; t = func_021C2594(c)) {
             func_021D7C70(w, (u32)a, &out);
             if (func_021C25A4(p, (u32)a, t, id, s, out, 1)) {
-                BF *flag = *(BF **)(p + 0x4a8);
+                BF *flag = *(BF * *)&((struct Obj21083 *)p)->f4A8;
                 if (!flag->f) flag->f = 1;
                 got = 1;
             }

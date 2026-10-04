@@ -18,6 +18,7 @@
  *   func_02048B54  0x02048B54  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07211.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ extern u32 func_02048B54(u32, u32);
 
 int func_0219545C(u32 a, u32 b, u32 c, u32 d)
 {
-func_02048AE8(*(u32 *)((u8 *)(a) + 4), (a + (202 << 4)), c, d);
-func_02048B0C(*(u32 *)((u8 *)(a) + 4), (a + ((202 << 4) + 12)));
-func_02048B30(*(u32 *)((u8 *)(a) + 4), (a + ((202 << 4) + 24)));
-return func_02048B54(*(u32 *)((u8 *)(a) + 4), (a + ((202 << 4) + 36)));
+func_02048AE8(((struct Obj07211 *)((u8 *)(a)))->f4, (a + (202 << 4)), c, d);
+func_02048B0C(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 12)));
+func_02048B30(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 24)));
+return func_02048B54(((struct Obj07211 *)((u8 *)(a)))->f4, (a + ((202 << 4) + 36)));
 }
 

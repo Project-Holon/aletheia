@@ -12,10 +12,11 @@
  * symbols:
  *   func_02030EAC  0x02030EAC  arm
  */
+#include "../include/Obj24048.h"
 
 extern int func_02030EAC(int);
 
 int func_021DC8D4(int *p)
 {
-    return func_02030EAC(*(int *)((char *)p + 0xB28));
+    return func_02030EAC(((struct Obj24048 *)p)->fB28);
 }

@@ -12,8 +12,9 @@
  * Getter for the word at offset 0xC of a task menu object; witness for
  * the call at +0x16 of ov119 func_021DA318.
  */
+#include "../include/Obj15770.h"
 
 unsigned func_02027A20(char *p)
 {
-    return *(unsigned *)(p + 0xC);
+    return ((struct Obj15770 *)p)->fC;
 }

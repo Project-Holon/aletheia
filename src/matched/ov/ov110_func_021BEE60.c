@@ -15,6 +15,7 @@
  *   func_021BD894 0x021BD894 thumb ov110
  *   func_021BF444 0x021BF444 thumb ov110
  */
+#include "../include/Obj01394.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,23 +27,23 @@ extern int func_021BE4C0(u8 *,void *);
 extern int func_021BD894(u8 *,void *);
 extern int func_021BF444(u8 *);
 void func_021BEE60(u8 *p,u32 *q) {
-    switch(func_021BF208(p+0x54,*(u16 *)(p+0x38))) {
-    case 1: func_020061E4(1352); func_021B9BEC(*(u8 **)(p+0x14),19); return;
-    case 2: func_020061E4(1352); func_021B9BEC(*(u8 **)(p+0x14),20); *q=1; return;
-    case 3: func_020061E4(1352); func_021B9BEC(*(u8 **)(p+0x14),20); func_021B9BEC(*(u8 **)(p+0x14),19); *q=2; return;
+    switch(func_021BF208(p+0x54,((struct Obj01394 *)p)->f38)) {
+    case 1: func_020061E4(1352); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,19); return;
+    case 2: func_020061E4(1352); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,20); *q=1; return;
+    case 3: func_020061E4(1352); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,20); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,19); *q=2; return;
     }
-    if(*(u16 *)(p+0x34)&2) {
-        func_020061E4(1361); func_021B9BEC(*(u8 **)(p+0x14),13);
-        *(Handler *)(p+0x28)=func_021BE4C0; *q=4; return;
-    } else if(*(u16 *)(p+0x34)&1) {
-        if(*(u16 *)(p+0x60)!=0) {
-            func_020061E4(1361); func_021B9BEC(*(u8 **)(p+0x14),13);
-            *(Handler *)(p+0x28)=func_021BE4C0; *q=4; return;
+    if(((struct Obj01394 *)p)->f34&2) {
+        func_020061E4(1361); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,13);
+        *(Handler *)&((struct Obj01394 *)p)->f28=func_021BE4C0; *q=4; return;
+    } else if(((struct Obj01394 *)p)->f34&1) {
+        if(((struct Obj01394 *)p)->f60!=0) {
+            func_020061E4(1361); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,13);
+            *(Handler *)&((struct Obj01394 *)p)->f28=func_021BE4C0; *q=4; return;
         } else {
-            func_020061E4(1356); *(u16 *)(p+0x62)=65535;
+            func_020061E4(1356); ((struct Obj01394 *)p)->f62=65535;
             func_021BF444(p);
-            func_021B9BEC(*(u8 **)(p+0x14),34); func_021B9BEC(*(u8 **)(p+0x14),14);
-            *(Handler *)(p+0x28)=func_021BD894; *q=4;
+            func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,34); func_021B9BEC(*(u8 * *)&((struct Obj01394 *)p)->f14,14);
+            *(Handler *)&((struct Obj01394 *)p)->f28=func_021BD894; *q=4;
         }
     }
 }

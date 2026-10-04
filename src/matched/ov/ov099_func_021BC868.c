@@ -20,6 +20,7 @@
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj00977.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,34 +42,34 @@ int func_021BC868(char *p, int v)
 {
     int r;
     void *q;
-    q = *(void **)(p + 0x1b8);
-    if (*(u8 *)(p + 0x1b0) != 0) {
-        if (func_0201C6C4(q, func_02045770(*(void **)(p + 0x1ac))) == 0) {
-            func_02045334(*(void **)(p + 0x1ac));
-            *(u8 *)(p + 0x1b0) = 0;
+    q = ((struct Obj00977 *)p)->f1B8;
+    if (((struct Obj00977 *)p)->f1B0 != 0) {
+        if (func_0201C6C4(q, func_02045770(((struct Obj00977 *)p)->f1AC)) == 0) {
+            func_02045334(((struct Obj00977 *)p)->f1AC);
+            ((struct Obj00977 *)p)->f1B0 = 0;
         }
     }
-    r = func_020200CC(*(void **)(p + 0xbc));
+    r = func_020200CC(((struct Obj00977 *)p)->fBC);
     if (r == -1) return v;
     func_021BA8EC(p);
-    *(void **)(p + 0x1a4) = (void *)func_021BA8BC(*(void **)(p + 0x1a4));
-    func_0202020C(*(void **)(p + 0xbc), 0, (u16 *)(p + 0x234));
-    func_0201F868(*(void **)(p + 0xb8));
+    ((struct Obj00977 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj00977 *)p)->f1A4);
+    func_0202020C(((struct Obj00977 *)p)->fBC, 0, (u16 *)(p + 0x234));
+    func_0201F868(((struct Obj00977 *)p)->fB8);
     if (r == -2) {
-        if (*(u32 *)(p + 0x135c) == 3 || *(u32 *)(p + 0x135c) == 4) {
-            func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        if (((struct Obj00977 *)p)->f135C == 3 || ((struct Obj00977 *)p)->f135C == 4) {
+            func_021BA874(p, ((struct Obj00977 *)p)->f242 - 1);
             func_021BAAB8(p, 0x60, 0);
-            *(u32 *)(p + 0x1cc) = 0x45;
+            ((struct Obj00977 *)p)->f1CC = 0x45;
         } else {
-            *(u32 *)(p + 0x1cc) = 0x1c;
+            ((struct Obj00977 *)p)->f1CC = 0x1c;
         }
     } else {
-        if (*(u32 *)(p + 0x135c) == 3 || *(u32 *)(p + 0x135c) == 4) {
-            *(u32 *)(p + 0x1cc) = r;
+        if (((struct Obj00977 *)p)->f135C == 3 || ((struct Obj00977 *)p)->f135C == 4) {
+            ((struct Obj00977 *)p)->f1CC = r;
         } else if (r == 0x5b) {
-            *(u32 *)(p + 0x1cc) = 0x75;
+            ((struct Obj00977 *)p)->f1CC = 0x75;
         } else {
-            *(u32 *)(p + 0x1cc) = r;
+            ((struct Obj00977 *)p)->f1CC = r;
         }
     }
     return v;

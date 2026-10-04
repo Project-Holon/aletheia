@@ -20,6 +20,11 @@
  *   func_021BA0F0 0x021BA0F0 thumb ov225
  *   func_021BBD74 0x021BBD74 thumb ov225
  */
+#include "../include/Obj02563.h"
+#include "../include/Obj26303.h"
+#include "../include/Obj26304.h"
+#include "../include/Obj26305.h"
+#include "../include/Obj26306.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char file_021BC06C[];
@@ -35,20 +40,20 @@ extern void func_021BBD74(char *);
 char *func_021BBA74(char *p, char *data)
 {
     char *q;
-    q = func_02030734(*(u16 *)(data + 4), 64, 1, file_021BC06C, 156);
-    *(char **)q = p;
-    *(unsigned *)(p + 0x28) = 0;
-    *(char **)(q + 4) = data;
+    q = func_02030734(((struct Obj26303 *)data)->f4, 64, 1, file_021BC06C, 156);
+    *(char * *)&((struct Obj02563 *)q)->f0 = p;
+    ((struct Obj26304 *)p)->f28 = 0;
+    *(char * *)&((struct Obj02563 *)q)->f4 = data;
     q[8] = 0;
-    *(unsigned *)(q + 0xc) = 0;
+    ((struct Obj02563 *)q)->fC = 0;
     func_021BBBF4(q);
     func_021BBC44(q);
     func_021BBC54((u8 *)q);
-    *(void **)(q + 0x34) = func_020056A0((unsigned)func_021BBBF0, (unsigned)q, 1);
-    *(unsigned *)(q + 0x38) = 0;
+    ((struct Obj02563 *)q)->f34 = func_020056A0((unsigned)func_021BBBF0, (unsigned)q, 1);
+    ((struct Obj02563 *)q)->f38 = 0;
     q[0x3c] = -1;
-    func_021BA068(*(char **)(*(char **)(q + 4) + 0x34), 3);
-    func_021BA0F0(*(char **)(*(char **)(q + 4) + 0x34), *(u8 *)*(char **)q, *(u8 *)(q + 8));
+    func_021BA068(*(char * *)&((struct Obj26305 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, 3);
+    func_021BA0F0(*(char * *)&((struct Obj26306 *)(*(char * *)&((struct Obj02563 *)q)->f4))->f34, *(u8 *)*(char * *)&((struct Obj02563 *)q)->f0, ((struct Obj02563 *)q)->f8);
     func_021BBD74(q);
     return q;
 }

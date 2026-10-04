@@ -13,6 +13,7 @@
  *   func_021D5BAC 0x021D5BAC thumb ov131
  *   func_021D5C4C 0x021D5C4C thumb ov131
  */
+#include "../include/Obj00039.h"
 typedef unsigned int   u32;
 struct Mon;
 struct Sav;
@@ -26,10 +27,10 @@ int func_021D5B58(unsigned char *p,int a) {
  unsigned short n;
  int r=func_021D5BAC(p,a,&n);
  if(r==1) {
- *(unsigned short *)(p+24)=n;
+ ((struct Obj00039 *)p)->f18=n;
  if((*(unsigned char **)(p+8))[12]==2) {
- if(*(void **)(p+600)) {func_02017528(*(void **)(p+600));func_020307B0(*(void **)(p+600));}
- *(void **)(p+600)=func_0201747C(func_021D6064(p),*(unsigned short *)p);
+ if(((struct Obj00039 *)p)->f258) {func_02017528(((struct Obj00039 *)p)->f258);func_020307B0(((struct Obj00039 *)p)->f258);}
+ ((struct Obj00039 *)p)->f258=func_0201747C(func_021D6064(p),((struct Obj00039 *)p)->f0);
  }
  func_021D5C4C(p);
  }

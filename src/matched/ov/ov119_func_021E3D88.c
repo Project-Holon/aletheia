@@ -13,6 +13,7 @@
  *   func_02007A18  0x02007A18  thumb
  *   func_021E3D04  0x021E3D04  thumb  ov119
  */
+#include "../include/Obj13914.h"
 
 typedef unsigned int   u32;
 struct Sub020079BCEntry;
@@ -24,5 +25,5 @@ void func_021E3D88(char *p, int box, unsigned char *out)
     unsigned char i;
 
     for (i = 0; i < 30; i++)
-        out[i] = func_021E3D04(func_02007A18(*(void **)(p + 0x828), box, i), *(unsigned short *)(p + 0x5F4));
+        out[i] = func_021E3D04(func_02007A18(((struct Obj13914 *)p)->f828, box, i), ((struct Obj13914 *)p)->f5F4);
 }

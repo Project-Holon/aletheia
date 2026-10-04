@@ -19,6 +19,7 @@
  *   func_02211844 0x02211844 thumb ov198
  *   func_022118F4 0x022118F4 thumb ov198
  */
+#include "../include/Obj03907.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Sound;
@@ -36,39 +37,39 @@ int func_0220F88C(u8 *p)
     u32 sel;
     u8 *q;
     if(func_02211958((u8 **)p)==1) return 31;
-    sel=func_02025DE8(*(struct Sound **)(p+0x2184));
+    sel=func_02025DE8(*(struct Sound * *)&((struct Obj03907 *)p)->f2184);
     switch(sel) {
     case 0:
         func_02211970((u8 **)p,1357);
         func_0220B760(p,7);
         if(func_02210E20(p)==1) {
-            q=*(u8 **)p;
+            q=*(u8 * *)&((struct Obj03907 *)p)->f0;
             if(q[31]!=2) {
                 (q+q[33])[72]=func_022110D4(p,q[32]);
                 return 31;
             }
             if(func_02211844(p)==0) {func_022118F4(p);return 31;}
-            *(u32 *)(p+0x217c)=19;return 29;
+            ((struct Obj03907 *)p)->f217C=19;return 29;
         }
-        *(u32 *)(p+0x217c)=21;return 29;
+        ((struct Obj03907 *)p)->f217C=21;return 29;
     case 1:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
         func_0220B760(p,8);
-        *(u32 *)(p+0x217c)=13;return 29;
+        ((struct Obj03907 *)p)->f217C=13;return 29;
     case 2:
         if(func_02210ED4(p)==1) break;
         func_02211970((u8 **)p,1357);
         func_0220B760(p,10);
-        *(u32 *)(p+0x217c)=14;return 29;
+        ((struct Obj03907 *)p)->f217C=14;return 29;
     case 3:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(u32 *)(p+0x217c)=11;return 29;
+        ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-2:
         func_02211970((u8 **)p,1362);
         func_0220B760(p,6);
-        *(u32 *)(p+0x217c)=11;return 29;
+        ((struct Obj03907 *)p)->f217C=11;return 29;
     case (u32)-3: case (u32)-4:
         func_02211970((u8 **)p,1352);break;
     case (u32)-1: case (u32)-5: case (u32)-6: case (u32)-7: case (u32)-8:

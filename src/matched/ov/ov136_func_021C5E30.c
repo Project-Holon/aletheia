@@ -15,6 +15,10 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj10604.h"
+#include "../include/Obj23539.h"
+#include "../include/Obj23540.h"
+#include "../include/Obj23541.h"
 typedef unsigned char u8;
 struct Bank;
 struct Obj;
@@ -24,7 +28,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0204B1CC(struct Bank *bank);
 void func_021C5E30(u8 *p)
 {
-    func_0202DC08(*(void **)(*(u8 **)(p + 8) + 0x35C));
-    func_0201C4C0(*(void **)(*(u8 **)(p + 8) + 0x36C));
-    func_0204B1CC(*(void **)(*(u8 **)(p + 8) + 0x368));
+    func_0202DC08(((struct Obj23539 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f35C);
+    func_0201C4C0(((struct Obj23540 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f36C);
+    func_0204B1CC(((struct Obj23541 *)(*(u8 * *)&((struct Obj10604 *)p)->f8))->f368);
 }

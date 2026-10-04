@@ -18,6 +18,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj09983.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,7 +54,7 @@ int func_021CC398(char *p, void *m)
                     r = (u8 *)func_021C88A4(p, 11, id);
                     r[0x14] = 1;
                     r[8] = id;
-                    *(u32 *)(r + 4) = k;
+                    ((struct Obj09983 *)r)->f4 = k;
                     func_021C88C8(p, r);
                     ret = 1;
                 }

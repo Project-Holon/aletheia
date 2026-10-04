@@ -23,6 +23,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj01049.h"
 typedef unsigned int u32;
 extern void func_02205F64(char *);
 extern void func_02205E30(char *);
@@ -76,5 +77,5 @@ void func_022023D0(char *p)
     func_022025B4();
     DROP_PTR(0x238, func_02030EAC);
     DROP_ZERO_ID(0x48, func_02049238);
-    *(int *)(p + 0x58) = 0;
+    ((struct Obj01049 *)p)->f58 = 0;
 }

@@ -14,6 +14,7 @@
  *   func_021F2614 0x021F2614 thumb ov194
  *   func_020355D8 0x020355D8 arm
  */
+#include "../include/Obj00117.h"
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F265C(char *,int *,int *);
 extern unsigned func_021F2614(char *,int *,unsigned short *);
@@ -22,13 +23,13 @@ extern void func_020355D8(u8 v);
 int func_021F3BD4(char *p,int *out) {
     int point[2],u;
     unsigned x,y;
-    if (*(int *)(p+0x118)==0) {
+    if (((struct Obj00117 *)p)->f118==0) {
         if (func_02035D20(&x,&y)) {
             point[0]=x; point[1]=y;
             if (func_021F265C(p,point,(int *)(p+0xd8))) {
                 if (func_021F2614(p,(int *)(p+0xd8),0)-2<=3) {
-                    u=*(int *)(p+0xd8);
-                    out[3]=*(int *)(p+0xdc);
+                    u=((struct Obj00117 *)p)->fD8;
+                    out[3]=((struct Obj00117 *)p)->fDC;
                     out[1]=1; out[2]=u;
                     func_020355D8(1);
                     return 1;

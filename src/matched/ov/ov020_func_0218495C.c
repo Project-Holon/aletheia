@@ -23,6 +23,7 @@
  *   func_021BF61C  0x021BF61C  thumb  ov021
  *   func_021BFDD0  0x021BFDD0  thumb  ov021
  */
+#include "../include/Obj04977.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,9 +53,9 @@ int func_0218495C(int ctx, int *state, u8 *p)
     int z;
     int y;
 
-    x = *(int *)(p + 0);
-    y = *(int *)(p + 4);
-    z = *(int *)(p + 8);
+    x = ((struct Obj04977 *)p)->f0;
+    y = ((struct Obj04977 *)p)->f4;
+    z = ((struct Obj04977 *)p)->f8;
     v = func_02012A30((const struct BigObj *)y);
 
     switch (*state) {
@@ -68,7 +69,7 @@ int func_0218495C(int ctx, int *state, u8 *p)
         break;
     case 2:
         func_02012B2C((int)func_020127A4((struct SaveBlock *)y), 0);
-        func_02029D44(v, y, *(u16 *)(p + 0x14), (u8)*(u16 *)(p + 0x4a));
+        func_02029D44(v, y, ((struct Obj04977 *)p)->f14, (u8)((struct Obj04977 *)p)->f4A);
         func_02029D7C(v, y);
         (*state)++;
         break;
@@ -81,7 +82,7 @@ int func_0218495C(int ctx, int *state, u8 *p)
         (*state)++;
         break;
     case 5:
-        func_021BC550((void *)func_02188D20(z), *(s16 *)(p + 0x14));
+        func_021BC550((void *)func_02188D20(z), *(s16 *)&((struct Obj04977 *)p)->f14);
         return 1;
     }
     return 0;

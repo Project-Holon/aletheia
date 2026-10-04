@@ -15,6 +15,7 @@
  *   func_021E7058 0x021E7058 thumb ov119
  *   func_021E6FC8 0x021E6FC8 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Create;
@@ -31,10 +32,10 @@ void func_021E6FD4(char *p, int x, int y) {
     Create c;
     c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
     func_021E7058(p);
-    *(int *)(p+0xf24)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
-    func_0204B3DC((struct Obj *)*(int *)(p+0xf24),1);
-    func_0204B92C((struct Obj *)*(int *)(p+0xf24),1);
+    ((struct Obj00001 *)p)->fF24=(int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f894,((struct Obj00001 *)p)->f880,((struct Obj00001 *)p)->f8B0,&c,1,((struct Obj00001 *)p)->f5F4);
+    func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fF24,1);
+    func_0204B92C((struct Obj *)((struct Obj00001 *)p)->fF24,1);
     p[0x11f5]=0;
     cb.v=0;cb.p=p;cb.fn=func_021E6FC8;
-    func_0204BA00(*(int *)(p+0xf24),&cb);
+    func_0204BA00(((struct Obj00001 *)p)->fF24,&cb);
 }

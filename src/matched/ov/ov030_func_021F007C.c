@@ -16,6 +16,7 @@
  *   func_02040588  0x02040588  arm
  *   func_02043598  0x02043598  arm
  */
+#include "../include/Obj20401.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ extern void func_02043598(u32 a, u32 b);
 
 void func_021F007C(char *p)
 {
-    u32 v = *(u32 *)(p + 0x14);
+    u32 v = ((struct Obj20401 *)p)->f14;
 
     func_0203FB44(6, (u16)v, (u16)(v >> 16));
     func_020403F4(4);

@@ -28,6 +28,7 @@
  *   func_021D99F4 0x021D99F4 thumb ov175
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj00013.h"
 typedef unsigned long u32;
 typedef unsigned char  u8;
 struct Obj;
@@ -55,12 +56,12 @@ void func_021D8CF0(u32 sys,int *state,char *p)
     int v;
     switch(*state) {
     case 0:
-        switch(func_021D9F04(*(char **)(p+52),0,(void *)1)) {
+        switch(func_021D9F04(*(char * *)&((struct Obj00013 *)p)->f34,0,(void *)1)) {
         case 0:case 1:case 4:*state=1;break;
         case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }break;
     case 1:func_02040588(0,1);
-        func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),92,1);
+        func_021E8738((int *)(((struct Obj00013 *)p)->f2C),((struct Obj00013 *)p)->f14,92,1);
         *state=7;func_021E8AB4(sys,2);break;
     case 2:func_021D98E4(p,4);*state=3;break;
     case 3:v=func_021D9A08(p);
@@ -76,12 +77,12 @@ void func_021D8CF0(u32 sys,int *state,char *p)
     case 5:v=func_021D9A30(p);
         if(v==1 || v==2) *state=1;
         else if(v==0) *state=6;
-        v=func_021D9F04(*(char **)(p+52),0,0);
+        v=func_021D9F04(*(char * *)&((struct Obj00013 *)p)->f34,0,0);
         switch(v) {
         case 1:case 2:func_021E8AA0((int *)sys,(int)func_021D9064);break;
         }
         break;
     case 6:func_021E8AA0((int *)sys,(int)func_021D8EC8);break;
-    case 7:if(func_021E8844((const int *)(*(u32 *)(p+44))))func_021E8AB8(sys);break;
+    case 7:if(func_021E8844((const int *)(((struct Obj00013 *)p)->f2C)))func_021E8AB8(sys);break;
     }
 }

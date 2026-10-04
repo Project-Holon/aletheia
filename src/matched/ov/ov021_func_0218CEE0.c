@@ -12,10 +12,11 @@
  * Unlabelled 4-byte getter (ldr r0, [r0, #0x70]; bx lr), a leaf of
  * ov043 func_021F36C0.
  */
+#include "../include/Obj19549.h"
 
 typedef unsigned char u8;
 
 void *func_0218CEE0(void *p)
 {
-    return *(void **)((u8 *)p + 0x70);
+    return ((struct Obj19549 *)p)->f70;
 }

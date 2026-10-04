@@ -14,6 +14,7 @@
  *   func_02161E78  0x02161E78  thumb  ov010
  *   func_02161E60  0x02161E60  thumb  ov010
  */
+#include "../include/Obj17712.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ int func_021621E8(int a0, int a1, int a2)
     char *s;
 
 t5 = a1 + 0;
-a1 = *(u16 *)((char *)a2 + 4);
+a1 = ((struct Obj17712 *)a2)->f4;
 a0 = t5 + 0;
 a2 = 1;
 t4 = 1;

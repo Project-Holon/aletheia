@@ -20,6 +20,7 @@
  *   ov177_id       0x000000B1  data
  *   ov67_id        0x00000043  data
  */
+#include "../include/Obj03869.h"
 
 extern void func_021E8A78(int);
 extern void func_0217AF9C(int *);
@@ -34,7 +35,7 @@ extern char ov67_id[];
 
 int func_0217AE88(int a, int b, int c, int *p)
 {
-    func_021E8A78(*(int *)((char *)p + 4));
+    func_021E8A78(((struct Obj03869 *)p)->f4);
     func_0217AF9C(p);
     func_0217AF44(p);
     func_0217AF04(p);

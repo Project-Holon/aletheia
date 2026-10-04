@@ -12,6 +12,7 @@
  * symbols:
  *   func_021BFE60  0x021BFE60  thumb  ov110
  */
+#include "../include/Obj22346.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +22,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern unsigned func_021BFE60(u8 *p, unsigned n);
-unsigned func_021BAD20(u8 *p, unsigned n) { return func_021BFE60(*(u8 **)(p + 0x5c), n); }
+unsigned func_021BAD20(u8 *p, unsigned n) { return func_021BFE60(*(u8 * *)&((struct Obj22346 *)p)->f5C, n); }

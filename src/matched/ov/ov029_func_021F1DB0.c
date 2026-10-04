@@ -11,18 +11,19 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj02111.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 void func_021F1DB0(char *p)
 {
-    if (*(int *)(p + 0x164) != 0) {
-        func_0204B3B4((struct Obj *)(*(int *)(p + 0x164)));
-        *(int *)(p + 0x164) = 0;
+    if (((struct Obj02111 *)p)->f164 != 0) {
+        func_0204B3B4((struct Obj *)(((struct Obj02111 *)p)->f164));
+        ((struct Obj02111 *)p)->f164 = 0;
     }
-    if (*(int *)(p + 0x168) != 0)
-        func_0204B3B4((struct Obj *)(*(int *)(p + 0x168)));
-    if (*(int *)(p + 0x16c) != 0) {
-        func_0204B3B4((struct Obj *)(*(int *)(p + 0x16c)));
-        *(int *)(p + 0x16c) = 0;
+    if (((struct Obj02111 *)p)->f168 != 0)
+        func_0204B3B4((struct Obj *)(((struct Obj02111 *)p)->f168));
+    if (((struct Obj02111 *)p)->f16C != 0) {
+        func_0204B3B4((struct Obj *)(((struct Obj02111 *)p)->f16C));
+        ((struct Obj02111 *)p)->f16C = 0;
     }
 }

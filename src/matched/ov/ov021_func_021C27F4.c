@@ -17,6 +17,7 @@
  *   func_020437AC  0x020437AC  arm
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj01215.h"
 
 struct Obj;
 struct Obj020437AC;
@@ -42,9 +43,9 @@ int func_021C27F4(int a, int *b)
         (*b)++;
         break;
     case 1:
-        func_020437AC((struct Obj020437AC *)(*(int *)(p + 0x90)));
-        func_020307B0((void *)(*(int *)(p + 0x94)));
-        func_020307B0((void *)(*(int *)(p + 0x98)));
+        func_020437AC((struct Obj020437AC *)(*(int *)&((struct Obj01215 *)p)->f90));
+        func_020307B0((void *)(*(int *)&((struct Obj01215 *)p)->f94));
+        func_020307B0((void *)(*(int *)&((struct Obj01215 *)p)->f98));
         (*b)++;
         break;
     case 2:

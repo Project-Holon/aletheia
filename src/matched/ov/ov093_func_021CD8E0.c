@@ -14,15 +14,16 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021EEAE0 0x021EEAE0 thumb ov093
  */
+#include "../include/Obj05197.h"
 typedef unsigned char u8;
 extern void func_021EE600(void *);
 extern void func_02188080(void *);
 extern void func_020307B0(void *);
 extern void func_021EEAE0(void *);
 void func_021CD8E0(u8 *p) {
- if(*(void**)(p+0x10))func_021EE600(*(void**)(p+0x10));
- if(*(void**)(p+0xf0))func_02188080(*(void**)(p+0xf0));
- func_020307B0(*(void**)(p+0x134));
- func_021EEAE0(*(void**)(p+0x50));
+ if(*(void* *)&((struct Obj05197 *)p)->f10)func_021EE600(*(void* *)&((struct Obj05197 *)p)->f10);
+ if(*(void* *)&((struct Obj05197 *)p)->fF0)func_02188080(*(void* *)&((struct Obj05197 *)p)->fF0);
+ func_020307B0(*(void* *)&((struct Obj05197 *)p)->f134);
+ func_021EEAE0(*(void* *)&((struct Obj05197 *)p)->f50);
  func_020307B0(p);
 }

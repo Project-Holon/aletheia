@@ -19,6 +19,7 @@
  *   func_02045374  0x02045374  arm
  *   func_020409B4  0x020409B4  arm
  */
+#include "../include/Obj04341.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -41,11 +42,11 @@ void func_021B96A4(char *a, void **b)
 {
     func_0201F554(4, 1, 0, 0x61);
     func_020215EC(*b, 5, func_0201F548(0), 0x61, 1, 0x20, 0xb0, 0);
-    *(void **)(a + 0x280) = (void *)func_020450F0(4, 1, 0x13, 0x1e, 4, 0xd, 1);
-    func_02043B5C(func_02045770(*(void **)(a + 0x280)), 0xff);
-    *(void **)(a + 0x284) = (void *)func_020450F0(4, 0, 0, 0x20, 3, 0xd, 1);
-    func_02045374(*(void **)(a + 0x284));
+    ((struct Obj04341 *)a)->f280 = (void *)func_020450F0(4, 1, 0x13, 0x1e, 4, 0xd, 1);
+    func_02043B5C(func_02045770(((struct Obj04341 *)a)->f280), 0xff);
+    ((struct Obj04341 *)a)->f284 = (void *)func_020450F0(4, 0, 0, 0x20, 3, 0xd, 1);
+    func_02045374(((struct Obj04341 *)a)->f284);
     func_020409B4(4);
-    *(void **)(a + 0x288) = *(void **)(a + 0x284);
-    *(u8 *)(a + 0x28c) = 0;
+    ((struct Obj04341 *)a)->f288 = ((struct Obj04341 *)a)->f284;
+    ((struct Obj04341 *)a)->f28C = 0;
 }

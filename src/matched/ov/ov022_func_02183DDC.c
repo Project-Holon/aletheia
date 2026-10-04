@@ -11,6 +11,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00660.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -33,9 +34,9 @@ void func_02183DDC(u8 *s)
                 if ((s[0xe] & m) && (s[4] & m)) {
                     s[4] ^= (u8)m;
                     s[1] |= (u8)m;
-                    cb = *(Cb *)(s + 0xf4);
+                    cb = *(Cb *)&((struct Obj00660 *)s)->fF4;
                     if (cb != 0) {
-                        cb((u8)i, ents + i * 0x28, *(u32 *)(s + 0xfc));
+                        cb((u8)i, ents + i * 0x28, ((struct Obj00660 *)s)->fFC);
                     }
                     s[0x10] = 0xff;
                 }

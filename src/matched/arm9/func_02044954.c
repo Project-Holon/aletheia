@@ -28,6 +28,8 @@
  *     xend/yend flips the operands of the conditional add (4 out), and
  *     a fresh t with s32 x/y reshuffles the allocation (167 out).
  */
+#include "../include/Obj03010.h"
+#include "../include/Obj11412.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -72,7 +74,7 @@ void func_02044954(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16
                     } else {
                         c = ((u8 *)s)[0] | (((u8 *)s)[1] << 8);
                     }
-                    *(u16 *)d = c;
+                    ((struct Obj11412 *)d)->f0 = c;
                 }
     } else {
         for (i = y, di = dy; i < yend; i++, di++)
@@ -90,8 +92,8 @@ void func_02044954(struct Surf *src, struct Surf *dst, u16 x, u16 y, s16 dx, s16
                     } else {
                         c = ((u8 *)s)[0] | (((u8 *)s)[1] << 8);
                     }
-                    if (*(u8 *)s != key)
-                        *(u16 *)d = c;
+                    if (((struct Obj03010 *)s)->f0 != key)
+                        ((struct Obj11412 *)d)->f0 = c;
                 }
     }
 }

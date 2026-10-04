@@ -13,6 +13,7 @@
  *   func_0204B294 0x0204B294 arm
  *   d_021E8CBE 0x021E8CBE data a1
  */
+#include "../include/Obj10709.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
@@ -43,9 +44,9 @@ void func_021E73E4(char *p, unsigned owner, void *table, unsigned heap)
     req.y = 0x98;
     req.id = 7;
     req.flag = 1;
-    v = *(unsigned *)(p + 0x234);
+    v = ((struct Obj10709 *)p)->f234;
     a = func_021E5978(table, v + 2);
-    b = func_021E5978(table, *(unsigned *)(p + 0x234));
+    b = func_021E5978(table, ((struct Obj10709 *)p)->f234);
     c = func_021E5978(table, v + 4);
-    *(void **)(p + 0x18c) = func_0204B294(owner, a, b, c, &req, v, heap);
+    ((struct Obj10709 *)p)->f18C = func_0204B294(owner, a, b, c, &req, v, heap);
 }

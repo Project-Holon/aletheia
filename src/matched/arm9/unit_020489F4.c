@@ -27,6 +27,8 @@
  * `add r0, r0, r1, lsl #3` is the record stride of 8 folded into the add, and
  * the halfword offset rides in the load.
  */
+#include "../include/Obj17329.h"
+#include "../include/Obj17330.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,10 +46,10 @@ u32 sub_02048A00(u8 *a0, int i)
 
 u32 sub_02048A0C(u8 *a0, int i)
 {
-    return *(u32 *)((u8 *)*(u32 *)a0 + i * 4);
+    return *(u32 *)((u8 *)((struct Obj17329 *)a0)->f0 + i * 4);
 }
 
 u32 sub_02048A18(u8 *a0, int i)
 {
-    return *(u32 *)((u8 *)*(u32 *)(a0 + 0xc) + i * 4);
+    return *(u32 *)((u8 *)((struct Obj17330 *)a0)->fC + i * 4);
 }

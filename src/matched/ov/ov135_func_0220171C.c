@@ -19,6 +19,8 @@
  *   func_0203CA04 0x0203CA04 arm
  *   func_0203C968 0x0203C968 arm
  */
+#include "../include/Obj01943.h"
+#include "../include/Obj23444.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -38,30 +40,30 @@ int func_0220171C(u8 *p)
     int r;
     if(func_021C866C()) {
         r=func_021C86A8();
-        *(u32 *)(p+0xF8C)=0;
+        ((struct Obj01943 *)p)->fF8C=0;
         switch(r) {
         case 0:
-            *(u32 *)(p+0x28)=0x22;
+            ((struct Obj01943 *)p)->f28=0x22;
             func_022021F8(p,0);
-            func_022023A4(p,p+0xA24,p+0xE4,p+0xA24,*(u16 *)(p+0xC4));
-            func_022024B0(*(void **)(*(u8 **)p+0x18),p+0xA24);
+            func_022023A4(p,p+0xA24,p+0xE4,p+0xA24,((struct Obj01943 *)p)->fC4);
+            func_022024B0(((struct Obj23444 *)(*(u8 * *)&((struct Obj01943 *)p)->f0))->f18,p+0xA24);
             func_02201B44(p,p+0xA24,p+0xA24,p+0xE4);
             break;
         case -5:
-            *(int *)(p+0x38)=r;
-            *(u32 *)(p+0x28)=0x15;
+            ((struct Obj01943 *)p)->f38=r;
+            ((struct Obj01943 *)p)->f28=0x15;
             break;
         case -6: case -7: case -8: case -9: case -10: case -11:
-            *(int *)(p+0x38)=r;
-            *(u32 *)(p+0x28)=0x2D;
+            ((struct Obj01943 *)p)->f38=r;
+            ((struct Obj01943 *)p)->f28=0x2D;
             break;
         case -12:
-            *(int *)(p+0x38)=r;
-            *(u32 *)(p+0x28)=0x2D;
+            ((struct Obj01943 *)p)->f38=r;
+            ((struct Obj01943 *)p)->f28=0x2D;
             break;
         case -15: case -14: case -2:
-            *(int *)(p+0x38)=r;
-            *(u32 *)(p+0x28)=0x2B;
+            ((struct Obj01943 *)p)->f38=r;
+            ((struct Obj01943 *)p)->f28=0x2B;
             func_0200FBB0(); func_0203CA04(); func_0200FBA0(); func_0203C968();
             break;
         case -13:
@@ -69,7 +71,7 @@ int func_0220171C(u8 *p)
             break;
         }
     } else {
-        if(++*(u32 *)(p+0xF8C)==0xE10) func_021F513C(p);
+        if(++((struct Obj01943 *)p)->fF8C==0xE10) func_021F513C(p);
     }
     return 2;
 }

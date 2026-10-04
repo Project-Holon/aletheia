@@ -17,6 +17,7 @@
  *   func_021DE910 0x021DE910 thumb ov121
  *   d_0209DF0C 0x0209DF0C data a1
  */
+#include "../include/Obj06455.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Descriptor {
@@ -48,18 +49,18 @@ void func_021DE830(void *a, int *state, char *p)
         d.size = 0x2d0;
         d.data = p + 0x7a4;
         d.zero = 0;
-        d.heap = *(u16 *)(p + 0x58);
+        d.heap = ((struct Obj06455 *)p)->f58;
         d.setting = d_0209DF0C;
         d.enabled = 1;
         d.flags = 0x200000;
-        *(void **)(p + 0x79c) = func_02157DD8(&d);
-        func_02157E34(*(void **)(p + 0x79c));
-        *(int *)(p + 0x17a4) = 0;
+        ((struct Obj06455 *)p)->f79C = func_02157DD8(&d);
+        func_02157E34(((struct Obj06455 *)p)->f79C);
+        ((struct Obj06455 *)p)->f17A4 = 0;
         *state = 1;
         break;
     case 1:
         if (func_0203CD98()) {
-            func_0203D34C(1, *(u16 *)(p + 0x58));
+            func_0203D34C(1, ((struct Obj06455 *)p)->f58);
             *state = 2;
         }
         break;

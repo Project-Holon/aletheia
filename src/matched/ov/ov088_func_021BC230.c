@@ -23,6 +23,10 @@
  *   d_021BFD24     0x021BFD24  data  ov204  a4
  *   d_021F5580     0x021F5580  data  ov194  a4
  */
+#include "../include/Obj01518.h"
+#include "../include/Obj20826.h"
+#include "../include/Obj20827.h"
+#include "../include/Obj20828.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,11 +47,11 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
 {
     int busy;
 
-    func_021BD2F4(*(void **)(w + 0x2c));
-    busy = func_02031330((void *)*(u32 *)(w + 0x30));
+    func_021BD2F4(((struct Obj01518 *)w)->f2C);
+    busy = func_02031330((void *)((struct Obj01518 *)w)->f30);
     switch (*seq) {
     case 0:
-        func_02031348(*(u32 *)(w + 0x30), ov204_id, d_021BFD24, w + 0x10);
+        func_02031348(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
         *seq = 1;
         break;
     case 1:
@@ -55,9 +59,9 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
             *seq = 2;
         break;
     case 2:
-        *(u16 *)(*(char **)(w + 0x28) + 4) = func_02008550((const struct Sub0200852CObj *)(*(int *)(w + 0x8)));
-        *(u32 *)(*(char **)(w + 0x28) + 0x24) = *(u32 *)(w + 0x2c);
-        func_02031348(*(u32 *)(w + 0x30), ov194_id, d_021F5580, *(void **)(w + 0x28));
+        ((struct Obj20826 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f4 = func_02008550((const struct Sub0200852CObj *)(((struct Obj01518 *)w)->f8));
+        ((struct Obj20827 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f24 = *(u32 *)&((struct Obj01518 *)w)->f2C;
+        func_02031348(((struct Obj01518 *)w)->f30, ov194_id, d_021F5580, ((struct Obj01518 *)w)->f28);
         *seq = 3;
         break;
     case 3:
@@ -65,10 +69,10 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
             *seq = 4;
         break;
     case 4:
-        func_021BC4A4(*(int *)(w + 0x54), *(int *)(*(char **)(w + 0x28) + 0x20),
-                      func_02008550((const struct Sub0200852CObj *)(*(int *)(w + 0x54))));
-        *(u32 *)(w + 0x18) = 7;
-        func_02031348(*(u32 *)(w + 0x30), ov204_id, d_021BFD24, w + 0x10);
+        func_021BC4A4(((struct Obj01518 *)w)->f54, ((struct Obj20828 *)(*(char * *)&((struct Obj01518 *)w)->f28))->f20,
+                      func_02008550((const struct Sub0200852CObj *)(((struct Obj01518 *)w)->f54)));
+        ((struct Obj01518 *)w)->f18 = 7;
+        func_02031348(((struct Obj01518 *)w)->f30, ov204_id, d_021BFD24, w + 0x10);
         *seq = 6;
         break;
     case 6:
@@ -76,7 +80,7 @@ int func_021BC230(void *a0, int *seq, void *a2, char *w)
             *seq = 5;
         break;
     case 5:
-        if (*(u32 *)(w + 0x24) == 0)
+        if (((struct Obj01518 *)w)->f24 == 0)
             *seq = 7;
         else
             *seq = 2;

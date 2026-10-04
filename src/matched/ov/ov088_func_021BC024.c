@@ -14,6 +14,7 @@
  * symbols:
  *   func_0201FDA0  0x0201FDA0  thumb
  */
+#include "../include/Obj20823.h"
 
 typedef struct Ov088Win {
     unsigned char f00;
@@ -34,5 +35,5 @@ void func_021BC024(char *p)
     win.f02 = 0xD;
     win.f03 = 0xF;
     win.f04 = 0;
-    *(void **)(p + 0x7c) = func_0201FDA0(&win, 1, 0xE, 0, 0xB);
+    ((struct Obj20823 *)p)->f7C = func_0201FDA0(&win, 1, 0xE, 0, 0xB);
 }

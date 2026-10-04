@@ -11,6 +11,8 @@
  *   func_0202CF98 0x0202CF98 thumb
  *   func_021EC08C 0x021EC08C thumb ov170
  */
+#include "../include/Obj14281.h"
+#include "../include/Obj24023.h"
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
@@ -21,10 +23,10 @@ void func_021ED8A4(char *p)
     signed char t[2];
     unsigned i;
     short x, y;
-    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2c) + 0x74), 7, &t[1], &t[0]);
+    func_0202CF98(*(struct WinMgr * *)&((struct Obj24023 *)(*(char * *)&((struct Obj14281 *)p)->f2C))->f74, 7, &t[1], &t[0]);
     i = 0;
     y = t[0] * 8 + 8;
     x = t[1] * 8 + 0x17;
     for (; i < 6; i++)
-        func_021EC08C(*(char **)(p + 0x2c), i + 0xd, x + (i % 2) * 0x20, y + (i / 2) * 0x18, 0);
+        func_021EC08C(*(char * *)&((struct Obj14281 *)p)->f2C, i + 0xd, x + (i % 2) * 0x20, y + (i / 2) * 0x18, 0);
 }

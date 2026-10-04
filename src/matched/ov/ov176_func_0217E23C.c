@@ -9,11 +9,12 @@
  * status: EXACT
  * leaf: follower of func_0217E1FC
  */
+#include "../include/Obj14368.h"
 int func_0217E23C(char *p, void **out)
 {
-    int value = *(int *)(p + 0x1008);
+    int value = ((struct Obj14368 *)p)->f1008;
     if (value) {
-        *(int *)(p + 0x1008) = 0;
+        ((struct Obj14368 *)p)->f1008 = 0;
         *out = p + 6;
     }
     return value;

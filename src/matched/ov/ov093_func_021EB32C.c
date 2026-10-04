@@ -22,6 +22,8 @@
  *   func_021EBED4 0x021EBED4 thumb ov093
  *   func_021EBF20 0x021EBF20 thumb ov093
  */
+#include "../include/Obj05227.h"
+#include "../include/Obj07850.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef int (*Cb)(int *, u8 *);
@@ -40,17 +42,17 @@ extern int func_021EBED4(int *, u8 *);
 extern int func_021EBF20(int *, u8 *);
 static inline void set(u8 *p, Cb cb)
 {
-    *(u32 *)(p + 0xe0) = 0;
-    *(Cb *)(p + 0xe4) = cb;
-    *(u8 **)(p + 0xe8) = p;
-    *(u32 *)(p + 0xec) = 0;
+    ((struct Obj07850 *)p)->fE0 = 0;
+    *(Cb *)&((struct Obj07850 *)p)->fE4 = cb;
+    *(u8 * *)&((struct Obj07850 *)p)->fE8 = p;
+    ((struct Obj07850 *)p)->fEC = 0;
 }
 void func_021EB32C(u8 *p, u32 flag)
 {
-    int type = (int)func_021B86B8(*(void ****)(p + 0x134));
+    int type = (int)func_021B86B8(*(void *** *)&((struct Obj05227 *)p)->f134);
     p[0x14f] = 0;
     p[0x150] = flag;
-    switch (func_021B8588(*(void **)(p + 0x134))) {
+    switch (func_021B8588(((struct Obj05227 *)p)->f134)) {
     case 0:
         switch (type) {
         default: case 0: case 4: set(p, func_021EB690); return;
@@ -61,11 +63,11 @@ void func_021EB32C(u8 *p, u32 flag)
         switch (type) {
         case 0: set(p, func_021EBB20); return;
         case 3:
-            if (!func_021B86C8(*(u8 **)(p + 0x134))) set(p, func_021EBE28);
+            if (!func_021B86C8(*(u8 * *)&((struct Obj05227 *)p)->f134)) set(p, func_021EBE28);
             else set(p, func_021EBE88);
             return;
         case 1: case 2:
-            if (!func_021B86C8(*(u8 **)(p + 0x134))) set(p, func_021EBD90);
+            if (!func_021B86C8(*(u8 * *)&((struct Obj05227 *)p)->f134)) set(p, func_021EBD90);
             else set(p, func_021EBDDC);
             return;
         }

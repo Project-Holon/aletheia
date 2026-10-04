@@ -20,10 +20,11 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj16118.h"
 
 typedef unsigned char u8;
 
 void func_0204EDBC(u8 *dst, u8 val)
 {
-    *(u8 *)(dst + 0x25) = val;
+    ((struct Obj16118 *)dst)->f25 = val;
 }

@@ -10,7 +10,8 @@
  * status: EXACT*
  * note: trailing two-byte alignment padding.
  */
+#include "../include/Obj13194.h"
 void func_021BA3BC(char *p, int *q) {
-    q[0] = *(short *)(p + 8);
-    q[1] = *(short *)(p + 10);
+    q[0] = ((struct Obj13194 *)p)->f8;
+    q[1] = ((struct Obj13194 *)p)->fA;
 }

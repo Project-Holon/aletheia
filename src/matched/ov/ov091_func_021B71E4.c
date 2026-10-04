@@ -16,6 +16,7 @@
  *   func_0201C450  0x0201C450  thumb
  *   func_0201DD68  0x0201DD68  thumb
  */
+#include "../include/Obj02767.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,11 +31,11 @@ extern void func_0201DD68(void);
 
 void func_021B71E4(char *p)
 {
-    *(void **)(p + 0x138) = func_0201D7EC(0x17, 0, 0, 0, *(u16 *)p);
-    *(void **)(p + 0x13c) = func_0201D7EC(0x17, 3, 0, 0, *(u16 *)p);
-    *(void **)(p + 0x134) = func_02045B38(0, 2, 0x9d, *(u16 *)p);
-    func_02049B40(0x17, 5, 0, 0x1c0, 0x20, *(u16 *)p);
-    func_02049B40(0x17, 5, 4, 0x1c0, 0x20, *(u16 *)p);
-    *(void **)(p + 0x140) = func_0201C450(0x1800, *(u16 *)p);
+    ((struct Obj02767 *)p)->f138 = func_0201D7EC(0x17, 0, 0, 0, ((struct Obj02767 *)p)->f0);
+    ((struct Obj02767 *)p)->f13C = func_0201D7EC(0x17, 3, 0, 0, ((struct Obj02767 *)p)->f0);
+    ((struct Obj02767 *)p)->f134 = func_02045B38(0, 2, 0x9d, ((struct Obj02767 *)p)->f0);
+    func_02049B40(0x17, 5, 0, 0x1c0, 0x20, ((struct Obj02767 *)p)->f0);
+    func_02049B40(0x17, 5, 4, 0x1c0, 0x20, ((struct Obj02767 *)p)->f0);
+    ((struct Obj02767 *)p)->f140 = func_0201C450(0x1800, ((struct Obj02767 *)p)->f0);
     func_0201DD68();
 }

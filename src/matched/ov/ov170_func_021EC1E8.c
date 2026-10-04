@@ -19,6 +19,7 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj02214.h"
 typedef unsigned short u16;
 
 extern unsigned func_020275E4(void);
@@ -35,8 +36,8 @@ extern void func_02049238(void *);
 void func_021EC1E8(char *p)
 {
     void *h = func_020490F4(func_020275E4(), 0x4C);
-    *(void **)(p + 0xA0F8) = func_0204A6C8(h, func_02027618(), 0, 0, 0x4C);
-    *(void **)(p + 0xA124) = func_0204ABF0(h, func_02027614(), 0, 0x100, 0x4C);
-    *(void **)(p + 0xA154) = func_0204AF28(h, func_0202761C(2), func_02027620(2), 0x4C);
+    ((struct Obj02214 *)p)->fA0F8 = func_0204A6C8(h, func_02027618(), 0, 0, 0x4C);
+    ((struct Obj02214 *)p)->fA124 = func_0204ABF0(h, func_02027614(), 0, 0x100, 0x4C);
+    ((struct Obj02214 *)p)->fA154 = func_0204AF28(h, func_0202761C(2), func_02027620(2), 0x4C);
     func_02049238(h);
 }

@@ -10,6 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj08903.h"
 
 extern unsigned char *func_02066878(unsigned int i);
-int func_02066ABC(int a0, int a1, int a2){ int t0; t0 = (int)func_02066878(a0); *(int *)(((char *)(t0) + 36)) = (int)~0; *(int *)(((char *)(t0) + 40)) = (int)a1; *(int *)(((char *)(t0) + 44)) = (int)a2; return t0; }
+int func_02066ABC(int a0, int a1, int a2){ int t0; t0 = (int)func_02066878(a0); ((struct Obj08903 *)((char *)(t0)))->f24 = (int)~0; ((struct Obj08903 *)((char *)(t0)))->f28 = (int)a1; ((struct Obj08903 *)((char *)(t0)))->f2C = (int)a2; return t0; }

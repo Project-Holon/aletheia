@@ -16,6 +16,7 @@
  *   d_021D4D4C 0x021D4D4C data ov124 a1
  *   func_021D4240 0x021D4240 thumb ov124
  */
+#include "../include/Obj00068.h"
 typedef unsigned short u16;
 extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern char *func_0203159C(void *,unsigned,unsigned);
@@ -40,8 +41,8 @@ int func_021D4B14(void *a,int b,void *c)
         if (func_0203630C() & 0x100) func_0200854C(*q,1);
         else func_0200854C(*q,0);
     }
-    *(void **)(p + 4) = q;
-    *(u16 *)p = 0x8a;
+    ((struct Obj00068 *)p)->f4 = q;
+    ((struct Obj00068 *)p)->f0 = 0x8a;
     func_021D4240(p);
     return 1;
 }

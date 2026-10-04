@@ -15,6 +15,7 @@
  *   func_02045730  0x02045730  arm
  *   func_02041B6C  0x02041B6C  arm
  */
+#include "../include/Obj10886.h"
 
 struct Descriptor;
 extern void func_02045334(struct Descriptor *);
@@ -29,14 +30,14 @@ void func_021BB0FC(void *obj)
 {
     int p;
 
-    if (*(int *)((char *)obj + 8) != 0) {
-        p = *(int *)((char *)obj + 0x8c);
+    if (((struct Obj10886 *)obj)->f8 != 0) {
+        p = ((struct Obj10886 *)obj)->f8C;
         func_02045334((struct Descriptor *)p);
         func_02045374((struct Cfg *)p);
         func_02041B6C(func_02045730((struct Descriptor *)p));
         return;
     }
-    p = *(int *)((char *)obj + 0x90);
+    p = ((struct Obj10886 *)obj)->f90;
     func_02045334((struct Descriptor *)p);
     func_02045374((struct Cfg *)p);
     func_02041B6C(func_02045730((struct Descriptor *)p));

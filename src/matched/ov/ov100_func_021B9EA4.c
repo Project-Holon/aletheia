@@ -16,6 +16,7 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9E48 0x021B9E48 thumb ov100
  */
+#include "../include/Obj00060.h"
 struct Word { int x; };
 extern const struct Word d_021BB65C;
 typedef unsigned short u16;
@@ -29,10 +30,10 @@ extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9E48(int a);
 void func_021B9EA4(int a) {
  struct Word x=d_021BB65C;
- int v=*(int *)(a+0xcb0);
- func_02049B40(23,5,4,0x180,32,*(unsigned short *)(a+0x278));
+ int v=((struct Obj00060 *)a)->fCB0;
+ func_02049B40(23,5,4,0x180,32,((struct Obj00060 *)a)->f278);
  func_021BA3A4(&x,a);
- *(int *)(a+0xcb0)=v;
+ ((struct Obj00060 *)a)->fCB0=v;
  func_021BA1D0(a);
  func_0201DD68();
  func_021B95B8((u8 *)a,(u32)func_021B9E48);

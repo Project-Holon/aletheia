@@ -29,6 +29,7 @@
  *   d_021BDA20     0x021BDA20  data  a4
  *   ov228_id       0x000000E4  data
  */
+#include "../include/Obj00578.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -66,8 +67,8 @@ void func_021BCE80(u8 *p)
     u32 i;
 
     if (func_021BD188(p) == 0) {
-        d_021BDA20 = func_0202EE30(0, *(void **)(p + 0x1c), 0xf, 0x10, 0x81);
-        func_020409B4(func_02045730(*(void **)(p + 0x1c)));
+        d_021BDA20 = func_0202EE30(0, ((struct Obj00578 *)p)->f1C, 0xf, 0x10, 0x81);
+        func_020409B4(func_02045730(((struct Obj00578 *)p)->f1C));
         func_02005654(func_021BCE70, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);

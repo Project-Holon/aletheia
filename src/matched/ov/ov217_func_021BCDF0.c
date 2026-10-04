@@ -14,6 +14,7 @@
  * 0204ABF0 is void in its source but forwards to the int-returning
  * 0204AC18; the original stores its live r0 result. 020490F4 narrows heap.
  */
+#include "../include/Obj00025.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -27,13 +28,13 @@ void func_021BCDF0(char *p)
     u16 heap;
     void *arc;
     int a, b, c;
-    heap = *(u16 *)(p + 8);
+    heap = ((struct Obj00025 *)p)->f8;
     arc = func_020490F4(192, (heap & 0x7FFF) | 0x8000);
     a = func_0204A6C8((void *)((u32)arc), 15, 0, 1, heap);
     b = func_0204ABF0((u32)arc, 16, 1, 0, heap);
     c = func_0204AF28((void *)((u32)arc), 14, 17, heap);
-    *(int *)(p + 0x108) = a;
-    *(int *)(p + 0x10C) = b;
-    *(int *)(p + 0x110) = c;
+    ((struct Obj00025 *)p)->f108 = a;
+    ((struct Obj00025 *)p)->f10C = b;
+    ((struct Obj00025 *)p)->f110 = c;
     func_02049238(arc);
 }

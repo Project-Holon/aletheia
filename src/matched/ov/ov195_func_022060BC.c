@@ -10,7 +10,8 @@
  * symbols:
  *   func_02014BA8 0x02014BA8 thumb
  */
+#include "../include/Obj02911.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void func_02014BA8(u8 *a0);
-void func_022060BC(char *p){func_02014BA8(*(void **)(p+76));}
+void func_022060BC(char *p){func_02014BA8(((struct Obj02911 *)p)->f4C);}

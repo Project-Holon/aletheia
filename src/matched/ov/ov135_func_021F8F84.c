@@ -10,13 +10,14 @@
  * symbols:
  *   func_021D5B5C 0x021D5B5C thumb ov115
  */
+#include "../include/Obj10580.h"
 typedef unsigned char u8;
 typedef signed short s16;
 extern void func_021D5B5C(void *, void *, int);
 int func_021F8F84(u8 *p, void *dialog)
 {
     int text;
-    switch (*(int *)(p + 56)) {
+    switch (((struct Obj10580 *)p)->f38) {
     case 1: text = 166; break;
     case 2: text = 167; break;
     case -1: text = 157; break;
@@ -36,7 +37,7 @@ int func_021F8F84(u8 *p, void *dialog)
     case -15: text = 161; break;
     default: text = 159; break;
     }
-    func_021D5B5C(dialog, *(void **)(p + 0xb6c), text);
-    *(s16 *)(p + 0xf88) = 0;
+    func_021D5B5C(dialog, ((struct Obj10580 *)p)->fB6C, text);
+    ((struct Obj10580 *)p)->fF88 = 0;
     return 1;
 }

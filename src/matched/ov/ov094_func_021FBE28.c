@@ -16,6 +16,8 @@
  *   func_021F7F1C 0x021F7F1C thumb ov094
  *   func_020113B0 0x020113B0 thumb
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj21679.h"
 extern int func_0201134C(void *);
 extern int func_021F7F1C(int);
 extern void func_020113B0(void *, int);
@@ -27,6 +29,6 @@ int func_021FBE28(char *a, char *s)
     int off = func_0201134C(a);
 
     if (y == func_021F7F1C(x))
-        func_020113B0(a, *(int *)(a + 0x14) + off);
-    return *(int *)(s + 0x23c);
+        func_020113B0(a, *(int *)&((struct Obj00005 *)a)->f14 + off);
+    return ((struct Obj21679 *)s)->f23C;
 }

@@ -8,4 +8,5 @@
  * isa: thumb
  * status: EXACT*
  */
-int func_021FC238(char *p) { return *(int *)(p+0xf8); }
+#include "../include/Obj24834.h"
+int func_021FC238(char *p) { return ((struct Obj24834 *)p)->fF8; }

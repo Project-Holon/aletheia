@@ -24,6 +24,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05913.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -92,12 +93,12 @@ void func_02175060(u8 *p, int idx)
         Entry *me = (Entry *)(p + 0x70);
         e->f0 = func_02175060_check(e, me);
     }
-    if (func_021677E4((void *)(*(int *)(p + 8)), idx) == 1) {
-        r = func_02175598((u8 *)e, func_021583EC((void *)func_02026478((void *)(*(int *)(p + 4))), idx));
-        if (r != func_02167810((struct Work *)(*(int *)(p + 8)), idx)) {
-            func_02167658(*(int *)(p + 8), idx);
+    if (func_021677E4((void *)(((struct Obj05913 *)p)->f8), idx) == 1) {
+        r = func_02175598((u8 *)e, func_021583EC((void *)func_02026478((void *)(((struct Obj05913 *)p)->f4)), idx));
+        if (r != func_02167810((struct Work *)(((struct Obj05913 *)p)->f8), idx)) {
+            func_02167658(((struct Obj05913 *)p)->f8, idx);
             if (e->f18 != 0) {
-                func_021675D0(*(int *)(p + 8), idx, r, e);
+                func_021675D0(((struct Obj05913 *)p)->f8, idx, r, e);
             }
         }
     }

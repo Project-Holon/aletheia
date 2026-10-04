@@ -13,8 +13,9 @@
  * Note the ov217 entry at the same address is a different function
  * (u8 at +0x30), so a region-qualified entry is required here.
  */
+#include "../include/Obj22375.h"
 
 unsigned int func_021BC6DC(void *p)
 {
-    return *(unsigned int *)((char *)p + 0x44);
+    return ((struct Obj22375 *)p)->f44;
 }

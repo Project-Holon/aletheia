@@ -26,6 +26,9 @@
  *   func_0202DA18 0x0202DA18 thumb
  *   func_0202DA6C 0x0202DA6C thumb
  */
+#include "../include/Obj01783.h"
+#include "../include/Obj10946.h"
+#include "../include/Obj25771.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct {unsigned char a,b,c,pad;u16 first,second,third;} Config;
@@ -46,24 +49,24 @@ void func_021BC454(char *p,u32 handle)
     Config a,b;
     struct ArcFile *arc;
     int i;
-    *(u32 *)(p+88)=func_0202DA04(*(u16 *)p);
+    ((struct Obj01783 *)p)->f58=func_0202DA04(((struct Obj01783 *)p)->f0);
     a=configA;
     func_021BC3E4((u16 *)p,(int *)(p+92),&a,handle);
     b=configB;
-    arc=func_020490F4(32,*(u16 *)(p+2));
+    arc=func_020490F4(32,((struct Obj01783 *)p)->f2);
     func_021BC3E4((u16 *)p,(int *)(p+128),&b,(u32)arc);
-    *(void **)(p+276)=func_02049250(arc,0,*(u16 *)p);
-    func_02062A98(*(struct NitroFileHeader **)(p+276),(void **)(p+268));
-    *(void **)(p+272)=*(void **)(*(char **)(p+268)+12);
+    ((struct Obj01783 *)p)->f114=func_02049250(arc,0,((struct Obj01783 *)p)->f0);
+    func_02062A98(*(struct NitroFileHeader * *)&((struct Obj01783 *)p)->f114,(void **)(p+268));
+    ((struct Obj01783 *)p)->f110=((struct Obj25771 *)(*(char * *)&((struct Obj01783 *)p)->f10C))->fC;
     for(i=0;i<16;i++){
-        *(void **)(p+i*8+144)=func_02049250(arc,i+49,*(u16 *)p);
+        *(void **)(p+i*8+144)=func_02049250(arc,i+49,((struct Obj01783 *)p)->f0);
         func_02062A00(*(struct NitroFileHeader **)(p+i*8+144),(void **)(p+140+i*8));
     }
     func_02049238(arc);
     for(i=0;i<2;i++){
         char *q=p+i*12;
-        *(u32 *)(q+108)=func_0202DA48(*(u32 *)(p+88),i+2,1,*(u16 *)p);
-        *(u32 *)(q+104)=func_0202DA18(*(u32 *)(p+88),i+2,1,(i+8)<<5,*(u16 *)p);
-        *(int *)(q+112)=func_0202DA6C(i+2,0,1,*(u16 *)p);
+        ((struct Obj10946 *)q)->f6C=func_0202DA48(((struct Obj01783 *)p)->f58,i+2,1,((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f68=func_0202DA18(((struct Obj01783 *)p)->f58,i+2,1,(i+8)<<5,((struct Obj01783 *)p)->f0);
+        ((struct Obj10946 *)q)->f70=func_0202DA6C(i+2,0,1,((struct Obj01783 *)p)->f0);
     }
 }

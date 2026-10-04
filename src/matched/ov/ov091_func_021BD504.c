@@ -20,6 +20,12 @@
  *   func_02045924  0x02045924  arm
  *   func_02045808  0x02045808  arm
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj20922.h"
+#include "../include/Obj20923.h"
+#include "../include/Obj20924.h"
+#include "../include/Obj20925.h"
+#include "../include/Obj20926.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,19 +46,19 @@ extern void func_02045808(struct U16Vec *vec);
 void func_021BD504(char *a)
 {
     int t;
-    if (*(u8 *)(*(char **)(a + 0x280) + 0x94) == 0)
+    if (((struct Obj20922 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f94 == 0)
         return;
-    if (func_021BB7D8(a, *(int *)(a + 0x150)) == 0)
-        func_021BB714(a, (u32 *)(*(int *)(a + 0x150)), 1);
-    if (*(int *)(*(char **)(a + 0x280) + 0x64) == 1) {
-        t = (int)func_020457B0(0x10, *(u16 *)a);
-        func_02045924((struct Strbuf *)t, (const u16 *)(*(int *)(*(char **)(a + 0x280) + 0x78)));
-        func_021BB97C(a, *(int *)(a + 0x150));
-        func_021BBA0C((int)a, *(int *)(a + 0x150), 0, t, *(u8 *)(*(char **)(a + 0x280) + 0x7C));
-        func_021BB7E8(a, *(int *)(a + 0x150), 0xA9);
-        func_021BB98C(a, *(int *)(a + 0x150));
+    if (func_021BB7D8(a, *(int *)&((struct Obj00009 *)a)->f150) == 0)
+        func_021BB714(a, (u32 *)(*(int *)&((struct Obj00009 *)a)->f150), 1);
+    if (((struct Obj20923 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f64 == 1) {
+        t = (int)func_020457B0(0x10, ((struct Obj00009 *)a)->f0);
+        func_02045924((struct Strbuf *)t, (const u16 *)(((struct Obj20924 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f78));
+        func_021BB97C(a, *(int *)&((struct Obj00009 *)a)->f150);
+        func_021BBA0C((int)a, *(int *)&((struct Obj00009 *)a)->f150, 0, t, ((struct Obj20925 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f7C);
+        func_021BB7E8(a, *(int *)&((struct Obj00009 *)a)->f150, 0xA9);
+        func_021BB98C(a, *(int *)&((struct Obj00009 *)a)->f150);
         func_02045808((struct U16Vec *)t);
     } else {
-        func_021BB7E8(a, *(int *)(a + 0x150), *(u8 *)(*(char **)(a + 0x280) + 0x94) + 0xA9);
+        func_021BB7E8(a, *(int *)&((struct Obj00009 *)a)->f150, ((struct Obj20926 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f94 + 0xA9);
     }
 }

@@ -16,6 +16,7 @@
  *   func_0218E674  0x0218E674  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01848.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,9 +29,9 @@ void func_0218E6A4(u8 *a)
 {
     u8 tmp[12];
 
-    if (*(int *)(a + 0x14) == 1) {
-        *(u16 *)(a + 0x7A) = *(u16 *)(a + 0x7A) + 0x8000;
-        *(u16 *)(a + 0x78) = *(u16 *)(a + 0x78) + 0x8000;
+    if (((struct Obj01848 *)a)->f14 == 1) {
+        ((struct Obj01848 *)a)->f7A = ((struct Obj01848 *)a)->f7A + 0x8000;
+        ((struct Obj01848 *)a)->f78 = ((struct Obj01848 *)a)->f78 + 0x8000;
     } else {
         func_0207CA00(a + 0x24, a + 0x54, tmp);
         func_0218E674(a, (u32)tmp);

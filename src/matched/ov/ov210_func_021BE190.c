@@ -16,6 +16,9 @@
  *   func_021BEA54 0x021BEA54 thumb ov210
  *   func_021BF89C 0x021BF89C thumb ov210
  */
+#include "../include/Obj04619.h"
+#include "../include/Obj25608.h"
+#include "../include/Obj25609.h"
 typedef unsigned char u8;
 extern int func_021B93B8(char *p);
 typedef unsigned int   u32;
@@ -25,8 +28,8 @@ extern void func_021BEA54(u8 *p);
 extern void func_021BF89C(u8 *, int, int);
 void func_021BE190(u8 *p, int n)
 {
-    int value = func_021BCEEC((u32)p, n + func_021B93B8(*(void **)(p + 0x1E0)));
-    u8 *data = *(u8 **)(*(u8 **)p + 8);
+    int value = func_021BCEEC((u32)p, n + func_021B93B8(((struct Obj04619 *)p)->f1E0));
+    u8 *data = *(u8 * *)&((struct Obj25608 *)(*(u8 * *)&((struct Obj04619 *)p)->f0))->f8;
     if (data[3] == 255) {
         data[3] = value;
     } else if (data[4] == 255) {
@@ -36,15 +39,15 @@ void func_021BE190(u8 *p, int n)
             data[4] = value;
     } else if (data[3] == value) {
         data[3] = data[4];
-        (*(u8 **)(*(u8 **)p + 8))[4] = 255;
+        (*(u8 **)(*(u8 * *)&((struct Obj04619 *)p)->f0 + 8))[4] = 255;
     } else if (data[4] == value) {
         data[4] = 255;
     } else {
         data[3] = data[4];
-        (*(u8 **)(*(u8 **)p + 8))[4] = value;
+        (*(u8 **)(*(u8 * *)&((struct Obj04619 *)p)->f0 + 8))[4] = value;
     }
-    func_021B93D4(*(void **)(p + 0x1E0), n);
+    func_021B93D4(((struct Obj04619 *)p)->f1E0, n);
     func_021BEA54(p);
-    data = *(u8 **)(*(u8 **)p + 8);
+    data = *(u8 * *)&((struct Obj25609 *)(*(u8 * *)&((struct Obj04619 *)p)->f0))->f8;
     func_021BF89C(p, data[3], data[4]);
 }

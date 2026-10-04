@@ -15,6 +15,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj07988.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,4 +26,4 @@ struct PrintSys;
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_02082BCC(void *,int,int);
-void func_021B7DAC(u8 *p) { func_0201ED04(*(struct WordSet **)(p+12)); func_02045C04(*(struct Rec **)(p+4)); func_0201C4C0(*(void **)(p+8)); func_0201D83C(*(void **)p); func_02082BCC(p,0,16); }
+void func_021B7DAC(u8 *p) { func_0201ED04(*(struct WordSet * *)&((struct Obj07988 *)p)->fC); func_02045C04(*(struct Rec * *)&((struct Obj07988 *)p)->f4); func_0201C4C0(((struct Obj07988 *)p)->f8); func_0201D83C(((struct Obj07988 *)p)->f0); func_02082BCC(p,0,16); }

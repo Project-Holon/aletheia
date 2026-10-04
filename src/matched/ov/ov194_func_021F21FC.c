@@ -16,6 +16,7 @@
  *   func_021F2150 0x021F2150 thumb ov194
  *   func_021F2190 0x021F2190 thumb ov194
  */
+#include "../include/Obj08342.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,12 +34,12 @@ int func_021F21FC(u8 *a,int b)
     int i;
     u16 *tab;
     switch(b) {
-    case 0: p=*(void **)(a+132); break;
-    case 1: p=*(void **)(a+136); break;
+    case 0: p=((struct Obj08342 *)a)->f84; break;
+    case 1: p=((struct Obj08342 *)a)->f88; break;
     default:return 0;
     }
-    if (*(u16 *)(a+30)==0) goto fail;
-    v=func_021F4ED8(p,(u16 *)(a+(*(u16 *)(a+30)-1)*2));
+    if (((struct Obj08342 *)a)->f1E==0) goto fail;
+    v=func_021F4ED8(p,(u16 *)(a+(((struct Obj08342 *)a)->f1E-1)*2));
     if(v==65535) goto fail;
     if(!func_021F4E18((int)p,v,change.added,4,&change.addedCount)) goto fail;
     func_021F4DDC(p,v,change.removed,4,&change.removedCount);

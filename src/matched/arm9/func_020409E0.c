@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_020409E0.c \
  *       --func func_020409E0 --addr 0x020409E0 --cc 1.1p1 --arm
  */
+#include "../include/Obj16005.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,7 +59,7 @@ void func_020409E0(u32 index, const void *src, u32 mode, u32 offset)
             func_0204241C(index, tiles, g_02146A44[index].unk_10 * 2,
                           g_02146A44[index].unk_0c);
         } else {
-            u32   size = *(const u32 *)src >> 8;
+            u32   size = *(const u32 *)&((struct Obj16005 *)src)->f0 >> 8;
             void *buf = sub_02030734(
                 (u16)((g_02146A44->heapId & 0x7fff) | 0x8000), size, 0,
                 g_020A7E5C, 1252);

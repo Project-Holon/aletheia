@@ -13,6 +13,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021E88B0 0x021E88B0 thumb ov177
  */
+#include "../include/Obj00348.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -28,11 +29,11 @@ void func_0217DEDC(char *p, int mode)
 {
     Menu rec;
     int layout, x, y, width, height;
-    if (*(int *)(p + 12) == 0) {
+    if (*(int *)&((struct Obj00348 *)p)->fC == 0) {
         func_02082BCC(&rec, 0, 0x30);
-        rec.f00 = *(u32 *)p;
-        rec.f04 = *(u32 *)(p + 0x1c);
-        rec.f08 = *(u32 *)(p + 0x24);
+        rec.f00 = *(u32 *)&((struct Obj00348 *)p)->f0;
+        rec.f04 = *(u32 *)&((struct Obj00348 *)p)->f1C;
+        rec.f08 = *(u32 *)&((struct Obj00348 *)p)->f24;
         rec.f20 = 0; rec.f22 = 15; rec.f24 = 13; rec.f26 = 1;
         switch (mode) {
         case 0:
@@ -49,6 +50,6 @@ void func_0217DEDC(char *p, int mode)
         case 0: height = rec.count * 2; width = 12; x = 19; y = 17 - height; break;
         case 1: height = rec.count * 2; width = 15; x = 16; y = 17 - height; break;
         }
-        *(void **)(p + 12) = func_021E88B0(&rec, x, y, width, height, *(u16 *)(p + 0x34));
+        ((struct Obj00348 *)p)->fC = func_021E88B0(&rec, x, y, width, height, ((struct Obj00348 *)p)->f34);
     }
 }

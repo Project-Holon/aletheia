@@ -14,6 +14,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj08081.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -31,8 +32,8 @@ void func_021D7CE8(char *p,u16 n,int i)
     void *q=*(void **)(p+0x38+4*i);
     if(q) {
         func_02043B5C(func_02045770(q),0);
-        func_02045CAC(*(void **)(p+0xc),n,(void *)(*(int *)(p+0x18)));
-        func_0201C7A4(func_02045770(q),2,2,(void *)(*(int *)(p+0x18)),(void *)(*(int *)(p+0x14)));
+        func_02045CAC(((struct Obj08081 *)p)->fC,n,(void *)(((struct Obj08081 *)p)->f18));
+        func_0201C7A4(func_02045770(q),2,2,(void *)(((struct Obj08081 *)p)->f18),(void *)(((struct Obj08081 *)p)->f14));
         func_02045334(q);
     }
 }

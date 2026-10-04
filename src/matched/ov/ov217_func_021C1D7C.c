@@ -11,18 +11,19 @@
  *
  * symbols:
  */
+#include "../include/Obj02555.h"
 
 void func_021C1D7C(unsigned char *p, short a)
 {
-    *(short *)p = a;
-    *(int *)(p + 4) = 0;
-    *(int *)(p + 8) = 0;
-    *(int *)(p + 0xc) = 0;
-    *(int *)(p + 0x14) = 0;
-    *(int *)(p + 0x18) = 0;
-    *(int *)(p + 0x1b0) = 0x7db;
+    ((struct Obj02555 *)p)->f0 = a;
+    ((struct Obj02555 *)p)->f4 = 0;
+    ((struct Obj02555 *)p)->f8 = 0;
+    ((struct Obj02555 *)p)->fC = 0;
+    ((struct Obj02555 *)p)->f14 = 0;
+    ((struct Obj02555 *)p)->f18 = 0;
+    ((struct Obj02555 *)p)->f1B0 = 0x7db;
     p[0x1ac] = 0;
-    *(short *)(p + 0x1b4) = -0xb2f;
-    *(short *)(p + 0x1b6) = -0xc9;
-    *(short *)(p + 0x1b8) = -0x1000;
+    ((struct Obj02555 *)p)->f1B4 = -0xb2f;
+    ((struct Obj02555 *)p)->f1B6 = -0xc9;
+    ((struct Obj02555 *)p)->f1B8 = -0x1000;
 }

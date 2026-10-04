@@ -15,6 +15,7 @@
  * symbols:
  *   func_0220270C  0x0220270C  thumb  ov094
  */
+#include "../include/Obj21900.h"
 
 typedef unsigned char u8;
 
@@ -22,5 +23,5 @@ extern void func_0220270C(char *s, int mode, void *arg);
 
 void func_0689B780(void *p, void *q)
 {
-    func_0220270C(*(void **)((char *)p + 0xb0), 6, q);
+    func_0220270C(((struct Obj21900 *)p)->fB0, 6, q);
 }

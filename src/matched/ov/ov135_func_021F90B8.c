@@ -18,6 +18,7 @@
  *   func_02202878 0x02202878 thumb ov135
  *   func_02202858 0x02202858 thumb ov135
  */
+#include "../include/Obj02857.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct CharBuf;
@@ -38,14 +39,14 @@ void func_021F90B8(u8 *p, void *bank, u32 index, int unused1, int unused2, int s
 {
     void *str;
     str = func_02045EC0(bank, index);
-    func_0201F250(*(void **)(p + 0xb68), *(void **)(p + 0xb88), str);
+    func_0201F250(((struct Obj02857 *)p)->fB68, ((struct Obj02857 *)p)->fB88, str);
     func_02045808(str);
-    func_02043B5C(func_02045770(*(void **)(p + 0xd40)), 15);
-    func_02045334(*(void **)(p + 0xd40));
-    func_0201F73C(*(void **)(p + 0xd40), 0, 1, 14);
+    func_02043B5C(func_02045770(((struct Obj02857 *)p)->fD40), 15);
+    func_02045334(((struct Obj02857 *)p)->fD40);
+    func_0201F73C(((struct Obj02857 *)p)->fD40, 0, 1, 14);
     if (slow)
-        func_02202878(*(void **)(p + 0xd40), 0, (unsigned int)(*(void **)(p + 0xb88)), 0, 0, p + 0xfa0);
+        func_02202878(((struct Obj02857 *)p)->fD40, 0, (unsigned int)(((struct Obj02857 *)p)->fB88), 0, 0, p + 0xfa0);
     else
-        func_02202858(*(void **)(p + 0xd40), 0, *(void **)(p + 0xb88), 0, 0, p + 0xfa0);
-    *(int *)(p + 0xdfc) = 0;
+        func_02202858(((struct Obj02857 *)p)->fD40, 0, ((struct Obj02857 *)p)->fB88, 0, 0, p + 0xfa0);
+    ((struct Obj02857 *)p)->fDFC = 0;
 }

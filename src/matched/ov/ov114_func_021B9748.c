@@ -16,6 +16,7 @@
  * early exits are the ELSE arm of their test, which sinks each tiny return
  * block out of line (0x021B9766, then 0x021B976A last).
  */
+#include "../include/Obj22571.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -27,7 +28,7 @@ int func_021B9748(u8 *p)
     int h;
 
     if (p != 0) {
-        h = func_021BF308(*(u32 *)(p + 0xc));
+        h = func_021BF308(((struct Obj22571 *)p)->fC);
         if (h != 0) {
             func_0203C9AC(h, 2, h, 0x3f6);
             return h;

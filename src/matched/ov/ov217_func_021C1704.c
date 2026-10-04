@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00554.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,8 +30,8 @@ extern u32 func_021C0E5C();
 extern u32 func_021C16FC();
 u32 func_021C1704(u32 a0)
 {
-    *(u8*)(((u8*)a0) + 428) = 0;
-    func_021C0E5C(*(u32*)(((u8*)a0) + 12));
+    ((struct Obj00554 *)(((u8*)a0)))->f1AC = 0;
+    func_021C0E5C(((struct Obj00554 *)(((u8*)a0)))->fC);
     return func_021C16FC(a0, 0);
 }
 

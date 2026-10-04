@@ -12,6 +12,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj24851.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -19,4 +20,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3B4(struct Obj *);
 extern void func_02082BCC(void *,int,unsigned);
-void func_021FF004(u8 *p){func_0204B3B4(*(struct Obj **)(p+4));func_02082BCC(p,0,76);}
+void func_021FF004(u8 *p){func_0204B3B4(*(struct Obj * *)&((struct Obj24851 *)p)->f4);func_02082BCC(p,0,76);}

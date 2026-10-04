@@ -25,6 +25,10 @@
  *   fade 0x0204E720 arm
  *   records 0x021BB0A4 data a4
  */
+#include "../include/Obj02549.h"
+#include "../include/Obj25687.h"
+#include "../include/Obj25688.h"
+#include "../include/Obj25689.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Record { int a,b,c; };
@@ -53,7 +57,7 @@ int func_021B98EC(u8 *task,char *p)
     switch(state) {
     case 0:
         code((u8 *)p+0x24,13);
-        if(test(*(u8 *)(p+0x49C8))) {
+        if(test(((struct Obj02549 *)p)->f49C8)) {
             select((u8 *)p+0x24,0);
             first((u8 *)p);
         } else {
@@ -66,26 +70,26 @@ int func_021B98EC(u8 *task,char *p)
     case 1:
         if(busy((u8 *)p+0x24)==0) {
             select((u8 *)p+0x24,4);
-            if(*(u32 *)(*(char **)(p+4)+0x50)) code((u8 *)p+0x24,11);
+            if(((struct Obj25687 *)(*(char * *)&((struct Obj02549 *)p)->f4))->f50) code((u8 *)p+0x24,11);
             else code((u8 *)p+0x24,10);
-            *(u32 *)(p+0x49D0)=0;
+            ((struct Obj02549 *)p)->f49D0=0;
             advance(task);
         }
         break;
     case 2:
         busy((u8 *)p+0x24);
-        if(*(u32 *)(p+0x49D0)==15) {
-            sound(soundFor(1,*(int *)(*(char **)(p+4)+0x50)));
+        if(((struct Obj02549 *)p)->f49D0==15) {
+            sound(soundFor(1,((struct Obj25688 *)(*(char * *)&((struct Obj02549 *)p)->f4))->f50));
             a=records.a; animate(p+0x24,0,&a);
             b=records.d; animate(p+0x24,1,&b);
             c=records.b; animate(p+0x24,2,&c);
-        } else if(*(u32 *)(p+0x49D0)==25) {
+        } else if(((struct Obj02549 *)p)->f49D0==25) {
             d=records.c; animate(p+0x24,3,&d);
-        } else if(*(u32 *)(p+0x49D0)==160) { fade(12,0,16,-3);
-        } else if(*(u32 *)(p+0x49D0)==150) { sound(soundFor(3,*(int *)(*(char **)(p+4)+0x50)));
-        } else if(*(u32 *)(p+0x49D0)==168) {return 1;
+        } else if(((struct Obj02549 *)p)->f49D0==160) { fade(12,0,16,-3);
+        } else if(((struct Obj02549 *)p)->f49D0==150) { sound(soundFor(3,((struct Obj25689 *)(*(char * *)&((struct Obj02549 *)p)->f4))->f50));
+        } else if(((struct Obj02549 *)p)->f49D0==168) {return 1;
         }
-        (*(u32 *)(p+0x49D0))++;
+        (((struct Obj02549 *)p)->f49D0)++;
         break;
     }
     return 0;

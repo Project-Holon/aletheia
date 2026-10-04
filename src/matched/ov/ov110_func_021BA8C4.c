@@ -21,6 +21,8 @@
  *   func_021BC704 0x021BC704 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj02815.h"
+#include "../include/Obj05288.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BFC20(u8 *p, unsigned visible);
@@ -37,28 +39,28 @@ extern void func_021BC704(u8 *p, u32 flag);
 extern void func_021B9CBC(u8 *);
 void func_021BA8C4(void *unused,u8 *p) {
     u8 *q;
-    q=*(u8 **)p;
-    switch(*(u32 *)(p+0x14)) {
+    q=*(u8 * *)&((struct Obj05288 *)p)->f0;
+    switch(((struct Obj05288 *)p)->f14) {
     case 0:
-        func_021BFC20((u8 *)(*(u32 *)(q+0x5c)),0);
-        func_021BFB7C(*(void **)(q+0x5c));
-        ++*(u32 *)(p+0x14); break;
+        func_021BFC20((u8 *)(*(u32 *)&((struct Obj02815 *)q)->f5C),0);
+        func_021BFB7C(((struct Obj02815 *)q)->f5C);
+        ++((struct Obj05288 *)p)->f14; break;
     case 1:
-        if(func_021BFBA0(*(void **)(q+0x5c))) {
-            func_021BB804(*(void **)(q+0x58));
-            func_021BAD2C(*(u8 **)p,0);
-            func_021BB870(*(void **)(q+0x58));
-            ++*(u32 *)(p+0x14);
+        if(func_021BFBA0(((struct Obj02815 *)q)->f5C)) {
+            func_021BB804(((struct Obj02815 *)q)->f58);
+            func_021BAD2C(*(u8 * *)&((struct Obj05288 *)p)->f0,0);
+            func_021BB870(((struct Obj02815 *)q)->f58);
+            ++((struct Obj05288 *)p)->f14;
         } break;
     case 2:
-        if(func_021BB8AC(*(void **)(q+0x58))) {
-            func_021BB814(*(void **)(q+0x58));
-            ++*(u32 *)(p+0x14);
+        if(func_021BB8AC(((struct Obj02815 *)q)->f58)) {
+            func_021BB814(((struct Obj02815 *)q)->f58);
+            ++((struct Obj05288 *)p)->f14;
         } break;
     case 3:
-        if(func_021BB82C(*(void **)(q+0x58))) {
-            func_021BC23C(*(void **)(q+0x54));
-            func_021BC704(*(u8 **)(q+0x54),0);
+        if(func_021BB82C(((struct Obj02815 *)q)->f58)) {
+            func_021BC23C(((struct Obj02815 *)q)->f54);
+            func_021BC704(*(u8 * *)&((struct Obj02815 *)q)->f54,0);
             func_021B9CBC(p);
         } break;
     }

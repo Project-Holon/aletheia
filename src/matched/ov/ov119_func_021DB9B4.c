@@ -18,6 +18,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB998 0x021DB998 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 
 extern int func_021D8A24(void *);
@@ -33,17 +34,17 @@ extern void func_021D8E84(void *,int);
 extern void func_021DB998(char *p);
 void func_021DB9B4(char *p)
 {
-    func_021DD34C(p,*(int *)(p+0xf98),*(int *)(p+0xf94));
+    func_021DD34C(p,((struct Obj00001 *)p)->fF98,((struct Obj00001 *)p)->fF94);
     if(func_021D8A24(p)) {
         if(!func_0203D3A8(func_020399A8(),0xc06,0,0)) return;
     }
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),8,0);
-    *(int *)(p+0xf84)=-1;
-    *(int *)(p+0xf88)=-1;
-    *(int *)(p+0xf7c)=-1;
-    *(int *)(p+0xf80)=-1;
-    *(int *)(p+0xf94)=-1;
-    *(int *)(p+0xf98)=-1;
+    func_021B6558((unsigned char *)(*(int *)&((struct Obj00001 *)p)->f9C0),8,0);
+    ((struct Obj00001 *)p)->fF84=-1;
+    ((struct Obj00001 *)p)->fF88=-1;
+    ((struct Obj00001 *)p)->fF7C=-1;
+    ((struct Obj00001 *)p)->fF80=-1;
+    ((struct Obj00001 *)p)->fF94=-1;
+    ((struct Obj00001 *)p)->fF98=-1;
     func_021D94A0(p,0);
     func_021D8B38(p);
     func_021D8E84(p,(int)func_021DB998);

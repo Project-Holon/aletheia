@@ -15,6 +15,7 @@
  *   func_02020234  0x02020234  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19590.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,5 +25,5 @@ extern void func_02020234(u8 *p);
 
 void func_02190A14(u8 *p)
 {
-    func_02020234((u8 *)(*(u32 *)(p + 0x10)));
+    func_02020234((u8 *)(((struct Obj19590 *)p)->f10));
 }

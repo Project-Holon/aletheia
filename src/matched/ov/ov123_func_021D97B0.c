@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13999.h"
 
 typedef unsigned int u32;
 
@@ -26,7 +27,7 @@ extern void func_02041B6C(u32 bit);
 
 void func_021D97B0(char *p)
 {
-    func_0201F7A8(*(void **)(p + 0x4c), 2);
-    func_020456F8(*(void **)(p + 0x4c));
+    func_0201F7A8(((struct Obj13999 *)p)->f4C, 2);
+    func_020456F8(((struct Obj13999 *)p)->f4C);
     func_02041B6C(6);
 }

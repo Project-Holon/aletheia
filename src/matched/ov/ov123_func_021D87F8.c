@@ -18,6 +18,7 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj08113.h"
 
 typedef unsigned int u32;
 extern void func_021D57B8(char *,int);
@@ -32,11 +33,11 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 void func_021D87F8(char *p)
 {
-    func_021D57B8(*(char **)(p+0x18),13);
-    func_021D5A7C(*(char **)(p+0x18));
+    func_021D57B8(*(char * *)&((struct Obj08113 *)p)->f18,13);
+    func_021D5A7C(*(char * *)&((struct Obj08113 *)p)->f18);
     if (func_0203CD98()) {
-        if (func_021B95D4(0,*(void **)(p+0x10))) {
-            if (!func_021B9748(*(void **)(p+0x10)))
+        if (func_021B95D4(0,((struct Obj08113 *)p)->f10)) {
+            if (!func_021B9748(((struct Obj08113 *)p)->f10))
                 func_021D6EE0(p,(int)func_021D8790,0x7ea);
         }
     } else {

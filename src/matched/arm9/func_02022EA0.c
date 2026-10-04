@@ -20,6 +20,7 @@
  *   python tools/match.py one --src src/matched/func_02022EA0.c \
  *       --func func_02022EA0 --addr 0x02022EA0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04050.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -30,13 +31,13 @@ void func_02022EA0(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     MI_CpuFill8(a0, 0, 0x30c);
     if (a2 == 1) {
-        *(u32 *)(a0 + 0x180) = a3;
-        *(u8 *)(a0 + 0x308) = a2;
-        *(u8 *)(a0 + 0x309) = a1;
+        ((struct Obj04050 *)a0)->f180 = a3;
+        ((struct Obj04050 *)a0)->f308 = a2;
+        ((struct Obj04050 *)a0)->f309 = a1;
         return;
     }
-    *(u32 *)(a0 + 0x180) = a3;
-    *(u32 *)(a0 + 0x304) = a4;
-    *(u8 *)(a0 + 0x308) = a2;
-    *(u8 *)(a0 + 0x309) = a1;
+    ((struct Obj04050 *)a0)->f180 = a3;
+    ((struct Obj04050 *)a0)->f304 = a4;
+    ((struct Obj04050 *)a0)->f308 = a2;
+    ((struct Obj04050 *)a0)->f309 = a1;
 }

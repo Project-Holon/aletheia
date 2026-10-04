@@ -18,6 +18,8 @@
  *   func_02039338 0x02039338 arm
  *   func_0201CE0C 0x0201CE0C thumb
  */
+#include "../include/Obj01261.h"
+#include "../include/Obj23728.h"
 typedef unsigned char u8;
 extern void func_021DE5C0(u8 *);
 extern void func_021DE4B4(char *,int,int);
@@ -37,34 +39,34 @@ void func_021DE08C(char *p,int state,int player) {
         func_021DE5C0((u8 *)p);
         break;
     case 13:
-        if (*(void **)(p+0xe8)) {
-            func_0201FEF4(*(void **)(p+0xe8));
-            *(void **)(p+0xe8)=0;
+        if (((struct Obj01261 *)p)->fE8) {
+            func_0201FEF4(((struct Obj01261 *)p)->fE8);
+            ((struct Obj01261 *)p)->fE8=0;
         }
         break;
     case 25:
         func_021DE4B4(p,12,0);
-        if (*(void **)(p+0xe8)) {
-            func_0201FEF4(*(void **)(p+0xe8));
-            *(void **)(p+0xe8)=0;
+        if (((struct Obj01261 *)p)->fE8) {
+            func_0201FEF4(((struct Obj01261 *)p)->fE8);
+            ((struct Obj01261 *)p)->fE8=0;
         }
         break;
     case 19:
-        if (*(u8 *)(p+0x4810)==1) return;
-        func_0201F02C(*(void **)(p+0x3c),0,func_02184180(func_021DCF50(p),player));
+        if (((struct Obj01261 *)p)->f4810==1) return;
+        func_0201F02C(((struct Obj01261 *)p)->f3C,0,func_02184180(func_021DCF50(p),player));
         if (player==func_02039338()) return;
-        if (*(void **)(p+0xe8)) {
-            func_0201FEF4(*(void **)(p+0xe8));
-            *(void **)(p+0xe8)=0;
+        if (((struct Obj01261 *)p)->fE8) {
+            func_0201FEF4(((struct Obj01261 *)p)->fE8);
+            ((struct Obj01261 *)p)->fE8=0;
         }
         if (func_02039338()==0)
-            *(unsigned *)(*(char **)(p+0x10)+0x30)&=player^0xffff;
+            ((struct Obj23728 *)(*(char * *)&((struct Obj01261 *)p)->f10))->f30&=player^0xffff;
         break;
     case 27:
-        if (!func_021DE55C(p)) func_0201CE0C(*(void **)(p+0xf0));
-        if (*(void **)(p+0xe8)) {
-            func_0201FEF4(*(void **)(p+0xe8));
-            *(void **)(p+0xe8)=0;
+        if (!func_021DE55C(p)) func_0201CE0C(((struct Obj01261 *)p)->fF0);
+        if (((struct Obj01261 *)p)->fE8) {
+            func_0201FEF4(((struct Obj01261 *)p)->fE8);
+            ((struct Obj01261 *)p)->fE8=0;
         }
         break;
     case 7:
@@ -73,5 +75,5 @@ void func_021DE08C(char *p,int state,int player) {
     default:
         return;
     }
-    *(int *)(p+0x118)=state;
+    ((struct Obj01261 *)p)->f118=state;
 }

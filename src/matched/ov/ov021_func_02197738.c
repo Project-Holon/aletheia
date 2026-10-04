@@ -20,6 +20,7 @@
  *   func_02196804  0x02196804  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05989.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,16 +38,16 @@ extern void func_02196804(u8 *p);
 
 void func_02197738(u8 *a)
 {
-    if (func_02012DD0(*(u8 **)(a + 0x30)) == 2) {
+    if (func_02012DD0(*(u8 * *)&((struct Obj05989 *)a)->f30) == 2) {
         func_02196228(a, 0);
-        func_0201F7A8((void *)(*(u32 *)(a + 0x2b0)), 2);
-        func_020456F8((struct Descriptor *)(*(u32 *)(a + 0x2b0)));
+        func_0201F7A8((void *)(((struct Obj05989 *)a)->f2B0), 2);
+        func_020456F8((struct Descriptor *)(((struct Obj05989 *)a)->f2B0));
         func_02041B6C(5);
-        if (*(u32 *)(a + 8) == 1) {
+        if (((struct Obj05989 *)a)->f8 == 1) {
             func_02196034(a, func_02196A60, 0x776);
         } else {
             func_02196034(a, func_02196804, 0x779);
         }
-        *(u32 *)(a + 0x2f8) = 1;
+        ((struct Obj05989 *)a)->f2F8 = 1;
     }
 }

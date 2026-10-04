@@ -10,11 +10,12 @@
  * symbols:
  *   func_021EE370 0x021EE370 thumb ov093
  */
+#include "../include/Obj21575.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct O;
 extern void func_021EE370(struct O *);
 void func_021EADE4(u8 *p)
 {
-    func_021EE370(*(struct O **)(p + 0x17c));
+    func_021EE370(*(struct O * *)&((struct Obj21575 *)p)->f17C);
 }

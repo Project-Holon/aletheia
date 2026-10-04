@@ -24,6 +24,7 @@
  *   func_0216AAE4  0x0216AAE4  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03142.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -49,7 +50,7 @@ extern void func_0216AAE4(void *sys, void *party, int season);
 
 void func_021C32F4(u32 *p, u32 b)
 {
-    u32 m = (u32)func_020173F0(1, 1, 1, *(u16 *)p);
+    u32 m = (u32)func_020173F0(1, 1, 1, ((struct Obj03142 *)p)->f0);
     u32 w;
 
     if (func_0200BCA0(p[2]) == 1) {

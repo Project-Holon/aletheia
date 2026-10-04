@@ -16,6 +16,13 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021BA760 0x021BA760 thumb ov225
  */
+#include "../include/Obj01789.h"
+#include "../include/Obj26290.h"
+#include "../include/Obj26291.h"
+#include "../include/Obj26292.h"
+#include "../include/Obj26293.h"
+#include "../include/Obj26294.h"
+#include "../include/Obj26295.h"
 typedef unsigned short u16;
 struct Node;
 extern void func_02030EAC(struct Node *);
@@ -24,21 +31,21 @@ extern void func_020307B0(void *);
 extern int func_021BA760(char *p);
 void func_021BB7F4(char *p)
 {
-    func_02030EAC(*(struct Node **)(p + 0x20));
-    *(u16 *)*(char **)p = *(u16 *)(p + 0x14);
-    *(u16 *)(*(char **)p + 2) = *(u16 *)(p + 0x16);
-    if (*(unsigned *)(p + 0x18) == 0) *(unsigned *)(*(char **)p + 4) = 0;
-    else if (*(unsigned *)(p + 0x18) == 1) {
-        *(unsigned *)(*(char **)p + 4) = 1;
-        *(u16 *)(*(char **)p + 8) = *(u16 *)(*(char **)(p + 0x10) + *(u16 *)(*(char **)p + 2) * 8);
+    func_02030EAC(*(struct Node * *)&((struct Obj01789 *)p)->f20);
+    *(u16 *)*(char * *)&((struct Obj01789 *)p)->f0 = ((struct Obj01789 *)p)->f14;
+    ((struct Obj26290 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f2 = ((struct Obj01789 *)p)->f16;
+    if (((struct Obj01789 *)p)->f18 == 0) ((struct Obj26291 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f4 = 0;
+    else if (((struct Obj01789 *)p)->f18 == 1) {
+        ((struct Obj26292 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f4 = 1;
+        ((struct Obj26294 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f8 = *(u16 *)(*(char * *)&((struct Obj01789 *)p)->f10 + ((struct Obj26293 *)(*(char * *)&((struct Obj01789 *)p)->f0))->f2 * 8);
     }
-    func_021BA740(*(char **)(p + 0x1c));
-    func_020307B0(*(void **)(p + 0x10));
+    func_021BA740(*(char * *)&((struct Obj01789 *)p)->f1C);
+    func_020307B0(((struct Obj01789 *)p)->f10);
     func_020307B0(p);
 }
 void func_021BB844(char *p)
 {
-    func_021BA760(*(char **)(p + 0x1c));
+    func_021BA760(*(char * *)&((struct Obj26295 *)p)->f1C);
 }
 void func_021BB850(void)
 {

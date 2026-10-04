@@ -13,6 +13,7 @@
  * Twelve-byte aggregate copy out of the caller's record into offset +4 of
  * one 0x1c-byte entry: one `ldm`/`stm` of three registers.
  */
+#include "../include/Obj16139.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ struct Ent {
 
 void func_0204F638(u8 *a0, int i, struct Trip *src)
 {
-    struct Ent *e = &((struct Ent *)*(u32 *)(a0 + 8))[i];
+    struct Ent *e = &((struct Ent *)((struct Obj16139 *)a0)->f8)[i];
 
     *(struct Trip *)((u8 *)e + 4) = *src;
 }

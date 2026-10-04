@@ -18,6 +18,7 @@
  *   func_021D5BA4  0x021D5BA4  thumb  ov093
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj13666.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,6 +38,6 @@ int func_02189A9C(int a, int b) {
     t = func_0201134C(a);
     s = func_0218A160((u8 *)b, t);
     t = func_021D5BA4((int *)func_0218A2FC((u8 *)b, s));
-    *(int *)(b + 0x38) = t;
-    return *(int *)(b + 0xc4);
+    ((struct Obj13666 *)b)->f38 = t;
+    return ((struct Obj13666 *)b)->fC4;
 }

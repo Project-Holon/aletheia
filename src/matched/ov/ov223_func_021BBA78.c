@@ -15,6 +15,7 @@
  *   func_021BB2A4 0x021BB2A4 thumb ov223
  *   func_0207D63C 0x0207D63C arm
  */
+#include "../include/Obj06729.h"
 extern void func_02040EBC(unsigned, unsigned);
 extern void func_021B9854(void *);
 extern void func_021BAB78(void *);
@@ -29,10 +30,10 @@ int func_021BBA78(char *p)
     func_021BAB78(p);
     func_021BAC0C((unsigned short *)p);
     func_021BB2A4(p);
-    *(unsigned *)(p + 0x24) |= 2;
-    *(unsigned char *)(p + 0x268) = 0;
+    ((struct Obj06729 *)p)->f24 |= 2;
+    ((struct Obj06729 *)p)->f268 = 0;
     func_0207D63C((void *)0x04000050, 5, 63,
-                 *(unsigned char *)(p + 0x268), 16 - *(unsigned char *)(p + 0x268));
-    *(int *)(p + 0x10) = 0;
+                 ((struct Obj06729 *)p)->f268, 16 - ((struct Obj06729 *)p)->f268);
+    ((struct Obj06729 *)p)->f10 = 0;
     return 3;
 }

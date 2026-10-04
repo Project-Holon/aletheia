@@ -14,6 +14,7 @@
  *   func_02049B40  0x02049B40  arm
  *   func_02049624  0x02049624  arm
  */
+#include "../include/Obj04219.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,8 +29,8 @@ void func_02195588(u8 *p)
     u32 r;
     u32 v;
 
-    func_020414EC(*(u32 *)(p + 0x10) & 0xFF);
-    v = *(u32 *)(p + 0x10);
+    func_020414EC(((struct Obj04219 *)p)->f10 & 0xFF);
+    v = ((struct Obj04219 *)p)->f10;
     r = 0;
     switch (v) {
     case 0:
@@ -44,6 +45,6 @@ void func_02195588(u8 *p)
         r = 4;
         break;
     }
-    func_02049B40(5, 0, r, (u32)p[0x14] << 5, 0x20, *(u16 *)p);
-    func_02049624((void *)5, (void *)5, (void *)(*(u32 *)(p + 0x10)), (void *)(*(u16 *)(p + 0xC)), 0, 0, *(u16 *)p);
+    func_02049B40(5, 0, r, (u32)p[0x14] << 5, 0x20, ((struct Obj04219 *)p)->f0);
+    func_02049624((void *)5, (void *)5, (void *)(((struct Obj04219 *)p)->f10), (void *)(((struct Obj04219 *)p)->fC), 0, 0, ((struct Obj04219 *)p)->f0);
 }

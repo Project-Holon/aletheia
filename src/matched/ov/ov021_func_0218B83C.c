@@ -14,6 +14,7 @@
  *   func_0218C124  0x0218C124  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12562.h"
 
 extern void func_0218BCF4(char *p);
 extern void func_0218C124(char *p, char *q);
@@ -29,6 +30,6 @@ void func_0218B83C(char *p)
         if (q != 0)
             func_0218C124(p, q + 0xC);
     }
-    for (u = 0; u < *(unsigned *)(p + 0x1D4); u++)
-        func_0218C124(p, *(char **)(p + 0x1D8) + u * 0x18);
+    for (u = 0; u < ((struct Obj12562 *)p)->f1D4; u++)
+        func_0218C124(p, *(char * *)&((struct Obj12562 *)p)->f1D8 + u * 0x18);
 }

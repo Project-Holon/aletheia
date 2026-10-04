@@ -25,6 +25,9 @@
  *   d_021B7485 0x021B7485 data a1
  *   d_021B7481 0x021B7481 data a1
  */
+#include "../include/Obj00152.h"
+#include "../include/Obj00185.h"
+#include "../include/Obj24206.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021B7180(u8 *,u8 *,int);
@@ -45,68 +48,68 @@ void func_021B6D3C(u8 *p,u8 *q)
     unsigned pal;
     unsigned base;
     unsigned step;
-    if(*(int *)(p+8)==2) size=0x6000; else size=0x3000;
+    if(((struct Obj00152 *)p)->f8==2) size=0x6000; else size=0x3000;
     if(p[13]==0) pal=0;else pal=0xC000;
-    if(*(int *)(p+8)==2) base=0;else base=0x1C00;
-    switch(*(unsigned *)(q+8)) {
+    if(((struct Obj00152 *)p)->f8==2) base=0;else base=0x1C00;
+    switch(((struct Obj00185 *)q)->f8) {
     case 1:
         q[1]=0;
         func_021B7180(p,q,q[4]+d_021B7485[q[2]*3]);
-        *(unsigned *)(q+8)=2;
+        ((struct Obj00185 *)q)->f8=2;
         break;
     case 2:
         step=q[1]*0x3000u;
         func_021B71A0((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x10000)),0x3000);
         q[1]++;
         if(q[1]*0x3000u>=size) {
-            *(unsigned *)(q+8)=3;
-            func_020307B0(*(void **)(q+16));
-            *(void **)(q+16)=0;
+            ((struct Obj00185 *)q)->f8=3;
+            func_020307B0(((struct Obj00185 *)q)->f10);
+            ((struct Obj00185 *)q)->f10=0;
         }
         break;
     case 3:
         q[1]=0;
-        func_021B7180(p,q,(q[5]+d_021B7481[q[3]*2])+(*(int *)(p+16)*2));
-        *(unsigned *)(q+8)=4;
+        func_021B7180(p,q,(q[5]+d_021B7481[q[3]*2])+(((struct Obj00152 *)p)->f10*2));
+        ((struct Obj00185 *)q)->f8=4;
         break;
     case 4:
         step=q[1]*0x3000u;
         func_021B71A0((int)p,(int *)q,base+step,pal+(step+(size*q[0]+0x28000)),0x3000);
         q[1]++;
         if(q[1]*0x3000u>=size) {
-            *(unsigned *)(q+8)=5;
-            func_020307B0(*(void **)(q+16));
-            *(void **)(q+16)=0;
+            ((struct Obj00185 *)q)->f8=5;
+            func_020307B0(((struct Obj00185 *)q)->f10);
+            ((struct Obj00185 *)q)->f10=0;
         }
         break;
     case 0:
         break;
     }
     if(q[6]<40) q[6]++;
-    else if(*(unsigned *)(q+8)==5 || *(unsigned *)(q+8)==0) {
+    else if(((struct Obj00185 *)q)->f8==5 || ((struct Obj00185 *)q)->f8==0) {
         q[6]=0;
         q[4]=q[4]==0?1:0;
         q[5]=q[5]==0?1:0;
     }
-    if(*(int *)(q+20)==1 && func_0201C6B4(*(void **)(p+120))==1) {
-        func_02045334(*(void **)(q+24));
-        *(int *)(q+20)=0;
+    if(((struct Obj00185 *)q)->f14==1 && func_0201C6B4(((struct Obj00152 *)p)->f78)==1) {
+        func_02045334(((struct Obj00185 *)q)->f18);
+        ((struct Obj00185 *)q)->f14=0;
     }
-    *(u16 *)(q+48)+=(u16)(func_020056EC(2)+1);
-    if(*(u16 *)(q+48)>=150) {
-        func_0204B95C(*(void **)(q+40));
-        func_0204B9A0(*(void **)(q+40));
-        *(u16 *)(q+48)=0;
+    ((struct Obj00185 *)q)->f30+=(u16)(func_020056EC(2)+1);
+    if(((struct Obj00185 *)q)->f30>=150) {
+        func_0204B95C(((struct Obj00185 *)q)->f28);
+        func_0204B9A0(((struct Obj00185 *)q)->f28);
+        ((struct Obj00185 *)q)->f30=0;
     }
-    if(*(int *)(q+52)==1 || *(u16 *)(q+56)!=0) {
-        if(func_0204B98C(*(void **)(q+44))==0) func_0204B95C(*(void **)(q+44));
+    if(((struct Obj00185 *)q)->f34==1 || ((struct Obj00185 *)q)->f38!=0) {
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==0) func_0204B95C(((struct Obj00185 *)q)->f2C);
     } else {
-        if(func_0204B98C(*(void **)(q+44))==1 && func_0204B918(*(void **)(q+44))==0)
-            func_0204B974(*(void **)(q+44));
+        if(func_0204B98C(((struct Obj00185 *)q)->f2C)==1 && func_0204B918(((struct Obj00185 *)q)->f2C)==0)
+            func_0204B974(((struct Obj00185 *)q)->f2C);
     }
-    if(*(u16 *)(q+56)!=0) (*(u16 *)(q+56))--;
+    if(((struct Obj00185 *)q)->f38!=0) (((struct Obj00185 *)q)->f38)--;
 }
 void func_021B6F24(u8 *unused,u8 *q,int unused2)
 {
-    *(int *)(q+8)=1;
+    ((struct Obj24206 *)q)->f8=1;
 }

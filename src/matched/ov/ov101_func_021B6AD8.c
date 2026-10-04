@@ -14,6 +14,7 @@
  *   func_021B6A3C 0x021B6A3C thumb ov101
  *   func_021B6A7C 0x021B6A7C thumb ov101
  */
+#include "../include/Obj02808.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,8 +33,8 @@ void func_021B6AD8(u8 *p,u16 *state)
         if(func_021B6C20((int *)(p+4),2,0x3a,(int)p)) *state=2;
         break;
     case 2:
-        if(*(int *)(p+0x28)==0) *state=3;
-        else if(*(int *)(p+0x28)==2) {
+        if(((struct Obj02808 *)p)->f28==0) *state=3;
+        else if(((struct Obj02808 *)p)->f28==2) {
             p[0x2e]=0;
             p[0x2c]=0;
             *state=5;
@@ -43,8 +44,8 @@ void func_021B6AD8(u8 *p,u16 *state)
         if(func_021B6C20((int *)(p+4),1,0x3a,(int)p)) *state=4;
         break;
     case 4:
-        if(*(int *)(p+0x24)==0) *state=5;
-        else if(*(int *)(p+0x24)==2) {
+        if(((struct Obj02808 *)p)->f24==0) *state=5;
+        else if(((struct Obj02808 *)p)->f24==2) {
             p[0x2e]=0;
             p[0x2c]=0;
             *state=5;

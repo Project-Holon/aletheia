@@ -19,6 +19,7 @@
  *   func_021B9A40 0x021B9A40 thumb ov093
  *   func_021CC768 0x021CC768 thumb ov093
  */
+#include "../include/Obj05196.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021B8B9C(unsigned char *p, unsigned char k);
@@ -43,20 +44,20 @@ int func_021CC668(u8 *p)
     live[0] = live[1] = 0;
     counts[0] = counts[1] = 0;
     for (i = 0; i < 4; i++) {
-        if (func_021B8B9C(*(void **)(p+4), i)) {
-            list = func_021B9AEC(*(char **)(p+8),i);
+        if (func_021B8B9C(((struct Obj05196 *)p)->f4, i)) {
+            list = func_021B9AEC(*(char * *)&((struct Obj05196 *)p)->f8,i);
             if (func_021B9B94(list)) {
-                side = func_021B8BC4(*(void **)(p+4),i);
+                side = func_021B8BC4(((struct Obj05196 *)p)->f4,i);
                 live[side] += func_021B9B98(list);
                 counts[side] += func_021B9B94(list);
             }
         }
     }
-    side = func_021B8BC4(*(void **)(p+4),func_021B8FF4(*(void **)(p+4)));
+    side = func_021B8BC4(((struct Obj05196 *)p)->f4,func_021B8FF4(((struct Obj05196 *)p)->f4));
     other = side ^ 1;
     if (live[side] == 0 && live[other] != 0) return 0;
     if (live[other] == 0 && live[side] != 0) return 1;
-    if (!func_021BA534(*(void **)(p+4))) return 2;
+    if (!func_021BA534(((struct Obj05196 *)p)->f4)) return 2;
     if (live[0] == 0) {
         k = func_021CC758(p+0x3e0);
         if (k != 31) {

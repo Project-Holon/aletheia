@@ -13,6 +13,7 @@
  *   func_02045334 0x02045334 arm
  *   func_020310C4 0x020310C4 arm
  */
+#include "../include/Obj00909.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -30,36 +31,36 @@ extern void func_020310C4(struct Tcbl *p);
 void func_021D9E50(u8 *p)
 {
     u32 q;
-    switch (*(u32 *)(p + 0x28)) {
+    switch (((struct Obj00909 *)p)->f28) {
     case 2:
-        q = *(u32 *)(p + 0x24);
+        q = ((struct Obj00909 *)p)->f24;
         if (p[0x20]) {
-            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c)))) == 0) {
-                func_02045334((struct Descriptor *)*(u32 *)(p + 0x1c));
+            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
+                func_02045334((struct Descriptor *)((struct Obj00909 *)p)->f1C);
                 p[0x20] = 0;
             }
         }
         break;
     case 0:
-        q = *(u32 *)(p + 0x24);
+        q = ((struct Obj00909 *)p)->f24;
         if (p[0x20]) {
-            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c)))) == 0) {
-                func_02045334((struct Descriptor *)*(u32 *)(p + 0x1c));
+            if (func_0201C6C4((struct PrintSys *)q, (void *)((u32)func_02045770((struct Descriptor *)((struct Obj00909 *)p)->f1C))) == 0) {
+                func_02045334((struct Descriptor *)((struct Obj00909 *)p)->f1C);
                 p[0x20] = 0;
             }
         }
-        *(u32 *)(p + 0x2c) = p[0x20] == 0 ? 1 : 0;
+        ((struct Obj00909 *)p)->f2C = p[0x20] == 0 ? 1 : 0;
         break;
     case 1:
-        if (*(u32 *)(p + 8)) {
-            if (*(u32 *)(p + 0x30))
-                func_020286C4((struct Ctx *)(*(u32 *)(p + 0x30)), (void *)(*(u32 *)(p + 8)), (void *)(*(u32 *)(p + 0x10)));
-            if (func_02028484((struct Blk *)(p + 0x34), (void *)(*(u32 *)(p + 8))))
-                *(u32 *)(p + 0x2c) = 1;
+        if (((struct Obj00909 *)p)->f8) {
+            if (((struct Obj00909 *)p)->f30)
+                func_020286C4((struct Ctx *)(((struct Obj00909 *)p)->f30), (void *)(((struct Obj00909 *)p)->f8), (void *)(((struct Obj00909 *)p)->f10));
+            if (func_02028484((struct Blk *)(p + 0x34), (void *)(((struct Obj00909 *)p)->f8)))
+                ((struct Obj00909 *)p)->f2C = 1;
         }
         break;
     case 3:
         break;
     }
-    func_020310C4((struct Tcbl *)(*(u32 *)(p + 0xc)));
+    func_020310C4((struct Tcbl *)(((struct Obj00909 *)p)->fC));
 }

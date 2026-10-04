@@ -14,6 +14,7 @@
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0201CE48  0x0201CE48  thumb
  */
+#include "../include/Obj00525.h"
 
 typedef unsigned int u32;
 
@@ -25,18 +26,18 @@ extern void func_0201CE48(struct Rec3 *p);
 
 int func_021862B0(char *p)
 {
-    int r = func_0201CE30(*(void **)(p + 0x16C));
+    int r = func_0201CE30(((struct Obj00525 *)p)->f16C);
 
     if (r == 1) {
         if (func_020362DC() & 1) {
-            func_0201CE38(*(void **)(p + 0x16C));
+            func_0201CE38(((struct Obj00525 *)p)->f16C);
         }
         return 0;
     }
     if (r == 2) {
-        func_0201CE48(*(void **)(p + 0x16C));
-        *(void **)(p + 0x16C) = 0;
+        func_0201CE48(((struct Obj00525 *)p)->f16C);
+        ((struct Obj00525 *)p)->f16C = 0;
         return 1;
     }
-    return *(void **)(p + 0x16C) == 0;
+    return ((struct Obj00525 *)p)->f16C == 0;
 }

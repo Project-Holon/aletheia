@@ -24,6 +24,7 @@
  *   func_021DC240 0x021DC240 thumb ov175
  *   func_021D9EA0 0x021D9EA0 thumb ov175
  */
+#include "../include/Obj02890.h"
 typedef unsigned short u16;
 typedef unsigned long u32;
 extern int func_0203CD98(void),func_02157170(void *,void *);
@@ -52,7 +53,7 @@ int func_021E58F4(char **out,u32 *ctx,u32 *state)
     case 0:func_02039C68((struct Link *)func_020399A8(),16,36);++*state;break;
     case 1:if(func_02039CB4((struct Link *)func_020399A8(),16,36))++*state;break;
     case 2:func_02034AC4((int)ov067_id);func_02034AC4((int)ov114_id);func_02034AC4((int)ov175_id);
-        *out=func_021D9DC8(ctx[5],**(void ***)ctx,0,88);++*state;break;
+        *out=func_021D9DC8(ctx[5],**(void ** *)&((struct Obj02890 *)ctx)->f0,0,88);++*state;break;
     case 3:func_02039C68((struct Link *)func_020399A8(),17,36);++*state;break;
     case 4:if(func_02039CB4((struct Link *)func_020399A8(),17,36))++*state;break;
     case 5:if(func_021DC200(*out,ctx[3]))++*state;break;

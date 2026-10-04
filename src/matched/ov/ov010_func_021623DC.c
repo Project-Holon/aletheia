@@ -10,7 +10,8 @@
  * symbols:
  *   func_02162530 0x02162530 thumb ov010
  */
+#include "../include/Obj04155.h"
 typedef unsigned short u16;
 extern void func_02162530(char *);
 typedef struct { unsigned char pad[0x3f]; unsigned char low:7; unsigned char flag:1; } Flags;
-void func_021623DC(char *p) { func_02162530(p); *(char **)(p+0x120)=p+0x2328; *(unsigned *)(p+0x34)=0; ((Flags *)p)->flag=0; }
+void func_021623DC(char *p) { func_02162530(p); *(char * *)&((struct Obj04155 *)p)->f120=p+0x2328; ((struct Obj04155 *)p)->f34=0; ((Flags *)p)->flag=0; }

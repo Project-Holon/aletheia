@@ -13,6 +13,7 @@
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj05418.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020221A4(void);
@@ -21,16 +22,16 @@ struct Obj;
 extern void func_0204B3DC(struct Obj *, unsigned int);
 int func_021FF118(char *p)
 {
-    ++*(int *)(p + 0xd3c);
+    ++((struct Obj05418 *)p)->fD3C;
     if (func_020221A4()) {
         *(volatile u16 *)0x04000304 |= 0x8000;
-        *(int *)(p + 0xd3c) = -16;
-        if (*(u16 *)(p + 0xe1a)) {
-            *(int *)(p + 0x28) = 2;
+        ((struct Obj05418 *)p)->fD3C = -16;
+        if (((struct Obj05418 *)p)->fE1A) {
+            ((struct Obj05418 *)p)->f28 = 2;
             func_021F4EC0(p, 3, 16);
-            *(int *)(p + 0xd4) = 0;
+            ((struct Obj05418 *)p)->fD4 = 0;
         }
-        func_0204B3DC((struct Obj *)*(unsigned *)(p + 0xd38), 0);
+        func_0204B3DC((struct Obj *)((struct Obj05418 *)p)->fD38, 0);
     }
     return 2;
 }

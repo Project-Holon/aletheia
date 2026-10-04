@@ -23,6 +23,7 @@
  *   func_02045334 0x02045334 arm
  *   func_021B6F40 0x021B6F40 thumb ov071
  */
+#include "../include/Obj03665.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -71,7 +72,7 @@ void func_021BA5D4(u8 *a, Q *q, u8 *p)
     u32 value;
 
     k = (*(u8 **)(a + 8))[1];
-    func_02043B5C(func_02045770(*(void **)(p + 8)), 0);
+    func_02043B5C(func_02045770(((struct Obj03665 *)p)->f8), 0);
     if (k != 0x30) {
         if ((*(u8 **)(a + 8))[2] == 0) {
             off = k * 12;
@@ -80,9 +81,9 @@ void func_021BA5D4(u8 *a, Q *q, u8 *p)
             t = func_02045EC0(q->f28, 0x28);
             u = func_020457B0(0x40, 0x61);
             func_0201F250(q->f10, u, t);
-            Draw(q, *(void **)(p + 0x1c), 0, 4, s);
+            Draw(q, ((struct Obj03665 *)p)->f1C, 0, 4, s);
             p[0x20] = 1;
-            Draw(q, *(void **)(p + 0x1c), 0x70, 0x34, u);
+            Draw(q, ((struct Obj03665 *)p)->f1C, 0x70, 0x34, u);
             p[0x20] = 1;
             func_02045808(s);
             func_02045808(t);
@@ -102,12 +103,12 @@ void func_021BA5D4(u8 *a, Q *q, u8 *p)
             s = func_02045EC0(q->f28, index);
             u = func_020457B0(0x80, 0x61);
             func_0201F250(q->f10, u, s);
-            Draw(q, *(void **)(p + 0x1c), 0, 4, u);
+            Draw(q, ((struct Obj03665 *)p)->f1C, 0, 4, u);
             p[0x20] = 1;
             func_02045808(u);
             func_02045808(s);
         }
     } else {
-        func_02045334(*(void **)(p + 8));
+        func_02045334(((struct Obj03665 *)p)->f8);
     }
 }

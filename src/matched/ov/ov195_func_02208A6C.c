@@ -11,10 +11,11 @@
  * symbols:
  *   func_02047E54 0x02047E54 arm
  */
+#include "../include/Obj05518.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 struct Rec;
 extern void func_02047E54(struct Rec *);
-void func_02208A6C(char *p) { func_02047E54(*(struct Rec **)(p+0x14)); }
+void func_02208A6C(char *p) { func_02047E54(*(struct Rec * *)&((struct Obj05518 *)p)->f14); }

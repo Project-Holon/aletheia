@@ -13,6 +13,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  */
+#include "../include/Obj24620.h"
 typedef unsigned char  u8;
 extern void func_021FC734(u8 *p);
 extern void func_021FB494(char *p);
@@ -34,6 +35,6 @@ int func_021DFC88(char *p, char *q)
         }
     }
     func_020409B4(4);
-    func_021FBDA4(*(int *)(q + 8), 26);
+    func_021FBDA4(((struct Obj24620 *)q)->f8, 26);
     return 1;
 }

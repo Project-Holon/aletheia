@@ -25,6 +25,7 @@
  *   d_021F31EC     0x021F31EC  data  ov029  a4
  *   d_021F31F8     0x021F31F8  data  ov029  a4
  */
+#include "../include/Obj03631.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -54,7 +55,7 @@ void func_021F0390(u8 *p, int a, int b, int c, int e)
     u32 keys;
     int idx;
 
-    sv = func_02012138((const struct Ctx *)*(int *)(p + 0x1c));
+    sv = func_02012138((const struct Ctx *)((struct Obj03631 *)p)->f1C);
     flags = 0;
     one = 1;
     s8 = 1;
@@ -64,7 +65,7 @@ void func_021F0390(u8 *p, int a, int b, int c, int e)
     if (c != 0) {
         s18 = s8 = sc = s14 = 0;
     }
-    keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(*(int *)(p + 0x1c)))));
+    keys = func_0201058C((void *)func_0201283C(func_020120F4((const struct Ctx *)(((struct Obj03631 *)p)->f1C))));
     mode = func_02158630(sv);
     if (e != 0) {
         if (mode == 3) {

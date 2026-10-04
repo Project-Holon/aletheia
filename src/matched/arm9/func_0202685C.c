@@ -42,6 +42,7 @@
  *   func_0200C364  0x0200C364  thumb
  *   MI_CpuFill8    0x02082BCC  arm
  */
+#include "../include/Obj00747.h"
 typedef signed char    s8;
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -98,18 +99,18 @@ void func_0202685C(u8 *base, struct Req *r)
     u32 v;
     struct Rec *rec;
 
-    (*(s8 *)(base + 0xBAD))++;
-    if (*(s8 *)(base + 0xBAD) >= 30)
-        *(s8 *)(base + 0xBAD) = 0;
+    (((struct Obj00747 *)base)->fBAD)++;
+    if (((struct Obj00747 *)base)->fBAD >= 30)
+        ((struct Obj00747 *)base)->fBAD = 0;
 
-    rec = (struct Rec *)(base + 0x64) + *(s8 *)(base + 0xBAD);
-    if (*(s8 *)(base + 0xBAE) > 0 && *(s8 *)(base + 0xBAD) == *(s8 *)(base + 0xBAC)) {
-        (*(s8 *)(base + 0xBAC))++;
-        if (*(s8 *)(base + 0xBAC) >= 30)
-            *(s8 *)(base + 0xBAC) = 0;
+    rec = (struct Rec *)(base + 0x64) + ((struct Obj00747 *)base)->fBAD;
+    if (((struct Obj00747 *)base)->fBAE > 0 && ((struct Obj00747 *)base)->fBAD == ((struct Obj00747 *)base)->fBAC) {
+        (((struct Obj00747 *)base)->fBAC)++;
+        if (((struct Obj00747 *)base)->fBAC >= 30)
+            ((struct Obj00747 *)base)->fBAC = 0;
     }
 
-    bag = func_0200E394(func_02012EBC(*(void **)base));
+    bag = func_0200E394(func_02012EBC(((struct Obj00747 *)base)->f0));
     for (i = 0; i < 3; i++) {
         id = func_0200E44C(bag, i);
         if (id != 0xff) {
@@ -117,12 +118,12 @@ void func_0202685C(u8 *base, struct Req *r)
             if (v != 0 && func_0200E49C(bag, id, v) == 0) {
                 func_0200E460(bag, id, 1);
                 func_0200E4CC(bag, id, v, 1);
-                *(u8 *)(base + 0xBAF) = 1;
+                ((struct Obj00747 *)base)->fBAF = 1;
             }
         }
     }
 
-    sys = func_02012EBC(*(void **)base);
+    sys = func_02012EBC(((struct Obj00747 *)base)->f0);
     bag2 = func_0200E394(sys);
     tbl = func_0200C0F0(sys);
     for (i = 0; i < 3; i++) {
@@ -140,7 +141,7 @@ void func_0202685C(u8 *base, struct Req *r)
     MI_CpuFill8(rec, 0, 0x60);
     rec->p = *(struct Payload *)r;
     rec->f5c = 0;
-    *(u32 *)(base + 0xBA4) |= 1 << *(s8 *)(base + 0xBAD);
-    if (*(s8 *)(base + 0xBAE) < 30)
-        (*(s8 *)(base + 0xBAE))++;
+    ((struct Obj00747 *)base)->fBA4 |= 1 << ((struct Obj00747 *)base)->fBAD;
+    if (((struct Obj00747 *)base)->fBAE < 30)
+        (((struct Obj00747 *)base)->fBAE)++;
 }

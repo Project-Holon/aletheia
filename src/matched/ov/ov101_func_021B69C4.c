@@ -17,6 +17,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj13717.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,5 +30,5 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 int func_021B69C4(int a,int b,int c,u8 *d) {
- func_02005E9C(a,b,c,(int)d); func_02005DE4(0); func_021B6148(*(void **)d); func_021B6C08(d+4); func_020307B0(*(void **)(d+60)); func_020315D4((void *)a); func_020306F0(58); return 1;
+ func_02005E9C(a,b,c,(int)d); func_02005DE4(0); func_021B6148(((struct Obj13717 *)d)->f0); func_021B6C08(d+4); func_020307B0(((struct Obj13717 *)d)->f3C); func_020315D4((void *)a); func_020306F0(58); return 1;
 }

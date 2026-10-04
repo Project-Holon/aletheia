@@ -20,6 +20,7 @@
  *   func_0216DDC0  0x0216DDC0  thumb  ov010
  *   func_0219F5C8  0x0219F5C8  thumb  ov021
  */
+#include "../include/Obj09563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ int func_021A40A8(u8 *p)
     u32 b;
 
     func_021A3D6C(p, 8);
-    if (*(u16 *)(p + 0x32) == 1 && func_021A3974(p) == 2) {
+    if (((struct Obj09563 *)p)->f32 == 1 && func_021A3974(p) == 2) {
         f = 0;
         a = func_021A3960(p);
         b = (u32)func_0216D67C(a);

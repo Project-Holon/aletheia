@@ -12,6 +12,7 @@
  *   data_0209FC20  0x0209FC20  data
  *
  */
+#include "../include/Obj05716.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,14 +25,14 @@ extern const u32 data_0209FC20[];
 
 void func_02026824(struct Obj *o)
 {
-    u16 n = *(u16 *)((u8 *)o + 0x30);
+    u16 n = ((struct Obj05716 *)o)->f30;
 
     if (n == 1) {
         return;
     }
-    *(s16 *)((u8 *)o + 0x5c) += 1;
-    if ((u32)*(s16 *)((u8 *)o + 0x5c) > (data_0209FC20[n] >> 8)) {
-        *(u16 *)((u8 *)o + 0x5c) = 0;
-        *(u16 *)((u8 *)o + 0x30) = 1;
+    ((struct Obj05716 *)o)->f5C += 1;
+    if ((u32)((struct Obj05716 *)o)->f5C > (data_0209FC20[n] >> 8)) {
+        *(u16 *)&((struct Obj05716 *)o)->f5C = 0;
+        ((struct Obj05716 *)o)->f30 = 1;
     }
 }

@@ -21,6 +21,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04220.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,10 +36,10 @@ extern void func_02049238(void *h);
 
 void func_02196FFC(u8 *p)
 {
-    void *h = func_020490F4(0x1D, *(u16 *)(p + 0x10));
+    void *h = func_020490F4(0x1D, ((struct Obj04220 *)p)->f10);
 
-    *(s32 *)(p + 0x27C) = func_0204A6C8(h, 5, 0, 1, *(u16 *)(p + 0x10));
-    *(s32 *)(p + 0x274) = func_0204AC18(h, 3, 1, 0, 0, 0xA, *(u16 *)(p + 0x10));
-    *(s32 *)(p + 0x284) = func_0204AF28(h, 7, 0x10, *(u16 *)(p + 0x10));
+    ((struct Obj04220 *)p)->f27C = func_0204A6C8(h, 5, 0, 1, ((struct Obj04220 *)p)->f10);
+    ((struct Obj04220 *)p)->f274 = func_0204AC18(h, 3, 1, 0, 0, 0xA, ((struct Obj04220 *)p)->f10);
+    ((struct Obj04220 *)p)->f284 = func_0204AF28(h, 7, 0x10, ((struct Obj04220 *)p)->f10);
     func_02049238(h);
 }

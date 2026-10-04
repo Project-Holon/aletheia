@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj25301.h"
 void func_02213808(char *p, int value)
 {
-    *(unsigned char *)(p + 0x19) = value;
+    ((struct Obj25301 *)p)->f19 = value;
 }

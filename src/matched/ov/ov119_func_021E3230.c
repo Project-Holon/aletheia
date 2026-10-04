@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 
@@ -21,8 +22,8 @@ extern void func_021E32C4(char *p);
 
 void func_021E3230(void *p)
 {
-    if (*(u32 *)((char *)p + 0x109C) != 0xFFFFFFFF) {
+    if (((struct Obj00001 *)p)->f109C != 0xFFFFFFFF) {
         func_021E32C4(p);
-        *(u32 *)((char *)p + 0x109C) = 0xFFFFFFFF;
+        ((struct Obj00001 *)p)->f109C = 0xFFFFFFFF;
     }
 }

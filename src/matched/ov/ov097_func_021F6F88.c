@@ -29,6 +29,7 @@
  *   func_02027760 0x02027760 thumb
  *   func_02027764 0x02027764 thumb
  */
+#include "../include/Obj00410.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -66,22 +67,22 @@ void func_021F6F88(int p)
             icon = func_0201BABC(0, 0, 0, 0);
         *(int *)(icons + i * 4) = func_0204A6C8(h, icon, 0, 0, 0x71);
     }
-    *(int *)(p + 0xd8) = func_0204ACEC(h, func_0201BC3C(), 0, 0, 0x71);
+    *(int *)&((struct Obj00410 *)p)->fD8 = func_0204ACEC(h, func_0201BC3C(), 0, 0, 0x71);
     a = func_0201BC78();
     b = func_0201BCEC();
-    *(int *)(p + 0xe8) = func_0204AF28(h, a, b, 0x71);
+    *(int *)&((struct Obj00410 *)p)->fE8 = func_0204AF28(h, a, b, 0x71);
     func_02049238(h);
     h2 = func_020490F4(func_020275E4(), 0x8071);
-    *(int *)(p + 0xd0) = func_0204A6C8(h2, 0xc, 0, 0, 0x71);
-    *(int *)(p + 0xe0) = func_0204ABF0(h2, 0xb, 0, 0x60, 0x71);
-    *(int *)(p + 0xf0) = func_0204AF28(h2, 0xf, 0x12, 0x71);
-    *(int *)(p + 0xcc) = func_0204A6C8(h2, 0x41, 0, 0, 0x71);
-    *(int *)(p + 0xdc) = func_0204ABF0(h2, 0x42, 0, 0x80, 0x71);
-    *(int *)(p + 0xec) = func_0204AF28(h2, 0x45, 0x48, 0x71);
-    *(int *)(p + 0xd4) = func_0204A6C8(h2, func_0202775C(2), 0, 0, 0x71);
-    *(int *)(p + 0xe4) = func_0204ABF0(h2, func_02027758(), 0, 0xa0, 0x71);
+    ((struct Obj00410 *)p)->fD0 = func_0204A6C8(h2, 0xc, 0, 0, 0x71);
+    ((struct Obj00410 *)p)->fE0 = func_0204ABF0(h2, 0xb, 0, 0x60, 0x71);
+    ((struct Obj00410 *)p)->fF0 = func_0204AF28(h2, 0xf, 0x12, 0x71);
+    ((struct Obj00410 *)p)->fCC = func_0204A6C8(h2, 0x41, 0, 0, 0x71);
+    ((struct Obj00410 *)p)->fDC = func_0204ABF0(h2, 0x42, 0, 0x80, 0x71);
+    ((struct Obj00410 *)p)->fEC = func_0204AF28(h2, 0x45, 0x48, 0x71);
+    ((struct Obj00410 *)p)->fD4 = func_0204A6C8(h2, func_0202775C(2), 0, 0, 0x71);
+    ((struct Obj00410 *)p)->fE4 = func_0204ABF0(h2, func_02027758(), 0, 0xa0, 0x71);
     a = func_02027760(2);
     b = func_02027764(2);
-    *(int *)(p + 0xf4) = func_0204AF28(h2, a, b, 0x71);
+    ((struct Obj00410 *)p)->fF4 = func_0204AF28(h2, a, b, 0x71);
     func_02049238(h2);
 }

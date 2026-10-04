@@ -25,6 +25,7 @@
  *   func_021E896C  0x021E896C  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10064.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -65,10 +66,10 @@ void func_021DBD9C(int u, void *a, int b)
                     n = (N)(u8)(n + 1);
                 }
                 e = func_021C88A4(a, 0xc, b);
-                *(u32 *)(e + 4) = 0xd;
+                ((struct Obj10064 *)e)->f4 = 0xd;
                 *(Word *)(e + 8) = func_021E896C(n, k);
                 e[0xf] = t;
-                *(u32 *)e |= 2 << 22;
+                ((struct Obj10064 *)e)->f0 |= 2 << 22;
                 func_021C88C8(a, e);
             }
         }

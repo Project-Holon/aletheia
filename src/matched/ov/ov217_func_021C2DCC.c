@@ -14,6 +14,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14768.h"
 
 typedef unsigned short u16;
 
@@ -21,7 +22,7 @@ extern void func_02082BCC(void *, int, int);
 
 void func_021C2DCC(char *p)
 {
-    u16 t = *(u16 *)p;
+    u16 t = ((struct Obj14768 *)p)->f0;
     func_02082BCC(p, 0, 0x20);
-    *(u16 *)p = t;
+    ((struct Obj14768 *)p)->f0 = t;
 }

@@ -13,6 +13,7 @@
  *   func_0206DDA4  0x0206DDA4  arm
  *   func_02169A14  0x02169A14  thumb  ov010
  */
+#include "../include/Obj04164.h"
 
 typedef unsigned char u8;
 typedef signed short s16;
@@ -31,14 +32,14 @@ int func_021699A0(void *p)
 
     r = 1;
     q = p ? (char *)p + 0x14 : 0;
-    v[0] = *(s16 *)(q + 0x18);
-    v[1] = *(s16 *)(q + 0x1a);
-    v[2] = *(s16 *)(q + 0x1c);
-    v[3] = *(s16 *)(q + 0x1e);
-    v[4] = *(s16 *)(q + 0x20);
-    v[5] = *(s16 *)(q + 0x22);
+    v[0] = ((struct Obj04164 *)q)->f18;
+    v[1] = ((struct Obj04164 *)q)->f1A;
+    v[2] = ((struct Obj04164 *)q)->f1C;
+    v[3] = ((struct Obj04164 *)q)->f1E;
+    v[4] = ((struct Obj04164 *)q)->f20;
+    v[5] = ((struct Obj04164 *)q)->f22;
     func_0206DDA4(0x11, 0, 0);
-    w[0] = *(u32 *)(q + 0x24);
+    w[0] = ((struct Obj04164 *)q)->f24;
     w[1] = w[0];
     w[2] = w[0];
     func_0206DDA4(0x1b, w, 3);

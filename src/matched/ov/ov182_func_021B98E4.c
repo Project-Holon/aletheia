@@ -26,6 +26,7 @@
  *   d_021B9CE0 0x021B9CE0 data a1
  *   d_021B9C48 0x021B9C48 data a4
  */
+#include "../include/Obj24514.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021B9CE0[];
@@ -63,6 +64,6 @@ char *func_021B98E4(int a, u16 heap)
     func_021B9A10(p, heap);
     func_021B9AB4((int *)(p + 4), (int)d_021B9C48, heap);
     func_021B9B20((int *)(p + 8), heap);
-    *(void **)(p + 0xc) = func_020056A0(func_021B99FC, p, 0);
+    ((struct Obj24514 *)p)->fC = func_020056A0(func_021B99FC, p, 0);
     return p;
 }

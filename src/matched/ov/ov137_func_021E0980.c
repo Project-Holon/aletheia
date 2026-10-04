@@ -11,10 +11,11 @@
  * symbols:
  *   func_021E15DC 0x021E15DC thumb ov137
  */
+#include "../include/Obj23778.h"
 extern void func_021E15DC(int *,int);
 void func_021E0980(char *p,int amount)
 {
-    int count = *(int *)(p+0x30);
+    int count = ((struct Obj23778 *)p)->f30;
     int i = 0;
     char *base = p+0x1a0;
     for (;i<count;i++) {

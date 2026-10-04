@@ -14,6 +14,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D44EC 0x021D44EC thumb ov120
  */
+#include "../include/Obj05340.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern void func_021D7A74(u8 *p, u16 n);
@@ -23,12 +24,12 @@ extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D44EC(int);
 void func_021D4544(int a)
 {
-    --*(int *)(a + 0x14);
-    if (*(int *)(a + 0x14) == 20)
-        func_021D7A74((u8 *)(*(int *)(a + 0x40)), 0x27);
-    if (*(int *)(a + 0x14) == 0) {
-        func_021D7F5C((char *)(*(int *)(a + 0x40)), 0x23);
-        func_021D80D4((char *)(*(int *)(a + 0x40)));
+    --((struct Obj05340 *)a)->f14;
+    if (((struct Obj05340 *)a)->f14 == 20)
+        func_021D7A74((u8 *)(((struct Obj05340 *)a)->f40), 0x27);
+    if (((struct Obj05340 *)a)->f14 == 0) {
+        func_021D7F5C((char *)(((struct Obj05340 *)a)->f40), 0x23);
+        func_021D80D4((char *)(((struct Obj05340 *)a)->f40));
         func_021D4244(a, func_021D44EC, 0x241);
     }
 }

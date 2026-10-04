@@ -21,6 +21,9 @@
  *   func_021EE038 0x021EE038 thumb ov170
  *   func_021E22B8 0x021E22B8 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23887.h"
+#include "../include/Obj23888.h"
 typedef unsigned char u8;
 extern void func_020061E4(unsigned);
 extern void func_021EA784(int p);
@@ -39,7 +42,7 @@ extern int func_021E22B8(int p);
 int func_021E21A0(u8 *p)
 {
     func_020061E4(0x55C);
-    switch(*(unsigned *)(*(char **)p+0x24)) {
+    switch(((struct Obj23887 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24) {
     case 0:
         func_021EA784((int)p);
         func_021ED888(W(p),0);
@@ -63,7 +66,7 @@ int func_021E21A0(u8 *p)
         NEXT(p)=0x39;
         break;
     case 4:
-        if(func_0201AA18(*(void **)(*(char **)p+8))==0) {
+        if(func_0201AA18(((struct Obj23888 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8)==0) {
             func_021EF670(W(p));
             func_021DEFEC(p,0);
             func_021EE364((char **)p,13,0);

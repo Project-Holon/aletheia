@@ -12,6 +12,7 @@
  * The record pointers are const: mwcc then rereads each u16 count inside its
  * loop and keeps r in r0 instead of hoisting the count into a register.
  */
+#include "../include/Obj19662.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ typedef struct { u8 pad[4]; u16 n0; u16 n1; u16 n2; u16 pad2; A *a; B *b; C *c; 
 
 int func_0219CCF0(u8 *s)
 {
-    const R *r = *(const R **)(s + 0x1c);
+    const R *r = *(const R * *)&((struct Obj19662 *)s)->f1C;
     u32 i;
     const A *a;
     const B *b;

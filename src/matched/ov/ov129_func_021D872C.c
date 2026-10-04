@@ -25,6 +25,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj04506.h"
 typedef unsigned int   u32;
 struct Node;
 struct PalAnmSlot;
@@ -47,8 +48,8 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 int func_021D872C(void *a,int b,int c,char *p)
 {
-    func_02030EAC(*(void **)(p+0x318));
-    func_0201D83C(*(void **)(p+0x314));
+    func_02030EAC(((struct Obj04506 *)p)->f318);
+    func_0201D83C(((struct Obj04506 *)p)->f314);
     func_021D99F0(p);
     func_020450C8();
     func_020434DC(1,0); func_020434DC(2,0); func_020434DC(4,0); func_020434DC(8,0);
@@ -56,11 +57,11 @@ int func_021D872C(void *a,int b,int c,char *p)
     func_020403F4(1); func_020403F4(2); func_020403F4(3); func_020403F4(4);
     func_020403F4(5); func_020403F4(6); func_020403F4(7);
     func_0203F9B4();
-    func_020215A0(*(void **)(p+0x290),0);
-    func_02021540(*(void **)(p+0x290));
-    func_02049238(*(void **)(p+0x258));
-    func_02051C6C(*(void **)(p+0x294));
-    if(c==0) func_02045808(*(void **)(p+0x348));
+    func_020215A0(((struct Obj04506 *)p)->f290,0);
+    func_02021540(((struct Obj04506 *)p)->f290);
+    func_02049238(((struct Obj04506 *)p)->f258);
+    func_02051C6C(((struct Obj04506 *)p)->f294);
+    if(c==0) func_02045808(((struct Obj04506 *)p)->f348);
     func_020315D4(a);
     func_020306F0(50);
     return 1;

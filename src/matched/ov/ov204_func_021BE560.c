@@ -10,5 +10,6 @@
  * symbols:
  *   func_021BF804 0x021BF804 thumb ov204
  */
+#include "../include/Obj25359.h"
 extern int func_021BF804(char *,unsigned char,int,int);
-int func_021BE560(char *p,int *state,int *q){return func_021BF804(*(char **)(p+8),q[0],q[1],q[2]);}
+int func_021BE560(char *p,int *state,int *q){return func_021BF804(*(char * *)&((struct Obj25359 *)p)->f8,q[0],q[1],q[2]);}

@@ -36,6 +36,7 @@
  *   func_02035BA4 0x02035BA4 arm
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0203630C(void);
@@ -87,7 +88,7 @@ void func_021BAF70(char *p)
         func_021BB910(p, 6);
         return;
     }
-    if ((keys & 0x40) || ((trg & 0x40) && *(u8 *)(p + 0x32) != 0 && func_021BC5FC(p) > 10)) {
+    if ((keys & 0x40) || ((trg & 0x40) && ((struct Obj00025 *)p)->f32 != 0 && func_021BC5FC(p) > 10)) {
         func_021BBDAC(p);
         func_021BBD40(p, -1);
         func_021BB91C(p);
@@ -95,7 +96,7 @@ void func_021BAF70(char *p)
         func_021BB910(p, 2);
         return;
     }
-    if ((keys & 0x80) || ((trg & 0x80) && *(u8 *)(p + 0x32) < func_021BC6DC(p) - 1 && func_021BC5FC(p) > 10)) {
+    if ((keys & 0x80) || ((trg & 0x80) && ((struct Obj00025 *)p)->f32 < func_021BC6DC(p) - 1 && func_021BC5FC(p) > 10)) {
         func_021BBDAC(p);
         func_021BBD40(p, 1);
         func_021BB91C(p);
@@ -105,7 +106,7 @@ void func_021BAF70(char *p)
     }
     if (keys & 1) {
         func_021BC580(p, 2);
-        func_021BC6EC(p, *(u8 *)(p + 0x32));
+        func_021BC6EC(p, ((struct Obj00025 *)p)->f32);
         func_020061E4(0x54c);
         func_021BB910(p, 9);
         func_021BB91C(p);
@@ -114,7 +115,7 @@ void func_021BAF70(char *p)
     if (sel >= 0 && sel <= 9) {
         if (b >= 0x18 && b <= 0xa8 && func_021BC6F4((u32)p, (u8)sel) == 1) {
             func_021BBAA4(p, (u8)sel);
-            func_021BC6EC(p, *(u8 *)(p + 0x32));
+            func_021BC6EC(p, ((struct Obj00025 *)p)->f32);
             func_021BC580(p, 2);
             func_020061E4(0x54c);
             func_021BC06C(p);

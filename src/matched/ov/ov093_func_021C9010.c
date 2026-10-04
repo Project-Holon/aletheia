@@ -17,6 +17,7 @@
  *   func_021C7194  0x021C7194  thumb  ov093
  *   func_021C2128  0x021C2128  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
@@ -35,7 +36,7 @@ int func_021C9010(int p, const Ent *e)
 {
     int a;
 
-    a = (int)func_021B9934(*(char **)(p + 8), e->b5);
+    a = (int)func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, e->b5);
     if (func_021D5B68((void *)a) == 0 || e->f7b) {
         if (func_021C0898((u8 *)p, (u8 *)a, e->b6, e->b4)) {
             func_021C99A0((void *)p, (void *)((u8 *)e + 8));

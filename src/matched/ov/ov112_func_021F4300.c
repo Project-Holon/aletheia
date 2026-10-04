@@ -18,6 +18,7 @@
  *   func_020403F4 0x020403F4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04456.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Bank;
@@ -34,14 +35,14 @@ extern void func_020403F4(u32 i);
 extern void func_020307B0(void *);
 void func_021F4300(u8 *p)
 {
-    func_02027FD8((struct TaskMenuState *)(*(u32 *)(p+0x40)));
-    if (*(u32 *)(p+0xc)==0) {
-        func_0204ADA4(*(u32 *)(p+0x4c));
-        func_0204A8D4(*(u32 *)(p+0x50));
-        func_0204AFD8(*(u32 *)(p+0x54));
-        func_0204B3B4((struct Obj *)(*(u32 *)(p+0x58)));
+    func_02027FD8((struct TaskMenuState *)(((struct Obj04456 *)p)->f40));
+    if (((struct Obj04456 *)p)->fC==0) {
+        func_0204ADA4(((struct Obj04456 *)p)->f4C);
+        func_0204A8D4(((struct Obj04456 *)p)->f50);
+        func_0204AFD8(((struct Obj04456 *)p)->f54);
+        func_0204B3B4((struct Obj *)(((struct Obj04456 *)p)->f58));
     }
-    func_0204B1CC((struct Bank *)(*(u32 *)(p+0x48)));
+    func_0204B1CC((struct Bank *)(((struct Obj04456 *)p)->f48));
     func_021F4748(p);
     func_020403F4(4);
     func_020403F4(6);

@@ -14,6 +14,7 @@
  *   func_0200BAC8 0x0200BAC8 thumb
  *   func_021E7E3C 0x021E7E3C thumb ov177
  */
+#include "../include/Obj00053.h"
 struct Big;
 extern int func_021E5548(int *p);
 extern void *func_02012EBC(struct Big *p);
@@ -22,9 +23,9 @@ extern int func_021E7E3C(int,int,int,int,int,int,unsigned short);
 void func_0217D244(char *p)
 {
     int a;
-    if (*(int *)(p + 0x18) == 0) {
-        a = func_021E5548((int *)(*(int *)(p + 0x1B4)));
-        *(int *)(p + 0x18) = func_021E7E3C((int)func_0200BAC8(func_02012EBC((struct Big *)(*(int *)(p + 0x1B8)))), a,
-            *(int *)(p + 0x1B0), *(int *)(p + 0x28), *(int *)(p + 0x1AC), *(int *)(p + 0x24), *(unsigned short *)(p + 0x1C8));
+    if (((struct Obj00053 *)p)->f18 == 0) {
+        a = func_021E5548((int *)(*(int *)&((struct Obj00053 *)p)->f1B4));
+        ((struct Obj00053 *)p)->f18 = func_021E7E3C((int)func_0200BAC8(func_02012EBC((struct Big *)(*(int *)&((struct Obj00053 *)p)->f1B8))), a,
+            ((struct Obj00053 *)p)->f1B0, ((struct Obj00053 *)p)->f28, *(int *)&((struct Obj00053 *)p)->f1AC, *(int *)&((struct Obj00053 *)p)->f24, ((struct Obj00053 *)p)->f1C8);
     }
 }

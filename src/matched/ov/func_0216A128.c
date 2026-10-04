@@ -15,6 +15,10 @@
  *   func_02027FD8   0x02027FD8  thumb
  *   func_02045808   0x02045808  arm
  */
+#include "../include/Obj09164.h"
+#include "../include/Obj17748.h"
+#include "../include/Obj17749.h"
+#include "../include/Obj17750.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,8 +31,8 @@ extern void func_02045808(struct U16Vec *vec);
 
 void func_0216A128(void *p)
 {
-    func_02027FD8(*(void **)(*(char **)((char *)p + 0x18) + 0x3C));
-    func_02045808(*(void **)(*(char **)((char *)p + 0x18) + 0x30));
-    func_02045808(*(void **)(*(char **)((char *)p + 0x18) + 0x24));
+    func_02027FD8(((struct Obj17748 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f3C);
+    func_02045808(((struct Obj17749 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f30);
+    func_02045808(((struct Obj17750 *)(*(char * *)&((struct Obj09164 *)p)->f18))->f24);
 }
 

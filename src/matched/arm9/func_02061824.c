@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj11496.h"
 
-void func_02061824(int p0, int p1, int p2, int p3){ *(int *)(0x2146B74) = (int)*(int *)(p0); *(int *)((0x2146B74 + 4)) = (int)*(int *)((p0 + 4)); }
+void func_02061824(int p0, int p1, int p2, int p3){ *(int *)(0x2146B74) = (int)((struct Obj11496 *)p0)->f0; *(int *)((0x2146B74 + 4)) = (int)((struct Obj11496 *)p0)->f4; }

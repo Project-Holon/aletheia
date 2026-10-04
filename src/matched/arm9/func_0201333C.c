@@ -10,5 +10,6 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj00155.h"
 
-int func_0201333C(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3; t0 = func_020127A4((int)((a1 + 0) + 0)); t1 = func_0201A920((int)((a2 + 0) + 0)); *(int *)(((char *)((a0 + 0)) + 36)) = (int)t1; t2 = func_02012934((int)((a1 + 0) + 0)); t3 = func_0201AC2C((int)t2, (int)*(int *)(((char *)((a0 + 0)) + 36))); return t3; }
+int func_0201333C(int a0, int a1, int a2, int a3){ int t0, t1, t2, t3; t0 = func_020127A4((int)((a1 + 0) + 0)); t1 = func_0201A920((int)((a2 + 0) + 0)); *(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24 = (int)t1; t2 = func_02012934((int)((a1 + 0) + 0)); t3 = func_0201AC2C((int)t2, (int)*(int *)&((struct Obj00155 *)((char *)((a0 + 0))))->f24); return t3; }

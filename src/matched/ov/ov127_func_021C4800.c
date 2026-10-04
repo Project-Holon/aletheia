@@ -12,8 +12,9 @@
  * symbols:
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj10469.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02082D44(void *,const void *,u32);
-void func_021C4800(u8 *p,void *out) { func_02082D44(out,*(void **)(p+4),*(u16 *)p * *(u16 *)(p+2) * 4); }
+void func_021C4800(u8 *p,void *out) { func_02082D44(out,((struct Obj10469 *)p)->f4,((struct Obj10469 *)p)->f0 * ((struct Obj10469 *)p)->f2 * 4); }

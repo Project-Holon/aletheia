@@ -16,6 +16,7 @@
  *   func_020470D0  0x020470D0  arm
  *   func_02046EFC  0x02046EFC  arm
  */
+#include "../include/Obj03652.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -30,12 +31,12 @@ extern void func_02046EFC(struct Tagged *p);
 
 void func_021F3C4C(u8 *p)
 {
-    func_02047738((struct Rec *)(*(u32 *)(p + 0x1c)));
-    func_0204762C((struct Rec *)(*(u32 *)(p + 0x14)));
-    func_0204762C((struct Rec *)(*(u32 *)(p + 0x18)));
-    func_02047504((struct Rec *)(*(u32 *)(p + 0x10)));
-    func_020470D0((u32 *)(*(u32 *)p));
-    func_02046EFC((struct Tagged *)(*(u32 *)p));
-    func_02046EFC((struct Tagged *)(*(u32 *)(p + 4)));
-    func_02046EFC((struct Tagged *)(*(u32 *)(p + 8)));
+    func_02047738((struct Rec *)(((struct Obj03652 *)p)->f1C));
+    func_0204762C((struct Rec *)(((struct Obj03652 *)p)->f14));
+    func_0204762C((struct Rec *)(((struct Obj03652 *)p)->f18));
+    func_02047504((struct Rec *)(((struct Obj03652 *)p)->f10));
+    func_020470D0((u32 *)(((struct Obj03652 *)p)->f0));
+    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f0));
+    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f4));
+    func_02046EFC((struct Tagged *)(((struct Obj03652 *)p)->f8));
 }

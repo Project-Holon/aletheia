@@ -14,6 +14,7 @@
  *   func_021D8DD0 0x021D8DD0 thumb ov119
  *   func_02017E88 0x02017E88 thumb
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Record {u16 value;u8 a,b;} Record;
@@ -29,7 +30,7 @@ void func_021DC62C(char *p,int n)
     if(n==0) {
         func_02082BCC(out,0,0xb58);
         for(i=0;i<6;i++) {
-            mon=(int)func_021D8DD0((void *)(*(int *)(p+0x828)),*(int *)(p+0x630),i,p);
+            mon=(int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828),((struct Obj00001 *)p)->f630,i,p);
             if(mon && func_02017E88((void *)mon,0xa9,0)) {
                 v=func_02017E88((void *)mon,0xab,0);
                 if(v) {
@@ -45,7 +46,7 @@ void func_021DC62C(char *p,int n)
         base=(unsigned)n*30u+6u;
         for(;i<30;i++) {
             index=(unsigned)i+base;
-            mon=(int)func_021D8DD0((void *)(*(int *)(p+0x828)),n,i,p);
+            mon=(int)func_021D8DD0((void *)(*(int *)&((struct Obj00001 *)p)->f828),n,i,p);
             if(mon && func_02017E88((void *)mon,0xa9,0)) {
                 v=func_02017E88((void *)mon,0xab,0);
                 if(v) {

@@ -15,6 +15,7 @@
  *   func_021BFF18  0x021BFF18  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01779.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,6 +31,6 @@ u32 func_021BD36C(u8 *p)
     func_021BCD3C(p);
     func_021BEDF0((int)p, 7, 0);
     func_021BFF18((int)p);
-    return *(u32 *)(p + 0x18);
+    return ((struct Obj01779 *)p)->f18;
 }
 

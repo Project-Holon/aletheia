@@ -10,6 +10,7 @@
  * symbols:
  *   func_021D85E8 0x021D85E8 arm ov125
  */
+#include "../include/Obj23004.h"
 extern int func_021D85E8(void);
 typedef struct { int count; char entries[1]; } List;
 int func_021D7374(int a, void **out, int max)
@@ -19,7 +20,7 @@ int func_021D7374(int a, void **out, int max)
     int n;
     int i;
     p = func_021D85E8() + 4;
-    n = *(int *)p;
+    n = ((struct Obj23004 *)p)->f0;
     if (n > max) n = max;
     base = (char *)(p + 4);
     for (i = 0; i < n; i++) out[i] = base + i * 572 + 12;

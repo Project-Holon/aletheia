@@ -11,15 +11,16 @@
  * symbols:
  *   func_021B6100 0x021B6100 thumb ov070
  */
+#include "../include/Obj00002.h"
 typedef unsigned short u16;
 typedef void (*Callback)(void *);
 extern void func_021B6100(void *p, Callback callback);
 void func_021B8D88(char *p)
 {
-    if (*(u16 *)(p + 0x866) == 0) {
-        *(u16 *)(p + 0x864) = 0;
-        func_021B6100(p, *(Callback *)(p + 0x868));
+    if (((struct Obj00002 *)p)->f866 == 0) {
+        ((struct Obj00002 *)p)->f864 = 0;
+        func_021B6100(p, *(Callback *)&((struct Obj00002 *)p)->f868);
     } else {
-        *(u16 *)(p + 0x866) -= 1;
+        ((struct Obj00002 *)p)->f866 -= 1;
     }
 }

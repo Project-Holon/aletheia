@@ -76,6 +76,7 @@
  * data: overlay ID 194 supplied to 31348 identifies ov194's process table
  * at 021F5580; own ov194 listing has three callback words there.
  */
+#include "../include/Obj00186.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -133,8 +134,8 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     if(active==1)return 0;
     switch(p[4]) {
     case 0:
-        if(*(u8 *)((char *)p+20)==0){p[4]=1;func_0204E720(3,16,0,-16);}
-        else (*(u8 *)((char *)p+20))--;
+        if(((struct Obj00186 *)p)->f14==0){p[4]=1;func_0204E720(3,16,0,-16);}
+        else (((struct Obj00186 *)p)->f14)--;
         break;
     case 1:if(!func_0204E804()){p[4]=2;func_021F5E68((int)a,(struct S021F5E68 *)p);}break;
     case 2:if(!func_021F5F74(a,(char *)p)&&func_021F5E90((int)a,(struct S021F5E68 *)p)){p[4]=3;func_021F5F84(a,(char *)p);}break;
@@ -144,7 +145,7 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
     case 6:
         p[4]=7;
         save=func_020127A4((struct SaveBlock *)a[0]);trainer=func_02012944((void *)a[0]);
-        func_02017B24((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),*(u16 *)p);
+        func_02017B24((void *)a[1],(u32)trainer,func_02013E4C(func_02012AC8(save)),((struct Obj00186 *)p)->f0);
         dex=func_0200CA1C((void *)a[0]);func_0200CFA0(dex,(void *)a[1]);func_0200CDE0(dex,(void *)a[1]);
         func_021F6A48((char *)p[32],(void *)a[1]);break;
     case 7:if(func_021F6A84((char *)p[32])){p[4]=8;func_021F6A98((char *)p[32]);}break;
@@ -161,13 +162,13 @@ int func_021F5884(u32 unused0,u32 unused1,u32 *a,u32 *p)
         if(!func_0204E804()){
             block=func_0200C0F0(func_02012EBC((struct Big *)a[0]));
             func_021F5CFC((u32)a,(char *)p);p[4]=15;
-            child=func_0216C028(*(u16 *)p,(int)a[1],10,0,(int)block);p[33]=(u32)child;
+            child=func_0216C028(((struct Obj00186 *)p)->f0,(int)a[1],10,0,(int)block);p[33]=(u32)child;
             func_02031348((void *)p[34],(u32)&abs_id_C2,(u32)&d_021F5580,(u32)child);
         }break;
     case 15:
         if(active!=1){
         if(!func_0216C0E4((int *)p[33])){
-            vec=func_020457B0(32,*(u16 *)p);func_0216C0D4((int *)p[33],(int)vec);
+            vec=func_020457B0(32,((struct Obj00186 *)p)->f0);func_0216C0D4((int *)p[33],(int)vec);
             func_02017E40((void *)a[1],115,(u32)vec);func_02045808(vec);
             func_02008DF0(func_02012F2C((int *)a[0]),30);
         }

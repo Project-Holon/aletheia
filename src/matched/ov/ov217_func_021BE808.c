@@ -35,6 +35,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -69,11 +70,11 @@ void func_021BE808(char *p)
     if (func_021BF78C((u32)p) == 0) {
         return;
     }
-    if (*(u32 *)(p + 0x3c8) != 0 && func_021BF810(p) != 0) {
+    if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {
         func_021C116C(func_021BF76C(p));
         flag = 1;
     }
-    switch (*(u32 *)(p + 0x2cc)) {
+    switch (((struct Obj00021 *)p)->f2CC) {
     case 0:
         k = 1;
         break;
@@ -93,11 +94,11 @@ void func_021BE808(char *p)
     func_021BEAF8(p);
     func_021BEEA4(p);
     func_021BEF98(p);
-    if (*(u32 *)(p + 0x3c8) != 0 && func_021BF810(p) != 0) {
+    if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {
         func_021BEF30(p);
         func_021BEFD4(p);
     }
-    if (*(u32 *)(p + 0x3c8) != 0 && func_021BF810(p) != 0) {
+    if (((struct Obj00021 *)p)->f3C8 != 0 && func_021BF810(p) != 0) {
         if (flag != 0) {
             func_021C118C(func_021BF76C(p), 0x14);
         }

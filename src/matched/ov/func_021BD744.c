@@ -18,6 +18,7 @@
  * with a computed selector 1.1p1 shares the `movs r2,#0` into r6 and the frame
  * grows to {r4,r5,r6,lr}, which is the tell that the image had two calls.
  */
+#include "../include/Obj09198.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ extern void func_021BAAB8(char *p, int a, int b);
 
 int func_021BD744(char *p, int v)
 {
-    u32 x = *(u32 *)(p + 0x135C);
+    u32 x = ((struct Obj09198 *)p)->f135C;
 
     if (x - 2 <= 1) {
         func_021BAAB8(p, 0x7D, 0);
@@ -39,7 +40,7 @@ int func_021BD744(char *p, int v)
         func_021BAAB8(p, 0x7C, 0);
     }
 
-    *(u32 *)(p + 0x135C) = 0;
-    *(u32 *)(p + 0x1CC) = 0x8E;
+    ((struct Obj09198 *)p)->f135C = 0;
+    ((struct Obj09198 *)p)->f1CC = 0x8E;
     return v;
 }

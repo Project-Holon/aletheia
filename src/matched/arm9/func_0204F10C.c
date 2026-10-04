@@ -19,6 +19,7 @@
  *   func_02047250  0x02047250  arm
  *   func_020307E0  0x020307E0  arm
  */
+#include "../include/Obj16122.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ extern void func_020307E0(void *p, u32 size);
 
 void func_0204F10C(void *table, u32 idx)
 {
-    struct Entry  *e       = &((struct Entry *)*(void **)((u8 *)table + 4))[idx];
+    struct Entry  *e       = &((struct Entry *)((struct Obj16122 *)table)->f4)[idx];
     void          *payload = e->payload;
     void          *buf     = func_02046F48(payload);
     struct Record *last    = func_02047250(payload);

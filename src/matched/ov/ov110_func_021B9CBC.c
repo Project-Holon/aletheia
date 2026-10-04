@@ -13,6 +13,7 @@
  *   func_02030EAC 0x02030EAC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00135.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,7 +22,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 void func_021B9CBC(u8 *p)
 {
-    func_02030EAC(*(void **)(*(u32 *)p + *(u32 *)(p + 0x10) * 4 + 8));
-    *(u32 *)(*(u32 *)p + *(u32 *)(p + 0x10) * 4 + 8) = 0;
+    func_02030EAC(*(void **)(*(u32 *)&((struct Obj00135 *)p)->f0 + ((struct Obj00135 *)p)->f10 * 4 + 8));
+    *(u32 *)(*(u32 *)&((struct Obj00135 *)p)->f0 + ((struct Obj00135 *)p)->f10 * 4 + 8) = 0;
     func_020307B0(p);
 }

@@ -20,6 +20,7 @@
  *   func_02021848 0x02021848 thumb
  *   d_0220A386 0x0220A386 data a1
  */
+#include "../include/Obj00168.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -49,28 +50,28 @@ void func_022053DC(char *m)
     for (i = 0; i < func_021D5448((struct QG *)OBJECT); i++)
         buf.value[i] = func_021D5528(OBJECT, i, &buf.a[i], &buf.b[i]);
     func_02204CC0(m, &buf);
-    *(u8 *)(m + 0x25f) = d_0220A386[INDEX].first;
-    *(u8 *)(m + 0x260) = d_0220A386[INDEX].second;
-    *(int *)(m + 0x220) = 1;
+    ((struct Obj00168 *)m)->f25F = d_0220A386[INDEX].first;
+    ((struct Obj00168 *)m)->f260 = d_0220A386[INDEX].second;
+    ((struct Obj00168 *)m)->f220 = 1;
     for (i = 0; i < 4; i++) {
         if (*(int *)(m + INDEX * 16 + i * 4 + 0x2b0) == 1)
-            *(int *)(m + 0x220) = 0;
+            ((struct Obj00168 *)m)->f220 = 0;
     }
     if (func_021D5B68(OBJECT)) {
         for (i = 0; i < 4; i++)
             *(u8 *)(m + i + 0x25a) = 0;
-        *(int *)(m + 0x220) = 0;
-        func_02021848(*(void **)(m + 0x64), 2, 0x3e00, 0, 8, 8, 0, *(void **)m);
-        func_02021848(*(void **)(m + 0x64), 8, 0x700, 0, 8, 8, 0, *(void **)m);
+        ((struct Obj00168 *)m)->f220 = 0;
+        func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         return;
     }
-    if (*(int *)(m + 0x220) == 1) {
-        *(u8 *)(m + 0x25a) = 1;
+    if (((struct Obj00168 *)m)->f220 == 1) {
+        ((struct Obj00168 *)m)->f25A = 1;
         func_02205F88(m);
-        func_02021848(*(void **)(m + 0x64), 2, 0x3e00, 0, 8, 8, 0, *(void **)m);
-        func_02021848(*(void **)(m + 0x64), 8, 0x700, 0, 8, 8, 0, *(void **)m);
+        func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
+        func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 8, 8, 0, ((struct Obj00168 *)m)->f0);
         return;
     }
-    func_02021848(*(void **)(m + 0x64), 2, 0x3e00, 0, 0, 0, 0, *(void **)m);
-    func_02021848(*(void **)(m + 0x64), 8, 0x700, 0, 0, 0, 0, *(void **)m);
+    func_02021848(((struct Obj00168 *)m)->f64, 2, 0x3e00, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
+    func_02021848(((struct Obj00168 *)m)->f64, 8, 0x700, 0, 0, 0, 0, ((struct Obj00168 *)m)->f0);
 }

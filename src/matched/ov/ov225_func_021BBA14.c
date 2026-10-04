@@ -16,6 +16,14 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021BA760 0x021BA760 thumb ov225
  */
+#include "../include/Obj01790.h"
+#include "../include/Obj26296.h"
+#include "../include/Obj26297.h"
+#include "../include/Obj26298.h"
+#include "../include/Obj26299.h"
+#include "../include/Obj26300.h"
+#include "../include/Obj26301.h"
+#include "../include/Obj26302.h"
 typedef unsigned short u16;
 struct Node;
 extern void func_02030EAC(struct Node *);
@@ -24,21 +32,21 @@ extern void func_020307B0(void *);
 extern int func_021BA760(char *p);
 void func_021BBA14(char *p)
 {
-    func_02030EAC(*(struct Node **)(p + 0x20));
-    *(u16 *)(*(char **)p + 6) = *(u16 *)(p + 0x14);
-    *(u16 *)(*(char **)p + 8) = *(u16 *)(p + 0x16);
-    if (*(unsigned *)(p + 0x18) == 0) *(unsigned *)(*(char **)p + 0xc) = 0;
-    else if (*(unsigned *)(p + 0x18) == 1) {
-        *(unsigned *)(*(char **)p + 0xc) = 1;
-        *(u16 *)(*(char **)p + 0x10) = *(u16 *)(*(char **)(p + 0x10) + *(u16 *)(*(char **)p + 8) * 8);
+    func_02030EAC(*(struct Node * *)&((struct Obj01790 *)p)->f20);
+    ((struct Obj26296 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f6 = ((struct Obj01790 *)p)->f14;
+    ((struct Obj26297 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f8 = ((struct Obj01790 *)p)->f16;
+    if (((struct Obj01790 *)p)->f18 == 0) ((struct Obj26298 *)(*(char * *)&((struct Obj01790 *)p)->f0))->fC = 0;
+    else if (((struct Obj01790 *)p)->f18 == 1) {
+        ((struct Obj26299 *)(*(char * *)&((struct Obj01790 *)p)->f0))->fC = 1;
+        ((struct Obj26301 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f10 = *(u16 *)(*(char * *)&((struct Obj01790 *)p)->f10 + ((struct Obj26300 *)(*(char * *)&((struct Obj01790 *)p)->f0))->f8 * 8);
     }
-    func_021BA740(*(char **)(p + 0x1c));
-    func_020307B0(*(void **)(p + 0x10));
+    func_021BA740(*(char * *)&((struct Obj01790 *)p)->f1C);
+    func_020307B0(((struct Obj01790 *)p)->f10);
     func_020307B0(p);
 }
 void func_021BBA64(char *p)
 {
-    func_021BA760(*(char **)(p + 0x1c));
+    func_021BA760(*(char * *)&((struct Obj26302 *)p)->f1C);
 }
 void func_021BBA70(void)
 {

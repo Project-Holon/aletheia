@@ -10,17 +10,18 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj05394.h"
 typedef unsigned char u8;
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 void func_021D964C(u8 *a,u8 *p)
 {
-    if(*(void **)(p+0x20)!=0) {
-        func_020452E8(*(void **)(p+0x20));
-        *(void **)(p+0x20)=0;
+    if(((struct Obj05394 *)p)->f20!=0) {
+        func_020452E8(((struct Obj05394 *)p)->f20);
+        ((struct Obj05394 *)p)->f20=0;
     }
-    if(*(void **)(p+0x24)!=0) {
-        func_020452E8(*(void **)(p+0x24));
-        *(void **)(p+0x24)=0;
+    if(((struct Obj05394 *)p)->f24!=0) {
+        func_020452E8(((struct Obj05394 *)p)->f24);
+        ((struct Obj05394 *)p)->f24=0;
     }
 }

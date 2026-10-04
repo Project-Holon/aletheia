@@ -11,18 +11,19 @@
  *   func_0202F038 0x0202F038 thumb
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj05330.h"
 typedef unsigned char  u8;
 struct Descriptor;
 extern void func_0202F038(u8 *p);
 extern void func_020452E8(struct Descriptor *d);
 void func_021E106C(char *p)
 {
-    if (*(void **)(p + 0x5F0)) {
-        func_0202F038(*(void **)(p + 0x5F0));
-        *(void **)(p + 0x5F0) = 0;
+    if (((struct Obj05330 *)p)->f5F0) {
+        func_0202F038(((struct Obj05330 *)p)->f5F0);
+        ((struct Obj05330 *)p)->f5F0 = 0;
     }
-    if (*(void **)(p + 0x71C)) {
-        func_020452E8(*(void **)(p + 0x71C));
-        *(void **)(p + 0x71C) = 0;
+    if (((struct Obj05330 *)p)->f71C) {
+        func_020452E8(((struct Obj05330 *)p)->f71C);
+        ((struct Obj05330 *)p)->f71C = 0;
     }
 }

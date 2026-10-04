@@ -14,6 +14,7 @@
  *   func_021C26E8 0x021C26E8 thumb ov217
  *   func_021C2740 0x021C2740 thumb ov217
  */
+#include "../include/Obj25957.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Params { u32 handles[3]; u16 a, b, c; };
@@ -32,7 +33,7 @@ void func_021BFF00(char *p)
     args.b = 12;
     args.c = 13;
     for (i = 0; i < 10; i++) {
-        *(u32 *)(p + i * 4 + 0x2d4) = func_021C26E8(*(u16 *)(p + 4), (u32)&args, func_021BF9FC(p, 3));
+        *(u32 *)(p + i * 4 + 0x2d4) = func_021C26E8(((struct Obj25957 *)p)->f4, (u32)&args, func_021BF9FC(p, 3));
         func_021C2740(*(u32 *)(p + i * 4 + 0x2d4), 0);
     }
 }

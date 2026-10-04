@@ -12,6 +12,7 @@
  *   func_021BA014 0x021BA014 thumb ov213
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj14694.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,4 +21,4 @@ struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021BA014(u8 *);
 extern void func_020452E8(struct Descriptor *d);
-void func_021BA2F0(u8 *p) {func_02045808((struct U16Vec *)(*(u32 *)(p+24)));func_021BA014(p+32);func_020452E8((struct Descriptor *)(*(u32 *)(p+28)));}
+void func_021BA2F0(u8 *p) {func_02045808((struct U16Vec *)(((struct Obj14694 *)p)->f18));func_021BA014(p+32);func_020452E8((struct Descriptor *)(((struct Obj14694 *)p)->f1C));}

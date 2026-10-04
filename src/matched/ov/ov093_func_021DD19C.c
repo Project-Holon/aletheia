@@ -14,6 +14,7 @@
  *   func_021C88A4 0x021C88A4 thumb ov093
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
+#include "../include/Obj10066.h"
 typedef unsigned char u8;
 extern int func_021D775C(int);
 extern int func_021DD1D8(u8 *, int, int);
@@ -24,7 +25,7 @@ void func_021DD19C(void *a, u8 *b, int c, int d)
     u8 *p;
     if (c == func_021D775C(2) && func_021DD1D8(b, c, d)) {
         p = func_021C88A4(b, 11, c);
-        *(int *)(p + 4) = d;
+        ((struct Obj10066 *)p)->f4 = d;
         p[0x14] = 1;
         p[8] = c;
         func_021C88C8(b, p);

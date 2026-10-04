@@ -29,6 +29,7 @@
  *   func_021D8F50 0x021D8F50 thumb ov131
  *   func_021DA6A4 0x021DA6A4 thumb ov131
  */
+#include "../include/Obj00039.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,33 +49,33 @@ extern void func_021DA6A4(u8 *a, u8 *p);
 void func_021D5C98(u8 *p)
 {
     func_021D60D4(p,1);
-    if (p[0x1a]!=*(u16 *)(p+0x18)) {
+    if (p[0x1a]!=((struct Obj00039 *)p)->f18) {
         if (p[0x1a]!=255) {
-            func_021D6CDC(p,*(void **)(p+0x88));
-            func_021D91EC(p,*(void **)(p+0x94));
+            func_021D6CDC(p,((struct Obj00039 *)p)->f88);
+            func_021D91EC(p,((struct Obj00039 *)p)->f94);
         }
-        func_021D697C(p,*(int **)(p+0x88));
-        func_021D911C(p,*(void **)(p+0x94));
+        func_021D697C(p,*(int * *)&((struct Obj00039 *)p)->f88);
+        func_021D911C(p,((struct Obj00039 *)p)->f94);
     }
-    switch (*(u32 *)(p+0x5c)) {
-    case 0: func_021D7E84(p,*(u8 **)(p+0x8c)); break;
-    case 1: func_021D9D44(p,*(u8 **)(p+0x90)); break;
-    case 2: func_021D909C(p,*(void **)(p+0x94)); break;
-    case 3: func_021DA84C(p,*(u8 **)(p+0x90)); break;
+    switch (((struct Obj00039 *)p)->f5C) {
+    case 0: func_021D7E84(p,*(u8 * *)&((struct Obj00039 *)p)->f8C); break;
+    case 1: func_021D9D44(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
+    case 2: func_021D909C(p,((struct Obj00039 *)p)->f94); break;
+    case 3: func_021DA84C(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
     }
-    switch (*(u32 *)(p+0x58)) {
-    case 0: func_021D7C38(p,*(u8 **)(p+0x8c)); break;
-    case 1: func_021D9C3C(p,*(u8 **)(p+0x90)); break;
-    case 2: func_021D8F50(p,*(u8 **)(p+0x94)); break;
-    case 3: func_021DA6A4(p,*(void **)(p+0x90)); break;
+    switch (*(u32 *)&((struct Obj00039 *)p)->f58) {
+    case 0: func_021D7C38(p,*(u8 * *)&((struct Obj00039 *)p)->f8C); break;
+    case 1: func_021D9C3C(p,*(u8 * *)&((struct Obj00039 *)p)->f90); break;
+    case 2: func_021D8F50(p,*(u8 * *)&((struct Obj00039 *)p)->f94); break;
+    case 3: func_021DA6A4(p,((struct Obj00039 *)p)->f90); break;
     }
-    if (*(u32 *)(p+0x5c)!=*(u32 *)(p+0x58)) {
-        *(u32 *)(p+0x25c)=1;
+    if (((struct Obj00039 *)p)->f5C!=*(u32 *)&((struct Obj00039 *)p)->f58) {
+        ((struct Obj00039 *)p)->f25C=1;
         p[0x260]=0;
         *(volatile u16 *)0x0400000c |= 64;
         *(volatile u16 *)0x0400100a |= 64;
         *(volatile u16 *)0x0400100c |= 64;
     }
     func_021D60D4(p,0);
-    *(u32 *)(p+0xc)=1;
+    ((struct Obj00039 *)p)->fC=1;
 }

@@ -14,6 +14,9 @@
  *   func_021D826C  0x021D826C  thumb  ov093
  *   func_021D8270  0x021D8270  thumb  ov093
  */
+#include "../include/Obj00324.h"
+#include "../include/Obj21014.h"
+#include "../include/Obj21015.h"
 
 typedef unsigned char u8;
 
@@ -33,16 +36,16 @@ int func_021BA54C(char *p)
         v = 1;
     } else if (((struct F *)(p + 0x473))->b) {
         v = 6;
-    } else if (*(u8 *)(*(char **)p + 0x90) != 6) {
+    } else if (((struct Obj21014 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f90 != 6) {
         v = 5;
     } else if (func_021D826C(p + 0x448)) {
-        v = func_021D8270(p + 0x448, *(u8 *)(p + 0x46c), (unsigned int)func_021B86B8(p));
+        v = func_021D8270(p + 0x448, *(u8 *)&((struct Obj00324 *)p)->f46C, (unsigned int)func_021B86B8(p));
     } else {
-        if (*(int *)(p + 0x444) == 7) {
-            *(int *)(p + 0x444) = 1;
+        if (((struct Obj00324 *)p)->f444 == 7) {
+            ((struct Obj00324 *)p)->f444 = 1;
         }
-        v = *(int *)(p + 0x444);
+        v = ((struct Obj00324 *)p)->f444;
     }
-    *(int *)(*(char **)p + 0x8c) = v;
+    ((struct Obj21015 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f8C = v;
     return v;
 }

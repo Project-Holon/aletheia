@@ -9,9 +9,10 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj21026.h"
 
 typedef struct { unsigned int a, b; } Pair;
 void func_021BABDC(char *p, Pair *out)
 {
- *out = **(Pair **)(p + 0xb0);
+ *out = **(Pair * *)&((struct Obj21026 *)p)->fB0;
 }

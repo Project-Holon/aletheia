@@ -22,6 +22,13 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021BA240 0x021BA240 thumb ov225
  */
+#include "../include/Obj02561.h"
+#include "../include/Obj26162.h"
+#include "../include/Obj26163.h"
+#include "../include/Obj26164.h"
+#include "../include/Obj26165.h"
+#include "../include/Obj26166.h"
+#include "../include/Obj26167.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,15 +50,15 @@ void func_021BA368(char *p)
     struct WordSet *words;
     struct U16Vec *str;
     void *slot;
-    func_0201C6EC(*(struct PrintSys **)(*(char **)p+0x18));
-    func_02043B5C(func_02045770(*(struct Descriptor **)(p+0x14)),0);
-    words=func_0201EC64(*(u16 *)(*(char **)p+4));
-    slot=func_02045EC0(*(struct MsgBank **)(*(char **)p+0x1c),4);
-    str=func_020457B0(16,*(u16 *)(*(char **)p+4));
-    func_0201EFA4(words,0,*(u8 *)(p+0xd)+1,1,0,1);
-    func_0201EFA4(words,1,*(u8 *)(p+0xc),1,0,1);
+    func_0201C6EC(*(struct PrintSys * *)&((struct Obj26162 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18);
+    func_02043B5C(func_02045770(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),0);
+    words=func_0201EC64(((struct Obj26163 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
+    slot=func_02045EC0(*(struct MsgBank * *)&((struct Obj26164 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f1C,4);
+    str=func_020457B0(16,((struct Obj26165 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f4);
+    func_0201EFA4(words,0,((struct Obj02561 *)p)->fD+1,1,0,1);
+    func_0201EFA4(words,1,((struct Obj02561 *)p)->fC,1,0,1);
     func_0201F250(words,str,slot);
-    func_0201C724(*(void **)(*(char **)p+0x18),(u32)func_02045770(*(struct Descriptor **)(p+0x14)),32,4,(u32)str,*(u32 *)(*(char **)p+0xc),0x3c40);
+    func_0201C724(((struct Obj26166 *)(*(char * *)&((struct Obj02561 *)p)->f0))->f18,(u32)func_02045770(*(struct Descriptor * *)&((struct Obj02561 *)p)->f14),32,4,(u32)str,((struct Obj26167 *)(*(char * *)&((struct Obj02561 *)p)->f0))->fC,0x3c40);
     func_02045808(str);func_02045808(slot);func_0201ED04(words);
-    *(u32 *)(p+0x1c)=1;func_021BA240(p);
+    ((struct Obj02561 *)p)->f1C=1;func_021BA240(p);
 }

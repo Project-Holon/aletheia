@@ -17,6 +17,7 @@
  *   func_02158FE0  0x02158FE0  thumb  ov010
  *   func_02167D00  0x02167D00  thumb  ov010
  */
+#include "../include/Obj20240.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,7 +42,7 @@ int func_021CB86C(u32 unused, u32 a)
     s = func_0215A5F4((void *)a);
     t = func_020120F4(func_02158F54(s));
     p = func_02012ED8(t);
-    q = func_02158FE0(s, t, *(u16 *)(p + 0x72A));
+    q = func_02158FE0(s, t, ((struct Obj20240 *)p)->f72A);
     if (func_02167D00(p, q) == 1)
         return 1;
     return 0;

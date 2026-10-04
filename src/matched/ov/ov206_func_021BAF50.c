@@ -13,6 +13,8 @@
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm
  */
+#include "../include/Obj14637.h"
+#include "../include/Obj25402.h"
 typedef unsigned char  u8;
 struct CharBuf;
 struct PrintSys;
@@ -23,10 +25,10 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 void func_021BAF50(char *p)
 {
     int i;
-    func_0201C6EC((struct PrintSys *)(*(int *)(p + 0x2c)));
+    func_0201C6EC((struct PrintSys *)(((struct Obj25402 *)p)->f2C));
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
-        *(int *)(slot + 0x7c) = 1;
-        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(int *)(slot + 0x6c))), 0);
+        ((struct Obj14637 *)slot)->f7C = 1;
+        func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)((struct Obj14637 *)slot)->f6C)), 0);
     }
 }

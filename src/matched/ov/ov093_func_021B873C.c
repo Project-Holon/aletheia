@@ -12,6 +12,7 @@
  * symbols:
  *   func_0200CF28  0x0200CF28  thumb
  */
+#include "../include/Obj20961.h"
 
 typedef unsigned short u16;
 struct Blk37;
@@ -19,5 +20,5 @@ u16 func_0200CF28(struct Blk37 *p);
 
 void func_021B873C(char **p)
 {
-    func_0200CF28((struct Blk37 *)(*(int *)(*p + 0x68)));
+    func_0200CF28((struct Blk37 *)(((struct Obj20961 *)(*p))->f68));
 }

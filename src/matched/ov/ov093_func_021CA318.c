@@ -13,6 +13,7 @@
  *   func_021B9934  0x021B9934  thumb  ov093
  *   func_021C3810  0x021C3810  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -33,8 +34,8 @@ extern int func_021C3810(u8 *p, u8 *a, u8 *b, int force, int *out, u16 move, int
 u8 func_021CA318(u8 *p, const struct Q *q)
 {
     int out[1];
-    u8 *a = func_021B9934(*(char **)(p + 8), q->f);
-    u8 *b = func_021B9934(*(char **)(p + 8), (u8)q->b);
+    u8 *a = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, q->f);
+    u8 *b = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, (u8)q->b);
     if (func_021C3810(p, b, a, q->lo, out, q->e, q->hi, (const struct Msg *)((u8 *)q + 8))) return 1;
     return 0;
 }

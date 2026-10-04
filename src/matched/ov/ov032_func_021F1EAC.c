@@ -15,6 +15,9 @@
  *   func_021F0ED0 0x021F0ED0 thumb
  *   func_02031194 0x02031194 arm
  */
+#include "../include/Obj02113.h"
+#include "../include/Obj20437.h"
+#include "../include/Obj20438.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,16 +34,16 @@ void func_021F1EAC(void *task, u8 *s)
         s[1] = c - 1;
         if (c != 0)
             return;
-        if (*(u32 *)(s + 0xc) == 1 || *(u32 *)(s + 0xc) == 0x18 || *(u32 *)(s + 0xc) == 0x31) {
-            func_021F1080((char *)(*(u32 *)(s + 0x10)), (char *)(*(u32 *)(s + 8)), 1, 0);
+        if (((struct Obj02113 *)s)->fC == 1 || ((struct Obj02113 *)s)->fC == 0x18 || ((struct Obj02113 *)s)->fC == 0x31) {
+            func_021F1080((char *)(((struct Obj02113 *)s)->f10), (char *)(*(u32 *)&((struct Obj02113 *)s)->f8), 1, 0);
             s[0]++;
             return;
         }
     } else {
-        if (*(u32 *)(*(char **)(s + 8) + 0x2c) != 0)
+        if (((struct Obj20437 *)(*(char * *)&((struct Obj02113 *)s)->f8))->f2C != 0)
             return;
     }
-    *(u32 *)(*(char **)(s + 8) + 0x30) = 0;
-    func_021F0ED0(*(char **)(s + 8), 0);
+    ((struct Obj20438 *)(*(char * *)&((struct Obj02113 *)s)->f8))->f30 = 0;
+    func_021F0ED0(*(char * *)&((struct Obj02113 *)s)->f8, 0);
     func_02031194(task);
 }

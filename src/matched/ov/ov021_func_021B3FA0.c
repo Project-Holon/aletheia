@@ -23,6 +23,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00037.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -66,30 +67,30 @@ void func_021B3FA0(char *w)
     u32 bg;
 
     tbl = d_021DE18C;
-    if (*(u8 *)(w + 0x163) != 1) {
+    if (((struct Obj00037 *)w)->f163 != 1) {
         tbl = d_021DE170;
     }
     for (i = 0; i < 7; i++) {
         e = tbl[i];
         ((u32 *)(w + 0x164))[i] = func_020450F0((u8)e->f0, e->f4, e->f5, e->f6, e->f7, (u8)e->f8, 1);
     }
-    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0x14);
-    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x164))), 0, 0, (void *)t, (void *)(*(u32 *)(w + 8)), 0x3C4F);
+    t = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)&((struct Obj00037 *)w)->f188), 0x14);
+    func_0201C7D0((void *)((u32)func_02045770((struct Descriptor *)((struct Obj00037 *)w)->f164)), 0, 0, (void *)t, (void *)(((struct Obj00037 *)w)->f8), 0x3C4F);
     func_02045808((struct U16Vec *)t);
-    *(u32 *)(w + 0x1A8) = *(u32 *)(w + 0x16C);
-    *(u8 *)(w + 0x1AC) = 0;
-    *(u32 *)(w + 0x1B0) = func_0201C440((void *)(*(u16 *)(w + 4)));
-    if (*(u8 *)(w + 0x163) == 1) {
-        bg = *(u32 *)(w + 0x168);
+    ((struct Obj00037 *)w)->f1A8 = ((struct Obj00037 *)w)->f16C;
+    ((struct Obj00037 *)w)->f1AC = 0;
+    ((struct Obj00037 *)w)->f1B0 = func_0201C440((void *)(((struct Obj00037 *)w)->f4));
+    if (((struct Obj00037 *)w)->f163 == 1) {
+        bg = ((struct Obj00037 *)w)->f168;
         func_02045334((struct Descriptor *)bg);
         func_02045374((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));
     } else {
-        bg = *(u32 *)(w + 0x164);
+        bg = ((struct Obj00037 *)w)->f164;
         func_02045334((struct Descriptor *)bg);
         func_02045374((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));
-        bg = *(u32 *)(w + 0x168);
+        bg = ((struct Obj00037 *)w)->f168;
         func_02045334((struct Descriptor *)bg);
         func_02045374((struct Cfg *)bg);
         func_020409B4(func_02045730((struct Descriptor *)bg));

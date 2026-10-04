@@ -25,6 +25,18 @@
  *   func_021DED14 0x021DED14 thumb ov183
  *   d_021E3964 0x021E3964 data a1
  */
+#include "../include/Obj00364.h"
+#include "../include/Obj24587.h"
+#include "../include/Obj24588.h"
+#include "../include/Obj24589.h"
+#include "../include/Obj24590.h"
+#include "../include/Obj24591.h"
+#include "../include/Obj24592.h"
+#include "../include/Obj24593.h"
+#include "../include/Obj24595.h"
+#include "../include/Obj24596.h"
+#include "../include/Obj24597.h"
+#include "../include/Obj24598.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,26 +62,26 @@ void func_021DEB4C(int *task,int *state,char *p)
     int font,bank;
     Config config;
     Triple triple;
-    font=func_021FC20C(*(char **)(*(char **)(p+0x108)+0x10));
-    bank=func_021FC214(*(char **)(*(char **)(p+0x108)+0x10));
-    if(*(void **)(p+0x24)) {
-        func_021FD15C(*(void **)(p+0x24),*(int *)(*(char **)(p+0x108)+0x10));
-        *(void **)(p+0x24)=0;
+    font=func_021FC20C(*(char * *)&((struct Obj24587 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10);
+    bank=func_021FC214(*(char * *)&((struct Obj24588 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10);
+    if(((struct Obj00364 *)p)->f24) {
+        func_021FD15C(((struct Obj00364 *)p)->f24,((struct Obj24589 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10);
+        ((struct Obj00364 *)p)->f24=0;
     }
-    func_021FB964((void *)(*(int *)(*(char **)(p+0x108)+0x10)),24,*(u16 *)(p+0x18));
-    func_021FBE54(*(char **)(*(char **)(p+0x108)+0x10),6,*(u16 *)(p+0x18));
-    *(int *)(p+0x104)=1;
+    func_021FB964((void *)(((struct Obj24590 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10),24,((struct Obj00364 *)p)->f18);
+    func_021FBE54(*(char * *)&((struct Obj24591 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,6,((struct Obj00364 *)p)->f18);
+    ((struct Obj00364 *)p)->f104=1;
     func_02082BCC(&config,0,8);
     config.left=80;config.right=168;config.top=0;config.flag=1;
-    if(!func_021FC124(*(void **)(*(char **)(p+0x108)+0x10),6,&triple))
+    if(!func_021FC124(((struct Obj24592 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,6,&triple))
         func_02034714(d_021E3964,0,d_021E3964);
-    *(void **)(p+4)=func_021FB378(&config,4,96,1,*(int *)(*(char **)(p+0x108)+0xc),*(int *)p,font,bank,&triple,*(u16 *)(p+0x18));
-    *(void **)(p+8)=func_021FC6A4(4,11,6,10,4,14,*(void **)(p+0x14),*(u16 *)(p+0x18));
-    func_021FC754(*(char **)(p+8),(void *)bank,(void *)0x55,(void *)font,0x3da0);
-    *(void **)(p+0xc)=func_021FC6A4(1,3,3,26,4,14,*(void **)(p+0x14),*(u16 *)(p+0x18));
-    func_021FC868(*(void **)(p+0xc),0,1,0);
-    func_021FC754(*(char **)(p+0xc),(void *)bank,(void *)(**(int **)(p+0x108)+0x57),(void *)font,0x3da0);
-    func_021DF1DC(p+0x28,*(char **)(*(char **)(p+0x108)+0x1c),*(char **)(*(char **)(p+0x108)+0x10),*(int *)(*(char **)(p+0x108)+0xc),*(void **)(p+0x1c),*(void **)(p+0x20),*(u16 **)(*(char **)(p+0x108)+0x28),*(u16 *)(p+0x18));
-    *(int *)(p+0x100)=1;
+    ((struct Obj00364 *)p)->f4=func_021FB378(&config,4,96,1,((struct Obj24593 *)(*(char * *)&((struct Obj00364 *)p)->f108))->fC,((struct Obj00364 *)p)->f0,font,bank,&triple,((struct Obj00364 *)p)->f18);
+    ((struct Obj00364 *)p)->f8=func_021FC6A4(4,11,6,10,4,14,((struct Obj00364 *)p)->f14,((struct Obj00364 *)p)->f18);
+    func_021FC754(*(char * *)&((struct Obj00364 *)p)->f8,(void *)bank,(void *)0x55,(void *)font,0x3da0);
+    ((struct Obj00364 *)p)->fC=func_021FC6A4(1,3,3,26,4,14,((struct Obj00364 *)p)->f14,((struct Obj00364 *)p)->f18);
+    func_021FC868(((struct Obj00364 *)p)->fC,0,1,0);
+    func_021FC754(*(char * *)&((struct Obj00364 *)p)->fC,(void *)bank,(void *)(**(int * *)&((struct Obj00364 *)p)->f108+0x57),(void *)font,0x3da0);
+    func_021DF1DC(p+0x28,*(char * *)&((struct Obj24595 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f1C,*(char * *)&((struct Obj24596 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f10,((struct Obj24597 *)(*(char * *)&((struct Obj00364 *)p)->f108))->fC,((struct Obj00364 *)p)->f1C,((struct Obj00364 *)p)->f20,*(u16 * *)&((struct Obj24598 *)(*(char * *)&((struct Obj00364 *)p)->f108))->f28,((struct Obj00364 *)p)->f18);
+    ((struct Obj00364 *)p)->f100=1;
     func_021FD73C(task,(int)func_021DED14);
 }

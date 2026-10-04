@@ -18,6 +18,8 @@
  *   func_021F0F44  0x021F0F44  thumb  ov032
  *   func_0200C1E0  0x0200C1E0  thumb
  */
+#include "../include/Obj00188.h"
+#include "../include/Obj20414.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,28 +40,28 @@ int func_021F0140(u8 *p)
 {
     u8 t;
 
-    if (func_021658D4((struct Queue *)(*(int *)(p + 0x38)), (struct Rec *)(*(int *)(p + 0x4C)), (u16 *)(p + 0x4A)) == 0) {
+    if (func_021658D4((struct Queue *)(((struct Obj00188 *)p)->f38), (struct Rec *)(((struct Obj00188 *)p)->f4C), (u16 *)(p + 0x4A)) == 0) {
         func_021F1268(p);
         return 0;
     }
-    if (func_02165B5C((struct Rec *)(*(int *)(p + 0x4C))) != 0)
+    if (func_02165B5C((struct Rec *)(((struct Obj00188 *)p)->f4C)) != 0)
         return 0;
-    p[0x54] = func_02165A10((struct Queue *)(*(int *)(p + 0x3C)), (struct Rec *)(*(int *)(p + 0x4C)), *(u16 *)(p + 0x4A), (int *)(p + 0x5C));
-    p[0x55] = func_021659F0((u8 *)(*(int *)(p + 0x3C)), p[0x54]);
-    if (*(int *)(p + 0x5C) == 0) {
-        *(u8 **)(p + 0x50) = func_021F0F44(p, p[0x55]);
+    p[0x54] = func_02165A10((struct Queue *)(((struct Obj00188 *)p)->f3C), (struct Rec *)(((struct Obj00188 *)p)->f4C), ((struct Obj00188 *)p)->f4A, (int *)(p + 0x5C));
+    p[0x55] = func_021659F0((u8 *)(((struct Obj00188 *)p)->f3C), p[0x54]);
+    if (((struct Obj00188 *)p)->f5C == 0) {
+        *(u8 * *)&((struct Obj00188 *)p)->f50 = func_021F0F44(p, p[0x55]);
     } else {
-        *(u8 **)(p + 0x50) = 0;
-        *(u32 *)(p + 0x2D4) = func_0200C1E0((struct Blk34 *)(*(int *)(p + 0x14)));
+        *(u8 * *)&((struct Obj00188 *)p)->f50 = 0;
+        ((struct Obj00188 *)p)->f2D4 = func_0200C1E0((struct Blk34 *)(((struct Obj00188 *)p)->f14));
     }
-    if (*(u8 **)(p + 0x50) != 0 && *(int *)(*(u8 **)(p + 0x50) + 0x2C) != 0)
-        *(int *)(p + 0x6C) = 0;
+    if (*(u8 * *)&((struct Obj00188 *)p)->f50 != 0 && ((struct Obj20414 *)(*(u8 * *)&((struct Obj00188 *)p)->f50))->f2C != 0)
+        ((struct Obj00188 *)p)->f6C = 0;
     else
-        *(int *)(p + 0x6C) = 1;
+        ((struct Obj00188 *)p)->f6C = 1;
     t = p[0x7B];
     p[0x57] = t;
     if (t < 0x1E) {
-        p[0x7B] += (u8)*(int *)(p + 0x5C);
+        p[0x7B] += (u8)((struct Obj00188 *)p)->f5C;
         if (p[0x7B] <= 4)
             p[0x7D] = p[0x7B];
     }

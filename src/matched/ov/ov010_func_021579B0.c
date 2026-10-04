@@ -17,6 +17,7 @@
  *   func_02157960  0x02157960  thumb  ov010
  *   func_021579AC  0x021579AC  thumb  ov010
  */
+#include "../include/Obj01335.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,14 +35,14 @@ void func_021579B0(u8 *p)
     if (func_0203CD98() != 0)
         return;
     if (p[0x675] == 0) {
-        if (*(int *)(p + 0x66C) == 1) {
+        if (((struct Obj01335 *)p)->f66C == 1) {
             p[0x674] = 3;
         } else {
             p[0x674] = 1;
-            func_02082D44(p + 0x7C, *(void **)(p + 0xC), *(u32 *)(p + 8));
-            if (*(u16 *)(p + 0x672) != func_0203F1FC(*(const u8 **)(p + 0xC), *(u32 *)(p + 8)))
+            func_02082D44(p + 0x7C, ((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8);
+            if (((struct Obj01335 *)p)->f672 != func_0203F1FC(*(const u8 * *)&((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8))
                 p[0x674] = 2;
-            func_0203F328(*(void **)(p + 0xC), *(u32 *)(p + 8), *(u32 *)(p + 0x668));
+            func_0203F328(((struct Obj01335 *)p)->fC, ((struct Obj01335 *)p)->f8, ((struct Obj01335 *)p)->f668);
         }
     } else {
         if (p[0x676] == 1)

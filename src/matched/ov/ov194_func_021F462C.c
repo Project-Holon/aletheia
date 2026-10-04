@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-void func_021F462C(unsigned char *p,unsigned value){*(unsigned *)p=value;*(unsigned *)(p+8)=0;}
+#include "../include/Obj14508.h"
+void func_021F462C(unsigned char *p,unsigned value){((struct Obj14508 *)p)->f0=value;((struct Obj14508 *)p)->f8=0;}

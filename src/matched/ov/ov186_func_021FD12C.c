@@ -11,6 +11,7 @@
  *   func_021FB964 0x021FB964 thumb ov186
  *   func_021FC6A4 0x021FC6A4 thumb ov186
  */
+#include "../include/Obj02901.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,6 +22,6 @@ void *func_021FD12C(int a,void *owner,u16 heap)
     u8 *p;
     func_021FB964((void *)a,2,heap);
     p=func_021FC6A4(0,1,19,30,4,2,owner,heap);
-    *(u16 *)(p+20)=12;
+    ((struct Obj02901 *)p)->f14=12;
     return p;
 }

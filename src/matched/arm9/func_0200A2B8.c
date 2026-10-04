@@ -12,6 +12,7 @@
  * symbols:
  *   func_021DFDC0    0x021DFDC0  thumb
  */
+#include "../include/Obj15586.h"
 
 typedef unsigned char u8;
 
@@ -22,7 +23,7 @@ extern int func_02012DAC(int a0);
 void func_0200A2B8(void *a0, int a1)
 {
     if (func_0200A350() == 0) {
-        func_021DFDC0(*(void **)((u8 *)a0 + 8));
+        func_021DFDC0(((struct Obj15586 *)a0)->f8);
     } else {
         func_02012DAC(a1);
     }

@@ -41,6 +41,7 @@
  * (pkt_ov114_021C866C, pkt_ov114_021C86A8); both BLX sites
  * resolve as `matched`.  Verdict promoted to EXACT.
 */
+#include "../include/Obj02054.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -64,16 +65,16 @@ int func_02201414(u8 *p)
 
     if (func_021C866C(p) != 0) {
         n = func_021C86A8();
-        *(u32 *)(p + 0xf8c) = 0;
+        ((struct Obj02054 *)p)->fF8C = 0;
         switch (n + 15) {
         case 15:
             func_022021F8(p, 1);
-            func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(*(u32 *)p + 0x24)), 0x1c);
-            *(u32 *)(p + 0x28) = 0x22;
+            func_02008DF0((struct Sub02008C20Obj *)(*(u32 *)(((struct Obj02054 *)p)->f0 + 0x24)), 0x1c);
+            ((struct Obj02054 *)p)->f28 = 0x22;
             break;
         case 14:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj02054 *)p)->f38 = n;
+            ((struct Obj02054 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
@@ -86,19 +87,19 @@ int func_02201414(u8 *p)
         case 8:
         case 9:
         case 10:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2d;
+            ((struct Obj02054 *)p)->f38 = n;
+            ((struct Obj02054 *)p)->f28 = 0x2d;
             break;
         case 3:
         case 11:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2d;
+            ((struct Obj02054 *)p)->f38 = n;
+            ((struct Obj02054 *)p)->f28 = 0x2d;
             break;
         case 0:
         case 1:
         case 13:
-            *(u32 *)(p + 0x38) = n;
-            *(u32 *)(p + 0x28) = 0x2b;
+            ((struct Obj02054 *)p)->f38 = n;
+            ((struct Obj02054 *)p)->f28 = 0x2b;
             func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
@@ -109,7 +110,7 @@ int func_02201414(u8 *p)
             break;
         }
     } else {
-        if (++*(u32 *)(p + 0xf8c) == 0xe10) {
+        if (++((struct Obj02054 *)p)->fF8C == 0xe10) {
             func_021F513C(p);
         }
     }

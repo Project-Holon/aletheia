@@ -10,11 +10,12 @@
  * symbols:
  *   func_021B9C58 0x021B9C58 thumb ov181
  */
+#include "../include/Obj14407.h"
 extern void func_021B9C58(char *p, void *s, unsigned i);
 #define IDX(p) (*(unsigned char *)((p) + 0x2BA))
 void func_021B9C80(char *p)
 {
-    if (IDX(p) < *(unsigned short *)(p + 0x2B8)) {
+    if (IDX(p) < ((struct Obj14407 *)p)->f2B8) {
         func_021B9C58(p, *(void **)(p + IDX(p) * 8 + 0xB8), *(int *)(p + IDX(p) * 8 + 0xBC));
         func_021B9C58(p, *(void **)(p + IDX(p) * 8 + 0xB8), *(int *)(p + IDX(p) * 8 + 0xBC) + 1);
         IDX(p)++;

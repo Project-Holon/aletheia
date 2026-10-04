@@ -15,6 +15,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DEE00 0x021DEE00 thumb ov119
  */
+#include "../include/Obj13900.h"
 typedef unsigned short u16;
 
 struct Entry;
@@ -28,10 +29,10 @@ extern void func_021D8E84(void *,int);
 extern void func_021DEE00(unsigned char *p);
 void func_021DEEA8(void *p) {
  void *h=func_020399A8();
- *(unsigned short *)((char *)p+0x109a)=0;
+ ((struct Obj13900 *)p)->f109A=0;
  if(func_0203D3A8((void *)h,0xc11,1,(u32)((char *)p+0x11e6))) {
   func_02039C68((struct Link *)func_020399A8(),21,8);
-  if(*(int *)((char *)p+0x118c)==2) func_0215642C(0);
+  if(((struct Obj13900 *)p)->f118C==2) func_0215642C(0);
   func_021D8E84(p,(int)func_021DEE00);
  }
 }

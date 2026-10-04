@@ -27,6 +27,8 @@
  *   func_02015C48 0x02015C48 thumb
  *   func_02015C78 0x02015C78 thumb
  */
+#include "../include/Obj02188.h"
+#include "../include/Obj14068.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,9 +48,9 @@ int func_021D708C(u8 *p,u8 *q)
     u32 n;
     u8 speed;
     float f;
-    if(*(int *)(q+0x10)==0) {
-        sample=d_020A1B38[((u16)((*(u16 *)(q+0x62)<<15)/15)>>4)*2];
-        n=*(u32 *)(p+0x3c)>>6;
+    if(((struct Obj02188 *)q)->f10==0) {
+        sample=d_020A1B38[((u16)((((struct Obj02188 *)q)->f62<<15)/15)>>4)*2];
+        n=((struct Obj14068 *)p)->f3C>>6;
         if(n) f=0.5f+(float)(n<<12);
         else f=(float)(n<<12)-0.5f;
         radius=(u32)(sample*16)+(u32)_ffix(f);
@@ -58,9 +60,9 @@ int func_021D708C(u8 *p,u8 *q)
         v.y=radius;
         func_021D79A8(p,q,radius);
     }
-    speed=(u8)((*(u32 *)(p+0x3c)>>6)+16);
-    t=(*(u16 *)(q+0x62)*speed)/15;
-    switch(*(u16 *)(q+0x64)) {
+    speed=(u8)((((struct Obj14068 *)p)->f3C>>6)+16);
+    t=(((struct Obj02188 *)q)->f62*speed)/15;
+    switch(((struct Obj02188 *)q)->f64) {
     case 0:
         if(t>0) f=0.5f+(float)(int)((u32)t<<12);
         else f=(float)(int)((u32)t<<12)-0.5f;
@@ -84,13 +86,13 @@ int func_021D708C(u8 *p,u8 *q)
         base.x-=(u32)_ffix(f);
         break;
     }
-    func_02015C48(*(void **)q,(u32 *)&base.x);
-    func_02015C78(*(void **)q,&v);
-    ++*(u16 *)(q+0x62);
-    if(*(u16 *)(q+0x62)>15) {
-        *(u16 *)(q+0x62)=0;
-        ++*(u16 *)(q+0x64);
-        if(*(u16 *)(q+0x64)>3) {*(u16 *)(q+0x64)=0;return 1;}
+    func_02015C48(((struct Obj02188 *)q)->f0,(u32 *)&base.x);
+    func_02015C78(((struct Obj02188 *)q)->f0,&v);
+    ++((struct Obj02188 *)q)->f62;
+    if(((struct Obj02188 *)q)->f62>15) {
+        ((struct Obj02188 *)q)->f62=0;
+        ++((struct Obj02188 *)q)->f64;
+        if(((struct Obj02188 *)q)->f64>3) {((struct Obj02188 *)q)->f64=0;return 1;}
     }
     return 0;
 }

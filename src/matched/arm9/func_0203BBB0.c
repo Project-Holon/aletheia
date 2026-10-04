@@ -27,6 +27,7 @@
  *   python tools/match.py one --src src/matched/func_0203BBB0.c \
  *       --func func_0203BBB0 --addr 0x0203BBB0 --cc 1.1p1 --arm
  */
+#include "../include/Obj06945.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -47,14 +48,14 @@ void func_0203BBB0(void)
     u8 *g;
 
     g = g_021469DC;
-    if (g[0x56] == 2 && *(u32 *)(g + 8) == (u32)func_0203B950) {
+    if (g[0x56] == 2 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B950) {
         if ((*(u32 (**)(u32, u32))(*(u32 *)(s + 0x340) + 0x10))(1, 0) != 0) {
             func_0203AD80((u32)g_021469DC, (u32)func_0203B90C, 0, 0x3E0);
         }
     }
 
     g = g_021469DC;
-    if (g[0x56] == 1 && *(u32 *)(g + 8) == (u32)func_0203B5D4) {
+    if (g[0x56] == 1 && ((struct Obj06945 *)g)->f8 == (u32)func_0203B5D4) {
         func_0203AD80((u32)g, (u32)func_0203B48C, 0, 0x3E9);
     }
 }

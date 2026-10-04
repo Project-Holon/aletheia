@@ -14,6 +14,7 @@
  *   func_021BCFF0 0x021BCFF0 thumb ov110
  *   func_020282A4 0x020282A4 thumb
  */
+#include "../include/Obj06390.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ extern u8 func_021BF6DC(u8 *);
 extern u32 func_021BCFF0(char *,u32);
 struct Obj;
 extern void func_020282A4(struct Obj *obj);
-int func_021BCE70(char *p) { int result; if (func_021BF6DC(*(u8 **)(p+4))==1) { result=1; if (func_021BCFF0(p,1)) { func_020282A4(*(void **)(p+0x68)); return result; } } else { return 1; } return 0; }
+int func_021BCE70(char *p) { int result; if (func_021BF6DC(*(u8 * *)&((struct Obj06390 *)p)->f4)==1) { result=1; if (func_021BCFF0(p,1)) { func_020282A4(((struct Obj06390 *)p)->f68); return result; } } else { return 1; } return 0; }

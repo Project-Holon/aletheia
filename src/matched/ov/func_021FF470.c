@@ -17,6 +17,7 @@
  * (an unlabelled ARM9 leaf, no traced label) has no witness outside the
  * compared range.  The +0006 call to 0x022019F4 is an ov094 Thumb function.
  */
+#include "../include/Obj12219.h"
 
 
 extern int  func_022019F4(char *p, int key);
@@ -30,8 +31,8 @@ void func_021FF470(char *p, int key, void *v)
     if (i == -1)
         return;
     e = p + i * 0x5c;
-    if (*(int *)(e + 8) == 0)
+    if (((struct Obj12219 *)e)->f8 == 0)
         return;
-    func_02015FF0((char *)(*(int *)(e + 8)), (int)v);
+    func_02015FF0((char *)(((struct Obj12219 *)e)->f8), (int)v);
 }
 

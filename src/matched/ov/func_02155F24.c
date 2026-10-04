@@ -32,6 +32,7 @@
  *   func_021FD904  0x021FD904  thumb
  *   func_021FD938  0x021FD938  thumb
  */
+#include "../include/Obj05850.h"
 
 extern int func_021F675C(int, int);
 extern void func_021FD904(int);
@@ -39,9 +40,9 @@ extern void func_021FD938(int);
 
 void func_02155F24(int *p)
 {
-    *(int *)((char *)p + 0x3c) = func_021F675C(*(int *)((char *)p + 0x18), 4);
-    if (*(int *)((char *)p + 0x14) != 0) {
-        func_021FD904(*(int *)(*(int *)((char *)p + 8) + 4));
-        func_021FD938(*(int *)(*(int *)((char *)p + 8) + 4));
+    ((struct Obj05850 *)p)->f3C = func_021F675C(((struct Obj05850 *)p)->f18, 4);
+    if (((struct Obj05850 *)p)->f14 != 0) {
+        func_021FD904(*(int *)(((struct Obj05850 *)p)->f8 + 4));
+        func_021FD938(*(int *)(((struct Obj05850 *)p)->f8 + 4));
     }
 }

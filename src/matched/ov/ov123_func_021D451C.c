@@ -24,6 +24,7 @@
  *   func_021D4FB8 0x021D4FB8 thumb ov123
  *   func_021D4440 0x021D4440 thumb ov123
  */
+#include "../include/Obj00273.h"
 typedef unsigned int u32;
 struct Actor;
 struct Descriptor;
@@ -44,25 +45,25 @@ extern void func_021D4FB8(void);
 extern void func_021D4440(void);
 void func_021D451C(char *p)
 {
-    func_0204BA10(*(void **)(p + *(u32 *)(p + 0x270) * 4 + 0x2a0));
-    func_0204B92C(*(void **)(p + *(u32 *)(p + 0x270) * 4 + 0x2a0), 0);
-    if (*(int *)(p + 8) == 3) {
-        if (*(void **)(p + 0x224)) {
-            func_020452E8(*(void **)(p + 0x224));
-            *(void **)(p + 0x224) = 0;
+    func_0204BA10(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0));
+    func_0204B92C(*(void **)(p + ((struct Obj00273 *)p)->f270 * 4 + 0x2a0), 0);
+    if (((struct Obj00273 *)p)->f8 == 3) {
+        if (((struct Obj00273 *)p)->f224) {
+            func_020452E8(((struct Obj00273 *)p)->f224);
+            ((struct Obj00273 *)p)->f224 = 0;
         }
         if (func_02085D3C()) {
-            func_02045CAC(*(void **)(p + 0x28), 0x20, *(void **)(p + 0x38));
+            func_02045CAC(((struct Obj00273 *)p)->f28, 0x20, ((struct Obj00273 *)p)->f38);
             func_021D4EF0(p, 10, 0);
             func_021D4D40(p, 1);
             func_021D4244(p, func_021D4AFC, 0x1df);
         } else {
-            func_02045CAC(*(void **)(p + 0x24), 7, *(void **)(p + 0x38));
+            func_02045CAC(((struct Obj00273 *)p)->f24, 7, ((struct Obj00273 *)p)->f38);
             func_021D4FAC(p);
             func_021D4D40(p, 1);
             func_021D4244(p, func_021D44F4, 0x1e6);
         }
-    } else if (*(int *)(p + 8) == 2 || *(int *)(p + 8) == 3) {
+    } else if (((struct Obj00273 *)p)->f8 == 2 || ((struct Obj00273 *)p)->f8 == 3) {
         func_021D4244(p, func_021D4FB8, 0x1f2);
     } else {
         func_021D4244(p, func_021D4440, 0x1f5);

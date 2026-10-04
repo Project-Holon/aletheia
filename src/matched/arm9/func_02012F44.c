@@ -15,6 +15,7 @@
  *   func_02012F44  0x02012F44  thumb
  *   func_020071CC  0x020071CC  thumb
  */
+#include "../include/Obj00054.h"
 
 typedef unsigned int   u32;
 struct Sub020071CCCtrl;
@@ -22,5 +23,5 @@ extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void func_02012F44(void *p)
 {
-    func_020071CC(*(void **)p, 0x2a);
+    func_020071CC(((struct Obj00054 *)p)->f0, 0x2a);
 }

@@ -12,6 +12,7 @@
  *   func_0204F150 0x0204F150 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj13839.h"
 typedef unsigned char  u8;
 extern void func_021F77A0(char *p, char *q);
 extern void func_0204F150(u8 *a0, int i);
@@ -23,6 +24,6 @@ void func_021F7120(char *p) {
         if (((Record *)(p + i * 0x108))->flag == 1)
             func_021F77A0((char *)((int)p), (char *)((int)(p + 0x14 + i * 0x108)));
     }
-    func_0204F150((u8 *)(*(int *)(p + 8)), *(int *)(p + 0x438));
+    func_0204F150((u8 *)(((struct Obj13839 *)p)->f8), ((struct Obj13839 *)p)->f438);
     func_020307B0((void *)((int)p));
 }

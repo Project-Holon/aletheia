@@ -15,6 +15,7 @@
 
  * Sentinel at +0xbc, publish +0xde4, kick helper 9, latch state 0xf.
  */
+#include "../include/Obj09240.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ extern void func_021FF570(u32 k);
 
 int func_021FEF24(u8 *p)
 {
-    *(u16 *)(p + 0xbc) = 0xffff;
-    func_021F9968((u8 *)(*(u32 *)(p + 0xde4)), 3);
+    ((struct Obj09240 *)p)->fBC = 0xffff;
+    func_021F9968((u8 *)(((struct Obj09240 *)p)->fDE4), 3);
     func_021FF570(9);
-    *(u32 *)(p + 0x28) = 0xf;
+    ((struct Obj09240 *)p)->f28 = 0xf;
     return 2;
 }

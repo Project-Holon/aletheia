@@ -14,6 +14,7 @@
  *   func_0216D598  0x0216D598  thumb  ov010
  *   func_0216D590  0x0216D590  thumb  ov010
  */
+#include "../include/Obj09167.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,13 +33,13 @@ t5 = a0 + 0;
 t4 = a1 + 0;
     a0 = func_0216D588((void *)a0);
 loc_0216E1AE:
-*(u16 *)((char *)t4) = a0;
+((struct Obj09167 *)((char *)t4))->f0 = a0;
 a0 = t5 + 0;
     a0 = func_0216D598((void *)a0);
 loc_0216E1B6:
-*(u16 *)((char *)t4 + 2) = a0;
+((struct Obj09167 *)t4)->f2 = a0;
 a0 = t5 + 0;
     a0 = func_0216D590((void *)a0);
 loc_0216E1BE:
-*(u16 *)((char *)t4 + 4) = a0;
+((struct Obj09167 *)t4)->f4 = a0;
     return a0;}

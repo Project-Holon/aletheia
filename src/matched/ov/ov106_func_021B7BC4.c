@@ -31,6 +31,7 @@
  *   _ll_mul 0x0209C054 arm
  *   func_0207C768 0x0207C768 arm
  */
+#include "../include/Obj10253.h"
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
@@ -51,7 +52,7 @@ void func_021B7BC4(u8 *a,u32 unused,u8 *p) {
     current=func_021B84C4(p+0x38);
     last=func_021B8518(p+0x38);
     if((s16)target>current && current!=last) {
-        int n=++*(s16 *)(p+0x640);
+        int n=++((struct Obj10253 *)p)->f640;
         if(ROUND(n)>81920)
             func_021B900C(p+0x600,(int)(((long long)func_0207C768(ROUND(n)-81920,163840)*245760+2048)>>12),12);
         else func_021B900C(p+0x600,8192,12);
@@ -60,8 +61,8 @@ void func_021B7BC4(u8 *a,u32 unused,u8 *p) {
         func_021B78D0(p+0x28,(u32)func_021B7984);
     }
     if(func_021B9198(p+0x600)) func_021B8408(p+0x38,func_021B913C(p+0x600));
-    if(func_021B7250(*(int **)(p+0x614))==1)func_021B78D0(a,(u32)func_021B7948);
+    if(func_021B7250(*(int * *)&((struct Obj10253 *)p)->f614)==1)func_021B78D0(a,(u32)func_021B7948);
     func_021B838C(p+0x38);
     func_021B8FD0(p+0x600);
-    func_021B71E4(*(u32 *)(p+0x614));
+    func_021B71E4(*(u32 *)&((struct Obj10253 *)p)->f614);
 }

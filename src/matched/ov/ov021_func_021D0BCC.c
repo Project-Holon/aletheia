@@ -14,6 +14,7 @@
  * Unblocked by matching func_02168AEC (ov010, EXACT): the +0008 ABS32 site now
  * attests as `matched`.
  */
+#include "../include/Obj20293.h"
 
 typedef unsigned short u16;
 
@@ -21,5 +22,5 @@ u16 func_02168AEC(u16 a0);
 
 void func_021D0BCC(char *p)
 {
-    func_02168AEC(*(u16 *)(p + 4));
+    func_02168AEC(((struct Obj20293 *)p)->f4);
 }

@@ -12,11 +12,12 @@
  * symbols:
  *   func_021BD2B0 0x021BD2B0 thumb
  */
+#include "../include/Obj25360.h"
 
 extern void func_021BD2B0(int);
 
 int func_021BE6A4(char *a)
 {
-    func_021BD2B0(*(int *)(a + 0xa4));
+    func_021BD2B0(((struct Obj25360 *)a)->fA4);
     return 1;
 }

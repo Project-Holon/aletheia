@@ -16,6 +16,7 @@
  *   func_021B8028  0x021B8028  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07526.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern u32 func_021B8028(u32, u32);
 
 int func_021B7D38(u32 a, u32 b, u32 c, u32 d)
 {
-func_021B7EE4(*(u32 *)((u8 *)(a) + 28), b, c, d);
-return func_021B8028(*(u32 *)((u8 *)(a) + 28), c);
+func_021B7EE4(((struct Obj07526 *)((u8 *)(a)))->f1C, b, c, d);
+return func_021B8028(((struct Obj07526 *)((u8 *)(a)))->f1C, c);
 }
 

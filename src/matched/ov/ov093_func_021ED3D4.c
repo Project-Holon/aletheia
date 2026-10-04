@@ -23,6 +23,7 @@
  *   func_02031290  0x02031290  arm
  *   func_021ED460  0x021ED460  thumb  ov093
  */
+#include "../include/Obj10119.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -45,13 +46,13 @@ void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
     u8 *m;
     u8 y;
 
-    t = (struct T *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED460, 0xc, 1));
+    t = (struct T *)func_02031290(func_020311B8(((struct Obj10119 *)p)->f2C, (void *)func_021ED460, 0xc, 1));
     t->e = p + 0x48 + k * 0xc;
     t->cnt = (u8 *)p + 0x41;
     t->st = 0;
     (*t->cnt)++;
-    m = func_021B9920(*(void **)(p + 0x138), a, b);
-    y = func_021B8E70(*(u8 **)(p + 0x134), k);
+    m = func_021B9920(((struct Obj10119 *)p)->f138, a, b);
+    y = func_021B8E70(*(u8 * *)&((struct Obj10119 *)p)->f134, k);
     func_021F7EE8(func_021D5864(m), y);
     if (flag == 0)
         func_021F7A28(y, 0x26d);

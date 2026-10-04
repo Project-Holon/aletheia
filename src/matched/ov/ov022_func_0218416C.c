@@ -10,8 +10,9 @@
  * status: EXACT*
  * Extent followers 0x02184174, 0x0218417C and 0x02184180 are matched separately.
  */
+#include "../include/Obj20328.h"
 typedef unsigned int u32;
 void func_0218416C(char *p)
 {
-    *(u32 *)(p + 0x14) = 1;
+    ((struct Obj20328 *)p)->f14 = 1;
 }

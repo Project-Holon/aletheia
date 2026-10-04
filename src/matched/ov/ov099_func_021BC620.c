@@ -21,6 +21,7 @@
  * Lever: the +0x1CC store is written out in each arm (no early return), so the
  * compiler cross-jumps them into one shared store block.
  */
+#include "../include/Obj04413.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,20 +45,20 @@ int func_021BC620(char *p, int v)
         return v;
     }
     if (r == 0) {
-        if (func_021BDDD0(p) == 0 && *(u16 *)(p + 0x132c) == 0x4d) {
+        if (func_021BDDD0(p) == 0 && ((struct Obj04413 *)p)->f132C == 0x4d) {
             func_021BAAB8(p, 0x79, 0);
-            *(u32 *)(p + 0x1CC) = 0x96;
+            ((struct Obj04413 *)p)->f1CC = 0x96;
         } else if (func_0202EB14() == 0 && func_0202EB0C() != 0
-                   && *(u16 *)(p + 0x132c) == 0x4c) {
+                   && ((struct Obj04413 *)p)->f132C == 0x4c) {
             func_021BAAB8(p, 0x95, 0);
-            *(u32 *)(p + 0x1CC) = 0xa6;
+            ((struct Obj04413 *)p)->f1CC = 0xa6;
         } else {
-            *(u32 *)(p + 0x1CC) = 0x52;
+            ((struct Obj04413 *)p)->f1CC = 0x52;
             func_021BA8EC(p);
         }
     } else {
-        *(u8 *)(p + 0x1353) = 0x90;
-        *(u32 *)(p + 0x1CC) = 0x8a;
+        ((struct Obj04413 *)p)->f1353 = 0x90;
+        ((struct Obj04413 *)p)->f1CC = 0x8a;
     }
     return v;
 }

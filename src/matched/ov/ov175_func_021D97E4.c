@@ -21,6 +21,7 @@
  *     word, plus the literal 0x57.  Six arguments, so the last two ride on the
  *     stack; the two-word frame exists only for them.
  */
+#include "../include/Obj00013.h"
 
 typedef unsigned long u32;
 
@@ -28,8 +29,8 @@ extern void func_021E5F24(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
 void func_021D97E4(char *obj, u32 arg)
 {
-    if (*(u32 *)(obj + 0x1c) != 0)
-        func_021E5F24(*(u32 *)(obj + 0x1c), arg, *(u32 *)(obj + 0x14),
-                      *(u32 *)(obj + 0x10), *(u32 *)(obj + 8), 0x57);
+    if (((struct Obj00013 *)obj)->f1C != 0)
+        func_021E5F24(((struct Obj00013 *)obj)->f1C, arg, ((struct Obj00013 *)obj)->f14,
+                      ((struct Obj00013 *)obj)->f10, ((struct Obj00013 *)obj)->f8, 0x57);
 }
 

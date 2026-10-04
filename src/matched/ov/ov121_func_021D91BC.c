@@ -13,6 +13,8 @@
  *   func_0204B53C 0x0204B53C arm
  *   func_02005728 0x02005728 thumb
  */
+#include "../include/Obj06447.h"
+#include "../include/Obj13941.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,14 +29,14 @@ void func_021D91BC(u8 *p,void *q,u16 h)
     u8 *r;
     s16 xy[2];
     func_02082BCC(p,0,296);
-    *(int *)(p+16)=-819;
-    *(void **)(p+280)=q;
-    *(int *)(p+20)=-819;
-    *(u16 *)(p+292)=h;
+    ((struct Obj06447 *)p)->f10=-819;
+    ((struct Obj06447 *)p)->f118=q;
+    ((struct Obj06447 *)p)->f14=-819;
+    ((struct Obj06447 *)p)->f124=h;
     for(i=0;i<32;i++) {
-        func_0204B53C(func_021D6C58(*(void **)(p+280),i+1),xy);
+        func_0204B53C(func_021D6C58(((struct Obj06447 *)p)->f118,i+1),xy);
         r=p+i*4;
-        *(int *)(r+24)=xy[1]<<12;
-        *(int *)(r+152)=func_02005728(4096)+6554;
+        ((struct Obj13941 *)r)->f18=xy[1]<<12;
+        ((struct Obj13941 *)r)->f98=func_02005728(4096)+6554;
     }
 }

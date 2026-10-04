@@ -21,6 +21,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj13741.h"
 typedef unsigned char u8;
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -36,7 +37,7 @@ struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int);
 int func_021B7768(int a,int b,int c,u8 *p) {
- func_02030EAC((struct Node *)(*(int *)(p+0x8a4)));func_021B8ADC(p+0x278);
+ func_02030EAC((struct Node *)(((struct Obj13741 *)p)->f8A4));func_021B8ADC(p+0x278);
  *(volatile unsigned short *)0x04000050=0;
- func_021B71C0((void *)(*(int *)(p+0x7ac)));func_021B874C(p+0xe0);func_021B80F8(p+0x7b0);func_021B8EA4(p+0x7cc);func_021B7EC8(p+0x7f0);func_021B7EC8(p+0x7dc);func_021B7EC8(p+0xcc);func_021B7940(p);func_021B7DAC(p+0xbc);func_020315D4((struct S020315D4 *)a);func_020306F0(56);return 1;
+ func_021B71C0((void *)(((struct Obj13741 *)p)->f7AC));func_021B874C(p+0xe0);func_021B80F8(p+0x7b0);func_021B8EA4(p+0x7cc);func_021B7EC8(p+0x7f0);func_021B7EC8(p+0x7dc);func_021B7EC8(p+0xcc);func_021B7940(p);func_021B7DAC(p+0xbc);func_020315D4((struct S020315D4 *)a);func_020306F0(56);return 1;
 }

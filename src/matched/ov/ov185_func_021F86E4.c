@@ -19,6 +19,7 @@
  *   func_021F8C30 0x021F8C30 thumb ov185
  *   func_021F8B5C 0x021F8B5C thumb ov185
  */
+#include "../include/Obj02525.h"
 typedef unsigned short u16;
 extern int func_02035D20(int *,int *);
 extern int func_021FB4B4(int,int,int);
@@ -34,22 +35,22 @@ void func_021F86E4(int a,int b,char *p)
 {
     int x,y;
     if (func_02035D20(&x,&y)) {
-        if (func_021FB4B4(*(int *)(p+24),x,y)) {
+        if (func_021FB4B4(((struct Obj02525 *)p)->f18,x,y)) {
             int pair[2];
             pair[0]=x; pair[1]=y;
-            func_021FD860(*(int *)(p+60),1,pair);
+            func_021FD860(((struct Obj02525 *)p)->f3C,1,pair);
             func_021FD73C((int *)a,(int)func_021F8950);
         }
         if (func_021F8FC8((int)p,x,y)) func_021FD73C((int *)a,(int)func_021F8C30);
         if (func_021F9008((int)p,x,y)) {
-            int index=*(u16 *)(p+12)-1;
-            if (index<0) *(u16 *)(p+12)=*(int *)(p+84)-1;
-            else *(u16 *)(p+12)=index;
+            int index=((struct Obj02525 *)p)->fC-1;
+            if (index<0) ((struct Obj02525 *)p)->fC=((struct Obj02525 *)p)->f54-1;
+            else ((struct Obj02525 *)p)->fC=index;
             func_021FD73C((int *)a,(int)func_021F8B5C);
         }
         if (func_021F9048((char *)((int)p),x,y)) {
-            *(u16 *)(p+12)=*(u16 *)(p+12)+1;
-            *(u16 *)(p+12)=(int)*(u16 *)(p+12) % *(int *)(p+84);
+            ((struct Obj02525 *)p)->fC=((struct Obj02525 *)p)->fC+1;
+            ((struct Obj02525 *)p)->fC=(int)((struct Obj02525 *)p)->fC % ((struct Obj02525 *)p)->f54;
             func_021FD73C((int *)a,(int)func_021F8B5C);
         }
     }

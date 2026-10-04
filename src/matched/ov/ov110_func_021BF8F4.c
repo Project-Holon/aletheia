@@ -18,6 +18,7 @@
  *   func_021BF94C 0x021BF94C thumb ov110
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj01145.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040B94(u32,u32,u32,u32);
@@ -35,8 +36,8 @@ extern void func_02040588(u32,u32);
 void func_021BF8F4(u8 *p) {
     func_02040B94(2,32,0,42);
     func_02041300(2,0,0,0,32,32,13);
-    func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(p+12)),0);
-    func_02045374((struct Cfg *)(*(u32 *)(p+12)));
-    func_02045334((struct Descriptor *)*(u32 *)(p+12));
+    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj01145 *)p)->fC),0);
+    func_02045374((struct Cfg *)(((struct Obj01145 *)p)->fC));
+    func_02045334((struct Descriptor *)((struct Obj01145 *)p)->fC);
     func_020409B4(2); func_021BF94C(p); func_02040588(2,0);
 }

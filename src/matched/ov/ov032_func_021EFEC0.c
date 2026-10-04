@@ -25,6 +25,7 @@
  *   func_021F0DF4  0x021F0DF4  thumb  ov032
  *   func_0203D34C  0x0203D34C  arm
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,22 +57,22 @@ void func_021EFEC0(u8 *o)
     int s;
     int t;
 
-    func_02021EE4((struct Obj02021EE4 *)(*(int *)(o + 0xAC)), 1);
+    func_02021EE4((struct Obj02021EE4 *)(*(int *)&((struct Obj00007 *)o)->fAC), 1);
     func_021F0AC0(o);
     func_021F0B10(o, 1, 0);
     for (i = 0; i < o[0x7D]; i++) {
         q = o + 0x48;
         t = o[0x7C];
-        func_02165AC4((struct Queue *)(*(int *)(o + 0x3C)), (struct Rec *)(*(int *)(o + 0x40)), (u16 *)q, t + i);
-        s = func_021659F0((u8 *)(*(int *)(o + 0x3C)), t + i);
+        func_02165AC4((struct Queue *)(((struct Obj00007 *)o)->f3C), (struct Rec *)(((struct Obj00007 *)o)->f40), (u16 *)q, t + i);
+        s = func_021659F0((u8 *)(((struct Obj00007 *)o)->f3C), t + i);
         e = func_021F0F44(o, 0xFF);
         func_021F0F30(e, s, i + 1);
-        func_021F1144(o, e, (void *)(*(int *)(o + 0x40)), 2, 0, 0);
+        func_021F1144(o, e, (void *)(((struct Obj00007 *)o)->f40), 2, 0, 0);
         func_021F0EA4(e, 1);
     }
     func_021F0E24(o);
     func_021F0E7C(o);
-    if (*(int *)(o + 0x28) == 0x30)
-        func_021F0DF4((void *)(*(int *)(o + 0x2BC)), 3);
-    func_0203D34C(0, *(u16 *)(o + 0x96));
+    if (((struct Obj00007 *)o)->f28 == 0x30)
+        func_021F0DF4((void *)(*(int *)&((struct Obj00007 *)o)->f2BC), 3);
+    func_0203D34C(0, ((struct Obj00007 *)o)->f96);
 }

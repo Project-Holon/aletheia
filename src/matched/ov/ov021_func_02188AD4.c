@@ -27,6 +27,7 @@
  *   abs_id_12  0x00000012  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03103.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -54,18 +55,18 @@ extern u32 func_02013CE0(u32 a);
 
 u32 func_02188AD4(void *a, u8 *b)
 {
-    func_02030DA4(*(u32 *)(b + 0x110));
-    func_020307B0((void *)(*(u32 *)(b + 0x114)));
-    func_021D31A4(*(u32 *)(b + 0x14C));
-    *(u32 *)(b + 0x14C) = 0;
-    func_021C6D5C(*(u32 *)(b + 0x134));
-    func_02030EAC((struct Node *)(*(u32 *)(b + 0xAC)));
-    func_0218CA4C(*(u32 *)(b + 0x48));
+    func_02030DA4(((struct Obj03103 *)b)->f110);
+    func_020307B0((void *)(((struct Obj03103 *)b)->f114));
+    func_021D31A4(((struct Obj03103 *)b)->f14C);
+    ((struct Obj03103 *)b)->f14C = 0;
+    func_021C6D5C(((struct Obj03103 *)b)->f134);
+    func_02030EAC((struct Node *)(((struct Obj03103 *)b)->fAC));
+    func_0218CA4C(((struct Obj03103 *)b)->f48);
     func_021890C8(b);
     func_0204A5AC();
     func_020450C8();
     func_02188E38(b);
-    if (func_02013CC8(*(u16 *)(b + 0xD0)) == 1 || func_02013CE0(*(u16 *)(b + 0xD0)) == 1)
+    if (func_02013CC8(((struct Obj03103 *)b)->fD0) == 1 || func_02013CE0(((struct Obj03103 *)b)->fD0) == 1)
         func_02034A5C((s32)abs_id_13);
     else
         func_02034A5C((s32)abs_id_12);

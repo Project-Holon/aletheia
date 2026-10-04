@@ -32,6 +32,7 @@
  *   d_021F58F4     0x021F58F4  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09918.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -109,7 +110,7 @@ void func_021F53B4(u8 *w, int p)
 
     func_021F56C0(w);
     func_021F56D8(w);
-    *(u16 *)(w + 8) = reg_G2_BG3CNT;
+    ((struct Obj09918 *)w)->f8 = reg_G2_BG3CNT;
     G2_SetBG3ControlText(GX_BG_SCRSIZE_TEXT_256x256, GX_BG_COLORMODE_256,
                          GX_BG_SCRBASE_0x1000, GX_BG_CHARBASE_0x04000);
     func_0207D63C(0x04000050, 8, 4, 0, 16);
@@ -120,11 +121,11 @@ void func_021F53B4(u8 *w, int p)
         func_020403F4(2);
     tbl = d_021F58F4;
     func_0203FCA0(2, &tbl, 0);
-    if (*(int *)(w + 0xc) == 0) {
+    if (((struct Obj09918 *)w)->fC == 0) {
         a = 4;
         b = 8;
         c = 0;
-    } else if (*(int *)(w + 0xc) == 1) {
+    } else if (((struct Obj09918 *)w)->fC == 1) {
         a = 5;
         b = 9;
         c = 1;

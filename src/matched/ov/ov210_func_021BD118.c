@@ -20,6 +20,7 @@
  *   func_021BCE0C 0x021BCE0C thumb ov210
  *   func_021BC82C 0x021BC82C thumb ov210
  */
+#include "../include/Obj01779.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_02021ED8(const char *);
@@ -36,7 +37,7 @@ extern void func_021BCE0C(char *, int);
 extern void func_021BC82C(u8 *, int, int);
 int func_021BD118(u8 *p)
 {
-    if (func_02021ED8(*(char **)(p + 12)) != 0) return 3;
+    if (func_02021ED8(*(char * *)&((struct Obj01779 *)p)->fC) != 0) return 3;
     func_021BC8B4(1);
     func_021BCA84(p);
     func_021BE564(p);

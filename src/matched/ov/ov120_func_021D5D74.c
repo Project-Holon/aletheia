@@ -22,6 +22,8 @@
  *   func_0202223C 0x0202223C thumb
  *   func_0200F7DC 0x0200F7DC thumb
  */
+#include "../include/Obj01056.h"
+#include "../include/Obj22837.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0200FB24(void);
@@ -45,15 +47,15 @@ int func_021D5D74(int a, int b, int c, u8 *p)
             callback(p);
         result = 0;
     }
-    if (*(void **)(p + 0x34)) {
-        void *q = (void *)func_021D6988(*(void **)(p + 0x3c));
+    if (((struct Obj01056 *)p)->f34) {
+        void *q = (void *)func_021D6988(((struct Obj01056 *)p)->f3C);
         if (q == 0 || func_021B6498(q) == 0)
-            func_02028178(*(void **)(p + 0x34));
+            func_02028178(((struct Obj01056 *)p)->f34);
     }
-    if (*(void **)(p + 0x38))
-        func_02027974(*(void **)(p + 0x38));
-    func_021D5F98(*(void **)(p + 0x3c));
-    func_021D7858(*(void **)(p + 0x40));
+    if (((struct Obj01056 *)p)->f38)
+        func_02027974(((struct Obj01056 *)p)->f38);
+    func_021D5F98(((struct Obj01056 *)p)->f3C);
+    func_021D7858(((struct Obj01056 *)p)->f40);
     if (func_0203CD98()) {
         if (func_0200FB24()) {
             switch (func_02157170(1, 1)) {
@@ -63,7 +65,7 @@ int func_021D5D74(int a, int b, int c, u8 *p)
                 func_021D5BEC(p);
                 break;
             case 2:
-                *(int *)(*(u8 **)(p + 0x48) + 0x1b0) = 0;
+                ((struct Obj22837 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 = 0;
                 result = 1;
                 func_0202223C(0, 0);
                 func_0202223C(1, 0);

@@ -12,6 +12,7 @@
  * symbols:
  *   func_02158E54  0x02158E54  thumb  ov010
  */
+#include "../include/Obj17630.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ int func_02158F58(int a0)
     int t4;
 
 t4 = a0 + 0;
-a1 = *(int *)((char *)t4 + 0x10);
+a1 = ((struct Obj17630 *)t4)->f10;
 a0 = a0 + 0x18;
     a0 = func_02158E54(a0, a1);
 loc_02158F64:

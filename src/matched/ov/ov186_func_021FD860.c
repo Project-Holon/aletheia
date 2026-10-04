@@ -23,6 +23,7 @@
  *   func_021FDFF4 0x021FDFF4 thumb ov186
  *   func_021FE1C4 0x021FE1C4 thumb ov186
  */
+#include "../include/Obj02236.h"
 typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 extern int func_021FD750(int *,int);
@@ -41,19 +42,19 @@ void func_021FD860(char *p,u32 mode,const Pair *pair)
 {
     if(pair) {
         *(Pair *)p=*pair;
-        *(const Pair **)(p+8)=pair;
+        *(const Pair * *)&((struct Obj02236 *)p)->f8=pair;
     }
-    *(int *)(p+0x22c)=0;
-    if(mode==0 && func_021FD750(*(int **)(p+0x10),(int)func_021FDE88)) func_020061E4(0x701);
+    ((struct Obj02236 *)p)->f22C=0;
+    if(mode==0 && func_021FD750(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88)) func_020061E4(0x701);
     switch(mode) {
-    case 0: func_021FD73C(*(int **)(p+0x10),(int)func_021FD964);break;
-    case 1: func_021FD73C(*(int **)(p+0x10),(int)func_021FD9A0);break;
-    case 2: func_021FD73C(*(int **)(p+0x10),(int)func_021FDA7C);break;
-    case 3: func_021FD73C(*(int **)(p+0x10),(int)func_021FDBF4);break;
-    case 4: func_021FD73C(*(int **)(p+0x10),(int)func_021FDE88);break;
-    case 5: func_021FD73C(*(int **)(p+0x10),(int)func_021FDF40);break;
-    case 6: func_021FD73C(*(int **)(p+0x10),(int)func_021FDFF0);break;
-    case 7: func_021FD73C(*(int **)(p+0x10),(int)func_021FDFF4);break;
-    case 8: func_021FD73C(*(int **)(p+0x10),(int)func_021FE1C4);break;
+    case 0: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD964);break;
+    case 1: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FD9A0);break;
+    case 2: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDA7C);break;
+    case 3: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDBF4);break;
+    case 4: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDE88);break;
+    case 5: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDF40);break;
+    case 6: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF0);break;
+    case 7: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FDFF4);break;
+    case 8: func_021FD73C(*(int * *)&((struct Obj02236 *)p)->f10,(int)func_021FE1C4);break;
     }
 }

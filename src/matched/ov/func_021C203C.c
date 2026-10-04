@@ -11,6 +11,7 @@
  *
  * Clears the byte at index i of the 0x8CB table, then sets the byte at +0x8F1.
  */
+#include "../include/Obj18286.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef int BOOL;
 void func_021C203C(char *p, int i)
 {
     *(u8 *)(p + i + 0x8CB) = 0;
-    *(u8 *)(p + 0x8F1) = 1;
+    ((struct Obj18286 *)p)->f8F1 = 1;
 }

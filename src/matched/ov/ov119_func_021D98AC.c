@@ -28,6 +28,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9810 0x021D9810 thumb ov119
  */
+#include "../include/Obj01727.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,27 +50,27 @@ static inline int poll(void) {int v=func_020362DC();if(v)func_020355D8(0);return
 void func_021D98AC(char *p)
 {
  int done=0;
- if(*(u8 *)(p+0x11f9)==0 && func_020221A4()) {
-  if(func_020355C4() && poll()) {func_020355D8(0);func_021D9780(p,*(int *)(p+0x10a0),0);return;}
+ if(((struct Obj01727 *)p)->f11F9==0 && func_020221A4()) {
+  if(func_020355C4() && poll()) {func_020355D8(0);func_021D9780(p,((struct Obj01727 *)p)->f10A0,0);return;}
   func_02040588(3,1);
   switch(func_02035C08(d_021E75F0)) {
   case 0:
-   if(*(int *)(p+0x10a0)!=0 || !func_020355C4()) {
-    *(int *)(p+0x10a0)=0;func_020355D8(1);func_020061E4(0x548);func_021D9780(p,*(int *)(p+0x10a0),1);
+   if(((struct Obj01727 *)p)->f10A0!=0 || !func_020355C4()) {
+    ((struct Obj01727 *)p)->f10A0=0;func_020355D8(1);func_020061E4(0x548);func_021D9780(p,((struct Obj01727 *)p)->f10A0,1);
    }
    break;
   case 1:
-   if(*(int *)(p+0x10a0)!=1 || !func_020355C4()) {
-    *(int *)(p+0x10a0)=1;func_020355D8(1);func_020061E4(0x548);func_021D9780(p,*(int *)(p+0x10a0),1);
+   if(((struct Obj01727 *)p)->f10A0!=1 || !func_020355C4()) {
+    ((struct Obj01727 *)p)->f10A0=1;func_020355D8(1);func_020061E4(0x548);func_021D9780(p,((struct Obj01727 *)p)->f10A0,1);
    }
    break;
   case 2:done=1;break;
   }
   if(poll()==32 || poll()==16) {
-   *(unsigned *)(p+0x10a0)=1u-*(unsigned *)(p+0x10a0);func_020061E4(0x548);func_020355D8(0);func_021D9780(p,*(int *)(p+0x10a0),1);
+   *(unsigned *)&((struct Obj01727 *)p)->f10A0=1u-*(unsigned *)&((struct Obj01727 *)p)->f10A0;func_020061E4(0x548);func_020355D8(0);func_021D9780(p,((struct Obj01727 *)p)->f10A0,1);
   }
-  func_021B63D0(*(void **)(p+0x9c0));
-  if(func_021B6448(*(u8 **)(p+0x9c0))==1)done=1;
-  if(done) {func_0202208C((void *)3,0,0,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021D9810);}
+  func_021B63D0(((struct Obj01727 *)p)->f9C0);
+  if(func_021B6448(*(u8 * *)&((struct Obj01727 *)p)->f9C0)==1)done=1;
+  if(done) {func_0202208C((void *)3,0,0,0,6,1,((struct Obj01727 *)p)->f5F4);func_021D8E84(p,(int)func_021D9810);}
  }
 }

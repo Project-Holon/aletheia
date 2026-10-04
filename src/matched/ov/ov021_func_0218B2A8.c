@@ -15,6 +15,7 @@
  *   func_02012878  0x02012878  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04982.h"
 
 typedef unsigned short u16;
 typedef signed short   s16;
@@ -28,6 +29,6 @@ void func_0218B2A8(char *p, int s, u16 *v)
 {
     int buf[7];
 
-    func_02014134(buf, func_02188C9C(*(void **)(p + 0x14)), (s16)s, 0, 0, v[0], v[3], (s16)v[2]);
-    func_02012878(*(void **)(p + 8), buf);
+    func_02014134(buf, func_02188C9C(((struct Obj04982 *)p)->f14), (s16)s, 0, 0, v[0], v[3], (s16)v[2]);
+    func_02012878(((struct Obj04982 *)p)->f8, buf);
 }

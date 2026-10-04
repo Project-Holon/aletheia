@@ -10,10 +10,11 @@
  * symbols:
  *   func_0218875C 0x0218875C thumb ov096
  */
+#include "../include/Obj21916.h"
 typedef unsigned char u8;
 extern void func_0218875C(u8 *, int, int);
 int func_0218871C(u8 *p, int q)
 {
     func_0218875C(p, q, 0);
-    return *(int *)(q + 0xC4);
+    return ((struct Obj21916 *)q)->fC4;
 }

@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj00143.h"
 void func_021E0E4C(char *p)
 {
     int i;
-    for (i = 0; i < *(int *)(p + 0x23c); i++) {
-        if (i >= *(int *)(p + 0x248) && i < *(int *)(p + 0x24c))
+    for (i = 0; i < ((struct Obj00143 *)p)->f23C; i++) {
+        if (i >= ((struct Obj00143 *)p)->f248 && i < ((struct Obj00143 *)p)->f24C)
             *(int *)(p + i * 28 + 8) = 1;
         else
             *(int *)(p + i * 28 + 8) = 0;

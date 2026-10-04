@@ -11,6 +11,8 @@
  * symbols:
  *   func_021F61D8  0x021F61D8  thumb  ov112
  */
+#include "../include/Obj08022.h"
+#include "../include/Obj10302.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,9 +24,9 @@ typedef int s32;
 extern void func_021F61D8(char *a, char *p);
 
 void func_021F5330(int a, int b) {
-    if (*(int *)(b + 0x10) != 0) {
-        func_021F61D8((char *)(*(int *)(a + 4)), (char *)(*(int *)(b + 0x10)));
+    if (((struct Obj08022 *)b)->f10 != 0) {
+        func_021F61D8((char *)(*(int *)&((struct Obj10302 *)a)->f4), (char *)(((struct Obj08022 *)b)->f10));
     }
-    func_021F61D8((char *)(*(int *)(a + 4)), (char *)(*(int *)(b + 0xc)));
-    *(int *)b = 0;
+    func_021F61D8((char *)(*(int *)&((struct Obj10302 *)a)->f4), (char *)(((struct Obj08022 *)b)->fC));
+    ((struct Obj08022 *)b)->f0 = 0;
 }

@@ -13,6 +13,7 @@
  *   func_0204B3B4  0x0204B3B4  arm
  *   func_0204A8D4  0x0204A8D4  arm
  */
+#include "../include/Obj00001.h"
 
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
@@ -21,22 +22,22 @@ extern void func_0204A8D4(u32 i);
 
 void func_021E5BE4(int a)
 {
-    if (*(int *)(a + 0xf08) != 0)
-        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf08)));
-    if (*(int *)(a + 0xf0c) != 0)
-        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf0c)));
-    if (*(int *)(a + 0xf10) != 0)
-        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf10)));
-    if (*(int *)(a + 0xf14) != 0)
-        func_0204B3B4((struct Obj *)(*(int *)(a + 0xf14)));
-    *(int *)(a + 0xf08) = 0;
-    *(int *)(a + 0xf0c) = 0;
-    *(int *)(a + 0xf10) = 0;
-    *(int *)(a + 0xf14) = 0;
-    if (*(int *)(a + 0x89c) != 0)
-        func_0204A8D4(*(int *)(a + 0x89c));
-    if (*(int *)(a + 0x8a0) != 0)
-        func_0204A8D4(*(int *)(a + 0x8a0));
-    *(int *)(a + 0x89c) = 0;
-    *(int *)(a + 0x8a0) = 0;
+    if (((struct Obj00001 *)a)->fF08 != 0)
+        func_0204B3B4((struct Obj *)(((struct Obj00001 *)a)->fF08));
+    if (((struct Obj00001 *)a)->fF0C != 0)
+        func_0204B3B4((struct Obj *)(((struct Obj00001 *)a)->fF0C));
+    if (((struct Obj00001 *)a)->fF10 != 0)
+        func_0204B3B4((struct Obj *)(((struct Obj00001 *)a)->fF10));
+    if (((struct Obj00001 *)a)->fF14 != 0)
+        func_0204B3B4((struct Obj *)(((struct Obj00001 *)a)->fF14));
+    ((struct Obj00001 *)a)->fF08 = 0;
+    ((struct Obj00001 *)a)->fF0C = 0;
+    ((struct Obj00001 *)a)->fF10 = 0;
+    ((struct Obj00001 *)a)->fF14 = 0;
+    if (((struct Obj00001 *)a)->f89C != 0)
+        func_0204A8D4(((struct Obj00001 *)a)->f89C);
+    if (((struct Obj00001 *)a)->f8A0 != 0)
+        func_0204A8D4(((struct Obj00001 *)a)->f8A0);
+    ((struct Obj00001 *)a)->f89C = 0;
+    ((struct Obj00001 *)a)->f8A0 = 0;
 }

@@ -13,6 +13,7 @@
  *   func_0201AA18  0x0201AA18  thumb
  *   func_0204B3B4  0x0204B3B4  arm
  */
+#include "../include/Obj09732.h"
 
 typedef unsigned char u8;
 
@@ -26,13 +27,13 @@ void func_021CCDF8(u8 *p)
     int i;
     int n;
 
-    n = func_0201AA18(*(void **)(p + 4));
+    n = func_0201AA18(((struct Obj09732 *)p)->f4);
     for (i = 0; i < n; i++) {
         if (*(void **)(p + i * 4 + 0x4c))
             func_0204B3B4(*(void **)(p + i * 4 + 0x4c));
     }
-    if (*(void **)(p + 8)) {
-        n = func_0201AA18(*(void **)(p + 8));
+    if (((struct Obj09732 *)p)->f8) {
+        n = func_0201AA18(((struct Obj09732 *)p)->f8);
         for (i = 0; i < n; i++) {
             if (*(void **)(p + i * 4 + 0x64))
                 func_0204B3B4(*(void **)(p + i * 4 + 0x64));

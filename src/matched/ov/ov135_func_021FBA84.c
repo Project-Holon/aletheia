@@ -25,6 +25,9 @@
  *   tbl_02203324 0x02203324 data a4
  *   tbl_02203236 0x02203236 data a1
  */
+#include "../include/Obj00437.h"
+#include "../include/Obj23404.h"
+#include "../include/Obj23405.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -52,34 +55,34 @@ extern void func_021F4FF4(u32,u32,u32);
 int func_021FBA84(u8 *p)
 {
     u8 pages;
-    func_0202CAE4(*(void **)(p+0x18),0,0x60,0x18,1);
+    func_0202CAE4(((struct Obj00437 *)p)->f18,0,0x60,0x18,1);
     func_021F9260(p,3);
-    *(int *)(p+0x58)=func_021F8908(p+0x30,*(void **)(p+0x28),*(s16 *)(p+0x3A)+tbl_02203324[*(s16 *)(p+0x38)]);
-    func_021FB364(p,0,*(int *)(p+0x58));
-    *(s16 *)(p+0x56)=0;
-    pages=func_021F9EEC((u8 *)(*(int *)(p+0x58)),5);
-    func_021FBF04(*(void **)(p+0x18),*(void **)(p+0x34),*(void **)(*(u8 **)p+0x14),*(s16 *)(p+0x56),pages);
-    func_021FBEB8(*(void **)(p+0x18),*(void **)(p+0x20),*(void **)(*(u8 **)p+0x38),0x4A,p+0x7C);
-    func_0202CB4C(*(void **)(p+0x18),0,1,0);
-    *(int *)(p+0x44)=0;
-    func_021F4FF4(*(u32 *)(p+8),tbl_02203236[*(int *)(p+0x44)].x,tbl_02203236[*(int *)(p+0x44)].y);
-    func_021F4FF4(*(u32 *)(p+12),0xB0,0x88);
-    func_021F4FF4(*(u32 *)(p+16),0x58,0x88);
+    ((struct Obj00437 *)p)->f58=func_021F8908(p+0x30,((struct Obj00437 *)p)->f28,((struct Obj00437 *)p)->f3A+tbl_02203324[((struct Obj00437 *)p)->f38]);
+    func_021FB364(p,0,((struct Obj00437 *)p)->f58);
+    ((struct Obj00437 *)p)->f56=0;
+    pages=func_021F9EEC((u8 *)(((struct Obj00437 *)p)->f58),5);
+    func_021FBF04(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f34,((struct Obj23404 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f14,((struct Obj00437 *)p)->f56,pages);
+    func_021FBEB8(((struct Obj00437 *)p)->f18,((struct Obj00437 *)p)->f20,((struct Obj23405 *)(*(u8 * *)&((struct Obj00437 *)p)->f0))->f38,0x4A,p+0x7C);
+    func_0202CB4C(((struct Obj00437 *)p)->f18,0,1,0);
+    ((struct Obj00437 *)p)->f44=0;
+    func_021F4FF4(((struct Obj00437 *)p)->f8,tbl_02203236[*(int *)(p+0x44)].x,tbl_02203236[*(int *)(p+0x44)].y);
+    func_021F4FF4(((struct Obj00437 *)p)->fC,0xB0,0x88);
+    func_021F4FF4(((struct Obj00437 *)p)->f10,0x58,0x88);
     if(func_020355C4()==1)
-        func_0204B3DC((struct Obj *)*(u32 *)(p+8),0);
+        func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f8,0);
     else
-        func_0204B3DC((struct Obj *)*(u32 *)(p+8),1);
+        func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f8,1);
     if(pages==1) {
-        func_0204B878((struct Obj *)(*(u32 *)(p+12)),0x3D);
-        func_0204B878((struct Obj *)(*(u32 *)(p+16)),0x3E);
+        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->fC),0x3D);
+        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->f10),0x3E);
     } else {
-        func_0204B878((struct Obj *)(*(u32 *)(p+12)),0x26);
-        func_0204B878((struct Obj *)(*(u32 *)(p+16)),0x27);
+        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->fC),0x26);
+        func_0204B878((struct Obj *)(((struct Obj00437 *)p)->f10),0x27);
     }
-    func_0204B92C((struct Obj *)*(u32 *)(p+12),0);
-    func_0204B92C((struct Obj *)*(u32 *)(p+16),0);
-    func_0204B3DC((struct Obj *)*(u32 *)(p+12),1);
-    func_0204B3DC((struct Obj *)*(u32 *)(p+16),1);
-    *(int *)(p+0x48)=27;
+    func_0204B92C((struct Obj *)((struct Obj00437 *)p)->fC,0);
+    func_0204B92C((struct Obj *)((struct Obj00437 *)p)->f10,0);
+    func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->fC,1);
+    func_0204B3DC((struct Obj *)((struct Obj00437 *)p)->f10,1);
+    ((struct Obj00437 *)p)->f48=27;
     return -1;
 }

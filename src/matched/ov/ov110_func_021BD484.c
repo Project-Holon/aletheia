@@ -20,6 +20,7 @@
  *   func_02030D28 0x02030D28 arm
  *   d_00000043 0x00000043 data a1
  */
+#include "../include/Obj03242.h"
 typedef unsigned char u8;
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -43,27 +44,27 @@ int func_021BD484(void *a,int *state,int c,void *p) {
         func_0203064C(1,41,0x18000);
         func_0203064C(1,42,0x32000);
         obj=func_021BD5C4(a,c);
-        func_021B9BEC(*(void **)(obj+0x14),0);
+        func_021B9BEC(((struct Obj03242 *)obj)->f14,0);
         ++*state;
         break;
     case 1:
         obj=p;
-        if(func_021B9C74((unsigned int)(*(void **)(obj+0x14)))) {
-            if(*(int *)(obj+4)==2) obj[0x68]=func_021BABE8(*(void **)(obj+0x14));
+        if(func_021B9C74((unsigned int)(((struct Obj03242 *)obj)->f14))) {
+            if(((struct Obj03242 *)obj)->f4==2) obj[0x68]=func_021BABE8(((struct Obj03242 *)obj)->f14);
             else obj[0x68]=0;
-            func_021B9BEC(*(void **)(obj+0x14),4);
+            func_021B9BEC(((struct Obj03242 *)obj)->f14,4);
             ++*state;
         }
         break;
     case 2:
         obj=p;
-        if(func_021B9C74((unsigned int)(*(void **)(obj+0x14)))) {
+        if(func_021B9C74((unsigned int)(((struct Obj03242 *)obj)->f14))) {
             func_021BD7A0(obj,func_021BD894);
             func_0203D34C(1,42);
             return 1;
         }
         break;
     }
-    func_02030D28(*(void **)(obj+0x7c));
+    func_02030D28(((struct Obj03242 *)obj)->f7C);
     return 0;
 }

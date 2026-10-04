@@ -14,6 +14,7 @@
  *   func_021D98F4 0x021D98F4 thumb ov121
  *   d_021DF598 0x021DF598 data a4
  */
+#include "../include/Obj13945.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int a,b,c,d; } Config;
@@ -30,6 +31,6 @@ void func_021D9750(u8 *p)
     c=d_021DF598;
     c.d=1;
     func_0203FC28(&c);
-    func_021D98F4((u32 *)(p+12),*(u16 *)(p+24));
-    func_02050B80(*(u16 *)(p+24));
+    func_021D98F4((u32 *)(p+12),((struct Obj13945 *)p)->f18);
+    func_02050B80(((struct Obj13945 *)p)->f18);
 }

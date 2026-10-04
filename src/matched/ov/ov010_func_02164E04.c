@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18986.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ Ent *func_02164E04(u8 *obj, int *out)
         if ((u32)(r - 2) > 1) {
             continue;
         }
-        if (r == 2 && *(u32 *)(obj + 0xc) != 0) {
+        if (r == 2 && ((struct Obj18986 *)obj)->fC != 0) {
             continue;
         }
         p = (Ent *)func_0203CF10(i);

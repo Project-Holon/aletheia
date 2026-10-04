@@ -18,6 +18,8 @@
  *   func_0216D568  0x0216D568  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19794.h"
+#include "../include/Obj19795.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +34,7 @@ extern void func_0216D568(void *p, u32 v);
 
 void func_021A4F0C(u32 a, u32 b, u32 c)
 {
-    u32 x = *(u16 *)(c + 8);
+    u32 x = ((struct Obj19795 *)c)->f8;
     if (x == 9) {
         x = func_021A5630(a);
     }
@@ -40,5 +42,5 @@ void func_021A4F0C(u32 a, u32 b, u32 c)
     func_0216DB4C(b, 1);
     func_0216DCE8(b, 1);
     func_0216D568((void *)b, 0x8000);
-    *(u32 *)a = 5;
+    ((struct Obj19794 *)a)->f0 = 5;
 }

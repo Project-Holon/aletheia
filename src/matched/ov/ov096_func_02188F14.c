@@ -11,5 +11,6 @@
  * symbols:
  *   func_0218A378 0x0218A378 thumb ov096
  */
+#include "../include/Obj10179.h"
 extern int func_0218A378(int,int,int);
-int func_02188F14(int a, unsigned char *b) { *(int *)(b+0x38)=func_0218A378((int)b,*(unsigned short *)(b+2),28); return *(int *)(b+0xC4); }
+int func_02188F14(int a, unsigned char *b) { ((struct Obj10179 *)b)->f38=func_0218A378((int)b,((struct Obj10179 *)b)->f2,28); return ((struct Obj10179 *)b)->fC4; }

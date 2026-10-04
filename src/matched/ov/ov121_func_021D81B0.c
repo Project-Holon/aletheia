@@ -27,6 +27,7 @@
  *   func_0207D63C 0x0207D63C arm
  *   func_021D6CEC 0x021D6CEC thumb ov121
  */
+#include "../include/Obj00326.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -56,10 +57,10 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     Desc d;
     void *archive;
     int i;
-    if(*(void **)(p+624)) return;
+    if(((struct Obj00326 *)p)->f270) return;
     func_02082BCC(&d,0,64);
-    d.w[1]=*(u32 *)(p+920);
-    d.w[2]=*(u32 *)(p+924);
+    d.w[1]=((struct Obj00326 *)p)->f398;
+    d.w[2]=((struct Obj00326 *)p)->f39C;
     d.w[3]=(u32)func_021D6C58(p+660,0);
     d.h[0]=1;
     d.h[1]=15;
@@ -73,11 +74,11 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     d.result=p+628+which*4;
     switch(which) {
     case 0:
-        d.w[0]=*(u32 *)(p+932);
+        d.w[0]=*(u32 *)&((struct Obj00326 *)p)->f3A4;
         d.w[4]=80; d.w[5]=81; d.w[6]=131; d.w[7]=82; d.w[8]=4;
         break;
     case 1:
-        d.w[0]=*(u32 *)(p+932);
+        d.w[0]=*(u32 *)&((struct Obj00326 *)p)->f3A4;
         d.w[4]=87; d.w[5]=88; d.w[6]=89; d.w[7]=90; d.w[8]=4;
         break;
     case 2:
@@ -90,7 +91,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
         d.h[6]=10;
         break;
     case 3:
-        d.w[0]=*(u32 *)(p+932);
+        d.w[0]=*(u32 *)&((struct Obj00326 *)p)->f3A4;
         d.w[4]=127; d.w[5]=128; d.w[6]=129; d.w[7]=130; d.w[8]=4;
         break;
     }
@@ -103,7 +104,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     func_020413B0(2,0,0,32,24,4);
     func_020409B4(2);
     func_02040588(2,1);
-    *(void **)(p+624)=func_021DA4DC(&d,heap);
+    ((struct Obj00326 *)p)->f270=func_021DA4DC(&d,heap);
     if(!d.w[0]) {
         for(i=0;i<4;i++) {
             if(d.w[4+i]) func_02045808((void *)d.w[4+i]);

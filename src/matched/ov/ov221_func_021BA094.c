@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj26073.h"
 
 struct Bank;
 extern void func_0204B1CC(struct Bank *bank);
@@ -27,7 +28,7 @@ extern void func_02082BCC(void *, int, int);
 
 void func_021BA094(char *p)
 {
-    func_0204B1CC((struct Bank *)(*(int *)p));
+    func_0204B1CC((struct Bank *)(((struct Obj26073 *)p)->f0));
     func_0204A5AC();
     func_02082BCC(p, 0, 4);
 }

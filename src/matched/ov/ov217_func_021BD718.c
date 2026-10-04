@@ -63,6 +63,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned int   u32;
 extern void func_021BFB14(u32 a0);
@@ -165,7 +166,7 @@ void func_021BD718(unsigned char *p)
     func_021BF594(p, 0);
     func_021BF594(p, 7);
     func_021BEAF8(p);
-    *(int *)(p + 0x3C4) = 1;
+    *(int *)&((struct Obj00021 *)p)->f3C4 = 1;
     func_021BE8FC();
     r = func_021BE46C(p);
     func_021BE498(p, 1);

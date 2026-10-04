@@ -16,6 +16,7 @@
  *   func_021938AC  0x021938AC  thumb ov021
  *   func_021C05D4  0x021C05D4  thumb ov021
  */
+#include "../include/Obj01115.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,22 +32,22 @@ char *func_0218C9E8(int heap, int b)
 {
     char *p = func_02030734(heap, 0x74, 1, (const char *)&d_021DD9EC, 0xf9);
     int z = 0;
-    *(u16 *)p = heap;
-    *(int *)(p + 0x34) = z;
-    *(int *)(p + 0x38) = z;
-    *(int *)(p + 0x3c) = z;
-    *(u16 *)(p + 0x14) = z;
-    *(u16 *)(p + 0x16) = z;
-    *(int *)(p + 0x18) = z;
-    *(int *)(p + 0x1c) = z;
-    *(int *)(p + 4) = z;
-    *(int *)(p + 8) = z;
-    *(int *)(p + 0xc) = 1;
-    *(int *)(p + 0x10) = -1;
-    *(u8 *)(p + 0x40) = z;
-    *(int *)(p + 0x68) = z;
-    *(int *)(p + 0x64) = func_0218B754(*(u16 *)p, p, b);
-    *(int *)(p + 0x6c) = (int)func_021938AC(heap);
-    *(int *)(p + 0x70) = func_021C05D4(0x10, (u8)heap);
+    ((struct Obj01115 *)p)->f0 = heap;
+    ((struct Obj01115 *)p)->f34 = z;
+    ((struct Obj01115 *)p)->f38 = z;
+    ((struct Obj01115 *)p)->f3C = z;
+    ((struct Obj01115 *)p)->f14 = z;
+    ((struct Obj01115 *)p)->f16 = z;
+    ((struct Obj01115 *)p)->f18 = z;
+    ((struct Obj01115 *)p)->f1C = z;
+    ((struct Obj01115 *)p)->f4 = z;
+    ((struct Obj01115 *)p)->f8 = z;
+    ((struct Obj01115 *)p)->fC = 1;
+    ((struct Obj01115 *)p)->f10 = -1;
+    ((struct Obj01115 *)p)->f40 = z;
+    ((struct Obj01115 *)p)->f68 = z;
+    ((struct Obj01115 *)p)->f64 = func_0218B754(((struct Obj01115 *)p)->f0, p, b);
+    ((struct Obj01115 *)p)->f6C = (int)func_021938AC(heap);
+    ((struct Obj01115 *)p)->f70 = func_021C05D4(0x10, (u8)heap);
     return p;
 }

@@ -27,6 +27,7 @@
  *   func_021CE3C8 0x021CE3C8 thumb ov093
  *   func_021CF220 0x021CF220 thumb ov093
  */
+#include "../include/Obj02136.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,7 +57,7 @@ u32 func_021CF078(u8 *p, u32 *st)
     int result;
     switch (*st) {
     case 0:
-        switch (func_021B86E4(*(void **)p)) {
+        switch (func_021B86E4(((struct Obj02136 *)p)->f0)) {
         default:
         case 0:
             if (func_021CF918(p, &id, &k) == 4) {
@@ -87,28 +88,28 @@ u32 func_021CF078(u8 *p, u32 *st)
         }
         break;
     case 1:
-        if (func_021EA710(*(void **)(p + 0x54))) {
-            func_021CE0F8(p, *(u8 **)(p + 8), p + 0x58);
-            func_021EA65C(*(void **)(p + 0x54), p + 0x58);
+        if (func_021EA710(((struct Obj02136 *)p)->f54)) {
+            func_021CE0F8(p, *(u8 * *)&((struct Obj02136 *)p)->f8, p + 0x58);
+            func_021EA65C(((struct Obj02136 *)p)->f54, p + 0x58);
             *st = 2;
         }
         break;
     case 2:
-        if (func_021EA710(*(void **)(p + 0x54)))
+        if (func_021EA710(((struct Obj02136 *)p)->f54))
             func_021CE150(p, (void *)((u32)func_021CE4D0));
         break;
     case 3:
-        func_021EA710(*(void **)(p + 0x54));
-        if (func_021EA720(*(void **)(p + 0x54))) {
+        func_021EA710(((struct Obj02136 *)p)->f54);
+        if (func_021EA720(((struct Obj02136 *)p)->f54)) {
             func_021EAF18((struct L *)(p + 0x58), 3, 8);
             func_021EAF18((struct L *)(p + 0x7c), 3, 9);
-            func_021EABC4(*(void **)(p + 0x54), (u32)(p + 0x58), (u32)(p + 0x7c), 1);
+            func_021EABC4(((struct Obj02136 *)p)->f54, (u32)(p + 0x58), (u32)(p + 0x7c), 1);
             *st = 4;
         }
         break;
     case 4:
-        if (func_021EA710(*(void **)(p + 0x54))) {
-            if (func_021EAC54(*(void **)(p + 0x54), &result)) {
+        if (func_021EA710(((struct Obj02136 *)p)->f54)) {
+            if (func_021EAC54(((struct Obj02136 *)p)->f54, &result)) {
                 if (result == 0)
                     *st = 5;
                 else
@@ -119,7 +120,7 @@ u32 func_021CF078(u8 *p, u32 *st)
         }
         break;
     case 5:
-        func_021D8414(*(void **)(p + 0xc));
+        func_021D8414(((struct Obj02136 *)p)->fC);
         p[0x1b2] |= 4;
         func_021CE150(p, (void *)((u32)func_021CF220));
         break;

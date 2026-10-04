@@ -13,6 +13,7 @@
  *   func_02028618 0x02028618 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj09931.h"
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 typedef unsigned int   u32;
@@ -20,4 +21,4 @@ struct Bmp;
 struct Ctx;
 extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
 extern void func_02045334(struct Descriptor *d);
-void func_021BBA70(int a,int b) {func_02028618((struct Ctx *)(*(int *)(b+20)),(const struct Bmp *)((unsigned int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4))),15);func_02045334((struct Descriptor *)*(unsigned int *)(b+4));}
+void func_021BBA70(int a,int b) {func_02028618((struct Ctx *)(((struct Obj09931 *)b)->f14),(const struct Bmp *)((unsigned int)func_02045770((struct Descriptor *)((struct Obj09931 *)b)->f4)),15);func_02045334((struct Descriptor *)((struct Obj09931 *)b)->f4);}

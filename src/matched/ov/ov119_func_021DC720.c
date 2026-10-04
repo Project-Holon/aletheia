@@ -32,6 +32,7 @@
  *   func_021E57A4 0x021E57A4 thumb ov119
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10357.h"
 extern void func_021E64B8(void *),func_021E3230(void *),func_021DD588(void *),func_021DF8E0(void *),func_021E4570(void *);
 extern void func_021DD9DC(unsigned char *),func_021E36D8(void *,int),func_021E69A4(char *),func_021DF7D0(void *),func_021E2680(char *),func_021E4888(char *),func_021E2438(char *,int);
 extern void func_021B639C(void *),func_021E48E0(char *),func_0204B1CC(void *),func_021E11A8(char *),func_021DD174(char *),func_021E293C(void *,int),func_021E3F08(char *),func_021E4000(char *),func_021E57A4(int),func_020307B0(void *);
@@ -51,6 +52,6 @@ void func_021DC720(char *p)
     if(P(0x818)) {func_020307B0(P(0x818));P(0x818)=0;}
     for(i=0;i<4;i++) {
         char *q=p+i*4;
-        if(*(void **)(q+0x85c)) {func_020307B0(*(void **)(q+0x85c));*(void **)(q+0x85c)=0;}
+        if(((struct Obj10357 *)q)->f85C) {func_020307B0(((struct Obj10357 *)q)->f85C);((struct Obj10357 *)q)->f85C=0;}
     }
 }

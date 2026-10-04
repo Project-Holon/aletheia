@@ -19,6 +19,7 @@
  *   func_02162438  0x02162438  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09443.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,10 +45,10 @@ u32 func_021892CC(u8 *a)
         func_021893C0(a);
         return 1;
     }
-    h = func_02012844((const struct BigObj *)(*(u32 *)(a + 8)));
+    h = func_02012844((const struct BigObj *)(((struct Obj09443 *)a)->f8));
     if (func_02162458((u8 *)h) == 0) {
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
-        func_02162438(h, *(u16 *)(a + 0xD8), func_02012984((const struct BigObj *)(*(u32 *)(a + 8))));
+        func_02162438(h, ((struct Obj09443 *)a)->fD8, func_02012984((const struct BigObj *)(((struct Obj09443 *)a)->f8)));
         *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
     }
     return 0;

@@ -28,6 +28,7 @@
  *   func_0201D83C  0x0201D83C  thumb
  *   ov067_id       0x00000043  data
  */
+#include "../include/Obj05149.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -64,12 +65,12 @@ int func_021B9768(void *a, u32 b, u32 c, u8 *w)
     func_021BA410(w + 0x104);
     func_021BB114(w + 0xd4);
     func_021BAF9C(w + 0x248);
-    func_02031140(*(void **)(w + 0x268));
-    func_02045C04(*(void **)(w + 0x25c));
-    func_02027FD8(*(void **)(w + 0x264));
-    func_02027FD8(*(void **)(w + 0x260));
-    func_0201C4C0(*(void **)(w + 0x258));
-    func_0201D83C(*(void **)(w + 0x254));
+    func_02031140(((struct Obj05149 *)w)->f268);
+    func_02045C04(((struct Obj05149 *)w)->f25C);
+    func_02027FD8(((struct Obj05149 *)w)->f264);
+    func_02027FD8(((struct Obj05149 *)w)->f260);
+    func_0201C4C0(((struct Obj05149 *)w)->f258);
+    func_0201D83C(((struct Obj05149 *)w)->f254);
     func_021B98E0(w);
     func_020315D4(a);
     func_020306F0(0x1c);

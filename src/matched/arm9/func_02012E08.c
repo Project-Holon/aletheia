@@ -10,6 +10,7 @@
  * status:   EXACT
  * blocker:  +0024 THM_CALL func_02034FE8       : 02034FE8 (arm, from name) has no witness outside 02012E08..02012E40
  */
+#include "../include/Obj08745.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -24,12 +25,12 @@ void func_02012E08(char *p)
 {
     u32 x;
 
-    if (*(u8 *)(p + 0x1CE) != 1)
+    if (((struct Obj08745 *)p)->f1CE != 1)
         return;
     func_020351A0(2);
     func_02010444();
-    *(u8 *)(p + 0x1CE) = 0;
-    func_020071A8(*(u32 *)p);
+    ((struct Obj08745 *)p)->f1CE = 0;
+    func_020071A8(((struct Obj08745 *)p)->f0);
     x = 0x80;
     if (func_02034FE8(x) == 1)
         func_02034FB8(x);

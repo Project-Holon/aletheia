@@ -16,6 +16,7 @@
  *   func_02088234 0x02088234 arm
  *   g_021C88E0 0x021C88E0 data a4
  */
+#include "../include/Obj03311.h"
 typedef unsigned int u32;
 extern int func_02085D3C(void);
 extern int func_021B6698(u32);
@@ -28,20 +29,20 @@ void func_021B662C(void)
 {
     char *p = g_021C88E0;
     u32 v;
-    if (*(u32 *)(p + 0x10) != 0) {
-        if (*(u32 *)(p + 0x28) <= 30) ++*(u32 *)(p + 0x28);
-        if (*(u32 *)(p + 0x20) != 0) {
-            v = *(u32 *)(p + 0x2C);
+    if (((struct Obj03311 *)p)->f10 != 0) {
+        if (((struct Obj03311 *)p)->f28 <= 30) ++((struct Obj03311 *)p)->f28;
+        if (((struct Obj03311 *)p)->f20 != 0) {
+            v = ((struct Obj03311 *)p)->f2C;
             if ((func_02085D3C() == 1 ? func_021B6698(v) : 7) == 7)
                 func_02088234();
-            *(u32 *)(p + 0x28) = 0;
-            *(u32 *)(p + 0x20) = 0;
+            ((struct Obj03311 *)p)->f28 = 0;
+            ((struct Obj03311 *)p)->f20 = 0;
         }
-        if (*(u32 *)(p + 0x1C) != 0) {
+        if (((struct Obj03311 *)p)->f1C != 0) {
             func_021B644C(p);
             if (func_02085D3C() == 1) func_021B66A0();
             if (func_02085D3C() == 1) func_021B66A8();
-            *(u32 *)(p + 0x1C) = 0;
+            ((struct Obj03311 *)p)->f1C = 0;
         }
     }
 }

@@ -13,6 +13,7 @@
  *   func_02012F08  0x02012F08  thumb
  *   func_0200C3B8  0x0200C3B8  thumb
  */
+#include "../include/Obj17707.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ int func_0215F9EC(int a0, int a1)
 {
     void *p;
 
-a0 = *(int *)((char *)a0 + 4);
+a0 = ((struct Obj17707 *)a0)->f4;
     p = func_02012F08((int *)a0);
 loc_0215F9F4:
 a1 = 0x5a;

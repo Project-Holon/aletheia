@@ -11,6 +11,7 @@
  * symbols:
  *   func_0203D01C 0x0203D01C arm
  */
+#include "../include/Obj22294.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 extern void func_0203D01C(void *);
-void func_021F1018(u8 *p) { func_0203D01C(p);*(int *)(p+4)=1; }
+void func_021F1018(u8 *p) { func_0203D01C(p);((struct Obj22294 *)p)->f4=1; }

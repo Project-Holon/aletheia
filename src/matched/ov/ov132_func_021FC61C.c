@@ -15,6 +15,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14124.h"
+#include "../include/Obj23268.h"
 
 extern int func_0201134C(int);
 extern void func_021F96B0(char *p, int a);
@@ -22,8 +24,8 @@ extern void func_021F96B0(char *p, int a);
 int func_021FC61C(int a, char **pp)
 {
     char *p = *pp;
-    int x = func_0201134C(*(int *)(pp + 1));
+    int x = func_0201134C(((struct Obj14124 *)pp)->f4);
 
-    func_021F96B0(*(void **)(p + 0x34), x);
+    func_021F96B0(((struct Obj23268 *)p)->f34, x);
     return 0;
 }

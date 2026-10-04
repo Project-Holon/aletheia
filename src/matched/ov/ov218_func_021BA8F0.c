@@ -17,6 +17,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj26050.h"
 struct Node;
 extern void func_02030EAC(struct Node *n);
 extern void func_021BAB00(int *);
@@ -27,7 +28,7 @@ extern void func_02082BCC(void *, int, int);
 extern void func_020307B0(void *);
 void func_021BA8F0(char *ctx)
 {
-    func_02030EAC(*(void **)(ctx + 12));
+    func_02030EAC(((struct Obj26050 *)ctx)->fC);
     func_021BAB00((int *)(ctx + 8));
     func_021BAA64(ctx + 4);
     func_021BA9E0(ctx);

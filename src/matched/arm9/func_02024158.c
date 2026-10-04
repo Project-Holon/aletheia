@@ -14,11 +14,12 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj15744.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
 
 u32 func_02024158(const u8 *p)
 {
-    return ((u32)*(const u8 *)(p + 3) << 29) >> 31;
+    return ((u32)*(const u8 *)&((struct Obj15744 *)p)->f3 << 29) >> 31;
 }

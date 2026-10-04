@@ -18,6 +18,7 @@
  *   func_020409B4  0x020409B4  arm
  *   func_021C58CC  0x021C58CC  thumb  ov021
  */
+#include "../include/Obj00874.h"
 
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -41,7 +42,7 @@ void func_021C53A0(int *a, const u16 *b, int c, int d, int e, int f, int *g, u16
     func_02082BCC(a, 0, 0x4c);
     a[3] = e;
     a[8] = f;
-    *(u16 *)((char *)a + 0x34) = h;
+    ((struct Obj00874 *)a)->f34 = h;
     a[0xe] = c;
     a[0xf] = d;
     for (i = 0; i < 3; i++) {
@@ -53,6 +54,6 @@ void func_021C53A0(int *a, const u16 *b, int c, int d, int e, int f, int *g, u16
     func_02045374((struct Cfg *)r);
     func_020409B4(func_02045730((struct Descriptor *)r));
     a[4] = a[2];
-    *(u8 *)(a + 5) = 0;
+    ((struct Obj00874 *)a)->f14 = 0;
     func_021C58CC((char *)a, b[0], b[1], h);
 }

@@ -15,11 +15,12 @@
  * symbols:
  *   func_020273C4  0x020273C4  thumb
  */
+#include "../include/Obj15763.h"
 
 typedef struct { unsigned short lo : 8; unsigned short hi : 8; } F;
 
 void func_020273C4(char *p, unsigned short v)
 {
     ((F *)(p + 0x48))->lo = 0;
-    *(unsigned short *)(p + 0x4e) = v;
+    ((struct Obj15763 *)p)->f4E = v;
 }

@@ -13,6 +13,7 @@
  *   func_0218ECE4  0x0218ECE4  thumb  ov021
  *   func_0218ECF4  0x0218ECF4  thumb  ov021
  */
+#include "../include/Obj02115.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 a, b, c; } Vec3;
@@ -24,7 +25,7 @@ void func_021F4000(u8 *p, u8 *obj)
     int step;
     Vec3 v;
 
-    if (*(int *)p != 0) {
+    if (((struct Obj02115 *)p)->f0 != 0) {
         p[15]++;
         if (p[12] == 0) {
             if (p[13] % 2 == 0) {
@@ -42,8 +43,8 @@ void func_021F4000(u8 *p, u8 *obj)
             p[12]--;
         }
         if (p[14] >= 2) {
-            *(int *)p = 0;
-            *(int *)(p + 4) = 1;
+            ((struct Obj02115 *)p)->f0 = 0;
+            ((struct Obj02115 *)p)->f4 = 1;
         }
     }
 }

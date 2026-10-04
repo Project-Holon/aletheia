@@ -14,6 +14,7 @@
 
  * When the build query answers 0, bump the countdown at +0xdfc and roll state when it passes 0x2d.
  */
+#include "../include/Obj07246.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ extern u32 func_02202840(u8 *p);
 int func_021FC7E0(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
-        if (++*(s32 *)(p + 0xdfc) > 0x2d) {
-            *(s32 *)(p + 0xdfc) = 0;
-            *(u32 *)(p + 0x28) = *(u32 *)(p + 0x2c);
+        if (++((struct Obj07246 *)p)->fDFC > 0x2d) {
+            ((struct Obj07246 *)p)->fDFC = 0;
+            ((struct Obj07246 *)p)->f28 = ((struct Obj07246 *)p)->f2C;
         }
     }
     return 2;

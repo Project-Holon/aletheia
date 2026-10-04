@@ -12,9 +12,10 @@
  *   func_021B7460 0x021B7460 thumb ov173
  *   func_021B7568 0x021B7568 thumb ov173
  */
+#include "../include/Obj24177.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B7460(char *,u32);
 extern u8 func_021B7568(void ***);
-int func_021B7590(u8 *p) {func_021B7460((char *)p,3);(*(u8 **)p)[27]=func_021B7568((void ***)p);*(u32 *)(p+432)=5;return 2;}
+int func_021B7590(u8 *p) {func_021B7460((char *)p,3);(*(u8 **)p)[27]=func_021B7568((void ***)p);((struct Obj24177 *)p)->f1B0=5;return 2;}

@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj11345.h"
 
-int func_020363D4(int a0, int a1, int a2, int a3){ int t0; t0 = func_0203521C((int)a0); *(int *)(((char *)(t0) + 36)) = (int)a2; *(int *)(((char *)(t0) + 24)) = (int)a1; return t0; }
+int func_020363D4(int a0, int a1, int a2, int a3){ int t0; t0 = func_0203521C((int)a0); ((struct Obj11345 *)((char *)(t0)))->f24 = (int)a2; ((struct Obj11345 *)((char *)(t0)))->f18 = (int)a1; return t0; }

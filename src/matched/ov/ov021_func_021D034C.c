@@ -16,6 +16,7 @@
  *   func_02047AC8  0x02047AC8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12997.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -38,6 +39,6 @@ void func_021D034C(u32 a, u8 *b)
         v = data_021DB8F0;
         func_0207ADC4(&v.w[6]);
         func_021AC1B8(a, &v);
-        func_02047AC8((void *)(*(u32 *)(b + 0xc)), (struct Arg *)(&v));
+        func_02047AC8((void *)(((struct Obj12997 *)b)->fC), (struct Arg *)(&v));
     }
 }

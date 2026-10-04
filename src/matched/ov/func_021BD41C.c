@@ -15,6 +15,7 @@
  * Ages the counter at +0x1E0 under the guard and stamps selector 0x6A when it
  * underflows; returns the selector.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,12 +29,12 @@ extern int func_021BA928(void *p, int v);
 int func_021BD41C(char *p, int v)
 {
     if (func_021BA928(p, v) != 0) {
-        int x = *(int *)(p + 0x1E0);
+        int x = ((struct Obj00008 *)p)->f1E0;
 
-        *(int *)(p + 0x1E0) = x - 1;
+        ((struct Obj00008 *)p)->f1E0 = x - 1;
 
         if (x < 0) {
-            *(u32 *)(p + 0x1CC) = 0x6A;
+            *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x6A;
         }
     }
 

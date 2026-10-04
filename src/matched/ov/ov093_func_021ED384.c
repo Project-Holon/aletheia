@@ -16,6 +16,7 @@
  *   func_021F7F04  0x021F7F04  thumb  ov094
  *   func_02031194  0x02031194  arm
  */
+#include "../include/Obj03709.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -28,20 +29,20 @@ extern void func_02031194(struct TcblNode *n);
 
 void func_021ED384(u32 a, u8 *t)
 {
-    switch (*(u16 *)(t + 4)) {
+    switch (((struct Obj03709 *)t)->f4) {
     case 0:
-        func_021F7A28(*(u16 *)(t + 6), *(u16 *)(t + 8));
-        (*(u16 *)(t + 4))++;
+        func_021F7A28(((struct Obj03709 *)t)->f6, ((struct Obj03709 *)t)->f8);
+        (((struct Obj03709 *)t)->f4)++;
         break;
     case 1:
         if (func_021F7EB4() == 0) {
-            func_021F80E4(*(u16 *)(t + 6));
-            func_021F7F04(*(u16 *)(t + 6));
-            (*(u16 *)(t + 4))++;
+            func_021F80E4(((struct Obj03709 *)t)->f6);
+            func_021F7F04(((struct Obj03709 *)t)->f6);
+            (((struct Obj03709 *)t)->f4)++;
         }
         break;
     case 2:
-        (**(u8 **)(t + 0xc))--;
+        (**(u8 * *)&((struct Obj03709 *)t)->fC)--;
         func_02031194((struct TcblNode *)a);
         break;
     }

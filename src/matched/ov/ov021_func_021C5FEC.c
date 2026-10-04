@@ -17,6 +17,7 @@
  *   func_021BB528  0x021BB528  thumb  ov021
  *   func_021AE01C  0x021AE01C  thumb  ov021
  */
+#include "../include/Obj06080.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -29,9 +30,9 @@ extern void func_021AE01C(u32 a, u16 v);
 
 void func_021C5FEC(u8 *p)
 {
-    u32 o = func_02188CD0((u8 *)(*(u32 *)(p + 8)));
+    u32 o = func_02188CD0((u8 *)(((struct Obj06080 *)p)->f8));
 
-    func_0216D674(*(u32 *)(p + 0x1C), 2);
-    *(u32 *)(p + 0x2C) = func_021BB528(o, *(u32 *)(p + 0x1C), 0, 1);
-    func_021AE01C(*(u32 *)(p + 0x30), 1);
+    func_0216D674(((struct Obj06080 *)p)->f1C, 2);
+    ((struct Obj06080 *)p)->f2C = func_021BB528(o, ((struct Obj06080 *)p)->f1C, 0, 1);
+    func_021AE01C(((struct Obj06080 *)p)->f30, 1);
 }

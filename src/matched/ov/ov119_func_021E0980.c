@@ -24,6 +24,14 @@
  *   func_021E0958 0x021E0958 thumb ov119
  *   func_021E0A64 0x021E0A64 thumb ov119
  */
+#include "../include/Obj01537.h"
+#include "../include/Obj13908.h"
+#include "../include/Obj22760.h"
+#include "../include/Obj22761.h"
+#include "../include/Obj22762.h"
+#include "../include/Obj22763.h"
+#include "../include/Obj22764.h"
+#include "../include/Obj22765.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021D8AA8(void *);
@@ -54,26 +62,26 @@ void func_021E0980(char *p)
     int z;
     char *t;
     if(func_021D8AA8(p)) {
-        i=*(int *)(p+0xfa0)%3;
+        i=((struct Obj01537 *)p)->fFA0%3;
         mon=func_021D8FA4(p,0);
-        *(u16 *)(*(char **)(p+8)+0x28)=*(int *)(p+i*4+0xfbc);
-        *(u16 *)(*(char **)(p+8)+0x2a)=*(int *)(p+i*4+0xfa4);
+        ((struct Obj22760 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=*(int *)(p+i*4+0xfbc);
+        ((struct Obj22761 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=*(int *)(p+i*4+0xfa4);
     } else {
         mon=func_021D8FA4(p,1);
-        *(u16 *)(*(char **)(p+8)+0x28)=*(int *)(p+0xf88);
-        *(u16 *)(*(char **)(p+8)+0x2a)=*(int *)(p+0xf84);
+        ((struct Obj22762 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f28=((struct Obj01537 *)p)->fF88;
+        ((struct Obj22763 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f2A=((struct Obj01537 *)p)->fF84;
     }
-    func_0201A954(*(void **)(*(char **)(p+8)+0x1c),6);
-    func_0201A98C(*(void **)(*(char **)(p+8)+0x1c),mon);
-    func_0200CDE0(func_0200CA1C(*(void **)(p+0x82c)),mon);
-    t=*(char **)(p+8);
-    if(*(u16 *)(t+0x28)!=func_020076A4(*(void **)(p+0x828))) {
+    func_0201A954(((struct Obj22764 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,6);
+    func_0201A98C(((struct Obj22765 *)(*(char * *)&((struct Obj01537 *)p)->f8))->f1C,mon);
+    func_0200CDE0(func_0200CA1C(((struct Obj01537 *)p)->f82C),mon);
+    t=*(char * *)&((struct Obj01537 *)p)->f8;
+    if(((struct Obj13908 *)t)->f28!=func_020076A4(((struct Obj01537 *)p)->f828)) {
         z=0;
-        if(func_0202136C(func_02017E1C(func_0201AB28(*(void **)(t+0x1c),0),6,0))) {
-            func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),106,(void *)(*(int *)(p+0x738)));
+        if(func_0202136C(func_02017E1C(func_0201AB28(((struct Obj13908 *)t)->f1C,0),6,0))) {
+            func_02045CAC((struct MsgBank *)(((struct Obj01537 *)p)->f720),106,(void *)(((struct Obj01537 *)p)->f738));
             func_021E1024(p);
             func_021D8E84(p,(int)func_021E0958);
-            *(int *)(p+0xf2c)=z;
+            ((struct Obj01537 *)p)->fF2C=z;
             return;
         }
     }

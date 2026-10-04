@@ -21,6 +21,8 @@
  *   func_021D63F4 0x021D63F4 thumb ov120
  *   func_021D5AD4 0x021D5AD4 thumb ov120
  */
+#include "../include/Obj01928.h"
+#include "../include/Obj22833.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -40,25 +42,25 @@ extern void func_021D5AD4(u8 *p);
 void func_021D59E0(u8 *p)
 {
     int state;
-    if (func_020279E8(*(void **)(p + 0x38))) {
-        state = func_02027A04(*(void **)(p + 0x38));
-        func_021D8418(*(int *)(p + 0x38));
-        *(int *)(p + 0x38) = 0;
+    if (func_020279E8(((struct Obj01928 *)p)->f38)) {
+        state = func_02027A04(((struct Obj01928 *)p)->f38);
+        func_021D8418(*(int *)&((struct Obj01928 *)p)->f38);
+        *(int *)&((struct Obj01928 *)p)->f38 = 0;
         switch (state) {
         case 0:
-            *(int *)(*(u8 **)(p + 0x48) + 0x1b0) = 1;
-            *(int *)(p + 0x14) = 0;
+            ((struct Obj22833 *)(*(u8 * *)&((struct Obj01928 *)p)->f48))->f1B0 = 1;
+            ((struct Obj01928 *)p)->f14 = 0;
             func_021D4244((int)p, (int)func_021D44AC, 0x8b5);
             return;
         case 1:
-            if (*(int *)(p + 0x184) == 0)
-                func_021D79F4(*(void **)(p + 0x40), 0x20);
+            if (((struct Obj01928 *)p)->f184 == 0)
+                func_021D79F4(((struct Obj01928 *)p)->f40, 0x20);
             else
-                func_021D79F4(*(void **)(p + 0x40), 0x2b);
+                func_021D79F4(((struct Obj01928 *)p)->f40, 0x2b);
             if (func_020355C4() == 0)
-                func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));
-            func_021B6558((unsigned char *)func_021D6988(*(void **)(p + 0x3c)), 1, 1);
-            func_021D63F4(*(void **)(p + 0x3c), 0, 0);
+                func_021D69F4(((struct Obj01928 *)p)->f3C, 0, ((struct Obj01928 *)p)->f15C);
+            func_021B6558((unsigned char *)func_021D6988(((struct Obj01928 *)p)->f3C), 1, 1);
+            func_021D63F4(((struct Obj01928 *)p)->f3C, 0, 0);
             func_021D4244((int)p, (int)func_021D5AD4, 0x8c3);
             break;
         }

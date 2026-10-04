@@ -13,6 +13,7 @@
  *   func_021C1AFC 0x021C1AFC thumb ov217
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj14759.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021C1AD4(u8 *p);
@@ -29,7 +30,7 @@ void func_021C1850(u8 *p)
         base=p+0x1c;
         do {
             u8 *record=base+i*20;
-            record[8]=(*(u32 *)(record+4)*100)/total;
+            record[8]=(((struct Obj14759 *)record)->f4*100)/total;
             i++;
         } while (i<count);
     }

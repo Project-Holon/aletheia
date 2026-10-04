@@ -9,4 +9,5 @@
  * status: EXACT
  * blocker-leaf: ov183 021DB770; source/unit/shard ownership checked, parent cleared.
  */
-void func_021FC230(char *p,int v){*(int *)(p+0xf8)=v;}
+#include "../include/Obj24833.h"
+void func_021FC230(char *p,int v){((struct Obj24833 *)p)->fF8=v;}

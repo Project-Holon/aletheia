@@ -15,6 +15,7 @@
 
  * Publish the +0xde4 slot, kick helper 9 and latch state 9.
  */
+#include "../include/Obj12215.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,8 +27,8 @@ extern void func_021FF570(u32 k);
 
 int func_021FED4C(u8 *p)
 {
-    func_021F9968((u8 *)(*(u32 *)(p + 0xde4)), 1);
+    func_021F9968((u8 *)(((struct Obj12215 *)p)->fDE4), 1);
     func_021FF570(9);
-    *(u32 *)(p + 0x28) = 9;
+    ((struct Obj12215 *)p)->f28 = 9;
     return 2;
 }

@@ -17,6 +17,7 @@
  *   python tools/match.py one --src src/matched/func_0202B3A0.c \
  *       --func func_0202B3A0 --addr 0x0202B3A0 --thumb --cc 1.1p1
  */
+#include "../include/Obj03438.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,14 +34,14 @@ struct Node *func_0202B3A0(u32 a, u32 b, u32 heapId)
     struct Node *p = (struct Node *)func_02030734(heapId, 0x38, 0,
                                                   (const void *)0x020A7718, 0x109);
 
-    *(u16 *)((u8 *)p) = (u16)heapId;
-    *(u32 *)((u8 *)p + 0x8) = a;
-    *(u32 *)((u8 *)p + 0x4) = b;
-    *(u32 *)((u8 *)p + 0xc) = 0;
-    *(u16 *)((u8 *)p + 0x10) = 0xffff;
-    *(u16 *)((u8 *)p + 0x12) = 0xffff;
-    *(u32 *)((u8 *)p + 0x14) = (u32)func_0202B2FC(heapId);
-    *(u32 *)((u8 *)p + 0x18) = 0;
+    ((struct Obj03438 *)((u8 *)p))->f0 = (u16)heapId;
+    ((struct Obj03438 *)p)->f8 = a;
+    ((struct Obj03438 *)p)->f4 = b;
+    ((struct Obj03438 *)p)->fC = 0;
+    ((struct Obj03438 *)p)->f10 = 0xffff;
+    ((struct Obj03438 *)p)->f12 = 0xffff;
+    ((struct Obj03438 *)p)->f14 = (u32)func_0202B2FC(heapId);
+    ((struct Obj03438 *)p)->f18 = 0;
     func_0202B454(p);
     return p;
 }

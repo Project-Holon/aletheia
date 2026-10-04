@@ -44,6 +44,12 @@
  *   python tools/match.py tu --src src/matched/unit_02015BA4.c \
  *       --addr 0x02015BA4 --thumb
  */
+#include "../include/Obj02638.h"
+#include "../include/Obj03429.h"
+#include "../include/Obj11824.h"
+#include "../include/Obj17197.h"
+#include "../include/Obj17198.h"
+#include "../include/Obj17199.h"
 
 typedef unsigned int  u32;
 typedef unsigned char u8;
@@ -74,8 +80,8 @@ void sub_02015BA4(void *sys, void *obj)
         p[2] = 0;
     }
 
-    idx = *(u32 *)((u8 *)obj + 0x148);
-    arr = *(u32 **)((u8 *)sys + 0x14);
+    idx = ((struct Obj02638 *)obj)->f148;
+    arr = *(u32 * *)&((struct Obj03429 *)sys)->f14;
     arr[idx] = 0;
 
     func_020307B0(obj);
@@ -83,21 +89,21 @@ void sub_02015BA4(void *sys, void *obj)
 
 void sub_02015BF0(void *obj)
 {
-    *(u32 *)((u8 *)obj + 0x2c) &= ~1;
-    *(u32 *)((u8 *)obj + 0x2c) |= 1;
+    ((struct Obj11824 *)obj)->f2C &= ~1;
+    ((struct Obj11824 *)obj)->f2C |= 1;
 }
 
 void sub_02015C00(void *obj)
 {
-    *(u32 *)((u8 *)obj + 0x2c) &= ~1;
+    ((struct Obj17197 *)obj)->f2C &= ~1;
 }
 
 void sub_02015C0C(void *obj)
 {
-    *(u32 *)((u8 *)obj + 0x140) |= 0x20000000;
+    ((struct Obj17198 *)obj)->f140 |= 0x20000000;
 }
 
 void sub_02015C1C(void *obj)
 {
-    *(u32 *)((u8 *)obj + 0x140) &= ~0x20000000;
+    ((struct Obj17199 *)obj)->f140 &= ~0x20000000;
 }

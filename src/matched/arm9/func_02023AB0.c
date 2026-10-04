@@ -19,6 +19,7 @@
  * symbols:
  *   func_02023AF4  0x02023AF4  thumb
  */
+#include "../include/Obj06900.h"
 
 typedef unsigned int u32;
 
@@ -30,9 +31,9 @@ void func_02023AB0(void *p)
 {
     int i;
 
-    for (i = 0; i < *(int *)((char *)p + 0x310); i++) {
-        func_02023AF4((void *)(*(u32 *)((char *)p + 0x30C) + i * 4), p,
-                      *(u32 *)((char *)p + 0x318),
-                      *(u32 *)((char *)p + 0x314));
+    for (i = 0; i < ((struct Obj06900 *)p)->f310; i++) {
+        func_02023AF4((void *)(((struct Obj06900 *)p)->f30C + i * 4), p,
+                      ((struct Obj06900 *)p)->f318,
+                      ((struct Obj06900 *)p)->f314);
     }
 }

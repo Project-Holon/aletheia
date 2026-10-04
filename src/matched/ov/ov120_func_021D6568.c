@@ -21,6 +21,7 @@
  *   func_02049238 0x02049238 arm
  *   func_0207D63C 0x0207D63C arm
  */
+#include "../include/Obj00218.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -41,36 +42,36 @@ void func_021D6568(u8 *p)
 {
     int i;
     void *t;
-    t=func_020490F4((u32)((void *)144),*(u16 *)(p+0xf4));
-    func_02049B68(t,3,4,0,192,*(u16 *)(p+0xf4));
-    func_02049B68(t,1,4,0,64,*(u16 *)(p+0xf4));
-    *(u32 *)(p+8)=func_02049740(t,6,7,0,0,*(u16 *)(p+0xf4));
-    func_02049990(t,17,7,0,*(u32 *)(p+8),0,0,*(u16 *)(p+0xf4));
-    *(u32 *)p=func_02049740(t,8,4,0,0,*(u16 *)(p+0xf4));
-    func_02049990(t,18,4,0,*(u32 *)p,0,0,*(u16 *)(p+0xf4));
-    func_02049B68(t,1,0,0,0,*(u16 *)(p+0xf4));
-    *(u32 *)(p+4)=func_02049740(t,6,0,0,0,*(u16 *)(p+0xf4));
-    func_02049990(t,12,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
-    *(void **)(p+0x70)=(void *)func_0204A6C8(t,5,0,1,*(u16 *)(p+0xf4));
-    *(void **)(p+0x24)=(void *)func_0204AC18(t,0,1,320,0,1,*(u16 *)(p+0xf4));
-    *(void **)(p+0xbc)=(void *)func_0204AF28(t,10,22,*(u16 *)(p+0xf4));
-    *(void **)(p+0x28)=(void *)func_0204A6C8(t,7,0,1,*(u16 *)(p+0xf4));
-    *(void **)(p+0x18)=(void *)func_0204AC18(t,2,1,256,0,8,*(u16 *)(p+0xf4));
-    *(void **)(p+0x74)=(void *)func_0204AF28(t,11,23,*(u16 *)(p+0xf4));
-    *(void **)(p+0x2c)=(void *)func_0204A6C8(t,7,0,0,*(u16 *)(p+0xf4));
-    *(void **)(p+0x1c)=(void *)func_0204AC18(t,2,0,0,0,8,*(u16 *)(p+0xf4));
-    *(void **)(p+0x78)=(void *)func_0204AF28(t,11,23,*(u16 *)(p+0xf4));
-    *(void **)(p+0xf8)=func_0202E940(0,16,0,*(u16 *)(p+0xf4));
-    func_0202E9AC(*(void **)(p+0xf8),t,1,0,16);
-    *(void **)(p+0xfc)=func_0202E940(0,16,7,*(u16 *)(p+0xf4));
-    func_0202E9AC(*(void **)(p+0xfc),t,1,0,16);
+    t=func_020490F4((u32)((void *)144),((struct Obj00218 *)p)->fF4);
+    func_02049B68(t,3,4,0,192,((struct Obj00218 *)p)->fF4);
+    func_02049B68(t,1,4,0,64,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f8=func_02049740(t,6,7,0,0,((struct Obj00218 *)p)->fF4);
+    func_02049990(t,17,7,0,((struct Obj00218 *)p)->f8,0,0,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f0=func_02049740(t,8,4,0,0,((struct Obj00218 *)p)->fF4);
+    func_02049990(t,18,4,0,((struct Obj00218 *)p)->f0,0,0,((struct Obj00218 *)p)->fF4);
+    func_02049B68(t,1,0,0,0,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f4=func_02049740(t,6,0,0,0,((struct Obj00218 *)p)->fF4);
+    func_02049990(t,12,0,0,((struct Obj00218 *)p)->f4,0,0,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f70=(void *)func_0204A6C8(t,5,0,1,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f24=(void *)func_0204AC18(t,0,1,320,0,1,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->fBC=(void *)func_0204AF28(t,10,22,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f28=(void *)func_0204A6C8(t,7,0,1,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f18=(void *)func_0204AC18(t,2,1,256,0,8,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f74=(void *)func_0204AF28(t,11,23,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f2C=(void *)func_0204A6C8(t,7,0,0,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f1C=(void *)func_0204AC18(t,2,0,0,0,8,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->f78=(void *)func_0204AF28(t,11,23,((struct Obj00218 *)p)->fF4);
+    ((struct Obj00218 *)p)->fF8=func_0202E940(0,16,0,((struct Obj00218 *)p)->fF4);
+    func_0202E9AC(((struct Obj00218 *)p)->fF8,t,1,0,16);
+    ((struct Obj00218 *)p)->fFC=func_0202E940(0,16,7,((struct Obj00218 *)p)->fF4);
+    func_0202E9AC(((struct Obj00218 *)p)->fFC,t,1,0,16);
     func_02049238(t);
-    t=func_020490F4((u32)((void *)32),*(u16 *)(p+0xf4));
+    t=func_020490F4((u32)((void *)32),((struct Obj00218 *)p)->fF4);
     for(i=0;i<16;i++) {
-        *(void **)(p+i*4+0x30)=(void *)func_0204A6C8(t,i+1,0,1,*(u16 *)(p+0xf4));
-        *(void **)(p+i*4+0x7c)=(void *)func_0204AF28(t,i*2+17,i*2+18,*(u16 *)(p+0xf4));
+        *(void **)(p+i*4+0x30)=(void *)func_0204A6C8(t,i+1,0,1,((struct Obj00218 *)p)->fF4);
+        *(void **)(p+i*4+0x7c)=(void *)func_0204AF28(t,i*2+17,i*2+18,((struct Obj00218 *)p)->fF4);
     }
-    *(void **)(p+0x20)=(void *)func_0204AC18(t,0,1,0,0,8,*(u16 *)(p+0xf4));
+    ((struct Obj00218 *)p)->f20=(void *)func_0204AC18(t,0,1,0,0,8,((struct Obj00218 *)p)->fF4);
     func_02049238(t);
     func_0207D63C((void *)0x04001050,5,24,15,9);
 }

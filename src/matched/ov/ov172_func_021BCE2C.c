@@ -16,6 +16,8 @@
  *
  * Places the three cursor sprites (+0x8, +0xc, +0x10) on list row idx relative to the scroll offset at +4: hidden when no row is selected (+0x18 == 0xff) or the row is off screen; the third sprite shows only when the selected entry's flag at +0x1f0 is set, animated from the row's cell at +0x50.
  */
+#include "../include/Obj01560.h"
+#include "../include/Obj24103.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,32 +40,32 @@ void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
     struct SpritePos pos;
     s16 y;
 
-    if (*(u8 *)(cur + 0x18) == 0xff) {
-        func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
+    if (((struct Obj01560 *)cur)->f18 == 0xff) {
+        func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f8, 0);
+        func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->fC, 0);
+        func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 0);
         return;
     }
-    y = idx * 32 - *(u16 *)(list + 4);
+    y = idx * 32 - ((struct Obj24103 *)list)->f4;
     if (y >= -32 && y <= 0xa0) {
         pos.x = 0x80;
         pos.y = y + 0x10;
-        func_0204B404((struct Obj *)(*(u32 *)(cur + 8)), (const struct Vec2 *)(&pos), 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 1);
+        func_0204B404((struct Obj *)(((struct Obj01560 *)cur)->f8), (const struct Vec2 *)(&pos), 1);
+        func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f8, 1);
         pos.x = 0x12;
-        func_0204B404((struct Obj *)(*(u32 *)(cur + 0xc)), (const struct Vec2 *)(&pos), 1);
-        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 1);
+        func_0204B404((struct Obj *)(((struct Obj01560 *)cur)->fC), (const struct Vec2 *)(&pos), 1);
+        func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->fC, 1);
         pos.x = 0xc8;
-        func_0204B404((struct Obj *)(*(u32 *)(cur + 0x10)), (const struct Vec2 *)(&pos), 1);
-        if (*(u32 *)(list + *(u8 *)(cur + 0x18) * 0x24 + 0x1f0) == 1) {
+        func_0204B404((struct Obj *)(((struct Obj01560 *)cur)->f10), (const struct Vec2 *)(&pos), 1);
+        if (*(u32 *)(list + ((struct Obj01560 *)cur)->f18 * 0x24 + 0x1f0) == 1) {
             func_0204B878((struct Obj *)(*(u32 *)(list + idx * 0x1c + 0x50)), 0x12);
-            func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 1);
+            func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 1);
         } else {
-            func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
+            func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 0);
         }
         return;
     }
-    func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 0);
-    func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
+    func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f8, 0);
+    func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->fC, 0);
+    func_0204B3DC((struct Obj *)((struct Obj01560 *)cur)->f10, 0);
 }

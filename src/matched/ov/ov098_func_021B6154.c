@@ -14,13 +14,15 @@
  * func_021B644C (lane S25). tu range is the 8 code bytes only; the
  * listing extent runs on into func_021B615C.
  */
+#include "../include/Obj22003.h"
+#include "../include/Obj22004.h"
 
 int func_021B6154(void *p)
 {
-    return *(int *)((char *)p + 0x18);
+    return ((struct Obj22003 *)p)->f18;
 }
 
 int func_021B6158(void *p)
 {
-    return *(int *)((char *)p + 0x1c);
+    return ((struct Obj22004 *)p)->f1C;
 }

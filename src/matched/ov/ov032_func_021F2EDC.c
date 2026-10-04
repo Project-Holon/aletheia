@@ -14,6 +14,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021F31A8 0x021F31A8 thumb ov032
  */
+#include "../include/Obj00812.h"
 
 extern void func_020307B0(void *p);
 extern void func_021F31A8(char *, char *);
@@ -28,8 +29,8 @@ void func_021F2EDC(char *p)
     for (i = 0; i < 16; i++) {
         func_020307B0((void *)(*(int *)(p + 0x33c + i * 8)));
     }
-    func_020307B0((void *)(*(int *)(p + 0x3cc)));
-    func_020307B0((void *)(*(int *)(p + 0x3c0)));
+    func_020307B0((void *)(((struct Obj00812 *)p)->f3CC));
+    func_020307B0((void *)(((struct Obj00812 *)p)->f3C0));
     func_021F31A8(p, p + 0x14c);
     func_021F31A8(p, p + 0x164);
     func_021F31A8(p, p + 0x134);

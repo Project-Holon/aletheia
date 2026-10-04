@@ -17,6 +17,7 @@
  *   d_021F73F4 0x021F73F4 data a4
  *   d_021F7300 0x021F7300 data a4
  */
+#include "../include/Obj03373.h"
 typedef unsigned short u16;
 struct Pair { unsigned archive,member; };
 extern const char d_021F73F4[];
@@ -34,17 +35,17 @@ char *func_021F6DB4(unsigned heap,unsigned count,const void *table)
     unsigned long long config;
     int resource;
     p=func_02030734(heap,0x481C,1,d_021F73F4,0x502);
-    *(u16 *)p=0;
-    *(u16 *)(p+2)=0;
-    *(u16 *)(p+4)=count;
-    *(const void **)(p+8)=table;
-    *(int *)(p+0x4814)=0;
-    *(int *)(p+0x4818)=-1;
+    ((struct Obj03373 *)p)->f0=0;
+    ((struct Obj03373 *)p)->f2=0;
+    ((struct Obj03373 *)p)->f4=count;
+    *(const void * *)&((struct Obj03373 *)p)->f8=table;
+    ((struct Obj03373 *)p)->f4814=0;
+    ((struct Obj03373 *)p)->f4818=-1;
     func_02050B80(heap);
-    *(int *)(p+0x480C)=func_02050C04((int)(p+12),0x4800,1,heap);
+    *(int *)&((struct Obj03373 *)p)->f480C=func_02050C04((int)(p+12),0x4800,1,heap);
     config=d_021F7300;
     resource=func_0205121C((unsigned)config,(unsigned)(config>>32),heap);
-    *(unsigned char *)(p+0x4810)=func_02051B04((void *)resource);
-    func_02051230(*(void **)(p+0x480C),resource,1,0);
+    ((struct Obj03373 *)p)->f4810=func_02051B04((void *)resource);
+    func_02051230(((struct Obj03373 *)p)->f480C,resource,1,0);
     return p;
 }

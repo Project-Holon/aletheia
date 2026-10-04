@@ -16,6 +16,7 @@
  *   func_02012B58 0x02012B58 thumb
  *   func_0217F008 0x0217F008 thumb ov018
  */
+#include "../include/Obj00399.h"
 typedef unsigned char u8;
 typedef struct { u8 a, b, c, d; int e, f; } State;
 struct BigObj;
@@ -28,7 +29,7 @@ void func_0217EFCC(char *p, char *q)
     State *s;
     void *h;
     s = (State *)(p + 0xd8);
-    h = func_020120F4(*(void **)p);
+    h = func_020120F4(((struct Obj00399 *)p)->f0);
     if (q == 0) {
         s->a = func_02012B58(h);
         s->b = 1 << s->a;

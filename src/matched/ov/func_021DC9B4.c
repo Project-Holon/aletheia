@@ -13,8 +13,9 @@
  *
  * Store the second argument into the word field at +0x5c of the object.
  */
+#include "../include/Obj18438.h"
 
 void func_021DC9B4(char *p, int v)
 {
-    *(int *)(p + 0x5c) = v;
+    ((struct Obj18438 *)p)->f5C = v;
 }

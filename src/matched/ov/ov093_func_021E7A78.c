@@ -21,6 +21,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   d_021F2634 0x021F2634 data a4
  */
+#include "../include/Obj10101.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,7 +55,7 @@ void func_021E7A78(int a, int b, int c)
                     x = func_021C7CF4((int *)b, list[i]);
                     p = func_021C88A4(b, 7, c);
                     p[6] = list[i];
-                    *(u16 *)(p + 4) = func_021D7B74(x, 16);
+                    ((struct Obj10101 *)p)->f4 = func_021D7B74(x, 16);
                     ((struct Flag { u8 bit : 1; } *)(p + 7))->bit = 1;
                     func_021C8838(p + 12, 2, 0x451);
                     func_021C8860((struct S *)(p + 12), p[6]);

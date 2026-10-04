@@ -14,12 +14,13 @@
  *
  * Release slots 6, 7 and 8 of the 0x9E74 array.
  */
+#include "../include/Obj09226.h"
 
 
 extern void func_021EC000(char *p, int i, int v);
 void func_021EE0FC(char *p)
 {
-    func_021EC000((char *)(*(int *)(p + 0x2c)), 6, 0);
-    func_021EC000((char *)(*(int *)(p + 0x2c)), 7, 0);
-    func_021EC000((char *)(*(int *)(p + 0x2c)), 8, 0);
+    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 6, 0);
+    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 7, 0);
+    func_021EC000((char *)(((struct Obj09226 *)p)->f2C), 8, 0);
 }

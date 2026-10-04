@@ -15,6 +15,7 @@
  *   func_02197EDC  0x02197EDC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12075.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,8 +29,8 @@ int func_0219A7A8(u32 a, u32 b, u32 c, u32 d)
 if (func_02197EDC(a, b, c, d) == 0) {
     return 0;
 }
-*(u32 *)((u8 *)(b) + 4) = 0;
-*(u8 *)((u8 *)(b) + 2) = 2;
+((struct Obj12075 *)((u8 *)(b)))->f4 = 0;
+((struct Obj12075 *)((u8 *)(b)))->f2 = 2;
 return 1;
 }
 

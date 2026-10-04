@@ -19,6 +19,7 @@
  *   func_021BC92C  0x021BC92C  thumb  ov021
  *   func_021BCB9C  0x021BCB9C  thumb  ov021
  */
+#include "../include/Obj01123.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ void func_021BCDD8(char *p)
 
     switch (func_021BD0C0(p)) {
     case 0:
-        for (i = 0; i < *(u8 *)(p + 0x20); i++) {
+        for (i = 0; i < ((struct Obj01123 *)p)->f20; i++) {
             u32 v = *(u32 *)(p + 0xc8 + i * 4);
             if (v != 0 && func_021BD20C((char *)v) != 0) {
                 r6 = 0;
@@ -61,7 +62,7 @@ void func_021BCDD8(char *p)
         }
         break;
     case 2:
-        func_02045334((struct Descriptor *)*(u32 *)(p + 0x24));
+        func_02045334((struct Descriptor *)((struct Obj01123 *)p)->f24);
         func_021BD0D0(p);
         break;
     case 3:
@@ -69,7 +70,7 @@ void func_021BCDD8(char *p)
         func_021BD0D0(p);
         break;
     case 4:
-        if (*(u16 *)(p + 0x42) > 0x1e) {
+        if (((struct Obj01123 *)p)->f42 > 0x1e) {
             func_021BCB9C(p, 6);
         }
         break;

@@ -13,6 +13,7 @@
  *   func_02005E30 0x02005E30 thumb
  *   d_021B6A04 0x021B6A04 data a4
  */
+#include "../include/Obj08292.h"
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -21,14 +22,14 @@ extern void func_02005E30(unsigned v);
 extern int (*const d_021B6A04[])(char *);
 int func_021B6380(char *p)
 {
-    if (((unsigned char *)*(char **)p)[2] != 0 && (func_020362DC() & 0xB) != 0) {
+    if (((unsigned char *)*(char * *)&((struct Obj08292 *)p)->f0)[2] != 0 && (func_020362DC() & 0xB) != 0) {
         if (func_02005F38() == 1)
             func_02005E30(8);
-        *(int *)(p + 0x6050) = 1;
+        ((struct Obj08292 *)p)->f6050 = 1;
         (*(char **)p)[3] = 1;
     }
-    *(int *)(p + 0x6050) = d_021B6A04[*(int *)(p + 0x6050)](p);
-    if (*(int *)(p + 0x6050) != 6)
+    ((struct Obj08292 *)p)->f6050 = d_021B6A04[*(int *)(p + 0x6050)](p);
+    if (((struct Obj08292 *)p)->f6050 != 6)
         return 1;
     return 0;
 }

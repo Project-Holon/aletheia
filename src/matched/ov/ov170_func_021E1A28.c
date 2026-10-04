@@ -15,6 +15,8 @@
  *   func_021EDF5C 0x021EDF5C thumb
  *   func_021EDD38 0x021EDD38 thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23882.h"
 
 typedef struct {
     unsigned char pad[0xE];
@@ -30,9 +32,9 @@ extern void func_021EDD38(char *p, int d);
 
 int func_021E1A28(char *p)
 {
-    Blk *b = (Blk *)(*(char **)(p + 0x2C) + 0x58);
+    Blk *b = (Blk *)(*(char * *)&((struct Obj00000 *)p)->f2C + 0x58);
     if (b->fE == 5) {
-        unsigned r = func_020260E0(*(void **)(*(char **)(p + 0x2C) + 0x70));
+        unsigned r = func_020260E0(((struct Obj23882 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f70);
         if (r >= 0x22 && r <= 0x25)
             func_021EE008(p, r - 0x22, 1);
         else

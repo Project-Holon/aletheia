@@ -17,6 +17,7 @@
  *   func_021C27E0 0x021C27E0 thumb ov099
  *   func_021BA7D8 0x021BA7D8 thumb ov099
  */
+#include "../include/Obj03735.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int   u32;
@@ -35,22 +36,22 @@ int func_021C10A8(char *p, int ret)
     void *s;
     if (func_02006224(0) != 0) return ret;
     if (func_021C23C0(func_02156A3C()) == 0) {
-        func_021BA874(p, *(int *)(p + 0x1f0));
+        func_021BA874(p, ((struct Obj03735 *)p)->f1F0);
         func_021BAAB8(p, 15, zero);
-        *(int *)(p + 0x1cc) = 19;
+        ((struct Obj03735 *)p)->f1CC = 19;
         return ret;
     }
     s = (void *)func_021C23B8(func_02156A3C());
-    func_021BDD48(p, *(void **)(p + 8));
+    func_021BDD48(p, ((struct Obj03735 *)p)->f8);
     func_021BDD48(p, s);
-    func_021C27E0(*(void **)(p + 8));
-    *(u16 *)(p + 0x242) = func_02156A3C() + 1;
-    if (*(u8 *)(p + 0x1351) == 0) {
+    func_021C27E0(((struct Obj03735 *)p)->f8);
+    ((struct Obj03735 *)p)->f242 = func_02156A3C() + 1;
+    if (((struct Obj03735 *)p)->f1351 == 0) {
         func_021BA874(p, func_02156A3C());
         func_021BAAB8(p, 8, zero);
     }
     func_021BA7D8(p);
-    *(int *)(p + 0x1cc) = 41;
-    *(int *)(p + 0x1e0) = 30;
+    ((struct Obj03735 *)p)->f1CC = 41;
+    ((struct Obj03735 *)p)->f1E0 = 30;
     return ret;
 }

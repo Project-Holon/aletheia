@@ -20,6 +20,8 @@
  *   python tools/match.py one --src src/matched/func_020377B8.c \
  *       --func func_020377B8 --addr 0x020377B8 --cc 1.1p1 --arm
  */
+#include "../include/Obj11351.h"
+#include "../include/Obj15917.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,12 +41,12 @@ u32 func_020377B8(u8 arg0)
     u16 val;
     void (*f)(void *);
 
-    *(u8 *)(a + 0x66) = arg0;
-    f = *(void (**)(void *))(*(char **)(b + 0x340) + 0x68);
+    ((struct Obj11351 *)a)->f66 = arg0;
+    f = *(void (**)(void *))(*(char * *)&((struct Obj15917 *)b)->f340 + 0x68);
     f(func_020377AC);
 
     zero = 0;
-    val = *(u16 *)(a + 0x56);
+    val = ((struct Obj11351 *)a)->f56;
     func_02037288(0x80, val, zero);
 
     func_02037680(zero);

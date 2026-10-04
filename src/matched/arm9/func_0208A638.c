@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16693.h"
 
 void *func_0208A638(char *p)
 {
-    return *(void **)(p + 0x38);
+    return ((struct Obj16693 *)p)->f38;
 }

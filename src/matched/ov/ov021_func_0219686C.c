@@ -18,6 +18,7 @@
  *   func_02197700  0x02197700  thumb  ov021
  *   func_02196A60  0x02196A60  thumb  ov021
  */
+#include "../include/Obj09492.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -33,15 +34,15 @@ extern void func_02196A60(u8 *p);
 
 void func_0219686C(u8 *p)
 {
-    if (*(u32 *)(p + 8) == 0xC) {
+    if (((struct Obj09492 *)p)->f8 == 0xC) {
         func_02196034(p, (void *)func_02196804, 0x38C);
         return;
     }
-    if (func_02008428((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(*(u32 *)(p + 0x2E4))))) == 1) {
+    if (func_02008428((unsigned short *)func_0200873C((void *)func_02155A94((u8 *)(((struct Obj09492 *)p)->f2E4)))) == 1) {
         func_02196034(p, (void *)func_02197700, 0x38F);
         return;
     }
-    if (*(u32 *)(p + 8) - 6 <= 2) {
+    if (((struct Obj09492 *)p)->f8 - 6 <= 2) {
         func_02196034(p, (void *)func_02196804, 0x394);
         return;
     }

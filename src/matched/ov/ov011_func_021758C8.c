@@ -14,6 +14,7 @@
  *   func_02175894  0x02175894  thumb  ov011
  *   func_021758B4  0x021758B4  thumb  ov011
  */
+#include "../include/Obj00567.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ int func_021758C8(u8 *o)
     int v;
 
     if (func_02175B14(o) == 1 && o[0xd8] == 4) {
-        h = *(u16 *)(o + 0xa8);
+        h = ((struct Obj00567 *)o)->fA8;
         if (h != 0 || ((Flags *)(o + 0x1a5))->f == 0) {
             v = h - func_02175894(o);
         } else {

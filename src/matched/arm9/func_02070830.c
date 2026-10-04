@@ -27,6 +27,7 @@
  *   func_0206E7EC    0x0206E7EC  arm
  *   data_020A8228    0x020A8228  data
  */
+#include "../include/Obj16646.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -67,7 +68,7 @@ static inline void *GetName(struct Src70830 *src, u32 idx)
     u8 *tbl = (u8 *)src + 8;
     if (tbl != 0 && idx < src->b09) {
         u8 *q = tbl + src->h0e;
-        return q + *(u16 *)(q + 2) + idx * 0x10;
+        return q + ((struct Obj16646 *)q)->f2 + idx * 0x10;
     }
     return 0;
 }

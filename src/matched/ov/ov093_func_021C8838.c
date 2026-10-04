@@ -16,6 +16,7 @@
  * double narrowing, the second keeps the mask sign-extended (0xFFFF80FF) so
  * the pooled word matches.
  */
+#include "../include/Obj21124.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,6 +27,6 @@ void func_021C8838(void *p, int a, int b)
     u8 av = (u8)(u16)a;
 
     *h = (*h & ~0xff) | av;
-    *(u16 *)p = (u16)b;
+    ((struct Obj21124 *)p)->f0 = (u16)b;
     *h = (u16)((int)*h & ~0x7F00);
 }

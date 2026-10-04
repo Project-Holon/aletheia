@@ -13,6 +13,7 @@
  *   func_0216D4F0  0x0216D4F0  thumb  ov010
  *   func_0216D55C  0x0216D55C  thumb  ov010
  */
+#include "../include/Obj17852.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ t4 = 0;
     a0 = func_0216D4F0((void *)a0);
 loc_0216DEF6:
 t7 = 1;
-t5 = *(int *)((char *)t5 + 0x18);
+t5 = ((struct Obj17852 *)t5)->f18;
 t6 = a0 + 0;
 t7 = t7 << 8;
 loc_0216DEFE:

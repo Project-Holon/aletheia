@@ -19,6 +19,7 @@
  *   func_021D9EA0  0x021D9EA0  thumb  ov175
  *   func_021E8AA8  0x021E8AA8  thumb
  */
+#include "../include/Obj10679.h"
 typedef unsigned int u32;
 
 typedef unsigned char  u8;
@@ -29,9 +30,9 @@ void func_021D61CC(void *a, u32 **pp, char *p)
 {
     if (*pp != 0)
         return;
-    if (*(u32 *)(p + 0x30) != 0) {
-        func_021D9EA0((u8 *)(*(u32 *)(p + 0x30)));
-        *(u32 *)(p + 0x30) = 0;
+    if (((struct Obj10679 *)p)->f30 != 0) {
+        func_021D9EA0((u8 *)(((struct Obj10679 *)p)->f30));
+        ((struct Obj10679 *)p)->f30 = 0;
     }
     func_021E8AA8(a);
 }

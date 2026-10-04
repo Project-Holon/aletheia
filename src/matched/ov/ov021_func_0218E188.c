@@ -15,8 +15,9 @@
  * symbols:
  *   func_0218E188 0x0218E188 thumb ov021
  */
+#include "../include/Obj19558.h"
 
 int func_0218E188(unsigned char *o)
 {
-    return *(int *)(o + 0x10);
+    return ((struct Obj19558 *)o)->f10;
 }

@@ -15,10 +15,11 @@
  * halfword at +0x62 is below the unsigned halfword at +0x64.  Blocker target
  * of ov210's func_021BF728 (pkt_021BF728), across the ov210/ov067 pair.
  */
+#include "../include/Obj13136.h"
 
 typedef unsigned short u16;
 
 int func_021B93C0(char *p)
 {
-    return *(signed short *)(p + 0x62) < *(u16 *)(p + 0x64);
+    return ((struct Obj13136 *)p)->f62 < ((struct Obj13136 *)p)->f64;
 }

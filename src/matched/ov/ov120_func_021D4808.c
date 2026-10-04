@@ -16,6 +16,7 @@
  *   func_021D4584 0x021D4584 thumb ov120
  *   func_021D47D4 0x021D47D4 thumb ov120
  */
+#include "../include/Obj22827.h"
 extern int func_0203CD98(void);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -35,7 +36,7 @@ void func_021D4808(int a)
         return;
     }
     if (func_02039CB4((struct Link *)func_020399A8(), 2, 0x22) != 0) {
-        if (func_0203D3A8(func_020399A8(), 0x2200, 8, (u32)(*(char **)(a + 0x48) + 4)) != 0)
+        if (func_0203D3A8(func_020399A8(), 0x2200, 8, (u32)(*(char * *)&((struct Obj22827 *)a)->f48 + 4)) != 0)
             func_021D4244(a, (void (*)(int))func_021D47D4, 0x2e7);
     }
 }

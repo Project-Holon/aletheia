@@ -12,6 +12,7 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14507.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,8 +23,8 @@ typedef void (*fn_021F4614_t)(u8 *, u8 *, u32);
 
 void func_021F4614(u8 *p)
 {
-    if (*(u32 *)(p + 4) == 0) {
-        ((fn_021F4614_t)*(void **)p)(p, p + 8, *(u32 *)(p + 0xc));
+    if (((struct Obj14507 *)p)->f4 == 0) {
+        ((fn_021F4614_t)*(void **)p)(p, p + 8, ((struct Obj14507 *)p)->fC);
     }
 }
 

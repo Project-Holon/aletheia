@@ -51,6 +51,8 @@
  *   python3 tools/match.py one --src src/matched/func_02075794.c \
  *       --func func_02075794 --addr 0x02075794 --arm --cc ../2.0/sp2
  */
+#include "../include/Obj08953.h"
+#include "../include/Obj16687.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -85,7 +87,7 @@ u32 func_02075794(u32 a0, u32 a1, u32 a2, u32 a3, u8 *s0, u8 *s1, u32 s2, u32 s3
         return 0;
     }
 
-    func_020733E8(h, (u32 *)(s1 + *(u32 *)(s1 + 0x18)), *(u32 *)s0, (const void *)slot);
+    func_020733E8(h, (u32 *)(s1 + ((struct Obj16687 *)s1)->f18), ((struct Obj08953 *)s0)->f0, (const void *)slot);
     func_02072F48((struct Obj *)a0, s0[6]);
     func_02072F88((struct Obj *)a0, s0[7]);
     func_020730DC(a0, s2, s3);

@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj14393.h"
 
 int func_021B6780(char *p)
 {
-    *(int *)(p + 0x6050) = 2;
-    *(int *)(p + 0x6054) = 5;
+    ((struct Obj14393 *)p)->f6050 = 2;
+    ((struct Obj14393 *)p)->f6054 = 5;
     return 2;
 }

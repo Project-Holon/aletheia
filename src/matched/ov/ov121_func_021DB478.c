@@ -18,6 +18,7 @@
  *   func_02045808 0x02045808 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj00828.h"
 typedef unsigned short u16;
 extern void func_021DB54C(char *,int,int,int,u16,u16);
 extern int func_021DBDB8(char *);
@@ -41,13 +42,13 @@ void func_021DB478(char *p,int a,int b,int c,u16 heap)
     void *text,*other;
     for(i=0;i<4;i++) func_021DB54C(p,a,b,c,(u16)i,heap);
     text=func_020457B0(128,heap);
-    other=func_02045EC0(*(void **)(p+28),150);
-    func_0201EFA4(*(void **)(p+24),0,c+1,1,1,1);
-    func_0201EFA4(*(void **)(p+24),1,func_021DBDB8(p),1,1,1);
-    func_0201F250(*(void **)(p+24),text,other);
-    func_021D9B28(*(void **)(p+0xab4),0x39ea);
-    func_021D9B2C(*(void **)(p+0xab4),0,0,1);
-    func_021D9AC8(*(void **)(p+0xab4),(int)text,*(int *)(p+16));
+    other=func_02045EC0(((struct Obj00828 *)p)->f1C,150);
+    func_0201EFA4(((struct Obj00828 *)p)->f18,0,c+1,1,1,1);
+    func_0201EFA4(((struct Obj00828 *)p)->f18,1,func_021DBDB8(p),1,1,1);
+    func_0201F250(((struct Obj00828 *)p)->f18,text,other);
+    func_021D9B28(((struct Obj00828 *)p)->fAB4,0x39ea);
+    func_021D9B2C(((struct Obj00828 *)p)->fAB4,0,0,1);
+    func_021D9AC8(((struct Obj00828 *)p)->fAB4,(int)text,((struct Obj00828 *)p)->f10);
     func_02045808(text);
     func_02045808(other);
     func_020409B4(3);

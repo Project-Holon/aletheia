@@ -20,6 +20,8 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj00133.h"
+#include "../include/Obj05464.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {short x,y;} Pt;
@@ -47,7 +49,7 @@ void func_021E5F24(char *p,int mode,void *mgr,void *print,int font)
     int x;
     int base,layer1,secondary,layer2;
     Pt pos;
-    func_02043B5C(func_02045770(*(void **)(p+0x20)),0);
+    func_02043B5C(func_02045770(((struct Obj00133 *)p)->f20),0);
     i=0;
     func_021E7270(p);
     base=0x240;
@@ -76,45 +78,45 @@ void func_021E5F24(char *p,int mode,void *mgr,void *print,int font)
             char *q;
             void *o;
             q=p+i*4;
-            o=*(void **)(q+0x1a8);
+            o=((struct Obj05464 *)q)->f1A8;
             if(o)func_0204B3DC(o,1);
-            o=*(void **)(q+0x16c);
+            o=((struct Obj05464 *)q)->f16C;
             if(o)func_0204B3DC(o,1);
         }
-        func_0204B3DC(*(void **)(p+0x18c),1);
+        func_0204B3DC(((struct Obj00133 *)p)->f18C,1);
         s=func_02045EC0(mgr,17);
-        func_0201C724(print,func_02045770(*(void **)(p+0xb4)),0,0,s,font,0x3c40);
-        *(u8 *)(p+0xb8)=1;
+        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        ((struct Obj00133 *)p)->fB8=1;
         break;
     case 1:
         for(i=0;i<6;i++) {
             char *q;
             void *o;
             q=p+i*4;
-            o=*(void **)(q+0x1a8);
+            o=((struct Obj05464 *)q)->f1A8;
             if(o)func_0204B3DC(o,1);
-            o=*(void **)(q+0x16c);
+            o=((struct Obj05464 *)q)->f16C;
             if(o)func_0204B3DC(o,1);
         }
-        func_0204B3DC(*(void **)(p+0x18c),0);
+        func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,18);
-        func_0201C724(print,func_02045770(*(void **)(p+0xb4)),0,0,s,font,0x3c40);
-        *(u8 *)(p+0xb8)=1;
+        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        ((struct Obj00133 *)p)->fB8=1;
         break;
     case 2:
         for(i=0;i<6;i++) {
             char *q;
             void *o;
             q=p+i*4;
-            o=*(void **)(q+0x1a8);
+            o=((struct Obj05464 *)q)->f1A8;
             if(o)func_0204B3DC(o,0);
-            o=*(void **)(q+0x16c);
+            o=((struct Obj05464 *)q)->f16C;
             if(o)func_0204B3DC(o,0);
         }
-        func_0204B3DC(*(void **)(p+0x18c),0);
+        func_0204B3DC(((struct Obj00133 *)p)->f18C,0);
         s=func_02045EC0(mgr,19);
-        func_0201C724(print,func_02045770(*(void **)(p+0xb4)),0,0,s,font,0x3c40);
-        *(u8 *)(p+0xb8)=1;
+        func_0201C724(print,func_02045770(((struct Obj00133 *)p)->fB4),0,0,s,font,0x3c40);
+        ((struct Obj00133 *)p)->fB8=1;
         break;
     }
     func_02045808(s);

@@ -16,6 +16,8 @@
  *   func_02045808 0x02045808 arm
  *   func_021B6AE4 0x021B6AE4 thumb ov067
  */
+#include "../include/Obj02924.h"
+#include "../include/Obj25567.h"
 struct Blk37;
 struct MsgBank;
 struct WordSet;
@@ -32,13 +34,13 @@ void func_021BD75C(char *p, unsigned char *dest, unsigned text0, unsigned index)
 {
     unsigned ps;
     void *text;
-    ps = func_021B9394(*(char **)(p + 0xc2c));
-    if (func_0200CA70(*(struct Blk37 **)(*(char **)p + 4)) == 0)
+    ps = func_021B9394(*(char * *)&((struct Obj02924 *)p)->fC2C);
+    if (func_0200CA70(*(struct Blk37 * *)&((struct Obj25567 *)(*(char * *)&((struct Obj02924 *)p)->f0))->f4) == 0)
         index = (*(u16 **)(p + 0xc38))[index];
-    text = func_02045EC0(*(struct MsgBank **)(p + 60), 8);
-    func_0201EFA4(*(struct WordSet **)(p + 64), 0, index, 3, 2, 1);
-    func_0201F250(*(struct WordSet **)(p + 64), *(void **)(p + 68), text);
+    text = func_02045EC0(*(struct MsgBank * *)&((struct Obj02924 *)p)->f3C, 8);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, 0, index, 3, 2, 1);
+    func_0201F250(*(struct WordSet * *)&((struct Obj02924 *)p)->f40, ((struct Obj02924 *)p)->f44, text);
     func_02045808(text);
-    func_021B6AE4(dest, ps, 0, 4, *(unsigned *)(p + 68), *(unsigned *)(p + 56), 0x39e0, 0);
-    func_021B6AE4(dest, ps, 28, 4, text0, *(unsigned *)(p + 56), 0x39e0, 0);
+    func_021B6AE4(dest, ps, 0, 4, *(unsigned *)&((struct Obj02924 *)p)->f44, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
+    func_021B6AE4(dest, ps, 28, 4, text0, ((struct Obj02924 *)p)->f38, 0x39e0, 0);
 }

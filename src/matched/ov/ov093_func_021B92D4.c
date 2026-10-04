@@ -16,6 +16,8 @@
  *   func_021B8714  0x021B8714  thumb  ov093
  *   func_0201B7A0  0x0201B7A0  thumb
  */
+#include "../include/Obj07746.h"
+#include "../include/Obj13277.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
@@ -39,6 +41,6 @@ void func_021B92D4(char *p, void *m, int c)
     x = func_021D5844(x);
     y = func_021D5844(y);
     e = func_021B8714((char **)p);
-    func_0201B7A0(x, c, *(u16 *)(e + 0xa), (*(u16 *)(p + 0x468) & 0x7fff) | 0x8000);
-    func_0201B7A0(y, c, *(u16 *)(e + 0xa), (*(u16 *)(p + 0x468) & 0x7fff) | 0x8000);
+    func_0201B7A0(x, c, ((struct Obj13277 *)e)->fA, (((struct Obj07746 *)p)->f468 & 0x7fff) | 0x8000);
+    func_0201B7A0(y, c, ((struct Obj13277 *)e)->fA, (((struct Obj07746 *)p)->f468 & 0x7fff) | 0x8000);
 }

@@ -23,6 +23,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj00068.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,29 +48,29 @@ void func_021D4558(char *p)
 {
     u32 handle;
     Request req;
-    handle = (u32)func_020490F4((u32)((void *)0x1d), *(u16 *)p);
-    func_02049B68((void *)handle, 1, 4, 0, 0, *(u16 *)p);
-    func_02049658((void *)handle, 4, 6, 0, 0, 0, *(u16 *)p);
-    func_020498F4((void *)handle, 10, 6, 0, 0, 0, *(u16 *)p);
-    func_02049658((void *)handle, 4, 7, 0, 0, 0, *(u16 *)p);
-    func_020498F4((void *)handle, 9, 7, 0, 0, 0, *(u16 *)p);
+    handle = (u32)func_020490F4((u32)((void *)0x1d), ((struct Obj00068 *)p)->f0);
+    func_02049B68((void *)handle, 1, 4, 0, 0, ((struct Obj00068 *)p)->f0);
+    func_02049658((void *)handle, 4, 6, 0, 0, 0, ((struct Obj00068 *)p)->f0);
+    func_020498F4((void *)handle, 10, 6, 0, 0, 0, ((struct Obj00068 *)p)->f0);
+    func_02049658((void *)handle, 4, 7, 0, 0, 0, ((struct Obj00068 *)p)->f0);
+    func_020498F4((void *)handle, 9, 7, 0, 0, 0, ((struct Obj00068 *)p)->f0);
     func_02049238(handle);
-    handle = (u32)func_020490F4((u32)((void *)0x1e), *(u16 *)p);
-    if (func_02008550(**(void ***)(p + 4)) == 0)
-        *(int *)(p + 0x50) = func_0204AC18((void *)handle, 19, 1, 0, 0, 15, *(u16 *)p);
+    handle = (u32)func_020490F4((u32)((void *)0x1e), ((struct Obj00068 *)p)->f0);
+    if (func_02008550(**(void ** *)&((struct Obj00068 *)p)->f4) == 0)
+        ((struct Obj00068 *)p)->f50 = func_0204AC18((void *)handle, 19, 1, 0, 0, 15, ((struct Obj00068 *)p)->f0);
     else
-        *(int *)(p + 0x50) = func_0204AC18((void *)handle, 12, 1, 0, 0, 15, *(u16 *)p);
-    *(int *)(p + 0x54) = func_0204A6C8((void *)handle, 22, 0, 1, *(u16 *)p);
-    *(int *)(p + 0x58) = func_0204AF28((void *)handle, 21, 20, *(u16 *)p);
-    func_02049658((void *)handle, 0, 4, 0, 0, 0, *(u16 *)p);
-    *(void **)(p + 0x44) = func_02049F78((void *)handle, 13, (u32)(p + 0x48), *(u16 *)p);
+        ((struct Obj00068 *)p)->f50 = func_0204AC18((void *)handle, 12, 1, 0, 0, 15, ((struct Obj00068 *)p)->f0);
+    *(int *)&((struct Obj00068 *)p)->f54 = func_0204A6C8((void *)handle, 22, 0, 1, ((struct Obj00068 *)p)->f0);
+    *(int *)&((struct Obj00068 *)p)->f58 = func_0204AF28((void *)handle, 21, 20, ((struct Obj00068 *)p)->f0);
+    func_02049658((void *)handle, 0, 4, 0, 0, 0, ((struct Obj00068 *)p)->f0);
+    ((struct Obj00068 *)p)->f44 = func_02049F78((void *)handle, 13, (u32)(p + 0x48), ((struct Obj00068 *)p)->f0);
     func_02049238(handle);
     req.x = 32;
     req.y = 48;
     req.z = 0;
     req.a = 0;
     req.b = 0;
-    *(void **)(p + 0x5c) = func_0204B294(*(void **)(p + 0x4c), *(u32 *)(p + 0x50), *(u32 *)(p + 0x54), *(u32 *)(p + 0x58), &req, 1, *(u16 *)p);
-    func_0204B3DC(*(void **)(p + 0x5c), 0);
-    func_0204B92C(*(void **)(p + 0x5c), 1);
+    ((struct Obj00068 *)p)->f5C = func_0204B294(((struct Obj00068 *)p)->f4C, *(u32 *)&((struct Obj00068 *)p)->f50, ((struct Obj00068 *)p)->f54, ((struct Obj00068 *)p)->f58, &req, 1, ((struct Obj00068 *)p)->f0);
+    func_0204B3DC(((struct Obj00068 *)p)->f5C, 0);
+    func_0204B92C(((struct Obj00068 *)p)->f5C, 1);
 }

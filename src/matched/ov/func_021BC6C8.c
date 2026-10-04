@@ -14,11 +14,12 @@
 
  * True when the word at +0x10, less two, is 0 or 1.
  */
+#include "../include/Obj18186.h"
 
 
 int func_021BC6C8(char *p)
 {
-    unsigned int v = *(unsigned int *)(p + 0x10);
+    unsigned int v = ((struct Obj18186 *)p)->f10;
 
     v -= 2;
     return v <= 1;

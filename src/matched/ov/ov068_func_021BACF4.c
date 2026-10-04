@@ -12,6 +12,7 @@
  * symbols:
  *   func_02005C28  0x02005C28  thumb
  */
+#include "../include/Obj20645.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -20,7 +21,7 @@ extern void func_02005C28(u32 a);
 
 void func_021BACF4(u8 *p, u32 a, u32 b)
 {
-    if (*(u32 *)(p + 4) == 3 || b == 1) {
+    if (((struct Obj20645 *)p)->f4 == 3 || b == 1) {
         if (a == 0) {
             func_02005C28(1);
         } else {

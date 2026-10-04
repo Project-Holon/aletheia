@@ -15,6 +15,7 @@
  *   d_020A814C     0x020A814C  data   a4
  *   d_020A8144     0x020A8144  data   a4
  */
+#include "../include/Obj12384.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,9 +37,9 @@ void func_0216928C(void *p)
     func_020307B0((void *)F(0x88));
     func_020307B0((void *)F(0x84));
     func_020307B0((void *)F(0xd4));
-    if (*(u16 *)((char *)p + 0xa4) != 0)
+    if (((struct Obj12384 *)p)->fA4 != 0)
         func_020307B0((void *)F(0x9c));
-    if (*(u16 *)((char *)p + 0xa6) != 0)
+    if (((struct Obj12384 *)p)->fA6 != 0)
         func_020307B0((void *)F(0xa0));
     func_020307B0((void *)((u32)p));
 }

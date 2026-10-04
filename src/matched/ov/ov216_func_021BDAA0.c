@@ -13,6 +13,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021BDAD8 0x021BDAD8 thumb ov216
  */
+#include "../include/Obj25797.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -27,7 +28,7 @@ extern void func_021BDAD8(int,int **);
 void func_021BDAA0(u8 *p,int arg,int *counter)
 {
     Work *work;
-    work=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl **)(p+24),(TcblFunc)func_021BDAD8,12,0));
+    work=func_02031290((struct S02030FB4 *)func_020311B8(*(struct Tcbl * *)&((struct Obj25797 *)p)->f18,(TcblFunc)func_021BDAD8,12,0));
     func_02082BCC(work,0,12);
     work->owner=p;
     work->arg=arg;

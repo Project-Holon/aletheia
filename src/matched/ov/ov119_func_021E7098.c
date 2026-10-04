@@ -22,6 +22,7 @@
  *   func_0207E51C 0x0207E51C arm
  *   func_0207E3D0 0x0207E3D0 arm
  */
+#include "../include/Obj13926.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -44,8 +45,8 @@ void func_021E7098(char *p, int bank, int mask)
     char *buf;
     int i;
     int off;
-    s=func_02021518(*(u16 *)(p+0x5f4));
-    func_0202155C(s,bank,0x200,*(u16 *)(p+0x5f4));
+    s=func_02021518(((struct Obj13926 *)p)->f5F4);
+    func_0202155C(s,bank,0x200,((struct Obj13926 *)p)->f5F4);
     func_020216D4(s,bank,0,0x200);
     func_02021FD8(s,bank,0,0x100,6,0);
     buf=(char *)func_02021730((char *)s,bank);

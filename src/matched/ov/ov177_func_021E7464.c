@@ -14,6 +14,7 @@
  *   func_0204B294 0x0204B294 arm
  *   d_021E8CBE 0x021E8CBE data a1
  */
+#include "../include/Obj10710.h"
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 typedef unsigned short u16;
 
@@ -39,7 +40,7 @@ void func_021E7464(char *p, char *desc, unsigned owner, void *table, unsigned he
 {
     unsigned n, i, a, b, c;
     Request req;
-    n = func_021E7CF0(*(void **)(desc + 0xc), *(unsigned short *)(desc + 0x10), *(unsigned short *)(desc + 0x12));
+    n = func_021E7CF0(((struct Obj10710 *)desc)->fC, ((struct Obj10710 *)desc)->f10, ((struct Obj10710 *)desc)->f12);
     func_02082BCC(&req, 0, 8);
     req.x = 0x100;
     req.y = 0x10;

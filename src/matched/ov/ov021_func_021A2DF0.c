@@ -18,6 +18,7 @@
  *   func_021A35F0  0x021A35F0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19760.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,7 +36,7 @@ void func_021A2DF0(u32 a)
     u8 *p = (u8 *)func_02188CA4((u8 *)a);
     void *q = func_02188CB4((void *)a);
 
-    if (*(u32 *)(p + 0xC) == 0) {
+    if (((struct Obj19760 *)p)->fC == 0) {
         u32 x = func_020362DC();
         u32 y = func_0203630C();
         u32 f = 0;

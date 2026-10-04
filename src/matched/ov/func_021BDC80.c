@@ -14,17 +14,18 @@
 
  * Returns one of three words selected by +0x10, or -1.
  */
+#include "../include/Obj07227.h"
 
 
 int func_021BDC80(char *p)
 {
-    switch (*(int *)(p + 0x10)) {
+    switch (((struct Obj07227 *)p)->f10) {
     case 0:
-        return *(int *)(p + 0x44);
+        return ((struct Obj07227 *)p)->f44;
     case 1:
-        return *(int *)(p + 0x50);
+        return ((struct Obj07227 *)p)->f50;
     case 2:
-        return *(int *)(p + 0x5c);
+        return ((struct Obj07227 *)p)->f5C;
     }
     return -1;
 }

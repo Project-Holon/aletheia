@@ -29,6 +29,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021C84E0  0x021C84E0  thumb  ov093
  */
+#include "../include/Obj06229.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D5B68(void *p);
@@ -55,16 +56,16 @@ int func_021CC008(u8 *p, u8 *q, u16 s)
         r = func_021D805C((void *)s, 0x3a);
         switch (r) {
         case 0xff:
-            *(u16 *)(w + 6) = func_021D59B4(q, 0xe);
+            ((struct Obj06229 *)w)->f6 = func_021D59B4(q, 0xe);
             break;
         case 0xfe:
-            *(u16 *)(w + 6) = func_021D7B74(q, 2);
+            ((struct Obj06229 *)w)->f6 = func_021D7B74(q, 2);
             break;
         case 0xfd:
-            *(u16 *)(w + 6) = func_021D7B74(q, 4);
+            ((struct Obj06229 *)w)->f6 = func_021D7B74(q, 4);
             break;
         default:
-            *(u16 *)(w + 6) = func_021D805C((void *)s, 0x3a);
+            ((struct Obj06229 *)w)->f6 = func_021D805C((void *)s, 0x3a);
             break;
         }
         func_021C8838(w + 8, 2, 3);

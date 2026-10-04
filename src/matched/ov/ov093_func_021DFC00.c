@@ -20,6 +20,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj07822.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -60,6 +61,6 @@ void func_021DFC00(int self, void *q, int id)
     r = (u8 *)func_021C88A4(q, 0x2e, id);
     r[6] = func_021D775C(3);
     r[7] = (r[7] & ~0xf0) | 0x10;
-    *(u16 *)(r + 4) = 0x28c;
+    ((struct Obj07822 *)r)->f4 = 0x28c;
     func_021C88C8(q, r);
 }

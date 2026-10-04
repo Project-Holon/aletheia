@@ -14,6 +14,7 @@
  *   func_021B8640  0x021B8640  thumb  ov093
  *   func_021ED9A4  0x021ED9A4  thumb  ov093
  */
+#include "../include/Obj10122.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,8 +32,8 @@ void func_021ED930(char *s)
         *(u8 *)(s + i * 12 + 0x53) = 0;
         *(int *)(s + i * 12 + 0x48) = 0;
     }
-    if (func_021B8588(*(void **)(s + 0x134)) != 3) {
-        n = func_021B8640(*(void **)(s + 0x134));
+    if (func_021B8588(((struct Obj10122 *)s)->f134) != 3) {
+        n = func_021B8640(((struct Obj10122 *)s)->f134);
     } else {
         n = 5;
     }

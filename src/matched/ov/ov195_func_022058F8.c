@@ -27,6 +27,7 @@
  *   func_02205AAC 0x02205AAC thumb ov195
  *   func_020056A0 0x020056A0 thumb
  */
+#include "../include/Obj24951.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -67,6 +68,6 @@ char *func_022058F8(u32 a, u32 b)
     func_02205AC0(p, (void *)b);
     func_02205B6C(p + 4, d_02208CEC, b);
     func_02205BDC((u32 *)(p + 8), (void *)b);
-    *(u32 *)(p + 0xc) = func_020056A0(func_02205AAC, p, 0);
+    ((struct Obj24951 *)p)->fC = func_020056A0(func_02205AAC, p, 0);
     return p;
 }

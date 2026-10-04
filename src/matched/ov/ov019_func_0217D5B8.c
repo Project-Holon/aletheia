@@ -36,6 +36,7 @@
  *   func_021734A8  0x021734A8  thumb  ov012
  *   d_021807E8     0x021807E8  data  a4
  */
+#include "../include/Obj00033.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -112,7 +113,7 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
             if (b->f01 == 0xe) {
                 p = func_02030734(0x41, 8, 1, (const char *)d_021807E8, 0xB9A);
                 p[1] = (*(int **)a)[2];
-                *(int **)(a + 0x3558) = p;
+                *(int * *)&((struct Obj00033 *)a)->f3558 = p;
                 func_0217422C(a, 3, (int)p);
             } else {
                 p = func_02030734(0x41, 0x18, 1, (const char *)d_021807E8, 0xBA2);
@@ -120,7 +121,7 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
                 p[2] = (int)func_02012934((void *)(*(int **)a)[2]);
                 p[3] = (int)func_02012EBC((struct Big *)((*(int **)a)[2]));
                 p[4] = (int)func_02012F2C((int *)((*(int **)a)[2]));
-                *(int **)(a + 0x3558) = p;
+                *(int * *)&((struct Obj00033 *)a)->f3558 = p;
                 func_0217422C(a, 4, (int)p);
             }
             (*d)++;
@@ -128,8 +129,8 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 4:
         if (func_02174268(a) == 0) {
-            func_020307B0(*(int **)(a + 0x3558));
-            *(int **)(a + 0x3558) = 0;
+            func_020307B0(*(int * *)&((struct Obj00033 *)a)->f3558);
+            *(int * *)&((struct Obj00033 *)a)->f3558 = 0;
             if (func_0200FB24() != 0) {
                 func_0217B8E4(a, 1);
                 return 1;

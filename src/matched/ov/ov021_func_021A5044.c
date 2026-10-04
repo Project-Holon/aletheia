@@ -21,6 +21,7 @@
  *   func_021A3964  0x021A3964  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06012.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -54,13 +55,13 @@ void func_021A5044(u32 *a, u32 b, u32 *c)
         }
     }
     if (f == 1) {
-        if (func_021A57C0((u8 *)((u32)a), *(u16 *)(c + 2)) == 1) {
+        if (func_021A57C0((u8 *)((u32)a), ((struct Obj06012 *)c)->f8) == 1) {
             if (r == 0x14) {
                 r = 0x10;
             }
         }
     }
-    func_0216D410(b, func_02197E7C(*(u16 *)(c + 2), r));
+    func_0216D410(b, func_02197E7C(((struct Obj06012 *)c)->f8, r));
     a[0] = 1;
     func_021A3964((u8 *)a[3], 1);
 }

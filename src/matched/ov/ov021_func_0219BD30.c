@@ -19,6 +19,7 @@
  *   func_02197E7C  0x02197E7C  thumb  ov021
  *   func_0216D438  0x0216D438  thumb  ov010
  */
+#include "../include/Obj05999.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,10 +39,10 @@ int func_0219BD30(u32 a, u32 b)
 {
     u32 x = func_0216D83C((void *)a);
     u32 y = func_0216D86C((void *)a);
-    u32 px = func_0216D83C((void *)(*(u32 *)(b + 8)));
-    u32 py = func_0216D86C((void *)(*(u32 *)(b + 8)));
-    u32 pz = func_0216D804((void *)(*(u32 *)(b + 8)));
-    u32 pw = func_0216D81C((void *)(*(u32 *)(b + 8)));
+    u32 px = func_0216D83C((void *)(((struct Obj05999 *)b)->f8));
+    u32 py = func_0216D86C((void *)(((struct Obj05999 *)b)->f8));
+    u32 pz = func_0216D804((void *)(((struct Obj05999 *)b)->f8));
+    u32 pw = func_0216D81C((void *)(((struct Obj05999 *)b)->f8));
     u32 r;
     if (x == px && y == py) {
         return 0;

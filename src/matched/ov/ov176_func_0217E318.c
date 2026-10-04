@@ -14,6 +14,7 @@
  *   d_0217E64C 0x0217E64C data a1
  *   func_02157DD8 0x02157DD8 thumb ov010
  */
+#include "../include/Obj08287.h"
 typedef struct {
     unsigned a;
     unsigned short b, heap;
@@ -35,12 +36,12 @@ void func_0217E318(char *p, unsigned value)
     config.c = 0x160;
     config.value = value;
     config.b = 0;
-    config.heap = *(unsigned short *)(p + 4);
+    config.heap = ((struct Obj08287 *)p)->f4;
     config.byte = d_0209DF0C;
     config.flags = 0x200000;
     config.last = 1;
-    if (*(void **)(p + 0x1018))
+    if (((struct Obj08287 *)p)->f1018)
         func_02034714(d_0217E64C, 0, d_0217E64C);
-    *(void **)(p + 0x1018) = func_02157DD8(&config);
-    *(int *)p = 0;
+    ((struct Obj08287 *)p)->f1018 = func_02157DD8(&config);
+    ((struct Obj08287 *)p)->f0 = 0;
 }

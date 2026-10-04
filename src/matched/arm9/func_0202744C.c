@@ -33,13 +33,14 @@
  *   python tools/match.py one --src src/matched/func_0202744C.c \
  *       --func func_0202744C --addr 0x0202744C --cc 1.1p1 --thumb
  */
+#include "../include/Obj00121.h"
 
 typedef unsigned short u16;
 
 void func_0202744C(void *dst)
 {
-    u16 v = *(u16 *)((char *)dst + 0x48);
+    u16 v = ((struct Obj00121 *)dst)->f48;
 
     v = (v & ~0xffu) | 5;
-    *(u16 *)((char *)dst + 0x48) = v;
+    ((struct Obj00121 *)dst)->f48 = v;
 }

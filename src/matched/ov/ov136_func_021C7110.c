@@ -17,6 +17,8 @@
  *   func_021C7298 0x021C7298 thumb
  *   func_021C76D0 0x021C76D0 thumb
  */
+#include "../include/Obj01066.h"
+#include "../include/Obj23635.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,9 +33,9 @@ extern void func_021C7298(void *p, int v);
 int func_021C7110(u8 *p)
 {
     func_021C62F4(p);
-    func_0202CC70(**(void ***)(p + 8), 10);
-    func_021C76D0(p, func_020260E0(*(void **)(*(u8 **)(p + 8) + 0x294)));
-    func_021C66B8(*(u8 **)(p + 8), 2, 1);
-    func_021C7298(*(u8 **)(p + 8), 0);
+    func_0202CC70(**(void ** *)&((struct Obj01066 *)p)->f8, 10);
+    func_021C76D0(p, func_020260E0(((struct Obj23635 *)(*(u8 * *)&((struct Obj01066 *)p)->f8))->f294));
+    func_021C66B8(*(u8 * *)&((struct Obj01066 *)p)->f8, 2, 1);
+    func_021C7298(*(u8 * *)&((struct Obj01066 *)p)->f8, 0);
     return 9;
 }

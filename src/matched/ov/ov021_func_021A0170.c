@@ -14,6 +14,7 @@
  *   func_0207DD10  0x0207DD10  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03581.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,10 +31,10 @@ static inline void SetFogColor(u16 color, int alpha)
 
 void func_021A0170(u8 *p)
 {
-    if (*(u32 *)(p + 0x40)) {
-        func_0207DC44(p[0], p[1], p[2], *(u32 *)(p + 4));
-        SetFogColor(*(u16 *)(p + 8), p[3]);
+    if (((struct Obj03581 *)p)->f40) {
+        func_0207DC44(p[0], p[1], p[2], ((struct Obj03581 *)p)->f4);
+        SetFogColor(((struct Obj03581 *)p)->f8, p[3]);
         func_0207DD10(p + 0xc);
-        *(u32 *)(p + 0x40) = 0;
+        ((struct Obj03581 *)p)->f40 = 0;
     }
 }

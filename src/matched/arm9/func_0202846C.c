@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_0202846C.c \\
  *       --func func_0202846C --addr 0x0202846C --thumb --cc 1.1p1
  */
+#include "../include/Obj15793.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef signed int     s32;
 
 u32 func_0202846C(u8 *p)
 {
-    return *(u32 *)(p + 0xc);
+    return ((struct Obj15793 *)p)->fC;
 }

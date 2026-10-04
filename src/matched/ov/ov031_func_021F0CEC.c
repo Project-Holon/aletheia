@@ -18,6 +18,7 @@
  *   func_021F0D58  0x021F0D58  thumb  ov031
  *   func_0204B404  0x0204B404  arm
  */
+#include "../include/Obj20409.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,5 +49,5 @@ void func_021F0CEC(char *o, B *b)
         b->n = b->a - 0x1B;
     t[1] = 0x9C - ((u32)((b->a - b->n) * c) >> 8);
     t[0] = 0xF4;
-    func_0204B404((struct Obj *)(*(int *)(o + 0x2C)), (const struct Vec2 *)t, 1);
+    func_0204B404((struct Obj *)(((struct Obj20409 *)o)->f2C), (const struct Vec2 *)t, 1);
 }

@@ -20,6 +20,7 @@
  *   func_021BA028 0x021BA028 thumb ov222
  *   d_021BA1D8 0x021BA1D8 data a4
  */
+#include "../include/Obj01593.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,13 +40,13 @@ void func_021B9CE4(char*p)
 {
  u32 t;
  void *h;
- h=func_020490F4(0xca,*(u16*)p);
- *(int*)(p+0x4c)=func_0204AC18(h,0,0,0,0,2,*(u16*)p);
- *(int*)(p+0x48)=func_0204A6C8(h,3,0,0,*(u16*)p);
- *(int*)(p+0x50)=func_0204AF28(h,8,9,*(u16*)p);
+ h=func_020490F4(0xca,((struct Obj01593 *)p)->f0);
+ *(int *)&((struct Obj01593 *)p)->f4C=func_0204AC18(h,0,0,0,0,2,((struct Obj01593 *)p)->f0);
+ *(int *)&((struct Obj01593 *)p)->f48=func_0204A6C8(h,3,0,0,((struct Obj01593 *)p)->f0);
+ *(int *)&((struct Obj01593 *)p)->f50=func_0204AF28(h,8,9,((struct Obj01593 *)p)->f0);
  func_02049238((void*)h);
- t=func_021BA028(*(void**)(p+8));
- *(void**)(p+0x54)=func_0204B294((void*)t,*(u32*)(p+0x48),*(u32*)(p+0x4c),*(u32*)(p+0x50),d_021BA1D8,0,*(u16*)p);
- func_0204B3DC(*(void**)(p+0x54),1);
- func_0204B92C(*(void**)(p+0x54),1);
+ t=func_021BA028(*(void* *)&((struct Obj01593 *)p)->f8);
+ *(void* *)&((struct Obj01593 *)p)->f54=func_0204B294((void*)t,((struct Obj01593 *)p)->f48,((struct Obj01593 *)p)->f4C,((struct Obj01593 *)p)->f50,d_021BA1D8,0,((struct Obj01593 *)p)->f0);
+ func_0204B3DC(*(void* *)&((struct Obj01593 *)p)->f54,1);
+ func_0204B92C(*(void* *)&((struct Obj01593 *)p)->f54,1);
 }

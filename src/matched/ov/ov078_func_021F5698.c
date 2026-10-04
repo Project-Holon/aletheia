@@ -17,6 +17,7 @@
  *   func_021F5748  0x021F5748  thumb  ov078
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03670.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -38,13 +39,13 @@ void *func_021F5698(void *a)
 
     w = (u8 *)func_021CF52C((u32 *)func_02189A08((unsigned char *)((int)func_0201210C(a))), 0x19E0, 0x50);
     h = func_020122C0(a, 0, (void (*)(void))func_021F5748, 0);
-    *(s16 *)(w + 0x19CA) = 7;
-    *(s16 *)(w + 0x19C8) = 0;
-    *(s16 *)(w + 0x19CC) = 8;
-    *(int *)(w + 0x19D0) = 0x400;
-    *(s16 *)(w + 0x19CE) = 0;
-    *(int *)(w + 0x19D8) = 0x32;
-    *(int *)(w + 0x19DC) = 0;
+    ((struct Obj03670 *)w)->f19CA = 7;
+    ((struct Obj03670 *)w)->f19C8 = 0;
+    ((struct Obj03670 *)w)->f19CC = 8;
+    ((struct Obj03670 *)w)->f19D0 = 0x400;
+    ((struct Obj03670 *)w)->f19CE = 0;
+    ((struct Obj03670 *)w)->f19D8 = 0x32;
+    ((struct Obj03670 *)w)->f19DC = 0;
     for (i = 0; i < 0x339; i++) {
         s16 *e = (s16 *)(w + i * 6);
 
@@ -52,6 +53,6 @@ void *func_021F5698(void *a)
         e[1] = ((i / 33) << 12) / 16;
         e[2] = 0;
     }
-    *(int *)(w + 0x19D4) = 0xc;
+    ((struct Obj03670 *)w)->f19D4 = 0xc;
     return h;
 }

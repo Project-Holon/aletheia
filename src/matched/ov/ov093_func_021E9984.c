@@ -21,6 +21,8 @@
  *   func_021B8748 0x021B8748 thumb ov093
  *   func_021B86B8 0x021B86B8 thumb ov093
  */
+#include "../include/Obj00056.h"
+#include "../include/Obj00714.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -42,20 +44,20 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     u32 k;
     int zero;
     int active;
-    k = func_021D3D70(*(void **)(p + 4));
-    *(int *)(q + 4) = func_021B8F5C(*(u8 **)p, k);
-    if (mode != 3) active = func_021B8F38(*(void **)p);
+    k = func_021D3D70(((struct Obj00056 *)p)->f4);
+    ((struct Obj00714 *)q)->f4 = func_021B8F5C(*(u8 * *)&((struct Obj00056 *)p)->f0, k);
+    if (mode != 3) active = func_021B8F38(((struct Obj00056 *)p)->f0);
     else active = 0;
-    *(int *)(q + 0x18) = active;
+    ((struct Obj00714 *)q)->f18 = active;
     if (active) {
-        *(int *)(q + 8) = func_021B8F7C(*(u8 **)p, k);
-        q[0x1c] = func_021B8FC0(*(void **)p, k);
+        ((struct Obj00714 *)q)->f8 = func_021B8F7C(*(u8 * *)&((struct Obj00056 *)p)->f0, k);
+        q[0x1c] = func_021B8FC0(((struct Obj00056 *)p)->f0, k);
     } else {
-        *(int *)(q + 8) = 0;
+        ((struct Obj00714 *)q)->f8 = 0;
         q[0x1c] = 0;
     }
     q[0x1f] = mode;
-    if (func_021B8588(*(void **)p) != 3) q[0x22] = func_021B99B8(*(void **)p, k);
+    if (func_021B8588(((struct Obj00056 *)p)->f0) != 3) q[0x22] = func_021B99B8(((struct Obj00056 *)p)->f0, k);
     else q[0x22] = 3;
     switch (mode) {
     case 4:
@@ -64,19 +66,19 @@ void func_021E9984(u8 *p, u8 *q, int mode, u8 x, int y)
     }
     q[0x20] = active;
     q[0x21] = x;
-    *(u16 *)(q + 0x26) = y;
+    ((struct Obj00714 *)q)->f26 = y;
     q[0x4b] = 0;
-    *(u16 *)(q + 0x10) = *(u16 *)(p + 0x184);
-    *(u32 *)(q + 0xc) = *(u32 *)(p + 0xb0);
-    *(u32 *)(q + 0x14) = func_021B8588(*(void **)p);
-    *(int *)(q + 0x44) = func_021E9A68(*(void **)(p + 0x180));
-    *(void **)(q + 0x28) = func_021F86D4();
-    *(void **)(q + 0x2c) = (void *)func_021F86E0();
-    *(void **)q = (void *)func_021B8748(*(void **)p);
-    *(int *)(q + 0x30) = 0;
+    ((struct Obj00714 *)q)->f10 = ((struct Obj00056 *)p)->f184;
+    ((struct Obj00714 *)q)->fC = ((struct Obj00056 *)p)->fB0;
+    ((struct Obj00714 *)q)->f14 = func_021B8588(((struct Obj00056 *)p)->f0);
+    ((struct Obj00714 *)q)->f44 = func_021E9A68(((struct Obj00056 *)p)->f180);
+    ((struct Obj00714 *)q)->f28 = func_021F86D4();
+    ((struct Obj00714 *)q)->f2C = (void *)func_021F86E0();
+    ((struct Obj00714 *)q)->f0 = (void *)func_021B8748(((struct Obj00056 *)p)->f0);
+    ((struct Obj00714 *)q)->f30 = 0;
     zero = 0;
-    if ((int)func_021B86B8(*(void ****)p) != 3) zero = 1;
-    *(int *)(q + 0x40) = zero;
-    *(int *)(q + 0x34) = 0;
+    if ((int)func_021B86B8(*(void *** *)&((struct Obj00056 *)p)->f0) != 3) zero = 1;
+    ((struct Obj00714 *)q)->f40 = zero;
+    ((struct Obj00714 *)q)->f34 = 0;
     q[0x4c] = 0;
 }

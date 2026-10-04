@@ -15,6 +15,7 @@
  *
  * Probe the parent object; on success stamp 5 into +0x28 and report 2.
  */
+#include "../include/Obj18607.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ extern u32 func_020221A4(void);
 int func_022004DC(u8 *p)
 {
     if (func_020221A4()) {
-        *(u32 *)(p + 0x28) = 5;
+        ((struct Obj18607 *)p)->f28 = 5;
     }
     return 2;
 }

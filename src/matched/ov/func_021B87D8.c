@@ -13,6 +13,7 @@
  *   (none)
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02659.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,9 +21,9 @@ typedef unsigned int   u32;
 
 u8 *func_021B87D8(u8 *p, u32 idx)
 {
-    if (*(u16 *)p > idx)
-        return *(u8 **)(p + 0x10) + idx * 0x70;
+    if (((struct Obj02659 *)p)->f0 > idx)
+        return *(u8 * *)&((struct Obj02659 *)p)->f10 + idx * 0x70;
     if (idx == 0xFFFF)
         return 0;
-    return *(u8 **)(p + 0x10);
+    return *(u8 * *)&((struct Obj02659 *)p)->f10;
 }

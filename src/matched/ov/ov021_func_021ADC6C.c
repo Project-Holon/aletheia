@@ -15,6 +15,7 @@
  *   func_02047AC8  0x02047AC8  arm
  *   d_021D9254     0x021D9254  data  a4
  */
+#include "../include/Obj09607.h"
 
 typedef unsigned char u8;
 
@@ -30,7 +31,7 @@ extern int func_02047AC8(void *a0, struct Arg *a1);
 void func_021ADC6C(int a, u8 *b)
 {
     T t = d_021D9254;
-    int c = *(int *)(b + 8);
+    int c = ((struct Obj09607 *)b)->f8;
 
     if (b[3] == 0) {
         func_0207ADC4(&t.w[6]);

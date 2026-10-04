@@ -19,6 +19,7 @@
  *   func_021D5448  0x021D5448  thumb  ov093
  *   func_021D54C0  0x021D54C0  thumb  ov093
  */
+#include "../include/Obj00005.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -50,6 +51,6 @@ int func_02188BB0(int a, Conn *b)
             break;
     }
     if (i < func_021D5448((struct QG *)b->fbc))
-        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + m);
+        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + m);
     return b->fc4;
 }

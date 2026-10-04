@@ -20,6 +20,7 @@
  *   a2 0x021BA550 data a4
  *   b2 0x021BA548 data a4
  */
+#include "../include/Obj00228.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -48,7 +49,7 @@ void func_021B98A0(u8 *p)
     case 8: func_021B9A88(p,30); break;
     case 9: func_021B987C(p); return;
     }
-    pos.x=*(int *)(p+28); pos.y=*(int *)(p+32);
-    func_0204B404(*(void **)(p+0x1854),&pos,0);
+    pos.x=((struct Obj00228 *)p)->f1C; pos.y=((struct Obj00228 *)p)->f20;
+    func_0204B404(((struct Obj00228 *)p)->f1854,&pos,0);
     func_021B75E0(p);
 }

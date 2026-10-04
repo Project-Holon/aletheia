@@ -19,6 +19,7 @@
  *   func_021F8F84 0x021F8F84 thumb ov135
  *   func_021F9024 0x021F9024 thumb ov135
  */
+#include "../include/Obj01743.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021F8A74(u8 *);
@@ -33,49 +34,49 @@ extern int func_021F9024(u8 *, void *);
 int func_021F8E88(void *dialog, u8 *p)
 {
     int result;
-    switch (*(u32 *)(p + 0x12ec)) {
+    switch (((struct Obj01743 *)p)->f12EC) {
     case 0:
         if (func_021F8A74(p))
-            (*(u32 *)(p + 0x12ec))++;
+            (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 1:
         result = func_021F8A80(p);
         switch (result) {
-        case 1: (*(u32 *)(p + 0x12ec))++; break;
-        case 2: *(u32 *)(p + 0x12ec) = 9; break;
+        case 1: (((struct Obj01743 *)p)->f12EC)++; break;
+        case 2: ((struct Obj01743 *)p)->f12EC = 9; break;
         }
         break;
     case 2:
-        if (func_021F8AB0((u8 **)p)) (*(u32 *)(p + 0x12ec))++;
+        if (func_021F8AB0((u8 **)p)) (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 3:
-        if (func_021F8AF4(p)) (*(u32 *)(p + 0x12ec))++;
+        if (func_021F8AF4(p)) (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 4:
         result = func_021F8B0C(p);
         switch (result) {
-        case 1: (*(u32 *)(p + 0x12ec))++; break;
-        case 2: *(u32 *)(p + 0x12ec) = 7; break;
+        case 1: (((struct Obj01743 *)p)->f12EC)++; break;
+        case 2: ((struct Obj01743 *)p)->f12EC = 7; break;
         }
         break;
     case 5:
-        if (func_021F8BBC(p)) (*(u32 *)(p + 0x12ec))++;
+        if (func_021F8BBC(p)) (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 6:
         result = func_021F8BE8(p);
         switch (result) {
-        case 1: *(u32 *)(p + 0x12ec) = 0; return 0;
-        case 2: *(u32 *)(p + 0x12ec) = 7; break;
+        case 1: ((struct Obj01743 *)p)->f12EC = 0; return 0;
+        case 2: ((struct Obj01743 *)p)->f12EC = 7; break;
         }
         break;
     case 7:
-        if (func_021F8F84(p, dialog)) (*(u32 *)(p + 0x12ec))++;
+        if (func_021F8F84(p, dialog)) (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 8:
-        if (func_021F9024(p, dialog)) (*(u32 *)(p + 0x12ec))++;
+        if (func_021F9024(p, dialog)) (((struct Obj01743 *)p)->f12EC)++;
         break;
     case 9:
-        *(u32 *)(p + 0x12ec) = 0;
+        ((struct Obj01743 *)p)->f12EC = 0;
         return 1;
     }
     return 2;

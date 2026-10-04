@@ -14,6 +14,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj07738.h"
 typedef unsigned int u32;
 struct S020314B8;
 struct S020315D4;
@@ -24,9 +25,9 @@ extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned int heap);
 int func_021B95E8(struct S020315D4 *p, u32 b, u32 c, u32 d)
 {
-    func_0203133C(*(struct S020314B8 **)(d + 0x40));
-    if (*(struct U16Vec **)(d + 0x2c)) func_02045808(*(struct U16Vec **)(d + 0x2c));
-    func_02045808(*(struct U16Vec **)(d + 4));
+    func_0203133C(*(struct S020314B8 * *)&((struct Obj07738 *)d)->f40);
+    if (*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C) func_02045808(*(struct U16Vec * *)&((struct Obj07738 *)d)->f2C);
+    func_02045808(*(struct U16Vec * *)&((struct Obj07738 *)d)->f4);
     func_020315D4(p);
     func_020306F0(0x52);
     return 1;

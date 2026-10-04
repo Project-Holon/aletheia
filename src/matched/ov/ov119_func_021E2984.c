@@ -15,6 +15,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021B6558 0x021B6558 thumb ov067
  */
+#include "../include/Obj02172.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct MsgBank;
@@ -29,14 +30,14 @@ extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 void *func_021E2984(char *p,int a) {
     void *t;
-    t=func_020457B0(100,*(u16 *)(p+0x5f4));
-    *(void **)(p+0x650)=t;
-    func_02045CAC(*(void **)(p+0x720),a,t);
-    *(u16 *)(p+0x654)=0x39e3;
-    *(int *)(p+0x658)=0;
-    *(void **)(p+0x648)=func_0202800C((u32)(*(void **)(p+0x6b0)),(u32)(p+0x650),8,21,16,3,0,1,*(u16 *)(p+0x5f4));
-    func_02045808(*(void **)(p+0x650));
-    func_0204B3DC(*(void **)(p+0xf04),0);
-    func_021B6558((unsigned char *)(*(int *)(p+0x9c0)),8,0);
-    return *(void **)(p+0x648);
+    t=func_020457B0(100,((struct Obj02172 *)p)->f5F4);
+    ((struct Obj02172 *)p)->f650=t;
+    func_02045CAC(((struct Obj02172 *)p)->f720,a,t);
+    ((struct Obj02172 *)p)->f654=0x39e3;
+    ((struct Obj02172 *)p)->f658=0;
+    ((struct Obj02172 *)p)->f648=func_0202800C((u32)(((struct Obj02172 *)p)->f6B0),(u32)(p+0x650),8,21,16,3,0,1,((struct Obj02172 *)p)->f5F4);
+    func_02045808(((struct Obj02172 *)p)->f650);
+    func_0204B3DC(((struct Obj02172 *)p)->fF04,0);
+    func_021B6558((unsigned char *)(((struct Obj02172 *)p)->f9C0),8,0);
+    return ((struct Obj02172 *)p)->f648;
 }

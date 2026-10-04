@@ -10,6 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15962.h"
 
 typedef unsigned char  u8;
 extern void *func_0203D788(void);
@@ -19,6 +20,6 @@ void func_0203C0B4(void)
     int *r = func_0203D788();
     void (*fn)(int);
     func_020394DC(1);
-    fn = *(void (**)(int))(*(int *)((char *)r + 0x340) + 0xc);
+    fn = *(void (**)(int))(((struct Obj15962 *)r)->f340 + 0xc);
     fn(0);
 }

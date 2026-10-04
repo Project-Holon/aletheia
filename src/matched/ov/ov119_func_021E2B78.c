@@ -13,6 +13,7 @@
  *   func_02048B6C 0x02048B6C arm
  *   func_02048B20 0x02048B20 arm
  */
+#include "../include/Obj08066.h"
 typedef struct {int x,y,z;} Vec;
 extern void func_02048AFC(void *,Vec *);
 extern void func_02048B44(void *,Vec *);
@@ -23,10 +24,10 @@ void func_021E2B78(char *p) {
     Vec b;
     a.x=0; a.y=0x2b000; a.z=0xf1000;
     b.x=0; b.y=0x2b000; b.z=0;
-    func_02048AFC(*(void **)(p+0x83c),&a);
-    func_02048B44(*(void **)(p+0x83c),&b);
+    func_02048AFC(((struct Obj08066 *)p)->f83C,&a);
+    func_02048B44(((struct Obj08066 *)p)->f83C,&b);
     a.z-=0x1000;
-    func_02048B6C(*(void **)(p+0x83c),&a.z);
+    func_02048B6C(((struct Obj08066 *)p)->f83C,&a.z);
     b.x=0; b.y=0x1000; b.z=0;
-    func_02048B20(*(void **)(p+0x83c),&b);
+    func_02048B20(((struct Obj08066 *)p)->f83C,&b);
 }

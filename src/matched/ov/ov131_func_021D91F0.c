@@ -22,6 +22,11 @@
  *   func_0201ED04 0x0201ED04 thumb
  *   func_021DBCF4 0x021DBCF4 thumb ov131
  */
+#include "../include/Obj06484.h"
+#include "../include/Obj10516.h"
+#include "../include/Obj10517.h"
+#include "../include/Obj10518.h"
+#include "../include/Obj23153.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -51,22 +56,22 @@ void func_021D91F0(u8 *a,u8 *p,u8 *entry)
     void *buffer;
     void *object;
     void *source;
-    record=p+0x138+*(u16 *)entry*8;
-    if (*(u32 *)record!=1) return;
-    pixels=*(u8 **)(*(u8 **)(p+0x48)+0x14);
-    source=func_020437D4(*(void **)(entry+12));
-    if (*(u16 *)entry==p[0x59]) pixels+=0x660;
+    record=p+0x138+((struct Obj06484 *)entry)->f0*8;
+    if (((struct Obj10518 *)record)->f0!=1) return;
+    pixels=*(u8 * *)&((struct Obj23153 *)(*(u8 * *)&((struct Obj10517 *)p)->f48))->f14;
+    source=func_020437D4(((struct Obj06484 *)entry)->fC);
+    if (((struct Obj06484 *)entry)->f0==p[0x59]) pixels+=0x660;
     func_02082D44(pixels,source,0x660);
-    text=func_02045EC0(*(void **)(p+0x50),record[5]+160);
-    buffer=func_020457B0(32,*(u16 *)a);
-    object=func_0201EC64(*(u16 *)a);
+    text=func_02045EC0(((struct Obj10517 *)p)->f50,record[5]+160);
+    buffer=func_020457B0(32,((struct Obj10516 *)a)->f0);
+    object=func_0201EC64(((struct Obj10516 *)a)->f0);
     func_0201EFA4(object,0,record[6],2,2,1);
     func_0201F250(object,buffer,text);
     func_0201DD78(1,2,0);
-    func_0201C7A4(*(void **)(entry+12),10,6,buffer,*(void **)(a+0x80));
+    func_0201C7A4(((struct Obj06484 *)entry)->fC,10,6,buffer,((struct Obj10516 *)a)->f80);
     func_0201DD68();
     func_02045808(text);
     func_02045808(buffer);
     func_0201ED04(object);
-    func_021DBCF4(*(void **)(entry+16));
+    func_021DBCF4(((struct Obj06484 *)entry)->f10);
 }

@@ -14,6 +14,7 @@
  *   func_0203159C  0x0203159C  arm
  *   func_02031324  0x02031324  arm
  */
+#include "../include/Obj12055.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,6 +44,6 @@ t4 = a0 + 0;
 a0 = 0x76;
     a0 = func_02031324(a0);
 loc_0216C8AA:
-*(int *)((char *)t4) = a0;
+((struct Obj12055 *)((char *)t4))->f0 = a0;
 a0 = 1;
     return a0;}

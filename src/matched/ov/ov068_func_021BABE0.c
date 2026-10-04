@@ -19,6 +19,7 @@
  *   func_0204B404  0x0204B404  arm
  *   d_021BB704     0x021BB704  data  a4
  */
+#include "../include/Obj04326.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,21 +39,21 @@ void func_021BABE0(u8 *p, int a1, int a2, int a3)
     int t;
     Pt pt;
 
-    t = func_02040804(*(u16 *)(p + 2));
+    t = func_02040804(((struct Obj04326 *)p)->f2);
     v = t + a1;
     if (v > a3) {
         v = a3;
     } else if (v < a2) {
         v = a2;
     }
-    func_02041EE4((u8)*(u16 *)p, 3, v + 0x14);
-    func_02041EE4((u8)*(u16 *)(p + 2), 3, v);
-    t = *(int *)(p + 0x34) - a1;
-    *(int *)(p + 0x34) = t;
-    *(int *)(p + 0x34) = t > 0x10 - a2 ? 0x10 - a2 : (t < 0x10 - a3 ? 0x10 - a3 : t);
+    func_02041EE4((u8)((struct Obj04326 *)p)->f0, 3, v + 0x14);
+    func_02041EE4((u8)((struct Obj04326 *)p)->f2, 3, v);
+    t = ((struct Obj04326 *)p)->f34 - a1;
+    ((struct Obj04326 *)p)->f34 = t;
+    ((struct Obj04326 *)p)->f34 = t > 0x10 - a2 ? 0x10 - a2 : (t < 0x10 - a3 ? 0x10 - a3 : t);
     for (i = 0; i < 11; i++) {
         pt.x = d_021BB704[i][2];
-        pt.y = *(int *)(p + 0x34) + d_021BB704[i][3];
+        pt.y = ((struct Obj04326 *)p)->f34 + d_021BB704[i][3];
         func_0204B404(*(u32 *)(p + i * 4 + 8), &pt, 0);
     }
 }

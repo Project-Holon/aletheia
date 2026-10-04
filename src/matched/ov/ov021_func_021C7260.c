@@ -18,6 +18,7 @@
  *   func_021C748C  0x021C748C  thumb  ov021
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
  */
+#include "../include/Obj05088.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -43,12 +44,12 @@ void *func_021C7260(u32 a, u16 b, int c)
     q = func_02188CB4((void *)a);
     o = func_021C6C70(h, 0x10, (void *)func_021C748C);
     p = (u8 *)func_021C6CCC(o);
-    *(u32 *)(p + 0) = a;
+    ((struct Obj05088 *)p)->f0 = a;
     t = func_021A3074((void *)q);
-    *(void **)(p + 4) = t;
-    *(u16 *)(p + 8) = 0;
-    *(u16 *)(p + 0xa) = b;
+    ((struct Obj05088 *)p)->f4 = t;
+    ((struct Obj05088 *)p)->f8 = 0;
+    ((struct Obj05088 *)p)->fA = b;
     p[0xc] = c;
-    *(u16 *)(p + 0xe) = func_0216D5F8(t);
+    ((struct Obj05088 *)p)->fE = func_0216D5F8(t);
     return o;
 }

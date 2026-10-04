@@ -17,6 +17,7 @@
  *   func_02200904 0x02200904 thumb ov094
  *   func_02200990 0x02200990 thumb ov094
  */
+#include "../include/Obj06309.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
@@ -63,5 +64,5 @@ void func_021FF4C0(char *w, int key, int kind, Vec *q, int a, int b, int c)
     }
     (*(u8 *)(w + 0x542 + key))++;
     func_0220074C(w, key, kind, &start, q, a, b, c, (void *)func_02200904, func_02200990, 1, *(u8 *)(w + 0x542 + key));
-    *(int *)(w + 0x514) |= func_021F935C(key);
+    ((struct Obj06309 *)w)->f514 |= func_021F935C(key);
 }

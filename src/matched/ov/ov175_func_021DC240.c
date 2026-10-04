@@ -18,6 +18,7 @@
  *     object's +0x218 port block and the caller's second argument.  Returns
  *     the block it took.
  */
+#include "../include/Obj14345.h"
 
 typedef unsigned long u32;
 
@@ -26,10 +27,10 @@ extern void func_02082D44(char *dst, u32 arg, u32 src);
 
 u32 func_021DC240(char *obj, u32 arg)
 {
-    u32 v = *(u32 *)(obj + 0x144);
+    u32 v = ((struct Obj14345 *)obj)->f144;
 
     if (v != 0) {
-        *(u32 *)(obj + 0x144) = 0;
+        ((struct Obj14345 *)obj)->f144 = 0;
         func_02082D44(obj + 0x218, arg, func_0201A918(0));
     }
     return v;

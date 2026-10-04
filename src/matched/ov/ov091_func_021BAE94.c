@@ -18,6 +18,9 @@
  *   func_02043AF4  0x02043AF4  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj03183.h"
+#include "../include/Obj20875.h"
+#include "../include/Obj20876.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,11 +47,11 @@ void func_021BAE94(u8 *a, u8 *s)
 
     if (func_021B9A84((u32)a) != 0)
         return;
-    if (*(int *)(*(u8 **)(a + 0x280) + 0x34) == 6)
+    if (((struct Obj20876 *)(*(u8 * *)&((struct Obj20875 *)a)->f280))->f34 == 6)
         return;
     r = func_021BB554(s);
-    h = func_0202D01C(*(u16 *)(s + 6), func_02017E1C((void *)*(int *)s, 0xa1, 0), 0x30);
-    w = (u32)func_02045770((struct Descriptor *)*(u32 *)(s + 0x20));
+    h = func_0202D01C(((struct Obj03183 *)s)->f6, func_02017E1C((void *)((struct Obj03183 *)s)->f0, 0xa1, 0), 0x30);
+    w = (u32)func_02045770((struct Descriptor *)((struct Obj03183 *)s)->f20);
     if (r == 2 || r == 3) {
         x = 0xe;
         y = 0xf;
@@ -61,5 +64,5 @@ void func_021BAE94(u8 *a, u8 *s)
     }
     func_02043AF4((struct Bmp *)w, 0x3d, 0x1b, h, 1, x);
     func_02043AF4((struct Bmp *)w, 0x3d, 0x1c, h, 1, y);
-    func_0204B3DC((struct Obj *)*(int *)(s + 0x38), 1);
+    func_0204B3DC((struct Obj *)((struct Obj03183 *)s)->f38, 1);
 }

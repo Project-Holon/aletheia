@@ -11,6 +11,7 @@
  * symbols:
  *   func_021BAE44 0x021BAE44 thumb ov072
  */
+#include "../include/Obj13200.h"
 typedef unsigned int u32;
 extern void func_021BAE44(void *p);
-void func_021BA7D4(char *p) { u32 i; for(i=0;i<*(u32 *)(p+12);i++) func_021BAE44((void *)(*(u32 *)(p+8)+i*0x44)); }
+void func_021BA7D4(char *p) { u32 i; for(i=0;i<((struct Obj13200 *)p)->fC;i++) func_021BAE44((void *)(((struct Obj13200 *)p)->f8+i*0x44)); }

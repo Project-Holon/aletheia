@@ -21,6 +21,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj06730.h"
 typedef enum { ZERO=0, ONE=1 } Index;
 typedef struct { unsigned id; char fields[32]; unsigned a,b; } Entry;
 extern const Entry d_021B9C04[];
@@ -36,8 +37,8 @@ int func_021B9718(void *a,int b,int c,char *p)
     *(volatile unsigned short *)0x04001050=0;
     *(volatile unsigned *)0x04001000 &=~0xe000;
     func_021B9898(p);
-    func_02030EAC(*(void **)(p+20)); func_0201C6EC(*(void **)(p+16)); func_0201C4C0(*(void **)(p+16));
-    func_0201D83C(*(void **)(p+12)); func_021B99E8(*(char **)(p+8));
+    func_02030EAC(((struct Obj06730 *)p)->f14); func_0201C6EC(((struct Obj06730 *)p)->f10); func_0201C4C0(((struct Obj06730 *)p)->f10);
+    func_0201D83C(((struct Obj06730 *)p)->fC); func_021B99E8(*(char * *)&((struct Obj06730 *)p)->f8);
     func_020315D4(a); func_020306F0(136);
     return 1;
 }

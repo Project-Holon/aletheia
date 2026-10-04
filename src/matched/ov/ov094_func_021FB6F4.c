@@ -19,6 +19,7 @@
  *   func_02201AF8  0x02201AF8  thumb  ov094
  *   func_0206DF3C  0x0206DF3C  arm
  */
+#include "../include/Obj21668.h"
 typedef short s16;
 
 extern int func_0201134C(int a);
@@ -48,5 +49,5 @@ int func_021FB6F4(int a, char *b)
     func_0206DF3C(pt, &o1, &o2);
     *(int *)(b + t0 * 4 + 0xcc) =
         func_02201AF8(func_021F86F0(), 0x5f, t1, o1, o2, t5, t6);
-    return *(int *)(b + 0x23c);
+    return ((struct Obj21668 *)b)->f23C;
 }

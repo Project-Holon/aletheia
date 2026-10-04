@@ -16,6 +16,7 @@
  *   func_021AC2C0  0x021AC2C0  thumb
  *   func_0216D568  0x0216D568  thumb  ov010
  */
+#include "../include/Obj07203.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,7 +53,7 @@ a1 = t6 + 0;
 loc_02163714:
     if (a0 != 0) goto loc_02163728;
 loc_02163718:
-a1 = *(int *)((char *)t4 + 0x14);
+a1 = ((struct Obj07203 *)t4)->f14;
 a0 = t5 + 0;
     a0 = func_021AC2C0(a0, a1);
 loc_02163720:

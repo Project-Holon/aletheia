@@ -22,6 +22,9 @@
  *   func_02017F00 0x02017F00 thumb
  *   func_0201D304 0x0201D304 thumb
  */
+#include "../include/Obj05257.h"
+#include "../include/Obj07929.h"
+#include "../include/Obj13675.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -44,17 +47,17 @@ extern u8 func_02017F00(void *);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 static inline void print_text(int p, u32 windows, u32 dirty, int i, void *s, int x, int y, u16 color)
 {
-    void *owner = *(void **)(p + 0x1c);
-    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, y, (u32)s, *(u32 *)(p + 0xc), color);
+    void *owner = ((struct Obj13675 *)p)->f1C;
+    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, y, (u32)s, ((struct Obj13675 *)p)->fC, color);
     *(u8 *)(dirty + i * 8) = 1;
 }
 static inline void print_right(int p, u32 windows, u32 dirty, int i, void *window, u32 id, u16 color)
 {
-    void *s = func_02045EC0(*(void **)(p + 0x14), id);
-    u32 font = *(u32 *)(p + 0xc);
+    void *s = func_02045EC0(((struct Obj07929 *)p)->f14, id);
+    u32 font = ((struct Obj07929 *)p)->fC;
     u32 w = func_02045738(window);
-    s16 x = (s16)(w * 8 - func_0201D304(s, *(u32 *)(p + 0xc), 0));
-    void *owner = *(void **)(p + 0x1c);
+    s16 x = (s16)(w * 8 - func_0201D304(s, ((struct Obj07929 *)p)->fC, 0));
+    void *owner = ((struct Obj07929 *)p)->f1C;
     func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, 7, (u32)s, font, color);
     *(u8 *)(dirty + i * 8) = 1;
     func_02045808(s);
@@ -68,11 +71,11 @@ void func_021F6B7C(int p, int i)
     windows = p + 0x20;
     window = *(void **)(windows + i * 8);
     t = func_020457B0(0xc, 0x8071);
-    s = func_02045EC0(*(void **)(p + 0x14), 0);
+    s = func_02045EC0(((struct Obj05257 *)p)->f14, 0);
     mons = p + 0xf8;
     mi = i * 4;
-    func_0201EEF4(*(void **)(p + 0x18), 0, *(void **)(mons + mi));
-    func_0201F250(*(void **)(p + 0x18), t, s);
+    func_0201EEF4(((struct Obj05257 *)p)->f18, 0, *(void **)(mons + mi));
+    func_0201F250(((struct Obj05257 *)p)->f18, t, s);
     dirty = p;
     dirty = p + 0x24;
     print_text(p, windows, dirty, i, t, 0x20, 7, 0x3dc0);

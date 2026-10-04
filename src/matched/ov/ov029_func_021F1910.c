@@ -13,6 +13,7 @@
  *   func_0204B954  0x0204B954  arm
  *   func_0204B92C  0x0204B92C  arm
  */
+#include "../include/Obj00811.h"
 
 extern void func_0204B908(int, int);
 typedef unsigned int   u32;
@@ -24,11 +25,11 @@ extern void func_0204B92C(struct Obj *, unsigned int);
 void func_021F1910(char *p, int on)
 {
     if (on) {
-        func_0204B908(*(int *)(p + 0x150), 0);
-        func_0204B954((struct Actor *)(*(int *)(p + 0x150)), 0x2000);
-        func_0204B92C((struct Obj *)*(int *)(p + 0x150), 1);
+        func_0204B908(((struct Obj00811 *)p)->f150, 0);
+        func_0204B954((struct Actor *)(((struct Obj00811 *)p)->f150), 0x2000);
+        func_0204B92C((struct Obj *)((struct Obj00811 *)p)->f150, 1);
     } else {
-        func_0204B92C((struct Obj *)*(int *)(p + 0x150), 0);
-        func_0204B908(*(int *)(p + 0x150), 1);
+        func_0204B92C((struct Obj *)((struct Obj00811 *)p)->f150, 0);
+        func_0204B908(((struct Obj00811 *)p)->f150, 1);
     }
 }

@@ -66,6 +66,7 @@
  *   python tools/match.py one --src src/pending/func_02030A7C.c \
  *       --func func_02030A7C --addr 0x02030A7C --cc 1.1p1 --arm
  */
+#include "../include/Obj15863.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -103,7 +104,7 @@ void func_02030A7C(void *heap)
     g_02146970.unk_08 = (void *)func_02060F90(heap);
     g_02146970.unk_04 = p;
     if (func_020308B8(buf, h) != 0) {
-        v = *(u16 *)((u8 *)h + 0x12);
+        v = ((struct Obj15863 *)h)->f12;
     } else {
         MI_CpuCopy8(str_system_name, buf, 0xd);
         v = 0;

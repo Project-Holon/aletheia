@@ -17,6 +17,7 @@
  *   func_02045808 0x02045808 arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj02472.h"
 typedef unsigned short u16;
 extern void func_0201DD68(void);
 extern void func_021D45E8(char *);
@@ -37,14 +38,14 @@ void func_021D4AD4(char *p)
     func_0201DD68();
     func_021D45E8(p);
     func_02040DA8(5, 1, 0);
-    ranges = *(unsigned *)(p + 0x5c);
+    ranges = ((struct Obj02472 *)p)->f5C;
     func_0203FB44(5, (u16)ranges, (u16)(ranges >> 16));
     func_020403F4(5);
     func_020403F4(4);
-    func_02045C04(*(void **)(p + 0x44));
-    func_0201D83C(*(void **)(p + 0x4c));
-    func_02045808(*(void **)(p + 0x54));
-    func_02045808(*(void **)(p + 0x50));
-    func_02045808(*(void **)(p + 0x58));
-    func_020452E8(*(void **)(p + 0x3c));
+    func_02045C04(((struct Obj02472 *)p)->f44);
+    func_0201D83C(((struct Obj02472 *)p)->f4C);
+    func_02045808(((struct Obj02472 *)p)->f54);
+    func_02045808(((struct Obj02472 *)p)->f50);
+    func_02045808(((struct Obj02472 *)p)->f58);
+    func_020452E8(((struct Obj02472 *)p)->f3C);
 }

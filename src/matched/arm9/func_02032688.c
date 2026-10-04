@@ -50,6 +50,7 @@
  *   python3 tools/match.py one --src src/matched/func_02032688.c \
  *       --func func_02032688 --addr 0x02032688 --arm
  */
+#include "../include/Obj08819.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -122,10 +123,10 @@ int func_02032688(Save *self, int mode, int arg3)
         B = func_02033BAC(self->f2c, i);
         gp = h + (A + B);
         func_0203331C(self, i, 0);
-        if (*(u16 *)(gp + 2) != *(u16 *)(base + i * 2))
+        if (((struct Obj08819 *)gp)->f2 != *(u16 *)(base + i * 2))
             goto done;
-        if (*(u16 *)(gp + 2) == *(u16 *)(base + i * 2)) {
-            if (*(u16 *)(gp + 2) != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), h + A, B)) {
+        if (((struct Obj08819 *)gp)->f2 == *(u16 *)(base + i * 2)) {
+            if (((struct Obj08819 *)gp)->f2 != func_02081B8C((struct MATHCRC16Table *)((u8 *)g_02146994 + 4), h + A, B)) {
                 func_0203331C(self, i, 1);
                 goto done;
             }

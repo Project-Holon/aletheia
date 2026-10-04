@@ -13,6 +13,7 @@
  *   func_0200B078 0x0200B078 thumb
  *   func_021E7520 0x021E7520 thumb ov177
  */
+#include "../include/Obj02889.h"
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Reg2;
@@ -23,10 +24,10 @@ void func_0217D1C8(char *p, int value)
 {
     int a;
     int b;
-    if (*(int *)(p + 0x14) == 0) {
-        a = func_021E5548((int *)(*(int *)(p + 0x1B4)));
-        b = func_0200B078((struct Reg2 *)(*(int *)(p + 0x38)), 11);
-        *(int *)(p + 0x14) = func_021E7520(value, a, *(int *)(p + 0x1B0), *(int *)(p + 0x1A8),
-            *(int *)(p + 0x1AC), *(int *)(p + 0x24), *(int *)(p + 0x2C), 1, 0, b, *(unsigned short *)(p + 0x1C8));
+    if (((struct Obj02889 *)p)->f14 == 0) {
+        a = func_021E5548((int *)(((struct Obj02889 *)p)->f1B4));
+        b = func_0200B078((struct Reg2 *)(((struct Obj02889 *)p)->f38), 11);
+        ((struct Obj02889 *)p)->f14 = func_021E7520(value, a, ((struct Obj02889 *)p)->f1B0, ((struct Obj02889 *)p)->f1A8,
+            ((struct Obj02889 *)p)->f1AC, ((struct Obj02889 *)p)->f24, ((struct Obj02889 *)p)->f2C, 1, 0, b, ((struct Obj02889 *)p)->f1C8);
     }
 }

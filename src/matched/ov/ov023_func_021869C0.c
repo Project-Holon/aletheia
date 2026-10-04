@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13028.h"
 
 typedef unsigned char u8;
 
@@ -22,9 +23,9 @@ typedef struct {
 
 void func_021869C0(Rec *d, char *p)
 {
-    int i = *(int *)(p + 0xBB8);
+    int i = ((struct Obj13028 *)p)->fBB8;
 
-    if (i != *(int *)(p + 0xBBC)) {
+    if (i != ((struct Obj13028 *)p)->fBBC) {
         *d = *(Rec *)(p + i * 30);
     } else {
         d->mid = 0;

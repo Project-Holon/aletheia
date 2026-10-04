@@ -13,6 +13,7 @@
  *   func_02187D30  0x02187D30  thumb  ov020
  *   func_02187D24  0x02187D24  thumb  ov020
  */
+#include "../include/Obj01207.h"
 
 typedef unsigned char u8;
 
@@ -40,7 +41,7 @@ int func_02187BBC(char *o, int st)
     case 4:
         if (func_02187D30(o) == 1) {
             st = 5;
-            if (*(u8 *)(o + 0x14) != *(u8 *)(o + 0x15))
+            if (((struct Obj01207 *)o)->f14 != ((struct Obj01207 *)o)->f15)
                 st = 1;
         }
         break;

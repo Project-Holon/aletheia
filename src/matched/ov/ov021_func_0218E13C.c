@@ -13,6 +13,7 @@
  *   func_0218E124  0x0218E124  thumb
  *   d_021DDA00  0x021DDA00  data  ov021  a4
  */
+#include "../include/Obj19557.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ extern void func_0218E124(u8 *a, u32 s);
 
 void func_0218E13C(u8 *a, u32 s)
 {
-    if (*(u32 *)(a + 0x14) != s) {
+    if (((struct Obj19557 *)a)->f14 != s) {
         d_021DDA00[s](a);
         func_0218E124(a, s);
     }

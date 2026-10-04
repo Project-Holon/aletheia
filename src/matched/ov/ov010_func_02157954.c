@@ -12,11 +12,12 @@
  * Unlabelled leaf setter (hidden in a .word run); filed as a helper because
  * its address is the witness for the tail-call thunk at 0x02157960.
  */
+#include "../include/Obj18739.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 void func_02157954(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x678) = v;
+    ((struct Obj18739 *)p)->f678 = v;
 }

@@ -16,6 +16,7 @@
  *   func_0204AC18 0x0204AC18 arm
  *   func_0204AF28 0x0204AF28 arm
  */
+#include "../include/Obj02542.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum Flag { FLAG_ZERO=0,FLAG_ONE=1 } Flag;
@@ -38,7 +39,7 @@ void func_021BB9E0(struct State *p)
     flag=0;
     if(p->flag) flag=1;
     owner=p->owner;
-    *(int *)((char *)p+0x17c)=func_0204AC18((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
-    *(int *)((char *)p+0x180)=func_0204AF28((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
-    *(int *)((char *)p+0x184)=func_0204AF28((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
+    ((struct Obj02542 *)p)->f17C=func_0204AC18((void *)owner,func_021BC0B4(p->flag),flag,160,0,1,p->heap);
+    ((struct Obj02542 *)p)->f180=func_0204AF28((void *)owner,func_021BC0B8(0),func_021BC0CC(0),p->heap);
+    ((struct Obj02542 *)p)->f184=func_0204AF28((void *)owner,func_021BC0B8(494),func_021BC0CC(494),p->heap);
 }

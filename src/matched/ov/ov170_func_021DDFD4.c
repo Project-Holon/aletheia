@@ -10,6 +10,7 @@
  * symbols:
  *   func_021EC0B0 0x021EC0B0 thumb ov170
  */
+#include "../include/Obj00000.h"
 typedef struct {
     unsigned short idx, slot, f4, f6;
     int vx,vy;
@@ -20,9 +21,9 @@ void func_021DDFD4(unsigned char *p,Obj *o)
 {
     short t[2];
     unsigned i;
-    i=*(unsigned char *)(*(char **)(p+0x2c)+o->slot+0x3dd2);
-    func_021EC0B0(*(char **)(p+0x2c),*(unsigned char *)(*(char **)(p+0x2c)+o->idx+0x3dd2),&o->x,&o->y,0);
-    func_021EC0B0(*(char **)(p+0x2c),i,&t[1],&t[0],0);
+    i=*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+o->slot+0x3dd2);
+    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C,*(unsigned char *)(*(char * *)&((struct Obj00000 *)p)->f2C+o->idx+0x3dd2),&o->x,&o->y,0);
+    func_021EC0B0(*(char * *)&((struct Obj00000 *)p)->f2C,i,&t[1],&t[0],0);
     if(o->x<=t[1]){
         o->dx=1;
         o->vx=((t[1]-o->x)<<16)/8;

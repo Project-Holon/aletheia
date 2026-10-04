@@ -15,6 +15,7 @@
  *   func_021A3074 0x021A3074 thumb ov021
  *   func_0217B214 0x0217B214 thumb ov018
  */
+#include "../include/Obj09386.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Desc;
@@ -30,8 +31,8 @@ void *func_0217B1DC(void *a, int b, int c, unsigned short d) {
     t = func_020122C0(a, 0, func_0217B214, 0x30);
     p = func_020124E8(t);
     func_02082BCC(p, 0, 0x30);
-    *(int *)p = b;
-    *(int *)(p + 4) = (int)func_021A3074((u8 *)c);
-    *(unsigned short *)(p + 0x14) = d;
+    ((struct Obj09386 *)p)->f0 = b;
+    ((struct Obj09386 *)p)->f4 = (int)func_021A3074((u8 *)c);
+    ((struct Obj09386 *)p)->f14 = d;
     return t;
 }

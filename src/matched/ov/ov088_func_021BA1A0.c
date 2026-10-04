@@ -22,6 +22,7 @@
  *   func_021BACD8  0x021BACD8  thumb  ov088
  *   func_021BAB20  0x021BAB20  thumb  ov088
  */
+#include "../include/Obj13232.h"
 
 typedef unsigned int   u32;
 extern u32 func_0203D210(void);
@@ -39,10 +40,10 @@ extern void func_021BAB20(void);
 int func_021BA1A0(char *p)
 {
     unsigned s;
-    s = *(unsigned char *)(p + 0x12a);
+    s = ((struct Obj13232 *)p)->f12A;
     switch (s) {
     case 0:
-        *(unsigned char *)(p + 0x12a) = s + 1;
+        ((struct Obj13232 *)p)->f12A = s + 1;
     case 1:
         if (func_0203D210() != 0) {
             func_021BA9C8(p);

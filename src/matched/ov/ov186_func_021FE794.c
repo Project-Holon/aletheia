@@ -11,8 +11,9 @@
  * symbols:
  *   func_021FED08 0x021FED08 thumb ov186
  */
+#include "../include/Obj05506.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_021FED08(u32);
-void func_021FE794(char *p,u32 index,u32 a,u32 b,u32 c) { *(u32 *)(p+4)=a; *(u32 *)(p+0x18)=c; *(u32 *)(p+8)=b; *(void **)(p+0x1c)=func_021FED08(index); *(u32 *)p=0; *(u32 *)(p+0xc)=0; }
+void func_021FE794(char *p,u32 index,u32 a,u32 b,u32 c) { ((struct Obj05506 *)p)->f4=a; ((struct Obj05506 *)p)->f18=c; ((struct Obj05506 *)p)->f8=b; ((struct Obj05506 *)p)->f1C=func_021FED08(index); ((struct Obj05506 *)p)->f0=0; ((struct Obj05506 *)p)->fC=0; }

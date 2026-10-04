@@ -19,6 +19,7 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
  */
+#include "../include/Obj00837.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,15 +49,15 @@ void func_021B6FDC(char *p,u8 first,u8 row)
     u32 value;
     y=row*24;
     index=first+row;
-    if(index>=*(u8 *)(p+0x1b8)) return;
-    func_0201C7D0(func_02045770(*(void **)(p+0x30)),0,y,*(void **)(*(char **)(p+0x58)+index*8),*(void **)(p+0x60),0x3c40);
-    flush(*(void **)(p+0x30));
-    func_0201C7D0(func_02045770(*(void **)(p+0x30)),96,y,*(void **)(p+0x50),*(void **)(p+0x60),0x440);
-    flush(*(void **)(p+0x30));
-    value=func_0201C158(*(u32 *)(*(char **)(p+0x58)+index*8+4),0);
-    func_0201EFA4(*(void **)(p+0x48),0,value,2,1,1);
-    func_0201EFA4(*(void **)(p+0x48),1,value,2,0,1);
-    func_0201F250(*(void **)(p+0x48),*(void **)(p+0x4c),*(void **)(p+0x54));
-    func_0201C7D0(func_02045770(*(void **)(p+0x30)),120,y,*(void **)(p+0x4c),*(void **)(p+0x60),0x440);
-    flush(*(void **)(p+0x30));
+    if(index>=((struct Obj00837 *)p)->f1B8) return;
+    func_0201C7D0(func_02045770(((struct Obj00837 *)p)->f30),0,y,*(void **)(*(char * *)&((struct Obj00837 *)p)->f58+index*8),((struct Obj00837 *)p)->f60,0x3c40);
+    flush(((struct Obj00837 *)p)->f30);
+    func_0201C7D0(func_02045770(((struct Obj00837 *)p)->f30),96,y,((struct Obj00837 *)p)->f50,((struct Obj00837 *)p)->f60,0x440);
+    flush(((struct Obj00837 *)p)->f30);
+    value=func_0201C158(*(u32 *)(*(char * *)&((struct Obj00837 *)p)->f58+index*8+4),0);
+    func_0201EFA4(((struct Obj00837 *)p)->f48,0,value,2,1,1);
+    func_0201EFA4(((struct Obj00837 *)p)->f48,1,value,2,0,1);
+    func_0201F250(((struct Obj00837 *)p)->f48,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f54);
+    func_0201C7D0(func_02045770(((struct Obj00837 *)p)->f30),120,y,((struct Obj00837 *)p)->f4C,((struct Obj00837 *)p)->f60,0x440);
+    flush(((struct Obj00837 *)p)->f30);
 }

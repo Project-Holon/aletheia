@@ -20,6 +20,7 @@
  *   d_021E7580 0x021E7580 data a2
  *   d_021E757C 0x021E757C data a2
  */
+#include "../include/Obj05326.h"
 typedef unsigned short u16;
 typedef struct Pt { u16 x; u16 y; } Pt;
 extern const Pt d_021E7580;
@@ -40,22 +41,22 @@ void func_021D9780(char *p, int a1, int a2)
     Pt t0, t1;
     if (a1 == 0) {
         t0 = d_021E7580;
-        func_0204B404((struct Obj *)(*(int *)(p + 0xf0c)), (const struct Vec2 *)(&t0), 1);
+        func_0204B404((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t0), 1);
     } else {
         t1 = d_021E757C;
-        func_0204B404((struct Obj *)(*(int *)(p + 0xf0c)), (const struct Vec2 *)(&t1), 1);
+        func_0204B404((struct Obj *)(((struct Obj05326 *)p)->fF0C), (const struct Vec2 *)(&t1), 1);
     }
     if (func_020355C4()) {
         func_021E5B6C((int)p, a1, 0);
-        func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 0);
+        func_0204B3DC((struct Obj *)((struct Obj05326 *)p)->fF0C, 0);
     } else {
         func_021E5B6C((int)p, a1, 1);
-        func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 1);
+        func_0204B3DC((struct Obj *)((struct Obj05326 *)p)->fF0C, 1);
     }
     if (a2 != 0) {
         void *v;
 
-        v = func_021D8FA4(p, *(int *)(p + 0x10a0));
-        func_021E219C(p, v, *(int *)(p + 0x10a0), 1);
+        v = func_021D8FA4(p, ((struct Obj05326 *)p)->f10A0);
+        func_021E219C(p, v, ((struct Obj05326 *)p)->f10A0, 1);
     }
 }

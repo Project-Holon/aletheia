@@ -13,6 +13,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj10245.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,4 +22,4 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(struct Descriptor *d);
-void func_021B80B8(u8 *p) { func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); func_02045334(*(void **)p); }
+void func_021B80B8(u8 *p) { func_02043B5C(func_02045770(((struct Obj10245 *)p)->f0),((struct Obj10245 *)p)->f10); func_02045334(((struct Obj10245 *)p)->f0); }

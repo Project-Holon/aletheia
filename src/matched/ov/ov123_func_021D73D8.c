@@ -16,6 +16,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D7390 0x021D7390 thumb ov123
  */
+#include "../include/Obj04500.h"
 extern int func_0203CD98(void);
 typedef unsigned char  u8;
 extern int func_021B95D4(int index, u8 *p);
@@ -26,16 +27,16 @@ extern void func_021D6EE0(char *,int,int);
 extern void func_021D7390(char *);
 void func_021D73D8(char *p)
 {
-    if (*(int *)(p+0x78)) {
-        --*(int *)(p+0x78);
+    if (((struct Obj04500 *)p)->f78) {
+        --((struct Obj04500 *)p)->f78;
         return;
     }
     if (func_0203CD98()) {
-        if (func_021B95D4(8,*(void **)(p+0x10))) {
+        if (func_021B95D4(8,((struct Obj04500 *)p)->f10)) {
             p[2]=1;
             p[3]=0;
-            func_021BE79C((void *)func_021B973C(*(void **)(p+0x10)),(void *)((unsigned int)(p+2)),4);
-            if (func_021B9748(*(void **)(p+0x10))==0)
+            func_021BE79C((void *)func_021B973C(((struct Obj04500 *)p)->f10),(void *)((unsigned int)(p+2)),4);
+            if (func_021B9748(((struct Obj04500 *)p)->f10)==0)
                 func_021D6EE0(p,(int)func_021D7390,0x2cd);
         }
     }

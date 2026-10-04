@@ -17,6 +17,7 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   d_021E37A8 0x021E37A8 data a4
  */
+#include "../include/Obj05476.h"
 typedef unsigned int u32;
 typedef int (*Method)(char *,int *);
 struct Methods { Method init,update,finish; };
@@ -37,12 +38,12 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     case 1: func_021FE784(q[0],2,3,0); ++*state; break;
     case 2: if(func_021FE7B0((int *)q[0])) *state=3; break;
     case 3: if(d_021E37A8[*(int *)(p+0x4c)].update(p,q)) {
-        if(*(int *)(p+0x50)==-1) *state=10; else *state=4;
+        if(((struct Obj05476 *)p)->f50==-1) *state=10; else *state=4;
     } break;
     case 4: func_021FE784(q[0],2,2,1); ++*state; break;
     case 5: if(func_021FE7B0((int *)q[0])) ++*state; break;
     case 6: if(d_021E37A8[*(int *)(p+0x4c)].finish(p,q)) {
-        *(int *)(p+0x4c)=*(int *)(p+0x50); ++*state;
+        ((struct Obj05476 *)p)->f4C=((struct Obj05476 *)p)->f50; ++*state;
     } break;
     case 7: if(d_021E37A8[*(int *)(p+0x4c)].init(p,q)) ++*state; break;
     case 8: func_021FE784(q[0],2,2,0); ++*state; break;
@@ -53,8 +54,8 @@ int func_021DFA10(void *unused,u32 *state,int *q,char *p)
     }
     for(i=0;i<3;i++) if(*(void **)(p+i*4)) func_021FC830(*(void **)(p+i*4));
     for(i=0;i<6;i++) if(*(void **)(p+0x20+i*4)) func_021FC830(*(void **)(p+0x20+i*4));
-    if(*(void **)(p+0x38)) func_021FD1BC(*(void **)(p+0x38));
-    func_0201C4E4(*(void **)(p+0x48));
+    if(((struct Obj05476 *)p)->f38) func_021FD1BC(((struct Obj05476 *)p)->f38);
+    func_0201C4E4(((struct Obj05476 *)p)->f48);
     for(i=0;i<2;i++) func_021FD854(*(char **)(p+0x3c+i*4));
     return 0;
 }

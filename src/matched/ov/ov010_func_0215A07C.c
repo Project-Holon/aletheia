@@ -19,6 +19,7 @@
  *   func_0215A214  0x0215A214  thumb  ov010
  *   d_021728CC  0x021728CC  data
  */
+#include "../include/Obj07281.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ void *func_0215A07C(int a, u16 *b, u16 *c)
     u32 *p = func_02030734(4, 0x98, 1, d_021728CC, 0x40);
     void *r;
     Task *q;
-    *(void **)p = h;
+    ((struct Obj07281 *)p)->f0 = h;
     p[0x34 / 4] = 3;
     p[0x38 / 4] = 0;
     p[0x3c / 4] = 0;

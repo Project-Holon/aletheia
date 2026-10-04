@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15732.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
 u32 func_02021ED8(const char *ptr)
 {
-    u16 v = *(u16 *)(ptr + 0x118);
+    u16 v = ((struct Obj15732 *)ptr)->f118;
     return (u32)(v << 16) >> 18;
 }

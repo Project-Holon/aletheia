@@ -17,6 +17,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F2FF8     0x021F2FF8  data   a4
  */
+#include "../include/Obj06270.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -37,7 +38,7 @@ void func_021E3C5C(void *a, int b, int c)
     p[6] = func_021D69AC(q, 3) + 1;
     p[4] = b;
     p[5] = 3;
-    *(u32 *)p = (*(u32 *)p & 0xfeffffff) | ((c & 1) << 24);
+    ((struct Obj06270 *)p)->f0 = (((struct Obj06270 *)p)->f0 & 0xfeffffff) | ((c & 1) << 24);
     func_021C88C8(a, p);
 }
 

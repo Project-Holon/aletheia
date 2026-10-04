@@ -14,6 +14,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj10496.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,4 +25,4 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020456F8(struct Descriptor *d);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
-void func_021C9F30(char *p,u32 index) {u32 i;void *q;char *base;base=p+index*4;for(i=0;i<*(u32 *)(base+44);i++){func_02043B5C(func_02045770(**(void ***)(base+12)),0);q=**(void ***)(base+12);func_020456F8(q);func_02041B6C(func_02045730(q));}}
+void func_021C9F30(char *p,u32 index) {u32 i;void *q;char *base;base=p+index*4;for(i=0;i<((struct Obj10496 *)base)->f2C;i++){func_02043B5C(func_02045770(**(void ** *)&((struct Obj10496 *)base)->fC),0);q=**(void ** *)&((struct Obj10496 *)base)->fC;func_020456F8(q);func_02041B6C(func_02045730(q));}}

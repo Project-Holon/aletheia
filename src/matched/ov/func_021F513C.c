@@ -16,6 +16,7 @@
  * thumb leaf whose EXACT arm9 entry attests the call once the symbols line
  * declares the true ISA.
  */
+#include "../include/Obj18539.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ extern void func_0200F7C0(u32 c);
 
 void func_021F513C(u8 *p)
 {
-    func_02012E08(func_020120F4((const struct Ctx *)(*(u32 *)(*(u32 *)p + 0x40))));
+    func_02012E08(func_020120F4((const struct Ctx *)(*(u32 *)(((struct Obj18539 *)p)->f0 + 0x40))));
     func_0200F7C0(0x29);
 }

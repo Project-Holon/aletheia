@@ -20,6 +20,7 @@
  *   func_0220DF20  0x0220DF20  thumb  ov198
  *   func_0220E088  0x0220E088  thumb  ov198
  */
+#include "../include/Obj00507.h"
 
 extern int func_0220C60C(char *, int);
 extern int func_0220D884(char *);
@@ -37,7 +38,7 @@ int func_0220BE2C(char *a, int idx)
     case 0: {
         unsigned char c;
         func_0220D884(a);
-        c = *(unsigned char *)(*(int *)a + 0x1f);
+        c = *(unsigned char *)(*(int *)&((struct Obj00507 *)a)->f0 + 0x1f);
         if (c == 3)
             return func_0220C60C(a, 7);
         if (c == 2)

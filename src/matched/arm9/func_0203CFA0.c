@@ -18,6 +18,7 @@
  *   python tools/match.py one --src src/matched/func_0203CFA0.c \
  *       --func func_0203CFA0 --addr 0x0203CFA0 --cc 1.1p1 --arm
  */
+#include "../include/Obj15976.h"
 
 typedef signed char   s8;
 typedef unsigned char u8;
@@ -35,7 +36,7 @@ void func_0203CFA0(void)
 
     if (func_0203B1D8() != 0)
         return;
-    if (s == 0 || *(u32 *)(s + 0x340) == 0)
+    if (s == 0 || ((struct Obj15976 *)s)->f340 == 0)
         return;
 
     p = func_0203D798();

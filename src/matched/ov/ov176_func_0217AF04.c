@@ -12,11 +12,12 @@
  * symbols:
  *   func_021E54E0  0x021E54E0  thumb  ov177
  */
+#include "../include/Obj03869.h"
 
 extern void func_021E54E0(char *p);
 
 void func_0217AF04(int *p)
 {
-    func_021E54E0((char *)(*(int *)((char *)p + 0x24)));
-    *(int *)((char *)p + 0x24) = 0;
+    func_021E54E0((char *)(((struct Obj03869 *)p)->f24));
+    ((struct Obj03869 *)p)->f24 = 0;
 }

@@ -9,14 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj07494.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 void func_021A2AAC(char *p, u16 a, u16 b, u16 c, u32 d)
 {
-    *(u16 *)(p + 0xc) = a;
-    *(u16 *)(p + 0xe) = b;
-    *(u16 *)(p + 0x10) = c;
-    *(u32 *)(p + 0x14) = d;
+    ((struct Obj07494 *)p)->fC = a;
+    ((struct Obj07494 *)p)->fE = b;
+    ((struct Obj07494 *)p)->f10 = c;
+    ((struct Obj07494 *)p)->f14 = d;
 }

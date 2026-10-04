@@ -14,6 +14,7 @@
  *   func_021B6C4C  0x021B6C4C  thumb  ov172
  *   func_021B9574  0x021B9574  thumb  ov172
  */
+#include "../include/Obj10666.h"
 
 typedef unsigned int u32;
 
@@ -24,8 +25,8 @@ extern void func_021B9574(int unused, char *p);
 
 void func_021BD5AC(int unused, char *ctx)
 {
-    func_021B71B8(ctx, *(u32 *)(ctx + 0x1e0));
+    func_021B71B8(ctx, ((struct Obj10666 *)ctx)->f1E0);
     func_0204A648();
-    func_021B6C4C((char *)(*(u32 *)(ctx + 0x1f4)));
-    func_021B9574((int)ctx, (char *)(*(u32 *)(ctx + 0x1e8)));
+    func_021B6C4C((char *)(((struct Obj10666 *)ctx)->f1F4));
+    func_021B9574((int)ctx, (char *)(((struct Obj10666 *)ctx)->f1E8));
 }

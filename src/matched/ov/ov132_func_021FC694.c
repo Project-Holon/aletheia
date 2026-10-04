@@ -14,6 +14,7 @@
  *   d_021FDDEC 0x021FDDEC data a4
  *   func_021FCAA0 0x021FCAA0 thumb ov132
  */
+#include "../include/Obj06493.h"
 typedef unsigned short u16;
 typedef unsigned char  u8;
 extern u8 *func_02012944(void *p);
@@ -27,14 +28,14 @@ extern char d_021FDE4C[];
 extern char d_021FDDEC[];
 void *func_021FC694(int a,char *p)
 {
-    *(void **)(p+0x5c)=func_02012944(*(void **)(p+0x58));
-    if(*(int *)(p+0xc)==1) d_021FDE4C[5]=4;
+    ((struct Obj06493 *)p)->f5C=func_02012944(((struct Obj06493 *)p)->f58);
+    if(((struct Obj06493 *)p)->fC==1) d_021FDE4C[5]=4;
     else {
         d_021FDE4C[5]=0;
         func_0203CBAC((struct Req *)d_021FDDEC,(u32)func_021FCAA0,(u32)p);
     }
-    func_02008494(*(void **)(p+0x5c),p+0x20);
+    func_02008494(((struct Obj06493 *)p)->f5C,p+0x20);
     func_02087C6C(p+0x40);
-    *(u16 *)(p+0x46)=0x3a0b;
+    ((struct Obj06493 *)p)->f46=0x3a0b;
     return p;
 }

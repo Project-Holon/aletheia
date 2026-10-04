@@ -15,6 +15,7 @@
  * symbols:
  *   func_02012B30  0x02012B30  thumb
  */
+#include "../include/Obj19777.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -25,5 +26,5 @@ extern void func_02012B30(struct Rec44 *p, u16 v);
 
 void func_021A394C(u8 *p)
 {
-    func_02012B30((struct Rec44 *)(*(u32 *)(p + 0xC)), 0xFFFF);
+    func_02012B30((struct Rec44 *)(((struct Obj19777 *)p)->fC), 0xFFFF);
 }

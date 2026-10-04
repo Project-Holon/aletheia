@@ -13,6 +13,9 @@
  *
  * Allocate 76 bytes, keep the handle, then configure it.
  */
+#include "../include/Obj12146.h"
+#include "../include/Obj18439.h"
+#include "../include/Obj18440.h"
 
 typedef unsigned int   u32;
 struct PalAnmSlot;
@@ -23,7 +26,7 @@ void func_021DCDB8(char *p)
 {
     int v = (int)func_02021518(0x4c);
 
-    *(int *)(*(char **)(p + 0x2c) + 0x6c) = v;
-    func_0202155C((struct PalAnmSlot *)(*(int *)(*(char **)(p + 0x2c) + 0x6c)), 0, 0x200, 0x4c);
+    ((struct Obj18439 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C = v;
+    func_0202155C((struct PalAnmSlot *)(((struct Obj18440 *)(*(char * *)&((struct Obj12146 *)p)->f2C))->f6C), 0, 0x200, 0x4c);
 }
 

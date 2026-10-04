@@ -12,10 +12,11 @@
  * symbols:
  *   func_020056A0  0x020056A0  thumb
  */
+#include "../include/Obj24479.h"
 
 extern int func_020056A0(void *, int *, int);
 
 void func_021B6158(int *p)
 {
-    *(int *)((char *)p + 4) = func_020056A0((void *)0x021B6195, p, 0);
+    ((struct Obj24479 *)p)->f4 = func_020056A0((void *)0x021B6195, p, 0);
 }

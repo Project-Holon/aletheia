@@ -15,6 +15,7 @@
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
+#include "../include/Obj00117.h"
 typedef struct {int left,top,right,bottom;} Rect;
 extern unsigned func_021F2614(char *,int *,unsigned short *);
 extern int func_021F3364(char *,int),func_021F2818(char *,int,int);
@@ -28,20 +29,20 @@ void func_021F391C(char *p,int *input)
     else code=input[0];
     switch(code){
     case 0:break;
-    case 1:*(int *)(p+0xE8)=1;*(int *)(p+0xE4)=1;break;
-    case 9:*(int *)(p+0xE8)=9;*(int *)(p+0xE4)=1;break;
+    case 1:((struct Obj00117 *)p)->fE8=1;((struct Obj00117 *)p)->fE4=1;break;
+    case 9:((struct Obj00117 *)p)->fE8=9;((struct Obj00117 *)p)->fE4=1;break;
     case 2:case 3:case 4:case 5:
         if(func_021F3364(p,code-2)){
-            func_020061E4(1611);*(int *)(p+0xE4)=2;*(int *)(p+0xE8)=6;
+            func_020061E4(1611);((struct Obj00117 *)p)->fE4=2;((struct Obj00117 *)p)->fE8=6;
         }break;
-    case 6:*(int *)(p+0xE8)=5;break;
-    case 7:*(int *)(p+0xE8)=7;break;
+    case 6:((struct Obj00117 *)p)->fE8=5;break;
+    case 7:((struct Obj00117 *)p)->fE8=7;break;
     case 8:
-        func_020061E4(1356);*(int *)(p+0xE8)=8;
-        func_021F366C(p,*(int *)(p+0x104)^1,*(unsigned char *)(p+0x108));break;
-    case 10:*(int *)(p+0xE8)=3;break;
-    case 11:*(int *)(p+0xE8)=4;break;
+        func_020061E4(1356);((struct Obj00117 *)p)->fE8=8;
+        func_021F366C(p,((struct Obj00117 *)p)->f104^1,((struct Obj00117 *)p)->f108);break;
+    case 10:((struct Obj00117 *)p)->fE8=3;break;
+    case 11:((struct Obj00117 *)p)->fE8=4;break;
     }
     if(func_021F2818(p,(int)(input+2),(int)&rect))
-        func_021F1A1C(p+0x24,2,&rect,*(int *)(p+0x104),*(int *)(p+0x100));
+        func_021F1A1C(p+0x24,2,&rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
 }

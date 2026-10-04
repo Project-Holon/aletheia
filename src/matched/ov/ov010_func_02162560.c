@@ -12,11 +12,12 @@
  * Unlabelled leaf getter: the halfword at +0x16.  Blocker of ov061
  * func_021F388C.
  */
+#include "../include/Obj18958.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
 u16 func_02162560(u8 *p)
 {
-    return *(u16 *)(p + 0x16);
+    return ((struct Obj18958 *)p)->f16;
 }

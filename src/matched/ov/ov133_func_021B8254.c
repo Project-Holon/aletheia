@@ -17,6 +17,7 @@
  *   func_021F4EA4 0x021F4EA4 thumb ov112
  *   func_021F4E8C 0x021F4E8C thumb ov112
  */
+#include "../include/Obj00004.h"
 typedef unsigned char u8;
 typedef struct { int x,y,z; } Vec;
 extern u8 *func_021BA218(u8 *);
@@ -34,11 +35,11 @@ void func_021B8254(u8 *p)
     Vec v;
     u8 *e, *s;
     int z = 0xa000;
-    s = func_021BA218(*(u8 **)(p + 0x38));
-    func_021BA148(*(void **)(p + 0x1820), *(u8 **)(p + 0x38));
-    func_021BA124(*(void **)(p + 0x1820), *(u8 **)(p + 0x38));
-    func_021F4EB4(*(int *)(p + 0x1884), (int)s, 4096, 4096);
-    e = func_021BA184(*(void **)(p + 0x1820));
+    s = func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021BA148(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021BA124(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)s, 4096, 4096);
+    e = func_021BA184(((struct Obj00004 *)p)->f1820);
     while (e) {
         s = func_021BA218(e);
         func_021F4EA4(*(int *)(p + 0x1884), (int)s, &v);

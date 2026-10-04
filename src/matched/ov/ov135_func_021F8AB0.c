@@ -14,6 +14,10 @@
  *   func_0205994C 0x0205994C arm
  *   func_021C7BA0 0x021C7BA0 arm ov114
  */
+#include "../include/Obj23396.h"
+#include "../include/Obj23397.h"
+#include "../include/Obj23398.h"
+#include "../include/Obj23399.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -30,9 +34,9 @@ int func_021F8AB0(u8 **p)
     void *handle;
     u32 id;
     u64 key;
-    handle = func_02009860(*(void **)(*p + 0x14));
-    func_02008540(*(void **)(*p + 0x1C), func_02009CC0(*(void **)(*p + 0x14)));
-    id = func_0200853C(*(void **)(*p + 0x1C));
+    handle = func_02009860(((struct Obj23396 *)(*p))->f14);
+    func_02008540(((struct Obj23397 *)(*p))->f1C, func_02009CC0(((struct Obj23398 *)(*p))->f14));
+    id = func_0200853C(((struct Obj23399 *)(*p))->f1C);
     key = func_0205994C(handle);
     func_021C7BA0(id, (u32)key, (u32)(key >> 32), 0);
     return 1;

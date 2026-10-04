@@ -14,6 +14,7 @@
  *
  * Leaf with no calls and no pool; 10 instructions, 20 bytes: adds r1, r0, #0; adds r1, #0xe1; ldrb r1, [r1]; cmp r1, #0; beq loc_021EA02C; adds r0, #0xde; ldrh r0, [r0]; bx lr; movs r0, #0; bx lr.
  */
+#include "../include/Obj12164.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ typedef signed int s32;
 u16 func_021EA01C(u8 *p)
 {
     if (p[0xe1] != 0)
-        return *(u16 *)(p + 0xde);
+        return ((struct Obj12164 *)p)->fDE;
     return 0;
 }
 

@@ -19,6 +19,7 @@
  *   func_02005D90 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
  */
+#include "../include/Obj06657.h"
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
@@ -36,10 +37,10 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     int *p = func_02030734(heap, 0x44, 0, d_02213D04, tag_2854);
     func_02082BCC(p, 0, 0x44);
     p[2] = (int)(ctx + 4);
-    p[3] = *(int *)(ctx + 0x20);
-    p[0] = *(int *)(ctx + 0x1c) - 2;
-    p[5] = *(int *)(ctx + 0x28);
-    p[6] = *(int *)(ctx + 0x2c);
+    p[3] = ((struct Obj06657 *)ctx)->f20;
+    p[0] = ((struct Obj06657 *)ctx)->f1C - 2;
+    p[5] = ((struct Obj06657 *)ctx)->f28;
+    p[6] = ((struct Obj06657 *)ctx)->f2C;
     p[7] = (int)(ctx + 0x40);
     p[8] = (int)(ctx + (offset - 0xf4));
     offset -= 0xf0;
@@ -52,7 +53,7 @@ int *func_02212854(int unused, unsigned heap, char *ctx)
     p[14] = (int)(ctx + 0x778);
     p[16] = (int)(ctx + 0x8ac);
     {
-        void *q = func_02012EBC(*(void **)(ctx + 4));
+        void *q = func_02012EBC(((struct Obj06657 *)ctx)->f4);
         p[4] = func_0200EA04((int)func_0200E9F4(q));
     }
     if (func_02005C44() != 0x487) func_02005D90(0x487, 0xffff);

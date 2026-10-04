@@ -12,7 +12,8 @@
  *   func_0202570C 0x0202570C thumb
  *   func_02025588 0x02025588 thumb
  */
+#include "../include/Obj08317.h"
 struct Grid;
 extern void func_0202570C(struct Grid *);
 extern void func_02025588(void *);
-void func_021E10BC(char *p){ func_0202570C(*(struct Grid **)(p+0x304)); func_0202570C(*(struct Grid **)(p+0x308)); func_02025588(*(void **)(p+0x300)); }
+void func_021E10BC(char *p){ func_0202570C(*(struct Grid * *)&((struct Obj08317 *)p)->f304); func_0202570C(*(struct Grid * *)&((struct Obj08317 *)p)->f308); func_02025588(((struct Obj08317 *)p)->f300); }

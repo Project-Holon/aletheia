@@ -9,4 +9,5 @@
  * status: EXACT
  * blocker-leaf: ov183 021DB770; source/unit/shard ownership checked, parent cleared.
  */
-int func_021FA004(char *p,int *x,int *y){if(x)*x=*(int *)(p+0x24);if(y)*y=*(int *)(p+0x28);return *(int *)(p+0x18);}
+#include "../include/Obj10776.h"
+int func_021FA004(char *p,int *x,int *y){if(x)*x=((struct Obj10776 *)p)->f24;if(y)*y=((struct Obj10776 *)p)->f28;return ((struct Obj10776 *)p)->f18;}

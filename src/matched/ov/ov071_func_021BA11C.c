@@ -11,6 +11,7 @@
  * symbols:
  *   func_02041EE4 0x02041EE4 arm
  */
+#include "../include/Obj20758.h"
 
 extern void func_02041EE4(unsigned, unsigned, unsigned);
-void func_021BA11C(char *p) { func_02041EE4(6, 3, (*(int *)(p + 0x2d8) >> 8) % 64); }
+void func_021BA11C(char *p) { func_02041EE4(6, 3, (((struct Obj20758 *)p)->f2D8 >> 8) % 64); }

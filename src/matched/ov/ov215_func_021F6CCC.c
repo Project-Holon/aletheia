@@ -16,6 +16,7 @@
  *   func_020173B4 0x020173B4 thumb
  *   func_021F6D0C 0x021F6D0C thumb ov215
  */
+#include "../include/Obj06707.h"
 /* Legacy 020173B4 inputs r1-r3 are replaced by its body; full forwarding
  * 02015F2C supplies fixed member, one, original p and callback to 02063000.
  * It reads no caller r1-r3. 02016028 retains live incoming flag in r1. */
@@ -30,12 +31,12 @@ extern int func_021F6D0C(char *);
 void func_021F6CCC(char *p,unsigned flag,int enable)
 {
     void *obj;
-    func_02016028(*(void **)(p+52),flag);
-    obj=func_02015EE8(*(void **)(p+52));
+    func_02016028(((struct Obj06707 *)p)->f34,flag);
+    obj=func_02015EE8(((struct Obj06707 *)p)->f34);
     func_02064CBC(obj);
-    func_02015E4C(*(void **)(p+52));
+    func_02015E4C(((struct Obj06707 *)p)->f34);
     if(enable) {
         func_02063000((int)obj,1,(int)p,(int)func_021F6D0C);
-        *(int *)(p+56)=0;
-    } else func_020173B4(*(void **)(p+52));
+        ((struct Obj06707 *)p)->f38=0;
+    } else func_020173B4(((struct Obj06707 *)p)->f34);
 }

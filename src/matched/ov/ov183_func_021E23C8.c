@@ -29,6 +29,7 @@
  *   func_021FC754 0x021FC754 thumb ov186
  *   d_021E3900 0x021E3900 data a4
  */
+#include "../include/Obj02896.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -57,7 +58,7 @@ void func_021E23C8(char *p,const Input *q) {
     char *slot;
     u32 tmp1,tmp;
     u16 *tmp2;
-    if(!*(void **)(p+4)) *(void **)(p+4)=func_021FD12C((int)q->owner,(void *)(*(int *)p),*(u16 *)(p+28));
+    if(!((struct Obj02896 *)p)->f4) ((struct Obj02896 *)p)->f4=func_021FD12C((int)q->owner,(void *)(*(int *)&((struct Obj02896 *)p)->f0),((struct Obj02896 *)p)->f1C);
     ws=(struct WordSet *)func_021FC21C(q->owner);
     str=func_02045EC0((struct MsgBank *)func_021FC214(q->owner),321);
     tmp2=(u16 *)(p+28);
@@ -67,14 +68,14 @@ void func_021E23C8(char *p,const Input *q) {
     func_0201EE0C(ws,0,*(void **)(q->base+tmp*4+16),
         *(u32 *)(tmp1+tmp*4+32),1,2);
     func_0201F250(ws,expanded,str);
-    func_021FD19C(*(void **)(p+4),q->owner,expanded);
+    func_021FD19C(((struct Obj02896 *)p)->f4,q->owner,expanded);
     func_02045808(expanded); func_02045808(str);
-    func_021FB964((void *)((int)q->owner),30,*(u16 *)(p+28));
+    func_021FB964((void *)((int)q->owner),30,((struct Obj02896 *)p)->f1C);
     font=func_021FC20C(q->owner);
     bank=func_021FC214(q->owner);
     for(i=0;i<2;i++) {
         r=&d_021E3900[i]; slot=p; slot=slot+i*4;
-        *(void **)(slot+12)=func_021FC6A4(4,r->a,r->b,r->c,r->d,14,*(void **)p,*(u16 *)(p+28));
-        func_021FC754(*(char **)(slot+12),(void *)bank,r->value,(void *)font,0x3da0);
+        ((struct Obj02896 *)slot)->fC=func_021FC6A4(4,r->a,r->b,r->c,r->d,14,((struct Obj02896 *)p)->f0,((struct Obj02896 *)p)->f1C);
+        func_021FC754(*(char * *)&((struct Obj02896 *)slot)->fC,(void *)bank,r->value,(void *)font,0x3da0);
     }
 }

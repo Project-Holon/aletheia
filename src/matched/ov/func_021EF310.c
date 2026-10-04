@@ -14,12 +14,13 @@
  *
  * Forward the word at +0x74.
  */
+#include "../include/Obj18533.h"
 
 struct WinMgr;
 extern void func_0202CA0C(struct WinMgr *mgr);
 
 void func_021EF310(char *p)
 {
-    func_0202CA0C(*(struct WinMgr **)(p + 0x74));
+    func_0202CA0C(*(struct WinMgr * *)&((struct Obj18533 *)p)->f74);
 }
 

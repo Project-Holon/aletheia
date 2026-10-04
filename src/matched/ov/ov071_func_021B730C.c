@@ -23,6 +23,7 @@
  *   func_02043598  0x02043598  arm
  *   d_021BA8A0     0x021BA8A0  data  a4
  */
+#include "../include/Obj13174.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -55,7 +56,7 @@ int func_021B730C(void *ctx, int *st, int *w)
         func_021B7A68(m, w);
         func_021B7B10(w, m);
         func_021B7BD8(w, (int)m);
-        *(int *)(m + 0x7c) = func_021B7014((int *)w[1], (const int *)(d_021BA8A0 + *(u8 *)w[2] * 8), 1);
+        ((struct Obj13174 *)m)->f7C = func_021B7014((int *)w[1], (const int *)(d_021BA8A0 + *(u8 *)w[2] * 8), 1);
         st[0]++;
         break;
     case 1:

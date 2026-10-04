@@ -23,6 +23,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01032.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,33 +49,33 @@ int func_02198550(u32 a)
     u8 *h;
 
     h = func_0216D6D4((void *)a);
-    if (*(int *)h != 0) {
-        func_02163FC0(a, *(s8 *)(h + 12), *(int *)h);
+    if (((struct Obj01032 *)h)->f0 != 0) {
+        func_02163FC0(a, ((struct Obj01032 *)h)->fC, ((struct Obj01032 *)h)->f0);
         func_02164010(a);
-        if (*(int *)(h + 4) >= 0x10000) {
-            *(int *)(h + 4) = 0;
-            func_02163E7C(a, *(s8 *)(h + 12));
+        if (((struct Obj01032 *)h)->f4 >= 0x10000) {
+            ((struct Obj01032 *)h)->f4 = 0;
+            func_02163E7C(a, ((struct Obj01032 *)h)->fC);
             func_0216D568((void *)a, 0x20);
         }
-        *(int *)(h + 4) += (*(int *)h < 0) ? -*(int *)h : *(int *)h;
+        ((struct Obj01032 *)h)->f4 += (((struct Obj01032 *)h)->f0 < 0) ? -((struct Obj01032 *)h)->f0 : ((struct Obj01032 *)h)->f0;
     }
-    *(u16 *)(h + 10) += *(u16 *)(h + 8);
-    if (*(u16 *)(h + 10) > 0xF00) {
-        *(u16 *)(h + 10) = 0xF00;
+    ((struct Obj01032 *)h)->fA += ((struct Obj01032 *)h)->f8;
+    if (((struct Obj01032 *)h)->fA > 0xF00) {
+        ((struct Obj01032 *)h)->fA = 0xF00;
     }
     {
         Vec v;
         u16 k;
         int i;
-        k = *(u16 *)(h + 10) / 256;
-        i = *(s8 *)(h + 15);
+        k = ((struct Obj01032 *)h)->fA / 256;
+        i = ((struct Obj01032 *)h)->fF;
         v.x = 0;
         v.y = d_021DDBD4[i][k];
         v.z = 0;
         func_0216D8C0(a, &v);
     }
-    *(s8 *)(h + 13) = *(s8 *)(h + 13) - 1;
-    if (*(s8 *)(h + 13) > 0) {
+    ((struct Obj01032 *)h)->fD = ((struct Obj01032 *)h)->fD - 1;
+    if (((struct Obj01032 *)h)->fD > 0) {
         return 0;
     }
     {

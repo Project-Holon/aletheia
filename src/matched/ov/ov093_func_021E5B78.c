@@ -19,6 +19,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F2CD8     0x021F2CD8  data   ov093  a4
  */
+#include "../include/Obj02791.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,20 +40,20 @@ void func_021E5B78(int a, void *b, int c)
 
     if (c == func_021D775C(3) && func_021C7F24(b, c) != 0 && func_021C7F4C(b) != 0) {
         m = (u8 *)func_021C88A4(b, 0x1e, c);
-        *(int *)(m + 4) = 4;
+        ((struct Obj02791 *)m)->f4 = 4;
         m[8] = func_021C8010(b, c);
-        *(int *)(m + 0xc) = c;
+        ((struct Obj02791 *)m)->fC = c;
         m[0x1c] = 1;
         func_021C88C8(b, m);
         m = (u8 *)func_021C88A4(b, 0x17, c);
         m[8] = c;
-        *(int *)(m + 4) = 0xe;
-        *(u32 *)m |= 1 << 24;
+        ((struct Obj02791 *)m)->f4 = 0xe;
+        ((struct Obj02791 *)m)->f0 |= 1 << 24;
         func_021C88C8(b, m);
         m = (u8 *)func_021C88A4(b, 0x29, c);
         m[0x4c] = c;
         m[0x4d] = 1;
-        *(u32 *)m |= 1 << 24;
+        ((struct Obj02791 *)m)->f0 |= 1 << 24;
         func_021C88C8(b, m);
     }
 }

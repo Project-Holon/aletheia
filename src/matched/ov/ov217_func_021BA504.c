@@ -18,6 +18,7 @@
  *   func_021BAA40 0x021BAA40 thumb ov217
  *   func_021BAAC4 0x021BAAC4 thumb ov217
  */
+#include "../include/Obj03376.h"
 extern void func_021BA8FC(void *);
 extern void func_021BA674(void *);
 extern void func_021BA5E4(void *);
@@ -28,9 +29,9 @@ extern void func_021BAA40(void *);
 extern void func_021BAAC4(void *);
 void func_021BA504(char *p)
 {
-    *(unsigned *)(p+0x80)=0;*(unsigned *)(p+0x84)=0;*(unsigned *)(p+0x88)=0;
-    *(unsigned *)(p+0x18)=0;*(unsigned *)(p+0x20)=0;*(unsigned *)(p+0x24)=0;
-    *(unsigned *)(p+0x28)=0;*(unsigned *)(p+0x8c)=2;*(unsigned *)(p+0x1c)=0;
+    ((struct Obj03376 *)p)->f80=0;((struct Obj03376 *)p)->f84=0;((struct Obj03376 *)p)->f88=0;
+    ((struct Obj03376 *)p)->f18=0;((struct Obj03376 *)p)->f20=0;((struct Obj03376 *)p)->f24=0;
+    ((struct Obj03376 *)p)->f28=0;((struct Obj03376 *)p)->f8C=2;((struct Obj03376 *)p)->f1C=0;
     func_021BA8FC(p);func_021BA674(p);func_021BA5E4(p);func_021BA5B4(p);
     func_021BA858(p);func_021BA9E8(p);func_021BAA40(p);func_021BAAC4(p);
 }

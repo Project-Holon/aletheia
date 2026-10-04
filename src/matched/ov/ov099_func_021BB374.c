@@ -21,6 +21,7 @@
  *   func_02049238  0x02049238  arm
  *   func_0204B294  0x0204B294  arm
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned short u16;
 
@@ -49,14 +50,14 @@ void func_021BB374(char *p, int a, int b)
     void *o;
 
     t = d_021C37D4;
-    if (*(void **)(p + 0x180) != 0)
+    if (((struct Obj00008 *)p)->f180 != 0)
         func_021BB42C(p);
-    r = func_02009864(*(void **)(p + 4), a, 8);
+    r = func_02009864(((struct Obj00008 *)p)->f4, a, 8);
     r = func_02025C88(r);
     o = func_0202DA04(b);
-    *(void **)(p + 0x184) = func_0202DA48(o, r, 1, b);
-    *(void **)(p + 0x188) = func_0202DA18(o, r, 1, 0, b);
-    *(void **)(p + 0x18C) = func_0202DA6C(r, 2, 1, b);
+    ((struct Obj00008 *)p)->f184 = func_0202DA48(o, r, 1, b);
+    ((struct Obj00008 *)p)->f188 = func_0202DA18(o, r, 1, 0, b);
+    ((struct Obj00008 *)p)->f18C = func_0202DA6C(r, 2, 1, b);
     func_02049238(o);
-    *(void **)(p + 0x180) = func_0204B294(*(void **)(p + 0x110), (unsigned int)*(void **)(p + 0x184), (unsigned int)*(void **)(p + 0x188), (unsigned int)*(void **)(p + 0x18C), &t, 1, b);
+    ((struct Obj00008 *)p)->f180 = func_0204B294(((struct Obj00008 *)p)->f110, (unsigned int)((struct Obj00008 *)p)->f184, (unsigned int)((struct Obj00008 *)p)->f188, (unsigned int)((struct Obj00008 *)p)->f18C, &t, 1, b);
 }

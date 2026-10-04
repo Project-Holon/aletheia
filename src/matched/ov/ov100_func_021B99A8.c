@@ -13,6 +13,7 @@
  *   func_02039338 0x02039338 arm
  *   func_02082D44 0x02082D44 arm
  */
+#include "../include/Obj22072.h"
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -21,6 +22,6 @@ extern void func_02082D44(const void *,void *,unsigned);
 void func_021B99A8(int a,int b,void *c,unsigned d,void *e)
 {
  if(e==func_020399A8()) {
-  if(a!=func_02039338()) func_02082D44(c,(void *)(*(unsigned *)(d+0x244)+0x18),4);
+  if(a!=func_02039338()) func_02082D44(c,(void *)(((struct Obj22072 *)d)->f244+0x18),4);
  }
 }

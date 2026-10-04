@@ -16,14 +16,16 @@
  * symbols:
  *   func_021A7404  0x021A7404  thumb  ov021
  */
+#include "../include/Obj00165.h"
+#include "../include/Obj05978.h"
 
 extern int func_021A7404(int, int);
 
 void func_0218DD14(int *dst, char *src, int a, int b)
 {
-    dst[0] = func_021A7404(*(int *)(src + 0x68), a);
-    dst[1] = *(int *)(src + 0x64);
-    dst[2] = *(int *)(src + 0x6c);
+    dst[0] = func_021A7404(((struct Obj00165 *)src)->f68, a);
+    dst[1] = ((struct Obj00165 *)src)->f64;
+    dst[2] = ((struct Obj00165 *)src)->f6C;
     dst[3] = a;
-    *(unsigned short *)((char *)dst + 0x10) = b;
+    ((struct Obj05978 *)dst)->f10 = b;
 }

@@ -10,8 +10,9 @@
  * leaf: sole blocker set of concrete MATCH900 ov215021F5884; parent claim.
  * extent: 14-byte predicate then two zero alignment bytes at 021F5F82.
  */
+#include "../include/Obj25740.h"
 int func_021F5F74(void *unused,char *p)
 {
-    if(*(int *)(p+24)==1)return 1;
+    if(((struct Obj25740 *)p)->f18==1)return 1;
     return 0;
 }

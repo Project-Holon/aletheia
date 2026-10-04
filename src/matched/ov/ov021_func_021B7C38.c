@@ -11,6 +11,7 @@
  *
  * symbols:
  */
+#include "../include/Obj20055.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,5 +21,5 @@ typedef long long s64;
 
 int func_021B7C38(u8 *o)
 {
-    return (int)(((s64)*(int *)(o + 0x4C) * 0x10000 + 0x800) >> 12);
+    return (int)(((s64)((struct Obj20055 *)o)->f4C * 0x10000 + 0x800) >> 12);
 }

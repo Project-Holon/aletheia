@@ -17,6 +17,7 @@
  *   func_02012C0C  0x02012C0C  thumb
  *   func_021C4F7C  0x021C4F7C  thumb
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -43,24 +44,24 @@ void func_021605C0(int a0, int a1, int a2, int a3)
     int o4;
 t4 = a1 + 0;
 t5 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0xc);
+a0 = *(int *)&((struct Obj00020 *)t4)->fC;
     if (a0 != 0) goto loc_02160608;
 loc_021605CE:
-a0 = *(int *)((char *)t4 + 0x18);
+a0 = ((struct Obj00020 *)t4)->f18;
     if (a0 != 0) goto loc_02160608;
 loc_021605D4:
 a0 = 1;
 a1 = 0;
     a0 = func_02040588(a0, a1);
 loc_021605DC:
-a0 = *(int *)((char *)t4 + 8);
+a0 = *(int *)&((struct Obj00020 *)t4)->f8;
     a0 = func_02188C54(a0);
 loc_021605E2:
     if (a0 == 0) goto loc_021605EA;
 loc_021605E6:
     a0 = func_02190344(a0);
 loc_021605EA:
-a0 = *(int *)((char *)t4 + 4);
+a0 = *(int *)&((struct Obj00020 *)t4)->f4;
     t6 = func_020120F4((const struct Ctx *)a0);
 loc_021605F0:
     name = func_02012C0C((struct BigObj *)t6);
@@ -71,7 +72,7 @@ a1 = t5 + 0;
 a3 = 0x50;
     res = func_021C4F7C(t6, a1, (const unsigned short *)name, a3, o4);
 loc_02160606:
-*(char **)((char *)t4 + 0xc) = res;
+*(char * *)&((struct Obj00020 *)t4)->fC = res;
 loc_02160608:
     return;
 }

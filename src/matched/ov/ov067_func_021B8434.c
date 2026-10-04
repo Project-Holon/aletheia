@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj05147.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -19,7 +20,7 @@ void func_021B8434(u8 *p, u8 a, u8 b, u16 c, u32 d)
     p[0x67] = a;
     p[0x68] = b;
     p[0x69] = 0;
-    *(u16 *)(p + 0x50) = c;
-    *(u16 *)(p + 0x4e) = 1;
-    *(u32 *)(p + 0x6c) = d;
+    ((struct Obj05147 *)p)->f50 = c;
+    ((struct Obj05147 *)p)->f4E = 1;
+    ((struct Obj05147 *)p)->f6C = d;
 }

@@ -26,6 +26,7 @@
  *   d_021E2F1C 0x021E2F1C data a4
  * prototype: Setters retain caller-loaded line in r2; shutdown receives live entry r0 in case 4 despite its unused parameter.
  */
+#include "../include/Obj00999.h"
 typedef unsigned long u32;
 typedef struct DWCstAccUserData DWCstAccUserData;
 extern int func_021E10CC(int,DWCstAccUserData *,int);
@@ -44,41 +45,41 @@ extern const char d_021E2EF8[],d_021E2F1C[];
 int func_021DBDAC(char *p)
 {
     long r;
-    switch(*(u32 *)(p+0x12c)) {
+    switch(((struct Obj00999 *)p)->f12C) {
     case 0:
-        r=func_021E10CC(0xb5f,*(DWCstAccUserData **)p,0);
+        r=func_021E10CC(0xb5f,*(DWCstAccUserData * *)&((struct Obj00999 *)p)->f0,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1161);func_021DB6A0(p);return 2;}
-        *(u32 *)(p+0x12c)=1;break;
+        ((struct Obj00999 *)p)->f12C=1;break;
     case 1:
-        if(*(int *)(p+0x198)>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
-        r=func_021E1540((char *)d_021E2F1C,**(int **)(p+0x1464),*(void **)(p+0x190),*(int *)(p+0x198));
+        if(((struct Obj00999 *)p)->f198>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
+        r=func_021E1540((char *)d_021E2F1C,**(int * *)&((struct Obj00999 *)p)->f1464,((struct Obj00999 *)p)->f190,((struct Obj00999 *)p)->f198);
         if(r!=0) {func_021DCE40(p+0x18,r,0x116e);func_021DB6A0(p);return 2;}
-        *(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=2;break;
+        ((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=2;break;
     case 2:
-        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x117b);*(u32 *)(p+0x12c)=6;break;}
+        if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x117b);((struct Obj00999 *)p)->f12C=6;break;}
         func_021E1414();r=func_021E1434();
-        if(r==0||r==4) {func_021DCE48(p+0x18,r,0x1186);*(u32 *)(p+0x12c)=6;}
-        else if(r==1)*(u32 *)(p+0x12c)=3;
+        if(r==0||r==4) {func_021DCE48(p+0x18,r,0x1186);((struct Obj00999 *)p)->f12C=6;}
+        else if(r==1)((struct Obj00999 *)p)->f12C=3;
         break;
     case 3:
         r=func_021E1454();
-        if(r==0) {func_021DCE50(p+0x18,r,0x1199);*(u32 *)(p+0x12c)=6;}
+        if(r==0) {func_021DCE50(p+0x18,r,0x1199);((struct Obj00999 *)p)->f12C=6;}
         else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x11a0);return 2;}
-        else *(u32 *)(p+0x12c)=4;
+        else ((struct Obj00999 *)p)->f12C=4;
         break;
     case 4:
-        func_021DB6A0(p);*(u32 *)(p+0x12c)=5;
+        func_021DB6A0(p);((struct Obj00999 *)p)->f12C=5;
     case 5:return 1;
     case 6:
         r=func_021E11F0();
-        if(r==0) {*(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=7;}
+        if(r==0) {((struct Obj00999 *)p)->f1A0=0;((struct Obj00999 *)p)->f12C=7;}
         else {func_021DCE40(p+0x18,r,0x11be);func_021DB6A0(p);return 2;}
         break;
     case 7:
-        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x11ca);func_021DB6A0(p);return 2;}
+        if((((struct Obj00999 *)p)->f1A0)++>0xe10) {func_021DCE08(p+0x18,1,0x11ca);func_021DB6A0(p);return 2;}
         func_021E1414();r=func_021E1434();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
-        if(r==1)*(u32 *)(p+0x12c)=8;
+        if(r==1)((struct Obj00999 *)p)->f12C=8;
         break;
     case 8:func_021DB6A0(p);return 2;
     }

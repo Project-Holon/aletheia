@@ -13,6 +13,7 @@
  *   func_0204B454  0x0204B454  arm
  *   func_0204B6F4  0x0204B6F4  arm
  */
+#include "../include/Obj20676.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -29,7 +30,7 @@ void func_021BB398(int p, u32 val)
     short a[2];
     unsigned i;
 
-    func_0204B454((struct Actor *)*(int *)(p + 0x6A4), (struct PtS *)b, 0);
+    func_0204B454((struct Actor *)((struct Obj20676 *)p)->f6A4, (struct PtS *)b, 0);
     for (i = 0; i < 8; i++) {
         func_0204B454((struct Actor *)*(int *)(p + i * 4 + 0x634), (struct PtS *)a, 0);
         if (a[1] == b[1]) {

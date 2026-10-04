@@ -15,6 +15,8 @@
  *   func_02012944  0x02012944  thumb
  *   func_0203D3F8  0x0203D3F8  arm
  */
+#include "../include/Obj12448.h"
+#include "../include/Obj19262.h"
 
 typedef unsigned char u8;
 
@@ -29,5 +31,5 @@ void func_02173D38(u8 *p)
 {
     p[0x282B] = 0;
     func_0203D3F8((u32)func_020399A8(), 0, 0x140A, func_02008468(),
-                  (u32)func_02012944((void *)(*(int *)(*(u8 **)p + 8))), 1, 0, 0);
+                  (u32)func_02012944((void *)(((struct Obj19262 *)(*(u8 * *)&((struct Obj12448 *)p)->f0))->f8)), 1, 0, 0);
 }

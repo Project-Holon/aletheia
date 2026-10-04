@@ -35,6 +35,7 @@
  *   func_021C1F50  0x021C1F50  thumb  ov208
  *   func_0204B878  0x0204B878  arm
  */
+#include "../include/Obj00081.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -101,17 +102,17 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
     else
         W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
 
-    if (SLOT5C(*(int *)(p + 0x64)) != 0)
-        func_0204B3DC((struct Obj *)SLOT5C(*(int *)(p + 0x64)), 0);
-    *(int *)(p + 0x64) = (*(int *)(p + 0x64) + 1) % 2;
-    if (SLOT5C(*(int *)(p + 0x64)) != 0) {
-        if (SLOT5C(*(int *)(p + 0x64)) != 0)
-            func_021C0C00((void *)SLOT4C(*(int *)(p + 0x64)), (void *)SLOT5C(*(int *)(p + 0x64)));
+    if (SLOT5C(((struct Obj00081 *)p)->f64) != 0)
+        func_0204B3DC((struct Obj *)SLOT5C(((struct Obj00081 *)p)->f64), 0);
+    ((struct Obj00081 *)p)->f64 = (((struct Obj00081 *)p)->f64 + 1) % 2;
+    if (SLOT5C(((struct Obj00081 *)p)->f64) != 0) {
+        if (SLOT5C(((struct Obj00081 *)p)->f64) != 0)
+            func_021C0C00((void *)SLOT4C(((struct Obj00081 *)p)->f64), (void *)SLOT5C(((struct Obj00081 *)p)->f64));
         SLOT5C(*(int *)(p + 0x64)) = 0;
     }
 
     func_0200CC40(func_0200CA1C((void *)func_021BC3A4((int *)key)), id, &out1, &out2, &form, *heap);
-    SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(*(int *)(p + 0x64)), W(0x54), W(0x58), W(0),
+    SLOT5C(*(int *)(p + 0x64)) = func_021C0B6C(&SLOT4C(((struct Obj00081 *)p)->f64), W(0x54), W(0x58), W(0),
                                                *heap, id, form, out1, 0, 0x38, 0xb0);
     W(0x24) = 0;
     func_0201C6EC((struct PrintSys *)W(0x34));

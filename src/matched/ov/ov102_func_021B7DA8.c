@@ -13,5 +13,6 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj13726.h"
 struct U16Vec; struct Descriptor; extern void func_02045808(struct U16Vec *); extern void func_020452E8(struct Descriptor *); extern void func_02082BCC(void *,int,unsigned);
-void func_021B7DA8(void *p) { func_02045808(*(struct U16Vec **)((char *)p+12)); func_020452E8(*(struct Descriptor **)p); func_02082BCC(p,0,20); }
+void func_021B7DA8(void *p) { func_02045808(*(struct U16Vec * *)&((struct Obj13726 *)p)->fC); func_020452E8(*(struct Descriptor * *)&((struct Obj13726 *)p)->f0); func_02082BCC(p,0,20); }

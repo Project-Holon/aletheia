@@ -12,14 +12,15 @@
  * symbols:
  *   func_02028178  0x02028178  thumb
  */
+#include "../include/Obj06564.h"
 
 typedef unsigned char  u8;
 extern void func_02028178(u8 *p);
 
 void func_021B6390(int *p)
 {
-    if (*(int *)((char *)p + 0x220)) {
-        func_02028178((u8 *)(*(int *)((char *)p + 0x220)));
-        func_02028178((u8 *)(*(int *)((char *)p + 0x224)));
+    if (((struct Obj06564 *)p)->f220) {
+        func_02028178((u8 *)(((struct Obj06564 *)p)->f220));
+        func_02028178((u8 *)(((struct Obj06564 *)p)->f224));
     }
 }

@@ -11,6 +11,7 @@
  * symbols:
  *   func_0204B6F4 0x0204B6F4 arm
  */
+#include "../include/Obj09396.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Obj;
@@ -19,5 +20,5 @@ void func_0217F174(u8 *p)
 {
     p[0x117] = 0;
     p[0x116] = 1;
-    func_0204B6F4(*(void **)(p + 0x9c), 6, 1);
+    func_0204B6F4(((struct Obj09396 *)p)->f9C, 6, 1);
 }

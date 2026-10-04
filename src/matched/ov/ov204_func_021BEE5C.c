@@ -13,6 +13,7 @@
  *   func_0204B688 0x0204B688 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj14617.h"
 extern void func_0207D63C(volatile void *, int, int, int, int);
 typedef unsigned int   u32;
 struct Actor;
@@ -36,8 +37,8 @@ int func_021BEE5C(char *p, unsigned *state, unsigned *q)
     case 16:
         for (i = 0; i < 3; i++) {
             char *row = p + i * 4;
-            func_0204B688(*(void **)(row + 0x10a8), 0);
-            func_0204B3DC(*(void **)(row + 0x10a8), 0);
+            func_0204B688(((struct Obj14617 *)row)->f10A8, 0);
+            func_0204B3DC(((struct Obj14617 *)row)->f10A8, 0);
         }
         *state = 0;
         return 1;

@@ -16,6 +16,7 @@
  *   func_02189A80  0x02189A80  thumb  ov021
  *   func_02189084  0x02189084  thumb  ov021
  */
+#include "../include/Obj12555.h"
 
 typedef unsigned short u16;
 
@@ -30,8 +31,8 @@ void func_021888C8(char *o)
     volatile u16 *r = (volatile u16 *)0x04000204;
 
     func_02047CE4();
-    func_0218E104(*(int *)(o + 0x10), func_0203630C());
-    *(int *)(o + 0x100) = func_02189A80(o);
+    func_0218E104(((struct Obj12555 *)o)->f10, func_0203630C());
+    ((struct Obj12555 *)o)->f100 = func_02189A80(o);
     *r = *r & 0xFFFF7FFF;
     func_02189084(o);
     *r = *r | 0x8000;

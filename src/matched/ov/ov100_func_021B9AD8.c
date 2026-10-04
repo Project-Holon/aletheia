@@ -16,6 +16,7 @@
  *   func_021B9A54 0x021B9A54 thumb ov100
  *   func_021B96B8 0x021B96B8 thumb ov100
  */
+#include "../include/Obj22075.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -30,7 +31,7 @@ extern void func_021B96B8(u8 *a);
 void func_021B9AD8(int a)
 {
  if(func_02039CB4((struct Link *)func_020399A8(),0x7a,12)!=0) {
-  switch(*(unsigned *)(a+0x24c)) {
+  switch(((struct Obj22075 *)a)->f24C) {
   case 7: func_021B95B8((u8 *)a,(u32)func_021B9A54); return;
   case 1: case 2: case 3: case 4:
    func_0201BA34((void *)((*(int **)(a+0x244))[2]));

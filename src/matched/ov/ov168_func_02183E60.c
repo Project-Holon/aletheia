@@ -19,6 +19,7 @@
  * Step a two-slot state machine: publish through func_0202208C on state 0,
  *   poll func_020221A4 on 1, install func_02183EC0 on 2.
  */
+#include "../include/Obj23818.h"
 
 
 extern unsigned int func_02183D3C(unsigned int *p);
@@ -33,7 +34,7 @@ void func_02183E60(int a, int *state)
     int x = func_02183D3C((unsigned int *)a);
     switch (*state) {
     case 0:
-        func_0202208C(0, 0, 0, 0, 6, 1, *(int *)(x + 0x14C));
+        func_0202208C(0, 0, 0, 0, 6, 1, ((struct Obj23818 *)x)->f14C);
         *state = 1;
         break;
     case 1:

@@ -10,13 +10,14 @@
  * symbols:
  *   func_02027858 0x02027858 thumb
  */
+#include "../include/Obj00001.h"
 struct TaskMenu;
 extern void func_02027858(struct TaskMenu *m);
 void func_021E12F8(char *p)
 {
-    if (*(void **)(p + 0x64C)) {
+    if (((struct Obj00001 *)p)->f64C) {
         *(volatile unsigned short *)0x04000050 = 0;
-        func_02027858(*(void **)(p + 0x64C));
-        *(void **)(p + 0x64C) = 0;
+        func_02027858(((struct Obj00001 *)p)->f64C);
+        ((struct Obj00001 *)p)->f64C = 0;
     }
 }

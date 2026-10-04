@@ -14,18 +14,20 @@
  * Lead 112 bytes includes two pool words; follower 022110A4 is a
  * 20-byte independent push/pop swap leaf. No padding remains.
  */
+#include "../include/Obj14569.h"
+#include "../include/Obj25276.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 d_02212138[][6];
 void func_02211034(u8 *p)
 {
     unsigned i;
-    if(*(int *)(*(u8 **)p+24)==1) {
+    if(((struct Obj25276 *)(*(u8 * *)&((struct Obj14569 *)p)->f0))->f18==1) {
         for(i=0;i<6;i++) (p+i)[0x1CC]=d_02212138[(*(u8 **)p)[28]][i];
     } else {
         for(i=0;i<6;i++) (p+i)[0x1CC]=i;
     }
-    for(i=0;i<3;i++) (*(u8 **)p+i)[72]=255;
+    for(i=0;i<3;i++) (*(u8 * *)&((struct Obj14569 *)p)->f0+i)[72]=255;
     for(i=0;i<2;i++) {
         *(u16 *)(p+i*4+0x249C)=255;
         *(u16 *)(p+i*4+0x249E)=255;

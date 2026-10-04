@@ -22,6 +22,7 @@
  *   func_021D78AC 0x021D78AC thumb ov093
  *   func_021B911C 0x021B911C thumb ov093
  */
+#include "../include/Obj21082.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -77,7 +78,7 @@ u32 func_021C236C(u8 *p, u16 id, u8 *a, u8 *b, Word *dest)
             *dest = out;
             return result;
         }
-        if (func_021B911C(*(void **)(p + 4), 0)) {
+        if (func_021B911C(((struct Obj21082 *)p)->f4, 0)) {
             *dest = out;
             return result;
         }

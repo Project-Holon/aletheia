@@ -24,6 +24,7 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj02462.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x,y,z; u8 a,b; } Params;
@@ -50,15 +51,15 @@ void func_021BD194(u8 *p) {
     int a;
     Params t;
     h=func_020490F4(func_020275E4(),42);
-    *(void **)(p+0x1c)=(void *)func_0204AC18(h,func_02027614(),0,384,0,3,42);
-    *(void **)(p+0x20)=(void *)func_0204A6C8(h,func_02027618(),0,0,42);
+    ((struct Obj02462 *)p)->f1C=(void *)func_0204AC18(h,func_02027614(),0,384,0,3,42);
+    ((struct Obj02462 *)p)->f20=(void *)func_0204A6C8(h,func_02027618(),0,0,42);
     a=func_0202761C(1);
-    *(void **)(p+0x24)=(void *)func_0204AF28(h,a,func_02027620(1),42);
+    ((struct Obj02462 *)p)->f24=(void *)func_0204AF28(h,a,func_02027620(1),42);
     func_02049238(h);
     func_02082BCC(&t,0,8);
     t.x=232; t.y=168; t.z=1; t.a=0; t.b=3;
-    *(void **)(p+0x28)=func_0204B294((void *)func_021BAC40(*(void **)p),(u32)*(void **)(p+0x20),(u32)*(void **)(p+0x1c),(u32)*(void **)(p+0x24),&t,0,42);
-    func_0204B92C(*(void **)(p+0x28),1);
-    func_0204B3DC(*(void **)(p+0x28),0);
-    *(int *)(p+0x2c)=0;
+    ((struct Obj02462 *)p)->f28=func_0204B294((void *)func_021BAC40(((struct Obj02462 *)p)->f0),(u32)((struct Obj02462 *)p)->f20,(u32)((struct Obj02462 *)p)->f1C,(u32)((struct Obj02462 *)p)->f24,&t,0,42);
+    func_0204B92C(((struct Obj02462 *)p)->f28,1);
+    func_0204B3DC(((struct Obj02462 *)p)->f28,0);
+    ((struct Obj02462 *)p)->f2C=0;
 }

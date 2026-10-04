@@ -11,6 +11,7 @@
  * symbols:
  *   func_02008FA4 0x02008FA4 thumb
  */
+#include "../include/Obj00127.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,9 +24,9 @@ extern u16 func_020213AC(u32);
 extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void func_021C73C8(u8 *p)
 {
-    void *q = func_0201292C(**(void ***)(p + 4));
-    *(u16 *)(p + 0x22) = func_020213AC(func_02008FA4(*(void **)(*(u8 **)(p + 8) + p[0x1F]*4 + 0x298)));
-    if (func_02007E50(q, *(u16 *)(p + 0x22), 1, 0x66) == 1) {
+    void *q = func_0201292C(**(void ** *)&((struct Obj00127 *)p)->f4);
+    ((struct Obj00127 *)p)->f22 = func_020213AC(func_02008FA4(*(void **)(*(u8 * *)&((struct Obj00127 *)p)->f8 + p[0x1F]*4 + 0x298)));
+    if (func_02007E50(q, ((struct Obj00127 *)p)->f22, 1, 0x66) == 1) {
         ((struct Flags *)(p + 0x21))->flag = 0;
         return;
     } else {

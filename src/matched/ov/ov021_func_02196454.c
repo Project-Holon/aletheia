@@ -16,6 +16,7 @@
  *   func_0201F7A8  0x0201F7A8  thumb
  *   func_020452E8  0x020452E8  arm
  */
+#include "../include/Obj03578.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -31,9 +32,9 @@ void func_02196454(u8 *p)
 {
     int i;
 
-    if (*(u32 *)(p + 0x24) != 0)
-        func_02051C6C((void *)(*(u32 *)(p + 0x24)));
-    *(u32 *)(p + 0x24) = 0;
+    if (((struct Obj03578 *)p)->f24 != 0)
+        func_02051C6C((void *)(((struct Obj03578 *)p)->f24));
+    ((struct Obj03578 *)p)->f24 = 0;
     for (i = 0; i < 4; i++) {
         u32 *q = (u32 *)p + i;
         if (q[5] != 0) {
@@ -44,5 +45,5 @@ void func_02196454(u8 *p)
         }
         q[5] = 0;
     }
-    *(u32 *)(p + 0x2F4) = 0;
+    ((struct Obj03578 *)p)->f2F4 = 0;
 }

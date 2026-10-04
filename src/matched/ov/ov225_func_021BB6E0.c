@@ -22,6 +22,17 @@
  *   func_021BB850 0x021BB850 thumb ov225
  *   d_021BC048 0x021BC048 data a4
  */
+#include "../include/Obj00637.h"
+#include "../include/Obj14810.h"
+#include "../include/Obj26278.h"
+#include "../include/Obj26279.h"
+#include "../include/Obj26280.h"
+#include "../include/Obj26281.h"
+#include "../include/Obj26282.h"
+#include "../include/Obj26283.h"
+#include "../include/Obj26284.h"
+#include "../include/Obj26286.h"
+#include "../include/Obj26288.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
@@ -40,34 +51,34 @@ char *func_021BB6E0(char *p,char *data)
     char *q;
     u16 groups,items;
     u16 i,j,valid;
-    q=func_02030734(*(u16 *)(data+4),0x24,1,d_021BC048,0x5c);
-    *(char **)q=p;
-    *(u32 *)(p+4)=0;
-    *(u16 *)(*(char **)q+8)=0;
-    *(char **)(q+4)=data;
-    *(u32 *)(q+8)=0;
-    groups=func_021B9C50(*(char **)(data+0x2c));
-    *(u16 *)(q+0xc)=0;
-    *(char **)(q+0x10)=func_02030734(*(u16 *)(*(char **)(q+4)+4),groups*8,1,d_021BC048,0x71);
+    q=func_02030734(((struct Obj14810 *)data)->f4,0x24,1,d_021BC048,0x5c);
+    *(char * *)&((struct Obj00637 *)q)->f0=p;
+    ((struct Obj26278 *)p)->f4=0;
+    ((struct Obj26279 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f8=0;
+    *(char * *)&((struct Obj00637 *)q)->f4=data;
+    ((struct Obj00637 *)q)->f8=0;
+    groups=func_021B9C50(*(char * *)&((struct Obj14810 *)data)->f2C);
+    ((struct Obj00637 *)q)->fC=0;
+    *(char * *)&((struct Obj00637 *)q)->f10=func_02030734(((struct Obj26280 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f4,groups*8,1,d_021BC048,0x71);
     for(i=0;i<groups;i++) {
         valid=0;
-        items=func_021B9C34(*(char **)(*(char **)(q+4)+0x2c),i);
+        items=func_021B9C34(*(char * *)&((struct Obj26281 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i);
         for(j=0;j<items;j++) {
             int id;
-            id=func_021B9C40(*(char **)(*(char **)(q+4)+0x2c),i,j);
-            id=func_021B9BD4(*(char **)(*(char **)(q+4)+0x2c),id);
-            if(func_021B9C58(*(void **)(*(char **)(q+4)+0x2c),id,*(void **)*(char **)(q+4))) valid++;
+            id=func_021B9C40(*(char * *)&((struct Obj26282 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i,j);
+            id=func_021B9BD4(*(char * *)&((struct Obj26283 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,id);
+            if(func_021B9C58(((struct Obj26284 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,id,*(void **)*(char * *)&((struct Obj00637 *)q)->f4)) valid++;
         }
         if(valid) {
-            *(u16 *)(*(char **)(q+0x10)+*(u16 *)(q+0xc)*8)=i;
-            *(u16 *)(*(char **)(q+0x10)+*(u16 *)(q+0xc)*8+2)=func_021B9C28(*(char **)(*(char **)(q+4)+0x2c),i);
-            *(u32 *)(*(char **)(q+0x10)+*(u16 *)(q+0xc)*8+4)=0;
-            *(u16 *)(q+0xc)+=1;
+            *(u16 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8)=i;
+            *(u16 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8+2)=func_021B9C28(*(char * *)&((struct Obj26286 *)(*(char * *)&((struct Obj00637 *)q)->f4))->f2C,i);
+            *(u32 *)(*(char * *)&((struct Obj00637 *)q)->f10+((struct Obj00637 *)q)->fC*8+4)=0;
+            ((struct Obj00637 *)q)->fC+=1;
         }
     }
-    *(u16 *)(q+0x14)=*(u16 *)*(char **)q;
-    *(u16 *)(q+0x16)=*(u16 *)(*(char **)q+2);
-    *(char **)(q+0x1c)=func_021BA65C(q+8,data);
-    *(void **)(q+0x20)=func_020056A0((unsigned)func_021BB850,(unsigned)q,1);
+    ((struct Obj00637 *)q)->f14=*(u16 *)*(char * *)&((struct Obj00637 *)q)->f0;
+    ((struct Obj00637 *)q)->f16=((struct Obj26288 *)(*(char * *)&((struct Obj00637 *)q)->f0))->f2;
+    *(char * *)&((struct Obj00637 *)q)->f1C=func_021BA65C(q+8,data);
+    ((struct Obj00637 *)q)->f20=func_020056A0((unsigned)func_021BB850,(unsigned)q,1);
     return q;
 }

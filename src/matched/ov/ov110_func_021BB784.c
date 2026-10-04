@@ -12,9 +12,10 @@
  * symbols:
  *   func_021BC93C 0x021BC93C thumb ov110
  */
+#include "../include/Obj22366.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern int func_021BC93C(u8 *);
-int func_021BB784(u8 *p) { if (*(int *)(p+16)==0 && func_021BC93C(p+24)!=0) return 1; return 0; }
+int func_021BB784(u8 *p) { if (((struct Obj22366 *)p)->f10==0 && func_021BC93C(p+24)!=0) return 1; return 0; }

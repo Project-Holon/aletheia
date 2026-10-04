@@ -23,6 +23,7 @@
  * third frame word (`sub sp, #0xc` with push {r4-r7, lr}); see
  * docs/idioms/an-unused-frame-word-is-a-callee-returning-a-one-word-struct.md.
  */
+#include "../include/Obj10075.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -48,7 +49,7 @@ void func_021E21F4(void *u, int a, int b, int *p)
         if (func_021D62C4(func_021C7CF4((int *)a, b), 0x19) == 0 && p[6] == 0) {
             t = func_021D78AC(2) + 2;
             r = func_021C88A4(a, 0xc, b);
-            *(int *)(r + 4) = 0x19;
+            ((struct Obj10075 *)r)->f4 = 0x19;
             *(Word *)(r + 8) = func_021E896C(t, func_021D70A8(u));
             r[0xc] = 0;
             r[0xf] = b;

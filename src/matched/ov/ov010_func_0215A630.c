@@ -15,11 +15,12 @@
  * symbols:
  *   (none)
  */
+#include "../include/Obj18788.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_0215A630(u8 *p)
 {
-    return *(u32 *)((u8 *)*(u32 *)(p + 0x20) + 0x100);
+    return *(u32 *)((u8 *)((struct Obj18788 *)p)->f20 + 0x100);
 }

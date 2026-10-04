@@ -13,12 +13,13 @@
  *   func_0201DD68 0x0201DD68 thumb
  *   func_021BA978 0x021BA978 thumb ov099
  */
+#include "../include/Obj13684.h"
 extern int func_021BA8BC(void *);
 extern void func_0201DD68(void);
 extern void func_021BA978(char *, int, int, int);
 void func_021BAADC(char *p, int a, int b)
 {
-    *(int *)(p + 0x19C) = func_021BA8BC(*(void **)(p + 0x19C));
+    *(int *)&((struct Obj13684 *)p)->f19C = func_021BA8BC(((struct Obj13684 *)p)->f19C);
     func_0201DD68();
     func_021BA978(p, a, b, 0);
 }

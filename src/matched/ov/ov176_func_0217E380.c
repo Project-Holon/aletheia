@@ -16,6 +16,7 @@
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_0203D210 0x0203D210 arm
  */
+#include "../include/Obj01957.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern void func_02157E78(u8 *p);
@@ -25,26 +26,26 @@ extern int func_02157E8C(int a0);
 extern u32 func_0203D210(void);
 int func_0217E380(char *p)
 {
-    if (*(void **)(p + 0x1018))
-        func_02157E78(*(void **)(p + 0x1018));
-    switch (*(unsigned *)p) {
+    if (((struct Obj01957 *)p)->f1018)
+        func_02157E78(((struct Obj01957 *)p)->f1018);
+    switch (((struct Obj01957 *)p)->f0) {
     case 0:
-        func_02157E34(*(void **)(p + 0x1018));
-        (*(unsigned *)p)++;
+        func_02157E34(((struct Obj01957 *)p)->f1018);
+        (((struct Obj01957 *)p)->f0)++;
         break;
     case 1:
-        *(int *)(p + 0x101C) = func_02157E6C(*(void **)(p + 0x1018));
-        if (*(int *)(p + 0x101C))
-            (*(unsigned *)p)++;
+        ((struct Obj01957 *)p)->f101C = func_02157E6C(((struct Obj01957 *)p)->f1018);
+        if (((struct Obj01957 *)p)->f101C)
+            (((struct Obj01957 *)p)->f0)++;
         break;
     case 2:
-        func_02157E8C((int)(*(void **)(p + 0x1018)));
-        *(void **)(p + 0x1018) = 0;
-        (*(unsigned *)p)++;
+        func_02157E8C((int)(((struct Obj01957 *)p)->f1018));
+        ((struct Obj01957 *)p)->f1018 = 0;
+        (((struct Obj01957 *)p)->f0)++;
         break;
     case 3:
         if (func_0203D210()) {
-            switch (*(int *)(p + 0x101C)) {
+            switch (((struct Obj01957 *)p)->f101C) {
             case 1: return 1;
             case 3: return 3;
             case 2: break;

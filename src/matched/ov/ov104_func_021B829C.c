@@ -23,6 +23,7 @@
  *   func_021B817C 0x021B817C thumb ov104
  *   func_021B8528 0x021B8528 thumb ov104
  */
+#include "../include/Obj05275.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,19 +52,19 @@ void func_021B829C(u8 *p,u16 *state) {
   if(func_021B884C(point)) {
    func_021B8C3C(p+0x278,point,func_021B86A0(p+base));
    if(!*(u16 *)(p+(base+0x8c))) func_021B8624(p+base);
-   *(u32 *)(p+0x8ac)=1;
+   ((struct Obj05275 *)p)->f8AC=1;
   }
  }
  if(func_021B8614(p+base)) {
-  if(!*(u32 *)(p+0x89c)) {
+  if(!((struct Obj05275 *)p)->f89C) {
    func_021B7F1C(p+0xcc,p+0xbc,1,0,0);
    func_020061E4(0x654);
-   *(u32 *)(p+0x89c)=1;
+   ((struct Obj05275 *)p)->f89C=1;
   }
-  if(*(u32 *)(p+0x89c)) func_021B8384(p,(u16 *)(p+0x8a0));
+  if(((struct Obj05275 *)p)->f89C) func_021B8384(p,(u16 *)(p+0x8a0));
  }
- if(!*(u32 *)(p+0x89c)) {
-  if(func_021B7250(*(int **)(p+0x7ac))==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); }
+ if(!((struct Obj05275 *)p)->f89C) {
+  if(func_021B7250(*(int * *)&((struct Obj05275 *)p)->f7AC)==1) { *(u32 *)(CTX(p)+0xc)=1; func_021B818C(p); }
   if(func_021B6480(*(int **)(CTX(p)+4))) func_021B817C(p,func_021B8528);
  }
 }

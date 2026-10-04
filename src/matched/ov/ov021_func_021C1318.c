@@ -25,6 +25,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01665.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,33 +62,33 @@ int func_021C1318(u8 *p)
     Vec3 a;
     int n;
 
-    o = func_021A3074(*(void **)(p + 0x3c));
+    o = func_021A3074(((struct Obj01665 *)p)->f3C);
     k = 1;
     func_0216DB4C(o, 1);
     func_0216D88C(o, (struct VecFx32 *)&v);
     a = v;
     b = a;
     c = a;
-    func_02164208(*(u16 *)(p + 4), &b, 0x10000);
-    func_02164208(*(u16 *)(p + 4), &c, 0x20000);
+    func_02164208(((struct Obj01665 *)p)->f4, &b, 0x10000);
+    func_02164208(((struct Obj01665 *)p)->f4, &c, 0x20000);
     func_02164280((s16)((b.x >> 4) / 0x1000), (s16)((b.z >> 4) / 0x1000), &b);
     func_02164280((s16)((c.x >> 4) / 0x1000), (s16)((c.z >> 4) / 0x1000), p + 0x24);
     *(Vec3 *)(p + 0x24) = c;
     func_02163E58(o, &c, (int *)(p + 0x28));
-    *(int *)(p + 0x30) = (b.x - v.x) / 2 / 16;
-    *(int *)(p + 0x38) = (b.z - v.z) / 2 / 16;
-    *(int *)(p + 0x34) = 0x6000;
-    *(int *)(p + 0x1c) = 0x1000;
-    r6 = func_021A2F98(*(u32 *)(p + 0x3c));
+    ((struct Obj01665 *)p)->f30 = (b.x - v.x) / 2 / 16;
+    ((struct Obj01665 *)p)->f38 = (b.z - v.z) / 2 / 16;
+    ((struct Obj01665 *)p)->f34 = 0x6000;
+    ((struct Obj01665 *)p)->f1C = 0x1000;
+    r6 = func_021A2F98(*(u32 *)&((struct Obj01665 *)p)->f3C);
     func_021ACBB8(r6, 2);
-    if ((u16)(*(u16 *)(p + 4) + 0xfffe) <= 1)
+    if ((u16)(((struct Obj01665 *)p)->f4 + 0xfffe) <= 1)
         k = 3;
-    r7 = func_02188CD0((u8 *)(*(u32 *)(p + 0x40)));
+    r7 = func_02188CD0((u8 *)(((struct Obj01665 *)p)->f40));
     n = 9;
     func_021ABE30(r7, &n, 1);
-    *(u32 *)(p + 0x48) = func_021AD564(r7, k, r6);
-    func_021C6B18(*(u32 *)(p + 0x40), 0x10, 0x20000);
+    ((struct Obj01665 *)p)->f48 = func_021AD564(r7, k, r6);
+    func_021C6B18(((struct Obj01665 *)p)->f40, 0x10, 0x20000);
     func_020061E4(0x6e0);
-    *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
+    ((struct Obj01665 *)p)->f2 = ((struct Obj01665 *)p)->f2 + 1;
     return 1;
 }

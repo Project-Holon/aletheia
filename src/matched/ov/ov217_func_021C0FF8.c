@@ -15,6 +15,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj06716.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Descriptor;
@@ -25,15 +26,15 @@ extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(u32);
 void func_021C0FF8(u8 *p,int visible)
 {
-    if (*(int *)(p+0x1c)==0 && visible!=0) {
-        struct Descriptor *d=*(struct Descriptor **)(p+0x18);
+    if (((struct Obj06716 *)p)->f1C==0 && visible!=0) {
+        struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
         func_02045334(d);
         func_02045374(d);
         func_02041B6C(func_02045730(d));
-    } else if (*(int *)(p+0x1c)!=0 && visible==0) {
-        struct Descriptor *d=*(struct Descriptor **)(p+0x18);
+    } else if (((struct Obj06716 *)p)->f1C!=0 && visible==0) {
+        struct Descriptor *d=*(struct Descriptor * *)&((struct Obj06716 *)p)->f18;
         func_020456F8(d);
         func_02041B6C(func_02045730(d));
     }
-    *(int *)(p+0x1c)=visible;
+    ((struct Obj06716 *)p)->f1C=visible;
 }

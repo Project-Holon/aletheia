@@ -15,6 +15,7 @@
  * below ov023's own base (0x021841E0) and ov022 is its only coherent code
  * home; the region hint is corrected from ov023 to ov022.
  */
+#include "../include/Obj20361.h"
 
 typedef unsigned int u32;
 
@@ -22,5 +23,5 @@ int func_021841A4(unsigned char *p);
 
 void func_02186164(char *p)
 {
-    func_021841A4((unsigned char *)(*(u32 *)*(u32 **)(p + 4)));
+    func_021841A4((unsigned char *)(*(u32 *)*(u32 * *)&((struct Obj20361 *)p)->f4));
 }

@@ -31,6 +31,7 @@
  *   func_021B59B0  0x021B59B0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03600.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -107,7 +108,7 @@ void *func_021B58B0(void *sys, int flag, void *rules, u16 *out, u16 k)
     e[0] = (u32)sys;
     e[1] = (u32)func_0201210C(sys);
     e[6] = (u32)out;
-    *(u16 *)((u8 *)e + 0x16) = k;
+    ((struct Obj03600 *)e)->f16 = k;
     e[3] = (u32)party;
     e[4] = (u32)w;
     if (r1) {

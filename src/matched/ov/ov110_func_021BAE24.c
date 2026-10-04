@@ -13,6 +13,7 @@
  *   func_021BF71C 0x021BF71C thumb ov110
  *   func_021BCF7C 0x021BCF7C thumb ov110
  */
+#include "../include/Obj02459.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,14 +21,14 @@ extern void func_021BC704(u8 *p, u32 flag);
 extern u16 func_021BF71C(u8 *);
 extern void func_021BCF7C(u8 *,u8,int);
 void func_021BAE24(u8 *p) {
-    if(**(u32 **)(p+0x78)==1) {
-        func_021BC704(*(u8 **)(p+0x54),0);
-        func_021BCF7C(*(u8 **)(p+0x64),func_021BF71C(*(u8 **)(p+0x18)),0);
+    if(**(u32 * *)&((struct Obj02459 *)p)->f78==1) {
+        func_021BC704(*(u8 * *)&((struct Obj02459 *)p)->f54,0);
+        func_021BCF7C(*(u8 * *)&((struct Obj02459 *)p)->f64,func_021BF71C(*(u8 * *)&((struct Obj02459 *)p)->f18),0);
     } else if(p[0x74]==1) {
-        func_021BC704(*(u8 **)(p+0x54),0);
-        func_021BCF7C(*(u8 **)(p+0x64),func_021BF71C(*(u8 **)(p+0x18)),1);
+        func_021BC704(*(u8 * *)&((struct Obj02459 *)p)->f54,0);
+        func_021BCF7C(*(u8 * *)&((struct Obj02459 *)p)->f64,func_021BF71C(*(u8 * *)&((struct Obj02459 *)p)->f18),1);
     } else {
-        func_021BC704(*(u8 **)(p+0x54),1);
-        func_021BCF7C(*(u8 **)(p+0x64),func_021BF71C(*(u8 **)(p+0x18)),0);
+        func_021BC704(*(u8 * *)&((struct Obj02459 *)p)->f54,1);
+        func_021BCF7C(*(u8 * *)&((struct Obj02459 *)p)->f64,func_021BF71C(*(u8 * *)&((struct Obj02459 *)p)->f18),0);
     }
 }

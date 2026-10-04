@@ -22,6 +22,7 @@
  *   func_02186480  0x02186480  thumb  ov023
  *   func_02186860  0x02186860  thumb  ov023
  */
+#include "../include/Obj00336.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,14 +48,14 @@ void func_02185AB0(char *p, int msg, int arg)
 
     switch (msg) {
     case 1:
-        if (*(u16 *)(p + 0x9288) == 1)
+        if (((struct Obj00336 *)p)->f9288 == 1)
             return;
-        if (*(int *)(p + 0x198) == 6 || *(int *)(p + 0x198) == 0x10)
+        if (((struct Obj00336 *)p)->f198 == 6 || ((struct Obj00336 *)p)->f198 == 0x10)
             func_02186480(p);
-        func_021852F4((void *)(*(u32 *)(p + 0x100)), 0);
+        func_021852F4((void *)(((struct Obj00336 *)p)->f100), 0);
         func_021857F4(p, 0, arg);
-        *(int *)(p + 0x1b4) = arg;
-        *(int *)(p + 0x9280) = 0;
+        ((struct Obj00336 *)p)->f1B4 = arg;
+        ((struct Obj00336 *)p)->f9280 = 0;
         break;
     case 3:
         func_021862F4(p);
@@ -63,21 +64,21 @@ void func_02185AB0(char *p, int msg, int arg)
     case 0x12:
         break;
     case 0x18:
-        if (*(u16 *)(p + 0x9288) == 1)
+        if (((struct Obj00336 *)p)->f9288 == 1)
             return;
         func_021857F4(p, 0, arg);
         if (arg == func_02039338())
             return;
         if (func_02039338() == 0)
-            *(int *)(p + 0x9280) = *(int *)(p + 0x9280) & (arg ^ 0xFFFF);
-        if (*(int *)(p + 0x198) == 6 || *(int *)(p + 0x198) == 0x10) {
+            ((struct Obj00336 *)p)->f9280 = ((struct Obj00336 *)p)->f9280 & (arg ^ 0xFFFF);
+        if (((struct Obj00336 *)p)->f198 == 6 || ((struct Obj00336 *)p)->f198 == 0x10) {
             func_02186480(p);
-            w = *(u32 *)(p + 0x118);
+            w = ((struct Obj00336 *)p)->f118;
             func_02045334((struct Descriptor *)w);
             func_02045374((struct Cfg *)w);
             func_020409B4(func_02045730((struct Descriptor *)w));
         }
-        func_021852F4((void *)(*(u32 *)(p + 0x100)), 0);
+        func_021852F4((void *)(((struct Obj00336 *)p)->f100), 0);
         break;
     case 9:
         func_02186860(p, 0x2907, func_02039338());

@@ -30,6 +30,7 @@
  *   python tools/match.py one --src src/matched/func_0202BAF4.c \
  *       --func func_0202BAF4 --addr 0x0202BAF4 --thumb --cc 1.1p1
  */
+#include "../include/Obj05797.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -46,7 +47,7 @@ void func_0202BAF4(u8 *o)
 {
     Slot i;
 
-    if (*(u32 *)(o + 4) == 0) {
+    if (((struct Obj05797 *)o)->f4 == 0) {
         return;
     }
     sub_0202BE24(o);

@@ -13,6 +13,7 @@
  *   func_0218E138  0x0218E138  thumb
  *   func_0218E13C  0x0218E13C  thumb
  */
+#include "../include/Obj02372.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_0218E13C(u8 *a, u32 s);
 
 void func_0218FFE8(u8 *a)
 {
-    void *x = *(void **)(a + 4);
-    *(u32 *)(a + 0x10) = func_0218E138(x);
+    void *x = ((struct Obj02372 *)a)->f4;
+    ((struct Obj02372 *)a)->f10 = func_0218E138(x);
     func_0218E13C(x, 0);
 }

@@ -14,6 +14,7 @@
 
  * Set the mode pair and latch state 0x28.
  */
+#include "../include/Obj18613.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 int func_02201DF0(u8 *p)
 {
     func_021F4EC0(p, 0x9, 0x9);
-    *(u32 *)(p + 0x28) = 0x28;
+    ((struct Obj18613 *)p)->f28 = 0x28;
     return 2;
 }

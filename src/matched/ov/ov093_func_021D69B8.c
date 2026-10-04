@@ -17,6 +17,7 @@
  *   func_021D505C 0x021D505C thumb ov093
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj00041.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Obj {void *w; u32 f4,exp; u16 species,hp,total,item,f14,f16; u8 level,f19,f1A; u8 low:5,b5:1,b6:1,b7:1;};
 struct Result {u8 level,pad; u16 hp,a,b,c,d,e;};
@@ -59,11 +60,11 @@ int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)
             r->d = func_02017E1C(p->w,0xa6,0);
             r->e = func_02017E1C(p->w,0xa4,0);
             if (p->b5 == 0) {
-                *(u16 *)((u8 *)p + 0xee) = r->a;
-                *(u16 *)((u8 *)p + 0xf0) = r->b;
-                *(u16 *)((u8 *)p + 0xf2) = r->c;
-                *(u16 *)((u8 *)p + 0xf4) = r->d;
-                *(u16 *)((u8 *)p + 0xf6) = r->e;
+                ((struct Obj00041 *)p)->fEE = r->a;
+                ((struct Obj00041 *)p)->fF0 = r->b;
+                ((struct Obj00041 *)p)->fF2 = r->c;
+                ((struct Obj00041 *)p)->fF4 = r->d;
+                ((struct Obj00041 *)p)->fF6 = r->e;
             }
             r->level = p->level;
             r->hp = hp;

@@ -12,13 +12,14 @@
  *   func_021B9BEC 0x021B9BEC thumb ov110
  *   func_021B9C74 0x021B9C74 thumb ov110
  */
+#include "../include/Obj13793.h"
 typedef unsigned char u8;
 extern void func_021B9BEC(u8 *,int);
 extern int func_021B9C74(unsigned);
 int func_021BF4C4(u8 *p,int *q) {
  switch(*q) {
- case 0: func_021B9BEC(*(u8 **)(p+0x14),1); ++*q; break;
- case 1: if(func_021B9C74(*(unsigned *)(p+0x14))!=0) return 1; break;
+ case 0: func_021B9BEC(*(u8 * *)&((struct Obj13793 *)p)->f14,1); ++*q; break;
+ case 1: if(func_021B9C74(*(unsigned *)&((struct Obj13793 *)p)->f14)!=0) return 1; break;
  }
  return 0;
 }

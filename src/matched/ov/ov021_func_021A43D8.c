@@ -17,6 +17,7 @@
  *   func_021A428C  0x021A428C  thumb  ov021
  *   func_02164208  0x02164208  thumb  ov010
  */
+#include "../include/Obj00656.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,12 +39,12 @@ void func_021A43D8(u8 *p, int k, int dir)
     u32 r;
 
     if (k != 2) {
-        *(u16 *)(p + 0x18) = 0x546;
-        *(u16 *)(p + 0x1a) = 0;
+        ((struct Obj00656 *)p)->f18 = 0x546;
+        ((struct Obj00656 *)p)->f1A = 0;
         return;
     }
-    a = func_021A3960(*(void **)(p + 0xc));
-    r = func_0202E83C(func_02188C80((void *)(*(u32 *)(p + 0x10))));
+    a = func_021A3960(((struct Obj00656 *)p)->fC);
+    r = func_0202E83C(func_02188C80((void *)(((struct Obj00656 *)p)->f10)));
     func_0216D88C(a, (struct VecFx32 *)buf);
     if (func_021A428C(p, k, (int)buf, 0, r) == 0) {
         func_02164208(dir, buf, 0x10000);

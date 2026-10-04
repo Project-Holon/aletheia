@@ -22,6 +22,7 @@
  *   func_0218B2E8  0x0218B2E8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04983.h"
 
 typedef unsigned short u16;
 
@@ -44,20 +45,20 @@ int func_0218B13C(char *p, void *unused, void *x, int *alt)
     void *o;
 
     func_0219E2F4(func_021A3074(func_02188CB4(x)), buf);
-    id = func_02162598(*(void **)(p + 0xC), buf);
+    id = func_02162598(((struct Obj04983 *)p)->fC, buf);
     if (id != 0xFFFF) {
-        o = func_021625CC(*(void **)(p + 0xC), id);
-        if (func_021626EC(o) == 0 && func_0218AECC(o, *(u16 *)(p + 0x24)) != 0
+        o = func_021625CC(((struct Obj04983 *)p)->fC, id);
+        if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0
             && func_021626E8(o) == 1) {
             func_0218B2A8(p, id, buf);
             return func_0218B2E8(p, x, id, buf);
         }
     }
-    id = func_02162598(*(void **)(p + 0xC), alt);
+    id = func_02162598(((struct Obj04983 *)p)->fC, alt);
     if (id == 0xFFFF)
         return 0;
-    o = func_021625CC(*(void **)(p + 0xC), id);
-    if (func_021626EC(o) == 0 && func_0218AECC(o, *(u16 *)(p + 0x24)) != 0) {
+    o = func_021625CC(((struct Obj04983 *)p)->fC, id);
+    if (func_021626EC(o) == 0 && func_0218AECC(o, ((struct Obj04983 *)p)->f24) != 0) {
         func_0218B2A8(p, id, buf);
         return func_0218B2E8(p, x, id, buf);
     }

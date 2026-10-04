@@ -12,5 +12,6 @@
  *   func_020056A0 0x020056A0 thumb
  *   func_021BC2BC 0x021BC2BC thumb ov209
  */
+#include "../include/Obj00123.h"
 extern void *func_020056A0(unsigned,unsigned,unsigned);extern void func_021BC2BC(void *,char *);
-void func_021BC298(char *p){*(void **)(p+4)=func_020056A0((unsigned)func_021BC2BC,(unsigned)p,0);}
+void func_021BC298(char *p){((struct Obj00123 *)p)->f4=func_020056A0((unsigned)func_021BC2BC,(unsigned)p,0);}

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22113.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -18,4 +19,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern unsigned int func_02031330(void *);
-void func_021B6BFC(u8 *p) { func_02031330((void *)*(u32 *)p); }
+void func_021B6BFC(u8 *p) { func_02031330((void *)((struct Obj22113 *)p)->f0); }

@@ -12,6 +12,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj07693.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct PrintSys;
@@ -21,8 +22,8 @@ extern void func_020257D0(struct Obj *);
 int func_021B6B70(void **p, u8 *q)
 {
     if (q[12] == 1) {
-        if (func_0201C6C4(p[2], *(void **)(q + 8)) == 0) {
-            func_020257D0(*(struct Obj **)(q + 4));
+        if (func_0201C6C4(p[2], ((struct Obj07693 *)q)->f8) == 0) {
+            func_020257D0(*(struct Obj * *)&((struct Obj07693 *)q)->f4);
             q[12] = 0;
             return 1;
         }

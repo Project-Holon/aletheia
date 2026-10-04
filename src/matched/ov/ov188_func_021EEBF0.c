@@ -14,6 +14,11 @@
  *   func_02019A9C 0x02019A9C thumb
  *   func_02019C38 0x02019C38 thumb
  */
+#include "../include/Obj00506.h"
+#include "../include/Obj01969.h"
+#include "../include/Obj02906.h"
+#include "../include/Obj24890.h"
+#include "../include/Obj24891.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,27 +35,27 @@ void func_021EEBF0(char *p,struct Mon *q)
     char *a,*b,*c,*d;
     int i;
     func_02082BCC(q,0,0xdc);
-    a=func_02019C38(q,*(u32 *)p,0);
-    b=func_02019C38(q,*(u32 *)p,1);
-    c=func_02019C38(q,*(u32 *)p,2);
-    d=func_02019C38(q,*(u32 *)p,3);
-    q->seed=*(u32 *)p;
+    a=func_02019C38(q,((struct Obj00506 *)p)->f0,0);
+    b=func_02019C38(q,((struct Obj00506 *)p)->f0,1);
+    c=func_02019C38(q,((struct Obj00506 *)p)->f0,2);
+    d=func_02019C38(q,((struct Obj00506 *)p)->f0,3);
+    q->seed=((struct Obj00506 *)p)->f0;
     q->flags.a=0;
     q->flags.b=0;
     q->flags.c=((Flags *)(p+4))->c;
-    *(u16 *)a=*(u16 *)(p+6);
-    *(u16 *)(a+2)=*(u16 *)(p+8);
-    *(u32 *)(a+4)=*(u32 *)(p+0xc);
-    *(u32 *)(a+8)=*(u32 *)(p+0x10);
-    *(u8 *)(a+0xc)=*(u8 *)(p+0x14);
-    *(u8 *)(a+0xd)=*(u8 *)(p+0x15);
-    *(u8 *)(a+0x10)=*(u8 *)(p+0x16);
-    *(u8 *)(a+0x11)=*(u8 *)(p+0x17);
-    *(u8 *)(a+0x12)=*(u8 *)(p+0x18);
-    *(u8 *)(a+0x13)=*(u8 *)(p+0x19);
-    *(u8 *)(a+0x14)=*(u8 *)(p+0x1a);
-    *(u8 *)(a+0x15)=*(u8 *)(p+0x1b);
-    *(u8 *)(a+0xf)=*(u8 *)(p+0x59);
+    ((struct Obj01969 *)a)->f0=((struct Obj00506 *)p)->f6;
+    ((struct Obj01969 *)a)->f2=((struct Obj00506 *)p)->f8;
+    ((struct Obj01969 *)a)->f4=((struct Obj00506 *)p)->fC;
+    ((struct Obj01969 *)a)->f8=((struct Obj00506 *)p)->f10;
+    ((struct Obj01969 *)a)->fC=((struct Obj00506 *)p)->f14;
+    ((struct Obj01969 *)a)->fD=((struct Obj00506 *)p)->f15;
+    ((struct Obj01969 *)a)->f10=((struct Obj00506 *)p)->f16;
+    ((struct Obj01969 *)a)->f11=((struct Obj00506 *)p)->f17;
+    ((struct Obj01969 *)a)->f12=((struct Obj00506 *)p)->f18;
+    ((struct Obj01969 *)a)->f13=((struct Obj00506 *)p)->f19;
+    ((struct Obj01969 *)a)->f14=((struct Obj00506 *)p)->f1A;
+    ((struct Obj01969 *)a)->f15=((struct Obj00506 *)p)->f1B;
+    ((struct Obj01969 *)a)->fF=((struct Obj00506 *)p)->f59;
     for(i=0;i<4;i++) {
         *(u16 *)(b+2*i)=*(u16 *)(p+2*i+0x1c);
         *(u8 *)(b+i+8)=*(u8 *)(p+i+0x24);
@@ -67,20 +72,20 @@ void func_021EEBF0(char *p,struct Mon *q)
     ((Byte *)(b+0x18))->a=((Byte *)(p+0x30))->a;
     ((Byte *)(b+0x18))->b=((Byte *)(p+0x30))->b;
     ((Byte *)(b+0x18))->c=((Byte *)(p+0x30))->c;
-    *(u8 *)(b+0x19)=((Flags *)(p+4))->mode;
+    ((struct Obj24890 *)b)->f19=((Flags *)(p+4))->mode;
     for(i=0;i<11;i++) *(u16 *)(c+2*i)=*(u16 *)(p+2*i+0x32);
     for(i=0;i<8;i++) *(u16 *)(d+2*i)=*(u16 *)(p+2*i+0x48);
-    *(u8 *)(d+0x1b)=*(u8 *)(p+0x58);
-    *(u32 *)((char *)q+0x88)=*(u32 *)(p+0x5c);
-    *(u8 *)((char *)q+0x8c)=*(u8 *)(p+0x60);
-    *(u8 *)((char *)q+0x8d)=*(u8 *)(p+0x61);
-    *(u16 *)((char *)q+0x8e)=*(u16 *)(p+0x62);
-    *(u16 *)((char *)q+0x90)=*(u16 *)(p+0x64);
-    *(u16 *)((char *)q+0x92)=*(u16 *)(p+0x66);
-    *(u16 *)((char *)q+0x94)=*(u16 *)(p+0x68);
-    *(u16 *)((char *)q+0x96)=*(u16 *)(p+0x6a);
-    *(u16 *)((char *)q+0x98)=*(u16 *)(p+0x6c);
-    *(u16 *)((char *)q+0x9a)=*(u16 *)(p+0x6e);
+    ((struct Obj24891 *)d)->f1B=((struct Obj00506 *)p)->f58;
+    ((struct Obj02906 *)q)->f88=((struct Obj00506 *)p)->f5C;
+    ((struct Obj02906 *)q)->f8C=((struct Obj00506 *)p)->f60;
+    ((struct Obj02906 *)q)->f8D=((struct Obj00506 *)p)->f61;
+    ((struct Obj02906 *)q)->f8E=((struct Obj00506 *)p)->f62;
+    ((struct Obj02906 *)q)->f90=((struct Obj00506 *)p)->f64;
+    ((struct Obj02906 *)q)->f92=((struct Obj00506 *)p)->f66;
+    ((struct Obj02906 *)q)->f94=((struct Obj00506 *)p)->f68;
+    ((struct Obj02906 *)q)->f96=((struct Obj00506 *)p)->f6A;
+    ((struct Obj02906 *)q)->f98=((struct Obj00506 *)p)->f6C;
+    ((struct Obj02906 *)q)->f9A=((struct Obj00506 *)p)->f6E;
     func_02019A50((u16 *)((char *)q+0x88),0x54,q->seed);
     q->check=func_02019A9C((u16 *)q->block,0x80);
     func_02019A50((u16 *)q->block,0x80,q->check);

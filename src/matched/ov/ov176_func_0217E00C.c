@@ -15,6 +15,7 @@
  *   d_0217E634 0x0217E634 data a1
  *   d_0217E544 0x0217E544 data a4
  */
+#include "../include/Obj24433.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -27,7 +28,7 @@ void *func_0217E00C(int unused, int heap)
 {
     char *p = func_02030734(heap, 0x1020, 0, d_0217E634, 0x8E);
     func_02082BCC(p, 0, 0x1020);
-    *(unsigned short *)(p + 4) = heap;
+    ((struct Obj24433 *)p)->f4 = heap;
     if (func_0203CD98())
         func_0203A574(0x1F00, (u32)d_0217E544, 4, (u32)p);
     return p;

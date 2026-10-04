@@ -14,6 +14,7 @@
  *   func_0203C554 0x0203C554 arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj10209.h"
 struct Entry;
 extern struct Entry *func_020399A8(void);
 struct Link;
@@ -25,10 +26,10 @@ extern void func_021BA8EC(char *);
 int func_021BFE54(char *p, int ret) {
     if (func_02039CB4((struct Link *)func_020399A8(),21,10) || func_020399EC()!=2) {
         func_0203C554(1);
-        *(int *)(p+0x1f0)=-1;
-        *(int *)(p+0x1e0)=20;
+        ((struct Obj10209 *)p)->f1F0=-1;
+        ((struct Obj10209 *)p)->f1E0=20;
         func_021BA8EC(p);
-        *(int *)(p+0x1cc)=57;
+        ((struct Obj10209 *)p)->f1CC=57;
     }
     return ret;
 }

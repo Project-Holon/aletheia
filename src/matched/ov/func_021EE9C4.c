@@ -16,6 +16,7 @@
  *
  * Twin of func_021EE7C4 with the same selector and target word.
  */
+#include "../include/Obj00000.h"
 
 
 extern void func_021EE754(char *, int, int);
@@ -24,7 +25,7 @@ extern void func_021DC9B4(char *p, int v);
 void func_021EE9C4(char *p, int a, int b)
 {
     func_021EE754(p, a, b);
-    func_021EEF74((char *)(*(int *)(p + 0x2c)), a, b);
-    func_021DC9B4((char *)(*(int *)(p + 0x2c)), 0x021E066D);
-    *(int *)(*(int *)(p + 0x2c) + 0xA168) = a;
+    func_021EEF74((char *)(*(int *)&((struct Obj00000 *)p)->f2C), a, b);
+    func_021DC9B4((char *)(*(int *)&((struct Obj00000 *)p)->f2C), 0x021E066D);
+    *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA168) = a;
 }

@@ -19,6 +19,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13512.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -43,7 +44,7 @@ void func_021E2C88(int u, void *p, int k, int *out)
         if (func_021D5B48(q) == 0) {
             m = func_021C88A4(p, 5, k);
             m[6] = b;
-            *(u16 *)(m + 4) = func_021D7B74(q, 4);
+            ((struct Obj13512 *)m)->f4 = func_021D7B74(q, 4);
             func_021C8838(m + 8, 2, 0x183);
             func_021C8860((struct S *)(m + 8), b);
             func_021C88C8(p, m);

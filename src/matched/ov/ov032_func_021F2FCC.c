@@ -18,6 +18,7 @@
  *   func_0204B084 0x0204B084 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
+#include "../include/Obj00812.h"
 
 extern void func_02043598(unsigned, unsigned);
 extern void func_021F34C8(char *, int);
@@ -36,7 +37,7 @@ void func_021F2FCC(char *p)
         func_021F34C8(p, (unsigned char)i);
     }
     func_021F32D4(p);
-    func_02025588((void *)(*(int *)(p + 0x124)));
-    func_0204B084(*(int *)(p + 0x12c));
-    func_0204B1CC((struct Bank *)(*(int *)(p + 0x128)));
+    func_02025588((void *)(((struct Obj00812 *)p)->f124));
+    func_0204B084(((struct Obj00812 *)p)->f12C);
+    func_0204B1CC((struct Bank *)(((struct Obj00812 *)p)->f128));
 }

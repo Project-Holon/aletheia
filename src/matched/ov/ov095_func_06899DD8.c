@@ -13,14 +13,15 @@
  *   func_06899E14 0x06899E14 thumb ov095
  *   func_06899E24 0x06899E24 arm ov095
  */
+#include "../include/Obj10162.h"
 typedef unsigned int u32;
 extern void func_06899DFC(u32);
 extern void func_06899E0C(u32);
 extern void func_06899E14(u32);
 extern void func_06899E24(void *);
 void func_06899DD8(unsigned char *p) {
- func_06899DFC(*(u32 *)(p+0x14));
- func_06899E0C(*(u32 *)(p+0xc));
- func_06899E14(*(u32 *)(p+0xb0));
+ func_06899DFC(((struct Obj10162 *)p)->f14);
+ func_06899E0C(((struct Obj10162 *)p)->fC);
+ func_06899E14(((struct Obj10162 *)p)->fB0);
  func_06899E24(p);
 }

@@ -11,6 +11,7 @@
  *
  * Stores the 32-bit word into byte +0x138 of the object.
  */
+#include "../include/Obj17888.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 void func_02189A1C(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x138) = v;
+    ((struct Obj17888 *)p)->f138 = v;
 }
 

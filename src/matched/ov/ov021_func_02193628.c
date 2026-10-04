@@ -32,6 +32,8 @@
  *   func_021A7410  0x021A7410  thumb ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03576.h"
+#include "../include/Obj07438.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -90,21 +92,21 @@ int func_02193628(int o, int q)
     case 2:
         if (func_02169620((struct S *)o) != 0)
             break;
-        *(int *)((char *)st + 0x18) = 1;
-        *(int *)((char *)st + 0x1c) = 1;
-        *(int *)((char *)st + 0x20) = 1;
+        ((struct Obj03576 *)st)->f18 = 1;
+        ((struct Obj03576 *)st)->f1C = 1;
+        ((struct Obj03576 *)st)->f20 = 1;
         *st = 3;
         break;
     case 3:
         func_02169528((unsigned char *)o, (int *)(&h));
         p = h;
-        func_02169540((unsigned char *)o, (unsigned int)(p + *(int *)(p + 4)));
-        off = *(int *)(p + 0xC);
-        if (off != *(int *)(p + 0x10))
+        func_02169540((unsigned char *)o, (unsigned int)(p + ((struct Obj07438 *)p)->f4));
+        off = ((struct Obj07438 *)p)->fC;
+        if (off != ((struct Obj07438 *)p)->f10)
             r = func_0218B974(func_0218DD04(q), o, h + off + 4, *(int *)(h + off));
         g = func_0218DD04(q);
         base = h;
-        boff = *(int *)(p + 8);
+        boff = ((struct Obj07438 *)p)->f8;
         n = func_0218DD0C(q);
         id = func_0218DD08(q);
         c = func_0218DD10((u8 *)q);

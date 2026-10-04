@@ -33,6 +33,7 @@
  *   python tools/match.py one --src src/matched/func_0203B9D4.c \
  *       --func func_0203B9D4 --addr 0x0203B9D4 --cc 1.1p1 --arm
  */
+#include "../include/Obj03451.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,8 +56,8 @@ void func_0203B9D4(u8 *p)
         return;
     }
 
-    if (*(u16 *)(p + 0x46) != 0) {
-        *(u16 *)(p + 0x46) = *(u16 *)(p + 0x46) - 1;
+    if (((struct Obj03451 *)p)->f46 != 0) {
+        ((struct Obj03451 *)p)->f46 = ((struct Obj03451 *)p)->f46 - 1;
         return;
     }
 
@@ -64,7 +65,7 @@ void func_0203B9D4(u8 *p)
     y = *(u64 *)(p + 0x14);
     r = y * x + *(u64 *)(p + 0x1C);
 
-    *(u16 *)(p + 0x46) = (u16)((u32)(((u64)(u32)(r >> 32) * 30) >> 32) + 15);
+    ((struct Obj03451 *)p)->f46 = (u16)((u32)(((u64)(u32)(r >> 32) * 30) >> 32) + 15);
     *(u64 *)(p + 0x0C) = r;
 
     (*(void (**)(u32))(*(u32 *)(s + 0x340) + 0x08))(0);

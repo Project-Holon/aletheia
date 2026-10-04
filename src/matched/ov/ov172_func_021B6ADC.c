@@ -11,6 +11,7 @@
  *   d_021C4D20 0x021C4D20 data a4
  *   d_021C4D10 0x021C4D10 data a1
  */
+#include "../include/Obj08255.h"
 typedef signed char s8;
 typedef signed short s16;
 extern const int d_021C4D20[];
@@ -19,8 +20,8 @@ s8 func_021B6ADC(int sample, char *p)
 {
     int code, delta, step, value, index;
     code = 0;
-    index = *(s8 *)(p + 2);
-    value = *(s16 *)p;
+    index = ((struct Obj08255 *)p)->f2;
+    value = ((struct Obj08255 *)p)->f0;
     step = d_021C4D20[index];
     sample -= value;
     if (sample < 0) { code = 8; sample = -sample; }
@@ -37,7 +38,7 @@ s8 func_021B6ADC(int sample, char *p)
     index += d_021C4D10[code];
     if (index < 0) index = 0;
     if (index > 88) index = 88;
-    *(s16 *)p = value;
-    *(s8 *)(p + 2) = index;
+    ((struct Obj08255 *)p)->f0 = value;
+    ((struct Obj08255 *)p)->f2 = index;
     return code & 15;
 }

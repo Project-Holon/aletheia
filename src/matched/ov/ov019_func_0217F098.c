@@ -19,6 +19,7 @@
  *   func_021915EC  0x021915EC  thumb  ov021
  *   d_021807F8     0x021807F8  data  a4
  */
+#include "../include/Obj00484.h"
 
 extern void func_02034714(int *a, int b, int *c);
 extern int func_02188C54(int a);
@@ -34,16 +35,16 @@ extern int d_021807F8[];
 void func_0217F098(unsigned char *base, int x)
 {
     int r6;
-    if (*(int *)(base + 0x280C) == 0) {
-        if (*(int *)(base + 0x2808) != 0)
+    if (((struct Obj00484 *)base)->f280C == 0) {
+        if (*(int *)&((struct Obj00484 *)base)->f2808 != 0)
             func_02034714(d_021807F8, 0, d_021807F8);
         r6 = func_02188C54(x);
         *(int *)(base + 0x2808) = func_021904B0(r6, 200);
-        *(int *)(base + 0x2820) = func_020457B0(0x100, 0x41);
-        *(int *)(base + 0x2824) = func_020457B0(0x100, 0x41);
+        *(int *)&((struct Obj00484 *)base)->f2820 = func_020457B0(0x100, 0x41);
+        *(int *)&((struct Obj00484 *)base)->f2824 = func_020457B0(0x100, 0x41);
         func_0217F020(base);
-        *(int *)(base + 0x280C) = func_02191558(r6, *(int *)(base + 0x2808), 0, 1, 0x13, 0x1e, 4);
+        ((struct Obj00484 *)base)->f280C = func_02191558(r6, *(int *)(base + 0x2808), 0, 1, 0x13, 0x1e, 4);
     } else {
-        func_021915EC((struct R *)(*(int *)(base + 0x280C)));
+        func_021915EC((struct R *)(((struct Obj00484 *)base)->f280C));
     }
 }

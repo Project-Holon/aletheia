@@ -15,6 +15,8 @@
  *   d_0220DF90 0x0220DF90 data a4
  *   d_0220DF9C 0x0220DF9C data a4
  */
+#include "../include/Obj03347.h"
+#include "../include/Obj25121.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,8 +30,8 @@ extern void func_0220D98C(u8 *, u32);
 extern const u32 d_0220DF90[], d_0220DF9C[];
 void func_0220D8C4(u8 *p, u32 index, u32 value)
 {
-    *(struct Struct_02025CD0 **)(p + 0x144) = func_02025CD0(d_0220DF9C[index], d_0220DF90[index], (u32)p, *(u32 *)(p + 0x598), (u8)value, *(u16 *)(*(u8 **)p + 0xc));
-    func_02025D1C(*(struct Struct_02025D1C **)(p + 0x144));
-    func_02025D24(*(struct Struct_02025D24 **)(p + 0x144));
+    *(struct Struct_02025CD0 * *)&((struct Obj03347 *)p)->f144 = func_02025CD0(d_0220DF9C[index], d_0220DF90[index], (u32)p, ((struct Obj03347 *)p)->f598, (u8)value, ((struct Obj25121 *)(*(u8 * *)&((struct Obj03347 *)p)->f0))->fC);
+    func_02025D1C(*(struct Struct_02025D1C * *)&((struct Obj03347 *)p)->f144);
+    func_02025D24(*(struct Struct_02025D24 * *)&((struct Obj03347 *)p)->f144);
     func_0220D98C(p, value);
 }

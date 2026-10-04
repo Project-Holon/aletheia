@@ -17,6 +17,7 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  */
+#include "../include/Obj00414.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -37,10 +38,10 @@ void func_021EAE74(char *p, Entry *e, unsigned i)
     unsigned n;
     func_02043B5C(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);
     if (!e->flag) {
-        func_021EAC28(p, i, *(void **)(p + 0x80), 107, 0, 0, *(unsigned *)(p + 0x78), 0x440);
-        n = func_0201D304(*(void **)(p + 0x88), *(unsigned *)(p + 0x78), 0);
-        func_0201EFA4(*(void **)(p + 0x84), 0, e->low, 3, 0, 1);
-        func_021EAC28(p, i, *(void **)(p + 0x80), 103, n, 0, *(unsigned *)(p + 0x78), 0x440);
+        func_021EAC28(p, i, ((struct Obj00414 *)p)->f80, 107, 0, 0, ((struct Obj00414 *)p)->f78, 0x440);
+        n = func_0201D304(((struct Obj00414 *)p)->f88, ((struct Obj00414 *)p)->f78, 0);
+        func_0201EFA4(((struct Obj00414 *)p)->f84, 0, e->low, 3, 0, 1);
+        func_021EAC28(p, i, ((struct Obj00414 *)p)->f80, 103, n, 0, ((struct Obj00414 *)p)->f78, 0x440);
     } else {
         func_021EAAE4(p, i); return;
     }

@@ -11,13 +11,14 @@
  * symbols:
 
  */
+#include "../include/Obj25387.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
 int func_021BF538(u8 *p,int *out)
 {
-    int v=*(int *)(p+44);
+    int v=((struct Obj25387 *)p)->f2C;
     switch(v){case -1:return 0;case -2:return 2;}
     if(out!=0)*out=v;
     return 1;

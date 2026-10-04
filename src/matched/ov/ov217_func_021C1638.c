@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04641.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ typedef signed int     s32;
 extern void func_021C16FC(void *p, u32 v);
 void func_021C1638(u8 *a0)
 {
-    if (*(u32*)(((u8*)a0) + 16) >= 30) {
+    if (((struct Obj04641 *)(((u8*)a0)))->f10 >= 30) {
     func_021C16FC(a0, 4);
     }
 }

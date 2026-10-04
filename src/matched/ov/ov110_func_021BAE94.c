@@ -15,6 +15,7 @@
  *   func_021BF724 0x021BF724 thumb ov110
  *   func_021BB6A0 0x021BB6A0 thumb ov110
  */
+#include "../include/Obj06387.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021BB658(u8 *,int);
@@ -22,4 +23,4 @@ extern u8 func_021BF6DC(u8 *);
 extern void func_021BCF7C(u8 *,int,int);
 extern u16 func_021BF724(u8 *);
 extern void func_021BB6A0(u8 *,unsigned);
-void func_021BAE94(u8 *p,u8 *q) { func_021BB658(*(u8 **)(p+0x58),1); if(**(int **)(p+0x78)==1) { if(func_021BF6DC(q)==1) func_021BCF7C(*(u8 **)(p+0x64),0,0); } else func_021BB6A0(*(u8 **)(p+0x58),func_021BF724(*(u8 **)(p+0x18))); }
+void func_021BAE94(u8 *p,u8 *q) { func_021BB658(*(u8 * *)&((struct Obj06387 *)p)->f58,1); if(**(int * *)&((struct Obj06387 *)p)->f78==1) { if(func_021BF6DC(q)==1) func_021BCF7C(*(u8 * *)&((struct Obj06387 *)p)->f64,0,0); } else func_021BB6A0(*(u8 * *)&((struct Obj06387 *)p)->f58,func_021BF724(*(u8 * *)&((struct Obj06387 *)p)->f18)); }

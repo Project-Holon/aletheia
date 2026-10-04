@@ -20,6 +20,7 @@
  * already has in r2 (mwcc's constant reuse), which the same expression here
  * reproduces.
  */
+#include "../include/Obj18402.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,5 +37,5 @@ u16 func_021D4BD4(int a, u8 **q)
 {
     u8 *p = func_021F3B88 + 0xbf4 + func_021D4394(a) * 0xbbc;
     *q = p;
-    return *(u16 *)(p + 0xbb8);
+    return ((struct Obj18402 *)p)->fBB8;
 }

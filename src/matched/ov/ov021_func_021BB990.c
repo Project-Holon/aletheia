@@ -17,6 +17,7 @@
  *   func_021BB978  0x021BB978  thumb  ov021
  *   d_021DE2F8     0x021DE2F8  data  a4
  */
+#include "../include/Obj06051.h"
 
 typedef unsigned short u16;
 
@@ -47,8 +48,8 @@ int *func_021BB990(int a, int *d, const int *c)
         p[2] = func_02030DA8(d[5], func_021BB978, p, c[0]);
         p[0] = (int)d;
         p[3] = (int)c;
-        if (*(u16 *)(c + 1) != 0) {
-            p[4] = (int)func_02030734((u16)d[1], *(u16 *)(c + 1), 1, (const char *)&d_021DE2F8, 0xc3);
+        if (((struct Obj06051 *)c)->f4 != 0) {
+            p[4] = (int)func_02030734((u16)d[1], ((struct Obj06051 *)c)->f4, 1, (const char *)&d_021DE2F8, 0xc3);
         }
         if (c[2] != 0) {
             ((void (*)(int *, int, int))c[2])(p, d[0], p[4]);

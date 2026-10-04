@@ -22,6 +22,7 @@
  * layout/function_starts.txt from this pointer word, the only reference; it
  * attests as sole-ref/code from ov172's own listing.
  */
+#include "../include/Obj24109.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,5 +33,5 @@ extern int func_021B9F98(int unused, int *p);
 
 void func_021BDFEC(void *p)
 {
-    func_021B9F98((int)p, (int *)(*(u32 *)((char *)p + 0x1e8)));
+    func_021B9F98((int)p, (int *)(((struct Obj24109 *)p)->f1E8));
 }

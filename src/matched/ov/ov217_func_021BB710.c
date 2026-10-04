@@ -21,6 +21,7 @@
  *   func_021BB91C 0x021BB91C thumb ov217
  *   func_021BB910 0x021BB910 thumb ov217
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 extern unsigned func_021BB98C(void *);
 extern void func_021BB990(void *);
@@ -36,7 +37,7 @@ void func_021BB710(u8 *p)
 {
     switch (func_021BB98C(p)) {
     case 0:
-        if (func_021BB948(p) < *(unsigned *)(p + 0x24)) {
+        if (func_021BB948(p) < ((struct Obj00025 *)p)->f24) {
             func_021BC490();
             func_021BB990(p);
         }

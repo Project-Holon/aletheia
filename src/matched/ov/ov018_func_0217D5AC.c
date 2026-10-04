@@ -14,6 +14,7 @@
  *   func_0207E5D0  0x0207E5D0  arm
  *   func_0207E804  0x0207E804  arm
  */
+#include "../include/Obj03091.h"
 
 typedef unsigned char u8;
 
@@ -31,8 +32,8 @@ void func_0217D5AC(int a0, u8 *p)
             p[0x11C] = 0;
         }
         if (p[0x10F] != 0) {
-            func_020862F0(*(int *)(p + 0xD0), 0x200);
-            func_0207E804(*(int *)(p + 0xD0), *(int *)(p + 0xD4), 0x200);
+            func_020862F0(((struct Obj03091 *)p)->fD0, 0x200);
+            func_0207E804(((struct Obj03091 *)p)->fD0, ((struct Obj03091 *)p)->fD4, 0x200);
             p[0x10F] = 0;
         }
     }

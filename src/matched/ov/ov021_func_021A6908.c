@@ -23,6 +23,7 @@
  *   func_021A3964  0x021A3964  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01658.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,7 +43,7 @@ extern void func_021A3964(u8 *o, u32 v);
 
 u32 func_021A6908(u8 *p, u32 a1)
 {
-    void *o = *(void **)(p + 0x1C);
+    void *o = ((struct Obj01658 *)p)->f1C;
     u32 r6 = func_0216D608(o);
 
     if (func_021A5B6C(p, o, r6, 0)) {
@@ -55,7 +56,7 @@ u32 func_021A6908(u8 *p, u32 a1)
     func_0216D5E0((int)o, r6);
     func_0216D410(o, func_02197E7C(r6, 0x10));
     func_0216D548(o, 0x18);
-    *(u32 *)p = 1;
-    func_021A3964(*(u8 **)(p + 0x14), 1);
+    ((struct Obj01658 *)p)->f0 = 1;
+    func_021A3964(*(u8 * *)&((struct Obj01658 *)p)->f14, 1);
     return r6;
 }

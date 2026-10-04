@@ -14,6 +14,8 @@
  *   func_021BA208 0x021BA208 thumb ov133
  *   func_021F4D74 0x021F4D74 thumb ov112
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj06496.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021BA184(char *p);
@@ -24,16 +26,16 @@ extern u32 func_021BA208(u8 *p);
 extern void func_021F4D74(u8 *, u8 *, int, u16);
 void func_021B7A18(u8 *p)
 {
-    u8 *e = func_021BA184(*(void **)(p + 0x181c));
+    u8 *e = func_021BA184(((struct Obj00004 *)p)->f181C);
     u8 *q;
     u8 *s;
     while (e) {
         q = (u8 *)func_021BA20C(e);
         s = (u8 *)func_021BA218(e);
-        if (*(int *)(q + 12) == 1)
-            func_021F4D74(*(u8 **)(p + 0x1884), s, *(u16 *)q, *(int *)(q + 8));
+        if (((struct Obj06496 *)q)->fC == 1)
+            func_021F4D74(*(u8 **)(p + 0x1884), s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f8);
         else
-            func_021F4D74(*(u8 **)(p + 0x1884), s, *(u16 *)q, *(int *)(q + 4));
+            func_021F4D74(*(u8 * *)&((struct Obj00004 *)p)->f1884, s, ((struct Obj06496 *)q)->f0, ((struct Obj06496 *)q)->f4);
         e = (u8 *)func_021BA208(e);
     }
 }

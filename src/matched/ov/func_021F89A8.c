@@ -15,6 +15,7 @@
  *
  * Store a pair of u16 values at +4 and +0x18 of record i.
  */
+#include "../include/Obj12204.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ void func_021F89A8(u8 *p, int i, u16 a, u16 b)
 {
     u8 *q = p + i * 2;
 
-    *(u16 *)(q + 4) = a;
-    *(u16 *)(q + 0x18) = b;
+    ((struct Obj12204 *)q)->f4 = a;
+    ((struct Obj12204 *)q)->f18 = b;
 }

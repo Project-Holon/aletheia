@@ -16,6 +16,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  */
+#include "../include/Obj01405.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -44,12 +45,12 @@ void func_021D4CD8(int i, int value, int force, int mode, Object *p)
             data_021D58E0[i].f08, data_021D58E0[i].f0c, 13, 0);
     func_02043B5C(func_02045770(p->f10[i]), 0);
     if (mode) {
-        func_02045CAC(*(void **)((char *)p + 0x44), value, *(void **)((char *)p + 0x50));
-        func_0201F250(*(void **)((char *)p + 0x48), *(void **)((char *)p + 0x54), *(void **)((char *)p + 0x50));
+        func_02045CAC(((struct Obj01405 *)p)->f44, value, ((struct Obj01405 *)p)->f50);
+        func_0201F250(((struct Obj01405 *)p)->f48, ((struct Obj01405 *)p)->f54, ((struct Obj01405 *)p)->f50);
     } else {
-        func_02045CAC(*(void **)((char *)p + 0x44), value, *(void **)((char *)p + 0x54));
+        func_02045CAC(((struct Obj01405 *)p)->f44, value, ((struct Obj01405 *)p)->f54);
     }
-    func_0201C7D0(func_02045770(p->f10[i]), 0, 0, *(void **)((char *)p + 0x54), *(void **)((char *)p + 0x4c), 0x39e3);
+    func_0201C7D0(func_02045770(p->f10[i]), 0, 0, ((struct Obj01405 *)p)->f54, ((struct Obj01405 *)p)->f4C, 0x39e3);
     func_02045334(p->f10[i]);
     func_02045374(p->f10[i]);
 }

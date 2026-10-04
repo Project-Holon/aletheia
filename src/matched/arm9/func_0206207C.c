@@ -11,6 +11,8 @@
  * symbols:
  *   func_02061D0C  0x02061D0C  arm
  */
+#include "../include/Obj03022.h"
+#include "../include/Obj03466.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,9 +37,9 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
     buf[0] = a2;
     buf[1] = a2 + a3;
     func_02061D0C(headp, freep, (struct Range *)buf);
-    x = *(Node0206207C **)freep;
+    x = *(Node0206207C * *)&((struct Obj03466 *)freep)->f0;
     if (x != 0) {
-        *(Node0206207C **)freep = x->f0c;
+        *(Node0206207C * *)&((struct Obj03466 *)freep)->f0 = x->f0c;
     }
     if (x == 0) {
         return 0;
@@ -46,11 +48,11 @@ int func_0206207C(void *headp, void *freep, int a2, int a3)
     x->f04 = buf[1] - buf[0];
     x->f08 = 0;
     x->f0c = 0;
-    if (*(Node0206207C **)headp != 0) {
-        (*(Node0206207C **)headp)->f08 = x;
+    if (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0 != 0) {
+        (*(Node0206207C * *)&((struct Obj03022 *)headp)->f0)->f08 = x;
     }
-    x->f0c = *(Node0206207C **)headp;
+    x->f0c = *(Node0206207C * *)&((struct Obj03022 *)headp)->f0;
     x->f08 = 0;
-    *(Node0206207C **)headp = x;
+    *(Node0206207C * *)&((struct Obj03022 *)headp)->f0 = x;
     return 1;
 }

@@ -14,6 +14,7 @@
  *   func_021BF7F0 0x021BF7F0 thumb ov204
  *   func_02015CAC 0x02015CAC thumb
  */
+#include "../include/Obj25390.h"
 
 struct Vec { int v[3]; };
 extern const struct Vec defaultPos;
@@ -33,7 +34,7 @@ void func_021BF624(char *p, unsigned int a, unsigned int b, unsigned int c, void
     char *base = p + 8;
     unsigned int off = i * 12;
     enum { Zero } zero;
-    *(void **)(base + off) = func_020159C8(*(void **)(p + 4), a, b, c, d);
+    *(void **)(base + off) = func_020159C8(((struct Obj25390 *)p)->f4, a, b, c, d);
     func_02015CAC(*(void **)(base + off), &pos);
     zero = Zero;
     *(unsigned int *)(p + off + 12) = zero;

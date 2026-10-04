@@ -17,6 +17,7 @@
  *   func_021FD1A8 0x021FD1A8 thumb ov094
  *   func_021FDB08 0x021FDB08 thumb ov094
  */
+#include "../include/Obj00325.h"
 extern int func_0201134C(void *);
 extern unsigned int func_021FE38C(char *, unsigned int);
 extern int func_021FD1A8(char *p, int v);
@@ -32,5 +33,5 @@ int func_021FA758(void *a, char *s)
         *e = 0;
         ((int *)(s + 0x4c))[slot] = -1;
     }
-    return *(int *)(s + 0x23c);
+    return ((struct Obj00325 *)s)->f23C;
 }

@@ -11,6 +11,8 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj03835.h"
+#include "../include/Obj23594.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -21,10 +23,10 @@ extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *p
 void *func_021C660C(u8 *p, const u8 *cfg)
 {
     Descriptor d;
-    d.x = *(s16 *)(cfg + 0);
-    d.y = *(s16 *)(cfg + 2);
-    d.value = *(u16 *)(cfg + 6);
+    d.x = ((struct Obj03835 *)cfg)->f0;
+    d.y = ((struct Obj03835 *)cfg)->f2;
+    d.value = ((struct Obj03835 *)cfg)->f6;
     d.flag = 0;
-    d.mode = *(u32 *)(cfg + 0x2c);
-    return func_0204B294((void *)*(u32 *)(p + 0x1ec), *(u32 *)(p + 0x210 + *(u32 *)(cfg + 0x14) * 4), *(u32 *)(p + 0x230 + *(u32 *)(cfg + 0x18) * 4), *(u32 *)(p + 0x250 + *(u32 *)(cfg + 0x1c) * 4), &d, *(u32 *)(cfg + 0x10), 102);
+    d.mode = ((struct Obj03835 *)cfg)->f2C;
+    return func_0204B294((void *)((struct Obj23594 *)p)->f1EC, *(u32 *)(p + 0x210 + ((struct Obj03835 *)cfg)->f14 * 4), *(u32 *)(p + 0x230 + ((struct Obj03835 *)cfg)->f18 * 4), *(u32 *)(p + 0x250 + ((struct Obj03835 *)cfg)->f1C * 4), &d, ((struct Obj03835 *)cfg)->f10, 102);
 }

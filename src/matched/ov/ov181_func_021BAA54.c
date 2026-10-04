@@ -11,12 +11,17 @@
  * symbols:
  *   func_021BA594 0x021BA594 thumb ov181
  */
+#include "../include/Obj10725.h"
+#include "../include/Obj14414.h"
+#include "../include/Obj24511.h"
+#include "../include/Obj24512.h"
+#include "../include/Obj24513.h"
 extern void func_021BA594(char *, unsigned char *);
 int func_021BAA54(char *p, unsigned char *q)
 {
-    if (*(int *)(p + 0x2ec) == 0) {
-        *(unsigned char *)(p + 0x2cd) = q[7];
-        *(int *)(p + 0x2ec) = 2;
+    if (((struct Obj10725 *)p)->f2EC == 0) {
+        ((struct Obj10725 *)p)->f2CD = q[7];
+        ((struct Obj10725 *)p)->f2EC = 2;
     }
     func_021BA594(p, q);
     if (q[0x16] != 1)
@@ -25,23 +30,23 @@ int func_021BAA54(char *p, unsigned char *q)
 }
 int func_021BAA84(char *p, unsigned char *q)
 {
-    *(unsigned char *)(p + 0x2cd) = q[7];
-    *(int *)(p + 0x2ec) = 3;
+    ((struct Obj14414 *)p)->f2CD = q[7];
+    ((struct Obj14414 *)p)->f2EC = 3;
     return 1;
 }
 int func_021BAA98(char *p)
 {
-    *(int *)(p + 0x2e0) = 1;
+    ((struct Obj24511 *)p)->f2E0 = 1;
     return 0;
 }
 int func_021BAAA4(char *p)
 {
-    *(int *)(p + 0x2e0) = 0;
+    ((struct Obj24512 *)p)->f2E0 = 0;
     return 0;
 }
 int func_021BAAB0(char *p)
 {
-    *(int *)(p + 0x2ec) = 5;
+    ((struct Obj24513 *)p)->f2EC = 5;
     return 1;
 }
 int func_021BAABC(void)

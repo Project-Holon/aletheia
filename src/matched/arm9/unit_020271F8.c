@@ -60,6 +60,8 @@
  *   python tools/match.py tu --src src/matched/unit_020271F8.c \
  *       --addr 0x020271F8 --thumb
  */
+#include "../include/Obj00121.h"
+#include "../include/Obj17252.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -84,8 +86,8 @@ void sub_020271F8(u16 value)
 
 static void sub_02027220(void *dst, u16 value)
 {
-    *(u16 *)((char *)dst + 0x30) = 0xe;
-    *(u16 *)((char *)dst + 0x32) = value;
+    ((struct Obj00121 *)dst)->f30 = 0xe;
+    ((struct Obj00121 *)dst)->f32 = value;
     func_0202744C(dst);
 }
 
@@ -103,8 +105,8 @@ void sub_02027230(u16 value)
 
 static void sub_02027258(void *dst, u16 value)
 {
-    *(u16 *)((char *)dst + 0x30) = 0xf;
-    *(u16 *)((char *)dst + 0x32) = value;
+    ((struct Obj00121 *)dst)->f30 = 0xf;
+    ((struct Obj00121 *)dst)->f32 = value;
     func_0202744C(dst);
 }
 
@@ -122,7 +124,7 @@ void sub_02027268(u16 value)
 
 static void sub_02027290(void *dst, u16 value)
 {
-    *(u16 *)((char *)dst + 0x30) = 0x10;
+    ((struct Obj17252 *)dst)->f30 = 0x10;
     func_020270AC((void *)value, (u16 *)((char *)dst + 0x34));
 }
 
@@ -140,8 +142,8 @@ void sub_020272A4(u16 a, u16 b)
 
 static void sub_020272D0(void *dst, u16 a, u16 b)
 {
-    *(u16 *)((char *)dst + 0x30) = 0x11;
-    *(u16 *)((char *)dst + 0x32) = a;
+    ((struct Obj00121 *)dst)->f30 = 0x11;
+    ((struct Obj00121 *)dst)->f32 = a;
     func_020270AC((void *)b, (u16 *)((char *)dst + 0x34));
     func_0202744C(dst);
 }
@@ -160,8 +162,8 @@ void sub_020272EC(u16 value)
 
 static void sub_02027314(void *dst, u16 value)
 {
-    *(u16 *)((char *)dst + 0x30) = 0x14;
-    *(u16 *)((char *)dst + 0x34) = value;
+    ((struct Obj00121 *)dst)->f30 = 0x14;
+    ((struct Obj00121 *)dst)->f34 = value;
     func_0202744C(dst);
 }
 
@@ -179,7 +181,7 @@ void sub_02027324(u16 value)
 
 static void sub_0202734C(void *dst, u16 value)
 {
-    *(u16 *)((char *)dst + 0x30) = 0x23;
-    *(u16 *)((char *)dst + 0x34) = value;
+    ((struct Obj00121 *)dst)->f30 = 0x23;
+    ((struct Obj00121 *)dst)->f34 = value;
     func_0202744C(dst);
 }

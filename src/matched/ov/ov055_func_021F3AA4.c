@@ -17,6 +17,7 @@
  *   func_021F3CF4  0x021F3CF4  thumb  ov055
  *   func_021F4474  0x021F4474  thumb  ov055
  */
+#include "../include/Obj13120.h"
 
 extern int func_02189A38(int);
 typedef signed short   s16;
@@ -36,6 +37,6 @@ void func_021F3AA4(int a, int b, char *c)
             func_021F3D90(c + 8 + i * 0x18);
     }
     for (i = 0; i < 0x20; i++)
-        func_021F3CF4(c + 8 + i * 0x18, *(int *)(c + 4), *(int *)c);
+        func_021F3CF4(c + 8 + i * 0x18, ((struct Obj13120 *)c)->f4, ((struct Obj13120 *)c)->f0);
     func_021F4474((s16 *)(c + 0x348), (s16 *)(c + 0x308), (int *)b);
 }

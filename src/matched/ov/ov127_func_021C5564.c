@@ -11,8 +11,9 @@
  * symbols:
  *   func_021C4AC4 0x021C4AC4 thumb ov127
  */
+#include "../include/Obj10476.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Pos;
 extern Pos func_021C4AC4(void *);
-void func_021C5564(u8 *out,void *p,int kind,int index,int value) { *(Pos *)out=func_021C4AC4(p); *(u16 *)(out+4)=kind; out[7]=index; out[6]=value; }
+void func_021C5564(u8 *out,void *p,int kind,int index,int value) { *(Pos *)out=func_021C4AC4(p); ((struct Obj10476 *)out)->f4=kind; out[7]=index; out[6]=value; }

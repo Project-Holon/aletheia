@@ -28,6 +28,9 @@
  * 0x0200EC14 anywhere in the image, so that entry is what makes this file
  * verifiable at all (the `matched` class).
  */
+#include "../include/Obj17088.h"
+#include "../include/Obj17089.h"
+#include "../include/Obj17090.h"
 
 typedef unsigned int u32;
 
@@ -35,7 +38,7 @@ extern int sub_0200EC14(char *o);
 
 u32 sub_0200ECB4(char *o)
 {
-    u32 v = *(u32 *)(o + 0x1558);
+    u32 v = ((struct Obj17088 *)o)->f1558;
 
     if (v >= 0xf)
         v = 0xf;
@@ -44,12 +47,12 @@ u32 sub_0200ECB4(char *o)
 
 u32 sub_0200ECC4(char *o, u32 n)
 {
-    return *(u32 *)(o + 0x1558) - n;
+    return ((struct Obj17089 *)o)->f1558 - n;
 }
 
 void sub_0200ECD0(char *o, int idx)
 {
-    int n = *(int *)(o + 0x1554) - 1 - idx;
+    int n = ((struct Obj17090 *)o)->f1554 - 1 - idx;
 
     if (n < 0)
         n += 0xf;

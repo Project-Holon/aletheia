@@ -10,12 +10,13 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15930.h"
 
 extern void *func_0203D788(void);
 void func_02037A44(int a)
 {
     int *r = func_0203D788();
-    int *t = *(int **)((char *)r + 0x340);
+    int *t = *(int * *)&((struct Obj15930 *)r)->f340;
     if (t == 0)
         return;
     ((void (*)(int))t[0x30])(a);

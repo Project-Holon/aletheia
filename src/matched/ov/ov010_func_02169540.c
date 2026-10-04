@@ -15,6 +15,7 @@
  *   sub_02046C9C  0x02046C9C  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00281.h"
 
 typedef unsigned int   u32;
 struct Rec;
@@ -22,5 +23,5 @@ extern void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
 
 void func_02169540(unsigned char *a, unsigned int v)
 {
-    sub_02046C9C(*(void **)(a + 0x84), 1, v);
+    sub_02046C9C(((struct Obj00281 *)a)->f84, 1, v);
 }

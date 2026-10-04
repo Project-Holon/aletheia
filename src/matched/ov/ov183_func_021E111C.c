@@ -20,6 +20,7 @@
  *   func_020437AC 0x020437AC arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj03882.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {void *handle; short x,y; unsigned data,zero; u8 a,b; u16 c; unsigned d;} Descriptor;
@@ -51,16 +52,16 @@ void func_021E111C(const Object *object,Index index,int x,int y)
     u8 xx,yy;
     struct Grid **slots;
     Descriptor desc;
-    source=func_021FC214(*(char **)(p+0x344));
+    source=func_021FC214(*(char * *)&((struct Obj03882 *)p)->f344);
     source=(int)func_02045EC0((struct MsgBank *)source,d_021E3850[index]);
-    handle=(int)func_02043678(10,2,32,*(u16 *)(p+0x34c));
-    func_0201C7A4((void *)handle,1,0,(void *)source,(void *)(*(int *)(p+0x310)));
+    handle=(int)func_02043678(10,2,32,((struct Obj03882 *)p)->f34C);
+    func_0201C7A4((void *)handle,1,0,(void *)source,(void *)(((struct Obj03882 *)p)->f310));
     xx=((u8 *)(p+0x29a))[(index+22)*4];
     yy=((u8 *)(p+0x298))[(index+22)*4];
     desc.handle=(void *)handle;
     desc.x=xx+x;
     desc.y=yy+y;
-    desc.data=*(int *)(p+0x264);
+    desc.data=((struct Obj03882 *)p)->f264;
     desc.zero=0;
     desc.a=0;
     desc.b=0;

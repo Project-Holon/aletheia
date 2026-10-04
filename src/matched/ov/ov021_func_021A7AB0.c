@@ -11,6 +11,7 @@
  *
  * symbols:
  */
+#include "../include/Obj12760.h"
 
 typedef unsigned int u32;
 
@@ -45,12 +46,12 @@ void func_021A7AB0(u32 *src, Out *o)
     p += o->f10;
     m = o->f10 & 3;
     if (m != 0) p += 4 - m;
-    n = *(u32 *)p;
+    n = ((struct Obj12760 *)p)->f0;
     p += 4;
     o->f0C = p;
     o->f14 = n;
     p += n;
     m = n & 3;
     if (m != 0) p += 4 - m;
-    o->f18 = *(u32 *)p;
+    o->f18 = ((struct Obj12760 *)p)->f0;
 }

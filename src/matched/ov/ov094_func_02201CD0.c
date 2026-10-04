@@ -15,6 +15,7 @@
  *   func_02201F98  0x02201F98  thumb  ov094
  *   func_02201FD8  0x02201FD8  thumb  ov094
  */
+#include "../include/Obj07895.h"
 typedef short s16;
 
 typedef struct {
@@ -48,5 +49,5 @@ void func_02201CD0(char *o, int idx, int c, s16 *p, int s1, int s2, int s3)
         a.z += b.z;
     }
     func_02201E04(o, idx, c, &b, &a, s1, s2, s3, func_02201F98, func_02201FD8);
-    *(unsigned *)(o + 0x78) |= 1 << idx;
+    ((struct Obj07895 *)o)->f78 |= 1 << idx;
 }

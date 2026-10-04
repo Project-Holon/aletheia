@@ -31,6 +31,7 @@
  *   func_021BA1F8 0x021BA1F8 thumb ov217
  *   func_021BA228 0x021BA228 thumb ov217
  */
+#include "../include/Obj00511.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020362DC(const void *);
@@ -55,7 +56,7 @@ void func_021B9E44(char *p)
 {
     u32 keys=func_020362DC(p);
     int choice=func_02035C08(p+44);
-    int other=func_02035C08(func_021C09B8(*(void **)p));
+    int other=func_02035C08(func_021C09B8(((struct Obj00511 *)p)->f0));
     if(func_021BA4D4(p)!=0 || other==0) {
         func_021BA1C0((u8 *)p,1);func_021BA1CC(p,2);func_021BA31C((u8 *)p);func_020061E4(1361);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);return;
     }
@@ -63,7 +64,7 @@ void func_021B9E44(char *p)
     if(keys&128)func_021BA228((u32)p);
     if(keys&1) {
         func_021BA1C0((u8 *)p,0);func_021BA40C((u8 *)p,0);func_021BA3E8(p,2);func_020061E4(1356);func_021BA380(p,15);func_021BA150(p);func_021BA144((u8 *)p,3);func_021BA144((u8 *)p,4);func_021BA144((u8 *)p,5);
-        switch(*(u32 *)(p+40)) {
+        switch(((struct Obj00511 *)p)->f28) {
         case 0:func_021BA1CC(p,0);return;
         case 1:func_021BA1CC(p,1);return;
         default:func_021BA1CC(p,2);return;

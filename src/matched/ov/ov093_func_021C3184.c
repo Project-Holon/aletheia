@@ -25,6 +25,7 @@
  *   func_021C2E64  0x021C2E64  thumb  ov093
  *   func_021C25A4  0x021C25A4  thumb  ov093
  */
+#include "../include/Obj13327.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -52,12 +53,12 @@ void func_021C3184(u8 *p, const u16 *q, u32 r, u32 c)
     func_021C3244(c);
     for (t = func_021C3254(c); t != 0; t = func_021C3264(c)) {
         if (func_021C2E64(p, (const u16 *)((u32)q), (u8 *)r, (u8 *)t, 1) != 0) {
-            BF *f = *(BF **)(p + 0x4A8);
+            BF *f = *(BF * *)&((struct Obj13327 *)p)->f4A8;
             if (!f->f)
                 f->f = 1;
         }
         if (func_021C25A4(p, r, t, *q, s, out, 1) != 0) {
-            BF *f = *(BF **)(p + 0x4A8);
+            BF *f = *(BF * *)&((struct Obj13327 *)p)->f4A8;
             if (!f->f)
                 f->f = 1;
         }

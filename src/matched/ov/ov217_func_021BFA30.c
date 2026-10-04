@@ -28,6 +28,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00926.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -50,27 +51,27 @@ extern void func_021C0820(void *p);
 void func_021BFA30(char *p)
 {
     int i;
-    *(u32 *)(p + 0x20) = 0;
-    *(u32 *)(p + 0x24) = 0;
-    *(u32 *)(p + 0x3dc) = 0;
-    *(u32 *)(p + 0x2c) = 0xf;
-    *(u32 *)(p + 0x28) = 0;
-    *(u32 *)(p + 0x30) = 0;
-    *(u32 *)(p + 0x34) = 0;
-    *(u32 *)(p + 0x3c4) = 0;
-    *(u32 *)(p + 0x3c8) = 0;
-    *(u32 *)(p + 0x3cc) = 0;
-    *(u32 *)(p + 0x3d0) = 0;
-    *(u32 *)(p + 0x3d4) = 0;
-    *(u32 *)(p + 0x3d8) = 0;
-    *(u8 *)(p + 0x2b8) = 0;
-    *(u8 *)(p + 0x2b9) = 0;
-    *(u32 *)(p + 0x2cc) = 0;
-    *(u32 *)(p + 0x3bc) = func_020056BC();
-    *(u8 *)(p + 0x2fc) = 0;
-    *(u8 *)(p + 0x2fd) = 0;
-    *(u32 *)(p + 0x3e4) = 0;
-    *(u32 *)(p + 0x3e0) = 0;
+    ((struct Obj00926 *)p)->f20 = 0;
+    ((struct Obj00926 *)p)->f24 = 0;
+    ((struct Obj00926 *)p)->f3DC = 0;
+    ((struct Obj00926 *)p)->f2C = 0xf;
+    ((struct Obj00926 *)p)->f28 = 0;
+    ((struct Obj00926 *)p)->f30 = 0;
+    ((struct Obj00926 *)p)->f34 = 0;
+    ((struct Obj00926 *)p)->f3C4 = 0;
+    ((struct Obj00926 *)p)->f3C8 = 0;
+    ((struct Obj00926 *)p)->f3CC = 0;
+    ((struct Obj00926 *)p)->f3D0 = 0;
+    ((struct Obj00926 *)p)->f3D4 = 0;
+    ((struct Obj00926 *)p)->f3D8 = 0;
+    ((struct Obj00926 *)p)->f2B8 = 0;
+    ((struct Obj00926 *)p)->f2B9 = 0;
+    ((struct Obj00926 *)p)->f2CC = 0;
+    ((struct Obj00926 *)p)->f3BC = func_020056BC();
+    ((struct Obj00926 *)p)->f2FC = 0;
+    ((struct Obj00926 *)p)->f2FD = 0;
+    ((struct Obj00926 *)p)->f3E4 = 0;
+    ((struct Obj00926 *)p)->f3E0 = 0;
     for (i = 0; i < 7; i++) {
         *(u32 *)(p + i * 4 + 0x368) = 0;
     }

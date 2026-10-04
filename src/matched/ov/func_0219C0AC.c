@@ -22,6 +22,7 @@
  *   func_0216DA7C  0x0216DA7C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17965.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ if (func_02197EDC(a, b, c, d) == 0) {
 }
 func_0216DA50(a);
 func_0216DA7C(a);
-*(u8 *)((u8 *)(b)) = 2;
+((struct Obj17965 *)((u8 *)(b)))->f0 = 2;
 return 0;
 }
 

@@ -17,6 +17,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj00636.h"
 typedef unsigned short u16;
 struct Descriptor;
 struct Rec3;
@@ -29,10 +30,10 @@ extern void func_0203FB44(unsigned,u16,u16);
 extern void func_020452E8(struct Descriptor *d);
 void func_021BA018(int unused,char*p)
 {
-    if(*(void**)(p+0x5c))func_0201CE48(*(void**)(p+0x5c));
-    if(*(void**)(p+0x78))func_02045808(*(void**)(p+0x78));
-    func_02031140(*(void**)(p+0x68));
-    func_0203FB44(1,*(unsigned*)(p+0x74),*(unsigned*)(p+0x74)>>16);
-    func_020452E8(*(void**)(p+0x6c));
-    func_020452E8(*(void**)(p+0x70));
+    if(*(void* *)&((struct Obj00636 *)p)->f5C)func_0201CE48(*(void* *)&((struct Obj00636 *)p)->f5C);
+    if(*(void* *)&((struct Obj00636 *)p)->f78)func_02045808(*(void* *)&((struct Obj00636 *)p)->f78);
+    func_02031140(*(void* *)&((struct Obj00636 *)p)->f68);
+    func_0203FB44(1,((struct Obj00636 *)p)->f74,((struct Obj00636 *)p)->f74>>16);
+    func_020452E8(*(void* *)&((struct Obj00636 *)p)->f6C);
+    func_020452E8(*(void* *)&((struct Obj00636 *)p)->f70);
 }

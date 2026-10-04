@@ -12,12 +12,13 @@
  * symbols:
  *   func_0204A600  0x0204A600  arm
  */
+#include "../include/Obj23592.h"
 
 typedef unsigned char u8;
 extern void func_0204A600(void *);
 void func_021C6594(u8 *p)
 {
-    void *q = *(void **)(p + 0x1EC);
+    void *q = ((struct Obj23592 *)p)->f1EC;
     if (q != 0) {
         func_0204A600(q);
     }

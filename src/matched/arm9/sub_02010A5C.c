@@ -18,6 +18,7 @@
  *   sub_02009448   0x02009448  thumb
  *   sub_020092EC   0x020092EC  thumb
  */
+#include "../include/Obj04833.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,15 +42,15 @@ int sub_02010A5C(void *a0)
     func_0203064C(1, 0x67, 0x78000);
     p = func_0203159C(a0, 0x1d8, 0x67);
     func_02082BCC(p, 0, 0x1d8);
-    *(u16 *)(p + 0x1d0) = 0x67;
+    ((struct Obj04833 *)p)->f1D0 = 0x67;
     sys = sub_020124F4(0x67);
-    *(void **)(p + 0x44) = sys;
+    ((struct Obj04833 *)p)->f44 = sys;
     if (sub_020092EC(sub_02009448(sub_02012EBC(sys))) != 0) {
-        *(u32 *)(p + 0x1d4) = 1;
-        *(u32 *)(p + 0x54) = 1;
+        ((struct Obj04833 *)p)->f1D4 = 1;
+        ((struct Obj04833 *)p)->f54 = 1;
     } else {
-        *(u32 *)(p + 0x1d4) = 0;
-        *(u32 *)(p + 0x54) = 0;
+        ((struct Obj04833 *)p)->f1D4 = 0;
+        ((struct Obj04833 *)p)->f54 = 0;
     }
     return 1;
 }

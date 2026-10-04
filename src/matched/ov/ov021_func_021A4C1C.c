@@ -14,6 +14,7 @@
  *   func_021A4B54  0x021A4B54  thumb  ov021
  *   func_021A4B98  0x021A4B98  thumb  ov021
  */
+#include "../include/Obj19789.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ int func_021A4C1C(int a, int b, u8 *c)
 {
     if (func_0216D3CC(b) == 0)
         return 0;
-    if (*(u16 *)(c + 8) == 9)
+    if (((struct Obj19789 *)c)->f8 == 9)
         return func_021A4B54(a, b, c);
     return func_021A4B98(a, b, c);
 }

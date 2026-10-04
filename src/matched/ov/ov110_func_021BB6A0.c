@@ -18,6 +18,7 @@
  *   func_0204B878 0x0204B878 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj04445.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -37,21 +38,21 @@ void func_021BB6A0(u8 *p, unsigned index)
     int state;
     u8 *q;
     pos = d_021C38D0;
-    if (func_021BF6DC(*(u8 **)(p + 4)) == 0 && index != 254) {
+    if (func_021BF6DC(*(u8 * *)&((struct Obj04445 *)p)->f4) == 0 && index != 254) {
         pos.x = 48 + 80 * (index % 3U);
         pos.y = 64 + 24 * (index / 3U);
         state = 4;
     } else {
-        q = (u8 *)func_021BAC3C(*(u8 **)p);
+        q = (u8 *)func_021BAC3C(*(u8 * *)&((struct Obj04445 *)p)->f0);
         state = 16;
         if (index == 252) {
-            if (**(int **)(p + 0x5c) == 0) func_021BCF7C(q, 0, 1);
+            if (**(int * *)&((struct Obj04445 *)p)->f5C == 0) func_021BCF7C(q, 0, 1);
             else func_021BCF7C(q, 0, 0);
         } else if (index == 253) {
-            if (**(int **)(p + 0x5c) == 0) func_021BCF7C(q, 1, 1);
+            if (**(int * *)&((struct Obj04445 *)p)->f5C == 0) func_021BCF7C(q, 1, 1);
             else func_021BCF7C(q, 0, 0);
         } else if (index == 254) {
-            if (**(int **)(p + 0x5c) == 0) func_021BCF7C(q, 2, 1);
+            if (**(int * *)&((struct Obj04445 *)p)->f5C == 0) func_021BCF7C(q, 2, 1);
             else func_021BCF7C(q, 0, 0);
         } else {
             func_021BCF7C(q, 0, 0);
@@ -61,6 +62,6 @@ void func_021BB6A0(u8 *p, unsigned index)
             state = 6;
         }
     }
-    func_0204B404(*(void **)(p + 0x54), &pos, 0);
-    func_0204B878(*(void **)(p + 0x54), state);
+    func_0204B404(((struct Obj04445 *)p)->f54, &pos, 0);
+    func_0204B878(((struct Obj04445 *)p)->f54, state);
 }

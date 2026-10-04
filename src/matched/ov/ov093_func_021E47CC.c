@@ -17,6 +17,7 @@
  *   func_021E89C0  0x021E89C0  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10090.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -38,8 +39,8 @@ void func_021E47CC(int a0, u8 *s, int k)
         q = func_021C7CF4(s, v);
         if (func_021D62C4(q, 12) == 0) {
             e = func_021C88A4(s, 12, k);
-            *(int *)(e + 4) = 12;
-            *(int *)(e + 8) = func_021E89C0((u32)e);
+            ((struct Obj10090 *)e)->f4 = 12;
+            ((struct Obj10090 *)e)->f8 = func_021E89C0((u32)e);
             e[0xf] = v;
             func_021C88C8(s, e);
         }

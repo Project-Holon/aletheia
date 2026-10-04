@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01438.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,6 +28,6 @@ typedef signed int     s32;
 extern int func_021C097C(int a0, int a1);
 void func_021B9874(u32 a0)
 {
-    *(u32*)(((u8*)a0 + 0) + 12) = func_021C097C(*(u16*)(((u8*)a0 + 0)), *(u32*)(((u8*)a0 + 0) + 4));
+    ((struct Obj01438 *)(((u8*)a0 + 0)))->fC = func_021C097C(((struct Obj01438 *)((u8*)a0))->f0, ((struct Obj01438 *)(((u8*)a0 + 0)))->f4);
 }
 

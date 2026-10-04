@@ -19,6 +19,7 @@
  *   func_021F199C 0x021F199C thumb
  *   func_021F1888 0x021F1888 thumb
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned short u16;
 
@@ -38,7 +39,7 @@ int func_021F180C(char *this, int x, int flag)
 
     k = func_02165E24(x);
     if (flag != 0) {
-        func_02165FCC(x, *(int *)(this + 0x110), *(u16 *)(this + 0x96));
+        func_02165FCC(x, *(int *)&((struct Obj00007 *)this)->f110, ((struct Obj00007 *)this)->f96);
         func_021F18C4(this, 0x12);
         return 1;
     }
@@ -50,7 +51,7 @@ int func_021F180C(char *this, int x, int flag)
     case 0x32:
         return func_021F199C(this, (void *)x, 1);
     case 0x18:
-        func_02165374(func_0200C1C8((struct Blk34 *)(*(int *)(this + 0x14))));
+        func_02165374(func_0200C1C8((struct Blk34 *)(((struct Obj00007 *)this)->f14)));
         break;
     }
     func_021F1888(this, x);

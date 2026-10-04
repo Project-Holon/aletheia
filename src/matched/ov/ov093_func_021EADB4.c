@@ -10,11 +10,12 @@
  * symbols:
  *   func_021EE2A0 0x021EE2A0 thumb ov093
  */
+#include "../include/Obj21572.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct O;
 extern int func_021EE2A0(struct O *);
 int func_021EADB4(u8 *p)
 {
-    return func_021EE2A0(*(struct O **)(p + 0x17c));
+    return func_021EE2A0(*(struct O * *)&((struct Obj21572 *)p)->f17C);
 }

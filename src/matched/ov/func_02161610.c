@@ -12,6 +12,7 @@
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  */
+#include "../include/Obj05854.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,22 +27,22 @@ int func_02161610(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x18);
-a0 = *(int *)((char *)a0);
+a0 = ((struct Obj05854 *)t4)->f18;
+a0 = ((struct Obj05854 *)((char *)a0))->f0;
     func_020120F4((const struct Ctx *)a0);
 loc_0216161C:
-a0 = *(int *)((char *)t4 + 0x68);
+a0 = ((struct Obj05854 *)t4)->f68;
     if (a0 != 3) goto loc_0216162A;
 loc_02161622:
 a0 = 2;
-*(int *)((char *)t4 + 0xc) = a0;
+((struct Obj05854 *)t4)->fC = a0;
 a0 = 4;
     return a0;
 loc_0216162A:
     if (a0 != 4) goto loc_02161636;
 loc_0216162E:
 a0 = 0;
-*(int *)((char *)t4 + 0xc) = a0;
+((struct Obj05854 *)t4)->fC = a0;
 a0 = 4;
     return a0;
 loc_02161636:

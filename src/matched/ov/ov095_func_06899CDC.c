@@ -13,14 +13,15 @@
  * symbols:
  *   func_0220266C 0x0220266C thumb ov094
  */
+#include "../include/Obj07908.h"
 typedef signed char s8;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0220266C(struct Obj *p);
 void func_06899CDC(const s8 *p)
 {
-    *(s8 *)(p + 0x8c) = -16;
-    *(s8 *)(p + 0x8d) = 0;
-    *(s8 *)(p + 0x8e) = 1;
-    func_0220266C((struct Obj *)(*(const u32 *)(p + 0xb0)));
+    ((struct Obj07908 *)p)->f8C = -16;
+    ((struct Obj07908 *)p)->f8D = 0;
+    ((struct Obj07908 *)p)->f8E = 1;
+    func_0220266C((struct Obj *)(*(const u32 *)&((struct Obj07908 *)p)->fB0));
 }

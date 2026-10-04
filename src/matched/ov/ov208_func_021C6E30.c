@@ -11,6 +11,7 @@
  *
  * symbols:
  */
+#include "../include/Obj25526.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -20,7 +21,7 @@ u16 ov208_func_021C6E30(void *unused, u8 *p, int unused2, u16 skip, u16 stop)
     u16 n = 0;
     u16 i;
 
-    for (i = 0; i < *(u16 *)(p + 0x548); i++) {
+    for (i = 0; i < ((struct Obj25526 *)p)->f548; i++) {
         if (i == skip)
             continue;
         if (i == stop)

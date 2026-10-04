@@ -25,6 +25,7 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  *   d_021F06C0 0x021F06C0 data a4
  */
+#include "../include/Obj06258.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -73,9 +74,9 @@ void func_021DBBD8(int a, void *b, u8 c)
             value = func_021D6740(func_021C7CF4(b, selected));
             if (value) {
                 r = (u8 *)func_021C88A4(b, 0x20, c);
-                *(u32 *)r |= 0x800000;
+                ((struct Obj06258 *)r)->f0 |= 0x800000;
                 r[6] = c;
-                *(u16 *)(r + 4) = value;
+                ((struct Obj06258 *)r)->f4 = value;
                 r[8] = 1;
                 r[9] = selected;
                 func_021C8838(r + 12, 2, 0x1ea);

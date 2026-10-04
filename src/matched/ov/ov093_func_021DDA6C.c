@@ -17,6 +17,7 @@
  *   func_021D7B74  0x021D7B74  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13487.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -36,7 +37,7 @@ void func_021DDA6C(int a, u8 *b, int c)
         k = func_021DCFF8(a, 2);
         p = func_021C88A4(b, 5, c);
         p[6] = c;
-        *(u16 *)(p + 4) = func_021D7B74(m, k);
+        ((struct Obj13487 *)p)->f4 = func_021D7B74(m, k);
         func_021C88C8(b, p);
     }
 }

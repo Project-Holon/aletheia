@@ -15,6 +15,8 @@
  *   func_021F9F58 0x021F9F58 thumb ov132
  *   func_021F9DCC 0x021F9DCC thumb ov132
  */
+#include "../include/Obj10558.h"
+#include "../include/Obj14119.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -24,4 +26,4 @@ extern void *func_021F9DC0(void *);
 extern void *func_021F9DC4(void *,u8);
 extern void func_021F9F58(u8 *,u8 *);
 extern void func_021F9DCC(void *p, void *v, u32 i);
-int func_021FBFDC(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char **)p; a=func_0201134C(*(struct Cursor **)(p+4)); ctx=func_021F9DC0(*(void **)(o+0x34)); func_021F9F58(ctx,func_021F9DC4(*(void **)(o+0x34),a)); func_021F9DCC(*(void **)(o+0x34),0,(u8)a); return 0; }
+int func_021FBFDC(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char * *)&((struct Obj14119 *)p)->f0; a=func_0201134C(*(struct Cursor * *)&((struct Obj14119 *)p)->f4); ctx=func_021F9DC0(((struct Obj10558 *)o)->f34); func_021F9F58(ctx,func_021F9DC4(((struct Obj10558 *)o)->f34,a)); func_021F9DCC(((struct Obj10558 *)o)->f34,0,(u8)a); return 0; }

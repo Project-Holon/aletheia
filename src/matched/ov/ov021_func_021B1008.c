@@ -25,6 +25,7 @@
  *   func_020113D0  0x020113D0  thumb
  *   func_021B0FF0  0x021B0FF0  thumb
  */
+#include "../include/Obj12833.h"
 
 typedef unsigned char u8;
 
@@ -54,9 +55,9 @@ int func_021B1008(void *a, int b, int c)
     o = func_0215A5F4((void *)b);
     q = (int *)func_02158F58((int)o);
     t = func_02159B10(a, (void *)b);
-    p = *(u8 **)((char *)a + 0x14);
+    p = *(u8 * *)&((struct Obj12833 *)a)->f14;
     n = *p;
-    *(u8 **)((char *)a + 0x14) = p + 1;
+    *(u8 * *)&((struct Obj12833 *)a)->f14 = p + 1;
     r = 1;
     m = func_021B162C(b, (u32)o, t);
     if (n != 1) {

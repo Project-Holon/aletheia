@@ -13,6 +13,7 @@
  *   func_020399A8  0x020399A8  arm
  *   func_02039CB4  0x02039CB4  arm
  */
+#include "../include/Obj20845.h"
 
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -23,7 +24,7 @@ int func_021B61FC(int a, int b)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), b, 0x2d) == 1)
         return 1;
-    if (*(unsigned char *)(a + 0x63) == 1)
+    if (((struct Obj20845 *)a)->f63 == 1)
         return 1;
     return 0;
 }

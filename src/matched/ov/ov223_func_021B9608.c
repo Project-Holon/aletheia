@@ -19,6 +19,7 @@
  * 3159C's r0 return is consumed despite its legacy void declaration.
  * 3064C preserves all three visibly loaded original arguments.
  */
+#include "../include/Obj03961.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -36,14 +37,14 @@ int func_021B9608(void *a,int unused,void *c)
     func_0203064C(1,135,1<<20);
     p=func_0203159C(a,2168,135);
     func_02082BCC(p,0,2168);
-    *(u16 *)p=135;
-    *(void **)(p+4)=c;
-    *(u32 *)(p+2164)=func_0204E6E0();
+    ((struct Obj03961 *)p)->f0=135;
+    ((struct Obj03961 *)p)->f4=c;
+    ((struct Obj03961 *)p)->f874=func_0204E6E0();
     func_0204E6F4(1);
-    *(u32 *)(p+8)=func_020355C4();
-    *(u32 *)(p+552)=4;
-    *(u32 *)(p+556)=4;
-    *(u32 *)(p+560)=0;
-    *(u32 *)(p+12)=0;
+    ((struct Obj03961 *)p)->f8=func_020355C4();
+    ((struct Obj03961 *)p)->f228=4;
+    ((struct Obj03961 *)p)->f22C=4;
+    ((struct Obj03961 *)p)->f230=0;
+    ((struct Obj03961 *)p)->fC=0;
     return 1;
 }

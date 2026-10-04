@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05003.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,35 +34,35 @@ int func_02196F44(u32 v, u8 *p)
 {
     int r = 0;
 
-    *(u32 *)(p + 0x300) = v;
+    ((struct Obj05003 *)p)->f300 = v;
     switch (v) {
     case 0:
         func_020061E4(0x73B);
         r = 1;
-        *(u32 *)(p + 8) = 1;
+        ((struct Obj05003 *)p)->f8 = 1;
         func_02196034(p, func_02196ECC, 0x5B1);
         break;
     case 1:
         func_020061E4(0x73B);
-        *(u32 *)(p + 8) = 2;
+        ((struct Obj05003 *)p)->f8 = 2;
         func_02196034(p, func_02196ECC, 0x5B7);
         r = 1;
         break;
     case 2:
         func_020061E4(0x73B);
-        *(u32 *)(p + 8) = 3;
+        ((struct Obj05003 *)p)->f8 = 3;
         func_02196034(p, func_02196ECC, 0x5BD);
         r = 1;
         break;
     case 3:
         func_020061E4(0x73B);
-        *(u32 *)(p + 8) = 4;
+        ((struct Obj05003 *)p)->f8 = 4;
         func_02196034(p, func_02196ECC, 0x5C3);
         r = 1;
         break;
     case 4:
         func_020061E4(0x73C);
-        *(u32 *)(p + 8) = 0xC;
+        ((struct Obj05003 *)p)->f8 = 0xC;
         func_02196034(p, func_02196ECC, 0x5C9);
         break;
     }

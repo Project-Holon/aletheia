@@ -18,6 +18,7 @@
  *   func_021869C0  0x021869C0  thumb  ov023
  *   func_02186958  0x02186958  thumb  ov023
  */
+#include "../include/Obj01221.h"
 
 typedef unsigned short u16;
 
@@ -40,7 +41,7 @@ void func_021860D0(char *p)
         if (func_0203D56C(h) == 0)
             return;
         func_02186A04(p + 0x9e4c, p + 0x928c);
-        *(unsigned char *)(p + 0x9e51) = *(int *)(p + 0x9e6c);
+        ((struct Obj01221 *)p)->f9E51 = ((struct Obj01221 *)p)->f9E6C;
         if (func_0203D3A8(h, 0x2902, 0x1e, (u32)(p + 0x9e4c)) == 1)
             func_02186958(p + 0x928c);
     } else {

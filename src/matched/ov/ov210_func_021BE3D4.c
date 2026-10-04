@@ -15,6 +15,7 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj08413.h"
 typedef unsigned char u8;
 struct PrintSys;
 struct Descriptor;
@@ -26,13 +27,13 @@ void func_021BE3D4(u8 *p)
 {
     int release, clear, get, flag;
     unsigned i;
-    func_0201C4E4(*(struct PrintSys **)(p + 0x1dc));
+    func_0201C4E4(*(struct PrintSys * *)&((struct Obj08413 *)p)->f1DC);
     release = 0x1dc; release = 0x14c;
     clear = 0x1dc; clear = 0x150;
     get = 0x1dc; get = 0x14c;
     flag = 0x1dc; flag = 0x150;
     for (i = 0; i < 16; i++) {
-        struct PrintSys *ps = *(struct PrintSys **)(p + 0x1dc);
+        struct PrintSys *ps = *(struct PrintSys * *)&((struct Obj08413 *)p)->f1DC;
         u8 *record = p + i * 8;
         if (record[flag] != 0 && func_0201C6C4(ps, func_02045770(*(struct Descriptor **)(record + get))) == 0) {
             func_02045334(*(struct Descriptor **)(record + release));

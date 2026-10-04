@@ -11,8 +11,10 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj08299.h"
+#include "../include/Obj24493.h"
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 void func_021B75A4(char *p,const char *q) {
-    func_0204B294((void *)*(int *)(p+0x9044),*(int *)(p+0x90cc+*(const int *)(q+8)*4),*(int *)(p+0x90e4+*(const int *)(q+12)*4),*(int *)(p+0x9100+*(const int *)(q+16)*4),(void *)q,*(const unsigned short *)(q+22),141);
+    func_0204B294((void *)((struct Obj24493 *)p)->f9044,*(int *)(p+0x90cc+*(const int *)&((struct Obj08299 *)q)->f8*4),*(int *)(p+0x90e4+*(const int *)&((struct Obj08299 *)q)->fC*4),*(int *)(p+0x9100+*(const int *)&((struct Obj08299 *)q)->f10*4),(void *)q,*(const unsigned short *)&((struct Obj08299 *)q)->f16,141);
 }

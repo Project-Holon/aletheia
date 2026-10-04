@@ -30,6 +30,7 @@
  *   func_021CC95C 0x021CC95C thumb ov093
  *   func_021C195C 0x021C195C thumb ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -78,7 +79,7 @@ void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const s
     if (kind == 3 && func_021D5444(a) == 492 && func_021D59B4(a, 19) == 1) {
         func_021D8510(a);
         func_021D66D8(a, 0);
-        func_021CD4B0(*(void **)(p + 12), 79, func_021D5440(a), 0);
+        func_021CD4B0(((struct Obj00003 *)p)->fC, 79, func_021D5440(a), 0);
         func_021D8484(a);
         func_021C5D88(p, a, 222);
     }

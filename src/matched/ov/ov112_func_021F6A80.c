@@ -15,6 +15,7 @@
  *   _ffix 0x0209C494 arm
  *   func_0204F638 0x0204F638 arm
  */
+#include "../include/Obj08023.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
@@ -24,12 +25,12 @@ void func_021F6A80(char *o,u32 *p)
     Vec v;
     float f;
     if(p[1]==1) {
-        if(*(u16 *)(o+2)!=0) f=0.5f+(float)(*(u16 *)(o+2)<<12);
-        else f=(float)(*(u16 *)(o+2)<<12)-0.5f;
+        if(((struct Obj08023 *)o)->f2!=0) f=0.5f+(float)(((struct Obj08023 *)o)->f2<<12);
+        else f=(float)(((struct Obj08023 *)o)->f2<<12)-0.5f;
         v.x=((int)p[2]-(int)f)/16;
         v.y=(786432-(int)p[3])/16;
         v.z=p[4];
-        func_0204F638(*(void **)(o+4),p[6],&v);
+        func_0204F638(((struct Obj08023 *)o)->f4,p[6],&v);
         p[1]=0;
     }
 }

@@ -16,6 +16,10 @@
  *   func_021C61D4  0x021C61D4  thumb
  *   func_021C6230 0x021C6230 thumb
  */
+#include "../include/Obj00127.h"
+#include "../include/Obj23563.h"
+#include "../include/Obj23564.h"
+#include "../include/Obj23565.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -31,8 +35,8 @@ void func_021C6284(u8 *p)
 {
     void *t;
     func_021C61D4(p, 0);
-    t = func_02045EC0(*(void **)(*(u8 **)(p + 8) + 0x1D0), 9);
-    func_0201F250(*(void **)(*(u8 **)(p + 8) + 0x1D4), *(void **)(*(u8 **)(p + 8) + 0x1D8), t);
+    t = func_02045EC0(((struct Obj23563 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D0, 9);
+    func_0201F250(((struct Obj23564 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D4, ((struct Obj23565 *)(*(u8 * *)&((struct Obj00127 *)p)->f8))->f1D8, t);
     func_02045808(t);
     func_021C6230(p);
 }

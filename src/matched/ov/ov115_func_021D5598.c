@@ -29,6 +29,7 @@
  *   func_021D58B4 0x021D58B4 thumb ov115
  *   func_02024230 0x02024230 thumb
  */
+#include "../include/Obj00198.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -57,33 +58,33 @@ void func_021D5598(u8 *p)
     enum { Zero=0 } zero;
     u32 res;
     struct Rect a,b;
-    res = (u32)sub_020490F4((u32)((void *)143), *(u16 *)(p+12));
+    res = (u32)sub_020490F4((u32)((void *)143), ((struct Obj00198 *)p)->fC);
     zero=Zero;
-    sub_02049B68((void *)((u32)res),0,4,zero,0,*(u16 *)(p+12));
-    *(u32 *)p = sub_02049740((void *)((u32)res),7,4,zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,18,4,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,19,6,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,20,7,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
-    sub_02049B68((void *)((u32)res),0,0,zero,0,*(u16 *)(p+12));
-    *(u32 *)(p+4) = sub_02049740((void *)((u32)res),6,0,zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,15,0,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,16,1,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
-    func_02049990((u32)res,17,2,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
-    *(int *)(p+0x990) = sub_0204A6C8((void *)((u32)res),9,0,1,*(u16 *)(p+12));
-    *(int *)(p+0x98c) = sub_0204AC18((void *)((u32)res),3,1,0,0,3,*(u16 *)(p+12));
-    *(int *)(p+0x994) = sub_0204AF28((void *)((u32)res),12,25,*(u16 *)(p+12));
+    sub_02049B68((void *)((u32)res),0,4,zero,0,((struct Obj00198 *)p)->fC);
+    ((struct Obj00198 *)p)->f0 = sub_02049740((void *)((u32)res),7,4,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,18,4,0,((struct Obj00198 *)p)->f0,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,19,6,0,((struct Obj00198 *)p)->f0,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,20,7,0,((struct Obj00198 *)p)->f0,zero,0,((struct Obj00198 *)p)->fC);
+    sub_02049B68((void *)((u32)res),0,0,zero,0,((struct Obj00198 *)p)->fC);
+    ((struct Obj00198 *)p)->f4 = sub_02049740((void *)((u32)res),6,0,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,15,0,0,((struct Obj00198 *)p)->f4,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,16,1,0,((struct Obj00198 *)p)->f4,zero,0,((struct Obj00198 *)p)->fC);
+    func_02049990((u32)res,17,2,0,((struct Obj00198 *)p)->f4,zero,0,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f990 = sub_0204A6C8((void *)((u32)res),9,0,1,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f98C = sub_0204AC18((void *)((u32)res),3,1,0,0,3,((struct Obj00198 *)p)->fC);
+    *(int *)&((struct Obj00198 *)p)->f994 = sub_0204AF28((void *)((u32)res),12,25,((struct Obj00198 *)p)->fC);
     sub_02049238((void *)res);
     a.x=128; a.y=96; a.z=10; a.kind=0; a.mode=2;
-    *(struct Obj **)(p+0x99c) = sub_0204B294((void *)*(u32 *)(p+0x980),*(u32 *)(p+0x990),*(u32 *)(p+0x98c),*(u32 *)(p+0x994),&a,1,*(u16 *)(p+12));
-    sub_0204B92C(*(struct Obj **)(p+0x99c),1);
-    sub_0204B3DC(*(struct Obj **)(p+0x99c),1);
+    *(struct Obj * *)&((struct Obj00198 *)p)->f99C = sub_0204B294((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&a,1,((struct Obj00198 *)p)->fC);
+    sub_0204B92C(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
+    sub_0204B3DC(*(struct Obj * *)&((struct Obj00198 *)p)->f99C,1);
     b.x=128; b.y=96; b.z=11; b.kind=1; b.mode=2;
-    *(struct Obj **)(p+0x9a0) = sub_0204B294((void *)*(u32 *)(p+0x980),*(u32 *)(p+0x990),*(u32 *)(p+0x98c),*(u32 *)(p+0x994),&b,1,*(u16 *)(p+12));
-    sub_0204B92C(*(struct Obj **)(p+0x9a0),1);
-    sub_0204B3DC(*(struct Obj **)(p+0x9a0),1);
+    *(struct Obj * *)&((struct Obj00198 *)p)->f9A0 = sub_0204B294((void *)((struct Obj00198 *)p)->f980,((struct Obj00198 *)p)->f990,((struct Obj00198 *)p)->f98C,((struct Obj00198 *)p)->f994,&b,1,((struct Obj00198 *)p)->fC);
+    sub_0204B92C(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
+    sub_0204B3DC(*(struct Obj * *)&((struct Obj00198 *)p)->f9A0,1);
     func_0207D63C((void *)0x04000050,4,3,6,16);
     func_0207D63C((void *)0x04001050,8,21,6,16);
-    *(void **)(p+0x988) = sub_02005624((u32)func_021D58B4,(u32)p,0);
+    ((struct Obj00198 *)p)->f988 = sub_02005624((u32)func_021D58B4,(u32)p,0);
     func_02024230((s16 *)(p+0x9ca),192,1456,6144);
-    *(u16 *)(p+0xb4a) = 10;
+    ((struct Obj00198 *)p)->fB4A = 10;
 }

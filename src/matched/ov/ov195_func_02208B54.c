@@ -13,6 +13,7 @@
  *   func_020480E4 0x020480E4 arm
  *   func_02208714 0x02208714 thumb
  */
+#include "../include/Obj05518.h"
 
 typedef unsigned int   u32;
 struct Ctx;
@@ -21,7 +22,7 @@ extern void func_02208714(void *p);
 
 void func_02208B54(char *a)
 {
-    func_020480E4((struct Ctx *)(*(int *)(a + 0x14)), *(unsigned short *)(a + 0x18));
-    func_02208714((void *)(*(int *)(a + 0x20)));
-    *(unsigned short *)(a + 0x1c) = 0;
+    func_020480E4((struct Ctx *)(*(int *)&((struct Obj05518 *)a)->f14), ((struct Obj05518 *)a)->f18);
+    func_02208714((void *)(((struct Obj05518 *)a)->f20));
+    ((struct Obj05518 *)a)->f1C = 0;
 }

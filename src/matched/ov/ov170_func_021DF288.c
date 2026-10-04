@@ -17,6 +17,7 @@
  *   ov131_id 0x00000083 data a1
  * data: callback descriptor belongs to ov131 loaded by func_02031348.
  */
+#include "../include/Obj05437.h"
 typedef struct {
     void *mon;
     void *f4;
@@ -40,16 +41,16 @@ int func_021DF288(char *p)
     Request *r;
     unsigned mode;
     r = func_02030734(0x4B, 0x28, 0, d_021F1400, 0xEAC);
-    if (*(unsigned char *)(p + 0x16) < 30) {
-        r->mon = (void *)func_021DD2D0((void ***)p, *(unsigned char *)(p + 0x17), 0);
+    if (((struct Obj05437 *)p)->f16 < 30) {
+        r->mon = (void *)func_021DD2D0((void ***)p, ((struct Obj05437 *)p)->f17, 0);
         r->kind = 2;
         r->count = 30;
-        r->slot = *(unsigned char *)(p + 0x16);
+        r->slot = ((struct Obj05437 *)p)->f16;
     } else {
         r->mon = (*(void ***)p)[2];
         r->kind = 1;
         r->count = func_0201AA18((*(void ***)p)[2]);
-        r->slot = *(unsigned char *)(p + 0x16) - 30;
+        r->slot = ((struct Obj05437 *)p)->f16 - 30;
     }
     mode = 0;
     r->zero = 0;
@@ -61,7 +62,7 @@ int func_021DF288(char *p)
     } else {
         r->mode = 0;
     }
-    func_02031348(*(void **)(p + 4), (int)ov131_id, d_021DC800, r);
-    *(Request **)(p + 12) = r;
+    func_02031348(((struct Obj05437 *)p)->f4, (int)ov131_id, d_021DC800, r);
+    *(Request * *)&((struct Obj05437 *)p)->fC = r;
     return 0;
 }

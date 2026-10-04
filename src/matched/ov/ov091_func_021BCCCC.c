@@ -14,6 +14,8 @@
  *   func_021BD05C  0x021BD05C  thumb  ov091
  *   func_021BD59C  0x021BD59C  thumb  ov091
  */
+#include "../include/Obj00047.h"
+#include "../include/Obj07737.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,24 +30,24 @@ void func_021BCCCC(int p)
     int r;
     func_021BCE84((char *)p);
     func_021BCEAC((u8 *)p);
-    r = *(int *)(p + 0x280);
-    if (*(int *)(r + 0x8c) == 1) {
-        switch (*(int *)(r + 0x64)) {
+    r = ((struct Obj00047 *)p)->f280;
+    if (((struct Obj07737 *)r)->f8C == 1) {
+        switch (((struct Obj07737 *)r)->f64) {
         case 1:
-            *(int *)(p + 0x1f4) = func_021BD05C(p, r + 0x74, 10, 0, 2);
+            ((struct Obj00047 *)p)->f1F4 = func_021BD05C(p, r + 0x74, 10, 0, 2);
             break;
         case 2:
-            *(int *)(p + 0x1f0) = func_021BD05C(p, r + 0x68, 0, 0, 0);
-            *(int *)(p + 0x1f4) = func_021BD05C(p, *(int *)(p + 0x280) + 0x74, 0xb, 0, 0);
-            *(int *)(p + 0x1f8) = func_021BD05C(p, *(int *)(p + 0x280) + 0x80, 0x16, 0, 0);
+            ((struct Obj00047 *)p)->f1F0 = func_021BD05C(p, r + 0x68, 0, 0, 0);
+            ((struct Obj00047 *)p)->f1F4 = func_021BD05C(p, ((struct Obj00047 *)p)->f280 + 0x74, 0xb, 0, 0);
+            ((struct Obj00047 *)p)->f1F8 = func_021BD05C(p, ((struct Obj00047 *)p)->f280 + 0x80, 0x16, 0, 0);
             break;
         }
     }
-    r = *(int *)(p + 0x280);
-    *(u8 *)(p + 0x20c) = *(u8 *)(r + 0x94);
-    *(u8 *)(p + 0x20d) = 0;
-    if (*(int *)(r + 0x90) == 1) {
+    r = ((struct Obj00047 *)p)->f280;
+    ((struct Obj00047 *)p)->f20C = ((struct Obj07737 *)r)->f94;
+    ((struct Obj00047 *)p)->f20D = 0;
+    if (((struct Obj07737 *)r)->f90 == 1) {
         func_021BD59C((char *)p);
     }
-    *(u16 *)(p + 0x24e) = 0;
+    ((struct Obj00047 *)p)->f24E = 0;
 }

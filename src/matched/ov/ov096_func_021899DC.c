@@ -16,6 +16,8 @@
  *   func_021D5478  0x021D5478  thumb  ov093
  *   func_021D5448  0x021D5448  thumb  ov093
  */
+#include "../include/Obj00005.h"
+#include "../include/Obj21972.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,7 +46,7 @@ int func_021899DC(int a, int b) {
     t = func_0218A160((u8 *)b, r4);
     s = func_0218A2FC((u8 *)b, t);
     if (func_021D5478((struct Work *)s) >= func_021D5448((struct QG *)s) && func_021D5448((struct QG *)s) > 1) {
-        func_020113B0((struct Cur *)a, *(int *)(a + 0x14) + r7);
+        func_020113B0((struct Cur *)a, *(int *)&((struct Obj00005 *)a)->f14 + r7);
     }
-    return *(int *)(b + 0xc4);
+    return ((struct Obj21972 *)b)->fC4;
 }

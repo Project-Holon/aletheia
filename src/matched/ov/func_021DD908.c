@@ -24,6 +24,7 @@
  * publish record #0x17 (carrying c and the constant 9), then build record #4
  * as two strings and publish it too.
  */
+#include "../include/Obj12152.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,8 +54,8 @@ void func_021DD908(void *a, int b, int c)
     if (func_021D5BDC(func_021C7CF4((int *)b, c), 9) != 0)
         return;
     p = func_021C88A4(b, 0x17, c);
-    *(u8 *)((u8 *)p + 8) = c;
-    *(u32 *)((u8 *)p + 4) = 9;
+    ((struct Obj12152 *)p)->f8 = c;
+    ((struct Obj12152 *)p)->f4 = 9;
     func_021C88C8((void *)b, p);
     q = func_021C88A4(b, 4, c);
     func_021C8838((u8 *)q + 4, 2, 0x3e9);

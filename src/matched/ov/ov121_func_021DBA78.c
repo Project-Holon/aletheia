@@ -9,8 +9,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13957.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_021DBA78(u8 *p,int a) { int v; if(a) v=-1; else v=1; *(signed char *)(p+0xadc)=v; *(u32 *)(p+0xad8)=0; }
+void func_021DBA78(u8 *p,int a) { int v; if(a) v=-1; else v=1; ((struct Obj13957 *)p)->fADC=v; ((struct Obj13957 *)p)->fAD8=0; }

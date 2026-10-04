@@ -15,6 +15,7 @@
  *   func_0215B4AC  0x0215B4AC  thumb  ov010
  *   func_02017E1C  0x02017E1C  thumb
  */
+#include "../include/Obj04130.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,14 +49,14 @@ a2 = (int)(fr + 0);
 loc_0215B684:
     if (a0 != 1) goto loc_0215B6BA;
 loc_0215B688:
-    a0 = *(int *)(fr + 0);
+    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
 a1 = 0xa0;
 a2 = t6 + 0;
     a0 = (int)func_02017E1C((void *)a0, a1, a2);
 loc_0215B692:
 a0 = a0 << 0x10;
 t5 = (unsigned)a0 >> 0x10;
-    a0 = *(int *)(fr + 0);
+    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
 a1 = 0xa1;
 a2 = t6 + 0;
     a0 = (int)func_02017E1C((void *)a0, a1, a2);
@@ -64,7 +65,7 @@ a0 = a0 << 0x10;
 a0 = (unsigned)a0 >> 0x10;
     if (t5 == a0) goto loc_0215B6B6;
 loc_0215B6A8:
-    a0 = *(int *)(fr + 0);
+    a0 = *(int *)&((struct Obj04130 *)fr)->f0;
 a1 = 0x4c;
 a2 = t6 + 0;
     a0 = (int)func_02017E1C((void *)a0, a1, a2);

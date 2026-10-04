@@ -14,6 +14,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021F3CF0     0x021F3CF0  data  a4
  */
+#include "../include/Obj09845.h"
 
 typedef struct { int v[5]; } T5;
 
@@ -28,7 +29,7 @@ void func_021F3978(char *a)
     int i;
 
     for (i = 0; i < 5; i++) {
-        int *p = func_02048F60(0x94, t.v[i], *(unsigned short *)a);
+        int *p = func_02048F60(0x94, t.v[i], ((struct Obj09845 *)a)->f0);
         ((int *)(a + 0x30))[i] = p[0];
         ((int *)(a + 0x44))[i] = p[1];
         func_020307B0(p);

@@ -19,6 +19,7 @@
  *   func_0201F02C  0x0201F02C  thumb
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj19617.h"
 
 typedef unsigned short u16;
 
@@ -46,7 +47,7 @@ void func_02193B68(void *a, int b, int c, int d, u16 e)
     h = (int)func_0200846C((u16)((e & 0x7fff) | 0x8000));
     func_020084A0((struct Sub0200852CObj *)h);
     func_020084D4(h, q + 0x38);
-    func_0200852C((struct Sub0200852CObj *)h, *(int *)(q + 0x48));
+    func_0200852C((struct Sub0200852CObj *)h, ((struct Obj19617 *)q)->f48);
     func_0201F02C((struct WordSet *)b, d, (void *)h);
     func_020307B0((void *)h);
 }

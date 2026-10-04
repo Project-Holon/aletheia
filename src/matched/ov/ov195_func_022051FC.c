@@ -25,6 +25,7 @@
  *   func_02028590 0x02028590 thumb
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj00844.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,25 +55,25 @@ void func_022051FC(int a, char *b)
 {
     u32 p;
 
-    func_02049B40(0x17, 5, 0, 0x20, 0x20, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x70) = func_020450F0(1, 0, 0, 1, 1, 1, 0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(b + 0x70))), 0);
-    func_02045334((struct Descriptor *)*(u32 *)(b + 0x70));
-    *(u32 *)(b + 0x6c) = func_020450F0(1, 1, 0x13, 0x1e, 4, 1, 1);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(b + 0x6c))), 0);
-    p = *(u32 *)(b + 0x6c);
+    func_02049B40(0x17, 5, 0, 0x20, 0x20, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f70 = func_020450F0(1, 0, 0, 1, 1, 1, 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00844 *)b)->f70)), 0);
+    func_02045334((struct Descriptor *)((struct Obj00844 *)b)->f70);
+    ((struct Obj00844 *)b)->f6C = func_020450F0(1, 1, 0x13, 0x1e, 4, 1, 1);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj00844 *)b)->f6C)), 0);
+    p = ((struct Obj00844 *)b)->f6C;
     func_02045334((struct Descriptor *)p);
     func_02045374((struct Cfg *)p);
     func_02041B6C(func_02045730((struct Descriptor *)p));
-    *(u32 *)(b + 0x74) = (u32)func_0201F5DC((void *)1, 2, 0, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x78) = (u32)func_02045B38(0, 2, 0xac, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x7c) = (u32)func_02045B38(0, 2, 0xcc, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x68) = (u32)func_0203101C(*(u16 *)(b + 2), *(u16 *)(b + 2), 1, 0);
+    ((struct Obj00844 *)b)->f74 = (u32)func_0201F5DC((void *)1, 2, 0, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f78 = (u32)func_02045B38(0, 2, 0xac, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f7C = (u32)func_02045B38(0, 2, 0xcc, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f68 = (u32)func_0203101C(((struct Obj00844 *)b)->f2, ((struct Obj00844 *)b)->f2, 1, 0);
     func_0201DD78(1, 2, 0xf);
-    *(u32 *)(b + 0x80) = 0;
-    *(u32 *)(b + 0x64) = 0;
-    *(u32 *)(b + 0x84) = func_02028590(0xf, 1, 1, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x88) = 0;
+    ((struct Obj00844 *)b)->f80 = 0;
+    ((struct Obj00844 *)b)->f64 = 0;
+    ((struct Obj00844 *)b)->f84 = func_02028590(0xf, 1, 1, ((struct Obj00844 *)b)->f2);
+    ((struct Obj00844 *)b)->f88 = 0;
     func_02040588(1, 0);
-    *(u32 *)(b + 0x8c) = 0;
+    ((struct Obj00844 *)b)->f8C = 0;
 }

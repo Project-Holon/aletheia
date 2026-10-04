@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00801.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ void func_021BC168(u32 a0)
     func_0204B3DC((struct Obj *)v1, 0);
     return;
     }
-    *(u16*)(((u8*)s)) = 248;
-    *(u16*)(((u8*)s) + 2) = func_021BC1AC((void *)a0);
+    ((struct Obj00801 *)((u8*)s))->f0 = 248;
+    *(u16 *)&((struct Obj00801 *)(((u8*)s)))->f2 = func_021BC1AC((void *)a0);
     func_0204B404((struct Obj *)v1, (const struct Vec2 *)s, 0);
     func_0204B3DC((struct Obj *)v1, 1);
 }

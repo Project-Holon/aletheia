@@ -11,6 +11,7 @@
  *   func_021DB9E8 0x021DB9E8 thumb ov131
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj14076.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021DB9E8(void *, void *, u8 *);
@@ -23,5 +24,5 @@ void func_021D9D44(void *a, u8 *p)
         func_021DB9E8(a, p, p + 0xb0 + i * 24);
     for (i = 0; i < 13; i++)
         func_020452E8(*(void **)(p + 0x5c + i * 4));
-    *(u32 *)p = 0;
+    ((struct Obj14076 *)p)->f0 = 0;
 }

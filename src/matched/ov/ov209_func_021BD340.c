@@ -12,12 +12,13 @@
  * symbols:
  *   func_021BD314 0x021BD314 thumb
  */
+#include "../include/Obj00088.h"
 
 extern void func_021BD314(char *p, int i);
 
 int func_021BD340(char *a, int arg)
 {
     func_021BD314(a, arg);
-    *(int *)(*(int *)a + 0x10) = 3;
+    *(int *)(*(int *)&((struct Obj00088 *)a)->f0 + 0x10) = 3;
     return 7;
 }

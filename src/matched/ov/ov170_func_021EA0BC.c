@@ -19,6 +19,7 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E0778 0x021E0778 thumb
  */
+#include "../include/Obj00000.h"
 
 typedef struct {
     int pad[9];
@@ -45,7 +46,7 @@ void func_021EA0BC(unsigned char *p, unsigned char i)
     func_021EC768(WORK(p), 0x24, 0);
     func_021ED594(p, 0x24);
     func_021EE038(p, 2, 1, 0);
-    if ((*(Top **)p)->x24 == 4) {
+    if ((*(Top * *)&((struct Obj00000 *)p)->f0)->x24 == 4) {
         func_021EF680(WORK(p));
         func_021EF69C(WORK(p));
         func_02026124(*(void **)(WORK(p) + 0x70), 0x27);

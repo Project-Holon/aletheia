@@ -14,6 +14,7 @@
  *   func_021BD8B0 0x021BD8B0 thumb ov209
  *   func_021BD890 0x021BD890 thumb ov209
  */
+#include "../include/Obj00088.h"
 extern int func_021B93B0(char *);
 extern int func_021B93B8(char *);
 extern int func_021B93C0(char *);
@@ -21,14 +22,14 @@ extern int func_021BD8B0(char *,int);
 extern void func_021BD890(char *,int,int);
 void func_021BE5D4(char *p,int flag)
 {
-    int n=func_021B93B0(*(char **)(p+0xc2c));
+    int n=func_021B93B0(*(char * *)&((struct Obj00088 *)p)->fC2C);
     if (func_021BD8B0(p,7)!=12 || flag==0) {
-        if (func_021B93B8(*(char **)(p+0xc2c))==0 && n==0)
+        if (func_021B93B8(*(char * *)&((struct Obj00088 *)p)->fC2C)==0 && n==0)
             func_021BD890(p,7,18);
         else func_021BD890(p,7,4);
     }
     if (func_021BD8B0(p,6)!=13 || flag==0) {
-        if (func_021B93C0(*(char **)(p+0xc2c))==0 && n==*(int *)(p+0xc34)-1) {
+        if (func_021B93C0(*(char * *)&((struct Obj00088 *)p)->fC2C)==0 && n==((struct Obj00088 *)p)->fC34-1) {
             func_021BD890(p,6,19);
             return;
         }

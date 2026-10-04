@@ -28,6 +28,9 @@
  *   func_021CD95C  0x021CD95C  thumb  ov093
  *   func_021BAB40  0x021BAB40  thumb  ov093
  */
+#include "../include/Obj02131.h"
+#include "../include/Obj21020.h"
+#include "../include/Obj21021.h"
 
 typedef unsigned char u8;
 
@@ -53,9 +56,9 @@ void func_021BA73C(char *p, int x)
     unsigned int i;
     int t;
 
-    t = func_021B6818(*(int **)p);
+    t = func_021B6818(*(int * *)&((struct Obj02131 *)p)->f0);
     func_021D787C(p + 0x3f0);
-    func_021B68D8(p, *(void **)p);
+    func_021B68D8(p, ((struct Obj02131 *)p)->f0);
     func_021B9424(p + 0xc8);
     func_021B9424(p + 0x1b0);
     for (i = 0; i < 4; i++) {
@@ -65,9 +68,9 @@ void func_021BA73C(char *p, int x)
             func_021CD984(*(void **)(p + i * 4 + 0x10), x);
         }
     }
-    func_021E9034((char *)(*(int *)(p + 4)));
+    func_021E9034((char *)(((struct Obj02131 *)p)->f4));
     func_021E8E28((void *)0x13);
-    *(int *)(p + 4) = (int)func_021E8F20(p, *(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
-    func_021CD95C(*(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), *(int *)(p + 4));
-    func_021BAB40((char *)(*(int *)(p + 8)));
+    ((struct Obj02131 *)p)->f4 = (int)func_021E8F20(p, *(void **)(p + (((struct Obj21020 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), (u32)(p + 0xc8), t, 0x13);
+    func_021CD95C(*(void **)(p + (((struct Obj21021 *)(*(char * *)&((struct Obj02131 *)p)->f0))->f21) * 4 + 0x10), ((struct Obj02131 *)p)->f4);
+    func_021BAB40((char *)(((struct Obj02131 *)p)->f8));
 }

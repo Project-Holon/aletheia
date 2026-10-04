@@ -27,6 +27,7 @@
  *   func_02030EAC  0x02030EAC  arm
  *   func_021BC34C  0x021BC34C  thumb  ov208
  */
+#include "../include/Obj03934.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -61,9 +62,9 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
         func_020065D8();
     }
     func_021C3638(a2, st, a4);
-    func_021BC97C(*(char **)(st + 0x80));
-    func_021BC97C(*(char **)(st + 0x7c));
-    func_021BCA54(2, *(u32 *)(st + 0x78));
+    func_021BC97C(*(char * *)&((struct Obj03934 *)st)->f80);
+    func_021BC97C(*(char * *)&((struct Obj03934 *)st)->f7C);
+    func_021BCA54(2, ((struct Obj03934 *)st)->f78);
     for (i = 0; i < 2; i++) {
         func_021C2FEC(a2, (struct S *)st, (u32)a4, i);
     }
@@ -72,13 +73,13 @@ u32 func_021C2644(void *a0, u32 a1, void *a2, u8 *st, void *a4)
     func_021C337C(a2, st, a4);
     func_021C3374(a2, st, a4);
     func_021C2D88(a2, st, a4);
-    func_021BC61C(*(char **)(st + 0xc8));
-    func_021BC464(*(char **)(st + 0xc4));
-    func_021BC464(*(char **)(st + 0xc0));
-    if (*(u32 *)(st + 0xb8) != 3) {
+    func_021BC61C(*(char * *)&((struct Obj03934 *)st)->fC8);
+    func_021BC464(*(char * *)&((struct Obj03934 *)st)->fC4);
+    func_021BC464(*(char * *)&((struct Obj03934 *)st)->fC0);
+    if (((struct Obj03934 *)st)->fB8 != 3) {
         func_021C2BF4(a2, st, a4);
     }
-    func_02030EAC(*(void **)(st + 0xbc));
+    func_02030EAC(((struct Obj03934 *)st)->fBC);
     func_021BC34C((char *)a0);
     return 1;
 }

@@ -25,6 +25,13 @@
  *   func_0204B92C 0x0204B92C arm
  *   d_021BBF14 0x021BBF14 data a4
  */
+#include "../include/Obj02562.h"
+#include "../include/Obj10983.h"
+#include "../include/Obj14803.h"
+#include "../include/Obj26168.h"
+#include "../include/Obj26169.h"
+#include "../include/Obj26170.h"
+#include "../include/Obj26171.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,17 +57,17 @@ void func_021BA41C(char *p)
     u8 i;
     void *loader;
     u32 first;
-    loader=func_020490F4(func_020275E4(),*(u16 *)(*(char **)p+4));
-    *(int *)(p+0x30)=func_0204AC18((void *)((u32)loader),func_02027614(),1,128,0,3,*(u16 *)(*(char **)p+4));
-    *(int *)(p+0x2c)=func_0204A6C8((void *)((u32)loader),func_02027618(),0,1,*(u16 *)(*(char **)p+4));
+    loader=func_020490F4(func_020275E4(),((struct Obj26168 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    *(int *)&((struct Obj02562 *)p)->f30=func_0204AC18((void *)((u32)loader),func_02027614(),1,128,0,3,((struct Obj26169 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
+    *(int *)&((struct Obj02562 *)p)->f2C=func_0204A6C8((void *)((u32)loader),func_02027618(),0,1,((struct Obj26170 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
     first=func_0202761C(0);
-    *(int *)(p+0x34)=func_0204AF28((void *)((u32)loader),first,func_02027620(0),*(u16 *)(*(char **)p+4));
+    *(int *)&((struct Obj02562 *)p)->f34=func_0204AF28((void *)((u32)loader),first,func_02027620(0),((struct Obj26171 *)(*(char * *)&((struct Obj02562 *)p)->f0))->f4);
     func_02049238(loader);
     for(i=0;i<2;i++) {
-        char *parent=*(char **)p;
+        char *parent=*(char * *)&((struct Obj02562 *)p)->f0;
         char *dest=p+i*4;
-        *(struct Obj **)(dest+0x38)=func_0204B294((void *)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x2c),*(u32 *)(p+0x30),*(u32 *)(p+0x34),&d_021BBF14[i*28],1,*(u16 *)(parent+4));
-        func_0204B3DC(*(struct Obj **)(dest+0x38),0);
-        func_0204B92C(*(struct Obj **)(dest+0x38),1);
+        *(struct Obj * *)&((struct Obj10983 *)dest)->f38=func_0204B294((void *)func_021B9A08(((struct Obj14803 *)parent)->f8),((struct Obj02562 *)p)->f2C,((struct Obj02562 *)p)->f30,((struct Obj02562 *)p)->f34,&d_021BBF14[i*28],1,((struct Obj14803 *)parent)->f4);
+        func_0204B3DC(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,0);
+        func_0204B92C(*(struct Obj * *)&((struct Obj10983 *)dest)->f38,1);
     }
 }

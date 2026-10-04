@@ -18,6 +18,7 @@
  *   func_020413B0 0x020413B0 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj13072.h"
 
 typedef unsigned short u16;
 
@@ -33,7 +34,7 @@ extern void func_02041B6C(unsigned);
 
 void func_021F0760(char *p)
 {
-    unsigned h = *(unsigned short *)(p + 2);
+    unsigned h = ((struct Obj13072 *)p)->f2;
     void *a = func_020490F4(0xC3, h);
     unsigned b;
     func_02049BDC(a, 0, 4, 0, 0, 0x40, h);
@@ -42,5 +43,5 @@ void func_021F0760(char *p)
     func_02049238(a);
     func_020413B0(7, 0, 0, 0x20, 0x18, 1);
     func_02041B6C(7);
-    *(unsigned *)(p + 0x10) = b;
+    ((struct Obj13072 *)p)->f10 = b;
 }

@@ -13,6 +13,8 @@
  *   func_021E9100  0x021E9100  thumb  ov093
  *   func_021B8D8C  0x021B8D8C  thumb  ov093
  */
+#include "../include/Obj06283.h"
+#include "../include/Obj13557.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -26,11 +28,11 @@ void func_021EA280(char *ctx, u8 n, int b, const u8 *c, u16 e)
     u32 i;
 
     t = func_021E9100((u8 *)ctx, 0x14);
-    *(int *)(t + 0xc) = b;
+    ((struct Obj06283 *)t)->fC = b;
     t[6] = n;
-    *(u16 *)(t + 0x10) = e;
-    *(u16 *)(t + 8) = 0;
+    ((struct Obj06283 *)t)->f10 = e;
+    ((struct Obj06283 *)t)->f8 = 0;
     for (i = 0; i < n; i++) {
-        t[i] = func_021B8D8C(*(void **)ctx, *(void **)(ctx + 8), c[i]);
+        t[i] = func_021B8D8C(((struct Obj13557 *)ctx)->f0, ((struct Obj13557 *)ctx)->f8, c[i]);
     }
 }

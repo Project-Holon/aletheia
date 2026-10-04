@@ -23,6 +23,9 @@
  *   func_021FC7C4 0x021FC7C4 thumb ov186
  *   d_021E3664 0x021E3664 data a4
  */
+#include "../include/Obj00440.h"
+#include "../include/Obj00785.h"
+#include "../include/Obj10740.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -48,26 +51,26 @@ void func_021DE55C(char *p,char *q)
     char *slot;
     struct U16Vec *text;
     void *base;
-    font=func_021FC20C(*(char **)(q+8));
-    bank=func_021FC214(*(char **)(q+8));
-    words=func_021FC21C(*(char **)(q+8));
-    func_021FB964((void *)(*(int *)(q+8)),17,*(u16 *)(p+0x6c));
+    font=func_021FC20C(*(char * *)&((struct Obj00440 *)q)->f8);
+    bank=func_021FC214(*(char * *)&((struct Obj00440 *)q)->f8);
+    words=func_021FC21C(*(char * *)&((struct Obj00440 *)q)->f8);
+    func_021FB964((void *)(*(int *)&((struct Obj00440 *)q)->f8),17,((struct Obj00785 *)p)->f6C);
     for(i=0;i<18;i++) {
         rec=&d_021E3664[i];
         slot=p+i*4;
-        *(void **)(slot+0x1c)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
-        func_021FC868(*(void **)(slot+0x1c),0,1,0);
-        if(i>=8 && i<=12) {value=func_0200DFD8(*(Row **)(q+0x14),i-3,1);flag=1;}
-        else if(i>=13 && i<=17) {value=func_0200DFD8(*(Row **)(q+0x14),i-8,2);flag=1;}
+        ((struct Obj10740 *)slot)->f1C=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,((struct Obj00785 *)p)->f4,((struct Obj00785 *)p)->f6C);
+        func_021FC868(((struct Obj10740 *)slot)->f1C,0,1,0);
+        if(i>=8 && i<=12) {value=func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,i-3,1);flag=1;}
+        else if(i>=13 && i<=17) {value=func_0200DFD8(*(Row * *)&((struct Obj00440 *)q)->f14,i-8,2);flag=1;}
         else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
         if(flag) {
             base=func_02045EC0((struct MsgBank *)bank,rec->value);
-            text=func_020457B0(128,*(u16 *)(p+0x6c));
+            text=func_020457B0(128,((struct Obj00785 *)p)->f6C);
             func_0201EFA4((struct WordSet *)words,0,value,5,1,1);
             func_0201F250((struct WordSet *)words,text,base);
             func_02045808(base);
         }
-        func_021FC7C4(*(char **)(slot+0x1c),text,(void *)font,0x3da0);
+        func_021FC7C4(*(char * *)&((struct Obj10740 *)slot)->f1C,text,(void *)font,0x3da0);
         func_02045808(text);
     }
 }

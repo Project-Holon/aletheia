@@ -14,6 +14,7 @@
  *   func_02021D50  0x02021D50  thumb
  *   func_0204A648  0x0204A648  arm
  */
+#include "../include/Obj07689.h"
 
 struct S02021D50;
 extern void func_021B97CC(void *p, int v);
@@ -22,14 +23,14 @@ extern void func_0204A648();
 
 void func_021B8600(int u, int p)
 {
-    int s = *(int *)((char *)p + 0x840);
+    int s = ((struct Obj07689 *)p)->f840;
     if (s == 1) {
         func_021B97CC((void *)p, 1);
-        *(int *)((char *)p + 0x840) = 0;
+        ((struct Obj07689 *)p)->f840 = 0;
     } else if (s == 2) {
         func_021B97CC((void *)p, 0);
-        *(int *)((char *)p + 0x840) = 0;
+        ((struct Obj07689 *)p)->f840 = 0;
     }
-    func_02021D50((struct S02021D50 *)(*(int *)((char *)p + 0x854)));
+    func_02021D50((struct S02021D50 *)(((struct Obj07689 *)p)->f854));
     func_0204A648();
 }

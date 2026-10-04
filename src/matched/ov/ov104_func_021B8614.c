@@ -9,7 +9,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22229.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021B8614(u8 *p) { if(*(u16 *)(p+0x78)>=10) return 1; return 0; }
+int func_021B8614(u8 *p) { if(((struct Obj22229 *)p)->f78>=10) return 1; return 0; }

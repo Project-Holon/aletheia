@@ -14,6 +14,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21473.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -27,7 +28,7 @@ void func_021E33EC(int u, int a, int b)
 
     if (b == func_021D775C(2)) {
         s = func_021C88A4(a, 0x23, b);
-        *(int *)(s + 4) = 1;
+        ((struct Obj21473 *)s)->f4 = 1;
         func_021C88C8((void *)a, s);
     }
 }

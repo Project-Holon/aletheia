@@ -21,6 +21,9 @@
  *   func_0201BB5C 0x0201BB5C thumb
  *   func_0201BABC 0x0201BABC thumb
  */
+#include "../include/Obj03268.h"
+#include "../include/Obj13981.h"
+#include "../include/Obj22951.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -51,22 +54,22 @@ void func_021D6AB8(u8 *p)
     int i,n,species,form,gender;
     u32 value;
     u16 id;
-    h = func_020490F4(25, *(u16 *)(p+0x43c4));
+    h = func_020490F4(25, ((struct Obj03268 *)p)->f43C4);
     for (i = 0; i < 20; i++) {
         species = ((struct Obj *)p)->records[i].d;
         if (species) {
-            buf = func_02049250(h,func_02020E60(species,2),*(u16 *)(p+0x43c4));
+            buf = func_02049250(h,func_02020E60(species,2),((struct Obj03268 *)p)->f43C4);
             func_02062A98(buf,(void **)(&out));
-            func_02082D44(*(void **)(out+12),p+0xbc+i*0x224,32);
+            func_02082D44(((struct Obj22951 *)out)->fC,p+0xbc+i*0x224,32);
             func_020307B0(buf);
-            buf2 = func_02049250(h,func_02020E60(species,1),*(u16 *)(p+0x43c4));
+            buf2 = func_02049250(h,func_02020E60(species,1),((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(*(void **)(out2+20),p+0xdc+i*0x224,512);
+            func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+i*0x224,512);
             func_020307B0(buf2);
         }
     }
     func_02049238(h);
-    h2 = func_020490F4(7, *(u16 *)(p+0x43c4));
+    h2 = func_020490F4(7, ((struct Obj03268 *)p)->f43C4);
     for (i = 0; i < 10; i++) {
         n = i+20;
         species = ((struct Obj *)p)->records[n].d;
@@ -75,9 +78,9 @@ void func_021D6AB8(u8 *p)
             form = func_02019D30(species,((struct Obj *)p)->records[n].e);
             value = func_0201BB5C(species,form,gender,0);
             id = func_0201BABC(species,form,gender,0);
-            buf2 = func_02049250(h2,id,*(u16 *)(p+0x43c4));
+            buf2 = func_02049250(h2,id,((struct Obj03268 *)p)->f43C4);
             func_02062A4C(buf2,(void **)(&out2));
-            func_02082D44(*(void **)(out2+20),p+0xdc+n*0x224,512);
+            func_02082D44(((struct Obj13981 *)out2)->f14,p+0xdc+n*0x224,512);
             func_020307B0(buf2);
             *(u32 *)(p+n*0x224+0x2dc) = value;
         }

@@ -14,6 +14,7 @@
  *   func_02028ACC  0x02028ACC  thumb
  *   func_020061F0  0x020061F0  thumb
  */
+#include "../include/Obj12714.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,8 +27,8 @@ void func_020061F0(u32 a, u32 b);
 void func_021A2604(u8 *p, int a, int b)
 {
     if (func_02005C64() == 0) {
-        if (*(u32 *)(p + 0x48) != 0)
-            func_02028ACC((struct SoundSys2 *)(*(u32 *)(p + 0xC)), a, b);
+        if (((struct Obj12714 *)p)->f48 != 0)
+            func_02028ACC((struct SoundSys2 *)(((struct Obj12714 *)p)->fC), a, b);
         else
             func_020061F0(a, b);
     }

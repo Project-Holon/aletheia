@@ -13,6 +13,7 @@
  *   func_02082BCC 0x02082BCC  arm
  *   func_02030734 0x02030734  arm
  */
+#include "../include/Obj08826.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -25,7 +26,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 void func_02036AF4(u8 *p, u32 n, u32 a, u32 b)
 {
     func_02082BCC(p, 0, 0x28);
-    *(u32 *)(p + 0x18) = (u32)func_02030734(b, n * 0x14, 1, (const char *)str_020A79C4, 0x173);
-    *(u32 *)(p + 0x1c) = n;
-    *(u32 *)(p + 0x14) = a;
+    ((struct Obj08826 *)p)->f18 = (u32)func_02030734(b, n * 0x14, 1, (const char *)str_020A79C4, 0x173);
+    ((struct Obj08826 *)p)->f1C = n;
+    ((struct Obj08826 *)p)->f14 = a;
 }

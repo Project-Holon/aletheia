@@ -19,6 +19,14 @@
  *   func_02045808 0x02045808 arm
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj23975.h"
+#include "../include/Obj23977.h"
+#include "../include/Obj23978.h"
+#include "../include/Obj23979.h"
+#include "../include/Obj23980.h"
+#include "../include/Obj23981.h"
+#include "../include/Obj23982.h"
+#include "../include/Obj23983.h"
 
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -38,15 +46,15 @@ extern void func_020257D0(struct Obj *o);
 
 void func_021EB874(char **p, unsigned a, int i)
 {
-    void *s = func_02045EC0(*(void **)(p[11] + 0x80), 0x1E);
+    void *s = func_02045EC0(((struct Obj23975 *)(p[11]))->f80, 0x1E);
     unsigned n = func_020078C4((void *)(((unsigned *)p[0])[1]), a);
-    func_0201EFA4(*(void **)(p[11] + 0x84), 0, n, 2, 0, 1);
-    func_0201F250(*(void **)(p[11] + 0x84), *(void **)(p[11] + 0x88), s);
+    func_0201EFA4(((struct Obj23977 *)(p[11]))->f84, 0, n, 2, 0, 1);
+    func_0201F250(((struct Obj23978 *)(p[11]))->f84, ((struct Obj23979 *)(p[11]))->f88, s);
     func_02043B5C(*(void **)(p[11] + i * 8 + 8), 0);
     if (n == 0x1E)
-        func_0201C7D0(*(void **)(p[11] + i * 8 + 8), 0, 0, *(void **)(p[11] + 0x88), *(void **)(p[11] + 0x7C), 0x1480);
+        func_0201C7D0(*(void **)(p[11] + i * 8 + 8), 0, 0, ((struct Obj23980 *)(p[11]))->f88, ((struct Obj23981 *)(p[11]))->f7C, 0x1480);
     else
-        func_0201C7D0(*(void **)(p[11] + i * 8 + 8), 0, 0, *(void **)(p[11] + 0x88), *(void **)(p[11] + 0x7C), 0x440);
+        func_0201C7D0(*(void **)(p[11] + i * 8 + 8), 0, 0, ((struct Obj23982 *)(p[11]))->f88, ((struct Obj23983 *)(p[11]))->f7C, 0x440);
     func_02045808(s);
     func_020257D0(*(void **)(p[11] + i * 8 + 4));
 }

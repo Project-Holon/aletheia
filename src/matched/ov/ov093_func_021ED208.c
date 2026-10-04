@@ -17,6 +17,7 @@
  *   func_021F7C2C  0x021F7C2C  thumb  ov094
  *   func_021F8118  0x021F8118  thumb  ov094
  */
+#include "../include/Obj13565.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -32,8 +33,8 @@ void func_021ED208(char *p, u8 k, u16 a, int flag)
     int t;
     u32 v;
 
-    t = func_021D59B4(func_021B98AC(*(char *const **)(p + 0x138), k), 0xd);
-    v = func_021B8E70(*(u8 **)(p + 0x134), k);
+    t = func_021D59B4(func_021B98AC(*(char *const * *)&((struct Obj13565 *)p)->f138, k), 0xd);
+    v = func_021B8E70(*(u8 * *)&((struct Obj13565 *)p)->f134, k);
     if (flag == 0) {
         func_021F80FC(v, t);
         func_021F7C2C(v, a);

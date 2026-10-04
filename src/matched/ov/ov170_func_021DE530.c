@@ -18,6 +18,9 @@
  * Clears the seven move slots, then either starts a slide from a to b or,
  * when b is not a movable box, snaps to it.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj01418.h"
+#include "../include/Obj23845.h"
 
 typedef struct {
     unsigned short idx;
@@ -51,8 +54,8 @@ void func_021DE530(unsigned char *p, int a, int b)
         o[i].f6 = 0;
     }
     if (b == 0xFF || func_021DD25C(p, b, p[0x14], 0xA9, 0)) {
-        *(int *)((char *)o + 0xAC) = 0xFF;
-        *(int *)((char *)o + 0xB0) = 0xFF;
+        ((struct Obj01418 *)o)->fAC = 0xFF;
+        ((struct Obj01418 *)o)->fB0 = 0xFF;
         o[0].idx = 0x24;
         o[0].slot = a;
         o[0].f4 = a;
@@ -63,8 +66,8 @@ void func_021DE530(unsigned char *p, int a, int b)
         o[1].f6 = 1;
         func_021DDEFC(p, o);
     } else {
-        *(int *)((char *)o + 0xAC) = a;
-        *(int *)((char *)o + 0xB0) = b;
-        func_021DE120(p, a, func_0201AA18(*(void **)(*(char **)p + 8)) + 0x1E);
+        ((struct Obj01418 *)o)->fAC = a;
+        ((struct Obj01418 *)o)->fB0 = b;
+        func_021DE120(p, a, func_0201AA18(((struct Obj23845 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f8) + 0x1E);
     }
 }

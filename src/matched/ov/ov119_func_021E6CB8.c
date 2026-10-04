@@ -18,6 +18,7 @@
  *   func_02049238 0x02049238 arm
  *   d_021E7E64 0x021E7E64 data a2
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -39,18 +40,18 @@ extern void func_02049238(void *);
 void func_021E6CB8(char *p)
 {
     Table t = d_021E7E64;
-    void *h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
+    void *h = func_020490F4(0x66, ((struct Obj00001 *)p)->f5F4);
     Create c;
     int i;
-    *(u32 *)(p + 0x10ec) = func_0204AC18(h, 0, 1, 0x1c0, 0, 1, *(u16 *)(p + 0x5f4));
-    *(u32 *)(p + 0x10f0) = func_0204AF28(h, 2, 1, *(u16 *)(p + 0x5f4));
+    ((struct Obj00001 *)p)->f10EC = func_0204AC18(h, 0, 1, 0x1c0, 0, 1, ((struct Obj00001 *)p)->f5F4);
+    ((struct Obj00001 *)p)->f10F0 = func_0204AF28(h, 2, 1, ((struct Obj00001 *)p)->f5F4);
     for (i = 0; i < 8; i++) {
-        *(void **)(p + i * 4 + 0x10f4) = func_02043678(16, 6, 32, *(u16 *)(p + 0x5f4));
-        *(u32 *)(p + i * 4 + 0x1114) = func_0204A6C8(h, 3, 0, 1, *(u16 *)(p + 0x5f4));
+        *(void **)(p + i * 4 + 0x10f4) = func_02043678(16, 6, 32, ((struct Obj00001 *)p)->f5F4);
+        *(u32 *)(p + i * 4 + 0x1114) = func_0204A6C8(h, 3, 0, 1, ((struct Obj00001 *)p)->f5F4);
     }
     for (i = 0; i < 8; i++) {
         c.x = *(short *)((char *)&t + i * 4); c.y = *(short *)((char *)&t + i * 4 + 2); c.z = 0; c.a = 0; c.b = 1;
-        *(int *)(p + i * 4 + 0x10cc) = (int)func_0204B294((void *)*(int *)(p + 0x9c4), *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, *(u16 *)(p + 0x5f4));
+        *(int *)(p + i * 4 + 0x10cc) = (int)func_0204B294((void *)((struct Obj00001 *)p)->f9C4, *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, ((struct Obj00001 *)p)->f5F4);
         func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x10cc), 1);
     }
     func_02049238(h);

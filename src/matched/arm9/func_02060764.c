@@ -25,12 +25,13 @@
  *   python tools/match.py one --src src/matched/func_02060764.c \
  *       --func func_02060764 --addr 0x02060764 --cc 1.1p1 --arm
  */
+#include "../include/Obj00512.h"
 
 typedef unsigned short u16;
 
 void func_02060764(int *out, int *blk)
 {
-    int f = *(u16 *)((char *)blk + 2);
+    int f = ((struct Obj00512 *)blk)->f2;
 
     out[0] = (int)blk - (u16)((f >> 8) & 0x7f);
     out[1] = blk[1] + (int)(blk + 4);

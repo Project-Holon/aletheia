@@ -14,13 +14,14 @@
  *
  * Store the third argument, then reset the sub-object.
  */
+#include "../include/Obj00000.h"
 
 
 
 extern void func_021DC9A0(char *, int);
 int func_021E8FC0(char *p, int a, int b)
 {
-    *(int *)(*(int *)(p + 0x2c) + 0x68) = b;
-    func_021DC9A0(*(char **)(p + 0x2c), a);
+    *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0x68) = b;
+    func_021DC9A0(*(char * *)&((struct Obj00000 *)p)->f2C, a);
     return 5;
 }

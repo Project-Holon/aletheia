@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj24949.h"
 
 int func_02204F90(int a, char *b)
 {
-    if (*(int *)(b + 0x30) == 6)
+    if (((struct Obj24949 *)b)->f30 == 6)
         return 1;
     return 0;
 }

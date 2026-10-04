@@ -19,6 +19,8 @@
  *   func_02045808 0x02045808 arm
  *   func_021CA3E8 0x021CA3E8 thumb ov128
  */
+#include "../include/Obj00329.h"
+#include "../include/Obj03811.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -48,17 +50,17 @@ void func_021C867C(u8 *p,u8 *a,int n,u16 heap)
 {
     void *text;
     void *q;
-    if (*(void **)(a + 44)) {
-        func_0201CE48(*(void **)(a + 44));
-        *(void **)(a + 44) = 0;
+    if (((struct Obj00329 *)a)->f2C) {
+        func_0201CE48(((struct Obj00329 *)a)->f2C);
+        ((struct Obj00329 *)a)->f2C = 0;
     }
-    func_02043B5C(func_02045770(*(void **)(p + 0x108)),15);
+    func_02043B5C(func_02045770(((struct Obj03811 *)p)->f108),15);
     text=func_020457B0(128,heap);
-    func_02045CAC(*(void **)(a + 4),n,text);
-    func_0201F250(*(void **)a,*(void **)(p + 0x110),text);
-    *(void **)(a + 44)=func_0201CCE4(*(void **)(p + 0x108),0,0,*(void **)(p + 0x110),*(void **)(a + 0x17c),(void *)func_02012FFC(),*(void **)(a + 40),10,*(u16 *)(a + 0x180),0);
-    func_0201F73C(*(void **)(p + 0x108),2,70,11);
-    q=*(void **)(p + 0x108);
+    func_02045CAC(((struct Obj00329 *)a)->f4,n,text);
+    func_0201F250(((struct Obj00329 *)a)->f0,((struct Obj03811 *)p)->f110,text);
+    ((struct Obj00329 *)a)->f2C=func_0201CCE4(((struct Obj03811 *)p)->f108,0,0,((struct Obj03811 *)p)->f110,((struct Obj00329 *)a)->f17C,(void *)func_02012FFC(),((struct Obj00329 *)a)->f28,10,((struct Obj00329 *)a)->f180,0);
+    func_0201F73C(((struct Obj03811 *)p)->f108,2,70,11);
+    q=((struct Obj03811 *)p)->f108;
     func_02045334(q);
     func_02045374(q);
     func_02041B6C(func_02045730(q));

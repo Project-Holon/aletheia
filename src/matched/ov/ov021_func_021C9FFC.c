@@ -22,6 +22,7 @@
  *   func_0200DA14  0x0200DA14  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,9 +45,9 @@ void func_021C9FFC(u8 *p)
     u8 kind = p[9];
     u16 v = func_021CA234(p);
 
-    func_0200DB08((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind, v);
-    func_0200DAEC((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind, func_0200DAC4((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind));
-    func_0200DB60((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind);
-    func_021CA2DC(p, (u32)func_02012EBC((struct Big *)(*(u32 *)(p + 0x6c))), 1, v);
-    func_0200DA14((struct Blk3C *)(*(u32 *)(p + 0x70)));
+    func_0200DB08((struct Blk1AC *)(((struct Obj00116 *)p)->f74), kind, v);
+    func_0200DAEC((struct Blk1AC *)(((struct Obj00116 *)p)->f74), kind, func_0200DAC4((struct Blk1AC *)(((struct Obj00116 *)p)->f74), kind));
+    func_0200DB60((struct Blk1AC *)(((struct Obj00116 *)p)->f74), kind);
+    func_021CA2DC(p, (u32)func_02012EBC((struct Big *)(*(u32 *)&((struct Obj00116 *)p)->f6C)), 1, v);
+    func_0200DA14((struct Blk3C *)(((struct Obj00116 *)p)->f70));
 }

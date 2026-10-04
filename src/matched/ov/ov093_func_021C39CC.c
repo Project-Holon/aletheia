@@ -12,6 +12,7 @@
  *   func_021B8588 0x021B8588 thumb ov093
  *   func_021B86B8 0x021B86B8 thumb ov093
  */
+#include "../include/Obj13329.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
@@ -21,8 +22,8 @@ BOOL func_021C39CC(u8 *p)
 {
     u32 a;
     void *b;
-    a = func_021B8588(*(void **)(p + 4));
-    b = func_021B86B8(*(void ****)(p + 4));
+    a = func_021B8588(((struct Obj13329 *)p)->f4);
+    b = func_021B86B8(*(void *** *)&((struct Obj13329 *)p)->f4);
     if (a == 0) {
         if (b == 0) {
             return FALSE;

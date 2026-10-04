@@ -15,6 +15,7 @@
  *   func_021BEDF0  0x021BEDF0  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern void func_021BEDF0(int p, int i, int v);
 
 u32 func_021BD388(u8 *p)
 {
-    u32 *ctx = *(u32 **)p;
+    u32 *ctx = *(u32 * *)&((struct Obj00222 *)p)->f0;
 
     func_021C9380((struct Blk37 *)ctx[1], (u8 *)ctx[2]);
     func_021BE564(p);

@@ -28,6 +28,7 @@
  *   func_021BDC20 0x021BDC20 thumb ov203
  *   ov067_id 0x00000043 data a1
  */
+#include "../include/Obj06663.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Work { u16 heap, pad; void *arg; int state; void *view, *str, *msg, *model, *ctx; int tail[3]; } Work;
@@ -62,7 +63,7 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     func_02082BCC(w, 0, sizeof(Work));
     w->heap = heap;
     w->arg = p;
-    w->view = func_021BDDD8(1, *(void **)(p + 4), w->heap);
+    w->view = func_021BDDD8(1, ((struct Obj06663 *)p)->f4, w->heap);
     w->msg = func_02045B38(0, 2, 0x41, w->heap);
     w->str = (void *)func_0201C440((void *)w->heap);
     func_02040588(6, 0);
@@ -73,9 +74,9 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     func_020434DC(0x10, 0);
     func_02043598(0x10, 0);
     w->model = func_021BE160(w->view, p, w->heap);
-    w->ctx = func_021BDCC0(*(int *)(p + 4), w->view, w->model, w->heap);
-    delta = func_021BE62C(w->model) - *(int *)(p + 8);
-    func_021BE948(*(void **)(p + 4), 0, &width, &height);
-    if (delta > height) func_021BDC20(*(unsigned *)(p + 4), one, w->heap);
+    w->ctx = func_021BDCC0(*(int *)&((struct Obj06663 *)p)->f4, w->view, w->model, w->heap);
+    delta = func_021BE62C(w->model) - ((struct Obj06663 *)p)->f8;
+    func_021BE948(((struct Obj06663 *)p)->f4, 0, &width, &height);
+    if (delta > height) func_021BDC20(*(unsigned *)&((struct Obj06663 *)p)->f4, one, w->heap);
     return 1;
 }

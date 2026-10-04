@@ -11,13 +11,14 @@
  * symbols:
  *   func_0689B548 0x0689B548 thumb ov095
  */
+#include "../include/Obj21896.h"
 typedef unsigned char u8;
 extern int func_0689B548(void *, int, int);
 int func_0689B524(void *p, u8 *q)
 {
     int zero = 0;
     int value;
-    value = func_0689B548(*(void **)((char *)p + 0xb0), 0, 0);
+    value = func_0689B548(((struct Obj21896 *)p)->fB0, 0, 0);
     if (value != zero - 1) {
         *q = value;
         return 1;

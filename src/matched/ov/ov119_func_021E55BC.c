@@ -20,6 +20,7 @@
  *   func_02048AD0 0x02048AD0 arm
  *   func_02046BE0 0x02046BE0 arm
  */
+#include "../include/Obj08072.h"
 typedef unsigned short u16;
 typedef short s16;
 typedef struct { int x,y,z; } Vec;
@@ -36,11 +37,11 @@ void func_021E55BC(char *p)
 {
     u16 heap;
     Vec v;
-    func_02046440(0,2,0,1,0,(*(u16 *)(p+0x5f4)&0x7fff)|0x8000,func_021E5520);
-    heap = (*(u16 *)(p+0x5f4)&0x7fff)|0x8000;
+    func_02046440(0,2,0,1,0,(((struct Obj08072 *)p)->f5F4&0x7fff)|0x8000,func_021E5520);
+    heap = (((struct Obj08072 *)p)->f5F4&0x7fff)|0x8000;
     v = d_021E7DE0;
-    *(int *)(p+0x810) = func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021E7CA0,&v,&d_021E7C94,heap);
-    func_02048AD0((struct Light *)(*(int *)(p+0x810)));
+    ((struct Obj08072 *)p)->f810 = func_02048A24(0,d_020A1EB8[6],d_020A1EB8[7],0x1555,0,0x1000,0x400000,0,&d_021E7CA0,&v,&d_021E7C94,heap);
+    func_02048AD0((struct Light *)(((struct Obj08072 *)p)->f810));
     *(volatile u16 *)0x04000060 &= 0xcfdf;
     func_02046BE0(0,0);
 }

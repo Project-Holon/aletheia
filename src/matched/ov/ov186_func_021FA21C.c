@@ -10,6 +10,7 @@
  *   func_021FD73C 0x021FD73C thumb
  *   func_021FA284 0x021FA284 thumb
  */
+#include "../include/Obj06627.h"
 extern void func_021FAFC0(char *p, unsigned value);
 extern void func_021FD73C(int *p, int v);
 extern void func_021FA284(void *p, int *state, unsigned char *ctx);
@@ -22,9 +23,9 @@ void func_021FA21C(unsigned char *ctx, int mode)
         case 1: selected = (i >= ctx[0x3b] - 2); break;
         }
         if (selected)
-            func_021FAFC0(*(char **)(ctx + 0x3c) + i * 0x44, 0);
+            func_021FAFC0(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 0);
         else
-            func_021FAFC0(*(char **)(ctx + 0x3c) + i * 0x44, 1);
+            func_021FAFC0(*(char * *)&((struct Obj06627 *)ctx)->f3C + i * 0x44, 1);
     }
 }
 void func_021FA274(void *p)

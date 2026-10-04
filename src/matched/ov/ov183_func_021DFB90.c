@@ -21,6 +21,8 @@
  *   d_021E3734 0x021E3734 data a2
  *   d_021E3740 0x021E3740 data a4
  */
+#include "../include/Obj05477.h"
+#include "../include/Obj05478.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Request { u16 x,y,id; u8 flag,pad; };
@@ -44,21 +46,21 @@ int func_021DFB90(char *p,char *q)
     struct Triple triple;
     const struct Rec6 *r;
     const struct Rec8 *s;
-    first=func_021FC20C(*(char **)(q+8));
-    second=func_021FC214(*(char **)(q+8));
-    func_021FB964((void *)(*(int *)(q+8)),26,*(u16 *)(p+0x54));
+    first=func_021FC20C(*(char * *)&((struct Obj05478 *)q)->f8);
+    second=func_021FC214(*(char * *)&((struct Obj05478 *)q)->f8);
+    func_021FB964((void *)(*(int *)&((struct Obj05478 *)q)->f8),26,((struct Obj05477 *)p)->f54);
     func_02082BCC(&req,0,8);
-    func_021FC124(*(int *)(q+8),6,&triple);
+    func_021FC124(*(int *)&((struct Obj05478 *)q)->f8,6,&triple);
     for(i=0;i<2;i++) {
         r=&d_021E3734[i];
         req.x=r->x; req.y=r->y; req.id=r->id; req.flag=1;
-        *(void **)(p+0xc+i*4)=func_021FB378(&req,r->file,0x60,1,*(int *)(q+4),*(int *)(p+0x44),first,second,&triple,*(u16 *)(p+0x54));
+        *(void **)(p+0xc+i*4)=func_021FB378(&req,r->file,0x60,1,((struct Obj05478 *)q)->f4,((struct Obj05477 *)p)->f44,first,second,&triple,((struct Obj05477 *)p)->f54);
     }
     for(i=0;i<3;i++) {
         s=&d_021E3740[i];
-        *(void **)(p+i*4)=func_021FC6A4(4,s->a,s->b,s->c,s->d,14,*(void **)(p+0x48),*(u16 *)(p+0x54));
+        *(void **)(p+i*4)=func_021FC6A4(4,s->a,s->b,s->c,s->d,14,((struct Obj05477 *)p)->f48,((struct Obj05477 *)p)->f54);
         func_021FC754(*(char **)(p+i*4),(void *)second,s->value,(void *)first,0x3da0);
     }
-    func_021FD170(*(void **)(p+0x38),(char *)(*(int *)(q+8)),(void *)107);
+    func_021FD170(((struct Obj05477 *)p)->f38,(char *)(*(int *)&((struct Obj05478 *)q)->f8),(void *)107);
     return 1;
 }

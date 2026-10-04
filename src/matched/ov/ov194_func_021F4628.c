@@ -9,4 +9,5 @@
  * isa: thumb
  * status: EXACT
  */
-unsigned func_021F4628(unsigned char *p){return *(unsigned *)(p+4);}
+#include "../include/Obj24921.h"
+unsigned func_021F4628(unsigned char *p){return ((struct Obj24921 *)p)->f4;}

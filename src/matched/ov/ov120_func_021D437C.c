@@ -9,8 +9,9 @@
  * status: EXACT
  * follower: separately filed 021D439C.
  */
+#include "../include/Obj06432.h"
 void func_021D437C(int n, char *p) {
-    *(int *)(p+0x140)+=n;
-    if(*(int *)(p+0x140)>=5) *(int *)(p+0x140)=0;
-    else if(*(int *)(p+0x140)<0) *(int *)(p+0x140)=4;
+    ((struct Obj06432 *)p)->f140+=n;
+    if(((struct Obj06432 *)p)->f140>=5) ((struct Obj06432 *)p)->f140=0;
+    else if(((struct Obj06432 *)p)->f140<0) ((struct Obj06432 *)p)->f140=4;
 }

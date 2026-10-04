@@ -21,6 +21,7 @@
  *   func_021D8EC8 0x021D8EC8 thumb ov175
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
+#include "../include/Obj00013.h"
 typedef unsigned long u32;
 typedef unsigned char  u8;
 extern int func_021D9F04(char *ctx, void *a, void *b);
@@ -38,7 +39,7 @@ void func_021D8FA8(u32 sys, int *state, char *ctx)
     int result;
     switch (*state) {
     case 0:
-        result = func_021D9F04(*(void **)(ctx + 0x34), (void *)1, 0);
+        result = func_021D9F04(((struct Obj00013 *)ctx)->f34, (void *)1, 0);
         switch (result) {
         case 1: case 2:
             func_021E8AA0((int *)sys, (int)func_021D9064);
@@ -53,14 +54,14 @@ void func_021D8FA8(u32 sys, int *state, char *ctx)
         result = func_021D9A30(ctx);
         if (result != 0xffff) *state = 2;
         if (result == 3) func_021E8AA0((int *)sys, (int)func_021D9064);
-        result = func_021D9F04(*(void **)(ctx + 0x34), (void *)1, 0);
+        result = func_021D9F04(((struct Obj00013 *)ctx)->f34, (void *)1, 0);
         switch (result) {
         case 1: case 2: func_021E8AA0((int *)sys, (int)func_021D9064); break;
         }
         break;
     case 2: func_021E8AA0((int *)sys, (int)func_021D8EC8); break;
     case 3:
-        if (func_021E8844((const int *)(*(u32 *)(ctx + 0x2c)))) func_021E8AB8(sys);
+        if (func_021E8844((const int *)(((struct Obj00013 *)ctx)->f2C))) func_021E8AB8(sys);
         break;
     }
 }

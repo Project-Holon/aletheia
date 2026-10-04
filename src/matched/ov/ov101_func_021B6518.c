@@ -11,9 +11,10 @@
  * symbols:
  *   func_021B678C 0x021B678C thumb ov101
  */
+#include "../include/Obj22095.h"
 typedef unsigned int u32;
 extern int func_021B678C(int *p, int a, int b);
 int func_021B6518(u32 p,u32 a,u32 b) {
-    if(*(u32 *)(p+0x78)!=0) return 1;
+    if(((struct Obj22095 *)p)->f78!=0) return 1;
     return func_021B678C((int *)(p+4),a,b);
 }

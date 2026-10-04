@@ -20,6 +20,8 @@
  *   func_02045334  0x02045334  arm
  *   func_02043598  0x02043598  arm
  */
+#include "../include/Obj00008.h"
+#include "../include/Obj22020.h"
 
 typedef unsigned char u8;
 
@@ -41,16 +43,16 @@ void func_021BB2F0(char *p, int v)
 {
     char *q;
 
-    func_02009864(*(void **)(p + 4), *(u8 *)(p + 0x8ED) - 1, 9);
-    q = *(char **)(p + 0x8C0);
-    func_02040AF0(6, q + 0xC, (u32)(*(void **)(q + 8)), 0);
+    func_02009864(((struct Obj00008 *)p)->f4, ((struct Obj00008 *)p)->f8ED - 1, 9);
+    q = *(char * *)&((struct Obj00008 *)p)->f8C0;
+    func_02040AF0(6, q + 0xC, (u32)(((struct Obj22020 *)q)->f8), 0);
     func_020414AC(7);
-    func_02043B5C(func_02045770(*(void **)(p + 0x95C)), 0);
-    func_02043B5C(func_02045770(*(void **)(p + 0x958)), 0);
+    func_02043B5C(func_02045770(((struct Obj00008 *)p)->f95C), 0);
+    func_02043B5C(func_02045770(((struct Obj00008 *)p)->f958), 0);
     func_021BB528(p, v);
     func_02041B6C(7);
-    func_02045334(*(void **)(p + 0x95C));
-    func_02045334(*(void **)(p + 0x958));
+    func_02045334(((struct Obj00008 *)p)->f95C);
+    func_02045334(((struct Obj00008 *)p)->f958);
     func_02043598(2, 0);
     func_02043598(8, 1);
 }

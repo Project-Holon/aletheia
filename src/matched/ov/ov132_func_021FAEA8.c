@@ -13,6 +13,7 @@
  *   func_021F8044 0x021F8044 thumb ov112
  *   func_0207C9D0 0x0207C9D0 arm
  */
+#include "../include/Obj06489.h"
 typedef unsigned short u16;
 extern void *func_021F9DA0(char *p);
 extern void func_021F8044(void *, int, void *);
@@ -20,9 +21,9 @@ extern void func_0207C9D0(void *, void *, void *);
 int func_021FAEA8(char *p, void *out)
 {
     int v[3];
-    func_021F8044(func_021F9DA0(*(void **)p), *(int *)(p + 4), v);
+    func_021F8044(func_021F9DA0(((struct Obj06489 *)p)->f0), ((struct Obj06489 *)p)->f4, v);
     func_0207C9D0(v, p + 8, out);
-    (*(u16 *)(p + 0x16))++;
-    if (*(u16 *)(p + 0x16) >= *(u16 *)(p + 0x14)) return 1;
+    (((struct Obj06489 *)p)->f16)++;
+    if (((struct Obj06489 *)p)->f16 >= ((struct Obj06489 *)p)->f14) return 1;
     return 0;
 }

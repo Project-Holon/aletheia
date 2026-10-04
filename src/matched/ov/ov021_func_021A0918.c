@@ -17,6 +17,7 @@
  *   d_020A1B38  0x020A1B38  data  a2
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19698.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_021A0918(u8 *a, s32 x, s32 y, s16 *out)
     s32 vx, vy, vz;
     u32 i;
 
-    i = (u16)(*(u16 *)(a + 0x18) * x / y) >> 4;
+    i = (u16)(((struct Obj19698 *)a)->f18 * x / y) >> 4;
     func_0207B65C(m, a + 0xc, d_020A1B38[i * 2], d_020A1B38[i * 2 + 1]);
     func_0207BC08(a, m, v);
     func_0207CCA4(v, v);

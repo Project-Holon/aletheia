@@ -15,6 +15,7 @@
  *   func_021DCBA4 0x021DCBA4 thumb ov171
  *   func_021DD4D0 0x021DD4D0 thumb ov171
  */
+#include "../include/Obj00142.h"
 typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,13 +28,13 @@ int func_021DD3F4(char *p)
 {
     unsigned i;
     if (!func_021DD774(p)) {
-        for (i = 0; i < *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4); ++i)
+        for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i)
             *(u8 *)(p + i + 0xb34) = *(u8 *)(p + i + 0xb40);
         func_021DCBE8(p);
         func_021DDC28(p);
         return 7;
     } else {
-        for (i = 0; i < *(u16 *)(p + *(s8 *)(p + 0xc5e) * 0xbc + 0xc4); ++i) {
+        for (i = 0; i < *(u16 *)(p + ((struct Obj00142 *)p)->fC5E * 0xbc + 0xc4); ++i) {
             if (*(u8 *)(p + i + 0xb3a) > *(u8 *)(p + i + 0xb40))
                 --*(u8 *)(p + i + 0xb3a);
             else if (*(u8 *)(p + i + 0xb3a) < *(u8 *)(p + i + 0xb40))

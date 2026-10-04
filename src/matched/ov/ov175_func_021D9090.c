@@ -36,6 +36,8 @@
  *   func_02012DAC 0x02012DAC thumb
  *   func_02012DD0 0x02012DD0 thumb
  */
+#include "../include/Obj00728.h"
+#include "../include/Obj08277.h"
 typedef unsigned long u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -66,7 +68,7 @@ extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_02082BCC(void *,int,unsigned);
 void func_021D9090(u32 sys,int *state,char *p)
 {
-    char *q=*(char **)(p+260);
+    char *q=*(char * *)&((struct Obj00728 *)p)->f104;
     struct RTCDate startDate;
     struct RTCDate endDate;
     struct RTCDate nowDate;
@@ -78,7 +80,7 @@ void func_021D9090(u32 sys,int *state,char *p)
     int startDay,endDay,nowDay,v;
     switch(*state) {
     case 0:*state=1;break;
-    case 1:reg=*(struct Reg2 **)(p+264);
+    case 1:reg=*(struct Reg2 * *)&((struct Obj00728 *)p)->f108;
         if(!func_0203CD98())func_0200FA84();
         got=func_02167ED8((int *)&nowDate,(int *)&nowTime);
         if(got)func_020891E0(&nowDate,&nowTime,func_02089004(&nowDate,&nowTime));
@@ -91,40 +93,40 @@ void func_021D9090(u32 sys,int *state,char *p)
         startDay=func_02088F58(&startDate);
         endDay=func_02088F58(&endDate);
         nowDay=func_02088F58(&nowDate);
-        if(got && nowDay<startDay) {*(u32 *)(p+64)=2;*state=2;}
-        else if(got && startDay<=nowDay && nowDay<=endDay) {*(u32 *)(p+64)=0;*state=13;}
-        else {*(u32 *)(p+64)=1;*state=3;}
+        if(got && nowDay<startDay) {((struct Obj00728 *)p)->f40=2;*state=2;}
+        else if(got && startDay<=nowDay && nowDay<=endDay) {((struct Obj00728 *)p)->f40=0;*state=13;}
+        else {((struct Obj00728 *)p)->f40=1;*state=3;}
         break;
-    case 2:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),96,1);
+    case 2:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,96,1);
         *state=14;func_021E8AB4(sys,13);break;
-    case 3:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),80,1);
+    case 3:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,80,1);
         *state=14;func_021E8AB4(sys,4);break;
     case 4:if((u8)((*(u8 **)(q+48))[5]+255)<=1) *state=5;
         else *state=13;break;
-    case 5:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),40,2);
+    case 5:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,40,2);
         *state=14;func_021E8AB4(sys,6);break;
-    case 6:box=func_0200BAC8(func_02012EBC(**(void ***)(q+8)));
-        *(u32 *)(p+620)=func_0200BBFC(box,1);
+    case 6:box=func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+        ((struct Obj00728 *)p)->f26C=func_0200BBFC(box,1);
         func_0200BBD8(box,1);
-        func_0200B110(*(struct Reg2 **)(p+264),10,3);
-        func_02012DAC(**(int **)(q+8));*state=7;break;
-    case 7:if(func_02012DD0(**(void ***)(q+8))==2) *state=8;break;
-    case 8:func_0200BAC8(func_02012EBC(**(void ***)(q+8)));
-        if(*(u32 *)(p+620)!=0) *state=9;else *state=10;break;
+        func_0200B110(*(struct Reg2 * *)&((struct Obj00728 *)p)->f108,10,3);
+        func_02012DAC(**(int * *)&((struct Obj08277 *)q)->f8);*state=7;break;
+    case 7:if(func_02012DD0(**(void ** *)&((struct Obj08277 *)q)->f8)==2) *state=8;break;
+    case 8:func_0200BAC8(func_02012EBC(**(void ** *)&((struct Obj08277 *)q)->f8));
+        if(((struct Obj00728 *)p)->f26C!=0) *state=9;else *state=10;break;
     case 9:func_021D97E4(p,1);
-        func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),81,1);
+        func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,81,1);
         *state=14;func_021E8AB4(sys,10);break;
-    case 10:func_021E8738((int *)(*(u32 *)(p+44)),*(u32 *)(p+20),70,2);
+    case 10:func_021E8738((int *)(((struct Obj00728 *)p)->f2C),((struct Obj00728 *)p)->f14,70,2);
         *state=14;func_021E8AB4(sys,11);break;
     case 11:func_02082BCC(&req,0,8);req.b=3;
-        req.id=func_021DD020(*(char **)(p+52));
-        (*(u8 **)(*(char **)(p+260)+48))[5]=3;
-        func_021DC8B4(*(char **)(p+52),&req,87);*state=12;break;
-    case 12:v=func_021DC908(*(char **)(p+52));
+        req.id=func_021DD020(*(char * *)&((struct Obj00728 *)p)->f34);
+        (*(u8 **)(*(char * *)&((struct Obj00728 *)p)->f104+48))[5]=3;
+        func_021DC8B4(*(char * *)&((struct Obj00728 *)p)->f34,&req,87);*state=12;break;
+    case 12:v=func_021DC908(*(char * *)&((struct Obj00728 *)p)->f34);
         if(v==1) *state=13;
-        else if(v==3) {*(u32 *)(p+64)=3;*state=13;}
+        else if(v==3) {((struct Obj00728 *)p)->f40=3;*state=13;}
         break;
     case 13:func_021E8AA8(sys);break;
-    case 14:if(func_021E8844((const int *)(*(u32 *)(p+44))))func_021E8AB8(sys);break;
+    case 14:if(func_021E8844((const int *)(((struct Obj00728 *)p)->f2C)))func_021E8AB8(sys);break;
     }
 }

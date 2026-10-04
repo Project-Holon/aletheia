@@ -24,6 +24,7 @@
  *   func_0201F250 0x0201F250 thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02390.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,11 +50,11 @@ void func_021B4510(u8 *p, int a, u8 b)
 
     w = (char *)func_02020D0C(p);
     if (a != -2) {
-        func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 1, *(u32 *)(w + a * 8 + 0x24), 5, 0, 1);
-        func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)(*(u32 *)(w + 0x198)), (void *)(*(u32 *)(w + 0x194)));
-        lo = func_0201D304((struct StrObj *)(*(u32 *)(w + 0x198)), *(u32 *)(w + 8), 0);
-        hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C))));
-        func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
-                      *(u32 *)(w + 0x198), *(u32 *)(w + 8), 0x31A0);
+        func_0201EFA4((struct WordSet *)(((struct Obj02390 *)w)->f190), 1, *(u32 *)(w + a * 8 + 0x24), 5, 0, 1);
+        func_0201F250((struct WordSet *)(((struct Obj02390 *)w)->f190), (void *)(((struct Obj02390 *)w)->f198), (void *)(((struct Obj02390 *)w)->f194));
+        lo = func_0201D304((struct StrObj *)(((struct Obj02390 *)w)->f198), ((struct Obj02390 *)w)->f8, 0);
+        hi = func_020437DC((const struct Bmp *)((u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C)));
+        func_021B44CC(((struct Obj02390 *)w)->f1B0, (u32)func_02045770((struct Descriptor *)((struct Obj02390 *)w)->f16C), hi - lo, b,
+                      ((struct Obj02390 *)w)->f198, ((struct Obj02390 *)w)->f8, 0x31A0);
     }
 }

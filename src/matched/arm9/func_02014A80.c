@@ -36,6 +36,7 @@
  *   python tools/match.py one --src src/matched/func_02014A80.c \
  *       --func func_02014A80 --addr 0x02014A80 --cc 1.1p1 --thumb
  */
+#include "../include/Obj02990.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -60,7 +61,7 @@ void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
         do {
             e = a0 + i * 0x34;
             v = 0xE10 * (s32)func_02011400(a3, *(u16 *)(a0 + i * 0x34));
-            v += *(s16 *)(e + 2) * 0x3C;
+            v += ((struct Obj02990 *)e)->f2 * 0x3C;
             if (best <= a2 && v > a2) {
                 break;
             }
@@ -71,12 +72,12 @@ void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)
 
     k = i % a1;
     e = a0 + k * 0x34;
-    out[0] = *(u16 *)(e + 8);
-    out[1] = *(u16 *)(e + 0xa);
-    out[2] = *(u16 *)(e + 0xc);
-    out[3] = *(u16 *)(e + 0xe);
-    out[4] = *(u16 *)(e + 0x28);
-    out[5] = *(u16 *)(e + 0x2a);
-    out[6] = *(u16 *)(e + 0x2c);
-    out[7] = *(u16 *)(e + 0x2e);
+    out[0] = ((struct Obj02990 *)e)->f8;
+    out[1] = ((struct Obj02990 *)e)->fA;
+    out[2] = ((struct Obj02990 *)e)->fC;
+    out[3] = ((struct Obj02990 *)e)->fE;
+    out[4] = ((struct Obj02990 *)e)->f28;
+    out[5] = ((struct Obj02990 *)e)->f2A;
+    out[6] = ((struct Obj02990 *)e)->f2C;
+    out[7] = ((struct Obj02990 *)e)->f2E;
 }

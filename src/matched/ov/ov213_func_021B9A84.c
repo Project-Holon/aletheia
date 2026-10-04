@@ -13,6 +13,7 @@
  *   func_021BAA8C 0x021BAA8C thumb ov213
  *   func_021BA5A0 0x021BA5A0 thumb ov213
  */
+#include "../include/Obj02260.h"
 typedef unsigned short u16;
 extern void func_021BA38C(char *);
 extern int func_021B9E50(unsigned),func_021BAA8C(char *);
@@ -21,15 +22,15 @@ int func_021B9A84(int unused,char *p)
 {
     u16 a,b;
     func_021BA38C(p);
-    if(func_021B9E50(*(unsigned char *)(p+0x49C8))) {
-        a=func_021BAA8C(*(char **)(p+4));
-        b=func_021BAA8C(*(char **)(p+4)+16);
+    if(func_021B9E50(((struct Obj02260 *)p)->f49C8)) {
+        a=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4);
+        b=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+16);
     } else {
-        a=func_021BAA8C(*(char **)(p+4));
-        a+=func_021BAA8C(*(char **)(p+4)+16);
-        b=func_021BAA8C(*(char **)(p+4)+32);
-        b+=func_021BAA8C(*(char **)(p+4)+48);
+        a=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4);
+        a+=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+16);
+        b=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+32);
+        b+=func_021BAA8C(*(char * *)&((struct Obj02260 *)p)->f4+48);
     }
-    func_021BA5A0(p+0x498C,p+0xC,p+0x24,a,b,*(unsigned char *)(p+0x49C8));
+    func_021BA5A0(p+0x498C,p+0xC,p+0x24,a,b,((struct Obj02260 *)p)->f49C8);
     return 1;
 }

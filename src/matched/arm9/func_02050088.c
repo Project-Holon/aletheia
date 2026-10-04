@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj11450.h"
 
-void func_02050088(int p0, int p1, int p2, int p3){ *(unsigned short *)(p0) = (unsigned short)0xFFFF; *(int *)((p0 + 4)) = (int)0; }
+void func_02050088(int p0, int p1, int p2, int p3){ ((struct Obj11450 *)p0)->f0 = (unsigned short)0xFFFF; ((struct Obj11450 *)p0)->f4 = (int)0; }

@@ -14,6 +14,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB304 0x021DB304 thumb ov119
  */
+#include "../include/Obj01055.h"
 extern void func_021E5C64(char *p);
 typedef unsigned int   u32;
 struct MsgBank;
@@ -24,7 +25,7 @@ extern void func_021DB304(char *p);
 void func_021DB41C(char *p)
 {
     func_021E5C64(p);
-    func_02045CAC((struct MsgBank *)(*(int *)(p+0x720)),0x33,(void *)(*(int *)(p+0x738)));
+    func_02045CAC((struct MsgBank *)(((struct Obj01055 *)p)->f720),0x33,(void *)(*(int *)&((struct Obj01055 *)p)->f738));
     func_021E0EF4(p,1,1,1,0x1d,4);
     func_021D8E84(p,(int)func_021DB304);
 }

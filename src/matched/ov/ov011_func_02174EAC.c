@@ -26,6 +26,7 @@
  * Verified C for the leaf: void func_02008494(u8 *a, int b) style thunk;
  * needs Ilias's arm9 leaf filed to promote this to EXACT.
  */
+#include "../include/Obj00269.h"
 
 typedef unsigned char u8;
 
@@ -54,7 +55,7 @@ void func_02174EAC(u8 *p, int idx, u8 *q)
     int a;
     int flag;
 
-    ctx = func_02026478(*(int *)(p + 4));
+    ctx = func_02026478(((struct Obj00269 *)p)->f4);
     flag = 0;
     a = func_02012950(ctx, idx);
     if (p[0x8FB] & (1 << idx)) {
@@ -71,6 +72,6 @@ skip:
     func_02174F54(p, idx, q + 0x30, 1);
     p[0x8FB] |= (u8)(1 << idx);
     if (flag == 1 && idx != func_02039338()) {
-        func_020266D4(*(int *)(p + 4), idx);
+        func_020266D4(((struct Obj00269 *)p)->f4, idx);
     }
 }

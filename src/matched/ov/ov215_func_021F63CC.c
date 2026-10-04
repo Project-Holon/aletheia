@@ -26,6 +26,7 @@
  *   d_021F73E0 0x021F73E0 data a4
  *   d_021F71C4 0x021F71C4 data a4
  */
+#include "../include/Obj25749.h"
 typedef unsigned short u16;
 extern const char d_021F73E0[];
 extern const unsigned d_021F71C4[];
@@ -63,6 +64,6 @@ char *func_021F63CC(unsigned mode,u16 heap)
     func_021F651C(p,heap);
     func_021F65C0(p+4,(int)d_021F71C4,heap);
     func_021F6630(p+8,heap);
-    *(void **)(p+12)=func_020056A0(func_021F6508,p,0);
+    ((struct Obj25749 *)p)->fC=func_020056A0(func_021F6508,p,0);
     return p;
 }

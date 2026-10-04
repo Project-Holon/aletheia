@@ -16,8 +16,9 @@
  * symbols:
  *   func_02015FBC  0x02015FBC  thumb
  */
+#include "../include/Obj00933.h"
 
 void func_02015FBC(char *p, int v)
 {
-    *(int *)(p + 0x140) = (*(int *)(p + 0x140) & ~0xFF) | (unsigned char)v;
+    ((struct Obj00933 *)p)->f140 = (((struct Obj00933 *)p)->f140 & ~0xFF) | (unsigned char)v;
 }

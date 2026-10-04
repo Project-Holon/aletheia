@@ -12,10 +12,11 @@
  *   func_0203CEAC 0x0203CEAC arm
  *   func_02164C5C 0x02164C5C thumb ov010
  */
+#include "../include/Obj18982.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020103E4(u8 *);
 extern int func_0203CEAC(int a0);
 extern void func_02164C5C(u8 *p);
-int func_02164C20(int a,int b,u8 *p) { func_020103E4(*(u8 **)(p+0x80)); func_0203CEAC((int)func_02164C5C); return 1; }
+int func_02164C20(int a,int b,u8 *p) { func_020103E4(*(u8 * *)&((struct Obj18982 *)p)->f80); func_0203CEAC((int)func_02164C5C); return 1; }

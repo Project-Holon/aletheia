@@ -25,18 +25,19 @@
  *   python tools/match.py tu --src src/matched/sub_0202AB64.c \
  *       --addr 0x0202AB64 --thumb
  */
+#include "../include/Obj03492.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 void sub_0202AB64(void *obj, u32 unused, u32 value)
 {
-    *(u32 *)((char *)obj + 4) = 0;
-    *(u32 *)((char *)obj + 8) = 0;
-    *(u32 *)((char *)obj + 0xc) = 0;
-    *(u32 *)((char *)obj + 0x10) = 0;
-    *(u32 *)((char *)obj + 0x14) = 0;
-    *(u8 *)((char *)obj + 0x18) = 0;
-    *(u32 *)obj = value;
-    *(u8 *)((char *)obj + 0x19) = 0xff;
+    ((struct Obj03492 *)obj)->f4 = 0;
+    ((struct Obj03492 *)obj)->f8 = 0;
+    ((struct Obj03492 *)obj)->fC = 0;
+    ((struct Obj03492 *)obj)->f10 = 0;
+    ((struct Obj03492 *)obj)->f14 = 0;
+    ((struct Obj03492 *)obj)->f18 = 0;
+    ((struct Obj03492 *)obj)->f0 = value;
+    ((struct Obj03492 *)obj)->f19 = 0xff;
 }

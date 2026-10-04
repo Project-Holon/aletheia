@@ -13,6 +13,7 @@
  *   func_0204B5AC 0x0204B5AC arm
  *   func_0204B588 0x0204B588 arm
  */
+#include "../include/Obj04546.h"
 typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B570(struct Actor *actor, u32 value);
@@ -24,11 +25,11 @@ void func_021EC94C(char *p)
     unsigned short shape[2];
     *(float *)(p + 8) = 4096.0f;
     p[7] = 0;
-    func_0204B570(*(void **)p, 1);
+    func_0204B570(((struct Obj04546 *)p)->f0, 1);
     pair[0] = (int)*(float *)(p + 8);
     pair[1] = (int)*(float *)(p + 8);
-    func_0204B5AC(*(void **)p, pair);
+    func_0204B5AC(((struct Obj04546 *)p)->f0, pair);
     shape[0] = 0;
     shape[1] = 8;
-    func_0204B588(*(void **)p, shape);
+    func_0204B588(((struct Obj04546 *)p)->f0, shape);
 }

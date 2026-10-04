@@ -27,6 +27,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj02498.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -56,19 +57,19 @@ void func_021E01B0(u8 *p,int message,void *value)
     u8 *s;
     void *window,*text,*owner,*data;
     s=p+3296;
-    window=*(void **)(s+16);
-    func_0201F02C(*(void **)(s+12),1,func_02184180(func_021DEB10(p),func_02039338()));
-    func_0201F02C(*(void **)(s+12),2,value);
+    window=((struct Obj02498 *)s)->f10;
+    func_0201F02C(((struct Obj02498 *)s)->fC,1,func_02184180(func_021DEB10(p),func_02039338()));
+    func_0201F02C(((struct Obj02498 *)s)->fC,2,value);
     text=func_020457B0(256,114);
-    func_02045CAC(*(void **)(s+8),message,text);
-    func_0201F250(*(void **)(s+12),*(void **)(s+92),text);
+    func_02045CAC(((struct Obj02498 *)s)->f8,message,text);
+    func_0201F250(((struct Obj02498 *)s)->fC,((struct Obj02498 *)s)->f5C,text);
     func_02045808(text);
     func_0201F73C(window,2,1,14);
     func_02043B5C(func_02045770(window),15);
-    owner=*(void **)(s+88);
-    data=func_02045770(*(void **)(s+40));
-    func_0201C724(owner,data,0,0,*(void **)(s+92),*(void **)(s+4),1088);
-    *(u8 *)(s+44)=1;
+    owner=((struct Obj02498 *)s)->f58;
+    data=func_02045770(((struct Obj02498 *)s)->f28);
+    func_0201C724(owner,data,0,0,((struct Obj02498 *)s)->f5C,((struct Obj02498 *)s)->f4,1088);
+    ((struct Obj02498 *)s)->f2C=1;
     func_02045334(window);
     func_02045374(window);
     func_02041B6C(func_02045730(window));

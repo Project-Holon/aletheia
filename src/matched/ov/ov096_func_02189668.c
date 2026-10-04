@@ -12,6 +12,7 @@
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj10185.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,5 +28,5 @@ int func_02189668(int a, int b) {
     int r;
     r = func_0201134C(a);
     func_0218A0F4((u8 *)a, 2, ((u8 *)b)[0x94] & 1, ((u8 *)b)[0x95] & 1, r);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj10185 *)b)->fC4;
 }

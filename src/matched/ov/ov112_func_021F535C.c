@@ -12,10 +12,11 @@
  * symbols:
  *   func_021F624C  0x021F624C  thumb  ov112
  */
+#include "../include/Obj22537.h"
 
 void func_021F624C(char *p, int *q);
 
 void func_021F535C(int *p, int *q)
 {
-    func_021F624C(*(char **)((char *)p + 8), q);
+    func_021F624C(*(char * *)&((struct Obj22537 *)p)->f8, q);
 }

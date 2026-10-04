@@ -18,6 +18,7 @@
  *   func_021C8860 0x021C8860 thumb ov093
  *   d_021F2704 0x021F2704 data a4
  */
+#include "../include/Obj07831.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,15 +54,15 @@ void func_021E508C(void *x, void *a, int c)
         second = (func_021D58A8(m, 10) + func_021D58A8(n, 10)) / 2;
         p = func_021C88A4(a, 17, c);
         p->id = k;
-        *(u16 *)((u8 *)p + 4) = first;
-        *(u16 *)((u8 *)p + 8) = second;
+        ((struct Obj07831 *)p)->f4 = first;
+        ((struct Obj07831 *)p)->f8 = second;
         p->f0 = 1;
         p->f2 = 1;
         func_021C88C8(a, p);
         p = func_021C88A4(a, 17, c);
         p->id = c;
-        *(u16 *)((u8 *)p + 4) = first;
-        *(u16 *)((u8 *)p + 8) = second;
+        ((struct Obj07831 *)p)->f4 = first;
+        ((struct Obj07831 *)p)->f8 = second;
         p->f0 = 1;
         p->f2 = 1;
         func_021C8838((u8 *)p + 16, 2, 0x448);

@@ -14,6 +14,7 @@
  *   func_02006D44  0x02006D44  thumb
  *   func_02034FB8  0x02034FB8  arm
  */
+#include "../include/Obj23822.h"
 
 extern void func_020307B0(void *p);
 extern void func_02006D44(void);
@@ -22,7 +23,7 @@ extern void func_02034FB8(u32 v);
 
 void func_02184408(int *p)
 {
-    func_020307B0((void *)(*(int *)((char *)p + 0x1c)));
+    func_020307B0((void *)(((struct Obj23822 *)p)->f1C));
     func_02006D44();
     func_02034FB8(8);
 }

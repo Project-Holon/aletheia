@@ -14,6 +14,7 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_021D9BC0 0x021D9BC0 thumb ov121
  */
+#include "../include/Obj01057.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -31,11 +32,11 @@ void func_021D9A64(u8 *p, int a, int b, int c)
 {
     Pair xy;
     void *q;
-    func_02043B5C(func_02045770(*(void **)(p + 0xc)), *(u16 *)(p + 0x16) & 31);
-    func_02045CAC((struct MsgBank *)a, b, *(void **)(p + 0x10));
+    func_02043B5C(func_02045770(((struct Obj01057 *)p)->fC), ((struct Obj01057 *)p)->f16 & 31);
+    func_02045CAC((struct MsgBank *)a, b, ((struct Obj01057 *)p)->f10);
     func_021D9BC0(p, c, &xy);
-    q = *(void **)(p + 8);
-    func_0201C724(q, func_02045770(*(void **)p), (s16)xy.x, (s16)xy.y,
-                 *(void **)(p + 0x10), c, *(u16 *)(p + 0x16));
+    q = ((struct Obj01057 *)p)->f8;
+    func_0201C724(q, func_02045770(((struct Obj01057 *)p)->f0), (s16)xy.x, (s16)xy.y,
+                 ((struct Obj01057 *)p)->f10, c, ((struct Obj01057 *)p)->f16);
     p[4] = 1;
 }

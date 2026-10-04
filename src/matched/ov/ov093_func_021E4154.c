@@ -20,6 +20,7 @@
  *   func_021C8860 0x021C8860 thumb ov093
  *   d_021F2B10 0x021F2B10 data a4
  */
+#include "../include/Obj02138.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021D775C(int);
@@ -50,7 +51,7 @@ void func_021E4154(int unused, void *s, int k)
             p[4] = 1;
             p[6] = 1;
             p[7] = k;
-            *(int *)(p + 16) = -n;
+            ((struct Obj02138 *)p)->f10 = -n;
             func_021C88C8(s, p);
             p = func_021C88A4(s, 14, k);
             *(int *)(p + 4) = 1;
@@ -66,7 +67,7 @@ void func_021E4154(int unused, void *s, int k)
             func_021C88C8(s, p);
             p = func_021C88A4(s, 33, k);
             p[4] = k;
-            *(int *)(p + 8) = 1;
+            ((struct Obj02138 *)p)->f8 = 1;
             func_021C88C8(s, p);
         }
     }

@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22645.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -49,6 +50,6 @@ void func_021D49F4(void *obj, void *p)
     v.z = 0xa000;
     func_02015C48(obj, &v);
     func_02015E04(obj);
-    func_02015CAC(obj, (char *)*(void **)((char *)p + 0xc) + 0x48);
+    func_02015CAC(obj, (char *)((struct Obj22645 *)p)->fC + 0x48);
     func_02015F50(obj, 0x10, 0x10, 0, 0x7fff);
 }

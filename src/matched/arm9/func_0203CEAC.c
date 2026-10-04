@@ -54,6 +54,7 @@
  *   func_020370C8  0x020370C8  arm
  *   func_0203CDD4  0x0203CDD4  arm
  */
+#include "../include/Obj11371.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -74,7 +75,7 @@ int func_0203CEAC(int a0)
     if (p != 0) {
         u8 t = p[0x65];
 
-        *(int *)(p + 0x348) = a0;
+        ((struct Obj11371 *)p)->f348 = a0;
         if (t == 1) {
             func_0203C774((u32)func_0203CDD4);
         } else {

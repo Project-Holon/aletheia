@@ -15,6 +15,7 @@
  * symbols:
  *   (none: no relocation site)
  */
+#include "../include/Obj17814.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,7 +23,7 @@ typedef unsigned int u32;
 
 void func_0216D6F4(void *a0)
 {
-    void (*fn)(void *) = *(void (**)(void *))((char *)*(void **)((char *)a0 + 0x8C) + 0x4);
+    void (*fn)(void *) = *(void (**)(void *))((char *)((struct Obj17814 *)a0)->f8C + 0x4);
 
     if (fn != 0)
         fn(a0);

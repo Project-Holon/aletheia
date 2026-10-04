@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021F9FF0 0x021F9FF0 thumb ov135
  */
+#include "../include/Obj02490.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -30,18 +31,18 @@ int func_021FB510(u8 *p)
     switch (r) {
     case -2:
         func_020061E4(0x551);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
-        *(int *)(p + 0x48) = 16;
-        *(s16 *)(p + 0x3c) = -1;
+        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
+        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
+        ((struct Obj02490 *)p)->f48 = 16;
+        ((struct Obj02490 *)p)->f3C = -1;
         break;
     case -1: break;
     default:
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
-        func_0204B878((struct Obj *)(*(u32 *)(p + 8)), func_0204B898((struct Obj *)(*(u32 *)(p + 8))) + 9);
-        *(int *)(p + 0x48) = 3;
-        *(int *)(p + 0x4c) = 17;
-        *(s16 *)(p + 0x3c) = r;
+        func_0204B3DC((struct Obj *)((struct Obj02490 *)p)->f8, 1);
+        func_0204B878((struct Obj *)(((struct Obj02490 *)p)->f8), func_0204B898((struct Obj *)(((struct Obj02490 *)p)->f8)) + 9);
+        ((struct Obj02490 *)p)->f48 = 3;
+        ((struct Obj02490 *)p)->f4C = 17;
+        ((struct Obj02490 *)p)->f3C = r;
         break;
     }
     return -1;

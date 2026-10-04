@@ -12,8 +12,9 @@
  * symbols:
  *   func_021DD924 0x021DD924 thumb ov137
  */
+#include "../include/Obj23719.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021DD924(void *);
-int func_021DDAEC(char *p,int state) {*(u16 *)(p+0x4820)=0;func_021DD924(p);return state;}
+int func_021DDAEC(char *p,int state) {((struct Obj23719 *)p)->f4820=0;func_021DD924(p);return state;}

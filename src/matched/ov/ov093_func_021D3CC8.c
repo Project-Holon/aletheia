@@ -15,6 +15,7 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D6848 0x021D6848 thumb ov093
  */
+#include "../include/Obj21201.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Rec { u16 a, b; u8 c, d, e; };
@@ -27,7 +28,7 @@ int func_021D3CC8(char *p, int unused, const unsigned int *a)
     u8 *obj;
     u16 x, y;
     u8 z, w, v;
-    obj = func_021B9934(*(char **)(p + 4), (u8)a[0]);
+    obj = func_021B9934(*(char * *)&((struct Obj21201 *)p)->f4, (u8)a[0]);
     x = a[4]; y = a[5]; z = a[3]; w = a[2]; v = a[1];
     r.a = x; r.b = y; r.c = z; r.d = v; r.e = w;
     func_021D6848(obj, (struct HalfRec *)&r);

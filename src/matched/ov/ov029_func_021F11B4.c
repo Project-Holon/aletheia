@@ -18,6 +18,7 @@
  *   func_021F0A38  0x021F0A38  thumb  ov029
  *   d_021F348C     0x021F348C  data  a4
  */
+#include "../include/Obj00106.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,13 +34,13 @@ int func_021F11B4(char *p)
 {
     unsigned int i;
 
-    if (*(u8 *)(p + 0x456) <= 0x7E) {
+    if (((struct Obj00106 *)p)->f456 <= 0x7E) {
         for (i = 0; i < 0x24; i++) {
-            if (*(u8 *)(p + 0x456) == d_021F348C[i].key)
+            if (((struct Obj00106 *)p)->f456 == d_021F348C[i].key)
                 func_021F0B00(p + 0x2D0 + d_021F348C[i].row * 0x20 + d_021F348C[i].col * 8,
                               p, 4, 0, 4, d_021F348C[i].v);
         }
-        *(u8 *)(p + 0x456) = *(u8 *)(p + 0x456) + 1;
+        ((struct Obj00106 *)p)->f456 = ((struct Obj00106 *)p)->f456 + 1;
     } else {
         if (func_021F0A68(p) == 0)
             return 1;

@@ -10,6 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj04778.h"
 
 typedef unsigned short u16;
 extern int func_02061860(void *p);
@@ -19,9 +20,9 @@ int func_02061B74(char *p)
     int v;
     if (func_02061860(p))
         return 0;
-    v = func_02061840(p, *(u16 *)(p + 0xa));
-    *(volatile u16 *)(p + 0xa) = (u16)v;
-    *(volatile u16 *)(p + 0xc) = (u16)(*(volatile u16 *)(p + 0xc) + 1);
+    v = func_02061840(p, ((struct Obj04778 *)p)->fA);
+    *(volatile u16 *)&((struct Obj04778 *)p)->fA = (u16)v;
+    *(volatile u16 *)&((struct Obj04778 *)p)->fC = (u16)(*(volatile u16 *)&((struct Obj04778 *)p)->fC + 1);
     return 1;
 }
 

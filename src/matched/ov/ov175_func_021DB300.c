@@ -17,6 +17,7 @@
  * matches the tick from 0x020399A8 and the first argument does NOT match
  * 0x0203D1A4 does it store 1 in the +0x140 word of the fourth argument.
  */
+#include "../include/Obj24337.h"
 
 typedef unsigned long u32;
 
@@ -31,6 +32,6 @@ void func_021DB300(u32 a, u32 b, u32 c, char *d, u32 e)
         return;
     if (a == func_0203D1A4((struct Link *)((u32)func_020399A8())))
         return;
-    *(u32 *)(d + 0x140) = 1;
+    ((struct Obj24337 *)d)->f140 = 1;
 }
 

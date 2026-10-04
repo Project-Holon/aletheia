@@ -19,6 +19,7 @@
  *   d_021DD9CC     0x021DD9CC  data   a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19535.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -64,7 +65,7 @@ Ent **func_0218C584(u8 *s, Rect *r, int kind, int *count)
     int n = 0;
     u32 i;
 
-    list = func_02030734(*(u16 *)s, 0x80, 1, d_021DD9CC, 0x749);
+    list = func_02030734(((struct Obj19535 *)s)->f0, 0x80, 1, d_021DD9CC, 0x749);
     for (i = 0; i < 0x120; i++) {
         e = (Ent *)(s + 0x1F8) + i;
         if (e->obj == 0)

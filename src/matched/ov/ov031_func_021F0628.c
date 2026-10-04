@@ -17,6 +17,7 @@
  *   d_021F1038     0x021F1038  data  a1
  *   func_0204B6F4  0x0204B6F4  arm
  */
+#include "../include/Obj06133.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,12 +33,12 @@ void func_021F0628(char *p, int sel)
     int v;
 
     v = d_021F1038[sel];
-    if (v == *(u8 *)(p + 0x30))
-        *(u8 *)(p + 0x30) = 0;
+    if (v == ((struct Obj06133 *)p)->f30)
+        ((struct Obj06133 *)p)->f30 = 0;
     else
-        *(u8 *)(p + 0x30) = v;
+        ((struct Obj06133 *)p)->f30 = v;
     for (i = 0; (i <= 4) ? 1 : 0; i++) {
-        if (i == sel && *(u8 *)(p + 0x30) != 0)
+        if (i == sel && ((struct Obj06133 *)p)->f30 != 0)
             func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 1, 1);
         else
             func_0204B6F4((struct Obj *)(*(u32 *)(p + 0x18 + i * 4)), 0, 1);

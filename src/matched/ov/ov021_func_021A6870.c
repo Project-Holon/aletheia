@@ -25,6 +25,7 @@
  *   func_021A6BAC  0x021A6BAC  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01658.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,14 +47,14 @@ extern int func_021A6BAC(void *a);
 
 void func_021A6870(u8 *p)
 {
-    u32 o = *(u32 *)(p + 0x1C);
+    u32 o = *(u32 *)&((struct Obj01658 *)p)->f1C;
 
     if (func_021A66F8(p, 0x59))
         func_0216D550((u32 *)o, 0x18);
     if (func_021A66F8(p, 1)) {
         func_021A6714(p);
         func_021A6720(p);
-        func_021A3964((u8 *)(*(u32 *)(p + 0x14)), 0);
+        func_021A3964((u8 *)(*(u32 *)&((struct Obj01658 *)p)->f14), 0);
     }
     if (func_021A66F8(p, 0x18)) {
         func_021A6750(p);

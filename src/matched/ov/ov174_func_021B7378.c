@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj14323.h"
 void func_021B7378(char *p)
 {
-    *(unsigned short *)(p + 0x38) = 0;
-    *(unsigned int *)(p + 0x34) = 0;
+    ((struct Obj14323 *)p)->f38 = 0;
+    ((struct Obj14323 *)p)->f34 = 0;
 }
 

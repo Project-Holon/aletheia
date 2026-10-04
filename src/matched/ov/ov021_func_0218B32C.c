@@ -28,6 +28,7 @@
  *   func_021A35A0  0x021A35A0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05974.h"
 
 typedef unsigned short u16;
 
@@ -52,7 +53,7 @@ extern void func_021A35A0(u32 *p, int a);
 
 int func_0218B32C(void *unused, int *st, char *ctx)
 {
-    void *a = func_02188CB4(*(void **)(ctx + 0xC));
+    void *a = func_02188CB4(((struct Obj05974 *)ctx)->fC);
     void *o;
     int r1;
 
@@ -61,16 +62,16 @@ int func_0218B32C(void *unused, int *st, char *ctx)
     switch (*st) {
     case 0:
         func_0216D9A0(func_0216D67C(o));
-        func_0216D5E0((int)o, *(u16 *)(ctx + 4));
+        func_0216D5E0((int)o, ((struct Obj05974 *)ctx)->f4);
         *st = *st + 1;
         break;
     case 1:
         func_021ACBB8((u32)func_021A2F98(a), 0);
         func_021A2F48(a, 1);
         func_021A2F60(a);
-        r1 = func_02197E7C(*(u16 *)(ctx + 4), 0x34);
-        if (*(u16 *)(ctx + 6) == 1)
-            r1 = func_02197E7C(*(u16 *)(ctx + 4), 0x38);
+        r1 = func_02197E7C(((struct Obj05974 *)ctx)->f4, 0x34);
+        if (((struct Obj05974 *)ctx)->f6 == 1)
+            r1 = func_02197E7C(((struct Obj05974 *)ctx)->f4, 0x38);
         func_0216D410(o, r1);
         *st = *st + 1;
         break;

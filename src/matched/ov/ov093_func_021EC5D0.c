@@ -27,6 +27,8 @@
  *   func_021F8260 0x021F8260 thumb ov094
  *   func_021F7EB4 0x021F7EB4 thumb ov094
  */
+#include "../include/Obj00027.h"
+#include "../include/Obj00407.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,15 +62,15 @@ int func_021EC5D0(u8 *p, int *state)
         b[16] = 5;
         b[17] = 7;
         b[21] = 0;
-        b[22] = func_021B9064(*(u8 **)(p + 0x134), func_021B8FF4(*(u8 **)(p + 0x134)), 0);
+        b[22] = func_021B9064(*(u8 * *)&((struct Obj00027 *)p)->f134, func_021B8FF4(*(u8 * *)&((struct Obj00027 *)p)->f134), 0);
         for (i = 0; i < 3; i++) {
-            b[12 + i] = func_021B8ED8(*(u8 **)(p + 0x134), b[15 + i]);
-            ((u8 **)b)[i] = func_021B98AC(*(char *const **)(p + 0x138), b[12 + i]);
+            b[12 + i] = func_021B8ED8(*(u8 * *)&((struct Obj00027 *)p)->f134, b[15 + i]);
+            ((u8 **)b)[i] = func_021B98AC(*(char *const * *)&((struct Obj00027 *)p)->f138, b[12 + i]);
             b[18 + i] = func_021D5440(((u8 **)b)[i]);
             if (!func_021D5B68(((void **)b)[i])) b[21]++;
         }
-        func_021EEE24(*(u32 *)(p + 0x34), func_021ECE08(p, b[21]), 4, b[22], b[18], b[19], b[20]);
-        func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+        func_021EEE24(((struct Obj00027 *)p)->f34, func_021ECE08(p, b[21]), 4, b[22], b[18], b[19], b[20]);
+        func_021ECEB8(p, ((struct Obj00027 *)p)->f34, 0x50, 0);
         (*state)++;
         break;
     case 1:
@@ -78,9 +80,9 @@ int func_021EC5D0(u8 *p, int *state)
         }
         break;
     case 2:
-        func_021F7EE8(func_021D5864(*(void **)b), b[15]);
-        if (b[21] > 1) func_021F7EE8(func_021D5864(*(void **)(b + 4)), b[16]);
-        if (b[21] > 2) func_021F7EE8(func_021D5864(*(void **)(b + 8)), b[17]);
+        func_021F7EE8(func_021D5864(((struct Obj00407 *)b)->f0), b[15]);
+        if (b[21] > 1) func_021F7EE8(func_021D5864(((struct Obj00407 *)b)->f4), b[16]);
+        if (b[21] > 2) func_021F7EE8(func_021D5864(((struct Obj00407 *)b)->f8), b[17]);
         func_021F7A28(b[15], 0x239);
         func_021F8260(1);
         (*state)++;

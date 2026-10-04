@@ -18,6 +18,8 @@
  *   func_020063B4 0x020063B4 thumb
  *   func_02204F40 0x02204F40 thumb ov195
  */
+#include "../include/Obj03902.h"
+#include "../include/Obj24944.h"
 
 extern int func_02005E50(void);
 extern int func_02005F38(void);
@@ -31,25 +33,25 @@ extern void func_02204F40(int a, int *p);
 
 void func_02204DE0(char *a, char *b)
 {
-    switch (*(int *)(b + 0x30)) {
+    switch (((struct Obj03902 *)b)->f30) {
     case 0:
         break;
     case 1:
         if (func_02005E50() == 0) {
-            if (*(int *)(a + 0xc) != 0) {
+            if (((struct Obj24944 *)a)->fC != 0) {
                 func_02005DE4((void *)1);
                 func_02005E64();
             }
-            *(int *)(b + 0x30) = 0;
+            ((struct Obj03902 *)b)->f30 = 0;
         }
         break;
     case 2:
         if (func_02005F38() == 0)
-            *(int *)(b + 0x30) = 0;
+            ((struct Obj03902 *)b)->f30 = 0;
         break;
     case 3:
         if (func_020063B4((u8 *)0x3f3, (u32 *)(b + 0x34), 0) != 0)
-            *(int *)(b + 0x30) = 4;
+            ((struct Obj03902 *)b)->f30 = 4;
         break;
     case 4:
     case 5:
@@ -57,12 +59,12 @@ void func_02204DE0(char *a, char *b)
     case 6:
         if (func_02005E50() == 0) {
             func_02005D28();
-            *(int *)(b + 0x30) = 0;
+            ((struct Obj03902 *)b)->f30 = 0;
         }
         break;
     case 7:
         if (func_020063B4((u8 *)0x519, (u32 *)(b + 0x34), 0) != 0)
-            *(int *)(b + 0x30) = 8;
+            ((struct Obj03902 *)b)->f30 = 8;
         break;
     case 8:
         if (func_02005F38() == 0)

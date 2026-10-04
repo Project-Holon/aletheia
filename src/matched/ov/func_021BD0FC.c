@@ -18,6 +18,7 @@
  *   func_020089A0  0x020089A0  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00575.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,6 +35,6 @@ extern void *func_02012EBC(struct Big *p);
 
 int func_021BD0FC(u32 a)
 {
-return func_020089A0((u32)func_02008854(func_02012EBC(func_020120F4((const struct Ctx *)(*(u32 *)((u8 *)(a)))))), *(u16 *)((u8 *)((a + 70))));
+return func_020089A0((u32)func_02008854(func_02012EBC(func_020120F4((const struct Ctx *)(((struct Obj00575 *)((u8 *)(a)))->f0)))), *(u16 *)((u8 *)((a + 70))));
 }
 

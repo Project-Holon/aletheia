@@ -13,6 +13,8 @@
  * symbols:
  *   func_0204B294 0x0204B294 arm
  */
+#include "../include/Obj03378.h"
+#include "../include/Obj08444.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,6 +32,6 @@ void func_021C25D0(u8 *p)
     arg.d=0;
     arg.e=0;
     for (;i<26;i++) {
-        *(u32 *)(p+i*24+0x3c)=(u32)func_0204B294((void *)*(u32 *)(p+4),q[0],q[1],q[2],&arg,*(u16 *)((u8 *)q+0xc),*(u16 *)p);
+        *(u32 *)(p+i*24+0x3c)=(u32)func_0204B294((void *)((struct Obj03378 *)p)->f4,q[0],q[1],q[2],&arg,((struct Obj08444 *)q)->fC,((struct Obj03378 *)p)->f0);
     }
 }

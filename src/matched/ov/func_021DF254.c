@@ -16,13 +16,14 @@
  *   wrapped value back; 0xff is the error.  The three byte fields are
  *   unsigned char (ldrb) and the comparison is unsigned (blo).
  */
+#include "../include/Obj00000.h"
 
 extern int func_021EF224(int, int);
 extern int func_021EF224(int, int);
 int func_021DF254(unsigned char *p)
 {
-    int v = func_021EF224(*(int *)(*(int *)(p + 0x2c) + 0xA180),
-                          *(int *)(*(int *)(p + 0x2c) + 0xA184));
+    int v = func_021EF224(*(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA180),
+                          *(int *)(*(int *)&((struct Obj00000 *)p)->f2C + 0xA184));
     unsigned w;
     if (v == 0xff)
         return v;

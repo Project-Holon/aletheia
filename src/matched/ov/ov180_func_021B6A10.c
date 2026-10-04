@@ -15,6 +15,7 @@
  *   func_021B66E4 0x021B66E4 thumb ov180
  *   func_021B7300 0x021B7300 thumb ov180
  */
+#include "../include/Obj08298.h"
 extern int (*d_021B814C[])(char *);
 extern void func_021B7D5C(void *p);
 extern void func_021B6704(char *);
@@ -22,11 +23,11 @@ extern void func_021B7F30(void *p);
 extern void func_021B66E4(char *);
 extern void func_021B7300(char *);
 int func_021B6A10(char *p) {
-    *(int *)(p+0x918c)=d_021B814C[*(int *)(p+0x918c)](p);
-    if(*(int *)(p+0x918c)==10) return 0;
-    if(*(int *)(p+8)==1) {
+    ((struct Obj08298 *)p)->f918C=d_021B814C[*(int *)(p+0x918c)](p);
+    if(((struct Obj08298 *)p)->f918C==10) return 0;
+    if(((struct Obj08298 *)p)->f8==1) {
         func_021B7D5C(p); func_021B6704(p);
-    } else if(*(int *)(p+8)==2) {
+    } else if(((struct Obj08298 *)p)->f8==2) {
         func_021B7F30(p); func_021B66E4(p); func_021B7300(p);
     }
     return 1;

@@ -17,6 +17,7 @@
  *   func_021C27E0  0x021C27E0  thumb  ov099
  *   func_02020268  0x02020268  thumb
  */
+#include "../include/Obj22019.h"
 
 typedef unsigned char  u8;
 typedef unsigned long  u32;
@@ -30,7 +31,7 @@ void func_021BABDC(void *obj, int k)
 {
     u8 *w = (u8 *)func_02020D0C(obj);
 
-    if (func_021C27E0(*(void **)(w + 8)) == 0) {
+    if (func_021C27E0(((struct Obj22019 *)w)->f8) == 0) {
         switch (k) {
         case 4:
         case 5:

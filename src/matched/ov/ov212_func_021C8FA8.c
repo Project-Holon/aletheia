@@ -17,6 +17,8 @@
  *   d_021BC8BC 0x021BC8BC data ov211 a4
  *   ov211_id 0x000000D3 data a1
  */
+#include "../include/Obj06701.h"
+#include "../include/Obj25653.h"
 typedef unsigned short u16;
 struct Obj020314F4;
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
@@ -29,9 +31,9 @@ void func_021C8FA8(char *p)
 {
     unsigned *q;
     q=func_02030734(105,12,0,d_021C99A0,297);
-    *(void **)(p+40)=q;
-    q[0]=**(unsigned **)p;
-    q[1]=*(unsigned *)(*(char **)p+8);
-    func_02031348(*(struct Obj020314F4 **)(p+4),(unsigned)ov211_id,(unsigned)d_021BC8BC,*(unsigned *)(p+40));
+    ((struct Obj06701 *)p)->f28=q;
+    q[0]=**(unsigned * *)&((struct Obj06701 *)p)->f0;
+    q[1]=((struct Obj25653 *)(*(char * *)&((struct Obj06701 *)p)->f0))->f8;
+    func_02031348(*(struct Obj020314F4 * *)&((struct Obj06701 *)p)->f4,(unsigned)ov211_id,(unsigned)d_021BC8BC,*(unsigned *)&((struct Obj06701 *)p)->f28);
     func_021C8F90(p,2);
 }

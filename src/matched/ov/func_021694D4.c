@@ -16,6 +16,7 @@
  *   func_0216959C  0x0216959C  thumb  ov010
  *   func_0216990C  0x0216990C  thumb  ov010
  */
+#include "../include/Obj00306.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ void func_021694D4(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x2c);
+a0 = *(int *)&((struct Obj00306 *)t4)->f2C;
     a0 = func_02169998(a0);
 loc_021694DE:
 a0 = t4 + 0;

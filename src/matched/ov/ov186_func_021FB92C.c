@@ -14,6 +14,7 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10788.h"
 struct Rec {void *a,*b;unsigned char pad[12];void *handle;};
 extern void func_021FC1F8(int *,int),func_0201ED04(void *),func_02045C04(struct Rec *),func_0201D83C(void *),func_020307B0(void *);
-void func_021FB92C(char *p) {func_021FC1F8((int *)p,0);func_021FC1F8((int *)p,1);func_0201ED04(*(void **)(p+0xf0));func_02045C04(*(struct Rec **)(p+0xec));func_0201D83C(*(void **)(p+0xe8));func_020307B0(p);}
+void func_021FB92C(char *p) {func_021FC1F8((int *)p,0);func_021FC1F8((int *)p,1);func_0201ED04(((struct Obj10788 *)p)->fF0);func_02045C04(*(struct Rec * *)&((struct Obj10788 *)p)->fEC);func_0201D83C(((struct Obj10788 *)p)->fE8);func_020307B0(p);}

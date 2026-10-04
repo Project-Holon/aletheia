@@ -12,10 +12,11 @@
  *   func_021BAE94 0x021BAE94 thumb ov091
  *   func_021BAF28 0x021BAF28 thumb ov091
  */
+#include "../include/Obj03183.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void func_021BAB04(u8 *,u8 *,int);
 extern void func_021BAE94(u8 *,u8 *);
 extern void func_021BAF28(u8 *,u8 *);
-void func_021BAAE4(u8 *a,u8 *s,int k) { if(*(u32 *)(s+12)==0) {func_021BAB04(a,s,k);func_021BAE94(a,s);} else func_021BAF28(a,s); }
+void func_021BAAE4(u8 *a,u8 *s,int k) { if(((struct Obj03183 *)s)->fC==0) {func_021BAB04(a,s,k);func_021BAE94(a,s);} else func_021BAF28(a,s); }

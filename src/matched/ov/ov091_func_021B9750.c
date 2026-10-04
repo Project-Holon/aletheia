@@ -12,8 +12,9 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+#include "../include/Obj09925.h"
 typedef unsigned int   u32;
 extern int func_021BB8FC(void *unused, u32 p);
 extern unsigned func_020362DC(void);
 extern int func_02035C60(void);
-void func_021B9750(unsigned p) { if(func_021BB8FC((void *)p,*(unsigned *)(p+336))==1) { if(func_020362DC()&1) *(unsigned *)(p+8)=0; if(func_02035C60()==1) *(unsigned *)(p+8)=1; (*(void (**)(unsigned))(p+328))(p); } }
+void func_021B9750(unsigned p) { if(func_021BB8FC((void *)p,((struct Obj09925 *)p)->f150)==1) { if(func_020362DC()&1) ((struct Obj09925 *)p)->f8=0; if(func_02035C60()==1) ((struct Obj09925 *)p)->f8=1; (*(void (**)(unsigned))(p+328))(p); } }

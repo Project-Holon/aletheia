@@ -18,6 +18,7 @@
  *   func_02033494  0x02033494  arm
  *   func_020334B0  0x020334B0  arm
  */
+#include "../include/Obj02268.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -33,19 +34,19 @@ int func_021DFE00(u8 *p)
     switch (p[0x379]) {
     case 0:
     case 2:
-        *(u16 *)(p + 0x37C) =
+        ((struct Obj02268 *)p)->f37C =
             func_02033494(p[0x37A] == 0 ? 0x7F800 : 0x7FC00, p, 0x374);
         p[0x379] = p[0x379] + 1;
         break;
     case 1:
     case 3:
-        if (func_020334B0(*(u16 *)(p + 0x37C), &v) == 1) {
+        if (func_020334B0(((struct Obj02268 *)p)->f37C, &v) == 1) {
             p[0x37A] = p[0x37A] ^ 1;
             p[0x379] = p[0x379] + 1;
         }
         break;
     default:
-        *(u32 *)(p + 0x374) = 0;
+        ((struct Obj02268 *)p)->f374 = 0;
         p[0x378] = 1;
         return 1;
     }

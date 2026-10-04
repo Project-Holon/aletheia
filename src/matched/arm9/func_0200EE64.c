@@ -20,6 +20,7 @@
  * enumerator call is rotated (first test above the loop body) so this is a
  * plain `while`, not a do/while.
  */
+#include "../include/Obj00607.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -36,7 +37,7 @@ void func_0200EE64(u32 a0, u8 *a1)
     sub_0200EE50(a1);
 
     while (sub_0200F0CC((const void *)a0, &item, &hint) == 1) {
-        if ((*(u32 *)((u8 *)item + 4) & 0x100000) == 0) {
+        if ((((struct Obj00607 *)item)->f4 & 0x100000) == 0) {
             sub_0200EED8(item, a1);
             a1 += 0x50;
         }

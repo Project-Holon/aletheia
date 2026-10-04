@@ -11,5 +11,6 @@
  * symbols:
  *   func_0204E804 0x0204E804 arm
  */
+#include "../include/Obj13858.h"
 extern int func_0204E804(void);
-int func_021D696C(unsigned char *a,int b) { if(b<=13 && func_0204E804()==0 && *(unsigned short *)(a+0xb68)!=0 && *(unsigned short *)(a+0xb6a)==0) return 1; return 0; }
+int func_021D696C(unsigned char *a,int b) { if(b<=13 && func_0204E804()==0 && ((struct Obj13858 *)a)->fB68!=0 && ((struct Obj13858 *)a)->fB6A==0) return 1; return 0; }

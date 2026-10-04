@@ -17,6 +17,7 @@
  *   func_021C71A8 0x021C71A8 thumb
  *   func_021C7298 0x021C7298 thumb
  */
+#include "../include/Obj00127.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,8 +29,8 @@ extern void func_021C6284(u8 *);
 extern void func_021C71A8(u8 *, int, int);
 void func_021C6E64(u8 *p)
 {
-    func_021C66B8(*(u8 **)(p + 8), 2, 0);
-    func_021C7298(*(u8 **)(p + 8), 1);
+    func_021C66B8(*(u8 * *)&((struct Obj00127 *)p)->f8, 2, 0);
+    func_021C7298(*(u8 * *)&((struct Obj00127 *)p)->f8, 1);
     func_021C5C64(p);
     func_021C62BC(p);
     func_021C6284(p);

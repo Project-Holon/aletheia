@@ -34,6 +34,7 @@
  *   func_021F3CCC  0x021F3CCC  thumb  ov051
  *   d_021F40A0     0x021F40A0  data  ov051  a4
  */
+#include "../include/Obj09844.h"
 
 extern int func_02188C84(int a);
 typedef unsigned char  u8;
@@ -84,13 +85,13 @@ void func_021F3730(int a)
     r5 = func_02188C9C(a);
     p = func_0200B3A4(h, func_021F3D94(r5));
     q = func_02030734(r4, 0xa4, 1, d_021F40A0, 0xca);
-    *(int **)(p + 4) = q;
+    *(int * *)&((struct Obj09844 *)p)->f4 = q;
     q[1] = (int)p;
     q[2] = a;
     q[0] = r5;
     n = 0xb;
     func_021ABE30(sp8, &n, 1);
-    if (*(unsigned char *)p == 0) {
+    if (((struct Obj09844 *)p)->f0 == 0) {
         cnt = func_021F36EC(q[0]);
         e = (int *)func_021F36E0(q[0]);
         i = 0;

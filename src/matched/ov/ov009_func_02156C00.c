@@ -17,6 +17,7 @@
  *   func_021770EC  0x021770EC  arm  ov009
  *   d_021A1C60  0x021A1C60  data  ov009  a4
  */
+#include "../include/Obj18654.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_02156C00(u32 a)
     if (*(u32 *)(g_021A8264 + a * 4 + 0x174) == 0) {
         u32 n = 0x1000;
         *(u32 *)(g_021A8264 + a * 4 + 0x174) =
-            (u32)func_0203D7C8(*(u16 *)(p + 0x56), n, (const char *)d_021A1C60, 0xb74);
+            (u32)func_0203D7C8(((struct Obj18654 *)p)->f56, n, (const char *)d_021A1C60, 0xb74);
         func_021770EC(a, *(u32 *)(g_021A8264 + a * 4 + 0x174), n);
     }
 }

@@ -15,6 +15,7 @@
  *   func_0201C7A4  0x0201C7A4  thumb
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj02796.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,14 +31,14 @@ extern void func_02045334(struct Descriptor *d);
 
 void func_021ECE60(u8 *a, int b)
 {
-    func_02043B5C((struct CharBuf *)(*(int *)(a + 4)), 0xc);
+    func_02043B5C((struct CharBuf *)(((struct Obj02796 *)a)->f4), 0xc);
     func_0201DD78(1, 9, 0xc);
-    func_0201C7A4((void *)(*(int *)(a + 4)), 0, 0, (void *)b, (void *)(*(int *)(a + 0x24)));
-    func_02045334((struct Descriptor *)*(int *)a);
+    func_0201C7A4((void *)(((struct Obj02796 *)a)->f4), 0, 0, (void *)b, (void *)(((struct Obj02796 *)a)->f24));
+    func_02045334((struct Descriptor *)((struct Obj02796 *)a)->f0);
     a[0x13f] = 0;
-    *(u16 *)(a + 0x148) = 0;
-    *(u16 *)(a + 0x14a) = 0;
-    *(u16 *)(a + 0x14c) = 0;
+    ((struct Obj02796 *)a)->f148 = 0;
+    ((struct Obj02796 *)a)->f14A = 0;
+    ((struct Obj02796 *)a)->f14C = 0;
     a[0x13e] = 1;
     a[0x141] = 0;
 }

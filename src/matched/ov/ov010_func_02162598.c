@@ -10,7 +10,8 @@
  * symbols:
  *   func_02162E00 0x02162E00 thumb ov010
  */
+#include "../include/Obj12338.h"
 typedef unsigned short u16;
 struct Box; struct Q;
 extern int func_02162E00(struct Box *, struct Q *);
-int func_02162598(char *p, struct Q *q) { int i; char *r; i=0; r=*(char **)(p+0x24); for(;i<*(u16 *)(p+0x16);i++,r+=20) { if(func_02162E00((struct Box *)r,q)) return i; } return 0xffff; }
+int func_02162598(char *p, struct Q *q) { int i; char *r; i=0; r=*(char * *)&((struct Obj12338 *)p)->f24; for(;i<((struct Obj12338 *)p)->f16;i++,r+=20) { if(func_02162E00((struct Box *)r,q)) return i; } return 0xffff; }

@@ -17,6 +17,7 @@
  *   func_0215E3E4  0x0215E3E4  thumb  ov010
  *   func_020111E8  0x020111E8  thumb
  */
+#include "../include/Obj13107.h"
 
 struct Big;
 extern void *func_02012EBC(struct Big *p);
@@ -57,7 +58,7 @@ void func_021F45F0(int *a, void *b)
         }
         r0 = func_0215E3E4(r7, r4);
         if (r0 != 0xFFFF) {
-            *(unsigned short *)b = r0;
+            ((struct Obj13107 *)b)->f0 = r0;
             *((unsigned char *)b + 8) = r6;
         }
     }

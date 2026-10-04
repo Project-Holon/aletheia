@@ -16,6 +16,8 @@
  *   func_02006A8C  0x02006A8C  thumb
  *   func_020065D8  0x020065D8  thumb
  */
+#include "../include/Obj01214.h"
+#include "../include/Obj09680.h"
 
 typedef unsigned short u16;
 
@@ -35,33 +37,33 @@ int func_021C2854(int a, char *b)
     char buf[4];
 
     q = b + 0x9c;
-    if (*(int *)(q + 0x14) != 0 && *(u16 *)(q + 0x18) != 0) {
-        (*(u16 *)(q + 0x18))--;
-        if (*(u16 *)(q + 0x18) == 0) {
-            if (*(int *)q == 0x1b9) {
+    if (((struct Obj01214 *)q)->f14 != 0 && ((struct Obj01214 *)q)->f18 != 0) {
+        (((struct Obj01214 *)q)->f18)--;
+        if (((struct Obj01214 *)q)->f18 == 0) {
+            if (((struct Obj01214 *)q)->f0 == 0x1b9) {
                 func_02006CAC(buf);
-                *(int *)(q + 0x1c) = func_02006984(*(int *)q, *(int *)(q + 4), 0x40, 0, 0, 0, 0, buf);
+                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, buf);
             } else {
-                *(int *)(q + 0x1c) = func_02006984(*(int *)q, *(int *)(q + 4), 0x40, 0, 0, 0, 0, 0);
+                ((struct Obj01214 *)q)->f1C = func_02006984(((struct Obj01214 *)q)->f0, ((struct Obj01214 *)q)->f4, 0x40, 0, 0, 0, 0, 0);
             }
         }
-        *(u16 *)(q + 0x1a) = 0x1e;
+        ((struct Obj01214 *)q)->f1A = 0x1e;
         return 0;
     }
     r = 0;
-    if (*(u16 *)(q + 0x18) == 0) {
+    if (((struct Obj01214 *)q)->f18 == 0) {
         if (func_02006650() == 0) {
             r = 1;
-        } else if (*(u16 *)(q + 0x1a) != 0) {
-            (*(u16 *)(q + 0x1a))--;
-        } else if (func_02006B20(*(int *)(q + 0x1c)) > 0) {
-            func_02006A8C(*(int *)(q + 0x1c), r - 16);
+        } else if (((struct Obj01214 *)q)->f1A != 0) {
+            (((struct Obj01214 *)q)->f1A)--;
+        } else if (func_02006B20(((struct Obj01214 *)q)->f1C) > 0) {
+            func_02006A8C(((struct Obj01214 *)q)->f1C, r - 16);
         } else {
             func_020065D8();
             r = 1;
         }
     }
-    if (*(int *)(b + 0x11c) != 0 && *(int *)(b + 0x120) != 0 && *(int *)(b + 0x124) != 0 && r != 0)
+    if (((struct Obj09680 *)b)->f11C != 0 && ((struct Obj09680 *)b)->f120 != 0 && ((struct Obj09680 *)b)->f124 != 0 && r != 0)
         return 1;
     return 0;
 }

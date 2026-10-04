@@ -14,6 +14,9 @@
  *   func_0202CFC0 0x0202CFC0 thumb
  *   func_0202CF8C 0x0202CF8C thumb
  */
+#include "../include/Obj23825.h"
+#include "../include/Obj23826.h"
+#include "../include/Obj23827.h"
 
 typedef struct {
     unsigned char pad[0x1A6];
@@ -48,10 +51,10 @@ void func_021DD090(Sys *p, unsigned idx)
     unsigned short w;
     unsigned short h;
     signed char pos[2];
-    func_0202CF98(*(struct WinMgr **)((char *)p->work + 0x74), idx, &pos[1], &pos[0]);
-    func_0202CFC0(*(struct WinMgr **)((char *)p->work + 0x74), idx, &w, &h);
+    func_0202CF98(*(struct WinMgr * *)&((struct Obj23825 *)((char *)p->work))->f74, idx, &pos[1], &pos[0]);
+    func_0202CFC0(*(struct WinMgr * *)&((struct Obj23826 *)((char *)p->work))->f74, idx, &w, &h);
     p->work->flag = 1;
-    p->work->id = func_0202CF8C(*(struct WinMgr **)((char *)p->work + 0x74), idx);
+    p->work->id = func_0202CF8C(*(struct WinMgr * *)&((struct Obj23827 *)((char *)p->work))->f74, idx);
     p->work->lo = 0xD;
     p->work->hi = 0xC;
     p->work->state = 0;

@@ -13,6 +13,7 @@
  *   func_021BB79C 0x021BB79C thumb ov206
  *   func_021BB980 0x021BB980 thumb ov206
  */
+#include "../include/Obj25405.h"
 typedef unsigned int   u32;
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
@@ -21,7 +22,7 @@ extern void func_021BB79C(char *,int,int,int,int);
 extern void func_021BB980(char *);
 void func_021BB4E0(char *p,int mode,int which)
 {
-    int mon=*(int *)(p+0x26c);
+    int mon=((struct Obj25405 *)p)->f26C;
     unsigned char first=func_0201AE1C((const struct Personal *)mon,6);
     unsigned char second=func_0201AE1C((const struct Personal *)mon,7);
     if(first==second) second=17;

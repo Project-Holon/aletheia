@@ -11,20 +11,21 @@
  * symbols:
  *   func_021E0450 0x021E0450 thumb ov137
  */
+#include "../include/Obj06540.h"
 typedef unsigned char u8;
 extern void func_021E0450(u8 *p, void *text, int index, int a);
 int func_021DF3E8(u8 *p)
 {
     int index, i, count, selected;
     index = (*(int **)(p + 40))[4];
-    *(int *)(p + 92) = 0;
-    for (i = 0; i < *(int *)(p + 48); i++) {
+    ((struct Obj06540 *)p)->f5C = 0;
+    for (i = 0; i < ((struct Obj06540 *)p)->f30; i++) {
         selected = *(int *)(p + 748 + index * 180);
         func_021E0450(p, (void *)(*(int *)(p + 164 + selected * 4)), i, selected);
-        count = *(int *)(p + 48);
+        count = ((struct Obj06540 *)p)->f30;
         index = (index + 1) % count;
     }
-    *(int *)(p + 12) = 0;
-    *(int *)p = 36;
+    ((struct Obj06540 *)p)->fC = 0;
+    ((struct Obj06540 *)p)->f0 = 36;
     return 0;
 }

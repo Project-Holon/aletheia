@@ -14,11 +14,12 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj13946.h"
 typedef unsigned char u8;
 extern void func_0204B084(void *),func_0204B1CC(void *),func_0204A5AC(void),func_02082BCC(void *,int,unsigned);
 void func_021D98C0(u8 *p) {
-    func_0204B084(*(void **)(p+4));
-    func_0204B1CC(*(void **)p);
+    func_0204B084(((struct Obj13946 *)p)->f4);
+    func_0204B1CC(((struct Obj13946 *)p)->f0);
     func_0204A5AC();
     func_02082BCC(p,0,8);
 }

@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_0202945C.c \\
  *       --func func_0202945C --addr 0x0202945C --thumb --cc 1.1p1
  */
+#include "../include/Obj04742.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,10 +23,10 @@ extern void func_02005D90(u32 a, u32 b);
 
 void func_0202945C(u8 *p)
 {
-    if (*(u32 *)(p + 0xc) != 0) {
-        func_02005D90(*(u32 *)(p + 0xc), 0xffff);
-        *(u32 *)(p + 8) = *(u32 *)(p + 0xc);
-        *(u32 *)(p + 0xc) = 0;
-        *(u32 *)(p + 0x10) = 0;
+    if (((struct Obj04742 *)p)->fC != 0) {
+        func_02005D90(((struct Obj04742 *)p)->fC, 0xffff);
+        ((struct Obj04742 *)p)->f8 = ((struct Obj04742 *)p)->fC;
+        ((struct Obj04742 *)p)->fC = 0;
+        ((struct Obj04742 *)p)->f10 = 0;
     }
 }

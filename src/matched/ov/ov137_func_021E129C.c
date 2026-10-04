@@ -16,6 +16,7 @@
  *   func_02030DA8 0x02030DA8 arm
  *   func_021E121C 0x021E121C thumb ov137
  */
+#include "../include/Obj02209.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,8 +38,8 @@ void func_021E129C(char *p)
     pos.z = 0;
     pos.b = 0;
     pos.a = 0;
-    q[5] = (int)func_0204B294((void *)*(u32 *)(p+0xd68), *(u32 *)(p+0xd6c), *(u32 *)(p+0xd70), *(u32 *)(p+0xd74), &pos, 0, 114);
+    q[5] = (int)func_0204B294((void *)((struct Obj02209 *)p)->fD68, ((struct Obj02209 *)p)->fD6C, ((struct Obj02209 *)p)->fD70, ((struct Obj02209 *)p)->fD74, &pos, 0, 114);
     func_0204B8D4((struct Obj *)q[5], 4096);
     q[4] = (int)p;
-    func_02030DA8(*(void **)(p+0xd98), func_021E121C, q, 0);
+    func_02030DA8(((struct Obj02209 *)p)->fD98, func_021E121C, q, 0);
 }

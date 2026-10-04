@@ -19,6 +19,7 @@
  *   func_0207D7C4  0x0207D7C4  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01351.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -55,13 +56,13 @@ void func_021953D4(u8 *p, int m)
     c.z = 0;
     if (m == 0) {
         f = 0x40000;
-        if (*(int *)(p + 0xCC4) >= f)
-            f = *(int *)(p + 0xCC4) + 0x1000;
-        func_02048AFC(*(u32 *)(p + 4), &a);
-        func_02048B20(*(u32 *)(p + 4), &b);
-        func_02048B44(*(u32 *)(p + 4), &c);
-        func_02048B60(*(u32 *)(p + 4), &f);
-        func_02048AD0((struct Light *)(*(u32 *)(p + 4)));
+        if (((struct Obj01351 *)p)->fCC4 >= f)
+            f = ((struct Obj01351 *)p)->fCC4 + 0x1000;
+        func_02048AFC(((struct Obj01351 *)p)->f4, &a);
+        func_02048B20(((struct Obj01351 *)p)->f4, &b);
+        func_02048B44(((struct Obj01351 *)p)->f4, &c);
+        func_02048B60(((struct Obj01351 *)p)->f4, &f);
+        func_02048AD0((struct Light *)(((struct Obj01351 *)p)->f4));
         return;
     }
     func_0207D7C4(&a, &b, &c, 1, 0);

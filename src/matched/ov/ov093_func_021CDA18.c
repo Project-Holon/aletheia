@@ -25,6 +25,7 @@
  *   func_021BA73C 0x021BA73C thumb ov093
  *   func_02006734 0x02006734 thumb
  */
+#include "../include/Obj00463.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,26 +54,26 @@ int func_021CDA18(u8 *p)
     func_021D3FDC(p,p+0x18);
     switch (p[0x1a8]) {
     case 0:
-        id = func_021EEBE8(*(void **)(p+0x50));
+        id = func_021EEBE8(((struct Obj00463 *)p)->f50);
         if (p[0x1a7] == 2 && (((Flags *)(p+0x1b2))->f4 || ((Flags *)(p+0x1b2))->f5) && !id) return 0;
         func_021CDD34(p);
         if (id == 9) {
-            func_021EEC20(*(int *)(p+0x50),&pair);
+            func_021EEC20(*(int *)&((struct Obj00463 *)p)->f50,&pair);
             x = pair[0]; y = pair[1];
-            *(u32 *)(p+0x30) = y;
-            *(u32 *)(p+0x2c) = x;
-            *(int *)(p+0xcc) = 0;
+            ((struct Obj00463 *)p)->f30 = y;
+            ((struct Obj00463 *)p)->f2C = x;
+            ((struct Obj00463 *)p)->fCC = 0;
             p[0x1a8] = 3;
         } else if (id) {
-            *(Callback *)(p+0xc8) = func_021CDD50(p,id,&flag);
+            *(Callback *)&((struct Obj00463 *)p)->fC8 = func_021CDD50(p,id,&flag);
             if (flag) {
                 if (!func_021D3FAC(p+0x18)) { p[0x1a8] = 6; break; }
             } else func_021D3FC4(p+0x18);
-            if (*(Callback *)(p+0xc8)) {
+            if (*(Callback *)&((struct Obj00463 *)p)->fC8) {
                 p[0x1a8] = 1;
-                *(int *)(p+0xcc) = 0;
+                ((struct Obj00463 *)p)->fCC = 0;
             } else {
-                *(int *)(p+0xcc) = 0;
+                ((struct Obj00463 *)p)->fCC = 0;
                 p[0x1a8] = 2;
             }
         } else if (((Flags *)(p+0x1b2))->f1) return 1;
@@ -85,11 +86,11 @@ int func_021CDA18(u8 *p)
         }
         break;
     case 2:
-        if (func_021EEC4C(*(void **)(p+0x50),*(void **)(p+0xd8),*(u32 *)(p+0xdc))) p[0x1a8] = 0;
+        if (func_021EEC4C(((struct Obj00463 *)p)->f50,((struct Obj00463 *)p)->fD8,((struct Obj00463 *)p)->fDC)) p[0x1a8] = 0;
         if (((Flags *)(p+0x1b2))->f1) return 1;
         break;
     case 3:
-        if (func_021EEC4C(*(void **)(p+0x50),*(void **)(p+0xd8),*(u32 *)(p+0xdc))) p[0x1a8] = 7;
+        if (func_021EEC4C(((struct Obj00463 *)p)->f50,((struct Obj00463 *)p)->fD8,((struct Obj00463 *)p)->fDC)) p[0x1a8] = 7;
         if (((Flags *)(p+0x1b2))->f1) return 1;
         break;
     case 6:
@@ -98,7 +99,7 @@ int func_021CDA18(u8 *p)
     case 4:
         if (func_021D3F60(p+0x18) == 1) p[0x1a8] = 7;
         else {
-            if (*(void **)(p+0x54)) { func_02005CA4(1,62); func_02006740(); }
+            if (((struct Obj00463 *)p)->f54) { func_02005CA4(1,62); func_02006740(); }
             p[0x1a8] = 5;
         }
         break;
@@ -106,7 +107,7 @@ int func_021CDA18(u8 *p)
         if (!func_02005E50()) {
             n = func_021D3FA8(p+0x18);
             func_02005CA4(0,1);
-            func_021BA73C(*(char **)p,n);
+            func_021BA73C(*(char * *)&((struct Obj00463 *)p)->f0,n);
             func_02006734(0);
         }
         break;

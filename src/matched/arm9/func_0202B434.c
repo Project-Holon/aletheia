@@ -15,11 +15,12 @@
  *   python tools/match.py one --src src/matched/func_0202B434.c \
  *       --func func_0202B434 --addr 0x0202B434 --thumb --cc 1.1p1
  */
+#include "../include/Obj15836.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 u32 func_0202B434(u8 *p)
 {
-    return *(u32 *)(p + 0xc);
+    return ((struct Obj15836 *)p)->fC;
 }

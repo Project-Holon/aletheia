@@ -11,6 +11,8 @@
  *
  * Follows the pointer at +0x8, then loads the 32-bit word at +0x60 of its target.
  */
+#include "../include/Obj01219.h"
+#include "../include/Obj18351.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,8 +20,8 @@ typedef unsigned int   u32;
 
 u32 func_021CC068(u8 *p)
 {
-    u8 *q = *(u8 **)(p + 0x8);
+    u8 *q = *(u8 * *)&((struct Obj01219 *)p)->f8;
 
-    return *(u32 *)(q + 0x60);
+    return ((struct Obj18351 *)q)->f60;
 }
 

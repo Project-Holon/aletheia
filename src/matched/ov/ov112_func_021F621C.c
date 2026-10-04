@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj13833.h"
 
 void func_021F621C(void *p)
 {
-    unsigned int v = *(unsigned int *)((char *)p + 8);
-    *(unsigned int *)((char *)p + 8) = (v & ~1u) | 1u;
+    unsigned int v = ((struct Obj13833 *)p)->f8;
+    ((struct Obj13833 *)p)->f8 = (v & ~1u) | 1u;
 }

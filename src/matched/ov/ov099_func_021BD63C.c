@@ -12,6 +12,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039CB4 0x02039CB4 arm
  */
+#include "../include/Obj07950.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BA928(void *);
@@ -24,10 +25,10 @@ int func_021BD63C(char *p, int v)
     int state;
     func_021BA928(p);
     if (func_02039CB4((struct Link *)func_020399A8(), 0x1a, 10) != 0) {
-        state = *(u8 *)(p + 0x1357);
-        if (state != 0) *(u32 *)(p + 0x1cc) = state;
-        else *(u32 *)(p + 0x1cc) = 0x15;
-        *(u8 *)(p + 0x1357) = 0;
+        state = ((struct Obj07950 *)p)->f1357;
+        if (state != 0) ((struct Obj07950 *)p)->f1CC = state;
+        else ((struct Obj07950 *)p)->f1CC = 0x15;
+        ((struct Obj07950 *)p)->f1357 = 0;
     }
     return v;
 }

@@ -23,6 +23,7 @@
  * func_02045C04 0x02045C04 arm
  * d_021B7550 0x021B7550 data a1
  */
+#include "../include/Obj03227.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -53,23 +54,23 @@ void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 h
     Side choice,first;
     p=func_02030734(heap,96,0,d_021B7550,125);
     func_02082BCC(p,0,96);
-    *(u32 *)(p+0x3c)=layer;
-    *(u32 *)(p+0x44)=side-1;
-    *(u32 *)(p+0x48)=side-1;
-    *(u32 *)(p+0x54)=side;
-    *(u16 *)(p+0x58)=heap;
-    *(u32 *)(p+0x5c)=1;
+    ((struct Obj03227 *)p)->f3C=layer;
+    ((struct Obj03227 *)p)->f44=side-1;
+    ((struct Obj03227 *)p)->f48=side-1;
+    ((struct Obj03227 *)p)->f54=side;
+    ((struct Obj03227 *)p)->f58=heap;
+    ((struct Obj03227 *)p)->f5C=1;
     if(layer>=4) { side=1; first=1; choice=4; }
     else { first=0; choice=0; }
     func_021B732C(p,first,choice,extra,x,y,heap);
-    *(void **)(p+4)=func_02027F60(layer,x,c,d,heap);
+    ((struct Obj03227 *)p)->f4=func_02027F60(layer,x,c,d,heap);
     func_021B739C(p,b,a,side,func_020416D4(layer),heap);
     bank=func_02045B38(0,2,49,heap);
     func_02082BCC(&desc,0,12);
     desc.color=0x39e3;
     desc.str=func_02045EC0(bank,8);
     desc.flag=1;
-    *(u32 *)p=func_02027FEC((u32)(*(void **)(p+4)),(u32)(&desc),19,21,13,heap);
+    ((struct Obj03227 *)p)->f0=func_02027FEC((u32)(((struct Obj03227 *)p)->f4),(u32)(&desc),19,21,13,heap);
     func_02045808(desc.str);
     func_02045C04(bank);
     return p;

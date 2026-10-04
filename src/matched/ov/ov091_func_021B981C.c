@@ -16,6 +16,7 @@
  *   func_0201AB28 0x0201AB28 thumb
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj01229.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,7 +40,7 @@ void func_021B981C(u8 *p)
         func_021BB0C4(p, ROW(W(0x2c)), p[0x104]);
         func_021BB0C4(p, ROW(W(0x30)), p[0x104]);
         if (p[0x104] >= 16) {
-            func_0201AB8C((struct Party *)(*(int *)W(0x280)), W(0x2c), W(0x30), *(u16 *)p);
+            func_0201AB8C((struct Party *)(*(int *)W(0x280)), W(0x2c), W(0x30), ((struct Obj01229 *)p)->f0);
             func_021BB200(p, ROW(W(0x2c)), (int)func_0201AB28(*(void **)W(0x280), W(0x2c)), p[0x104]);
             func_021BB200(p, ROW(W(0x30)), (int)func_0201AB28(*(void **)W(0x280), W(0x30)), p[0x104]);
             p[0xe] = 4;

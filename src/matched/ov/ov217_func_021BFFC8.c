@@ -21,6 +21,7 @@
  *   d_021C3718 0x021C3718 data ov217
  *   d_021C3738 0x021C3738 data ov217
  */
+#include "../include/Obj25959.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct DispConfig { u32 a,b,c,d; };
@@ -51,5 +52,5 @@ void func_021BFFC8(char *p)
     sub_02040588(3, 1);
     func_0207D63C((u32 *)0x04001050, 2, 1, 7, 15);
     func_0207D63C((u32 *)0x04000050, 4, 2, 16, 5);
-    sub_02045088(*(u16 *)(p + 4));
+    sub_02045088(((struct Obj25959 *)p)->f4);
 }

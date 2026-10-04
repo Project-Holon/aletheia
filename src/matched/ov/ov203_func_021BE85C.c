@@ -12,12 +12,13 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj14590.h"
 
 extern void func_020307B0(void *);
 
 void func_021BE85C(char *a)
 {
-    func_020307B0((void *)*(int *)(a + 8));
-    func_020307B0((void *)*(int *)a);
+    func_020307B0((void *)((struct Obj14590 *)a)->f8);
+    func_020307B0((void *)((struct Obj14590 *)a)->f0);
     func_020307B0(a);
 }

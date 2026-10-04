@@ -14,6 +14,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021BDC48 0x021BDC48 thumb ov208
  */
+#include "../include/Obj10901.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Actor;
@@ -26,8 +27,8 @@ extern void func_021BDC48(struct Ov208Scene *, unsigned);
 void func_021BF450(void *unused, char *p, int key)
 {
     void *scene = (void *)func_021BC3B4((int *)key);
-    if (*(unsigned *)(p + 0x94) != 6) {
-        u8 i = *(unsigned *)(p + 0x94);
+    if (((struct Obj10901 *)p)->f94 != 6) {
+        u8 i = ((struct Obj10901 *)p)->f94;
         char *states = p + 0x2c;
         switch (*(unsigned *)(states + i * 20)) {
         case 0: break;
@@ -39,7 +40,7 @@ void func_021BF450(void *unused, char *p, int key)
         case 3:
             func_0204B878(*(struct Obj **)(p + i * 20 + 0x1c), *(u16 *)(p + i * 20 + 0x24));
             *(unsigned *)(states + i * 20) = 0;
-            *(unsigned *)(p + 0x94) = 6;
+            ((struct Obj10901 *)p)->f94 = 6;
             func_021BDC48(scene, 1);
             break;
         }

@@ -12,11 +12,12 @@
  * Unlabelled leaf getter: the word at +0x12C (func_021899F8 is its setter).
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19501.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_021899F0(u8 *p)
 {
-    return *(u32 *)(p + 0x12c);
+    return ((struct Obj19501 *)p)->f12C;
 }

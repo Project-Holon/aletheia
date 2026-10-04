@@ -21,6 +21,7 @@
  *     pending and 0x021E8A90 whether the last read produced a byte, and
  *     returns the +0x3c word only in that case, else the 0xFFFF sentinel.
  */
+#include "../include/Obj01562.h"
 
 typedef unsigned long u32;
 
@@ -29,9 +30,9 @@ extern int func_021E8A90(u32 h);
 
 u32 func_021D679C(char *obj)
 {
-    func_021E8A80(*(u32 *)(obj + 0x38));
-    if (func_021E8A90(*(u32 *)(obj + 0x38)) != 0)
-        return *(u32 *)(obj + 0x3c);
+    func_021E8A80(((struct Obj01562 *)obj)->f38);
+    if (func_021E8A90(((struct Obj01562 *)obj)->f38) != 0)
+        return ((struct Obj01562 *)obj)->f3C;
     return 0xFFFF;
 }
 

@@ -22,6 +22,7 @@
  *   func_02200218 0x02200218 thumb ov094
  *   d_0220AE68 0x0220AE68 data ov094 a1
  */
+#include "../include/Obj00177.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { unsigned low : 10; unsigned bit10 : 1; unsigned high : 21; } Flags;
@@ -66,13 +67,13 @@ int func_021FBFC0(void *a, char *s)
             }
             func_021FE410(s, 0x7f000, 0x6b000, 10);
             if (!((Flags *)s)->bit10) {
-                p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x10f9);
+                p = func_02030734((u16)((((struct Obj00177 *)s)->f238 & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x10f9);
                 p[0] = (int)s;
-                func_021F896C(func_02030DA8(*(void **)(s + 8), func_021FE8D8, p, 0), 0, 0);
+                func_021F896C(func_02030DA8(((struct Obj00177 *)s)->f8, func_021FE8D8, p, 0), 0, 0);
             }
         } else {
             for (i = 0; i < n; i++) {
-                p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x20, 0, d_0220AE68, 0x1104);
+                p = func_02030734((u16)((((struct Obj00177 *)s)->f238 & 0x7fff) | 0x8000), 0x20, 0, d_0220AE68, 0x1104);
                 p[0] = (int)s;
                 p[1] = buf[i];
                 p[2] = x;
@@ -81,10 +82,10 @@ int func_021FBFC0(void *a, char *s)
                 p[5] = q;
                 p[6] = r;
                 p[7] = duration;
-                *(u32 *)s |= 0x800;
-                func_021F896C(func_02030DA8(*(void **)(s + 8), func_021FE6A4, p, 0), func_021FE750, 1);
+                ((struct Obj00177 *)s)->f0 |= 0x800;
+                func_021F896C(func_02030DA8(((struct Obj00177 *)s)->f8, func_021FE6A4, p, 0), func_021FE750, 1);
             }
         }
     }
-    return *(int *)(s + 0x23c);
+    return ((struct Obj00177 *)s)->f23C;
 }

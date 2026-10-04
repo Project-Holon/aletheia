@@ -16,6 +16,7 @@
  *   _fdiv 0x0209CE10 arm
  *   _ffixu 0x0209C4C8 arm
  */
+#include "../include/Obj00228.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -28,18 +29,18 @@ extern const s16 table[];
 void func_021B9990(u8 *p,u16 a,int delta,u16 duration)
 {
     int step,index;
-    *(int *)(p+24)=0;
-    *(int *)(p+20)=0;
-    func_0204B3DC(*(void **)(p+0x1854),1);
+    ((struct Obj00228 *)p)->f18=0;
+    ((struct Obj00228 *)p)->f14=0;
+    func_0204B3DC(((struct Obj00228 *)p)->f1854,1);
     step=_s32_div_f(delta,duration);
-    index=((u16)((int)((unsigned)a-(unsigned)step**(u16 *)(p+0x1844)+65536)%65536)>>4)*2;
-    *(unsigned *)(p+28)=(unsigned)((float)(72*table[index]+0x80000)/4096.0f);
-    *(unsigned *)(p+32)=(unsigned)((float)(48*table[index+1]+0x50000)/4096.0f);
-    *(u16 *)(p+0x182c)-=(u16)step;
-    func_021B765C(p,*(u16 *)(p+0x182c),step,72,48);
-    ++*(u16 *)(p+0x1844);
-    if(*(u16 *)(p+0x1844)>duration) {
-        *(u16 *)(p+0x1844)=0;
+    index=((u16)((int)((unsigned)a-(unsigned)step*((struct Obj00228 *)p)->f1844+65536)%65536)>>4)*2;
+    *(unsigned *)&((struct Obj00228 *)p)->f1C=(unsigned)((float)(72*table[index]+0x80000)/4096.0f);
+    *(unsigned *)&((struct Obj00228 *)p)->f20=(unsigned)((float)(48*table[index+1]+0x50000)/4096.0f);
+    ((struct Obj00228 *)p)->f182C-=(u16)step;
+    func_021B765C(p,((struct Obj00228 *)p)->f182C,step,72,48);
+    ++((struct Obj00228 *)p)->f1844;
+    if(((struct Obj00228 *)p)->f1844>duration) {
+        ((struct Obj00228 *)p)->f1844=0;
         ++p[0x1846];
     }
 }

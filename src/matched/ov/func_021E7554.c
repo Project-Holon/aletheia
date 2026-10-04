@@ -25,6 +25,7 @@
  * func_021D5B40 is the value func_020213C0 must accept.  Both truncations
  * are materialised in the image, so both callees are declared int.
  */
+#include "../include/Obj12159.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -58,8 +59,8 @@ void func_021E7554(void *a, int b, int c)
     if (func_020213C0(v) == 0)
         return;
     p = func_021C88A4(b, 0x20, c);
-    *(u8 *)(p + 6) = k;
-    *(u16 *)(p + 4) = 0;
+    ((struct Obj12159 *)p)->f6 = k;
+    ((struct Obj12159 *)p)->f4 = 0;
     func_021C8838(p + 0xc, 2, 0x454);
     func_021C8860((struct S *)(p + 0xc), k);
     func_021C8860((struct S *)(p + 0xc), v);

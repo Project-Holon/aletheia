@@ -11,7 +11,8 @@
  * symbols:
 
  */
+#include "../include/Obj23273.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-int func_021FCE28(char *p,u32 index) {if(*(int *)(p+0x4c)!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}
+int func_021FCE28(char *p,u32 index) {if(((struct Obj23273 *)p)->f4C!=0 && *(int *)((u32)p+index*0x30+0x68)==1)return *(int *)((u32)p+index*0x30+0x84);return 0;}

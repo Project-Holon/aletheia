@@ -15,6 +15,7 @@
  *   func_0202208C 0x0202208C thumb
  *   func_021DD924 0x021DD924 thumb ov137
  */
+#include "../include/Obj14218.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Entry;
@@ -27,7 +28,7 @@ extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 
 extern void func_021DD924(char *);
 int func_021DDEDC(char *p, int state) {
     if (func_02039CB4((struct Link *)func_020399A8(), 0xcf, 0x28) != 0 ||
-        *(unsigned *)(p + 0x4814) != (func_021DE37C(p) ^ *(unsigned *)(p + 0x480c))) {
+        ((struct Obj14218 *)p)->f4814 != (func_021DE37C(p) ^ ((struct Obj14218 *)p)->f480C)) {
         func_0203D7B0(0);
         func_0202208C(0,0,0,0,0x10,1,0x72);
         state = 3;

@@ -15,6 +15,7 @@
  *   func_0218E17C  0x0218E17C  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj19614.h"
 
 typedef unsigned short u16;
 
@@ -28,7 +29,7 @@ void func_02193ABC(char *p, int a, int b)
 {
     u16 *h;
 
-    h = func_0204A380((void *)(*(int *)(p + 0x10)), 0x24, 0, (u16)((b & 0x7fff) | 0x8000));
+    h = func_0204A380((void *)(((struct Obj19614 *)p)->f10), 0x24, 0, (u16)((b & 0x7fff) | 0x8000));
     func_0218E17C((u32 *)a, h[func_021938F4(p)]);
     func_020307B0(h);
 }

@@ -42,6 +42,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021BCE7C 0x021BCE7C thumb ov216
  */
+#include "../include/Obj00051.h"
+#include "../include/Obj05555.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -96,39 +98,39 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_02021F64(&colors.a,&colors.b,1,3,0);
     position=slot*16;
     func_021BCD08(&colors,1,position+1,2);
-    func_021BCD08(*(char **)(p+0x11c)+func_021BCDC0(record)*32,1,position+10,2);
-    func_02165C34(record,*(void **)(p+0x13c));
-    func_021BD07C((char *)p,(void **)q,*(int *)(p+0x13c),6,48,13,2,0);
+    func_021BCD08(*(char * *)&((struct Obj00051 *)p)->f11C+func_021BCDC0(record)*32,1,position+10,2);
+    func_02165C34(record,((struct Obj00051 *)p)->f13C);
+    func_021BD07C((char *)p,(void **)q,*(int *)&((struct Obj00051 *)p)->f13C,6,48,13,2,0);
     subtype=func_02165C60(record);
-    if(subtype==255) func_0204581C(*(struct U16Vec **)(p+0x140));
-    else {func_0201F1C8(*(struct WordSet **)(p+0x138),0,subtype);func_021BCEA4((char *)p,5);}
-    func_021BD07C((char *)p,(void **)(q+16),*(int *)(p+0x140),6,48,13,2,1);
+    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    else {func_0201F1C8(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((char *)p,5);}
+    func_021BD07C((char *)p,(void **)(q+16),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     subtype=func_02165C78(record);
-    if(subtype==255) func_0204581C(*(struct U16Vec **)(p+0x140));
-    else {func_0201F198(*(struct WordSet **)(p+0x138),0,subtype);func_021BCEA4((char *)p,4);}
-    func_021BD07C((char *)p,(void **)(q+32),*(int *)(p+0x140),6,48,13,2,0);
+    if(subtype==255) func_0204581C(*(struct U16Vec * *)&((struct Obj00051 *)p)->f140);
+    else {func_0201F198(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,subtype);func_021BCEA4((char *)p,4);}
+    func_021BD07C((char *)p,(void **)(q+32),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,0);
     func_02165D10(record,&counts.b,&counts.a);
-    func_0201EFA4(*(struct WordSet **)(p+0x138),2,counts.b,3,0,1);
-    func_0201EFA4(*(struct WordSet **)(p+0x138),3,counts.a,2,2,1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,2,counts.b,3,0,1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,3,counts.a,2,2,1);
     func_021BCEA4((char *)p,6);
-    func_021BD07C((char *)p,(void **)(q+48),*(int *)(p+0x140),6,48,13,2,1);
+    func_021BD07C((char *)p,(void **)(q+48),*(int *)&((struct Obj00051 *)p)->f140,6,48,13,2,1);
     value=func_02165C58(record);
-    func_0201F048(*(struct WordSet **)(p+0x138),0,value);
-    func_0201F094(*(struct WordSet **)(p+0x138),1,value,func_02165C5C(record));
+    func_0201F048(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,value);
+    func_0201F094(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,value,func_02165C5C(record));
     func_021BCEA4((char *)p,8);
-    func_021BD07C((char *)p,(void **)(q+80),*(int *)(p+0x140),0,0,28,4,0);
-    func_0201EFA4(*(struct WordSet **)(p+0x138),0,func_02165D40(record),5,1,1);
-    func_0201EFA4(*(struct WordSet **)(p+0x138),1,func_02165D48(record),5,1,1);
+    func_021BD07C((char *)p,(void **)(q+80),*(int *)&((struct Obj00051 *)p)->f140,0,0,28,4,0);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,0,func_02165D40(record),5,1,1);
+    func_0201EFA4(*(struct WordSet * *)&((struct Obj00051 *)p)->f138,1,func_02165D48(record),5,1,1);
     func_021BCEA4((char *)p,10);
-    func_021BD07C((char *)p,(void **)(q+96),*(int *)(p+0x140),21,0,6,4,0);
-    if(func_0202DCC4(*(struct Obj0202DCC4 **)(p+0x158),slot)!=0) func_0202DC9C(*(struct Obj0202DC98 **)(p+0x158),slot,1);
+    func_021BD07C((char *)p,(void **)(q+96),*(int *)&((struct Obj00051 *)p)->f140,21,0,6,4,0);
+    if(func_0202DCC4(*(struct Obj0202DCC4 * *)&((struct Obj00051 *)p)->f158,slot)!=0) func_0202DC9C(*(struct Obj0202DC98 * *)&((struct Obj00051 *)p)->f158,slot,1);
     func_02165C90(record,&data);
-    func_0202DC48(*(u32 *)(p+0x158),*(u32 *)(q+0x70),(u32)&data,slot);
-    *(u8 *)(q+0x7c)=func_02165CE8(record);
+    func_0202DC48(*(u32 *)&((struct Obj00051 *)p)->f158,((struct Obj05555 *)q)->f70,(u32)&data,slot);
+    ((struct Obj05555 *)q)->f7C=func_02165CE8(record);
     index=slot*12;
-    func_0202DAA4(*(void **)(p+0x58),func_02025C88(*(u8 *)(q+0x7c)),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),*(u16 *)(p+2));
+    func_0202DAA4(((struct Obj00051 *)p)->f58,func_02025C88(((struct Obj05555 *)q)->f7C),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),((struct Obj00051 *)p)->f2);
     subtype=func_02165CB4(record);
-    if(subtype==0) {func_0204B3DC(*(struct Obj **)(q+0x74),0);return;}
-    func_021BCE7C(*(void **)(q+0x74),subtype+1);
-    func_0204B3DC(*(struct Obj **)(q+0x74),1);
+    if(subtype==0) {func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,0);return;}
+    func_021BCE7C(((struct Obj05555 *)q)->f74,subtype+1);
+    func_0204B3DC(*(struct Obj * *)&((struct Obj05555 *)q)->f74,1);
 }

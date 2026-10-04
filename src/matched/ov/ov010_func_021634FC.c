@@ -13,6 +13,7 @@
  *   func_02163464 0x02163464 thumb ov010
  *   func_021AC760 0x021AC760 thumb ov021
  */
+#include "../include/Obj00110.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,10 +24,10 @@ void func_021634FC(void *p, u8 *q)
 {
     int flag;
     int kind;
-    if (*(u16 *)(q + 14) & 0x20) {
+    if (((struct Obj00110 *)q)->fE & 0x20) {
         flag = func_0216D608(p);
-        kind = func_02163464(*(u16 *)(q + 10), q[24]);
+        kind = func_02163464(((struct Obj00110 *)q)->fA, q[24]);
         if (flag != 0)
-            func_021AC760(*(u32 *)(q + 20), (u32)p, 1, kind);
+            func_021AC760(*(u32 *)&((struct Obj00110 *)q)->f14, (u32)p, 1, kind);
     }
 }

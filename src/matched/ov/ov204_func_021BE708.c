@@ -14,6 +14,7 @@
  *   func_021BF560 0x021BF560 thumb ov204
  *   func_021BF580 0x021BF580 thumb ov204
  */
+#include "../include/Obj05530.h"
 typedef unsigned char  u8;
 extern int func_021BD3A0(unsigned char *p);
 extern void func_021BF23C(char *p, void *a, int flag);
@@ -24,20 +25,20 @@ int func_021BE708(char *p, int *state)
 {
     switch (*state) {
     case 0:
-        if (func_021BD3A0(*(void **)(p + 0xa4)) == 1)
+        if (func_021BD3A0(((struct Obj05530 *)p)->fA4) == 1)
             return 1;
-        func_021BF23C(*(void **)(p + 0x18), (void *)5, 0);
+        func_021BF23C(((struct Obj05530 *)p)->f18, (void *)5, 0);
         ++*state;
         break;
     case 1:
-        if (func_021BF2F4(*(void **)(p + 0x18)) == 1) {
-            func_021BF560(*(void **)(p + 0x18));
+        if (func_021BF2F4(((struct Obj05530 *)p)->f18) == 1) {
+            func_021BF560(((struct Obj05530 *)p)->f18);
             ++*state;
         }
         break;
     case 2:
-        if (func_021BD3A0(*(void **)(p + 0xa4)) == 1) {
-            func_021BF580(*(void **)(p + 0x18));
+        if (func_021BD3A0(((struct Obj05530 *)p)->fA4) == 1) {
+            func_021BF580(((struct Obj05530 *)p)->f18);
             return 1;
         }
         break;

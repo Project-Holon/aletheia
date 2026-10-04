@@ -18,6 +18,7 @@
  *   func_021C4214 0x021C4214 thumb ov127
  *   func_021C42C4 0x021C42C4 thumb ov127
  */
+#include "../include/Obj00328.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -33,20 +34,20 @@ extern void func_021C42C4(u8 *p);
 void func_021C574C(u8 *p)
 {
     if (p[19]) {
-        int a = func_021C49A4(*(void **)p, 5);
-        int b = func_021C49A4(*(void **)p, 6);
-        s16 c = func_021C49A4(*(void **)p, 8);
+        int a = func_021C49A4(((struct Obj00328 *)p)->f0, 5);
+        int b = func_021C49A4(((struct Obj00328 *)p)->f0, 6);
+        s16 c = func_021C49A4(((struct Obj00328 *)p)->f0, 8);
         s16 x, y;
         u16 d;
-        if (*(u16 *)(p+8) != a || *(u16 *)(p+10) != b || c == 0) {
-            *(u16 *)(p+8) = a;
-            *(u16 *)(p+10) = b;
-            func_021C5944(p, func_021C58F8(*(void **)(p+4), a), b);
+        if (((struct Obj00328 *)p)->f8 != a || ((struct Obj00328 *)p)->fA != b || c == 0) {
+            ((struct Obj00328 *)p)->f8 = a;
+            ((struct Obj00328 *)p)->fA = b;
+            func_021C5944(p, func_021C58F8(((struct Obj00328 *)p)->f4, a), b);
         }
         func_021C5914(p, &x, &y);
-        func_021C41DC(*(void **)(p+4), x, y);
+        func_021C41DC(((struct Obj00328 *)p)->f4, x, y);
         d = func_021C5878(y, p[18]);
-        func_021C4214(*(void **)(p+4), d);
-        func_021C42C4(*(void **)(p+4));
+        func_021C4214(((struct Obj00328 *)p)->f4, d);
+        func_021C42C4(((struct Obj00328 *)p)->f4);
     }
 }

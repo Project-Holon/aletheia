@@ -16,6 +16,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13530.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -33,7 +34,7 @@ void func_021E61BC(u8 *p, void *a, int b)
         return;
     q = func_021C88A4(a, 0x17, b);
     q[8] = b;
-    *(int *)(q + 4) = 3;
+    ((struct Obj13530 *)q)->f4 = 3;
     func_021C88C8(a, q);
     r = func_021C88A4(a, 4, b);
     func_021C8838(r + 4, 2, 0x211);

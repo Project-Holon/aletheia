@@ -18,6 +18,8 @@
  *   func_0201F868 0x0201F868 thumb
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj10880.h"
+#include "../include/Obj14623.h"
 
 extern void func_0201F7A8(void *, unsigned int);
 typedef unsigned short u16;
@@ -35,10 +37,10 @@ extern void func_02082BCC(void *, int, unsigned int);
 void func_021BF4E8(char *p)
 {
     char *block = p + 0x24;
-    func_0201F7A8(*(void **)(p + 0x38), 0);
-    func_02043B5C(func_02045770(*(void **)(p + 0x38)), 0);
-    func_02045334(*(void **)(p + 0x38));
-    func_0202020C(*(void **)block, 0, 0);
-    func_0201F868(*(void **)(block + 4));
+    func_0201F7A8(((struct Obj10880 *)p)->f38, 0);
+    func_02043B5C(func_02045770(((struct Obj10880 *)p)->f38), 0);
+    func_02045334(((struct Obj10880 *)p)->f38);
+    func_0202020C(((struct Obj14623 *)block)->f0, 0, 0);
+    func_0201F868(((struct Obj14623 *)block)->f4);
     func_02082BCC(block, 0, 12);
 }

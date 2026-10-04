@@ -23,6 +23,7 @@
  *   func_02045334 0x02045334 arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj03240.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef short s16;
@@ -46,7 +47,7 @@ u8 *func_021BB4F4(u8 *p,u8 *q) {
     void *str;
     int i;
     int x,y;
-    w=func_021BAC44(*(u8 **)p);
+    w=func_021BAC44(*(u8 * *)&((struct Obj03240 *)p)->f0);
     a=func_020450F0(1,1,8,30,14,12,1);
     str=func_020457B0(4,42);
     func_02043B5C(func_02045770((struct Descriptor *)a),15);
@@ -60,6 +61,6 @@ u8 *func_021BB4F4(u8 *p,u8 *q) {
     func_02045334((struct Descriptor *)a);
     func_02045808(str);
     p+=0x90;
-    *(u32 *)p=a;
+    *(u32 *)&((struct Obj03240 *)p)->f0=a;
     return q+0x1a4;
 }

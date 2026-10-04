@@ -15,6 +15,7 @@
  *   func_02188C7C  0x02188C7C  thumb
  *   func_02194284  0x02194284  thumb
  */
+#include "../include/Obj00020.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_02167A74(int a0, int a1)
     void *v1;
 
 t4 = a1 + 0;
-a1 = *(int *)((char *)t4 + 4);
+a1 = *(int *)&((struct Obj00020 *)t4)->f4;
     if (a1 != 0) goto loc_02167AAE;
 loc_02167A7E:
     v0 = func_0201210C((void *)a0);
@@ -55,11 +56,11 @@ a3 = t4 + 0;
 a0 = a0 + 0x8e;
 a2 = a2 + 0x8c;
 a3 = a3 + 0x90;
-a0 = *(u8 *)((char *)a0);
-a2 = *(u16 *)((char *)a2);
-a3 = *(u8 *)((char *)a3);
+a0 = *(u8 *)&((struct Obj00020 *)((char *)a0))->f0;
+a2 = *(u16 *)&((struct Obj00020 *)((char *)a2))->f0;
+a3 = *(u8 *)&((struct Obj00020 *)((char *)a3))->f0;
     res = func_02194284(a0, v1, a2, a3);
 loc_02167AAC:
-*(void **)((char *)t4 + 4) = res;
+((struct Obj00020 *)t4)->f4 = res;
 loc_02167AAE:
     return;}

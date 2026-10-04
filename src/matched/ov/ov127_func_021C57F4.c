@@ -13,9 +13,10 @@
  *   func_021C5944 0x021C5944 thumb ov127
  *   func_021C574C 0x021C574C thumb ov127
  */
+#include "../include/Obj00328.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C58F8(char *,int);
 extern void func_021C5944(u8 *,int,int);
 extern void func_021C574C(u8 *);
-void func_021C57F4(u8 *p) { func_021C5944(p,func_021C58F8(*(char **)(p+4),*(u16 *)(p+8)),*(u16 *)(p+10)); func_021C574C(p); }
+void func_021C57F4(u8 *p) { func_021C5944(p,func_021C58F8(*(char * *)&((struct Obj00328 *)p)->f4,((struct Obj00328 *)p)->f8),((struct Obj00328 *)p)->fA); func_021C574C(p); }

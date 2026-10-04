@@ -17,6 +17,7 @@
  *   func_021BF564  0x021BF564  thumb  ov021
  *   func_021BF584  0x021BF584  thumb  ov021
  */
+#include "../include/Obj09668.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,13 +33,13 @@ extern void func_021BF584(u32 a);
 
 int func_021BF348(u32 p0, int *st, u8 *q)
 {
-    u32 x = *(u32 *)(q + 4);
+    u32 x = ((struct Obj09668 *)q)->f4;
 
     switch (*st) {
     case 0:
         func_021BF564(x);
-        func_021BF584(*(u32 *)(q + 4));
-        func_0204E720(*(u32 *)(q + 0xC), 0x10, 0, -1);
+        func_021BF584(((struct Obj09668 *)q)->f4);
+        func_0204E720(((struct Obj09668 *)q)->fC, 0x10, 0, -1);
         *st = *st + 1;
         break;
     case 1:

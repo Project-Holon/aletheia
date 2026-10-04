@@ -22,6 +22,7 @@
  *   func_021F27CC 0x021F27CC thumb ov032
  *   func_02165888 0x02165888 thumb ov010
  */
+#include "../include/Obj00007.h"
 
 extern void func_021F0208(char *, int);
 extern void func_021F2544(char *);
@@ -39,24 +40,24 @@ void func_021F2344(char *p, int a1)
 {
     int f;
 
-    if (*(int *)(p + 0x60) != a1) {
+    if (((struct Obj00007 *)p)->f60 != a1) {
         int c;
 
-        if (*(unsigned short *)(p + 0x72) != 0 && a1 == 0) {
+        if (((struct Obj00007 *)p)->f72 != 0 && a1 == 0) {
             c = 1;
         } else {
             c = 0;
         }
         if (c == 0) {
             f = 1;
-            *(int *)(p + 0x60) = a1;
+            ((struct Obj00007 *)p)->f60 = a1;
             if (a1 != 0) {
                 f = 0;
             }
             func_021F0208(p, f);
         }
     }
-    if (*(unsigned short *)(p + 0x70) != 0) {
+    if (((struct Obj00007 *)p)->f70 != 0) {
         if (a1 == 0) {
             func_021F2544(p);
             return;
@@ -64,30 +65,30 @@ void func_021F2344(char *p, int a1)
         return;
     }
     if (a1 != 0) {
-        func_020310C4((struct Tcbl *)(*(int *)(p + 0xa0)));
-        switch (*(int *)(p + 0x68)) {
+        func_020310C4((struct Tcbl *)(*(int *)&((struct Obj00007 *)p)->fA0));
+        switch (((struct Obj00007 *)p)->f68) {
         case 0:
-            *(int *)(p + 0x68) = func_021F2674(p);
+            ((struct Obj00007 *)p)->f68 = func_021F2674(p);
             break;
         case 1:
-            *(int *)(p + 0x68) = func_021F26D8(p);
+            ((struct Obj00007 *)p)->f68 = func_021F26D8(p);
             break;
         case 2:
-            *(int *)(p + 0x68) = func_021F26F0(p);
+            ((struct Obj00007 *)p)->f68 = func_021F26F0(p);
             break;
         case 3:
-            *(int *)(p + 0x68) = func_021F2714(p);
+            ((struct Obj00007 *)p)->f68 = func_021F2714(p);
             break;
         case 4:
-            *(int *)(p + 0x68) = func_021F27B4(p);
+            ((struct Obj00007 *)p)->f68 = func_021F27B4(p);
             break;
         case 5:
-            *(int *)(p + 0x68) = func_021F27CC(p);
+            ((struct Obj00007 *)p)->f68 = func_021F27CC(p);
             break;
         case 6:
         case 7:
             break;
         }
-        func_02165888(*(int *)(p + 0x38));
+        func_02165888(((struct Obj00007 *)p)->f38);
     }
 }

@@ -35,6 +35,8 @@
  *   python tools/match.py one --src src/matched/func_02031EF8.c \
  *       --func func_02031EF8 --addr 0x02031EF8 --cc 1.1p1 --arm
  */
+#include "../include/Obj03443.h"
+#include "../include/Obj08816.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,11 +52,11 @@ u32 func_02031EF8(void *p, void *buf, u32 sel)
 
     q = func_02031EE8(p, buf);
 
-    if (*(u32 *)(q + 4) != *(u32 *)((u8 *)p + 0x30))
+    if (((struct Obj08816 *)q)->f4 != ((struct Obj03443 *)p)->f30)
         return 2;
-    if (*(u32 *)(q + 8) != *(u32 *)((u8 *)p + 0x0C))
+    if (((struct Obj08816 *)q)->f8 != ((struct Obj03443 *)p)->fC)
         return 2;
-    if (*(u16 *)(q + 0x0E) != func_02031E7C(p, buf))
+    if (((struct Obj08816 *)q)->fE != func_02031E7C(p, buf))
         return 1;
     return 0;
 }

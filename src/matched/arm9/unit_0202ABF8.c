@@ -19,15 +19,17 @@
  *   python tools/match.py tu --src src/matched/unit_0202ABF8.c \
  *       --addr 0x0202ABF8 --thumb
  */
+#include "../include/Obj17262.h"
+#include "../include/Obj17263.h"
 
 typedef unsigned int u32;
 
 u32 sub_0202ABF8(void *obj)
 {
-    return *(u32 *)((char *)obj + 8);
+    return ((struct Obj17262 *)obj)->f8;
 }
 
 void sub_0202ABFC(void *obj, u32 value)
 {
-    *(u32 *)((char *)obj + 8) = value;
+    ((struct Obj17263 *)obj)->f8 = value;
 }

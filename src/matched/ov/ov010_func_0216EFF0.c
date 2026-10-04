@@ -20,6 +20,8 @@
  *   func_02012AC8 0x02012AC8 thumb
  *   func_0202C83C 0x0202C83C thumb
  */
+#include "../include/Obj00020.h"
+#include "../include/Obj19144.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct BigObj;
@@ -33,7 +35,7 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern u16 func_02012AC8(const struct Rec44 *p);
 extern int func_0202C83C(int,int);
 void func_0216EFF0(int *p,void *a) {
-    func_02012A4C(a,*(int *)(*(char **)((char *)p+8)+0x8c));
+    func_02012A4C(a,((struct Obj19144 *)(*(char * *)&((struct Obj00020 *)p)->f8))->f8C);
     func_0215E5B0(a,(void *)p[2]);
     func_0216EE7C(p);
     func_0216EF84(p);

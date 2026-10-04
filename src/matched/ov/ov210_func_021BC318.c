@@ -15,6 +15,7 @@
  *   filed as pkt_021BC33C; the ABS32 site then attests as `matched, overlay`.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25583.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ extern void func_021BC33C(void *ctx, unsigned char *p);
 
 void func_021BC318(u8 *p)
 {
-    *(u32 *)(p + 8) = (u32)func_02005624((u32)func_021BC33C, (u32)p, 0);
+    ((struct Obj25583 *)p)->f8 = (u32)func_02005624((u32)func_021BC33C, (u32)p, 0);
 }

@@ -14,6 +14,7 @@
  *   func_02186444  0x02186444  thumb  ov023
  *   func_021852F4  0x021852F4  thumb  ov023
  */
+#include "../include/Obj13025.h"
 
 extern void func_02185354(char *p);
 typedef unsigned int   u32;
@@ -29,9 +30,9 @@ struct bf4210 {
 int func_02185670(unsigned char *p, int a1)
 {
     ((struct bf4210 *)(p + 0x4210))->b = 0;
-    *(unsigned short *)(p + 0x9288) = 0;
+    ((struct Obj13025 *)p)->f9288 = 0;
     func_02186444((char *)p, 4);
-    func_021852F4(*(void **)(p + 0x100), 0);
+    func_021852F4(((struct Obj13025 *)p)->f100, 0);
     func_02185354((char *)p);
     return a1;
 }

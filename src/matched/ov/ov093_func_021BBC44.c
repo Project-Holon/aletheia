@@ -19,6 +19,7 @@
  *   func_021BC610  0x021BC610  thumb  ov093
  *   func_021BBFA8  0x021BBFA8  thumb  ov093
  */
+#include "../include/Obj02776.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -37,8 +38,8 @@ int func_021BBC44(u8 *p, int a)
     int *q;
     u32 i;
 
-    *(int *)(p + 0x14) = 0;
-    q = *(int **)(p + 0xc);
+    ((struct Obj02776 *)p)->f14 = 0;
+    q = *(int * *)&((struct Obj02776 *)p)->fC;
     q[0] = 0;
     q[1] = 0;
     if (p[0x77c] == 0) {
@@ -47,12 +48,12 @@ int func_021BBC44(u8 *p, int a)
         for (i = 0; i < 4; i++)
             p[i + 0x1fe8] = 0;
         func_021D6EE8();
-        func_021BB920((u8 *)(*(int *)p));
+        func_021BB920((u8 *)(((struct Obj02776 *)p)->f0));
         func_021D74E4();
         func_021BBCD4(p);
         p[0x782] = func_021BC610(p, a, p + 0x7e0, 6);
         p[0x77c] = 1;
     }
     p[0x783] = func_021BBFA8(p, p[0x783]);
-    return *(int *)(p + 0x14);
+    return ((struct Obj02776 *)p)->f14;
 }

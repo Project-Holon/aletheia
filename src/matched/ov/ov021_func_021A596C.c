@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09572.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
@@ -42,9 +43,9 @@ void func_021A596C(u8 *p, u32 b, u32 c)
     u32 x;
     u32 y;
 
-    t = func_021A3AB8(*(u32 *)(p + 0x14), c);
-    func_021A3CC0(*(u32 *)(p + 0x14));
-    func_021A6BB4(p + 0xc, t, *(u32 *)(p + 0x1c));
+    t = func_021A3AB8(((struct Obj09572 *)p)->f14, c);
+    func_021A3CC0(((struct Obj09572 *)p)->f14);
+    func_021A6BB4(p + 0xc, t, ((struct Obj09572 *)p)->f1C);
     x = func_021A682C(p, t, 0);
     y = func_021A5A68(p, x, b, c, 0);
     func_021A5B4C(p, c, y);

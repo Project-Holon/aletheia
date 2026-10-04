@@ -17,6 +17,11 @@
  *   func_02045808 0x02045808 arm
  *   func_02045C04 0x02045C04 arm
  */
+#include "../include/Obj07999.h"
+#include "../include/Obj13777.h"
+#include "../include/Obj22347.h"
+#include "../include/Obj22348.h"
+#include "../include/Obj22349.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,12 +44,12 @@ void func_021BAD68(u8 *p,int index) {
     void *bank,*str;
     u8 *q;
     table=d_021C3744;
-    func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(*(u8 **)p+0x6c)),7);
+    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj22347 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f6C),7);
     bank=func_02045B38(0,2,146,42);
     str=func_02045EC0(bank,table.values[index]);
-    q=*(u8 **)p;
-    func_0201C724(*(void **)(*(u8 **)p+0x7c),func_02045770((struct Descriptor *)*(u32 *)(q+0x6c)),2,4,str,*(u32 *)(q+0x80),0x39e7);
-    *(u32 *)(*(u8 **)p+0x70)=1;
+    q=*(u8 * *)&((struct Obj07999 *)p)->f0;
+    func_0201C724(((struct Obj22348 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f7C,func_02045770((struct Descriptor *)((struct Obj13777 *)q)->f6C),2,4,str,((struct Obj13777 *)q)->f80,0x39e7);
+    ((struct Obj22349 *)(*(u8 * *)&((struct Obj07999 *)p)->f0))->f70=1;
     func_02045808(str);
     func_02045C04(bank);
 }

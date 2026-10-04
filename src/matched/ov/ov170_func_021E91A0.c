@@ -32,6 +32,8 @@
  *   func_021ED55C 0x021ED55C thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23943.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -65,7 +67,7 @@ int func_021E91A0(unsigned char *p)
     void *mon;
     if(func_020355C4()==1) func_020260F4(*(void **)(WORK(p)+0x70),0);
     else { func_020260F4(*(void **)(WORK(p)+0x70),1); func_021ED55C((char **)p,0); }
-    if(func_02007E50(*(void **)(*(char **)p+0xc),*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
+    if(func_02007E50(((struct Obj23943 *)(*(char * *)&((struct Obj00000 *)p)->f0))->fC,*(unsigned short *)(WORK(p)+0xa16c),1,0x4c)==1) {
         mon=(void *)func_021DD2D0((void ***)p,p[0x14],p[0x16]);
         func_021DD2B4((int)p,p[0x16],p[0x14],6,0);
         if(func_021DD718(p,mon)==1) {
@@ -78,6 +80,6 @@ int func_021E91A0(unsigned char *p)
         return 0x3b;
     }
     func_020061E4(0x557); func_021EBCB4(p,6,0x18);
-    *(int *)(p+0x28)=0xe;
+    ((struct Obj00000 *)p)->f28=0xe;
     return func_021E8F50(p,6);
 }

@@ -9,8 +9,9 @@
  * status: EXACT
  * extent: the following labelled function is func_021B9748.
  */
+#include "../include/Obj22570.h"
 int func_021B973C(char *p)
 {
-    if (p) return *(int *)(p+0xc);
+    if (p) return ((struct Obj22570 *)p)->fC;
     return 0;
 }

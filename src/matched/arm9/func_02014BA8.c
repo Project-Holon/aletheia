@@ -25,6 +25,9 @@
  *   python tools/match.py one --src src/matched/func_02014BA8.c \
  *       --func func_02014BA8 --addr 0x02014BA8 --cc 1.1p1 --thumb
  */
+#include "../include/Obj03429.h"
+#include "../include/Obj11255.h"
+#include "../include/Obj15656.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -41,23 +44,23 @@ void func_02014BA8(u8 *a0)
     int i;
 
     func_02014CD4(a0);
-    if (*(u8 **)(a0 + 0xc) != 0) {
-        u8 *p = (u8 *)func_02030EE8((struct S02030EE8 *)(*(u8 **)(a0 + 0xc)));
+    if (*(u8 * *)&((struct Obj03429 *)a0)->fC != 0) {
+        u8 *p = (u8 *)func_02030EE8((struct S02030EE8 *)(*(u8 * *)&((struct Obj03429 *)a0)->fC));
 
-        func_020307B0(*(u8 **)(*(u8 **)(p + 4) + 0xc));
-        func_020307B0(*(u8 **)(p + 4));
+        func_020307B0(*(u8 * *)&((struct Obj15656 *)(*(u8 * *)&((struct Obj11255 *)p)->f4))->fC);
+        func_020307B0(*(u8 * *)&((struct Obj11255 *)p)->f4);
         func_020307B0(p);
-        func_02030EAC(*(u8 **)(a0 + 0xc));
-        *(u8 **)(a0 + 0xc) = 0;
+        func_02030EAC(*(u8 * *)&((struct Obj03429 *)a0)->fC);
+        *(u8 * *)&((struct Obj03429 *)a0)->fC = 0;
     }
-    for (i = 0; i < *(int *)(a0 + 0x10); i++) {
-        u32 *arr = *(u32 **)(a0 + 0x14);
+    for (i = 0; i < ((struct Obj03429 *)a0)->f10; i++) {
+        u32 *arr = *(u32 * *)&((struct Obj03429 *)a0)->f14;
         u32 e = arr[i];
 
         if (e != 0) {
             func_02015BA4(a0, (u8 *)e);
         }
     }
-    func_020307B0(*(u8 **)(a0 + 0x14));
+    func_020307B0(*(u8 * *)&((struct Obj03429 *)a0)->f14);
     func_020307B0(a0);
 }

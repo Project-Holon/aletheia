@@ -15,6 +15,7 @@
  *   func_021BC220  0x021BC220  thumb  ov093
  *   func_021BBFA8  0x021BBFA8  thumb  ov093
  */
+#include "../include/Obj02777.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -28,20 +29,20 @@ int func_021BBD2C(u8 *p, int a)
 {
     int *q;
 
-    *(int *)(p + 0x14) = 0;
-    q = *(int **)(p + 0xc);
+    ((struct Obj02777 *)p)->f14 = 0;
+    q = *(int * *)&((struct Obj02777 *)p)->fC;
     q[0] = 0;
     q[1] = 0;
     if (p[0x77c] == 0) {
-        func_021BB920((u8 *)(*(int *)p));
+        func_021BB920((u8 *)(((struct Obj02777 *)p)->f0));
         func_021D74E4();
         p[0x77d] = 0;
         p[0x77c] = 1;
         if (func_021BC220(p, a) != 0) {
-            *(int *)(p + 0x14) = 3;
+            ((struct Obj02777 *)p)->f14 = 3;
             return 3;
         }
     }
     p[0x783] = func_021BBFA8(p, p[0x783]);
-    return *(int *)(p + 0x14);
+    return ((struct Obj02777 *)p)->f14;
 }

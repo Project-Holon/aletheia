@@ -22,6 +22,7 @@
  *   g_02148318     0x02148318  data
  *   g_02147C18     0x02147C18  data
  */
+#include "../include/Obj02326.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,17 +41,17 @@ void func_02065AA8(u8 *o)
     int sz;
     func_02067A60(o);
     i = 0;
-    *(u32 *)(o + 0x70) = i;
-    *(u32 *)(o + 0x74) = i;
-    *(u32 *)(o + 0x78) = i;
-    *(u32 *)(o + 0x7c) = i;
-    *(u32 *)(o + 0x80) = i;
-    *(u32 *)(o + 0x84) = i;
-    *(u16 *)(o + 0x88) = i;
-    *(u16 *)(o + 0x8a) = i;
-    *(u32 *)(o + 0x8c) = i;
-    *(u32 *)(o + 0x90) = i;
-    *(u16 *)(o + 0x94) = i;
+    ((struct Obj02326 *)o)->f70 = i;
+    ((struct Obj02326 *)o)->f74 = i;
+    ((struct Obj02326 *)o)->f78 = i;
+    ((struct Obj02326 *)o)->f7C = i;
+    ((struct Obj02326 *)o)->f80 = i;
+    ((struct Obj02326 *)o)->f84 = i;
+    ((struct Obj02326 *)o)->f88 = i;
+    ((struct Obj02326 *)o)->f8A = i;
+    ((struct Obj02326 *)o)->f8C = i;
+    ((struct Obj02326 *)o)->f90 = i;
+    ((struct Obj02326 *)o)->f94 = i;
     *(u32 *)(g_02147B88 + 0xc) = i;
     *(u16 *)g_020A81F8 = 0xFFFE;
     m1 = -1;

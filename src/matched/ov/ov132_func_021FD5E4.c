@@ -13,6 +13,8 @@
  *   func_0203996C 0x0203996C arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj10566.h"
+#include "../include/Obj23288.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef signed int     s32;
@@ -24,9 +26,9 @@ int func_021FD5E4(char *p,u32 i)
     char *q;
     char *s;
     u16 n;
-    q=*(char **)(p+0x140);
+    q=*(char * *)&((struct Obj23288 *)p)->f140;
     n=0x3800;
-    s=*(char **)(q+0x10)+i*0x3800;
-    if((i+1)*0x3800>*(u32 *)(q+0x2c)) n=*(u32 *)(q+0x2c)%0x3800U;
+    s=*(char * *)&((struct Obj10566 *)q)->f10+i*0x3800;
+    if((i+1)*0x3800>((struct Obj10566 *)q)->f2C) n=((struct Obj10566 *)q)->f2C%0x3800U;
     return func_0203D3F8((u32)func_0203996C(0xff),0xff,0x1105,n,(u32)s,0,1,1);
 }

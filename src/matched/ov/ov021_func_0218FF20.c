@@ -12,6 +12,7 @@
  * symbols:
  *   func_02190000  0x02190000  thumb
  */
+#include "../include/Obj04204.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_02190000(void *a);
 
 void func_0218FF20(u8 *a)
 {
-    if (*(u32 *)(a + 0xc) != 0)
+    if (((struct Obj04204 *)a)->fC != 0)
         func_02190000(a);
 }

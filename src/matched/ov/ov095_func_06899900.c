@@ -25,6 +25,7 @@
  *   func_06899A70  0x06899A70  thumb
  *   func_06899A80  0x06899A80  thumb
  */
+#include "../include/Obj06335.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -59,11 +60,11 @@ void func_06899900(int a0, int p, int x)
             t = func_06899A10(p, 0x37, v);
             t[6] = func_06899A20(p, v);
             t[7] = 6;
-            *(u16 *)(t + 4) = 0x28e;
+            ((struct Obj06335 *)t)->f4 = 0x28e;
             func_06899A30(p, t);
             t = func_06899A40(p, 7, 0x1f);
             t[6] = v;
-            *(u16 *)(t + 4) = func_06899A50(w, 8);
+            ((struct Obj06335 *)t)->f4 = func_06899A50(w, 8);
             func_06899A60(t + 0xc, 2, 0x484);
             func_06899A70(t + 0xc, v);
             func_06899A80(p, t);

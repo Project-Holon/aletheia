@@ -16,6 +16,7 @@
  *   _ll_mul        0x0209C054  arm
  *   func_0218ECD4  0x0218ECD4  thumb ov021
  */
+#include "../include/Obj00757.h"
 
 typedef struct { int x; int y; int z; } V;
 
@@ -37,12 +38,12 @@ void func_021ABC5C(int a0, char *p, void *q)
 
     a = func_021AB760(a0);
     func_021ABBA0(p, q, &s, &d);
-    dx = *(int *)(p + 0x30) - *(int *)(p + 0x24);
-    dy = *(int *)(p + 0x34) - *(int *)(p + 0x28);
-    dz = *(int *)(p + 0x2c) - *(int *)(p + 0x20);
-    v.x = *(int *)(p + 0x20) +
+    dx = ((struct Obj00757 *)p)->f30 - ((struct Obj00757 *)p)->f24;
+    dy = ((struct Obj00757 *)p)->f34 - ((struct Obj00757 *)p)->f28;
+    dz = ((struct Obj00757 *)p)->f2C - ((struct Obj00757 *)p)->f20;
+    v.x = ((struct Obj00757 *)p)->f20 +
           sub_0207C768((int)(((long long)dz * d + 0x800) >> 12), s);
-    v.y = *(int *)(p + 0x24) + sub_0207C768((int)(((long long)dx * d + 0x800) >> 12), s);
-    v.z = *(int *)(p + 0x28) + sub_0207C768((int)(((long long)dy * d + 0x800) >> 12), s);
+    v.y = ((struct Obj00757 *)p)->f24 + sub_0207C768((int)(((long long)dx * d + 0x800) >> 12), s);
+    v.z = ((struct Obj00757 *)p)->f28 + sub_0207C768((int)(((long long)dy * d + 0x800) >> 12), s);
     func_0218ECD4(a, &v);
 }

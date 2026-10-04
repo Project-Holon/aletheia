@@ -19,6 +19,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F24F4     0x021F24F4  data   ov093  a4
  */
+#include "../include/Obj13528.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,7 +45,7 @@ void func_021E5870(int a, void *b, int c)
         k = func_021D775C(6);
         m = (u8 *)func_021C88A4(b, 0xc, c);
         m[0xf] = k;
-        *(int *)(m + 4) = 0x10;
+        ((struct Obj13528 *)m)->f4 = 0x10;
         *(Word *)(m + 8) = func_021E89C0();
         func_021C8838(m + 0x14, 2, 0x235);
         func_021C8860((struct S *)(m + 0x14), k);

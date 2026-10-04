@@ -12,6 +12,7 @@
  *   func_020434DC 0x020434DC arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj23440.h"
 struct Obj;
 extern void func_020434DC(unsigned,unsigned);extern void func_0204B3DC(struct Obj *,unsigned);
-void func_02200130(char *p) {func_020434DC(1,0);func_020434DC(2,0);func_020434DC(4,0);func_0204B3DC(*(struct Obj **)(p+0xbf4),0);}
+void func_02200130(char *p) {func_020434DC(1,0);func_020434DC(2,0);func_020434DC(4,0);func_0204B3DC(*(struct Obj * *)&((struct Obj23440 *)p)->fBF4,0);}

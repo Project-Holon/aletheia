@@ -35,6 +35,7 @@
  *   d_021D8974 0x021D8974 data a4
  *   d_021D8B60 0x021D8B60 data a4
  */
+#include "../include/Obj00987.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,24 +69,24 @@ u8 *func_021D5E88(u32 heap,void *arg)
 {
     u8 *p;
     p=func_02030734(heap,0x164,1,d_021D8BC8,258);
-    *(u16 *)(p+0xf4)=heap;
-    *(void **)(p+0x118)=arg;
+    ((struct Obj00987 *)p)->fF4=heap;
+    ((struct Obj00987 *)p)->f118=arg;
     func_02034AC4((int)ov_id);
     func_02043534(0);
     func_020435F4(0);
     func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
     func_0207D46C();
-    func_0203F8F4(*(u16 *)(p+0xf4));
-    func_0204A48C((const struct Cfg *)d_021D8974,(u32)(&d_021D8B98),*(u16 *)(p+0xf4));
-    *(void **)(p+0x10)=func_0204B100(64,0,*(u16 *)(p+0xf4));
+    func_0203F8F4(((struct Obj00987 *)p)->fF4);
+    func_0204A48C((const struct Cfg *)d_021D8974,(u32)(&d_021D8B98),((struct Obj00987 *)p)->fF4);
+    ((struct Obj00987 *)p)->f10=func_0204B100(64,0,((struct Obj00987 *)p)->fF4);
     func_020433E0(&d_021D8B98);
     func_0203FC28(&d_021D8B60);
     func_021D6100(p);
     func_021D6568(p);
-    *(void **)(p+0x14)=func_020056A0(func_021D6530,p,0);
-    *(void **)(p+0x124)=func_02030734(*(u16 *)(p+0xf4),0x200,0,d_021D8BC8,280);
-    *(void **)(p+0x128)=func_02030734(*(u16 *)(p+0xf4),0x200,0,d_021D8BC8,281);
+    ((struct Obj00987 *)p)->f14=func_020056A0(func_021D6530,p,0);
+    ((struct Obj00987 *)p)->f124=func_02030734(((struct Obj00987 *)p)->fF4,0x200,0,d_021D8BC8,280);
+    ((struct Obj00987 *)p)->f128=func_02030734(((struct Obj00987 *)p)->fF4,0x200,0,d_021D8BC8,281);
     func_021D69A0(p);
     func_021D692C(p,0);
     func_020435F4(31);

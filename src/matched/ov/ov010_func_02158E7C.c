@@ -19,6 +19,7 @@
  *   func_02159130  0x02159130  thumb  ov010
  *   d_0217289C     0x0217289C  data  ov010  a1
  */
+#include "../include/Obj00105.h"
 
 typedef unsigned short u16;
 
@@ -46,7 +47,7 @@ int *func_02158E7C(u16 a, int b, int c, u16 d, int e, int f)
     *(u16 *)(p + 3) = a;
     p[4] = b;
     p[5] = c;
-    *(u16 *)(p + 1) = d;
+    ((struct Obj00105 *)p)->f4 = d;
     p[2] = 0;
     p[8] = e;
     p[10] = f;

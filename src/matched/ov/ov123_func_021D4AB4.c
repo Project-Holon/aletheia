@@ -13,6 +13,7 @@
  *   func_02026454 0x02026454 thumb
  *   func_021D4244 0x021D4244 thumb ov123
  */
+#include "../include/Obj13969.h"
 typedef unsigned int u32;
 extern int func_020221A4(char *);
 struct Ctx;
@@ -22,10 +23,10 @@ extern void func_021D4244(char *, void *, int);
 void func_021D4AB4(char *p)
 {
     if (func_020221A4(p) != 0) {
-        switch (*(u32 *)(p + 8)) {
+        switch (((struct Obj13969 *)p)->f8) {
         case 2:
         case 3:
-            if (func_02026454((void *)func_02012138(*(void **)(p + 0x264))) == 0)
+            if (func_02026454((void *)func_02012138(((struct Obj13969 *)p)->f264)) == 0)
                 func_021D4244(p, 0, 0x345);
             break;
         default:

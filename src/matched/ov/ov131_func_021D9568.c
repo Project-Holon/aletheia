@@ -27,6 +27,9 @@
  *   func_02040AE0 0x02040AE0 arm
  *   func_021DBF2C 0x021DBF2C thumb ov131
  */
+#include "../include/Obj02484.h"
+#include "../include/Obj03816.h"
+#include "../include/Obj23157.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,26 +57,26 @@ void func_021D9568(u8 *a,u8 *p)
     u8 index;
     ObjPos pos;
     index=(p+p[0x59]*8)[0x13c];
-    cell=*(void **)(p+0x20);
+    cell=((struct Obj02484 *)p)->f20;
     func_02045334(cell);
     func_02045374(cell);
     func_02041B6C(func_02045730(cell));
-    cell=*(void **)(p+0x24);
+    cell=((struct Obj02484 *)p)->f24;
     func_02045334(cell);
     func_02045374(cell);
     func_02041B6C(func_02045730(cell));
-    archive=func_020490F4(78,*(u16 *)a);
-    *(u32 *)(p+0x18)=func_0204A6C8((void *)((u32)archive),func_021DBF2C(index,1),0,1,*(u16 *)a);
+    archive=func_020490F4(78,((struct Obj03816 *)a)->f0);
+    ((struct Obj02484 *)p)->f18=func_0204A6C8((void *)((u32)archive),func_021DBF2C(index,1),0,1,((struct Obj03816 *)a)->f0);
     func_02049238(archive);
     pos.x=128;
     pos.y=100;
     pos.priority=10;
     pos.flags=0;
     pos.z=0;
-    *(u32 *)(p+0x1c)=(u32)func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(p+0x18),*(u32 *)(a+0xb4),*(u32 *)(a+0x128),&pos,1,*(u16 *)a);
-    func_0204B6F4(*(void **)(p+0x1c),func_021DBF2C(index,2),1);
-    func_0204B3DC(*(void **)(p+0x1c),1);
-    func_02040AE0(6,*(u8 **)(p+0x38)+12,*(u32 *)(*(u8 **)(p+0x38)+8));
+    *(u32 *)&((struct Obj02484 *)p)->f1C=(u32)func_0204B294((void *)((struct Obj03816 *)a)->f174,((struct Obj02484 *)p)->f18,((struct Obj03816 *)a)->fB4,((struct Obj03816 *)a)->f128,&pos,1,((struct Obj03816 *)a)->f0);
+    func_0204B6F4(((struct Obj02484 *)p)->f1C,func_021DBF2C(index,2),1);
+    func_0204B3DC(((struct Obj02484 *)p)->f1C,1);
+    func_02040AE0(6,*(u8 * *)&((struct Obj02484 *)p)->f38+12,((struct Obj23157 *)(*(u8 * *)&((struct Obj02484 *)p)->f38))->f8);
     func_02041B6C(6);
-    *(u32 *)(p+4)=1;
+    ((struct Obj02484 *)p)->f4=1;
 }

@@ -15,6 +15,7 @@
  *   func_0200DA54  0x0200DA54  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20232.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,7 +33,7 @@ extern u16 func_0200DA54(struct Blk3C *p);
 int func_021C9FD0(u8 *p)
 {
     if (((Latch *)p)->done == 0) {
-        if (func_0200DA54((struct Blk3C *)(*(u32 *)(p + 0x70))) < 7)
+        if (func_0200DA54((struct Blk3C *)(((struct Obj20232 *)p)->f70)) < 7)
             return 0;
         ((Latch *)p)->done = 1;
     }

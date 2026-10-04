@@ -20,6 +20,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021B74F8 0x021B74F8 thumb ov173
  */
+#include "../include/Obj03858.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -45,13 +46,13 @@ void func_021B7460(char *p, u32 kind)
     u32 zero;
     int speed;
     void *q;
-    func_02043B5C(func_02045770(*(void **)(p + 0x20)), 15);
+    func_02043B5C(func_02045770(((struct Obj03858 *)p)->f20), 15);
     zero = 0;
-    func_0201F73C(*(void **)(p + 0x20), 0, 1, 13);
+    func_0201F73C(((struct Obj03858 *)p)->f20, 0, 1, 13);
     func_021B7378(p, kind);
     speed = func_02012FFC();
-    *(void **)(p + 0x6c) = func_0201CD10(*(u32 *)(p + 0x20), 0, 0, *(u32 *)(p + 0x4c), *(u32 *)(p + 0x60), speed, *(u32 *)(p + 0x64), zero, 0x4f, 0xffff, (u32)func_021B74F8);
-    q = *(void **)(p + 0x20);
+    ((struct Obj03858 *)p)->f6C = func_0201CD10(*(u32 *)&((struct Obj03858 *)p)->f20, 0, 0, ((struct Obj03858 *)p)->f4C, ((struct Obj03858 *)p)->f60, speed, ((struct Obj03858 *)p)->f64, zero, 0x4f, 0xffff, (u32)func_021B74F8);
+    q = ((struct Obj03858 *)p)->f20;
     func_02045334(q);
     func_02045374(q);
     func_020409B4(func_02045730(q));

@@ -15,6 +15,8 @@
  *   func_020307B0 0x020307B0 arm
  *   d_022121D4 0x022121D4 data a4
  */
+#include "../include/Obj25267.h"
+#include "../include/Obj25269.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,7 +32,7 @@ void func_02210D4C(u8 *p,u32 n)
     u8 *out;
     void *buf;
     for(;i<2;i++) {
-        buf=func_02049EB4(100,table[i],1,(u32)(&out),*(u16 *)(*(u8 **)p+16));
+        buf=func_02049EB4(100,table[i],1,(u32)(&out),((struct Obj25269 *)(*(u8 * *)&((struct Obj25267 *)p)->f0))->f10);
         func_02041090(i+6,(u32)(out+12),0,0,32,24);
         func_02041B6C(i+6);
         func_020307B0(buf);

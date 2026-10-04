@@ -36,6 +36,7 @@
  * base plus `subs #0xa0`, which costs a callee-saved register, a dead
  * `push {r3}` and four bytes of frame.
  */
+#include "../include/Obj01457.h"
 
 typedef unsigned char u8;
 
@@ -59,16 +60,16 @@ int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8
     (*(void (**)(int, int, int *))(g_02140504 + 0x24))(a0, a1, &buf);
     idx = func_02006768();
     e = (char *)(g_02140488 + idx * 0x34);
-    if (*(int *)e == 1)
+    if (*(int *)&((struct Obj01457 *)e)->f0 == 1)
         func_02006948((struct Sub02006948 *)e);
     if ((*(int (**)(int, int, int, char *, char *, char *, char *, char *))(
              g_02140504 + 0x28))(a0, a1, a8, e + 0x10, e + 8, e + 0xc, e + 0x20, e + 0x1c) == 0)
         func_020067E0((struct Sub02006544Entry *)e, (unsigned int)buf);
     if (a7 != 0)
-        func_02006BE0(*(u8 **)(e + 0x10), *(unsigned int *)(e + 8));
+        func_02006BE0(*(u8 * *)&((struct Obj01457 *)e)->f10, ((struct Obj01457 *)e)->f8);
     e[0x28] = (u8)a2;
-    *(int *)(e + 0x2c) = a3;
+    *(int *)&((struct Obj01457 *)e)->f2C = a3;
     e[0x1d] = (u8)a5;
-    *(int *)(e + 0x24) = a6;
+    ((struct Obj01457 *)e)->f24 = a6;
     return idx;
 }

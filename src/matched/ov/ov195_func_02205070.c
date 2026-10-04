@@ -20,6 +20,8 @@
  *   func_0204B294 0x0204B294 arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj01971.h"
+#include "../include/Obj14528.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,17 +46,17 @@ void func_02205070(int a, char *b)
     u8 i;
     int z;
 
-    h = func_020490F4(0xb6, *(u16 *)(b + 2));
+    h = func_020490F4(0xb6, ((struct Obj01971 *)b)->f2);
     i = 0;
-    *(u32 *)(b + 0x40) = func_0204AC18(h, 3, 0, 0, i, 1, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x3c) = func_0204A6C8(h, 2, 0, 0, *(u16 *)(b + 2));
-    *(u32 *)(b + 0x44) = func_0204AF28(h, 1, 0, *(u16 *)(b + 2));
+    ((struct Obj01971 *)b)->f40 = func_0204AC18(h, 3, 0, 0, i, 1, ((struct Obj01971 *)b)->f2);
+    ((struct Obj01971 *)b)->f3C = func_0204A6C8(h, 2, 0, 0, ((struct Obj01971 *)b)->f2);
+    ((struct Obj01971 *)b)->f44 = func_0204AF28(h, 1, 0, ((struct Obj01971 *)b)->f2);
     func_02049238(h);
     for (z = i; i < 6; i++) {
         char *e = b + i * 4;
-        *(u32 *)(e + 0x48) = (u32)func_0204B294((void *)func_02205A28((char *)(*(u32 *)(b + 4))), *(u32 *)(b + 0x3c), *(u32 *)(b + 0x40),
-                                           *(u32 *)(b + 0x44), d_02208C4C + i * 8, z, *(u16 *)(b + 2));
-        func_0204B92C((struct Obj *)*(u32 *)(e + 0x48), z);
+        ((struct Obj14528 *)e)->f48 = (u32)func_0204B294((void *)func_02205A28((char *)(((struct Obj01971 *)b)->f4)), ((struct Obj01971 *)b)->f3C, ((struct Obj01971 *)b)->f40,
+                                           ((struct Obj01971 *)b)->f44, d_02208C4C + i * 8, z, ((struct Obj01971 *)b)->f2);
+        func_0204B92C((struct Obj *)((struct Obj14528 *)e)->f48, z);
     }
-    *(u32 *)(b + 0x60) = 1;
+    ((struct Obj01971 *)b)->f60 = 1;
 }

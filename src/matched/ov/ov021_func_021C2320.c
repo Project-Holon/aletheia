@@ -24,6 +24,8 @@
  *   func_020122C0  0x020122C0  thumb
  *   func_02012374  0x02012374  thumb
  */
+#include "../include/Obj00456.h"
+#include "../include/Obj00616.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -57,49 +59,49 @@ void func_021C2320(int a, char *p, char *q, int d)
     int n;
     int r;
 
-    *(int *)(p + 0x58) = func_021C1A48(*(int *)p);
-    func_021C24F0(q, d, *(u16 *)(p + 0x10));
+    ((struct Obj00616 *)p)->f58 = func_021C1A48(((struct Obj00616 *)p)->f0);
+    func_021C24F0(q, d, ((struct Obj00616 *)p)->f10);
     func_021C1C24(p, q + 0x10);
-    if (*(int *)(q + 0x28) != 0xFFFF) {
-        t = func_021C1A98(*(int *)p, 0x73, *(int *)(q + 0x28));
-        func_021C1AA8(*(int *)p, t, 1, 0);
+    if (((struct Obj00456 *)q)->f28 != 0xFFFF) {
+        t = func_021C1A98(((struct Obj00616 *)p)->f0, 0x73, ((struct Obj00456 *)q)->f28);
+        func_021C1AA8(((struct Obj00616 *)p)->f0, t, 1, 0);
     } else {
         t = 0;
     }
-    base = func_020489F4(*(int *)(p + 0x14), *(int *)(p + 0x18));
-    cnt = func_02048A00(*(int *)(p + 0x14), *(int *)(p + 0x18));
+    base = func_020489F4(((struct Obj00616 *)p)->f14, ((struct Obj00616 *)p)->f18);
+    cnt = func_02048A00(((struct Obj00616 *)p)->f14, ((struct Obj00616 *)p)->f18);
     for (i = 0; i < cnt; i++) {
-        h = func_02048A18(*(int *)(p + 0x14), base + i);
+        h = func_02048A18(((struct Obj00616 *)p)->f14, base + i);
         n = func_0204779C((int *)h);
         for (k = 0; k < n; k++)
             func_020477A4(h, k);
     }
-    *(u16 *)(p + 0x5c) = *(u16 *)(q + 0x20);
-    *(u16 *)(p + 0x5e) = *(u16 *)(q + 0x22);
-    *(u16 *)(p + 0x60) = *(u16 *)(q + 0x24);
-    *(u16 *)(p + 0x62) = *(u16 *)(q + 0x26);
+    ((struct Obj00616 *)p)->f5C = ((struct Obj00456 *)q)->f20;
+    ((struct Obj00616 *)p)->f5E = ((struct Obj00456 *)q)->f22;
+    ((struct Obj00616 *)p)->f60 = ((struct Obj00456 *)q)->f24;
+    ((struct Obj00616 *)p)->f62 = ((struct Obj00456 *)q)->f26;
     if (t != 0)
         r = func_02051B04((void *)t);
     else
         r = 0;
     if (r == 2) {
-        *(int *)(p + 0x78) = 0;
-        *(int *)(p + 0x7c) = 0;
+        ((struct Obj00616 *)p)->f78 = 0;
+        ((struct Obj00616 *)p)->f7C = 0;
     } else if (r == 1) {
-        *(int *)(p + 0x78) = 0;
-        *(int *)(p + 0x7c) = 1;
+        ((struct Obj00616 *)p)->f78 = 0;
+        ((struct Obj00616 *)p)->f7C = 1;
     } else {
-        *(int *)(p + 0x78) = 1;
-        *(int *)(p + 0x7c) = 1;
+        ((struct Obj00616 *)p)->f78 = 1;
+        ((struct Obj00616 *)p)->f7C = 1;
     }
-    *(int *)(p + 0x80) = 0;
-    *(int *)(p + 0x84) = 0;
-    if (*(u8 *)(q + 0x2e) != 0)
-        *(int *)(p + 0x80) = 1;
-    if (*(u8 *)(q + 0x2f) != 0)
-        *(int *)(p + 0x84) = 1;
-    if (*(int *)(p + 0x128) != 0) {
+    ((struct Obj00616 *)p)->f80 = 0;
+    ((struct Obj00616 *)p)->f84 = 0;
+    if (((struct Obj00456 *)q)->f2E != 0)
+        ((struct Obj00616 *)p)->f80 = 1;
+    if (((struct Obj00456 *)q)->f2F != 0)
+        ((struct Obj00616 *)p)->f84 = 1;
+    if (((struct Obj00616 *)p)->f128 != 0) {
         h = (int)func_020124E4((struct Obj *)a);
-        func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(h, a, *(int *)(p + 0x128), 0));
+        func_02012374((struct Evt *)a, (struct Evt **)func_020122C0(h, a, ((struct Obj00616 *)p)->f128, 0));
     }
 }

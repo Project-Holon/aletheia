@@ -19,6 +19,7 @@
  *   func_021E8FE0 0x021E8FE0 thumb
  *   func_021E8FD0 0x021E8FD0 thumb
  */
+#include "../include/Obj00000.h"
 
 extern unsigned func_02025DE8(void *obj);
 extern void func_020061E4(unsigned se);
@@ -69,7 +70,7 @@ int func_021E8BF8(unsigned char *p)
             SEL(p) = 4;
             return func_021E949C(p, 4, func_021E8F50(p, 0x64));
         }
-        if (SEL(p) == 5 && func_02007A80(((void **)*(void **)p)[1], 2) == 1) {
+        if (SEL(p) == 5 && func_02007A80(((void **)((struct Obj00000 *)p)->f0)[1], 2) == 1) {
             SEL(p) = 6;
             return func_021E949C(p, 4, func_021E8F50(p, 0x64));
         }

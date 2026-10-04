@@ -19,6 +19,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13831.h"
 
 typedef unsigned char  u8;
 extern void func_021F626C(u8 *p);
@@ -27,7 +28,7 @@ extern void func_021F6280(u8 *p);
 void func_021F5424(int a0, int a1)
 {
     if (a1 == 1)
-        func_021F626C((u8 *)(*(int *)(a0 + 8)));
+        func_021F626C((u8 *)(((struct Obj13831 *)a0)->f8));
     else
-        func_021F6280((u8 *)(*(int *)(a0 + 8)));
+        func_021F6280((u8 *)(((struct Obj13831 *)a0)->f8));
 }

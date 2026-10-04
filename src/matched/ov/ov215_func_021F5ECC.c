@@ -18,6 +18,7 @@
  *   func_020063B4  0x020063B4  thumb
  *   func_021F5FEC  0x021F5FEC  thumb ov215
  */
+#include "../include/Obj04634.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -32,40 +33,40 @@ extern void func_021F5FEC(void *, void *);
 
 void func_021F5ECC(u8 *p, u8 *q)
 {
-    switch (*(u32 *)(q + 0x18)) {
+    switch (((struct Obj04634 *)q)->f18) {
     case 0:
         break;
     case 1:
         if (func_02005E50() == 0) {
             func_02005DE4((void *)1);
             func_02005E64();
-            *(u32 *)(q + 0x18) = 0;
+            ((struct Obj04634 *)q)->f18 = 0;
         }
         break;
     case 2:
         if (func_02005F38() == 0)
-            *(u32 *)(q + 0x18) = 0;
+            ((struct Obj04634 *)q)->f18 = 0;
         break;
     case 3:
         if (func_020063B4((u8 *)0x3F3, (u32 *)(q + 0x24), 0) != 0)
-            *(u32 *)(q + 0x18) = 4;
+            ((struct Obj04634 *)q)->f18 = 4;
         break;
     case 4:
         break;
     case 5:
         if (func_020063B4((u8 *)0x519, (u32 *)(q + 0x24), 0) != 0)
-            *(u32 *)(q + 0x18) = 6;
+            ((struct Obj04634 *)q)->f18 = 6;
         break;
     case 6:
         if (func_02005F38() == 0) {
             func_021F5FEC(p, q);
-            *(u32 *)(q + 0x18) = 4;
+            ((struct Obj04634 *)q)->f18 = 4;
         }
         break;
     case 7:
         if (func_02005E50() == 0) {
             func_02005D28();
-            *(u32 *)(q + 0x18) = 0;
+            ((struct Obj04634 *)q)->f18 = 0;
         }
         break;
     }

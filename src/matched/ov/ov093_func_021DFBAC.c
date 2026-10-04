@@ -16,6 +16,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj13501.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ void func_021DFBAC(void *self, void *q, int id)
         return;
     r = (u8 *)func_021C88A4(q, 0x20, id);
     r[6] = id;
-    *(u16 *)(r + 4) = 0;
+    ((struct Obj13501 *)r)->f4 = 0;
     func_021C8838(r + 0xc, 2, 0x19b);
     func_021C8860((struct S *)(r + 0xc), id);
     func_021C88C8(q, r);

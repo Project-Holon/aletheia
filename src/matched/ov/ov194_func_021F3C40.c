@@ -14,6 +14,7 @@
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
+#include "../include/Obj00117.h"
 extern unsigned func_021F2614(char *,int *,unsigned short *);
 extern int func_021F3364(char *,int);
 typedef unsigned int   u32;
@@ -30,10 +31,10 @@ void func_021F3C40(char *p,int *input) {
     case 2: case 3: case 4: case 5:
         if (func_021F3364(p,code-2)) {
             func_020061E4(1611);
-            *(int *)(p+0xe4)=2; *(int *)(p+0xe8)=6;
+            ((struct Obj00117 *)p)->fE4=2; ((struct Obj00117 *)p)->fE8=6;
         }
         break;
     }
     if (func_021F2818(p,(int)(input+2),(int)rect))
-        func_021F1A1C(p+0x24,2,rect,*(int *)(p+0x104),*(int *)(p+0x100));
+        func_021F1A1C(p+0x24,2,rect,((struct Obj00117 *)p)->f104,((struct Obj00117 *)p)->f100);
 }

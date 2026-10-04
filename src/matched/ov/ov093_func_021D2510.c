@@ -14,6 +14,7 @@
  *   func_021EA710  0x021EA710  thumb  ov093
  *   func_021EF9C8  0x021EF9C8  thumb  ov093
  */
+#include "../include/Obj10021.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void func_021EA678(char *p, u16 k, int *c);
@@ -42,12 +43,12 @@ int func_021D2510(u8 *p, int *st, u32 *c)
         default:
             return 1;
         }
-        func_021EA678(*(void **)(p + 0x54), v, 0);
+        func_021EA678(((struct Obj10021 *)p)->f54, v, 0);
         (*st)++;
         break;
     case 1:
-        if (func_021EA710(*(void **)(p + 0x54))) {
-            func_021EF9C8(*(void **)(p + 0x34));
+        if (func_021EA710(((struct Obj10021 *)p)->f54)) {
+            func_021EF9C8(((struct Obj10021 *)p)->f34);
             return 1;
         }
         break;

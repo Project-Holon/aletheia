@@ -10,5 +10,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj00371.h"
+#include "../include/Obj03005.h"
 
-int func_020313A0(int a0, int a1, int a2, int a3){ int t0; t0 = func_02031538((int)*(int *)(((char *)(a0) + 20)), (int)*(int *)(((char *)(a0) + 24)), (int)*(int *)(((char *)(a0) + 28)), (int)*(unsigned short *)((char *)(a0))); *(int *)(((char *)(t0) + 24)) = (int)*(int *)(((char *)(a0) + 8)); *(int *)(((char *)(*(int *)(((char *)(a0) + 8))) + 28)) = (int)t0; *(int *)(((char *)(a0) + 8)) = (int)t0; *(int *)(((char *)(a0) + 12)) = (int)0; *(int *)(((char *)(a0) + 20)) = (int)(0 - 1); *(int *)(((char *)(a0) + 24)) = (int)0; *(int *)(((char *)(a0) + 28)) = (int)0; return t0; }
+int func_020313A0(int a0, int a1, int a2, int a3){ int t0; t0 = func_02031538((int)*(int *)&((struct Obj00371 *)((char *)(a0)))->f14, (int)*(int *)&((struct Obj00371 *)((char *)(a0)))->f18, (int)*(int *)&((struct Obj00371 *)((char *)(a0)))->f1C, (int)((struct Obj00371 *)((char *)(a0)))->f0); *(int *)&((struct Obj03005 *)((char *)(t0)))->f18 = (int)*(int *)&((struct Obj00371 *)((char *)(a0)))->f8; *(int *)(((char *)(*(int *)&((struct Obj00371 *)((char *)(a0)))->f8) + 28)) = (int)t0; *(int *)&((struct Obj00371 *)((char *)(a0)))->f8 = (int)t0; *(int *)&((struct Obj00371 *)((char *)(a0)))->fC = (int)0; *(int *)&((struct Obj00371 *)((char *)(a0)))->f14 = (int)(0 - 1); *(int *)&((struct Obj00371 *)((char *)(a0)))->f18 = (int)0; *(int *)&((struct Obj00371 *)((char *)(a0)))->f1C = (int)0; return t0; }

@@ -21,6 +21,7 @@
  *   d_021E8150 0x021E8150 data ov119 a4
  *   d_021E8144 0x021E8144 data ov119 a4
  */
+#include "../include/Obj22794.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -48,7 +49,7 @@ void func_021E3A40(const u8 *p)
     stage=func_021D8A18((u8 *)p);
     count=stage+1;
     total=count*160;
-    x=*(s16 *)(p+0x107e);
+    x=((struct Obj22794 *)p)->f107E;
     if(x<96) {
         if(x<48) x=x*112/48;
         else x=x+64;

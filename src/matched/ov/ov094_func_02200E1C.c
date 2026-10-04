@@ -15,6 +15,7 @@
  *   _ll_mul 0x0209C054 arm
  *   d_020A1B38 0x020A1B38 data
  */
+#include "../include/Obj00264.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,9 +29,9 @@ extern void func_02015C78(void *, u32 *);
 #define MUL(a, b) ((int)(((s64)(a) * (b) + 0x800) >> 12))
 void func_02200E1C(void *task, char *q)
 {
-    char *p = *(char **)q;
+    char *p = *(char * *)&((struct Obj00264 *)q)->f0;
     Vec v = {0, 0, 0};
-    int i = func_022019F4(p, *(int *)(q + 4));
+    int i = func_022019F4(p, ((struct Obj00264 *)q)->f4);
     char *e;
     int off;
     int x, y;
@@ -45,56 +46,56 @@ void func_02200E1C(void *task, char *q)
         func_021F89BC(task);
         return;
     }
-    if (*(int *)(q + 0x38) != *(u8 *)(p + *(int *)(q + 4) + 0x542)) {
+    if (((struct Obj00264 *)q)->f38 != *(u8 *)(p + ((struct Obj00264 *)q)->f4 + 0x542)) {
         func_021F89BC(task);
         return;
     }
-    if (*(int *)(q + 0x34) == 0) {
-        if (*(int *)(q + 0x30) == *(int *)(q + 0x1c)) {
-        *(int *)(q + 0x30) = 0;
-        if (*(int *)(q + 8) & 1)
-            *(int *)(q + 0x28) -= *(int *)(q + 0x2c);
+    if (((struct Obj00264 *)q)->f34 == 0) {
+        if (((struct Obj00264 *)q)->f30 == ((struct Obj00264 *)q)->f1C) {
+        ((struct Obj00264 *)q)->f30 = 0;
+        if (((struct Obj00264 *)q)->f8 & 1)
+            ((struct Obj00264 *)q)->f28 -= ((struct Obj00264 *)q)->f2C;
         else
-            *(int *)(q + 0x28) += *(int *)(q + 0x2c);
-        if (*(int *)(q + 0x28) & 0xffff0000) {
-            *(int *)(q + 0x28) = (u16)*(int *)(q + 0x28);
-            *(int *)(q + 0x20) -= 1;
-            *(int *)(q + 0x34) = *(int *)(q + 0x24);
+            ((struct Obj00264 *)q)->f28 += ((struct Obj00264 *)q)->f2C;
+        if (((struct Obj00264 *)q)->f28 & 0xffff0000) {
+            ((struct Obj00264 *)q)->f28 = (u16)((struct Obj00264 *)q)->f28;
+            ((struct Obj00264 *)q)->f20 -= 1;
+            ((struct Obj00264 *)q)->f34 = ((struct Obj00264 *)q)->f24;
         }
-        if (*(int *)(q + 0x20) != 0) {
-            switch (*(int *)(q + 0xc)) {
+        if (((struct Obj00264 *)q)->f20 != 0) {
+            switch (((struct Obj00264 *)q)->fC) {
             case 0:
-                j = ((u16)(*(int *)(q + 0x28) + 0x4000) >> 4) * 2;
+                j = ((u16)(((struct Obj00264 *)q)->f28 + 0x4000) >> 4) * 2;
                 x = d_020A1B38[j];
-                x = -MUL(x, *(int *)(q + 0x10));
+                x = -MUL(x, ((struct Obj00264 *)q)->f10);
                 y = d_020A1B38[j + 1];
-                y = -MUL(y, *(int *)(q + 0x14));
-                x += *(int *)(q + 0x10);
+                y = -MUL(y, ((struct Obj00264 *)q)->f14);
+                x += ((struct Obj00264 *)q)->f10;
                 break;
             case 1:
-                j = ((u16)(*(int *)(q + 0x28) + 0x4000) >> 4) * 2;
+                j = ((u16)(((struct Obj00264 *)q)->f28 + 0x4000) >> 4) * 2;
                 x = d_020A1B38[j];
-                x = MUL(x, *(int *)(q + 0x10)) - *(int *)(q + 0x10);
+                x = MUL(x, ((struct Obj00264 *)q)->f10) - ((struct Obj00264 *)q)->f10;
                 y = d_020A1B38[j + 1];
-                y = MUL(y, *(int *)(q + 0x14));
+                y = MUL(y, ((struct Obj00264 *)q)->f14);
                 break;
             case 2:
-                j = (*(int *)(q + 0x28) >> 4) * 2;
+                j = (((struct Obj00264 *)q)->f28 >> 4) * 2;
                 x = d_020A1B38[j];
-                x = -MUL(x, *(int *)(q + 0x10));
+                x = -MUL(x, ((struct Obj00264 *)q)->f10);
                 y = d_020A1B38[j + 1];
-                y = -MUL(y, *(int *)(q + 0x14));
-                y += *(int *)(q + 0x14);
+                y = -MUL(y, ((struct Obj00264 *)q)->f14);
+                y += ((struct Obj00264 *)q)->f14;
                 break;
             case 3:
-                j = (*(int *)(q + 0x28) >> 4) * 2;
+                j = (((struct Obj00264 *)q)->f28 >> 4) * 2;
                 x = d_020A1B38[j];
-                x = MUL(x, *(int *)(q + 0x10));
+                x = MUL(x, ((struct Obj00264 *)q)->f10);
                 y = d_020A1B38[j + 1];
-                y = MUL(y, *(int *)(q + 0x14)) - *(int *)(q + 0x14);
+                y = MUL(y, ((struct Obj00264 *)q)->f14) - ((struct Obj00264 *)q)->f14;
                 break;
             }
-            switch ((*(int *)(q + 8) & 7) >> 1) {
+            switch ((((struct Obj00264 *)q)->f8 & 7) >> 1) {
             default:
             case 0:
                 v.z = x;
@@ -112,11 +113,11 @@ void func_02200E1C(void *task, char *q)
         }
         func_02015C78(*(void **)(e + off), (u32 *)&v);
         } else {
-            *(int *)(q + 0x30) += 1;
+            ((struct Obj00264 *)q)->f30 += 1;
         }
     } else {
-        *(int *)(q + 0x34) -= 1;
+        ((struct Obj00264 *)q)->f34 -= 1;
     }
-    if (*(int *)(q + 0x20) == 0)
+    if (((struct Obj00264 *)q)->f20 == 0)
         func_021F89BC(task);
 }

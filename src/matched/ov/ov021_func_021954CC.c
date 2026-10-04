@@ -15,6 +15,7 @@
  *   func_02049624  0x02049624  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04218.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,9 +29,9 @@ void func_021954CC(u32 p, u8 *e)
 {
     u32 k;
 
-    func_020414EC(*(u32 *)(e + 0x10) & 0xFF);
+    func_020414EC(((struct Obj04218 *)e)->f10 & 0xFF);
     k = 0;
-    switch (*(u32 *)(e + 0x10)) {
+    switch (((struct Obj04218 *)e)->f10) {
     case 0:
     case 1:
     case 2:
@@ -43,6 +44,6 @@ void func_021954CC(u32 p, u8 *e)
         k = 4;
         break;
     }
-    func_02049B40(5, 0, k, e[0x14] << 5, 0x20, *(u16 *)e);
-    func_02049624((void *)5, (void *)5, (void *)(*(u32 *)(e + 0x10)), (void *)(*(u16 *)(e + 0xC)), 0, 0, *(u16 *)e);
+    func_02049B40(5, 0, k, e[0x14] << 5, 0x20, ((struct Obj04218 *)e)->f0);
+    func_02049624((void *)5, (void *)5, (void *)(((struct Obj04218 *)e)->f10), (void *)(((struct Obj04218 *)e)->fC), 0, 0, ((struct Obj04218 *)e)->f0);
 }

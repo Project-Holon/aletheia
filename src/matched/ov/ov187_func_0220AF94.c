@@ -19,6 +19,7 @@
  * Tear down the four table slots at p+0x1780 when p+0x17C4 is set, then
  *   release the channel.
  */
+#include "../include/Obj24882.h"
 
 
 struct U16Vec;
@@ -32,7 +33,7 @@ extern void func_0200B424(void);
 int func_0220AF94(int a, int b, int c, char *p)
 {
     int i;
-    if (*(int *)(p + 0x17C4) != 0) {
+    if (((struct Obj24882 *)p)->f17C4 != 0) {
         for (i = 0; i < 4; i++) {
             int v = *(int *)(p + 0x1780 + i * 4);
             if (v != 0)

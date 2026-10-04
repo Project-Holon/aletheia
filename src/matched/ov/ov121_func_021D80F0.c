@@ -13,6 +13,7 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
  */
+#include "../include/Obj10409.h"
 typedef unsigned char u8;
 extern void func_021D9F08(u8 *, int, int, int);
 typedef unsigned int   u32;
@@ -22,7 +23,7 @@ extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 void func_021D80F0(void *a, int *state, u8 *p)
 {
     switch (*state) {
-    case 0: func_021D9F08(*(u8 **)(p + 0x284), *(int *)(p + 0x3a0), 22, 1); *state = 1; break;
-    case 1: if (func_021D9FF8(*(void **)(p + 0x284))) func_021DA8B0(a, (u32)func_021D6E3C); break;
+    case 0: func_021D9F08(*(u8 * *)&((struct Obj10409 *)p)->f284, ((struct Obj10409 *)p)->f3A0, 22, 1); *state = 1; break;
+    case 1: if (func_021D9FF8(((struct Obj10409 *)p)->f284)) func_021DA8B0(a, (u32)func_021D6E3C); break;
     }
 }

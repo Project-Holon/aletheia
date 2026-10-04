@@ -14,6 +14,7 @@
  *   func_021FE9B0 0x021FE9B0 thumb ov135
  *   func_021F4FF4 0x021F4FF4 thumb ov135
  */
+#include "../include/Obj00018.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 x, y, a, b; } Pos;
@@ -29,10 +30,10 @@ int func_021FDAE4(unsigned char *p)
     int x, y;
     result = d_02203D80[*(int *)(p + 0x28)](p);
     for (i = 0; i < 8; ++i)
-        func_021F4EA0(*(u32 *)(p + i * 4 + 0xd0c), *(short *)(p + i * 4 + 0xec4), *(short *)(p + i * 4 + 0xec6) + *(int *)(p + 0xd3c));
+        func_021F4EA0(*(u32 *)(p + i * 4 + 0xd0c), *(short *)(p + i * 4 + 0xec4), *(short *)(p + i * 4 + 0xec6) + ((struct Obj00018 *)p)->fD3C);
     x = func_021FE9B0(p);
     y = func_021FE9B0(p);
-    func_021F4FF4(*(u32 *)(p + 0xbf4), d_02203D46[x].x, d_02203D46[y].y - *(int *)(p + 0xd3c));
-    func_021F4EA0(*(u32 *)(p + 0xd38), 55, *(int *)(p + 0xd3c) + 168);
+    func_021F4FF4(((struct Obj00018 *)p)->fBF4, d_02203D46[x].x, d_02203D46[y].y - ((struct Obj00018 *)p)->fD3C);
+    func_021F4EA0(((struct Obj00018 *)p)->fD38, 55, ((struct Obj00018 *)p)->fD3C + 168);
     return result;
 }

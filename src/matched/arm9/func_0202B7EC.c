@@ -17,6 +17,7 @@
  * symbols:
  *   sub_0202B90C  0x0202B90C  thumb
  */
+#include "../include/Obj08804.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ extern void sub_0202B90C(void *p);
 
 void func_0202B7EC(u8 *p)
 {
-    sub_0202B90C(*(void **)(p + 0x24));
+    sub_0202B90C(((struct Obj08804 *)p)->f24);
 }

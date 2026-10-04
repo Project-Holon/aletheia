@@ -14,9 +14,10 @@
  *   func_021DA408 0x021DA408 thumb ov123
  *   func_021DA034 0x021DA034 thumb ov123
  */
+#include "../include/Obj08118.h"
 typedef unsigned char u8;
 extern void func_021D9844(char *,int,int);
 extern void func_021D9730(char *,int);
 extern void func_021DA408(char *);
 extern void func_021DA034(char *,int,int);
-void func_021DA434(char *p) { func_021D9844(*(char **)(p+0x10),*(int *)(p+0x28),*(int *)(p+0x28)); func_021D9730(*(char **)(p+0x10),7); func_021DA034(p,(int)func_021DA408,0x23c); }
+void func_021DA434(char *p) { func_021D9844(*(char * *)&((struct Obj08118 *)p)->f10,((struct Obj08118 *)p)->f28,((struct Obj08118 *)p)->f28); func_021D9730(*(char * *)&((struct Obj08118 *)p)->f10,7); func_021DA034(p,(int)func_021DA408,0x23c); }

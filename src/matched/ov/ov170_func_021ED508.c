@@ -16,6 +16,8 @@
  * Sets window 9's frame and mode; outside modes 2, 3 and 4 the mode is
  * cleared again.
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj24021.h"
 
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
@@ -27,7 +29,7 @@ void func_021ED508(unsigned char *p, int a, int b)
     int kind;
     func_021EBFA8(WORK(p), 9, a);
     func_021EC000(WORK(p), 9, b);
-    kind = *(int *)(*(char **)p + 0x24);
+    kind = ((struct Obj24021 *)(*(char * *)&((struct Obj00000 *)p)->f0))->f24;
     if (kind != 2 && kind != 4 && kind != 3)
         func_021EC000(WORK(p), 9, 0);
 }

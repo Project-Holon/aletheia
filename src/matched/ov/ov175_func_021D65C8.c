@@ -20,6 +20,7 @@
  *     through 0x021E89D0 and clear the field.  Null-safe, so a second call is a
  *     no-op.
  */
+#include "../include/Obj00171.h"
 
 typedef unsigned long u32;
 
@@ -27,11 +28,11 @@ extern void func_021E89D0(u32 p);
 
 void func_021D65C8(char *obj)
 {
-    u32 p = *(u32 *)(obj + 0x28);
+    u32 p = ((struct Obj00171 *)obj)->f28;
 
     if (p != 0) {
         func_021E89D0(p);
-        *(u32 *)(obj + 0x28) = 0;
+        ((struct Obj00171 *)obj)->f28 = 0;
     }
 }
 

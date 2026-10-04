@@ -18,10 +18,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj22702.h"
 
 int func_021D8AA8(void *p)
 {
-    unsigned int x = *(unsigned int *)((char *)p + 0x118C);
+    unsigned int x = ((struct Obj22702 *)p)->f118C;
     int r = 0;
 
     switch (x) {

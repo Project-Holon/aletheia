@@ -25,6 +25,7 @@
  *   func_0204A600 0x0204A600 arm
  *   d_02203A80 0x02203A80 data a4
  */
+#include "../include/Obj02853.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int (*init)(u8 *, int); int (*update)(u8 *, int); int (*finish)(u8 *, int); } Handler;
@@ -51,8 +52,8 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
         func_020370F4(func_021F4EB4());
     }
     func_021C7C1C();
-    *(u32 *)(p + 0x12f4) = func_02031330(*(void **)(p + 0x12f0));
-    func_02030D28(*(void **)(p + 0xf94));
+    ((struct Obj02853 *)p)->f12F4 = func_02031330(((struct Obj02853 *)p)->f12F0);
+    func_02030D28(((struct Obj02853 *)p)->fF94);
     func_02202770(p + 0xfa0);
     switch (*state) {
     case 0:
@@ -68,10 +69,10 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
     case 3:
         if (func_020221A4() != 0) {
             *state = d_02203A80[*(u32 *)(p + 16)].finish(p, *state);
-            if (*(u32 *)(p + 184) != 0) {
+            if (((struct Obj02853 *)p)->fB8 != 0) {
                 func_021FF6A4(p);
-                func_021FFB20(p, *(int *)(p + 208), 0);
-                *(u32 *)(p + 184) = 0;
+                func_021FFB20(p, ((struct Obj02853 *)p)->fD0, 0);
+                ((struct Obj02853 *)p)->fB8 = 0;
             }
         }
         break;
@@ -82,7 +83,7 @@ int func_021F46A8(void *unused0, int *state, void *unused2, u8 *p)
         return 1;
     }
     func_021F4F84(p);
-    if (*(u32 *)(p + 0xbc0) != 0) func_0204A600(*(void **)(p + 0xbc0));
-    if (*(int *)(p + 0x12e8) > 0) *(int *)(p + 0x12e8) -= 1;
+    if (*(u32 *)&((struct Obj02853 *)p)->fBC0 != 0) func_0204A600(((struct Obj02853 *)p)->fBC0);
+    if (((struct Obj02853 *)p)->f12E8 > 0) ((struct Obj02853 *)p)->f12E8 -= 1;
     return 0;
 }

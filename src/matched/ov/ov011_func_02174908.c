@@ -17,6 +17,7 @@
  *   func_02012AC8  0x02012AC8  thumb
  *   func_02013D9C  0x02013D9C  thumb
  */
+#include "../include/Obj09346.h"
 
 typedef unsigned int   u32;
 struct SaveBlock;
@@ -34,8 +35,8 @@ void func_02174908(int a, int b, int c, unsigned char *d)
 {
     int h;
 
-    h = func_02026478((void *)(*(int *)(d + 4)));
-    if (a != func_0203D1A4(func_020399A8()) && ((unsigned)(*(unsigned short *)(d + 0x86) << 29) >> 29) == a) {
+    h = func_02026478((void *)(((struct Obj09346 *)d)->f4));
+    if (a != func_0203D1A4(func_020399A8()) && ((unsigned)(((struct Obj09346 *)d)->f86 << 29) >> 29) == a) {
         if (func_02013D9C(func_02012AC8(func_020127A4((struct SaveBlock *)h))) != 0) {
             d[0x8F8] |= 4;
         }

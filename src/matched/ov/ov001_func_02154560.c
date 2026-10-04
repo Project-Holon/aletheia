@@ -25,6 +25,7 @@
  *   func_02082D44   0x02082D44  arm
  *   d_021546A0      0x021546A0  data  ov001  a4
  */
+#include "../include/Obj01477.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,21 +57,21 @@ void *func_02154560(void *obj_in, void *p, int a, int b)
     if (func_02026454((void *)func_02012138(p)))
         func_02026400((struct Comm *)func_02012138(p));
     obj = func_020124E8(obj_in);
-    *(int *)((char *)obj + 0x17c) = (int)p;
-    *(int *)((char *)obj + 0x3b0) = b;
-    *(int *)((char *)obj + 0x3ac) = (int)func_0201A920(4);
-    *(int *)((char *)obj + 0x354) = *(int *)((char *)obj + 0x3ac);
+    ((struct Obj01477 *)obj)->f17C = (int)p;
+    ((struct Obj01477 *)obj)->f3B0 = b;
+    ((struct Obj01477 *)obj)->f3AC = (int)func_0201A920(4);
+    ((struct Obj01477 *)obj)->f354 = ((struct Obj01477 *)obj)->f3AC;
     func_02082BCC((char *)obj + 0x184, 0, 0x1b4);
-    *(int *)((char *)obj + 0x184) = (int)func_020120F4(p);
-    *(int *)((char *)obj + 0x198) = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x123);
-    *(int *)((char *)obj + 0x19c) = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x124);
-    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)*(int *)((char *)obj + 0x198), func_02008468());
+    ((struct Obj01477 *)obj)->f184 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f198 = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x123);
+    ((struct Obj01477 *)obj)->f19C = (int)func_02030734(4, func_02008468(), 1, d_021546A0, 0x124);
+    func_02082D44((u32)func_02012944(func_020120F4(p)), (void *)((struct Obj01477 *)obj)->f198, func_02008468());
     func_02082BCC((char *)obj + 0x368, 0, 0x28);
-    *(int *)((char *)obj + 0x368) = (int)func_020120F4(p);
-    *(int *)((char *)obj + 0x36c) = 0;
-    *(int *)((char *)obj + 0x370) = 1;
-    *(int *)((char *)obj + 0x390) = (int)func_020120F4(p);
-    *(int *)((char *)obj + 0x394) = 0;
-    *(int *)((char *)obj + 0x398) = 1;
+    ((struct Obj01477 *)obj)->f368 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f36C = 0;
+    ((struct Obj01477 *)obj)->f370 = 1;
+    ((struct Obj01477 *)obj)->f390 = (int)func_020120F4(p);
+    ((struct Obj01477 *)obj)->f394 = 0;
+    ((struct Obj01477 *)obj)->f398 = 1;
     return obj;
 }

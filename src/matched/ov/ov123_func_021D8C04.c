@@ -23,6 +23,8 @@
  *   func_021B9790 0x021B9790 thumb ov114
  *   func_021B97F4 0x021B97F4 thumb ov114
  */
+#include "../include/Obj00063.h"
+#include "../include/Obj22982.h"
 typedef unsigned char u8;
 struct Obj;
 struct Sub02009448Obj;
@@ -45,40 +47,40 @@ void func_021D8C04(char *p)
 {
     char *q;
     int state;
-    func_02009448(*(void **)(p+0x28));
-    func_021D6934(*(void **)(p+0x14));
+    func_02009448(((struct Obj00063 *)p)->f28);
+    func_021D6934(((struct Obj00063 *)p)->f14);
     if (func_021D6EA4(p)) {
-        if (*(int *)(p+0x74)==0) {
-            func_021D5950(*(u8 **)(p+0x18),42);
-            func_021D59E4(*(char **)(p+0x18));
-        } else if (*(int *)(p+0x74)==360) {
-            func_021D5950(*(u8 **)(p+0x18),43);
-            func_021D59E4(*(char **)(p+0x18));
-        } else if (*(int *)(p+0x74)==720) {
-            func_021D5950(*(u8 **)(p+0x18),44);
-            func_021D59E4(*(char **)(p+0x18));
+        if (((struct Obj00063 *)p)->f74==0) {
+            func_021D5950(*(u8 * *)&((struct Obj00063 *)p)->f18,42);
+            func_021D59E4(*(char * *)&((struct Obj00063 *)p)->f18);
+        } else if (((struct Obj00063 *)p)->f74==360) {
+            func_021D5950(*(u8 * *)&((struct Obj00063 *)p)->f18,43);
+            func_021D59E4(*(char * *)&((struct Obj00063 *)p)->f18);
+        } else if (((struct Obj00063 *)p)->f74==720) {
+            func_021D5950(*(u8 * *)&((struct Obj00063 *)p)->f18,44);
+            func_021D59E4(*(char * *)&((struct Obj00063 *)p)->f18);
         }
-        ++*(int *)(p+0x74);
+        ++((struct Obj00063 *)p)->f74;
     }
     if (func_021D6E70(p)) {
-        if (*(int *)(p+0x70)<50) ++*(int *)(p+0x70);
-        func_021D66D0(*(u8 **)(p+0x14),*(int *)(p+0x70));
-        if (func_021D6E08(p,func_021B99DC(*(void **)(p+0x10)))) return;
-        if (func_021B9790(*(void **)(p+0x10))) return;
-        q=func_021B97F4(*(void **)(p+0x10));
-        if (func_021D6EA4(p)) func_021D5A60(*(char **)(p+0x18));
-        state=*(int *)q;
+        if (((struct Obj00063 *)p)->f70<50) ++((struct Obj00063 *)p)->f70;
+        func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f70);
+        if (func_021D6E08(p,func_021B99DC(((struct Obj00063 *)p)->f10))) return;
+        if (func_021B9790(((struct Obj00063 *)p)->f10)) return;
+        q=func_021B97F4(((struct Obj00063 *)p)->f10);
+        if (func_021D6EA4(p)) func_021D5A60(*(char * *)&((struct Obj00063 *)p)->f18);
+        state=((struct Obj22982 *)q)->f0;
         if (state==0) {
             func_021D6EE0(p,(int)func_021D8B7C,0x955);
             return;
         }
-        *(int *)(p+0x80)=state;
+        ((struct Obj00063 *)p)->f80=state;
         func_021D6EE0(p,(int)func_021D6FF0,0x959);
         return;
     } else {
-        func_021D66D0(*(u8 **)(p+0x14),*(int *)(p+0x68));
-        if (++*(int *)(p+0x68)==100) {
-            if (func_021D6EA4(p)) func_021D5A60(*(char **)(p+0x18));
+        func_021D66D0(*(u8 * *)&((struct Obj00063 *)p)->f14,((struct Obj00063 *)p)->f68);
+        if (++((struct Obj00063 *)p)->f68==100) {
+            if (func_021D6EA4(p)) func_021D5A60(*(char * *)&((struct Obj00063 *)p)->f18);
             func_021D6EE0(p,(int)func_021D8B7C,0x967);
         }
     }

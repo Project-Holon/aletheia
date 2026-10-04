@@ -16,6 +16,7 @@
 
  * Two-way mode dispatch: mode 1 clears and runs the sub-step, mode 2 clears, releases the +0xdd0 word and latches state 1.
  */
+#include "../include/Obj00045.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,8 +36,8 @@ int func_021F643C(u8 *p)
         func_021F6474(p);
     } else if (k == 2) {
         func_021F4CE4(p);
-        func_0201F7A8((void *)(*(u32 *)(p + 0xdd0)), 0);
-        *(u32 *)(p + 0x28) = 1;
+        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 0);
+        ((struct Obj00045 *)p)->f28 = 1;
     }
     return 2;
 }

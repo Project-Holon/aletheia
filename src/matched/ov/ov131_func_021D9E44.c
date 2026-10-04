@@ -18,6 +18,8 @@
  *   func_020410D0 0x020410D0 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj00136.h"
+#include "../include/Obj04512.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -45,12 +47,12 @@ void func_021D9E44(u8 *a,u8 *p)
         func_02045374(cell);
         func_020409B4(func_02045730(cell));
     }
-    func_02040AE0(6,*(u8 **)(p+0x3c)+12,*((u32 *)(*(u8 **)(p+0x3c)+8)));
+    func_02040AE0(6,*(u8 * *)&((struct Obj04512 *)p)->f3C+12,*((u32 *)(*(u8 * *)&((struct Obj04512 *)p)->f3C+8)));
     func_02041B6C(6);
-    func_020410D0(5,0,0,32,3,*(u32 *)(p+0x4c)+12,0,0,32,32);
+    func_020410D0(5,0,0,32,3,((struct Obj04512 *)p)->f4C+12,0,0,32,32);
     func_02041B6C(5);
-    func_0204B3DC(*(void **)(p+0x90),1);
-    func_0204B3DC(*(void **)(p+0x94),0);
-    func_0204B3DC(*(void **)(a+0x198),0);
-    func_0204B3DC(*(void **)(a+0x19c),0);
+    func_0204B3DC(((struct Obj04512 *)p)->f90,1);
+    func_0204B3DC(((struct Obj04512 *)p)->f94,0);
+    func_0204B3DC(((struct Obj00136 *)a)->f198,0);
+    func_0204B3DC(((struct Obj00136 *)a)->f19C,0);
 }

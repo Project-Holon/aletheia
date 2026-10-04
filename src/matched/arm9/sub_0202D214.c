@@ -33,6 +33,7 @@
  *   func_020307B0   0x020307B0  arm
  *   MIi_CpuCopyFast 0x02082B0C  arm
  */
+#include "../include/Obj13942.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 
 void sub_0202D214(void *p, u32 v)
 {
-    u8 *base = *(u8 **)((char *)p + 0x14);
+    u8 *base = *(u8 * *)&((struct Obj13942 *)p)->f14;
     u8 *buf;
     u32 size;
     int i;

@@ -12,6 +12,7 @@
  *   func_020275F8 0x020275F8 thumb
  *   func_021B78A0 0x021B78A0 thumb ov173
  */
+#include "../include/Obj24181.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,7 +23,7 @@ void func_021B7908(char *p)
     int i;
     for (i = 0; i < 8; i++) {
         if (*(u32 *)(p + i * 8 + 0x144) != 0) {
-            func_021B78A0((u32)(*(void **)(p + 0x13c)), (int)(*(void **)(p + i * 4 + 0x80)), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
+            func_021B78A0((u32)(((struct Obj24181 *)p)->f13C), (int)(*(void **)(p + i * 4 + 0x80)), func_020275F8((u8)*(u32 *)(p + i * 8 + 0x140)), 0, 0x4f);
             *(u32 *)(p + i * 8 + 0x144) = 0;
         }
     }

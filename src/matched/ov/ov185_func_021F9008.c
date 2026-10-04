@@ -15,6 +15,7 @@
  *
  * Range-gate the pair then hand them to 0x21FD860 as a two-word record.
  */
+#include "../include/Obj24762.h"
 
 
 extern void func_021FD860(int, int, int *);
@@ -28,7 +29,7 @@ int func_021F9008(int a, int b, int c)
         int buf[2];
         buf[0] = b;
         buf[1] = c;
-        func_021FD860(*(int *)(a + 0x3C), 1, buf);
+        func_021FD860(((struct Obj24762 *)a)->f3C, 1, buf);
         func_020061E4(0x703);
     }
     return ok;

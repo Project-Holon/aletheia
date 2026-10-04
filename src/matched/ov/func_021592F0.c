@@ -12,6 +12,8 @@
  * symbols:
  *   func_0201134C  0x0201134C  thumb
  */
+#include "../include/Obj09154.h"
+#include "../include/Obj17643.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,13 +27,13 @@ int func_021592F0(int a0, int a1, int a2)
     int t5;
 
 t5 = a0 + 0;
-a1 = *(int *)((char *)t5 + 0x14);
-t4 = *(u8 *)((char *)a1);
+a1 = ((struct Obj09154 *)t5)->f14;
+t4 = ((struct Obj17643 *)((char *)a1))->f0;
 a1 = a1 + 1;
-*(int *)((char *)t5 + 0x14) = a1;
+((struct Obj09154 *)t5)->f14 = a1;
     a0 = func_0201134C(a0, a1);
 loc_02159300:
-a2 = *(int *)((char *)t5 + 0x1c);
+a2 = ((struct Obj09154 *)t5)->f1C;
 a1 = t4 << 2;
 *(int *)((char *)a2 + a1) = a0;
 a0 = 0;

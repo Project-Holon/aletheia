@@ -31,6 +31,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -97,7 +98,7 @@ void func_021E272C(char *p,int i,void *mon)
         func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(first+index)),16,19,p);
         func_0201DD78(1,2,(u8)col2);
         func_021E1778((int)mon,*(int *)(items2+index),0,0,p);
-        func_021E0E68(p+0x8c4+(i+1)*20,mon,*(int *)(p+0x9c4),*(int *)((char *)&b+index)+16,16,0,*(u16 *)(p+0x5f4),*(int *)((char *)&c+index));
+        func_021E0E68(p+0x8c4+(i+1)*20,mon,((struct Obj00001 *)p)->f9C4,*(int *)((char *)&b+index)+16,16,0,((struct Obj00001 *)p)->f5F4,*(int *)((char *)&c+index));
     } else func_021E1CA8(p);
     {
         char *first=p+0x5c4;

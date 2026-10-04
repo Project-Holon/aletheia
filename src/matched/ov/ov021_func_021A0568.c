@@ -13,6 +13,7 @@
  *   func_021A066C  0x021A066C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07487.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,8 +24,8 @@ extern void func_021A066C(u8 *p, u32 a, u32 b);
 
 void func_021A0568(u8 *p, int force)
 {
-    if (*(u32 *)(p + 0x38C) != 0 || force != 0) {
-        func_021A066C(p, *(u32 *)(p + 8), *(u32 *)(p + 4));
-        *(u32 *)(p + 0x38C) = 0;
+    if (((struct Obj07487 *)p)->f38C != 0 || force != 0) {
+        func_021A066C(p, ((struct Obj07487 *)p)->f8, ((struct Obj07487 *)p)->f4);
+        ((struct Obj07487 *)p)->f38C = 0;
     }
 }

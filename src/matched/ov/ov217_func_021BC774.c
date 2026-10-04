@@ -20,6 +20,7 @@
  *   func_021BD078 0x021BD078 thumb ov217
  *   func_021BD50C 0x021BD50C thumb ov217
  */
+#include "../include/Obj00850.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
@@ -35,28 +36,28 @@ extern void func_021BD078(void *);
 extern void func_021BD50C(void *);
 void func_021BC774(u8 *p)
 {
-    *(u32 *)(p + 4) = 0;
-    *(u32 *)(p + 0x1C) = 0;
-    *(u32 *)(p + 0x24) = 0;
-    *(u32 *)(p + 0x158) = 0;
-    *(u32 *)(p + 0x28) = 15;
+    ((struct Obj00850 *)p)->f4 = 0;
+    ((struct Obj00850 *)p)->f1C = 0;
+    ((struct Obj00850 *)p)->f24 = 0;
+    ((struct Obj00850 *)p)->f158 = 0;
+    ((struct Obj00850 *)p)->f28 = 15;
     p[0x32] = 0;
     p[0x33] = 0;
     p[0x30] = 0;
-    *(u32 *)(p + 0x2C) = 0;
+    ((struct Obj00850 *)p)->f2C = 0;
     p[0x31] = 255;
-    *(u32 *)(p + 0x150) = func_020056BC();
-    *(u32 *)(p + 0x34) = 0;
-    *(u32 *)(p + 0x38) = 0;
-    *(u32 *)(p + 0x3C) = 0;
-    *(u32 *)(p + 0x40) = 0;
-    *(u32 *)(p + 0x44) = 0;
-    *(u32 *)(p + 0x48) = 0;
-    *(u32 *)(p + 0x15C) = 0;
-    *(u32 *)(p + 0x160) = 0;
-    *(u32 *)(p + 0x168) = 0;
-    *(u32 *)(p + 0x164) = 0;
-    *(u32 *)(p + 0x154) = 0;
+    ((struct Obj00850 *)p)->f150 = func_020056BC();
+    ((struct Obj00850 *)p)->f34 = 0;
+    ((struct Obj00850 *)p)->f38 = 0;
+    ((struct Obj00850 *)p)->f3C = 0;
+    ((struct Obj00850 *)p)->f40 = 0;
+    ((struct Obj00850 *)p)->f44 = 0;
+    ((struct Obj00850 *)p)->f48 = 0;
+    ((struct Obj00850 *)p)->f15C = 0;
+    ((struct Obj00850 *)p)->f160 = 0;
+    ((struct Obj00850 *)p)->f168 = 0;
+    ((struct Obj00850 *)p)->f164 = 0;
+    ((struct Obj00850 *)p)->f154 = 0;
     func_021BC94C(p);
     func_021BC910(p);
     func_021BC8D0(p);

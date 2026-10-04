@@ -24,6 +24,7 @@
  *   d_021DDD70     0x021DDD70  data  a1
  *   d_021D8058     0x021D8058  data  a4
  */
+#include "../include/Obj03116.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -49,9 +50,9 @@ void func_0219C554(u32 a, u32 b, u32 c)
     u32 h;
     T12 t;
     u8 z;
-    *(u32 *)(p + 0x10) = a;
-    *(u32 *)(p + 4) = b;
-    *(u16 *)(p + 2) = c;
+    ((struct Obj03116 *)p)->f10 = a;
+    ((struct Obj03116 *)p)->f4 = b;
+    ((struct Obj03116 *)p)->f2 = c;
     func_0216D51C((u8 *)a, (u32)p);
     func_0219CAD8(p, c);
     func_0219CBE0(p);

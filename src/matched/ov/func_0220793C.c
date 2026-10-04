@@ -16,17 +16,18 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj00974.h"
 
 extern unsigned int func_02208D38(int a, int b, int c);
 
 void func_0220793C(char *p)
 {
-    int a = *(int *)(p + 0x48);
-    int b = *(int *)(p + 0x4c);
+    int a = ((struct Obj00974 *)p)->f48;
+    int b = ((struct Obj00974 *)p)->f4C;
 
     if (b < 0x30)
-        *(int *)(p + 0x78) = func_02208D38(a << 8, b, 0x30) >> 8;
+        ((struct Obj00974 *)p)->f78 = func_02208D38(a << 8, b, 0x30) >> 8;
     else
-        *(int *)(p + 0x78) = func_02208D38(a, b, 0x30);
+        ((struct Obj00974 *)p)->f78 = func_02208D38(a, b, 0x30);
 }
 

@@ -16,6 +16,7 @@
  *   func_02017D70  0x02017D70  thumb
  *   func_021D52B4  0x021D52B4  thumb  ov093
  */
+#include "../include/Obj00041.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct {
     void *w;
@@ -41,7 +42,7 @@ void func_021D66D8(Obj *p, u32 v)
     func_021D52B4(p, p->w, 1);
     if (p->fC == 0x1ec && v == 0) {
         p->f1b_lo = 0;
-        *(u16 *)((u8 *)p + 0x13c) = func_02017E1C(p->w, 10, 0);
+        ((struct Obj00041 *)p)->f13C = func_02017E1C(p->w, 10, 0);
     }
     func_02017D70(p->w, t);
 }

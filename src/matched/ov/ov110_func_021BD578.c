@@ -10,13 +10,14 @@
  * extent: independent switch leaf following func_021BD534; all registers
  * are incoming arguments; each arm returns through bx lr.
  */
+#include "../include/Obj10281.h"
 typedef unsigned char u8;
 void func_021BD578(int value,unsigned int which,u8 *p) {
     switch(which) {
-    case 0: *(int *)(p+0x3c)=value; break;
+    case 0: ((struct Obj10281 *)p)->f3C=value; break;
     case 1:
-    case 3: *(int *)(p+0x3c)=1; break;
+    case 3: ((struct Obj10281 *)p)->f3C=1; break;
     case 2: break;
-    default: *(int *)(p+0x3c)=1; break;
+    default: ((struct Obj10281 *)p)->f3C=1; break;
     }
 }

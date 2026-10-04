@@ -21,6 +21,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12518.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -84,7 +85,7 @@ int func_0217B4C4(u8 *w, Msg *m)
         return 1;
     }
     t = func_0217F858(e->bB);
-    if (*(u16 *)(s + 0x58) == func_0217AED4((u8 *)m->e, (u8 *)m)) {
+    if (((struct Obj12518 *)s)->f58 == func_0217AED4((u8 *)m->e, (u8 *)m)) {
         func_0217AE38((char *)m, 3);
         return 1;
     }

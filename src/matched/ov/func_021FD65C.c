@@ -15,6 +15,7 @@
  *
  * Reset the sub-state and report 2.
  */
+#include "../include/Obj02860.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021FD5F0(u8 *p);
 int func_021FD65C(u8 *p)
 {
     func_021FD5F0(p);
-    *(u32 *)(p + 0x28) = 1;
+    ((struct Obj02860 *)p)->f28 = 1;
     return 2;
 }

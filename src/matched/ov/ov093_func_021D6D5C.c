@@ -11,9 +11,10 @@
  * symbols:
  *   func_021D6238 0x021D6238 thumb ov093
  */
+#include "../include/Obj21239.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilSlots;
 extern void func_021D6238(struct UtilSlots *,int);
-void func_021D6D5C(u8 *p,u16 n) { *(u16 *)(p+0x1f2)=n; func_021D6238((struct UtilSlots *)p,8); }
+void func_021D6D5C(u8 *p,u16 n) { ((struct Obj21239 *)p)->f1F2=n; func_021D6238((struct UtilSlots *)p,8); }

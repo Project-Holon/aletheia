@@ -8,10 +8,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj14132.h"
+#include "../include/Obj23289.h"
 typedef unsigned char u8;
 void *func_021FD68C(int a,char *p)
 {
     char *q;
-    q=*(char **)(p+0x140);
-    return *(char **)(q+0x10)+*(u8 *)(p+0x14c)*0x3800;
+    q=*(char * *)&((struct Obj14132 *)p)->f140;
+    return *(char * *)&((struct Obj23289 *)q)->f10+((struct Obj14132 *)p)->f14C*0x3800;
 }

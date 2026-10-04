@@ -27,6 +27,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj06309.h"
 typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 extern int func_022019F4(char *p, int key);
@@ -56,5 +57,5 @@ void func_021FFBBC(char *w, int key, int kind, int value, int a, int b, int c)
     end.z = 0;
     (*(u8 *)(w + 0x5a4 + key))++;
     func_0220074C(w, key, kind, &start, &end, a, b, c, (void *)func_02201234, func_022012CC, 0, *(u8 *)(w + 0x5a4 + key));
-    *(int *)(w + 0x530) |= func_021F935C(key);
+    ((struct Obj06309 *)w)->f530 |= func_021F935C(key);
 }

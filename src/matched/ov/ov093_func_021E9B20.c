@@ -26,6 +26,7 @@
  *   ov196_id 0x000000C4 data
  *   ov198_id 0x000000C6 data
  */
+#include "../include/Obj00891.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021E9C60(void *, int);
@@ -46,14 +47,14 @@ int func_021E9B20(u8 *p)
     u32 i;
     switch (p[0x174]) {
     case 0:
-        if ((u8)(p[0x12b] + 0xff) <= 1) func_021E9C60(*(void **)(p + 0x180), 0);
-        else func_021E9C60(*(void **)(p + 0x180), 1);
+        if ((u8)(p[0x12b] + 0xff) <= 1) func_021E9C60(((struct Obj00891 *)p)->f180, 0);
+        else func_021E9C60(((struct Obj00891 *)p)->f180, 1);
         func_02034AC4((int)ov196_id);
         p[0x174]++;
         break;
     case 1:
-        if (func_021E9C70(*(void **)(p + 0x180))) {
-            func_021E9C80(*(void **)(p + 0x180));
+        if (func_021E9C70(((struct Obj00891 *)p)->f180)) {
+            func_021E9C80(((struct Obj00891 *)p)->f180);
             func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
             p[0x174]++;
@@ -61,23 +62,23 @@ int func_021E9B20(u8 *p)
         break;
     case 2:
         if (p[0x158]) {
-            if (p[0x12b] != 5 && *(int *)(p + 0x13c) == 0) {
+            if (p[0x12b] != 5 && ((struct Obj00891 *)p)->f13C == 0) {
                 for (i = 0; i < 3; i++) {
                     if (p[i + 0x154] != 0xff) {
-                        func_021E9C90(*(void **)(p + 0x15c), i, p[i + 0x154]);
-                        func_021E9CA0(*(void **)(p + 0x15c));
+                        func_021E9C90(((struct Obj00891 *)p)->f15C, i, p[i + 0x154]);
+                        func_021E9CA0(((struct Obj00891 *)p)->f15C);
                         (*(u8 **)(p + 0x15c))[8] = 0;
                     }
                 }
             }
             func_02034A5C((int)ov198_id);
-            func_021E9CB0(*(void **)(p + 0x180));
-            func_021E9CC0(*(void **)(p + 0x180));
+            func_021E9CB0(((struct Obj00891 *)p)->f180);
+            func_021E9CC0(((struct Obj00891 *)p)->f180);
             p[0x174]++;
         }
         break;
     case 3:
-        if (func_021E9CD0(*(void **)(p + 0x180))) p[0x174]++;
+        if (func_021E9CD0(((struct Obj00891 *)p)->f180)) p[0x174]++;
         break;
     default:
         func_02034A5C((int)ov196_id);

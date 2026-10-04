@@ -12,8 +12,9 @@
  * Unlabelled leaf; the function thunk func_021B9964 tail-calls.
  * movs r1,#0 / adds r0,#0x4c / strh r1,[r0] / bx lr.
  */
+#include "../include/Obj20637.h"
 
 void func_021B9D58(char *p)
 {
-    *(unsigned short *)(p + 0x4c) = 0;
+    ((struct Obj20637 *)p)->f4C = 0;
 }

@@ -23,6 +23,7 @@
  *   func_02045C04  0x02045C04  arm
  *   func_021BC870  0x021BC870  thumb  ov088
  */
+#include "../include/Obj06206.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -69,13 +70,13 @@ void func_021BC75C(u8 *p)
     func_02045334((struct Descriptor *)W(0xc));
     for (i = 0; i < 2; i++) {
         q = p + i * 4;
-        *(u32 *)(q + 0x10) = func_020450F0(1, 6, i * 4 + 0xc, 0x14, 2, 0, 1);
-        func_02045374((struct Cfg *)(*(u32 *)(q + 0x10)));
-        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10))), 0xf);
+        ((struct Obj06206 *)q)->f10 = func_020450F0(1, 6, i * 4 + 0xc, 0x14, 2, 0, 1);
+        func_02045374((struct Cfg *)(((struct Obj06206 *)q)->f10));
+        func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj06206 *)q)->f10)), 0xf);
         s = (u32)func_02045EC0((struct MsgBank *)arc, i + 5 + W(4) * 2);
-        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10))), 2, 2, (void *)s, (void *)W(8));
+        func_0201C7A4((void *)((u32)func_02045770((struct Descriptor *)((struct Obj06206 *)q)->f10)), 2, 2, (void *)s, (void *)W(8));
         func_02045808((struct U16Vec *)s);
-        func_02045334((struct Descriptor *)*(u32 *)(q + 0x10));
+        func_02045334((struct Descriptor *)((struct Obj06206 *)q)->f10);
     }
     func_02045C04((struct Rec *)arc);
     func_021BC870(p);

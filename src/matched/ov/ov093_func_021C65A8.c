@@ -20,6 +20,7 @@
  *   func_021D775C  0x021D775C  thumb  ov093
  *   func_021D7540  0x021D7540  thumb  ov093
  */
+#include "../include/Obj21104.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -54,7 +55,7 @@ int func_021C65A8(u8 *p, u8 *a, u32 e, u8 *d)
     t = func_021D775C(0x13);
     func_021D7540(11550);
     if (t != 0) {
-        **(u16 **)(p + 0x4A8) = t;
+        **(u16 * *)&((struct Obj21104 *)p)->f4A8 = t;
     }
     return r;
 }

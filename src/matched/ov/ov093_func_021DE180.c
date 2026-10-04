@@ -21,6 +21,7 @@
  *   func_021D70A8  0x021D70A8  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10068.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,7 +54,7 @@ void func_021DE180(int a, void *b, int c, int *d)
             j = func_021DCFF8(a, 2);
             m = (u8 *)func_021C88A4(b, 7, c);
             m[6] = k;
-            *(u16 *)(m + 4) = func_021D7B74(mon, j);
+            ((struct Obj10068 *)m)->f4 = func_021D7B74(mon, j);
             func_021C8838(m + 0xc, 2, 0x407);
             func_021C8860((struct S *)(m + 0xc), m[6]);
             func_021C8860((struct S *)(m + 0xc), c);

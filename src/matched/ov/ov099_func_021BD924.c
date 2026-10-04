@@ -13,6 +13,8 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D3A8 0x0203D3A8 arm
  */
+#include "../include/Obj05264.h"
+#include "../include/Obj13695.h"
 extern int func_021BCBD8(char *, int);
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -22,24 +24,24 @@ extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021BD924(char *p, int v)
 {
     int t;
-    if (*(unsigned char *)(p + 0x1352) == 6) {
-        *(unsigned char *)(p + 0x1353) = 0x4d;
-        *(int *)(p + 0x1cc) = 0x8a;
+    if (((struct Obj05264 *)p)->f1352 == 6) {
+        ((struct Obj05264 *)p)->f1353 = 0x4d;
+        ((struct Obj05264 *)p)->f1CC = 0x8a;
     } else {
-        if (*(int *)(p + 0x135c) == 3 || *(int *)(p + 0x135c) == 1) {
+        if (((struct Obj05264 *)p)->f135C == 3 || ((struct Obj05264 *)p)->f135C == 1) {
             t = func_021BCBD8(p, 1);
         } else {
             t = func_021BCBD8(p, 0);
         }
         if (func_0203D3A8(func_020399A8(), 0xa06, 4, (u32)(&t)) != 0) {
-            *(int *)(p + 0x1cc) = 0x82;
+            ((struct Obj05264 *)p)->f1CC = 0x82;
         }
     }
     return v;
 }
 int func_021BD97C(char *p, int v)
 {
-    *(unsigned char *)(p + 0x1353) = 0x5e;
-    *(int *)(p + 0x1cc) = 0x8a;
+    ((struct Obj13695 *)p)->f1353 = 0x5e;
+    ((struct Obj13695 *)p)->f1CC = 0x8a;
     return v;
 }

@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
+#include "../include/Obj21097.h"
 
 void func_021C5474(char *p)
 {
-    *(int *)(p + 0x220) = 0;
+    ((struct Obj21097 *)p)->f220 = 0;
 }

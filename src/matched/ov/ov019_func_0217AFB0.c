@@ -15,6 +15,7 @@
  *   func_02034714 0x02034714 arm
  *   d_021807E0 0x021807E0 data a1
  */
+#include "../include/Obj19389.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,4 +25,4 @@ extern void *func_0216DE94(void *,unsigned int);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021807E0[];
-void *func_0217AFB0(void **a,u8 *b,u8 *c) { u16 key; void *p; key = func_0217AED4(b,c); p = func_0216DE94(func_02012964(*(void **)((u8 *)*a+8)),key); if(p == 0) func_02034714(d_021807E0,0,d_021807E0); return p; }
+void *func_0217AFB0(void **a,u8 *b,u8 *c) { u16 key; void *p; key = func_0217AED4(b,c); p = func_0216DE94(func_02012964(((struct Obj19389 *)((u8 *)*a))->f8),key); if(p == 0) func_02034714(d_021807E0,0,d_021807E0); return p; }

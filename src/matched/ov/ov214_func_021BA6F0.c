@@ -19,6 +19,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021BAD08 0x021BAD08 thumb ov214
  */
+#include "../include/Obj00202.h"
 typedef unsigned char u8;
 struct PrintSys;
 extern void func_0201C6EC(struct PrintSys *p);
@@ -35,19 +36,19 @@ extern void func_021BAD08(void*,char*);
 void func_021BA6F0(void*obj,char*p)
 {
     void*h;
-    *(int*)(p+0xac)=0;
-    *(int*)(p+0xb0)=0;
-    func_0201C6EC((struct PrintSys *)(*(int*)(p+0x14)));
-    func_02043B5C(func_02045770(*(void**)(p+0x94)),0);
-    h=*(void**)(p+0x94);
+    *(int *)&((struct Obj00202 *)p)->fAC=0;
+    *(int *)&((struct Obj00202 *)p)->fB0=0;
+    func_0201C6EC((struct PrintSys *)(((struct Obj00202 *)p)->f14));
+    func_02043B5C(func_02045770(*(void* *)&((struct Obj00202 *)p)->f94),0);
+    h=*(void* *)&((struct Obj00202 *)p)->f94;
     func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
-    *(int*)(p+0xa4)=1;
-    func_0201C6EC((struct PrintSys *)(*(int*)(p+0x18)));
-    func_02043B5C(func_02045770(*(void**)(p+0x98)),0);
-    h=*(void**)(p+0x98);
+    ((struct Obj00202 *)p)->fA4=1;
+    func_0201C6EC((struct PrintSys *)(((struct Obj00202 *)p)->f18));
+    func_02043B5C(func_02045770(*(void* *)&((struct Obj00202 *)p)->f98),0);
+    h=*(void* *)&((struct Obj00202 *)p)->f98;
     func_02045334(h);func_02045374(h);func_02041B6C(func_02045730(h));
-    *(int*)(p+0xa8)=1;
-    if(*(int*)(p+0x3c))func_021BAD08(obj,p);
-    *(int*)(p+0xbc)=0;
-    *(unsigned short*)(p+0xc0)=0;
+    ((struct Obj00202 *)p)->fA8=1;
+    if(((struct Obj00202 *)p)->f3C)func_021BAD08(obj,p);
+    ((struct Obj00202 *)p)->fBC=0;
+    ((struct Obj00202 *)p)->fC0=0;
 }

@@ -15,6 +15,7 @@
  *   func_0207EB78 0x0207EB78 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj04650.h"
 typedef unsigned short u16;
 extern const char d_021BC004[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
@@ -24,15 +25,15 @@ extern void func_0207EB78(const void *,unsigned,unsigned);
 extern void func_020307B0(void *);
 void func_021B9E80(char *p,unsigned id)
 {
-    if(*(u16 *)(p+0x30)!=id) {
+    if(((struct Obj04650 *)p)->f30!=id) {
         unsigned size;
         void *buf;
-        *(u16 *)(p+0x30)=id;
-        if(*(u16 *)(p+0x30)==0xffff) {
-            buf=func_02030734(*(u16 *)(p+4),0x18000,1,d_021BC004,245);
+        ((struct Obj04650 *)p)->f30=id;
+        if(((struct Obj04650 *)p)->f30==0xffff) {
+            buf=func_02030734(((struct Obj04650 *)p)->f4,0x18000,1,d_021BC004,245);
             size=0x18000;
         } else {
-            buf=func_0204A39C(*(void **)(p+0x28),*(u16 *)(p+0x30),1,*(u16 *)(p+4),&size);
+            buf=func_0204A39C(((struct Obj04650 *)p)->f28,((struct Obj04650 *)p)->f30,1,((struct Obj04650 *)p)->f4,&size);
         }
         func_020862F0(buf,size);func_0207EB78(buf,0,0x18000);func_020307B0(buf);
     }

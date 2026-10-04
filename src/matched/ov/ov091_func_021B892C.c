@@ -27,6 +27,7 @@
  *   func_021BBE5C  0x021BBE5C  thumb  ov091
  *   func_021BBE68  0x021BBE68  thumb  ov091
  */
+#include "../include/Obj06210.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -86,7 +87,7 @@ void func_021B892C(u8 *p)
     }
     if (r == 1) {
         func_021BB97C(p, W(0x150));
-        func_021BB9EC((int)p, W(0x150), 0, *(u16 *)(q + 6), 3);
+        func_021BB9EC((int)p, W(0x150), 0, ((struct Obj06210 *)q)->f6, 3);
         func_021B9788(p, 0x92, 1, (int)func_021B9E20);
         func_020061E4(0x557);
         func_021BB98C(p, W(0x150));

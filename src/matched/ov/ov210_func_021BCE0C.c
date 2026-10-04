@@ -10,6 +10,7 @@
  * symbols:
  *   func_0202CD64 0x0202CD64 thumb
  */
+#include "../include/Obj01779.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed char s8;
@@ -21,9 +22,9 @@ void func_021BCE0C(char *p, int delta)
 {
     int magnitude;
     int direction;
-    *(u16 *)(p + 0x2c8) = 48;
-    *(s16 *)(p + 0x2ca) = delta;
+    ((struct Obj01779 *)p)->f2C8 = 48;
+    ((struct Obj01779 *)p)->f2CA = delta;
     magnitude = delta < 0 ? -delta : delta;
     direction = delta / (delta < 0 ? -delta : delta);
-    func_0202CD64(*(struct WinMgr **)(p + 0x20), 0, 0, direction, 48 / magnitude);
+    func_0202CD64(*(struct WinMgr * *)&((struct Obj01779 *)p)->f20, 0, 0, direction, 48 / magnitude);
 }

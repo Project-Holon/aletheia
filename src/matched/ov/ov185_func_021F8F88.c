@@ -12,10 +12,12 @@
  *   func_021FD12C 0x021FD12C thumb ov186
  *   func_021FD170 0x021FD170 thumb ov186
  */
+#include "../include/Obj06624.h"
+#include "../include/Obj14448.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void *func_021FD12C(int a, void *owner, u16 heap);
 extern void func_021FD170(char *p, char *q, void *text);
-void func_021F8F88(char *p,char *q) { if(!*(void **)(p+4))*(void **)(p+4)=func_021FD12C((int)(*(void **)(q+12)),(void *)(*(int *)(p+0x2c)),*(u16 *)(p+0x30));func_021FD170(*(void **)(p+4),*(void **)(q+12),(void *)0x146); }
+void func_021F8F88(char *p,char *q) { if(!((struct Obj06624 *)p)->f4)((struct Obj06624 *)p)->f4=func_021FD12C((int)(((struct Obj14448 *)q)->fC),(void *)(((struct Obj06624 *)p)->f2C),((struct Obj06624 *)p)->f30);func_021FD170(((struct Obj06624 *)p)->f4,((struct Obj14448 *)q)->fC,(void *)0x146); }

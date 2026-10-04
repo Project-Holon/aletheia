@@ -19,6 +19,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05990.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,10 +39,10 @@ u32 func_0219800C(u8 *p)
     u8 *h;
 
     h = func_0216D6D4(p);
-    func_02163FC0(p, *(u32 *)(h + 4), *(u32 *)(h + 8));
+    func_02163FC0(p, ((struct Obj05990 *)h)->f4, ((struct Obj05990 *)h)->f8);
     func_02164010((int)p);
-    *(s16 *)(h + 2) = *(s16 *)(h + 2) - 1;
-    if (*(s16 *)(h + 2) > 0) {
+    ((struct Obj05990 *)h)->f2 = ((struct Obj05990 *)h)->f2 - 1;
+    if (((struct Obj05990 *)h)->f2 > 0) {
         return 0;
     }
     func_0216D568(p, 0x440);

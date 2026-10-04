@@ -14,6 +14,7 @@
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj13702.h"
 typedef unsigned short u16;
 extern int func_021C1154(char *, int);
 struct Entry;
@@ -35,10 +36,10 @@ int func_021C1374(char *p, int ret)
         if (func_02039CB4((struct Link *)func_020399A8(), 14, 10) != 0) {
             h = (int)func_020399A8();
             count = func_02008468(h);
-            q = func_02012944(*(void **)(p + 0xc4));
+            q = func_02012944(((struct Obj13702 *)p)->fC4);
             if (func_0203D3A8((void *)h, 0xa04, count, (u32)q) != 0) {
                 func_021BA8EC(p);
-                *(int *)(p + 0x1cc) = 135;
+                ((struct Obj13702 *)p)->f1CC = 135;
             }
         }
     }

@@ -16,6 +16,7 @@
  *   func_021EA614 0x021EA614 thumb ov093
  *   func_021EA710 0x021EA710 thumb ov093
  */
+#include "../include/Obj01893.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 a : 5; u8 flag : 1; } Flags;
@@ -40,15 +41,15 @@ int func_021CE1B0(u8 *p,int *state)
             func_021CE2E8(p);
             return 1;
         }
-        data = func_021EE6B8(*(void **)(p+0x14),p[0x1a6],&count,&flag);
+        data = func_021EE6B8(((struct Obj01893 *)p)->f14,p[0x1a6],&count,&flag);
         if (flag) func_021D3F54(p+0x18);
-        *(u32 **)(p+0xd8) = data;
-        *(u32 *)(p+0xdc) = count * 4;
+        *(u32 * *)&((struct Obj01893 *)p)->fD8 = data;
+        ((struct Obj01893 *)p)->fDC = count * 4;
         if (((Command *)data)->kind == 8) {
             func_021D3FD0(p+0x18);
-            if (*(void **)(p+0x54)) {
+            if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb7);
-                func_021EA614(*(void **)(p+0x54),p+0x58);
+                func_021EA614(((struct Obj01893 *)p)->f54,p+0x58);
                 (*state)++;
             } else {
                 func_021CE2E8(p);
@@ -58,9 +59,9 @@ int func_021CE1B0(u8 *p,int *state)
         } else if (((Command *)data)->kind == 9) {
             p[0x1b2] |= 0x20;
             func_021D3FD0(p+0x18);
-            if (*(void **)(p+0x54)) {
+            if (((struct Obj01893 *)p)->f54) {
                 func_021EAF18((struct L *)(p+0x58),1,0xb8);
-                func_021EA614(*(void **)(p+0x54),p+0x58);
+                func_021EA614(((struct Obj01893 *)p)->f54,p+0x58);
                 *state += 2;
             } else {
                 func_021CE2E8(p);
@@ -69,14 +70,14 @@ int func_021CE1B0(u8 *p,int *state)
         } else return 1;
         break;
     case 1:
-        if (func_021EA710(*(void **)(p+0x54))) {
+        if (func_021EA710(((struct Obj01893 *)p)->f54)) {
             func_021CE2E8(p);
             p[0x1b2] |= 0x10;
             return 1;
         }
         break;
     case 2:
-        if (func_021EA710(*(void **)(p+0x54))) {
+        if (func_021EA710(((struct Obj01893 *)p)->f54)) {
             func_021CE2E8(p);
             return 1;
         }

@@ -26,6 +26,7 @@
  *   func_020061E4  0x020061E4  thumb
  *   d_021BD784     0x021BD784  data  ov088  a4
  */
+#include "../include/Obj02127.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -51,42 +52,42 @@ extern void func_020061E4(u32);
 int func_021BA880(char *p)
 {
     u32 i;
-    switch (*(u8 *)(p + 0x12a)) {
+    switch (((struct Obj02127 *)p)->f12A) {
     case 0:
         func_020434DC(0x1e, 0);
         func_02043598(0x17, 0);
         func_02040EBC(0, 0x7d8c);
         func_02040EBC(4, 0x7d8c);
-        *(u8 *)(p + 0x12a) = *(u8 *)(p + 0x12a) + 1;
+        ((struct Obj02127 *)p)->f12A = ((struct Obj02127 *)p)->f12A + 1;
         return func_021BC054(p, 10);
     case 1:
         for (;;) {
-            i = *(u32 *)(p + 0x14c);
+            i = ((struct Obj02127 *)p)->f14C;
             if (i >= 8) {
                 func_021BBF98(p);
-                *(u8 *)(p + 0x12a) = 3;
+                ((struct Obj02127 *)p)->f12A = 3;
                 return func_021BC080(p, 10);
             }
-            if ((d_021BD784[i].mask & *(u32 *)(p + 0x148)) == 0) {
-                *(u32 *)(p + 0x14c) += 1;
+            if ((d_021BD784[i].mask & ((struct Obj02127 *)p)->f148) == 0) {
+                ((struct Obj02127 *)p)->f14C += 1;
                 continue;
             }
             func_021BBF1C(p, d_021BD784[i].msg);
-            *(u32 *)(p + 0x14c) += 1;
-            *(u8 *)(p + 0x12a) = *(u8 *)(p + 0x12a) + 1;
+            ((struct Obj02127 *)p)->f14C += 1;
+            ((struct Obj02127 *)p)->f12A = ((struct Obj02127 *)p)->f12A + 1;
             break;
         }
         break;
     case 2:
         if (func_021BBFA8(p) == 0 && (func_020362DC() & 3)) {
             func_020061E4(0x547);
-            *(u8 *)(p + 0x12a) = 1;
+            ((struct Obj02127 *)p)->f12A = 1;
         }
         break;
     case 3:
         func_020434DC(0x1e, 1);
         func_02043598(0x17, 1);
-        *(u8 *)(p + 0x12a) = 0;
+        ((struct Obj02127 *)p)->f12A = 0;
         return func_021BC054(p, 5);
     }
     return 10;

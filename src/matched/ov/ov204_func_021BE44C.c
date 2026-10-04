@@ -10,5 +10,6 @@
  * symbols:
  *   func_021BF204 0x021BF204 thumb ov204
  */
+#include "../include/Obj25350.h"
 extern void func_021BF204(char *,void *,unsigned short);
-int func_021BE44C(char *p,int *state,unsigned *q){func_021BF204(*(char **)(p+24),(void *)q[0],q[1]);return 1;}
+int func_021BE44C(char *p,int *state,unsigned *q){func_021BF204(*(char * *)&((struct Obj25350 *)p)->f18,(void *)q[0],q[1]);return 1;}

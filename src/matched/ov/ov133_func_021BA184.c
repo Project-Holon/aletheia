@@ -10,4 +10,5 @@
  * status: EXACT
  * symbols:
  */
-void *func_021BA184(char *p){return *(void**)(p+8);}
+#include "../include/Obj23327.h"
+void *func_021BA184(char *p){return *(void* *)&((struct Obj23327 *)p)->f8;}

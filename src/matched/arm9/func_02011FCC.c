@@ -51,6 +51,7 @@
  *   func_02021464  0x02021464  thumb
  *   func_0200F7B8  0x0200F7B8  thumb
  */
+#include "../include/Obj01458.h"
 
 extern void func_020120A4(char *p);
 struct BigObj;
@@ -74,23 +75,23 @@ extern void func_0200F7B8(int v);
 int func_02011FCC(char *p)
 {
     func_020120A4(p);
-    if (func_02012A24((const struct BigObj *)*(int *)(p + 0x1c)) != 0)
+    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
         func_02035614(0x1e);
-    if (func_020129FC((struct BigObj *)*(int *)(p + 0x1c)) == 0) {
-        func_020123D8(p, (unsigned int (*)(void *, void *))*(int *)(p + 0x10), (void *)*(int *)(p + 0x14));
+    if (func_020129FC((struct BigObj *)((struct Obj01458 *)p)->f1C) == 0) {
+        func_020123D8(p, (unsigned int (*)(void *, void *))((struct Obj01458 *)p)->f10, (void *)((struct Obj01458 *)p)->f14);
         func_0201205C((struct IcaAnime *)p);
         func_02012380(p);
-        func_0202627C((struct Comm *)*(int *)(p + 0x24));
+        func_0202627C((struct Comm *)((struct Obj01458 *)p)->f24);
     }
-    *(int *)(p + 0xc) = func_02031330((void *)*(int *)(p + 8));
-    func_02028A14((struct T *)func_02012A30((const struct BigObj *)*(int *)(p + 0x1c)));
-    func_0202B500((unsigned char *)*(int *)(p + 0x2c));
-    func_02021464((unsigned char *)*(int *)(p + 0x1c));
-    if (func_02012A24((const struct BigObj *)*(int *)(p + 0x1c)) != 0)
+    ((struct Obj01458 *)p)->fC = func_02031330((void *)((struct Obj01458 *)p)->f8);
+    func_02028A14((struct T *)func_02012A30((const struct BigObj *)((struct Obj01458 *)p)->f1C));
+    func_0202B500((unsigned char *)((struct Obj01458 *)p)->f2C);
+    func_02021464((unsigned char *)((struct Obj01458 *)p)->f1C);
+    if (func_02012A24((const struct BigObj *)((struct Obj01458 *)p)->f1C) != 0)
         func_02035614(0x3c);
-    if (*(int *)(p + 0xc) == 2 || *(int *)(p + 0xc) == 0)
+    if (((struct Obj01458 *)p)->fC == 2 || ((struct Obj01458 *)p)->fC == 0)
         func_0200F7B8(0);
-    if (*(int *)(p + 0xc) == 0 && *(int *)(p + 0x18) == 0)
+    if (((struct Obj01458 *)p)->fC == 0 && ((struct Obj01458 *)p)->f18 == 0)
         return 1;
     return 0;
 }

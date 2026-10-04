@@ -17,6 +17,7 @@
  *   func_02185EA0  0x02185EA0  thumb  ov023
  *   func_02185DE8  0x02185DE8  thumb  ov023
  */
+#include "../include/Obj01221.h"
 
 typedef unsigned int u32;
 
@@ -42,6 +43,6 @@ int func_0218530C(char *p, int x)
         func_021860D0(p);
     }
     func_02185EA0(p);
-    func_02185DE8((char *)(*(u32 *)(p + 0x118)), (struct e6 *)(p + 0x4212), (struct o4 *)(p + 0x4230), 1);
+    func_02185DE8((char *)(((struct Obj01221 *)p)->f118), (struct e6 *)(p + 0x4212), (struct o4 *)(p + 0x4230), 1);
     return x;
 }

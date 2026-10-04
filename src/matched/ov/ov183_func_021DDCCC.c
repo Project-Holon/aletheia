@@ -26,6 +26,9 @@
  *   func_021DE084 0x021DE084 thumb ov183
  *   d_021E338C 0x021E338C data a4
  */
+#include "../include/Obj00363.h"
+#include "../include/Obj00731.h"
+#include "../include/Obj14425.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Record { u8 a,b,c,d; int value; };
@@ -54,25 +57,25 @@ void func_021DDCCC(char *p,char *q)
  char *slot;
  const struct Record *rec;
  struct Triple triple;
- first=func_021FC20C(*(char **)(q+8));
- second=func_021FC214(*(char **)(q+8));
- third=func_021FC21C(*(char **)(q+8));
- func_021FB964((void *)(*(int *)(q+8)),13,*(u16 *)(p+0x7c));
+ first=func_021FC20C(*(char * *)&((struct Obj00363 *)q)->f8);
+ second=func_021FC214(*(char * *)&((struct Obj00363 *)q)->f8);
+ third=func_021FC21C(*(char * *)&((struct Obj00363 *)q)->f8);
+ func_021FB964((void *)(*(int *)&((struct Obj00363 *)q)->f8),13,((struct Obj00731 *)p)->f7C);
  for(i=0;i<5;i++){
   rec=&d_021E338C[i]; slot=p+i*4;
-  *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  ((struct Obj14425 *)slot)->f34=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,((struct Obj00731 *)p)->f4,((struct Obj00731 *)p)->f7C);
   if(i==4){
-   v=func_0200DC08(*(int *)(q+0x10));
+   v=func_0200DC08(*(int *)&((struct Obj00363 *)q)->f10);
    text=func_02045EC0(second,rec->value);
-   obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
+   obj=func_020457B0(0x80,((struct Obj00731 *)p)->f7C);
    func_0201EFA4((void *)third,0,v,2,1,1);
    func_0201F250((void *)third,obj,(void *)text);
    func_02045808((struct U16Vec *)text);
   }else obj=(void *)func_02045EC0(second,rec->value);
-  func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
+  func_021FC7C4(*(char * *)&((struct Obj14425 *)slot)->f34,obj,(void *)first,0x3da0);
   func_02045808((struct U16Vec *)((int)obj));
  }
- v=func_0200DABC(*(int *)(q+0x10));
- func_021FC124(*(int *)(q+8),13,&triple);
- func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
+ v=func_0200DABC(*(int *)&((struct Obj00363 *)q)->f10);
+ func_021FC124(*(int *)&((struct Obj00363 *)q)->f8,13,&triple);
+ func_021DE084(p+8,((struct Obj00363 *)q)->f4,(const char *)&triple,v,0xa0,0x20,((struct Obj00731 *)p)->f7C);
 }

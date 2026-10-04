@@ -21,6 +21,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj05195.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,16 +53,16 @@ int func_021CC2C0(void *a, void *m, void *s)
         k = func_021D805C(s, 0x3a);
         switch (k) {
         case 0xff:
-            *(u16 *)(r + 4) = func_021D59B4(m, 14);
+            ((struct Obj05195 *)r)->f4 = func_021D59B4(m, 14);
             break;
         case 0xfe:
-            *(u16 *)(r + 4) = func_021D7B74(m, 2);
+            ((struct Obj05195 *)r)->f4 = func_021D7B74(m, 2);
             break;
         case 0xfd:
-            *(u16 *)(r + 4) = func_021D7B74(m, 4);
+            ((struct Obj05195 *)r)->f4 = func_021D7B74(m, 4);
             break;
         default:
-            *(u16 *)(r + 4) = k;
+            ((struct Obj05195 *)r)->f4 = k;
             break;
         }
         func_021C8838(r + 8, 2, 387);

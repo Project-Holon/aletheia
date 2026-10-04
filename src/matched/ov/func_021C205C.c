@@ -18,6 +18,7 @@
  * The selector stays live into the first branch, which is what keeps the 0x8EF
  * constant out of r1 and gives the image its `adds r1, r2, #5`.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,6 +37,6 @@ void func_021C205C(u8 *p, int v)
         return;
     }
 
-    *(u32 *)(p + 0x8F4) = 1;
+    *(u32 *)&((struct Obj00008 *)p)->f8F4 = 1;
     func_021C2090(p);
 }

@@ -15,6 +15,7 @@
  *   func_021B64A4 0x021B64A4 arm ov172
  *   func_021B66B0 0x021B66B0 thumb ov172
  */
+#include "../include/Obj01264.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,6 +31,6 @@ void func_021B644C(char *p)
     u32 height = func_021B6944(p);
     u32 offset = func_02085D3C() == 1 ? func_021B649C(width) : 0;
     width *= 2;
-    func_021B64A4(1, (*(u32 **)(p + 4))[*(u8 *)(p + 0x18)], offset >> 2,
+    func_021B64A4(1, (*(u32 **)(p + 4))[((struct Obj01264 *)p)->f18], offset >> 2,
                  width * height, 0, func_021B66B0, 0);
 }

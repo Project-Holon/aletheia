@@ -11,17 +11,18 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02027F60 0x02027F60 thumb
  */
+#include "../include/Obj01439.h"
 typedef unsigned short u16;
 struct MsgBank;struct R;
 extern void *func_02045EC0(struct MsgBank *,unsigned);
 extern struct R *func_02027F60(u16,u16,unsigned,unsigned,u16);
 void func_02184BAC(char *p)
 {
-    *(void **)(p+0xc064)=func_02045EC0(*(struct MsgBank **)(p+0xc070),13);
-    *(void **)(p+0xc068)=func_02045EC0(*(struct MsgBank **)(p+0xc070),16);
-    *(struct R **)(p+0xc058)=func_02027F60(2,9,*(unsigned *)(p+0xc06c),*(unsigned *)(p+0xc080),(u16)*(unsigned *)p);
-    *(void **)(p+0xc08c)=*(void **)(p+0xc064);
-    *(u16 *)(p+0xc090)=0x39e3;*(unsigned *)(p+0xc094)=0;
-    *(void **)(p+0xc098)=*(void **)(p+0xc068);
-    *(u16 *)(p+0xc09c)=0x39e3;*(unsigned *)(p+0xc0a0)=1;
+    ((struct Obj01439 *)p)->fC064=func_02045EC0(*(struct MsgBank * *)&((struct Obj01439 *)p)->fC070,13);
+    ((struct Obj01439 *)p)->fC068=func_02045EC0(*(struct MsgBank * *)&((struct Obj01439 *)p)->fC070,16);
+    *(struct R * *)&((struct Obj01439 *)p)->fC058=func_02027F60(2,9,((struct Obj01439 *)p)->fC06C,((struct Obj01439 *)p)->fC080,(u16)((struct Obj01439 *)p)->f0);
+    ((struct Obj01439 *)p)->fC08C=((struct Obj01439 *)p)->fC064;
+    ((struct Obj01439 *)p)->fC090=0x39e3;((struct Obj01439 *)p)->fC094=0;
+    ((struct Obj01439 *)p)->fC098=((struct Obj01439 *)p)->fC068;
+    ((struct Obj01439 *)p)->fC09C=0x39e3;((struct Obj01439 *)p)->fC0A0=1;
 }

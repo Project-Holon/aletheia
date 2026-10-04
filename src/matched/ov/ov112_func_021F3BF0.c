@@ -18,6 +18,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj03246.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F6C7C(char *p);
@@ -33,15 +34,15 @@ extern void func_020307B0(void *);
 void func_021F3BF0(u8 *p)
 {
     u8 i;
-    func_021F6C7C((char *)(*(u32 *)(p+0x40)));
-    func_021F6F4C((u8 *)(*(u32 *)(p+0x28)));
-    func_021F7120(*(void **)(p+0x2c));
-    func_021F51B0(*(u32 *)(p+0x20));
-    func_021F4948(*(u8 **)(p+0x24));
-    func_020452E8(*(void **)(p+0x58));
-    func_020452E8(*(void **)(p+0x54));
-    func_0201D83C(*(void **)(p+0x60));
-    func_0201D83C(*(void **)(p+0x5c));
+    func_021F6C7C((char *)(((struct Obj03246 *)p)->f40));
+    func_021F6F4C((u8 *)(((struct Obj03246 *)p)->f28));
+    func_021F7120(((struct Obj03246 *)p)->f2C);
+    func_021F51B0(((struct Obj03246 *)p)->f20);
+    func_021F4948(*(u8 * *)&((struct Obj03246 *)p)->f24);
+    func_020452E8(((struct Obj03246 *)p)->f58);
+    func_020452E8(((struct Obj03246 *)p)->f54);
+    func_0201D83C(((struct Obj03246 *)p)->f60);
+    func_0201D83C(((struct Obj03246 *)p)->f5C);
     func_021F3ED0(p);
     for(i=0;i<4;i++) func_020307B0(*(void **)(p+i*4+8));
     func_020307B0(p);

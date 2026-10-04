@@ -18,6 +18,7 @@
  *   func_0201CE38  0x0201CE38  thumb
  *   func_0201CE48  0x0201CE48  thumb
  */
+#include "../include/Obj00578.h"
 
 typedef unsigned int u32;
 
@@ -34,24 +35,24 @@ extern void func_0201CE48(struct Rec3 *p);
 
 int func_021BD188(char *p)
 {
-    func_020310C4(*(void **)(p + 0x18));
-    func_020286C4(*(void **)(p + 0x24), *(void **)(p + 0x14), *(void **)(p + 0x1c));
-    switch (func_0201CE30(*(void **)(p + 0x14))) {
+    func_020310C4(((struct Obj00578 *)p)->f18);
+    func_020286C4(((struct Obj00578 *)p)->f24, ((struct Obj00578 *)p)->f14, ((struct Obj00578 *)p)->f1C);
+    switch (func_0201CE30(((struct Obj00578 *)p)->f14)) {
     case 0:
-        *(int *)(p + 0x28) = 0;
+        ((struct Obj00578 *)p)->f28 = 0;
         break;
     case 1:
-        if (*(int *)(p + 0x28) == 0) {
+        if (((struct Obj00578 *)p)->f28 == 0) {
             if (func_020362DC() & 3) {
                 func_020061E4(0x547);
-                func_0201CE38(*(void **)(p + 0x14));
-                *(int *)(p + 0x28) = 1;
+                func_0201CE38(((struct Obj00578 *)p)->f14);
+                ((struct Obj00578 *)p)->f28 = 1;
             }
         }
         break;
     case 2:
-        func_0201CE48(*(void **)(p + 0x14));
-        *(int *)(p + 0x28) = 0;
+        func_0201CE48(((struct Obj00578 *)p)->f14);
+        ((struct Obj00578 *)p)->f28 = 0;
         return 0;
     }
     return 1;

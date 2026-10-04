@@ -13,6 +13,7 @@
  *   func_021FFEA8  0x021FFEA8  thumb  ov186
  *   func_021FFF28  0x021FFF28  thumb  ov186
  */
+#include "../include/Obj02237.h"
 
 extern void func_021FFEA8(char *p);
 extern void func_021FFF28(void *);
@@ -21,5 +22,5 @@ void func_021FFE5C(char *p)
 {
     func_021FFEA8(p);
     func_021FFF28(p);
-    *(int *)(p + 0x6c) = 1;
+    ((struct Obj02237 *)p)->f6C = 1;
 }

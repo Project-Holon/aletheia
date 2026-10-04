@@ -24,6 +24,7 @@
  *   func_021F407C 0x021F407C thumb ov038
  *   func_021F3F40 0x021F3F40 thumb ov038
  */
+#include "../include/Obj04317.h"
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
@@ -77,7 +78,7 @@ int func_021F3A88(int a0, int a1, int a2)
     r4[7] = 0;
     r4[6] = r6;
     r4[3] = r7;
-    *(int *)(r4 + 0x14) = 0;
-    *(int *)(r4 + 0x18) = 0;
-    *(int *)(r4 + 0x1c) = 0;
+    ((struct Obj04317 *)r4)->f14 = 0;
+    ((struct Obj04317 *)r4)->f18 = 0;
+    ((struct Obj04317 *)r4)->f1C = 0;
 }

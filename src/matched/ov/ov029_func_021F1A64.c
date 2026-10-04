@@ -12,6 +12,7 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_021F1F80  0x021F1F80  thumb  ov029
  */
+#include "../include/Obj00106.h"
 
 typedef unsigned char u8;
 
@@ -29,14 +30,14 @@ void func_021F1A64(char *p, int flag)
         }
     }
     for (i = 0; i < 3; i++) {
-        if (*(int *)(p + i * 4 + 0x158) != 0 && *(u8 *)(p + 0x45a) != 0) {
+        if (*(int *)(p + i * 4 + 0x158) != 0 && ((struct Obj00106 *)p)->f45A != 0) {
             func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x158), flag);
         }
     }
     for (i = 0; i < 11; i++) {
         if (*(int *)(p + i * 4 + 0x12c) != 0) {
             if ((unsigned)(i - 8) <= 1) {
-                if (*(u8 *)(p + 0x45a) != 0) {
+                if (((struct Obj00106 *)p)->f45A != 0) {
                     func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x12c), flag);
                 }
             } else {
@@ -44,14 +45,14 @@ void func_021F1A64(char *p, int flag)
             }
         }
     }
-    if (*(int *)(p + 0x164) != 0 && *(u8 *)(p + 0x45a) != 0) {
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x164), flag);
+    if (((struct Obj00106 *)p)->f164 != 0 && ((struct Obj00106 *)p)->f45A != 0) {
+        func_0204B3DC((struct Obj *)((struct Obj00106 *)p)->f164, flag);
     }
-    if (*(int *)(p + 0x168) != 0 && *(u8 *)(p + 0x45a) != 0) {
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x168), flag);
+    if (((struct Obj00106 *)p)->f168 != 0 && ((struct Obj00106 *)p)->f45A != 0) {
+        func_0204B3DC((struct Obj *)((struct Obj00106 *)p)->f168, flag);
     }
-    if (*(int *)(p + 0x16c) != 0 && *(u8 *)(p + 0x45a) != 0) {
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x16c), flag);
+    if (((struct Obj00106 *)p)->f16C != 0 && ((struct Obj00106 *)p)->f45A != 0) {
+        func_0204B3DC((struct Obj *)((struct Obj00106 *)p)->f16C, flag);
     }
     if (flag == 1) {
         func_021F1F80(p);

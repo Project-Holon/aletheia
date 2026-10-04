@@ -13,7 +13,8 @@
  * symbols:
  *   func_0216D69C 0x0216D69C thumb ov010
  */
+#include "../include/Obj05897.h"
 
 typedef unsigned short u16;
 extern void *func_0216D69C(void *p);
-int func_02164380(void *a, u16 *b) { u16 *p=func_0216D69C(a); if (*(unsigned *)p==0xEFEFEFEF) { b[0]=p[2]; b[1]=p[3]; b[2]=p[4]; b[3]=p[5]; return 1; } return 0; }
+int func_02164380(void *a, u16 *b) { u16 *p=func_0216D69C(a); if (((struct Obj05897 *)p)->f0==0xEFEFEFEF) { b[0]=p[2]; b[1]=p[3]; b[2]=p[4]; b[3]=p[5]; return 1; } return 0; }

@@ -20,6 +20,7 @@
  *   func_0218C6D0  0x0218C6D0  thumb  ov021
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj02394.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -50,23 +51,23 @@ void func_021C0904(u8 *p, u32 a, u32 n)
     s = func_0201210C((void *)a);
     w = func_02188C84(s);
     t = func_02188C98(s);
-    *(u16 *)p = w;
+    ((struct Obj02394 *)p)->f0 = w;
     p[0x14] = n;
-    *(void **)(p + 4) = s;
+    ((struct Obj02394 *)p)->f4 = s;
     p[0x15] = 0;
-    *(u32 *)(p + 0x18) = func_0218DC6C((u8 *)t);
-    *(u32 *)(p + 0x34) = 0;
+    ((struct Obj02394 *)p)->f18 = func_0218DC6C((u8 *)t);
+    ((struct Obj02394 *)p)->f34 = 0;
     if (p[0x14] > 6) {
         p[0x14] = 6;
     }
-    func_021A3038(func_02188CB4(*(void **)(p + 4)), (struct VecFx32 *)pos);
+    func_021A3038(func_02188CB4(((struct Obj02394 *)p)->f4), (struct VecFx32 *)pos);
     rect[0] = pos[2] - 0x50000;
     rect[1] = pos[2] + 0x50000;
     rect[2] = pos[0] - 0x50000;
     rect[3] = pos[0] + 0x50000;
-    r = func_0218C584(*(u32 *)(p + 0x18), rect, 3, &cnt);
+    r = func_0218C584(((struct Obj02394 *)p)->f18, rect, 3, &cnt);
     if (r) {
-        *(u32 *)(p + 0x34) = *r;
+        ((struct Obj02394 *)p)->f34 = *r;
         func_0218C6D0((int *)(*r), (int)(p + 8));
     }
     func_020307B0(r);

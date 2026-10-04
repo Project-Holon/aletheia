@@ -29,6 +29,8 @@
  *   func_021D46CC 0x021D46CC thumb ov122
  *   data_021D5870 0x021D5870 data a2
  */
+#include "../include/Obj00073.h"
+#include "../include/Obj13963.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -61,28 +63,28 @@ void func_021D48D8(char *p)
     u32 arc;
     void *resource;
     char *palette;
-    *(void **)(p + 0x54) = func_020457B0(200, *(u16 *)(p + 0xc));
-    *(void **)(p + 0x58) = func_020457B0(200, *(u16 *)(p + 0xc));
-    *(void **)(p + 0x50) = func_020457B0(200, *(u16 *)(p + 0xc));
-    *(void **)(p + 0x3c) = (void *)func_020450F0(5, 16, 10, 10, 2, 13, 0);
-    *(void **)(p + 0x4c) = func_0201D7EC(23, 0, 0, 0, *(u16 *)(p + 0xc));
-    *(void **)(p + 0x44) = func_02045B38(0, 2, 23, *(u16 *)(p + 0xc));
-    arc = (u32)func_020490F4(29, *(u16 *)(p + 0xc));
-    func_02049B68((void *)arc, 0, 0, 0, 0, *(u16 *)(p + 0xc));
-    func_02049B68((void *)arc, 1, 4, 0, 0, *(u16 *)(p + 0xc));
-    resource = func_02049F78((void *)arc, 1, (u32)&palette, *(u16 *)(p + 0xc));
-    func_02082D44(*(void **)(palette + 0xc), p + 0x12c, 0xe0);
-    func_02082D44(*(void **)(palette + 0xc), p + 0x20c, 0xe0);
+    ((struct Obj00073 *)p)->f54 = func_020457B0(200, ((struct Obj00073 *)p)->fC);
+    ((struct Obj00073 *)p)->f58 = func_020457B0(200, ((struct Obj00073 *)p)->fC);
+    ((struct Obj00073 *)p)->f50 = func_020457B0(200, ((struct Obj00073 *)p)->fC);
+    ((struct Obj00073 *)p)->f3C = (void *)func_020450F0(5, 16, 10, 10, 2, 13, 0);
+    ((struct Obj00073 *)p)->f4C = func_0201D7EC(23, 0, 0, 0, ((struct Obj00073 *)p)->fC);
+    ((struct Obj00073 *)p)->f44 = func_02045B38(0, 2, 23, ((struct Obj00073 *)p)->fC);
+    arc = (u32)func_020490F4(29, ((struct Obj00073 *)p)->fC);
+    func_02049B68((void *)arc, 0, 0, 0, 0, ((struct Obj00073 *)p)->fC);
+    func_02049B68((void *)arc, 1, 4, 0, 0, ((struct Obj00073 *)p)->fC);
+    resource = func_02049F78((void *)arc, 1, (u32)&palette, ((struct Obj00073 *)p)->fC);
+    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x12c, 0xe0);
+    func_02082D44(((struct Obj13963 *)palette)->fC, p + 0x20c, 0xe0);
     func_021D4644((u16 *)(p + 0x20c), data_021D5870, 7);
     func_020307B0(resource);
-    *(u32 *)(p + 0x60) = func_02049740((void *)arc, 4, 4, 0, 0, *(u16 *)(p + 0xc));
-    func_02049990(arc, 9, 4, 0, *(u32 *)(p + 0x60), 0, 0, *(u16 *)(p + 0xc));
-    func_02049990(arc, 15, 6, 0, *(u32 *)(p + 0x60), 0, 0, *(u16 *)(p + 0xc));
-    *(int *)(p + 0x37c) = func_0204A6C8((void *)arc, 5, 0, 1, *(u16 *)(p + 0xc));
-    *(int *)(p + 0x378) = func_0204AC18((void *)arc, 3, 1, 0, 0, 10, *(u16 *)(p + 0xc));
-    *(int *)(p + 0x380) = func_0204AF28((void *)arc, 7, 16, *(u16 *)(p + 0xc));
+    ((struct Obj00073 *)p)->f60 = func_02049740((void *)arc, 4, 4, 0, 0, ((struct Obj00073 *)p)->fC);
+    func_02049990(arc, 9, 4, 0, ((struct Obj00073 *)p)->f60, 0, 0, ((struct Obj00073 *)p)->fC);
+    func_02049990(arc, 15, 6, 0, ((struct Obj00073 *)p)->f60, 0, 0, ((struct Obj00073 *)p)->fC);
+    *(int *)&((struct Obj00073 *)p)->f37C = func_0204A6C8((void *)arc, 5, 0, 1, ((struct Obj00073 *)p)->fC);
+    *(int *)&((struct Obj00073 *)p)->f378 = func_0204AC18((void *)arc, 3, 1, 0, 0, 10, ((struct Obj00073 *)p)->fC);
+    *(int *)&((struct Obj00073 *)p)->f380 = func_0204AF28((void *)arc, 7, 16, ((struct Obj00073 *)p)->fC);
     func_02049238(arc);
-    *(void **)(p + 0x5c) = func_0201F5DC((void *)5, 11, 0, *(u16 *)(p + 0xc));
-    func_02049B40(23, 5, 4, 384, 32, *(u16 *)(p + 0xc));
+    ((struct Obj00073 *)p)->f5C = func_0201F5DC((void *)5, 11, 0, ((struct Obj00073 *)p)->fC);
+    func_02049B40(23, 5, 4, 384, 32, ((struct Obj00073 *)p)->fC);
     func_021D46CC(p);
 }

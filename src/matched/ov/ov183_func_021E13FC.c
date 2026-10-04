@@ -24,6 +24,8 @@
  *   d_021E3998 0x021E3998 data a4
  *   d_021E397C 0x021E397C data a4
  */
+#include "../include/Obj00417.h"
+#include "../include/Obj00478.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -51,81 +53,81 @@ int func_021E13FC(char *p) {
     char *record;
     Pair scale;
     Coords coords;
-    switch(*(int *)(p+0x234)){
+    switch(((struct Obj00478 *)p)->f234){
     case 0:
         func_021E0CE8(p,0,0);
-        for(i=0;i<*(int *)(p+0x23C);i++){
+        for(i=0;i<((struct Obj00478 *)p)->f23C;i++){
             record=(char *)((u32)p+i*28);
-            if(*(u8 *)(record+24)!=0){
-                func_0204B454(*(void **)(record+12),(struct PtS *)&coords.x,1);
-                coords.x+=*(s16 *)(record+20);
-                coords.y+=*(s16 *)(record+22);
-                func_0204B404(*(void **)(record+12),&coords.x,1);
-                --*(u8 *)(record+24);
-                if(i>=*(int *)(p+0x248)&&i<*(int *)(p+0x24C)){
-                    factor=*(int *)((u32)d_021E3998+*(u8 *)(record+25)*4);
+            if(((struct Obj00417 *)record)->f18!=0){
+                func_0204B454(((struct Obj00417 *)record)->fC,(struct PtS *)&coords.x,1);
+                coords.x+=((struct Obj00417 *)record)->f14;
+                coords.y+=((struct Obj00417 *)record)->f16;
+                func_0204B404(((struct Obj00417 *)record)->fC,&coords.x,1);
+                --((struct Obj00417 *)record)->f18;
+                if(i>=((struct Obj00478 *)p)->f248&&i<((struct Obj00478 *)p)->f24C){
+                    factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(*(void **)(record+12),&scale);
-                    ++*(u8 *)(record+25);
+                    func_0204B5AC(((struct Obj00417 *)record)->fC,&scale);
+                    ++((struct Obj00417 *)record)->f19;
                 }
-                if(i>=*(int *)(p+0x250)&&i<*(int *)(p+0x254)){
-                    factor=*(int *)((u32)d_021E397C+*(u8 *)(record+25)*4);
+                if(i>=((struct Obj00478 *)p)->f250&&i<((struct Obj00478 *)p)->f254){
+                    factor=*(int *)((u32)d_021E397C+((struct Obj00417 *)record)->f19*4);
                     scale.x=factor;scale.y=factor;
-                    func_0204B5AC(*(void **)(record+12),&scale);
-                    ++*(u8 *)(record+25);
+                    func_0204B5AC(((struct Obj00417 *)record)->fC,&scale);
+                    ++((struct Obj00417 *)record)->f19;
                 }
             }
         }
         for(i=0;i<2;i++){
             record=(char *)((u32)p+i*28);
-            if(*(u8 *)(record+0x168)!=0){
-                func_0204B454(*(void **)(record+0x15C),(struct PtS *)&coords.a,1);
-                coords.a+=*(s16 *)(record+0x164);
-                coords.b+=*(s16 *)(record+0x166);
-                func_0204B404(*(void **)(record+0x15C),&coords.a,1);
-                --*(u8 *)(record+0x168);
+            if(((struct Obj00417 *)record)->f168!=0){
+                func_0204B454(((struct Obj00417 *)record)->f15C,(struct PtS *)&coords.a,1);
+                coords.a+=((struct Obj00417 *)record)->f164;
+                coords.b+=((struct Obj00417 *)record)->f166;
+                func_0204B404(((struct Obj00417 *)record)->f15C,&coords.a,1);
+                --((struct Obj00417 *)record)->f168;
             }
         }
-        if(*(u8 *)(p+24)==0){
-            for(i=*(int *)(p+0x248);i<*(int *)(p+0x24C);i++){
+        if(((struct Obj00478 *)p)->f18==0){
+            for(i=((struct Obj00478 *)p)->f248;i<((struct Obj00478 *)p)->f24C;i++){
                 record=(char *)((u32)p+i*28);
-                func_0204B878(*(void **)(record+12),func_021E0E40(*(int *)record,*(int *)(record+8)));
+                func_0204B878(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
-            for(i=*(int *)(p+0x250);i<*(int *)(p+0x254);i++){
+            for(i=((struct Obj00478 *)p)->f250;i<((struct Obj00478 *)p)->f254;i++){
                 record=(char *)((u32)p+i*28);
-                func_0204B878(*(void **)(record+12),func_021E0E40(*(int *)record,*(int *)(record+8)));
+                func_0204B878(((struct Obj00417 *)record)->fC,func_021E0E40(((struct Obj00417 *)record)->f0,((struct Obj00417 *)record)->f8));
             }
-            ++*(int *)(p+0x234);
+            ++((struct Obj00478 *)p)->f234;
         }
-        ++*(int *)(p+0x238);
+        ++((struct Obj00478 *)p)->f238;
         break;
     case 1:
-        for(i=*(int *)(p+0x248);i<*(int *)(p+0x24C);i++){
+        for(i=((struct Obj00478 *)p)->f248;i<((struct Obj00478 *)p)->f24C;i++){
             record=(char *)((u32)p+i*28);
-            if(*(u8 *)(record+25)!=6){
-                factor=*(int *)((u32)d_021E3998+*(u8 *)(record+25)*4);
+            if(((struct Obj00417 *)record)->f19!=6){
+                factor=*(int *)((u32)d_021E3998+((struct Obj00417 *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(*(void **)(record+12),&scale);
-                ++*(u8 *)(record+25);
+                func_0204B5AC(((struct Obj00417 *)record)->fC,&scale);
+                ++((struct Obj00417 *)record)->f19;
             }
         }
-        for(i=*(int *)(p+0x250);i<*(int *)(p+0x254);i++){
+        for(i=((struct Obj00478 *)p)->f250;i<((struct Obj00478 *)p)->f254;i++){
             record=(char *)((u32)p+i*28);
-            if(*(u8 *)(record+25)!=6){
-                factor=*(int *)((u32)d_021E397C+*(u8 *)(record+25)*4);
+            if(((struct Obj00417 *)record)->f19!=6){
+                factor=*(int *)((u32)d_021E397C+((struct Obj00417 *)record)->f19*4);
                 scale.x=factor;scale.y=factor;
-                func_0204B5AC(*(void **)(record+12),&scale);
-                ++*(u8 *)(record+25);
+                func_0204B5AC(((struct Obj00417 *)record)->fC,&scale);
+                ++((struct Obj00417 *)record)->f19;
             }
         }
-        if(++*(int *)(p+0x238)==6)++*(int *)(p+0x234);
+        if(++((struct Obj00478 *)p)->f238==6)++((struct Obj00478 *)p)->f234;
         break;
     default:
         func_021E1008(p);
-        if(*(int *)(p+0x320)==0)selected=func_021E1C14(p,*(int *)(p+0x31C));
-        else selected=func_021E1C44(p,*(int *)(p+0x31C));
+        if(((struct Obj00478 *)p)->f320==0)selected=func_021E1C14(p,((struct Obj00478 *)p)->f31C);
+        else selected=func_021E1C44(p,((struct Obj00478 *)p)->f31C);
         func_021E0D00(p,selected);
-        if(*(int *)(p+0x240)!=0)func_021E0CE8(p,0,1);
+        if(((struct Obj00478 *)p)->f240!=0)func_021E0CE8(p,0,1);
         func_021E1C00(p);
         func_021E1374(p,1);
         break;

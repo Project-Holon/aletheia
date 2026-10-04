@@ -20,6 +20,7 @@
  *   func_020409B4 0x020409B4 arm
  *   d_02200D5C 0x02200D5C data a1
  */
+#include "../include/Obj02901.h"
 extern const char d_02200D5C[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -41,16 +42,16 @@ void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned sh
     void *bmp;
     p=func_02030734(heap,0x24,0,d_02200D5C,0x5f);
     func_02082BCC(p,0,0x24);
-    *(unsigned short *)(p+0x14)=0;
-    *(void **)(p+8)=owner;
-    *(unsigned short *)(p+0x16)=plane;
-    *(void **)(p+0x10)=func_020457B0(0xff,heap);
+    ((struct Obj02901 *)p)->f14=0;
+    ((struct Obj02901 *)p)->f8=owner;
+    ((struct Obj02901 *)p)->f16=plane;
+    ((struct Obj02901 *)p)->f10=func_020457B0(0xff,heap);
     bmp=func_020450F0(plane,a,b,c,d,e,1);
-    *(void **)(p+0xc)=bmp;
-    *(void **)p=bmp;
+    ((struct Obj02901 *)p)->fC=bmp;
+    ((struct Obj02901 *)p)->f0=bmp;
     p[4]=0;
-    func_02043B5C(func_02045770(bmp),*(unsigned short *)(p+0x14));
-    bmp=*(void **)(p+0xc);
+    func_02043B5C(func_02045770(bmp),((struct Obj02901 *)p)->f14);
+    bmp=((struct Obj02901 *)p)->fC;
     func_02045334(bmp);
     func_02045374(bmp);
     func_020409B4(func_02045730(bmp));

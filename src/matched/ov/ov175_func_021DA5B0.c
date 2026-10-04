@@ -22,6 +22,7 @@
  *
  * Arms a storage-server report: resets the report state words, stores mode and the result slot, and picks the report callback at +0x158 from mode (0: plain, 1 with a result slot, or 1 without one, which also stores a3 and the two record words) and kind (0 or 2; anything else asserts).
  */
+#include "../include/Obj01069.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,23 +42,23 @@ extern const char d_021E2EF8[];
 
 void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
 {
-    *(u32 *)(obj + 0x1494) = 0;
-    *(u32 *)(obj + 0x12c) = 0;
-    *(u32 *)(obj + 0x1a8) = 1;
-    *(u32 *)(obj + 0x14c) = 0;
-    *(u32 *)(obj + 0x138) = 0;
-    *(int *)(obj + 0x1ac) = mode;
-    *(u32 *)(obj + 0x160) = slot;
-    *(u32 *)(obj + 0x164) = 0;
-    *(u32 *)(obj + 0x168) = 0;
-    *(u32 *)(obj + 0x16c) = 0;
+    ((struct Obj01069 *)obj)->f1494 = 0;
+    ((struct Obj01069 *)obj)->f12C = 0;
+    ((struct Obj01069 *)obj)->f1A8 = 1;
+    ((struct Obj01069 *)obj)->f14C = 0;
+    ((struct Obj01069 *)obj)->f138 = 0;
+    ((struct Obj01069 *)obj)->f1AC = mode;
+    ((struct Obj01069 *)obj)->f160 = slot;
+    ((struct Obj01069 *)obj)->f164 = 0;
+    ((struct Obj01069 *)obj)->f168 = 0;
+    ((struct Obj01069 *)obj)->f16C = 0;
     if (mode == 0) {
         switch (kind) {
         case 0:
-            *(ReportFn *)(obj + 0x158) = func_021DB228;
+            *(ReportFn *)&((struct Obj01069 *)obj)->f158 = func_021DB228;
             break;
         case 2:
-            *(ReportFn *)(obj + 0x158) = func_021DB218;
+            *(ReportFn *)&((struct Obj01069 *)obj)->f158 = func_021DB218;
             break;
         default:
             func_02034714(d_021E2EF8, 0, d_021E2EF8);
@@ -67,10 +68,10 @@ void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
         if (slot != 0) {
             switch (kind) {
             case 0:
-                *(ReportFn *)(obj + 0x158) = func_021DB248;
+                *(ReportFn *)&((struct Obj01069 *)obj)->f158 = func_021DB248;
                 break;
             case 2:
-                *(ReportFn *)(obj + 0x158) = func_021DB238;
+                *(ReportFn *)&((struct Obj01069 *)obj)->f158 = func_021DB238;
                 break;
             default:
                 func_02034714(d_021E2EF8, 0, d_021E2EF8);
@@ -78,15 +79,15 @@ void func_021DA5B0(char *obj, int mode, int kind, u32 a3, u32 *rec, u32 slot)
             }
         } else {
             func_0203D378();
-            *(u32 *)(obj + 0x180) = a3;
-            *(u32 *)(obj + 0x184) = rec[0];
-            *(u32 *)(obj + 0x188) = rec[4];
+            ((struct Obj01069 *)obj)->f180 = a3;
+            ((struct Obj01069 *)obj)->f184 = rec[0];
+            ((struct Obj01069 *)obj)->f188 = rec[4];
             switch (kind) {
             case 0:
-                *(ReportFn *)(obj + 0x158) = (ReportFn)func_021DB160;
+                *(ReportFn *)&((struct Obj01069 *)obj)->f158 = (ReportFn)func_021DB160;
                 break;
             case 2:
-                *(ReportFn *)(obj + 0x158) = (ReportFn)func_021DAFB8;
+                *(ReportFn *)&((struct Obj01069 *)obj)->f158 = (ReportFn)func_021DAFB8;
                 break;
             default:
                 func_02034714(d_021E2EF8, 0, d_021E2EF8);

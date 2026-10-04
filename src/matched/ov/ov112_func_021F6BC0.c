@@ -11,8 +11,9 @@
  * symbols:
  *   func_0204F720 0x0204F720 arm
  */
+#include "../include/Obj22554.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0204F720(void *,u32,u32 *);
-void func_021F6BC0(char *p,u32 *q,u32 flag) {func_0204F720(*(void **)(p+4),q[6],&flag);}
+void func_021F6BC0(char *p,u32 *q,u32 flag) {func_0204F720(((struct Obj22554 *)p)->f4,q[6],&flag);}

@@ -13,6 +13,7 @@
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201CCE4 0x0201CCE4 thumb
  */
+#include "../include/Obj04532.h"
 typedef unsigned char u8;
 typedef signed short s16;
 struct Rec3;
@@ -22,11 +23,11 @@ extern void *func_0201CCE4(void *, s16, s16, unsigned, unsigned, int, unsigned, 
 void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {
     int v;
-    if (*(void **)(p + 0x10)) {
-        func_0201CE48(*(void **)(p + 0x10));
-        *(void **)(p + 0x10) = 0;
+    if (((struct Obj04532 *)p)->f10) {
+        func_0201CE48(((struct Obj04532 *)p)->f10);
+        ((struct Obj04532 *)p)->f10 = 0;
     }
     v = func_02012FFC();
-    *(void **)(p + 0x10) = func_0201CCE4(a, d, e, c, *(unsigned *)p, v, *(unsigned *)(p + 4), 0, 0x48, 0xF);
-    *(void **)(p + 0x14) = a;
+    ((struct Obj04532 *)p)->f10 = func_0201CCE4(a, d, e, c, ((struct Obj04532 *)p)->f0, v, ((struct Obj04532 *)p)->f4, 0, 0x48, 0xF);
+    ((struct Obj04532 *)p)->f14 = a;
 }

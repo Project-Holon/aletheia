@@ -15,6 +15,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10415.h"
 
 typedef unsigned short u16;
 
@@ -26,6 +27,6 @@ extern void func_020257D0(struct Obj *o);
 
 void func_021DA978(char *p)
 {
-    func_02043B5C((struct CharBuf *)(*(int *)p), (unsigned char)(*(u16 *)(p + 4) & 0x1f));
-    func_020257D0(*(void **)(p + 0x1c));
+    func_02043B5C((struct CharBuf *)(((struct Obj10415 *)p)->f0), (unsigned char)(((struct Obj10415 *)p)->f4 & 0x1f));
+    func_020257D0(((struct Obj10415 *)p)->f1C);
 }

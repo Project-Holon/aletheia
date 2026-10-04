@@ -14,6 +14,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021D9E48 0x021D9E48 thumb ov129
  */
+#include "../include/Obj14060.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 struct Actor;
@@ -30,14 +31,14 @@ void func_021D9F40(char *p)
         if(a==3){
             if(func_0204B98C(*(void **)(p+i*0x1c+0x194))==0){
                 func_0204B878(*(void **)(p+i*0x1c+0x194),*(int *)(p+i*0x1c+0x188));
-                if(*(int *)(p+0x2fc)==1) func_021D9E48(p,1,0);
+                if(((struct Obj14060 *)p)->f2FC==1) func_021D9E48(p,1,0);
                 else func_021D9E48(p,1,1);
                 func_021D9E48(p,2,0);
             }
         }else{
             if(a!=*(int *)(p+i*0x1c+0x188)) func_0204B878(*(void **)(p+i*0x1c+0x194),*(int *)(p+i*0x1c+0x188));
             if(func_0204B898(*(void **)(p+i*0x1c+0x194))!=3){
-                if(*(int *)(p+0x2fc)==1) func_021D9E48(p,1,0);
+                if(((struct Obj14060 *)p)->f2FC==1) func_021D9E48(p,1,0);
                 else func_021D9E48(p,1,1);
             }
         }

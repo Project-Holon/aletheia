@@ -12,6 +12,8 @@
  *
  * Three one-byte flag setters at fixed offsets.
  */
+#include "../include/Obj12430.h"
+#include "../include/Obj12431.h"
 
 void func_02175914(int a, int b)
 {
@@ -20,10 +22,10 @@ void func_02175914(int a, int b)
 
 void func_02175920(int a)
 {
-    *(unsigned char *)(a + 0x19a) = 1;
+    ((struct Obj12430 *)a)->f19A = 1;
 }
 
 void func_0217592C(int a)
 {
-    *(unsigned char *)(a + 0x19b) = 1;
+    ((struct Obj12431 *)a)->f19B = 1;
 }

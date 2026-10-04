@@ -14,6 +14,7 @@
 
  * Releases +0 and clears 0x38 bytes of the object.
  */
+#include "../include/Obj18236.h"
 
 
 struct Obj;
@@ -22,7 +23,7 @@ extern void func_02082BCC(char *, int, int);
 
 void func_021BD74C(char *p)
 {
-    func_0204B3B4((struct Obj *)(*(int *)p));
+    func_0204B3B4((struct Obj *)(((struct Obj18236 *)p)->f0));
     func_02082BCC(p, 0, 0x38);
 }
 

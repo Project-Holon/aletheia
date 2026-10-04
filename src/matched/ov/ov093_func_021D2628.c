@@ -14,6 +14,7 @@
  *   func_021EA384  0x021EA384  thumb  ov093
  *   func_021EA3A0  0x021EA3A0  thumb  ov093
  */
+#include "../include/Obj07784.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u32 b);
@@ -26,11 +27,11 @@ int func_021D2628(u8 *p, int *st, u32 *c)
 
     switch (*st) {
     case 0:
-        func_021EA384(*(void **)(p + 0x54), func_021B8D8C(*(void **)p, *(void **)(p + 4), id));
+        func_021EA384(((struct Obj07784 *)p)->f54, func_021B8D8C(((struct Obj07784 *)p)->f0, ((struct Obj07784 *)p)->f4, id));
         (*st)++;
         break;
     case 1:
-        if (func_021EA3A0(*(void **)(p + 0x54)))
+        if (func_021EA3A0(((struct Obj07784 *)p)->f54))
             return 1;
         break;
     }

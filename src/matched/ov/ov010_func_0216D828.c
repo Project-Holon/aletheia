@@ -13,6 +13,7 @@
  * filed as the sole blocker of ov018 func_0217BDE0: copies the three
  * s16 at +0x3C/+0x3E/+0x40 out to a caller's vector.
  */
+#include "../include/Obj00113.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -21,7 +22,7 @@ typedef struct { s16 x, y, z; } Vec3s;
 
 void func_0216D828(u8 *p, Vec3s *out)
 {
-    out->x = *(s16 *)(p + 0x3C);
-    out->y = *(s16 *)(p + 0x3E);
-    out->z = *(s16 *)(p + 0x40);
+    out->x = ((struct Obj00113 *)p)->f3C;
+    out->y = ((struct Obj00113 *)p)->f3E;
+    out->z = ((struct Obj00113 *)p)->f40;
 }

@@ -19,8 +19,9 @@
  *   python tools/match.py one --src src/matched/func_021D771C.c \
  *       --func func_021D771C --addr 0x021D771C --region ov016 --cc dsi/1.1p1 --arm
  */
+#include "../include/Obj18428.h"
 
 void func_021D771C(char *p, unsigned int v)
 {
-    *(unsigned int *)(p + 8) = v;
+    ((struct Obj18428 *)p)->f8 = v;
 }

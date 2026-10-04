@@ -15,10 +15,11 @@
  *   func_021DA054 0x021DA054 thumb ov123
  *   func_021DA034 0x021DA034 thumb ov123
  */
+#include "../include/Obj22989.h"
 typedef unsigned char u8;
 extern unsigned int func_020221A4(void);
 extern unsigned int func_020362DC(void);
 extern void func_021D9918(char *);
 extern void func_021DA054(char *);
 extern void func_021DA034(char *,int,int);
-void func_021DA408(char *p) { if(func_020221A4() && func_020362DC()) { func_021D9918(*(char **)(p+0x10)); func_021DA034(p,(int)func_021DA054,0x22c); } }
+void func_021DA408(char *p) { if(func_020221A4() && func_020362DC()) { func_021D9918(*(char * *)&((struct Obj22989 *)p)->f10); func_021DA034(p,(int)func_021DA054,0x22c); } }

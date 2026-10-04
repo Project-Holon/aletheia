@@ -10,9 +10,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15614.h"
 
 extern void func_02012704(unsigned char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 
-int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; func_02012704((unsigned char *)*(int *)(((char *)(a3) + 68))); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = func_02087BCC((int)0); return 1; }
+int func_02010B98(int a0, int a1, int a2, int a3){ int t2, t3; func_02012704((unsigned char *)((struct Obj15614 *)((char *)(a3)))->f44); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x67); t3 = func_02087BCC((int)0); return 1; }

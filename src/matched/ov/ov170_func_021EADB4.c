@@ -15,6 +15,7 @@
  *   func_021EAAE4 0x021EAAE4 thumb ov170
  *   func_021EABA0 0x021EABA0 thumb ov170
  */
+#include "../include/Obj00414.h"
 #define WORK(p) (*(char **)((p)+0x2C))
 typedef struct { unsigned value; unsigned char pad[14]; unsigned char low:7; unsigned char flag:1; } Entry;
 typedef unsigned int   u32;
@@ -33,8 +34,8 @@ void func_021EADB4(unsigned char *w,Entry *e,unsigned i) {
  windows=(void **)(w+0x94);
  func_02043B5C(func_02045770(windows[i*2]),0);
  if(!e->flag) {
-  func_0201EEA4(*(void **)(w+0x84),0,(void *)e->value);
-  func_021EAC28(w,i,*(void **)(w+0x80),0,0,0,*(unsigned *)(w+0x78),0x440);
+  func_0201EEA4(((struct Obj00414 *)w)->f84,0,(void *)e->value);
+  func_021EAC28(w,i,((struct Obj00414 *)w)->f80,0,0,0,((struct Obj00414 *)w)->f78,0x440);
  } else { func_021EAAE4(w,i); return; }
  func_021EABA0(windows+i*2);
 }

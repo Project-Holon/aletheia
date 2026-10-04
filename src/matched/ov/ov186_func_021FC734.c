@@ -14,8 +14,9 @@
  *   func_02045808 0x02045808 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10791.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020456F8(void*),func_020452E8(void*),func_02045808(void*),func_020307B0(void*);
-void func_021FC734(u8*p){func_020456F8(*(void**)(p+12));func_020452E8(*(void**)(p+12));func_02045808(*(void**)(p+16));func_020307B0(p);}
+void func_021FC734(u8*p){func_020456F8(*(void* *)&((struct Obj10791 *)p)->fC);func_020452E8(*(void* *)&((struct Obj10791 *)p)->fC);func_02045808(*(void* *)&((struct Obj10791 *)p)->f10);func_020307B0(p);}

@@ -16,6 +16,8 @@
  *   func_021E8FC0 0x021E8FC0 thumb
  *   func_021E087C 0x021E087C thumb
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23957.h"
 
 typedef struct {
     int pad0;
@@ -38,14 +40,14 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
             func_020061E4(0x557);
             return 0x15;
         }
-        if (func_020077B8((*(Top **)p)->x4, k) == 0) {
+        if (func_020077B8((*(Top * *)&((struct Obj00000 *)p)->f0)->x4, k) == 0) {
             func_020061E4(0x557);
             return 0x15;
         }
     }
-    *(unsigned char *)(*(char **)(p + 0x2C) + 0xA17E) = i;
+    ((struct Obj23957 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->fA17E = i;
     p[0x1A] = 2;
-    *(int *)(p + 0x28) = v;
+    ((struct Obj00000 *)p)->f28 = v;
     func_021EA1C0(p);
     return func_021E8FC0(p, func_021E087C, 0x17);
 }

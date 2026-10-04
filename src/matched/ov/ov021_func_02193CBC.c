@@ -15,6 +15,7 @@
  *   func_02193FE8  0x02193FE8  thumb  ov021
  *   func_02194078  0x02194078  thumb  ov021
  */
+#include "../include/Obj04214.h"
 
 extern void func_02193F6C(void *p);
 extern void func_02082BCC(void *p, int v, int n);
@@ -25,17 +26,17 @@ extern void func_02194078(u32 a);
 void func_02193CBC(unsigned char *p)
 {
     int i;
-    unsigned char *q = *(unsigned char **)(p + 4);
+    unsigned char *q = *(unsigned char * *)&((struct Obj04214 *)p)->f4;
 
     p[0] = 0;
     p[1] = 0;
-    *(int *)(p + 8) = 0;
+    ((struct Obj04214 *)p)->f8 = 0;
     if (q != 0) {
         for (i = 0; i < 10; i++)
-            func_02193F6C(*(unsigned char **)(p + 4) + i * 0x50);
+            func_02193F6C(*(unsigned char * *)&((struct Obj04214 *)p)->f4 + i * 0x50);
     }
-    if (*(void **)(p + 0x14) != 0)
-        func_02082BCC(*(void **)(p + 0x14), 0, 0x600);
+    if (((struct Obj04214 *)p)->f14 != 0)
+        func_02082BCC(((struct Obj04214 *)p)->f14, 0, 0x600);
     func_02193FE8(p + 0x18);
     func_02194078((u32)(p + 0x11c));
 }

@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16033.h"
 
-int func_020473D8(int a0, int a1, int a2, int a3){ int t0 = func_02047250(); return (t0 + *(int *)(((char *)(t0) + 20))); }
+int func_020473D8(int a0, int a1, int a2, int a3){ int t0 = func_02047250(); return (t0 + ((struct Obj16033 *)((char *)(t0)))->f14); }

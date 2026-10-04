@@ -14,8 +14,9 @@
  * so the caller func_021BE748 in ov021 had no witness for its bl; this
  * entry supplies the `matched` class.
  */
+#include "../include/Obj16042.h"
 
 int func_02047674(int p)
 {
-    return *(int *)(p + 4);
+    return ((struct Obj16042 *)p)->f4;
 }

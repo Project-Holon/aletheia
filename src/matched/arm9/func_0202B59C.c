@@ -25,6 +25,7 @@
  *   func_0202B64C  0x0202B64C  thumb
  *   func_0202B65C  0x0202B65C  thumb
  */
+#include "../include/Obj00563.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,10 +42,10 @@ struct SaveBlock;
 
 void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b)
 {
-    *(u32 *)(p + 4)  = (u32)a;
-    *(u32 *)(p + 8)  = 0xffffffff;
-    *(u16 *)(p + 0)  = (u16)b;
-    *(u32 *)(p + 0xc) = 0;
+    ((struct Obj00563 *)p)->f4  = (u32)a;
+    ((struct Obj00563 *)p)->f8  = 0xffffffff;
+    ((struct Obj00563 *)p)->f0  = (u16)b;
+    ((struct Obj00563 *)p)->fC = 0;
 
     func_0202B5FC(p);
     func_0202B610(p);

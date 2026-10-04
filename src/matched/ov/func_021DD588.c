@@ -27,6 +27,7 @@
  * whose result is the record's +4 halfword.  a and m go on the stack because
  * all four saved registers are live.
  */
+#include "../include/Obj12151.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -59,8 +60,8 @@ void func_021DD588(void *a, int b, int c)
     m = func_021D59B4(func_021C7CF4((int *)b, c), 0xe);
     v = (u8)func_021DCFF8((int)a, 2);
     p = func_021C88A4(b, 5, c);
-    *(u8 *)((u8 *)p + 6) = c;
-    *(u16 *)((u8 *)p + 4) = func_0209C2B0(m * v, 0x64);
+    ((struct Obj12151 *)p)->f6 = c;
+    ((struct Obj12151 *)p)->f4 = func_0209C2B0(m * v, 0x64);
     func_021C8838((u8 *)p + 8, 2, 0xe3 << 2);
     func_021C8860((struct S *)((u8 *)p + 8), c);
     func_021C8860((struct S *)((u8 *)p + 8), func_021D70A8(a));

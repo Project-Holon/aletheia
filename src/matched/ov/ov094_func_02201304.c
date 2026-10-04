@@ -33,6 +33,9 @@
  *   func_02015F2C 0x02015F2C thumb
  *   func_02201718 0x02201718 thumb ov094
  */
+#include "../include/Obj21725.h"
+#include "../include/Obj21726.h"
+#include "../include/Obj21727.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -70,16 +73,16 @@ void func_02201304(void *task, int *q)
     }
     switch (q[0]) {
     case 0:
-        *(int *)((char *)func_02015EE8(*(void **)(e + off)) + 12) = 0;
+        ((struct Obj21726 *)((char *)func_02015EE8(*(void **)(e + off))))->fC = 0;
         func_02015F40(*(void **)(e + off), i | 0x80000000, func_02201810);
         q[0]++;
         q[2] = d_0220AE78[(u32)(((u64)func_0203F0A8() * 3) >> 32)];
         return;
     case 1:
         q[2]--;
-        if (q[2] != 0 && *(int *)(p + 0x51c) == 0 && func_021F9824((void *)func_021F86C4()) != 0) break;
+        if (q[2] != 0 && ((struct Obj21725 *)p)->f51C == 0 && func_021F9824((void *)func_021F86C4()) != 0) break;
         func_02016028(*(void **)(e + off), 0);
-        *(int *)((char *)func_02015EE8(*(void **)(e + off)) + 12) = 1;
+        ((struct Obj21727 *)((char *)func_02015EE8(*(void **)(e + off))))->fC = 1;
         func_02015F40(*(void **)(e + off), i, func_02201810);
         q[0]++;
         return;

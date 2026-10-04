@@ -11,6 +11,8 @@
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
  */
+#include "../include/Obj13251.h"
+#include "../include/Obj20884.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +33,7 @@ int func_021BB4A0(u8 *p, int *s)
     i = 0;
     a = func_02017E1C((void *)s[0], 5, 0);
     b = func_02017E1C((void *)s[0], 6, 0);
-    q = *(u8 **)(*(u8 **)(p + 0x280) + 0x14);
+    q = *(u8 * *)&((struct Obj20884 *)(*(u8 * *)&((struct Obj13251 *)p)->f280))->f14;
     do {
         u8 v;
         v = (*(u8 **)(p + 0x280))[i + 0x49];

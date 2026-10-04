@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj15878.h"
 
 int func_02031E68(const char *ptr)
 {
-    return *(const int *)(ptr + 0x144);
+    return *(const int *)&((struct Obj15878 *)ptr)->f144;
 }

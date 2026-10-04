@@ -13,10 +13,11 @@
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj08004.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
 extern void func_0204B878(struct Obj *p, u16 value);
-int func_021BD000(char *p) { if (func_0204B3F4(*(void **)(p+0x28)) && *(int *)(p+0x2c)==0) { func_0204B878(*(void **)(p+0x28),9); *(int *)(p+0x2c)=1; return 1; } return 0; }
+int func_021BD000(char *p) { if (func_0204B3F4(((struct Obj08004 *)p)->f28) && ((struct Obj08004 *)p)->f2C==0) { func_0204B878(((struct Obj08004 *)p)->f28,9); ((struct Obj08004 *)p)->f2C=1; return 1; } return 0; }

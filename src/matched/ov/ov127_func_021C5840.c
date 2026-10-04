@@ -16,10 +16,11 @@
  * symbols:
  *   func_021C4230  0x021C4230  thumb  ov127
  */
+#include "../include/Obj23050.h"
 
 extern void func_021C4230(char *p, int a);
 
 void func_021C5840(char *p, int a)
 {
-    func_021C4230(*(void **)(p + 4), a);
+    func_021C4230(((struct Obj23050 *)p)->f4, a);
 }

@@ -15,6 +15,7 @@
  *   func_02050DB8  0x02050DB8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09206.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ extern void func_02050DB8(u8 *p);
 
 void func_021C1A84(u8 *p)
 {
-    u32 v = *(u32 *)(p + 12);
+    u32 v = ((struct Obj09206 *)p)->fC;
     if (v != 0) {
         func_02050DB8((u8 *)v);
-        *(u32 *)(p + 12) = 0;
+        ((struct Obj09206 *)p)->fC = 0;
     }
 }

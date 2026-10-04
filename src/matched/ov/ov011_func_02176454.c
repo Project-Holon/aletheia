@@ -25,6 +25,7 @@
  *   func_02034714  0x02034714  arm
  *   d_02177010     0x02177010  data  ov011  a1
  */
+#include "../include/Obj07335.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -66,18 +67,18 @@ int func_02176454(int a0, int a1, Arg *arg)
     cnt = 0;
     w = func_0203159C(a0, 0x100, 4);
     func_02082BCC(w, 0, 0x100);
-    *(void **)(w + 0xf4) = func_02031324(4);
+    ((struct Obj07335 *)w)->fF4 = func_02031324(4);
     list = func_02012934(func_020120F4((const struct Ctx *)arg->w0));
     func_0201BA34(list);
     n = func_0201AA18(list);
-    *(void **)(w + 0xf8) = func_0201A920(4);
+    ((struct Obj07335 *)w)->fF8 = func_0201A920(4);
     for (i = 0; i < n; i++) {
         if (cnt >= arg->b6) {
             break;
         }
         if (func_0201AB34(list, i) == 1) {
-            func_0201A98C(*(void **)(w + 0xf8), func_0201AB28(list, i));
-            func_02019CA0(func_0201AB28(*(void **)(w + 0xf8), cnt), arg->b5);
+            func_0201A98C(((struct Obj07335 *)w)->fF8, func_0201AB28(list, i));
+            func_02019CA0(func_0201AB28(((struct Obj07335 *)w)->fF8, cnt), arg->b5);
             cnt++;
         }
     }

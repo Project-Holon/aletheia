@@ -18,6 +18,7 @@
  *   func_02188C9C  0x02188C9C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00705.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,6 +33,6 @@ void func_0218ADC8(u8 *p, int id, u32 *pos)
 {
     u8 buf[0x1C];
 
-    func_02014110(buf, func_02188C9C(*(u8 **)(p + 0x14)), id, 0, 0, pos[0], pos[1], pos[2]);
-    func_02012878(*(void **)(p + 8), buf);
+    func_02014110(buf, func_02188C9C(*(u8 * *)&((struct Obj00705 *)p)->f14), id, 0, 0, pos[0], pos[1], pos[2]);
+    func_02012878(((struct Obj00705 *)p)->f8, buf);
 }

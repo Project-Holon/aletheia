@@ -16,6 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj14727.h"
 typedef unsigned short u16;
 struct ArcFile;
 extern void *func_020490F4(unsigned int id, u16 heap);
@@ -27,8 +28,8 @@ extern void func_020307B0(void *);
 extern void func_02049238(void *);
 void func_021BA768(char *p)
 {
-    struct ArcFile *arc=func_020490F4(192,*(u16 *)(p+4));
-    void *file=func_02049250(arc,13,*(u16 *)(p+4));
+    struct ArcFile *arc=func_020490F4(192,((struct Obj14727 *)p)->f4);
+    void *file=func_02049250(arc,13,((struct Obj14727 *)p)->f4);
     void *data;
     func_02062B30(file,&data);
     func_02041090(6,(unsigned)((char *)data+12),0,0,32,24);

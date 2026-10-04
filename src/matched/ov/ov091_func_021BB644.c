@@ -26,6 +26,7 @@
  *   func_0202EE8C 0x0202EE8C thumb
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj20886.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -83,7 +84,7 @@ void func_021BB644(u8 *p,u8 *s)
         func_02041B6C(func_02045730((struct Descriptor *)t));
         if (W(0x30) == 1) {
             W(0x30)=0;
-            W(0x34)=(u32)func_0202EE8C(W(8),(void *)W(4),15,16,*(u16 *)p);
+            W(0x34)=(u32)func_0202EE8C(W(8),(void *)W(4),15,16,((struct Obj20886 *)p)->f0);
         }
     }
     func_0201C4E4((struct PrintSys *)W(0x28));

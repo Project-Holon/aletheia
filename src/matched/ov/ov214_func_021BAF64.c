@@ -18,6 +18,7 @@
  *   func_0202173C 0x0202173C thumb
  *   func_02021D50 0x02021D50 thumb
  */
+#include "../include/Obj25729.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -66,5 +67,5 @@ void func_021BAF64(void *unused,struct S *p)
 }
 void func_021BB0C4(char *p)
 {
-    func_02021D50(*(struct S02021D50 **)(p+0x2E0));
+    func_02021D50(*(struct S02021D50 * *)&((struct Obj25729 *)p)->f2E0);
 }

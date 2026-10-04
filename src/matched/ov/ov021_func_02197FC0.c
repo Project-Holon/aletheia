@@ -18,6 +18,7 @@
  *   func_0216D7CC  0x0216D7CC  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07465.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,8 +38,8 @@ void func_02197FC0(u8 *a, u32 b, u32 c, u16 d, u16 e)
     r = func_0216D6BC(a, 12);
     r[0] = e;
     r[1] = d;
-    *(u32 *)(r + 2) = b;
-    *(u32 *)(r + 4) = c;
+    ((struct Obj07465 *)r)->f4 = b;
+    ((struct Obj07465 *)r)->f8 = c;
     func_02163E7C(a, b);
     func_0216D60C(a, b);
     func_0216D674(a, e);

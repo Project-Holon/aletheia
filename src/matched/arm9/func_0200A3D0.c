@@ -42,6 +42,7 @@
  *   python tools/match.py one --src src/pending/func_0200A3D0.c \
  *       --func func_0200A3D0 --addr 0x0200A3D0 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11228.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -53,9 +54,9 @@ extern void func_02082BCC(void *p, int c, u32 n);
 
 void func_0200A3D0(void *obj)
 {
-    switch (*(u32 *)((unsigned char *)obj + 4)) {
+    switch (((struct Obj11228 *)obj)->f4) {
     case 0:
-        func_021DFDB8((void *)*(u32 *)((unsigned char *)obj + 8));
+        func_021DFDB8((void *)((struct Obj11228 *)obj)->f8);
         func_02034A5C((int)ov_abs_e4);
         break;
     case 1:

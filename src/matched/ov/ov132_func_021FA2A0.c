@@ -24,6 +24,8 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00995.h"
+#include "../include/Obj04514.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -42,21 +44,21 @@ void func_021FA2A0(char *p,u8 *rec)
     s16 delta;
     if(rec[1]!=0) rec[1]--;
     if(rec[1]==0) {
-        if(rec[0]==255 && *(u8 *)(p+0x1fc)==255) {
-            *(u16 *)(rec+4)=65535;
+        if(rec[0]==255 && ((struct Obj04514 *)p)->f1FC==255) {
+            ((struct Obj00995 *)rec)->f4=65535;
             if(rec[6]<2) func_021FA3A8(p,rec,3);
             else if(rec[6]<4) func_021FA3A8(p,rec,2);
             else if(rec[6]<6) func_021FA3A8(p,rec,1);
             else func_021FA3A8(p,rec,0);
         } else {
-            func_021F9E04(*(void **)(p+0x1e8));
+            func_021F9E04(((struct Obj04514 *)p)->f1E8);
             x=((rec[6]*32-64)*4)/3;
             if(rec[0]!=255) {
-                a=func_021F9DA0(*(void **)(p+0x1e8));
-                func_021F8044(a,func_021F9DA4(*(void **)(p+0x1e8),rec[0]),&v);
+                a=func_021F9DA0(((struct Obj04514 *)p)->f1E8);
+                func_021F8044(a,func_021F9DA4(((struct Obj04514 *)p)->f1E8,rec[0]),&v);
             } else {
-                b=func_021F9DD4(*(void **)(p+0x1e8));
-                func_021F6F04(b,func_021F9DDC(*(void **)(p+0x1e8),*(u8 *)(p+0x1fc)),&v);
+                b=func_021F9DD4(((struct Obj04514 *)p)->f1E8);
+                func_021F6F04(b,func_021F9DDC(((struct Obj04514 *)p)->f1E8,((struct Obj04514 *)p)->f1FC),&v);
             }
             delta=(float)v.x/4096.f-(float)(u32)x;
             if(delta < -64) func_021FA3A8(p,rec,0);

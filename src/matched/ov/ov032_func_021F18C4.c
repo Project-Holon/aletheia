@@ -12,6 +12,7 @@
  *   func_021F0A98 0x021F0A98 thumb ov032
  *   func_021F18E0 0x021F18E0 thumb ov032
  */
+#include "../include/Obj00007.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -20,5 +21,5 @@ extern void func_021F18E0(char *p, u32 a, int *c);
 void func_021F18C4(char *p, int b)
 {
     func_021F0A98(p, b);
-    func_021F18E0(p, *(u32 *)(p + 0x11c), (int *)(p + 0xa8));
+    func_021F18E0(p, *(u32 *)&((struct Obj00007 *)p)->f11C, (int *)(p + 0xa8));
 }

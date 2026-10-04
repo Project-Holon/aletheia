@@ -18,6 +18,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj07835.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,10 +45,10 @@ void func_021E7388(int a, void *b, int c)
             if (func_021D59B4(func_021C7CF4(b, (u8)func_021D775C(i + 6)), 0x10) != 0x36) {
                 m = (u8 *)func_021C88A4(b, 0x1f, c);
                 m[6] = func_021D775C(i + 6);
-                *(u16 *)(m + 4) = 0x56;
+                ((struct Obj07835 *)m)->f4 = 0x56;
                 func_021C8838(m + 0xc, 2, 0x195);
                 func_021C8860((struct S *)(m + 0xc), m[6]);
-                func_021C8860((struct S *)(m + 0xc), *(u16 *)(m + 4));
+                func_021C8860((struct S *)(m + 0xc), ((struct Obj07835 *)m)->f4);
                 func_021C88C8(b, m);
             }
         }

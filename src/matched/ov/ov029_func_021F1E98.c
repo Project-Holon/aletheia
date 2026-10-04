@@ -17,6 +17,7 @@
  *   func_0204ADA4  0x0204ADA4  arm
  *   func_0203FB44  0x0203FB44  arm
  */
+#include "../include/Obj02111.h"
 
 typedef unsigned int   u32;
 extern void func_021F1DB0(char *p);
@@ -57,9 +58,9 @@ void func_021F1E98(char *p)
             q[0xf] = 0;
         }
     }
-    func_0204AFD8(*(int *)(p + 0x30));
-    func_0204A8D4(*(int *)(p + 0x2c));
-    func_0204ADA4(*(int *)(p + 0x28));
-    v = *(unsigned int *)(p + 0x14);
+    func_0204AFD8(((struct Obj02111 *)p)->f30);
+    func_0204A8D4(((struct Obj02111 *)p)->f2C);
+    func_0204ADA4(((struct Obj02111 *)p)->f28);
+    v = ((struct Obj02111 *)p)->f14;
     func_0203FB44(6, v, v >> 16);
 }

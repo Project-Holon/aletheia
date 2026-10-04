@@ -21,6 +21,9 @@
  *   d_02212154 0x02212154 data a4
  *   d_02212194 0x02212194 data a4
  */
+#include "../include/Obj14568.h"
+#include "../include/Obj25245.h"
+#include "../include/Obj25246.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -55,8 +58,8 @@ void func_022104EC(u8 *p)
     cfg4=d_02212194;
     func_0203FCA0(4,&cfg4,0);
     func_020414EC(4);
-    func_02040B94(5,32,0,*(u16 *)(*(u8 **)p+0x10));
-    func_02040B94(4,32,0,*(u16 *)(*(u8 **)p+0x10));
+    func_02040B94(5,32,0,((struct Obj25245 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
+    func_02040B94(4,32,0,((struct Obj25246 *)(*(u8 * *)&((struct Obj14568 *)p)->f0))->f10);
     sub_02041B6C(5);
     sub_02041B6C(4);
     sub_02043598(15,1);

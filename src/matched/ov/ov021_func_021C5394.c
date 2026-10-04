@@ -11,6 +11,7 @@
  *
  * Returns the result word and optionally its argument.
  */
+#include "../include/Obj12942.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -18,6 +19,6 @@ typedef unsigned int u32;
 u32 func_021C5394(u8 *p, u32 *out)
 {
     if (out != 0)
-        *out = *(u32 *)(p + 0x78);
-    return *(u32 *)(p + 0x74);
+        *out = ((struct Obj12942 *)p)->f78;
+    return ((struct Obj12942 *)p)->f74;
 }

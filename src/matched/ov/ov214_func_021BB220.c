@@ -19,6 +19,7 @@
  *   func_020307B0 0x020307B0 arm
  * 1DD68 full body ignores incoming arguments and tails with fixed 1,2,0.
  */
+#include "../include/Obj25731.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct Node;
@@ -31,7 +32,7 @@ extern void func_02082BCC(void *,u32,u32);
 extern void func_020307B0(void *);
 void func_021BB220(char *p)
 {
-    func_02030EAC((struct Node *)(*(u32 *)(p+12)));
+    func_02030EAC((struct Node *)(((struct Obj25731 *)p)->fC));
     func_021BB448((int *)(p+8));
     func_021BB3AC(p+4);
     func_021BB328(p);

@@ -22,6 +22,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj07880.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_0220AE68[];
@@ -45,7 +46,7 @@ int func_021FBAF8(void *a, char *s)
     int diff;
     float f;
     float g;
-    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0xf17);
+    p = func_02030734((u16)((((struct Obj07880 *)s)->f238 & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0xf17);
     p[0] = (int)s;
     p[1] = func_0201134C(a);
     p[2] = func_0201134C(a);
@@ -71,7 +72,7 @@ int func_021FBAF8(void *a, char *s)
     x = _ffix(g);
     y = _ffix(f);
     p[7] = func_0207C768(x, y);
-    func_021F896C(func_02030DA8(*(void **)(s + 8), func_021FE594, p, 0), func_021FE690, 1);
-    *(u32 *)s |= 8;
-    return *(int *)(s + 0x23c);
+    func_021F896C(func_02030DA8(((struct Obj07880 *)s)->f8, func_021FE594, p, 0), func_021FE690, 1);
+    ((struct Obj07880 *)s)->f0 |= 8;
+    return ((struct Obj07880 *)s)->f23C;
 }

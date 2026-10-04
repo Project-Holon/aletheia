@@ -15,6 +15,7 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -28,13 +29,13 @@ extern void func_02041B6C(u32 bit);
 void func_021C3318(u16 *heap, u8 *p, int key)
 {
     struct Descriptor *d;
-    if (*(u32 *)(p + 0x10) != 0) {
-        if (func_0201C6C4(*(struct PrintSys **)(p + 8), func_02045770(*(struct Descriptor **)(p + 0xc))) == 0) {
-            d = *(struct Descriptor **)(p + 0xc);
+    if (((struct Obj00146 *)p)->f10 != 0) {
+        if (func_0201C6C4(*(struct PrintSys * *)&((struct Obj00146 *)p)->f8, func_02045770(*(struct Descriptor * *)&((struct Obj00146 *)p)->fC)) == 0) {
+            d = *(struct Descriptor * *)&((struct Obj00146 *)p)->fC;
             func_02045334(d);
             func_02045374((struct Cfg *)d);
             func_02041B6C(func_02045730(d));
-            *(u32 *)(p + 0x10) = 0;
+            ((struct Obj00146 *)p)->f10 = 0;
         }
     }
 }

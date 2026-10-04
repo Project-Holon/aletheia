@@ -18,6 +18,7 @@
 
  * Closed by the `matched` class: 0x0202BF90 was filed as an EXACT entry this wave (pkt_0202BEBC), matched with the object spelled as a struct.
  */
+#include "../include/Obj03440.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -26,7 +27,7 @@ extern void func_0202BF90(u8 *p, u32 key);
 
 void func_0202BECC(u8 *p, u32 key)
 {
-    if (*(u32 *)p != 0) {
+    if (((struct Obj03440 *)p)->f0 != 0) {
         func_0202BF90(p, key);
     }
 }

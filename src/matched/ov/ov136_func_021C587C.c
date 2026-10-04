@@ -15,6 +15,7 @@
  *   func_02082D44 0x02082D44 arm
  *   func_0202CB4C 0x0202CB4C thumb
  */
+#include "../include/Obj04533.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed char s8;
@@ -29,11 +30,11 @@ void func_021C587C(u8 *p)
 {
     u32 i;
     void *first;
-    **(void ***)(p+8) = func_0202C9B4(2,11,102);
-    for(i=0;i<10;i++) func_0202CA3C(**(void ***)(p+8),i,2,14,4);
-    func_0202CA3C(**(void ***)(p+8),10,1,14,4);
-    func_0202CAE4(**(void ***)(p+8),0,155,40,1);
-    first = (void *)func_0202CF84(**(void ***)(p+8),0);
-    for(i=1;i<=10;i++) func_02082D44(first,(void *)func_0202CF84(**(void ***)(p+8),i),112);
-    for(i=0;i<10;i++) func_0202CB4C(**(void ***)(p+8),i,(i%2)*16+1,(i/2)*4);
+    **(void ** *)&((struct Obj04533 *)p)->f8 = func_0202C9B4(2,11,102);
+    for(i=0;i<10;i++) func_0202CA3C(**(void ** *)&((struct Obj04533 *)p)->f8,i,2,14,4);
+    func_0202CA3C(**(void ** *)&((struct Obj04533 *)p)->f8,10,1,14,4);
+    func_0202CAE4(**(void ** *)&((struct Obj04533 *)p)->f8,0,155,40,1);
+    first = (void *)func_0202CF84(**(void ** *)&((struct Obj04533 *)p)->f8,0);
+    for(i=1;i<=10;i++) func_02082D44(first,(void *)func_0202CF84(**(void ** *)&((struct Obj04533 *)p)->f8,i),112);
+    for(i=0;i<10;i++) func_0202CB4C(**(void ** *)&((struct Obj04533 *)p)->f8,i,(i%2)*16+1,(i/2)*4);
 }

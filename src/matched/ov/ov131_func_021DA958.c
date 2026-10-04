@@ -15,6 +15,7 @@
  *   func_021DB140 0x021DB140 thumb ov131
  *   func_02035C38 0x02035C38 arm
  */
+#include "../include/Obj00026.h"
 typedef unsigned char u8;
 extern int func_021DA998(u8 *,u8 *);
 extern void func_021DABCC(u8 *,u8 *);
@@ -27,5 +28,5 @@ void func_021DA958(u8 *a,u8 *b) {
     } else {
         if (func_021DAEE4(a,b)==0) func_021DB140(a,b);
     }
-    if (func_02035C38()==0) *(int *)(b+28)=0;
+    if (func_02035C38()==0) ((struct Obj00026 *)b)->f1C=0;
 }

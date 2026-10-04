@@ -27,6 +27,7 @@
  *   d_021C3CCC 0x021C3CCC data a1
  *   d_021BFBC4 0x021BFBC4 data a4
  */
+#include "../include/Obj08374.h"
 extern const char d_021C3CCC[];
 extern const unsigned char d_021BFBC4[][48];
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
@@ -50,22 +51,22 @@ void *func_021BDDD8(unsigned swap, void *config, unsigned heap)
 {
     unsigned char *ctx = func_02030734(heap, 24, 0, d_021C3CCC, 0x15a);
     func_02082BCC(ctx, 0, 24);
-    *(int *)(ctx + 20) = func_021BE938(config);
+    ((struct Obj08374 *)ctx)->f14 = func_021BE938(config);
     *(volatile unsigned short *)0x04000050 = 0;
     *(volatile unsigned short *)0x04001050 = 0;
     *(volatile unsigned *)0x04000000 &= 0xffff1fff;
     *(volatile unsigned *)0x04001000 &= 0xffff1fff;
     func_0204335C(0);
-    func_020433E0(d_021BFBC4[*(int *)(ctx + 20)]);
+    func_020433E0(d_021BFBC4[((struct Obj08374 *)ctx)->f14]);
     func_0204363C(swap);
     func_0204361C();
     func_020434CC();
     func_02043588();
     func_0201DD60();
-    if (*(int *)(ctx + 20) == 0) {
+    if (((struct Obj08374 *)ctx)->f14 == 0) {
         func_021BDFC0(ctx, heap);
         func_021BE084(ctx + 4, (int)d_021BFBC4, heap);
-        *(void **)(ctx + 16) = func_020056A0((unsigned)func_021BDFA8, (unsigned)ctx, 0);
+        ((struct Obj08374 *)ctx)->f10 = func_020056A0((unsigned)func_021BDFA8, (unsigned)ctx, 0);
     }
     func_021BE0F4(ctx + 8, heap);
     return ctx;

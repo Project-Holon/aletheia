@@ -16,6 +16,8 @@
  *   d_021DE2BC     0x021DE2BC  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04250.h"
+#include "../include/Obj20089.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -33,11 +35,11 @@ void func_021B977C(u8 *p)
     void *x;
     void *y;
 
-    if (*(u16 *)p == 0) {
-        func_021B976C(0, *(void **)(p + 4), d_021DE2B0);
-    } else if (*(u16 *)p == 1) {
-        x = func_021B87D8(*(void **)(p + 0x24), **(u32 **)(p + 4));
-        y = func_021B87D8(*(void **)(p + 0x24), *(u32 *)(*(u8 **)(p + 4) + 4));
+    if (((struct Obj04250 *)p)->f0 == 0) {
+        func_021B976C(0, ((struct Obj04250 *)p)->f4, d_021DE2B0);
+    } else if (((struct Obj04250 *)p)->f0 == 1) {
+        x = func_021B87D8(((struct Obj04250 *)p)->f24, **(u32 * *)&((struct Obj04250 *)p)->f4);
+        y = func_021B87D8(((struct Obj04250 *)p)->f24, ((struct Obj20089 *)(*(u8 * *)&((struct Obj04250 *)p)->f4))->f4);
         func_021B976C(d_021DE2B4, x, 0);
         func_021B976C(d_021DE2BC, y, d_021DE2B0);
     }

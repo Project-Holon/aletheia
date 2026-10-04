@@ -15,6 +15,9 @@
  *   func_021B62E0 0x021B62E0 thumb ov067
  *   func_021B6558 0x021B6558 thumb ov067
  */
+#include "../include/Obj08468.h"
+#include "../include/Obj26147.h"
+#include "../include/Obj26148.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {u8 *f0;u32 f4;int f8;u32 fC,f10,f14;int f18,f1c;} A;
@@ -31,8 +34,8 @@ void func_021BA160(char *p)
     struct Block table=d_021BBF4C;
     func_02082BCC(&args,0,sizeof(args));
     args.f0=(u8 *)&table;args.f4=2;
-    args.f8=(int)func_021B9A08(*(void **)(*(char **)p+8));
+    args.f8=(int)func_021B9A08(((struct Obj26147 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f8);
     args.fC=6;args.f10=3;args.f14=1;args.f18=0;
-    *(R **)(p+4)=func_021B62E0(&args,*(unsigned short *)(*(char **)p+4));
-    func_021B6558(*(void **)(p+4),0,0);
+    *(R * *)&((struct Obj08468 *)p)->f4=func_021B62E0(&args,((struct Obj26148 *)(*(char * *)&((struct Obj08468 *)p)->f0))->f4);
+    func_021B6558(((struct Obj08468 *)p)->f4,0,0);
 }

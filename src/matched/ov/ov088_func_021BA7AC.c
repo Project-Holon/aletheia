@@ -23,6 +23,7 @@
  *   func_0201C6C4  0x0201C6C4  thumb
  *   func_02045334  0x02045334  arm
  */
+#include "../include/Obj00263.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -46,34 +47,34 @@ int func_021BA7AC(char *p)
 {
     void *t;
     if (func_0202EB0C() == 1) {
-        switch (*(u8 *)(p + 0x12a)) {
+        switch (((struct Obj00263 *)p)->f12A) {
         case 0:
             func_021BBE48(p);
-            *(u8 *)(p + 0x12a) = *(u8 *)(p + 0x12a) + 1;
+            ((struct Obj00263 *)p)->f12A = ((struct Obj00263 *)p)->f12A + 1;
             break;
         case 1:
-            if (func_0201C6B4(*(void **)(p + 0x68)) == 1)
-                *(u8 *)(p + 0x12a) = *(u8 *)(p + 0x12a) + 1;
+            if (func_0201C6B4(((struct Obj00263 *)p)->f68) == 1)
+                ((struct Obj00263 *)p)->f12A = ((struct Obj00263 *)p)->f12A + 1;
             break;
         case 2:
             if (func_020362DC() & 3) {
                 func_020061E4(0x54c);
                 func_021BBD10(p, 0);
-                func_021BB810(p, *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120),
-                              func_021BB840(p, *(signed char *)(p + 0x12f)), 2);
-                *(u8 *)(p + 0x12a) = 0;
+                func_021BB810(p, *(u8 *)(p + ((struct Obj00263 *)p)->f128 + 0x120),
+                              func_021BB840(p, ((struct Obj00263 *)p)->f12F), 2);
+                ((struct Obj00263 *)p)->f12A = 0;
                 return 5;
             }
             break;
         }
-        func_0201C4E4(*(void **)(p + 0x68));
-        t = *(void **)(p + 0x68);
-        if (*(u8 *)(p + 0xf4) != 0 && func_0201C6C4(t, func_02045770(*(void **)(p + 0xf0))) == 0) {
-            func_02045334(*(void **)(p + 0xf0));
-            *(u8 *)(p + 0xf4) = 0;
+        func_0201C4E4(((struct Obj00263 *)p)->f68);
+        t = ((struct Obj00263 *)p)->f68;
+        if (((struct Obj00263 *)p)->fF4 != 0 && func_0201C6C4(t, func_02045770(((struct Obj00263 *)p)->fF0)) == 0) {
+            func_02045334(((struct Obj00263 *)p)->fF0);
+            ((struct Obj00263 *)p)->fF4 = 0;
         }
         return 9;
     }
-    *(u8 *)(p + 0x129) = *(u8 *)(p + *(u8 *)(p + 0x128) + 0x120);
+    ((struct Obj00263 *)p)->f129 = *(u8 *)(p + ((struct Obj00263 *)p)->f128 + 0x120);
     return 11;
 }

@@ -16,6 +16,7 @@
  *   g_021A8264  0x021A8264  data
 
  */
+#include "../include/Obj18648.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ void func_02155904(void)
 {
     extern char *g_021A8264;
     void func_02155374(int v);
-    if (*(u32 *)(g_021A8264 + 0x754) == 0xc) {
+    if (((struct Obj18648 *)g_021A8264)->f754 == 0xc) {
         func_02155374(0xd);
         return;
     }

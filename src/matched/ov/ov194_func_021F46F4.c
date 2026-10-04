@@ -20,6 +20,7 @@
  *   sub_0201CE38 0x0201CE38 thumb
  *   func_021F462C 0x021F462C thumb ov194
  */
+#include "../include/Obj03901.h"
 struct Tcbl;
 struct Rec;
 extern void sub_020310C4(struct Tcbl *);
@@ -38,11 +39,11 @@ void func_021F46F4(unsigned char *a, int *state, char *p)
     char *q = p + 0x254;
     switch (*state) {
     case 0:
-        sub_020310C4(*(struct Tcbl **)(q + 4));
-        switch (sub_0201CE30(*(void **)q)) {
+        sub_020310C4(*(struct Tcbl * *)&((struct Obj03901 *)q)->f4);
+        switch (sub_0201CE30(((struct Obj03901 *)q)->f0)) {
         case 0:
             if (((unsigned)sub_0203630C() & 3) != 0 || sub_02035C38() != 0) {
-                sub_0201CE5C(*(struct Rec **)q, 0);
+                sub_0201CE5C(*(struct Rec * *)&((struct Obj03901 *)q)->f0, 0);
                 if (((unsigned)sub_0203630C() & 3) != 0) sub_020355D8(0);
                 else sub_020355D8(1);
             }
@@ -52,7 +53,7 @@ void func_021F46F4(unsigned char *a, int *state, char *p)
             break;
         case 1:
             if (((unsigned)sub_020362DC() & 3) != 0 || sub_02035C60() != 0) {
-                sub_0201CE38(*(void **)q);
+                sub_0201CE38(((struct Obj03901 *)q)->f0);
                 if (((unsigned)sub_020362DC() & 3) != 0) sub_020355D8(0);
                 else sub_020355D8(1);
             }
@@ -60,11 +61,11 @@ void func_021F46F4(unsigned char *a, int *state, char *p)
         }
         break;
     case 1:
-        if (*(unsigned short *)(q + 0xE) >= *(unsigned short *)(q + 0xC)) *state = 2;
-        else (*(unsigned short *)(q + 0xE))++;
+        if (((struct Obj03901 *)q)->fE >= ((struct Obj03901 *)q)->fC) *state = 2;
+        else (((struct Obj03901 *)q)->fE)++;
         break;
     case 2:
-        func_021F462C(a, *(unsigned *)(q + 8));
+        func_021F462C(a, ((struct Obj03901 *)q)->f8);
         break;
     }
 }

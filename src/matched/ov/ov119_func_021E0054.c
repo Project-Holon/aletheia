@@ -22,6 +22,7 @@
  *   func_0203D3A8 0x0203D3A8 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -58,7 +59,7 @@ void func_021E0054(char *p)
 {
     struct Packet packet;
     void *saved,*first,*second;
-    saved=func_02009470(func_02012EBC(*(void **)(p+0x82c)));
+    saved=func_02009470(func_02012EBC(((struct Obj00001 *)p)->f82C));
     if(func_021D8AA8(p)) {
         first=func_021D8FA4(p,0);
         second=func_021D8FA4(p,1);
@@ -66,7 +67,7 @@ void func_021E0054(char *p)
         first=func_021D8FA4(p,1);
         second=func_021D8FA4(p,0);
     }
-    func_02008494(func_02012944(*(void **)(p+0x82c)),&packet);
+    func_02008494(func_02012944(((struct Obj00001 *)p)->f82C),&packet);
     packet.first=func_02017E1C(first,5,0);
     packet.second=func_02017E1C(second,5,0);
     packet.a=func_02009628(saved);

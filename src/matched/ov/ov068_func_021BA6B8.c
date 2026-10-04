@@ -18,6 +18,7 @@
  *   func_02028148  0x02028148  thumb
  *   func_02027FEC  0x02027FEC  thumb
  */
+#include "../include/Obj06169.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,13 +42,13 @@ void func_021BA6B8(u8 *p, u32 arg)
         if (*(u32 *)(p + i * 12 + 0x1c) != 0) {
             func_02045808((struct U16Vec *)(*(u32 *)(p + i * 12 + 0x1c)));
         }
-        ((P *)p)->e[i].h = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(p + 0x18)), i + 8);
+        ((P *)p)->e[i].h = (u32)func_02045EC0((struct MsgBank *)(((struct Obj06169 *)p)->f18), i + 8);
         ((P *)p)->e[i].x = 0x39e3;
         ((P *)p)->e[i].idx = i;
         if (*(u32 *)(p + i * 4 + 0x34) != 0) {
             func_02028148((u8 *)(*(u32 *)(p + i * 4 + 0x34)));
         }
         *(u32 *)(p + i * 4 + 0x34) =
-            func_02027FEC(*(u32 *)(p + 0x14), p + 0x1c + i * 12, i * 9 + 14, 0x15, 9, arg);
+            func_02027FEC(((struct Obj06169 *)p)->f14, p + 0x1c + i * 12, i * 9 + 14, 0x15, 9, arg);
     }
 }

@@ -17,6 +17,7 @@
  * show is reassigned 1 in the case 0 arm, which keeps it a live register
  * compare (cmp r1, #0) instead of a folded constant.
  */
+#include "../include/Obj02258.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -41,38 +42,38 @@ void ov208_func_021C6A10(void *unused, u8 *p)
     int w;
     Ov208Pos pos;
 
-    switch (*(u32 *)(p + 0x6b8)) {
+    switch (((struct Obj02258 *)p)->f6B8) {
     case 0:
         show = 1;
         break;
     case 4:
-        if (*(u16 *)(p + 0x548) >= 2)
+        if (((struct Obj02258 *)p)->f548 >= 2)
             multi = 1;
         break;
     }
     if (show && multi) {
         pos.x = 0;
         pos.y = 0;
-        func_0204B404(*(u32 *)(p + 0x5ec), &pos, 0);
+        func_0204B404(((struct Obj02258 *)p)->f5EC, &pos, 0);
         pos.x = 0x80;
         pos.y = 0;
-        func_0204B404(*(u32 *)(p + 0x5f0), &pos, 0);
+        func_0204B404(((struct Obj02258 *)p)->f5F0, &pos, 0);
     } else if (show) {
         pos.x = 0x40;
         pos.y = 0;
-        func_0204B404(*(u32 *)(p + 0x5ec), &pos, 0);
+        func_0204B404(((struct Obj02258 *)p)->f5EC, &pos, 0);
     }
-    if (*(u32 *)(p + *(u16 *)(p + 0x54e) * 16 + 0x14c) == 2)
+    if (*(u32 *)(p + ((struct Obj02258 *)p)->f54E * 16 + 0x14c) == 2)
         v = 1;
     else
         v = 0;
-    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5ec), 1);
-    func_0204B878(*(u32 *)(p + 0x5ec), v);
+    func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5EC, 1);
+    func_0204B878(((struct Obj02258 *)p)->f5EC, v);
     if (multi) {
-        w = *(u32 *)(p + *(u16 *)(p + 0x550) * 16 + 0x14c) == 2;
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5f0), 1);
-        func_0204B878(*(u32 *)(p + 0x5f0), w);
+        w = *(u32 *)(p + ((struct Obj02258 *)p)->f550 * 16 + 0x14c) == 2;
+        func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 1);
+        func_0204B878(((struct Obj02258 *)p)->f5F0, w);
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5f0), 0);
+        func_0204B3DC((struct Obj *)((struct Obj02258 *)p)->f5F0, 0);
     }
 }

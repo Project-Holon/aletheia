@@ -11,7 +11,8 @@
  *   func_021E1974 0x021E1974 thumb ov137
  *   func_021E1954 0x021E1954 thumb ov137
  */
+#include "../include/Obj06536.h"
 typedef unsigned short u16;
 extern int func_021E1974(char *);
 extern int func_021E1954(char *);
-int func_021DED88(char *p) {if(func_021E1974(p)==1)*(int *)p=45;else if(*(int *)(p+48)==func_021E1954(p))*(int *)p=16;return 0;}
+int func_021DED88(char *p) {if(func_021E1974(p)==1)((struct Obj06536 *)p)->f0=45;else if(((struct Obj06536 *)p)->f30==func_021E1954(p))((struct Obj06536 *)p)->f0=16;return 0;}

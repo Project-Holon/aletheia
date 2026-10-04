@@ -12,8 +12,9 @@
  *   func_02015E04 0x02015E04 thumb
  *   func_02015F50 0x02015F50 thumb
  */
+#include "../include/Obj14712.h"
 typedef unsigned char u8;
 struct McssFade;
 extern void func_02015E04(void *);
 extern void func_02015F50(struct McssFade *,u8,u8,int,unsigned);
-void func_021F6D58(char *p){func_02015E04(*(void **)(p+52));func_02015F50(*(struct McssFade **)(p+52),0,16,0,32767);}
+void func_021F6D58(char *p){func_02015E04(((struct Obj14712 *)p)->f34);func_02015F50(*(struct McssFade * *)&((struct Obj14712 *)p)->f34,0,16,0,32767);}

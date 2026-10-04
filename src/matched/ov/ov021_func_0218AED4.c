@@ -21,6 +21,7 @@
  *   func_0218ADC8  0x0218ADC8  thumb  ov021
  *   func_0218AD80  0x0218AD80  thumb  ov021
  */
+#include "../include/Obj00705.h"
 
 typedef unsigned short u16;
 
@@ -48,18 +49,18 @@ int func_0218AED4(char *p, int unused, void *a)
     func_0218AE48(p, &v);
     if ((func_021AB0F8(func_021AB0D4(func_02188C98(a), &v)) & 1) == 0)
         return 0;
-    id = func_0218AE04(p, *(Vec **)(p + 0x34));
+    id = func_0218AE04(p, *(Vec * *)&((struct Obj00705 *)p)->f34);
     if (id != 0xFFFF) {
-        o = func_021625CC(*(void **)(p + 0xc), id);
+        o = func_021625CC(((struct Obj00705 *)p)->fC, id);
         if (func_021626EC(o) == 0 && func_021626E8(o) == 1) {
-            func_0218ADC8(p, id, *(Vec **)(p + 0x34));
-            return func_0218AD80(p, a, id, *(Vec **)(p + 0x34));
+            func_0218ADC8(p, id, *(Vec * *)&((struct Obj00705 *)p)->f34);
+            return func_0218AD80(p, a, id, *(Vec * *)&((struct Obj00705 *)p)->f34);
         }
     }
     id = func_0218AE04(p, &v);
     if (id != 0xFFFF) {
-        if (func_021626EC(func_021625CC(*(void **)(p + 0xc), id)) == 0) {
-            func_0218ADC8(p, id, *(Vec **)(p + 0x34));
+        if (func_021626EC(func_021625CC(((struct Obj00705 *)p)->fC, id)) == 0) {
+            func_0218ADC8(p, id, *(Vec * *)&((struct Obj00705 *)p)->f34);
             return func_0218AD80(p, a, id, &v);
         }
     }

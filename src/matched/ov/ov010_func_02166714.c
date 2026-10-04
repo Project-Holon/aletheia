@@ -8,11 +8,12 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj07308.h"
 typedef signed short s16;
 typedef unsigned char u8;
 void func_02166714(u8 *p, s16 n) {
     int q;
-    *(s16 *)(p+4) = n;
-    q = *(s16 *)(p+4) / 1350;
-    if (*(int *)(p+8) <= q) *(int *)(p+8) = q;
+    ((struct Obj07308 *)p)->f4 = n;
+    q = ((struct Obj07308 *)p)->f4 / 1350;
+    if (((struct Obj07308 *)p)->f8 <= q) ((struct Obj07308 *)p)->f8 = q;
 }

@@ -20,6 +20,7 @@
  *   func_021F8010 0x021F8010 thumb ov135
  *   d_02202EAC 0x02202EAC data a4
  */
+#include "../include/Obj02204.h"
 typedef unsigned short u16;
 extern int func_021F99F0(void *);
 typedef unsigned int   u32;
@@ -42,22 +43,22 @@ int func_021FEF50(char *p)
 {
     int r;
     void *w;
-    r = func_021F99F0(*(void **)(p + 0xde4));
+    r = func_021F99F0(((struct Obj02204 *)p)->fDE4);
     if (r == -1) {
     } else if (r == -2 || r == d_02202EAC + 1) {
         func_021FF570(0);
-        func_0201F7A8(*(void **)(p + 0xd40), 0);
-        w = *(void **)(p + 0xd40);
+        func_0201F7A8(((struct Obj02204 *)p)->fD40, 0);
+        w = ((struct Obj02204 *)p)->fD40;
         func_02045334(w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
-        *(int *)(p + 0x28) = 0;
+        ((struct Obj02204 *)p)->f28 = 0;
     } else {
         func_021FF570(0);
         func_021F88B0(p, r);
-        *(int *)(p + 0x28) = 0;
-        func_02043B5C(func_02045770(*(void **)(p + 0xddc)), 0);
-        func_021F8010(*(void **)(p + 0xddc), *(void **)(p + 0xb7c), *(void **)(p + 0xb6c), *(unsigned *)(p + 0xf84), 0, 0, 0x3c40, p + 0xfa0);
+        ((struct Obj02204 *)p)->f28 = 0;
+        func_02043B5C(func_02045770(((struct Obj02204 *)p)->fDDC), 0);
+        func_021F8010(((struct Obj02204 *)p)->fDDC, ((struct Obj02204 *)p)->fB7C, ((struct Obj02204 *)p)->fB6C, ((struct Obj02204 *)p)->fF84, 0, 0, 0x3c40, p + 0xfa0);
     }
     return 2;
 }

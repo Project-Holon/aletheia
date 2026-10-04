@@ -25,6 +25,7 @@
  * hoisted block), and func_0207C768 re-reads p+4 instead of taking s, which
  * puts s below the hoisted m*w temporary.
  */
+#include "../include/Obj02688.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -55,31 +56,31 @@ void func_0218D444(char *p, int *a, Elem *e)
     int s;
     int m;
 
-    w = *(u16 *)(p + 0x14);
-    h = *(u16 *)(p + 0x16);
-    s = *(int *)(p + 4);
-    base = func_0207C768(*(int *)(p + 4), 0x2000);
-    c0 = func_0218D980(*(u8 *)(p + 0x2c), s, a[0]);
-    r0 = func_0218D980(*(u8 *)(p + 0x2d), s, a[2]);
+    w = ((struct Obj02688 *)p)->f14;
+    h = ((struct Obj02688 *)p)->f16;
+    s = ((struct Obj02688 *)p)->f4;
+    base = func_0207C768(((struct Obj02688 *)p)->f4, 0x2000);
+    c0 = func_0218D980(((struct Obj02688 *)p)->f2C, s, a[0]);
+    r0 = func_0218D980(((struct Obj02688 *)p)->f2D, s, a[2]);
     row = 0;
-    if (row < *(u8 *)(p + 0x2d)) {
+    if (row < ((struct Obj02688 *)p)->f2D) {
         do {
             ls = s;
             rr = r0 + row;
             m = rr % h;
             if (m < 0)
                 m += h;
-            for (col = 0; col < *(u8 *)(p + 0x2c); col++) {
+            for (col = 0; col < ((struct Obj02688 *)p)->f2C; col++) {
                 y = (int)(((long long)(rr << 12) * ls + 0x800LL) >> 12);
                 cc = c0 + col;
                 k = cc % w;
                 if (k < 0)
                     k += w;
-                el = &e[col + row * *(u8 *)(p + 0x2c)];
+                el = &e[col + row * ((struct Obj02688 *)p)->f2C];
                 func_0218DD80(el, k + m * w);
                 func_0218DD9C((u32)el, base + (int)(((long long)(cc << 12) * ls + 0x800LL) >> 12), 0, base + y);
             }
             row++;
-        } while (row < *(u8 *)(p + 0x2d));
+        } while (row < ((struct Obj02688 *)p)->f2D);
     }
 }

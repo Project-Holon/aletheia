@@ -15,6 +15,7 @@
  *   func_02012BF8  0x02012BF8  thumb
  *   func_0204B878  0x0204B878  arm
  */
+#include "../include/Obj00002.h"
 
 extern int func_021BB368(int);
 typedef unsigned short u16;
@@ -25,27 +26,27 @@ extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BB5DC(int p, int mode)
 {
-    int r = func_02012BF8(*(int *)p, func_021BB368(*(int *)(p + 0x80C)));
+    int r = func_02012BF8(*(int *)&((struct Obj00002 *)p)->f0, func_021BB368(((struct Obj00002 *)p)->f80C));
 
     if (mode == 1) {
         func_021BB5A4((char *)p);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 4);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 5);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f710), 4);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f714), 5);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f71C), 0);
         if (r == 1) {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 7);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 7);
         } else {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 6);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 6);
         }
     } else {
-        func_0204B878((struct Obj *)(*(int *)(p + 0x72C)), 4);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x710)), 0x12);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x714)), 0x13);
-        func_0204B878((struct Obj *)(*(int *)(p + 0x71C)), 0xE);
+        func_0204B878((struct Obj *)(*(int *)&((struct Obj00002 *)p)->f72C), 4);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f710), 0x12);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f714), 0x13);
+        func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f71C), 0xE);
         if (r == 1) {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x16);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 0x16);
         } else {
-            func_0204B878((struct Obj *)(*(int *)(p + 0x718)), 0x15);
+            func_0204B878((struct Obj *)(((struct Obj00002 *)p)->f718), 0x15);
         }
     }
 }

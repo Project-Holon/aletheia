@@ -20,6 +20,9 @@
  *   func_0200AE54 0x0200AE54 thumb
  *   d_02213D00 0x02213D00 data a1 ov199
  */
+#include "../include/Obj06660.h"
+#include "../include/Obj25296.h"
+#include "../include/Obj25297.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -48,8 +51,8 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     Triple time;
     Bytes bytes;
     func_02082BCC(p,0,0x50);
-    *(unsigned *)p=func_0200853C(save);
-    *(unsigned *)(p+4)=*(unsigned *)(save+0x48);
+    ((struct Obj06660 *)p)->f0=func_0200853C(save);
+    ((struct Obj06660 *)p)->f4=((struct Obj25296 *)save)->f48;
     for(i=0;i<(int)func_0201AA18(party2);i++) {
         mon=func_0201AB28(party2,i);
         if(func_02017E1C(mon,0xa9,0)) {
@@ -74,8 +77,8 @@ void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int settin
     ((Flags *)(p + 0x44))->day=date.c;
     ((Flags *)(p + 0x44))->hour=time.a;
     ((Flags *)(p + 0x44))->minute=time.b;
-    *(int *)(p+0x48)=setting;
-    p[0x4c]=*(unsigned *)(record+0x8c);
+    ((struct Obj06660 *)p)->f48=setting;
+    p[0x4c]=((struct Obj25297 *)record)->f8C;
     func_022135CC(record,&bytes.a,&bytes.b);
     ((Nibbles *)(p + 0x4e))->a=bytes.a;
     ((Nibbles *)(p + 0x4e))->b=bytes.b;

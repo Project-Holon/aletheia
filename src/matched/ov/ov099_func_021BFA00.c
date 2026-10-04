@@ -14,10 +14,11 @@
  *   func_021C2408 0x021C2408 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
+#include "../include/Obj00008.h"
 extern unsigned int func_020362DC(void);
 extern void func_021C2408(char *);
 extern void func_021BA8EC(char *);
 int func_021BFA00(char *p, int ret) {
- if (func_020362DC()) { *(int *)(p+0x1cc)=11; func_021C2408(p); func_021BA8EC(p); }
+ if (func_020362DC()) { ((struct Obj00008 *)p)->f1CC=11; func_021C2408(p); func_021BA8EC(p); }
  return ret;
 }

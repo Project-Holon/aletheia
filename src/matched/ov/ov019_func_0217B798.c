@@ -15,6 +15,7 @@
  *   func_0217B8F0 0x0217B8F0  thumb  ov019
  *   func_021734A8 0x021734A8  thumb  ov012
  */
+#include "../include/Obj07381.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,7 +34,7 @@ void func_0217B798(char *base, u8 *p)
     u8 buf[6];
 
     func_021BBA70((struct Ctx *)base, (struct Src *)p, 0, 0);
-    if (q[1] == 0 && q[0x71] == 0 && p[0xa] == 5 && *(u16 *)(p + 0x6c) != 0) {
+    if (q[1] == 0 && q[0x71] == 0 && p[0xa] == 5 && ((struct Obj07381 *)p)->f6C != 0) {
         func_02087C6C(buf);
         if (memcmp(p, buf, 6) == 0 && func_0217B8F0(base, 6) == 1) {
             func_021734A8(base, 2, p);

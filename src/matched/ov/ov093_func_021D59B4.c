@@ -20,6 +20,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00041.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -37,48 +38,48 @@ int func_021D59B4(u8 *p, int k)
 
     switch (v) {
     case 8:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)(p + 0xfc));
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFC);
     case 9:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)(p + 0xfd));
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFD);
     case 10:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)(p + 0xfe));
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFE);
     case 11:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)(p + 0xff));
+        return func_021D78E4(func_021D58A8(p, v), *(u8 *)&((struct Obj00041 *)p)->fFF);
     case 12:
-        return func_021D78E4(func_021D58A8(p, v), *(u8 *)(p + 0x100));
+        return func_021D78E4(func_021D58A8(p, v), ((struct Obj00041 *)p)->f100);
     case 1:
-        return *(s8 *)(p + 0xfc);
+        return ((struct Obj00041 *)p)->fFC;
     case 2:
-        return *(s8 *)(p + 0xfd);
+        return ((struct Obj00041 *)p)->fFD;
     case 3:
-        return *(s8 *)(p + 0xfe);
+        return ((struct Obj00041 *)p)->fFE;
     case 4:
-        return *(s8 *)(p + 0xff);
+        return ((struct Obj00041 *)p)->fFF;
     case 5:
-        return *(s8 *)(p + 0x100);
+        return *(s8 *)&((struct Obj00041 *)p)->f100;
     case 6:
-        return *(s8 *)(p + 0x101);
+        return ((struct Obj00041 *)p)->f101;
     case 7:
-        return *(s8 *)(p + 0x102);
+        return ((struct Obj00041 *)p)->f102;
     case 15:
-        return *(u8 *)(p + 0x18);
+        return ((struct Obj00041 *)p)->f18;
     case 18:
-        return *(u8 *)(p + 0xfa);
+        return ((struct Obj00041 *)p)->fFA;
     case 13:
-        return *(u16 *)(p + 0x10);
+        return ((struct Obj00041 *)p)->f10;
     case 14:
-        return *(u16 *)(p + 0xe);
+        return ((struct Obj00041 *)p)->fE;
     case 21:
-        return *(u8 *)(p + 0x1a);
+        return ((struct Obj00041 *)p)->f1A;
     case 17:
         if (func_021D62C4(p, 0x10) != 0)
             return 0;
     case 16:
-        return *(u16 *)(p + 0x13c);
+        return ((struct Obj00041 *)p)->f13C;
     case 19:
-        return *(u8 *)(p + 0x141);
+        return ((struct Obj00041 *)p)->f141;
     case 20:
-        return *(u32 *)(p + 8);
+        return ((struct Obj00041 *)p)->f8;
     case 0:
         break;
     }

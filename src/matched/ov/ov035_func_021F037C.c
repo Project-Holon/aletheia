@@ -26,6 +26,7 @@
  *   func_02012158 0x02012158 thumb
  *   func_020121CC 0x020121CC thumb
  */
+#include "../include/Obj01129.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -53,48 +54,48 @@ int func_021F037C(char *p)
 {
     u16 v;
 
-    switch (*(u16 *)(p + 0x4A)) {
+    switch (((struct Obj01129 *)p)->f4A) {
     case 0:
-        func_021F0254(p, *(int *)(p + 0x18), 0);
-        func_021F0254(p, *(int *)(p + 0x1C), 3);
-        func_021F02FC(p, *(u16 *)p);
-        (*(u16 *)(p + 0x4A))++;
+        func_021F0254(p, ((struct Obj01129 *)p)->f18, 0);
+        func_021F0254(p, ((struct Obj01129 *)p)->f1C, 3);
+        func_021F02FC(p, ((struct Obj01129 *)p)->f0);
+        (((struct Obj01129 *)p)->f4A)++;
         break;
     case 1:
         if (func_020221A4() == 1)
-            (*(u16 *)(p + 0x4A))++;
+            (((struct Obj01129 *)p)->f4A)++;
         break;
     case 2:
         if (func_021F0370(p) != 0) {
             if (func_021F0364(p) == 0) {
-                func_02012158(*(void **)(p + 4), 1);
-                func_020121CC(*(void **)(p + 4));
+                func_02012158(((struct Obj01129 *)p)->f4, 1);
+                func_020121CC(((struct Obj01129 *)p)->f4);
                 v = 3;
             } else {
                 v = 5;
             }
-            *(u16 *)(p + 0x4A) = v;
+            ((struct Obj01129 *)p)->f4A = v;
             func_021F0340(p);
         }
         break;
     case 3:
-        func_021F0298(p, *(int *)(p + 0x18), 1, 6);
-        (*(u16 *)(p + 0x4A))++;
+        func_021F0298(p, ((struct Obj01129 *)p)->f18, 1, 6);
+        (((struct Obj01129 *)p)->f4A)++;
         break;
     case 4:
-        if (func_02035C60() != 0 || func_02012204(*(void **)(p + 4)) != 0)
-            (*(u16 *)(p + 0x4A))++;
+        if (func_02035C60() != 0 || func_02012204(((struct Obj01129 *)p)->f4) != 0)
+            (((struct Obj01129 *)p)->f4A)++;
         break;
     case 5:
-        if (func_02012204(*(void **)(p + 4)) != 0) {
-            if (func_02026454(*(void **)(p + 8)))
-                func_02026400(*(void **)(p + 8));
-            *(u16 *)(p + 0x4A) = 6;
+        if (func_02012204(((struct Obj01129 *)p)->f4) != 0) {
+            if (func_02026454(((struct Obj01129 *)p)->f8))
+                func_02026400(((struct Obj01129 *)p)->f8);
+            ((struct Obj01129 *)p)->f4A = 6;
             break;
         }
         return 1;
     case 6:
-        if (func_02026454(*(void **)(p + 8)) == 0)
+        if (func_02026454(((struct Obj01129 *)p)->f8) == 0)
             return 1;
         break;
     }

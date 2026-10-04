@@ -16,6 +16,7 @@
  *   func_021BE49C  0x021BE49C  thumb  ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00222.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,7 +35,7 @@ void func_021BE7E4(u8 *p)
 {
     u32 z = 0;
 
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154))), 0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)&((struct Obj00222 *)p)->f154)), 0);
     func_021BE44C(p, 1, 1, 0, 4, 0x440, z);
     func_021BE49C(p + 0x154);
 }

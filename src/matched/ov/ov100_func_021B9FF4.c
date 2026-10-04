@@ -10,12 +10,13 @@
  * symbols:
 
  */
+#include "../include/Obj05266.h"
 void func_021B9FF4(int a,int b) {
- *(int *)(a+0xc7c)=b;
- *(int *)(a+0xc8c)=1;
- *(int *)(a+0xc94)=1;
- if(*(int *)(a+0x24c)==5 && b==0) {
-  *(int *)(a+0xc80)=1;
-  *(int *)(a+0xc84)=1;
+ ((struct Obj05266 *)a)->fC7C=b;
+ ((struct Obj05266 *)a)->fC8C=1;
+ ((struct Obj05266 *)a)->fC94=1;
+ if(((struct Obj05266 *)a)->f24C==5 && b==0) {
+  ((struct Obj05266 *)a)->fC80=1;
+  ((struct Obj05266 *)a)->fC84=1;
  }
 }

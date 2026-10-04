@@ -17,6 +17,10 @@
  *   func_021D6FF0 0x021D6FF0 thumb ov123
  *   func_021D8520 0x021D8520 thumb ov123
  */
+#include "../include/Obj00063.h"
+#include "../include/Obj22971.h"
+#include "../include/Obj22972.h"
+#include "../include/Obj22973.h"
 typedef unsigned char u8;
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D83A4(char *);
@@ -31,7 +35,7 @@ void func_021D8650(char *p,int x,int *q)
     int state;
     switch (*q) {
     case 0:
-        state=*(int *)(*(char **)(p+0x20)+0x1c8);
+        state=((struct Obj22971 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f1C8;
         switch (state) {
         case 0:
             if (x==0) func_021D6EE0(p,(int)func_021D83A4,0x774);
@@ -42,27 +46,27 @@ void func_021D8650(char *p,int x,int *q)
             else func_021D6EE0(p,(int)func_021D83A4,0x787);
             break;
         case 3:
-            if (*(u8 *)(p+0xaf)==0) func_021D6EE0(p,(int)func_021D8448,0x78c);
+            if (((struct Obj00063 *)p)->fAF==0) func_021D6EE0(p,(int)func_021D8448,0x78c);
             else func_021D6EE0(p,(int)func_021D8958,0x78f);
             break;
         }
         break;
     case 5:
-        if (*(int *)(*(char **)(p+0x20)+0x1c8)==3)
+        if (((struct Obj22972 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f1C8==3)
             func_021D6EE0(p,(int)func_021D8958,0x797);
         else {
-            *(int *)(p+0x80)=*q;
+            ((struct Obj00063 *)p)->f80=*q;
             func_021D6EE0(p,(int)func_021D6FF0,0x79b);
         }
         break;
     case 8:
-        switch (*(int *)(*(char **)(p+0x20)+0x1c8)) {
+        switch (((struct Obj22973 *)(*(char * *)&((struct Obj00063 *)p)->f20))->f1C8) {
         case 0: func_021D6EE0(p,(int)func_021D83A4,0x7a2); break;
         case 3: func_021D6EE0(p,(int)func_021D8520,0x7a6); break;
         }
         break;
     default:
-        *(int *)(p+0x80)=*q;
+        ((struct Obj00063 *)p)->f80=*q;
         func_021D6EE0(p,(int)func_021D6FF0,0x7ac);
         break;
     }

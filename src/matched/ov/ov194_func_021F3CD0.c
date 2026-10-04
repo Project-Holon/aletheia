@@ -19,6 +19,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj01774.h"
 extern void func_02082BCC(unsigned char *,unsigned,unsigned);
 extern int func_020457B0(int,unsigned short);
 typedef unsigned int   u32;
@@ -36,15 +37,15 @@ extern void func_020409B4(unsigned);
 void func_021F3CD0(unsigned char *p,int a,int b,int c,int d,unsigned short e) {
     int window;
     func_02082BCC(p,0,0x24);
-    *(unsigned short *)(p+32)=15;
-    *(int *)(p+4)=a; *(int *)(p+24)=d; *(int *)p=b; *(int *)(p+16)=c;
-    *(int *)(p+28)=func_020457B0(255,e);
-    *(int *)(p+20)=func_020450F0(4,1,19,30,4,15,1);
-    func_0201F73C((void *)(*(int *)(p+20)),2,1,14);
-    *(int *)(p+8)=*(int *)(p+20);
-    *(unsigned char *)(p+12)=0;
-    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p+20)),*(unsigned short *)(p+32));
-    window=*(int *)(p+20);
+    ((struct Obj01774 *)p)->f20=15;
+    ((struct Obj01774 *)p)->f4=a; ((struct Obj01774 *)p)->f18=d; ((struct Obj01774 *)p)->f0=b; ((struct Obj01774 *)p)->f10=c;
+    ((struct Obj01774 *)p)->f1C=func_020457B0(255,e);
+    ((struct Obj01774 *)p)->f14=func_020450F0(4,1,19,30,4,15,1);
+    func_0201F73C((void *)(((struct Obj01774 *)p)->f14),2,1,14);
+    ((struct Obj01774 *)p)->f8=((struct Obj01774 *)p)->f14;
+    ((struct Obj01774 *)p)->fC=0;
+    func_02043B5C((int)func_02045770((struct Descriptor *)((struct Obj01774 *)p)->f14),((struct Obj01774 *)p)->f20);
+    window=((struct Obj01774 *)p)->f14;
     func_02045334((struct Descriptor *)window); func_02045374((struct Cfg *)window);
     func_020409B4(func_02045730(window));
 }

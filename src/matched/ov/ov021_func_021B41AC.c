@@ -30,6 +30,7 @@
  *   func_02045808 0x02045808 arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02712.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -62,15 +63,15 @@ void func_021B41AC(char *w, u16 b)
 {
     u32 t7, t6, s, bg;
 
-    t7 = (u32)func_02045EC0((struct MsgBank *)(*(u32 *)(w + 0x188)), 0x17);
-    t6 = (u32)func_020457B0(0x14, *(u16 *)(w + 4));
-    func_0201F73C((void *)(*(u32 *)(w + 0x170)), 2, 0xE4, 9);
-    func_0201EFA4((struct WordSet *)(*(u32 *)(w + 0x190)), 0, func_02007FB8((u8 *)(*(u32 *)(w + 0x10)), b, *(u16 *)(w + 4)), 3, 0, 1);
-    func_0201F250((struct WordSet *)(*(u32 *)(w + 0x190)), (void *)t6, (void *)t7);
-    s = (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x170));
+    t7 = (u32)func_02045EC0((struct MsgBank *)(((struct Obj02712 *)w)->f188), 0x17);
+    t6 = (u32)func_020457B0(0x14, ((struct Obj02712 *)w)->f4);
+    func_0201F73C((void *)(((struct Obj02712 *)w)->f170), 2, 0xE4, 9);
+    func_0201EFA4((struct WordSet *)(((struct Obj02712 *)w)->f190), 0, func_02007FB8((u8 *)(((struct Obj02712 *)w)->f10), b, ((struct Obj02712 *)w)->f4), 3, 0, 1);
+    func_0201F250((struct WordSet *)(((struct Obj02712 *)w)->f190), (void *)t6, (void *)t7);
+    s = (u32)func_02045770((struct Descriptor *)((struct Obj02712 *)w)->f170);
     func_02043B5C((struct CharBuf *)s, 0xF);
-    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(*(u32 *)(w + 8)), 0x44F);
-    bg = *(u32 *)(w + 0x170);
+    func_0201C7D0((void *)s, 0, 0, (void *)t6, (void *)(((struct Obj02712 *)w)->f8), 0x44F);
+    bg = ((struct Obj02712 *)w)->f170;
     func_02045334((struct Descriptor *)bg);
     func_02045374((struct Cfg *)bg);
     func_020409B4(func_02045730((struct Descriptor *)bg));

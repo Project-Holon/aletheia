@@ -15,6 +15,7 @@
  *   python tools/match.py one --src src/matched/func_0203D650.c \
  *       --func func_0203D650 --addr 0x0203D650 --arm --cc 1.1p1
  */
+#include "../include/Obj15989.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -25,5 +26,5 @@ u32 func_0203D650(void)
 {
     u8 *p = func_0203D788();
 
-    return p != 0 ? *(u32 *)(p + 0x34c) : 0;
+    return p != 0 ? ((struct Obj15989 *)p)->f34C : 0;
 }

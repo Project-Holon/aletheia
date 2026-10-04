@@ -12,6 +12,7 @@
  * symbols:
  *   func_021673E0  0x021673E0  thumb  ov010
  */
+#include "../include/Obj17733.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +32,7 @@ a3 = 0xa;
 a3 = 0xa;
     a0 = func_021673E0((struct Entry32 *)a0, (struct Entry32 *)a1, a2, a3, o4);
 loc_02167454:
-*(u8 *)((char *)t4) = a0;
+((struct Obj17733 *)((char *)t4))->f0 = a0;
 a0 = 0xa;
     return a0;
 }

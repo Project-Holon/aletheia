@@ -11,7 +11,8 @@
  * symbols:
  *   func_021F5414 0x021F5414 thumb ov112
  */
+#include "../include/Obj10327.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F5414(int a, int b);
-void func_021F8140(int a,u8 *p,int b) { *(int *)(p+8)=b; func_021F5414((int)(*(void **)(p+0x58)),b); *(int *)(p+4)=1; }
+void func_021F8140(int a,u8 *p,int b) { ((struct Obj10327 *)p)->f8=b; func_021F5414((int)(((struct Obj10327 *)p)->f58),b); ((struct Obj10327 *)p)->f4=1; }

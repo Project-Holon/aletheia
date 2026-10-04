@@ -19,12 +19,13 @@
  * symbols:
  *   func_021E8A90  0x021E8A90  thumb  ov177
  */
+#include "../include/Obj14357.h"
 
 extern int func_021E8A90(int **p);
 
 int func_0217B368(int *p)
 {
-    if (func_021E8A90((int **)(*(int *)p)))
-        return *(int *)((char *)p + 0x10);
+    if (func_021E8A90((int **)(((struct Obj14357 *)p)->f0)))
+        return ((struct Obj14357 *)p)->f10;
     return 0;
 }

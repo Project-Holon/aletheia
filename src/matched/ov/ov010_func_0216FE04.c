@@ -14,10 +14,11 @@
  *   func_0207FA40 0x0207FA40 arm
  *   func_0207FADC 0x0207FADC arm
  */
+#include "../include/Obj12410.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0207FA0C(void);
 extern void func_020862F0(void *,u32);
 extern void func_0207FA40(void *,u32,u32);
 extern void func_0207FADC(void);
-void func_0216FE04(char *p,void *q) { u32 b,a; a=*(u32 *)(p+16); b=(u16)*(u32 *)(p+8)*8; func_0207FA0C(); func_020862F0(q,32); func_0207FA40(q,a+b,32); func_0207FADC(); }
+void func_0216FE04(char *p,void *q) { u32 b,a; a=((struct Obj12410 *)p)->f10; b=(u16)((struct Obj12410 *)p)->f8*8; func_0207FA0C(); func_020862F0(q,32); func_0207FA40(q,a+b,32); func_0207FADC(); }

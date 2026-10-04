@@ -12,6 +12,7 @@
  *   func_020450F0 0x020450F0 arm
  *   d_021E1E30 0x021E1E30 data a4
  */
+#include "../include/Obj23773.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,7 +30,7 @@ void func_021E0338(u8 *p,int count)
     s=p+3296;
     i=0;
     table=d_021E1E30[count];
-    *(int *)s=count;
+    ((struct Obj23773 *)s)->f0=count;
     for(;i<count;i++) {
         entry=&table[i];
         slot=(u32 *)(s+i*4);

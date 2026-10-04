@@ -32,6 +32,7 @@
  *   func_0203C8A8 0x0203C8A8 arm
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj02802.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0203D210(void);
@@ -66,18 +67,18 @@ int func_021BE9C8(char *p, int v)
             func_0204A698();
         }
         if (func_021C1A44(p) == 1) func_021C1AC0(p);
-        *(void **)(p + 0x198) = (void *)func_021BA8BC(*(void **)(p + 0x198));
+        ((struct Obj02802 *)p)->f198 = (void *)func_021BA8BC(((struct Obj02802 *)p)->f198);
         func_020414AC(3);
         h = func_020490F4(0x21, 0x21);
         func_021BE53C(p, h);
         func_02049238(h);
-        *(u16 *)(p + 0x1328) = 1;
-        if (*(void **)(p + 0xb0) != 0) {
-            func_020452E8(*(void **)(p + 0x1a0));
-            func_0202020C(*(void **)(p + 0xb4), 0, 0);
-            *(void **)(p + 0xb4) = 0;
-            func_0201F868(*(void **)(p + 0xb0));
-            *(void **)(p + 0xb0) = 0;
+        ((struct Obj02802 *)p)->f1328 = 1;
+        if (((struct Obj02802 *)p)->fB0 != 0) {
+            func_020452E8(((struct Obj02802 *)p)->f1A0);
+            func_0202020C(((struct Obj02802 *)p)->fB4, 0, 0);
+            ((struct Obj02802 *)p)->fB4 = 0;
+            func_0201F868(((struct Obj02802 *)p)->fB0);
+            ((struct Obj02802 *)p)->fB0 = 0;
         }
         func_02082BCC(p + 0x10, 0, 0x20);
         func_02082BCC(p + 0x30, 0, 0x20);
@@ -88,7 +89,7 @@ int func_021BE9C8(char *p, int v)
         func_021BDD0C(p, 0);
         func_0203C8A8();
         func_021BAAB8(p, 0x17, 1);
-        *(u32 *)(p + 0x1cc) = 5;
+        ((struct Obj02802 *)p)->f1CC = 5;
     }
     return v;
 }

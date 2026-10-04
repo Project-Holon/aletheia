@@ -11,8 +11,9 @@
  * symbols:
  *   func_0200A21C 0x0200A21C thumb
  */
+#include "../include/Obj13943.h"
 extern int func_0200A21C(void);
 int func_021D9554(char *p,int n) {
- if(func_0200A21C()!=0 && n==0 && (*(unsigned *)(p+0xcc)==0 || (*(unsigned *)(p+0xcc)&0x200000)!=0)) return 1;
+ if(func_0200A21C()!=0 && n==0 && (((struct Obj13943 *)p)->fCC==0 || (((struct Obj13943 *)p)->fCC&0x200000)!=0)) return 1;
  return 0;
 }

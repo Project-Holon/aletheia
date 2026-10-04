@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/matched/func_02051E10.c \
  *       --func func_02051E10 --addr 0x02051E10 --cc 1.1p1 --arm
  */
+#include "../include/Obj04767.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,11 +32,11 @@ extern void func_02051E64(void *p, int a);
 
 int func_02051E10(char *p, u32 x)
 {
-    if (*(u8 *)(p + 1) != 0) {
-        u16 v = *(u16 *)(p + 2);
+    if (((struct Obj04767 *)p)->f1 != 0) {
+        u16 v = ((struct Obj04767 *)p)->f2;
 
         if (v < 0xFFFF)
-            *(u16 *)(p + 2) = (u16)(v + 1);
+            ((struct Obj04767 *)p)->f2 = (u16)(v + 1);
         return 2;
     }
     if (x != 0) {

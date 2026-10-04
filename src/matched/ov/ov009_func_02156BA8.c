@@ -12,10 +12,11 @@
  * symbols:
  *   g_021A8264 0x021A8264 data ov009
  */
+#include "../include/Obj18653.h"
 extern char *g_021A8264;
 int func_02156BA8(void)
 {
     char *p=g_021A8264;
-    if(p)return *(short *)(p+0x780);
+    if(p)return ((struct Obj18653 *)p)->f780;
     return -1;
 }

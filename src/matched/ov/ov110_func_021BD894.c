@@ -14,12 +14,15 @@
  *   func_021BAE94 0x021BAE94 thumb ov110
  *   func_021BAED0 0x021BAED0 thumb ov110
  */
+#include "../include/Obj13789.h"
+#include "../include/Obj13790.h"
+#include "../include/Obj13791.h"
 typedef unsigned char u8;
 extern int (*const d_021C3920[])(u8 *,void *);
 extern int func_021BAE24(void *,u8 *,void *);
 extern int func_021BAE94(void *,u8 *,void *);
 extern int func_021BAED0(void *,u8 *,void *);
 int func_021BD894(u8 *p,void *q) { return d_021C3920[*(unsigned *)(p+4)](p,q); }
-int func_021BD8A8(u8 *p) { return func_021BAE24(*(void **)(p+0x14),p,*(void **)(p+0x18)); }
-int func_021BD8B8(u8 *p) { return func_021BAE94(*(void **)(p+0x14),p,*(void **)(p+0x18)); }
-int func_021BD8C8(u8 *p) { return func_021BAED0(*(void **)(p+0x14),p,*(void **)(p+0x18)); }
+int func_021BD8A8(u8 *p) { return func_021BAE24(((struct Obj13789 *)p)->f14,p,((struct Obj13789 *)p)->f18); }
+int func_021BD8B8(u8 *p) { return func_021BAE94(((struct Obj13790 *)p)->f14,p,((struct Obj13790 *)p)->f18); }
+int func_021BD8C8(u8 *p) { return func_021BAED0(((struct Obj13791 *)p)->f14,p,((struct Obj13791 *)p)->f18); }

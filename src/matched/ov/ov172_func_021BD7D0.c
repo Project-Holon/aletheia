@@ -21,6 +21,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj24105.h"
 
 typedef unsigned int u32;
 
@@ -33,7 +34,7 @@ extern void func_0203F9B4(void);
 void func_021BD7D0(void *a0)
 {
     *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
-    func_0204A5AC(func_0204B1CC(*(u32 *)((char *)a0 + 0x1ac)));
+    func_0204A5AC(func_0204B1CC(((struct Obj24105 *)a0)->f1AC));
     func_020403F4(7);
     func_020403F4(6);
     func_020403F4(5);

@@ -12,6 +12,7 @@
  * symbols:
  *   func_021B6B58  0x021B6B58  thumb  ov071
  */
+#include "../include/Obj20705.h"
 
 void func_021B7BFC(int *a, char *p, unsigned char m)
 {
@@ -25,5 +26,5 @@ void func_021B7BFC(int *a, char *p, unsigned char m)
         func_021B6B58(p + 0x2c, 0);
         func_021B6B58(p + 0x3c, 1);
     }
-    *(unsigned char *)(p + 0x82) = m;
+    ((struct Obj20705 *)p)->f82 = m;
 }

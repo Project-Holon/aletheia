@@ -23,6 +23,7 @@
  * through two direct calls.  The three are consecutive in the image and call
  * 0x0204F5A8-free leaf helpers, so each stands alone.
  */
+#include "../include/Obj06988.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -35,8 +36,8 @@ void func_0204F214(u8 *a0, int i)
 {
     u32 off = i * 0x28;
 
-    g_020A8144(*(u32 *)(*(u32 *)(a0 + 4) + off + 0x20));
-    g_020A814C(*(u32 *)(*(u32 *)(a0 + 4) + off + 0x24));
-    *(u32 *)(*(u32 *)(a0 + 4) + off) = 0;
-    *(u32 *)(*(u32 *)(a0 + 4) + off + 0x14) = 5;
+    g_020A8144(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x20));
+    g_020A814C(*(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x24));
+    *(u32 *)(((struct Obj06988 *)a0)->f4 + off) = 0;
+    *(u32 *)(((struct Obj06988 *)a0)->f4 + off + 0x14) = 5;
 }

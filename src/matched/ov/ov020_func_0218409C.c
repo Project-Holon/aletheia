@@ -14,6 +14,8 @@
  *   func_021BE8B8  0x021BE8B8  thumb  ov021
  *   sub_0202E8A4   0x0202E8A4  thumb
  */
+#include "../include/Obj00082.h"
+#include "../include/Obj02068.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,18 +30,18 @@ void func_0218409C(u8 *p, int arg)
 {
     u8 *q = p + 0x4c;
 
-    *(int *)(q + 4) = *(int *)(p + 0);
-    *(int *)(q + 8) = *(int *)(p + 4);
-    *(int *)(q + 0xc) = *(int *)(p + 8);
-    *(int *)(q + 0x10) = *(int *)(p + 0x2c);
-    *(int *)(p + 0x4c) = arg;
-    *(u16 *)(q + 0x18) = *(u16 *)(p + 0xc);
+    ((struct Obj02068 *)q)->f4 = *(int *)&((struct Obj00082 *)p)->f0;
+    ((struct Obj02068 *)q)->f8 = ((struct Obj00082 *)p)->f4;
+    ((struct Obj02068 *)q)->fC = *(int *)&((struct Obj00082 *)p)->f8;
+    ((struct Obj02068 *)q)->f10 = ((struct Obj00082 *)p)->f2C;
+    ((struct Obj00082 *)p)->f4C = arg;
+    ((struct Obj02068 *)q)->f18 = ((struct Obj00082 *)p)->fC;
     *(Blk28 *)(q + 0x1c) = *(Blk28 *)(p + 0x10);
-    *(int *)(q + 0x38) = func_021BE89C(*(u16 *)(p + 0xc), *(u16 *)(p + 0x14));
-    *(int *)(q + 0x3c) = func_021BE8B8(*(u16 *)(p + 0xc), *(u16 *)(p + 0x14));
-    *(int *)(q + 0x40) = (*(int *)(p + 0x40) != 0 && *(int *)(p + 0x44) != 0) ? 1 : 0;
-    *(u8 *)(q + 0x44) = sub_0202E8A4(*(u16 *)(p + 0x48));
-    *(u8 *)(q + 0x45) = *(u16 *)(p + 0x4a);
-    *(int *)(q + 0x48) = 0;
-    *(int *)(q + 0x4c) = 0;
+    ((struct Obj02068 *)q)->f38 = func_021BE89C(((struct Obj00082 *)p)->fC, ((struct Obj00082 *)p)->f14);
+    ((struct Obj02068 *)q)->f3C = func_021BE8B8(((struct Obj00082 *)p)->fC, ((struct Obj00082 *)p)->f14);
+    ((struct Obj02068 *)q)->f40 = (((struct Obj00082 *)p)->f40 != 0 && ((struct Obj00082 *)p)->f44 != 0) ? 1 : 0;
+    ((struct Obj02068 *)q)->f44 = sub_0202E8A4(((struct Obj00082 *)p)->f48);
+    ((struct Obj02068 *)q)->f45 = ((struct Obj00082 *)p)->f4A;
+    ((struct Obj02068 *)q)->f48 = 0;
+    ((struct Obj02068 *)q)->f4C = 0;
 }

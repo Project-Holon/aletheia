@@ -36,6 +36,11 @@
  *   data_021EFCF0 0x021EFCF0 data ov093 a1
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj00324.h"
+#include "../include/Obj21005.h"
+#include "../include/Obj21009.h"
+#include "../include/Obj21010.h"
+#include "../include/Obj21012.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -76,16 +81,16 @@ void func_021BA2E4(char *p)
     void *old, *mon;
     u8 *m;
     u32 tmp, tmp1, tmp2;
-    if (*(u8 *)(*(char **)p + 0x23) != 0) return;
-    if (*(u32 *)*(char **)p <= 1) {
+    if (((struct Obj21005 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f23 != 0) return;
+    if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 <= 1) {
         func_021B97A0(p + 0x1b0, p, (u8)p[0x46c]);
         list = (void *)func_021B985C(p + 0x1b0, (u8)p[0x46c]);
-        if (*(u32 *)*(char **)p == 1 && func_021D7F60((u16)func_021BA020(p, 1)))
-            func_0201B818(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((*(u16 *)(p + 0x468) & 0x7fff) | 0x8000));
-        if (*(u32 *)*(char **)p == 1) {
+        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1 && func_021D7F60((u16)func_021BA020(p, 1)))
+            func_0201B818(list, *(u16 *)(func_021B8714((char **)p) + 10), (u16)((((struct Obj00324 *)p)->f468 & 0x7fff) | 0x8000));
+        if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 1) {
             n = func_0201AA18(list);
             for (i0 = 0; i0 < n; i0++) {
-                old = func_0201AB28(*(void **)(*(char **)p + 0x24), i0);
+                old = func_0201AB28(((struct Obj21009 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f24, i0);
                 mon = func_0201AB28(list, i0);
                 move = (u16)func_02017E1C(old, 6, 0);
                 if (!func_021D805C((void *)move, 0x10))
@@ -94,18 +99,18 @@ void func_021BA2E4(char *p)
                     func_02017E40(mon, 6, 0);
             }
         }
-        func_0201AC2C(list, *(void **)(*(char **)p + 0x24));
+        func_0201AC2C(list, ((struct Obj21010 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f24);
         for (i0 = 0; i0 < (u32)func_0201AA18(list); i0++) func_0201AB28(list, i0);
     }
-    if (*(u32 *)*(char **)p == 0) {
+    if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 0) {
         k0 = (u8)func_021B9064((u8 *)p, (u8)p[0x46c], 0);
         func_021B969C(p + 0x1b0, p, k0, 1);
-        func_0201AC2C((void *)func_021B985C(p + 0x1b0, k0), *(void **)(*(char **)p + 0x28));
+        func_0201AC2C((void *)func_021B985C(p + 0x1b0, k0), ((struct Obj21012 *)(*(char * *)&((struct Obj00324 *)p)->f0))->f28);
     }
-    if (*(u32 *)*(char **)p == 4) return;
+    if (*(u32 *)*(char * *)&((struct Obj00324 *)p)->f0 == 4) return;
     for (k = 0; k < 4; k++) {
         slot = func_021BA710((u8)p[0x46c], (u8)k);
-        for (j = 0; j < 6; j++) { obj = *(u32 *)p; tmp1 = slot * 6; *(u8 *)(j + (tmp1 + obj) + 0xc8) = 0; }
+        for (j = 0; j < 6; j++) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp1 = slot * 6; *(u8 *)(j + (tmp1 + obj) + 0xc8) = 0; }
         if (func_021B8B9C((u8 *)p, (u8)slot)) {
             group = func_021B9AEC(p + 0xc8, slot);
             count = func_021B9B94((struct Q1 *)group);
@@ -116,10 +121,10 @@ void func_021BA2E4(char *p)
                 i = (u8)(func_021D5440(m) - base);
                 total += func_021D59B4(m, 13);
                 maximum += func_021D59B4(m, 14);
-                if (func_021D5B68(m)) { obj = *(u32 *)p; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)p) + 0xc8) = 2; }
-                else if (func_021D62A8(m)) { obj = *(u32 *)p; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
+                if (func_021D5B68(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp = slot * 6; *(u8 *)(i + (tmp + *(u32 *)&((struct Obj00324 *)p)->f0) + 0xc8) = 2; }
+                else if (func_021D62A8(m)) { obj = *(u32 *)&((struct Obj00324 *)p)->f0; tmp2 = slot * 6; *(u8 *)(i + (tmp2 + obj) + 0xc8) = 1; }
             }
-            *(u32 *)(*(char **)p + slot * 4 + 0xe0) = _u32_div_f(total * 100, maximum);
+            *(u32 *)(*(char * *)&((struct Obj00324 *)p)->f0 + slot * 4 + 0xe0) = _u32_div_f(total * 100, maximum);
         }
     }
 }

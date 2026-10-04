@@ -11,6 +11,7 @@
  * symbols:
  *   func_0201C1D8 0x0201C1D8 thumb
  */
+#include "../include/Obj10177.h"
 typedef unsigned short u16;
 extern u16 func_0201C1D8(void *p);
-int func_02188D48(int a, unsigned char *b) { *(int *)(b+0x38)=func_0201C1D8((void *)(*(unsigned short *)(b+2))); return *(int *)(b+0xC4); }
+int func_02188D48(int a, unsigned char *b) { ((struct Obj10177 *)b)->f38=func_0201C1D8((void *)(((struct Obj10177 *)b)->f2)); return ((struct Obj10177 *)b)->fC4; }

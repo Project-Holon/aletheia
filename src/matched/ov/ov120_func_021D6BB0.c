@@ -18,6 +18,7 @@
  *   func_02049BDC 0x02049BDC arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj01540.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -36,14 +37,14 @@ void func_021D6BB0(u8 *p, int n)
     func_021D698C(p);
     func_021D692C(p, 8);
     func_021D6810(p, 1);
-    t = func_020490F4(144, *(u16 *)(p + 0xf4));
-    *(void **)(p + 0x120) = func_02049EF4(t, 21, 0, (void **)(p + 0x11c), *(u16 *)(p + 0xf4));
-    func_02049BDC(t, 0, 5, 0, 320, 32, *(u16 *)(p + 0xf4));
+    t = func_020490F4(144, ((struct Obj01540 *)p)->fF4);
+    ((struct Obj01540 *)p)->f120 = func_02049EF4(t, 21, 0, (void **)(p + 0x11c), ((struct Obj01540 *)p)->fF4);
+    func_02049BDC(t, 0, 5, 0, 320, 32, ((struct Obj01540 *)p)->fF4);
     func_02049238(t);
-    t = func_020490F4(32, *(u16 *)(p + 0xf4));
-    func_02049BDC(t, 0, 5, 0, 0, 256, *(u16 *)(p + 0xf4));
+    t = func_020490F4(32, ((struct Obj01540 *)p)->fF4);
+    func_02049BDC(t, 0, 5, 0, 0, 256, ((struct Obj01540 *)p)->fF4);
     func_02049238(t);
     func_021D6E84(p);
     func_021D6EF4(p, n);
-    *(u32 *)(p + 0x100) = 1;
+    ((struct Obj01540 *)p)->f100 = 1;
 }

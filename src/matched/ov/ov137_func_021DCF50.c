@@ -11,8 +11,10 @@
  * symbols:
 
  */
+#include "../include/Obj01414.h"
+#include "../include/Obj23703.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
 
-void *func_021DCF50(u8 *p) {return **(void ***)(*(u8 **)(p+12)+20);}
+void *func_021DCF50(u8 *p) {return **(void ** *)&((struct Obj23703 *)(*(u8 * *)&((struct Obj01414 *)p)->fC))->f14;}

@@ -22,6 +22,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00001.h"
 
 typedef unsigned int u32;
 typedef unsigned char u8;
@@ -41,9 +42,9 @@ extern void func_021D67F8(u8 *p);
 void func_021D6750(u8 *p)
 {
     func_021E3BB0(p);
-    if (*(u32 *)(p + 0x854) == 1) {
-        func_021D6544(p, p + 0x11ED, p + 0x11EF, *(u32 *)(p + 0x834), 1);
-        func_021D6544(p, p + 0x11EE, p + 0x11F0, *(u32 *)(p + 0x830), 0);
+    if (((struct Obj00001 *)p)->f854 == 1) {
+        func_021D6544(p, p + 0x11ED, p + 0x11EF, ((struct Obj00001 *)p)->f834, 1);
+        func_021D6544(p, p + 0x11EE, p + 0x11F0, ((struct Obj00001 *)p)->f830, 0);
         func_021E3230(p);
         if (func_021D8A24(p) != 0) {
             func_02039C68((struct Link *)func_020399A8(), 0x11, 8);

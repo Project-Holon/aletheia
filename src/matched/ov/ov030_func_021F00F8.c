@@ -15,6 +15,7 @@
  *   func_0201283C 0x0201283C thumb
  *   func_0201058C 0x0201058C thumb
  */
+#include "../include/Obj13049.h"
 typedef unsigned int u32;
 struct BigObj;
 struct Ctx;
@@ -26,7 +27,7 @@ void func_021F00F8(char *p)
     if (*(void (**)(char *))p != 0) {
         (*(void (**)(char *))p)(p);
     }
-    func_0201058C((void *)func_0201283C(func_020120F4(*(void **)(p + 24))));
+    func_0201058C((void *)func_0201283C(func_020120F4(((struct Obj13049 *)p)->f18)));
 }
 void func_021F0114(void)
 {

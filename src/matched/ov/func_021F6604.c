@@ -14,6 +14,7 @@
 
  * When the build query answers 0 and either probe is set, release the +0xdd0 word and roll the state.
  */
+#include "../include/Obj09227.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,8 +29,8 @@ int func_021F6604(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
         if (func_020362DC() != 0 || func_02035C60() != 0) {
-            func_0201F7A8((void *)(*(u32 *)(p + 0xdd0)), 0);
-            *(u32 *)(p + 0x28) = *(u32 *)(p + 0x2c);
+            func_0201F7A8((void *)(((struct Obj09227 *)p)->fDD0), 0);
+            ((struct Obj09227 *)p)->f28 = ((struct Obj09227 *)p)->f2C;
         }
     }
     return 2;

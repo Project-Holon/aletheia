@@ -17,6 +17,7 @@
  *   d_021D84AC     0x021D84AC  data
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12689.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,8 +33,8 @@ extern void func_0216DA50(u8 *p);
 void func_0219EB18(u32 a, u16 b)
 {
     u8 *q = func_0219E968(a, 16);
-    *(u16 *)(q + 0xc) = func_0219EA10(d_021D84AC, -1);
-    *(u16 *)(q + 0xe) = b;
+    ((struct Obj12689 *)q)->fC = func_0219EA10(d_021D84AC, -1);
+    ((struct Obj12689 *)q)->fE = b;
     func_0216D674((void *)a, 0);
     func_0216DA50((u8 *)a);
 }

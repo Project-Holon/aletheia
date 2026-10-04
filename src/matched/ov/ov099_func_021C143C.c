@@ -18,6 +18,7 @@
  *   func_021BA874 0x021BA874 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj06359.h"
 typedef unsigned short u16;
 extern int func_0203D378(char *);
 extern int func_021C1154(char *);
@@ -36,14 +37,14 @@ int func_021C143C(char *p, int ret)
     if (func_0203D378(p) != 0) index = 1;
     if (func_021C1154(p) == 0) {
         if (((u16 *)(p + 0x1f4))[index] != 0) {
-            value = func_021BDD54(p, *(void **)(p + 8));
+            value = func_021BDD54(p, ((struct Obj06359 *)p)->f8);
             if (value == ((u16 *)(p + 0x1f4))[index]) {
                 func_02039C68((struct Link *)func_020399A8(), 15, 10);
-                *(int *)(p + 0x1cc) = 44;
+                ((struct Obj06359 *)p)->f1CC = 44;
             } else {
                 func_021BA874(p, func_02156A3C());
                 func_021BAAB8(p, 13, 0);
-                *(int *)(p + 0x1cc) = 19;
+                ((struct Obj06359 *)p)->f1CC = 19;
             }
         }
     }

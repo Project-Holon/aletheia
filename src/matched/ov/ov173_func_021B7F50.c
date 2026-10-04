@@ -8,9 +8,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24189.h"
 int func_021B7F50(char *p)
 {
-    if (*(unsigned int *)(p + 0x220) != 0)
+    if (((struct Obj24189 *)p)->f220 != 0)
         return 1;
     return 0;
 }

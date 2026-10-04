@@ -22,6 +22,9 @@
  *   func_0201D304 0x0201D304 thumb
  *   d_0220DA38 0x0220DA38 data a4
  */
+#include "../include/Obj00845.h"
+#include "../include/Obj24993.h"
+#include "../include/Obj24994.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -56,15 +59,15 @@ void func_0220B31C(char *p,u32 i,int id,int w,int unused,int unused2)
     func_02043B5C(func_02045770(handle),0);
     page=(u32)p+((u8 *)p)[0x533]*0x90;
     if(*(u16 *)(page+i*4+0x150)!=0){
-        text=func_02045EC0(*(void **)(p+0xC),*(u32 *)(d_0220DA38+id*8));
+        text=func_02045EC0(((struct Obj00845 *)p)->fC,*(u32 *)(d_0220DA38+id*8));
         page=(u32)p+((u8 *)p)[0x533]*0x90;
-        func_0201EF40(*(void **)(p+0x10),0,*(u16 *)(page+i*4+0x150));
-        func_0201F250(*(void **)(p+0x10),*(void **)(p+0x14),text);
-        width=func_0201D304(*(void **)(p+0x14),*(u32 *)(*(char **)p+4),0);
+        func_0201EF40(((struct Obj00845 *)p)->f10,0,*(u16 *)(page+i*4+0x150));
+        func_0201F250(((struct Obj00845 *)p)->f10,((struct Obj00845 *)p)->f14,text);
+        width=func_0201D304(((struct Obj00845 *)p)->f14,((struct Obj24993 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0);
         width=func_02045738(handle)*8-width;
-        font=*(void **)(p+0x18);
+        font=((struct Obj00845 *)p)->f18;
         surface=func_02045770(*(void **)(windows+w*8));
-        func_0201C724(font,surface,width/2,7,*(void **)(p+0x14),*(u32 *)(*(char **)p+4),0x3C40);
+        func_0201C724(font,surface,width/2,7,((struct Obj00845 *)p)->f14,((struct Obj24994 *)(*(char * *)&((struct Obj00845 *)p)->f0))->f4,0x3C40);
         (p+w*8)[0x2C]=1;
         func_02045808(text);
     }else{

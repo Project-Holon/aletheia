@@ -22,6 +22,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov_id 0x00000072 data
  */
+#include "../include/Obj02176.h"
 extern void func_021D9228(void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -50,19 +51,19 @@ extern char ov_id[];
 int func_021D67D4(void *a, int b, int c, char *p)
 {
     func_021D9228(p + 0x138);
-    func_021DE2F0(*(void **)(p + 0x3b0));
-    if (*(void **)(p + 0x284)) func_021D9E04(*(void **)(p + 0x284));
-    func_021DA890(*(void **)(p + 0x290));
-    func_0201ED04(*(void **)(p + 0x3a8));
-    func_02045C04(*(void **)(p + 0x3a0));
-    func_02045C04(*(void **)(p + 0x3a4));
-    func_0201C4C0(*(void **)(p + 0x39c));
-    func_0201D83C(*(void **)(p + 0x398));
+    func_021DE2F0(((struct Obj02176 *)p)->f3B0);
+    if (((struct Obj02176 *)p)->f284) func_021D9E04(((struct Obj02176 *)p)->f284);
+    func_021DA890(((struct Obj02176 *)p)->f290);
+    func_0201ED04(((struct Obj02176 *)p)->f3A8);
+    func_02045C04(((struct Obj02176 *)p)->f3A0);
+    func_02045C04(((struct Obj02176 *)p)->f3A4);
+    func_0201C4C0(((struct Obj02176 *)p)->f39C);
+    func_0201D83C(((struct Obj02176 *)p)->f398);
     func_021D6C28(p + 0x294);
     func_021D6948(p + 0x390);
-    func_021D96C4(*(void **)(p + 0x394));
-    func_0200A338(*(void **)(p + 0x3bc));
-    func_02012704(*(void **)(p + 0x3b8));
+    func_021D96C4(((struct Obj02176 *)p)->f394);
+    func_0200A338(((struct Obj02176 *)p)->f3BC);
+    func_02012704(((struct Obj02176 *)p)->f3B8);
     func_020315D4(a);
     func_020306F0(29);
     func_02087BCC(0);

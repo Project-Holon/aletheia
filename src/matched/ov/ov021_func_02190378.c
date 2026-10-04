@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj09473.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,9 +22,9 @@ extern void func_020403F4(u8 a);
 
 int func_02190378(u8 *a)
 {
-    if (*(u16 *)(a + 4) != 0xff) {
-        func_020403F4(*(u16 *)(a + 4));
-        *(u16 *)(a + 4) = 0xff;
+    if (((struct Obj09473 *)a)->f4 != 0xff) {
+        func_020403F4(((struct Obj09473 *)a)->f4);
+        ((struct Obj09473 *)a)->f4 = 0xff;
         return 1;
     }
     return 0;

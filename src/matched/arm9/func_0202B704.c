@@ -22,6 +22,7 @@
 
  * Closed by the `matched` class: the pool word names 0x0202C09C, an existing EXACT entry (pkt_0202BE00).
  */
+#include "../include/Obj02010.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -34,5 +35,5 @@ extern void func_0202C09C(u8 *p);
 
 void func_0202B704(u8 *p)
 {
-    func_0202C09C(*(u8 **)(p + 0x20));
+    func_0202C09C(*(u8 * *)&((struct Obj02010 *)p)->f20);
 }

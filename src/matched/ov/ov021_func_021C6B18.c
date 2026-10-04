@@ -20,6 +20,7 @@
  *   d_021DE4B8     0x021DE4B8  data  ov021  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,8 +43,8 @@ void func_021C6B18(u32 a, u16 b, u32 c)
     u32 *e;
 
     e = (u32 *)func_02030734((u16)((h & 0x7FFF) | 0x8000), 0x10, 0, (const char *)&d_021DE4B8, 0x5F);
-    *(u16 *)((u8 *)e + 4) = 0;
-    *(u16 *)((u8 *)e + 6) = b;
+    ((struct Obj06085 *)e)->f4 = 0;
+    ((struct Obj06085 *)e)->f6 = b;
     e[2] = func_0218ED54((u8 *)x);
     e[3] = c + func_0218ED54((u8 *)x);
     e[0] = a;

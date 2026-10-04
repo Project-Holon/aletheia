@@ -18,6 +18,7 @@
  *   func_021D5B70 0x021D5B70 thumb ov123
  *   func_021D66D0 0x021D66D0 thumb ov123
  */
+#include "../include/Obj03270.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021D5C2C(char *p);
@@ -29,16 +30,16 @@ extern void func_021D7BDC(char *p);
 extern void func_021D6EE0(u8 *p, u32 v, int unused);
 void func_021D7858(int a)
 {
-    if(func_021D5C0C((char *)(*(int *)(a+8)))) {
-        if(func_021D5C2C((char *)(*(int *)(a+8)))) {
-            *(int *)(a+0x80)=0xfff0;
+    if(func_021D5C0C((char *)(((struct Obj03270 *)a)->f8))) {
+        if(func_021D5C2C((char *)(((struct Obj03270 *)a)->f8))) {
+            ((struct Obj03270 *)a)->f80=0xfff0;
             func_021D6EE0((u8 *)a,(int)func_021D6FF0,0x3b6);
             return;
         }
-        func_021D5B70((char *)(*(int *)(a+8)));
-        *(int *)(a+8)=0;
+        func_021D5B70((char *)(((struct Obj03270 *)a)->f8));
+        ((struct Obj03270 *)a)->f8=0;
         if(((int *)a)[28]<100) ((int *)a)[28]+=10;
-        func_021D66D0(*(unsigned char **)(a+0x14),*(int *)(a+0x70));
+        func_021D66D0(*(unsigned char * *)&((struct Obj03270 *)a)->f14,((struct Obj03270 *)a)->f70);
         func_021D6EE0((u8 *)a,(int)func_021D7BDC,0x3c3);
     }
 }

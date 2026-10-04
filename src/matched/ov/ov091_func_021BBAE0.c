@@ -11,5 +11,6 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj20900.h"
 extern void func_020307B0(void *);
-void func_021BBAE0(int a,unsigned char *b) {func_020307B0(*(void **)(b+128));func_020307B0(b);}
+void func_021BBAE0(int a,unsigned char *b) {func_020307B0(((struct Obj20900 *)b)->f80);func_020307B0(b);}

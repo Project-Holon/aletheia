@@ -21,6 +21,7 @@
  *   func_021B6508 0x021B6508 thumb ov174
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00681.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern void func_02030EAC(void *);
@@ -35,15 +36,15 @@ extern void func_021B6824(u8 *),func_021B6508(u8 *),func_021B6D00(u8 *,void *);
 void func_021B61C4(u8 *p)
 {
     u8 i;
-    func_02030EAC(*(void **)(p+4));
+    func_02030EAC(((struct Obj00681 *)p)->f4);
     func_021B6824(p);
-    for(i=0;i<*(int *)(p+8);i++) if(*(void **)(p+28+i*4)) func_021B6D00(p,*(void **)(p+28+i*4));
-    func_0204B3B4(*(void **)(p+84));
-    func_0204ADA4((u32)(*(void **)(p+68)));
-    func_0204A8D4((u32)(*(void **)(p+72)));
-    func_0204AFD8((u32)(*(void **)(p+76)));
-    func_0204B1CC(*(void **)(p+80));
-    func_02049238(*(void **)(p+24));
+    for(i=0;i<((struct Obj00681 *)p)->f8;i++) if(*(void **)(p+28+i*4)) func_021B6D00(p,*(void **)(p+28+i*4));
+    func_0204B3B4(((struct Obj00681 *)p)->f54);
+    func_0204ADA4((u32)(((struct Obj00681 *)p)->f44));
+    func_0204A8D4((u32)(((struct Obj00681 *)p)->f48));
+    func_0204AFD8((u32)(((struct Obj00681 *)p)->f4C));
+    func_0204B1CC(((struct Obj00681 *)p)->f50);
+    func_02049238(((struct Obj00681 *)p)->f18);
     func_021B6508(p);
-    func_020307B0(*(void **)(p+56));
+    func_020307B0(((struct Obj00681 *)p)->f38);
 }

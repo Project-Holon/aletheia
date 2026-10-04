@@ -13,10 +13,11 @@
  *   func_02051620 0x02051620 arm
  *   func_02050DB8 0x02050DB8 arm
  */
+#include "../include/Obj10930.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern void func_02051620(u8 *);
 extern void func_02050DB8(u8 *);
-void func_021BA8BC(char *p) { func_02051620(*(u8 **)(p+16)); func_02050DB8(*(u8 **)(p+16)); *(u32 *)(p+16)=0; }
+void func_021BA8BC(char *p) { func_02051620(*(u8 * *)&((struct Obj10930 *)p)->f10); func_02050DB8(*(u8 * *)&((struct Obj10930 *)p)->f10); *(u32 *)&((struct Obj10930 *)p)->f10=0; }

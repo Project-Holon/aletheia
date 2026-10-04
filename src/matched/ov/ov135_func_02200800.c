@@ -19,6 +19,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj00045.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021F4D14(void *);
@@ -40,26 +41,26 @@ int func_02200800(u8 *p)
     state = func_021F4D14(p);
     if (state == 1) {
         func_021F4CE4(p);
-        func_0201F7A8((void *)(*(u32 *)(p + 0xdd0)), 2);
-        w = *(u32 *)(p + 0xdd0);
+        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
+        w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         func_020456F8((struct Descriptor *)w);
         func_02041B6C(func_02045730((struct Descriptor *)w));
-        w = *(u32 *)(p + 0xde0);
+        w = ((struct Obj00045 *)p)->fDE0;
         func_020456F8((struct Descriptor *)w);
         func_02041B6C(func_02045730((struct Descriptor *)w));
         func_02040588(6, 0);
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 0);
+        func_0204B3DC((struct Obj *)((struct Obj00045 *)p)->fD38, 0);
         func_021F4EC0(p, 0, 0x14);
-        *(u32 *)(p + 0x28) = 7;
+        ((struct Obj00045 *)p)->f28 = 7;
     } else if (state == 2) {
         func_021F4CE4(p);
-        func_0201F7A8((void *)(*(u32 *)(p + 0xdd0)), 2);
-        w = *(u32 *)(p + 0xdd0);
+        func_0201F7A8((void *)(*(u32 *)&((struct Obj00045 *)p)->fDD0), 2);
+        w = *(u32 *)&((struct Obj00045 *)p)->fDD0;
         func_020456F8((struct Descriptor *)w);
         func_02041B6C(func_02045730((struct Descriptor *)w));
-        func_0204B92C((struct Obj *)*(u32 *)(p + 0xbf4), 1);
-        *(u32 *)(p + 0x28) = 5;
-        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
+        func_0204B92C((struct Obj *)((struct Obj00045 *)p)->fBF4, 1);
+        ((struct Obj00045 *)p)->f28 = 5;
+        func_0204B3DC((struct Obj *)((struct Obj00045 *)p)->fBF4, 1);
     }
     return 2;
 }

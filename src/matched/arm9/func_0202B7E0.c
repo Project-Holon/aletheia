@@ -22,6 +22,7 @@
 
  * Closed by the `matched` class: 0x0202C0C8 was filed as an EXACT entry this wave (pkt_0202C148).
  */
+#include "../include/Obj08804.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,5 +32,5 @@ extern void sub_0202C0C8(void *p);
 
 void func_0202B7E0(u8 *p)
 {
-    sub_0202C0C8(*(void **)(p + 0x20));
+    sub_0202C0C8(((struct Obj08804 *)p)->f20);
 }

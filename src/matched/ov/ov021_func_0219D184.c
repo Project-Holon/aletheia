@@ -17,6 +17,7 @@
  *   func_0219D1F8  0x0219D1F8  thumb  ov021
  *   func_02046EFC  0x02046EFC  arm
  */
+#include "../include/Obj02699.h"
 
 typedef unsigned short u16;
 extern u16 func_0216D4F0(void *p);
@@ -40,9 +41,9 @@ void func_0219D184(int *obj, int key)
     for (; i < n; i++, p += 10) {
         if (p[0] != 0 && p[1] == key) {
             *((unsigned char *)p + 0xd) = 0;
-            if (func_0219CF00(obj, *(unsigned short *)(p + 2), &s) == 1 && (s & 1)) {
-                if (func_0219D144(obj, *(unsigned short *)(p + 2), p[1]) == 0) {
-                    func_0219CF54(obj, *(unsigned short *)(p + 2));
+            if (func_0219CF00(obj, ((struct Obj02699 *)p)->f8, &s) == 1 && (s & 1)) {
+                if (func_0219D144(obj, ((struct Obj02699 *)p)->f8, p[1]) == 0) {
+                    func_0219CF54(obj, ((struct Obj02699 *)p)->f8);
                 }
             }
             if (p[4] != 0) {

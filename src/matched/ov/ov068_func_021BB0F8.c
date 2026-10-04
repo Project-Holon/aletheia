@@ -12,6 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021BB138 0x021BB138 thumb ov068
  */
+#include "../include/Obj20650.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02082BCC(void *, u32, u32);
@@ -19,6 +20,6 @@ extern void func_021BB138(void *, int);
 void func_021BB0F8(u8 *p, int value, int callback)
 {
     func_02082BCC(p, 0, 16);
-    *(int *)(p + 12) = value;
+    ((struct Obj20650 *)p)->fC = value;
     func_021BB138(p, callback);
 }

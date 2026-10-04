@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT* (extent 8, compiled 6, trailing padding)
  */
+#include "../include/Obj20957.h"
 
 int func_021B871C(char *p)
 {
-    return *(int *)(p + 0xc0);
+    return ((struct Obj20957 *)p)->fC0;
 }

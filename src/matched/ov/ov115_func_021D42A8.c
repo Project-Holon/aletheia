@@ -13,9 +13,10 @@
  *   func_0201283C 0x0201283C thumb
  *   func_02009860 0x02009860 thumb
  */
+#include "../include/Obj22582.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct BigObj;
 extern u32 func_0201283C(const struct BigObj *p);
 extern void func_02009860(u32);
-void func_021D42A8(u8 *p) { func_02009860(func_0201283C(*(void **)(p+0x44))); }
+void func_021D42A8(u8 *p) { func_02009860(func_0201283C(((struct Obj22582 *)p)->f44)); }

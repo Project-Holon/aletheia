@@ -14,10 +14,11 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj15663.h"
 
 typedef unsigned int u32;
 
 void func_02015EA0(void *p)
 {
-    *(volatile u32 *)((char *)p + 0x140) |= 0x800u;
+    *(volatile u32 *)&((struct Obj15663 *)p)->f140 |= 0x800u;
 }

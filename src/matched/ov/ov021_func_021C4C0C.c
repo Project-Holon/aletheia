@@ -15,6 +15,7 @@
  *   func_0216D88C  0x0216D88C  thumb  ov010
  *   func_021AC1CC  0x021AC1CC  thumb  ov021
  */
+#include "../include/Obj07561.h"
 
 typedef unsigned short u16;
 
@@ -38,5 +39,5 @@ void func_021C4C0C(int a, int *b)
     func_0216D88C((const struct Actor *)b[1], (struct VecFx32 *)v);
     v[2] += 0x8000;
     func_021AC1CC(a, v);
-    *(u16 *)(b + 4) = *(u16 *)(b[0] + 6);
+    ((struct Obj07561 *)b)->f10 = *(u16 *)(b[0] + 6);
 }

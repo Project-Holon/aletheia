@@ -18,6 +18,7 @@
  *   func_0200DC94  0x0200DC94  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,10 +45,10 @@ void func_021CA2DC(u8 *p, u32 h, int flag, u16 v)
     case 4:
         func_021CA4C0(p, h, 1);
         b = p[9];
-        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 0, &b);
-        b = func_0200DA54((struct Blk3C *)(*(u32 *)(p + 0x70))) + 1;
-        func_0200D914((struct Blk3C *)(*(u32 *)(p + 0x70)), 1, &b);
-        func_0200DC94((struct Blk1AC *)(*(u32 *)(p + 0x74)), (const struct Src *)(*(u32 *)(p + 0x70)));
+        func_0200D914((struct Blk3C *)(((struct Obj00116 *)p)->f70), 0, &b);
+        b = func_0200DA54((struct Blk3C *)(((struct Obj00116 *)p)->f70)) + 1;
+        func_0200D914((struct Blk3C *)(((struct Obj00116 *)p)->f70), 1, &b);
+        func_0200DC94((struct Blk1AC *)(((struct Obj00116 *)p)->f74), (const struct Src *)(((struct Obj00116 *)p)->f70));
         break;
     }
 }

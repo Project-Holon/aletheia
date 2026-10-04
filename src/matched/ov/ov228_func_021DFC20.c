@@ -23,6 +23,8 @@
  * object.  Stack slots follow declaration order in reverse: buf/ok/bad
  * arrays and then obj/sel must be declared in this order.
  */
+#include "../include/Obj04656.h"
+#include "../include/Obj14811.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,29 +58,29 @@ void *func_021DFC20(u32 heap)
     for(i=0;i<2;i++){
         if(ok[i]==1){
             p=buf[i];
-            if(*(u32 *)p!=0xA10F49AE)ok[i]=0;
-            else if(*(u16 *)(p+8)!=func_0203F1FC(p+12,0x368))bad[i]=1;
+            if(((struct Obj14811 *)p)->f0!=0xA10F49AE)ok[i]=0;
+            else if(((struct Obj14811 *)p)->f8!=func_0203F1FC(p+12,0x368))bad[i]=1;
         }
     }
     obj[0x378]=0;
     if(ok[0]==0&&ok[1]==0){
     }else if(ok[0]==1&&ok[1]==0){
-        if(bad[0]==1)*(u32 *)(obj+0x374)=3;
+        if(bad[0]==1)((struct Obj04656 *)obj)->f374=3;
         else sel=0;
     }else if(ok[0]==0&&ok[1]==1){
-        if(bad[1]==1)*(u32 *)(obj+0x374)=3;
+        if(bad[1]==1)((struct Obj04656 *)obj)->f374=3;
         else sel=1;
     }else if(ok[0]==1&&ok[1]==1){
-        if(bad[0]==1&&bad[1]==1)*(u32 *)(obj+0x374)=3;
+        if(bad[0]==1&&bad[1]==1)((struct Obj04656 *)obj)->f374=3;
         else if(bad[0]==0&&bad[1]==0){
             if(*(u32 *)(buf[0]+4)>=*(u32 *)(buf[1]+4)||(*(u32 *)(buf[0]+4)==0&&*(u32 *)(buf[1]+4)==0xFFFFFFFF))sel=0;
             else sel=1;
         }else if(bad[0]==0){
-            *(u32 *)(obj+0x374)=2;
+            ((struct Obj04656 *)obj)->f374=2;
             sel=0;
         }else{
             sel=1;
-            *(u32 *)(obj+0x374)=1;
+            ((struct Obj04656 *)obj)->f374=1;
         }
     }
     if(sel==1)func_02082D44(buf[1],buf[0],0x374);

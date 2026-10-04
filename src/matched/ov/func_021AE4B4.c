@@ -17,6 +17,7 @@
  *   func_0216DAF8  0x0216DAF8  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05863.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,12 +30,12 @@ extern u32 func_0216DAF8(u32);
 
 int func_021AE4B4(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216DA5C(*(u32 *)((u8 *)(a) + 8), b, c, d) == 1) {
+if (func_0216DA5C(((struct Obj05863 *)((u8 *)(a)))->f8, b, c, d) == 1) {
     return 0;
 }
-func_0216D5E0(*(u32 *)((u8 *)(a) + 8), ((*(u32 *)((u8 *)(a) + 16) << 16) >> 16));
-func_0216DAF8(*(u32 *)((u8 *)(a) + 8));
-*(u32 *)((u8 *)(a)) = 2;
+func_0216D5E0(((struct Obj05863 *)((u8 *)(a)))->f8, ((((struct Obj05863 *)((u8 *)(a)))->f10 << 16) >> 16));
+func_0216DAF8(((struct Obj05863 *)((u8 *)(a)))->f8);
+((struct Obj05863 *)((u8 *)(a)))->f0 = 2;
 return 1;
 }
 

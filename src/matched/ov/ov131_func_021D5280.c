@@ -11,11 +11,12 @@
  *   func_02035C08 0x02035C08 arm
  *   d_021DC114 0x021DC114 data a1
  */
+#include "../include/Obj23123.h"
 struct Rect36 { unsigned char b[36]; };
 extern const struct Rect36 d_021DC114;
 extern int func_02035C08(const void *key);
 void func_021D5280(char *p)
 {
     struct Rect36 r = d_021DC114;
-    *(int *)(p + 0x24) = func_02035C08(&r);
+    ((struct Obj23123 *)p)->f24 = func_02035C08(&r);
 }

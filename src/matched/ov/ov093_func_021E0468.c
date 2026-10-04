@@ -22,6 +22,7 @@
  *   func_021E8CF0  0x021E8CF0  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13503.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -65,8 +66,8 @@ void func_021E0468(void *a, void *b, int c)
         }
         if (cnt != 0) {
             p = func_021C88A4(b, 0x14, c);
-            *(u16 *)(p + 4) = func_021E8CF0(buf[(u16)func_021D78AC(cnt)]);
-            *(u8 *)(p + 6) = c;
+            ((struct Obj13503 *)p)->f4 = func_021E8CF0(buf[(u16)func_021D78AC(cnt)]);
+            ((struct Obj13503 *)p)->f6 = c;
             func_021C88C8(b, p);
         }
     }

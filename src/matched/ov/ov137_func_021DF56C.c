@@ -12,27 +12,29 @@
  *   func_021E19A4 0x021E19A4 thumb ov137
  *   func_021E0130 0x021E0130 thumb ov137
  */
+#include "../include/Obj08219.h"
+#include "../include/Obj08220.h"
 typedef unsigned char u8;
 extern int func_021E19A4(void);
 extern void func_021E0130(u8 *p, int message);
 int func_021DF56C(u8 *p)
 {
-    if (*(int *)(p + 12) < 180) {
-        *(int *)(p + 12) += 1;
+    if (((struct Obj08219 *)p)->fC < 180) {
+        ((struct Obj08219 *)p)->fC += 1;
     } else if (func_021E19A4() == 0) {
-        *(int *)(p + 12) = 0;
-        *(int *)p = 41;
+        ((struct Obj08219 *)p)->fC = 0;
+        ((struct Obj08219 *)p)->f0 = 41;
         func_021E0130(p, 4);
     }
     return 0;
 }
 int func_021DF598(u8 *p)
 {
-    if (*(int *)(p + 12) < 180) {
-        *(int *)(p + 12) += 1;
+    if (((struct Obj08220 *)p)->fC < 180) {
+        ((struct Obj08220 *)p)->fC += 1;
     } else {
-        *(int *)(p + 12) = 0;
-        *(int *)p = 42;
+        ((struct Obj08220 *)p)->fC = 0;
+        ((struct Obj08220 *)p)->f0 = 42;
     }
     return 0;
 }

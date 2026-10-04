@@ -28,6 +28,7 @@
  *   python tools/match.py one --src src/matched/func_02008C28.c \
  *       --func func_02008C28 --addr 0x02008C28 --cc 1.1p1 --thumb
  */
+#include "../include/Obj02635.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,6 +48,6 @@ void func_02008C28(void *obj)
     func_02082A7C(0, obj, 0x1e0);
     a = unk_02FFFC3C;
     b = unk_02FFFC3C;
-    *(u16 *)((u8 *)obj + 0x1de) = a << 8 | b;
+    ((struct Obj02635 *)obj)->f1DE = a << 8 | b;
     func_02008C64(obj, 1);
 }

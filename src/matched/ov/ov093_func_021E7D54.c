@@ -18,6 +18,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj21544.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
@@ -40,7 +41,7 @@ void func_021E7D54(void *a, void *b, int c)
         y = func_021D70A8(a);
         if (func_021E7DA0(x, y, func_021C8138(b)) == 1) {
             p = func_021C88A4(b, 0x30, c);
-            *(u16 *)(p + 4) = y;
+            ((struct Obj21544 *)p)->f4 = y;
             func_021C88C8(b, p);
         }
     }

@@ -14,6 +14,7 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  *   func_021C7DAC  0x021C7DAC  thumb  ov093
  */
+#include "../include/Obj06342.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,9 +35,9 @@ int func_02188F58(int a, int b)
 
     t0 = func_0201134C(a);
     t1 = func_0201134C(a);
-    y = func_021D5440(*(u8 **)(b + 0xbc));
-    z = func_021D5440(*(u8 **)(b + 0xc0));
-    r = func_021C7DAC((u8 *)(*(int *)(b + 0xb4)), y, z, *(u16 *)(b + 2));
+    y = func_021D5440(*(u8 * *)&((struct Obj06342 *)b)->fBC);
+    z = func_021D5440(*(u8 * *)&((struct Obj06342 *)b)->fC0);
+    r = func_021C7DAC((u8 *)(((struct Obj06342 *)b)->fB4), y, z, ((struct Obj06342 *)b)->f2);
     func_0218A0F4((u8 *)a, 2, r, t0, t1);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj06342 *)b)->fC4;
 }

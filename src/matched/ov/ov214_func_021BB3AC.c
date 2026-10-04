@@ -12,9 +12,10 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj25732.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank;
 extern void func_0204B1CC(struct Bank *),func_0204A5AC(void),func_02082BCC(void *,u32,u32);
-void func_021BB3AC(void *p) { func_0204B1CC(*(struct Bank **)p);func_0204A5AC();func_02082BCC(p,0,4); }
+void func_021BB3AC(void *p) { func_0204B1CC(*(struct Bank * *)&((struct Obj25732 *)p)->f0);func_0204A5AC();func_02082BCC(p,0,4); }

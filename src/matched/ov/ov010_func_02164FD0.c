@@ -26,6 +26,8 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12364.h"
+#include "../include/Obj18989.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,7 +50,7 @@ extern const char d_021729BC[];
 void func_02164FD0(u8 *obj, int flag)
 {
     u8 buf[6];
-    u32 o = *(u32 *)obj;
+    u32 o = ((struct Obj18989 *)obj)->f0;
     u32 w;
     u8 *p;
     func_02082D44(obj + 4, buf, 6);
@@ -57,8 +59,8 @@ void func_02164FD0(u8 *obj, int flag)
     if (flag == 0 && func_02012164((struct IcaAnime *)o) == 1 && func_020264AC((void *)w) == 0
         && func_0203CD98() == 0 && func_02026454((void *)w) == 0) {
         p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
-        *(u32 *)p = o;
-        *(u32 *)(p + 4) = func_02012138((const struct Ctx *)o);
+        ((struct Obj12364 *)p)->f0 = o;
+        ((struct Obj12364 *)p)->f4 = func_02012138((const struct Ctx *)o);
         func_02082D44(buf, p + 8, 6);
         func_020263D8((struct Comm *)w, 2, (u32)p);
     }

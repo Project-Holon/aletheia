@@ -12,9 +12,10 @@
  * symbols:
  *   func_02027974 0x02027974 thumb
  */
+#include "../include/Obj13079.h"
 extern void func_02027974(void *p);
 void func_021F0354(char *p)
 {
-    if (*(void **)(p + 0x44) != 0)
-        func_02027974(*(void **)(p + 0x44));
+    if (((struct Obj13079 *)p)->f44 != 0)
+        func_02027974(((struct Obj13079 *)p)->f44);
 }

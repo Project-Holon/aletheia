@@ -15,6 +15,8 @@
  *   func_021BD768 0x021BD768 thumb ov216
  *   func_021B64A8 0x021B64A8 thumb ov067
  */
+#include "../include/Obj10949.h"
+#include "../include/Obj14720.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Tcbl;
@@ -28,11 +30,11 @@ extern void func_021B64A8(u8 *, u32);
 void func_021BD6FC(char *owner, int *counter)
 {
     char *work;
-    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl **)(owner + 24), func_021BD768, 16, 0));
+    work = sub_02031290((struct S02030FB4 *)sub_020311B8(*(struct Tcbl * *)&((struct Obj14720 *)owner)->f18, func_021BD768, 16, 0));
     MI_CpuFill8(work, 0, 16);
-    *(char **)(work + 8) = owner;
-    *(u8 *)(work + 1) = 150;
-    func_021B64A8(*(u8 **)(owner + 0x124), 0);
-    *(int **)(work + 12) = counter;
+    *(char * *)&((struct Obj10949 *)work)->f8 = owner;
+    ((struct Obj10949 *)work)->f1 = 150;
+    func_021B64A8(*(u8 * *)&((struct Obj14720 *)owner)->f124, 0);
+    *(int * *)&((struct Obj10949 *)work)->fC = counter;
     ++*counter;
 }

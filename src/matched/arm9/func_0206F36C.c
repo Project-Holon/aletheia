@@ -37,6 +37,8 @@
  *   python3 tools/match.py one --src src/matched/func_0206F36C.c \
  *       --func func_0206F36C --addr 0x0206F36C --cc ../2.0/sp2 --arm
  */
+#include "../include/Obj04095.h"
+#include "../include/Obj16636.h"
 typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef signed short   s16;
@@ -66,10 +68,10 @@ void func_0206F36C(int *out, int t, Rec *r, Hdr *h)
         frac = t & 0xfff;
         if ((f & 0x20000000) != 0) {
             a = ((s16 *)p)[k];
-            b = *(s16 *)p;
+            b = *(s16 *)&((struct Obj04095 *)p)->f0;
         } else {
             a = ((int *)p)[k];
-            b = *(int *)p;
+            b = ((struct Obj04095 *)p)->f0;
         }
         *out = a + (((b - a) * (int)frac) >> 12);
         return;
@@ -120,7 +122,7 @@ lerp:
     } else {
         int *w = (int *)p + k;
         a = ((int *)p)[k];
-        b = *(int *)((u8 *)w + 4);
+        b = ((struct Obj16636 *)w)->f4;
     }
     *out = (int)((a * (int)mul + (((b - a) * t) >> 12)) >> sh);
 }

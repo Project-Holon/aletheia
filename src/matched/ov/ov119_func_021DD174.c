@@ -10,6 +10,7 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj10358.h"
 extern void func_020307B0(void *);
 void func_021DD174(char *p)
 {
@@ -17,9 +18,9 @@ void func_021DD174(char *p)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 3; j++) {
             char *q = p + i * 12 + j * 4;
-            if (*(void **)(q + 0xfd8)) {
-                func_020307B0(*(void **)(q + 0xfd8));
-                *(void **)(q + 0xfd8) = 0;
+            if (((struct Obj10358 *)q)->fFD8) {
+                func_020307B0(((struct Obj10358 *)q)->fFD8);
+                ((struct Obj10358 *)q)->fFD8 = 0;
             }
         }
     }

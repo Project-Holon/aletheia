@@ -14,6 +14,7 @@
  *   func_0204B100 0x0204B100 arm
  *   func_0204B270 0x0204B270 arm
  */
+#include "../include/Obj14057.h"
 
 typedef struct  {
     unsigned words[7];
@@ -33,6 +34,6 @@ void func_021D9838(char *p,unsigned a)  {
     ((unsigned char *)&c)[9] = 112;
     func_0204A48C(&c,a,50);
     func_020434DC(16,1);
-    *(void **)(p+0x25c)=func_0204B100(64,0,50);
-    func_0204B270(*(void **)(p+0x25c));
+    ((struct Obj14057 *)p)->f25C=func_0204B100(64,0,50);
+    func_0204B270(((struct Obj14057 *)p)->f25C);
 }

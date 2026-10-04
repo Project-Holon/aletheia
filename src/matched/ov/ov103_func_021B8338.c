@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj13734.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021B8338(u32 p,u32 a) {*(u32 *)(p+0x728)=a;*(u16 *)(p+0x72C)=0;}
+void func_021B8338(u32 p,u32 a) {((struct Obj13734 *)p)->f728=a;((struct Obj13734 *)p)->f72C=0;}

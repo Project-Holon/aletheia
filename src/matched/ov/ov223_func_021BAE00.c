@@ -19,6 +19,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj00739.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -36,10 +37,10 @@ extern void func_02045334(struct Descriptor *);
 void func_021BAE00(char *p)
 {
     u8 i=0;
-    func_02049B40(23,5,0,448,32,*(u16 *)p);
-    func_02049B40(23,5,4,32,32,*(u16 *)p);
-    *(struct MsgBank **)(p+564)=func_02045B38(0,3,430,*(u16 *)p);
-    *(struct Tcbl **)(p+596)=func_0203101C(*(u16 *)p,*(u16 *)p,1,0);
+    func_02049B40(23,5,0,448,32,((struct Obj00739 *)p)->f0);
+    func_02049B40(23,5,4,32,32,((struct Obj00739 *)p)->f0);
+    *(struct MsgBank * *)&((struct Obj00739 *)p)->f234=func_02045B38(0,3,430,((struct Obj00739 *)p)->f0);
+    *(struct Tcbl * *)&((struct Obj00739 *)p)->f254=func_0203101C(((struct Obj00739 *)p)->f0,((struct Obj00739 *)p)->f0,1,0);
     func_0201DD78(15,2,0);
     for(;i<3;i++) {
         *(u32 *)(p+i*4+568)=func_020450F0(table[i].a,table[i].b,table[i].c,table[i].d,table[i].e,table[i].f,table[i].g);
@@ -47,5 +48,5 @@ void func_021BAE00(char *p)
         func_02045334(*(struct Descriptor **)(p+i*4+568));
         *(u32 *)(p+i*4+580)=1;
     }
-    *(u32 *)(p+592)=0;*(u32 *)(p+600)=0;
+    ((struct Obj00739 *)p)->f250=0;((struct Obj00739 *)p)->f258=0;
 }

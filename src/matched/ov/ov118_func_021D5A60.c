@@ -32,6 +32,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj13878.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -67,7 +68,7 @@ void func_021D5A60(u8 *p)
     func_021DC720(p);
     func_0204A5AC();
     func_021E3E40(p);
-    *(int *)(p + 0x9C4) = (int)func_0204B100(3, 0, HEAP);
+    ((struct Obj13878 *)p)->f9C4 = (int)func_0204B100(3, 0, HEAP);
     WORK = func_02030734(HEAP, 0xBC, 1, d_021D82A4, 0xA8);
     *(u16 *)(WORK + 0xBA) = HEAP;
     func_021E5284(p, 0);
@@ -85,7 +86,7 @@ void func_021D5A60(u8 *p)
     func_021E2D70(WORK, 3);
     func_021E2FB0(WORK);
     func_021D56E4(p, 0x2B5);
-    func_021DFA60(*(u32 *)(p + 0xF2C));
+    func_021DFA60(((struct Obj13878 *)p)->fF2C);
     func_021D8E84(p, (int)func_021D5B74);
     func_020435F4(0x18);
 }

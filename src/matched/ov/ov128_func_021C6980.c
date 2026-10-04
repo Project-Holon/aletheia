@@ -16,6 +16,7 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201ED04 0x0201ED04 thumb
  */
+#include "../include/Obj00725.h"
 typedef unsigned char u8;
 struct PrintSys;
 struct Rec;
@@ -31,16 +32,16 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_0201ED04(struct WordSet *p);
 void func_021C6980(u8 *p)
 {
-    func_0201C6EC(*(void **)(p+0x34));
-    func_0201C4C0(*(void **)(p+0x34));
-    *(void **)(p+0x34)=0;
-    if (*(void **)(p+0x2c)) {
-        func_0201CE48(*(void **)(p+0x2c));
-        *(void **)(p+0x2c)=0;
+    func_0201C6EC(((struct Obj00725 *)p)->f34);
+    func_0201C4C0(((struct Obj00725 *)p)->f34);
+    ((struct Obj00725 *)p)->f34=0;
+    if (((struct Obj00725 *)p)->f2C) {
+        func_0201CE48(((struct Obj00725 *)p)->f2C);
+        ((struct Obj00725 *)p)->f2C=0;
     }
-    func_02031140(*(void **)(p+0x28));
-    *(void **)(p+0x28)=0;
-    func_0201D83C(*(void **)(p+0x17c));
-    func_02045C04(*(void **)(p+4));
-    func_0201ED04(*(void **)p);
+    func_02031140(((struct Obj00725 *)p)->f28);
+    ((struct Obj00725 *)p)->f28=0;
+    func_0201D83C(((struct Obj00725 *)p)->f17C);
+    func_02045C04(((struct Obj00725 *)p)->f4);
+    func_0201ED04(((struct Obj00725 *)p)->f0);
 }

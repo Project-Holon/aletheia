@@ -18,6 +18,7 @@
  *   func_021F1F70  0x021F1F70  thumb  ov029
  *   func_0203568C  0x0203568C  arm
  */
+#include "../include/Obj00811.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -52,9 +53,9 @@ void func_021F1F80(char *p)
     int v;
 
     func_0203F4CC(&t);
-    func_0204B3DC((struct Obj *)*(int *)(p + 0x12c), 0);
+    func_0204B3DC((struct Obj *)((struct Obj00811 *)p)->f12C, 0);
 
-    o = *(int *)(p + 0x130);
+    o = ((struct Obj00811 *)p)->f130;
     v = t.hour / 10;
     SetFrame(o, v);
     if (v == 0) {
@@ -63,20 +64,20 @@ void func_021F1F80(char *p)
         func_0204B3DC((struct Obj *)o, 1);
     }
 
-    o = *(int *)(p + 0x134);
+    o = ((struct Obj00811 *)p)->f134;
     v = t.hour % 10;
     SetFrame(o, v);
-    o = *(int *)(p + 0x138);
+    o = ((struct Obj00811 *)p)->f138;
     v = t.second & 1;
     SetFrame(o, v);
-    o = *(int *)(p + 0x13c);
+    o = ((struct Obj00811 *)p)->f13C;
     v = t.minute / 10;
     SetFrame(o, v);
-    o = *(int *)(p + 0x140);
+    o = ((struct Obj00811 *)p)->f140;
     v = t.minute % 10;
     SetFrame(o, v);
 
-    o = *(int *)(p + 0x144);
+    o = ((struct Obj00811 *)p)->f144;
     if (func_02085D3C()) {
         SetFrame(o, func_021F1F70());
     } else {

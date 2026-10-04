@@ -20,6 +20,8 @@
  *   func_021B6208 0x021B6208 thumb ov067
  *   func_021B629C 0x021B629C thumb ov067
  */
+#include "../include/Obj00001.h"
+#include "../include/Obj06428.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -44,11 +46,11 @@ void func_021E5DFC(char *p, int side, void *mon)
     int flag = 0;
     u32 species = func_02017E1C(mon,6,0);
     if (func_0202136C(species)) flag = 1;
-    if (*(int *)(q+0x10)) {
-        if (!species) func_0204B3DC((struct Obj *)*(int *)(q+0x10),0);
+    if (((struct Obj06428 *)q)->f10) {
+        if (!species) func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,0);
         else {
-            func_0204B878((struct Obj *)(*(int *)(q+0x10)),flag);
-            func_0204B3DC((struct Obj *)*(int *)(q+0x10),1);
+            func_0204B878((struct Obj *)(((struct Obj06428 *)q)->f10),flag);
+            func_0204B3DC((struct Obj *)((struct Obj06428 *)q)->f10,1);
         }
         return;
     }
@@ -70,6 +72,6 @@ void func_021E5DFC(char *p, int side, void *mon)
     in.f14 = func_0202769C(2);
     in.f18 = func_020276A0(2);
     in.b1d = 0; in.b1e = 1;
-    func_021B6208(q,&in,*(int *)(p+0x9c4),*(u16 *)(p+0x5f4));
-    *(int *)(q+0x10) = func_021B629C(q,*(int *)(p+0x9c4),x,y,flag,*(u16 *)(p+0x5f4));
+    func_021B6208(q,&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
+    ((struct Obj06428 *)q)->f10 = func_021B629C(q,((struct Obj00001 *)p)->f9C4,x,y,flag,((struct Obj00001 *)p)->f5F4);
 }

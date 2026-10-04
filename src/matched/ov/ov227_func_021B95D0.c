@@ -15,6 +15,7 @@
  *   func_020457B0  0x020457B0  arm
  *   func_02031324  0x02031324  arm
  */
+#include "../include/Obj04655.h"
 
 extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern int func_0203159C(int, int, int);
@@ -31,11 +32,11 @@ int func_021B95D0(int a)
 
     func_0203064C(1, 0x8b, 0x1000);
     p = (struct s *)func_0203159C(a, 0x38, 0x8b);
-    *(int *)((char *)p + 4) = (int)func_020457B0(0x20, 0x8b);
-    *(int *)p = 0;
-    *(int *)((char *)p + 0x28) = 0;
-    *(int *)((char *)p + 0x2c) = 0;
-    *(unsigned short *)((char *)p + 0x30) = 0x8b;
-    *(int *)((char *)p + 0x34) = func_02031324(*(unsigned short *)((char *)p + 0x30));
+    ((struct Obj04655 *)p)->f4 = (int)func_020457B0(0x20, 0x8b);
+    ((struct Obj04655 *)p)->f0 = 0;
+    ((struct Obj04655 *)p)->f28 = 0;
+    ((struct Obj04655 *)p)->f2C = 0;
+    ((struct Obj04655 *)p)->f30 = 0x8b;
+    ((struct Obj04655 *)p)->f34 = func_02031324(((struct Obj04655 *)p)->f30);
     return 1;
 }

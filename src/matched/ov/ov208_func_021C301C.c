@@ -23,6 +23,7 @@
  *   _fleq 0x0209BC0C arm
  *   _fgeq 0x0209BB54 arm
  */
+#include "../include/Obj10906.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
     struct Pos pos;
     struct Pair sc;
     float f;
-    switch (*(int *)(p + 0x60)) {
+    switch (((struct Obj10906 *)p)->f60) {
     case 0:
     case 2:
         break;
@@ -57,7 +58,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         f += 0.01f;
         if (f >= 1.1f) {
             f = 1.1f;
-            *(int *)(p + 0x60) = 2;
+            ((struct Obj10906 *)p)->f60 = 2;
         }
         pos.y = 0x80 - (int)(96.0f * (f - 1.0f) / 2.0f);
         if (f > 0.0f)
@@ -73,7 +74,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         f = (float)sc.y / 4096.0f - 0.01f;
         if (f <= 1.0f) {
             f = 1.0f;
-            *(int *)(p + 0x60) = 0;
+            ((struct Obj10906 *)p)->f60 = 0;
             pos.y = 0x80;
         } else {
             pos.y = 0x80 - (int)(96.0f * (f - 1.0f) / 2.0f);

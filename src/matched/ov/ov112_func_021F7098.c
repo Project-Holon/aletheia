@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj22556.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -17,4 +18,4 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-void func_021F7098(u8 *p, u16 v) { *(u16 *)(p + 8) = v; }
+void func_021F7098(u8 *p, u16 v) { ((struct Obj22556 *)p)->f8 = v; }

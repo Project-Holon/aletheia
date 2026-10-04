@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14745.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ struct WordSet;
 extern struct WordSet *func_0201EC64(u32 heap);
 void func_021BFBC0(u32 a0)
 {
-    *(u32*)(((u8*)a0 + 0) + 24) = (u32)func_0201EC64(*(u16*)(((u8*)a0 + 0) + 4));
+    ((struct Obj14745 *)(((u8*)a0 + 0)))->f18 = (u32)func_0201EC64(((struct Obj14745 *)(((u8*)a0 + 0)))->f4);
 }
 

@@ -23,6 +23,7 @@
  *   func_021D4B3C  0x021D4B3C  thumb  ov115
  *   func_021D460C  0x021D460C  thumb  ov115
  */
+#include "../include/Obj02825.h"
 
 extern void func_021D426C(int, int);
 extern void func_021D5F7C(int);
@@ -43,28 +44,28 @@ void func_021D4AB0(int a)
 {
     int r;
 
-    if (*(int *)(*(int *)(a + 0x40) + 0x20) != 0 &&
-        *(int *)(*(int *)(a + 0x40) + 0x1c) == 0) {
+    if (*(int *)(((struct Obj02825 *)a)->f40 + 0x20) != 0 &&
+        *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) == 0) {
         r = ((int (*)(int, int)) * (int *)(*(int *)(a + 0x40) + 0x20))(
-            *(int *)(a + 0x38), *(int *)(*(int *)(a + 0x40) + 0x24));
+            ((struct Obj02825 *)a)->f38, *(int *)(((struct Obj02825 *)a)->f40 + 0x24));
         if (r == 2)
             return;
         switch (r) {
         case 0:
-            *(int *)(*(int *)(a + 0x40) + 0x1c) = 0;
+            *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 0;
             func_021D426C(a, (int)func_021D4B3C);
             break;
         case 1:
-            *(int *)(*(int *)(a + 0x40) + 0x1c) = 1;
-            func_021D5F7C(*(int *)(a + 0x38));
-            func_021D5D3C(*(int *)(a + 0x38));
-            func_021D5C94(*(int *)(a + 0x38));
+            *(int *)(((struct Obj02825 *)a)->f40 + 0x1c) = 1;
+            func_021D5F7C(((struct Obj02825 *)a)->f38);
+            func_021D5D3C(((struct Obj02825 *)a)->f38);
+            func_021D5C94(((struct Obj02825 *)a)->f38);
             if (func_0203CD98() != 0)
                 func_0200FBB0();
             func_0203CA04();
             func_0200FBA0();
             func_0203C968();
-            func_021D5ED8(*(int *)(a + 0x38), 0x25);
+            func_021D5ED8(((struct Obj02825 *)a)->f38, 0x25);
             func_021D426C(a, (int)func_021D460C);
             break;
         }

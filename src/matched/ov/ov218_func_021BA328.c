@@ -19,6 +19,7 @@
  *   d_021BABB0 0x021BABB0 data ov218 a4
  *   d_021BAB80 0x021BAB80 data ov218 a4
  */
+#include "../include/Obj00243.h"
 typedef unsigned int u32;
 typedef struct Config {u32 a,b,c,d,e;unsigned short f,g;} Config;
 extern const Config d_021BABC8,d_021BAB68,d_021BAB98,d_021BABB0,d_021BAB80;
@@ -31,23 +32,23 @@ void func_021BA328(char *p)
     Config a,b,c,d,e;
     void *manager,*item;
     int i,j;
-    manager=(void *)func_021BA960(*(void **)(p+4));
+    manager=(void *)func_021BA960(((struct Obj00243 *)p)->f4);
     for(j=0;j<36;j++)*(u32 *)(p+0x240+j*4)=0;
     a=d_021BABC8;
-    a.c=*(u32 *)(p+0x2d0);a.d=*(u32 *)(p+0x2d4);a.e=*(u32 *)(p+0x2d8);
-    *(void **)(p+0x240)=func_021BA4D4((u32)manager,(char *)(&a));
+    a.c=((struct Obj00243 *)p)->f2D0;a.d=((struct Obj00243 *)p)->f2D4;a.e=((struct Obj00243 *)p)->f2D8;
+    ((struct Obj00243 *)p)->f240=func_021BA4D4((u32)manager,(char *)(&a));
     b=d_021BAB68;
-    b.c=*(u32 *)(p+0x2d0);b.d=*(u32 *)(p+0x2d4);b.e=*(u32 *)(p+0x2d8);
+    b.c=((struct Obj00243 *)p)->f2D0;b.d=((struct Obj00243 *)p)->f2D4;b.e=((struct Obj00243 *)p)->f2D8;
     for(i=0;i<20;i++)*(void **)(p+0x244+i*4)=func_021BA4D4((u32)manager,(char *)(&b));
     c=d_021BAB98;
-    c.c=*(u32 *)(p+0x2d0);c.d=*(u32 *)(p+0x2d4);c.e=*(u32 *)(p+0x2d8);
+    c.c=((struct Obj00243 *)p)->f2D0;c.d=((struct Obj00243 *)p)->f2D4;c.e=((struct Obj00243 *)p)->f2D8;
     for(j=0;j<7;j++) {
         item=func_021BA4D4((u32)manager,(char *)(&c));
         func_0204B3DC(item,0);
         *(void **)(p+0x294+j*4)=item;
     }
     d=d_021BABB0;
-    d.c=*(u32 *)(p+0x2d0);d.d=*(u32 *)(p+0x2d4);d.e=*(u32 *)(p+0x2d8);
+    d.c=((struct Obj00243 *)p)->f2D0;d.d=((struct Obj00243 *)p)->f2D4;d.e=((struct Obj00243 *)p)->f2D8;
     for(i=0;i<7;i++) {
         item=func_021BA4D4((u32)manager,(char *)(&d));
         func_0204B688(item,1);
@@ -55,6 +56,6 @@ void func_021BA328(char *p)
         *(void **)(p+0x2b0+i*4)=item;
     }
     e=d_021BAB80;
-    e.c=*(u32 *)(p+0x2d0);e.d=*(u32 *)(p+0x2d4);e.e=*(u32 *)(p+0x2d8);
-    *(void **)(p+0x2cc)=func_021BA4D4((u32)manager,(char *)(&e));
+    e.c=((struct Obj00243 *)p)->f2D0;e.d=((struct Obj00243 *)p)->f2D4;e.e=((struct Obj00243 *)p)->f2D8;
+    ((struct Obj00243 *)p)->f2CC=func_021BA4D4((u32)manager,(char *)(&e));
 }

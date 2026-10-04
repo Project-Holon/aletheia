@@ -28,6 +28,8 @@
  *   func_021B9460 0x021B9460 thumb ov093
  *   func_0201A918 0x0201A918 thumb
  */
+#include "../include/Obj00764.h"
+#include "../include/Obj20948.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -56,7 +58,7 @@ int func_021B7758(u8 *p,u32 *state)
     u32 i;
     u8 *desc;
     int k;
-    q = *(u8 **)p;
+    q = *(u8 * *)&((struct Obj00764 *)p)->f0;
     if (func_021D4270()) {
         ((B *)p)->a = 1;
         return 1;
@@ -70,14 +72,14 @@ int func_021B7758(u8 *p,u32 *state)
         if (func_021D4B18(2)) ++*state;
         break;
     case 2:
-        if (func_021D4438((u32)(*(void **)(q + 0x24)))) ++*state;
+        if (func_021D4438((u32)(((struct Obj20948 *)q)->f24))) ++*state;
         break;
     case 3:
         if (func_021D44CC()) {
             if (!p[0x471]) *state = 10;
             else {
                 if (p[0x46e]) {
-                    *(void **)(p + 0x2c4) = func_021D4D24(func_0201A918(), (*(u16 *)(p + 0x468) & 0x7fff) | 0x8000);
+                    ((struct Obj00764 *)p)->f2C4 = func_021D4D24(func_0201A918(), (((struct Obj00764 *)p)->f468 & 0x7fff) | 0x8000);
                 }
                 p[0x470] = 0;
                 ++*state;
@@ -88,7 +90,7 @@ int func_021B7758(u8 *p,u32 *state)
         k = 1;
         if (p[0x470]) k = 3;
         p[0x472] = k;
-        if (p[0x46e]) func_021D4D64(*(void **)(p + 0x2c4), *(void **)(q + p[0x472] * 4 + 0x24),p[0x472]);
+        if (p[0x46e]) func_021D4D64(((struct Obj00764 *)p)->f2C4, *(void **)(q + p[0x472] * 4 + 0x24),p[0x472]);
         func_021D4AF4(p[0x470] + 6);
         ++*state;
         break;
@@ -96,15 +98,15 @@ int func_021B7758(u8 *p,u32 *state)
         if (func_021D4B18(p[0x470] + 6)) ++*state;
         break;
     case 6:
-        if (!p[0x46e] || func_021D4680(*(void **)(p + 0x2c4))) ++*state;
+        if (!p[0x46e] || func_021D4680(((struct Obj00764 *)p)->f2C4)) ++*state;
         break;
     case 7:
         if (func_021D4784(p[0x472])) {
             ++p[0x470];
             if (p[0x470] >= p[0x471]) {
                 if (p[0x46e]) {
-                    func_021D4D5C(*(void **)(p + 0x2c4));
-                    *(void **)(p + 0x2c4) = 0;
+                    func_021D4D5C(((struct Obj00764 *)p)->f2C4);
+                    ((struct Obj00764 *)p)->f2C4 = 0;
                 }
                 *state = 10;
             } else *state = 4;

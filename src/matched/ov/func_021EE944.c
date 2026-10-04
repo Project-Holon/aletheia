@@ -16,6 +16,7 @@
  *
  * Release the child at +0x2c and reset its field +0x5c to the handler.
  */
+#include "../include/Obj12180.h"
 
 extern void func_021EEF74(char *q, int a, int b);
 extern void func_021DC9B4(char *p, int v);
@@ -23,7 +24,7 @@ extern int func_021E066C(char *p);
 
 void func_021EE944(char *p, int a, int b)
 {
-    func_021EEF74(*(char **)(p + 0x2c), a, b);
-    func_021DC9B4(*(void **)(p + 0x2c), (int)((void *)&func_021E066C));
+    func_021EEF74(*(char * *)&((struct Obj12180 *)p)->f2C, a, b);
+    func_021DC9B4(((struct Obj12180 *)p)->f2C, (int)((void *)&func_021E066C));
 }
 

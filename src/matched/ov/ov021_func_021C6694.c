@@ -13,6 +13,7 @@
  *   func_020478B8  0x020478B8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12952.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ int func_021C6694(u32 *a, int idx, int v)
     int n, i;
 
     if (((K *)e)->k == 1) {
-        n = *(u8 *)((u8 *)a[2] + *(u16 *)(e + 4) * 0x2c + 0x28);
+        n = *(u8 *)((u8 *)a[2] + ((struct Obj12952 *)e)->f4 * 0x2c + 0x28);
         for (i = r; i < n; i++) {
-            if (func_020478B8(*(u32 *)(e + 0x44), i, v))
+            if (func_020478B8(((struct Obj12952 *)e)->f44, i, v))
                 r = 1;
         }
     } else if (((K *)e)->k == 2) {

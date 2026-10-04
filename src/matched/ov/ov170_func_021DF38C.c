@@ -20,6 +20,7 @@
  *   ov194_id 0x000000C2 data a1
  * data: callback descriptor belongs to ov194 loaded by func_02031348.
  */
+#include "../include/Obj10650.h"
 typedef struct { void *task; void *text; } Request;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -42,9 +43,9 @@ int func_021DF38C(char *p)
     value = (int)func_0200C0F0(func_02012EBC((*(void ***)p)[0]));
     r = func_02030734(0x4B, 8, 1, d_021F1400, 0xF1F);
     r->text = func_020457B0(20, 0x4B);
-    func_0200785C((*(void ***)p)[1], *(unsigned char *)(p + 0x14), r->text);
+    func_0200785C((*(void ***)p)[1], ((struct Obj10650 *)p)->f14, r->text);
     r->task = func_0216BFD4(0x4B, 2, 0, 0, 8, (int)r->text, value);
-    func_02031348(*(void **)(p + 4), (int)ov194_id, d_021F5580, r->task);
-    *(Request **)(p + 12) = r;
+    func_02031348(((struct Obj10650 *)p)->f4, (int)ov194_id, d_021F5580, r->task);
+    *(Request * *)&((struct Obj10650 *)p)->fC = r;
     return 0;
 }

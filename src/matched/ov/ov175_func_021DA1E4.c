@@ -33,6 +33,7 @@
  *
  * Matchmaking step (state at +0x40): 0 starts the search with the evaluation callback, then waits for the match, the peer handshake (with a 3600-tick timeout counted at +0x1a4) and the link check; returns 1 when done, 2 on a fatal error and 0 while still running.
  */
+#include "../include/Obj00839.h"
 
 typedef unsigned long u32;
 
@@ -62,19 +63,19 @@ extern u32 func_0203D378(void);
 
 int func_021DA1E4(char *obj)
 {
-    switch (*(u32 *)(obj + 0x40)) {
+    switch (((struct Obj00839 *)obj)->f40) {
     case 0:
-        if (func_0215580C(obj + 0x44, 2, *(void **)(obj + 0x1218), obj)) {
+        if (func_0215580C(obj + 0x44, 2, ((struct Obj00839 *)obj)->f1218, obj)) {
             func_0203C304();
             func_02156BC4(0);
-            *(u32 *)(obj + 0x40) = 1;
+            ((struct Obj00839 *)obj)->f40 = 1;
         } else {
             func_0203C554(1);
             return 2;
         }
         break;
     case 1:
-        *(u32 *)(obj + 0x40) = 2;
+        ((struct Obj00839 *)obj)->f40 = 2;
         break;
     case 2:
         switch (func_0203C3EC()) {
@@ -82,54 +83,54 @@ int func_021DA1E4(char *obj)
             if ((u32)(*(u32 *)(func_0203CA98() + 0xc) - 0x3f0) > 1)
                 break;
             func_021DA384(obj);
-            *(u32 *)(obj + 0x40) = 7;
+            ((struct Obj00839 *)obj)->f40 = 7;
             break;
         case 1:
-            *(u32 *)(obj + 0x1a4) = 0;
-            *(u32 *)(obj + 0x40) = 3;
+            ((struct Obj00839 *)obj)->f1A4 = 0;
+            ((struct Obj00839 *)obj)->f40 = 3;
             func_0203D7B0(1);
             func_0203D7BC(1);
             break;
         default:
             func_021DA384(obj);
-            *(u32 *)(obj + 0x40) = 7;
+            ((struct Obj00839 *)obj)->f40 = 7;
             break;
         }
         break;
     case 3:
         if (func_02039338()) {
             if (func_02039ACC())
-                *(u32 *)(obj + 0x40) = 4;
-            if ((*(u32 *)(obj + 0x1a4))++ > 0xe10) {
+                ((struct Obj00839 *)obj)->f40 = 4;
+            if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
                 func_021DA384(obj);
-                *(u32 *)(obj + 0x40) = 7;
+                ((struct Obj00839 *)obj)->f40 = 7;
             }
         } else {
-            *(u32 *)(obj + 0x1a4) = 0;
-            *(u32 *)(obj + 0x40) = 5;
+            ((struct Obj00839 *)obj)->f1A4 = 0;
+            ((struct Obj00839 *)obj)->f40 = 5;
         }
         break;
     case 4:
         func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
-        *(u32 *)(obj + 0x1a4) = 0;
-        *(u32 *)(obj + 0x40) = 6;
+        ((struct Obj00839 *)obj)->f1A4 = 0;
+        ((struct Obj00839 *)obj)->f40 = 6;
         break;
     case 5:
-        if ((*(u32 *)(obj + 0x1a4))++ > 0xe10) {
+        if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
-            *(u32 *)(obj + 0x40) = 7;
+            ((struct Obj00839 *)obj)->f40 = 7;
         } else if (func_020399EC() && func_02039ACC()) {
             func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
-            *(u32 *)(obj + 0x1a4) = 0;
-            *(u32 *)(obj + 0x40) = 6;
+            ((struct Obj00839 *)obj)->f1A4 = 0;
+            ((struct Obj00839 *)obj)->f40 = 6;
         }
         break;
     case 6:
-        if ((*(u32 *)(obj + 0x1a4))++ > 0xe10) {
+        if ((((struct Obj00839 *)obj)->f1A4)++ > 0xe10) {
             func_021DA384(obj);
-            *(u32 *)(obj + 0x40) = 7;
+            ((struct Obj00839 *)obj)->f40 = 7;
         } else if (func_02039CB4((struct Link *)func_020399A8(), 0xf, 0x24)) {
-            *(u32 *)(obj + 0x40) = 8;
+            ((struct Obj00839 *)obj)->f40 = 8;
         }
         break;
     case 7:

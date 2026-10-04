@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19507.h"
 
 void func_02189A68(char *a, int b)
 {
-    *(int *)(a + 0x150) = b;
+    ((struct Obj19507 *)a)->f150 = b;
 }

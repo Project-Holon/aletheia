@@ -13,6 +13,7 @@
  *   func_021A0748  0x021A0748  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19696.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,6 +25,6 @@ extern void func_021A0748(u8 *a, u32 b, u32 c);
 
 void func_021A0734(u8 *a, u32 b)
 {
-    *(u16 *)(a + 0x354) = b;
+    ((struct Obj19696 *)a)->f354 = b;
     func_021A0748(a, 0x3d, b);
 }

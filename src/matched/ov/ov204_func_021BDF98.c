@@ -12,6 +12,7 @@
  * symbols:
  *   func_0204A648 0x0204A648 arm
  */
+#include "../include/Obj25336.h"
 extern void func_0204A648(void);
 void func_021BDF98(void){func_0204A648();}
-unsigned func_021BDFA0(char *p){return *(unsigned *)p;}
+unsigned func_021BDFA0(char *p){return ((struct Obj25336 *)p)->f0;}

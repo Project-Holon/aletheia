@@ -20,6 +20,7 @@
  *   func_0209C0A4 0x0209C0A4 arm
  *   _u32_div_f 0x0209C2B0 arm
  */
+#include "../include/Obj01426.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_0204E720(u32,int,int,int);
@@ -34,27 +35,27 @@ int func_021FEC14(char *p,int *state)
     switch(*state) {
     case 0: {
         int first,second,a,b,duration;
-        if(*(int *)(p+8)==0){first=16;second=0;}
-        else if(*(int *)(p+8)==1){first=0;second=16;}
-        if(*(int *)(p+8)==0){a=0;b=16;}
-        else if(*(int *)(p+8)==1){a=16;b=0;}
-        func_0204E720(4,first,second,*(int *)(p+0x18));
+        if(((struct Obj01426 *)p)->f8==0){first=16;second=0;}
+        else if(((struct Obj01426 *)p)->f8==1){first=0;second=16;}
+        if(((struct Obj01426 *)p)->f8==0){a=0;b=16;}
+        else if(((struct Obj01426 *)p)->f8==1){a=16;b=0;}
+        func_0204E720(4,first,second,((struct Obj01426 *)p)->f18);
         func_0207D63C(0x04001050,3,7,a,b);
-        *(u32 *)(p+0x10)=0;
-        duration=*(int *)(p+0x18);
+        ((struct Obj01426 *)p)->f10=0;
+        duration=((struct Obj01426 *)p)->f18;
         if(duration==0)duration=func_0209C0A4(16,func_0204E6E0());
-        *(u32 *)(p+0x14)=duration;
+        ((struct Obj01426 *)p)->f14=duration;
         *state=1;
         break;
     }
     case 1: {
         int a,b;
         int done=1;
-        if(*(int *)(p+8)==0){a=_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14));b=16-a;}
-        else if(*(int *)(p+8)==1){b=_u32_div_f(*(u32 *)(p+0x10)<<4,*(u32 *)(p+0x14));a=16-b;}
+        if(((struct Obj01426 *)p)->f8==0){a=_u32_div_f(((struct Obj01426 *)p)->f10<<4,((struct Obj01426 *)p)->f14);b=16-a;}
+        else if(((struct Obj01426 *)p)->f8==1){b=_u32_div_f(((struct Obj01426 *)p)->f10<<4,((struct Obj01426 *)p)->f14);a=16-b;}
         *(volatile u16 *)0x04001052=a|(b<<8);
         if(a==0)func_02043598(3,0);else func_02043598(3,1);
-        done&=((*(u32 *)(p+0x10))++ >= *(u32 *)(p+0x14));
+        done&=((((struct Obj01426 *)p)->f10)++ >= ((struct Obj01426 *)p)->f14);
         if(done & !func_0204E804())*state=2;
         break;
     }

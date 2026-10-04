@@ -15,6 +15,8 @@
  *   func_021BBB48  0x021BBB48  thumb  ov093
  *   func_021EEAE0  0x021EEAE0  thumb  ov093
  */
+#include "../include/Obj07749.h"
+#include "../include/Obj13289.h"
 
 typedef unsigned char  u8;
 struct U16Vec;
@@ -27,12 +29,12 @@ void func_021BAB5C(int a)
 {
     int i;
     char *p = (char *)a;
-    func_02045808((struct U16Vec *)(*(int *)(p + 0xac)));
-    func_021BBB48((u8 *)(*(int *)(p + 0x44)));
+    func_02045808((struct U16Vec *)(((struct Obj13289 *)p)->fAC));
+    func_021BBB48((u8 *)(((struct Obj13289 *)p)->f44));
     for (i = 0; i < 4; i++) {
         unsigned char *e = (unsigned char *)p + i * 0xc;
-        if (e[0x1f] != 0xff && *(int *)(e + 0x14) != 0 && e[0x1e] == 0)
-            func_021EEAE0((void *)(*(int *)(e + 0x14)));
+        if (e[0x1f] != 0xff && ((struct Obj07749 *)e)->f14 != 0 && e[0x1e] == 0)
+            func_021EEAE0((void *)(((struct Obj07749 *)e)->f14));
     }
     func_020307B0((void *)a);
 }

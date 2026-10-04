@@ -12,6 +12,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B92C 0x0204B92C arm
  */
+#include "../include/Obj00179.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -19,4 +20,4 @@ typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B92C(struct Obj *,u32);
-void func_021C8880(u8 *p) {*(volatile u32 *)0x04000000 &= ~0xe000u;func_0204B3DC(*(struct Obj **)(p+416),0);func_0204B92C(*(struct Obj **)(p+416),0);}
+void func_021C8880(u8 *p) {*(volatile u32 *)0x04000000 &= ~0xe000u;func_0204B3DC(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);func_0204B92C(*(struct Obj * *)&((struct Obj00179 *)p)->f1A0,0);}

@@ -11,33 +11,34 @@
  * symbols:
  *   func_021D71E8 0x021D71E8 thumb ov120
  */
+#include "../include/Obj01541.h"
 typedef unsigned char u8;
 extern void func_021D71E8(u8 *, int, int);
 int func_021D702C(u8 *p, int *out)
 {
     int i;
     int state;
-    state=*(int *)(p+0x108);
+    state=((struct Obj01541 *)p)->f108;
     if (state==2) {
-        *(int *)(p+0x104)+=8;
-        if (*(int *)(p+0x10c)==*(int *)(p+0x104)) {
+        ((struct Obj01541 *)p)->f104+=8;
+        if (((struct Obj01541 *)p)->f10C==((struct Obj01541 *)p)->f104) {
             *out=state;
-            *(int *)(p+0x108)=0;
-            *(int *)(p+0x104)-=48;
+            ((struct Obj01541 *)p)->f108=0;
+            ((struct Obj01541 *)p)->f104-=48;
         }
         for (i=0;i<6;i++) func_021D71E8(p,i,-8);
-        *(int *)(p+0x100)=1;
+        ((struct Obj01541 *)p)->f100=1;
     }
-    state=*(int *)(p+0x108);
+    state=((struct Obj01541 *)p)->f108;
     if (state==1) {
-        *(int *)(p+0x104)-=8;
-        if (*(int *)(p+0x10c)==*(int *)(p+0x104)) {
+        ((struct Obj01541 *)p)->f104-=8;
+        if (((struct Obj01541 *)p)->f10C==((struct Obj01541 *)p)->f104) {
             *out=state;
-            *(int *)(p+0x108)=0;
-            *(int *)(p+0x104)+=48;
+            ((struct Obj01541 *)p)->f108=0;
+            ((struct Obj01541 *)p)->f104+=48;
         }
         for (i=0;i<6;i++) func_021D71E8(p,i,8);
-        *(int *)(p+0x100)=1;
+        ((struct Obj01541 *)p)->f100=1;
     }
-    return *(int *)(p+0x108);
+    return ((struct Obj01541 *)p)->f108;
 }

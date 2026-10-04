@@ -30,18 +30,20 @@
  *   python tools/match.py one --src src/matched/func_020366C0.c \
  *       --func func_020366C0 --addr 0x020366C0 --cc 1.1p1 --arm
  */
+#include "../include/Obj11347.h"
+#include "../include/Obj15903.h"
 
 typedef unsigned short u16;
 
 int func_020366C0(char *p)
 {
-    const char *e = *(char **)(p + 0x18);
+    const char *e = *(char * *)&((struct Obj11347 *)p)->f18;
     int         i;
     int         c = 0;
-    int         n = *(int *)(p + 0x1C);
+    int         n = ((struct Obj11347 *)p)->f1C;
 
     for (i = 0; i < n; i++, e += 0x14) {
-        if (*(u16 *)(e + 0x0E) != 0)
+        if (((struct Obj15903 *)e)->fE != 0)
             c++;
     }
     return c;

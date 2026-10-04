@@ -13,9 +13,10 @@
  *   func_021DD924 0x021DD924 thumb ov137
  *   func_021DD93C 0x021DD93C thumb ov137
  */
+#include "../include/Obj23722.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021DD924(void *);
 extern void func_021DD93C(char *,int);
-int func_021DDB90(char *p,int state) {*(u8 *)(p+0x4810)=0;func_021DD93C(p,0);func_021DD924(p);return state;}
+int func_021DDB90(char *p,int state) {((struct Obj23722 *)p)->f4810=0;func_021DD93C(p,0);func_021DD924(p);return state;}

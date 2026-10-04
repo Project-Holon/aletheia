@@ -17,6 +17,7 @@
  *   func_0201C3C0 0x0201C3C0 thumb
  *   func_0218A458 0x0218A458 thumb ov096
  */
+#include "../include/Obj13649.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct ScriptVm;
@@ -31,8 +32,8 @@ void func_02188080(void *a)
 {
     u8 *p;
     p = func_02011324(a);
-    func_02049238(*(void **)(p + 0xA4));
-    func_02049238(*(void **)(p + 0xA8));
+    func_02049238(((struct Obj13649 *)p)->fA4);
+    func_02049238(((struct Obj13649 *)p)->fA8);
     func_020307B0(p);
     func_02011264(a);
     if (func_0201C408() == 1) func_0201C3C0();

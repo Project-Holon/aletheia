@@ -13,6 +13,9 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021DBD7C 0x021DBD7C thumb ov183
  */
+#include "../include/Obj14421.h"
+#include "../include/Obj24545.h"
+#include "../include/Obj24546.h"
 extern void func_021FE784(int,int,int,int);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *p, int v);
@@ -21,11 +24,11 @@ void func_021DBCA8(int *task, int *state, char *p)
 {
     switch(*state) {
     case 0:
-        func_021FE784(*(int *)(*(char **)(p+0xd0)+0xc),2,3,0);
+        func_021FE784(((struct Obj24545 *)(*(char * *)&((struct Obj14421 *)p)->fD0))->fC,2,3,0);
         *state=1;
         break;
     case 1:
-        if(func_021FE7B0(*(int **)(*(char **)(p+0xd0)+0xc))) *state=2;
+        if(func_021FE7B0(*(int * *)&((struct Obj24546 *)(*(char * *)&((struct Obj14421 *)p)->fD0))->fC)) *state=2;
         break;
     case 2:
         func_021FD73C(task,(int)func_021DBD7C);

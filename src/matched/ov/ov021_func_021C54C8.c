@@ -17,6 +17,7 @@
  *   func_021C58CC  0x021C58CC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj04281.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -43,7 +44,7 @@ void func_021C54C8(int *a, int b, int c, int *d)
         }
         if (a[16] == 0) {
             func_021C59A8(a, 0, 0);
-            func_021C58CC((char *)a, 0, 0, *(u16 *)((char *)a + 0x34));
+            func_021C58CC((char *)a, 0, 0, ((struct Obj04281 *)a)->f34);
         }
         func_020061E4(0x548);
         *d = 1;

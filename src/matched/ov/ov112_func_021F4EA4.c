@@ -9,8 +9,10 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj01396.h"
+#include "../include/Obj10300.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-void func_021F4EA4(u32 unused,u32 p,u32 q) { *(u32 *)q=*(u32 *)(p+16); *(u32 *)(q+4)=*(u32 *)(p+20); *(u32 *)(q+8)=*(u32 *)(p+24); }
+void func_021F4EA4(u32 unused,u32 p,u32 q) { ((struct Obj10300 *)q)->f0=((struct Obj01396 *)p)->f10; ((struct Obj10300 *)q)->f4=((struct Obj01396 *)p)->f14; ((struct Obj10300 *)q)->f8=((struct Obj01396 *)p)->f18; }

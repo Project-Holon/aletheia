@@ -11,6 +11,7 @@
  * symbols:
  *   func_02061D0C  0x02061D0C  arm
  */
+#include "../include/Obj03022.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ typedef struct Node02061FF8 {
 
 void func_02061FF8(void *pp, int arg)
 {
-    Node02061FF8 *n = *(Node02061FF8 **)pp;
+    Node02061FF8 *n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
 
     while (n != 0) {
         u32 buf[2];
@@ -38,7 +39,7 @@ void func_02061FF8(void *pp, int arg)
         if (func_02061D0C(pp, (struct Node **)arg, (struct Range *)buf) != 0) {
             n->f00 = buf[0];
             n->f04 = buf[1] - buf[0];
-            n = *(Node02061FF8 **)pp;
+            n = *(Node02061FF8 * *)&((struct Obj03022 *)pp)->f0;
         } else {
             n = n->f0c;
         }

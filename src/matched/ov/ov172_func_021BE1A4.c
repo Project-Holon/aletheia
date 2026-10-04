@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj10667.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ void func_021BE1A4(char *p)
     p[0x1b5] = 0;
     for (i = 0; i < 4; i++) {
         func_02043B5C((struct CharBuf *)((int)func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))), 0);
-        if (*(u32 *)(p + 8) != 3) {
+        if (((struct Obj10667 *)p)->f8 != 3) {
             func_020456F8((struct Descriptor *)(*(u32 *)(p + i * 4 + 0x1b8)));
         }
     }

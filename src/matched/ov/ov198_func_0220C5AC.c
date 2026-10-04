@@ -13,6 +13,8 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj10841.h"
+#include "../include/Obj25141.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -27,9 +29,9 @@ void func_0220C5AC(char *p, int i, u16 x, u16 y)
 {
     void *t;
     void *f;
-    t = func_02045EC0(*(void **)(p + 0x1EA0), 0x14);
-    f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), x, y, (u32)t, *(u32 *)(*(char **)p + 0xC), 0x3DC0);
+    t = func_02045EC0(((struct Obj10841 *)p)->f1EA0, 0x14);
+    f = ((struct Obj10841 *)p)->f1EAC;
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), x, y, (u32)t, ((struct Obj25141 *)(*(char * *)&((struct Obj10841 *)p)->f0))->fC, 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);
 }

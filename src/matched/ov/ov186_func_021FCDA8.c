@@ -9,7 +9,8 @@
  * status: EXACT
  * leaf: S27 parent clearance; ov183 callers DFFB0 and E024C sole blocker.
  */
+#include "../include/Obj24838.h"
 int func_021FCDA8(char *p)
 {
-    return *(int *)(p + 0x48);
+    return ((struct Obj24838 *)p)->f48;
 }

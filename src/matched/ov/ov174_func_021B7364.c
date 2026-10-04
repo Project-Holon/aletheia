@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10674.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,7 +20,7 @@ typedef signed int s32;
 
 void func_021B7364(char *p, int v)
 {
-    if (*(int *)(p + 0x34) == 1 && v == 0)
-        *(u16 *)(p + 0x38) = 0x46;
-    *(int *)(p + 0x34) = v;
+    if (((struct Obj10674 *)p)->f34 == 1 && v == 0)
+        ((struct Obj10674 *)p)->f38 = 0x46;
+    ((struct Obj10674 *)p)->f34 = v;
 }

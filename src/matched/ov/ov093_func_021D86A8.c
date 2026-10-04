@@ -14,6 +14,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj05216.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,8 +34,8 @@ void func_021D86A8(void *a, int b, int c)
     if (func_021D775C(0x22) == 6) {
         if (c == func_021D775C(2)) {
             p = func_021C88A4(b, 0xe, c);
-            *(u32 *)p |= 2 << 22;
-            *(int *)(p + 4) = 5;
+            ((struct Obj05216 *)p)->f0 |= 2 << 22;
+            ((struct Obj05216 *)p)->f4 = 5;
             p[0xc] = 1;
             p[0xe] = 0;
             p[0xf] = 1;

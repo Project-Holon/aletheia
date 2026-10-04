@@ -15,6 +15,7 @@
  *   func_021EF5C4 0x021EF5C4 thumb ov170
  *   func_021ED2F4 0x021ED2F4 thumb ov170
  */
+#include "../include/Obj10651.h"
 struct WinMgr;
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
@@ -29,14 +30,14 @@ int func_021E0A40(char *p)
     int a;
     int b;
     s = WORK(p) + 0x58;
-    switch (*(unsigned short *)(s + 12)) {
+    switch (((struct Obj10651 *)s)->fC) {
     case 0:
         if (*(unsigned short *)(WORK(p) + 0xA16C)) {
             func_021ED108(WORK(p), 1);
             func_021EBFA8(WORK(p), 10, 1);
             func_021EC000(WORK(p), 10, 1);
         }
-        (*(unsigned short *)(s + 12))++;
+        (((struct Obj10651 *)s)->fC)++;
     case 1:
         a = func_021E066C(p);
         b = func_021EF5C4(*(struct WinMgr **)(WORK(p) + 0x74));
@@ -45,7 +46,7 @@ int func_021E0A40(char *p)
                 func_021ED108(WORK(p), 0);
                 func_021ED2F4(WORK(p));
             }
-            *(unsigned short *)(s + 12) = 0;
+            ((struct Obj10651 *)s)->fC = 0;
             return 0;
         }
         break;

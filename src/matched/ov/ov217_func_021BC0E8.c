@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00025.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,10 +28,10 @@ typedef signed int     s32;
 extern u32 func_021C0FF8();
 u32 func_021BC0E8(u32 a0)
 {
-    func_021C0FF8(*(u32*)(((u8*)a0 + 228)), 0);
-    func_021C0FF8(*(u32*)(((u8*)a0 + 232)), 0);
-    func_021C0FF8(*(u32*)(((u8*)a0 + 236)), 0);
-    func_021C0FF8(*(u32*)(((u8*)a0 + 240)), 0);
-    return func_021C0FF8(*(u32*)(((u8*)a0 + 244)), 0);
+    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fE4, 0);
+    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fE8, 0);
+    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fEC, 0);
+    func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fF0, 0);
+    return func_021C0FF8(((struct Obj00025 *)((u8*)a0))->fF4, 0);
 }
 

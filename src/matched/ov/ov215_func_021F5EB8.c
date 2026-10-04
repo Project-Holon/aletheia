@@ -12,6 +12,7 @@
  * symbols:
  *   func_02005E30 0x02005E30 thumb
  */
+#include "../include/Obj25739.h"
 
 typedef unsigned int   u32;
 extern void func_02005E30(u32 a);
@@ -19,6 +20,6 @@ extern void func_02005E30(u32 a);
 int func_021F5EB8(int a, char *b)
 {
     func_02005E30(0x1e);
-    *(int *)(b + 0x18) = 1;
+    ((struct Obj25739 *)b)->f18 = 1;
     return 1;
 }

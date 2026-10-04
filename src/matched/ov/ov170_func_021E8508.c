@@ -16,6 +16,9 @@
  *   func_021E8FE0 0x021E8FE0 thumb ov170
  *   func_021E8FD0 0x021E8FD0 thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23929.h"
+#include "../include/Obj23930.h"
 typedef unsigned char u8;
 struct Sound;
 extern int func_02025DE8(struct Sound *obj);
@@ -26,14 +29,14 @@ extern int func_021E8FE0(u8 *, int);
 extern int func_021E8FD0(u8 *, int);
 int func_021E8508(u8 *p)
 {
-    unsigned v = func_02025DE8(*(void **)(*(u8 **)(p + 0x2c) + 0x70));
+    unsigned v = func_02025DE8(((struct Obj23929 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->f70);
     switch (v) {
     case 0:
         func_020061E4(0x54c);
         return func_021E949C(p, 2, func_021E8F50(p, 0x60));
     case 1:
         func_020061E4(0x54c);
-        *(u8 *)(*(u8 **)(p + 0x2c) + 0xA17C) = 0;
+        ((struct Obj23930 *)(*(u8 * *)&((struct Obj00000 *)p)->f2C))->fA17C = 0;
         return func_021E949C(p, 3, func_021E8F50(p, 0x64));
     case 2:
         func_020061E4(0x54c);

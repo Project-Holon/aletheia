@@ -20,6 +20,7 @@
  *   func_021C5114 0x021C5114 thumb
  *   func_021C4EC4 0x021C4EC4 thumb
  */
+#include "../include/Obj01751.h"
 typedef unsigned char u8;
 struct Rec;
 struct TaskMenuState;
@@ -36,9 +37,9 @@ int func_021C4D14(u8 *p)
 {
     func_021C4DA8(p);
     func_021C5470(p);
-    if (p + 0x28) func_02045C04(*(void **)(p + 0x20));
-    func_02045808(*(void **)(p + 0x34));
-    func_02027FD8(*(void **)(p + 0x108));
+    if (p + 0x28) func_02045C04(((struct Obj01751 *)p)->f20);
+    func_02045808(((struct Obj01751 *)p)->f34);
+    func_02027FD8(((struct Obj01751 *)p)->f108);
     func_021C52F8(p);
     func_021C5114(p);
     func_021C4EC4(p);

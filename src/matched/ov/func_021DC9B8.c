@@ -14,11 +14,12 @@
  *
  * Re-run the reset helper with the stored word.
  */
+#include "../include/Obj05868.h"
 
 extern void func_021DC9A0(char *, int);
 
 void func_021DC9B8(char *p)
 {
-    func_021DC9A0(p, *(int *)(p + 0x5c));
+    func_021DC9A0(p, ((struct Obj05868 *)p)->f5C);
 }
 

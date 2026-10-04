@@ -15,6 +15,7 @@
  *   func_0217538C  0x0217538C  thumb ov011
  *   func_0217545C  0x0217545C  thumb ov011
  */
+#include "../include/Obj00566.h"
 
 typedef unsigned char u8;
 
@@ -29,7 +30,7 @@ void func_0217546C(u8 *p)
     u8 *q;
     int i;
 
-    if (func_021754B4(p, buf) == 1 && func_020120D8((char *)*(int *)p) == 1) {
+    if (func_021754B4(p, buf) == 1 && func_020120D8((char *)((struct Obj00566 *)p)->f0) == 1) {
         q = p + 0x945;
         i = p[0x154];
         if (q[i] == 0) {

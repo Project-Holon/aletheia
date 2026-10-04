@@ -17,6 +17,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj03342.h"
 typedef unsigned int   u32;
 struct Grid;
 struct Obj;
@@ -31,15 +32,15 @@ extern void func_0204AFD8(u32 i);
 extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(unsigned char *,unsigned,unsigned);
 void func_021F42A0(unsigned char *p) {
-    if (*(void **)(p+0x2c)) {
-        func_0204ADA4(*(int *)(p+0x24));
-        func_02045808(*(void **)(p+0x28));
-        func_0202570C(*(void **)(p+0x2c));
-        func_020437AC(*(void **)(p+0x30));
+    if (((struct Obj03342 *)p)->f2C) {
+        func_0204ADA4(((struct Obj03342 *)p)->f24);
+        func_02045808(((struct Obj03342 *)p)->f28);
+        func_0202570C(((struct Obj03342 *)p)->f2C);
+        func_020437AC(((struct Obj03342 *)p)->f30);
     }
-    func_0204ADA4(*(int *)(p+8));
-    func_0204A8D4((u32)(*(void **)(p+12)));
-    func_0204AFD8(*(int *)(p+16));
-    func_0204B3B4(*(void **)p);
+    func_0204ADA4(((struct Obj03342 *)p)->f8);
+    func_0204A8D4((u32)(((struct Obj03342 *)p)->fC));
+    func_0204AFD8(((struct Obj03342 *)p)->f10);
+    func_0204B3B4(((struct Obj03342 *)p)->f0);
     func_02082BCC(p,0,0x3c);
 }

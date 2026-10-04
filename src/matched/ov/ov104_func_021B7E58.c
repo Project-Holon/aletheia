@@ -19,6 +19,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj03233.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -36,4 +37,4 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-void func_021B7E58(u8 *p,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u16 color,u8 heap,u16 size) { void *q; func_02082BCC(p,0,0x14); *(u16 *)(p+0x10)=color; *(void **)p=(void *)func_020450F0(a,b,c,d,e,f,heap); *(void **)(p+0xc)=func_020457B0(0xff,size); *(void **)(p+4)=*(void **)p; p[8]=0; func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); q=*(void **)p; func_02045334(q); func_02045374(q); func_020409B4(func_02045730(q)); }
+void func_021B7E58(u8 *p,u32 a,u32 b,u8 c,u8 d,u8 e,u8 f,u16 color,u8 heap,u16 size) { void *q; func_02082BCC(p,0,0x14); ((struct Obj03233 *)p)->f10=color; ((struct Obj03233 *)p)->f0=(void *)func_020450F0(a,b,c,d,e,f,heap); ((struct Obj03233 *)p)->fC=func_020457B0(0xff,size); ((struct Obj03233 *)p)->f4=((struct Obj03233 *)p)->f0; p[8]=0; func_02043B5C(func_02045770(((struct Obj03233 *)p)->f0),((struct Obj03233 *)p)->f10); q=((struct Obj03233 *)p)->f0; func_02045334(q); func_02045374(q); func_020409B4(func_02045730(q)); }

@@ -15,6 +15,7 @@
  *   func_021BFB8C 0x021BFB8C thumb ov210
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25636.h"
 
 typedef unsigned char u8;
 
@@ -25,7 +26,7 @@ extern void func_021BFB8C(int p, unsigned short a, int c, int d);
 void func_021C06C4(int p, unsigned a, unsigned *b, int c, int d)
 {
     func_021BECAC(p, b);
-    if ((*(u8 **)(*(int **)p + 2))[6] == a)
+    if ((*(u8 **)(*(int * *)&((struct Obj25636 *)p)->f0 + 2))[6] == a)
         func_021BFA14((char *)p, c, d);
     func_021BFB8C(p, a, c, d);
 }

@@ -15,6 +15,7 @@
  *   func_0201D7EC 0x0201D7EC thumb
  *   func_02045B38 0x02045B38 arm
  */
+#include "../include/Obj07624.h"
 typedef unsigned int u32;
 typedef unsigned char  u8;
 struct Bank;
@@ -26,8 +27,8 @@ extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 void func_021F01F0(char *p)
 {
-    *(void **)(p + 0x14) = func_0204B100(12, 5, 21);
-    *(u32 *)(p + 0x40) = func_0201C440((void *)21);
-    *(void **)(p + 0x44) = func_0201D7EC(23, 0, 0, 0, 21);
-    *(void **)(p + 0x48) = func_02045B38(0, 2, 201, 21);
+    ((struct Obj07624 *)p)->f14 = func_0204B100(12, 5, 21);
+    ((struct Obj07624 *)p)->f40 = func_0201C440((void *)21);
+    ((struct Obj07624 *)p)->f44 = func_0201D7EC(23, 0, 0, 0, 21);
+    ((struct Obj07624 *)p)->f48 = func_02045B38(0, 2, 201, 21);
 }

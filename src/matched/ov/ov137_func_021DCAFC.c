@@ -10,6 +10,8 @@
  * symbols:
 
  */
+#include "../include/Obj23670.h"
+#include "../include/Obj23671.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
-void *func_021DCAFC(u8 *p) { return **(void ***)(*(u8 **)p+20); }
+void *func_021DCAFC(u8 *p) { return **(void ** *)&((struct Obj23671 *)(*(u8 * *)&((struct Obj23670 *)p)->f0))->f14; }

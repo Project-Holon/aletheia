@@ -13,6 +13,7 @@
  *   func_020307B0 0x020307B0 arm
  *   d_02213D00 0x02213D00 data a4 ov199
  */
+#include "../include/Obj14584.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -23,7 +24,7 @@ extern void func_0203133C(struct S020314B8 *p);
 extern void func_020307B0(void *);
 void func_0221372C(char *p)
 {
-    if (*(int *)(p + 4)) func_02034714(d_02213D00, 0, d_02213D00);
-    func_0203133C(*(void **)p);
+    if (((struct Obj14584 *)p)->f4) func_02034714(d_02213D00, 0, d_02213D00);
+    func_0203133C(((struct Obj14584 *)p)->f0);
     func_020307B0(p);
 }

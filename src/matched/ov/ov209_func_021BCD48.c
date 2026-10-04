@@ -28,6 +28,7 @@
  *   func_021BC704 0x021BC704 thumb ov209
  *   func_02021ED8 0x02021ED8 thumb
  */
+#include "../include/Obj00088.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char ov067_id[];
@@ -49,7 +50,7 @@ extern void func_021BC868(char *);
 extern void func_021BC704(char *);
 int func_021BCD48(char *p)
 {
-    if (func_021BC91C(p) == 1 || func_02021ED8(*(char **)(p + 12)) != 0) return 1;
+    if (func_021BC91C(p) == 1 || func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) != 0) return 1;
     func_021BC2FC(p);
     func_021BC2B0(p);
     func_021BC810();

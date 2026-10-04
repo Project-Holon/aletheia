@@ -17,6 +17,8 @@
  *   d_022122D4 0x022122D4 data a4
  *   d_022122A0 0x022122A0 data a4
  */
+#include "../include/Obj10855.h"
+#include "../include/Obj25289.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -33,7 +35,7 @@ void func_02211998(u8 *p,u32 index,u32 b)
 {
     Offset offset=task_offset;
     struct Struct_02025CD0 *result;
-    result=func_02025CD0(d_022122D4[index],(u32)d_022122A0,(u32)p,*(u32 *)(p+offset),b,*(u16 *)(*(u8 **)p+0x10));
+    result=func_02025CD0(d_022122D4[index],(u32)d_022122A0,(u32)p,*(u32 *)(p+offset),b,((struct Obj25289 *)(*(u8 * *)&((struct Obj10855 *)p)->f0))->f10);
     *(struct Struct_02025CD0 **)(p+(offset-8))=result;
     func_02025D1C((struct Struct_02025D1C *)result);
     offset-=8;

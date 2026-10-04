@@ -11,10 +11,11 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj24854.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *,u32);
-void func_021FF02C(u8 *p,u32 v){func_0204B3DC(*(struct Obj **)(p+4),v);}
+void func_021FF02C(u8 *p,u32 v){func_0204B3DC(*(struct Obj * *)&((struct Obj24854 *)p)->f4,v);}

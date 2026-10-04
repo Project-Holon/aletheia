@@ -22,6 +22,7 @@
  *   func_021CD9DC  0x021CD9DC  thumb  ov093
  *   func_021E91D8  0x021E91D8  thumb  ov093
  */
+#include "../include/Obj01136.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -46,26 +47,26 @@ int func_021E9104(u8 *p, int *st)
 
     switch (*st) {
     case 0:
-        r = func_021F745C(*(u8 **)p, *(int *)(p + 0x17c), *(u16 *)(p + 0x184));
-        func_021F7544(r, *(int *)(p + 0xb4), *(u16 *)(p + 0x184));
+        r = func_021F745C(*(u8 * *)&((struct Obj01136 *)p)->f0, *(int *)&((struct Obj01136 *)p)->f17C, ((struct Obj01136 *)p)->f184);
+        func_021F7544(r, ((struct Obj01136 *)p)->fB4, ((struct Obj01136 *)p)->f184);
         func_020307B0(r);
-        func_021EB028(*(u8 **)(p + 0x17c));
-        func_021E91C8(*(void **)(p + 0x180));
+        func_021EB028(*(u8 * *)&((struct Obj01136 *)p)->f17C);
+        func_021E91C8(((struct Obj01136 *)p)->f180);
         (*st)++;
         break;
     case 1:
-        func_021EB32C(*(u8 **)(p + 0x17c), func_021CD9E0(*(u8 **)(p + 4)));
+        func_021EB32C(*(u8 * *)&((struct Obj01136 *)p)->f17C, func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4));
         (*st)++;
         break;
     case 2:
-        if (func_021EB52C(*(u8 **)(p + 0x17c)) != 0) {
-            if (func_021CD9C8(*(u8 **)(p + 4)) != 0) {
-                *(int *)(p + 0x160) = 1;
-                *(int *)(p + 0x164) = 1;
-                *(u32 *)(p + 0x168) = func_021CD9DC(*(u8 **)(p + 4));
-                *(int *)(p + 0x16c) = 0;
-                if (func_021CD9E0(*(u8 **)(p + 4)) == 0) {
-                    func_021E91D8(*(void **)(p + 0x180), p + 0x160);
+        if (func_021EB52C(*(u8 * *)&((struct Obj01136 *)p)->f17C) != 0) {
+            if (func_021CD9C8(*(u8 * *)&((struct Obj01136 *)p)->f4) != 0) {
+                ((struct Obj01136 *)p)->f160 = 1;
+                ((struct Obj01136 *)p)->f164 = 1;
+                ((struct Obj01136 *)p)->f168 = func_021CD9DC(*(u8 * *)&((struct Obj01136 *)p)->f4);
+                ((struct Obj01136 *)p)->f16C = 0;
+                if (func_021CD9E0(*(u8 * *)&((struct Obj01136 *)p)->f4) == 0) {
+                    func_021E91D8(((struct Obj01136 *)p)->f180, p + 0x160);
                 }
             }
             return 1;

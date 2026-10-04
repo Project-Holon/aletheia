@@ -14,6 +14,7 @@
  *   func_021BB7FC 0x021BB7FC thumb ov093
  *   func_021BB9D0 0x021BB9D0 thumb ov093
  */
+#include "../include/Obj21025.h"
 
 extern void func_021BABEC(void *, void *);
 typedef unsigned char  u8;
@@ -24,5 +25,5 @@ void func_021BAB40(char *p)
 {
  func_021BABEC(p, (void *)func_021BAC04);
  func_021BB7FC(p);
- func_021BB9D0(*(void **)(p + 0x44));
+ func_021BB9D0(((struct Obj21025 *)p)->f44);
 }

@@ -30,6 +30,7 @@
  *
  * EXACT* only because the 82-byte body is followed by a two-byte pad.
  */
+#include "../include/Obj06901.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -48,11 +49,11 @@ void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den)
     if (lo <= hi) {
         i = lo;
         end = hi;
-        near = *(u16 *)(desc + 2);
+        near = ((struct Obj06901 *)desc)->f2;
     } else {
         i = hi;
         end = lo;
-        near = *(u16 *)(desc + 2) == 0;
+        near = ((struct Obj06901 *)desc)->f2 == 0;
     }
 
     for (; i < end; i++) {

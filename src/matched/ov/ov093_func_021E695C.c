@@ -14,6 +14,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13537.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ void func_021E695C(int a, void *b, int c)
     if (c == func_021D775C(2)) {
         m = (u8 *)func_021C88A4(b, 0x17, c);
         m[8] = c;
-        *(int *)(m + 4) = 7;
+        ((struct Obj13537 *)m)->f4 = 7;
         func_021C88C8(b, m);
     }
 }

@@ -26,6 +26,7 @@
  *   func_021B6100  0x021B6100  thumb  ov070
  *   func_021B6A14  0x021B6A14  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -56,21 +57,21 @@ void func_021B6934(u8 *p)
     void *blk;
     u8 v;
 
-    if (func_021B68E8(*(u32 *)(p + 0x84C))) {
-        blk = func_0200D418(func_02012EBC(*(void **)p));
+    if (func_021B68E8(((struct Obj00002 *)p)->f84C)) {
+        blk = func_0200D418(func_02012EBC(((struct Obj00002 *)p)->f0));
         if (func_0200D58C(blk)) {
-            v = func_02020FE4(*(u32 *)(p + 0x84C), 2, *(u16 *)(p + 0x544));
+            v = func_02020FE4(((struct Obj00002 *)p)->f84C, 2, ((struct Obj00002 *)p)->f544);
             func_0200D55C(blk, v);
             func_021B7D20(p, 1);
-            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x3F, (void *)(*(u32 *)(p + 0x524)));
-            func_0201F02C((struct WordSet *)(*(u32 *)(p + 0x520)), 0, (void *)(*(u32 *)(p + 8)));
-            func_021B61F4(p, 1, *(u32 *)(p + 0x84C));
-            func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+            func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x3F, (void *)(((struct Obj00002 *)p)->f524));
+            func_0201F02C((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), 0, (void *)(((struct Obj00002 *)p)->f8));
+            func_021B61F4(p, 1, ((struct Obj00002 *)p)->f84C);
+            func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
             func_021BACF0((int)p, 1);
             func_020061E4(0x7CD);
         } else {
-            func_02045CAC((struct MsgBank *)(*(u32 *)(p + 0x51C)), 0x40, (void *)(*(u32 *)(p + 0x524)));
-            func_0201F250((struct WordSet *)(*(u32 *)(p + 0x520)), (void *)(*(u32 *)(p + 0x528)), (void *)(*(u32 *)(p + 0x524)));
+            func_02045CAC((struct MsgBank *)(*(u32 *)&((struct Obj00002 *)p)->f51C), 0x40, (void *)(((struct Obj00002 *)p)->f524));
+            func_0201F250((struct WordSet *)(*(u32 *)&((struct Obj00002 *)p)->f520), (void *)(*(u32 *)&((struct Obj00002 *)p)->f528), (void *)(((struct Obj00002 *)p)->f524));
             func_021BACF0((int)p, 1);
         }
         func_021B6100(p, (void *)func_021B6A14);

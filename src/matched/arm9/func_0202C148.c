@@ -25,6 +25,7 @@
  *   python tools/match.py one --src src/matched/func_0202C148.c \
  *       --func func_0202C148 --addr 0x0202C148 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04107.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -42,11 +43,11 @@ void func_0202C148(u8 *p, u16 heapId)
 
     n = func_02049030(0x93);
     p[4] = (u8)n;
-    *(u32 *)(p + 8) = (u32)func_02030734(heapId, (u32)(n << 2), 0,
+    ((struct Obj04107 *)p)->f8 = (u32)func_02030734(heapId, (u32)(n << 2), 0,
                                          (const void *)0x020A7758, 0x13a);
     for (i = 0; (int)i < n; i++) {
         u8 *r = (u8 *)func_0202C2EC((void *)heapId);
         func_0202C318(r, i, heapId);
-        *(u32 *)(*(u32 *)(p + 8) + (i << 2)) = (u32)r;
+        *(u32 *)(((struct Obj04107 *)p)->f8 + (i << 2)) = (u32)r;
     }
 }

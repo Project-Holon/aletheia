@@ -12,6 +12,7 @@
  *   func_0203D7B0 0x0203D7B0 arm
  *   func_0203D7BC 0x0203D7BC arm
  */
+#include "../include/Obj22039.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021C18C8(char *, int, int);
@@ -22,6 +23,6 @@ int func_021BD71C(char *p, int v)
     func_021C18C8(p, 1, 2);
     func_0203D7B0(0);
     func_0203D7BC(0);
-    *(u32 *)(p + 0x1cc) = 0xa9;
+    ((struct Obj22039 *)p)->f1CC = 0xa9;
     return v;
 }

@@ -11,5 +11,6 @@
  * symbols:
  *   func_021EF884 0x021EF884 thumb ov093
  */
+#include "../include/Obj13656.h"
 extern int func_021EF884(void);
-int func_0218905C(int a, unsigned char *b) { *(int *)(b+0x38)=func_021EF884(); return *(int *)(b+0xC4); }
+int func_0218905C(int a, unsigned char *b) { ((struct Obj13656 *)b)->f38=func_021EF884(); return ((struct Obj13656 *)b)->fC4; }

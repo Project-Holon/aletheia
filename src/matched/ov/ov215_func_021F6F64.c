@@ -16,6 +16,8 @@
  *   func_0204784C 0x0204784C arm
  *   d_021F7330 0x021F7330 data a4
  */
+#include "../include/Obj00317.h"
+#include "../include/Obj06709.h"
 typedef unsigned short u16;
 struct Util; struct Setup; struct Record; struct G3dSys; struct AnmCtl;
 extern const struct Setup d_021F7330;
@@ -32,23 +34,23 @@ void func_021F6F64(char *p)
     u16 i;
     void *q;
     int frame;
-    *(u16 *)(p+0x4c)=func_02047E88(*(struct Util **)(p+0x48),&d_021F7330);
-    *(u16 *)(p+0x50)=1;
-    *(struct Record **)(p+0x54)=func_021F66C8(*(u16 *)p,*(u16 *)(p+0x50));
-    id=func_020489F4(*(unsigned char **)(p+0x48),*(u16 *)(p+0x4c));
-    *(u16 *)(p+0x4e)=0;
-    entry=*(char **)(p+0x54);
-    *(u16 *)entry=id;
-    *(int *)(entry+4)=0;
-    *(int *)(entry+8)=0;
-    *(int *)(entry+12)=0;
-    *(int *)(entry+0x40)=1;
-    for(i=0;i<*(u16 *)(p+0x50);i++)
-        func_020477A4((struct G3dSys *)func_02048A18(*(unsigned char **)(p+0x48),*(u16 *)(*(char **)(p+0x54)+i*68)),0);
-    *(int *)(p+0x58)=0;
-    q=(void *)func_02048A18(*(unsigned char **)(p+0x48),*(u16 *)(*(char **)(p+0x54)+*(u16 *)(p+0x4e)*68));
+    ((struct Obj00317 *)p)->f4C=func_02047E88(*(struct Util * *)&((struct Obj00317 *)p)->f48,&d_021F7330);
+    ((struct Obj00317 *)p)->f50=1;
+    *(struct Record * *)&((struct Obj00317 *)p)->f54=func_021F66C8(((struct Obj00317 *)p)->f0,((struct Obj00317 *)p)->f50);
+    id=func_020489F4(*(unsigned char * *)&((struct Obj00317 *)p)->f48,((struct Obj00317 *)p)->f4C);
+    ((struct Obj00317 *)p)->f4E=0;
+    entry=*(char * *)&((struct Obj00317 *)p)->f54;
+    ((struct Obj06709 *)entry)->f0=id;
+    ((struct Obj06709 *)entry)->f4=0;
+    ((struct Obj06709 *)entry)->f8=0;
+    ((struct Obj06709 *)entry)->fC=0;
+    ((struct Obj06709 *)entry)->f40=1;
+    for(i=0;i<((struct Obj00317 *)p)->f50;i++)
+        func_020477A4((struct G3dSys *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+i*68)),0);
+    ((struct Obj00317 *)p)->f58=0;
+    q=(void *)func_02048A18(*(unsigned char * *)&((struct Obj00317 *)p)->f48,*(u16 *)(*(char * *)&((struct Obj00317 *)p)->f54+((struct Obj00317 *)p)->f4E*68));
     frame=0;
-    *(int *)(p+0x5c)=0;
+    ((struct Obj00317 *)p)->f5C=0;
     func_020477A4((struct G3dSys *)q,1);
     func_020477A4((struct G3dSys *)q,2);
     func_0204784C((struct AnmCtl *)q,1,&frame);

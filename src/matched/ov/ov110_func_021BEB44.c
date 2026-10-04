@@ -11,7 +11,8 @@
  * symbols:
  *   func_021B999C 0x021B999C thumb ov110
  */
+#include "../include/Obj13792.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern unsigned func_021B999C(u8 *,int);
-int func_021BEB44(u8 *p) { if(func_021B999C(*(u8 **)(p+0x18),*(u16 *)(p+0x4c))!=0) return 1; return 0; }
+int func_021BEB44(u8 *p) { if(func_021B999C(*(u8 * *)&((struct Obj13792 *)p)->f18,((struct Obj13792 *)p)->f4C)!=0) return 1; return 0; }

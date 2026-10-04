@@ -14,6 +14,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D73D8 0x021D73D8 thumb ov123
  */
+#include "../include/Obj05364.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,4 +23,4 @@ extern int func_02012DD0(u8 *p);
 extern u32 func_020056EC(u32 range);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D73D8(char *p);
-void func_021D7430(u8 *p) { if(*(int *)(p+112)<100) ++*(int *)(p+112); func_021D66D0(*(u8 **)(p+20),*(int *)(p+112)); if(func_02012DD0(*(void **)(p+44))==1) { *(int *)(p+120)=func_020056EC(190); func_021D6EE0((char *)p,(int)func_021D73D8,0x2e6); } }
+void func_021D7430(u8 *p) { if(((struct Obj05364 *)p)->f70<100) ++((struct Obj05364 *)p)->f70; func_021D66D0(*(u8 * *)&((struct Obj05364 *)p)->f14,((struct Obj05364 *)p)->f70); if(func_02012DD0(((struct Obj05364 *)p)->f2C)==1) { ((struct Obj05364 *)p)->f78=func_020056EC(190); func_021D6EE0((char *)p,(int)func_021D73D8,0x2e6); } }

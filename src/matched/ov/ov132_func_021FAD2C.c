@@ -14,6 +14,7 @@
  *   func_02011264 0x02011264 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj02485.h"
 typedef unsigned short u16;
 struct ScriptVm;
 extern int func_02011298(struct ScriptVm *vm);
@@ -22,16 +23,16 @@ extern void func_02011264(void *);
 extern void func_020307B0(void *);
 int func_021FAD2C(void *unused, char *p)
 {
-    if (*(u16 *)(p + 0x14) != 0) (*(u16 *)(p + 0x14))--;
-    if (*(u16 *)(p + 0x14) == 0 && !(*(u16 *)(p + 0x16) & 4)) {
-        func_02011298(*(void **)(p + 4));
-        if (*(u16 *)(p + 0x16) & 1) {
-            func_02011290(*(void **)(p + 4));
-            func_02011264(*(void **)(p + 4));
-            if (*(u16 *)(p + 0x16) & 8) func_020307B0(*(void **)(p + 0xc));
+    if (((struct Obj02485 *)p)->f14 != 0) (((struct Obj02485 *)p)->f14)--;
+    if (((struct Obj02485 *)p)->f14 == 0 && !(((struct Obj02485 *)p)->f16 & 4)) {
+        func_02011298(((struct Obj02485 *)p)->f4);
+        if (((struct Obj02485 *)p)->f16 & 1) {
+            func_02011290(((struct Obj02485 *)p)->f4);
+            func_02011264(((struct Obj02485 *)p)->f4);
+            if (((struct Obj02485 *)p)->f16 & 8) func_020307B0(((struct Obj02485 *)p)->fC);
             return 1;
         }
     }
-    (*(int *)(p + 0x10))++;
+    (((struct Obj02485 *)p)->f10)++;
     return 0;
 }

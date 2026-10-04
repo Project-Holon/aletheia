@@ -12,11 +12,12 @@
  * Unlabelled leaf getter: the word at +0x14.
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19487.h"
 
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 u32 func_02188C60(u8 *p)
 {
-    return *(u32 *)(p + 0x14);
+    return ((struct Obj19487 *)p)->f14;
 }

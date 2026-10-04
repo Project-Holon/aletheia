@@ -17,6 +17,7 @@
  *   func_021A5810  0x021A5810  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj06012.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,9 +33,9 @@ void func_020061E4(u32 a);
 
 void func_021A50E0(u32 *p, int b, u8 *c)
 {
-    func_0216D410(b, func_02197E7C(*(u16 *)(c + 8), 0x1C));
+    func_0216D410(b, func_02197E7C(((struct Obj06012 *)c)->f8, 0x1C));
     p[0] = 3;
     func_021A3964((u8 *)p[3], 0);
-    if (func_021A5810((u8 *)p, *(u16 *)(c + 8)) == 0)
+    if (func_021A5810((u8 *)p, ((struct Obj06012 *)c)->f8) == 0)
         func_020061E4(0x55A);
 }

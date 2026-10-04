@@ -24,6 +24,7 @@
  *   func_021C8838 0x021C8838 thumb ov093
  *   func_021C8860 0x021C8860 thumb ov093
  */
+#include "../include/Obj06268.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -69,7 +70,7 @@ void func_021E0A80(void *a, void *q, int id)
         r = func_021C88A4(q, 37, id);
         r[4] = id;
         r[5] = slot;
-        *(u16 *)(r + 8) = move;
+        ((struct Obj06268 *)r)->f8 = move;
         r[6] = 0;
         r[7] = 1;
         func_021C88C8(q, r);

@@ -17,6 +17,7 @@
  *   func_021BBAA4 0x021BBAA4 thumb ov217
  *   func_021BBD38 0x021BBD38 thumb ov217
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 extern unsigned func_021BC3D4(void);
 extern unsigned func_021BC3E0(void);
@@ -36,12 +37,12 @@ void func_021BBA30(u8 *p)
     right = func_021BC400(p[0x32]);
     if (right <= low) {
         index = func_021BC3EC(right + 1);
-        if (*(unsigned *)(p + 0x160)) func_021BBAA4((unsigned)p, index);
+        if (((struct Obj00025 *)p)->f160) func_021BBAA4((unsigned)p, index);
         else func_021BBD38(p, index);
     }
     if (high <= left) {
         index = func_021BC3EC(left - 1);
-        if (*(unsigned *)(p + 0x160)) func_021BBAA4((unsigned)p, index);
+        if (((struct Obj00025 *)p)->f160) func_021BBAA4((unsigned)p, index);
         else func_021BBD38(p, index);
     }
 }

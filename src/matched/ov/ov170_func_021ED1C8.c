@@ -27,6 +27,7 @@
  * eight frame pieces around window 10 while the count at 0xA16C is nonzero.
  * The index is an int compared against 8u (docs/idioms/a-signed-index-under-an-unsigned-bound-keeps-the-window-sum-uncached.md).
  */
+#include "../include/Obj08247.h"
 
 typedef struct {
     short x;
@@ -68,11 +69,11 @@ void func_021ED1C8(char *w)
     int j;
     Desc d;
     short xy[2];
-    if (*(unsigned short *)(w + 0xA16C) == 0)
+    if (((struct Obj08247 *)w)->fA16C == 0)
         return;
     j = 0;
     func_021EC0B0(w, 10, &xy[1], &xy[0], 0);
-    if (*(void **)(w + 0x9FD4) == 0) {
+    if (((struct Obj08247 *)w)->f9FD4 == 0) {
         d = d_021EFE70;
         setup(&d, (void **)(w + 0x9E9C));
         d.a = 0x27;
@@ -86,8 +87,8 @@ void func_021ED1C8(char *w)
             func_021EC000(w, j + 0x58, 0);
         }
     } else {
-        int n6 = func_0204B838(*(void **)(w + 0x9E9C));
-        int n7 = func_0204B864(*(void **)(w + 0x9E9C));
+        int n6 = func_0204B838(((struct Obj08247 *)w)->f9E9C);
+        int n7 = func_0204B864(((struct Obj08247 *)w)->f9E9C);
         for (; j < 8u; j++) {
             func_021EC08C(w, j + 0x58, xy[1] + d_021EFCD0[j], xy[0] + d_021EFCC8[j], 0);
             func_021EC048(w, j + 0x58, n6 + 1);

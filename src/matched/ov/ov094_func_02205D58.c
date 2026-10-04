@@ -12,6 +12,7 @@
  * symbols:
  *   d_0220A392  0x0220A392  data  ov094  a2
  */
+#include "../include/Obj06327.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -51,7 +52,7 @@ void func_02205D58(char *p, int mode)
     i = 0;
     row = p + mode * 0x48;
     for (; i < 6; i++) {
-        slots[i].h = func_0204B294((void *)*(u32 *)(p + 0x118), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
+        slots[i].h = func_0204B294((void *)((struct Obj06327 *)p)->f118, ((struct Obj06327 *)p)->f104, ((struct Obj06327 *)p)->f108, ((struct Obj06327 *)p)->f10C, d_0220A392, 1, ((struct Obj06327 *)p)->f240);
         func_0204B404(slots[i].h, &pos, 1);
         func_0204B92C(slots[i].h, 1);
         func_0204B878(slots[i].h, add + *(u8 *)(row + i * 12 + 0x75));

@@ -11,6 +11,7 @@
  *
  * Stores the 32-bit word into byte +0x10c of the object.
  */
+#include "../include/Obj17868.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -18,6 +19,6 @@ typedef unsigned int   u32;
 
 void func_02188CAC(u8 *p, u32 v)
 {
-    *(u32 *)(p + 0x10c) = v;
+    ((struct Obj17868 *)p)->f10C = v;
 }
 

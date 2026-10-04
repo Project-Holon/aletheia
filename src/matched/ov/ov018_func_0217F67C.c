@@ -13,6 +13,7 @@
  *   func_020124E8 0x020124E8 thumb
  *   func_0217F6A0 0x0217F6A0 thumb ov018
  */
+#include "../include/Obj19364.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -29,7 +30,7 @@ void *func_0217F67C(void *owner, u16 *out)
     zero = 0;
     task = func_020122C0(owner, 0, func_0217F6A0, 0x10);
     work = func_020124E8(task);
-    *(u16 **)(work + 0xC) = out;
+    *(u16 * *)&((struct Obj19364 *)work)->fC = out;
     *out = zero;
     return task;
 }

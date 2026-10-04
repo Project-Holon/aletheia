@@ -9,8 +9,9 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj20979.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 lo:6; u8 flag:1; u8 hi:1; } Flags;
-u32 func_021B9210(u8 *p) { u32 n; n=*(u32 *)(p+0x434); if(((Flags *)(p+0x473))->flag) { n*=2; if(n>99999) n=99999; } return n; }
+u32 func_021B9210(u8 *p) { u32 n; n=((struct Obj20979 *)p)->f434; if(((Flags *)(p+0x473))->flag) { n*=2; if(n>99999) n=99999; } return n; }

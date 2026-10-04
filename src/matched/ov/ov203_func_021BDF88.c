@@ -13,6 +13,7 @@
  *   func_0207CDB8 0x0207CDB8 arm
  *   func_02048CA4 0x02048CA4 arm
  */
+#include "../include/Obj25310.h"
 
 extern void func_0207CDB8(int, void *);
 extern void func_02048CA4(void *, int, void *);
@@ -21,5 +22,5 @@ void func_021BDF88(char *p, int a, int b)
 {
     int buf[2];
     func_0207CDB8(b, buf);
-    func_02048CA4(*(void **)(p + 0xc), a, buf);
+    func_02048CA4(((struct Obj25310 *)p)->fC, a, buf);
 }

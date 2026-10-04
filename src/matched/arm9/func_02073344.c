@@ -29,6 +29,7 @@
  * kept-constants pin), and the site resolves `matched x1`.  All six
  * relocations are attested.
  */
+#include "../include/Obj00513.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32; typedef signed int s32;
 
@@ -66,7 +67,7 @@ struct Node *func_02073344(struct Obj *o, s32 idx, s32 pri)
         return 0;
     }
     func_02073548(s, e);
-    *(struct Obj **)e = o;
+    *(struct Obj * *)&((struct Obj00513 *)e)->f0 = o;
     o->f0 = e;
     return e;
 }

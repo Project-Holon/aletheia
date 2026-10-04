@@ -24,6 +24,9 @@
  *   func_021FC490 0x021FC490 thumb ov132
  *   d_021FDD00 0x021FDD00 data a4
  */
+#include "../include/Obj02487.h"
+#include "../include/Obj04519.h"
+#include "../include/Obj04520.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,19 +53,19 @@ int func_021FC380(int unused,char *p)
  u32 f,e,d,b,c,a;
  void *ctx,*target,*scene,*obj;
  u8 i;
- owner=*(char **)p;
- a=func_0201134C(*(void **)(p+4));
- b=func_021FB1F4(p,func_0201134C(*(void **)(p+4)));
- c=func_0201134C(*(void **)(p+4));
- d=func_0201134C(*(void **)(p+4));
- e=func_0201134C(*(void **)(p+4));
- f=func_0201134C(*(void **)(p+4));
- ctx=func_021F9DD4(*(void **)(owner+0x34));
- target=func_021F9DDC(*(void **)(owner+0x34),a);
- scene=func_021F9DA0(*(void **)(owner+0x34));
+ owner=*(char * *)&((struct Obj04519 *)p)->f0;
+ a=func_0201134C(((struct Obj04519 *)p)->f4);
+ b=func_021FB1F4(p,func_0201134C(((struct Obj04519 *)p)->f4));
+ c=func_0201134C(((struct Obj04519 *)p)->f4);
+ d=func_0201134C(((struct Obj04519 *)p)->f4);
+ e=func_0201134C(((struct Obj04519 *)p)->f4);
+ f=func_0201134C(((struct Obj04519 *)p)->f4);
+ ctx=func_021F9DD4(((struct Obj04520 *)owner)->f34);
+ target=func_021F9DDC(((struct Obj04520 *)owner)->f34,a);
+ scene=func_021F9DA0(((struct Obj04520 *)owner)->f34);
  duration=c;
  for(i=0;i<4;i++) {
-  obj=func_021F9DA4(*(void **)(owner+0x34),i);
+  obj=func_021F9DA4(((struct Obj04520 *)owner)->f34,i);
   if(b&(1<<i)) {
    if(c==0) {
     func_021F8044(scene,obj,&pos);
@@ -70,17 +73,17 @@ int func_021FC380(int unused,char *p)
     func_0207C9D0(&pos,&delta,&pos);
     func_021F6EF4(ctx,target,&pos);
    } else {
-    func_021F9DF4(*(void **)(owner+0x34));
-    q=func_02030734(*(u16 *)owner,0x30,0,d_021FDD00,0x74D);
-    *(char **)(q+0x28)=owner;
-    *(u8 *)q=i;
-    *(void **)(q+4)=target;
-    *(void **)(q+8)=*(void **)(owner+0x34);
-    *(void **)(q+0xC)=obj;
-    *(u16 *)(q+0x1E)=0;
-    *(u32 *)(q+0x10)=d;*(u32 *)(q+0x14)=e;*(u32 *)(q+0x18)=f;
-    *(u16 *)(q+0x1C)=duration;
-    *(void **)(q+0x2C)=func_021FADA0(owner,(u32)func_021FC490,(u32)q,7);
+    func_021F9DF4(((struct Obj04520 *)owner)->f34);
+    q=func_02030734(((struct Obj04520 *)owner)->f0,0x30,0,d_021FDD00,0x74D);
+    *(char * *)&((struct Obj02487 *)q)->f28=owner;
+    ((struct Obj02487 *)q)->f0=i;
+    ((struct Obj02487 *)q)->f4=target;
+    ((struct Obj02487 *)q)->f8=((struct Obj04520 *)owner)->f34;
+    ((struct Obj02487 *)q)->fC=obj;
+    ((struct Obj02487 *)q)->f1E=0;
+    ((struct Obj02487 *)q)->f10=d;((struct Obj02487 *)q)->f14=e;((struct Obj02487 *)q)->f18=f;
+    ((struct Obj02487 *)q)->f1C=duration;
+    ((struct Obj02487 *)q)->f2C=func_021FADA0(owner,(u32)func_021FC490,(u32)q,7);
    }
   }
  }

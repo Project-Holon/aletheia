@@ -17,6 +17,7 @@
  *   func_021BF620 0x021BF620 thumb ov208
  * Third helper arguments are explicitly live in the original caller.
  */
+#include "../include/Obj00442.h"
 typedef unsigned short u16;
 struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
 extern void func_021BF4FC(void *,char *,void *,u16 *,u16 *,u16 *,u16 *,unsigned *,unsigned *,unsigned *);
@@ -28,14 +29,14 @@ extern void func_021BF620(void *,char *,void *);
 void func_021BF280(void *first,char *q,void *third,int next)
 {
     struct Params p;
-    int current=*(int *)(q+0x98);
+    int current=((struct Obj00442 *)q)->f98;
     if(current!=next) {
         if(current==6) {
             func_021BF4FC(first,q,third,&p.d,&p.c,&p.b,&p.a,&p.y,&p.x,p.arr);
-            func_021BA6B0(*(void **)(q+8),p.d,p.c,p.b,p.a,p.y,p.x,next);
-            func_021BA814(*(void **)(q+8));
-        } else func_021BA64C(*(void **)(q+8),next);
-        func_021BF63C(first,q,third);*(int *)(q+0x98)=next;
+            func_021BA6B0(((struct Obj00442 *)q)->f8,p.d,p.c,p.b,p.a,p.y,p.x,next);
+            func_021BA814(((struct Obj00442 *)q)->f8);
+        } else func_021BA64C(((struct Obj00442 *)q)->f8,next);
+        func_021BF63C(first,q,third);((struct Obj00442 *)q)->f98=next;
         func_021BF620(first,q,third);
     }
 }

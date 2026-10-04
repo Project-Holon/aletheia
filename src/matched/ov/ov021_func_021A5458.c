@@ -16,6 +16,7 @@
  *   func_021AB0F0  0x021AB0F0  thumb  ov021
  *   func_021AB348  0x021AB348  thumb  ov021
  */
+#include "../include/Obj19803.h"
 
 typedef unsigned int u32;
 
@@ -28,7 +29,7 @@ int func_021AB348(u16 id);
 
 int func_021A5458(u32 *p)
 {
-    int x = func_0216D7DC(func_021A3960(*(unsigned char **)(p + 3)));
+    int x = func_0216D7DC(func_021A3960(*(unsigned char * *)&((struct Obj19803 *)p)->fC));
 
     if (func_021A5318(p, 2) == 0 && func_021AB348(func_021AB0F0(x)) == 1)
         return 1;

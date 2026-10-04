@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22548.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F62DC(char *p) {*(u32 *)(p+0xec)|=4u;}
+void func_021F62DC(char *p) {((struct Obj22548 *)p)->fEC|=4u;}

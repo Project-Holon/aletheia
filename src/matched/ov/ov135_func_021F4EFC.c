@@ -17,6 +17,7 @@
  *   func_0204B1CC  0x0204B1CC  arm
  *   func_0204A5AC  0x0204A5AC  arm
  */
+#include "../include/Obj00996.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -35,18 +36,18 @@ extern void func_0204A5AC(void);
 void func_021F4EFC(u8 *p)
 {
     func_021FFCD4(p);
-    func_0204ADA4(*(u32 *)(p + 0xbe0));
-    func_0204A8D4(*(u32 *)(p + 0xbdc));
-    func_0204AFD8(*(u32 *)(p + 0xbe4));
-    func_0204ADA4(*(u32 *)(p + 0xbd4));
-    func_0204A8D4(*(u32 *)(p + 0xbd0));
-    func_0204AFD8(*(u32 *)(p + 0xbd8));
-    func_0204ADA4(*(u32 *)(p + 0xbc8));
-    func_0204A8D4(*(u32 *)(p + 0xbc4));
-    func_0204AFD8(*(u32 *)(p + 0xbcc));
-    func_0204A8D4(*(u32 *)(p + 0xbe8));
-    func_0204AFD8(*(u32 *)(p + 0xbf0));
-    func_0204B1CC((struct Bank *)(*(u32 *)(p + 0xbc0)));
-    *(u32 *)(p + 0xbc0) = 0;
+    func_0204ADA4(((struct Obj00996 *)p)->fBE0);
+    func_0204A8D4(((struct Obj00996 *)p)->fBDC);
+    func_0204AFD8(((struct Obj00996 *)p)->fBE4);
+    func_0204ADA4(((struct Obj00996 *)p)->fBD4);
+    func_0204A8D4(((struct Obj00996 *)p)->fBD0);
+    func_0204AFD8(((struct Obj00996 *)p)->fBD8);
+    func_0204ADA4(((struct Obj00996 *)p)->fBC8);
+    func_0204A8D4(((struct Obj00996 *)p)->fBC4);
+    func_0204AFD8(((struct Obj00996 *)p)->fBCC);
+    func_0204A8D4(((struct Obj00996 *)p)->fBE8);
+    func_0204AFD8(((struct Obj00996 *)p)->fBF0);
+    func_0204B1CC((struct Bank *)(((struct Obj00996 *)p)->fBC0));
+    ((struct Obj00996 *)p)->fBC0 = 0;
     func_0204A5AC();
 }

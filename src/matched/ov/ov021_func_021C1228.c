@@ -23,6 +23,7 @@
  *   func_021C1988  0x021C1988  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03610.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,16 +54,16 @@ void func_021C1228(u32 a, u16 b, u32 c, u32 d)
     int out;
 
     r = func_02030734((u16)(0x8000 | (d & 0x7fff)), 0x4c, 1, (const char *)&d_021DE3AC, 0x2b3);
-    *(u16 *)(r + 4) = b;
-    *(u32 *)(r + 0x3c) = a;
-    *(u32 *)(r + 0x40) = func_021A3068(a);
+    ((struct Obj03610 *)r)->f4 = b;
+    ((struct Obj03610 *)r)->f3C = a;
+    ((struct Obj03610 *)r)->f40 = func_021A3068(a);
     r7 = func_021A3074((void *)a);
     func_0216D88C(r7, (struct VecFx32 *)&va);
     vb = va;
-    func_02164208(*(u16 *)(r + 4), &vb, 0x20000);
+    func_02164208(((struct Obj03610 *)r)->f4, &vb, 0x20000);
     func_02163E58(r7, &vb, &out);
     if (out > va.y)
-        *(u16 *)r = 1;
-    *(u32 *)(r + 0x44) = func_021A36E0((u8 *)(*(u32 *)(r + 0x3c)));
-    func_02030DA8(func_02188D30((u8 *)(*(u32 *)(r + 0x40))), func_021C1988, r, 0);
+        ((struct Obj03610 *)r)->f0 = 1;
+    ((struct Obj03610 *)r)->f44 = func_021A36E0((u8 *)(((struct Obj03610 *)r)->f3C));
+    func_02030DA8(func_02188D30((u8 *)(((struct Obj03610 *)r)->f40)), func_021C1988, r, 0);
 }

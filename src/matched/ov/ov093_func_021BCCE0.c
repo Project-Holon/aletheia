@@ -47,6 +47,7 @@
  *   func_021CC95C 0x021CC95C thumb ov093
  *   func_021C85B8 0x021C85B8 thumb ov093
  */
+#include "../include/Obj00309.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -93,11 +94,11 @@ u32 func_021BCCE0(u8 *p, E *e)
         b = e->b;
         func_021C859C(p);
         e->processed = 1;
-        if (*(u32 *)(p + 0x14) == 5 && b.full.type != 4) goto end;
+        if (((struct Obj00309 *)p)->f14 == 5 && b.full.type != 4) goto end;
         if (func_021D5B68(a) != 0) goto end;
         if (b.full.type != 6 && func_021BCEEC(p + 0x1ab8, func_021D5440(a)) == 0) goto end;
         if (func_021D62C4(a, 0x21) != 0) {
-            if (b.full.type != 4 || func_021B86E4(*(u8 **)(p + 4)) != 2) {
+            if (b.full.type != 4 || func_021B86E4(*(u8 * *)&((struct Obj00309 *)p)->f4) != 2) {
                 if (func_021D69AC(a, 3) != 0) func_021C0780(p, a, 3, 0);
                 goto end;
             }
@@ -106,19 +107,19 @@ u32 func_021BCCE0(u8 *p, E *e)
         func_021D5FC0(a, 0);
         switch (b.full.type) {
         case 6:
-            if (func_021B8588(*(void **)(p + 4)) == 3) func_021BC418(p, e->d, (u8)b.full.select);
+            if (func_021B8588(((struct Obj00309 *)p)->f4) == 3) func_021BC418(p, e->d, (u8)b.full.select);
             break;
         case 1:
             if (p[0x1fe8] == 0) {
                 func_021BC568(p);
                 p[0x1fe8] = 1;
             }
-            *(int *)(p + 0x1f78) = func_021BCFAC(p, a);
+            ((struct Obj00309 *)p)->f1F78 = func_021BCFAC(p, a);
             func_021BDE98(p, a, &b, e->c & 0x3fffff);
             break;
         case 2:
             if (func_021CB730(p, a, (u16)b.full.move, (u8)b.full.arg, (u8)b.full.select) == 1) {
-                if (func_021BD708(p, a, 1, 1)) *(u32 *)(p + 0x14) = 5;
+                if (func_021BD708(p, a, 1, 1)) ((struct Obj00309 *)p)->f14 = 5;
             }
             break;
         case 3:
@@ -126,10 +127,10 @@ u32 func_021BCCE0(u8 *p, E *e)
             func_021BDA00(p);
             break;
         case 4:
-            if (func_021BD584(p, a)) *(u32 *)(p + 0x14) = 5;
+            if (func_021BD584(p, a)) ((struct Obj00309 *)p)->f14 = 5;
             break;
         case 8:
-            *(u32 *)(p + 0x14) = 4;
+            ((struct Obj00309 *)p)->f14 = 4;
             break;
         case 5:
             func_021BD3E8(p, a);

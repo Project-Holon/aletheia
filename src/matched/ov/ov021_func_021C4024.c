@@ -11,6 +11,7 @@
  * symbols:
  *   func_021C4078  0x021C4078  thumb
  */
+#include "../include/Obj20194.h"
 
 typedef unsigned int u32;
 
@@ -18,5 +19,5 @@ u32 func_021C4078(void);
 
 void func_021C4024(int a, char *p)
 {
-    *(u32 *)(p + 0x34) = func_021C4078();
+    ((struct Obj20194 *)p)->f34 = func_021C4078();
 }

@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj21130.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 typedef struct {
@@ -23,7 +24,7 @@ typedef struct {
 
 u32 func_021CC918(Bf *p, u32 v)
 {
-    u32 old = *(u32 *)p;
+    u32 old = ((struct Obj21130 *)p)->f0;
     p->a = v;
     p->c = p->b;
     p->e = 0;

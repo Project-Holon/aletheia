@@ -15,6 +15,7 @@
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021C7E14  0x021C7E14  thumb  ov093
  */
+#include "../include/Obj06343.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,9 +37,9 @@ void func_02189170(int a, int b, int c)
 
     func_0201134C(a);
     t = func_0201134C(a);
-    w = func_021D59B4(*(u8 **)(b + 0xc0), 0xd);
-    y = func_021D5440(*(u8 **)(b + 0xbc));
-    z = func_021D5440(*(u8 **)(b + 0xc0));
-    r = func_021C7E14((u8 *)(*(int *)(b + 0xb4)), y, z, *(u16 *)(b + 2), 1, 0);
+    w = func_021D59B4(*(u8 * *)&((struct Obj06343 *)b)->fC0, 0xd);
+    y = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fBC);
+    z = func_021D5440(*(u8 * *)&((struct Obj06343 *)b)->fC0);
+    r = func_021C7E14((u8 *)(((struct Obj06343 *)b)->fB4), y, z, ((struct Obj06343 *)b)->f2, 1, 0);
     func_0218A0F4((u8 *)a, c, w, r, t);
 }

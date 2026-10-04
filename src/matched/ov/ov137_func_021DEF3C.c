@@ -11,8 +11,9 @@
  * symbols:
  *   func_021DCBC4 0x021DCBC4 thumb ov137
  */
+#include "../include/Obj14223.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021DCBC4(void *,int,void *,int);
-int func_021DEF3C(u8 *p) { u16 buf; buf=4; if(func_021DCBC4(*(void **)(p+0xdc),0x2805,&buf,2)==1) *(int *)p=22; return 0; }
+int func_021DEF3C(u8 *p) { u16 buf; buf=4; if(func_021DCBC4(((struct Obj14223 *)p)->fDC,0x2805,&buf,2)==1) ((struct Obj14223 *)p)->f0=22; return 0; }

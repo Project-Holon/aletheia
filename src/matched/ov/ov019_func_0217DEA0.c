@@ -24,6 +24,8 @@
  *   func_021A3460  0x021A3460  thumb  ov021
  *   func_021679A4  0x021679A4  thumb  ov010
  */
+#include "../include/Obj12527.h"
+#include "../include/Obj19419.h"
 
 typedef unsigned char u8;
 typedef short s16;
@@ -50,7 +52,7 @@ extern int func_021679A4(void *a0, int a1, int a2, int a3, int a4, int a5);
 
 int func_0217DEA0(void *ctx, Obj *obj, int a2, u8 *state)
 {
-    u8 *w = *(u8 **)((u8 *)ctx + 0x355c);
+    u8 *w = *(u8 * *)&((struct Obj19419 *)ctx)->f355C;
     void *a;
     int m;
     unsigned out;
@@ -83,7 +85,7 @@ int func_0217DEA0(void *ctx, Obj *obj, int a2, u8 *state)
         if (func_020362DC() & 1) {
             k = 0;
             func_021A3460((u32)a, (u32)(&v[2]), (u32)(&v[1]), (u32)(&v[0]));
-            if (func_021679A4((void *)(*(int *)w), v[2], v[1], v[0], (int)(&m), (int)(&k)) == 1) {
+            if (func_021679A4((void *)(((struct Obj12527 *)w)->f0), v[2], v[1], v[0], (int)(&m), (int)(&k)) == 1) {
                 w[0x16c] = m;
                 func_0217B8E4(ctx, 0x33);
                 func_0217BAF0(ctx, a2, 1);

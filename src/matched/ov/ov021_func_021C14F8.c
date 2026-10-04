@@ -18,6 +18,7 @@
  *   func_021AC154  0x021AC154  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01506.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,19 +41,19 @@ int func_021C14F8(u8 *p)
     Vec3 v;
     void *r4;
 
-    r4 = func_021A3074(*(void **)(p + 0x3c));
+    r4 = func_021A3074(((struct Obj01506 *)p)->f3C);
     func_0216D88C(r4, (struct VecFx32 *)&v);
-    v.y += *(int *)(p + 0x34);
-    if (v.y >= *(int *)(p + 0x28)) {
-        v.y = *(int *)(p + 0x28);
-        *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
-        *(int *)(p + 0x30) = (*(int *)(p + 0x24) - v.x) / 16;
-        *(int *)(p + 0x38) = (*(int *)(p + 0x2c) - v.z) / 16;
-        *(int *)(p + 0x10) = -0x8000;
-        *(int *)(p + 0x34) = 0x6000;
-        *(int *)(p + 0x10) = func_0209C0A4(-0x8000, 0xb);
-        func_021C6B18(*(u32 *)(p + 0x40), 0x10, (u32)-0x8000 << 2);
-        func_021AC154(*(u32 *)(p + 0x48));
+    v.y += ((struct Obj01506 *)p)->f34;
+    if (v.y >= ((struct Obj01506 *)p)->f28) {
+        v.y = ((struct Obj01506 *)p)->f28;
+        ((struct Obj01506 *)p)->f2 = ((struct Obj01506 *)p)->f2 + 1;
+        ((struct Obj01506 *)p)->f30 = (((struct Obj01506 *)p)->f24 - v.x) / 16;
+        ((struct Obj01506 *)p)->f38 = (((struct Obj01506 *)p)->f2C - v.z) / 16;
+        ((struct Obj01506 *)p)->f10 = -0x8000;
+        ((struct Obj01506 *)p)->f34 = 0x6000;
+        ((struct Obj01506 *)p)->f10 = func_0209C0A4(-0x8000, 0xb);
+        func_021C6B18(((struct Obj01506 *)p)->f40, 0x10, (u32)-0x8000 << 2);
+        func_021AC154(((struct Obj01506 *)p)->f48);
     }
     func_0216D89C(r4, &v);
     return 0;

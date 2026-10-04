@@ -15,8 +15,10 @@
  *   func_021F9140 0x021F9140 thumb ov132
  *   func_021F9AD8 0x021F9AD8 thumb ov132
  */
+#include "../include/Obj10553.h"
+#include "../include/Obj14111.h"
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
 extern void func_021F9140(unsigned char *,unsigned char,unsigned char);
 extern void func_021F9AD8(char *,int,unsigned char);
-int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char **)p;index=func_0201134C(*(struct Cursor **)(p+4));n=func_0201134C(*(struct Cursor **)(p+4));func_021F9140(*(unsigned char **)(obj+0x34),n,index);func_021F9AD8(*(char **)(obj+0x34),1,index);return 0; }
+int func_021FB7A4(int unused,char *p) { char *obj; unsigned int index,n; obj=*(char * *)&((struct Obj10553 *)p)->f0;index=func_0201134C(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);n=func_0201134C(*(struct Cursor * *)&((struct Obj10553 *)p)->f4);func_021F9140(*(unsigned char * *)&((struct Obj14111 *)obj)->f34,n,index);func_021F9AD8(*(char * *)&((struct Obj14111 *)obj)->f34,1,index);return 0; }

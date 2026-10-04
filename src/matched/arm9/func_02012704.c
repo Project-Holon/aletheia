@@ -41,6 +41,7 @@
  *   python tools/match.py one --src src/matched/func_02012704.c \
  *       --func func_02012704 --addr 0x02012704 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01611.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -62,19 +63,19 @@ extern void func_0202889C(struct SoundSys *s);
 
 void func_02012704(u8 *p)
 {
-    func_020307B0((void *)(*(u32 *)(p + 0x6AC)));
-    func_021647D8(*(u32 *)(p + 0x690));
-    func_02027584((u8 *)(*(u32 *)(p + 0x68C)));
-    func_0202E794((void *)(*(u32 *)(p + 0x684)));
-    func_0215E334(*(u32 *)(p + 0x5E4));
-    func_02006E64((struct Sub02006E40Obj *)(*(u32 *)(p + 0x1A4)));
-    func_020307B0((void *)(*(u32 *)(p + 0x1A0)));
-    func_02007AC8((void *)(*(u32 *)(p + 0x19C)));
-    func_020307B0((void *)(*(u32 *)(p + 0x18C)));
-    func_0216CCB0(*(u32 *)(p + 0x1A8));
-    func_02159BBC((void *)(*(u32 *)(p + 0x1B0)));
-    func_021623BC(*(u32 *)(p + 0x158));
-    func_02014444(*(u32 *)(p + 0x1B8));
-    func_0202889C((struct SoundSys *)(*(u32 *)(p + 0x1B4)));
+    func_020307B0((void *)(((struct Obj01611 *)p)->f6AC));
+    func_021647D8(((struct Obj01611 *)p)->f690);
+    func_02027584((u8 *)(((struct Obj01611 *)p)->f68C));
+    func_0202E794((void *)(((struct Obj01611 *)p)->f684));
+    func_0215E334(((struct Obj01611 *)p)->f5E4);
+    func_02006E64((struct Sub02006E40Obj *)(((struct Obj01611 *)p)->f1A4));
+    func_020307B0((void *)(((struct Obj01611 *)p)->f1A0));
+    func_02007AC8((void *)(((struct Obj01611 *)p)->f19C));
+    func_020307B0((void *)(((struct Obj01611 *)p)->f18C));
+    func_0216CCB0(((struct Obj01611 *)p)->f1A8);
+    func_02159BBC((void *)(((struct Obj01611 *)p)->f1B0));
+    func_021623BC(((struct Obj01611 *)p)->f158);
+    func_02014444(((struct Obj01611 *)p)->f1B8);
+    func_0202889C((struct SoundSys *)(((struct Obj01611 *)p)->f1B4));
     func_020307B0((void *)((u32)p));
 }

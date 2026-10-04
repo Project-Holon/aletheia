@@ -25,6 +25,7 @@
  * An 8-bit candidate count keeps its immediate spill/reload; m precedes n
  * in the declaration list to place those spills at +8 and +4 respectively.
  */
+#include "../include/Obj13471.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -61,7 +62,7 @@ void func_021DB00C(int a, void *b, int c)
                 }
                 r = (u8 *)func_021C88A4(b, 7, c);
                 r[6] = list[i];
-                *(u16 *)(r + 4) = func_021D7B74(m, 8);
+                ((struct Obj13471 *)r)->f4 = func_021D7B74(m, 8);
                 func_021C8838(r + 12, 2, 0x1e4);
                 func_021C8860((struct S *)(r + 12), list[i]);
                 func_021C88C8(b, r);

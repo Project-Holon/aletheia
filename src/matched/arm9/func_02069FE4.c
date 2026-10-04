@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16535.h"
 
 int func_02069FE4(int p)
 {
-    return p ? (*(unsigned short *)(p + 0x1c) << 3) : 0;
+    return p ? (((struct Obj16535 *)p)->f1C << 3) : 0;
 }

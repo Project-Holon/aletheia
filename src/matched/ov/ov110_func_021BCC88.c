@@ -12,6 +12,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B878 0x0204B878 arm
  */
+#include "../include/Obj00295.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -23,7 +24,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BCC88(u8 *p)
 {
     func_021BCAD8(p);
-    func_0204B3DC(*(void **)(p + 0x28), 1);
-    func_0204B878(*(void **)(p + 0x28), 1);
-    *(u32 *)(p + 0x2c) = 0;
+    func_0204B3DC(((struct Obj00295 *)p)->f28, 1);
+    func_0204B878(((struct Obj00295 *)p)->f28, 1);
+    ((struct Obj00295 *)p)->f2C = 0;
 }

@@ -14,6 +14,7 @@
  * symbols:
  *   none (no external calls, no data references)
  */
+#include "../include/Obj08866.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,7 +28,7 @@ struct Rec {
 
 void func_0204F794(void *p, u32 idx, u32 *val)
 {
-    struct Rec *r = (struct Rec *)(*(u8 **)((u8 *)p + 8) + idx * 0x1c + 0x18);
+    struct Rec *r = (struct Rec *)(*(u8 * *)&((struct Obj08866 *)p)->f8 + idx * 0x1c + 0x18);
 
     r->b11 = (u16)*val;
 }

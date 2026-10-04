@@ -23,6 +23,7 @@
  *   func_021D6C3C 0x021D6C3C thumb ov093
  *   func_021D5848 0x021D5848 thumb ov093
  */
+#include "../include/Obj09940.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021B985C(char *p, int i);
@@ -56,12 +57,12 @@ void func_021B969C(char *a, char *b, int k, int flag)
     list = (void *)func_021B985C(a, k);
     g = func_021B9AEC(a, k);
     n = func_0201AA18(list);
-    func_0201A948(*(void **)(b + 0x2b8));
+    func_0201A948(((struct Obj09940 *)b)->f2B8);
     for (i = 0; i < 6; i++) links[i] = 6;
     for (i = 0; i < n; i++) {
         m = func_021B9BF0(g, i);
         func_021D6B84(m, flag);
-        func_0201A98C(*(void **)(b + 0x2b8), func_021D5844(m));
+        func_0201A98C(((struct Obj09940 *)b)->f2B8, func_021D5844(m));
         if (func_021D6C24(m)) {
             h = func_021D5864(m);
             for (j = 0; j < n; j++) {
@@ -72,7 +73,7 @@ void func_021B969C(char *a, char *b, int k, int flag)
             }
         }
     }
-    func_0201AC2C(*(void **)(b + 0x2b8), list);
+    func_0201AC2C(((struct Obj09940 *)b)->f2B8, list);
     for (i = 0; i < n; i++) {
         e = func_0201AB28(list, i);
         m = func_021B9BF0(g, i);

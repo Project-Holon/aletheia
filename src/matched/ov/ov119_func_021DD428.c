@@ -16,6 +16,7 @@
  *   func_021DF918 0x021DF918 thumb ov119
  *   d_021E80E0 0x021E80E0 data ov119 a4
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020173EC(void);
@@ -42,7 +43,7 @@ int func_021DD428(State *p,int side,int a,int b,void *value)
             p->a[side][i]=a;
             p->b[side][i]=b;
             if(p->value[side][i]==0)
-                p->value[side][i]=func_02030734(*(u16 *)((char *)p+0x5f4),func_020173EC(),1,d_021E80E0,0x14c);
+                p->value[side][i]=func_02030734(((struct Obj00001 *)p)->f5F4,func_020173EC(),1,d_021E80E0,0x14c);
             func_02082D44(value,p->value[side][i],func_020173EC());
             func_021DF918(p,side,value);
             return i;

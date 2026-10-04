@@ -28,6 +28,8 @@
  * types, so it is kept outside the tree pending a decision:
  * docs/notes/func_02165CC0_variantF.c.txt.
  */
+#include "../include/Obj17722.h"
+#include "../include/Obj17723.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,7 +43,7 @@ void func_02165CC0(int a0, int a1)
     int t5;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)a1 + 0xc);
+a0 = ((struct Obj17722 *)a1)->fC;
 a0 = a0 << 0x10;
 t5 = (unsigned)a0 >> 0x1c;
     a0 = (int)func_02087D1C();
@@ -49,5 +51,5 @@ loc_02165CCE:
 a1 = t5 << 0x1c;
 a1 = (unsigned)a1 >> 0x1b;
 a0 = *(u16 *)((char *)a0 + a1);
-*(u16 *)((char *)t4) = a0;
+((struct Obj17723 *)((char *)t4))->f0 = a0;
     return;}

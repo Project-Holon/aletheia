@@ -20,6 +20,7 @@
  *   func_020056A0 0x020056A0 thumb
  *   d_021B89D8 0x021B89D8 data a4
  */
+#include "../include/Obj22239.h"
 typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
 typedef unsigned int   u32;
@@ -37,5 +38,5 @@ void func_021B784C(u8 *p,int a) {
  func_02082BCC(p,0,0xb0); func_0204335C(0); func_020433E0(d_021B89D8);
  func_0204363C(0); func_0204361C(); func_020434CC();
  func_021B7A88(p+4,d_021B89D8,a); func_021B78F4(p,a);
- *(void **)(p+0xac)=func_020056A0((void (*)(void *))func_021B78E0,p,0);
+ ((struct Obj22239 *)p)->fAC=func_020056A0((void (*)(void *))func_021B78E0,p,0);
 }

@@ -15,6 +15,7 @@
  *   func_02048A18 0x02048A18 arm
  *   func_02047A60 0x02047A60 arm
  */
+#include "../include/Obj06675.h"
 
 struct Light;
 extern void func_02048AD0(struct Light *l);
@@ -27,8 +28,8 @@ extern void func_02047A60(void *, void *);
 void func_021BF9FC(char *p)
 {
     struct Transform { int pos[3]; int scale[3]; int matrix[9]; } t;
-    func_02048AD0(*(void **)(p + 12));
-    if (*(unsigned int *)(p + 20) != 0 && *(unsigned int *)(p + 24) != 0)
+    func_02048AD0(((struct Obj06675 *)p)->fC);
+    if (((struct Obj06675 *)p)->f14 != 0 && ((struct Obj06675 *)p)->f18 != 0)
     {
         t.pos[0] = 0;
         t.pos[1] = 0;
@@ -37,6 +38,6 @@ void func_021BF9FC(char *p)
         t.scale[1] = 4096;
         t.scale[2] = 4096;
         func_0207ADC4(t.matrix);
-        func_02047A60((void *)func_02048A18(*(void **)(p + 8), *(unsigned short *)(p + 16)), &t);
+        func_02047A60((void *)func_02048A18(((struct Obj06675 *)p)->f8, ((struct Obj06675 *)p)->f10), &t);
     }
 }

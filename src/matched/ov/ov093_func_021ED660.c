@@ -17,6 +17,7 @@
  *   func_02031290  0x02031290  arm
  *   func_021ED724  0x021ED724  thumb  ov093
  */
+#include "../include/Obj10120.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -34,9 +35,9 @@ void func_021ED660(char *p, u32 k, u32 a, u32 b)
 {
     struct S *t;
 
-    t = (struct S *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED724, 0x18, 1));
-    t->v = func_021D5844(func_021B98AC(*(char *const **)(p + 0x138),
-                                              func_021B8ED8(*(u8 **)(p + 0x134), a)));
+    t = (struct S *)func_02031290(func_020311B8(((struct Obj10120 *)p)->f2C, (void *)func_021ED724, 0x18, 1));
+    t->v = func_021D5844(func_021B98AC(*(char *const * *)&((struct Obj10120 *)p)->f138,
+                                              func_021B8ED8(*(u8 * *)&((struct Obj10120 *)p)->f134, a)));
     t->w = p;
     t->k = k;
     t->cnt = (u8 *)p + 0x40;

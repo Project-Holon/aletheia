@@ -21,6 +21,7 @@
  *   d_021BB69C 0x021BB69C data a4
  *   d_021BB68C 0x021BB68C data a4
  */
+#include "../include/Obj02449.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,8 +41,8 @@ void func_021BB180(int p)
     struct Word b,a;
     struct Task task;
     func_021BA5F4(p);
-    if(*(int *)(p+0xc8c)==1) {
-        if(*(int *)(p+0xc7c)) {
+    if(((struct Obj02449 *)p)->fC8C==1) {
+        if(((struct Obj02449 *)p)->fC7C) {
             b=d_021BB69C;
             func_021BA3A4(&b,p);
         } else {
@@ -56,19 +57,19 @@ void func_021BB180(int p)
         func_021BA64C(p,5);
         func_021BA64C(p,1);
         func_021BA64C(p,3);
-        if(*(int *)(p+0xc7c)) {
+        if(((struct Obj02449 *)p)->fC7C) {
             task.state=0;
             task.context=p;
             task.callback=func_021BB0C4;
-            func_0204BA00((struct Actor *)(*(int *)(p+0x2c8)),(const struct Cmd *)(&task));
+            func_0204BA00((struct Actor *)(((struct Obj02449 *)p)->f2C8),(const struct Cmd *)(&task));
             task.callback=func_021BB10C;
-            func_0204BA00((struct Actor *)(*(int *)(p+0x2d0)),(const struct Cmd *)(&task));
+            func_0204BA00((struct Actor *)(((struct Obj02449 *)p)->f2D0),(const struct Cmd *)(&task));
         }
-        *(int *)(p+0xc8c)=0;
+        ((struct Obj02449 *)p)->fC8C=0;
     }
-    *(int *)(p+0xc98)=(int)(*(u32 *)(p+0xc98)+1);
-    if(*(int *)(p+0xc98)>8 && *(int *)(p+0xcec)) {
-        *(int *)(p+0xc94)=0;
+    ((struct Obj02449 *)p)->fC98=(int)(*(u32 *)&((struct Obj02449 *)p)->fC98+1);
+    if(((struct Obj02449 *)p)->fC98>8 && ((struct Obj02449 *)p)->fCEC) {
+        ((struct Obj02449 *)p)->fC94=0;
         func_02040588(1,0);
     }
 }

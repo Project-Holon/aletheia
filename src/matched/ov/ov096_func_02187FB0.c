@@ -18,6 +18,7 @@
  *   func_0203F0A8 0x0203F0A8 arm
  *   _ull_mul 0x0209C054 arm
  */
+#include "../include/Obj00067.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
@@ -35,11 +36,11 @@ int func_02187FB0(u8 *a)
     u64 r;
     int result;
     p = func_02011324(a);
-    if (*(u32 *)(p + 0x98) == 0) {
+    if (((struct Obj00067 *)p)->f98 == 0) {
         p[0x95] = p[0x94] ^ 1;
         return func_0218814C(a, p);
     }
-    if (*(u32 *)(p + 0x98) == 1 || *(u32 *)(p + 0x98) == 2) {
+    if (((struct Obj00067 *)p)->f98 == 1 || ((struct Obj00067 *)p)->f98 == 2) {
         return func_02188284(a, p);
     }
     n = 0;

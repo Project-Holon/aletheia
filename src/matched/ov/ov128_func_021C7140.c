@@ -23,6 +23,9 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02027F60 0x02027F60 thumb
  */
+#include "../include/Obj02482.h"
+#include "../include/Obj02841.h"
+#include "../include/Obj14034.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -68,22 +71,22 @@ void func_021C7140(struct P *p, u8 *a, u8 *ctx, u16 heap)
     p->buf=func_020457B0(128,heap);
     buf=func_020457B0(128,heap);
     text=func_020457B0(128,heap);
-    func_0201F02C(*(void **)ctx,0,func_02012944(*(void **)(a+4)));
+    func_0201F02C(((struct Obj02482 *)ctx)->f0,0,func_02012944(((struct Obj14034 *)a)->f4));
     for(i=0;i<3;i++) {
-        func_02045CAC(*(void **)(ctx+4),i+1,text);
-        func_0201F250(*(void **)ctx,buf,text);
-        width=func_0201D304((struct StrObj *)((u32)buf),*(u32 *)(ctx+0x17c),0);
-        func_021B6AE4((u8 *)p+12,*(u32 *)(ctx+52),(192-width)/2,i*40+8,(u32)buf,*(u32 *)(ctx+0x17c),0x440,0);
+        func_02045CAC(((struct Obj02482 *)ctx)->f4,i+1,text);
+        func_0201F250(((struct Obj02482 *)ctx)->f0,buf,text);
+        width=func_0201D304((struct StrObj *)((u32)buf),((struct Obj02482 *)ctx)->f17C,0);
+        func_021B6AE4((u8 *)p+12,((struct Obj02482 *)ctx)->f34,(192-width)/2,i*40+8,(u32)buf,((struct Obj02482 *)ctx)->f17C,0x440,0);
     }
-    func_021CA4B4(*(void **)((u8 *)p+12));
+    func_021CA4B4(((struct Obj02841 *)p)->fC);
     func_02045808(buf);
     func_02045808(text);
-    *(void **)((u8 *)p+20)=func_02049EF4(*(void **)(ctx+8),13,0,(void **)((u8 *)p+24),heap);
-    p->text1=func_02045EC0(*(void **)(ctx+4),66);
+    ((struct Obj02841 *)p)->f14=func_02049EF4(((struct Obj02482 *)ctx)->f8,13,0,(void **)((u8 *)p+24),heap);
+    p->text1=func_02045EC0(((struct Obj02482 *)ctx)->f4,66);
     p->color1=0x39e3;
     p->flag1=0;
-    p->text2=func_02045EC0(*(void **)(ctx+4),67);
+    p->text2=func_02045EC0(((struct Obj02482 *)ctx)->f4,67);
     p->color2=0x39e3;
     p->flag2=0;
-    p->menu=func_02027F60(1,14,*(u32 *)(ctx+0x17c),*(u32 *)(ctx+52),heap);
+    p->menu=func_02027F60(1,14,((struct Obj02482 *)ctx)->f17C,((struct Obj02482 *)ctx)->f34,heap);
 }

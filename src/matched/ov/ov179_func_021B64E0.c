@@ -21,6 +21,7 @@
  *   _ull_mul       0x0209C054  arm
  *   _ll_udiv       0x0209C00C  arm
  */
+#include "../include/Obj00546.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,44 +41,44 @@ extern void func_021B669C(int, int, int, int, int);
 
 int func_021B64E0(char *p)
 {
-    const Entry *e = &data_021B6A1C[**(u16 **)p];
+    const Entry *e = &data_021B6A1C[**(u16 * *)&((struct Obj00546 *)p)->f0];
 
-    if (*(u64 *)(p + 0x6040) == 0) {
-        *(u64 *)(p + 0x6040) = func_020870D0();
+    if (((struct Obj00546 *)p)->f6040 == 0) {
+        ((struct Obj00546 *)p)->f6040 = func_020870D0();
     } else {
         u64 now = func_020870D0();
-        *(u64 *)(p + 0x6048) += (now - *(u64 *)(p + 0x6040)) * 64000 / 33514;
-        *(u64 *)(p + 0x6040) = now;
-        if (*(u64 *)(p + 0x6048) < 66667)
+        ((struct Obj00546 *)p)->f6048 += (now - ((struct Obj00546 *)p)->f6040) * 64000 / 33514;
+        ((struct Obj00546 *)p)->f6040 = now;
+        if (((struct Obj00546 *)p)->f6048 < 66667)
             return 4;
-        *(u64 *)(p + 0x6048) -= 66667;
+        ((struct Obj00546 *)p)->f6048 -= 66667;
     }
 
-    switch (*(u8 *)(p + 0x603F)) {
+    switch (((struct Obj00546 *)p)->f603F) {
     case 0:
-        func_021B669C(*(int *)(p + 4), *(u16 *)(p + 0x603C), e->b, e->a, 0);
-        (*(u16 *)(p + 0x603C))++;
-        func_021B669C(*(int *)(p + 4), *(u16 *)(p + 0x603C), e->b, e->a, 1);
-        (*(u16 *)(p + 0x603C))++;
+        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 0);
+        (((struct Obj00546 *)p)->f603C)++;
+        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, 1);
+        (((struct Obj00546 *)p)->f603C)++;
         func_0204047C(2, 0);
         func_0204047C(3, 1);
-        *(u8 *)(p + 0x603F) = 1;
+        ((struct Obj00546 *)p)->f603F = 1;
         break;
     case 1:
-        func_0204047C((*(u8 *)(p + 0x603E) ^ 1) + 2, 0);
-        func_0204047C(*(u8 *)(p + 0x603E) + 2, 1);
-        func_021B669C(*(int *)(p + 4), *(u16 *)(p + 0x603C), e->b, e->a, *(u8 *)(p + 0x603E));
-        (*(u16 *)(p + 0x603C))++;
-        if (*(u16 *)(p + 0x603C) >= e->count) {
-            *(u8 *)(p + 0x603F) = 2;
+        func_0204047C((((struct Obj00546 *)p)->f603E ^ 1) + 2, 0);
+        func_0204047C(((struct Obj00546 *)p)->f603E + 2, 1);
+        func_021B669C(((struct Obj00546 *)p)->f4, ((struct Obj00546 *)p)->f603C, e->b, e->a, ((struct Obj00546 *)p)->f603E);
+        (((struct Obj00546 *)p)->f603C)++;
+        if (((struct Obj00546 *)p)->f603C >= e->count) {
+            ((struct Obj00546 *)p)->f603F = 2;
         } else {
-            *(u8 *)(p + 0x603E) ^= 1;
+            ((struct Obj00546 *)p)->f603E ^= 1;
         }
         break;
     case 2:
-        func_0204047C(*(u8 *)(p + 0x603E) + 2, 0);
-        func_0204047C((*(u8 *)(p + 0x603E) ^ 1) + 2, 1);
-        *(u8 *)(p + 0x603F) = 3;
+        func_0204047C(((struct Obj00546 *)p)->f603E + 2, 0);
+        func_0204047C((((struct Obj00546 *)p)->f603E ^ 1) + 2, 1);
+        ((struct Obj00546 *)p)->f603F = 3;
         break;
     case 3:
         return 5;

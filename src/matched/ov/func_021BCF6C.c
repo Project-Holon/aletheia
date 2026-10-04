@@ -14,15 +14,16 @@
 
  * BLOCKED.  Unverifiable: func_021BD11C resolves only through the `matched` class and layout/matched/ov093 holds func_021B911C in two shards, which aborts every manifest load.
  */
+#include "../include/Obj04613.h"
 
 
 extern void func_021BD11C(char *);
 
 void func_021BCF6C(char *p)
 {
-    if (*(int *)(p + 0x10) != 0) {
+    if (((struct Obj04613 *)p)->f10 != 0) {
         func_021BD11C(p + 8);
-        *(int *)(p + 0x10) = 0;
+        ((struct Obj04613 *)p)->f10 = 0;
     }
 }
 

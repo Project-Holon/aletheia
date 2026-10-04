@@ -16,6 +16,7 @@
  *   func_0204B1CC  0x0204B1CC  arm
  *   func_0204A5AC  0x0204A5AC  arm
  */
+#include "../include/Obj01132.h"
 
 typedef unsigned int   u32;
 extern void func_0204A8D4(u32 i);
@@ -27,13 +28,13 @@ extern void func_0204A5AC(void);
 
 void func_021B9BF0(char *p)
 {
-    func_0204A8D4(*(int *)(p + 0x144));
-    func_0204ADA4(*(int *)(p + 0x140));
-    func_0204AFD8(*(int *)(p + 0x148));
-    func_0204A8D4(*(int *)(p + 0x138));
-    func_0204ADA4(*(int *)(p + 0x134));
-    func_0204AFD8(*(int *)(p + 0x13C));
-    func_0204B1CC((struct Bank *)(*(int *)(p + 0x120)));
-    func_0204B1CC((struct Bank *)(*(int *)(p + 0x11C)));
+    func_0204A8D4(((struct Obj01132 *)p)->f144);
+    func_0204ADA4(((struct Obj01132 *)p)->f140);
+    func_0204AFD8(((struct Obj01132 *)p)->f148);
+    func_0204A8D4(((struct Obj01132 *)p)->f138);
+    func_0204ADA4(((struct Obj01132 *)p)->f134);
+    func_0204AFD8(((struct Obj01132 *)p)->f13C);
+    func_0204B1CC((struct Bank *)(((struct Obj01132 *)p)->f120));
+    func_0204B1CC((struct Bank *)(((struct Obj01132 *)p)->f11C));
     func_0204A5AC();
 }

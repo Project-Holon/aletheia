@@ -16,6 +16,7 @@
  *   func_0207CCA4 0x0207CCA4 arm
  *   func_0207CEE4 0x0207CEE4 arm
  */
+#include "../include/Obj02935.h"
 typedef struct {long x,y,z;} Vec;
 extern void func_02048AE8(void *,Vec *),func_02048B30(void *,Vec *),func_02048AFC(void *,const Vec *);
 extern void func_0207CA00(const Vec *,const Vec *,Vec *),func_0207CCA4(const Vec *,Vec *),func_0207CEE4(long,const Vec *,const Vec *,Vec *);
@@ -26,28 +27,28 @@ int func_02185AC8(char *p)
     long distance;
     int done;
     done=0;
-    func_02048AE8(*(void **)(p+0xC36C),&position);
-    func_02048B30(*(void **)(p+0xC36C),&target);
+    func_02048AE8(((struct Obj02935 *)p)->fC36C,&position);
+    func_02048B30(((struct Obj02935 *)p)->fC36C,&target);
     func_0207CA00(&position,&target,&direction);
     distance=func_0207CBD0(&direction);
     func_0207CCA4(&direction,&direction);
-    switch(*(unsigned short *)(p+0xC30C)) {
+    switch(((struct Obj02935 *)p)->fC30C) {
     case 1:
         if(distance>360448) {
             distance-=32768;
-            *(int *)(p+0xC300)-=128;
-            *(int *)(p+0xC304)=*(int *)(p+0xC300);
+            ((struct Obj02935 *)p)->fC300-=128;
+            ((struct Obj02935 *)p)->fC304=((struct Obj02935 *)p)->fC300;
         } else {distance=327680;done=1;}
         break;
     case 0:
         if(distance<1179648) {
             distance+=32768;
-            *(int *)(p+0xC300)+=128;
-            *(int *)(p+0xC304)=*(int *)(p+0xC300);
+            ((struct Obj02935 *)p)->fC300+=128;
+            ((struct Obj02935 *)p)->fC304=((struct Obj02935 *)p)->fC300;
         } else {distance=1212416;done=1;}
         break;
     }
     func_0207CEE4(distance,&direction,&target,&position);
-    func_02048AFC(*(void **)(p+0xC36C),&position);
+    func_02048AFC(((struct Obj02935 *)p)->fC36C,&position);
     return done;
 }

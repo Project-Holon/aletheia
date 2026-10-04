@@ -34,6 +34,8 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj00004.h"
+#include "../include/Obj14149.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int x, y, z; } Vec;
@@ -66,39 +68,39 @@ void func_021B82E8(u8 *p, int unused)
     Pair fallback;
     u8 *sprite, *data, *entry, *found;
     u16 key;
-    func_021BA218(*(u8 **)(p + 0x38));
-    sprite = func_021BA218(*(u8 **)(p + 0x38));
-    data = func_021BA20C(*(u8 **)(p + 0x38));
-    func_021BA148(*(void **)(p + 0x1820), *(u8 **)(p + 0x38));
-    func_021BA124(*(void **)(p + 0x1828), *(u8 **)(p + 0x38));
+    func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    sprite = func_021BA218(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    data = func_021BA20C(*(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021BA148(((struct Obj00004 *)p)->f1820, *(u8 * *)&((struct Obj00004 *)p)->f38);
+    func_021BA124(((struct Obj00004 *)p)->f1828, *(u8 * *)&((struct Obj00004 *)p)->f38);
     v = d_021BA588;
-    pos.x = *(int *)(p + 0x1C);
-    pos.y = *(int *)(p + 0x20);
-    if (*(int *)(p + 0x44) > 0) v.x = (int)(0.5f + (float)(*(int *)(p + 0x44) << 12));
-    else v.x = (int)((float)(*(int *)(p + 0x44) << 12) - 0.5f);
-    if (*(int *)(p + 0x48) > 0) v.y = (int)(0.5f + (float)(*(int *)(p + 0x48) << 12));
-    else v.y = (int)((float)(*(int *)(p + 0x48) << 12) - 0.5f);
-    func_021BA22C(*(u8 **)(p + 0x38), &pos);
-    func_021F4E8C(*(int *)(p + 0x1884), (int)sprite, &v);
-    func_021F4EB4(*(int *)(p + 0x1884), (int)sprite, 4096, 4096);
-    func_021BA244(*(u8 **)(p + 0x38), 4096);
+    pos.x = ((struct Obj00004 *)p)->f1C;
+    pos.y = *(int *)&((struct Obj00004 *)p)->f20;
+    if (((struct Obj00004 *)p)->f44 > 0) v.x = (int)(0.5f + (float)(((struct Obj00004 *)p)->f44 << 12));
+    else v.x = (int)((float)(((struct Obj00004 *)p)->f44 << 12) - 0.5f);
+    if (((struct Obj00004 *)p)->f48 > 0) v.y = (int)(0.5f + (float)(((struct Obj00004 *)p)->f48 << 12));
+    else v.y = (int)((float)(((struct Obj00004 *)p)->f48 << 12) - 0.5f);
+    func_021BA22C(*(u8 * *)&((struct Obj00004 *)p)->f38, &pos);
+    func_021F4E8C(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, &v);
+    func_021F4EB4(*(int *)&((struct Obj00004 *)p)->f1884, (int)sprite, 4096, 4096);
+    func_021BA244(*(u8 * *)&((struct Obj00004 *)p)->f38, 4096);
     found = 0;
-    entry = func_021BA184(*(void **)(p + 0x181C));
+    entry = func_021BA184(((struct Obj00004 *)p)->f181C);
     while (entry && !found) {
         key = *(u16 *)func_021BA20C(entry);
-        if (key == *(u16 *)data) found = entry;
+        if (key == ((struct Obj14149 *)data)->f0) found = entry;
         entry = func_021BA208(entry);
     }
     if (found) {
-        func_021BA21C(*(u8 **)(p + 0x38), (const Pair *)func_021BA228(found));
-        func_021BA23C(*(u8 **)(p + 0x38), func_021BA248(found));
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, (const Pair *)func_021BA228(found));
+        func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, func_021BA248(found));
     } else {
         fallback = d_021BA568;
-        func_021BA21C(*(u8 **)(p + 0x38), &fallback);
-        func_021BA23C(*(u8 **)(p + 0x38), 0);
+        func_021BA21C(*(u8 * *)&((struct Obj00004 *)p)->f38, &fallback);
+        func_021BA23C(*(u8 * *)&((struct Obj00004 *)p)->f38, 0);
     }
-    func_021BA24C(*(u8 **)(p + 0x38), 10);
-    *(int *)(data + 12) = 0;
+    func_021BA24C(*(u8 * *)&((struct Obj00004 *)p)->f38, 10);
+    ((struct Obj14149 *)data)->fC = 0;
     func_021B7A18(p);
     func_020061E4(1574);
 }

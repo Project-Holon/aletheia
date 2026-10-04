@@ -12,6 +12,7 @@
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj08786.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ void func_02025774(u8 *g, u32 a)
     u8 i;
     u8 j;
 
-    for (i = 0; i < *(u8 *)(g + 0xCB); i++) {
-        for (j = 0; j < *(u8 *)(g + 0xCA); j++) {
-            func_0204B3DC(*(void **)(g + 4 + (i * *(u8 *)(g + 0xCA) + j) * 4), a);
+    for (i = 0; i < ((struct Obj08786 *)g)->fCB; i++) {
+        for (j = 0; j < ((struct Obj08786 *)g)->fCA; j++) {
+            func_0204B3DC(*(void **)(g + 4 + (i * ((struct Obj08786 *)g)->fCA + j) * 4), a);
         }
     }
 }

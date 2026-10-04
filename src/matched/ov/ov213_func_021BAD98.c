@@ -13,6 +13,7 @@
  *   func_0204A5AC 0x0204A5AC arm
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj25716.h"
 struct Bank;
 extern void func_0204B1CC(struct Bank *),func_0204A5AC(void),func_02082BCC(void *,unsigned,unsigned);
-void func_021BAD98(void *p){func_0204B1CC(*(struct Bank **)p);func_0204A5AC();func_02082BCC(p,0,4);}
+void func_021BAD98(void *p){func_0204B1CC(*(struct Bank * *)&((struct Obj25716 *)p)->f0);func_0204A5AC();func_02082BCC(p,0,4);}

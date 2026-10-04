@@ -21,6 +21,7 @@
  *   func_0216D874  0x0216D874  thumb  ov010
  *   func_0216D89C  0x0216D89C  thumb  ov010
  */
+#include "../include/Obj19775.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ void func_021A38A4(u8 *p, Vec021A38A4 *v)
     int x = (v->x >> 4) / 4096;
     int y = (v->y >> 4) / 4096;
     int z = (v->z >> 4) / 4096;
-    u32 h = *(u32 *)(p + 0x1C);
+    u32 h = ((struct Obj19775 *)p)->f1C;
 
     func_0216D80C((void *)h, func_0216D83C(h));
     func_0216D818((void *)h, func_0216D854(h));

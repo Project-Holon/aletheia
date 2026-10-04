@@ -15,6 +15,7 @@
  *   func_021862B0  0x021862B0  thumb  ov023
  *   func_021865B4  0x021865B4  thumb  ov023
  */
+#include "../include/Obj02742.h"
 
 extern void func_02185354(char *p);
 typedef unsigned int   u32;
@@ -25,8 +26,8 @@ extern int func_021865B4(char *p);
 int func_02185730(char *p, int a1)
 {
     if (func_021862B0(p)) {
-        if (*(void **)(p + 0x178) == 0)
-            *(void **)(p + 0x178) = (void *)func_021865B4(p);
+        if (((struct Obj02742 *)p)->f178 == 0)
+            ((struct Obj02742 *)p)->f178 = (void *)func_021865B4(p);
         func_02186444(p, 0x10);
     }
     func_02185354(p);

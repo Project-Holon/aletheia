@@ -16,6 +16,7 @@
  * temporary in r1 instead of r2.
  * Byte 6 of Rec (b5) exists only to make sizeof(Rec) == 6 so `r[i]` is `muls #6`.
  */
+#include "../include/Obj09772.h"
 
 typedef unsigned char u8;
 
@@ -60,9 +61,9 @@ void func_021868C8(char *p)
         }
     }
     if (m != 5) {
-        *(int *)(p + 0xBBC) += 1;
-        if (*(int *)(p + 0xBBC) >= 100) {
-            *(int *)(p + 0xBBC) = 0;
+        ((struct Obj09772 *)p)->fBBC += 1;
+        if (((struct Obj09772 *)p)->fBBC >= 100) {
+            ((struct Obj09772 *)p)->fBBC = 0;
         }
     }
 }

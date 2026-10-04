@@ -11,10 +11,11 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj00173.h"
 struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 void func_021BB0E4(char *p)
 {
-    func_020452E8(*(void **)(p + 0x8c));
-    func_020452E8(*(void **)(p + 0x90));
+    func_020452E8(((struct Obj00173 *)p)->f8C);
+    func_020452E8(((struct Obj00173 *)p)->f90);
 }

@@ -10,7 +10,8 @@
  * status: EXACT
  * symbols:
  */
+#include "../include/Obj24883.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_0220B0F8(u8 *p,u32 v) { *(u32 *)(p+32)=v; }
+void func_0220B0F8(u8 *p,u32 v) { ((struct Obj24883 *)p)->f20=v; }

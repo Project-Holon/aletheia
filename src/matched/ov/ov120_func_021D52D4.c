@@ -15,6 +15,7 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D51D4 0x021D51D4 thumb ov120
  */
+#include "../include/Obj06434.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 extern u32 func_02028230(u8 *p);
@@ -25,11 +26,11 @@ extern void func_021D4244(int, int, int);
 extern void func_021D51D4(u8 *p);
 void func_021D52D4(u8 *p)
 {
-    if (func_02028230(*(void **)(p + 0x34))) {
-        func_02028148(*(void **)(p + 0x34));
-        *(int *)(p + 0x34) = 0;
-        *(int *)(p + 0x148) = -1;
-        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+    if (func_02028230(((struct Obj06434 *)p)->f34)) {
+        func_02028148(((struct Obj06434 *)p)->f34);
+        *(int *)&((struct Obj06434 *)p)->f34 = 0;
+        ((struct Obj06434 *)p)->f148 = -1;
+        func_021D69F4(((struct Obj06434 *)p)->f3C, 0, 9);
         func_02041B6C(5);
         func_021D4244((int)p, (int)func_021D51D4, 0x6ba);
     }

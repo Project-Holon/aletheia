@@ -57,6 +57,15 @@
  *   python3 tools/match.py one --src src/matched/func_020160D4.c \
  *       --func func_020160D4 --addr 0x020160D4 --cc 1.1p1 --thumb
  */
+#include "../include/Obj01093.h"
+#include "../include/Obj01612.h"
+#include "../include/Obj06864.h"
+#include "../include/Obj15676.h"
+#include "../include/Obj15677.h"
+#include "../include/Obj15678.h"
+#include "../include/Obj15679.h"
+#include "../include/Obj15680.h"
+#include "../include/Obj15681.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -78,50 +87,50 @@ void func_020160D4(char *a0, char *a1, u16 a2, int a3)
     char *o;
 
     o = (char *)func_02030734(
-            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
+            (u16)(((u16)((struct Obj01093 *)a1)->f14C & 0x7fff) | 0x8000),
             0x2c, 1, (const char *)data_020A72CC, 0x761);
 
-    *(char **)(o + 0x20) = a0;
-    *(int *)(o + 0x28) = (*(int *)(a0 + 8) != 0);
-    *(char **)(o + 0x24) = a1;
-    *(char **)(o + 0xc) = a1 + 0xc0;
-    *(int *)(o + 0x1c) = *(int *)(a0 + 0x34) + (*(int *)(a1 + 0x148) << 5);
+    *(char * *)&((struct Obj01612 *)o)->f20 = a0;
+    ((struct Obj01612 *)o)->f28 = (((struct Obj06864 *)a0)->f8 != 0);
+    *(char * *)&((struct Obj01612 *)o)->f24 = a1;
+    *(char * *)&((struct Obj01612 *)o)->fC = a1 + 0xc0;
+    ((struct Obj01612 *)o)->f1C = ((struct Obj06864 *)a0)->f34 + (((struct Obj01093 *)a1)->f148 << 5);
 
-    *(char **)(o + 4) = (char *)func_02030734(
-            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
+    *(char * *)&((struct Obj01612 *)o)->f4 = (char *)func_02030734(
+            (u16)(((u16)((struct Obj01093 *)a1)->f14C & 0x7fff) | 0x8000),
             0x10, 0, (const char *)data_020A72CC, 0x769);
 
-    **(int **)(o + 4) = *(int *)(a1 + 0xc0);
-    *(int *)(*(char **)(o + 4) + 4) = 0;
-    *(int *)(*(char **)(o + 4) + 8) = *(int *)(a1 + 0xdc);
-    *(int *)(*(char **)(o + 4) + 0xc) = (int)func_02030734(
-            (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
-            *(int *)(a1 + 0xdc), 0, (const char *)data_020A72CC, 0x76e);
+    **(int * *)&((struct Obj01612 *)o)->f4 = ((struct Obj01093 *)a1)->fC0;
+    ((struct Obj15676 *)(*(char * *)&((struct Obj01612 *)o)->f4))->f4 = 0;
+    ((struct Obj15677 *)(*(char * *)&((struct Obj01612 *)o)->f4))->f8 = ((struct Obj01093 *)a1)->fDC;
+    ((struct Obj15678 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC = (int)func_02030734(
+            (u16)(((u16)((struct Obj01093 *)a1)->f14C & 0x7fff) | 0x8000),
+            ((struct Obj01093 *)a1)->fDC, 0, (const char *)data_020A72CC, 0x76e);
 
-    func_02021F64(*(int *)(a1 + 0xd4),
-                  *(int *)(*(char **)(o + 4) + 0xc),
-                  (u16)(*(int *)(a1 + 0xdc) / 2),
+    func_02021F64(((struct Obj01093 *)a1)->fD4,
+                  ((struct Obj15679 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
+                  (u16)(((struct Obj01093 *)a1)->fDC / 2),
                   a2, (u16)a3);
-    func_02082A60(*(int *)(*(char **)(o + 4) + 0xc),
-                  *(int *)(a1 + 0xd8), *(int *)(a1 + 0xdc));
+    func_02082A60(((struct Obj15680 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC,
+                  ((struct Obj01093 *)a1)->fD8, ((struct Obj01093 *)a1)->fDC);
 
-    if (*(int *)(a1 + 8) != 0) {
-        func_02016C38(*(int *)(a1 + 8));
-        *(int *)(a1 + 8) = 0;
+    if (((struct Obj01093 *)a1)->f8 != 0) {
+        func_02016C38(((struct Obj01093 *)a1)->f8);
+        ((struct Obj01093 *)a1)->f8 = 0;
     }
 
-    if (((u32)(*(u32 *)(a1 + 0x140) << 0x13) >> 0x1f) == 0) {
-        if (*(int *)(a0 + 8) != 0) {
-            *(int *)(a1 + 8) = func_02030DA8(*(int *)(a0 + 8),
+    if (((u32)(((struct Obj01093 *)a1)->f140 << 0x13) >> 0x1f) == 0) {
+        if (((struct Obj06864 *)a0)->f8 != 0) {
+            ((struct Obj01093 *)a1)->f8 = func_02030DA8(((struct Obj06864 *)a0)->f8,
                                              (int)func_0201691C, (int)o, 0);
         } else {
-            *(int *)(a1 + 8) = func_020056A0((int)func_0201691C, (int)o, 0);
+            ((struct Obj01093 *)a1)->f8 = func_020056A0((int)func_0201691C, (int)o, 0);
         }
     } else {
-        func_020307B0((void *)(*(int *)(*(char **)(o + 4) + 0xc)));
-        func_020307B0((void *)(*(int *)(o + 4)));
+        func_020307B0((void *)(((struct Obj15681 *)(*(char * *)&((struct Obj01612 *)o)->f4))->fC));
+        func_020307B0((void *)(*(int *)&((struct Obj01612 *)o)->f4));
         func_020307B0((void *)((int)o));
     }
 
-    *(int *)(a1 + 0x140) |= 0x10000000;
+    *(int *)&((struct Obj01093 *)a1)->f140 |= 0x10000000;
 }

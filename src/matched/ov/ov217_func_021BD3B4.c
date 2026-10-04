@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25887.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ void func_021BD3B4(u8 *p)
     uploadOff=0x140; uploadOff=0x130;
     for(i=0;i<4;i++) {
         dest=p+i*4;
-        param.bmp=*(void **)(dest+0x140);
+        param.bmp=((struct Obj25887 *)dest)->f140;
         q=&d_021C31BC[i];
         param.x=q->x; param.y=q->y;
         param.f8=func_021BC708(p,q->f8);

@@ -16,6 +16,7 @@
  *   func_02190270  0x02190270  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19493.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,5 +38,5 @@ void func_02188DB0(u8 *a)
     func_02051E74((struct Mtx22 *)buf, 0, (const void *)0x1000, (const void *)0x1000, 0);
     func_0207D59C(0x04000020, buf, 0, 0, 0, 0);
     func_0204044C(3);
-    func_02190270(*(u32 *)(a + 0x28));
+    func_02190270(((struct Obj19493 *)a)->f28);
 }

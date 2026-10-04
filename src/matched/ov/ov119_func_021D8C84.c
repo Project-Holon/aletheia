@@ -14,6 +14,7 @@
  *   func_021D8C6C 0x021D8C6C thumb ov119
  *   func_02082BCC 0x02082BCC arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 struct Node;
 struct Obj;
@@ -25,12 +26,12 @@ extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021D8C6C(void *);
 extern void func_02082BCC(void *,int,int);
 void func_021D8C84(void *p) {
- if(*(int *)((char *)p+0xf60)!=0) {
- func_0204B800((struct Node *)(*(int *)((char *)p+0xf60)),16);
- func_0204B404((struct Obj *)(*(int *)((char *)p+0xf60)),(const struct Vec2 *)((char *)p+0xf64),1);
- func_0204B3DC((struct Obj *)*(int *)((char *)p+0xf60),1);
- *(int *)((char *)p+0xf7c)=-1;
- *(int *)((char *)p+0xf80)=-1;
+ if(((struct Obj00001 *)p)->fF60!=0) {
+ func_0204B800((struct Node *)(((struct Obj00001 *)p)->fF60),16);
+ func_0204B404((struct Obj *)(((struct Obj00001 *)p)->fF60),(const struct Vec2 *)((char *)p+0xf64),1);
+ func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fF60,1);
+ ((struct Obj00001 *)p)->fF7C=-1;
+ ((struct Obj00001 *)p)->fF80=-1;
  func_021D8C6C(p); func_02082BCC((char *)p+4,0,2);
  }
 }

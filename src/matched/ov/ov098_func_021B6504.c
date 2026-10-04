@@ -20,6 +20,7 @@
  *   d_021B6D98     0x021B6D98  data   ov098  a4
  *   d_021B6DC0     0x021B6DC0  data   ov098  a4
  */
+#include "../include/Obj00381.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -38,19 +39,19 @@ int func_021B6504(char *p)
 {
     int r;
 
-    switch (*(int *)(p + 0x60)) {
+    switch (((struct Obj00381 *)p)->f60) {
     case 0:
-        func_021B694C((u8 *)(*(int *)(p + 0x14)), (u8 *)(*(int *)p));
-        *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+        func_021B694C((u8 *)(((struct Obj00381 *)p)->f14), (u8 *)(*(int *)&((struct Obj00381 *)p)->f0));
+        ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         break;
     case 1:
-        if (func_021B6A3C((u8 *)(*(int *)(p + 0x14))) != 0) {
-            func_0220270C((char *)(*(int *)(p + 0x10)), 7, 0);
-            *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;
+        if (func_021B6A3C((u8 *)(((struct Obj00381 *)p)->f14)) != 0) {
+            func_0220270C((char *)(((struct Obj00381 *)p)->f10), 7, 0);
+            ((struct Obj00381 *)p)->f60 = ((struct Obj00381 *)p)->f60 + 1;
         }
         break;
     case 2:
-        r = func_02202DC4(*(int *)(p + 0x10), d_021B6D98, d_021B6DC0);
+        r = func_02202DC4(((struct Obj00381 *)p)->f10, d_021B6D98, d_021B6DC0);
         if (r != -1) {
             if (r != 0)
                 func_021B6364((u8 *)p, (u32)func_021B6750);

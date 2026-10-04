@@ -13,34 +13,35 @@
  *   func_021BD7E4 0x021BD7E4 thumb ov208
  *   func_021BD878 0x021BD878 thumb ov208
  */
+#include "../include/Obj01977.h"
 extern int func_021BD764(char *);
 extern int func_021BD7E4(void *);
 extern void func_021BD878(char *p);
 void func_021BD23C(char *p)
 {
     unsigned i;
-    switch(*(unsigned *)(p+8)) {
+    switch(*(unsigned *)&((struct Obj01977 *)p)->f8) {
     case 0:
-        *(int *)p=-1;
-        if(*(int *)(p+0xc) && !*(int *)(p+0x10)) {
-            for(i=0;i<*(unsigned *)(p+4);i++) {
+        *(int *)&((struct Obj01977 *)p)->f0=-1;
+        if(((struct Obj01977 *)p)->fC && !((struct Obj01977 *)p)->f10) {
+            for(i=0;i<((struct Obj01977 *)p)->f4;i++) {
                 if(func_021BD764(p+0x28+i*0x38)) {
-                    *(unsigned *)p=i;
-                    *(int *)(p+8)=1;
-                    *(int *)(p+0x10)=1;
+                    ((struct Obj01977 *)p)->f0=i;
+                    ((struct Obj01977 *)p)->f8=1;
+                    ((struct Obj01977 *)p)->f10=1;
                     break;
                 }
             }
         }
         break;
     case 1:
-        *(int *)(p+8)=2;
+        ((struct Obj01977 *)p)->f8=2;
     case 2:
-        if(func_021BD7E4(p+0x28+*(unsigned *)p*0x38))*(int *)(p+8)=3;
+        if(func_021BD7E4(p+0x28+((struct Obj01977 *)p)->f0*0x38))((struct Obj01977 *)p)->f8=3;
         break;
     case 3:
-        *(int *)(p+8)=0;
+        ((struct Obj01977 *)p)->f8=0;
         break;
     }
-    for(i=0;i<*(unsigned *)(p+4);i++)func_021BD878(p+0x28+i*0x38);
+    for(i=0;i<((struct Obj01977 *)p)->f4;i++)func_021BD878(p+0x28+i*0x38);
 }

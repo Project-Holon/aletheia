@@ -13,6 +13,7 @@
  *   func_02030734  0x02030734  arm
  *   d_021C8D98     0x021C8D98  data  ov208  a4
  */
+#include "../include/Obj03064.h"
 
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern int d_021C8D98;
@@ -29,6 +30,6 @@ void func_021BC35C(int a, int b, int c, int d, int e, int f, int g, int h,
     p[4] = f;
     p[5] = g;
     p[6] = h;
-    *(unsigned short *)((char *)p + 0x1c) = i;
+    ((struct Obj03064 *)p)->f1C = i;
     p[8] = j;
 }

@@ -14,6 +14,7 @@
  *   func_02175548  0x02175548  thumb  ov011
  *   func_021756B0  0x021756B0  thumb  ov011
  */
+#include "../include/Obj07332.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ u16 func_02175598(u8 *o, u32 id)
     struct { u8 x; u8 y; u16 c; } s;
     u16 h;
 
-    h = *(u16 *)(o + 0x18);
+    h = ((struct Obj07332 *)o)->f18;
     if (h == 0) {
         if (o[0x12] == 1) {
             s.c = (func_02008550((const struct Sub0200852CObj *)id) == 0) ? 2 : 5;

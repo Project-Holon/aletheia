@@ -21,6 +21,8 @@
  *   MIi_CpuCopy16 0x02082A60 arm
  *   d_021F78C0 0x021F78C0 data a4
  */
+#include "../include/Obj21995.h"
+#include "../include/Obj21996.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -62,12 +64,12 @@ void func_021F734C(struct P *p)
     for (i = 0; i < 6; i++) if (!p->mons[i]) func_0202CAC4(p->window, i, buf);
     func_020307B0(buf);
     func_020414EC(1);
-    if (*(int *)(p->parent + 8) == 0) {
+    if (((struct Obj21995 *)(p->parent))->f8 == 0) {
         for (i = 3; i < 6; i++) if (p->mons[i]) func_0202CE50(p->window, i, 0, 0, 16, 6, 5);
     } else {
         for (i = 0; i < 3; i++) if (p->mons[i]) func_0202CE50(p->window, i, 0, 0, 16, 6, 5);
     }
-    if (*(int *)(p->parent + 8) == 0) {
+    if (((struct Obj21996 *)(p->parent))->f8 == 0) {
         func_0202CB4C(p->window, 0, 0, 0);
         func_0202CB4C(p->window, 1, 0, 6);
         func_0202CB4C(p->window, 2, 0, 12);

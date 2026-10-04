@@ -8,11 +8,13 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj03304.h"
+#include "../include/Obj23809.h"
 typedef signed short s16;
 int func_021E17EC(char *p)
 {
     int count = 0;
-    unsigned bits = *(s16 *)(*(char **)(p + 0xdc) + 0x46);
+    unsigned bits = ((struct Obj23809 *)(*(char * *)&((struct Obj03304 *)p)->fDC))->f46;
     while (bits) {
         count += bits & 1;
         bits >>= 1;

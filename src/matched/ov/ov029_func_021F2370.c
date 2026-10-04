@@ -19,6 +19,7 @@
  *   func_021EFEF8  0x021EFEF8  thumb  ov029
  *   func_021F21B4  0x021F21B4  thumb  ov029
  */
+#include "../include/Obj00106.h"
 
 extern void func_021F0E70(char *p);
 extern void func_021F1A64(char *p, int a);
@@ -31,7 +32,7 @@ extern void func_021F21B4(char *p);
 
 void func_021F2370(char *p)
 {
-    if (*(unsigned char *)(p + 0x456) == 0) {
+    if (((struct Obj00106 *)p)->f456 == 0) {
         func_021F0E70(p);
         func_021F1A64(p, 1);
         func_021F1A44(p, 0);
@@ -39,9 +40,9 @@ void func_021F2370(char *p)
         func_021F1010(p);
         func_021F0370(p);
     }
-    *(unsigned char *)(p + 0x456) += 1;
-    if (*(unsigned char *)(p + 0x456) >= 0x10) {
-        *(unsigned char *)(p + 0x456) = 0;
+    ((struct Obj00106 *)p)->f456 += 1;
+    if (((struct Obj00106 *)p)->f456 >= 0x10) {
+        ((struct Obj00106 *)p)->f456 = 0;
         func_021EFEF8(p, (void (*)(void))func_021F21B4, 0x1041);
     }
 }

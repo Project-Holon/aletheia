@@ -16,6 +16,7 @@
  *   func_021D98C0 0x021D98C0 thumb ov121
  *   func_021D9828 0x021D9828 thumb ov121
  */
+#include "../include/Obj22873.h"
 typedef unsigned char u8;
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -26,7 +27,7 @@ extern void func_02082BCC(void *,int,int);
 extern void func_020307B0(void *);
 void func_021D96C4(u8 *p)
 {
-    func_02030EAC(*(void **)(p+20));
+    func_02030EAC(((struct Obj22873 *)p)->f14);
     func_021D98C0(p+4);
     func_021D9828(p);
     func_0201DD68();

@@ -16,6 +16,7 @@
  *   d_021BB0F8 0x021BB0F8 data a4
  * width: 477A4 index u16: original narrows at 021BA994-021BA998.
  */
+#include "../include/Obj02551.h"
 typedef unsigned short u16;
 typedef struct Util Util;
 typedef struct { void *resTbl; u16 resCount; void *objTbl; u16 objCount; } Setup;
@@ -31,9 +32,9 @@ void func_021BA95C(unsigned char *p, int index)
     int *object;
     int i, count;
     if (p[15]) func_021BA9AC(p);
-    *(u16 *)(p+12)=func_02047E88(*(Util **)(p+8), &d_021BB0F8[index]);
+    ((struct Obj02551 *)p)->fC=func_02047E88(*(Util * *)&((struct Obj02551 *)p)->f8, &d_021BB0F8[index]);
     p[15]=1;
-    object=func_02048A18(*(Util **)(p+8), *(u16 *)(p+12));
+    object=func_02048A18(*(Util * *)&((struct Obj02551 *)p)->f8, ((struct Obj02551 *)p)->fC);
     count=func_0204779C(object);
     for(i=0;i<count;i++) func_020477A4((struct G3dSys *)object,i);
 }

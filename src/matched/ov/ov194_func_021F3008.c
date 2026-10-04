@@ -27,6 +27,7 @@
  *   func_021F2818 0x021F2818 thumb ov194
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
+#include "../include/Obj00733.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -52,25 +53,25 @@ void func_021F3008(u8 *p,int mode,void *font,void *window,void *data,void *palet
  void *bg;
  int index;
  func_02082BCC(p,0,0x130);
- *(int *)(p+0xd8)=0;*(int *)(p+0xdc)=0;
- *(void **)(p+0xf4)=font;*(void **)(p+0xf8)=window;*(u16 *)(p+0xfe)=heap;
- *(int *)(p+0x100)=mode;*(int *)(p+0x114)=mode;*(void **)(p+0x12c)=data;
- *(void **)(p+0x11c)=func_02049EB4(118,10,0,(u32)(p+0x124),heap);
- *(void **)(p+0x120)=func_02049EB4(118,5,0,(u32)(p+0x128),heap);
- if(mode==3){func_02040AE0(1,*(char **)(p+0x124)+12,2048);func_02040588(2,0);}
- else {func_02040AE0(1,*(char **)(p+0x128)+12,2048);func_02040588(2,1);}
+ ((struct Obj00733 *)p)->fD8=0;((struct Obj00733 *)p)->fDC=0;
+ ((struct Obj00733 *)p)->fF4=font;((struct Obj00733 *)p)->fF8=window;((struct Obj00733 *)p)->fFE=heap;
+ ((struct Obj00733 *)p)->f100=mode;((struct Obj00733 *)p)->f114=mode;((struct Obj00733 *)p)->f12C=data;
+ ((struct Obj00733 *)p)->f11C=func_02049EB4(118,10,0,(u32)(p+0x124),heap);
+ ((struct Obj00733 *)p)->f120=func_02049EB4(118,5,0,(u32)(p+0x128),heap);
+ if(mode==3){func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f124+12,2048);func_02040588(2,0);}
+ else {func_02040AE0(1,*(char * *)&((struct Obj00733 *)p)->f128+12,2048);func_02040588(2,1);}
  func_020409B4(1);
  func_021F19A0(p+0x24,(void *)mode,palette,heap);
- index=func_021F3358(*(int *)(p+0x100),*(int *)(p+0x104),p[0x108]);
- func_021F256C((char *)p,mode,index,*(void **)(p+0x12c),heap);
+ index=func_021F3358(((struct Obj00733 *)p)->f100,((struct Obj00733 *)p)->f104,p[0x108]);
+ func_021F256C((char *)p,mode,index,((struct Obj00733 *)p)->f12C,heap);
  bg=(void *)func_020450F0(3,3,5,26,15,15,1);
- *(void **)(p+0xe0)=bg;
+ ((struct Obj00733 *)p)->fE0=bg;
  func_02045334(bg);func_02045374(bg);func_020409B4(func_02045730(bg));
- *(void **)(p+0xec)=*(void **)(p+0xe0);p[0xf0]=0;
+ ((struct Obj00733 *)p)->fEC=((struct Obj00733 *)p)->fE0;p[0xf0]=0;
  func_021F26F0((char *)p,(char *)p+0xec,window,font,heap);
  if(func_020355C4()==0){
-  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,1,&box,*(int *)(p+0x104),*(int *)(p+0x100));
+  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,1,&box,((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
  }else {
-  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,0,&box,*(int *)(p+0x104),*(int *)(p+0x100));
+  if(func_021F2818((char *)p,(Pair *)(p+0xd8),&box))func_021F1A1C((char *)p+0x24,0,&box,((struct Obj00733 *)p)->f104,((struct Obj00733 *)p)->f100);
  }
 }

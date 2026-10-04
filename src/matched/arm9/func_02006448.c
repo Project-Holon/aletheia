@@ -42,6 +42,7 @@
  *   python tools/match.py one --src src/pending/func_02006448.c \
  *       --func func_02006448 --addr 0x02006448 --cc 1.1p1 --thumb
  */
+#include "../include/Obj11220.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -74,7 +75,7 @@ int func_02006448(u32 a0, u32 a1, u32 a2)
 
     hdr = func_02074324(a2);
     word = hdr[0];
-    half = *(u16 *)((char *)hdr + 4);
+    half = ((struct Obj11220 *)hdr)->f4;
     q = func_020743EC(half, word);
     v = q->unk00;
     sub_0200597C();

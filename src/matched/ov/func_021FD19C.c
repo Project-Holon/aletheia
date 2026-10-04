@@ -14,9 +14,10 @@
  *
  * lane O10 candidate
  */
+#include "../include/Obj18571.h"
 
 void func_021FD19C(char *p, int i, char *q)
 {
-    *(int *)(p + i * 4 + 0x8c) = *(unsigned short *)(q + 8);
+    *(int *)(p + i * 4 + 0x8c) = ((struct Obj18571 *)q)->f8;
 }
 

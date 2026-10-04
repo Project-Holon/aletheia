@@ -14,14 +14,15 @@
  *
  * lane S13 leaf of func_0220648C
  */
+#include "../include/Obj00823.h"
 
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 
 void func_02206B30(char *p)
 {
-    if (*(int *)(p + 0x58) != 6) {
-        if (*(int *)(p + 0x54) != 3) {
+    if (((struct Obj00823 *)p)->f58 != 6) {
+        if (((struct Obj00823 *)p)->f54 != 3) {
             func_020061E4(0x54d);
         }
     } else {

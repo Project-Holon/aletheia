@@ -29,6 +29,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01149.h"
 
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -61,15 +62,15 @@ void func_021D6CC4(void *a0, int a1)
         func_02006984(func_02017E1C(x, 0xab, 0), func_02017E1C(x, 0x6f, 0),
                       0x40, 0, 0, 0, 0, 0);
     }
-    if (*(u8 *)((char *)a0 + 0x11EE) == 0) {
+    if (((struct Obj01149 *)a0)->f11EE == 0) {
         func_02015C30((void *)((u32 *)((char *)a0 + 0x844))[a1], buf);
-        func_021DFD24(*(u32 **)((char *)a0 + 0x868));
-        if (*(u8 *)((char *)a0 + 0x11F0) != 0)
-            *(u32 *)((char *)a0 + 0x868) =
-                (u32)func_021DFBB4((void *)((u32 *)((char *)a0 + 0x844))[a1], (void *)0x14, buf, (void *)d_021D8880, *(u16 *)((char *)a0 + 0x5F4));
+        func_021DFD24(*(u32 * *)&((struct Obj01149 *)a0)->f868);
+        if (((struct Obj01149 *)a0)->f11F0 != 0)
+            *(u32 *)&((struct Obj01149 *)a0)->f868 =
+                (u32)func_021DFBB4((void *)((u32 *)((char *)a0 + 0x844))[a1], (void *)0x14, buf, (void *)d_021D8880, ((struct Obj01149 *)a0)->f5F4);
         else
-            *(u32 *)((char *)a0 + 0x868) =
-                (u32)func_021DFBB4((void *)((u32 *)((char *)a0 + 0x844))[a1], (void *)0x28, buf, (void *)d_021D8470, *(u16 *)((char *)a0 + 0x5F4));
+            *(u32 *)&((struct Obj01149 *)a0)->f868 =
+                (u32)func_021DFBB4((void *)((u32 *)((char *)a0 + 0x844))[a1], (void *)0x28, buf, (void *)d_021D8470, ((struct Obj01149 *)a0)->f5F4);
         return;
     } else {
         Quad t;
@@ -78,12 +79,12 @@ void func_021D6CC4(void *a0, int a1)
         t = d_021D7CDC;
         r6 = ((u32 *)((char *)a0 + 0x844))[t.v[a1]];
         func_02015C30((void *)((u32 *)((char *)a0 + 0x844))[a1], buf);
-        func_021DFD24(*(u32 **)((char *)a0 + 0x868));
-        if (*(u8 *)((char *)a0 + 0x11F0) != 0)
-            *(u32 *)((char *)a0 + 0x868) =
-                (u32)func_021DFBB4((void *)r6, (void *)0x14, buf, (void *)d_021D8880, *(u16 *)((char *)a0 + 0x5F4));
+        func_021DFD24(*(u32 * *)&((struct Obj01149 *)a0)->f868);
+        if (((struct Obj01149 *)a0)->f11F0 != 0)
+            *(u32 *)&((struct Obj01149 *)a0)->f868 =
+                (u32)func_021DFBB4((void *)r6, (void *)0x14, buf, (void *)d_021D8880, ((struct Obj01149 *)a0)->f5F4);
         else
-            *(u32 *)((char *)a0 + 0x868) =
-                (u32)func_021DFBB4((void *)r6, (void *)0x12, buf, (void *)d_021D8398, *(u16 *)((char *)a0 + 0x5F4));
+            *(u32 *)&((struct Obj01149 *)a0)->f868 =
+                (u32)func_021DFBB4((void *)r6, (void *)0x12, buf, (void *)d_021D8398, ((struct Obj01149 *)a0)->f5F4);
     }
 }

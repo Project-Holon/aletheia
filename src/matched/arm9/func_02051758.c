@@ -10,5 +10,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj01197.h"
 
-int func_02051758(int a0){ int t0; t0 = func_02048AC4((int)*(int *)(((char *)(a0) + 32))); *(int *)(((char *)(a0) + 32)) = (int)0; return 0; }
+int func_02051758(int a0){ int t0; t0 = func_02048AC4((int)*(int *)&((struct Obj01197 *)((char *)(a0)))->f20); *(int *)&((struct Obj01197 *)((char *)(a0)))->f20 = (int)0; return 0; }

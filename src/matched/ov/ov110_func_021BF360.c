@@ -11,15 +11,16 @@
  * symbols:
  *   func_021BEDD0 0x021BEDD0 thumb ov110
  */
+#include "../include/Obj01923.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021BEDD0(void *);
 int func_021BF360(u8 *p) {
-    if (*(u16 *)p<*(u16 *)(p+2)) {
-        if (*(u16 *)p+6<=*(u16 *)(p+2)) { *(u32 *)(p+8)=6; *(u16 *)p+=6; }
-        else { *(u32 *)(p+8)=*(u16 *)(p+2)-*(u16 *)p; *(u16 *)p=*(u16 *)(p+2); }
-        if(func_021BEDD0(p)<*(u16 *)(p+4)-2) return 2;
+    if (((struct Obj01923 *)p)->f0<((struct Obj01923 *)p)->f2) {
+        if (((struct Obj01923 *)p)->f0+6<=((struct Obj01923 *)p)->f2) { ((struct Obj01923 *)p)->f8=6; ((struct Obj01923 *)p)->f0+=6; }
+        else { ((struct Obj01923 *)p)->f8=((struct Obj01923 *)p)->f2-((struct Obj01923 *)p)->f0; ((struct Obj01923 *)p)->f0=((struct Obj01923 *)p)->f2; }
+        if(func_021BEDD0(p)<((struct Obj01923 *)p)->f4-2) return 2;
         p[6]=0; return 3;
     }
     return 4;

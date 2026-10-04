@@ -15,6 +15,7 @@
  *   func_0216DC18  0x0216DC18  thumb  ov010
  *   func_021AB0F8  0x021AB0F8  thumb  ov021
  */
+#include "../include/Obj00110.h"
 
 typedef unsigned char u8;
 
@@ -27,7 +28,7 @@ extern u16 func_021AB0F8(u32 attr);
 
 void func_02163868(int a, int q)
 {
-    u8 *t = *(u8 **)(q + 0x10);
+    u8 *t = *(u8 * *)&((struct Obj00110 *)q)->f10;
 
     if (t[6] != 0 && func_0216DC34((void *)a) != 0) {
         int r = func_02163F40(a, 1);

@@ -12,6 +12,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj08011.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -20,4 +21,4 @@ struct Descriptor;
 extern void func_020452E8(struct Descriptor *d);
 extern void func_0203FB44(u32,u16,u16);
 extern void func_020307B0(void *);
-void func_021C07E8(u8 *p) { func_020452E8(*(void **)(p+0x24)); func_0203FB44(3,*(u32 *)p,*(u32 *)p>>16); func_020307B0(*(void **)(p+4)); }
+void func_021C07E8(u8 *p) { func_020452E8(((struct Obj08011 *)p)->f24); func_0203FB44(3,((struct Obj08011 *)p)->f0,((struct Obj08011 *)p)->f0>>16); func_020307B0(((struct Obj08011 *)p)->f4); }

@@ -17,6 +17,7 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj06583.h"
 struct Descriptor;
 struct Obj;
 extern void func_020456F8(struct Descriptor *d);
@@ -33,7 +34,7 @@ void func_021E82BC(char *p)
  *(volatile unsigned short *)0x04000050 = 0;
  for(i=0;i<6;i++) {if(*(void **)(p+i*4+0x68)!=0){func_020456F8(*(void **)(p+i*4+0x68));func_020452E8(*(void **)(p+i*4+0x68));}}
  for(i=0;i<14;i++)if(*(void **)(p+i*4+0x30)!=0)func_0204B3B4(*(void **)(p+i*4+0x30));
- func_0204A8D4((u32)(*(void **)(p+0x28)));func_0204AFD8((u32)(*(void **)(p+0x2C)));func_0204ADA4((u32)(*(void **)(p+0x24)));
+ func_0204A8D4((u32)(((struct Obj06583 *)p)->f28));func_0204AFD8((u32)(((struct Obj06583 *)p)->f2C));func_0204ADA4((u32)(((struct Obj06583 *)p)->f24));
  for(i=0;i<6;i++)if(*(void **)(p+i*4+0x30)!=0)func_0204A8D4((u32)(*(void **)(p+i*4+4)));
- func_0204AFD8((u32)(*(void **)(p+0x20)));func_0204ADA4((u32)(*(void **)p));func_020307B0(p);
+ func_0204AFD8((u32)(((struct Obj06583 *)p)->f20));func_0204ADA4((u32)(((struct Obj06583 *)p)->f0));func_020307B0(p);
 }

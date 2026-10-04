@@ -19,6 +19,7 @@
  *   func_021F096C  0x021F096C  thumb  ov032
  *   func_021F1340  0x021F1340  thumb  ov032
  */
+#include "../include/Obj00188.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -41,7 +42,7 @@ int func_021F055C(u8 *p)
     int r;
     int s;
 
-    if (func_02012204((const struct Ctx *)(*(u32 *)p)) != 0) {
+    if (func_02012204((const struct Ctx *)(((struct Obj00188 *)p)->f0)) != 0) {
         func_021F253C(p, 1);
         return 6;
     }

@@ -12,6 +12,7 @@
  * symbols:
  *   func_0201ED04  0x0201ED04  thumb
  */
+#include "../include/Obj00565.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ int func_021671EC(int a0)
     int t4;
 
 t4 = a0 + 0;
-a0 = *(int *)((char *)t4 + 0x1c);
+a0 = *(int *)&((struct Obj00565 *)t4)->f1C;
     a0 = func_0201ED04(a0);
 loc_021671F6:
 a0 = 0;
-*(int *)((char *)t4 + 0x1c) = a0;
+*(int *)&((struct Obj00565 *)t4)->f1C = a0;
     return a0;}

@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj23220.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-void func_021F9E08(u8 *p,u16 v) { *(u16 *)(p+6)=v; }
+void func_021F9E08(u8 *p,u16 v) { ((struct Obj23220 *)p)->f6=v; }

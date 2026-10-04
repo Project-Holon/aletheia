@@ -19,6 +19,8 @@
  *   func_021DB594 0x021DB594 thumb ov183
  *   func_021DB61C 0x021DB61C thumb ov183
  */
+#include "../include/Obj02228.h"
+#include "../include/Obj03879.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern unsigned func_021F9B9C(char *p);
@@ -35,18 +37,18 @@ int func_021DB2E0(int *task, int unused, char *p)
 {
     char *s;
     void *callback;
-    s=func_0203159C(task,0x20,func_021F9B9C(*(void **)(p+0x10)));
+    s=func_0203159C(task,0x20,func_021F9B9C(((struct Obj03879 *)p)->f10));
     func_02082BCC(s,0,0x20);
-    *(char **)(s+0x1c)=p;
-    *(unsigned short *)(s+4)=func_021F9B9C(*(void **)(p+0x10));
-    *(void **)(s+0xc)=(void *)func_0201C440((void *)(*(unsigned short *)(s+4)));
-    *(void **)(s+0x14)=func_021FD760(*(int *)(p+4),(char *)(*(int *)(p+0xc)),0,*(unsigned short *)(s+4));
-    *(void **)(s+0x18)=func_021FD760(*(int *)(p+4),(char *)(*(int *)(p+0xc)),1,*(unsigned short *)(s+4));
-    func_021FD940(*(void **)(s+0x14),1);
-    func_021FD940(*(void **)(s+0x18),1);
-    if(*(int *)p==0) callback=func_021DB3C4;
-    else if(*(int *)p==1) callback=func_021DB594;
+    *(char * *)&((struct Obj02228 *)s)->f1C=p;
+    ((struct Obj02228 *)s)->f4=func_021F9B9C(((struct Obj03879 *)p)->f10);
+    ((struct Obj02228 *)s)->fC=(void *)func_0201C440((void *)(((struct Obj02228 *)s)->f4));
+    ((struct Obj02228 *)s)->f14=func_021FD760(((struct Obj03879 *)p)->f4,(char *)(((struct Obj03879 *)p)->fC),0,((struct Obj02228 *)s)->f4);
+    ((struct Obj02228 *)s)->f18=func_021FD760(((struct Obj03879 *)p)->f4,(char *)(((struct Obj03879 *)p)->fC),1,((struct Obj02228 *)s)->f4);
+    func_021FD940(((struct Obj02228 *)s)->f14,1);
+    func_021FD940(((struct Obj02228 *)s)->f18,1);
+    if(((struct Obj03879 *)p)->f0==0) callback=func_021DB3C4;
+    else if(((struct Obj03879 *)p)->f0==1) callback=func_021DB594;
     else callback=func_021DB61C;
-    *(void **)s=func_021FD6D8((int)s,(int)callback,*(unsigned short *)(s+4));
+    ((struct Obj02228 *)s)->f0=func_021FD6D8((int)s,(int)callback,((struct Obj02228 *)s)->f4);
     return 1;
 }

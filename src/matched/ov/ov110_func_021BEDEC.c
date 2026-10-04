@@ -14,6 +14,7 @@
  *   func_021B9C74 0x021B9C74 thumb ov110
  *   func_021BD7A0 0x021BD7A0 thumb ov110
  */
+#include "../include/Obj00012.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BF1C4(u8 *,void *);
@@ -24,10 +25,10 @@ extern void func_021BD7A0(u8 *,void *);
 int func_021BEDEC(u8 *p,u32 *q) {
     switch(*q) {
     case 0: func_021BF1C4(p,q); break;
-    case 1: if(func_021B9C90((unsigned int)(*(void **)(p+20)),20)) *q=0; break;
-    case 2: if(func_021B9C90((unsigned int)(*(void **)(p+20)),20)) { func_021B9BEC(*(void **)(p+20),19); *q=0; } break;
-    case 3: if(func_021B9C90((unsigned int)(*(void **)(p+20)),31)) *q=0; break;
-    case 4: if(func_021B9C74((unsigned int)(*(void **)(p+20)))) { func_021BD7A0(p,*(void **)(p+40)); *q=0; } break;
+    case 1: if(func_021B9C90((unsigned int)(((struct Obj00012 *)p)->f14),20)) *q=0; break;
+    case 2: if(func_021B9C90((unsigned int)(((struct Obj00012 *)p)->f14),20)) { func_021B9BEC(((struct Obj00012 *)p)->f14,19); *q=0; } break;
+    case 3: if(func_021B9C90((unsigned int)(((struct Obj00012 *)p)->f14),31)) *q=0; break;
+    case 4: if(func_021B9C74((unsigned int)(((struct Obj00012 *)p)->f14))) { func_021BD7A0(p,((struct Obj00012 *)p)->f28); *q=0; } break;
     }
     return 0;
 }

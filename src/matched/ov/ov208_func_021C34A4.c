@@ -16,6 +16,7 @@
  *   func_021C3480 0x021C3480 thumb ov208
  *   func_021C3678 0x021C3678 thumb ov208
  */
+#include "../include/Obj00146.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -30,12 +31,12 @@ extern void func_021C3480(u16 *heap,u8 *p,int key);
 extern void func_021C3678(u16 *heap,u8 *p,int key);
 void func_021C34A4(u16 *heap,u8 *p,int key)
 {
-    if(*(struct Obj **)(p+*(int *)(p+0x5c)*4+0x54))
-        func_0204B3DC(*(struct Obj **)(p+*(int *)(p+0x5c)*4+0x54),0);
-    *(int *)(p+0x5c)=(*(int *)(p+0x5c)+1)%2;
+    if(*(struct Obj **)(p+((struct Obj00146 *)p)->f5C*4+0x54))
+        func_0204B3DC(*(struct Obj **)(p+((struct Obj00146 *)p)->f5C*4+0x54),0);
+    ((struct Obj00146 *)p)->f5C=(((struct Obj00146 *)p)->f5C+1)%2;
     func_021C32FC(heap,p,key);
-    func_021C2FEC(heap,p,key,*(int *)(p+0x5c));
-    func_021C2E6C(heap,p,key,*(int *)(p+0x5c));
+    func_021C2FEC(heap,p,key,((struct Obj00146 *)p)->f5C);
+    func_021C2E6C(heap,p,key,((struct Obj00146 *)p)->f5C);
     func_021C3280(heap,p,(struct Key *)key);
     func_021C3480(heap,p,key);
     func_021C3678(heap,p,key);

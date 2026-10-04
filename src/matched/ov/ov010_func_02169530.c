@@ -14,8 +14,9 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19045.h"
 
 void func_02169530(unsigned char *a, int *out)
 {
-    *out = *(int *)(a + 0x14);
+    *out = ((struct Obj19045 *)a)->f14;
 }

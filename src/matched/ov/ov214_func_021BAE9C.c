@@ -18,6 +18,7 @@
  *   func_020216D4 0x020216D4 thumb
  *   site 0x021BB658 data ov214
  */
+#include "../include/Obj00182.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern u32 func_02030CB0(u32);
@@ -33,14 +34,14 @@ extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size)
 extern const char site[];
 void func_021BAE9C(int unused,char *p)
 {
-    *(void **)(p+732)=func_02030734(*(u16 *)p,func_02030CB0(2),1,site,2403);
-    *(void **)(p+728)=func_02030CBC(2,*(void **)(p+732));
-    *(void **)(p+736)=func_02021518(*(u16 *)p);
-    func_02021EE4(*(void **)(p+736),1);
-    func_0202155C(*(void **)(p+736),0,448,*(u16 *)p);
-    func_0202155C(*(void **)(p+736),2,448,*(u16 *)p);
-    func_020216D4(*(void **)(p+736),0,0,448);
-    func_020216D4(*(void **)(p+736),2,0,448);
-    *(u32 *)(p+744)=2;
-    *(u32 *)(p+740)=0;
+    ((struct Obj00182 *)p)->f2DC=func_02030734(((struct Obj00182 *)p)->f0,func_02030CB0(2),1,site,2403);
+    ((struct Obj00182 *)p)->f2D8=func_02030CBC(2,((struct Obj00182 *)p)->f2DC);
+    ((struct Obj00182 *)p)->f2E0=func_02021518(((struct Obj00182 *)p)->f0);
+    func_02021EE4(((struct Obj00182 *)p)->f2E0,1);
+    func_0202155C(((struct Obj00182 *)p)->f2E0,0,448,((struct Obj00182 *)p)->f0);
+    func_0202155C(((struct Obj00182 *)p)->f2E0,2,448,((struct Obj00182 *)p)->f0);
+    func_020216D4(((struct Obj00182 *)p)->f2E0,0,0,448);
+    func_020216D4(((struct Obj00182 *)p)->f2E0,2,0,448);
+    ((struct Obj00182 *)p)->f2E8=2;
+    ((struct Obj00182 *)p)->f2E4=0;
 }

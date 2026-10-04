@@ -26,6 +26,7 @@
  *   d_020A1EB8     0x020A1EB8  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04272.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -62,7 +63,7 @@ u32 *func_021C1AF4(u32 a, u32 b)
 
     r = func_02030734(a, 0x138, 1, (const char *)&d_021DE3D8, 0x158);
     r[5] = (u32)func_02047CFC(8, 2, a);
-    *(u16 *)((u8 *)r + 0x10) = a;
+    ((struct Obj04272 *)r)->f10 = a;
     r[0] = b;
     r[6] = -1;
     {

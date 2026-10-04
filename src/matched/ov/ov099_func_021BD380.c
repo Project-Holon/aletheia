@@ -12,6 +12,7 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
+#include "../include/Obj00008.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BA928(void *);
@@ -23,7 +24,7 @@ int func_021BD380(char *p, int v)
 {
     if (func_021BA928(p) != 0) {
         func_02039C68((struct Link *)func_020399A8(), 0x11, 10);
-        *(u32 *)(p + 0x1cc) = 0x68;
+        *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x68;
     }
     return v;
 }

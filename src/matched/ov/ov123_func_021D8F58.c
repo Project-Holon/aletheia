@@ -14,6 +14,7 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj02476.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Sav;
@@ -33,17 +34,17 @@ void func_021D8F58(char *p)
 {
     void *v;
     void *q;
-    v=func_02009448(*(void **)(p+0x28));
-    if (*(void **)(p+0x34)) {
-        func_02082D44(*(void **)(p+0x34),v,func_02009228(*(void **)(p+0x34)));
-        func_020307B0(*(void **)(p+0x34));
-        *(void **)(p+0x34)=0;
+    v=func_02009448(((struct Obj02476 *)p)->f28);
+    if (((struct Obj02476 *)p)->f34) {
+        func_02082D44(((struct Obj02476 *)p)->f34,v,func_02009228(((struct Obj02476 *)p)->f34));
+        func_020307B0(((struct Obj02476 *)p)->f34);
+        ((struct Obj02476 *)p)->f34=0;
     }
-    if (*(u8 *)(p+0xaa)) {
+    if (((struct Obj02476 *)p)->fAA) {
         q=func_02009290(v);
-        func_020075B0(*(void **)(p+0x24),*(int *)(p+0x48),*(int *)(p+0x4c),func_020185F4(q));
+        func_020075B0(((struct Obj02476 *)p)->f24,((struct Obj02476 *)p)->f48,((struct Obj02476 *)p)->f4C,func_020185F4(q));
         func_02017528(q);
         func_020092F8(v,0);
-        *(u8 *)(p+0xaa)=0;
+        ((struct Obj02476 *)p)->fAA=0;
     }
 }

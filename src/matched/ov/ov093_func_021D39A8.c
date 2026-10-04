@@ -16,6 +16,7 @@
  *   func_021D5B68  0x021D5B68  thumb  ov093
  *   func_021D6064  0x021D6064  thumb  ov093
  */
+#include "../include/Obj21181.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,7 +47,7 @@ int func_021D39A8(u8 *a, int b, u32 *s)
         if (t == 0)
             break;
         for (j = 0; j < m; j++) {
-            q = func_021B9934(*(u8 **)(a + 4), buf[j]);
+            q = func_021B9934(*(u8 * *)&((struct Obj21181 *)a)->f4, buf[j]);
             if (func_021D5B68(q) == 0)
                 func_021D6064(q, t, 0, 0);
         }

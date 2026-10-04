@@ -11,6 +11,8 @@
  *   func_021D6134 0x021D6134 thumb ov115
  *   func_021D6198 0x021D6198 thumb ov115
  */
+#include "../include/Obj13855.h"
+#include "../include/Obj22605.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -19,8 +21,8 @@ extern void func_021D6134(void *, void (*)(void), int);
 extern void func_021D6198(u8 *p);
 void func_021D6150(u8 *p) {
     int color;
-    if (*(u32 *)(*(u8 **)(p + 16) + 16) & 8) color = 0x7fff;
+    if (((struct Obj22605 *)(*(u8 * *)&((struct Obj13855 *)p)->f10))->f10 & 8) color = 0x7fff;
     else color = 0;
-    func_0202208C(0, 1, 1, color, 6, 1, *(u16 *)(p + 20));
+    func_0202208C(0, 1, 1, color, 6, 1, ((struct Obj13855 *)p)->f14);
     func_021D6134(p, (void (*)(void))func_021D6198, 0x15b);
 }

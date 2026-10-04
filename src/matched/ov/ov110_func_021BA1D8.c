@@ -13,6 +13,7 @@
  *   func_021BAE24 0x021BAE24 thumb ov110
  *   func_021B9CBC 0x021B9CBC thumb ov110
  */
+#include "../include/Obj00135.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,6 +21,6 @@ extern void func_021BAE24(void *, void *, void *);
 extern void func_021B9CBC(u8 *);
 void func_021BA1D8(void *unused, u8 *p)
 {
-    func_021BAE24(*(void **)p, *(void **)(p + 4), *(void **)(p + 8));
+    func_021BAE24(((struct Obj00135 *)p)->f0, ((struct Obj00135 *)p)->f4, ((struct Obj00135 *)p)->f8);
     func_021B9CBC(p);
 }

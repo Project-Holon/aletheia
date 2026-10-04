@@ -22,6 +22,9 @@
  *   func_021C2864 0x021C2864 thumb ov099
  *   func_021BE6E4 0x021BE6E4 thumb ov099
  */
+#include "../include/Obj01051.h"
+#include "../include/Obj22046.h"
+#include "../include/Obj22047.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct {
@@ -48,18 +51,18 @@ void func_021BE6F0(char *p, int a, int b)
 {
     void *q;
     u8 t;
-    q = func_02012944(*(void **)(p + 0xc4));
-    (*(State **)(p + 8))->f15 = 0x15;
-    (*(State **)(p + 8))->f16 = 2;
+    q = func_02012944(((struct Obj01051 *)p)->fC4);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f15 = 0x15;
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f16 = 2;
     t = func_02008550(q);
-    (*(State **)(p + 8))->bits2 = t;
-    (*(State **)(p + 8))->f14 = func_02008554(q);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->bits2 = t;
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f14 = func_02008554(q);
     func_021C1908(p, a, b);
-    (*(State **)(p + 8))->f19 = func_0200856C(q);
-    (*(State **)(p + 8))->f1a = func_02008570(q);
-    func_021C27E8(*(void **)(p + 8), *(u8 *)(*(char **)(p + 0x248) + 0x46));
-    func_021C2864(*(void **)(p + 8), *(u8 *)(*(char **)(p + 0x248) + 0x46));
-    (*(State **)(p + 8))->f4 = func_02008530(q);
-    (*(State **)(p + 8))->f0 = func_0200853C(q);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f19 = func_0200856C(q);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f1a = func_02008570(q);
+    func_021C27E8(((struct Obj01051 *)p)->f8, ((struct Obj22046 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
+    func_021C2864(((struct Obj01051 *)p)->f8, ((struct Obj22047 *)(*(char * *)&((struct Obj01051 *)p)->f248))->f46);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f4 = func_02008530(q);
+    (*(State * *)&((struct Obj01051 *)p)->f8)->f0 = func_0200853C(q);
     func_021BE6E4(p);
 }

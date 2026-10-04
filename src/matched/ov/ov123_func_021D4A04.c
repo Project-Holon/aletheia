@@ -19,6 +19,7 @@
  *   d_021DA648 0x021DA648 data a4
  *   func_021D4244 0x021D4244 thumb ov123
  */
+#include "../include/Obj10434.h"
 typedef unsigned short u16;
 extern void func_021D45F4(int, void *, char *, void *, void *, void *);
 typedef unsigned char  u8;
@@ -34,7 +35,7 @@ void func_021D4A04(char *p)
 {
     struct { int value; } zero = {0};
     func_021D45F4(1, &zero, p, func_021DA9C0, d_021DA640, d_021DA640 + 1);
-    *(void **)(p + 0x20) = func_02051B84((u8 *)d_021DA648, (int)func_021D4778, (int)p, *(u16 *)(p + 12));
-    *(void **)(p + 4) = func_021D4BA8;
+    ((struct Obj10434 *)p)->f20 = func_02051B84((u8 *)d_021DA648, (int)func_021D4778, (int)p, ((struct Obj10434 *)p)->fC);
+    ((struct Obj10434 *)p)->f4 = func_021D4BA8;
     func_021D4244(p, func_021D4CA0, 0x321);
 }

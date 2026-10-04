@@ -18,6 +18,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj22174.h"
 typedef unsigned char u8;
 extern void func_021B71C0(void *p);
 extern void func_021B9174(void *p);
@@ -31,7 +32,7 @@ extern void func_020306F0(unsigned int heap);
 int func_021B7748(int a, int b, int c, u8 *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
-    func_021B71C0((void *)(*(int *)(p + 0xa38)));
+    func_021B71C0((void *)(((struct Obj22174 *)p)->fA38));
     func_021B9174(p + 0x198);
     func_021B80E4(p + 0x748);
     func_021B80E4(p + 0x184);

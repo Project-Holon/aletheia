@@ -34,6 +34,7 @@
  *   python tools/match.py one --src src/matched/sub_0201DB20.c \
  *       --func func_0201DB20 --addr 0x0201DB20 --cc 1.1p1 --thumb
  */
+#include "../include/Obj07086.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -93,7 +94,7 @@ u32 func_0201DB20(struct Font *f, u16 c)
         }
         n = m->pNext;
         if (n != 0)
-            n = (struct CMap *)(*(u8 **)((u8 *)f + 0x88) + ((u8 *)n - f->unk68));
+            n = (struct CMap *)(*(u8 * *)&((struct Obj07086 *)f)->f88 + ((u8 *)n - f->unk68));
         else
             return 0;
         m = n;

@@ -16,6 +16,7 @@
  *   func_021B9C00  0x021B9C00  thumb  ov093
  *   func_021D5B7C  0x021D5B7C  thumb  ov093
  */
+#include "../include/Obj00489.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -33,11 +34,11 @@ u8 func_021D0980(u8 *g, u8 *out)
     u8 c;
     u32 i;
 
-    n = func_021B9B94(*(void **)(g + 0x118));
-    i = func_021D7F2C(func_021B8588(*(void **)g), g[0x11c]);
+    n = func_021B9B94(((struct Obj00489 *)g)->f118);
+    i = func_021D7F2C(func_021B8588(((struct Obj00489 *)g)->f0), g[0x11c]);
     c = 0;
     for (; i < n; i = (u8)(i + 1)) {
-        if (func_021D5B7C(func_021B9C00(*(void **)(g + 0x118), i))) {
+        if (func_021D5B7C(func_021B9C00(((struct Obj00489 *)g)->f118, i))) {
             if (out)
                 out[c] = i;
             c = (u8)(c + 1);

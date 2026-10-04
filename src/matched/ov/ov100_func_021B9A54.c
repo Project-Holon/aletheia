@@ -19,6 +19,7 @@
  *   d_021BB664 0x021BB664 data a4
  *   d_021BB678 0x021BB678 data a4
  */
+#include "../include/Obj00060.h"
 struct Word { int x; };
 extern const struct Word d_021BB664,d_021BB678;
 extern void func_021BA3A4(struct Word *,int);
@@ -34,7 +35,7 @@ extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B9A1C(unsigned a);
 void func_021B9A54(int a)
 {
- if(*(int *)(a+0xc90)!=0) {
+ if(((struct Obj00060 *)a)->fC90!=0) {
   struct Word x=d_021BB664;
   func_021BA3A4(&x,a);
  } else {

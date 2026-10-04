@@ -16,6 +16,7 @@
  *   func_0203FB44 0x0203FB44 arm
  *   func_020452E8 0x020452E8 arm
  */
+#include "../include/Obj02240.h"
 extern int func_02028604(int);
 struct Descriptor;
 struct Rec3;
@@ -30,13 +31,13 @@ extern void func_0203FB44(unsigned, unsigned short, unsigned short);
 extern void func_020452E8(struct Descriptor *d);
 void func_022052E8(int task, char *p)
 {
-    func_02028604(*(int *)(p + 0x84));
-    if (*(int *)(p + 0x64)) func_0201CE48((struct Rec3 *)(*(int *)(p + 0x64)));
-    func_02031140((struct S02031140 *)(*(int *)(p + 0x68)));
-    if (*(int *)(p + 0x80)) func_02045808((struct U16Vec *)(*(int *)(p + 0x80)));
-    func_02045C04(*(void **)(p + 0x78));
-    func_02045C04(*(void **)(p + 0x7c));
-    func_0203FB44(1, *(unsigned *)(p + 0x74), *(unsigned *)(p + 0x74) >> 16);
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x6c)));
-    func_020452E8((struct Descriptor *)(*(int *)(p + 0x70)));
+    func_02028604(((struct Obj02240 *)p)->f84);
+    if (((struct Obj02240 *)p)->f64) func_0201CE48((struct Rec3 *)(((struct Obj02240 *)p)->f64));
+    func_02031140((struct S02031140 *)(((struct Obj02240 *)p)->f68));
+    if (((struct Obj02240 *)p)->f80) func_02045808((struct U16Vec *)(((struct Obj02240 *)p)->f80));
+    func_02045C04(((struct Obj02240 *)p)->f78);
+    func_02045C04(((struct Obj02240 *)p)->f7C);
+    func_0203FB44(1, ((struct Obj02240 *)p)->f74, ((struct Obj02240 *)p)->f74 >> 16);
+    func_020452E8((struct Descriptor *)(((struct Obj02240 *)p)->f6C));
+    func_020452E8((struct Descriptor *)(((struct Obj02240 *)p)->f70));
 }

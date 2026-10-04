@@ -14,8 +14,9 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj19049.h"
 
 int func_02169560(unsigned char *a)
 {
-    return *(int *)(a + 0x84);
+    return ((struct Obj19049 *)a)->f84;
 }

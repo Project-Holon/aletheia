@@ -27,6 +27,7 @@
  *   d_021DE018     0x021DE018  data  a1
  *   d_021D8F04     0x021D8F04  data  a4
  */
+#include "../include/Obj04240.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -59,15 +60,15 @@ char *func_021ABD50(int a, int b, u16 c)
     u8 z;
 
     p = (char *)func_02030734(c, 0x28, 1, d_021DE018, 0x7e);
-    *(int *)p = b;
-    *(u16 *)(p + 4) = c;
-    *(int *)(p + 8) = a;
-    *(int *)(p + 0xc) = (int)func_020490F4(0x4b, c);
+    ((struct Obj04240 *)p)->f0 = b;
+    ((struct Obj04240 *)p)->f4 = c;
+    ((struct Obj04240 *)p)->f8 = a;
+    ((struct Obj04240 *)p)->fC = (int)func_020490F4(0x4b, c);
     func_02013B38(func_02188C9C((u8 *)a));
-    *(u8 *)(p + 0x16) = func_0202E83C(func_02188C80((void *)a));
-    *(u8 *)(p + 0x17) = func_020140D8((struct Sub020140BCObj *)func_02188D58((u8 *)a));
+    ((struct Obj04240 *)p)->f16 = func_0202E83C(func_02188C80((void *)a));
+    ((struct Obj04240 *)p)->f17 = func_020140D8((struct Sub020140BCObj *)func_02188D58((u8 *)a));
     func_021ABEAC(p);
-    h = func_02050080((u32 *)func_02188C88((u8 *)(*(int *)(p + 8))));
+    h = func_02050080((u32 *)func_02188C88((u8 *)(((struct Obj04240 *)p)->f8)));
     func_0204EDBC((u8 *)h, 0);
     v = d_021D8F04;
     func_0204ED70(h, &v);

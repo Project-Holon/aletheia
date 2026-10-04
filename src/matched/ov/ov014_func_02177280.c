@@ -17,6 +17,8 @@
  *   func_021790E4  0x021790E4  thumb  ov014
  *   func_02178E1C  0x02178E1C  thumb  ov014
  */
+#include "../include/Obj05921.h"
+#include "../include/Obj19326.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -44,10 +46,10 @@ int func_02177280(int a, int b, u32 c, int d)
     w[0xCE6] = 0xff;
     if (func_021790E4(a, b, d) == 0)
         return 0;
-    func_02178E1C(*(u32 *)(st + 0x50));
-    *(u32 *)(w + 0xC64) = c;
+    func_02178E1C(((struct Obj19326 *)st)->f50);
+    ((struct Obj05921 *)w)->fC64 = c;
     w[0xCE7] = 0;
     w[0xCE4] = 0;
-    *(u16 *)(w + 0xC68) = func_0208F1B4();
+    ((struct Obj05921 *)w)->fC68 = func_0208F1B4();
     return 1;
 }

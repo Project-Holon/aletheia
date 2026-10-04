@@ -12,6 +12,7 @@
  * symbols:
  *   g_020A7390     0x020A7390  data  a1
  */
+#include "../include/Obj11266.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -106,7 +107,7 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
     }
     {
         u8 *q = (u8 *)obj->f28;
-        *(u32 *)q = (u32)obj->unk0C;
+        ((struct Obj11266 *)q)->f0 = (u32)obj->unk0C;
         q[4] = 0;
     }
     func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)obj->unk0C)), obj->f18lo);

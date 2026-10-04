@@ -14,6 +14,7 @@
  *   func_02183FA8 0x02183FA8 thumb ov022
  *   d_02175624 0x02175624 data a1
  */
+#include "../include/Obj09364.h"
 typedef unsigned char u8;
 extern void func_02034714(void *, int, void *);
 extern void func_02183FB8(int, void *, u8, int);
@@ -21,10 +22,10 @@ extern void func_02183FA8(int, u8);
 extern u8 d_02175624[];
 void func_02173F54(int a, int x, int y, u8 *p)
 {
-    if (*(int *)(p + 0x3528) == 0) {
+    if (((struct Obj09364 *)p)->f3528 == 0) {
         func_02034714(d_02175624, 0, d_02175624);
         return;
     }
-    func_02183FB8(*(int *)(p + 0x3528), p, a, y);
-    func_02183FA8(*(int *)(p + 0x3528), a);
+    func_02183FB8(((struct Obj09364 *)p)->f3528, p, a, y);
+    func_02183FA8(((struct Obj09364 *)p)->f3528, a);
 }

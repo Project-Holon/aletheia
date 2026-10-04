@@ -20,6 +20,8 @@
  *   func_0204B3DC  0x0204B3DC  arm
  *   func_0204B878  0x0204B878  arm
  */
+#include "../include/Obj03183.h"
+#include "../include/Obj06211.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,13 +48,13 @@ void func_021BAF28(u8 *a, u8 *s)
     u32 r6;
     u32 r7;
 
-    r6 = (u32)func_0201EC64(*(u16 *)a);
+    r6 = (u32)func_0201EC64(((struct Obj06211 *)a)->f0);
     r7 = (u32)func_02045EC0(g_020A7370, 0x28a);
     func_0201EE0C(r6, 0, r7, 0, 1, 2);
-    func_021B9CF4(a, *(u32 *)(s + 0x20), (void *)r6, 3, 0x29, 9, 0x440);
+    func_021B9CF4(a, ((struct Obj03183 *)s)->f20, (void *)r6, 3, 0x29, 9, 0x440);
     func_02045808((struct U16Vec *)r7);
     func_0201ED04((struct WordSet *)r6);
-    func_0204B3DC((struct Obj *)*(int *)(s + 0x38), 0);
-    func_0204B878((struct Obj *)(*(int *)(s + 0x30)), 1);
-    *(int *)(s + 0x18) = 1;
+    func_0204B3DC((struct Obj *)((struct Obj03183 *)s)->f38, 0);
+    func_0204B878((struct Obj *)(((struct Obj03183 *)s)->f30), 1);
+    ((struct Obj03183 *)s)->f18 = 1;
 }

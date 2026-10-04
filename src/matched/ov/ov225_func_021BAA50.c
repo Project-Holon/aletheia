@@ -15,6 +15,7 @@
  *   sub_0204ADA4 0x0204ADA4 arm
  *   func_021BAA88 0x021BAA88 thumb ov225
  */
+#include "../include/Obj08470.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -25,4 +26,4 @@ extern void sub_0204AFD8(u32);
 extern void sub_0204A8D4(u32);
 extern void sub_0204ADA4(u32);
 extern void func_021BAA88(char *);
-void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) sub_0204B3B4(*(struct Obj **)(p+i*4+0x60)); sub_0204B3B4(*(struct Obj **)(p+0x5c)); sub_0204AFD8(*(u32 *)(p+0x58)); sub_0204A8D4(*(u32 *)(p+0x50)); sub_0204ADA4(*(u32 *)(p+0x54)); }
+void func_021BAA50(char *p) { u8 i; func_021BAA88(p); for(i=0;i<8;i++) sub_0204B3B4(*(struct Obj **)(p+i*4+0x60)); sub_0204B3B4(*(struct Obj * *)&((struct Obj08470 *)p)->f5C); sub_0204AFD8(((struct Obj08470 *)p)->f58); sub_0204A8D4(((struct Obj08470 *)p)->f50); sub_0204ADA4(((struct Obj08470 *)p)->f54); }

@@ -15,6 +15,7 @@
  *   func_02188C9C 0x02188C9C thumb ov021
  *   func_0200B3A4 0x0200B3A4 thumb
  */
+#include "../include/Obj20565.h"
 
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -32,7 +33,7 @@ void func_021F388C(int a)
     if (func_02188C9C((u8 *)a) == 0x4b) {
         char *p = func_0200B3A4(h, 0x27);
         if (p != 0) {
-            unsigned char *q = *(unsigned char **)(p + 0x24);
+            unsigned char *q = *(unsigned char * *)&((struct Obj20565 *)p)->f24;
             if (q != 0)
                 *q = 1;
         }

@@ -22,6 +22,7 @@
  *   func_021A3960  0x021A3960  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj12739.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -47,7 +48,7 @@ extern void func_02163F10(void *a0);
 void func_021A54B4(u8 *p)
 {
     VecFx32 v;
-    void *o = func_021A3960(*(void **)(p + 0xC));
+    void *o = func_021A3960(((struct Obj12739 *)p)->fC);
 
     func_0216DB4C(o, 0);
     func_0216DCE8(o, 0);

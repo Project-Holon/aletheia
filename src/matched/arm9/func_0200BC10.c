@@ -12,11 +12,12 @@
  * Unlabelled arm9 leaf, filed as the relocation witness for ov021 func_021C3378
  * (wave A1, lane 13).
  */
+#include "../include/Obj06851.h"
 
 typedef unsigned char u8;
 
 void func_0200BC10(u8 *p)
 {
-    if (*(int *)(p + 0x1C8) != 1)
-        *(int *)(p + 0x1C8) = 1;
+    if (*(int *)&((struct Obj06851 *)p)->f1C8 != 1)
+        *(int *)&((struct Obj06851 *)p)->f1C8 = 1;
 }

@@ -18,6 +18,7 @@
  *   func_021C88A4  0x021C88A4  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj13504.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021D775C(int key);
@@ -59,8 +60,8 @@ void func_021E0518(int a, int *b, int c)
         v = func_021E8CF0(t);
         if (v != func_021D57FC(func_021C7CF4(b, c))) {
             p = func_021C88A4(b, 0x14, c);
-            *(u16 *)(p + 4) = v;
-            *(u8 *)(p + 6) = c;
+            ((struct Obj13504 *)p)->f4 = v;
+            ((struct Obj13504 *)p)->f6 = c;
             func_021C88C8(b, p);
         }
     }

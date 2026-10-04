@@ -15,6 +15,7 @@
  *   func_021BFF7C 0x021BFF7C thumb ov110
  *   func_021BF734 0x021BF734 thumb ov110
  */
+#include "../include/Obj02166.h"
 typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
@@ -26,16 +27,16 @@ extern void func_021BFF7C(u8 *,unsigned,unsigned);
 extern unsigned func_021BF734(u8 *);
 void func_021BFA40(u8 *p,unsigned a) {
     unsigned y,i,n;
-    func_02043B5C(func_02045770((struct Descriptor *)*(unsigned *)(p+12)),0);
+    func_02043B5C(func_02045770((struct Descriptor *)((struct Obj02166 *)p)->fC),0);
     func_021BFF60(p);
-    *(unsigned *)(p+0x98)=a*2;
-    n=func_021BF734(*(u8 **)(p+4));
+    ((struct Obj02166 *)p)->f98=a*2;
+    n=func_021BF734(*(u8 * *)&((struct Obj02166 *)p)->f4);
     if(n>16) n=16;
     i=0;
-    y=*(unsigned *)(p+0x94);
+    y=((struct Obj02166 *)p)->f94;
     for(;i<n;i++) {
-        func_021BFF7C(p,*(unsigned *)(p+0x98)+i,y);
+        func_021BFF7C(p,((struct Obj02166 *)p)->f98+i,y);
         if(i&1) y+=24;
     }
-    func_02045334((struct Descriptor *)*(unsigned *)(p+12));
+    func_02045334((struct Descriptor *)((struct Obj02166 *)p)->fC);
 }

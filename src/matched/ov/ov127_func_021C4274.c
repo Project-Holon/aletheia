@@ -11,10 +11,11 @@
  * symbols:
  *   func_0204B908 0x0204B908 arm
  */
+#include "../include/Obj23020.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 /* Callee and its forwarding target read only r0/r1; legacy r2/r3 inputs are unused. */
 extern void func_0204B908(u32,u32);
-void func_021C4274(char *p,u32 a) { func_0204B908(*(u32 *)(p+4),a); }
+void func_021C4274(char *p,u32 a) { func_0204B908(((struct Obj23020 *)p)->f4,a); }

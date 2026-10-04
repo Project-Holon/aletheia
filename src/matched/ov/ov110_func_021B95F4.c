@@ -12,6 +12,7 @@
  *   func_020247F0 0x020247F0 thumb
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22311.h"
 extern void func_020247F0(char *);
 extern void func_020307B0(void *);
-void func_021B95F4(char *a) { if(a) { func_020247F0(*(char **)(a+4)); func_020307B0(a); } }
+void func_021B95F4(char *a) { if(a) { func_020247F0(*(char * *)&((struct Obj22311 *)a)->f4); func_020307B0(a); } }

@@ -24,6 +24,7 @@
  *   func_021C5474 0x021C5474 thumb ov093
  *   func_021BBB38 0x021BBB38 thumb ov093
  */
+#include "../include/Obj02133.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -47,7 +48,7 @@ void func_021BB9D8(u8 *p)
     func_021EF874(0);
     func_021BBB08(p + 0x1c);
     func_021BBB18(p + 0x3e0);
-    func_021BBB28(p + 0x1ab8, *(void **)(p + 4), *(void **)(p + 8), func_021B8588(*(void **)(p + 4)));
+    func_021BBB28(p + 0x1ab8, ((struct Obj02133 *)p)->f4, ((struct Obj02133 *)p)->f8, func_021B8588(((struct Obj02133 *)p)->f4));
     func_02082BCC(p + 0x7a9, 0, 0x18);
     func_02082BCC(p + 0x7c1, 0, 0x18);
     func_02082BCC(p + 0x7d9, 0, 4);
@@ -64,10 +65,10 @@ void func_021BB9D8(u8 *p)
     ((Flags *)(p + 0x78a))->c = 0;
     p[0x77c] = 0;
     p[0x789] = 31;
-    *(u16 *)(p + 0x1f74) = 0;
+    ((struct Obj02133 *)p)->f1F74 = 0;
     p[0x784] = 6;
-    *(u32 *)(p + 0x774) = 0;
+    ((struct Obj02133 *)p)->f774 = 0;
     p[0x77e] = 0;
-    *(u32 *)(p + 0x778) = 0;
+    ((struct Obj02133 *)p)->f778 = 0;
     ((Flags *)(p + 0x78a))->d = 0;
 }

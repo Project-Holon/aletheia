@@ -15,6 +15,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   func_021E89D4  0x021E89D4  thumb  ov093
  */
+#include "../include/Obj07819.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -35,8 +36,8 @@ void func_021DE9D4(int a, void *b, int c)
         if (v != 0xa5) {
             r = (u8 *)func_021C88A4(b, 12, c);
             r[0xf] = c;
-            *(u32 *)(r + 4) = 0x1b;
-            *(u32 *)(r + 8) = func_021E89D4(v);
+            ((struct Obj07819 *)r)->f4 = 0x1b;
+            ((struct Obj07819 *)r)->f8 = func_021E89D4(v);
             r[0x10] = 2;
             func_021C88C8(b, r);
         }

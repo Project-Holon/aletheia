@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15642.h"
 
 void func_02013144(char *p, int v)
 {
-    *(unsigned short *)(p + 0x82) |= (unsigned short)v;
+    ((struct Obj15642 *)p)->f82 |= (unsigned short)v;
 }

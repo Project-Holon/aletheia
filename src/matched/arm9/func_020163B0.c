@@ -14,8 +14,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj15687.h"
 
 void func_020163B0(char *p, int v)
 {
-    *(int *)(p + 0x48) = v;
+    ((struct Obj15687 *)p)->f48 = v;
 }

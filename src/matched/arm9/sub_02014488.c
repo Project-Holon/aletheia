@@ -37,6 +37,7 @@
  *           0x0215FA44 in ov010 (.word 0x4B024801, ldr r0/ldr r3 thunks),
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
+#include "../include/Obj05792.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -52,9 +53,9 @@ extern void func_02188BD8(u8 *obj);
 
 int sub_02014488(void *a0, u32 *a1, u8 *a2)
 {
-    void *v = (void *)*(u32 *)(a2 + 8);
-    void *w = (void *)*(u32 *)a2;
-    void *x = (void *)*(u32 *)(a2 + 4);
+    void *v = (void *)((struct Obj05792 *)a2)->f8;
+    void *w = (void *)((struct Obj05792 *)a2)->f0;
+    void *x = (void *)((struct Obj05792 *)a2)->f4;
     void *y;
 
     y = (void *)sub_02012A30(v);
@@ -70,8 +71,8 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
         if (sub_020289B8(y) == 1) {
             break;
         }
-        if (*(u32 *)(a2 + 0xc) != 0) {
-            func_0215FA44((void *)*(u32 *)(a2 + 0xc));
+        if (((struct Obj05792 *)a2)->fC != 0) {
+            func_0215FA44((void *)((struct Obj05792 *)a2)->fC);
         }
         return 1;
     }

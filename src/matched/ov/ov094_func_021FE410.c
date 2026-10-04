@@ -25,6 +25,7 @@
  *   func_021FE768  0x021FE768  thumb  ov094
  *   d_0220AE68     0x0220AE68  data   ov094
  */
+#include "../include/Obj13601.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -74,7 +75,7 @@ void func_021FE410(Obj *o, int a, int b, int n)
     } else {
         o->fl.f9 = 0;
     }
-    r = func_02030734((u16)(((u16)*(u16 *)((char *)o + 0x238) & 0x7fff) | 0x8000), 0x10, 0, d_0220AE68, 0x1d78);
+    r = func_02030734((u16)(((u16)((struct Obj13601 *)o)->f238 & 0x7fff) | 0x8000), 0x10, 0, d_0220AE68, 0x1d78);
     r->a = a;
     r->b = b;
     r->fl = (Flags *)o;
@@ -83,5 +84,5 @@ void func_021FE410(Obj *o, int a, int b, int n)
     else
         fx = _ffix(_fsub(_fflt(n << 12), 0.5f));
     func_021F9154(r->a, r->b, r->v, fx);
-    func_021F896C((void *)func_02030DA8(*(int *)((char *)o + 8), (void *)func_021FE768, r, 0), 0, 1);
+    func_021F896C((void *)func_02030DA8(((struct Obj13601 *)o)->f8, (void *)func_021FE768, r, 0), 0, 1);
 }

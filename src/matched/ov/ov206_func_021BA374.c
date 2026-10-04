@@ -19,6 +19,7 @@
  *   func_021BAF7C 0x021BAF7C thumb ov206
  *   func_0201C4E4 0x0201C4E4 thumb
  */
+#include "../include/Obj00316.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -35,55 +36,55 @@ extern void func_021BAF7C(char *p);
 extern u32 func_0201C4E4(struct PrintSys *ps);
 void func_021BA374(char *p)
 {
-    if (*(int *)(p+0x18) == 0) func_021BBC9C(p);
-    *(int *)(p+0x64) += 1;
-    if (*(int *)(p+0x64) == 4) {
-        *(u8 *)(p+0x39) |= 1;
-        *(int *)(p+0x64) = 0;
+    if (((struct Obj00316 *)p)->f18 == 0) func_021BBC9C(p);
+    ((struct Obj00316 *)p)->f64 += 1;
+    if (((struct Obj00316 *)p)->f64 == 4) {
+        ((struct Obj00316 *)p)->f39 |= 1;
+        ((struct Obj00316 *)p)->f64 = 0;
     }
-    switch (*(int *)(p+0x54)) {
+    switch (((struct Obj00316 *)p)->f54) {
     case 0: case 6: case 7: break;
     case 1:
-        *(int *)(p+0x60) += 1;
-        if (*(int *)(p+0x60) == 15) *(int *)(p+0x54) = 2;
+        ((struct Obj00316 *)p)->f60 += 1;
+        if (((struct Obj00316 *)p)->f60 == 15) ((struct Obj00316 *)p)->f54 = 2;
         break;
     case 2: {
-        int v = *(int *)(p+0x68) - 1;
-        *(int *)(p+0x68) = v;
+        int v = ((struct Obj00316 *)p)->f68 - 1;
+        ((struct Obj00316 *)p)->f68 = v;
         *(volatile u16 *)0x04000040 = 100;
         *(volatile u16 *)0x04000044 = (u16)(((8 << 8) & 0xFF00) | (v & 0xFF));
-        if (*(int *)(p+0x68) == 16) {
+        if (((struct Obj00316 *)p)->f68 == 16) {
             *(volatile u32 *)0x04000000 &= 0xFFFF1FFF;
             func_0207D658((u32)((volatile u16 *)0x04000050), 0x10, 0);
-            func_02006984(*(u16 *)(p+0xc), *(u16 *)(p+0xe), 0x40, 0, 0, 0, 0, 0);
-            *(int *)(p+0x54) = 3;
+            func_02006984(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
+            ((struct Obj00316 *)p)->f54 = 3;
         }
         break;
     }
     case 3:
-        if (*(int *)(p+0x58) != 0) *(int *)(p+0x54) = 4;
+        if (((struct Obj00316 *)p)->f58 != 0) ((struct Obj00316 *)p)->f54 = 4;
         break;
     case 4: {
         struct Pt pt;
         int fx = 0;
         int fy = 0;
-        void *obj = *(void **)(p + *(int *)(p+0xb4) * 4 + 0xac);
+        void *obj = *(void **)(p + ((struct Obj00316 *)p)->fB4 * 4 + 0xac);
         func_0204B53C(obj, &pt);
         pt.x += 1;
         pt.y += 1;
         if (pt.x > 0x80) { pt.x = 0x80; fx = 1; }
         if (pt.y > 0x48) { pt.y = 0x48; fy = 1; }
-        func_0204B528(*(void **)(p + *(int *)(p+0xb4) * 4 + 0xac), &pt);
-        if (fx && fy) *(int *)(p+0x54) = 6;
+        func_0204B528(*(void **)(p + ((struct Obj00316 *)p)->fB4 * 4 + 0xac), &pt);
+        if (fx && fy) ((struct Obj00316 *)p)->f54 = 6;
         break;
     }
     case 5:
-        if (*(int *)(p+0x5c) != 0) {
-            func_02006984(*(u16 *)(p+0xc), *(u16 *)(p+0xe), 0x40, 0, 0, 0, 0, 0);
-            *(int *)(p+0x54) = 6;
+        if (((struct Obj00316 *)p)->f5C != 0) {
+            func_02006984(((struct Obj00316 *)p)->fC, ((struct Obj00316 *)p)->fE, 0x40, 0, 0, 0, 0, 0);
+            ((struct Obj00316 *)p)->f54 = 6;
         }
         break;
     }
-    if (*(int *)(p+0x18) == 0 || *(int *)(p+0x18) == 2) func_021BAF7C(p);
-    func_0201C4E4(*(void **)(p+0x2c));
+    if (((struct Obj00316 *)p)->f18 == 0 || ((struct Obj00316 *)p)->f18 == 2) func_021BAF7C(p);
+    func_0201C4E4(((struct Obj00316 *)p)->f2C);
 }

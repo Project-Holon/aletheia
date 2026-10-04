@@ -15,6 +15,7 @@
  *   func_020450C8  0x020450C8  arm
  *   func_0203F9B4  0x0203F9B4  arm
  */
+#include "../include/Obj05413.h"
 
 typedef signed char s8;
 typedef signed short s16;
@@ -33,9 +34,9 @@ extern void func_0203F9B4(void);
 
 void func_021F50EC(u8 *p)
 {
-    if (*(void **)(p + 0xf90) != 0) {
-        func_02030EAC(*(void **)(p + 0xf90));
-        *(void **)(p + 0xf90) = 0;
+    if (((struct Obj05413 *)p)->fF90 != 0) {
+        func_02030EAC(((struct Obj05413 *)p)->fF90);
+        ((struct Obj05413 *)p)->fF90 = 0;
     }
     *(vu16 *)0x04000050 = 0;
     *(vu16 *)0x04001050 = 0;

@@ -18,6 +18,7 @@
  *   func_021A2638  0x021A2638  thumb  ov021
  *   d_021EFDC0     0x021EFDC0  data  a4
  */
+#include "../include/Obj09778.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,10 +45,10 @@ void func_021EF220(int a, int n, int idx)
 
     r = func_020056EC(0);
     w = (u8 *)func_021A21B8((int *)a);
-    if (*(s16 *)(w + 0x10) == 0) {
+    if (((struct Obj09778 *)w)->f10 == 0) {
         return;
     }
-    if (*(s16 *)(w + 0x10) == 2 && (r & 1)) {
+    if (((struct Obj09778 *)w)->f10 == 2 && (r & 1)) {
         return;
     }
     i = 0;
@@ -63,7 +64,7 @@ void func_021EF220(int a, int n, int idx)
         e = (s32 *)func_021A2630((unsigned char *)obj);
         q = func_021A2638((unsigned char *)obj);
         e[1] = (s32)w;
-        switch (*(s16 *)(w + 0x10)) {
+        switch (((struct Obj09778 *)w)->f10) {
         case 0:
             break;
         case 1:

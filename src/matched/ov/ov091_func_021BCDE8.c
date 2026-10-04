@@ -15,6 +15,13 @@
  *   func_021BD634  0x021BD634  thumb  ov091
  *   func_021BA4F8  0x021BA4F8  thumb  ov091
  */
+#include "../include/Obj00009.h"
+#include "../include/Obj20913.h"
+#include "../include/Obj20914.h"
+#include "../include/Obj20915.h"
+#include "../include/Obj20916.h"
+#include "../include/Obj20917.h"
+#include "../include/Obj20918.h"
 
 typedef unsigned char u8;
 
@@ -25,24 +32,24 @@ extern void func_021BA4F8(char *a);
 
 void func_021BCDE8(char *a)
 {
-    if (*(int *)(*(char **)(a + 0x280) + 0x8C) == 1) {
-        switch (*(int *)(*(char **)(a + 0x280) + 0x64)) {
+    if (((struct Obj20913 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f8C == 1) {
+        switch (((struct Obj20914 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f64) {
         case 1:
-            func_021BD1BC(a, (int *)(*(int *)(a + 0x1F4)));
+            func_021BD1BC(a, (int *)(((struct Obj00009 *)a)->f1F4));
             break;
         case 2:
-            func_021BD1BC(a, (int *)(*(int *)(a + 0x1F0)));
-            func_021BD1BC(a, (int *)(*(int *)(a + 0x1F4)));
-            func_021BD1BC(a, (int *)(*(int *)(a + 0x1F8)));
+            func_021BD1BC(a, (int *)(((struct Obj00009 *)a)->f1F0));
+            func_021BD1BC(a, (int *)(((struct Obj00009 *)a)->f1F4));
+            func_021BD1BC(a, (int *)(((struct Obj00009 *)a)->f1F8));
             break;
         }
     }
-    if (*(u8 *)(a + 0x20C) != *(u8 *)(*(char **)(a + 0x280) + 0x94) && *(u8 *)(a + 0xC) == 2) {
+    if (((struct Obj00009 *)a)->f20C != ((struct Obj20915 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f94 && ((struct Obj00009 *)a)->fC == 2) {
         func_021BD504(a);
-        *(u8 *)(a + 0x20C) = *(u8 *)(*(char **)(a + 0x280) + 0x94);
+        ((struct Obj00009 *)a)->f20C = ((struct Obj20916 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f94;
     }
-    if (*(int *)(*(char **)(a + 0x280) + 0x90) == 1)
+    if (((struct Obj20917 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f90 == 1)
         func_021BD634(a);
-    if (*(u8 *)(*(char **)(a + 0x280) + 0x63) == 1)
+    if (((struct Obj20918 *)(*(char * *)&((struct Obj00009 *)a)->f280))->f63 == 1)
         func_021BA4F8(a);
 }

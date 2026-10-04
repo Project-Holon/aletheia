@@ -50,6 +50,8 @@
  *   func_02064100  0x02064100  arm
  *   func_020643CC  0x020643CC  arm
  */
+#include "../include/Obj03474.h"
+#include "../include/Obj04783.h"
 
 extern int func_02062D4C(char *self, int a1);
 extern void func_02064934(char *self, int a1);
@@ -68,7 +70,7 @@ extern void func_020643CC(struct MCInstance *pMCInst, const struct MultiCellData
 
 void func_020649D4(char *self, int a1)
 {
-    unsigned short t = *(unsigned short *)(*(int *)self + 4);
+    unsigned short t = *(unsigned short *)(((struct Obj04783 *)self)->f0 + 4);
     char *p;
     int kind;
     int r7;
@@ -76,26 +78,26 @@ void func_020649D4(char *self, int a1)
     if (func_02062D4C(self, a1) == 0) {
         goto miss;
     }
-    *(unsigned short *)(self + 0x30) += t;
-    if (*(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+    ((struct Obj04783 *)self)->f30 += t;
+    if (*(unsigned short *)(((struct Obj04783 *)self)->f4 + 4) == 0)
         return;
     p = func_02062D40(self);
-    r7 = (int)func_020629E8((struct MultiCellBank *)(*(int *)(self + 0x44)), *(unsigned short *)p);
-    kind = *(int *)(*(int *)(self + 0x1c) + 4) & 0xff;
+    r7 = (int)func_020629E8((struct MultiCellBank *)(((struct Obj04783 *)self)->f44), ((struct Obj03474 *)p)->f0);
+    kind = *(int *)(((struct Obj04783 *)self)->f1C + 4) & 0xff;
     func_02064140(self + 0x48, 1);
     switch (kind) {
     case 0:
         break;
     case 2:
-        func_020640DC(self + 0x48, *(short *)(p + 4), *(short *)(p + 6));
+        func_020640DC(self + 0x48, *(short *)&((struct Obj03474 *)p)->f4, *(short *)(p + 6));
         break;
     default:
-        func_02064120(self + 0x48, *(int *)(p + 4), *(int *)(p + 8));
-        func_02064100(self + 0x48, *(unsigned short *)(p + 2));
-        func_020640DC(self + 0x48, *(short *)(p + 0xc), *(short *)(p + 0xe));
+        func_02064120(self + 0x48, ((struct Obj03474 *)p)->f4, ((struct Obj03474 *)p)->f8);
+        func_02064100(self + 0x48, ((struct Obj03474 *)p)->f2);
+        func_020640DC(self + 0x48, ((struct Obj03474 *)p)->fC, ((struct Obj03474 *)p)->fE);
         break;
     }
-    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)r7, *(unsigned short *)(self + 0x30));
+    func_020643CC((struct MCInstance *)(self + 0x34), (const struct MultiCellData *)r7, ((struct Obj04783 *)self)->f30);
     return;
 miss:
     func_02064934(self + 0x34, a1);

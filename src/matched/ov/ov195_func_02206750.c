@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj08348.h"
+#include "../include/Obj24968.h"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -19,8 +21,8 @@ typedef signed int s32;
 
 void func_02206750(char *p)
 {
-    char *q = *(char **)(p + 0x58);
-    int *r = *(int **)(q + 8);
+    char *q = *(char * *)&((struct Obj08348 *)p)->f58;
+    int *r = *(int * *)&((struct Obj24968 *)q)->f8;
     int v = r[0x28 / 4];
 
     if (v == 1) return;

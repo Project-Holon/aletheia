@@ -26,6 +26,7 @@
  *   func_021BB91C 0x021BB91C thumb ov217
  *   func_021BB910 0x021BB910 thumb ov217
  */
+#include "../include/Obj00025.h"
 typedef unsigned char u8;
 extern unsigned func_021BB98C(void *);
 extern u8 func_021BBC50(u8 *);
@@ -57,7 +58,7 @@ void func_021BB5F4(u8 *p)
         func_021BB990(p);
         break;
     case 1:
-        if (*(unsigned *)(p + 0x24) >= 60) {
+        if (((struct Obj00025 *)p)->f24 >= 60) {
             func_021BC490();
             func_021BB990(p);
         }

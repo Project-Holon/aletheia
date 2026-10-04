@@ -13,11 +13,12 @@
  * symbols:
  *   func_0215889C 0x0215889C thumb ov010
  */
+#include "../include/Obj12271.h"
 typedef unsigned int u32;
 extern void func_0215889C(void *, u32 *);
 void func_021588A4(void *p, int a)
 {
     void (*callback)(void *, u32 *) = func_0215889C;
     *(void (**)(void *, u32 *))((u32)p + 0x10) = callback;
-    *(int *)((u32)p + 0x14) = a;
+    ((struct Obj12271 *)((u32)p))->f14 = a;
 }

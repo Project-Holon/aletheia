@@ -44,6 +44,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00021.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -85,8 +86,8 @@ void func_021BE384(u32 a0)
 {
     func_021C08A8((int *)a0);
     func_021C085C((int *)a0);
-    func_021C09E0(*(u32*)(((u8*)a0)));
-    func_021C09EC(*(u32*)(((u8*)a0)));
+    func_021C09E0(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
+    func_021C09EC(*(u32 *)&((struct Obj00021 *)((u8*)a0))->f0);
     func_021C08F0(a0);
     func_021BFF5C((int *)a0);
     func_021BFED4(a0);
@@ -112,7 +113,7 @@ void func_021BE384(u32 a0)
     func_021BE498((u8 *)a0, 13);
     func_021BE448((void *)a0);
     func_021C0968((unsigned char *)a0);
-    *(u32*)(((u8*)a0) + 964) = 0;
-    *(u32*)(((u8*)a0) + 992) = 1;
+    *(u32 *)&((struct Obj00021 *)(((u8*)a0)))->f3C4 = 0;
+    ((struct Obj00021 *)(((u8*)a0)))->f3E0 = 1;
 }
 

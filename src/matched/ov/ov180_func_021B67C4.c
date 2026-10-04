@@ -11,10 +11,11 @@
  *   func_020515B4 0x020515B4 arm
  *   d_021B80CC 0x021B80CC data a4
  */
+#include "../include/Obj24485.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {int a,b,c;} Triple;
 extern Triple d_021B80CC;
 extern int func_020515B4(void *p, int b, int c);
-void func_021B67C4(char *p,int a){Triple v;v=d_021B80CC;func_020515B4(*(void **)(p+40),a,(int)((int *)&v));}
+void func_021B67C4(char *p,int a){Triple v;v=d_021B80CC;func_020515B4(((struct Obj24485 *)p)->f28,a,(int)((int *)&v));}

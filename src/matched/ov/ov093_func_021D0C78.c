@@ -13,6 +13,7 @@
  *   func_021EEC20  0x021EEC20  thumb  ov093
  *   func_021B8DE4  0x021B8DE4  thumb  ov093
  */
+#include "../include/Obj09995.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +37,7 @@ u8 func_021D0C78(BattleSeq *s, u8 *out)
     u32 i;
     u32 cnt;
 
-    n = func_021EEC20(*(int *)((u8 *)s + 0x50), &arr);
+    n = func_021EEC20(((struct Obj09995 *)s)->f50, &arr);
     i = 0;
     cnt = 0;
     for (; i < n; i++) {

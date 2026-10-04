@@ -13,6 +13,7 @@
  *   func_0203996C 0x0203996C arm
  *   func_0203D3F8 0x0203D3F8 arm
  */
+#include "../include/Obj14127.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020173E8(void);
@@ -33,7 +34,7 @@ void func_021FD22C(char *p)
     for(i=0;i<4;i++) {
         m=func_02008468();
         n=func_020173E8();
-        q=*(char **)(p+0x13c);
+        q=*(char * *)&((struct Obj14127 *)p)->f13C;
         k=i*(m+4+n);
         m=func_02008468();
         n=func_020173E8();
@@ -42,5 +43,5 @@ void func_021FD22C(char *p)
     h=func_0203996C(0xff);
     m=func_02008468();
     n=func_020173E8();
-    func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(*(void **)(p+0x13c)),1,0,1);
+    func_0203D3F8((u32)h,0xff,0x1102,(m+4+n)*4,(u32)(((struct Obj14127 *)p)->f13C),1,0,1);
 }

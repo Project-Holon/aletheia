@@ -11,6 +11,7 @@
  *   func_02027778 0x02027778 thumb
  *   func_021B81B0 0x021B81B0 thumb ov173
  */
+#include "../include/Obj14313.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 a,b,c,d; } Descriptor;
@@ -27,7 +28,7 @@ int func_021B6A64(u8 *p)
     x.b = 8;
     x.c = 10;
     x.d = 3;
-    *(u32 *)(p + 0x1e0) = func_02027778(&x, *(u32 *)(p + 0x1dc));
+    ((struct Obj14313 *)p)->f1E0 = func_02027778(&x, ((struct Obj14313 *)p)->f1DC);
     func_021B81B0(1);
     return 4;
 }

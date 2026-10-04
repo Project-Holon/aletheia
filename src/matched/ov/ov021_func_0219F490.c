@@ -25,6 +25,7 @@
  *   func_021A000C  0x021A000C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj01851.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,23 +53,23 @@ void func_0219F490(u32 a)
     u32 x;
     u32 r;
     q = (u8 *)func_0216D6F0((void *)a);
-    if (*(u16 *)q != 0xFFFF) {
+    if (((struct Obj01851 *)q)->f0 != 0xFFFF) {
         r = func_0219C9DC((u8 *)func_0216D910(a));
         x = func_0216D678((void *)a);
         if (q[5] >= 2) {
             q[5] = 0;
-            func_0205082C((void *)r, *(u16 *)q, q[5]);
-            func_0205085C((void *)r, *(u16 *)q, 0);
+            func_0205082C((void *)r, ((struct Obj01851 *)q)->f0, q[5]);
+            func_0205085C((void *)r, ((struct Obj01851 *)q)->f0, 0);
         }
         if (x < 2 && q[5] != x) {
             q[5] = x;
-            func_0205082C((void *)r, *(u16 *)q, q[5]);
-            func_0205085C((void *)r, *(u16 *)q, 0);
+            func_0205082C((void *)r, ((struct Obj01851 *)q)->f0, q[5]);
+            func_0205085C((void *)r, ((struct Obj01851 *)q)->f0, 0);
         }
-        func_021A000C(a, r, *(u16 *)q, 0, 0);
+        func_021A000C(a, r, ((struct Obj01851 *)q)->f0, 0, 0);
     func_02197CCC((u8 *)a, buf);
     func_0219FFBC(a, buf);
     r = func_02050080((u32 *)r);
-    func_0204F638((u8 *)r, *(u16 *)q, (struct Trip *)buf);
+    func_0204F638((u8 *)r, ((struct Obj01851 *)q)->f0, (struct Trip *)buf);
     }
 }

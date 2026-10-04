@@ -13,6 +13,7 @@
  *   func_02211944  0x02211944  thumb  ov198
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj25284.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern void func_02211944(u8 **);
 
 u32 func_02211958(u8 **p)
 {
-    if (*(u32 *)(*p + 0x30) == 1) {
+    if (((struct Obj25284 *)(*p))->f30 == 1) {
         func_02211944(p);
         return 1;
     }

@@ -24,6 +24,7 @@
  *   func_0207E468 0x0207E468 arm
  *   func_021B9814 0x021B9814 thumb ov182
  */
+#include "../include/Obj03328.h"
 typedef unsigned short u16;
 extern const u16 d_021B9B9C;
 extern void func_0203064C(unsigned int, unsigned int, unsigned int);
@@ -51,14 +52,14 @@ int func_021B95A0(void *task, int b, int c)
     func_0203064C(1, 0x88, 0x30000);
     p = func_0203159C(task, 0x1c, 0x88);
     func_02082BCC(p, 0, 0x1c);
-    *(u16 *)p = 0x88;
-    *(int *)(p + 0x10) = c;
-    *(void **)(p + 4) = func_021B98E4(1, *(u16 *)p);
-    *(void **)(p + 8) = func_0201D7EC(0x17, 0, 0, 0, *(u16 *)p);
-    *(void **)(p + 0xc) = func_0201C440(*(u16 *)p);
+    ((struct Obj03328 *)p)->f0 = 0x88;
+    ((struct Obj03328 *)p)->f10 = c;
+    ((struct Obj03328 *)p)->f4 = func_021B98E4(1, ((struct Obj03328 *)p)->f0);
+    ((struct Obj03328 *)p)->f8 = func_0201D7EC(0x17, 0, 0, 0, ((struct Obj03328 *)p)->f0);
+    ((struct Obj03328 *)p)->fC = func_0201C440(((struct Obj03328 *)p)->f0);
     func_0204047C(1, 1);
     func_0204047C(2, 0);
-    *(void **)(p + 0x14) = func_020056A0(func_021B9784, p, 1);
+    ((struct Obj03328 *)p)->f14 = func_020056A0(func_021B9784, p, 1);
     func_021B9788((u16 *)p);
     if (func_020111E8() == 0x14)
         func_0207E468(vp, 0, 2);

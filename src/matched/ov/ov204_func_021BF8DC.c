@@ -24,6 +24,7 @@
  *   vc 0x021C0908 data a4
  *   setup 0x021C093C data a4
  */
+#include "../include/Obj02921.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 x,y,z;} Vec3;
@@ -46,17 +47,17 @@ char *func_021BF8DC(void *owner,int kind,u32 heap)
     char *p;
     void *obj;
     p=func_02030734(heap,48,1,site,162);
-    *(u16 *)(p+4)=heap;
-    *(void **)p=owner;
-    *(void **)(p+8)=func_02047CFC(10,16,heap);
+    ((struct Obj02921 *)p)->f4=heap;
+    ((struct Obj02921 *)p)->f0=owner;
+    ((struct Obj02921 *)p)->f8=func_02047CFC(10,16,heap);
     a=va;b=vb;c=vc;
-    *(void **)(p+12)=func_02048A24(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
+    ((struct Obj02921 *)p)->fC=func_02048A24(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
     if(kind!=7){
-        *(u16 *)(p+16)=func_02047E88(*(void **)(p+8),setup);
-        obj=(void *)func_02048A18(*(void **)(p+8),*(u16 *)(p+16));
+        ((struct Obj02921 *)p)->f10=func_02047E88(((struct Obj02921 *)p)->f8,setup);
+        obj=(void *)func_02048A18(((struct Obj02921 *)p)->f8,((struct Obj02921 *)p)->f10);
         func_020477A4(obj,3);func_020477A4(obj,4);
         func_020477D4(obj,0);func_020477D4(obj,1);func_020477D4(obj,2);
-    }else *(u16 *)(p+16)=0xffff;
-    *(u32 *)(p+24)=1;
+    }else ((struct Obj02921 *)p)->f10=0xffff;
+    ((struct Obj02921 *)p)->f18=1;
     return p;
 }

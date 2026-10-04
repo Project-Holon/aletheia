@@ -33,6 +33,7 @@
  * the -16 already in a register.  The four ov088 data hints were contested
  * or unwitnessed with the ov088 token; without it they resolve as sole-ref.
  */
+#include "../include/Obj20830.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -74,7 +75,7 @@ void func_021BC62C(char *p)
     func_02045088(0x39);
     func_02049B40(0x17, 5, 0, 0, 0x20, 0x39);
     func_02049B40(0x17, 5, 4, 0, 0x20, 0x39);
-    *(u32 *)(p + 8) = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x39);
+    ((struct Obj20830 *)p)->f8 = (u32)func_0201D7EC(0x17, 0, 0, 0, 0x39);
     func_0201F5BC(1, 1, 3, 0, 0x39);
     func_0201F5BC(1, 0x1f, 4, 0, 0x39);
     func_0201F5BC(5, 1, 1, 0, 0x39);

@@ -9,6 +9,7 @@
  * status: EXACT
  * lever: initialize the inner counter before calculating the two outer cursors.
  */
+#include "../include/Obj13918.h"
 int func_021E421C(char *p, int x, int y)
 {
     int i, j, a, b;
@@ -20,8 +21,8 @@ int func_021E421C(char *p, int x, int y)
         for (; j < 5; j++) {
             if (*(unsigned char *)(q + j + 0xebc)) {
                 r = s + j * 4;
-                a = *(short *)(r + 0xdcc) - 5;
-                b = *(short *)(r + 0xdce) - 8;
+                a = ((struct Obj13918 *)r)->fDCC - 5;
+                b = ((struct Obj13918 *)r)->fDCE - 8;
                 if (a < 0) a -= 8;
                 a /= 8;
                 b /= 8;

@@ -11,6 +11,8 @@
  * symbols:
  *   func_021DDEFC 0x021DDEFC thumb ov170
  */
+#include "../include/Obj00000.h"
+#include "../include/Obj23847.h"
 typedef struct {
     unsigned short idx,slot,f4,f6;
     int vx,vy;
@@ -22,7 +24,7 @@ void func_021DE5F8(unsigned char *p,unsigned a)
     Obj *o;
     unsigned i;
     unsigned slot;
-    o=*(Obj **)(*(char **)(p+0x2c)+0x60);
+    o=*(Obj * *)&((struct Obj23847 *)(*(char * *)&((struct Obj00000 *)p)->f2C))->f60;
     slot=a;
     slot=a-30;
     for(i=0;i<6;i++){

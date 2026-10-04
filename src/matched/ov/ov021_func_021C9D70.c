@@ -20,6 +20,7 @@
  *   func_0200DA14  0x0200DA14  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00116.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -37,13 +38,13 @@ extern void func_0200DA14(struct Blk3C *p);
 
 void func_021C9D70(u32 unused, u8 *p)
 {
-    u16 v = *(u16 *)(p + 0xe);
+    u16 v = ((struct Obj00116 *)p)->fE;
     u8 kind = p[9];
-    u32 h = *(u32 *)(p + 0x74);
+    u32 h = ((struct Obj00116 *)p)->f74;
 
     func_0200DB08((struct Blk1AC *)h, kind, v);
     func_0200DAEC((struct Blk1AC *)h, kind, v);
-    func_021CA2DC(p, (u32)func_02012EBC((struct Big *)(*(u32 *)(p + 0x6c))), 1, v);
-    func_0200DB1C((struct Blk1AC *)(*(u32 *)(p + 0x74)), kind);
-    func_0200DA14((struct Blk3C *)(*(u32 *)(p + 0x70)));
+    func_021CA2DC(p, (u32)func_02012EBC((struct Big *)(*(u32 *)&((struct Obj00116 *)p)->f6C)), 1, v);
+    func_0200DB1C((struct Blk1AC *)(((struct Obj00116 *)p)->f74), kind);
+    func_0200DA14((struct Blk3C *)(((struct Obj00116 *)p)->f70));
 }

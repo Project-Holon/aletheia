@@ -21,6 +21,7 @@
  *   func_021B6170 0x021B6170 thumb ov180
  *   func_021B7210 0x021B7210 thumb ov180
  */
+#include "../include/Obj00547.h"
 typedef unsigned int   u32;
 extern void func_0204363C(u32 swap);
 extern void func_021B61D4(int);
@@ -36,6 +37,6 @@ extern int func_021B7210(char *,int);
 int func_021B6F34(char *p) {
     func_0204363C(0); func_021B61D4(1); func_021B6224(); func_021B6254(); func_021B6360();
     func_021B66A0(p); func_021B68A8(p); func_021B7318(p,1); func_021B7D80(p); func_021B6170(p);
-    *(int *)(p+8)=2;
+    ((struct Obj00547 *)p)->f8=2;
     return func_021B7210(p,8);
 }

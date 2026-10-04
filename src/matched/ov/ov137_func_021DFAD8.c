@@ -18,6 +18,7 @@
  *   d_021E1D00 0x021E1D00 data a4
  *   d_021E1D0C 0x021E1D0C data a4
  */
+#include "../include/Obj14228.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -40,6 +41,6 @@ void func_021DFAD8(u8 *p)
     func_02046440(0, 1, 0, 1, 0, 114, func_021DFA68);
     func_02046BE0(0, 0);
     position = d_021E2020;
-    *(void **)(section + 20) = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, &d_021E1D00, &position, &d_021E1D0C, 114);
-    func_02048AD0(*(void **)(section + 20));
+    ((struct Obj14228 *)section)->f14 = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 4096, 0x400000, 0, &d_021E1D00, &position, &d_021E1D0C, 114);
+    func_02048AD0(((struct Obj14228 *)section)->f14);
 }

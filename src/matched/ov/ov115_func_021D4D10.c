@@ -14,6 +14,7 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
+#include "../include/Obj13851.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -24,4 +25,4 @@ extern void func_021D4E04(u8 *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned int heap);
-int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 **)(p+56)); func_021D4E04(*(u8 **)(p+52)); func_020315D4((struct S020315D4 *)a); func_020306F0(120); return 1; }
+int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 * *)&((struct Obj13851 *)p)->f38); func_021D4E04(*(u8 * *)&((struct Obj13851 *)p)->f34); func_020315D4((struct S020315D4 *)a); func_020306F0(120); return 1; }

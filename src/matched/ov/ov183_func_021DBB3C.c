@@ -21,6 +21,9 @@
  *   func_02025588 0x02025588 thumb
  *   func_020315D4 0x020315D4 arm
  */
+#include "../include/Obj00050.h"
+#include "../include/Obj06598.h"
+#include "../include/Obj24541.h"
 extern void func_021DCE28(char *,char *);
 extern void func_021DCE48(char *,char *);
 extern void func_021DD054(char *,char *);
@@ -44,17 +47,17 @@ int func_021DBB3C(int task,int b,char *q,char *p)
     func_021DD054(p,q);
     func_021DD0F4(p,q);
     func_021DD1D4(p,q);
-    *(int *)(q+4)=*(int *)(p+0xc8);
+    ((struct Obj06598 *)q)->f4=((struct Obj00050 *)p)->fC8;
     func_020409B4(4);
     func_020409B4(1);
-    if(*(void **)(p+0x18)) {
-        func_021FD15C(*(void **)(p+0x18),*(int *)(*(char **)(p+0xd0)+0x10));
-        *(void **)(p+0x18)=0;
+    if(((struct Obj00050 *)p)->f18) {
+        func_021FD15C(((struct Obj00050 *)p)->f18,((struct Obj24541 *)(*(char * *)&((struct Obj00050 *)p)->fD0))->f10);
+        ((struct Obj00050 *)p)->f18=0;
     }
     for(i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+0xc));
-    func_021FD714((void *)(*(int *)(p+8)));
-    func_0201C4C0(*(void **)(p+4));
-    func_02025588((void *)(*(int *)p));
+    func_021FD714((void *)(((struct Obj00050 *)p)->f8));
+    func_0201C4C0(((struct Obj00050 *)p)->f4);
+    func_02025588((void *)(((struct Obj00050 *)p)->f0));
     func_020315D4((struct S020315D4 *)task);
     return 1;
 }

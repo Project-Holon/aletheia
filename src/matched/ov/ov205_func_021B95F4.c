@@ -41,6 +41,8 @@
  *   func_020310C4 0x020310C4 arm
  *   func_0202F0B0 0x0202F0B0 thumb
  */
+#include "../include/Obj00419.h"
+#include "../include/Obj25393.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -100,64 +102,64 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     }
     case 2:if(!func_0204E804())*state=3;break;
     case 3:
-        if(*(u32 *)(p+64)!=0){ (*state)++; break; }
+        if(((struct Obj00419 *)p)->f40!=0){ (*state)++; break; }
         {
             func_020061E4(0x54c);func_021B99E4(p,3,0,0);
-            obj=*(void **)(p+28);func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
-            *(u32 *)(p+68)=4;*state=13;func_02012DAC(*(int *)(p+4));
+            obj=((struct Obj00419 *)p)->f1C;func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
+            ((struct Obj00419 *)p)->f44=4;*state=13;func_02012DAC(*(int *)&((struct Obj00419 *)p)->f4);
         }
         break;
     case 4:
-        if(*(u32 *)(p+64)==0){
-            if(*(u32 *)(context+4)==0){func_021B9A68(p);func_021B9A94(p);}
+        if(((struct Obj00419 *)p)->f40==0){
+            if(((struct Obj25393 *)context)->f4==0){func_021B9A68(p);func_021B9A94(p);}
             else {func_021B9B04(p);func_021B9AD8(p);func_021B9B20(p);}
         }
-        *(void **)(p+48)=func_0202EE8C(*(u32 *)(p+36),*(void **)(p+28),15,16,*(u16 *)p);
+        ((struct Obj00419 *)p)->f30=func_0202EE8C(*(u32 *)&((struct Obj00419 *)p)->f24,((struct Obj00419 *)p)->f1C,15,16,((struct Obj00419 *)p)->f0);
         (*state)++;break;
     case 5:
-        if(*(u32 *)(p+64)==0 && *(u32 *)(p+56)!=0){
+        if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f38!=0){
             func_021B9B78(p);
-            if(*(u32 *)(p+60)!=0)(*state)++;
+            if(((struct Obj00419 *)p)->f3C!=0)(*state)++;
         }else (*state)++;
         break;
     case 6:
-        if(*(u32 *)(p+64)==0){
-            switch(func_02012DD0(*(void **)(p+4))){
+        if(((struct Obj00419 *)p)->f40==0){
+            switch(func_02012DD0(((struct Obj00419 *)p)->f4)){
             case 0:case 1:break;
-            case 2:*(u32 *)(p+52)=1;(*state)++;break;
-            case 3:*(u32 *)(p+52)=0;(*state)++;break;
+            case 2:((struct Obj00419 *)p)->f34=1;(*state)++;break;
+            case 3:((struct Obj00419 *)p)->f34=0;(*state)++;break;
             }
         }else (*state)++;
         break;
     case 7:
-        func_0202F038(*(void **)(p+48));
-        if(*(u32 *)(p+64)==0 && *(u32 *)(p+52)!=0){
+        func_0202F038(((struct Obj00419 *)p)->f30);
+        if(((struct Obj00419 *)p)->f40==0 && ((struct Obj00419 *)p)->f34!=0){
             func_021B99E4(p,4,0,0);
-            obj=*(void **)(p+28);func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
-            *(u32 *)(p+68)=8;*state=13;func_020061E4(0x558);
+            obj=((struct Obj00419 *)p)->f1C;func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
+            ((struct Obj00419 *)p)->f44=8;*state=13;func_020061E4(0x558);
         }else{
             func_021B99E4(p,5,0,0);
-            obj=*(void **)(p+28);func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
-            *(u32 *)(p+68)=8;*state=13;
+            obj=((struct Obj00419 *)p)->f1C;func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
+            ((struct Obj00419 *)p)->f44=8;*state=13;
         }
         break;
     case 8:
-        if(*(int *)(p+72)>120)(*state)++;
-        (*(int *)(p+72))++;break;
+        if(((struct Obj00419 *)p)->f48>120)(*state)++;
+        (((struct Obj00419 *)p)->f48)++;break;
     case 9:
         if(func_020111E8()==21){ func_0204E720(3,0,16,0); }
         else { func_0204E720(12,0,16,0); }
         (*state)++;break;
     case 10:
-        if(!func_0204E804()){func_02043B5C(func_02045770(*(void **)(p+28)),15);(*state)++;}
+        if(!func_0204E804()){func_02043B5C(func_02045770(((struct Obj00419 *)p)->f1C),15);(*state)++;}
         break;
     case 11:func_021B9928(p);(*state)++;break;
     case 12:return 1;
     case 13:
-        if(func_02028484(p+40,*(void **)(p+32)))*state=*(u32 *)(p+68);
+        if(func_02028484(p+40,((struct Obj00419 *)p)->f20))*state=((struct Obj00419 *)p)->f44;
         break;
     }
-    if(*(void **)(p+36))func_020310C4(*(void **)(p+36));
-    if(*(void **)(p+48))func_0202F0B0(*(void **)(p+48));
+    if(((struct Obj00419 *)p)->f24)func_020310C4(((struct Obj00419 *)p)->f24);
+    if(((struct Obj00419 *)p)->f30)func_0202F0B0(((struct Obj00419 *)p)->f30);
     return 0;
 }

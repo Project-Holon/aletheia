@@ -11,6 +11,8 @@
  *   func_02049EF4 0x02049EF4 arm
  *   d_021CA648 0x021CA648 data a2
  */
+#include "../include/Obj23107.h"
+#include "../include/Obj23108.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -23,7 +25,7 @@ void func_021C9E10(u8 *p,u8 *q,u16 heap)
     ids[0]=d_021CA648[0]; ids[1]=d_021CA648[1];
     ids[2]=d_021CA648[2]; ids[3]=d_021CA648[3];
     for(i=0;i<4;i++) {
-        *(void **)p=func_02049EF4(*(void **)(q+8),ids[i],0,(void **)(p+4),heap);
+        ((struct Obj23107 *)p)->f0=func_02049EF4(((struct Obj23108 *)q)->f8,ids[i],0,(void **)(p+4),heap);
         p+=8;
     }
 }

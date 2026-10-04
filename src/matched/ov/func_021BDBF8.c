@@ -16,6 +16,7 @@
  *   func_02029D7C  0x02029D7C  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02661.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern u32 func_02029D7C(u32, u32);
 
 int func_021BDBF8(u32 a)
 {
-return func_02029D7C(func_02012A30((const struct BigObj *)*(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8)), *(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8));
+return func_02029D7C(func_02012A30((const struct BigObj *)*(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8)), *(u32 *)((u8 *)(*(u32 *)&((struct Obj02661 *)((u8 *)(a)))->f0) + 8));
 }
 

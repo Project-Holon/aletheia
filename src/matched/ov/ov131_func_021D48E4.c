@@ -21,6 +21,7 @@
  *   func_020450C8 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  */
+#include "../include/Obj10503.h"
 extern void func_02061C30(void);
 typedef unsigned char  u8;
 struct Bank;
@@ -35,10 +36,10 @@ extern void func_0203F9B4(void);
 void func_021D48E4(char *p)
 {
     func_02061C30();
-    func_02014BA8(*(void **)(p+0x78));
-    func_02048AC4(*(void **)(p+0x70));
+    func_02014BA8(((struct Obj10503 *)p)->f78);
+    func_02048AC4(((struct Obj10503 *)p)->f70);
     func_02046788();
-    func_0204B1CC(*(void **)(p+0x174));
+    func_0204B1CC(((struct Obj10503 *)p)->f174);
     func_0204A5AC();
     func_020403F4(5);
     func_020403F4(6);

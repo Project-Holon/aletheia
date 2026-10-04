@@ -20,6 +20,9 @@
  *   func_021D4244 0x021D4244 thumb ov120
  *   func_021D588C 0x021D588C thumb ov120
  */
+#include "../include/Obj01056.h"
+#include "../include/Obj22834.h"
+#include "../include/Obj22835.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0203D7B0(int);
@@ -35,20 +38,20 @@ extern void func_021D4244(int, int, int);
 extern void func_021D588C(u8 *p);
 void func_021D5BEC(u8 *p)
 {
-    if (*(int *)(*(u8 **)(p + 0x48) + 0x1b0) != 1) {
+    if (((struct Obj22834 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 != 1) {
         int zero = 0;
         func_0203D7B0(0);
         func_0203D7BC(0);
-        func_021D846C(*(u8 **)(p + 0x40));
-        func_021D63F4(*(void **)(p + 0x3c), 0, 0);
+        func_021D846C(*(u8 * *)&((struct Obj01056 *)p)->f40);
+        func_021D63F4(((struct Obj01056 *)p)->f3C, 0, 0);
         func_02040588(4, 0);
-        func_021D761C(*(void **)(p + 0x3c));
-        func_021D7B38((char *)(*(int *)(p + 0x40)));
-        func_021D883C(*(char **)(p + 0x40));
-        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
-        *(int *)(p + 0x1b0) = 1;
-        *(int *)(p + 0x1b4) = zero;
-        *(int *)(*(u8 **)(p + 0x48) + 0x1b0) = 1;
+        func_021D761C(((struct Obj01056 *)p)->f3C);
+        func_021D7B38((char *)(*(int *)&((struct Obj01056 *)p)->f40));
+        func_021D883C(*(char * *)&((struct Obj01056 *)p)->f40);
+        func_021D69F4(((struct Obj01056 *)p)->f3C, 0, 9);
+        ((struct Obj01056 *)p)->f1B0 = 1;
+        ((struct Obj01056 *)p)->f1B4 = zero;
+        ((struct Obj22835 *)(*(u8 * *)&((struct Obj01056 *)p)->f48))->f1B0 = 1;
         func_021D4244((int)p, (int)func_021D588C, 0x937);
     }
 }

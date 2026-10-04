@@ -13,6 +13,7 @@
  * symbols:
  *   func_021BD170 0x021BD170 thumb ov093
  */
+#include "../include/Obj21127.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -20,7 +21,7 @@ extern int func_021BD170(u8 *, u8 *);
 u8 func_021CA394(u8 *p, const u8 *q)
 {
     u8 r;
-    if (func_021BD170(p, (u8 *)(u32)*(const u16 *)(q + 4))) r = 1;
+    if (func_021BD170(p, (u8 *)(u32)*(const u16 *)&((struct Obj21127 *)q)->f4)) r = 1;
     else r = 0;
     return r;
 }

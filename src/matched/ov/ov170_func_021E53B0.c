@@ -19,6 +19,7 @@
  *   func_020061E4 0x020061E4 thumb
  *   func_021EBC58 0x021EBC58 thumb ov170
  */
+#include "../include/Obj00000.h"
 struct WinMgr;
 extern void func_020061E4(unsigned);
 typedef unsigned int   u32;
@@ -74,11 +75,11 @@ int func_021E53B0(unsigned char *p)
         STEP(p)++;
         return func_021E8FC0(p, func_021E0190, 0x2e);
     case 1:
-        if (func_0201AA18(((void **)*(void **)p)[2]) != 6)
+        if (func_0201AA18(((void **)((struct Obj00000 *)p)->f0)[2]) != 6)
             return func_021E8F50(p, 0x2f);
         func_020061E4(0x557);
         func_021EBC58(p, 0, 2, 0x18);
-        *(int *)(p + 0x28) = 0xe;
+        ((struct Obj00000 *)p)->f28 = 0xe;
         return func_021E8F50(p, 6);
     }
     return 0x2e;

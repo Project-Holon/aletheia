@@ -15,6 +15,7 @@
 
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj18073.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -23,5 +24,5 @@ typedef signed int     s32;
 
 void func_021AABEC(u8 *p)
 {
-    *(u32 *)((char *)p + 12) = 0;
+    ((struct Obj18073 *)p)->fC = 0;
 }

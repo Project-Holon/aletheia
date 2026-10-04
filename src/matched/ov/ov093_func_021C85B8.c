@@ -10,13 +10,14 @@
  * symbols:
  *   func_021C85D4 0x021C85D4 thumb ov093
  */
+#include "../include/Obj00294.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021C85D4(u8 *, int, int);
 void func_021C85B8(u8 *p)
 {
-    if (*(u32 *)(p + 0x1a64) != 0) {
-        --*(u32 *)(p + 0x1a64);
-        func_021C85D4(p, *(u32 *)(p + 0x1a64), 0);
+    if (((struct Obj00294 *)p)->f1A64 != 0) {
+        --((struct Obj00294 *)p)->f1A64;
+        func_021C85D4(p, ((struct Obj00294 *)p)->f1A64, 0);
     }
 }

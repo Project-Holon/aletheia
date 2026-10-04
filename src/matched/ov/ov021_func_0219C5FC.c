@@ -15,6 +15,7 @@
  *   func_0219CDAC  0x0219CDAC  thumb  ov021
  *   func_0219D390  0x0219D390  thumb  ov021
  */
+#include "../include/Obj03579.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -30,7 +31,7 @@ void func_0219C5FC(u32 a)
 {
     u8 *s = (u8 *)func_0216D520((void *)a);
     if (s != 0) {
-        if (*(u32 *)(s + 0x1c) != 0) {
+        if (*(u32 *)&((struct Obj03579 *)s)->f1C != 0) {
             func_0219D0F4(s);
             func_0219CDAC(s);
         }

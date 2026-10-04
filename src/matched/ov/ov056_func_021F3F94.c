@@ -12,6 +12,7 @@
  * symbols:
  *   func_02028B50  0x02028B50  thumb
  */
+#include "../include/Obj07669.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -21,8 +22,8 @@ extern void func_02028B50(u8 *p, int a0);
 
 void func_021F3F94(void *a, void *b, u8 *c)
 {
-    if (*(u16 *)(*(u32 *)c) != 0 && *(u16 *)(c + 4) == 0) {
-        func_02028B50((u8 *)(*(u32 *)(c + 0xc)), 0x756);
-        *(u16 *)(c + 4) = 1;
+    if (*(u16 *)(((struct Obj07669 *)c)->f0) != 0 && ((struct Obj07669 *)c)->f4 == 0) {
+        func_02028B50((u8 *)(((struct Obj07669 *)c)->fC), 0x756);
+        ((struct Obj07669 *)c)->f4 = 1;
     }
 }

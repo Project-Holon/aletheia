@@ -15,6 +15,7 @@
  * Byte-correct but witness-blocked (MATCH).
  * +0008 ABS32 func_02024158          -> unresolved: 02024158 (arm, from name) has no witness outside 021BF7C4..021BF7D0
  */
+#include "../include/Obj22393.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -24,4 +25,4 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern u32 func_02024158(const u8 *p);
-void func_021BF7C4(u8 *p) { func_02024158((const u8 *)(*(u32 *)p)); }
+void func_021BF7C4(u8 *p) { func_02024158((const u8 *)(((struct Obj22393 *)p)->f0)); }

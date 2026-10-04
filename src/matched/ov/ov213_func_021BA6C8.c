@@ -15,6 +15,7 @@
  * evidence: ov213 021B95BC loads ov067 (pool 021B96B0=0x43).
  * width: 6208 heap widened: original forwards full r2 at 021BA706.
  */
+#include "../include/Obj14695.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int f0, f4, f8, fC; } Out;
@@ -25,8 +26,8 @@ void func_021BA6C8(char *p, void *state, short heap)
 {
     int resource;
     In config;
-    *(void **)p = state;
-    *(unsigned short *)(p+4) = heap;
+    ((struct Obj14695 *)p)->f0 = state;
+    ((struct Obj14695 *)p)->f4 = heap;
     config.f0=0;
     config.f4=0;
     config.f8=0xB5;

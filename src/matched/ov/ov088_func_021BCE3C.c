@@ -18,6 +18,7 @@
  *   func_021BD118  0x021BD118  thumb  ov088
  *   func_021BD23C  0x021BD23C  thumb  ov088
  */
+#include "../include/Obj00578.h"
 
 extern unsigned func_0201FEBC(char *);
 extern void func_021BD118(char *, int);
@@ -25,7 +26,7 @@ extern void func_021BD23C(void);
 
 void func_021BCE3C(char *p, int *out)
 {
-    unsigned r = func_0201FEBC(*(char **)(p + 0x20));
+    unsigned r = func_0201FEBC(*(char * *)&((struct Obj00578 *)p)->f20);
     switch (r) {
     case 0:
         func_021BD118(p, 2);

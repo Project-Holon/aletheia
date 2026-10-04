@@ -22,6 +22,7 @@
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
  */
+#include "../include/Obj02507.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -42,15 +43,15 @@ extern void *func_02045770(struct Descriptor *);
 void func_021B68F8(u8 *p,int mode)
 {
  void *tmp;
- if(*(void **)(p+92)){
- func_0201F7A8(*(void **)(p+92),1);
- tmp=*(void **)(p+92);func_020456F8(tmp);func_02041B6C(func_02045730(tmp));
- func_020452E8(*(void **)(p+92));*(void **)(p+92)=0;
+ if(((struct Obj02507 *)p)->f5C){
+ func_0201F7A8(((struct Obj02507 *)p)->f5C,1);
+ tmp=((struct Obj02507 *)p)->f5C;func_020456F8(tmp);func_02041B6C(func_02045730(tmp));
+ func_020452E8(((struct Obj02507 *)p)->f5C);((struct Obj02507 *)p)->f5C=0;
  }
- if(mode==0) *(void **)(p+92)=(void *)func_020450F0(0,1,1,30,4,12,1);
- else if(mode==1) *(void **)(p+92)=(void *)func_020450F0(0,1,19,30,4,12,1);
- func_0201F73C(*(void **)(p+92),1,1,13);
- func_02043B5C(func_02045770(*(void **)(p+92)),15);
- func_02045334(*(void **)(p+92));func_02045374(*(void **)(p+92));
+ if(mode==0) ((struct Obj02507 *)p)->f5C=(void *)func_020450F0(0,1,1,30,4,12,1);
+ else if(mode==1) ((struct Obj02507 *)p)->f5C=(void *)func_020450F0(0,1,19,30,4,12,1);
+ func_0201F73C(((struct Obj02507 *)p)->f5C,1,1,13);
+ func_02043B5C(func_02045770(((struct Obj02507 *)p)->f5C),15);
+ func_02045334(((struct Obj02507 *)p)->f5C);func_02045374(((struct Obj02507 *)p)->f5C);
  func_02041B6C(0);func_02028470(p+128,6);
 }

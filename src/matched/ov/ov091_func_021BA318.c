@@ -22,6 +22,7 @@
  *   func_021B9804  0x021B9804  thumb ov091
  *   func_021BA3A4  0x021BA3A4  thumb ov091
  */
+#include "../include/Obj13244.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ void func_021BA318(u8 *p)
     W(0x2c) = ((u32 *)W(0x280))[0x3c / 4];
     func_021BB97C(p, W(0x150));
     func_021BB99C((int)p, W(0x150), 0, W(0x38));
-    t = *(u16 *)(p + 0x11c);
+    t = ((struct Obj13244 *)p)->f11C;
     if (t) {
         func_021BB9EC(p, W(0x150), 1, r - t, 3);
         func_021B9788(p, 0x2c, 1, (int)func_021B9E20);

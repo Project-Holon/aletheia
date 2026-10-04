@@ -16,6 +16,8 @@
  *   func_02165534   0x02165534  thumb  ov010
  *   func_021D1C24   0x021D1C24  thumb
  */
+#include "../include/Obj12044.h"
+#include "../include/Obj17700.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -27,7 +29,7 @@ extern void func_021D1C24(int, int, unsigned);
 void func_0215EF40(void *a0, void *a1)
 {
     func_02165534((void *)0x1C0);
-    func_021D1C24(*(int *)((char *)a1 + 8), *(int *)((char *)a1 + 0x10),
-                 (u8)*(u16 *)a0);
+    func_021D1C24(((struct Obj12044 *)a1)->f8, ((struct Obj12044 *)a1)->f10,
+                 (u8)((struct Obj17700 *)a0)->f0);
 }
 

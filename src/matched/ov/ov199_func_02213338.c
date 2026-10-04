@@ -15,6 +15,7 @@
  *   func_02213808 0x02213808 thumb ov199
  *   ov093_id 0x0000005D data a1
  */
+#include "../include/Obj01819.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02005D28(char *);
@@ -26,7 +27,7 @@ extern void func_02213808(char *, int);
 int func_02213338(char *p, char *q)
 {
     func_02005D28(p);
-    func_020307B0(*(void **)(q + 0x34));
+    func_020307B0(((struct Obj01819 *)q)->f34);
     func_02013930(q);
     func_020307B0(q);
     func_02034A5C((int)ov093_id);

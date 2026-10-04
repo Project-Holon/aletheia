@@ -17,6 +17,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj06553.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,6 +32,6 @@ int func_021B7830(void *a0, char *a1, int a2)
     int n = (int)func_021B785C(a0);
 
     if (func_021BE05C(a0) == 1 && a2 != 0)
-        return *(int *)(a1 + 4) + n;
-    return *(int *)(a1 + 4) + n * a2;
+        return ((struct Obj06553 *)a1)->f4 + n;
+    return ((struct Obj06553 *)a1)->f4 + n * a2;
 }

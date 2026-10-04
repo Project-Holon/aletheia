@@ -25,6 +25,7 @@
  *   func_021CE150 0x021CE150 thumb ov093
  *   func_021CE4D0 0x021CE4D0 thumb ov093
  */
+#include "../include/Obj02785.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -54,13 +55,13 @@ u32 func_021CE7D4(u8 *p, int *st)
     switch (*st) {
     case 0:
         z = 0;
-        i = func_021B904C(*(void **)p, 0);
-        k = func_021BA004(*(void **)p, i);
-        func_021F7F58(func_021BA020(*(void **)p, i), 9, 0, 0, z);
+        i = func_021B904C(((struct Obj02785 *)p)->f0, 0);
+        k = func_021BA004(((struct Obj02785 *)p)->f0, i);
+        func_021F7F58(func_021BA020(((struct Obj02785 *)p)->f0, i), 9, 0, 0, z);
         func_021F7998(0x270);
-        func_021EA6B0(*(char **)(p + 0x54), k, *(u16 *)(p + 0x19e));
-        if ((u16)(*(u16 *)(p + 0x19e) + 0xffed) <= 1 &&
-            func_021D7F38(func_021BA020(*(void **)p, i)) && !((Flags *)(p + 0x1b2))->flag) {
+        func_021EA6B0(*(char * *)&((struct Obj02785 *)p)->f54, k, ((struct Obj02785 *)p)->f19E);
+        if ((u16)(((struct Obj02785 *)p)->f19E + 0xffed) <= 1 &&
+            func_021D7F38(func_021BA020(((struct Obj02785 *)p)->f0, i)) && !((Flags *)(p + 0x1b2))->flag) {
             func_021F87EC(0x47b);
             if (!func_021F8774()) {
                 func_02005E30(8);
@@ -78,7 +79,7 @@ u32 func_021CE7D4(u8 *p, int *st)
         }
         break;
     case 2:
-        if (!func_021F7EB4() && func_021EA710(*(void **)(p + 0x54))) {
+        if (!func_021F7EB4() && func_021EA710(((struct Obj02785 *)p)->f54)) {
             func_021F7998(0x271);
             ++*st;
         }

@@ -19,6 +19,7 @@
  *   func_0201214C 0x0201214C thumb
  *   func_021EFF3C 0x021EFF3C thumb ov035
  */
+#include "../include/Obj02409.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -34,17 +35,17 @@ extern void func_021EFF3C(void *, int);
 void *func_021EFEC0(int a0, int a1, int a2)
 {
     char *p = (char *)func_02030734(a2, 0x50, 1, d_021F0678, 0x12D);
-    *(int *)(p + 4) = a1;
-    *(int *)(p + 8) = func_02012138((const struct Ctx *)a1);
-    *(int *)(p + 0xC) = a0;
-    *(unsigned short *)p = a2;
+    ((struct Obj02409 *)p)->f4 = a1;
+    ((struct Obj02409 *)p)->f8 = func_02012138((const struct Ctx *)a1);
+    *(int *)&((struct Obj02409 *)p)->fC = a0;
+    ((struct Obj02409 *)p)->f0 = a2;
     func_021EFF78(p, a2);
     if (func_0202EB44() == 0)
-        *(unsigned short *)(p + 0x48) = 2;
+        ((struct Obj02409 *)p)->f48 = 2;
     else if (func_0201214C((const struct Ctx *)a1) == 1)
-        *(unsigned short *)(p + 0x48) = 1;
+        ((struct Obj02409 *)p)->f48 = 1;
     else
-        *(unsigned short *)(p + 0x48) = 0;
+        ((struct Obj02409 *)p)->f48 = 0;
     func_021EFF3C(p, 1);
     return p;
 }

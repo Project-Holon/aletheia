@@ -21,6 +21,7 @@
  *   _fsub 0x0209CB8C arm
  *   _ffix 0x0209C494 arm
  */
+#include "../include/Obj06215.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -53,9 +54,9 @@ void func_021BDABC(u8 *p)
         count = 2;
         p[0x269] = 0x26;
     }
-    handle = func_0205121C(0x4c,member,*(u16 *)p);
-    W(0x25c) = (u32)func_0203D7C8(*(u16 *)p,0x5000,(const char *)d_021BED58,0xea);
-    W(0x260) = func_02050C04(W(0x25c),0x5000,0,*(u16 *)p);
+    handle = func_0205121C(0x4c,member,((struct Obj06215 *)p)->f0);
+    W(0x25c) = (u32)func_0203D7C8(((struct Obj06215 *)p)->f0,0x5000,(const char *)d_021BED58,0xea);
+    W(0x260) = func_02050C04(W(0x25c),0x5000,0,((struct Obj06215 *)p)->f0);
     func_02051230((u8 *)W(0x260),handle,0,func_020056BC());
     func_021BB3D4(p,*(int *)(p+W(0x2c)*4+0x160),&xy);
     xy.x -= 0x28;

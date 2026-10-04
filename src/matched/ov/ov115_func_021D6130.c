@@ -16,8 +16,9 @@
  * Matched to supply the `matched` witness for the pending ov115 caller
  * func_021D6134.
  */
+#include "../include/Obj22604.h"
 
 void func_021D6130(int *p, int v)
 {
-    *(int *)((char *)p + 0xc) = v;
+    ((struct Obj22604 *)p)->fC = v;
 }

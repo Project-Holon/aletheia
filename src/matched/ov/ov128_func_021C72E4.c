@@ -14,6 +14,7 @@
  *   func_021CA16C 0x021CA16C thumb ov128
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj14035.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021C6ADC(u8 *,u8 *,unsigned);
@@ -26,10 +27,10 @@ void func_021C72E4(u8 *p,int *q,u8 *ctx)
 {
     u16 *data;
     func_021C6ADC(ctx,ctx+12,0);
-    data=*(u16 **)(p+0x18);
+    data=*(u16 * *)&((struct Obj14035 *)p)->f18;
     func_02041090(2,(u8 *)data+12,0,0,data[0]>>3,data[1]>>3);
     func_02040618(2,0,0);
     func_02040618(2,3,0);
-    if(*q==0) func_021CA16C(ctx,*(int *)p);
+    if(*q==0) func_021CA16C(ctx,((struct Obj14035 *)p)->f0);
     else func_02041B6C(2);
 }

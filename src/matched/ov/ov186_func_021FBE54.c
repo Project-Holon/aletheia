@@ -22,6 +22,7 @@
  *   func_0204AF28    0x0204AF28  arm
  *   func_02049238    0x02049238  arm
  */
+#include "../include/Obj02235.h"
 
 typedef unsigned int u32;
 
@@ -47,7 +48,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     switch (idx) {
     case 4: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[1] = func_0204A6C8(h, 0x24, 0, 0, area);
         r4[0] = (u32)func_0204AF28(h, 0x15, 0x14, area);
         func_02049238(h);
@@ -55,7 +56,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 5: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x24, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 0x15, 0x14, area);
         func_02049238(h);
@@ -63,7 +64,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 0: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[1] = func_0204A6C8(h, 0x22, 0, 0, area);
         r4[0] = (u32)func_0204AF28(h, 9, 0xa, area);
         func_02049238(h);
@@ -71,7 +72,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 1: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x22, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 9, 0xa, area);
         func_02049238(h);
@@ -79,7 +80,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 2: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[1] = func_0204A6C8(h, 0x3f, 0, 0, area);
         r4[0] = (u32)func_0204AF28(h, 0x3d, 0x3e, area);
         func_02049238(h);
@@ -87,7 +88,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 3: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x3f, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 0x3d, 0x3e, area);
         func_02049238(h);
@@ -95,7 +96,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 6: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x23, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 7, 8, area);
         func_02049238(h);
@@ -103,7 +104,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 8: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x56, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 0x55, 0x54, area);
         func_02049238(h);
@@ -111,7 +112,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 7: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[1] = func_0204A6C8(h, 0x56, 0, 0, area);
         r4[0] = (u32)func_0204AF28(h, 0x55, 0x54, area);
         func_02049238(h);
@@ -135,7 +136,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 9: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[1] = func_0204A6C8(h, 0x36, 0, 0, area);
         r4[0] = (u32)func_0204AF28(h, 0x34, 0x35, area);
         func_02049238(h);
@@ -143,7 +144,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 10: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)(base + 4);
+        r4[2] = ((struct Obj02235 *)base)->f4;
         r4[1] = func_0204A6C8(h, 0x36, 0, 1, area);
         r4[0] = (u32)func_0204AF28(h, 0x34, 0x35, area);
         func_02049238(h);
@@ -151,7 +152,7 @@ void func_021FBE54(char *base, u32 idx, u32 area)
     }
     case 13: {
         void *h = func_020490F4(0x89, area);
-        r4[2] = *(u32 *)base;
+        r4[2] = ((struct Obj02235 *)base)->f0;
         r4[0] = (u32)func_0204AF28(h, 0x29, 0x2a, area);
         r4[1] = func_0204A6C8(h, 0x25, 0, 0, area);
         func_02049238(h);

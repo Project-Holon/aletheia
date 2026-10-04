@@ -16,6 +16,7 @@
  * func_0200F128 0x0200F128 thumb
  * func_0204944C 0x0204944C arm
  */
+#include "../include/Obj12405.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -37,7 +38,7 @@ void func_0216E2E8(const char *ctx, u16 id, Record *out)
     u32 iter;
     void *rec;
 
-    tbl = *(u16 **)(ctx + 0x44);
+    tbl = *(u16 * *)&((struct Obj12405 *)ctx)->f44;
     n = tbl[0];
 
     if (n < 0x1a) {
@@ -62,5 +63,5 @@ void func_0216E2E8(const char *ctx, u16 id, Record *out)
         } while (func_0216DD1C((void *)ctx, &rec, &iter));
     }
     offset = func_0200F128(id) * 0x1c + 4;
-    func_0204944C(*(void **)(ctx + 0x14), 0, offset, 0x1c, out);
+    func_0204944C(((struct Obj12405 *)ctx)->f14, 0, offset, 0x1c, out);
 }

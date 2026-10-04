@@ -14,6 +14,7 @@
  *
  * Stamps selector 0x7B 0x1CC bytes in when the guard answers true.
  */
+#include "../include/Obj00008.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -31,6 +32,6 @@ int func_021BCF4C(char *p, int v)
         return v;
     }
 
-    *(u32 *)(p + 0x1CC) = 0x7B;
+    *(u32 *)&((struct Obj00008 *)p)->f1CC = 0x7B;
     return v;
 }

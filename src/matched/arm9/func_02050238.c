@@ -26,6 +26,7 @@
  *       --func func_02050238 --addr 0x02050238 --cc 1.1p1 --arm
  *   EXACT, 64 bytes, 1 relocation site, resolved [label].
  */
+#include "../include/Obj08867.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -42,9 +43,9 @@ extern s32 func_02033CA8(struct AreaMan *p, u32 len);
 
 int func_02050238(void *p, u16 b, int c)
 {
-    int idx = func_02033CA8((struct AreaMan *)(*(u32 *)((char *)p + 20)), 1);
+    int idx = func_02033CA8((struct AreaMan *)(((struct Obj08867 *)p)->f14), 1);
 
-    ((struct S8 *)*(u32 *)((char *)p + 12))[idx].h = b;
-    ((struct S8 *)*(u32 *)((char *)p + 12))[idx].w = c;
+    ((struct S8 *)((struct Obj08867 *)p)->fC)[idx].h = b;
+    ((struct S8 *)((struct Obj08867 *)p)->fC)[idx].w = c;
     return (u16)idx;
 }

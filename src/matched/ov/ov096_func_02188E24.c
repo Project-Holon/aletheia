@@ -16,6 +16,7 @@
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
  *   func_021C81C8  0x021C81C8  thumb  ov093
  */
+#include "../include/Obj06341.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -34,8 +35,8 @@ int func_02188E24(u8 *a, u8 *b)
 
     k = func_0201134C(a);
     m = func_0201134C(a);
-    x = func_021C81C8(*(u8 **)(b + 0xb4), *(u8 **)(b + 0xbc), 1);
-    y = func_021C81C8(*(u8 **)(b + 0xb4), *(u8 **)(b + 0xc0), 1);
+    x = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fBC, 1);
+    y = func_021C81C8(*(u8 * *)&((struct Obj06341 *)b)->fB4, *(u8 * *)&((struct Obj06341 *)b)->fC0, 1);
     switch (k) {
     case 0:
         k = 1;
@@ -48,5 +49,5 @@ int func_02188E24(u8 *a, u8 *b)
         break;
     }
     func_0218A0F4(a, k, x, y, m);
-    return *(int *)(b + 0xc4);
+    return ((struct Obj06341 *)b)->fC4;
 }

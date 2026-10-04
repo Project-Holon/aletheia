@@ -14,6 +14,7 @@
  *   func_0202EB0C 0x0202EB0C thumb
  *   func_021BAB04 0x021BAB04 thumb ov099
  */
+#include "../include/Obj13699.h"
 extern void func_021BA8EC(char *);
 extern unsigned int func_0202EB0C(void);
 extern void func_021BAB04(char *,int);
@@ -21,7 +22,7 @@ int func_021BED08(char *p,int ret) {
  func_021BA8EC(p);
  if (func_0202EB0C()) func_021BAB04(p,44);
  else func_021BAB04(p,19);
- *(int *)(p+0x1cc)=8;
- *(int *)(p+0x1e8)=0;
+ ((struct Obj13699 *)p)->f1CC=8;
+ ((struct Obj13699 *)p)->f1E8=0;
  return ret;
 }

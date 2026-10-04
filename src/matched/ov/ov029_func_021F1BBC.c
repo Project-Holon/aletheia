@@ -11,12 +11,13 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
+#include "../include/Obj20395.h"
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
 void func_021F1BBC(char *p)
 {
     int i;
-    if (*(int *)(p + 0x170) != 0) {
+    if (((struct Obj20395 *)p)->f170 != 0) {
         for (i = 0; i < 18; i++) {
             func_0204B3B4((struct Obj *)(*(int *)(p + i * 4 + 0x170)));
             *(int *)(p + i * 4 + 0x170) = 0;

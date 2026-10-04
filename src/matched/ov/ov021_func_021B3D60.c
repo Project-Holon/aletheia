@@ -18,6 +18,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
+#include "../include/Obj03132.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -40,14 +41,14 @@ void func_021B3D60(char *w, u32 b)
     u32 q;
 
     if (b <= 0x272) {
-        p = (u32)func_02049F78((void *)(*(u32 *)(w + 0x1F8)), func_02020E60(b, 2), (u32)(&x), *(u16 *)(w + 4));
-        q = (u32)func_02049E74((void *)(*(u32 *)(w + 0x1F8)), func_02020E60(b, 1), 0, (u32)(&y), *(u16 *)(w + 4));
-        func_0204ADEC(*(u32 *)(w + 0x1EC), x, 1);
-        func_0204A9D0(*(u32 *)(w + 0x1F0), (struct Sub0204A9D0 *)y);
+        p = (u32)func_02049F78((void *)(((struct Obj03132 *)w)->f1F8), func_02020E60(b, 2), (u32)(&x), ((struct Obj03132 *)w)->f4);
+        q = (u32)func_02049E74((void *)(((struct Obj03132 *)w)->f1F8), func_02020E60(b, 1), 0, (u32)(&y), ((struct Obj03132 *)w)->f4);
+        func_0204ADEC(((struct Obj03132 *)w)->f1EC, x, 1);
+        func_0204A9D0(((struct Obj03132 *)w)->f1F0, (struct Sub0204A9D0 *)y);
         func_020307B0((void *)p);
         func_020307B0((void *)q);
-        func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 1);
+        func_0204B3DC((struct Obj *)((struct Obj03132 *)w)->f1D0, 1);
     } else {
-        func_0204B3DC((struct Obj *)*(u32 *)(w + 0x1D0), 0);
+        func_0204B3DC((struct Obj *)((struct Obj03132 *)w)->f1D0, 0);
     }
 }

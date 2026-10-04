@@ -9,9 +9,10 @@
  * isa: thumb
  * status: EXACT*
  */
+#include "../include/Obj21247.h"
 typedef unsigned char u8;
 int func_021D7098(u8 *p)
 {
-    if (*(int *)(p + 0x10) == 6) return 1;
+    if (((struct Obj21247 *)p)->f10 == 6) return 1;
     return 0;
 }

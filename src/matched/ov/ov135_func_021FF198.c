@@ -15,6 +15,7 @@
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_020061E4 0x020061E4 thumb
  */
+#include "../include/Obj08192.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
@@ -30,12 +31,12 @@ int func_021FF198(char *p)
     if (func_020362DC() & 1) {
         func_0202208C(0, 0, 0, 0, 16, 1, 72);
     } else {
-        r = func_021FFB00(*(int *)(p + 0xd0));
-        if (*(u16 *)(p + 0xe1a) && r >= 0) {
+        r = func_021FFB00(((struct Obj08192 *)p)->fD0);
+        if (((struct Obj08192 *)p)->fE1A && r >= 0) {
             func_0204B878((struct Obj *)(*(unsigned *)(p + 0xd0c + (r + 1) * 4)), (u16)(16 + r * 4));
-            *(int *)(p + 0x28) = 2;
+            ((struct Obj08192 *)p)->f28 = 2;
             func_021F4EC0(p, 3, 0);
-            *(int *)(p + 0xd4) = r;
+            ((struct Obj08192 *)p)->fD4 = r;
             func_020061E4(0x54c);
         }
     }

@@ -53,6 +53,7 @@
  *   python3 tools/match.py one --src src/matched/func_0206296C.c \
  *       --func func_0206296C --addr 0x0206296C --cc 1.1p1 --arm
  */
+#include "../include/Obj02615.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -90,7 +91,7 @@ void func_0206296C(volatile struct MultiCellBank *bank)
 
     i = 0;
     n = bank->numMultiCell;
-    array = (struct MultiCellData *)*(volatile u32 *)((u8 *)bank + 4);
+    array = (struct MultiCellData *)*(volatile u32 *)&((struct Obj02615 *)bank)->f4;
 
     while (i < n) {
         tmp = array[i].nodes + bank->nodeBase;

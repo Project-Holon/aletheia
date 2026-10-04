@@ -12,6 +12,7 @@
  * symbols:
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14680.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -26,7 +27,7 @@ extern void func_02041B6C(u32);
 
 void func_021BE49C(u8 *p)
 {
-    func_02045374((struct Cfg *)(*(u32 *)p));
-    func_02041B6C(func_02045730((struct Descriptor *)(*(u32 *)p)));
+    func_02045374((struct Cfg *)(((struct Obj14680 *)p)->f0));
+    func_02041B6C(func_02045730((struct Descriptor *)(((struct Obj14680 *)p)->f0)));
 }
 

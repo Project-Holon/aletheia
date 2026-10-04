@@ -12,6 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_021FE3E4 0x021FE3E4 thumb ov186
  */
+#include "../include/Obj10797.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -22,8 +23,8 @@ void func_021FE3B4(u8 *p,const Pair *origin,u16 a,u16 b,int duration)
 {
     func_02082BCC(p,0,24);
     *(Pair *)p=*origin;
-    *(int *)(p+20)=duration;
-    *(u16 *)(p+16)=a;
-    *(u16 *)(p+18)=b;
+    ((struct Obj10797 *)p)->f14=duration;
+    ((struct Obj10797 *)p)->f10=a;
+    ((struct Obj10797 *)p)->f12=b;
     func_021FE3E4(p,0,0);
 }

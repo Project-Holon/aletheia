@@ -17,6 +17,7 @@
  *   func_02045C04  0x02045C04  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00085.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -36,9 +37,9 @@ extern void func_02045C04(struct Rec *rec);
 
 void func_021BC99C(u8 *p)
 {
-    func_02045808((struct U16Vec *)(*(u32 *)(p + 0x1d8)));
-    func_0201C4C0((struct PrintSys *)(*(u32 *)(p + 0x1dc)));
-    func_0201ED04((struct WordSet *)(*(u32 *)(p + 0x1d4)));
-    func_0201D83C((void *)(*(u32 *)(p + 0x1cc)));
-    func_02045C04((struct Rec *)(*(u32 *)(p + 0x1d0)));
+    func_02045808((struct U16Vec *)(((struct Obj00085 *)p)->f1D8));
+    func_0201C4C0((struct PrintSys *)(((struct Obj00085 *)p)->f1DC));
+    func_0201ED04((struct WordSet *)(((struct Obj00085 *)p)->f1D4));
+    func_0201D83C((void *)(((struct Obj00085 *)p)->f1CC));
+    func_02045C04((struct Rec *)(((struct Obj00085 *)p)->f1D0));
 }

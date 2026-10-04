@@ -12,6 +12,9 @@
  *   func_021EB6D8 0x021EB6D8 thumb ov170
  *   func_0202CE50 0x0202CE50 thumb
  */
+#include "../include/Obj01558.h"
+#include "../include/Obj23984.h"
+#include "../include/Obj23985.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed int s32;
@@ -22,6 +25,6 @@ void func_021EB90C(char *p)
 {
     func_021EB6D8((int)p, 20, 84, 0);
     func_021EB6D8((int)p, 21, 85, 1);
-    func_0202CE50(*(struct WinMgr **)(*(char **)(p + 0x2c) + 0x74), 7, 0, 9, 11, 3, 12);
-    func_0202CE50(*(struct WinMgr **)(*(char **)(p + 0x2c) + 0x74), 7, 0, 12, 11, 3, 12);
+    func_0202CE50(*(struct WinMgr * *)&((struct Obj23984 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 9, 11, 3, 12);
+    func_0202CE50(*(struct WinMgr * *)&((struct Obj23985 *)(*(char * *)&((struct Obj01558 *)p)->f2C))->f74, 7, 0, 12, 11, 3, 12);
 }

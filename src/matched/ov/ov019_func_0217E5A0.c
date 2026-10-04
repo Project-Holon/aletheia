@@ -31,6 +31,7 @@
  *   func_020307B0  0x020307B0  arm
  *   d_021807E8     0x021807E8  data  a4
  */
+#include "../include/Obj03570.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -105,7 +106,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
     int cnt;
     int k;
 
-    p = *(u8 **)(w + 0x355C);
+    p = *(u8 * *)&((struct Obj03570 *)w)->f355C;
     idx = func_0203D1A4((struct Link *)((int)func_020399A8()));
     if (*state < 3 && func_0217BB20(w) == 1) {
         func_0217F074(w);
@@ -158,10 +159,10 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
     case 3:
         q = func_02030734(0x41, 0xc4, 1, (const char *)d_021807E8, 0x10c4);
         q->f0 = ((int *)(p + 0x148))[idx];
-        q->f4 = func_0201292C((const struct BigObj *)((*(Sys **)w)->f8));
-        q->fc = (int)func_0200873C(func_02012EBC((struct Big *)((*(Sys **)w)->f8)));
+        q->f4 = func_0201292C((const struct BigObj *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8));
+        q->fc = (int)func_0200873C(func_02012EBC((struct Big *)((*(Sys * *)&((struct Obj03570 *)w)->f0)->f8)));
         q->f34 = 0x1a;
-        q->f14 = *(int *)(w + 0x352C);
+        q->f14 = ((struct Obj03570 *)w)->f352C;
         q->fc0 = func_02030734(0x41, 0x70, 1, (const char *)d_021807E8, 0x10ce);
         cnt = 0;
         for (i = 0; i < func_0203D1B4(); i++) {
@@ -189,16 +190,16 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
         q->f8c = 1;
         q->f90 = 0;
         q->f60 = 0;
-        *(Req **)(w + 0x3558) = q;
+        *(Req * *)&((struct Obj03570 *)w)->f3558 = q;
         func_0217422C(w, 0x1a, q);
         (*state)++;
         break;
     case 4:
         if (func_02174268(w) == 1)
             break;
-        func_020307B0((*(Req **)(w + 0x3558))->fc0);
-        func_020307B0(*(Req **)(w + 0x3558));
-        *(Req **)(w + 0x3558) = 0;
+        func_020307B0((*(Req * *)&((struct Obj03570 *)w)->f3558)->fc0);
+        func_020307B0(*(Req * *)&((struct Obj03570 *)w)->f3558);
+        *(Req * *)&((struct Obj03570 *)w)->f3558 = 0;
         func_0217B8E4(w, 0x2c);
         return 1;
     }

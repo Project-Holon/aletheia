@@ -9,9 +9,10 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj20371.h"
 int func_02186878(char *p)
 {
-    int i = *(int *)(p + 0xBBC) - 1;
+    int i = ((struct Obj20371 *)p)->fBBC - 1;
     if (i < 0) i = 99;
     return i;
 }

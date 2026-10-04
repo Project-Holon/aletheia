@@ -14,6 +14,7 @@
  *
  * Runs the setup for selector 0x56 and stamps it 0x1CC bytes in.
  */
+#include "../include/Obj18193.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -28,6 +29,6 @@ extern void func_021BB9C8(int a);
 int func_021BC940(char *p, int v)
 {
     func_021BB9C8((int)p);
-    *(u32 *)(p + 0x1CC) = 0x56;
+    ((struct Obj18193 *)p)->f1CC = 0x56;
     return v;
 }

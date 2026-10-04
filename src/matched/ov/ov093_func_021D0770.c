@@ -47,6 +47,7 @@
  *   func_021D54C0 0x021D54C0 thumb ov093
  *   func_021D8414 0x021D8414 thumb ov093
  */
+#include "../include/Obj00464.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -107,35 +108,35 @@ int func_021D0770(u8 *p, u32 *state)
         *state = 1;
     case 1:
         if (p[0x11d] >= p[0x11c]) break;
-        M = func_021B9C00(*(void **)(p+0x118), p[0x11d]);
+        M = func_021B9C00(((struct Obj00464 *)p)->f118, p[0x11d]);
         R = p+0x124+p[0x11d]*4;
         if (func_021D5B68(M)) {
             func_021D8434(R);
             goto complete;
         }
         if (func_021CF470(p,M,R)) goto complete;
-        move = func_021D3DC4(p,M,*(void **)(p+0x118));
+        move = func_021D3DC4(p,M,((struct Obj00464 *)p)->f118);
         if (move) {
             func_021D8358((u32 *)R,move,p[0x11d],0);
             goto complete;
         }
-        if (func_021B86B8(*(void ****)p) && func_021CFBF0(p,M,p[0x11d],&choice)) {
+        if (func_021B86B8(*(void *** *)&((struct Obj00464 *)p)->f0) && func_021CFBF0(p,M,p[0x11d],&choice)) {
             func_021D8394(R,p[0x11d],choice);
             goto complete;
         }
-        if (func_021B8588(*(void **)p) == 3) {
+        if (func_021B8588(((struct Obj00464 *)p)->f0) == 3) {
             slot = func_021D06C8(p);
             if (slot != 1) {
                 sub = func_021B9AB0(slot);
                 func_021D83FC(R,slot);
-                M = func_021B9C00(*(void **)(p+0x118),sub);
+                M = func_021B9C00(((struct Obj00464 *)p)->f118,sub);
                 p[0x1af] = 1;
                 R = (u8 *)((u32)R+4U);
             }
         }
         if (func_021D62C4(M,0x19)) {
             move = func_021E8B80(func_021D6314(M,0x19));
-            result = func_021D81F8(*(void **)p,*(void **)(p+4),M,move,p+0xf4);
+            result = func_021D81F8(((struct Obj00464 *)p)->f0,((struct Obj00464 *)p)->f4,M,move,p+0xf4);
             func_021D82D0(R,move,result);
             goto complete;
         }
@@ -143,8 +144,8 @@ int func_021D0770(u8 *p, u32 *state)
         func_021D5448(M);
         slot = func_021CF81C(p,M,available);
         if (slot != 4) {
-            result = func_021B8D8C(*(void **)p,*(void **)(p+4),func_021D5440(M));
-            func_021880BC(*(int *)(p+0xf0),available,result);
+            result = func_021B8D8C(((struct Obj00464 *)p)->f0,((struct Obj00464 *)p)->f4,func_021D5440(M));
+            func_021880BC(*(int *)&((struct Obj00464 *)p)->fF0,available,result);
             *state = 2;
         } else {
             func_021CF58C((struct Unk021D82D0 *)((u32)R),(u8 *)((u32)p),M);
@@ -152,10 +153,10 @@ int func_021D0770(u8 *p, u32 *state)
         }
         break;
     case 2:
-        if (func_02187FB0(*(u8 **)(p+0xf0))) break;
-        slot = func_02188134(*(u8 **)(p+0xf0));
+        if (func_02187FB0(*(u8 * *)&((struct Obj00464 *)p)->fF0)) break;
+        slot = func_02188134(*(u8 * *)&((struct Obj00464 *)p)->fF0);
         if (slot != 4) {
-            sub = func_02188140(*(u8 **)(p+0xf0));
+            sub = func_02188140(*(u8 * *)&((struct Obj00464 *)p)->fF0);
             move = func_021D54C0(M,slot);
             func_021D82D0(R,move,sub);
         } else func_021D8414((u32 *)R);
@@ -167,8 +168,8 @@ complete:
         count = p[0x11c];
         if (p[0x11d] >= count) {
             bytes = (count+p[0x1af])*4;
-            *(u8 **)(p+0xd8) = p+0x124;
-            *(u32 *)(p+0xdc) = bytes;
+            *(u8 * *)&((struct Obj00464 *)p)->fD8 = p+0x124;
+            ((struct Obj00464 *)p)->fDC = bytes;
             p[0x1af] = 0;
             return 1;
         }

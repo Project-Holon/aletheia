@@ -13,13 +13,14 @@
  *   func_021BF7AC 0x021BF7AC thumb
  *   func_021BF2DC 0x021BF2DC thumb
  */
+#include "../include/Obj25327.h"
 
 extern int func_021BF7AC(char *p, int v);
 extern void func_021BF2DC(char *p, int a, int b, int c, unsigned char d, unsigned char e, unsigned char f, unsigned char g);
 
 void func_021BF290(int a, int b, int *s)
 {
-    unsigned char x = *(unsigned char *)(b + 0x80);
+    unsigned char x = ((struct Obj25327 *)b)->f80;
     int r6 = s[2] * x;
     int r4 = s[1];
     int t = func_021BF7AC((char *)a, s[3]);

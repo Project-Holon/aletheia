@@ -13,6 +13,7 @@
  *   func_021A3960  0x021A3960  thumb  ov021
  *   func_0216D7A8  0x0216D7A8  thumb  ov010
  */
+#include "../include/Obj12729.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -24,9 +25,9 @@ int func_0216D7A8(void *p, unsigned int v);
 int func_021A39E4(u8 *p)
 {
     if (func_0216D7A8(func_021A3960(p), 0) != 0xFFFF) {
-        if (*(u16 *)(p + 0x2C) == 1)
+        if (((struct Obj12729 *)p)->f2C == 1)
             return 1;
-        (*(u16 *)(p + 0x2C))++;
+        (((struct Obj12729 *)p)->f2C)++;
     }
     return 0;
 }

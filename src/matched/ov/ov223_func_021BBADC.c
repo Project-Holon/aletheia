@@ -15,13 +15,14 @@
  * The original visibly supplies the frame in r1 to 9914 even though its
  * full body reads only its entry r0; preserve that caller input.
  */
+#include "../include/Obj01594.h"
 extern void func_021B9914(void *, unsigned);
 extern void func_0204E720(unsigned, int, int, int);
 extern int func_0204E804(void);
 int func_021BBADC(char *p, int *state)
 {
-    if (*(unsigned *)(p + 0x10) >= 1)
-        func_021B9914(p, *(unsigned *)(p + 0x10));
+    if (*(unsigned *)&((struct Obj01594 *)p)->f10 >= 1)
+        func_021B9914(p, *(unsigned *)&((struct Obj01594 *)p)->f10);
     switch (*state) {
     case 0:
         func_0204E720(3, 16, 0, 0);
@@ -29,11 +30,11 @@ int func_021BBADC(char *p, int *state)
         break;
     case 1:
         if (func_0204E804() == 0) {
-            *(int *)(p + 0x10) = 0;
+            ((struct Obj01594 *)p)->f10 = 0;
             return 4;
         }
         break;
     }
-    (*(int *)(p + 0x10))++;
+    (((struct Obj01594 *)p)->f10)++;
     return 3;
 }

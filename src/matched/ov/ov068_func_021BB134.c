@@ -12,19 +12,22 @@
  *
  * Getter and two small setters.
  */
+#include "../include/Obj13146.h"
+#include "../include/Obj20651.h"
+#include "../include/Obj20652.h"
 
 int func_021BB134(void *p)
 {
-    return *(int *)((char *)p + 0x4);
+    return ((struct Obj20651 *)p)->f4;
 }
 
 void func_021BB138(void *p, int v)
 {
-    *(int *)p = v;
-    *(int *)((char *)p + 8) = 0;
+    ((struct Obj13146 *)p)->f0 = v;
+    ((struct Obj13146 *)p)->f8 = 0;
 }
 
 void func_021BB140(void *p)
 {
-    *(int *)((char *)p + 0x4) = 1;
+    ((struct Obj20652 *)p)->f4 = 1;
 }

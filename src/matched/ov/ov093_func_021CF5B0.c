@@ -24,6 +24,7 @@
  *   func_021EFCE4 0x021EFCE4 thumb ov093
  *   func_021EFC1C 0x021EFC1C thumb ov093
  */
+#include "../include/Obj01894.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -108,7 +109,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 3) && func_021EFC1C(*(int *)(g + 0x34), *(int *)(g + 4), m, move)) {
+    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 3) && func_021EFC1C(*(int *)&((struct Obj01894 *)g)->f34, *(int *)&((struct Obj01894 *)g)->f4, m, move)) {
         if (out) {
             func_021EAF18(out, 2, 0x24d);
             func_021EAF50(out, func_021D5440(m));
@@ -116,7 +117,7 @@ int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
         }
         return 1;
     }
-    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 2) && func_0201BEB8(move, 9)) {
+    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) && func_0201BEB8(move, 9)) {
         if (out) {
             func_021EAF18(out, 2, 0x43e);
             func_021EAF50(out, func_021D5440(m));

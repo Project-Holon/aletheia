@@ -15,6 +15,7 @@
  *   func_021BBA10 0x021BBA10 thumb ov110
  *   func_021BB9E8 0x021BB9E8 thumb ov110
  */
+#include "../include/Obj02460.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -22,4 +23,4 @@ typedef unsigned int u32;
 extern u32 func_021BF7FC(u8 *);
 extern void func_021BBA10(u8 *,unsigned);
 extern void func_021BB9E8(u8 *,u32);
-void func_021BB9C0(u8 *p,int flag) { u32 n=func_021BF7FC(*(u8 **)(p+4)); if(n>22)n=22; if(flag)func_021BBA10(p,n);else func_021BB9E8(p,n); }
+void func_021BB9C0(u8 *p,int flag) { u32 n=func_021BF7FC(*(u8 * *)&((struct Obj02460 *)p)->f4); if(n>22)n=22; if(flag)func_021BBA10(p,n);else func_021BB9E8(p,n); }

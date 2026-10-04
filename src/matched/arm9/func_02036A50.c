@@ -30,6 +30,7 @@
  * `flag = 1;` sits BEFORE the 0xFFFF test, which is why the original shows
  * `mov r8,r6` between the `ldrh` and the `cmp`.
  */
+#include "../include/Obj08825.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -52,13 +53,13 @@ int func_02036A50(u32 list, u16 *info)
         if (slot == 0)
             goto done;
         func_020369F8((u8 *)list);
-        if (func_020367C4(slot, info, *(u32 *)(list + 0x14), flag) == 0) {
-            *(u32 *)(list + 0x10) = slot;
+        if (func_020367C4(slot, info, ((struct Obj08825 *)list)->f14, flag) == 0) {
+            ((struct Obj08825 *)list)->f10 = slot;
             goto done;
         }
         flag = 1;
         if (info[2] == 0xffff) {
-            *(u32 *)(list + 0x10) = slot;
+            ((struct Obj08825 *)list)->f10 = slot;
             return 0;
         }
         func_02082BCC((void *)slot, 0, 0x14);

@@ -23,6 +23,7 @@
  *   func_021C99A0  0x021C99A0  thumb  ov093
  *   func_021C5A34  0x021C5A34  thumb  ov093
  */
+#include "../include/Obj00003.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -47,13 +48,13 @@ extern void func_021C5A34(u8 *p, u8 *a);
 int func_021CA748(u8 *p, const struct Q *q)
 {
     u8 t;
-    void *m = func_021B9934(*(char **)(p + 8), ((u8 *)q)[4]);
+    void *m = func_021B9934(*(char * *)&((struct Obj00003 *)p)->f8, ((u8 *)q)[4]);
     if (!func_021D5B68(m) && !func_021D6D54(m)) {
         t = func_021D59B4(m, 0x13);
         if (t != ((u8 *)q)[5]) {
             if (q->f) func_021C5A1C(p, m);
             func_021D66D8(m, ((u8 *)q)[5]);
-            func_021CD4B0(*(void **)(p + 0xc), 0x4f, ((u8 *)q)[4], ((u8 *)q)[5]);
+            func_021CD4B0(((struct Obj00003 *)p)->fC, 0x4f, ((u8 *)q)[4], ((u8 *)q)[5]);
             func_021C99A0(p, (u8 *)q + 8);
             if (q->f) func_021C5A34(p, m);
             return 1;

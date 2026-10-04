@@ -14,6 +14,7 @@
  *   func_021BC948  0x021BC948  thumb  ov021
  *   func_021BCB9C  0x021BCB9C  thumb  ov021
  */
+#include "../include/Obj01123.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,9 +32,9 @@ void func_021BCD84(char *p)
         func_021BD0D0(p);
         break;
     case 1:
-        if (*(u16 *)(p + 0x42) % 3 == 0) {
+        if (((struct Obj01123 *)p)->f42 % 3 == 0) {
             func_021BC948(p);
-            if (*(u8 *)(p + 0x20) <= *(u8 *)(p + 0x149)) {
+            if (((struct Obj01123 *)p)->f20 <= ((struct Obj01123 *)p)->f149) {
                 func_021BCB9C(p, 5);
             }
         }

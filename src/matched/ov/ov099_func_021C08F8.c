@@ -27,6 +27,7 @@
  *   func_021BC090 0x021BC090 thumb ov099
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
+#include "../include/Obj06358.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -57,19 +58,19 @@ int func_021C08F8(char *p)
     n = func_021B97F4((struct W *)(p + off));
     *(u16 *)(p + (off - 0x32)) = n;
     if (n != 0) {
-        func_0201AC80(*(void **)(p + 0xc8));
+        func_0201AC80(((struct Obj06358 *)p)->fC8);
         index = n - 1;
         state = (struct S *)func_021C23B8(index);
         kind = func_021BDD48((int)p, state);
         func_021C27E0(state);
         if (kind == 6) return 0;
         if (func_021C23C8(p, (void *)-1)) {
-            func_021C2810(*(struct S **)(p + 8), (char *)func_021C23B8(index));
+            func_021C2810(*(struct S * *)&((struct Obj06358 *)p)->f8, (char *)func_021C23B8(index));
             *(int *)(p + (off - 0xb0)) = 0xe10;
             func_021BDE30(p, 3, 3);
             func_021C18C8(p, 3, 3);
             func_021BA874((struct Work *)p, n - 1);
-            *(u8 *)(p + 0x1351) = n;
+            ((struct Obj06358 *)p)->f1351 = n;
             func_021BAADC(p, 14, 0);
             func_021BC090(p);
             *(int *)(p + (off - 0xa8)) = 0x88;

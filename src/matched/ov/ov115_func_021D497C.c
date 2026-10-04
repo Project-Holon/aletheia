@@ -28,6 +28,7 @@
  *   func_021D493C 0x021D493C thumb ov115
  *   func_021D460C 0x021D460C thumb ov115
  */
+#include "../include/Obj13850.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0202EB44(u8 *);
@@ -66,7 +67,7 @@ void func_021D497C(u8 *p)
         return;
     }
     if(func_020597C8(func_02009860(P(0x3c)))==0) {
-        *(int *)(p+0x20)=1;
+        ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),18);
         else func_021D5ED8(P(0x38),43);
@@ -74,7 +75,7 @@ void func_021D497C(u8 *p)
         return;
     }
     if(func_02059760(func_02009860(P(0x3c)))==0) {
-        *(int *)(p+0x20)=1;
+        ((struct Obj13850 *)p)->f20=1;
         func_021D5D3C(P(0x38));
         if(func_0202EB0C()==0) func_021D5ED8(P(0x38),20);
         else func_021D5ED8(P(0x38),45);

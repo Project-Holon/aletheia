@@ -16,6 +16,7 @@
  *   func_0216DB04  0x0216DB04  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09181.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -27,10 +28,10 @@ extern void func_0216DB04(void *a0);
 
 int func_021AE498(u32 a, u32 b, u32 c, u32 d)
 {
-if (func_0216DA5C(*(u32 *)((u8 *)(a) + 8), b, c, d) == 1) {
-    func_0216DB04((void *)(*(u32 *)((u8 *)(a) + 8)));
+if (func_0216DA5C(((struct Obj09181 *)((u8 *)(a)))->f8, b, c, d) == 1) {
+    func_0216DB04((void *)(((struct Obj09181 *)((u8 *)(a)))->f8));
 }
-*(u32 *)((u8 *)(a)) = 1;
+((struct Obj09181 *)((u8 *)(a)))->f0 = 1;
 return 1;
 }
 

@@ -12,6 +12,7 @@
  *   func_0218417C 0x0218417C thumb ov022
  *   func_0202F038 0x0202F038 thumb
  */
+#include "../include/Obj10624.h"
 typedef unsigned char u8;typedef unsigned int u32;
 extern void *func_021DEB10(char *p);extern u32 func_0218417C(u8 *);extern void func_0202F038(void *);
-int func_021DF778(char *p){if(func_0218417C(func_021DEB10(p))){func_0202F038(*(void **)(p+0xda8));*(void **)(p+0xda8)=0;*(int *)p=50;return 1;}return 0;}
+int func_021DF778(char *p){if(func_0218417C(func_021DEB10(p))){func_0202F038(((struct Obj10624 *)p)->fDA8);((struct Obj10624 *)p)->fDA8=0;((struct Obj10624 *)p)->f0=50;return 1;}return 0;}

@@ -9,13 +9,14 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10809.h"
 
 int func_021F32D8(char *p, unsigned short *out)
 {
-    int s = *(int *)(p + 0xe8);
+    int s = ((struct Obj10809 *)p)->fE8;
     if ((s == 1 || s == 2 || s == 9) && out != 0)
     {
-        *out = *(unsigned short *)(p + 0xfc);
+        *out = ((struct Obj10809 *)p)->fFC;
     }
-    return *(int *)(p + 0xe8);
+    return ((struct Obj10809 *)p)->fE8;
 }

@@ -12,12 +12,13 @@
  * symbols:
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj25307.h"
 
 extern void func_020307B0(void *);
 
 void func_021BDD18(char *a)
 {
-    void **p = *(void ***)(a + 0xc);
+    void **p = *(void ** *)&((struct Obj25307 *)a)->fC;
 
     if (p)
         ((void (*)(void *))p[2])(a);

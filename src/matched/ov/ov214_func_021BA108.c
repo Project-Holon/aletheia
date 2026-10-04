@@ -19,6 +19,7 @@
  *   func_02012FFC 0x02012FFC thumb
  *   func_0201CCE4 0x0201CCE4 thumb
  */
+#include "../include/Obj01782.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -37,11 +38,11 @@ extern void*func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,
 void func_021BA108(int unused,char*p,unsigned entry,int v)
 {
     int x;
-    func_02043B5C(func_02045770(*(void**)(p+0x6c)),15);
-    if(*(void**)(p+0x5c))func_0201CE48(*(void**)(p+0x5c));
-    if(*(void**)(p+0x78))func_02045808(*(void**)(p+0x78));
-    *(void**)(p+0x78)=func_02045EC0(*(void**)(p+0x58),entry);
+    func_02043B5C(func_02045770(*(void* *)&((struct Obj01782 *)p)->f6C),15);
+    if(*(void* *)&((struct Obj01782 *)p)->f5C)func_0201CE48(*(void* *)&((struct Obj01782 *)p)->f5C);
+    if(*(void* *)&((struct Obj01782 *)p)->f78)func_02045808(*(void* *)&((struct Obj01782 *)p)->f78);
+    *(void* *)&((struct Obj01782 *)p)->f78=func_02045EC0(*(void* *)&((struct Obj01782 *)p)->f58,entry);
     x=func_02012FFC();
-    *(void**)(p+0x5c)=func_0201CCE4(*(unsigned*)(p+0x6c),0,0,*(unsigned*)(p+0x78),*(unsigned*)(p+8),x,*(unsigned*)(p+0x68),2,*(u16*)p,15);
-    *(int*)(p+0x60)=v;
+    *(void* *)&((struct Obj01782 *)p)->f5C=func_0201CCE4(*(unsigned *)&((struct Obj01782 *)p)->f6C,0,0,*(unsigned *)&((struct Obj01782 *)p)->f78,((struct Obj01782 *)p)->f8,x,((struct Obj01782 *)p)->f68,2,((struct Obj01782 *)p)->f0,15);
+    ((struct Obj01782 *)p)->f60=v;
 }

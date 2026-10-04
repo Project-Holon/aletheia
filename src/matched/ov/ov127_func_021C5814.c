@@ -15,6 +15,7 @@
  * symbols:
  *   func_021C41DC  0x021C41DC  thumb  ov127
  */
+#include "../include/Obj23048.h"
 
 typedef signed short s16;
 
@@ -28,5 +29,5 @@ extern void func_021C41DC(u8 *p, int x, int y);
 
 void func_021C5814(char *p, P2 v)
 {
-    func_021C41DC(*(void **)(p + 4), v.x, v.y);
+    func_021C41DC(((struct Obj23048 *)p)->f4, v.x, v.y);
 }

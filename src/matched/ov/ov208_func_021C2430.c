@@ -12,6 +12,7 @@
  * symbols:
  *   func_0207D63C  0x0207D63C  arm
  */
+#include "../include/Obj14657.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,7 +26,7 @@ typedef enum { ONE = 1 } One;
 void func_021C2430(u8 *p)
 {
     One one = ONE;
-    *(u32 *)(p + 0x1d8) = one;
-    *(u16 *)(p + 0x1dc) = one << 15;
+    ((struct Obj14657 *)p)->f1D8 = one;
+    ((struct Obj14657 *)p)->f1DC = one << 15;
     func_0207D63C(0x04000050, 0, 0x3f, one, 16 - one);
 }

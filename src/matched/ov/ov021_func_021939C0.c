@@ -20,6 +20,7 @@
  *   d_021DDA60     0x021DDA60  data  a4
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07440.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -49,9 +50,9 @@ void func_021939C0(u8 *o, void *dst, int skip, u32 heap)
 
     if (skip != 0)
         return;
-    n = func_020493D4((struct ArcFile *)(*(int *)(o + 0x10)), d_021D3F60[*o]);
+    n = func_020493D4((struct ArcFile *)(((struct Obj07440 *)o)->f10), d_021D3F60[*o]);
     heap = (heap & 0x7FFF) | 0x8000;
-    e = func_02049250(*(int *)(o + 0x10), d_021D3F60[*o], (u16)heap);
+    e = func_02049250(((struct Obj07440 *)o)->f10, d_021D3F60[*o], (u16)heap);
     n >>= 3;
     seen = func_02030734((u16)heap, n * 4, 1, (const char *)&d_021DDA60, 0x208);
     cnt = 0;

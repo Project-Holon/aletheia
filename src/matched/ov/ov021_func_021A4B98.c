@@ -17,6 +17,7 @@
  *   func_021AB0F8  0x021AB0F8  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj07498.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -34,11 +35,11 @@ int ov021_func_021A4B98(u8 *a, void *b, u8 *c)
     if (func_0216D3CC((int)b) == 0) {
         return 0;
     }
-    if (*(u16 *)(c + 8) == 9) {
+    if (((struct Obj07498 *)c)->f8 == 9) {
         return func_021A4B54(a, b, c);
     }
-    r = func_021A5264(a, b, *(u16 *)(c + 8), &sp);
-    if (*(u32 *)(c + 16) == 1 && r != 0 && !(r & 0x10)) {
+    r = func_021A5264(a, b, ((struct Obj07498 *)c)->f8, &sp);
+    if (((struct Obj07498 *)c)->f10 == 1 && r != 0 && !(r & 0x10)) {
         r = 0;
     }
     if (sp != -1) {
@@ -49,7 +50,7 @@ int ov021_func_021A4B98(u8 *a, void *b, u8 *c)
             if (t & 2) {
                 return 2;
             }
-            if (*(u32 *)(c + 16) == 1) {
+            if (((struct Obj07498 *)c)->f10 == 1) {
                 return 2;
             }
         }

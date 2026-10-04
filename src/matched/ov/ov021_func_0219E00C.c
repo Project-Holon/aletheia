@@ -21,6 +21,7 @@
  *   func_020061E4  0x020061E4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj05013.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -52,11 +53,11 @@ void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
 
     e = func_0216D6BC(o, 0x10);
     e[0xc] = id;
-    *(u32 *)e = p;
+    ((struct Obj05013 *)e)->f0 = p;
     e[0xd] = q;
     e[0xe] = s.a;
     e[0xf] = s.c;
-    *(u16 *)(e + 8) = s.e;
+    ((struct Obj05013 *)e)->f8 = s.e;
     if (p == 0) {
         func_02163F10(o);
     } else {

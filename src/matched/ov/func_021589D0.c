@@ -12,6 +12,7 @@
  * symbols:
  *   func_020124E8  0x020124E8  thumb
  */
+#include "../include/Obj17626.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,5 +27,5 @@ int func_021589D0(int a0)
 
     p = func_020124E8((struct Obj *)a0);
 loc_021589D6:
-a0 = *(int *)p;
+a0 = ((struct Obj17626 *)p)->f0;
     return a0;}

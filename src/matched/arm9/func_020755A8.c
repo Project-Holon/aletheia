@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj08951.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -22,8 +23,8 @@ u32 func_020755A8(u32 a, int b, int c, int d, u32 e)
     u8 *p = func_02074324(e);
 
     if (p == 0) return 0;
-    if (d < 0) d = *(u8 *)(p + 8);
-    if (c < 0) c = *(u16 *)(p + 4);
-    if (b < 0) b = *(u8 *)(p + 9);
+    if (d < 0) d = ((struct Obj08951 *)p)->f8;
+    if (c < 0) c = ((struct Obj08951 *)p)->f4;
+    if (b < 0) b = ((struct Obj08951 *)p)->f9;
     return func_02075698(a, (u32)b, (u32)c, (u32)d, (u32 *)p, e);
 }

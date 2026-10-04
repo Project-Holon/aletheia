@@ -10,6 +10,7 @@
  * symbols:
  *   func_02045770 0x02045770 arm
  */
+#include "../include/Obj14191.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -25,6 +26,6 @@ void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y
         x -= func_0201D304(text, mode, 0);
     else if (align == 2)
         x -= func_0201D304(text, mode, 0) >> 1;
-    func_0201C724(owner, (u32)func_02045770(*(void **)slot), (s16)x, (s16)y, text, mode, color);
+    func_0201C724(owner, (u32)func_02045770(((struct Obj14191 *)slot)->f0), (s16)x, (s16)y, text, mode, color);
     slot[4] = 1;
 }

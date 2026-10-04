@@ -32,6 +32,7 @@
  *   func_02045808 0x02045808 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj02466.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -65,29 +66,29 @@ void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
     func_02049B68((void *)((u32)h),0,0,0,288,heap);
     func_02049B68((void *)((u32)h),0,4,0,256,heap);
     func_02049B40(23,5,0,288,32,heap);
-    *(u16 *)(p+0x14)=0x7fff;
+    ((struct Obj02466 *)p)->f14=0x7fff;
     func_02061CA4((void *)15,316,(u32)(p+0x14),2);
-    *(u16 *)(p+0x16)=0x7fff;
+    ((struct Obj02466 *)p)->f16=0x7fff;
     func_02061CA4((void *)15,314,(u32)(p+0x16),2);
     func_02049658((void *)((u32)h),10,4,0,0,0,heap);
     func_020498F4((void *)((u32)h),21,4,0,0,0,heap);
-    *(u32 *)p=func_02049740((void *)((u32)h),10,3,0,0,heap);
-    func_02049990((u32)h,22,3,0,*(u32 *)p,0,0,heap);
+    ((struct Obj02466 *)p)->f0=func_02049740((void *)((u32)h),10,3,0,0,heap);
+    func_02049990((u32)h,22,3,0,((struct Obj02466 *)p)->f0,0,0,heap);
     func_02049658((void *)((u32)h),11,2,0,0,0,heap);
-    *(void **)(p+4)=func_02049EF4(h,23,0,(void **)(p+8),heap);
+    ((struct Obj02466 *)p)->f4=func_02049EF4(h,23,0,(void **)(p+8),heap);
     func_02049BDC((void *)((u32)h),4,4,128,256,32,heap);
-    *(u16 *)(p+0x18)=0x294b;
+    ((struct Obj02466 *)p)->f18=0x294b;
     func_02061CA4((void *)31,284,(u32)(p+0x18),2);
-    *(u16 *)(p+0x1a)=0x5694;
+    ((struct Obj02466 *)p)->f1A=0x5694;
     func_02061CA4((void *)31,286,(u32)(p+0x1a),2);
     func_02049658((void *)((u32)h),18,5,0,0,0,heap);
     func_020498F4((void *)((u32)h),24,5,0,0,0,heap);
     func_020413B0(5,0,0,32,32,8);
-    *(u32 *)(p+0x24)=func_020450F0(5,3,5,26,7,8,1);
-    func_02043B5C(func_02045770(*(void **)(p+0x24)),7);
+    *(u32 *)&((struct Obj02466 *)p)->f24=func_020450F0(5,3,5,26,7,8,1);
+    func_02043B5C(func_02045770(((struct Obj02466 *)p)->f24),7);
     str=func_02045EC0(bank,21);
-    func_0201C724(print,(u32)func_02045770(*(void **)(p+0x24)),2,4,(u32)str,font,0x39e7);
-    *(u32 *)(p+0x28)=1;
+    func_0201C724(print,(u32)func_02045770(((struct Obj02466 *)p)->f24),2,4,(u32)str,font,0x39e7);
+    ((struct Obj02466 *)p)->f28=1;
     func_02045808(str);
     func_02049238(h);
 }

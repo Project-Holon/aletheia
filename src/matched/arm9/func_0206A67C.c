@@ -37,6 +37,8 @@
  *   python tools/match.py one --src src/matched/func_0206A67C.c \
  *       --func func_0206A67C --addr 0x0206A67C --cc 1.1p1 --arm
  */
+#include "../include/Obj07044.h"
+#include "../include/Obj16557.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -57,8 +59,8 @@ void func_0206A67C(char *h)
     Ent  *e1;
     u32   i;
 
-    base = (h != 0 && *(u32 *)(h + 8) != 0) ? h + *(u32 *)(h + 8) : 0;
-    e1 = (Ent *)(base + *(u16 *)(base + 2));
+    base = (h != 0 && ((struct Obj07044 *)h)->f8 != 0) ? h + ((struct Obj07044 *)h)->f8 : 0;
+    e1 = (Ent *)(base + ((struct Obj16557 *)base)->f2);
 
     i = 0;
     if (e1->count <= i)

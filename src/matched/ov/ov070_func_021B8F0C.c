@@ -19,6 +19,7 @@
  *   func_021BB3F4  0x021BB3F4  thumb  ov070
  *   func_021B8AF4  0x021B8AF4  thumb  ov070
  */
+#include "../include/Obj00002.h"
 
 typedef unsigned int u32;
 
@@ -42,10 +43,10 @@ void func_021B8F0C(int p)
     } else {
         return;
     }
-    *(int *)((char *)p + 0x818) = 0xFFFF;
+    ((struct Obj00002 *)p)->f818 = 0xFFFF;
     func_021B6138((char *)p);
     func_021BA9AC((char *)p);
-    func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 1);
+    func_0204B92C((struct Obj *)*(int *)&((struct Obj00002 *)p)->f6A8, 1);
     func_021BB3F4(p, 1);
     func_021B8AF4((void *)p);
 }

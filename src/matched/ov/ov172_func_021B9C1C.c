@@ -22,6 +22,7 @@
  *   func_02045374 0x02045374 arm
  *   func_0201F73C 0x0201F73C thumb
  */
+#include "../include/Obj05446.h"
 typedef unsigned int u32;
 extern u32 func_021BE034(void *);
 extern u32 func_021BE03C(void *);
@@ -49,12 +50,12 @@ void func_021B9C1C(void *p, char *q, int id)
     u32 sys = func_021BE044(p);
     u32 text;
     func_0201C6EC((struct PrintSys *)sys);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 124))), 15);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj05446 *)q)->f7C)), 15);
     text = (u32)func_02045EC0((struct MsgBank *)msgs, id);
-    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(q + 124)), 0, 0, text, font, 1088);
+    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)((struct Obj05446 *)q)->f7C), 0, 0, text, font, 1088);
     func_02045808((struct U16Vec *)text);
-    func_02045334((struct Descriptor *)*(u32 *)(q + 124));
-    func_02045374((struct Cfg *)(*(u32 *)(q + 124)));
-    func_0201F73C((void *)(*(u32 *)(q + 124)), 1, 320, 9);
-    *(u32 *)(q + 40) = 1;
+    func_02045334((struct Descriptor *)((struct Obj05446 *)q)->f7C);
+    func_02045374((struct Cfg *)(((struct Obj05446 *)q)->f7C));
+    func_0201F73C((void *)(((struct Obj05446 *)q)->f7C), 1, 320, 9);
+    ((struct Obj05446 *)q)->f28 = 1;
 }

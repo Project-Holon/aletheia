@@ -18,6 +18,7 @@
  *   func_021C88C8  0x021C88C8  thumb  ov093
  *   d_021F2484     0x021F2484  data   ov093  a4
  */
+#include "../include/Obj13525.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ void func_021E556C(int a, void *b, int c, int d, u8 e, int f, Word g, u16 h)
 
     if (c == func_021D775C(3)) {
         m = (u8 *)func_021C88A4(b, 0x19, c);
-        *(int *)(m + 4) = f;
+        ((struct Obj13525 *)m)->f4 = f;
         m[0xc] = e;
         *(Word *)(m + 8) = g;
         func_021C8838(m + 0x10, 1, h);

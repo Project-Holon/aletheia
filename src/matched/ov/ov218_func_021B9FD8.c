@@ -24,6 +24,7 @@
  *   func_021B6448 0x021B6448 thumb ov067
  *   func_021B9F98 0x021B9F98 thumb ov218
  */
+#include "../include/Obj02931.h"
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern int func_021B7AB0(void *),func_021B93A4(char *),func_021B93B0(char *);
@@ -37,22 +38,22 @@ int func_021B9FD8(unsigned char *task,char *p)
 {
     int active=0;
     int selected;
-    *(u32 *)(p+0x32c)=0;
+    ((struct Obj02931 *)p)->f32C=0;
     if(func_020362DC()&0x200)active=1;
     else if(func_020362DC()&0x100)active=1;
-    if(active) *(u32 *)(p+0x32c)=1;
-    if((u32)func_021B7AB0(*(void **)(p+0x2c))<4){
-        selected=func_021B93A4(*(char **)(p+0x2c));
+    if(active) ((struct Obj02931 *)p)->f32C=1;
+    if((u32)func_021B7AB0(((struct Obj02931 *)p)->f2C)<4){
+        selected=func_021B93A4(*(char * *)&((struct Obj02931 *)p)->f2C);
         if(*(u32 *)((u32)p+0x34+(u32)selected*4)==1){
-            *(int *)(p+0x30)=selected;
-            func_021B9280(*(void **)(p+0x2c),func_021B93B0(*(char **)(p+0x2c)),3);
+            ((struct Obj02931 *)p)->f30=selected;
+            func_021B9280(((struct Obj02931 *)p)->f2C,func_021B93B0(*(char * *)&((struct Obj02931 *)p)->f2C),3);
             func_020061E4(1356);
-            func_021B61F8(task,**(unsigned char **)(p+0x20)==131-selected ? 2 : 1);
+            func_021B61F8(task,**(unsigned char * *)&((struct Obj02931 *)p)->f20==131-selected ? 2 : 1);
             return 1;
         }
     }
-    func_021B9890(*(void **)(p+8));
-    switch(func_021B6448(*(unsigned char **)(p+8))){
+    func_021B9890(((struct Obj02931 *)p)->f8);
+    switch(func_021B6448(*(unsigned char * *)&((struct Obj02931 *)p)->f8)){
     case -1:case 0:case 2:case 3:case 4:case 5:break;
     case 1:
         func_021B9F98((int *)p,1);

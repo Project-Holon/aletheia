@@ -20,6 +20,7 @@
  * Closes the +0x38 stream handle through 0x021E8AA0 and parks the +0x3c
  *     result word at its "no data" sentinel 0xFFFF.
  */
+#include "../include/Obj01562.h"
 
 typedef unsigned long u32;
 
@@ -27,7 +28,7 @@ extern void func_021E8AA0(u32 sys, void *fn);
 
 void func_021D6788(char *obj, void *fn)
 {
-    func_021E8AA0(*(u32 *)(obj + 0x38), fn);
-    *(u32 *)(obj + 0x3c) = 0xFFFF;
+    func_021E8AA0(((struct Obj01562 *)obj)->f38, fn);
+    ((struct Obj01562 *)obj)->f3C = 0xFFFF;
 }
 

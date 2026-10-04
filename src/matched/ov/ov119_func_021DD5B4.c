@@ -18,6 +18,7 @@
  *   func_020173EC 0x020173EC thumb
  *   func_021E6334 0x021E6334 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
@@ -33,7 +34,7 @@ int func_021DD5B4(char *p,int a,int b)
     int value,slot;
     unsigned i;
     func_020399A8();
-    value=(int)func_021D8D4C(*(void ***)(p+0x828),*(int *)(p+0xf88),*(int *)(p+0xf84),p);
+    value=(int)func_021D8D4C(*(void ** *)&((struct Obj00001 *)p)->f828,((struct Obj00001 *)p)->fF88,((struct Obj00001 *)p)->fF84,p);
     if(func_021D8A24(p)) {
         i=0;
         slot=func_021DD428(p,0,a,b,(void *)value);

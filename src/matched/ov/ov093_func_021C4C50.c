@@ -19,6 +19,7 @@
  *   func_021C195C  0x021C195C  thumb  ov093
  *   func_021C4D0C  0x021C4D0C  thumb  ov093
  */
+#include "../include/Obj05192.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -46,18 +47,18 @@ void func_021C4C50(u8 *p, int k)
     case 7: r = 0xb5; break;
     }
     if (r >= 0) {
-        func_021CD64C(*(void **)(p + 0xc), 0x5a, r, 0xffff0000);
+        func_021CD64C(((struct Obj05192 *)p)->fC, 0x5a, r, 0xffff0000);
     }
-    func_021CD4B0(*(void **)(p + 0xc), 0x24, (u8)k);
+    func_021CD4B0(((struct Obj05192 *)p)->fC, 0x24, (u8)k);
     if (k == 7) {
-        func_021C43F0(p, *(u8 **)(p + 0x868));
-        func_021C4CEC(*(u8 **)(p + 0x868));
-        q = func_021C4CFC(*(u8 **)(p + 0x868));
+        func_021C43F0(p, *(u8 * *)&((struct Obj05192 *)p)->f868);
+        func_021C4CEC(*(u8 * *)&((struct Obj05192 *)p)->f868);
+        q = func_021C4CFC(*(u8 * *)&((struct Obj05192 *)p)->f868);
         while (q) {
             if (func_021D5B7C(q)) {
                 func_021C195C(p, q, 0);
             }
-            q = func_021C4D0C(*(u8 **)(p + 0x868));
+            q = func_021C4D0C(*(u8 * *)&((struct Obj05192 *)p)->f868);
         }
     }
 }

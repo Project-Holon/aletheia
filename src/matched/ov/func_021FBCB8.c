@@ -17,6 +17,7 @@
 
  * Reset, re-arm the 6 frame, then index the two parallel stride-2 tables from the cursor at +0x44.
  */
+#include "../include/Obj04906.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -33,12 +34,12 @@ int func_021FBCB8(u8 *p)
 {
     u32 i;
 
-    *(u32 *)(p + 0x44) = 0;
+    ((struct Obj04906 *)p)->f44 = 0;
     func_021FAAD4(p);
-    func_0204B878((struct Obj *)(*(u32 *)(p + 8)), 6);
-    i = *(u32 *)(p + 0x44);
-    func_021F4FF4(*(u32 *)(p + 8), g_0220320E[i * 2], g_0220320F[i * 2]);
-    *(u32 *)(p + 0x48) = 1;
-    *(u32 *)(p + 0x4c) = 0x1f;
+    func_0204B878((struct Obj *)(((struct Obj04906 *)p)->f8), 6);
+    i = ((struct Obj04906 *)p)->f44;
+    func_021F4FF4(((struct Obj04906 *)p)->f8, g_0220320E[i * 2], g_0220320F[i * 2]);
+    ((struct Obj04906 *)p)->f48 = 1;
+    ((struct Obj04906 *)p)->f4C = 0x1f;
     return -1;
 }

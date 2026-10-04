@@ -16,6 +16,7 @@
  *   python tools/match.py one --src src/matched/func_020500B8.c \
  *       --func func_020500B8 --addr 0x020500B8 --cc 1.1p1 --arm
  */
+#include "../include/Obj02015.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -26,8 +27,8 @@ void func_020500B8(u32 *p)
 {
     p[0] = 0xFFFF;
     p[2] = 0;
-    *(u16 *)((char *)p + 12) = 0;
-    *(u16 *)((char *)p + 14) = 0;
+    ((struct Obj02015 *)p)->fC = 0;
+    ((struct Obj02015 *)p)->fE = 0;
     func_020500A0(p);
     p[6] = 0;
     p[8] = 0;

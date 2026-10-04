@@ -17,6 +17,7 @@
  *   func_02045334 0x02045334 arm
  *   func_0201F73C 0x0201F73C thumb
  */
+#include "../include/Obj02156.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -32,14 +33,14 @@ extern void func_02045334(struct Descriptor *d);
 extern void func_0201F73C(void *, int, u16, int);
 void func_021BEDA0(char *p)
 {
-    if (*(void **)(p + 0x194)) func_020452E8(*(void **)(p + 0x194));
+    if (((struct Obj02156 *)p)->f194) func_020452E8(((struct Obj02156 *)p)->f194);
     func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0x21);
-    *(void **)(p + 0x198) = (void *)func_021BA8BC(*(void **)(p + 0x198));
-    *(void **)(p + 0x194) = (void *)func_020450F0(3, 1, 1, 0x1c, 2, 0xf, 1);
-    *(void **)(p + 0x198) = (void *)func_020450F0(2, 1, 1, 0x1c, 2, 0xf, 1);
-    func_02043B5C(func_02045770(*(void **)(p + 0x194)), 0xff);
-    func_02045334(*(void **)(p + 0x194));
-    func_02043B5C(func_02045770(*(void **)(p + 0x198)), 0xff);
-    func_02045334(*(void **)(p + 0x198));
-    func_0201F73C(*(void **)(p + 0x198), 1, *(int *)(p + 0x1334), 0xe);
+    ((struct Obj02156 *)p)->f198 = (void *)func_021BA8BC(((struct Obj02156 *)p)->f198);
+    ((struct Obj02156 *)p)->f194 = (void *)func_020450F0(3, 1, 1, 0x1c, 2, 0xf, 1);
+    ((struct Obj02156 *)p)->f198 = (void *)func_020450F0(2, 1, 1, 0x1c, 2, 0xf, 1);
+    func_02043B5C(func_02045770(((struct Obj02156 *)p)->f194), 0xff);
+    func_02045334(((struct Obj02156 *)p)->f194);
+    func_02043B5C(func_02045770(((struct Obj02156 *)p)->f198), 0xff);
+    func_02045334(((struct Obj02156 *)p)->f198);
+    func_0201F73C(((struct Obj02156 *)p)->f198, 1, ((struct Obj02156 *)p)->f1334, 0xe);
 }

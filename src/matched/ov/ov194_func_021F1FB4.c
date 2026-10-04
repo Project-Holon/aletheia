@@ -23,6 +23,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021F22E8 0x021F22E8 thumb ov194
  */
+#include "../include/Obj00418.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
@@ -48,26 +49,26 @@ int func_021F1FB4(u8 *p)
  u16 pair[2];
  int i,x;
  void *window;
- if(*(int *)(p+0x28)){
-  if(*(u16 *)(p+0x1e))func_0201F41C((u16 *)p,table,*(u16 *)(p+0x1e)+1);
-  if(*(u16 *)(p+0x20))func_0201F41C((u16 *)(p+0x16),table+*(u16 *)(p+0x1e),*(u16 *)(p+0x20)+1);
-  if(*(u16 *)(p+0x1e)+*(u16 *)(p+0x20)>0){
-   func_02043B5C(func_02045770(*(void **)(p+0x40)),0);
-   for(i=0;i<*(u16 *)(p+0x1e)+*(u16 *)(p+0x20);i++){
+ if(((struct Obj00418 *)p)->f28){
+  if(((struct Obj00418 *)p)->f1E)func_0201F41C((u16 *)p,table,((struct Obj00418 *)p)->f1E+1);
+  if(((struct Obj00418 *)p)->f20)func_0201F41C((u16 *)(p+0x16),table+((struct Obj00418 *)p)->f1E,((struct Obj00418 *)p)->f20+1);
+  if(((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20>0){
+   func_02043B5C(func_02045770(((struct Obj00418 *)p)->f40),0);
+   for(i=0;i<((struct Obj00418 *)p)->f1E+((struct Obj00418 *)p)->f20;i++){
     pair[0]=table[i];pair[1]=func_02045A98();
-    func_02045994(*(void **)(p+0x3c),pair,2);
-    x=64-(*(u16 *)(p+0x22)*14)/2;if(x<0)x=0;
+    func_02045994(((struct Obj00418 *)p)->f3C,pair,2);
+    x=64-(((struct Obj00418 *)p)->f22*14)/2;if(x<0)x=0;
     x+=i*14+7;
-    x-=func_0201D304(*(void **)(p+0x3c),*(u32 *)(p+0x34),0)/2;
-    if(i>=*(u16 *)(p+0x1e)){window=*(void **)(p+0x38);func_0201C724(window,(u32)func_02045770(*(void **)(p+0x2c)),(short)x,0,*(void **)(p+0x3c),*(u32 *)(p+0x34),0xc80);}
-    else {window=*(void **)(p+0x38);func_0201C6FC(window,(u32)func_02045770(*(void **)(p+0x2c)),(short)x,0,*(void **)(p+0x3c),*(u32 *)(p+0x34));}
+    x-=func_0201D304(((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34,0)/2;
+    if(i>=((struct Obj00418 *)p)->f1E){window=((struct Obj00418 *)p)->f38;func_0201C724(window,(u32)func_02045770(((struct Obj00418 *)p)->f2C),(short)x,0,((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34,0xc80);}
+    else {window=((struct Obj00418 *)p)->f38;func_0201C6FC(window,(u32)func_02045770(((struct Obj00418 *)p)->f2C),(short)x,0,((struct Obj00418 *)p)->f3C,((struct Obj00418 *)p)->f34);}
     p[0x30]=1;
    }
   }else{
-   func_02043B5C(func_02045770(*(void **)(p+0x40)),0);
-   func_02045334(*(void **)(p+0x40));
+   func_02043B5C(func_02045770(((struct Obj00418 *)p)->f40),0);
+   func_02045334(((struct Obj00418 *)p)->f40);
   }
-  for(i=0;i<*(u16 *)(p+0x22);i++){
+  for(i=0;i<((struct Obj00418 *)p)->f22;i++){
    func_0204B8C4(*(void **)(p+i*4+0x44),0);
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),1);
@@ -77,9 +78,9 @@ int func_021F1FB4(u8 *p)
    func_0204B878(*(void **)(p+i*4+0x44),1);
    func_0204B3DC(*(void **)(p+i*4+0x44),0);
   }
-  for(i=0;i<=*(u16 *)(p+0x1e) && i<*(u16 *)(p+0x22);i++)func_0204B3DC(*(void **)(p+i*4+0x44),1);
-  func_0204B878(*(void **)(p+0x44+*(u16 *)(p+0x1e)*4),0);
-  *(int *)(p+0x28)=0;
+  for(i=0;i<=((struct Obj00418 *)p)->f1E && i<((struct Obj00418 *)p)->f22;i++)func_0204B3DC(*(void **)(p+i*4+0x44),1);
+  func_0204B878(*(void **)(p+0x44+((struct Obj00418 *)p)->f1E*4),0);
+  ((struct Obj00418 *)p)->f28=0;
  }
  return func_021F22E8(p);
 }

@@ -19,6 +19,8 @@
  *   func_0200856C 0x0200856C thumb
  *   func_02008570 0x02008570 thumb
  */
+#include "../include/Obj00277.h"
+#include "../include/Obj00351.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Sub0200852CObj;
@@ -35,10 +37,10 @@ int func_021E024C(char *p, char *q)
 {
     int selected, pressed;
     unsigned int x, y;
-    func_021FCD0C(*(void **)(p + 0x18));
-    selected = func_021FCDA8(*(void **)(p + 0x18));
+    func_021FCD0C(((struct Obj00277 *)p)->f18);
+    selected = func_021FCDA8(((struct Obj00277 *)p)->f18);
     pressed = func_02035D20(&x, &y);
-    pressed &= func_021FB4B4(*(int *)(p + 0xC), x, y);
+    pressed &= func_021FB4B4(((struct Obj00277 *)p)->fC, x, y);
     if (selected != -1) {
         unsigned int x1, y1;
         int args[2];
@@ -47,13 +49,13 @@ int func_021E024C(char *p, char *q)
         func_02035D20(&x1, &y1);
         args[0] = x1;
         args[1] = y1;
-        func_021FD860(*(int *)(p + 0x40), 1, args);
-        v = func_02012944(*(void **)(q + 0x10));
+        func_021FD860(((struct Obj00277 *)p)->f40, 1, args);
+        v = func_02012944(((struct Obj00351 *)q)->f10);
         a = func_0200856C(v);
-        *(u8 *)(q + 0x17) = func_02008570(v);
-        *(u8 *)(q + 0x16) = a;
+        ((struct Obj00351 *)q)->f17 = func_02008570(v);
+        ((struct Obj00351 *)q)->f16 = a;
         func_021E03B0(p, q, 2);
-        *(int *)(p + 0x50) = 0;
+        ((struct Obj00277 *)p)->f50 = 0;
         return 1;
     } else if (pressed != 0) {
         unsigned int x2, y2;
@@ -61,8 +63,8 @@ int func_021E024C(char *p, char *q)
         func_02035D20(&x2, &y2);
         args[0] = x2;
         args[1] = y2;
-        func_021FD860(*(int *)(p + 0x40), 1, args);
-        *(int *)(p + 0x50) = 0;
+        func_021FD860(((struct Obj00277 *)p)->f40, 1, args);
+        ((struct Obj00277 *)p)->f50 = 0;
         return 1;
     }
     return 0;

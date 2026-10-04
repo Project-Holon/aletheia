@@ -21,6 +21,7 @@
  *   func_021E2C2C 0x021E2C2C thumb ov183
  *   func_021E2910 0x021E2910 thumb ov183
  */
+#include "../include/Obj03334.h"
 typedef struct Pair {int a,b;} Pair;
 extern void func_021E2E60(Pair *);
 extern void func_021E2E30(char *,int,int);
@@ -39,13 +40,13 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
     case 0:
         func_021E2E60(&a);
         *(Pair *)(p+0x4c)=a;
-        func_021E2E30(p+0x4c,(int)p,*(int *)(p+0x3c));
+        func_021E2E30(p+0x4c,(int)p,*(int *)&((struct Obj03334 *)p)->f3C);
         ++*state; break;
     case 1:
-        func_021FE784(**(int **)(p+0x3c),2,3,0);
+        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,0);
         ++*state; break;
     case 2:
-        if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;
+        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 3:
         if(func_02035D20(&x,&y)) {
@@ -54,22 +55,22 @@ void func_021E2AE0(int *task,unsigned *state,char *p)
         }
         break;
     case 4:
-        func_021FE784(**(int **)(p+0x3c),2,3,1);
+        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
     case 5:
-        if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;
+        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 6:
-        func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c)));
+        func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
         func_021FD73C(task,(int)func_021E2C2C); break;
     case 7:
-        func_021FE784(**(int **)(p+0x3c),2,3,1);
+        func_021FE784(**(int * *)&((struct Obj03334 *)p)->f3C,2,3,1);
         ++*state; break;
     case 8:
-        if(func_021FE7B0(**(int ***)(p+0x3c))) ++*state;
+        if(func_021FE7B0(**(int ** *)&((struct Obj03334 *)p)->f3C)) ++*state;
         break;
     case 9:
-        func_021E2E48(p+0x4c,(int)p,(int)(*(char **)(p+0x3c)));
+        func_021E2E48(p+0x4c,(int)p,(int)(*(char * *)&((struct Obj03334 *)p)->f3C));
         func_021FD73C(task,(int)func_021E2910); break;
     }
 }

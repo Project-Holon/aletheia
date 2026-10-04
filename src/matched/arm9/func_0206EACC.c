@@ -22,6 +22,7 @@
  *   python tools/match.py one --src src/matched/func_0206EACC.c \
  *       --func func_0206EACC --addr 0x0206EACC --cc 1.1p1 --arm
  */
+#include "../include/Obj11641.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -36,7 +37,7 @@ unsigned char *func_0206EACC(void *p, u32 idx)
         goto fail;
     if (idx >= *((unsigned char *)p + 13))
         goto fail;
-    off = *(u16 *)((unsigned char *)p + 18);
+    off = ((struct Obj11641 *)p)->f12;
     n = *(u16 *)(q + off);
     return q + off + 4 + n * idx;
 fail:

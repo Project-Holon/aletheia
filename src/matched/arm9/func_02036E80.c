@@ -23,6 +23,7 @@
  *   python tools/match.py one --src src/matched/func_02036E80.c \
  *       --func func_02036E80 --addr 0x02036E80 --arm --cc 1.1p1
  */
+#include "../include/Obj06937.h"
 
 typedef unsigned int  u32;
 typedef unsigned short u16;
@@ -38,9 +39,9 @@ void func_02036E80(unsigned char *p)
     if (p[0xe] != 0) {
         volatile u32 *q = (volatile u32 *)(0x07000000 + 0x400);
         q[0] = 0x40000200;
-        *(volatile u16 *)((char *)q + 4) = 0;
+        *(volatile u16 *)&((struct Obj06937 *)q)->f4 = 0;
         q[2] = 0x40000200;
-        *(volatile u16 *)((char *)q + 0xc) = 0;
+        *(volatile u16 *)&((struct Obj06937 *)q)->fC = 0;
     }
     func_020307B0(p);
 }

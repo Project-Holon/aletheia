@@ -15,6 +15,7 @@
  *   func_021E2F2C 0x021E2F2C thumb ov119
  *   func_021E2B68 0x021E2B68 thumb ov119
  */
+#include "../include/Obj03778.h"
 extern void func_02048AC4(void *);
 struct Rec;
 extern void func_02047E54(struct Rec *p);
@@ -23,13 +24,13 @@ extern void func_021E3034(void *, int);
 extern void func_021E2F2C(void *);
 extern void func_021E2B68(void);
 void func_021E31BC(char *p) {
-    if (*(void **)(p+0x83c)) func_02048AC4(*(void **)(p+0x83c));
-    func_02047E54(*(void **)(p+0x820));
-    if (*(void **)(p+12)) {
-        func_021E3034(*(void **)(p+12),6);
-        func_021E2F2C(*(void **)(p+12));
-        func_020307B0(*(void **)(p+12));
-        *(void **)(p+12)=0;
+    if (((struct Obj03778 *)p)->f83C) func_02048AC4(((struct Obj03778 *)p)->f83C);
+    func_02047E54(((struct Obj03778 *)p)->f820);
+    if (((struct Obj03778 *)p)->fC) {
+        func_021E3034(((struct Obj03778 *)p)->fC,6);
+        func_021E2F2C(((struct Obj03778 *)p)->fC);
+        func_020307B0(((struct Obj03778 *)p)->fC);
+        ((struct Obj03778 *)p)->fC=0;
     }
     func_021E2B68();
 }

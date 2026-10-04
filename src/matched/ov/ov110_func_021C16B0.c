@@ -16,6 +16,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj22415.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Node;
@@ -26,7 +27,7 @@ extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_020307B0(void *);
 void func_021C16B0(u8 *p) {
-    func_02030EAC(*(void **)(p+12));
+    func_02030EAC(((struct Obj22415 *)p)->fC);
     func_021C181C(p+4);
     func_021C1798(p);
     func_0201DD68();

@@ -16,6 +16,7 @@
  *   func_02045730 0x02045730 arm
  *   func_020409B4 0x020409B4 arm
  */
+#include "../include/Obj03327.h"
 extern void func_02045088(unsigned short);
 extern unsigned func_020450F0(unsigned, unsigned, unsigned, unsigned, unsigned char, unsigned char, unsigned char);
 struct Descriptor;
@@ -29,13 +30,13 @@ void func_021B9D34(char *p)
 {
     unsigned h;
     func_02045088(0x8E);
-    *(unsigned *)(p + 0x2BC) = func_020450F0(1, 0, 0, 0x20, 0x19, 0xF, 1);
-    *(unsigned *)(p + 0x2C4) = func_020450F0(5, 0, 0, 0x20, 0x1C, 0xF, 1);
-    h = *(unsigned *)(p + 0x2BC);
+    ((struct Obj03327 *)p)->f2BC = func_020450F0(1, 0, 0, 0x20, 0x19, 0xF, 1);
+    ((struct Obj03327 *)p)->f2C4 = func_020450F0(5, 0, 0, 0x20, 0x1C, 0xF, 1);
+    h = ((struct Obj03327 *)p)->f2BC;
     func_02045334((struct Descriptor *)h);
     func_02045374((struct Cfg *)h);
     func_020409B4(func_02045730((struct Descriptor *)h));
-    h = *(unsigned *)(p + 0x2C4);
+    h = ((struct Obj03327 *)p)->f2C4;
     func_02045334((struct Descriptor *)h);
     func_02045374((struct Cfg *)h);
     func_020409B4(func_02045730((struct Descriptor *)h));

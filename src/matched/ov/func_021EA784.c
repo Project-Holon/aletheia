@@ -15,6 +15,7 @@
  *
  * Plain stop, then stop the 0x74 sub-object.
  */
+#include "../include/Obj18495.h"
 
 
 
@@ -24,5 +25,5 @@ extern void func_021EC688(char *p);
 void func_021EA784(int p)
 {
     func_021EC688((char *)p);
-    func_021EF32C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF32C(*(struct WinMgr **)(((struct Obj18495 *)p)->f2C + 0x74));
 }

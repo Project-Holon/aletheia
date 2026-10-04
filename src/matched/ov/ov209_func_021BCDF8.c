@@ -20,6 +20,7 @@
  *   func_021BC90C 0x021BC90C thumb ov209
  *   func_021BC91C 0x021BC91C thumb ov209
  */
+#include "../include/Obj00088.h"
 typedef struct S S;
 typedef unsigned short u16;
 typedef unsigned char  u8;
@@ -37,29 +38,29 @@ enum Value { V0 };
 int func_021BCDF8(char *p)
 {
     int step;
-    switch (*(int *)(p + 0xc30)) {
+    switch (((struct Obj00088 *)p)->fC30) {
     case 0:
-        if (func_021B7A64(*(S **)(p + 0xc2c)) == 0) {
+        if (func_021B7A64(*(S * *)&((struct Obj00088 *)p)->fC2C) == 0) {
             func_021BE5D4(p, 0);
             func_021BE588(p);
             func_021BE43C(p);
             func_021BD280(p);
-            (*(int *)(p + 0xc30))++;
+            (((struct Obj00088 *)p)->fC30)++;
         }
         break;
     case 1:
-        if (func_02021ED8(*(char **)(p + 12)) == 0) {
+        if (func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
             func_0207D534((unsigned short *)0x0400006c, 0);
             func_0207D534((unsigned short *)0x0400106c, 0);
             func_021BC730(p, step = 16, 0);
             step -= 24;
             func_021BC90C(p, step);
-            (*(int *)(p + 0xc30))++;
+            (((struct Obj00088 *)p)->fC30)++;
         }
         break;
     case 2:
-        if (func_021BC91C(p) == 0 && func_02021ED8(*(char **)(p + 12)) == 0) {
-            *(int *)(p + 0xc30) = 0;
+        if (func_021BC91C(p) == 0 && func_02021ED8(*(char * *)&((struct Obj00088 *)p)->fC) == 0) {
+            ((struct Obj00088 *)p)->fC30 = 0;
             return 4;
         }
         break;

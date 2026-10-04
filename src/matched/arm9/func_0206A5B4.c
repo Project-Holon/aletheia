@@ -36,6 +36,9 @@
  *   python tools/match.py one --src src/matched/func_0206A5B4.c \
  *       --func func_0206A5B4 --addr 0x0206A5B4 --arm --cc ../2.0/sp2
  */
+#include "../include/Obj07044.h"
+#include "../include/Obj11595.h"
+#include "../include/Obj16556.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -59,11 +62,11 @@ int func_0206A5B4(char *h, char *c, u32 i2, u32 i3)
     Ent  *r3;
     Ent  *t;
 
-    base = (h != 0 && *(u32 *)(h + 8) != 0) ? h + *(u32 *)(h + 8) : 0;
-    e1 = (Ent *)(base + *(u16 *)(base + 2));
+    base = (h != 0 && ((struct Obj07044 *)h)->f8 != 0) ? h + ((struct Obj07044 *)h)->f8 : 0;
+    e1 = (Ent *)(base + ((struct Obj16556 *)base)->f2);
 
-    if (c != 0 && *(u16 *)(c + 0x34) != 0) {
-        Ent *s = (Ent *)(c + *(u16 *)(c + 0x34));
+    if (c != 0 && ((struct Obj11595 *)c)->f34 != 0) {
+        Ent *s = (Ent *)(c + ((struct Obj11595 *)c)->f34);
         if (s != 0 && i3 < s->count) {
             u16 t3 = s->tbl;
             r3 = (Ent *)((char *)s + t3 + 4

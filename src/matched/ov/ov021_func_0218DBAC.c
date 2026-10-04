@@ -12,6 +12,8 @@
  * symbols:
  *   func_02169848  0x02169848  thumb  ov010
  */
+#include "../include/Obj01846.h"
+#include "../include/Obj12585.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +27,8 @@ extern void func_02169848(void *a, u8 *b, u32 c, u32 d);
 int func_0218DBAC(u8 *a, int idx, u32 c, u8 *d)
 {
     u32 buf[0x41];
-    func_02169848(buf, (u8 *)(*(u32 *)(*(u8 **)(a + 0x24) + idx * 0x28)), c, *(u32 *)(a + 4));
-    *(u32 *)(d + 8) = buf[2];
-    *(u32 *)(d + 0xc) = buf[3];
+    func_02169848(buf, (u8 *)(*(u32 *)(*(u8 * *)&((struct Obj01846 *)a)->f24 + idx * 0x28)), c, ((struct Obj01846 *)a)->f4);
+    ((struct Obj12585 *)d)->f8 = buf[2];
+    ((struct Obj12585 *)d)->fC = buf[3];
     return 1;
 }

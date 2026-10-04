@@ -27,6 +27,7 @@
  *   func_02027858  0x02027858  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj00094.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,15 +54,15 @@ extern void func_02027858(struct TaskMenu *m);
 
 void func_02197800(u8 *a)
 {
-    if (func_020279E8((struct TaskMenu *)(*(u32 *)(a + 0x2c0))) != 0) {
-        if (func_02027A04((const u8 *)(*(u32 *)(a + 0x2c0))) == 0) {
-            func_02012EBC((struct Big *)(*(u32 *)(a + 0x30)));
+    if (func_020279E8((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0)) != 0) {
+        if (func_02027A04((const u8 *)(((struct Obj00094 *)a)->f2C0)) == 0) {
+            func_02012EBC((struct Big *)(((struct Obj00094 *)a)->f30));
             if (func_020071F0() != 0) {
-                func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 0x2d, (void *)(*(u32 *)(a + 0x38)));
+                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x2d, (void *)(((struct Obj00094 *)a)->f38));
                 func_02197644(a, 0);
                 func_02196034(a, func_021977C0, 0x7b9);
             } else {
-                func_02045CAC((struct MsgBank *)(*(u32 *)(a + 0x28)), 0x1c, (void *)(*(u32 *)(a + 0x38)));
+                func_02045CAC((struct MsgBank *)(((struct Obj00094 *)a)->f28), 0x1c, (void *)(((struct Obj00094 *)a)->f38));
                 func_02197644(a, 1);
                 func_02196290(a);
                 func_02196034(a, func_02197798, 0x7bf);
@@ -70,10 +71,10 @@ void func_02197800(u8 *a)
             func_02196228(a, 0);
             func_020414EC(3);
             func_021962F4(a);
-            *(u32 *)(a + 8) = 12;
+            ((struct Obj00094 *)a)->f8 = 12;
             func_02196034(a, func_02196A4C, 0x7c7);
         }
-        func_02027858((struct TaskMenu *)(*(u32 *)(a + 0x2c0)));
-        *(u32 *)(a + 0x2c0) = 0;
+        func_02027858((struct TaskMenu *)(((struct Obj00094 *)a)->f2C0));
+        ((struct Obj00094 *)a)->f2C0 = 0;
     }
 }

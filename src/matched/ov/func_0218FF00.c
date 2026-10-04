@@ -17,6 +17,7 @@
  *   func_0219014C  0x0219014C  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17918.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,7 +30,7 @@ extern u32 func_021901E8(u32, u32, u32, u32);
 
 int func_0218FF00(u32 a, u32 b, u32 c, u32 d)
 {
-if (*(u32 *)((u8 *)(func_021901E8(a, b, c, d))) == 0) {
+if (((struct Obj17918 *)((u8 *)(func_021901E8(a, b, c, d))))->f0 == 0) {
     return func_02190110(a);
 }
 return func_0219014C(a);

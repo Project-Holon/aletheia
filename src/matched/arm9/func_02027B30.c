@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj11289.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,9 +27,9 @@ extern void func_02041B6C(u32 bit);
 void func_02027B30(u32 a0, struct S *s, int mode)
 {
     if (mode == 1) {
-        func_02045798((struct Descriptor *)a0, (u8)*(u16 *)((u8 *)s + 2));
+        func_02045798((struct Descriptor *)a0, (u8)((struct Obj11289 *)s)->f2);
     } else if (mode == 0) {
-        func_02045798((struct Descriptor *)a0, (u8)(*(u16 *)((u8 *)s + 2) + 1));
+        func_02045798((struct Descriptor *)a0, (u8)(((struct Obj11289 *)s)->f2 + 1));
     }
     func_02045374((struct Cfg *)a0);
     func_02041B6C(func_02045730((struct Descriptor *)a0));

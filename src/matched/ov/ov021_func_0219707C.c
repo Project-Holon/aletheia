@@ -19,6 +19,7 @@
  *   d_021D3FB0     0x021D3FB0  data  ov021  a1
  *   d_021D3FA8     0x021D3FA8  data  ov021  a1
  */
+#include "../include/Obj00093.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -53,8 +54,8 @@ void func_0219707C(u8 *p)
         pos.z = zs.v[i];
         pos.a = 0;
         pos.b = 1;
-        *(u32 *)(p + i * 4 + 0x294) = (u32)func_0204B294((void *)*(u32 *)(p + 0x26C), *(u32 *)(p + 0x27C),
-            *(u32 *)(p + 0x274), *(u32 *)(p + 0x284), &pos, 1, *(u16 *)(p + 0x10));
+        *(u32 *)(p + i * 4 + 0x294) = (u32)func_0204B294((void *)*(u32 *)&((struct Obj00093 *)p)->f26C, *(u32 *)&((struct Obj00093 *)p)->f27C,
+            *(u32 *)&((struct Obj00093 *)p)->f274, *(u32 *)&((struct Obj00093 *)p)->f284, &pos, 1, ((struct Obj00093 *)p)->f10);
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x294), 0);
         func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x294), 1);
         func_0204B688((struct Actor *)(*(u32 *)(p + i * 4 + 0x294)), 1);

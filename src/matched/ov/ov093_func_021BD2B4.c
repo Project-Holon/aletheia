@@ -14,6 +14,7 @@
  *   func_021B9C00  0x021B9C00  thumb  ov093
  *   func_021D5B68  0x021D5B68  thumb  ov093
  */
+#include "../include/Obj13305.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -36,7 +37,7 @@ void func_021BD2B4(u8 *p, u8 **q)
         m = func_021BB878(*q, i);
         if (m == 0) continue;
         for (j = 0; j < m[9]; j++) {
-            x = func_021B9C00(*(u8 **)(m + 4), j);
+            x = func_021B9C00(*(u8 * *)&((struct Obj13305 *)m)->f4, j);
             if (x) f = func_021D5B68(x) == 0;
             else f = 0;
             if (f) {

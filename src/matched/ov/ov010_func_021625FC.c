@@ -21,6 +21,8 @@
  *   func_02162C84 0x02162C84 thumb ov010
  *   func_02162D90 0x02162D90 thumb ov010
  */
+#include "../include/Obj07293.h"
+#include "../include/Obj07294.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -40,14 +42,14 @@ int func_021625FC(const u8 *q, int *out, int id, int k)
     r = func_021625CC((char *)q, id);
     if (r == 0) return 0;
     func_020140F8((int)out);
-    if (*(u16 *)(r + 2) == 0x100) *out = 3;
+    if (((struct Obj07294 *)r)->f2 == 0x100) *out = 3;
     else *out = 2;
-    if (*(u16 *)(r + 6) == 0) {
+    if (((struct Obj07294 *)r)->f6 == 0) {
         func_02162C84(r, k, &s);
-        func_02014110(out, *(u16 *)(q + 0x10), id, r[4], k, s.x, s.y, s.z);
+        func_02014110(out, ((struct Obj07293 *)q)->f10, id, r[4], k, s.x, s.y, s.z);
     } else {
         func_02162D90(r, k, &t);
-        func_02014134(out, *(u16 *)(q + 0x10), id, r[4], k, t.a, t.d, t.c);
+        func_02014134(out, ((struct Obj07293 *)q)->f10, id, r[4], k, t.a, t.d, t.c);
     }
     return 1;
 }

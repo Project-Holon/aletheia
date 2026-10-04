@@ -16,6 +16,7 @@
  *   func_020307B0 0x020307B0 arm
  *   func_021D9468 0x021D9468 thumb ov119
  */
+#include "../include/Obj00001.h"
 typedef unsigned short u16;
 
 extern void *func_021D8D4C(void **a, int b, int c, char *p);
@@ -29,7 +30,7 @@ extern void func_020307B0(void *p);
 extern void func_021D9468(void *,int,void *);
 int func_021DB0A0(char *p)
 {
-    int t=(int)func_021D8D4C(*(void ***)(p+0x828),*(int *)(p+0xf88),*(int *)(p+0xf84),p);
+    int t=(int)func_021D8D4C(*(void ** *)&((struct Obj00001 *)p)->f828,((struct Obj00001 *)p)->fF88,((struct Obj00001 *)p)->fF84,p);
     if(func_021D8A24(p)) {
         unsigned id=(unsigned)func_020399A8();
         if(func_0203D3A8((void *)id,0xc01,func_020173EC(id),t)==0) {

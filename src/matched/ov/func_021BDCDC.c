@@ -14,15 +14,16 @@
 
  * BLOCKED.  MATCH: the call at +0x10 targets 0204047C, an ARM address with no label and no pool witness outside the compared range, so the site stays wildcarded.
  */
+#include "../include/Obj09201.h"
 
 
 extern void func_0204047C(int idx, unsigned short val);
 
 void func_021BDCDC(int unused, char *p)
 {
-    if (*(int *)(p + 0x3c) != 0) {
-        func_0204047C(1, *(unsigned char *)(p + 0x38));
-        *(int *)(p + 0x3c) = 0;
+    if (((struct Obj09201 *)p)->f3C != 0) {
+        func_0204047C(1, ((struct Obj09201 *)p)->f38);
+        ((struct Obj09201 *)p)->f3C = 0;
     }
 }
 

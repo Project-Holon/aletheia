@@ -36,6 +36,9 @@
  *   func_0217D000 0x0217D000 thumb ov176
  *   func_021E8AB8 0x021E8AB8 thumb ov177
  */
+#include "../include/Obj00053.h"
+#include "../include/Obj24416.h"
+#include "../include/Obj24417.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_0217D160(int *);
@@ -77,22 +80,22 @@ void func_0217CC78(int *a, int *state, u8 *p)
     switch (*state) {
     case 0:
         func_0217D160((int *)p);
-        if (func_0200B078(*(void **)(p + 0x38), 10) == 3) *state = 6;
+        if (func_0200B078(((struct Obj00053 *)p)->f38, 10) == 3) *state = 6;
         else *state = 1;
         break;
     case 1:
-        record = func_0200AE14(*(void **)(p + 0x38));
-        value = func_0200E918(*(u8 **)(p + 0x34), 0);
+        record = func_0200AE14(((struct Obj00053 *)p)->f38);
+        value = func_0200E918(*(u8 * *)&((struct Obj00053 *)p)->f34, 0);
         if (value >= func_0200AE54(record, 0x16)) *state = 2;
         else *state = 16;
         break;
     case 2: func_0217CFE8(p, 10, 2); *state = 17; func_021E8AB4((u32)a, 3); break;
     case 3:
-        func_0200B110(*(void **)(p + 0x38), 10, 3);
-        func_0200BBD8(func_0200BAC8(func_02012EBC(*(void **)(p + 0x1B8))), 2);
-        func_02012DAC((int)(*(void **)(p + 0x1B8))); *state = 4; break;
+        func_0200B110(((struct Obj00053 *)p)->f38, 10, 3);
+        func_0200BBD8(func_0200BAC8(func_02012EBC(((struct Obj00053 *)p)->f1B8)), 2);
+        func_02012DAC((int)(((struct Obj00053 *)p)->f1B8)); *state = 4; break;
     case 4:
-        switch (func_02012DD0(*(void **)(p + 0x1B8))) {
+        switch (func_02012DD0(((struct Obj00053 *)p)->f1B8)) {
         case 0: case 1: break;
         case 2: case 3: *state = 5; break;
         }
@@ -104,7 +107,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
         result = func_0217CFDC((int *)p);
         if (result != -1) {
             func_0217CFD0((int *)p);
-            if (*(int *)(p + 0x1D0) && *(int *)(*(u8 **)(p + 0x1C4) + 12) == 0) {
+            if (((struct Obj00053 *)p)->f1D0 && ((struct Obj24416 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C4))->fC == 0) {
                 switch (result) { case 0: *state = 11; break; case 1: *state = 9; break; }
             } else if (result == 0) *state = 9;
         }
@@ -112,7 +115,7 @@ void func_0217CC78(int *a, int *state, u8 *p)
     case 9: func_0217CFE8(p, 31, 1); *state = 17; func_021E8AB4((u32)a, 10); break;
     case 10: if (func_0217D194((int *)p)) { func_0217D174((int *)p); *state = 15; } break;
     case 11:
-        if (func_0200BA38(*(u32 *)(*(u8 **)(p + 0x1C0) + 0x44))) *state = 12;
+        if (func_0200BA38(((struct Obj24417 *)(*(u8 * *)&((struct Obj00053 *)p)->f1C0))->f44)) *state = 12;
         else *state = 13;
         break;
     case 12: func_0217CFE8(p, 16, 1); *state = 17; func_021E8AB4((u32)a, 14); break;

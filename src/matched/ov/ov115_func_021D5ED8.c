@@ -23,6 +23,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02045808 0x02045808 arm
  */
+#include "../include/Obj01720.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -50,17 +51,17 @@ extern void func_02045808(struct U16Vec *vec);
 void func_021D5ED8(u8 *p,u32 n) {
     void *w;
     void *s;
-    func_02045CAC(*(void **)(p+0x1c),n,*(void **)(p+0x28));
-    s=func_02045874(*(void **)(p+0x28),*(u16 *)(p+0x4c));
-    func_0201F250(*(void **)(p+0x20),*(void **)(p+0x28),s);
-    if (*(void **)(p+0x30)==0) *(void **)(p+0x30)=(void *)func_020450F0(func_021D5FC4(*(u32 *)(p+0x50)),1,1,30,16,11,1);
-    w=*(void **)(p+0x30);
+    func_02045CAC(((struct Obj01720 *)p)->f1C,n,((struct Obj01720 *)p)->f28);
+    s=func_02045874(((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f4C);
+    func_0201F250(((struct Obj01720 *)p)->f20,((struct Obj01720 *)p)->f28,s);
+    if (((struct Obj01720 *)p)->f30==0) ((struct Obj01720 *)p)->f30=(void *)func_020450F0(func_021D5FC4(((struct Obj01720 *)p)->f50),1,1,30,16,11,1);
+    w=((struct Obj01720 *)p)->f30;
     func_02043B5C(func_02045770(w),15);
     func_0201DD78(1,2,15);
-    func_0201C7A4(func_02045770(w),0,0,*(void **)(p+0x28),*(void **)(p+0x24));
-    func_0201F73C(w,1,*(u32 *)(p+4),12);
+    func_0201C7A4(func_02045770(w),0,0,((struct Obj01720 *)p)->f28,((struct Obj01720 *)p)->f24);
+    func_0201F73C(w,1,((struct Obj01720 *)p)->f4,12);
     func_02045334(w);
     func_02045374(w);
-    func_02041B6C(func_021D5FC4(*(u32 *)(p+0x50)));
+    func_02041B6C(func_021D5FC4(((struct Obj01720 *)p)->f50));
     func_02045808(s);
 }

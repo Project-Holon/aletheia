@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19129.h"
 
 void func_0216D848(char *p, short v)
 {
-    *(short *)(p + 0x3c) += v;
+    ((struct Obj19129 *)p)->f3C += v;
 }

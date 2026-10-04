@@ -16,6 +16,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj00001.h"
 typedef unsigned int   u32;
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -32,8 +33,8 @@ void func_021E5D84(char *p)
     func_02040588(4, 0);
     func_02040618(4, 0, 0);
     func_02040618(6, 0, 0);
-    if (*(int *)(p + 0xf04)) func_0204B3DC((struct Obj *)*(int *)(p + 0xf04), 1);
-    if (*(int *)(p + 0xf18)) func_0204B3DC((struct Obj *)*(int *)(p + 0xf18), 1);
+    if (*(int *)&((struct Obj00001 *)p)->fF04) func_0204B3DC((struct Obj *)*(int *)&((struct Obj00001 *)p)->fF04, 1);
+    if (((struct Obj00001 *)p)->fF18) func_0204B3DC((struct Obj *)((struct Obj00001 *)p)->fF18, 1);
     for (i = 0; i < 26; i++) {
         if (*(int *)(p + i * 4 + 0x750)) {
             func_020456F8((struct Descriptor *)(*(int *)(p + i * 4 + 0x750)));

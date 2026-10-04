@@ -16,6 +16,8 @@
  *   func_0204B878  0x0204B878  arm
  *   func_0204B3DC  0x0204B3DC  arm
  */
+#include "../include/Obj00083.h"
+#include "../include/Obj21787.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 
@@ -56,10 +58,10 @@ void func_02205E80(char *m)
     o5 = 0x180;
     for (j = 0; j < 6; j++) {
         p = m + j * 8;
-        *(u32 *)(p + o3) = (u32)func_0204B294((void *)*(u32 *)(m + o0), *(u32 *)(m + 0x110), *(u32 *)(m + o1),
-                                         *(u32 *)(m + o2), d_0220A392, 1, *(u16 *)(m + 0x240));
+        *(u32 *)(p + o3) = (u32)func_0204B294((void *)*(u32 *)(m + o0), ((struct Obj00083 *)m)->f110, *(u32 *)(m + o1),
+                                         *(u32 *)(m + o2), d_0220A392, 1, ((struct Obj00083 *)m)->f240);
         func_0204B92C((struct Obj *)*(int *)(p + o4), 1);
         func_0204B878((struct Obj *)(*(int *)(p + o5)), q.v[j]);
-        func_0204B3DC((struct Obj *)*(int *)(p + 0x180), 0);
+        func_0204B3DC((struct Obj *)((struct Obj21787 *)p)->f180, 0);
     }
 }

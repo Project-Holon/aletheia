@@ -15,6 +15,9 @@
  *   func_0220E7E4 0x0220E7E4 thumb ov198
  *   d_02211DFC 0x02211DFC data a4
  */
+#include "../include/Obj00172.h"
+#include "../include/Obj25221.h"
+#include "../include/Obj25222.h"
 typedef unsigned short u16;
 extern unsigned func_0204B100(unsigned,unsigned,u16);
 extern unsigned func_0220E684(char *,const int *);
@@ -26,9 +29,9 @@ extern const int d_02211DFC[][5];
 void func_0220E6E0(char *p)
 {
     unsigned i;
-    *(unsigned *)(p+0x1eb8)=func_0204B100(45,0,(*(u16 *)(*(char **)p+0x10)&0x7fff)|0x8000);
+    ((struct Obj00172 *)p)->f1EB8=func_0204B100(45,0,(((struct Obj25221 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10&0x7fff)|0x8000);
     for(i=0;i<41;i++) *(unsigned *)(p+i*4+0x1ebc)=func_0220E684(p,d_02211DFC[i]);
-    func_0203D34C(0,*(u16 *)(*(char **)p+0x10));
-    func_020216D4(*(unsigned *)(p+0x1d8),3,0,0x1e0);
+    func_0203D34C(0,((struct Obj25222 *)(*(char * *)&((struct Obj00172 *)p)->f0))->f10);
+    func_020216D4(((struct Obj00172 *)p)->f1D8,3,0,0x1e0);
     func_0220E7E4(p);
 }

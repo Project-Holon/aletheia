@@ -20,6 +20,7 @@
  *   func_0204B7F8 0x0204B7F8 arm
  *   func_0204ADEC 0x0204ADEC arm
  */
+#include "../include/Obj14276.h"
 
 
 extern unsigned func_02020F08(void);
@@ -42,9 +43,9 @@ void func_021ED094(char *w, unsigned item)
     void *b;
     void *q;
     q = func_02049E34(func_02020F08(), func_02020E60(item, 1), 0, (u32)(&a), 0x4C);
-    func_0204A9D0(func_0204B7F0(*(void **)(w + 0x9E9C)), a);
+    func_0204A9D0(func_0204B7F0(((struct Obj14276 *)w)->f9E9C), a);
     func_020307B0(q);
     q = func_02049F34(func_02020F08(), func_02020E60(item, 2), (u32)(&b), 0x4C);
-    func_0204ADEC((void *)func_0204B7F8(*(void **)(w + 0x9E9C)), b, 1);
+    func_0204ADEC((void *)func_0204B7F8(((struct Obj14276 *)w)->f9E9C), b, 1);
     func_020307B0(q);
 }

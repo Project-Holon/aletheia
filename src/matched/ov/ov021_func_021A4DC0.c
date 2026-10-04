@@ -23,6 +23,7 @@
  *   func_021A3964  0x021A3964  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04233.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -69,7 +70,7 @@ void func_021A4DC0(u32 *a, u32 b, u32 *c)
         r = 0xc;
     }
     if (f == 1) {
-        if (func_021A57C0((u8 *)((u32)a), *(u16 *)(c + 2)) == 1) {
+        if (func_021A57C0((u8 *)((u32)a), ((struct Obj04233 *)c)->f8) == 1) {
             switch (r) {
             case 0x10: r = 0x4c; break;
             case 0x58: r = 0xa3; break;
@@ -77,7 +78,7 @@ void func_021A4DC0(u32 *a, u32 b, u32 *c)
             }
         }
     }
-    func_0216D410(b, func_02197E7C(*(u16 *)(c + 2), r));
+    func_0216D410(b, func_02197E7C(((struct Obj04233 *)c)->f8, r));
     a[0] = 1;
     func_021A3964((u8 *)a[3], 1);
 }

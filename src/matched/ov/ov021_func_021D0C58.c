@@ -31,6 +31,8 @@
  *   func_021D09D0  0x021D09D0  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj20300.h"
+#include "../include/Obj20301.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -121,13 +123,13 @@ int func_021D0C58(u32 unused, u32 *state, W *w)
         }
         h = (u32)func_020120F4((const struct Ctx *)x);
         rec = func_0200E8F8(func_02012EBC((struct Big *)h));
-        sv = *(u32 *)(w->f84 + 0x14c);
+        sv = ((struct Obj20300 *)(w->f84))->f14C;
         n = func_0200E5E4((void *)sv);
         ok = func_0200E5A0((void *)sv);
         r = func_021D1058((struct Flags *)rec, n);
         if (ok != 0 && (r == 0 || n == 0)) {
             func_021D1080(rec, n);
-            func_0200E608((void *)h, (void *)(*(u32 *)(w->f84 + 0x14c)), 0x8004);
+            func_0200E608((void *)h, (void *)(((struct Obj20301 *)(w->f84))->f14C), 0x8004);
             *w->f88 = 1;
         } else if (r != 0) {
             *w->f88 = 2;

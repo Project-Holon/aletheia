@@ -19,6 +19,7 @@
  *   func_021C8860  0x021C8860  thumb  ov093
  *   func_021C88C8  0x021C88C8  thumb  ov093
  */
+#include "../include/Obj10096.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -46,11 +47,11 @@ void func_021E58D8(int a, int b, int c)
         if (func_021E5958(n) == 0) {
             m = (u8 *)func_021C88A4((void *)b, 0x1f, c);
             m[6] = c;
-            *(u16 *)(m + 4) = n;
+            ((struct Obj10096 *)m)->f4 = n;
             func_021C8838(m + 0xc, 2, 0x26b);
             func_021C8860((struct S *)(m + 0xc), c);
             func_021C8860((struct S *)(m + 0xc), k);
-            func_021C8860((struct S *)(m + 0xc), *(u16 *)(m + 4));
+            func_021C8860((struct S *)(m + 0xc), ((struct Obj10096 *)m)->f4);
             func_021C88C8((void *)b, m);
         }
     }

@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj19131.h"
 
 void func_0216D87C(char *p, short v)
 {
-    *(short *)(p + 0x40) += v;
+    ((struct Obj19131 *)p)->f40 += v;
 }

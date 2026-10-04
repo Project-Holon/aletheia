@@ -13,6 +13,8 @@
  *   d_02203884 0x02203884 data a2
  *   d_02203892 0x02203892 data a1
  */
+#include "../include/Obj23438.h"
+#include "../include/Obj23439.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const u16 d_02203884[];
@@ -24,7 +26,7 @@ void func_021FFC8C(u8 **p, u8 *q, int k, int n)
     u8 *dst;
     if (n > 16) n = 16;
     else if (n < 0) n = 0;
-    dst = *(u8 **)(q + 12);
-    func_0207E804(*(void **)(p[n] + 20), d_02203884[k], 512);
+    dst = *(u8 * *)&((struct Obj23438 *)q)->fC;
+    func_0207E804(((struct Obj23439 *)(p[n]))->f14, d_02203884[k], 512);
     func_0207E5D0(dst + d_02203892[n] * 32, (k + 2) * 32, 32);
 }

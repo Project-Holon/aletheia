@@ -16,6 +16,7 @@
  *   func_021B4264 0x021B4264 thumb ov021
  *   func_021B3D60 0x021B3D60 thumb ov021
  */
+#include "../include/Obj03132.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,7 +40,7 @@ void func_021B468C(u32 a, u32 idx)
     func_020202FC((struct Obj *)a, &v[1], &v[0]);
     v[2] = 0xAC;
     v[3] = v[0] * 16 + 0x16;
-    func_0204B404((struct Obj *)(*(u32 *)(w + 0x1C0)), (const struct Vec2 *)(&v[2]), 0);
+    func_0204B404((struct Obj *)(((struct Obj03132 *)w)->f1C0), (const struct Vec2 *)(&v[2]), 0);
     if (idx < 0x28) {
         t = w + 0x20;
         func_021B4264(w, *(u16 *)(t + idx * 8));

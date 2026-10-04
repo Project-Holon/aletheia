@@ -11,5 +11,6 @@
  * symbols:
  *   func_02189F98 0x02189F98 thumb ov096
  */
+#include "../include/Obj21980.h"
 extern int func_02189F98(unsigned char *, unsigned char *, int);
-int func_02189F68(unsigned char *a, unsigned char *b) { func_02189F98(a,b,1); return *(int *)(b+0xc4); }
+int func_02189F68(unsigned char *a, unsigned char *b) { func_02189F98(a,b,1); return ((struct Obj21980 *)b)->fC4; }

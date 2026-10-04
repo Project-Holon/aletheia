@@ -14,6 +14,7 @@
 
  * Fills four 4-byte entries with the current halfword and clears a word.
  */
+#include "../include/Obj12126.h"
 
 
 typedef unsigned int   u32;
@@ -25,8 +26,8 @@ void func_021C06C8(unsigned short *a, char *b)
 
     for (i = 0; i < 4; i++) {
         char *e = b + i * 4;
-        *(int *)(e + 0x34) = func_0201C440((void *)(*a));
-        *(int *)(e + 0x24) = 0;
+        ((struct Obj12126 *)e)->f34 = func_0201C440((void *)(*a));
+        ((struct Obj12126 *)e)->f24 = 0;
     }
 }
 

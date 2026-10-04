@@ -21,6 +21,7 @@
  *   func_0219CA00  0x0219CA00  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj17970.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -32,6 +33,6 @@ extern u32 func_0219CA00(u32, u32, u32);
 
 int func_0219CAD8(u32 a, u32 b, u32 c, u32 d)
 {
-return func_0219CA00((a + 20), b, func_0216D4F8(*(u32 *)((u8 *)(a) + 16), b, c, d));
+return func_0219CA00((a + 20), b, func_0216D4F8(((struct Obj17970 *)((u8 *)(a)))->f10, b, c, d));
 }
 

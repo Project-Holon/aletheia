@@ -19,6 +19,7 @@
  *   func_020409B4 0x020409B4 arm
  *   func_022028C8 0x022028C8 thumb ov135
  */
+#include "../include/Obj03300.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,11 +38,11 @@ void func_022002A0(u8 *p)
 {
     int i;
     u32 w;
-    *(void **)(p+0xD48)=func_020450F0(1,2,1,0x1C,2,1,1);
-    func_02043B5C(func_02045770(*(void **)(p+0xD48)),0xA);
-    w=*(u32 *)(p+0xD48);
+    ((struct Obj03300 *)p)->fD48=func_020450F0(1,2,1,0x1C,2,1,1);
+    func_02043B5C(func_02045770(((struct Obj03300 *)p)->fD48),0xA);
+    w=*(u32 *)&((struct Obj03300 *)p)->fD48;
     func_02045334((void *)w); func_02045374((void *)w); func_020409B4(func_02045730((void *)w));
-    func_022028C8(*(void **)(p+0xD48),0,*(void **)(p+0xB8C),0,2,0,0x35CA,p+0xFA0);
+    func_022028C8(((struct Obj03300 *)p)->fD48,0,((struct Obj03300 *)p)->fB8C,0,2,0,0x35CA,p+0xFA0);
     for(i=0;i<3;i++) {
         u32 window;
         *(void **)((u32)p+i*4+0xD50)=func_020450F0(1,9,i*5+6,0xF,2,1,1);
@@ -49,8 +50,8 @@ void func_022002A0(u8 *p)
         window=*(u32 *)((u32)p+i*4+0xD50);
         func_02045334((void *)window); func_02045374((void *)window); func_020409B4(func_02045730((void *)window));
     }
-    *(void **)(p+0xD40)=func_020450F0(0,2,0x15,0x1B,2,0xD,1);
-    func_02043B5C(func_02045770(*(void **)(p+0xD40)),0xF);
-    *(void **)(p+0xDD0)=func_020450F0(0,2,0x13,0x1B,4,0xD,1);
-    func_02043B5C(func_02045770(*(void **)(p+0xDD0)),0xF);
+    ((struct Obj03300 *)p)->fD40=func_020450F0(0,2,0x15,0x1B,2,0xD,1);
+    func_02043B5C(func_02045770(((struct Obj03300 *)p)->fD40),0xF);
+    ((struct Obj03300 *)p)->fDD0=func_020450F0(0,2,0x13,0x1B,4,0xD,1);
+    func_02043B5C(func_02045770(((struct Obj03300 *)p)->fDD0),0xF);
 }

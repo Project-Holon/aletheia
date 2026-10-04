@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj22383.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
-u16 func_021BEDE8(u8 *p) { return *(u16 *)(p+2); }
+u16 func_021BEDE8(u8 *p) { return ((struct Obj22383 *)p)->f2; }

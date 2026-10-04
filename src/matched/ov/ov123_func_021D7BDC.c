@@ -12,23 +12,24 @@
  *   func_021D7B68 0x021D7B68 thumb ov123
  *   func_021D746C 0x021D746C thumb ov123
  */
+#include "../include/Obj05366.h"
 typedef unsigned char u8;
 extern void func_021D6EE0(char *, int, int);
 extern void func_021D7B68(char *p);
 extern void func_021D746C(int a);
 void func_021D7BDC(char *p)
 {
-    if (*(u8 *)(p + 0xa5)) {
+    if (((struct Obj05366 *)p)->fA5) {
         p[0xa7] = 0;
         func_021D6EE0(p, (int)func_021D7B68, 0x465);
         return;
     }
-    if (*(u8 *)(p + 0xa4)) {
+    if (((struct Obj05366 *)p)->fA4) {
         p[0xa7] = 1;
         func_021D6EE0(p, (int)func_021D7B68, 0x46a);
         return;
     }
-    if (*(u8 *)(p + 0xa6)) {
+    if (((struct Obj05366 *)p)->fA6) {
         p[0xa7] = 2;
         func_021D6EE0(p, (int)func_021D7B68, 0x46f);
         return;

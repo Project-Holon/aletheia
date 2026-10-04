@@ -12,6 +12,7 @@
  * symbols:
  *   func_020490F4  0x020490F4  arm
  */
+#include "../include/Obj04133.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,9 +26,9 @@ void *func_021647FC(int a0, int a1)
     void *rec;
 
 t4 = a0 + 0;
-a1 = *(u16 *)((char *)t4);
+a1 = ((struct Obj04133 *)((char *)t4))->f0;
 a0 = 0x61;
     rec = func_020490F4(a0, a1);
 loc_02164808:
-*(void **)((char *)t4 + 8) = rec;
+((struct Obj04133 *)t4)->f8 = rec;
     return rec;}

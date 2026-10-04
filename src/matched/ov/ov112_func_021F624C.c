@@ -9,10 +9,11 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj10309.h"
 
 void func_021F624C(char *p, int *q)
 {
-    *(int *)(p + 0xd4) = q[0];
-    *(int *)(p + 0xd8) = q[1];
-    *(int *)(p + 0xdc) = q[2];
+    ((struct Obj10309 *)p)->fD4 = q[0];
+    ((struct Obj10309 *)p)->fD8 = q[1];
+    ((struct Obj10309 *)p)->fDC = q[2];
 }

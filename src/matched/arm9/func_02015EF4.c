@@ -9,9 +9,10 @@
  * isa:      thumb
  * status:   EXACT
  */
+#include "../include/Obj15667.h"
 typedef unsigned char u8;
 
 u8 func_02015EF4(char *p)
 {
-    return **(u8 **)(p + 0x30);
+    return **(u8 * *)&((struct Obj15667 *)p)->f30;
 }

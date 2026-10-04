@@ -14,6 +14,7 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
+#include "../include/Obj10980.h"
 typedef unsigned char u8;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
@@ -29,9 +30,9 @@ void func_021BA050(char *p)
         for(j=0;j<2;j++) {
             func_0204B3B4(*(void **)(row+108+j*4));
             entry=row+j*12;
-            func_0204AFD8(*(unsigned *)(entry+92));
-            func_0204A8D4(*(unsigned *)(entry+84));
-            if(j!=1) func_0204ADA4(*(unsigned *)(entry+88));
+            func_0204AFD8(((struct Obj10980 *)entry)->f5C);
+            func_0204A8D4(((struct Obj10980 *)entry)->f54);
+            if(j!=1) func_0204ADA4(((struct Obj10980 *)entry)->f58);
         }
     }
 }

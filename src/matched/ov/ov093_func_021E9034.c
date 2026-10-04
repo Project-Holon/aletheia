@@ -18,6 +18,7 @@
  *   func_0201D83C  0x0201D83C  thumb
  *   func_020307B0  0x020307B0  arm
  */
+#include "../include/Obj05223.h"
 extern void func_021EECD8(void);
 extern void func_021E907C(void *p);
 extern void func_021EB234(void *p);
@@ -31,11 +32,11 @@ extern void func_020307B0(void *p);
 void func_021E9034(char *p)
 {
     func_021EECD8();
-    func_021E907C(*(void **)(p + 0x180));
-    func_021EB234(*(void **)(p + 0x17c));
-    func_02031140(*(void **)(p + 0x178));
-    func_02045808(*(void **)(p + 0xac));
-    func_0201D83C(*(void **)(p + 0xb0));
-    func_0201D83C(*(void **)(p + 0xb4));
+    func_021E907C(((struct Obj05223 *)p)->f180);
+    func_021EB234(((struct Obj05223 *)p)->f17C);
+    func_02031140(((struct Obj05223 *)p)->f178);
+    func_02045808(((struct Obj05223 *)p)->fAC);
+    func_0201D83C(((struct Obj05223 *)p)->fB0);
+    func_0201D83C(((struct Obj05223 *)p)->fB4);
     func_020307B0(p);
 }

@@ -25,6 +25,7 @@
  *   func_0216D570  0x0216D570  thumb  ov010
  *   func_0216D89C  0x0216D89C  thumb  ov010
  */
+#include "../include/Obj00262.h"
 
 typedef unsigned int u32;
 
@@ -44,7 +45,7 @@ void func_0216D89C(void *h, Vec021A4F58 *v);
 
 int func_021A4F58(u32 *p)
 {
-    void *h = func_021A3960(*(unsigned char **)(p + 3));
+    void *h = func_021A3960(*(unsigned char * *)&((struct Obj00262 *)p)->fC);
     Vec021A4F58 v;
     int lim;
 

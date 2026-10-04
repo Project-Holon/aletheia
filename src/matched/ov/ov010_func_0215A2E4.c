@@ -19,6 +19,7 @@
  *   func_0215A370  0x0215A370  thumb  ov010
  *   d_021728CC     0x021728CC  data  ov010  a4
  */
+#include "../include/Obj03073.h"
 
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 struct Ctx;
@@ -41,15 +42,15 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     int r;
     int *q;
 
-    *(int *)p = (int)t12;
+    ((struct Obj03073 *)p)->f0 = (int)t12;
     p[0xc] = 1;
     p[0xe] = func_0201AA18(t12);
     p[0xf] = c;
     p[0x10] = 1;
-    *(unsigned short *)(p + 0x14) = g;
+    ((struct Obj03073 *)p)->f14 = g;
     p[0xd] = (f == 1) ? 3 : 2;
-    *(int *)(p + 0x20) = 0;
-    *(int *)(p + 8) = t8;
+    ((struct Obj03073 *)p)->f20 = 0;
+    ((struct Obj03073 *)p)->f8 = t8;
     r = func_020122C0(a, 0, func_0215A370, 0x14);
     q = func_020124E8((struct Obj *)r);
     q[0] = a;

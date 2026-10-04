@@ -19,6 +19,7 @@
  *   func_021B96B8 0x021B96B8 thumb ov100
  *   func_021BAFCC 0x021BAFCC thumb ov100
  */
+#include "../include/Obj07966.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct TaskMenu;
@@ -33,10 +34,10 @@ extern void func_021B95B8(u8 *p, u32 v);
 extern void func_021B96B8(u8 *a);
 extern void func_021BAFCC(int p);
 void func_021BAFFC(int a) {
- if(func_020279E8((struct TaskMenu *)(*(int *)(a+0xcc0)))!=0) {
-  int v=func_02027A04(*(const u8 **)(a+0xcc0));
-  func_02027858((struct TaskMenu *)(*(int *)(a+0xcc0)));
-  *(int *)(a+0xcc0)=0;
+ if(func_020279E8((struct TaskMenu *)(*(int *)&((struct Obj07966 *)a)->fCC0))!=0) {
+  int v=func_02027A04(*(const u8 * *)&((struct Obj07966 *)a)->fCC0);
+  func_02027858((struct TaskMenu *)(*(int *)&((struct Obj07966 *)a)->fCC0));
+  *(int *)&((struct Obj07966 *)a)->fCC0=0;
   func_02041B6C(6);
   if(v==0) {
    func_021BA5F4(a); func_021B95C0((u8 *)a); func_021B95B8((u8 *)a,(u32)func_021B96B8);

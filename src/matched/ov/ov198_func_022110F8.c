@@ -10,6 +10,7 @@
  * symbols:
 
  */
+#include "../include/Obj10854.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -18,9 +19,9 @@ void func_022110F8(u8 *p, int a, int b)
     u8 i;
     for (i = 0; i < 2; i++) {
         u8 *q = p + i * 4;
-        if (*(u16 *)(q + 0x249c) == 0xff) {
-            *(u16 *)(q + 0x249c) = a;
-            *(u16 *)(q + 0x249e) = b;
+        if (((struct Obj10854 *)q)->f249C == 0xff) {
+            ((struct Obj10854 *)q)->f249C = a;
+            ((struct Obj10854 *)q)->f249E = b;
             return;
         }
     }

@@ -9,8 +9,9 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj16691.h"
 
 unsigned short func_02084EB0(char *p)
 {
-    return *(unsigned short *)(p + 4);
+    return ((struct Obj16691 *)p)->f4;
 }

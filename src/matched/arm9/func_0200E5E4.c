@@ -12,10 +12,11 @@
  * Unlabelled arm9 leaf: the low seven bits of the halfword at +0x5C4. Filed
  * as the relocation witness for ov021 func_021D0C58 (wave A1).
  */
+#include "../include/Obj15608.h"
 
 typedef unsigned short u16;
 
 u16 func_0200E5E4(void *p)
 {
-    return *(u16 *)((char *)p + 0x5C4) & 0x7F;
+    return ((struct Obj15608 *)p)->f5C4 & 0x7F;
 }

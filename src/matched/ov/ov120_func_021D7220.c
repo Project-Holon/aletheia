@@ -11,6 +11,7 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021D71B8 0x021D71B8 thumb ov120
  */
+#include "../include/Obj10397.h"
 typedef unsigned char u8;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
@@ -19,9 +20,9 @@ void func_021D7220(u8 *p, void *q)
 {
     int i;
     if (q) {
-        if (*(void **)(p + 0x14c)) func_0204B3B4(*(void **)(p + 0x14c));
+        if (((struct Obj10397 *)p)->f14C) func_0204B3B4(((struct Obj10397 *)p)->f14C);
         for (i = 0; i < 5; i++) *(void **)(p + 0x14c + i * 4) = *(void **)(p + 0x150 + i * 4);
-        *(void **)(p + 0x160) = 0;
+        ((struct Obj10397 *)p)->f160 = 0;
         func_021D71B8(p, q, 5);
     }
 }

@@ -13,6 +13,7 @@
  *   func_02034714  0x02034714  arm
  *   func_02183F98  0x02183F98  thumb ov022
  */
+#include "../include/Obj19267.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -25,7 +26,7 @@ void func_02173EEC(int a, int b, void *value, u8 *p)
 {
     u8 *q;
     if (func_0203D378() != 1) {
-        q = *(u8 **)(p + 0x3528);
+        q = *(u8 * *)&((struct Obj19267 *)p)->f3528;
         if (q == 0) {
             func_02034714((void *)0x02175624, 0, (void *)0x02175624);
             return;

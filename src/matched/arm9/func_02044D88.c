@@ -27,6 +27,7 @@
  *     in its spill slot from its first store, and initialising both up
  *     front adds a reload (312 bytes).
  */
+#include "../include/Obj08850.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -68,13 +69,13 @@ void func_02044D88(struct Surf *s, s32 x, s32 y, s32 w, u16 h, u8 value)
                     odd = 1;
                 } else
                     odd = 0;
-                c = *(u16 *)a;
+                c = ((struct Obj08850 *)a)->f0;
                 hi = c >> 8;
                 lo = c & 0xff;
                 sh = (u32)(j << 31) >> 29;
                 if (odd == 0)
-                    *(u16 *)a = (((0xf0 >> sh) & lo) | (value << sh)) | (hi << 8);
+                    ((struct Obj08850 *)a)->f0 = (((0xf0 >> sh) & lo) | (value << sh)) | (hi << 8);
                 else
-                    *(u16 *)a = (((hi & (0xf0 >> sh)) | (value << sh)) << 8) | lo;
+                    ((struct Obj08850 *)a)->f0 = (((hi & (0xf0 >> sh)) | (value << sh)) << 8) | lo;
             }
 }

@@ -13,6 +13,7 @@
  *   func_0203FA08 0x0203FA08 arm
  *   func_0203FB44 0x0203FB44 arm
  */
+#include "../include/Obj05550.h"
 
 typedef unsigned int   u32;
 extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
@@ -27,6 +28,6 @@ void func_021F6280(int unused, unsigned char *q)
     q[0x71] = 0x18;
     q[0x72] = 0xd;
     q[0x73] = 1;
-    *(unsigned short *)(q + 0x74) = h;
-    *(int *)(q + 0x7c) = 2;
+    ((struct Obj05550 *)q)->f74 = h;
+    ((struct Obj05550 *)q)->f7C = 2;
 }

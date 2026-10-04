@@ -12,6 +12,7 @@
  * symbols:
  *   func_02061CA4 0x02061CA4 arm
  */
+#include "../include/Obj24975.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ extern s32 func_02061CA4(void *p, u32 a, u32 b, s32 size);
 
 void func_022082DC(Fade *p)
 {
-    u16 *src = *(u16 **)(p->f04 + 0xc);
+    u16 *src = *(u16 * *)&((struct Obj24975 *)(p->f04))->fC;
     u8 i;
     s16 tr, tg, tb;
     s16 r, g, b;

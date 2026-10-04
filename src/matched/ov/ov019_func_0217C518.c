@@ -20,6 +20,7 @@
  *   func_02173B4C  0x02173B4C  thumb  ov012
  *   func_02080D24  0x02080D24  arm
  */
+#include "../include/Obj12524.h"
 
 typedef unsigned char u8;
 
@@ -46,7 +47,7 @@ int func_0217C518(u8 *a, u8 *b, int c, u8 *d)
     case 0:
         func_02173518(b + 0x14);
         func_021734A8(a, 4, 1);
-        func_021735FC(b + 0x14, (const struct Entry *)(*(int *)(b + 0x20)));
+        func_021735FC(b + 0x14, (const struct Entry *)(((struct Obj12524 *)b)->f20));
         r = (int)func_020399A8();
         func_02039C68((struct Link *)r, 2, 0x14);
         (*d)++;

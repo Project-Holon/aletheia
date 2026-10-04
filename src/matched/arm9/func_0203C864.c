@@ -24,6 +24,7 @@
  *   python tools/match.py one --src src/matched/func_0203C864.c \
  *       --func func_0203C864 --addr 0x0203C864 --cc 1.1p1 --arm
  */
+#include "../include/Obj15970.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -39,7 +40,7 @@ void func_0203C864(void)
 {
     u8 *p = func_0203D798();
 
-    if (func_02037700(0x200, *(u16 *)(p + 0x56)) == 0)
+    if (func_02037700(0x200, ((struct Obj15970 *)p)->f56) == 0)
         return;
 
     func_0203AD80((u32)g_021469DC, 0x0203C7E0, 0, 0x74A);

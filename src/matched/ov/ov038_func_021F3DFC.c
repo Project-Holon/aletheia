@@ -27,6 +27,7 @@
  *   func_021BE6CC  0x021BE6CC  thumb  ov021
  *   func_020061E4  0x020061E4  thumb
  */
+#include "../include/Obj00881.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -82,10 +83,10 @@ int func_021F3DFC(int a0, int *a1)
         func_02006210();
         *a1 = *a1 + 1;
     case 1:
-        if (*(int *)(s + 0x14) != 0) {
-            if (func_02197DA0(*(int *)(s + 0x14)) == 1) {
-                func_02197DAC((void *)(*(int *)(s + 0x14)));
-                *(int *)(s + 0x14) = 0;
+        if (((struct Obj00881 *)s)->f14 != 0) {
+            if (func_02197DA0(((struct Obj00881 *)s)->f14) == 1) {
+                func_02197DAC((void *)(((struct Obj00881 *)s)->f14));
+                ((struct Obj00881 *)s)->f14 = 0;
                 s[5] = 0;
                 *a1 = *a1 + 1;
             }
@@ -94,7 +95,7 @@ int func_021F3DFC(int a0, int *a1)
             *a1 = *a1 + 1;
         }
         if (*a1 == 2)
-            *(int *)(s + 0x20) = 0;
+            ((struct Obj00881 *)s)->f20 = 0;
         break;
     case 2:
         func_021A3038(q, (struct VecFx32 *)&v);
@@ -102,22 +103,22 @@ int func_021F3DFC(int a0, int *a1)
         s[5]++;
         if (s[6] == 0) {
             v.z += s[5] << 12;
-            if (v.z >= *(int *)(s + 0x10)) {
-                v.z = *(int *)(s + 0x10);
+            if (v.z >= ((struct Obj00881 *)s)->f10) {
+                v.z = ((struct Obj00881 *)s)->f10;
                 done = 1;
             }
-            d = (*(int *)(s + 0x10) - v.z) / 2;
+            d = (((struct Obj00881 *)s)->f10 - v.z) / 2;
         } else {
             v.z += -s[5] << 12;
-            if (v.z <= *(int *)(s + 0x10)) {
-                v.z = *(int *)(s + 0x10);
+            if (v.z <= ((struct Obj00881 *)s)->f10) {
+                v.z = ((struct Obj00881 *)s)->f10;
                 done = 1;
             }
-            d = (v.z - *(int *)(s + 0x10)) / 2;
+            d = (v.z - ((struct Obj00881 *)s)->f10) / 2;
         }
-        if (*(int *)(s + 0x20) == 0 && d != 0) {
+        if (((struct Obj00881 *)s)->f20 == 0 && d != 0) {
             func_020061E4(0x6C4);
-            *(int *)(s + 0x20) = 1;
+            ((struct Obj00881 *)s)->f20 = 1;
         }
         func_021BE6CC(h, 0, 0x22, k, d);
         func_021A3044(q, &v);

@@ -9,20 +9,21 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj03922.h"
 
 void func_021BFAE8(char *p, unsigned int v)
 {
-    *(unsigned int *)(p + 28) = v;
-    *(unsigned int *)(p + 32) = 0;
+    ((struct Obj03922 *)p)->f1C = v;
+    ((struct Obj03922 *)p)->f20 = 0;
     switch (v)
     {
     case 0:
-        *(unsigned int *)(p + 40) = 60;
-        *(unsigned int *)(p + 28) = 1;
+        ((struct Obj03922 *)p)->f28 = 60;
+        ((struct Obj03922 *)p)->f1C = 1;
         break;
-    case 1: *(unsigned int *)(p + 40) = 70; break;
-    case 2: *(unsigned int *)(p + 40) = 50; break;
-    case 3: *(unsigned int *)(p + 40) = 50; break;
-    case 4: *(unsigned int *)(p + 40) = 70; break;
+    case 1: ((struct Obj03922 *)p)->f28 = 70; break;
+    case 2: ((struct Obj03922 *)p)->f28 = 50; break;
+    case 3: ((struct Obj03922 *)p)->f28 = 50; break;
+    case 4: ((struct Obj03922 *)p)->f28 = 70; break;
     }
 }

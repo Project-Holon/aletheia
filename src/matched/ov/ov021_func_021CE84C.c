@@ -17,6 +17,7 @@
  *   func_02190758  0x02190758  thumb  ov021
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj02736.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -33,7 +34,7 @@ int func_021CE84C(u32 *p, int n)
 {
     if (p[3] && func_0219077C(p[3]) == 1) {
         func_02190794((struct Slot **)p[3], 0, 0x40, 0x90, 0x50);
-        func_0201EFA4((struct WordSet *)p[1], 0, *(u8 *)((u8 *)p + 0x51d) - n, 1, 0, 1);
+        func_0201EFA4((struct WordSet *)p[1], 0, ((struct Obj02736 *)p)->f51D - n, 1, 0, 1);
         func_0201F250((struct WordSet *)p[1], (void *)p[10], (void *)p[9]);
         func_02190758(p[3], 0, 0x40, p[10]);
         return 1;

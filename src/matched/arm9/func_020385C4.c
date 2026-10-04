@@ -33,6 +33,7 @@
  * line numbers are 0x4d5, 0x4da, 0x4e1 and 0x4f4.  The assert at +0x50 is
  * the usual func_02034714(file, line, expr) triple.
  */
+#include "../include/Obj03447.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -98,7 +99,7 @@ void func_020385C4(void)
             u8 *g = (u8 *)g_021469D0;
             u32 t = func_02037258();
 
-            func_02038AE0((struct Hdr *)(*(u32 *)(g + 8)), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
+            func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
             g = (u8 *)g_021469D0;
             g[0x1d4] = (u8)(g[0x1d4] + 1);
             func_02037224(1, 0x4f4);
@@ -114,7 +115,7 @@ void func_020385C4(void)
         u8 *g = (u8 *)g_021469D0;
         u32 t = func_02037258();
 
-        func_02038AE0((struct Hdr *)(*(u32 *)(g + 8)), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
+        func_02038AE0((struct Hdr *)(((struct Obj03447 *)g)->f8), (struct Conn *)(g + 0xf4), t, g[0x1d4]);
         g = (u8 *)g_021469D0;
         g[0x1d4] = (u8)(g[0x1d4] + 1);
         func_02037224(1, 0x501);

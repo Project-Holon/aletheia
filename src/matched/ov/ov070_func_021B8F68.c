@@ -12,14 +12,15 @@
  * symbols:
  *   func_02012B70 0x02012B70 thumb
  */
+#include "../include/Obj09879.h"
 typedef unsigned char  u8;
 struct BigObj;
 extern u8 func_02012B70(const struct BigObj *p);
 int func_021B8F68(char *p, int value)
 {
-    if (*(int *)(p + 0x10) == 3 || *(int *)(p + 0x10) == 1)
+    if (((struct Obj09879 *)p)->f10 == 3 || ((struct Obj09879 *)p)->f10 == 1)
         return 0;
-    if (func_02012B70((const struct BigObj *)(*(int *)p)) == 1 && value == 4)
+    if (func_02012B70((const struct BigObj *)(((struct Obj09879 *)p)->f0)) == 1 && value == 4)
         return 0;
     return 1;
 }

@@ -15,6 +15,7 @@
  *   func_021B93D4  0x021B93D4  thumb
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj09187.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -40,15 +41,15 @@ int func_021B96AC(u8 *a, u8 *b)
         if (key == 0xFFFF)
             continue;
         row = func_021B87FC(b, key);
-        r4 = func_021B87D8(b, *(u32 *)row);
-        r0 = func_021B87D8(b, *(u32 *)(row + 4));
+        r4 = func_021B87D8(b, ((struct Obj09187 *)row)->f0);
+        r0 = func_021B87D8(b, ((struct Obj09187 *)row)->f4);
         if (r4 != a && r0 != a)
             return 0;
         if (*(u32 *)(a + i * 4 + 0x10) == 0)
             continue;
         for (j = i + 1; j < 4; j++) {
             if (*(u32 *)(a + i * 4 + 0x10) == (u32)func_021B93D4(*(u32 *)(a + j * 4 + 0x10))) {
-                if (*(u32 *)(row + 8) != *(u32 *)(func_021B87FC(b, *(u32 *)(a + j * 4)) + 8))
+                if (((struct Obj09187 *)row)->f8 != *(u32 *)(func_021B87FC(b, *(u32 *)(a + j * 4)) + 8))
                     return 0;
             }
         }

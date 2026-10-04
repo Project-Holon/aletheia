@@ -16,11 +16,12 @@
  * address of the ARM9 function at 0x02021D50).
  *
  */
+#include "../include/Obj18185.h"
 
 struct S02021D50;
 extern void func_02021D50(struct S02021D50 *p);
 
 void func_021BC6BC(char *p)
 {
-    func_02021D50((struct S02021D50 *)(*(int *)(p + 8)));
+    func_02021D50((struct S02021D50 *)(((struct Obj18185 *)p)->f8));
 }

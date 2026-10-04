@@ -13,6 +13,7 @@
  *   python tools/match.py one --src src/matched/func_0201093C.c \
  *       --func func_0201093C --addr 0x0201093C --thumb --cc 1.1p1
  */
+#include "../include/Obj15613.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -28,7 +29,7 @@ extern void func_02010964(u8 *p);
 void func_0201093C(u8 *p)
 {
     if (func_02039CB4((struct Link *)func_020399A8(), 0x71, 8) != 0) {
-        func_02012DAC(*(u32 *)(p + 0xc));
+        func_02012DAC(((struct Obj15613 *)p)->fC);
         func_02010888(p, (u32)func_02010964);
     }
 }

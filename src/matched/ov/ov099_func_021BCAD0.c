@@ -22,6 +22,8 @@
  * Twin of func_021BC958: stores 1 - r at +0x20 of the record at +0x248 and
  * hands +0x23a to func_0202020C.
  */
+#include "../include/Obj02154.h"
+#include "../include/Obj22031.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -45,24 +47,24 @@ int func_021BCAD0(char *p, int v)
     int r;
     int q;
 
-    q = *(int *)(p + 0x1B8);
-    if (*(u8 *)(p + 0x1B0) != 0) {
-        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC)))) == 0) {
-            func_02045334((struct Descriptor *)*(int *)(p + 0x1AC));
-            *(u8 *)(p + 0x1B0) = 0;
+    q = ((struct Obj02154 *)p)->f1B8;
+    if (((struct Obj02154 *)p)->f1B0 != 0) {
+        if (func_0201C6C4((struct PrintSys *)q, (void *)((int)func_02045770((struct Descriptor *)((struct Obj02154 *)p)->f1AC))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj02154 *)p)->f1AC);
+            ((struct Obj02154 *)p)->f1B0 = 0;
         }
     }
-    r = func_020200CC((struct Obj *)(*(int *)(p + 0xbc)));
+    r = func_020200CC((struct Obj *)(((struct Obj02154 *)p)->fBC));
     if (r != -2) {
         if (r == -1) {
             return v;
         }
-        *(u8 *)(*(char **)(p + 0x248) + 0x20) = 1 - r;
+        ((struct Obj22031 *)(*(char * *)&((struct Obj02154 *)p)->f248))->f20 = 1 - r;
     }
-    *(u32 *)(p + 0x1CC) = 0x4e;
+    ((struct Obj02154 *)p)->f1CC = 0x4e;
     func_021BA8EC(p);
-    *(void **)(p + 0x1A4) = (void *)func_021BA8BC(*(void **)(p + 0x1A4));
-    func_0202020C((struct Obj *)(*(int *)(p + 0xbc)), 0, (u16 *)(p + 0x23a));
-    func_0201F868((void *)(*(int *)(p + 0xb8)));
+    ((struct Obj02154 *)p)->f1A4 = (void *)func_021BA8BC(((struct Obj02154 *)p)->f1A4);
+    func_0202020C((struct Obj *)(((struct Obj02154 *)p)->fBC), 0, (u16 *)(p + 0x23a));
+    func_0201F868((void *)(((struct Obj02154 *)p)->fB8));
     return v;
 }

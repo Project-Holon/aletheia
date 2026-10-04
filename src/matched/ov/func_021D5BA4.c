@@ -16,8 +16,9 @@
  * at +0x146 of its argument.  Matched to supply the `matched` witness for the
  * pending ov096 caller func_02189A9C.
  */
+#include "../include/Obj18410.h"
 
 unsigned short func_021D5BA4(int *p)
 {
-    return *(unsigned short *)((char *)p + 0x146);
+    return ((struct Obj18410 *)p)->f146;
 }

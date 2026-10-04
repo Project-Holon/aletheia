@@ -38,6 +38,8 @@
  *   func_0215874C  0x0215874C  thumb  ov010
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj03104.h"
+#include "../include/Obj05698.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -87,12 +89,12 @@ void func_021893C0(u8 *p)
     u32 s4;
     u32 s0;
 
-    sys = func_020120F4((const struct Ctx *)(*(u32 *)(p + 4)));
+    sys = func_020120F4((const struct Ctx *)(((struct Obj03104 *)p)->f4));
     s4 = func_02012844(sys);
-    s0 = *(u32 *)(p + 0x38);
-    v = func_02012974((const struct BigObj *)(*(u32 *)(p + 8)));
+    s0 = ((struct Obj03104 *)p)->f38;
+    v = func_02012974((const struct BigObj *)(((struct Obj03104 *)p)->f8));
     func_0203D12C(2);
-    func_021AA8EC((u8 *)(*(u32 *)(p + 0x90)));
+    func_021AA8EC((u8 *)(((struct Obj03104 *)p)->f90));
     func_020141E0(q, &pos);
     v = func_02159BD4(v, pos.x, pos.z);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
@@ -107,14 +109,14 @@ void func_021893C0(u8 *p)
     func_021895D0(p, v);
     func_021895BC(sys, v);
     func_02189684(p, v);
-    if (*(u32 *)(p + 0x30) != 0 && func_020120D8((char *)*(u32 *)(p + 4)) == 0)
-        func_021BC550((void *)(*(u32 *)(p + 0x30)), v);
-    *(short *)(q + 4) = v;
+    if (((struct Obj03104 *)p)->f30 != 0 && func_020120D8((char *)((struct Obj03104 *)p)->f4) == 0)
+        func_021BC550((void *)(((struct Obj03104 *)p)->f30), v);
+    ((struct Obj05698 *)q)->f4 = v;
     func_0202735C(v, sys);
     func_0215A014(sys, v);
-    func_02158AE0((void *)(*(u32 *)(p + 4)), (void *)4);
+    func_02158AE0((void *)(((struct Obj03104 *)p)->f4), (void *)4);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     func_021894E0((int)sys, s0, s4, v);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_0215874C((void *)func_02012138((const struct Ctx *)*(u32 *)(p + 4)));
+    func_0215874C((void *)func_02012138((const struct Ctx *)((struct Obj03104 *)p)->f4));
 }

@@ -19,6 +19,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj13470.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -48,7 +49,7 @@ void func_021DAF58(int unused, void *a, int id)
             func_021C88C8(a, r);
             r = (u8 *)func_021C88A4(a, 0x17, id);
             r[8] = id;
-            *(u32 *)(r + 4) = 13;
+            ((struct Obj13470 *)r)->f4 = 13;
             func_021C88C8(a, r);
         } else {
             r = (u8 *)func_021C88A4(a, 4, id);

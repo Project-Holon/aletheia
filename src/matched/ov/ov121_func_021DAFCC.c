@@ -15,6 +15,8 @@
  *   func_021DD9CC 0x021DD9CC thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
  */
+#include "../include/Obj10417.h"
+#include "../include/Obj22899.h"
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern int func_021DA2C8(u8 *p);
@@ -28,8 +30,8 @@ static inline void update(void *p)
 void func_021DAFCC(char *p)
 {
     int i;
-    func_021DA2C8(*(void **)(p+0xab8));
-    if(*(void **)(p+0xab4)) func_021D9B34(*(void **)(p+0xab4));
+    func_021DA2C8(((struct Obj10417 *)p)->fAB8);
+    if(((struct Obj10417 *)p)->fAB4) func_021D9B34(((struct Obj10417 *)p)->fAB4);
     for(i=0;i<12;i++) {
         void *q=*(void **)(p+i*4+0xa7c);
         if(q) update(q);
@@ -37,5 +39,5 @@ void func_021DAFCC(char *p)
 }
 int func_021DB008(char *p)
 {
-    return func_021DA8AC(*(void **)(p+0xac4));
+    return func_021DA8AC(((struct Obj22899 *)p)->fAC4);
 }

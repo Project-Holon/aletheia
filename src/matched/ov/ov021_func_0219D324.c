@@ -16,6 +16,7 @@
  *   func_0219C880  0x0219C880  thumb  ov021
  *   func_02050468  0x02050468  arm
  */
+#include "../include/Obj02700.h"
 
 extern int func_0216DA30(int);
 typedef unsigned short u16;
@@ -33,17 +34,17 @@ void func_0219D324(int *obj, int *rec)
 
     h = rec[0];
     if (func_0216DA30(h) == 0) {
-        func_0219C880(obj, h, *(unsigned short *)(rec + 1), *((unsigned short *)(rec + 1) + 1));
-        func_02050468((struct BbActSys *)obj[1], *(unsigned short *)(rec + 1), 1);
+        func_0219C880(obj, h, ((struct Obj02700 *)rec)->f4, *((unsigned short *)(rec + 1) + 1));
+        func_02050468((struct BbActSys *)obj[1], ((struct Obj02700 *)rec)->f4, 1);
         rec[0] = 0;
         return;
     }
     if ((unsigned short)func_0216D7A8((void *)h, 0) != 0xFFFF) {
         n = *((unsigned short *)(rec + 1) + 1);
         if (n != func_0216D598((void *)h)) {
-            func_0219C880(obj, h, *(unsigned short *)(rec + 1), n);
+            func_0219C880(obj, h, ((struct Obj02700 *)rec)->f4, n);
         }
-        func_02050468((struct BbActSys *)obj[1], *(unsigned short *)(rec + 1), 1);
+        func_02050468((struct BbActSys *)obj[1], ((struct Obj02700 *)rec)->f4, 1);
         rec[0] = 0;
     }
 }

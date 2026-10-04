@@ -53,6 +53,7 @@
  *   python tools/match.py one --src src/pending/sub_02010360.c \
  *       --func sub_02010360 --addr 0x02010360 --thumb
  */
+#include "../include/Obj07083.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -85,11 +86,11 @@ u8 *sub_02010360(int idx, void *heap)
         func_02034714(&sWihDwc, 0, &sWihDwc);
     }
     p = func_0203D7C8((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
-    *(u16 *)(p + 0x310) = idx;
-    *(u8 **)(p + 0x300) = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
+    ((struct Obj07083 *)p)->f310 = idx;
+    *(u8 * *)&((struct Obj07083 *)p)->f300 = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
     func_0217963C(func_0201045C);
     g_021461E0.f0 = p;
-    *(u8 **)(p + 0x304) = g_021461E0.f4;
+    *(u8 * *)&((struct Obj07083 *)p)->f304 = g_021461E0.f4;
     func_02034AC4((int)ov015_id);
     return p;
 }

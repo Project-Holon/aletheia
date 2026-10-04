@@ -20,6 +20,7 @@
  *   func_021AB358  0x021AB358  thumb  ov021
  *   func_021BBFB8  0x021BBFB8  thumb  ov021
  */
+#include "../include/Obj00110.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -38,7 +39,7 @@ extern void func_021BBFB8(u32 a, u32 b, u32 c, u32 d);
 void func_021637E4(int a, int q)
 {
     int r4, r7, s;
-    u8 *t = *(u8 **)(q + 0x10);
+    u8 *t = *(u8 * *)&((struct Obj00110 *)q)->f10;
 
     if (t[6] == 0) {
         return;
@@ -47,7 +48,7 @@ void func_021637E4(int a, int q)
         return;
     }
     r4 = -1;
-    if (*(u16 *)(q + 0xe) & 0x40) {
+    if (((struct Obj00110 *)q)->fE & 0x40) {
         r4 = *(int *)(q + 4);
     } else {
         r7 = func_02163F40(a, 1);
@@ -64,6 +65,6 @@ void func_021637E4(int a, int q)
     if (func_021AB440(r4) == 1 || func_021AB358(r4) == 1) {
         r7 = 2;
     }
-    func_021BBFB8(s, a, *(int *)(q + 0x14), r7);
+    func_021BBFB8(s, a, ((struct Obj00110 *)q)->f14, r7);
     func_0216DC18(a, 1);
 }

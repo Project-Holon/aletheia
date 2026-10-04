@@ -10,7 +10,8 @@
  * symbols:
 
  */
+#include "../include/Obj24981.h"
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-void func_02208A2C(char *p){*(int *)(p+18452)=1;}
+void func_02208A2C(char *p){((struct Obj24981 *)p)->f4814=1;}

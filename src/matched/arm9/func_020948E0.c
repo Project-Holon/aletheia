@@ -49,6 +49,8 @@
  *   python3 tools/match.py one --src src/matched/func_020948E0.c \
  *       --func func_020948E0 --addr 0x020948E0 --cc 1.1p1 --arm
  */
+#include "../include/Obj00079.h"
+#include "../include/Obj02480.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 
@@ -59,8 +61,8 @@ int func_020948E0(const char *s1, const char *s2)
     u32 w1;
     u32 w2;
 
-    w1 = *(const u8 *)s1;
-    diff = w1 - *(const u8 *)s2;
+    w1 = *(const u8 *)&((struct Obj00079 *)s1)->f0;
+    diff = w1 - *(const u8 *)&((struct Obj02480 *)s2)->f0;
     if (diff != 0) {
         return diff;
     }
@@ -114,8 +116,8 @@ mismatch_word:
     goto byte_loop;
 
 find_in_word:
-    w1 = *(const u8 *)s1;
-    diff = w1 - *(const u8 *)s2;
+    w1 = *(const u8 *)&((struct Obj00079 *)s1)->f0;
+    diff = w1 - *(const u8 *)&((struct Obj02480 *)s2)->f0;
     if (diff != 0) {
         return diff;
     }

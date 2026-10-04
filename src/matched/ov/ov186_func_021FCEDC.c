@@ -12,6 +12,7 @@
  *   func_02035CB8 0x02035CB8 arm
  *   d_02200AF0 0x02200AF0 data a4
  */
+#include "../include/Obj00048.h"
 extern int func_02035BA4(const void *);
 extern void func_02035CB8(int *,int *);
 extern const char d_02200AF0[];
@@ -22,15 +23,15 @@ int func_021FCEDC(char *p)
     int delta,absolute;
     if(func_02035BA4(d_02200AF0)!=-1) {
         func_02035CB8(&x,&y);
-        if(*(int *)(p+0x84)==0) {*(int *)(p+0x84)=1;*(unsigned short *)(p+0x88)=y;}
+        if(((struct Obj00048 *)p)->f84==0) {((struct Obj00048 *)p)->f84=1;((struct Obj00048 *)p)->f88=y;}
         else {
-            delta=y-*(unsigned short *)(p+0x88);
+            delta=y-((struct Obj00048 *)p)->f88;
             if(delta<0) absolute=-delta;else absolute=delta;
             if(absolute>8) {
                 if(delta<0) direction=-1;else direction=1;
-                *(unsigned short *)(p+0x88)=y;
+                ((struct Obj00048 *)p)->f88=y;
             }
         }
-    } else if(*(int *)(p+0x84)) *(int *)(p+0x84)=0;
+    } else if(((struct Obj00048 *)p)->f84) ((struct Obj00048 *)p)->f84=0;
     return direction;
 }

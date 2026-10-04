@@ -29,6 +29,7 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_0201D83C 0x0201D83C thumb
  */
+#include "../include/Obj02908.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -59,24 +60,24 @@ extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32);
 int func_021F168C(void *a,u32 b,u32 c,u8 *d)
 {
-    func_021F5354(*(u8 **)(d+716));
+    func_021F5354(*(u8 * *)&((struct Obj02908 *)d)->f2CC);
     func_021F3ED0(d+596);
     func_021F3D54(d+560);
     func_021F31B8(d+252);
-    func_02045808(*(void **)(d+720));
-    func_021F4D78(*(u8 **)(d+556));
+    func_02045808(((struct Obj02908 *)d)->f2D0);
+    func_021F4D78(*(u8 * *)&((struct Obj02908 *)d)->f22C);
     func_021F1F7C(d+104);
     func_021F4608(d+672);
     func_021F42A0(d+612);
     func_021F1968(d+4);
     func_021F1878(d+100);
-    func_02025588(*(void **)(d+704));
-    func_021F4B84(*(void **)d);
-    func_0201ED04(*(void **)(d+700));
-    func_02045C04(*(void **)(d+696));
-    func_0201C6EC(*(void **)(d+692));
-    func_0201C4C0(*(void **)(d+692));
-    func_0201D83C(*(void **)(d+688));
+    func_02025588(((struct Obj02908 *)d)->f2C0);
+    func_021F4B84(((struct Obj02908 *)d)->f0);
+    func_0201ED04(((struct Obj02908 *)d)->f2BC);
+    func_02045C04(((struct Obj02908 *)d)->f2B8);
+    func_0201C6EC(((struct Obj02908 *)d)->f2B4);
+    func_0201C4C0(((struct Obj02908 *)d)->f2B4);
+    func_0201D83C(((struct Obj02908 *)d)->f2B0);
     func_020315D4(a);
     func_020306F0(30);
     return 1;

@@ -17,6 +17,7 @@
  *   func_021B79E4 0x021B79E4 thumb ov067
  *   d_021C0CC0 0x021C0CC0 data a4
  */
+#include "../include/Obj06699.h"
 typedef unsigned short u16;
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0CC0;
@@ -37,10 +38,10 @@ void func_021C04CC(char *ctx)
     config.zero = 0;
     config.offset = 0;
     config.ctx = ctx;
-    *(void **)(ctx + 0x1e0) = func_021B7754(&config, 123);
-    *(unsigned *)(ctx + 0x2ac) = config.count;
-    func_021B7A10(*(void **)(ctx + 0x1e0), archive, 98, 0, 0);
-    func_021B7A4C(*(void **)(ctx + 0x1e0), archive, 73, 2, 3);
+    ((struct Obj06699 *)ctx)->f1E0 = func_021B7754(&config, 123);
+    ((struct Obj06699 *)ctx)->f2AC = config.count;
+    func_021B7A10(((struct Obj06699 *)ctx)->f1E0, archive, 98, 0, 0);
+    func_021B7A4C(((struct Obj06699 *)ctx)->f1E0, archive, 73, 2, 3);
     func_02049238(archive);
-    for (i = 0; i < 14; i++) func_021B79E4(*(void **)(ctx + 0x1e0), 0, i);
+    for (i = 0; i < 14; i++) func_021B79E4(((struct Obj06699 *)ctx)->f1E0, 0, i);
 }

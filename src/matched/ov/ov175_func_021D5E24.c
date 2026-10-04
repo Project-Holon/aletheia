@@ -33,6 +33,7 @@
  *   func_02012DD0 0x02012DD0 thumb
  *   func_021E8AA8 0x021E8AA8 thumb ov177
  */
+#include "../include/Obj02885.h"
 typedef unsigned int u32;
 typedef unsigned long ul;
 typedef unsigned char u8;
@@ -67,7 +68,7 @@ void func_021D5E24(unsigned sys, int *state, char *p)
     void *list;
     switch (*state) {
     case 0:
-        if (*(int *)(q + 12) == 2) func_021E8AA0((int *)sys, (int)func_021D6000);
+        if (((struct Obj02885 *)q)->fC == 2) func_021E8AA0((int *)sys, (int)func_021D6000);
         else *state = 3;
         break;
     case 3:
@@ -77,19 +78,19 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         TIMER = 0;
         break;
     case 1:
-        if (func_021DC2C0(P(0x30), *(char **)(q + 0x2c) + 0x10)) *state = 2;
+        if (func_021DC2C0(P(0x30), *(char * *)&((struct Obj02885 *)q)->f2C + 0x10)) *state = 2;
         break;
     case 2:
-        if (func_021DC2D8((char *)P(0x30), (ul *)(*(char **)(q + 0x2c) + 0x14))) *state = 4;
+        if (func_021DC2D8((char *)P(0x30), (ul *)(*(char * *)&((struct Obj02885 *)q)->f2C + 0x14))) *state = 4;
         switch (func_021D9F04((char *)P(0x30), 0, (void *)1)) {
         case 1: case 4: TIMER = 0; *state = 7; break;
         case 2: TIMER = 0; func_021E8AA0((int *)sys, (int)func_021D61A4); break;
         }
         break;
     case 4:
-        list = func_0200ED48(func_02012EBC((struct Big *)**(int **)(q + 8)));
-        func_0200ED54(list, func_02008530(*(void **)(q + 0x18)));
-        func_021E8AC0(**(int **)(q + 8), **(int **)(q + 0x2c));
+        list = func_0200ED48(func_02012EBC((struct Big *)**(int * *)&((struct Obj02885 *)q)->f8));
+        func_0200ED54(list, func_02008530(((struct Obj02885 *)q)->f18));
+        func_021E8AC0(**(int * *)&((struct Obj02885 *)q)->f8, **(int * *)&((struct Obj02885 *)q)->f2C);
         func_021DA384((char *)P(0x30));
         *state = 5;
         break;
@@ -113,13 +114,13 @@ void func_021D5E24(unsigned sys, int *state, char *p)
         func_021E8AB4(sys, 9);
         break;
     case 9:
-        func_02012DAC(**(int **)(q + 8));
+        func_02012DAC(**(int * *)&((struct Obj02885 *)q)->f8);
         *state = 10;
         break;
     case 10:
-        switch (func_02012DD0((u8 *)**(int **)(q + 8))) {
+        switch (func_02012DD0((u8 *)**(int * *)&((struct Obj02885 *)q)->f8)) {
         case 0: case 1: break;
-        case 2: case 3: *(int *)(q + 4) = 2; func_021E8AA8(sys); break;
+        case 2: case 3: ((struct Obj02885 *)q)->f4 = 2; func_021E8AA8(sys); break;
         }
         break;
     case 11:

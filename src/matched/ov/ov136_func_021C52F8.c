@@ -17,6 +17,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020450C8 0x020450C8 arm
  */
+#include "../include/Obj01751.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct Descriptor;
@@ -35,13 +36,13 @@ void func_021C52F8(u8 *p)
     int i;
     void *q;
     if (p[0xB] == 1) {
-        func_02028148(*(void **)(p + 0x128));
-        func_02028148(*(void **)(p + 0x12C));
-        func_02045808(*(void **)(p + 0x130));
-        func_02045808(*(void **)(p + 0x13C));
+        func_02028148(((struct Obj01751 *)p)->f128);
+        func_02028148(((struct Obj01751 *)p)->f12C);
+        func_02045808(((struct Obj01751 *)p)->f130);
+        func_02045808(((struct Obj01751 *)p)->f13C);
     }
-    func_0201C4C0(*(void **)(p + 0x98));
-    *(void **)(p + 0x98) = 0;
+    func_0201C4C0(((struct Obj01751 *)p)->f98);
+    ((struct Obj01751 *)p)->f98 = 0;
     for (i = 0; i < 7; i++) {
         q = *(void **)(p + i * 4 + 0x44);
         func_020456F8(q);

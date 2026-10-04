@@ -34,6 +34,7 @@
  *
  * Error poll: while the link is up, classifies the transport error through 0x02157170 (0..4); otherwise classifies the stored error record by its kind, and on a nonzero class shuts the screens down, runs the class action (1 reset, 2 fatal screen, 3 retry) and clears the record.
  */
+#include "../include/Obj08279.h"
 
 typedef unsigned long u32;
 
@@ -72,8 +73,8 @@ int func_021D9F04(char *ctx, void *a, void *b)
             func_0203D7B0(r);
             func_0203D7BC(r);
             func_02006210();
-            if (func_02012E40((const u8 *)(*(u32 *)(ctx + 8)))) {
-                func_02012E08((char *)(*(u32 *)(ctx + 8)));
+            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+                func_02012E08((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
         }
@@ -122,8 +123,8 @@ int func_021D9F04(char *ctx, void *a, void *b)
             func_0203D7B0(0);
             func_0203D7BC(0);
             func_02006210();
-            if (func_02012E40((const u8 *)(*(u32 *)(ctx + 8)))) {
-                func_02012E08((char *)(*(u32 *)(ctx + 8)));
+            if (func_02012E40((const u8 *)(((struct Obj08279 *)ctx)->f8))) {
+                func_02012E08((char *)(((struct Obj08279 *)ctx)->f8));
                 func_0200F7C0(0x29);
             }
         }

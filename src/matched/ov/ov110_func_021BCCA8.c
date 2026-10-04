@@ -16,6 +16,7 @@
  *   d_021C38DF 0x021C38DF data a1
  *   d_021C38D4 0x021C38D4 data a1
  */
+#include "../include/Obj13784.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 pad[0x70]; void *items[8]; } Object;
@@ -32,7 +33,7 @@ void func_021BCCA8(Object *p) {
     int i;
     int state;
     old=-1; new=-1;
-    selected=func_021BF6E4(*(void **)((u8 *)p+4));
+    selected=func_021BF6E4(((struct Obj13784 *)p)->f4);
     for(i=1;i<=5;i++) {
         state=func_0204B898(p->items[i]);
         if(state==d_021C38DF[i*2+1]) { old=i; break; }

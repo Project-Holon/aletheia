@@ -35,6 +35,7 @@
  *   python tools/match.py one --src src/matched/func_020518AC.c \
  *       --func func_020518AC --addr 0x020518AC --cc 1.1p1 --arm
  */
+#include "../include/Obj16187.h"
 
 typedef unsigned short u16;
 
@@ -65,7 +66,7 @@ extern void func_020582CC(struct Obj *o, void *s, int *dst);
 
 void *func_020518AC(void *obj, int kind)
 {
-    struct Blk *b = *(struct Blk **)((char *)obj + 0x20);
+    struct Blk *b = *(struct Blk * *)&((struct Obj16187 *)obj)->f20;
     int i;
     int n = b->count;
 

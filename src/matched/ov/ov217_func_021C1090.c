@@ -18,6 +18,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14757.h"
 
 typedef unsigned char u8;
 
@@ -31,8 +32,8 @@ int func_021C1090(u8 *p, int a1)
 {
     int r;
     int x;
-    x = func_02045738((struct Descriptor *)(*(int *)(p + 0x18))) * 8;
-    x = x - func_0201D304((struct StrObj *)a1, *(int *)(p + 0x10), 0);
+    x = func_02045738((struct Descriptor *)(((struct Obj14757 *)p)->f18)) * 8;
+    x = x - func_0201D304((struct StrObj *)a1, ((struct Obj14757 *)p)->f10, 0);
     r = (int)(0.5f * (float)x);
     if (r < 0) {
         r = 0;

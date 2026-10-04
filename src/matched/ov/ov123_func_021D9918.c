@@ -13,6 +13,7 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#include "../include/Obj03273.h"
 typedef unsigned int   u32;
 struct Descriptor;
 extern void func_0201F7A8(void *desc, u32 kind);
@@ -21,15 +22,15 @@ extern void func_020452E8(struct Descriptor *d);
 extern void func_02041B6C(u32 bit);
 void func_021D9918(char *p)
 {
-    if (*(void **)(p+0x40)) {
-        func_0201F7A8(*(void **)(p+0x40),2);
-        func_020456F8(*(void **)(p+0x40));
-        func_0201F7A8(*(void **)(p+0x44),2);
-        func_020456F8(*(void **)(p+0x44));
-        func_020452E8(*(void **)(p+0x40));
-        func_020452E8(*(void **)(p+0x44));
+    if (((struct Obj03273 *)p)->f40) {
+        func_0201F7A8(((struct Obj03273 *)p)->f40,2);
+        func_020456F8(((struct Obj03273 *)p)->f40);
+        func_0201F7A8(((struct Obj03273 *)p)->f44,2);
+        func_020456F8(((struct Obj03273 *)p)->f44);
+        func_020452E8(((struct Obj03273 *)p)->f40);
+        func_020452E8(((struct Obj03273 *)p)->f44);
         func_02041B6C(5);
-        *(void **)(p+0x40)=0;
-        *(void **)(p+0x44)=0;
+        ((struct Obj03273 *)p)->f40=0;
+        ((struct Obj03273 *)p)->f44=0;
     }
 }

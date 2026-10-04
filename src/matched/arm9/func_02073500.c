@@ -9,5 +9,6 @@
  * isa:      arm
  * status:   EXACT
  */
+#include "../include/Obj00513.h"
 
-int func_02073500(int a0, int a1, int a2, int a3){ int t0, t1; *(unsigned char *)(((char *)(a0) + 46)) = (unsigned char)0; *(unsigned char *)(((char *)(a0) + 45)) = (unsigned char)0; *(unsigned char *)(((char *)(a0) + 47)) = (unsigned char)0; *(unsigned short *)(((char *)(a0) + 52)) = (unsigned short)0; *(unsigned short *)(((char *)(a0) + 62)) = (unsigned short)0; *(unsigned char *)(((char *)(a0) + 64)) = (unsigned char)0x7f; *(unsigned char *)(((char *)(a0) + 65)) = (unsigned char)0x7f; t0 = func_02075B94((int)(a0 + 0x1c), (int)0x7f); t1 = func_02075BAC((int)(a0 + 0x1c), (int)0x7f00, (int)1); return t1; }
+int func_02073500(int a0, int a1, int a2, int a3){ int t0, t1; ((struct Obj00513 *)((char *)(a0)))->f2E = (unsigned char)0; ((struct Obj00513 *)((char *)(a0)))->f2D = (unsigned char)0; ((struct Obj00513 *)((char *)(a0)))->f2F = (unsigned char)0; ((struct Obj00513 *)((char *)(a0)))->f34 = (unsigned short)0; ((struct Obj00513 *)((char *)(a0)))->f3E = (unsigned short)0; ((struct Obj00513 *)((char *)(a0)))->f40 = (unsigned char)0x7f; ((struct Obj00513 *)((char *)(a0)))->f41 = (unsigned char)0x7f; t0 = func_02075B94((int)(a0 + 0x1c), (int)0x7f); t1 = func_02075BAC((int)(a0 + 0x1c), (int)0x7f00, (int)1); return t1; }

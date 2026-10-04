@@ -12,6 +12,7 @@
  *   func_021B8A88 0x021B8A88 thumb ov067
  *   func_0202EE0C 0x0202EE0C thumb
  */
+#include "../include/Obj09865.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -22,5 +23,5 @@ int func_021B8AB8(u8 *p)
 {
     u8 b, a;
     func_021B8A88(p, &b, &a);
-    return func_0202EE0C(*(u16 *)(p + 0x64), *(s16 *)(p + 0x62), b, a, p[0x12]);
+    return func_0202EE0C(((struct Obj09865 *)p)->f64, ((struct Obj09865 *)p)->f62, b, a, p[0x12]);
 }

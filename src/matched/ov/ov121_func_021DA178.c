@@ -12,6 +12,7 @@
  *   func_02045770 0x02045770 arm
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj04493.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 struct Descriptor;
@@ -25,15 +26,15 @@ extern s32 func_020200CC(struct Obj *o);
 extern u32 func_02020350(struct Obj *obj, u32 what);
 int func_021DA178(char *p)
 {
-    u32 q = *(u32 *)(p+4);
+    u32 q = ((struct Obj04493 *)p)->f4;
     int r;
-    if (*(u8 *)(p+12)) {
-        if (func_0201C6C4((struct PrintSys *)q,(void *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+8)))) == 0) {
-            func_02045334((struct Descriptor *)*(u32 *)(p+8));
-            *(u8 *)(p+12)=0;
+    if (((struct Obj04493 *)p)->fC) {
+        if (func_0201C6C4((struct PrintSys *)q,(void *)((u32)func_02045770((struct Descriptor *)((struct Obj04493 *)p)->f8))) == 0) {
+            func_02045334((struct Descriptor *)((struct Obj04493 *)p)->f8);
+            ((struct Obj04493 *)p)->fC=0;
         }
     }
-    r=func_020200CC(*(void **)(p+16));
-    if (r == -2) r=func_02020350(*(void **)(p+16),2)-1;
+    r=func_020200CC(((struct Obj04493 *)p)->f10);
+    if (r == -2) r=func_02020350(((struct Obj04493 *)p)->f10,2)-1;
     return r;
 }

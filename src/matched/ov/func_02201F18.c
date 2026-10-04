@@ -16,6 +16,7 @@
  * descending order, which is the order MWCC lays the bodies out in) and
  * forwards to func_021F9088 with p, the +0xb6c word, the code, 1 and 0x0f0f.
  */
+#include "../include/Obj00018.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -28,7 +29,7 @@ u32 func_02201F18(u8 *p)
 {
     u32 v;
 
-    switch (*(u32 *)(p + 0x38) + 15) {
+    switch (((struct Obj00018 *)p)->f38 + 15) {
     case 14:
         v = 0x9d;
         break;
@@ -78,5 +79,5 @@ u32 func_02201F18(u8 *p)
         v = 0x9f;
         break;
     }
-    return func_021F9088(p, *(u32 *)(p + 0xb6c), v, 1, 0x0f0f);
+    return func_021F9088(p, *(u32 *)&((struct Obj00018 *)p)->fB6C, v, 1, 0x0f0f);
 }

@@ -20,6 +20,7 @@
  *   d_021DDA84     0x021DDA84  data  a4
  *   d_021DDAA4     0x021DDAA4  data  a4
  */
+#include "../include/Obj12626.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -38,10 +39,10 @@ void func_02195530(char *p)
 {
     func_0207F7A0();
     DC_FlushRange(d_021DDA84, 0x20);
-    func_0207F7FC(d_021DDA84, (u16)*(u32 *)(p + 0xCC8) << 3, 0x20);
+    func_0207F7FC(d_021DDA84, (u16)((struct Obj12626 *)p)->fCC8 << 3, 0x20);
     func_0207F9B4();
     func_0207FA0C();
     DC_FlushRange(d_021DDAA4, 0x20);
-    func_0207FA40(d_021DDAA4, (u16)*(u32 *)(p + 0xCCC) << 3, 0x20);
+    func_0207FA40(d_021DDAA4, (u16)((struct Obj12626 *)p)->fCCC << 3, 0x20);
     func_0207FADC();
 }

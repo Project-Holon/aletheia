@@ -25,6 +25,7 @@
  * the four enables.  The four templates are declared together in use order,
  * which is what fixes the stack slots to 0x60/0x40/0x20/0x00.
  */
+#include "../include/Obj12225.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -74,13 +75,13 @@ extern struct BgTemplate g_022039E4;
 
 void func_021FFFE8(u8 *p, u32 a, u32 b)
 {
-    if (*(u32 *)(p + 0x12e0) == 0) {
+    if (((struct Obj12225 *)p)->f12E0 == 0) {
         struct BgTemplate t4;
         struct BgTemplate t6;
         struct BgTemplate t5;
         struct BgTemplate t7;
 
-        *(u32 *)(p + 0x12e0) = 1;
+        ((struct Obj12225 *)p)->f12E0 = 1;
         t4 = g_02203944;
         func_0203FCA0(4, &t4, 0);
         func_02041570(4, 0);

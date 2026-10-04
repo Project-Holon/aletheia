@@ -21,6 +21,7 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_02040588 0x02040588 arm
  */
+#include "../include/Obj01296.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -41,20 +42,20 @@ extern void func_02041B6C(u32);
 extern void func_02040588(u32,u32);
 void func_021F6060(int unused,char *p)
 {
-    func_02049B40(23,5,0,32,32,*(u16 *)p);
-    *(u32 *)(p+92)=func_020450F0(1,0,0,1,1,1,0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+92))),0);
-    func_02045334((struct Descriptor *)*(u32 *)(p+92));
-    *(u32 *)(p+88)=func_020450F0(1,1,19,30,4,1,0);
-    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)*(u32 *)(p+88))),15);
-    func_02045334((struct Descriptor *)*(u32 *)(p+88));
-    *(u32 *)(p+96)=(u32)func_0201F5DC((void *)1,2,0,*(u16 *)p);
-    *(u32 *)(p+100)=(u32)func_02045B38(0,3,260,*(u16 *)p);
-    *(u32 *)(p+84)=(u32)func_0203101C(*(u16 *)p,*(u16 *)p,1,0);
+    func_02049B40(23,5,0,32,32,((struct Obj01296 *)p)->f0);
+    ((struct Obj01296 *)p)->f5C=func_020450F0(1,0,0,1,1,1,0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01296 *)p)->f5C)),0);
+    func_02045334((struct Descriptor *)((struct Obj01296 *)p)->f5C);
+    ((struct Obj01296 *)p)->f58=func_020450F0(1,1,19,30,4,1,0);
+    func_02043B5C((struct CharBuf *)((u32)func_02045770((struct Descriptor *)((struct Obj01296 *)p)->f58)),15);
+    func_02045334((struct Descriptor *)((struct Obj01296 *)p)->f58);
+    ((struct Obj01296 *)p)->f60=(u32)func_0201F5DC((void *)1,2,0,((struct Obj01296 *)p)->f0);
+    ((struct Obj01296 *)p)->f64=(u32)func_02045B38(0,3,260,((struct Obj01296 *)p)->f0);
+    ((struct Obj01296 *)p)->f54=(u32)func_0203101C(((struct Obj01296 *)p)->f0,((struct Obj01296 *)p)->f0,1,0);
     func_0201DD78(1,2,15);
     func_02041B6C(1);
-    *(u32 *)(p+80)=0;
-    *(u32 *)(p+104)=0;
-    *(u32 *)(p+108)=0;
+    ((struct Obj01296 *)p)->f50=0;
+    ((struct Obj01296 *)p)->f68=0;
+    ((struct Obj01296 *)p)->f6C=0;
     func_02040588(1,0);
 }

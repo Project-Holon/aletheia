@@ -17,6 +17,7 @@
  *   func_02186830  0x02186830  thumb
  *   d_021DDA60     0x021DDA60  data  a4
  */
+#include "../include/Obj00485.h"
 
 typedef unsigned char u8;
 
@@ -31,15 +32,15 @@ void func_02193C08(char *p, int heap)
 {
     int i;
 
-    if (*(int *)(p + 0xc) == 0) {
+    if (((struct Obj00485 *)p)->fC == 0) {
         i = 0;
-        *(int *)(p + 0xc) = (int)func_021867C4(0, heap);
-        *(void **)(p + 4) = func_02030734(heap, 0x320, 1, (const char *)&d_021DDA60, 0x39e);
+        ((struct Obj00485 *)p)->fC = (int)func_021867C4(0, heap);
+        ((struct Obj00485 *)p)->f4 = func_02030734(heap, 0x320, 1, (const char *)&d_021DDA60, 0x39e);
         for (i = 0; i < 10; i++) {
-            func_02193F6C((char *)*(int *)(p + 4) + i * 0x50);
+            func_02193F6C((char *)*(int *)&((struct Obj00485 *)p)->f4 + i * 0x50);
         }
-        *(void **)(p + 0x10) = func_020490F4(0x9a, heap);
-        *(void **)(p + 0x14) = func_02030734(heap, 0x600, 1, (const char *)&d_021DDA60, 0x3ab);
-        *(int *)(p + 0x118) = func_02186830(*(int *)(p + 0xc), *(u8 *)p, heap);
+        ((struct Obj00485 *)p)->f10 = func_020490F4(0x9a, heap);
+        ((struct Obj00485 *)p)->f14 = func_02030734(heap, 0x600, 1, (const char *)&d_021DDA60, 0x3ab);
+        *(int *)&((struct Obj00485 *)p)->f118 = func_02186830(((struct Obj00485 *)p)->fC, ((struct Obj00485 *)p)->f0, heap);
     }
 }

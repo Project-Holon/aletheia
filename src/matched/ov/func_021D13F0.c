@@ -15,6 +15,7 @@
  *   func_020452E8  0x020452E8  arm
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj04299.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -25,8 +26,8 @@ extern u32 func_020452E8(u32, u32, u32, u32);
 
 int func_021D13F0(u32 a, u32 b, u32 c, u32 d)
 {
-func_020452E8(*(u32 *)((u8 *)(a) + 4), b, c, d);
-*(u32 *)((u8 *)(a) + 4) = 0;
+func_020452E8(((struct Obj04299 *)((u8 *)(a)))->f4, b, c, d);
+((struct Obj04299 *)((u8 *)(a)))->f4 = 0;
 return 0;
 }
 

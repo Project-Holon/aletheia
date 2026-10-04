@@ -16,6 +16,7 @@
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  */
+#include "../include/Obj00636.h"
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 struct PalAnmSlot;extern void func_020215A0(struct PalAnmSlot *,u32);extern void func_02021540(void *);extern void func_02030DA4(void *);extern void func_020307B0(void *);
-void func_021BAF30(int unused,u8 *p){func_020215A0(*(struct PalAnmSlot **)(p+0x2e0),0);func_020215A0(*(struct PalAnmSlot **)(p+0x2e0),2);func_02021540(*(void **)(p+0x2e0));func_02030DA4(*(void **)(p+0x2d8));func_020307B0(*(void **)(p+0x2dc));}
+void func_021BAF30(int unused,u8 *p){func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,0);func_020215A0(*(struct PalAnmSlot * *)&((struct Obj00636 *)p)->f2E0,2);func_02021540(((struct Obj00636 *)p)->f2E0);func_02030DA4(((struct Obj00636 *)p)->f2D8);func_020307B0(((struct Obj00636 *)p)->f2DC);}

@@ -16,6 +16,7 @@
  *   func_02041EE4  0x02041EE4  arm
  *   func_021BB9DC  0x021BB9DC  thumb  ov088
  */
+#include "../include/Obj00263.h"
 
 typedef unsigned char u8;
 typedef unsigned int u32;
@@ -30,15 +31,15 @@ extern void func_021BB9DC(char *, int);
 
 void func_021BBD10(char *p, int mode)
 {
-    func_020452E8(*(void **)(p + 0xf0));
+    func_020452E8(((struct Obj00263 *)p)->fF0);
     if (mode != 1) {
         func_021BBB84(0x20, 1, 0x20, 0x16, 2);
         func_02041570(0, 0);
         func_02041EE4(1, 0, 0);
-        func_02041EE4(1, 3, *(u32 *)(p + 0x130));
+        func_02041EE4(1, 3, ((struct Obj00263 *)p)->f130);
         func_02041EE4(2, 0, 0);
-        func_02041EE4(2, 3, *(u32 *)(p + 0x130));
-        if (*(u8 *)(p + 0x120) == 0)
+        func_02041EE4(2, 3, ((struct Obj00263 *)p)->f130);
+        if (((struct Obj00263 *)p)->f120 == 0)
             func_021BB9DC(p, 1);
     }
 }

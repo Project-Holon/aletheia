@@ -17,6 +17,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_020257D0 0x020257D0 thumb
  */
+#include "../include/Obj00210.h"
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -42,22 +43,22 @@ void func_021DDAF0(u8 *p)
     u8 width,x;
     u32 w;
     if(p[0xc5f]==1) return;
-    func_02043B5C(*(void **)(p+0xc58),0);
-    s1=func_02045EC0(*(void **)(p+0xb60),3);
-    width=func_0201D304(s1,*(u32 *)(p+0xb58),0);
+    func_02043B5C(((struct Obj00210 *)p)->fC58,0);
+    s1=func_02045EC0(((struct Obj00210 *)p)->fB60,3);
+    width=func_0201D304(s1,*(u32 *)&((struct Obj00210 *)p)->fB58,0);
     x=(40-width)/2;
-    func_0201C7D0(*(void **)(p+0xc58),x,4,s1,*(void **)(p+0xb58),0x1900);
+    func_0201C7D0(((struct Obj00210 *)p)->fC58,x,4,s1,((struct Obj00210 *)p)->fB58,0x1900);
     func_02045808(s1);
-    s2=func_02045EC0(*(void **)(p+0xb60),4);
-    func_0201EFA4(*(void **)(p+0xb64),0,*(s8 *)(p+0xc5e) + 1,2,0,1);
-    func_0201F250(*(void **)(p+0xb64),*(void **)(p+0xb68),s2);
-    font=*(void **)(p+0xb58);
-    text=*(void **)(p+0xb68);
+    s2=func_02045EC0(((struct Obj00210 *)p)->fB60,4);
+    func_0201EFA4(((struct Obj00210 *)p)->fB64,0,((struct Obj00210 *)p)->fC5E + 1,2,0,1);
+    func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
+    font=((struct Obj00210 *)p)->fB58;
+    text=((struct Obj00210 *)p)->fB68;
     w=func_0201D304(text,(u32)font,0);
-    func_0201C7D0(*(void **)(p+0xc58),x-w,4,text,font,0x1900);
-    func_0201EFA4(*(void **)(p+0xb64),0,p[0xc5f],2,0,1);
-    func_0201F250(*(void **)(p+0xb64),*(void **)(p+0xb68),s2);
-    func_0201C7D0(*(void **)(p+0xc58),x+width,4,*(void **)(p+0xb68),*(void **)(p+0xb58),0x1900);
+    func_0201C7D0(((struct Obj00210 *)p)->fC58,x-w,4,text,font,0x1900);
+    func_0201EFA4(((struct Obj00210 *)p)->fB64,0,p[0xc5f],2,0,1);
+    func_0201F250(((struct Obj00210 *)p)->fB64,((struct Obj00210 *)p)->fB68,s2);
+    func_0201C7D0(((struct Obj00210 *)p)->fC58,x+width,4,((struct Obj00210 *)p)->fB68,((struct Obj00210 *)p)->fB58,0x1900);
     func_02045808(s2);
-    func_020257D0(*(void **)(p+0xc54));
+    func_020257D0(((struct Obj00210 *)p)->fC54);
 }

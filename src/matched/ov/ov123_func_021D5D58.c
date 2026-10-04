@@ -10,5 +10,6 @@
  * symbols:
  *   func_021C5B80 0x021C5B80 arm ov114
  */
+#include "../include/Obj13976.h"
 extern int func_021C5B80(void);
-int func_021D5D58(char *p){int ok;if(!*(int *)(p+0xc4)){ok=0;*(int *)(p+0xb0)=0;if(!func_021C5B80())return ok;}return 1;}
+int func_021D5D58(char *p){int ok;if(!((struct Obj13976 *)p)->fC4){ok=0;((struct Obj13976 *)p)->fB0=0;if(!func_021C5B80())return ok;}return 1;}

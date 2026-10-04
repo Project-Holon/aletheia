@@ -18,6 +18,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02049238 0x02049238 arm
  */
+#include "../include/Obj14188.h"
+#include "../include/Obj23503.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -45,9 +47,9 @@ void func_021C574C(u8 *p)
     func_020498F4(h, 0x25, 3, 0, 0, 1, 0x66);
     func_02049B68(h, 0x27, 0, 0, 0, 0x66);
     buf = func_02049DF4(h, 0x26, 1, (u32)(&out), 0x66);
-    dst = *(u8 **)(out + 0x14);
-    func_02082B0C(dst + 0x100, *(u8 **)(p + 8) + 4, 0x20);
-    func_02082B0C(dst + 0x100, *(u8 **)(p + 8) + 0x24, 0x20);
+    dst = *(u8 * *)&((struct Obj23503 *)out)->f14;
+    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 4, 0x20);
+    func_02082B0C(dst + 0x100, *(u8 * *)&((struct Obj14188 *)p)->f8 + 0x24, 0x20);
     func_020307B0(buf);
     func_02049238(h);
 }

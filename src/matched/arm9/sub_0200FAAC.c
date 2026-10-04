@@ -21,6 +21,7 @@
  *   sub_02010054   0x02010054  thumb
  *   g0214617C      0x0214617C  data
  */
+#include "../include/Obj03039.h"
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
@@ -44,24 +45,24 @@ void sub_0200FAAC(void)
     if (sub_02010054() == 0) {
         return;
     }
-    if (*(u32 *)(g + 0x2c) != 0) {
+    if (((struct Obj03039 *)g)->f2C != 0) {
         return;
     }
-    *(u32 *)(g + 0x2c) = 1;
+    ((struct Obj03039 *)g)->f2C = 1;
     if (func_0203CDBC() != 0) {
         return;
     }
-    *(u8 *)(g + 0x59) = func_0203D798()[0x65];
+    ((struct Obj03039 *)g)->f59 = func_0203D798()[0x65];
     *(struct Blk16_0200FAAC *)(g + 0x48) = *(struct Blk16_0200FAAC *)func_0203CA98();
-    *(u8 *)(g + 0x58) = (u8)func_0203C990();
-    t = *(u8 *)(g + 0x59);
+    ((struct Obj03039 *)g)->f58 = (u8)func_0203C990();
+    t = ((struct Obj03039 *)g)->f59;
     if (t == 1 || t == 2 || t == 6) {
-        if ((u32)(*(u32 *)(g + 0x4c) - 1) <= 1) {
-            *(u32 *)(g + 0x5c) = 2;
+        if ((u32)(((struct Obj03039 *)g)->f4C - 1) <= 1) {
+            ((struct Obj03039 *)g)->f5C = 2;
         } else {
-            *(u32 *)(g + 0x5c) = 1;
+            ((struct Obj03039 *)g)->f5C = 1;
         }
         return;
     }
-    *(u32 *)(g + 0x5c) = 2;
+    ((struct Obj03039 *)g)->f5C = 2;
 }

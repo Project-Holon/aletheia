@@ -20,6 +20,7 @@
  *   func_021BA1B4 0x021BA1B4 thumb ov093
  *   func_021C0F14 0x021C0F14 thumb ov093
  */
+#include "../include/Obj01373.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Flags { u32 a:1; u32 b:1; } Flags;
@@ -44,17 +45,17 @@ u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)
     result = 0;
     f.a = func_021C0ED4(b) > 1;
     f.b = d;
-    func_021C0EE4(b, a, *(u8 **)(p + 0x858));
-    func_021C0EF4(b, a, *(u8 **)(p + 0x85c));
-    func_021C0A4C(p, a, *(u8 **)(p + 0x858), q, c, k, *(u8 **)(p + 0x86c));
-    func_021C0A4C(p, a, *(u8 **)(p + 0x85c), q, c, k, *(u8 **)(p + 0x870));
-    *out = func_021CD4FC(*(u8 **)(p + 0xc), 0x30);
-    if (func_021C0F04(*(u8 **)(p + 0x858)) != 0) {
-        result += func_021C11A4(p, q, a, *(u8 **)(p + 0x858), *(u8 **)(p + 0x86c), *(u8 **)(p + 0x4b4), k, f);
+    func_021C0EE4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f858);
+    func_021C0EF4(b, a, *(u8 * *)&((struct Obj01373 *)p)->f85C);
+    func_021C0A4C(p, a, *(u8 * *)&((struct Obj01373 *)p)->f858, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f86C);
+    func_021C0A4C(p, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, q, c, k, *(u8 * *)&((struct Obj01373 *)p)->f870);
+    *out = func_021CD4FC(*(u8 * *)&((struct Obj01373 *)p)->fC, 0x30);
+    if (func_021C0F04(*(u8 * *)&((struct Obj01373 *)p)->f858) != 0) {
+        result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f858, *(u8 * *)&((struct Obj01373 *)p)->f86C, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
         if (result != 0 && func_021BEC08(p, a) != 0)
-            func_021BA1B4(*(u8 **)(p + 4), 0x4d);
+            func_021BA1B4(*(u8 * *)&((struct Obj01373 *)p)->f4, 0x4d);
     }
-    if (func_021C0F14(*(u8 **)(p + 0x85c)) != 0)
-        result += func_021C11A4(p, q, a, *(u8 **)(p + 0x85c), *(u8 **)(p + 0x870), *(u8 **)(p + 0x4b4), k, f);
+    if (func_021C0F14(*(u8 * *)&((struct Obj01373 *)p)->f85C) != 0)
+        result += func_021C11A4(p, q, a, *(u8 * *)&((struct Obj01373 *)p)->f85C, *(u8 * *)&((struct Obj01373 *)p)->f870, *(u8 * *)&((struct Obj01373 *)p)->f4B4, k, f);
     return result;
 }

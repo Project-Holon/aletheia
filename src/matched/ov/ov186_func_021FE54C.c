@@ -18,6 +18,7 @@
  *   func_0207CBD0 0x0207CBD0 arm
  *   func_0207C768 0x0207C768 arm
  */
+#include "../include/Obj02904.h"
 typedef unsigned int u32;
 typedef struct {long x,y,z;} VecFx32;
 extern long func_0207CBD0(const VecFx32 *);
@@ -33,18 +34,18 @@ int func_021FE54C(char *p,int *out)
 {
     VecFx32 delta;
     int length,x,y;
-    delta.x=roundFixed((*(int **)p)[0])-*(int *)(p+4);
-    delta.y=roundFixed((*(int **)p)[1])-*(int *)(p+8);
+    delta.x=roundFixed((*(int **)p)[0])-((struct Obj02904 *)p)->f4;
+    delta.y=roundFixed((*(int **)p)[1])-((struct Obj02904 *)p)->f8;
     delta.z=0;
     length=func_0207CBD0(&delta);
     if(length) {
-        x=func_0207C768((int)(((long long)delta.x* *(int *)(p+0x10)+2048)>>12),length);
-        y=func_0207C768((int)(((long long)delta.y* *(int *)(p+0x10)+2048)>>12),length);
-        if((delta.x<0?-delta.x:delta.x)>(x<0?-x:x))*(int *)(p+4)+=x;
-        else *(int *)(p+4)=roundFixed((*(int **)p)[0]);
-        if((delta.y<0?-delta.y:delta.y)>(y<0?-y:y))*(int *)(p+8)+=y;
-        else *(int *)(p+8)=roundFixed((*(int **)p)[1]);
+        x=func_0207C768((int)(((long long)delta.x* ((struct Obj02904 *)p)->f10+2048)>>12),length);
+        y=func_0207C768((int)(((long long)delta.y* ((struct Obj02904 *)p)->f10+2048)>>12),length);
+        if((delta.x<0?-delta.x:delta.x)>(x<0?-x:x))((struct Obj02904 *)p)->f4+=x;
+        else ((struct Obj02904 *)p)->f4=roundFixed((*(int **)p)[0]);
+        if((delta.y<0?-delta.y:delta.y)>(y<0?-y:y))((struct Obj02904 *)p)->f8+=y;
+        else ((struct Obj02904 *)p)->f8=roundFixed((*(int **)p)[1]);
     }
-    if(out){out[0]=*(int *)(p+4)>>12;out[1]=*(int *)(p+8)>>12;}
+    if(out){out[0]=((struct Obj02904 *)p)->f4>>12;out[1]=((struct Obj02904 *)p)->f8>>12;}
     return length==0;
 }

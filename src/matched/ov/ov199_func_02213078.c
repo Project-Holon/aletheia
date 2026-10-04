@@ -12,6 +12,7 @@
  *   func_02082BCC 0x02082BCC arm
  *   d_02213D04 0x02213D04 data ov199 a1
  */
+#include "../include/Obj10858.h"
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -22,11 +23,11 @@ void *func_02213078(void *unused, int heap, char *p)
     unsigned int *work = func_02030734(heap, 0x1c, 0, d_02213D04, 0x5dc);
     func_02082BCC(work, 0, 0x1c);
     work[0] = (unsigned int)(p + 4);
-    work[3] = *(unsigned int *)(p + 0x30);
-    work[4] = *(unsigned int *)(p + 0x34);
+    work[3] = ((struct Obj10858 *)p)->f30;
+    work[4] = ((struct Obj10858 *)p)->f34;
     work[5] = (unsigned int)(p + 0x7d4);
     work[6] = (unsigned int)(p + 0x8a8);
-    if (*(int *)(p + 0x1c) == 1)
+    if (((struct Obj10858 *)p)->f1C == 1)
         work[1] = 1;
     else
         work[1] = 0;

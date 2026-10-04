@@ -17,6 +17,7 @@
  *   func_021C8838  0x021C8838  thumb  ov093
  *   func_021C8860  0x021C8860  thumb  ov093
  */
+#include "../include/Obj04368.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -40,15 +41,15 @@ void func_021DA96C(void *a, int id, u32 e, int d)
         r[0xf] = 1;
         r[0x10] = id;
         r[0xe] = 1;
-        *(u32 *)(r + 4) = e;
+        ((struct Obj04368 *)r)->f4 = e;
         r[0xc] = d;
-        *(u32 *)r |= 0x800000;
+        ((struct Obj04368 *)r)->f0 |= 0x800000;
         func_021C88C8(a, r);
     } else {
         r = (u8 *)func_021C88A4(a, 4, id);
         func_021C8838(r + 4, 2, 0xd2);
         func_021C8860((struct S *)(r + 4), id);
-        *(u32 *)r |= 0x800000;
+        ((struct Obj04368 *)r)->f0 |= 0x800000;
         func_021C88C8(a, r);
     }
 }

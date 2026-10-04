@@ -20,6 +20,7 @@
  * Build the record for (a, b) after a two-step gate, fill in c, publish it
  * through func_021C88C8, then emit the "3" event through func_021C88B4.
  */
+#include "../include/Obj09218.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -41,9 +42,9 @@ void func_021D96FC(void *a, int b, int c)
         u8 *p;
         func_021C88B4(a, 2, b);
         p = func_021C88A4(a, 0xb, b);
-        *(u32 *)(p + 4) = c;
-        *(u8 *)(p + 0x14) = 1;
-        *(u8 *)(p + 8) = b;
+        ((struct Obj09218 *)p)->f4 = c;
+        ((struct Obj09218 *)p)->f14 = 1;
+        ((struct Obj09218 *)p)->f8 = b;
         func_021C88C8(a, p);
         func_021C88B4(a, 3, b);
     }

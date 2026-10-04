@@ -14,6 +14,7 @@
  *   func_021F9DDC 0x021F9DDC thumb ov132
  *   func_021F6F14 0x021F6F14 thumb ov112
  */
+#include "../include/Obj14121.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -32,8 +33,8 @@ int func_021FC4CC(int a,char **p)
     x=func_0201134C(p[1]);
     y=func_0201134C(p[1]);
     z=func_0201134C(p[1]);
-    r=func_021F9DD4(*(void **)(q+0x34));
-    s=func_021F9DDC(*(void **)(q+0x34),v);
+    r=func_021F9DD4(((struct Obj14121 *)q)->f34);
+    s=func_021F9DDC(((struct Obj14121 *)q)->f34,v);
     func_021F6F14(r,s,(u8)w|((u8)x<<5)|((u8)y<<10),z);
     return 0;
 }

@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj08434.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -29,9 +30,9 @@ extern u32 func_0204ADA4();
 extern void func_0204AFD8(u32 i);
 u32 func_021BCF20(u32 a0)
 {
-    func_0204A8D4(*(u32*)(((u8*)a0 + 248)));
-    func_0204ADA4(*(u32*)(((u8*)a0 + 252)));
-    func_0204AFD8(*(u32*)(((u8*)a0) + 256));
-    return func_0204ADA4(*(u32*)(((u8*)a0) + 260));
+    func_0204A8D4(((struct Obj08434 *)((u8*)a0))->fF8);
+    func_0204ADA4(((struct Obj08434 *)((u8*)a0))->fFC);
+    func_0204AFD8(((struct Obj08434 *)(((u8*)a0)))->f100);
+    return func_0204ADA4(((struct Obj08434 *)(((u8*)a0)))->f104);
 }
 

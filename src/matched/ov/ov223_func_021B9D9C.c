@@ -35,6 +35,8 @@
  *   _fsub 0x0209CB8C arm
  *   _fdiv 0x0209CE10 arm
  */
+#include "../include/Obj00211.h"
+#include "../include/Obj01595.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -70,27 +72,27 @@ void func_021B9D9C(char *p)
     char *r;
     const Files *f;
     u8 i,j;
-    arc=func_0202D7C8(*(u16 *)p);
+    arc=func_0202D7C8(((struct Obj00211 *)p)->f0);
     for(i=0;i<3;i++) {
         id=ids[i];r=p+i*148;
-        *(u32 *)(r+84)=func_0202D81C(arc,id,0,0,0,0,0,0,1,*(u16 *)p);
-        *(u32 *)(r+88)=func_0202D7D8(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),*(u16 *)p);
-        *(u32 *)(r+92)=func_0202D898(id,0,0,0,0,0,0,1,*(u16 *)p);
+        ((struct Obj01595 *)r)->f54=func_0202D81C(arc,id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f58=func_0202D7D8(arc,id,0,0,0,0,0,1,(u16)(banks[i]<<5),((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f5C=func_0202D898(id,0,0,0,0,0,0,1,((struct Obj00211 *)p)->f0);
     }
     func_02049238(arc);
     for(j=0;j<3;j++) {
         func_02082BCC(&request,0,8);
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
-        *(u32 *)(r+108)=(u32)func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(u32 *)(r+84),*(u32 *)(r+88),*(u32 *)(r+92),&request,1,*(u16 *)p);
-        func_0204B3DC((struct Obj *)*(u32 *)(r+108),0);
+        ((struct Obj01595 *)r)->f6C=(u32)func_0204B294((void *)func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f54,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f5C,&request,1,((struct Obj00211 *)p)->f0);
+        func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f6C,0);
     }
-    other=(u32)func_020490F4(205,*(u16 *)p);
+    other=(u32)func_020490F4(205,((struct Obj00211 *)p)->f0);
     for(i=0;i<3;i++) {
         f=files+i;
         r=p+i*148;
-        *(u32 *)(r+96)=func_0204A6C8((void *)other,f->b[0],0,1,*(u16 *)p);
-        *(u32 *)(r+104)=func_0204AF28((void *)other,f->b[2],f->b[3],*(u16 *)p);
+        ((struct Obj01595 *)r)->f60=func_0204A6C8((void *)other,f->b[0],0,1,((struct Obj00211 *)p)->f0);
+        ((struct Obj01595 *)r)->f68=func_0204AF28((void *)other,f->b[2],f->b[3],((struct Obj00211 *)p)->f0);
     }
     func_02049238(other);
     for(j=0;j<3;j++) {
@@ -99,8 +101,8 @@ void func_021B9D9C(char *p)
         desc.sx=FIX((float)motion[j].b[6]/16.0f);desc.sy=FIX((float)motion[j].b[6]/16.0f);
         desc.e=0;desc.f=1;
         r=p+j*148;
-        *(u32 *)(r+112)=func_0204B324(func_021BC520(*(void **)(p+20)),*(u32 *)(r+96),*(u32 *)(r+88),*(u32 *)(r+104),&desc,1,*(u16 *)p);
-        func_0204B3DC((struct Obj *)*(u32 *)(r+112),0);
+        ((struct Obj01595 *)r)->f70=func_0204B324(func_021BC520(((struct Obj00211 *)p)->f14),((struct Obj01595 *)r)->f60,((struct Obj01595 *)r)->f58,((struct Obj01595 *)r)->f68,&desc,1,((struct Obj00211 *)p)->f0);
+        func_0204B3DC((struct Obj *)((struct Obj01595 *)r)->f70,0);
     }
     for(i=0;i<3;i++) {
         *(u16 *)(p+i*148+216)=0;
@@ -108,5 +110,5 @@ void func_021B9D9C(char *p)
         *(u32 *)(p+i*148+224)=0;
         *(u32 *)(p+i*148+228)=0;
     }
-    *(u32 *)(p+528)=0;*(u32 *)(p+532)=0;
+    ((struct Obj00211 *)p)->f210=0;((struct Obj00211 *)p)->f214=0;
 }

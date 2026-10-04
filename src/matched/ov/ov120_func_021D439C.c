@@ -9,8 +9,9 @@
  * status: EXACT
  * follower: handed caller 021D43BC.
  */
+#include "../include/Obj01150.h"
 void func_021D439C(int n, char *p) {
-    *(int *)(p+0x144)+=n;
-    if(*(int *)(p+0x144)>=4) *(int *)(p+0x144)=0;
-    else if(*(int *)(p+0x144)<0) *(int *)(p+0x144)=3;
+    ((struct Obj01150 *)p)->f144+=n;
+    if(((struct Obj01150 *)p)->f144>=4) ((struct Obj01150 *)p)->f144=0;
+    else if(((struct Obj01150 *)p)->f144<0) ((struct Obj01150 *)p)->f144=3;
 }

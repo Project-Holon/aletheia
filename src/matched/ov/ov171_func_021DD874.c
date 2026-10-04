@@ -12,6 +12,7 @@
  *   func_02045088 0x02045088 arm
  *   func_020450F0 0x020450F0 arm
  */
+#include "../include/Obj03850.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -20,6 +21,6 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 void func_021DD874(char *p)
 {
     func_02045088(0x8c);
-    *(int *)(p + 0xb48) = func_020450F0(3, 1, 0, 30, 2, 3, 1);
-    *(int *)(p + 0xb50) = func_020450F0(5, 4, 7, 24, 15, 1, 1);
+    ((struct Obj03850 *)p)->fB48 = func_020450F0(3, 1, 0, 30, 2, 3, 1);
+    ((struct Obj03850 *)p)->fB50 = func_020450F0(5, 4, 7, 24, 15, 1, 1);
 }

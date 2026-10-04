@@ -14,6 +14,7 @@
  *
  * When the sub-object at +0xfa0 is idle, re-arm the state word from +0x2c.
  */
+#include "../include/Obj12210.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -23,7 +24,7 @@ extern u32 func_02202840(u8 *p);
 int func_021FC7C4(u8 *p)
 {
     if (func_02202840(p + 0xfa0) == 0) {
-        *(u32 *)(p + 0x28) = *(u32 *)(p + 0x2c);
+        ((struct Obj12210 *)p)->f28 = ((struct Obj12210 *)p)->f2C;
     }
     return 2;
 }

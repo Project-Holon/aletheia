@@ -18,6 +18,7 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8130 0x021D8130 thumb ov123
  */
+#include "../include/Obj03795.h"
 typedef unsigned char u8;
 extern void func_021D57B8(char *, int);
 extern void func_021D5A7C(char *);
@@ -32,14 +33,14 @@ extern void func_021D6EE0(char *, int, int);
 extern void func_021D8130(char *p);
 void func_021D8154(char *p)
 {
-    func_021D57B8(*(char **)(p + 0x18), 11);
-    func_021D5A7C(*(char **)(p + 0x18));
-    func_021D62E0(*(u8 **)(p + 0x14), 8);
-    func_021D65F4(*(char **)(p + 0x14));
-    func_021D6650(*(char **)(p + 0x14), 1);
-    func_021D62BC(*(u8 **)(p + 0x14), 6, 5);
-    func_021D62B4(*(char **)(p + 0x14), 0);
-    func_021D62B4(*(char **)(p + 0x14), 12);
+    func_021D57B8(*(char * *)&((struct Obj03795 *)p)->f18, 11);
+    func_021D5A7C(*(char * *)&((struct Obj03795 *)p)->f18);
+    func_021D62E0(*(u8 * *)&((struct Obj03795 *)p)->f14, 8);
+    func_021D65F4(*(char * *)&((struct Obj03795 *)p)->f14);
+    func_021D6650(*(char * *)&((struct Obj03795 *)p)->f14, 1);
+    func_021D62BC(*(u8 * *)&((struct Obj03795 *)p)->f14, 6, 5);
+    func_021D62B4(*(char * *)&((struct Obj03795 *)p)->f14, 0);
+    func_021D62B4(*(char * *)&((struct Obj03795 *)p)->f14, 12);
     func_020061E4(0x657);
     func_021D6EE0(p, (int)func_021D8130, 0x5c3);
 }

@@ -18,6 +18,7 @@
  *   d_021DA730 0x021DA730 data a2
  *   d_021DA750 0x021DA750 data a4
  */
+#include "../include/Obj13979.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Pos { short x,y; };
@@ -39,8 +40,8 @@ void func_021D6720(u8 *p, int i)
     struct Pos pos;
     struct Pair pair;
     void *h;
-    func_021D6C48(p,i,*(void **)(p+0xb4));
-    h = *(void **)(p+0xb4);
+    func_021D6C48(p,i,((struct Obj13979 *)p)->fB4);
+    h = ((struct Obj13979 *)p)->fB4;
     pos = d_021DA730; pair = d_021DA750;
     func_0204B404(h,&pos,0); func_0204B5AC(h,&pair);
     func_0204B92C(h,0); func_0204B3DC(h,0);

@@ -19,6 +19,7 @@
  *   d_02184878 0x02184878 data a4
  *   d_02184964 0x02184964 data a1
  */
+#include "../include/Obj23821.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0203F8F4(u16);
@@ -40,7 +41,7 @@ void func_0218414C(char *p, int heap)
     func_0203F8F4(heap);
     func_02045088(heap);
     func_0203FC28(d_02184878);
-    *(void **)(p + 0x10) = func_0201D7EC(23, 0, 0, 0, (u16)heap);
+    ((struct Obj23821 *)p)->f10 = func_0201D7EC(23, 0, 0, 0, (u16)heap);
     for (i = 0; i < 5; i++) {
         bg = d_02184964[i * 0x24 + 0x20];
         func_0203FCA0(bg, d_02184964 + i * 0x24, d_02184964[i * 0x24 + 0x21]);

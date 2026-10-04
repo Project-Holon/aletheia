@@ -19,6 +19,7 @@
  *   func_0202CEBC  0x0202CEBC  thumb
  *   d_021BD5EC     0x021BD5EC  data  a4
  */
+#include "../include/Obj00014.h"
 
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -39,20 +40,20 @@ void func_021BB380(char *p)
 {
     u32 i;
 
-    *(void **)(p + 0x118) = func_0202C9B4(0, 8, 0xb);
+    ((struct Obj00014 *)p)->f118 = func_0202C9B4(0, 8, 0xb);
     for (i = 0; i < 8; i++)
-        func_0202CA3C(*(void **)(p + 0x118), i, 1, 0x1a, d_021BD5EC[i].f2);
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0x80));
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0x88));
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0x90));
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0x98));
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0xa0));
-    func_0202CEBC(*(void **)(p + 0x118), 0, *(void **)(p + 0xa8));
-    func_0202CEBC(*(void **)(p + 0x118), 1, *(void **)(p + 0xb0));
-    func_0202CEBC(*(void **)(p + 0x118), 2, *(void **)(p + 0xb8));
-    func_0202CEBC(*(void **)(p + 0x118), 3, *(void **)(p + 0xc0));
-    func_0202CEBC(*(void **)(p + 0x118), 4, *(void **)(p + 0xc8));
-    func_0202CEBC(*(void **)(p + 0x118), 5, *(void **)(p + 0xd0));
-    func_0202CEBC(*(void **)(p + 0x118), 6, *(void **)(p + 0xd8));
-    func_0202CEBC(*(void **)(p + 0x118), 7, *(void **)(p + 0xe0));
+        func_0202CA3C(((struct Obj00014 *)p)->f118, i, 1, 0x1a, d_021BD5EC[i].f2);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f80);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f88);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f90);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->f98);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->fA0);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 0, ((struct Obj00014 *)p)->fA8);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 1, ((struct Obj00014 *)p)->fB0);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 2, ((struct Obj00014 *)p)->fB8);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 3, ((struct Obj00014 *)p)->fC0);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 4, ((struct Obj00014 *)p)->fC8);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 5, ((struct Obj00014 *)p)->fD0);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 6, ((struct Obj00014 *)p)->fD8);
+    func_0202CEBC(((struct Obj00014 *)p)->f118, 7, ((struct Obj00014 *)p)->fE0);
 }

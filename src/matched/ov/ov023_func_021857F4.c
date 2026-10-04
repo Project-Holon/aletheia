@@ -13,6 +13,7 @@
  *   func_0201F02C 0x0201F02C thumb
  * Original narrows the lookup index to u8; its extern expresses the observed call-site width.
  */
+#include "../include/Obj00525.h"
 typedef unsigned char u8;
 typedef unsigned int   u32;
 struct WordSet;
@@ -21,7 +22,7 @@ extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_021857F4(char *p, int a, int i)
 {
     char *v;
-    v = func_02184180(**(u8 ***)(p + 4), (u8)i);
+    v = func_02184180(**(u8 ** *)&((struct Obj00525 *)p)->f4, (u8)i);
     if (v != 0)
-        func_0201F02C(*(void **)(p + 0x10), a, v);
+        func_0201F02C(((struct Obj00525 *)p)->f10, a, v);
 }

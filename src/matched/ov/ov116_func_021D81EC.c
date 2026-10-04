@@ -11,8 +11,9 @@
  * symbols:
  *   func_02012DD0 0x02012DD0 thumb
  */
+#include "../include/Obj10346.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02012DD0(u8 *);
-int func_021D81EC(u8 *p) { if(*(u16 *)(p+0xb6a)==0) return 1; if(func_02012DD0(*(u8 **)(p+0x1844))==2) { *(u16 *)(p+0xb6a)=0; return 1; } return 0; }
+int func_021D81EC(u8 *p) { if(((struct Obj10346 *)p)->fB6A==0) return 1; if(func_02012DD0(*(u8 * *)&((struct Obj10346 *)p)->f1844)==2) { ((struct Obj10346 *)p)->fB6A=0; return 1; } return 0; }

@@ -16,8 +16,9 @@
  * its pointer argument (the second argument register).  Matched to supply the
  * `matched` witness for the pending ov010 caller func_0216A6B4.
  */
+#include "../include/Obj18371.h"
 
 int func_021D0FE0(int x, int *p)
 {
-    return *(int *)((char *)p + 0x150);
+    return ((struct Obj18371 *)p)->f150;
 }

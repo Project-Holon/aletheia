@@ -26,6 +26,7 @@
  *   func_021D05D8  0x021D05D8  thumb  ov021
  *   func_021ACBC8  0x021ACBC8  thumb  ov021
  */
+#include "../include/Obj05025.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -58,7 +59,7 @@ int func_021A3FE8(u8 *p)
     u32 d;
     u32 e;
 
-    e = func_02188CD0((u8 *)(*(u32 *)(p + 8)));
+    e = func_02188CD0((u8 *)(((struct Obj05025 *)p)->f8));
     a = func_021A398C(p);
     b = func_021A3960(p);
     a = func_021A3190(a, 3);
@@ -69,15 +70,15 @@ int func_021A3FE8(u8 *p)
         func_021A3980(p, 3);
     }
     if (func_021A3AD4(p) == 0) {
-        c = func_02188CD0((u8 *)(*(u32 *)(p + 8)));
+        c = func_02188CD0((u8 *)(((struct Obj05025 *)p)->f8));
         d = func_0216D5F8(b);
         func_0216D88C(b, (struct VecFx32 *)buf);
         func_021A3AD0(p, func_021ACB38(c, d, buf, b, 1));
     }
-    func_021D05D8((void *)(*(u32 *)(p + 0x1c)), (void *)e);
-    if (*(u32 *)(p + 0x28) != 0) {
-        func_021ACBC8(*(u32 *)(p + 0x28), 0);
+    func_021D05D8((void *)(((struct Obj05025 *)p)->f1C), (void *)e);
+    if (((struct Obj05025 *)p)->f28 != 0) {
+        func_021ACBC8(((struct Obj05025 *)p)->f28, 0);
     }
-    *(u16 *)(p + 0x32) = 1;
+    ((struct Obj05025 *)p)->f32 = 1;
     return 0;
 }

@@ -12,10 +12,11 @@
  * symbols:
 
  */
+#include "../include/Obj25391.h"
 
 
 
 void func_021BFAE4(char *p, int v)
 {
-    *(int *)(p + 20) = v;
+    ((struct Obj25391 *)p)->f14 = v;
 }

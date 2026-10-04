@@ -10,16 +10,17 @@
  * symbols:
  *   func_02040618 0x02040618 arm
  */
+#include "../include/Obj02818.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02040618(u8, u8, int);
 void func_021BC828(void *unused, u8 *p)
 {
-    if (*(u16 *)(p+0x14)) {
-        *(int *)(p+8) += *(int *)(p+0x10);
-        func_02040618(*(int *)p, *(int *)(p+4), *(int *)(p+8)>>12);
-        --*(u16 *)(p+0x14);
+    if (((struct Obj02818 *)p)->f14) {
+        ((struct Obj02818 *)p)->f8 += ((struct Obj02818 *)p)->f10;
+        func_02040618(((struct Obj02818 *)p)->f0, ((struct Obj02818 *)p)->f4, ((struct Obj02818 *)p)->f8>>12);
+        --((struct Obj02818 *)p)->f14;
     } else {
-        func_02040618(*(int *)p, *(int *)(p+4), *(int *)(p+0xc));
+        func_02040618(((struct Obj02818 *)p)->f0, ((struct Obj02818 *)p)->f4, ((struct Obj02818 *)p)->fC);
     }
 }

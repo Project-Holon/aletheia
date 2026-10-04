@@ -14,30 +14,32 @@
  * symbols:
  *   func_021B1AA0  0x021B1AA0  arm  ov013
  */
+#include "../include/Obj01641.h"
+#include "../include/Obj12461.h"
 
 extern void func_021B1AA0(char *p, unsigned short v);
 
 int func_021B1AC0(char *p, char *pkt, unsigned short seq)
 {
-    unsigned short last = *(unsigned short *)(p + 0x68);
+    unsigned short last = ((struct Obj01641 *)p)->f68;
     unsigned short delta = seq - last;
 
     if (delta < 3000) {
         if (seq < last)
-            *(unsigned int *)(p + 0x60) += 0x10000;
-        *(unsigned short *)(p + 0x68) = seq;
+            ((struct Obj01641 *)p)->f60 += 0x10000;
+        ((struct Obj01641 *)p)->f68 = seq;
     } else if (delta <= 0x10000 - 100) {
-        if (seq == *(unsigned int *)(p + 0x64)) {
+        if (seq == ((struct Obj01641 *)p)->f64) {
             func_021B1AA0(p, seq);
-            *(unsigned int *)(p + 0x54) = (unsigned short)(seq - 1);
+            ((struct Obj01641 *)p)->f54 = (unsigned short)(seq - 1);
         } else {
-            *(unsigned int *)(p + 0x64) = (unsigned short)(seq + 1);
+            ((struct Obj01641 *)p)->f64 = (unsigned short)(seq + 1);
             return 0;
         }
-    } else if (seq + *(unsigned int *)(p + 0x60) > *(unsigned int *)(p + 0x54) + 0x10000 - 100) {
-        *(unsigned int *)(pkt + 0x18) = seq + *(unsigned int *)(p + 0x60) - 0x10000;
+    } else if (seq + ((struct Obj01641 *)p)->f60 > ((struct Obj01641 *)p)->f54 + 0x10000 - 100) {
+        ((struct Obj12461 *)pkt)->f18 = seq + ((struct Obj01641 *)p)->f60 - 0x10000;
         return 1;
     }
-    *(unsigned int *)(pkt + 0x18) = seq + *(unsigned int *)(p + 0x60);
+    ((struct Obj12461 *)pkt)->f18 = seq + ((struct Obj01641 *)p)->f60;
     return 1;
 }

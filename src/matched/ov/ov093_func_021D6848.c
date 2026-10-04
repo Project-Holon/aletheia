@@ -8,6 +8,7 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj02137.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Rec {u16 a,b,c,d;};
 void func_021D6848(u8 *p, struct Rec *r)
@@ -20,17 +21,17 @@ void func_021D6848(u8 *p, struct Rec *r)
     if (n == 6) {
         for (i = 0; i < 5; i++) {
             q = p + k * 0x30 + i * 8;
-            *(u16 *)(q + 0x15c) = *(u16 *)(q + 0x164);
-            *(u16 *)(q + 0x15e) = *(u16 *)(q + 0x166);
-            *(u16 *)(q + 0x160) = *(u16 *)(q + 0x168);
-            *(u16 *)(q + 0x162) = *(u16 *)(q + 0x16a);
+            ((struct Obj02137 *)q)->f15C = ((struct Obj02137 *)q)->f164;
+            ((struct Obj02137 *)q)->f15E = ((struct Obj02137 *)q)->f166;
+            ((struct Obj02137 *)q)->f160 = ((struct Obj02137 *)q)->f168;
+            ((struct Obj02137 *)q)->f162 = ((struct Obj02137 *)q)->f16A;
         }
         n--;
     }
     q = p + k * 0x30 + n * 8;
-    *(u16 *)(q + 0x15c) = r->a;
-    *(u16 *)(q + 0x15e) = r->b;
-    *(u16 *)(q + 0x160) = r->c;
-    *(u16 *)(q + 0x162) = r->d;
+    ((struct Obj02137 *)q)->f15C = r->a;
+    ((struct Obj02137 *)q)->f15E = r->b;
+    ((struct Obj02137 *)q)->f160 = r->c;
+    ((struct Obj02137 *)q)->f162 = r->d;
     if ((p + 0x1ec)[k] < 6) (p + 0x1ec)[k]++;
 }

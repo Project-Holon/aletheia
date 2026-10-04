@@ -13,6 +13,7 @@
  *   func_02005DE4  0x02005DE4  thumb
  *   func_02005DF8  0x02005DF8  thumb
  */
+#include "../include/Obj22750.h"
 
 typedef unsigned char u8;
 
@@ -26,7 +27,7 @@ void func_021DFD7C(void *p)
     u8 *b = p;
 
     func_02005E9C();
-    *(u8 *)(b + 0x11f8) -= 1;
+    ((struct Obj22750 *)b)->f11F8 -= 1;
     func_02005DE4(0);
     func_02005DF8(0x18);
 }

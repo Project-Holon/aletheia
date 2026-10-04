@@ -14,6 +14,7 @@
  *   func_021E19EC 0x021E19EC thumb ov183
  *   func_02051B84 0x02051B84 arm
  */
+#include "../include/Obj03331.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -33,6 +34,6 @@ void func_021E1910(char *p) {
         *(u8 *)(p+i*4+0x299)=table.row[i-12].b+table.row[i-12].d;
         *(u8 *)(p+i*4+0x29B)=table.row[i-12].a+table.row[i-12].c;
     }
-    *(u8 *)(p+0x2F8)=255;
-    *(void **)(p+0x294)=func_02051B84((u8 *)(p+0x298),(int)func_021E19EC,(int)p,*(u16 *)(p+0x34C));
+    ((struct Obj03331 *)p)->f2F8=255;
+    ((struct Obj03331 *)p)->f294=func_02051B84((u8 *)(p+0x298),(int)func_021E19EC,(int)p,((struct Obj03331 *)p)->f34C);
 }

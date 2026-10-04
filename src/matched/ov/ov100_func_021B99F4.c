@@ -13,12 +13,13 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B99D4 0x021B99D4 thumb ov100
  */
+#include "../include/Obj22073.h"
 extern int func_0203CEAC(int);
 extern void func_021B95B8(unsigned char *,unsigned);
 extern void func_021B99D4(unsigned a);
 void func_021B99F4(unsigned a)
 {
- if(++*(int *)(a+0xcac)>60) {
+ if(++((struct Obj22073 *)a)->fCAC>60) {
   func_0203CEAC(0);
   func_021B95B8((unsigned char *)a,(unsigned)func_021B99D4);
  }

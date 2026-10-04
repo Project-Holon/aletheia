@@ -29,6 +29,7 @@
  *   python tools/match.py one --src src/matched/func_0202E474.c \
  *       --func func_0202E474 --addr 0x0202E474 --cc 1.1p1 --thumb
  */
+#include "../include/Obj04060.h"
 
 typedef unsigned char  u8;
 struct Big;
@@ -54,15 +55,15 @@ void *func_0202E474(int a0, int a1, int a2, int a3)
     int   v = (int)func_02012EBC((struct Big *)a0);
     char *p = func_02030734(a3, 0x3c, 1, data_020A77C4, 0x37);
 
-    *(int *)p = a0;
-    *(int *)(p + 4) = (int)func_0200873C((void *)v);
-    *(int *)(p + 8) = (int)func_02012944((void *)a0);
-    *(int *)(p + 0xc) = func_02012924(a0);
-    *(void **)(p + 0x10) = func_0201292C((const struct BigObj *)a0);
+    ((struct Obj04060 *)p)->f0 = a0;
+    ((struct Obj04060 *)p)->f4 = (int)func_0200873C((void *)v);
+    ((struct Obj04060 *)p)->f8 = (int)func_02012944((void *)a0);
+    ((struct Obj04060 *)p)->fC = func_02012924(a0);
+    ((struct Obj04060 *)p)->f10 = func_0201292C((const struct BigObj *)a0);
     if (a1 != 0) {
         func_02082D44((void *)a1, p + 0x14, 0x18);
     }
-    *(int *)(p + 0x2c) = a2;
-    *(int *)(p + 0x30) = func_02012B28(func_020127A4((struct SaveBlock *)a0)) == 1;
+    ((struct Obj04060 *)p)->f2C = a2;
+    ((struct Obj04060 *)p)->f30 = func_02012B28(func_020127A4((struct SaveBlock *)a0)) == 1;
     return p;
 }

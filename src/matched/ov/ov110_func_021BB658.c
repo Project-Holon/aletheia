@@ -13,6 +13,7 @@
  *   func_0204B878 0x0204B878 arm
  *   func_021BF6DC 0x021BF6DC thumb ov110
  */
+#include "../include/Obj04444.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -23,17 +24,17 @@ extern u8 func_021BF6DC(u8 *);
 void func_021BB658(u8 *p, int enable)
 {
     if (enable) {
-        if (**(int **)(p + 0x5c) == 0) {
-            func_0204B3DC(*(void **)(p + 0x54), 1);
-            if (func_021BF6DC(*(u8 **)(p + 4)) == 0) {
-                func_0204B878(*(void **)(p + 0x54), 4);
+        if (**(int * *)&((struct Obj04444 *)p)->f5C == 0) {
+            func_0204B3DC(((struct Obj04444 *)p)->f54, 1);
+            if (func_021BF6DC(*(u8 * *)&((struct Obj04444 *)p)->f4) == 0) {
+                func_0204B878(((struct Obj04444 *)p)->f54, 4);
             } else {
-                func_0204B878(*(void **)(p + 0x54), 6);
+                func_0204B878(((struct Obj04444 *)p)->f54, 6);
             }
         } else {
-            func_0204B3DC(*(void **)(p + 0x54), 0);
+            func_0204B3DC(((struct Obj04444 *)p)->f54, 0);
         }
     } else {
-        func_0204B3DC(*(void **)(p + 0x54), 0);
+        func_0204B3DC(((struct Obj04444 *)p)->f54, 0);
     }
 }

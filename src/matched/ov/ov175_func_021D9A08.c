@@ -20,6 +20,7 @@
  *     routine at 0x021E8A00 and return its result, else -1.  func_021D99F4 is
  *     the matching free path for the same field.
  */
+#include "../include/Obj24309.h"
 
 typedef unsigned long u32;
 
@@ -27,7 +28,7 @@ extern int func_021E8A00(u32 p);
 
 int func_021D9A08(char *obj)
 {
-    u32 p = *(u32 *)(obj + 0x30);
+    u32 p = ((struct Obj24309 *)obj)->f30;
 
     if (p != 0)
         return func_021E8A00(p);

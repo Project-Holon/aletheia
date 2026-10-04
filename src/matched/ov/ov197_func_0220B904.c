@@ -15,6 +15,7 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_0220B928 0x0220B928 thumb
  */
+#include "../include/Obj14543.h"
 
 extern void func_0201F73C(void *, int, int, int);
 typedef unsigned char  u8;
@@ -26,7 +27,7 @@ extern void func_0220B928(void *);
 
 void func_0220B904(char *p)
 {
-    func_0201F73C(*(void **)(p + 0x24), 2, 1, 0xb);
-    func_02043B5C(func_02045770(*(void **)(p + 0x24)), 0xf);
+    func_0201F73C(((struct Obj14543 *)p)->f24, 2, 1, 0xb);
+    func_02043B5C(func_02045770(((struct Obj14543 *)p)->f24), 0xf);
     func_0220B928(p);
 }

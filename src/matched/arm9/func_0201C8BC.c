@@ -42,6 +42,7 @@
  * hi and mid are int (the u8 truncation is in the expression), lo is u8:
  * that is what puts hi in r7, mid in r6 and lo in the [sp] spill slot.
  */
+#include "../include/Obj00698.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -66,8 +67,8 @@ void func_0201C8BC(u8 *a0, int a1)
     buf[0] = done;
     buf[1] = done;
     buf[2] = done;
-    if (((int)(*(u32 *)(a0 + 4) << 8)) >> 28 == 1) {
-        int v = *(u16 *)(a0 + 0xe);
+    if (((int)(((struct Obj00698 *)a0)->f4 << 8)) >> 28 == 1) {
+        int v = ((struct Obj00698 *)a0)->fE;
 
         hi = (u8)((v >> 10) & 0x1F);
         mid = (u8)((v >> 5) & 0x1F);
@@ -77,7 +78,7 @@ void func_0201C8BC(u8 *a0, int a1)
             func_0201DD78(hi, mid, lo);
             done = 1;
         }
-        *(u32 *)(a0 + 4) = (*(u32 *)(a0 + 4) & 0xFF0FFFFF) | 0x200000;
+        ((struct Obj00698 *)a0)->f4 = (((struct Obj00698 *)a0)->f4 & 0xFF0FFFFF) | 0x200000;
     }
     while (*p != 0xFFFF) {
         p = (u16 *)func_0201C974(a0, p, 1);

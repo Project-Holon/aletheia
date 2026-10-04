@@ -14,8 +14,9 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj15661.h"
 
 void func_02015DB0(void *p)
 {
-    *(unsigned int *)((char *)p + 0x140) |= 0x100u;
+    ((struct Obj15661 *)p)->f140 |= 0x100u;
 }

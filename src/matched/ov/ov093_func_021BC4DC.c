@@ -13,6 +13,7 @@
  *   func_021BC540  0x021BC540  thumb  ov093
  *   func_021BB930  0x021BB930  thumb  ov093
  */
+#include "../include/Obj21043.h"
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
@@ -31,7 +32,7 @@ int func_021BC4DC(u8 *p, u8 *out)
         n = func_021BC540(p + 0x1ab8, i, buf);
         if (n != 0) {
             for (j = 0; j < n; j++)
-                func_021BB930(*(void **)p, buf[j]);
+                func_021BB930(((struct Obj21043 *)p)->f0, buf[j]);
             ok = 1;
             out[(*out)++ + 1] = i;
         }

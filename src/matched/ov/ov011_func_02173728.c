@@ -15,6 +15,7 @@
  *   func_02012B4C 0x02012B4C thumb
  * The loaded byte stays live as r1 into 02012B4C.
  */
+#include "../include/Obj12413.h"
 typedef unsigned char u8;
 struct Link;
 typedef unsigned int   u32;
@@ -28,7 +29,7 @@ void func_02173728(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;
     unsigned int n;
-    h = (void *)func_02026478(*(void **)(d + 4));
+    h = (void *)func_02026478(((struct Obj12413 *)d)->f4);
     if (a != func_0203D1A4((struct Link *)func_020399A8())) {
         n = *c;
         d[0x902] = n;

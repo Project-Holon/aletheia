@@ -27,6 +27,7 @@
  *   d_021E7EC4 0x021E7EC4 data a4
  *   d_021E7F84 0x021E7F84 data a4
  */
+#include "../include/Obj00001.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -70,9 +71,9 @@ void func_021E60BC(char *p,void *mon,int flag)
     in.b1c=13; in.b1d=0; in.b1e=1;
     if (!flag && func_02017EAC(mon)) bits|=64;
     if (func_0201B280(mon)) bits|=128;
-    if (!*(int *)(p+0x99c)) {
-        func_021B6208((void *)(p+0x98c),&in,*(int *)(p+0x9c4),*(u16 *)(p+0x5f4));
-        *(int *)(p+0x99c)=1;
+    if (!((struct Obj00001 *)p)->f99C) {
+        func_021B6208((void *)(p+0x98c),&in,((struct Obj00001 *)p)->f9C4,((struct Obj00001 *)p)->f5F4);
+        ((struct Obj00001 *)p)->f99C=1;
     }
     offOwner=0x98c; offOwner=0x98c+0x38;
     offStore=0x98c; offStore=0x98c+0x14;
@@ -87,7 +88,7 @@ void func_021E60BC(char *p,void *mon,int flag)
             else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);
             else { func_0204B878((struct Obj *)sprite,state); func_0204B3DC((struct Obj *)sprite,1); }
         } else {
-            *(int *)(p+(unsigned long)i*4+offStore)=func_021B629C((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,*(u16 *)(p+0x5f4));
+            *(int *)(p+(unsigned long)i*4+offStore)=func_021B629C((void *)(p+0x98c),*(int *)(p+offOwner),coords.v[(unsigned long)i]*8,101,state==-1?row[0]:state,((struct Obj00001 *)p)->f5F4);
             sprite=*(int *)(p+(unsigned long)i*4+offLoad);
             if (state==-1) func_0204B3DC((struct Obj *)sprite,0);
             else if (flag && i==6) func_0204B3DC((struct Obj *)sprite,0);

@@ -9,11 +9,12 @@
  * isa:      thumb
  * status:   EXACT*
  */
+#include "../include/Obj15623.h"
 
 extern int func_020123C4(void *p);
 int func_020120D8(char *p)
 {
     if (func_020123C4(p))
         return 1;
-    return *(unsigned char *)(p + 0x31);
+    return ((struct Obj15623 *)p)->f31;
 }

@@ -8,8 +8,9 @@
  * isa: thumb
  * status: EXACT
  */
+#include "../include/Obj24069.h"
 typedef unsigned char u8;
 void func_021B7714(void *a, char *b, int c)
 {
-    *(u8 *)(b + 0x10) |= (u8)(1 << c);
+    ((struct Obj24069 *)b)->f10 |= (u8)(1 << c);
 }

@@ -22,6 +22,8 @@
  *   d_021F31C8     0x021F31C8  data  a4
  *   d_021F33CC     0x021F33CC  data  a4
  */
+#include "../include/Obj02749.h"
+#include "../include/Obj20392.h"
 
 extern int func_0204ABF0(int, int, int, int, int);
 extern int func_0204A6C8(int, int, int, int, int);
@@ -43,16 +45,16 @@ void func_021F1574(char *p, int idx)
     int *q;
 
     i = 0;
-    *(int *)(p + 0x28) = func_0204ABF0(*(int *)(p + 0x24), d_021F31C8[idx], 1, 0, 0x70);
-    *(int *)(p + 0x2c) = func_0204A6C8(*(int *)(p + 0x24), 0x16, 0, 1, 0x70);
-    *(int *)(p + 0x30) = func_0204AF28(*(int *)(p + 0x24), 0x15, 0x14, *(unsigned short *)(p + 0xc));
-    r = func_02049F78(*(int *)(p + 0x24), 0x18, &loc, *(unsigned short *)(p + 0xc));
-    base = *(int **)(loc + 0xc);
+    ((struct Obj02749 *)p)->f28 = func_0204ABF0(((struct Obj02749 *)p)->f24, d_021F31C8[idx], 1, 0, 0x70);
+    ((struct Obj02749 *)p)->f2C = func_0204A6C8(((struct Obj02749 *)p)->f24, 0x16, 0, 1, 0x70);
+    ((struct Obj02749 *)p)->f30 = func_0204AF28(((struct Obj02749 *)p)->f24, 0x15, 0x14, ((struct Obj02749 *)p)->fC);
+    r = func_02049F78(((struct Obj02749 *)p)->f24, 0x18, &loc, ((struct Obj02749 *)p)->fC);
+    base = *(int * *)&((struct Obj20392 *)loc)->fC;
     for (; i < 17; i++) {
         q = (int *)(p + i * 4);
         q[0x6e] = base[d_021F33CC[i]];
     }
     func_020307B0((void *)r);
     func_0203D88C(0xda, 0xe);
-    func_0203D34C(0, *(unsigned short *)(p + 0xc));
+    func_0203D34C(0, ((struct Obj02749 *)p)->fC);
 }

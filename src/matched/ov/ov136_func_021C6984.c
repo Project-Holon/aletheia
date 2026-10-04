@@ -36,6 +36,7 @@
  *   func_021C7658  0x021C7658  thumb
  *   d_021C7F04 0x021C7F04 data a1
  */
+#include "../include/Obj03836.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -68,9 +69,9 @@ extern void *func_020056A0(void (*)(void *), void *, u32);
 extern void func_0203D34C(u32, u32);
 int func_021C6984(u8 *p)
 {
-    if (*(void **)(p + 0x2C) != 0) {
-        func_02030EAC(*(void **)(p + 0x2C));
-        *(u32 *)(p + 0x2C) = 0;
+    if (((struct Obj03836 *)p)->f2C != 0) {
+        func_02030EAC(((struct Obj03836 *)p)->f2C);
+        *(u32 *)&((struct Obj03836 *)p)->f2C = 0;
     }
     func_02043534(0);
     func_020435F4(0);
@@ -78,8 +79,8 @@ int func_021C6984(u8 *p)
     *(volatile u16 *)0x04001050 = 0;
     func_0204363C(0);
     func_0203064C(1, 0x66, 0x60000);
-    *(void **)(p + 8) = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
-    func_02082AC0(0, *(void **)(p + 8), 0x370);
+    ((struct Obj03836 *)p)->f8 = func_02030734(0x66, 0x370, 0, d_021C7F04, 0x10C);
+    func_02082AC0(0, ((struct Obj03836 *)p)->f8, 0x370);
     func_021C5B40(p);
     func_021C5508();
     func_021C5518(p);
@@ -90,11 +91,11 @@ int func_021C6984(u8 *p)
     func_021C64A8(p);
     func_021C5DD8(p);
     func_021C7658(p);
-    func_021C5924(*(u8 **)(p + 8));
+    func_021C5924(*(u8 * *)&((struct Obj03836 *)p)->f8);
     func_021C6170(p);
     func_021C5C00(p);
     func_021C59B8(p);
-    *(void **)(p + 0x2C) = func_020056A0((void (*)(void *))func_021C54FC, p, 1);
+    ((struct Obj03836 *)p)->f2C = func_020056A0((void (*)(void *))func_021C54FC, p, 1);
     func_0203D34C(0, 0x66);
-    return *(u32 *)(p + 0x28);
+    return ((struct Obj03836 *)p)->f28;
 }

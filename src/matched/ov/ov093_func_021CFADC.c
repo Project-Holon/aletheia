@@ -17,6 +17,7 @@
  *   func_021D59B4  0x021D59B4  thumb  ov093
  *   func_021D5814  0x021D5814  thumb  ov093
  */
+#include "../include/Obj01894.h"
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
@@ -34,7 +35,7 @@ int func_021CFADC(u8 *g, void *m)
     u32 a;
 
     a = func_021CF89C(g, m);
-    if (func_021EFCE4((char *)(*(int *)(g + 0x34)), 2) != 0)
+    if (func_021EFCE4((char *)(*(int *)&((struct Obj01894 *)g)->f34), 2) != 0)
         return 1;
     if (func_021D62C4(m, 0x1f) != 0)
         return 1;

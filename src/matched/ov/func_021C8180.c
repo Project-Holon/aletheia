@@ -12,10 +12,11 @@
  * symbols:
  *   func_021B8670  0x021B8670  thumb  ov093
  */
+#include "../include/Obj18337.h"
 
 unsigned int func_021B8670(unsigned int **p);
 
 void func_021C8180(int *p)
 {
-    func_021B8670((unsigned int **)(*(int *)((char *)p + 4)));
+    func_021B8670((unsigned int **)(((struct Obj18337 *)p)->f4));
 }

@@ -35,6 +35,8 @@
  *   python tools/match.py tu --src src/matched/unit_02020CF8.c \
  *       --addr 0x02020CF8 --thumb
  */
+#include "../include/Obj17238.h"
+#include "../include/Obj17240.h"
 
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -56,7 +58,7 @@ void func_02020CF8(struct Obj *p, int heap)
 
 u32 func_02020D0C(u8 *p)
 {
-    return *(u32 *)(p + 0x1C);
+    return ((struct Obj17238 *)p)->f1C;
 }
 
 void func_02020D10(u8 *p, u8 v)
@@ -72,7 +74,7 @@ void *func_02020D18(u32 heap)
     void *p = func_02030734((u16)heap, 0xc, 1, func_02020D18_File, 0x3a);
 
     if (p != 0) {
-        *(u32 *)p = 0;
+        ((struct Obj17240 *)p)->f0 = 0;
     }
     return p;
 }

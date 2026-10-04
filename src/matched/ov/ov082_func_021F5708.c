@@ -12,6 +12,7 @@
  * symbols:
  *   func_0207D63C  0x0207D63C  arm
  */
+#include "../include/Obj06200.h"
 
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -22,10 +23,10 @@ int func_021F5708(char *p)
 {
     int q;
 
-    *(u16 *)(p + 0x24) = *(u16 *)(p + 0x24) + 1;
-    q = (*(u16 *)(p + 0x24) << 4) / 30;
+    ((struct Obj06200 *)p)->f24 = ((struct Obj06200 *)p)->f24 + 1;
+    q = (((struct Obj06200 *)p)->f24 << 4) / 30;
     func_0207D63C(0x04000050, 8, 4, q, 16 - q);
-    if (*(u16 *)(p + 0x24) >= 30)
+    if (((struct Obj06200 *)p)->f24 >= 30)
         return 1;
     return 0;
 }

@@ -27,6 +27,7 @@
  *   site 0x021BB668 data ov214
  *   config 0x021BB588 data ov214
  */
+#include "../include/Obj25730.h"
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern const char site[];
@@ -64,6 +65,6 @@ char *func_021BB178(u32 a,u32 heap)
     func_021BB2C8(p,heap);
     func_021BB36C((unsigned char *)p+4,(int)config,heap);
     func_021BB3DC((u32 **)(p+8),heap);
-    *(u32 *)(p+12)=func_020056A0((void (*)(void *))func_021BB2B4,p,0);
+    ((struct Obj25730 *)p)->fC=func_020056A0((void (*)(void *))func_021BB2B4,p,0);
     return p;
 }

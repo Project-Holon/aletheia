@@ -16,6 +16,7 @@
  *   func_0204B92C  0x0204B92C  arm
  *   func_021B8AF4  0x021B8AF4  thumb  ov070
  */
+#include "../include/Obj20670.h"
 
 extern int func_020221A4();
 extern int func_021BB690(const char *p);
@@ -28,7 +29,7 @@ void func_021B8688(int p)
     int a = func_020221A4(p);
     int b = func_021BB690((const char *)p);
     if (a == 1 && b == 0) {
-        func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 1);
+        func_0204B92C((struct Obj *)((struct Obj20670 *)p)->f6A8, 1);
         func_021B8AF4((void *)p);
     }
 }

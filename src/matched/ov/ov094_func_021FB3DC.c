@@ -21,6 +21,7 @@
  *   func_021F8700  0x021F8700  thumb  ov094
  *   func_02209784  0x02209784  thumb  ov094
  */
+#include "../include/Obj04398.h"
 typedef unsigned short u16;
 
 extern int func_0201134C(int a);
@@ -41,12 +42,12 @@ int func_021FB3DC(int a, char *b)
 
     t = func_0201134C(a);
     func_0204047C(3, 1);
-    func_02049624((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000);
-    func_0204989C(0x5f, t, 3, 0, 0, 0, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000);
-    func_020215EC(func_021F86E0(), 0x5f, t + 2, (*(u16 *)(b + 0x238) & 0x7fff) | 0x8000, 0, 0, 0x80, 0);
-    *(int *)(b + 0x264) = func_020407E8(3);
-    *(int *)(b + 0x268) = func_02040804(3);
+    func_02049624((void *)0x5f, (void *)(t + 1), (void *)3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
+    func_0204989C(0x5f, t, 3, 0, 0, 0, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000);
+    func_020215EC(func_021F86E0(), 0x5f, t + 2, (((struct Obj04398 *)b)->f238 & 0x7fff) | 0x8000, 0, 0, 0x80, 0);
+    ((struct Obj04398 *)b)->f264 = func_020407E8(3);
+    ((struct Obj04398 *)b)->f268 = func_02040804(3);
     func_02209784(func_021F8700(), 0, 0);
-    *(unsigned int *)b |= 0x10;
-    return *(int *)(b + 0x23c);
+    ((struct Obj04398 *)b)->f0 |= 0x10;
+    return ((struct Obj04398 *)b)->f23C;
 }

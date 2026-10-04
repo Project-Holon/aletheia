@@ -11,10 +11,11 @@
  * symbols:
  *   func_02011608 0x02011608 thumb
  */
+#include "../include/Obj25316.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Owner;struct TcblNode;
 typedef struct Config {unsigned words[11];} Config;
 extern u32 func_02011608(void *);
-u32 func_021BE62C(char *p) { return func_02011608(*(void **)(p+24)); }
+u32 func_021BE62C(char *p) { return func_02011608(((struct Obj25316 *)p)->f18); }

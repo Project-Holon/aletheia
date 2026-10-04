@@ -15,6 +15,7 @@
  *   func_021A3960  0x021A3960  thumb  ov021
  *   func_02163E34  0x02163E34  thumb  ov010
  */
+#include "../include/Obj09571.h"
 
 typedef unsigned int u32;
 
@@ -34,8 +35,8 @@ void func_021A5788(u32 *p, int k, int *out)
 {
     Vec021A5788 v;
 
-    func_021A3898(*(unsigned char **)(p + 3), (struct VecFx32 *)&v);
+    func_021A3898(*(unsigned char * *)&((struct Obj09571 *)p)->fC, (struct VecFx32 *)&v);
     if (k != 9)
         func_02164208(k, &v, 0x10000);
-    func_02163E34(func_021A3960(*(unsigned char **)(p + 3)), &v, out);
+    func_02163E34(func_021A3960(*(unsigned char * *)&((struct Obj09571 *)p)->fC), &v, out);
 }

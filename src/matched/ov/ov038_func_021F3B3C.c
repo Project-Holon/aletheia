@@ -52,6 +52,7 @@
  *   d_021F4608     0x021F4608  data  a4
  *   d_021F4620     0x021F4620  data  a4
  */
+#include "../include/Obj00488.h"
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -143,7 +144,7 @@ int func_021F3B3C(int a0, int *a1)
     case 0:
         t = func_021A3074((void *)q);
         if (func_0216D454(t) != 0 && func_0216D3CC((int)t) != 0) {
-            *(int *)(s + 0x1c) = 1;
+            ((struct Obj00488 *)s)->f1C = 1;
             func_021A3038(q, (struct VecFx32 *)(s + 8));
             func_021BE4B4((char *)h, 0, c, 1);
             func_021BE4B4((char *)h, 0, 0x22, 0);
@@ -152,7 +153,7 @@ int func_021F3B3C(int a0, int *a1)
             func_021BE700((void *)h, 0, 0x22, k, 1);
             func_021BE6CC(h, 0, 0x22, k, 0);
             func_021BE6B0(e, 1);
-            *(int *)(s + 0x20) = 0;
+            ((struct Obj00488 *)s)->f20 = 0;
             *a1 = *a1 + 1;
         }
         break;
@@ -173,9 +174,9 @@ int func_021F3B3C(int a0, int *a1)
                 v.z += dir << 12;
                 func_021A3044(q, &v);
                 d = (u32)s[5] >> 1;
-                if (*(int *)(s + 0x20) == 0 && d != 0) {
+                if (((struct Obj00488 *)s)->f20 == 0 && d != 0) {
                     func_020061E4(0x6C2);
-                    *(int *)(s + 0x20) = 1;
+                    ((struct Obj00488 *)s)->f20 = 1;
                 }
                 func_021BE6CC(h, 0, 0x22, k, d << 12);
                 if (s[5] >= 0x20)
@@ -187,18 +188,18 @@ int func_021F3B3C(int a0, int *a1)
         }
         break;
     case 2:
-        if (*(int *)(s + 0x14) != 0) {
-            if (func_02197DA0(*(int *)(s + 0x14)) == 1) {
-                func_02197DAC((void *)(*(int *)(s + 0x14)));
-                *(int *)(s + 0x14) = 0;
-                *(int *)(s + 0x18) = 1;
+        if (((struct Obj00488 *)s)->f14 != 0) {
+            if (func_02197DA0(((struct Obj00488 *)s)->f14) == 1) {
+                func_02197DAC((void *)(((struct Obj00488 *)s)->f14));
+                ((struct Obj00488 *)s)->f14 = 0;
+                ((struct Obj00488 *)s)->f18 = 1;
                 *a1 = *a1 + 1;
             }
         } else {
-            *(int *)(s + 0x18) = 1;
+            ((struct Obj00488 *)s)->f18 = 1;
             *a1 = *a1 + 1;
         }
-        if (*(int *)(s + 0x18) != 0) {
+        if (((struct Obj00488 *)s)->f18 != 0) {
             func_021BE6B0(e, 0);
             func_02012374((struct Evt *)a0, func_021618A0(w, (int)sys, 0xff, (int)(s[6] == 0 ? d_021F4608 : d_021F4600)));
             func_02006210();
@@ -215,13 +216,13 @@ int func_021F3B3C(int a0, int *a1)
         }
         break;
     }
-    if (*(int *)(s + 0x1c) != 0 && *(int *)(s + 0x18) == 0) {
+    if (((struct Obj00488 *)s)->f1C != 0 && ((struct Obj00488 *)s)->f18 == 0) {
         t = func_021A3074((void *)q);
-        if (*(int *)(s + 0x14) == 0) {
-            *(int *)(s + 0x14) = func_02197D3C(t, s[6] == 0 ? d_021F4620 : d_021F45F8);
-        } else if (func_02197DA0(*(int *)(s + 0x14)) == 1) {
-            func_02197DAC((void *)(*(int *)(s + 0x14)));
-            *(int *)(s + 0x14) = 0;
+        if (((struct Obj00488 *)s)->f14 == 0) {
+            ((struct Obj00488 *)s)->f14 = func_02197D3C(t, s[6] == 0 ? d_021F4620 : d_021F45F8);
+        } else if (func_02197DA0(((struct Obj00488 *)s)->f14) == 1) {
+            func_02197DAC((void *)(((struct Obj00488 *)s)->f14));
+            ((struct Obj00488 *)s)->f14 = 0;
         }
     }
     return 0;

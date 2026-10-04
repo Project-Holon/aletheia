@@ -19,6 +19,8 @@
  *   func_02045334 0x02045334 arm
  *   d_0220DA0D 0x0220DA0D data a1
  */
+#include "../include/Obj03905.h"
+#include "../include/Obj24992.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -53,15 +55,15 @@ void func_0220B248(char *p)
     func_0220B1D4(p,1,3,16,0x3C40);
     func_0220B1D4(p,2,7,0,0x3C40);
     func_0220B1D4(p,3,6,0,0x3C40);
-    if(*(u16 *)(p+0x540)!=0){
-        text=func_02045EC0(*(void **)(p+0xC),8);
-        font=*(void **)(p+0x18);
-        surface=func_02045770(*(void **)(p+0x48));
-        func_0201C724(font,surface,0,0,text,*(u32 *)(*(char **)p+4),0x3C40);
+    if(((struct Obj03905 *)p)->f540!=0){
+        text=func_02045EC0(((struct Obj03905 *)p)->fC,8);
+        font=((struct Obj03905 *)p)->f18;
+        surface=func_02045770(((struct Obj03905 *)p)->f48);
+        func_0201C724(font,surface,0,0,text,((struct Obj24992 *)(*(char * *)&((struct Obj03905 *)p)->f0))->f4,0x3C40);
         p[0x4C]=1;
         func_02045808(text);
     }else{
-        func_02045334(*(void **)(p+0x48));
+        func_02045334(((struct Obj03905 *)p)->f48);
     }
-    *(const char **)(p+0x59C)=d_0220DA0D;
+    *(const char * *)&((struct Obj03905 *)p)->f59C=d_0220DA0D;
 }

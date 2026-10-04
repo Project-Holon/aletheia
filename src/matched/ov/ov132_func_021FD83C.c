@@ -11,7 +11,8 @@
  * symbols:
 
  */
+#include "../include/Obj23298.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-u32 func_021FD83C(char *p) {return *(u32 *)(p+0x170);}
+u32 func_021FD83C(char *p) {return ((struct Obj23298 *)p)->f170;}

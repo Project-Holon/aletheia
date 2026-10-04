@@ -12,6 +12,8 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
+#include "../include/Obj06477.h"
+#include "../include/Obj08135.h"
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -21,4 +23,4 @@ struct PrintSys;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *d);
-void func_021CA478(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=*(void **)(p+52);if(*(u8 *)(q+4)) {if(!func_0201C6C4(v,func_02045770(*(void **)q))) {func_02045334(*(void **)q);*(u8 *)(q+4)=0;}}}}
+void func_021CA478(char *p) {u32 i;char *q;void *v;for(i=0;i<64;i++){q=*(char **)(p+i*4+56);if(!q)break;v=((struct Obj06477 *)p)->f34;if(((struct Obj08135 *)q)->f4) {if(!func_0201C6C4(v,func_02045770(((struct Obj08135 *)q)->f0))) {func_02045334(((struct Obj08135 *)q)->f0);((struct Obj08135 *)q)->f4=0;}}}}

@@ -14,6 +14,7 @@
  *
  * Queue the byte-narrowed index, then re-run the frame update.
  */
+#include "../include/Obj18531.h"
 
 
 typedef unsigned char  u8;
@@ -22,6 +23,6 @@ extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
 void func_021EEC1C(char *p, unsigned int a)
 {
-    func_020260E4((struct Sound *)(*(int *)(*(int *)(p + 0x2c) + 0x70)), (unsigned char)a);
+    func_020260E4((struct Sound *)(*(int *)(((struct Obj18531 *)p)->f2C + 0x70)), (unsigned char)a);
     func_021EE408(p, a);
 }

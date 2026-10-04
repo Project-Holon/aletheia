@@ -25,14 +25,15 @@
  * UNBLOCKED: func_021BB998 is now an EXACT entry in layout/matched/ov217;
  * the call site resolves as matched, verdict promoted to EXACT.
 */
+#include "../include/Obj14731.h"
 
 extern int func_021BB998(char *, int, int);
 
 int func_021BB978(char *p, int a1)
 {
     int off = 0x56;
-    *(int *)(p + 0x1c) = a1;
-    *(int *)(p + 0x24) = 0;
+    ((struct Obj14731 *)p)->f1C = a1;
+    ((struct Obj14731 *)p)->f24 = 0;
     *(int *)(p + (off << 2)) = 0;
     return func_021BB998(p, off << 2, 0);
 }

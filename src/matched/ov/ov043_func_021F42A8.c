@@ -21,6 +21,8 @@
  *   func_021A3038  0x021A3038  thumb
  *   func_021A3044  0x021A3044  thumb
  */
+#include "../include/Obj20511.h"
+#include "../include/Obj20512.h"
 
 typedef unsigned char u8;
 
@@ -46,10 +48,10 @@ void func_021F42A8(void *p)
     b = func_02188D2C(a);
     c = func_021897BC(a, 1);
     d = func_02188C58(a);
-    *(int *)((u8 *)c + 0x10) = func_0218EC5C(d);
+    ((struct Obj20511 *)c)->f10 = func_0218EC5C(d);
     func_0218EC54(d);
     e = func_021BE480(b, 0, 7);
-    *(int *)((u8 *)e + 4) = 0x370000;
+    ((struct Obj20512 *)e)->f4 = 0x370000;
     f = func_02188CB4(a);
     func_021A3038(f, (struct VecFx32 *)tmp);
     tmp[1] = 0x370000;

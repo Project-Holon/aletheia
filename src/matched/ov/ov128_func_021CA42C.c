@@ -16,6 +16,7 @@
  *
  * Addresses are Black-image addresses.
  */
+#include "../include/Obj14052.h"
 
 typedef unsigned char  u8;
 struct Cfg;
@@ -26,6 +27,6 @@ extern void func_02041B6C(unsigned);
 
 void func_021CA42C(char *p)
 {
-    func_02045374(*(void **)(p + 0xc));
-    func_02041B6C(func_02045730(*(void **)(p + 0xc)));
+    func_02045374(((struct Obj14052 *)p)->fC);
+    func_02041B6C(func_02045730(((struct Obj14052 *)p)->fC));
 }

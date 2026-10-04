@@ -14,6 +14,7 @@
  *   func_02186444 0x02186444 thumb ov023
  *   func_02185354 0x02185354 thumb ov023
  */
+#include "../include/Obj20348.h"
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02186304(char *p, int a);
@@ -25,6 +26,6 @@ int func_021853F0(char *p, int result)
     func_02186304(p, 1);
     func_02186444(p, 4);
     func_02185354(p);
-    *(u32 *)(p + 0x9e7c) = 0;
+    ((struct Obj20348 *)p)->f9E7C = 0;
     return result;
 }

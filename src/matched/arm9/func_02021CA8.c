@@ -35,6 +35,8 @@
  * The p[0x118] flag field is the same bits[2:16) register func_02021B6C
  * uses, as the note suspected.
  */
+#include "../include/Obj06878.h"
+#include "../include/Obj08779.h"
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed   short s16;
@@ -59,10 +61,10 @@ void func_02021CA8(u8 *p, u32 idx, struct S *s)
 
     if (s->cur == s->max) {
         bit = 1 << idx;
-        flags = ((u32)*(u16 *)(p + 0x118) << 0x10) >> 0x12;
+        flags = ((u32)((struct Obj08779 *)p)->f118 << 0x10) >> 0x12;
         if (flags & bit) {
-            *(u16 *)(p + 0x118) =
-                (u16)((*(u16 *)(p + 0x118) & 0xFFFF0003)
+            ((struct Obj08779 *)p)->f118 =
+                (u16)((((struct Obj08779 *)p)->f118 & 0xFFFF0003)
                       | (((flags ^ (u16)bit) << 0x12) >> 0x10));
         }
         return;
@@ -73,16 +75,16 @@ void func_02021CA8(u8 *p, u32 idx, struct S *s)
         if (v > (s32)s->max) {
             v = (s16)s->max;
         }
-        *(u16 *)((u8 *)s + 2) =
-            (u16)((*(u16 *)((u8 *)s + 2) & 0xFFFFF83F)
+        ((struct Obj06878 *)s)->f2 =
+            (u16)((((struct Obj06878 *)s)->f2 & 0xFFFFF83F)
                   | (((u32)(u16)v << 0x1b) >> 0x15));
     } else {
         v = (s16)((s16)s->cur - (s32)s->step);
         if (v < (s32)s->max) {
             v = (s16)s->max;
         }
-        *(u16 *)((u8 *)s + 2) =
-            (u16)((*(u16 *)((u8 *)s + 2) & 0xFFFFF83F)
+        ((struct Obj06878 *)s)->f2 =
+            (u16)((((struct Obj06878 *)s)->f2 & 0xFFFFF83F)
                   | (((u32)(u16)v << 0x1b) >> 0x15));
     }
 }

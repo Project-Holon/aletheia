@@ -20,6 +20,7 @@
  *   func_021F32F8 0x021F32F8 thumb ov032
  *   func_02043598 0x02043598 arm
  */
+#include "../include/Obj00007.h"
 
 typedef struct { int w[4]; } T16;
 
@@ -40,11 +41,11 @@ void func_021F2F44(char *p)
     T16 t;
     int i;
 
-    *(void **)(p + 0x128) = func_0204B100(0x40, 0, *(unsigned short *)(p + 0x94));
+    ((struct Obj00007 *)p)->f128 = func_0204B100(0x40, 0, ((struct Obj00007 *)p)->f94);
     t = d_021F35E0;
-    *(void **)(p + 0x12c) = func_0204B034(&t, 1, *(unsigned short *)(p + 0x98));
-    func_0204B258(*(void **)(p + 0x128), *(void **)(p + 0x12c));
-    *(void **)(p + 0x124) = func_02025538(*(unsigned short *)(p + 0x98), *(void **)(p + 0x128));
+    ((struct Obj00007 *)p)->f12C = func_0204B034(&t, 1, ((struct Obj00007 *)p)->f98);
+    func_0204B258(((struct Obj00007 *)p)->f128, ((struct Obj00007 *)p)->f12C);
+    ((struct Obj00007 *)p)->f124 = func_02025538(((struct Obj00007 *)p)->f98, ((struct Obj00007 *)p)->f128);
     func_021F3264(p);
     for (i = 0; i < 5; i++) {
         func_021F32F8(p, i);
