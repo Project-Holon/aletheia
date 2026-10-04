@@ -77,14 +77,13 @@ extern void *func_02188C7C(u8 *q);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
-extern void func_021A3038(void *id, VecFx32 *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *id, struct VecFx32 *out);
 extern u32 func_021A34EC(void *id);
 extern int func_021C5C64(void *unused, u8 *a, VecFx32 *out);
 extern int func_021AA900(struct Self *self, short *pos);
-/* 021AA180 reads a mode in r1 (its own file: (ctx, mode)); this caller
- * passes none, leaving r1 = the f59 flag just stored.  Declaring the second
- * argument makes mwcc reload f59 (+4 bytes). */
-extern void *func_021AA180(void *ctx);
+/* Retain the mode used to store f59 for the helper's second argument. */
+extern struct Obj *func_021AA180(struct Ctx *ctx, int mode);
 extern void func_0216D9A0(void *o);
 extern void func_021C5DF4(void);
 
@@ -92,6 +91,7 @@ void *func_021C5D10(u8 *a, void *b)
 {
     void *task;
     Work *w;
+    int mode;
 
     task = func_020122C0(b, 0, func_021C5DF4, sizeof(Work));
     w = func_020124E8(task);
@@ -105,7 +105,7 @@ void *func_021C5D10(u8 *a, void *b)
     w->f18 = func_02188CB4(a);
     w->f1C = func_021A3074(w->f18);
     w->f58 = func_0216D5F8(w->f1C);
-    func_021A3038(w->f18, &w->f34);
+    func_021A3038(w->f18, (struct VecFx32 *)&w->f34);
     w->f28 = func_021A34EC(w->f18);
     if (func_021C5C64(w->f4, w->f8, &w->f40) == 0)
         w->f5A = 1;
@@ -113,10 +113,10 @@ void *func_021C5D10(u8 *a, void *b)
     w->f20[1] = (w->f40.y >> 4) / 4096;
     w->f20[2] = (w->f40.z >> 4) / 4096;
     if (func_021AA900(w->fC, w->f20))
-        w->f59 = 1;
+        w->f59 = mode = 1;
     else
-        w->f59 = 0;
-    w->f64 = func_021AA180(w->fC);
+        w->f59 = mode = 0;
+    w->f64 = func_021AA180(w->fC, mode);
     func_0216D9A0(w->f14);
     return task;
 }

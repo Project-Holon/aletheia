@@ -31,7 +31,8 @@ extern u16 func_02188C84(u8 *p);
 extern u32 func_02188C98(u8 *p);
 extern u32 func_0218DC6C(u32 a);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *a, int *pos);
+struct VecFx32;
+extern void func_021A3038(unsigned char *a, struct VecFx32 *pos);
 extern u32 *func_0218C584(u32 a, int *rect, u32 n, int *cnt);
 extern void func_0218C6D0(u32 a, u8 *dst);
 extern void func_020307B0(void *p);
@@ -58,7 +59,7 @@ void func_021C0904(u8 *p, u32 a, u32 n)
     if (p[0x14] > 6) {
         p[0x14] = 6;
     }
-    func_021A3038(func_02188CB4(*(void **)(p + 4)), pos);
+    func_021A3038(func_02188CB4(*(void **)(p + 4)), (struct VecFx32 *)pos);
     rect[0] = pos[2] - 0x50000;
     rect[1] = pos[2] + 0x50000;
     rect[2] = pos[0] - 0x50000;

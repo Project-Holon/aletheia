@@ -47,7 +47,7 @@ typedef struct {
 
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
-extern void func_021A3038(void *p, VecFx32 *out);
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *p, const VecFx32 *v);
 extern void func_02164010(void *m);
 extern void func_020520A4(const VecFx32 *v, fx32 s, VecFx32 *o);

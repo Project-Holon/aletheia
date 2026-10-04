@@ -62,7 +62,8 @@ extern int *func_0218C584(int, int *, int, int *);
 extern int func_0218C724(int, int);
 extern void func_0218C88C(int, int, int);
 extern void func_020307B0(void *);
-extern void func_021A3038(void *, Vec *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_021C754C(int, int, int *);
 extern int func_02188D38(int);
 extern void func_021C6DE0(int, int, int);
@@ -132,7 +133,7 @@ int func_021BFE2C(int task, int *state, int *q)
         *state = 2;
         break;
     case 2:
-        func_021A3038(s, &v);
+        func_021A3038(s, (struct VecFx32 *)&v);
         dx = (v.x >> 12) / 16 - (q[5] >> 12) / 16;
         dz = (v.z >> 12) / 16 - (q[7] >> 12) / 16;
         if (dx < 0)
