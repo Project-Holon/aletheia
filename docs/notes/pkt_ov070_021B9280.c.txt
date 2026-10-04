@@ -1,0 +1,212 @@
+/*
+ * function: func_021B9280
+ * address: 0x021B9280
+ * packet: pkt_ov070_021B9280
+ * region: ov070
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 02049B40 reads six arguments, final stack arg ldrh at 02049B4C; matched caller 02027F60 confirms u32 third arg; 2 ov070 021B9E14 and 021BA028 confirm Rect layout and loader prototypes, no resource-init twin; 3 enum cast/local and u8 zero leave 2 bytes, const p worsens to 88; 4 unsigned base+index+offset fixes frame and reduces 1224-byte mismatch to same-size 2 bytes; 5 refreshed idioms and neighbours, struct-local addressing now matches. Permuter once 300 types/jobs1: baseline and best DIFF 1240/1240, 2 bytes, no improvement; macro-free fixed one agrees.
+ * residual: original 021B93DA movs r2,#0 versus compiled adds r2,r4,#0, all 70 relocations resolved. Manual iteration stopped after three nonshrinking changes; two scheduling variants used.
+ * volatile: hardware BLDCNT write at original 021B928C.
+ * symbols:
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_02045088 0x02045088 arm
+ *   func_0201DD60 0x0201DD60 thumb
+ *   func_020433E0 0x020433E0 arm
+ *   func_0204A48C 0x0204A48C arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_02043534 0x02043534 arm
+ *   func_020435F4 0x020435F4 arm
+ *   func_021B8F98 0x021B8F98 thumb ov070
+ *   func_0201DD68 0x0201DD68 thumb
+ *   func_0201F5DC 0x0201F5DC thumb
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02008550 0x02008550 thumb
+ *   func_02049BDC 0x02049BDC arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049990 0x02049990 arm
+ *   func_021B9178 0x021B9178 thumb ov070
+ *   func_021B91FC 0x021B91FC thumb ov070
+ *   func_02049238 0x02049238 arm
+ *   func_02049B40 0x02049B40 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_02043598 0x02043598 arm
+ *   func_020434DC 0x020434DC arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_021BA6F4 0x021BA6F4 thumb ov070
+ *   func_020275E4 0x020275E4 thumb
+ *   func_020275E8 0x020275E8 thumb
+ *   func_020275FC 0x020275FC thumb
+ *   func_02027600 0x02027600 thumb
+ *   func_02027610 0x02027610 thumb
+ *   func_020275F8 0x020275F8 thumb
+ *   func_0204B294 0x0204B294 arm
+ *   func_02027604 0x02027604 thumb
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_020275EC 0x020275EC thumb
+ *   func_0204B92C 0x0204B92C arm
+ *   func_021BB5A4 0x021BB5A4 thumb ov070
+ *   d_021BBBE0 0x021BBBE0 data a4
+ *   d_021BBA8C 0x021BBA8C data a4
+ *   d_021BBAB0 0x021BBAB0 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct DispVram;
+struct Cfg;
+struct DispConfig { u32 a,b,c,d; };
+struct Sub0200852CObj;
+struct Bank;
+struct Obj;
+struct Rect { short x,y,z; u8 a,b; };
+extern const struct DispVram d_021BBBE0;
+extern const struct Cfg d_021BBA8C;
+extern const struct DispConfig d_021BBAB0;
+extern void func_0203F8F4(u16);
+extern void func_02045088(u16);
+extern void func_0201DD60(void);
+extern void func_020433E0(const struct DispVram *);
+extern void func_0204A48C(const struct Cfg *,u32,u32);
+extern void func_0203FC28(struct DispConfig *);
+extern void func_02043534(u32);
+extern void func_020435F4(u32);
+extern void func_021B8F98(void);
+extern void func_0201DD68(void);
+extern void *func_0201F5DC(void *,u32,u32,u32);
+extern void *func_020490F4(u32,u16);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern u8 func_02008550(const struct Sub0200852CObj *);
+extern void func_02049BDC(void *,u32,u32,u32,u32,u32,u16);
+extern u32 func_02049740(void *,u32,u32,u32,u32,u16);
+extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);
+extern void func_021B9178(char *,int);
+extern void func_021B91FC(char *,int);
+extern void func_02049238(void *);
+extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern struct Bank *func_0204B100(int,u8,u32);
+extern void func_02043598(u32,u32);
+extern void func_020434DC(u32,u32);
+extern void func_020409B4(u32);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u32);
+extern void func_021BA6F4(char *);
+extern u32 func_020275E4(void);
+extern u32 func_020275E8(void);
+extern u32 func_020275FC(u32);
+extern u32 func_02027600(u32);
+extern u32 func_02027610(u32);
+extern u32 func_020275F8(u32);
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
+extern u8 func_02027604(u8);
+extern void func_0204B6F4(struct Obj *,u32,u32);
+extern void func_0204B3DC(struct Obj *,u32);
+extern u8 func_020275EC(u8);
+extern void func_0204B92C(struct Obj *,u32);
+extern void func_021BB5A4(char *);
+#define P(k) (*(void **)(p+(k)))
+#define W(k) (*(u32 *)(p+(k)))
+#define H(k) (*(u16 *)(p+(k)))
+void func_021B9280(char *p)
+{
+    struct DispConfig cfg;
+    struct Rect r3;
+    struct Rect r2;
+    struct Rect r1;
+    void *arc;
+    void *other;
+    u32 first;
+    u32 i;
+    u32 j;
+    u8 zero;
+    *(volatile u16 *)0x04000050=0;
+    func_0203F8F4(H(0x544));
+    func_02045088(H(0x544));
+    func_0201DD60();
+    func_020433E0(&d_021BBBE0);
+    func_0204A48C(&d_021BBA8C,(u32)&d_021BBBE0,H(0x544));
+    cfg=d_021BBAB0;
+    func_0203FC28(&cfg);
+    func_02043534(0);
+    func_020435F4(0);
+    func_021B8F98();
+    func_0201DD68();
+    P(0x838)=func_0201F5DC((void *)3,13,0,H(0x544));
+    arc=func_020490F4(88,H(0x544));
+    func_02049B68(arc,8,4,0,0,H(0x544));
+    if(func_02008550(P(8))==0) func_02049BDC(arc,8,4,32,0,32,H(0x544));
+    W(0x7fc)=func_02049740(arc,6,4,0,0,H(0x544));
+    func_02049990(arc,7,4,0,(u16)W(0x7fc),0,0,H(0x544));
+    func_021B9178(p,(int)arc);
+    W(0x800)=func_02049740(arc,17,5,0,0,H(0x544));
+    func_02049990(arc,23,5,0,(u16)W(0x800),0,0,H(0x544));
+    func_021B91FC(p,(int)arc);
+    W(0x808)=func_02049740(arc,33,3,0,0,H(0x544));
+    func_02049B68(arc,34,0,96,32,H(0x544));
+    func_02049238(arc);
+    zero=0;
+    func_02049B40(23,5,zero,384,32,H(0x544));
+    P(0x69c)=func_0204B100(52,0,H(0x544));
+    func_02043598(16,1);
+    func_020434DC(16,1);
+    arc=func_020490F4(83,H(0x544));
+    func_02049B68(arc,27,0,256,32,H(0x544));
+    W(0x804)=func_02049740(arc,28,1,0,0,H(0x544));
+    func_02049990(arc,29,1,0,(u16)W(0x804)+0x8000,0,0,H(0x544));
+    func_020409B4(1);
+    W(0x55c)=func_0204AC18(arc,19,0,320,0,3,H(0x544));
+    W(0x564)=func_0204A6C8(arc,20,0,0,H(0x544));
+    W(0x570)=func_0204AF28(arc,23,26,H(0x544));
+    func_02049238(arc);
+    func_021BA6F4(p);
+    other=func_020490F4(func_020275E4(),H(0x544));
+    W(0x5e0)=func_0204AC18(other,func_020275E8(),1,128,0,3,H(0x544));
+    first=func_020275FC(2);
+    W(0x5e4)=func_0204AF28(other,first,func_02027600(2),H(0x544));
+    for(i=0;i<3;i++) *(u32 *)((u32)p+i*4+0x5e8)=func_0204A6C8(other,func_02027610((u8)i),0,1,H(0x544));
+    for(j=0;j<17;j++) *(u32 *)((u32)p+j*4+0x59c)=func_0204A6C8(other,func_020275F8((u8)j),0,1,H(0x544));
+    func_02049238(other);
+    r3.x=80;
+    r3.y=184;
+    r3.a=1;
+    r3.b=1;
+    r3.z=0;
+    for(i=0;i<3;i++) {
+        *(void **)((u32)p+i*4+0x6c0)=func_0204B294(P(0x69c),*(u32 *)((u32)p+i*4+0x5e8),W(0x5e0),W(0x5e4),&r3,1,H(0x544));
+        func_0204B6F4(*(void **)((u32)p+i*4+0x6c0),func_02027604((u8)i),1);
+        func_0204B3DC(*(void **)((u32)p+i*4+0x6c0),0);
+    }
+    r2.x=82;
+    r2.y=165;
+    r2.a=1;
+    r2.b=1;
+    r2.z=0;
+    for(j=0;j<17;j++) {
+        *(void **)((u32)p+j*4+0x6cc)=func_0204B294(P(0x69c),*(u32 *)((u32)p+j*4+0x59c),W(0x5e0),W(0x5e4),&r2,1,H(0x544));
+        func_0204B6F4(*(void **)((u32)p+j*4+0x6cc),func_020275EC((u8)j),1);
+        func_0204B3DC(*(void **)((u32)p+j*4+0x6cc),0);
+    }
+    arc=func_020490F4(88,H(0x544));
+    W(0x580)=func_0204AC18(arc,39,0,128,0,2,H(0x544));
+    W(0x584)=func_0204A6C8(arc,38,0,0,H(0x544));
+    W(0x58c)=func_0204AF28(arc,37,36,H(0x544));
+    func_02049238(arc);
+    r1.a=10;
+    r1.b=1;
+    r1.x=146;
+    r1.y=176;
+    r1.z=0;
+    P(0x72c)=func_0204B294(P(0x69c),W(0x584),W(0x580),W(0x58c),&r1,0,H(0x544));
+    func_0204B92C(P(0x72c),1);
+    func_0204B3DC(P(0x72c),1);
+    func_021BB5A4(p);
+}

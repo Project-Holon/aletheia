@@ -1,0 +1,16 @@
+/*
+ * function: func_021C1154
+ * address: 0x021C1154
+ * packet: pkt_ov110_021C1154
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee takes unsigned,void *,int * and returns int, show confirms; 2 no twin; 3 const no change, u16 counter worse, offset-after-index worse; 4 pointer-base and loop-index idioms inspected; 5 latest directory and ov110 neighbours re-read, no new twin. Next hypothesis: an explicit duplicate typed base local.
+ * symbols:
+ *   func_021C1174 0x021C1174 thumb ov110
+ */
+extern int func_021C1174(unsigned,void *,int *);
+#include "../../matched/include/Obj10286.h"
+void func_021C1154(struct Obj10286 *p) {int i;for(i=0;i<4;i++)func_021C1174((unsigned)p->f5C,*(void **)((unsigned)p+i*4+0x6c),(int *)((unsigned)p+0x7c+i*4));}

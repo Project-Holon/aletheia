@@ -1,0 +1,17 @@
+/*
+ * function: func_021B69F8
+ * address: 0x021B69F8
+ * packet: pkt_ov173_021B69F8
+ * region: ov173
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: not attempted: callee definition conflict
+ * checks: 1 matched arm9/sub_02035C60.c defines void sub_02035C60(void), original caller at 021B6A48 calls 02035C60 then cmp r0,#0 at 021B6A4C; 2 ov173 021B68C8 declares int but own definition takes precedence; 3 n/a no faithful C condition can use a void result; 4 n/a blocked before codegen iteration; 5 matched definition and caller neighbour re-read, unchanged.
+ * blocker: ARM9 02035C60 return type must be corrected by owner before this conditional caller can be expressed under canonical prototype rules.
+ */
+extern void sub_02035C60(void);
+/* Required source expression is if ((func_020362DC() & 3) || sub_02035C60()).
+ * The canonical void return makes that expression illegal; no guessed int
+ * declaration was substituted and no ARM9 source was changed.
+ */

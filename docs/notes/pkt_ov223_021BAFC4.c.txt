@@ -1,0 +1,73 @@
+/*
+ * function: func_021BAFC4
+ * address: 0x021BAFC4
+ * packet: pkt_ov223_021BAFC4
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: CCERR
+ * blocker: ARM9 0201CCE4 is declared void in its matched definition,
+ * but 021BB090..021BB092 stores its result into p+0x250.
+ * checks: 1 matched definition is void; 2 neighbour BB2A4 confirms measurement types; 3 blocked by return type; 4 no spelling can use void result; 5 ownership conflict persists.
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201CE48 0x0201CE48 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201D304 0x0201D304 thumb
+ *   func_0201D42C 0x0201D42C thumb
+ *   func_020437DC 0x020437DC arm
+ *   func_020437E4 0x020437E4 arm
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_0201CCE4 0x0201CCE4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+struct Descriptor; struct CharBuf; struct Rec3; struct U16Vec; struct MsgBank; struct StrObj; struct Bmp; struct Cfg;
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *,u8);
+extern void func_0201CE48(struct Rec3 *);
+extern void func_02045808(struct U16Vec *);
+extern void *func_02045EC0(struct MsgBank *,u32);
+extern u32 func_0201D304(struct StrObj *,u32,u32);
+extern u32 func_0201D42C(struct StrObj *,void *);
+extern u16 func_020437DC(const struct Bmp *);
+extern u16 func_020437E4(const struct Bmp *);
+extern u32 func_02012FFC(void);
+extern void func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Cfg *);
+extern u8 func_02045730(struct Descriptor *);
+extern void func_02041B6C(u32);
+void func_021BAFC4(char *p,u32 index)
+{
+    struct Descriptor *d=*(struct Descriptor **)(p+0x23c);
+    s16 x=0,y=0;
+    struct StrObj *text;
+    u16 width,height;
+    u32 w,h;
+    func_02043B5C(func_02045770(d),0);
+    if (*(struct Rec3 **)(p+0x250)) func_0201CE48(*(struct Rec3 **)(p+0x250));
+    if (*(struct U16Vec **)(p+0x258)) func_02045808(*(struct U16Vec **)(p+0x258));
+    text=func_02045EC0(*(struct MsgBank **)(p+0x234),index);
+    *(struct StrObj **)(p+0x258)=text;
+    width=func_0201D304(text,*(u32 *)(p+0x18),0);
+    height=func_0201D42C(*(struct StrObj **)(p+0x258),*(void **)(p+0x18));
+    w=func_020437DC(func_02045770(d));
+    h=func_020437E4(func_02045770(d));
+    if(w>width)x=((int)w-width)/2;
+    if(h>height)y=((int)h-height)/2;
+    *(u32 *)(p+0x250)=func_0201CCE4((u32)d,x,y,*(u32 *)(p+0x258),*(u32 *)(p+0x18),func_02012FFC(),*(u32 *)(p+0x254),2,*(u16 *)p,0);
+    func_02045334(d);
+    func_02045374((struct Cfg *)d);
+    func_02041B6C(func_02045730(d));
+}

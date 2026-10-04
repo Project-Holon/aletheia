@@ -1,0 +1,135 @@
+/*
+ * function: func_021B97AC
+ * address: 0x021B97AC
+ * packet: pkt_ov172_021B97AC
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: CCERR
+ * blocker: own matched 021B891C returns void; 021B98FE compares its r0 against 1.
+ * blocker: own matched 021BDFEC returns void; 021B996A and 021B9990 pass its r0 to 021BA244.
+ * checks: 1 both own definitions return void; 2 field-getter neighbours confirm live values; 3 return-type conflict; 4 no idiom can compare/pass void; 5 owner conflict persists.
+ * symbols:
+ *   func_021B9F4C 0x021B9F4C thumb ov172
+ *   func_021B9DF8 0x021B9DF8 thumb ov172
+ *   func_021BA0BC 0x021BA0BC thumb ov172
+ *   func_021B69E0 0x021B69E0 thumb ov172
+ *   func_021B9E3C 0x021B9E3C thumb ov172
+ *   func_0203630C 0x0203630C arm
+ *   func_021BA120 0x021BA120 thumb ov172
+ *   func_021BA158 0x021BA158 thumb ov172
+ *   func_021BA170 0x021BA170 thumb ov172
+ *   func_021BA15C 0x021BA15C thumb ov172
+ *   func_021B9E5C 0x021B9E5C thumb ov172
+ *   func_021BDFE4 0x021BDFE4 thumb ov172
+ *   func_021B8C34 0x021B8C34 thumb ov172
+ *   func_021B8B74 0x021B8B74 thumb ov172
+ *   func_021BA174 0x021BA174 thumb ov172
+ *   func_021B891C 0x021B891C thumb ov172
+ *   func_021B8740 0x021B8740 thumb ov172
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_021BDFEC 0x021BDFEC thumb ov172
+ *   func_021BA244 0x021BA244 thumb ov172
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+struct Descriptor; struct CharBuf;
+extern int func_021B9F4C(int,int,int);
+extern int func_021B9DF8(void *,int *);
+extern int func_021BA0BC(u32 *);
+extern void func_021B69E0(void);
+extern void func_021B9E3C(void *,char *);
+extern u32 func_0203630C(void);
+extern int func_021BA120(u32 *);
+extern u32 func_021BA158(u32 *);
+extern u32 func_021BA170(u32 *);
+extern u32 func_021BA15C(u32 *);
+extern void func_021B9E5C(int,char *,s16 *,int,int,u16);
+extern u32 func_021BDFE4(void *);
+extern u32 func_021B8C34(int,char *);
+extern u32 func_021B8B74(int,char *);
+extern int func_021BA174(int,void *,void *,unsigned);
+extern void func_021B891C(int,char *,u16 *);
+extern u32 func_021B8740(int,int,u8,u32);
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *,u8);
+extern void func_02045334(struct Descriptor *);
+extern void func_021BDFEC(void *);
+extern u32 func_021BA244(void *);
+void func_021B97AC(void *p,char *q)
+{
+    int near;
+    u32 n,base,flag;
+    char *other;
+    u32 *timer;
+    u8 *record;
+    near=func_021B9F4C((int)p,(int)q,1);
+    if(func_021B9DF8(p,(int *)q)==1)return;
+    switch(*(u32 *)(q+4)) {
+    case 0:
+        if(func_021BA0BC(*(u32 **)(q+16))==1) {
+            *(u32 *)(q+0xa4)=1;
+            *(u32 *)(q+4)=1;
+            q[24]=0;
+            *(u32 *)(q+20)=0;
+            func_021B69E0();
+            func_021B9E3C(p,q);
+        }
+        return;
+    case 1: case 2:
+        timer=*(u32 **)(q+16);
+        if(near!=1 && !(func_0203630C()&0x101))func_021BA120(timer);
+        if(func_021BA158(*(u32 **)(q+16))==0) {
+            *(u32 *)(q+4)=2;
+            *(u32 *)(q+0xa4)=2;
+        }
+        base=func_021BA170(*(u32 **)(q+16));
+        n=func_021BA15C(*(u32 **)(q+16));
+        func_021B9E5C((int)p,q,(s16 *)(base+2048),9,n,0xc000);
+        other=(char *)func_021BDFE4(p);
+        if(func_021B8C34((int)p,other)!=1)return;
+        flag=func_021B8B74((int)p,other);
+        n=func_021BA15C(*(u32 **)(q+16));
+        if(*(u32 *)(q+20)==0 && flag==0 && (n>=((u32)(u8)q[24]+1)*2048 || *(u32 *)(q+4)==2)) {
+            base=func_021BA170(*(u32 **)(q+16));
+            flag=func_021BA174(*(int *)(q+16),(void *)(base+(u8)q[24]*2048),*(void **)(q+36),2048);
+            record=*(u8 **)(q+32);
+            record[5]=q[24];
+            *(u16 *)(record)=flag;
+            *(u16 *)(*(u8 **)(q+32)+2)=n;
+            (*(u8 **)(q+32))[6]=q[13];
+            if(*(u32 *)(q+4)==2 && n<=((u32)(u8)q[24]+1)*2048)flag=1;else flag=0;
+            (*(u8 **)(q+32))[4]=flag;
+            *(u32 *)(q+20)=1;
+        }
+        if(*(u32 *)(q+20)==1 && func_021B891C((int)p,other,*(u16 **)(q+32))==1) {
+            q[24]++;
+            *(u32 *)(q+20)=0;
+            if((*(u8 **)(q+32))[4]==1)*(u32 *)(q+4)=3;
+        }
+        return;
+    case 3:
+        other=(char *)func_021BDFE4(p);
+        if(func_021B8B74((int)p,other)==0 && func_021B8740((int)p,(int)other,7,0)==1) {
+            *(u32 *)(q+4)=4;
+            func_02043B5C(func_02045770(*(struct Descriptor **)(q+44)),0);
+            func_02045334(*(struct Descriptor **)(q+44));
+        }
+        return;
+    case 4:
+        if(*(u16 *)(*(u8 **)(q+32)+2)>32) {
+            if(func_021BA244(func_021BDFEC(p))==1)*(u32 *)(q+4)=5;
+        } else *(u32 *)q=5;
+        return;
+    case 5:
+        other=(char *)func_021BDFE4(p);
+        if(func_021BA244(func_021BDFEC(p))==0 && func_021B8740((int)p,(int)other,8,0)==1)*(u32 *)q=5;
+        return;
+    }
+}

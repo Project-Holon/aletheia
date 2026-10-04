@@ -1,0 +1,158 @@
+/*
+ * function: func_021BAB04
+ * address: 0x021BAB04
+ * packet: pkt_ov091_021BAB04
+ * region: ov091
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: CCERR
+ * checks: 1 matched ov091 021BB554 returns void but caller 021BAE4E calls, 021BAE52 copies r0, 021BAE56 compares it with 3; callee 021BB566 calls int-returning 0202D034 and 021BB56A returns preserving r0; 2 existing definition correction required, cannot diverge; 3 n/a compile is blocked before codegen; 4 n/a no instruction residue; 5 n/a no compiled stack residue. Full attempt kept below.
+ * blocker: matched ov091 021BB554 returns void; original 021BAE4E calls it,
+ *   021BAE52 copies returned r0 to r6, and 021BAE56 compares that result to 3.
+ * symbols:
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_0201EEF4 0x0201EEF4 thumb
+ *   func_021B9CF4 0x021B9CF4 thumb ov091
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_021B9C1C 0x021B9C1C thumb ov091
+ *   func_02017F90 0x02017F90 thumb
+ *   func_02018430 0x02018430 thumb
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_021B9D58 0x021B9D58 thumb ov091
+ *   func_021B9DC0 0x021B9DC0 thumb ov091
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_021B9AC8 0x021B9AC8 thumb ov091
+ *   func_021B9BF4 0x021B9BF4 thumb ov091
+ *   func_021B9C64 0x021B9C64 thumb ov091
+ *   func_021B9CB0 0x021B9CB0 thumb ov091
+ *   func_0202136C 0x0202136C thumb
+ *   func_021BB554 0x021BB554 thumb ov091
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct WordSet;
+struct Obj;
+extern struct WordSet *func_0201EC64(u32);
+extern void func_0201EEF4(struct WordSet *,u32,void *);
+extern void func_021B9CF4(u8 *,u32,void *,u32,s16,s16,u16);
+extern void func_0201ED04(struct WordSet *);
+extern u32 func_02017E1C(void *,u32,u32);
+extern void func_021B9C1C(u8 *,u32,u32,int,s16,u16);
+extern u32 func_02017F90(void *);
+extern u32 func_02018430(void *);
+extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void func_021B9D58(u8 *,u32,void *,u32,s16,s16,u16);
+extern void func_021B9DC0(u8 *,u32,void *,u32,s16,s16,u16);
+extern void func_0204B878(struct Obj *,u16);
+extern void func_0204B3DC(struct Obj *,u32);
+extern int func_021B9AC8(u8 *,void *,u8);
+extern u32 func_021B9BF4(u8 *,void *,u32);
+extern void func_021B9C64(u8 *,u32,u32,u32,s16,u16);
+extern void func_021B9CB0(u8 *,u32,u32,u32,s16,u16);
+extern u32 func_0202136C(u16);
+extern void func_021BB554(u32);
+#define P(a,k) (*(void **)((u8 *)(a)+(k)))
+#define W(a,k) (*(u32 *)((u8 *)(a)+(k)))
+#define H(a,k) (*(u16 *)((u8 *)(a)+(k)))
+void func_021BAB04(u8 *p,u8 *record,int phase)
+{
+    int special;
+    struct WordSet *set;
+    u32 value;
+    u32 kind;
+    u32 id;
+    u32 condition;
+    u16 animation;
+    special=0;
+    if(W(P(p,0x280),0x34)==6 || W(p,0x18)==1) special=1;
+    if(phase==0) {
+        set=func_0201EC64(H(p,0));
+        func_0201EEF4(set,0,P(record,0));
+        func_021B9CF4(p,W(record,0x20),set,3,41,9,1088);
+        func_0201ED04(set);
+    }
+    if(phase==0) {
+        if(func_02017E1C(P(record,0),173,0)==1) {
+            value=func_02017E1C(P(record,0),110,0);
+            if(value==0) func_021B9C1C(p,W(record,0x20),7,105,9,0x14c0);
+            else if(value==1) func_021B9C1C(p,W(record,0x20),8,105,9,0xc80);
+        }
+    }
+    if(special==0) {
+        if((func_02017F90(P(record,0))==0 && H(record,6)!=0) || W(record,0x1c)!=8) {
+            set=func_0201EC64(H(p,0));
+            func_0201EFA4(set,0,func_02018430(P(record,0)),3,0,1);
+            if(phase==0) func_021B9D58(p,W(record,0x20),set,2,9,35,1088);
+            else func_021B9DC0(p,W(record,0x20),set,2,9,35,1088);
+            func_0201ED04(set);
+            func_0204B3DC(P(record,0x40),0);
+        } else {
+            if(H(record,6)==0) func_0204B878(P(record,0x40),6);
+            else {
+                switch(func_02017F90(P(record,0))) {
+                case 1: func_0204B878(P(record,0x40),1); break;
+                case 2: func_0204B878(P(record,0x40),3); break;
+                case 3: func_0204B878(P(record,0x40),2); break;
+                case 4: func_0204B878(P(record,0x40),5); break;
+                case 5: func_0204B878(P(record,0x40),4); break;
+                }
+            }
+            func_0204B3DC(P(record,0x40),1);
+        }
+    }
+    kind=W(record,0x1c);
+    if(kind!=8) {
+        if(kind==6) id=129;
+        else if(kind==7) id=130;
+        else id=kind+131;
+        func_021B9C1C(p,W(record,0x20),(u16)id,46,31,1088);
+        func_0204B3DC(P(record,0x38),0);
+    } else if(special==1) {
+        switch(func_021B9AC8(p,P(record,0),record[4])) {
+        case 0:
+        case 1: id=137; break;
+        case 2: id=138; break;
+        case 3: id=139; break;
+        }
+        func_021B9C1C(p,W(record,0x20),(u16)id,29,31,1088);
+        func_0204B3DC(P(record,0x38),0);
+    } else if(W(P(p,0x280),0x34)==16) {
+        id=func_021B9BF4(p,P(record,0),H(P(p,0x280),0x44))!=0 ? 140:141;
+        func_021B9C1C(p,W(record,0x20),id,46,31,1088);
+        func_0204B3DC(P(record,0x38),0);
+    } else {
+        set=func_0201EC64(H(p,0));
+        func_0201EFA4(set,0,func_02017E1C(P(record,0),161,0),3,0,1);
+        if(phase==0) func_021B9D58(p,W(record,0x20),set,4,91,35,1088);
+        else func_021B9DC0(p,W(record,0x20),set,4,91,35,1088);
+        func_0201ED04(set);
+        set=func_0201EC64(H(p,0));
+        func_0201EFA4(set,0,H(record,6),3,1,1);
+        if(phase==0) func_021B9D58(p,W(record,0x20),set,5,57,35,1088);
+        else func_021B9DC0(p,W(record,0x20),set,5,57,35,1088);
+        func_0201ED04(set);
+        if(phase==0) func_021B9C64(p,W(record,0x20),6,82,35,1088);
+        else func_021B9CB0(p,W(record,0x20),6,82,35,1088);
+    }
+    value=func_02017E1C(P(record,0),6,0);
+    if(value!=0) {
+        func_0204B3DC(P(record,0x3c),1);
+        if(func_0202136C((u16)value)==1) func_0204B878(P(record,0x3c),1);
+        else func_0204B878(P(record,0x3c),0);
+    } else func_0204B3DC(P(record,0x3c),0);
+    condition=(u32)func_021BB554((u32)record);
+    animation=1;
+    if(condition==3) animation=0;
+    else if(func_02017F90(P(record,0))!=0) animation=5;
+    else if(condition==2) animation=4;
+    else if(condition==1) animation=3;
+    else if(condition==0) animation=2;
+    func_0204B878(P(record,0x30),animation);
+    W(record,0x18)=1;
+}

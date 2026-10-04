@@ -1,0 +1,28 @@
+/*
+ * function: func_021DDF84
+ * address: 0x021DDF84
+ * packet: pkt_ov137_021DDF84
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own matched func_021DD924 is void(void), caller requires p in r0 at 021DDFB2; 2 neighbouring callers pass p but definition wins; 3 n/a proven callee arity conflict cannot be repaired by changing own widths; 4 n/a exact prefix and missing r0 setup explained by prototype; 5 matched definition and neighbours re-read, unchanged. Needs owner callee prototype correction.
+ * blocker: matched ov137 021DD924 is void(void), but 021DDFB2 loads p in r0 for its call.
+ * symbols:
+ *   func_021DE4B4 0x021DE4B4 thumb ov137
+ *   sub_02039338 0x02039338 arm
+ *   func_021DCF50 0x021DCF50 thumb ov137
+ *   func_021841A4 0x021841A4 thumb ov022
+ *   func_021DD924 0x021DD924 thumb ov137
+ */
+#include "../../matched/include/Obj01414.h"
+#include "../../matched/include/Obj03840.h"
+typedef unsigned char u8;typedef unsigned short u16;
+extern void func_021DE4B4(char *,int,int);extern u16 sub_02039338(void);
+extern void *func_021DCF50(u8 *);extern int func_021841A4(u8 *);extern void func_021DD924(void);
+int func_021DDF84(char *p,int state) {
+func_021DE4B4(p,15,1);((struct Obj01414 *)p)->f118=20;sub_02039338();
+((struct Obj03840 *)p)->f481C=func_021841A4(func_021DCF50((u8 *)p));
+((struct Obj03840 *)p)->f4818=300;func_021DD924();return state;
+}
