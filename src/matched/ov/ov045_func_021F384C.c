@@ -14,7 +14,8 @@
  *   func_021F39B8 0x021F39B8 thumb ov045
  */
 typedef unsigned int u32;
-extern u32 func_0201210C(void *);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C80(u32);
 extern u32 func_020120F4(u32);
 extern u32 func_02012EC4(u32);
@@ -26,7 +27,7 @@ void *func_021F384C(void *a,int b)
 {
     u32 p;
     int *q;
-    p=func_0201210C(a);
+    p=(u32)func_0201210C(a);
     func_02012EC4(func_020120F4(func_02188C80(p)));
     q=func_021897BC((char *)p,1);
     if(b>=3)return 0;

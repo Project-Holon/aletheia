@@ -44,7 +44,7 @@ extern void func_0201D83C(void *);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02012704(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int heap);
 int func_021B7798(void *a,int b,int *state,u8 *p)
 {
  int i;

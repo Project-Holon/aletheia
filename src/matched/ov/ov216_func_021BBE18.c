@@ -35,7 +35,7 @@ extern void func_021BC178(char *);
 extern void func_021BC0B4(char *);
 extern void func_021BC9D0(unsigned *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
 int func_021BBE18(struct S020315D4 *heap,int unused1,int unused2,char *p)
 {
@@ -49,7 +49,7 @@ int func_021BBE18(struct S020315D4 *heap,int unused1,int unused2,char *p)
     func_021BC0B4(p);
     func_021BC9D0(*(unsigned **)(p+0x50));
     func_020315D4(heap);
-    func_020306F0((void *)119);
+    func_020306F0(119);
     func_02034A5C((int)ov072_id);
     func_02034A5C((int)ov067_id);
     return 1;

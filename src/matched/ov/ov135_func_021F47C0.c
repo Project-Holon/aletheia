@@ -37,7 +37,7 @@ extern void func_020307B0(void *);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_02202744(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(s32 handle);
 extern const u8 ov067_id[];
 extern const u8 ov114_id[];
