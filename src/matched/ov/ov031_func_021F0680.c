@@ -54,7 +54,7 @@ extern u32 func_0202DC98(u32 o);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 extern void *func_021BBC2C(void *r, int i);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F07AC(void *a, void *b, u8 c);
@@ -74,7 +74,7 @@ static inline int slot_free(struct Obj *p, int i)
     u32 q = p->w40;
     if (p->s[i].f != 0) {
         if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)p->s[i].h)) == 0) {
-            func_02045334(p->s[i].h);
+            func_02045334((struct Descriptor *)p->s[i].h);
             p->s[i].f = 0;
         }
     }

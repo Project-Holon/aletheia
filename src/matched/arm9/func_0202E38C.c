@@ -39,7 +39,7 @@ struct Obj0202E38C {
 struct Descriptor;
 extern void *sub_02045770(struct Descriptor *a);
 extern void sub_02043B5C(u32 a, u32 b);
-extern void sub_02045334(u32 a);
+extern void sub_02045334(struct Descriptor *a);
 extern void sub_020456F8(u32 a);
 extern u32 sub_02045730(u32 a);
 extern void sub_020409B4(u32 index);
@@ -53,7 +53,7 @@ void func_0202E38C(struct Obj0202E38C *obj, u32 a1)
 
     sub_02043B5C((u32)sub_02045770((struct Descriptor *)obj->f00), 0);
     if (a1 != 0) {
-        sub_02045334(obj->f00);
+        sub_02045334((struct Descriptor *)obj->f00);
         h = obj->f00;
         sub_020456F8(h);
         sub_020409B4(sub_02045730(h));

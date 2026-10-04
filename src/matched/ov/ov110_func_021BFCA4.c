@@ -20,7 +20,8 @@ typedef unsigned char u8;
 extern void func_021BFED0(u8 *,int);
 extern unsigned func_021BF734(u8 *);
 extern void func_021BFF7C(u8 *,unsigned,unsigned);
-extern void func_02045334(unsigned);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(unsigned);
 extern void func_021BC78C(u8 *,int,int,int,int);
 void func_021BFCA4(u8 *p,int amount) {
@@ -50,7 +51,7 @@ void func_021BFCA4(u8 *p,int amount) {
     }
     *(unsigned *)(p+0x94)=newy;
     *(int *)(p+0x98)=newstart;
-    func_02045334(*(unsigned *)(p+12));
+    func_02045334((struct Descriptor *)*(unsigned *)(p+12));
     func_02045374(*(unsigned *)(p+12));
     func_021BC78C(p+0x6c,2,1,step,amount);
 }

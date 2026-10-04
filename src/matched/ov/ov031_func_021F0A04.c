@@ -44,7 +44,7 @@ extern void func_0202DD24(int, int, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043814(u32, u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 extern u8 *func_021BBC2C(void *, int);
 extern void func_021F07AC(O *, u8 *, int);
 
@@ -71,7 +71,7 @@ void func_021F0A04(O *o, int a, int b, void *c, int d)
     }
     if (o->k[a] == 1 && o->k[b] == 1) {
         func_02043814((u32)func_02045770((struct Descriptor *)o->h[a]), (u32)func_02045770((struct Descriptor *)o->h[b]));
-        func_02045334(o->h[b]);
+        func_02045334((struct Descriptor *)o->h[b]);
         return;
     }
     func_021F07AC(o, func_021BBC2C(c, d - 2 + a), b);

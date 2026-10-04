@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(u32, u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 int func_021D9B34(u8 *p)
 {
     u32 q;
@@ -25,7 +25,7 @@ int func_021D9B34(u8 *p)
         q = *(u32 *)(p + 8);
         if (p[4]) {
             if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)*(u32 *)p)) == 0) {
-                func_02045334(*(u32 *)p);
+                func_02045334((struct Descriptor *)*(u32 *)p);
                 p[4] = 0;
             }
         }

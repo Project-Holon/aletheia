@@ -178,7 +178,8 @@ extern void func_0201C7A4(int, short, short, void *, int);
 extern void func_02045808(void *);
 extern void func_02045374(void *);
 extern void func_020409B4(int);
-extern void func_02045334(void *);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
 
 extern void func_022043AC(void *);
 extern void func_02203BC0(void *, void *);

@@ -57,7 +57,7 @@ extern void func_021B61F4(void *o, int a, u32 b);
 extern void func_0201F250(u32 a0, u32 a1, u32 a2);
 extern void func_021BB6E0(char *p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
 extern void func_0201EFA4(u32 obj, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *d);
 extern void func_020456F8(u32);
 extern u8 func_02021350(u16 id);
 extern u8 func_0202130C(u16 id);
@@ -101,7 +101,7 @@ void func_021B9850(char *p)
             func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
             func_021BB6E0(p, (u32 *)(p + 0x744), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
         } else {
-            func_02045334(*(u32 *)(p + 0x744));
+            func_02045334((struct Descriptor *)*(u32 *)(p + 0x744));
         }
         func_020456F8(*(u32 *)(p + 0x734));
     } else {
@@ -117,7 +117,7 @@ void func_021B9850(char *p)
         func_0201F250(*(u32 *)(p + 0x520), *(u32 *)(p + 0x528), *(u32 *)(p + 0x524));
         func_021BB6E0(p, (u32 *)(p + 0x73C), *(u32 *)(p + 0x528), 0, 4, 0x3DC0);
         func_021BAB04(p, kind);
-        func_02045334(*(u32 *)(p + 0x744));
+        func_02045334((struct Descriptor *)*(u32 *)(p + 0x744));
     }
     func_02020FB4(*(u32 *)(p + 0x524), *e, *(u16 *)(p + 0x544));
     func_021BB6E0(p, (u32 *)(p + 0x74C), *(u32 *)(p + 0x524), 0, 4, 0x3DC0);

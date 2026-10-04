@@ -30,10 +30,10 @@ extern void func_021F20A8(char *p, char *q, u32 a);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
-extern void func_02045334(u32 a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(u32 a);
 extern u8 func_02045730(u32 a);
-struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
@@ -46,7 +46,7 @@ void func_021F201C(char *p, char *q, void *text, u16 x, u8 y, u8 a5, u16 col, u3
     if (*(u8 *)(p + 0x7a) != 0) {
         func_0201C7D0(*(u32 *)(q + 4), x, y, text, *(u32 *)(p + 0xb0), col);
         w = *(u32 *)q;
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
         return;

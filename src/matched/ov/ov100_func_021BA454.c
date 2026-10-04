@@ -25,7 +25,7 @@
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_020450F0(int,int,int,int,unsigned char,unsigned char,unsigned char),func_0201283C(int),func_02009A34(int);
-extern void func_02045374(int),func_0201F73C(int,int,unsigned short,int),func_02043B5C(int,int),func_02045CAC(int,int,int),func_0201EFA4(int,int,int,int,int,int),func_0201F250(int,int,int),func_0201C7A4(int,short,short,int,int),func_02045334(int);
+extern void func_02045374(int),func_0201F73C(int,int,unsigned short,int),func_02043B5C(int,int),func_02045CAC(int,int,int),func_0201EFA4(int,int,int,int,int,int),func_0201F250(int,int,int),func_0201C7A4(int,short,short,int,int),func_02045334(struct Descriptor *);
 void func_021BA454(int text,int a) {
  if(*(int *)(a+0x280)==0) {
   int v=func_020450F0(5,1,8,18,4,13,0);
@@ -39,5 +39,5 @@ void func_021BA454(int text,int a) {
  func_0201EFA4(*(int *)(a+0x28c),1,32,2,1,1);
  func_0201F250(*(int *)(a+0x28c),*(int *)(a+0x298),*(int *)(a+0x294));
  func_0201C7A4((int)func_02045770((struct Descriptor *)*(int *)(a+0x280)),0,2,*(int *)(a+0x298),*(int *)(a+0x290));
- func_02045334(*(int *)(a+0x280));
+ func_02045334((struct Descriptor *)*(int *)(a+0x280));
 }

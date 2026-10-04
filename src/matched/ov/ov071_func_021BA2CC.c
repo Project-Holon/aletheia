@@ -23,7 +23,7 @@ typedef unsigned int u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_021BA528(void *a, void *b, void *c);
 extern void func_021BA5D4(void *a, void *b, void *c);
 
@@ -42,7 +42,7 @@ int func_021BA2CC(int a, int *b, u8 *o, u8 *c)
         e = c + i * 8;
         if (e[0x10] != 0) {
             if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(e + 0xc))) == 0) {
-                func_02045334(*(u32 *)(e + 0xc));
+                func_02045334((struct Descriptor *)*(u32 *)(e + 0xc));
                 e[0x10] = 0;
             }
         }

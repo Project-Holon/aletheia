@@ -16,7 +16,7 @@
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int,int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern void func_0220B1D4(char *,int,int,int,unsigned short);
 void func_0220B6C4(char *p)
 {
@@ -28,5 +28,5 @@ void func_0220B6C4(char *p)
         case 2:func_0220B1D4(p,29,26,12,0x3c40);break;
         case 3:func_0220B1D4(p,29,27,12,0x3c40);break;
         }
-    } else func_02045334(*(int *)(p+0x110));
+    } else func_02045334((struct Descriptor *)*(int *)(p+0x110));
 }

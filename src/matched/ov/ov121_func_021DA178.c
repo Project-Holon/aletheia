@@ -17,7 +17,7 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(u32,u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 typedef signed int     s32;
 struct Obj;
 extern s32 func_020200CC(struct Obj *o);
@@ -28,7 +28,7 @@ int func_021DA178(char *p)
     int r;
     if (*(u8 *)(p+12)) {
         if (func_0201C6C4(q,(u32)func_02045770((struct Descriptor *)*(u32 *)(p+8))) == 0) {
-            func_02045334(*(u32 *)(p+8));
+            func_02045334((struct Descriptor *)*(u32 *)(p+8));
             *(u8 *)(p+12)=0;
         }
     }

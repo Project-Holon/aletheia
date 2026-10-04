@@ -108,7 +108,8 @@ extern void  func_020439A0(u32 src, u32 dst, u32 a2, u32 a3, u32 a4, u32 a5,
                            u32 a6, u32 a7, u32 a8);
 extern void  func_02043AF4(u32 win, u32 x, s16 y, u32 w, u32 h, u32 c);
 extern void  func_02043B5C(u32 win, u32 c);
-extern void  func_02045334(u32 a);
+struct Descriptor;
+extern void  func_02045334(struct Descriptor *a);
 extern u16  *func_0201C974(struct PrintCtx *c, u16 *p, u32 f);
 extern void  sub_0201CEB8(struct Rec *p);
 extern void  sub_0201D110(struct Rec *p);
@@ -151,7 +152,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                 h = func_020437E4(p->win) - k;
                 func_020439A0(p->win, p->win, 0, k, 0, 0, w, h, 0xFFFF);
                 func_02043AF4(p->win, 0, h, w, k, p->color);
-                func_02045334(p->f08);
+                func_02045334((struct Descriptor *)p->f08);
                 return;
             }
             p->ctx.unk00 = p->ctx.unk04;
@@ -203,7 +204,7 @@ void func_0201CEE0(void *task, struct Rec *p)
                             else
                                 p->wait = p->f1a;
                         }
-                        func_02045334(p->f08);
+                        func_02045334((struct Descriptor *)p->f08);
                         if (p->cb != 0) {
                             p->cbres = p->cb(p->cbarg);
                             if (p->cbres != 0)

@@ -30,7 +30,7 @@ typedef struct {
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int  func_0201C6C4(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern int  func_020200CC(int);
 
 int func_021E8A00(S *p)
@@ -40,7 +40,7 @@ int func_021E8A00(S *p)
 
     if (p->fc != 0) {
         if (func_0201C6C4(r4, (int)func_02045770((struct Descriptor *)p->f8)) == 0) {
-            func_02045334(p->f8);
+            func_02045334((struct Descriptor *)p->f8);
             p->fc = 0;
         }
     }

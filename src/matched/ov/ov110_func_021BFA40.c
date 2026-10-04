@@ -20,7 +20,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(unsigned);
+extern void func_02045334(struct Descriptor *);
 extern void func_021BFF60(u8 *);
 extern void func_021BFF7C(u8 *,unsigned,unsigned);
 extern unsigned func_021BF734(u8 *);
@@ -37,5 +37,5 @@ void func_021BFA40(u8 *p,unsigned a) {
         func_021BFF7C(p,*(unsigned *)(p+0x98)+i,y);
         if(i&1) y+=24;
     }
-    func_02045334(*(unsigned *)(p+12));
+    func_02045334((struct Descriptor *)*(unsigned *)(p+12));
 }

@@ -28,7 +28,8 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern void func_02045334(int a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int a);
 extern void func_020409B4(unsigned int index);
 
@@ -37,13 +38,13 @@ void func_021BA44C(int a, S *p)
     int i;
 
     p->h[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
-    func_02045334(p->h[0]);
+    func_02045334((struct Descriptor *)p->h[0]);
     func_02045374(p->h[0]);
     p->h[1] = func_020450F0(0, 2, 4, 0x1c, 8, 0xd, 1);
-    func_02045334(p->h[1]);
+    func_02045334((struct Descriptor *)p->h[1]);
     func_02045374(p->h[1]);
     p->h[2] = func_020450F0(0, 2, 0xf, 0x1c, 9, 0xd, 1);
-    func_02045334(p->h[2]);
+    func_02045334((struct Descriptor *)p->h[2]);
     func_02045374(p->h[2]);
     for (i = 0; i < 3; i++) {
         p->e[i].h = p->h[i];

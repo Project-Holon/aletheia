@@ -63,7 +63,8 @@ extern void func_0202071C(struct Obj *obj, u32 n);
 extern void func_020206C0(struct Obj *obj);
 extern void func_020208B8(struct Obj *obj, int n, u32 flag);
 extern void func_02020A34(struct Obj *obj, void *arg);
-extern void func_02045334(u32 win);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *win);
 
 u32 func_02020970(struct Obj *obj, u8 notify, u8 count, u8 dir)
 {
@@ -99,7 +100,7 @@ u32 func_02020970(struct Obj *obj, u8 notify, u8 count, u8 dir)
             func_0202071C(obj, saved);
             func_020206C0(obj);
             func_02020A34(obj, 0);
-            func_02045334(obj->unk0C);
+            func_02045334((struct Descriptor *)obj->unk0C);
             break;
         case 2:
         case 3:

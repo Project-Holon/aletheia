@@ -36,7 +36,7 @@ extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0201C724(void *,void *,int,int,void *,void *,u16);
-extern void func_02045334(void *),func_02045374(void *);
+extern void func_02045334(struct Descriptor *),func_02045374(void *);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);

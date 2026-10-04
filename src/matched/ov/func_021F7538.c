@@ -36,7 +36,7 @@ extern void func_0201F250(u32 a, u32 b, u32 c);
 struct Descriptor;
 extern void *sub_02045770(struct Descriptor *p);
 extern void sub_02043B5C(u32 a, u32 b);
-extern void sub_02045334(u32 a);
+extern void sub_02045334(struct Descriptor *a);
 extern void sub_02045374(u32 a);
 extern u8 unit_02045730(u32 a);
 extern void sub_020409B4(u32 index);
@@ -52,7 +52,7 @@ void func_021F7538(u8 *p, u32 b, u32 c, u32 d, u32 e)
     func_0201F250(*(u32 *)(p + 0xb68), *(u32 *)(p + 0xb88), v);
     sub_02043B5C((u32)sub_02045770((struct Descriptor *)*(u32 *)(p + 0xd40)), 0xf);
     h = *(u32 *)(p + 0xd40);
-    sub_02045334(h);
+    sub_02045334((struct Descriptor *)h);
     sub_02045374(h);
     sub_020409B4(unit_02045730(h));
     func_0201F73C(*(u32 *)(p + 0xd40), 0, 1, 0xe);

@@ -21,12 +21,12 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 u8 *func_021BB5A0(u8 *p,u8 *q) {
     u32 a;
     a=func_020450F0(1,10,3,11,2,12,1);
     func_02043B5C(func_02045770((struct Descriptor *)a),1);
-    func_02045334(a);
+    func_02045334((struct Descriptor *)a);
     *(u32 *)(p+0x94)=a;
     return q+0x16;
 }

@@ -80,7 +80,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
 extern void func_02045374(u32 a);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern u32  func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32  func_0201C440(u32 heap);
 extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
@@ -115,7 +115,7 @@ void func_021B9A1C(Work *p, u32 heap)
     p->bmp = (u32)func_02045770((struct Descriptor *)p->win);
     func_02043B5C(p->bmp, 0);
     func_02045374(p->win);
-    func_02045334(p->win);
+    func_02045334((struct Descriptor *)p->win);
     p->fC = 0;
     p->win2 = p->win;
     func_020409B4(5);

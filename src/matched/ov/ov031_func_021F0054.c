@@ -35,7 +35,7 @@ extern void func_0202DBC4(u8 *p);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 
 #define REG_DB_BLDCNT_SUB  (*(volatile u16 *)0x04001050)
 
@@ -72,7 +72,7 @@ void func_021F0054(struct Obj *p, int mode)
             u32 q = p->w40;
             if (p->s[i].f != 0) {
                 if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)p->s[i].h)) == 0) {
-                    func_02045334(p->s[i].h);
+                    func_02045334((struct Descriptor *)p->s[i].h);
                     p->s[i].f = 0;
                 }
             }

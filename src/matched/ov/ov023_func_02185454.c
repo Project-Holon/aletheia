@@ -38,7 +38,8 @@ typedef struct {
 
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern void func_02045334(u32 a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(u32 a);
 extern u32  func_02045730(u32 a);
 extern void func_020409B4(u32 a);
@@ -80,7 +81,7 @@ int func_02185454(char *p, int x)
             func_0201F7A8(*(u32 *)(p + 0x11c), 2);
         }
         w = *(u32 *)(p + 0x118);
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
         break;
@@ -89,7 +90,7 @@ int func_02185454(char *p, int x)
         func_021852F4(*(u32 *)(p + 0x100), 0);
         func_0201F7A8(*(u32 *)(p + 0x11c), 2);
         w = *(u32 *)(p + 0x118);
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
         if (func_02039338() == 0) {

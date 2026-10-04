@@ -51,7 +51,7 @@ extern void func_021B6B2C(u32 a0, u32 a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6
 extern void func_021C9FC8(u8 *,void *,u8 *,u32,int,int,int);
 extern void func_021C6C94(char **,int);
 extern int func_021C6C20(u8 *,u8 *,int);
-extern void func_02045334(void *),func_021CA4B4(char *);
+extern void func_02045334(struct Descriptor *),func_021CA4B4(char *);
 extern u32 func_02025C88(u32);
 extern int func_0202DA04(int);
 extern u32 func_0202DA48(u32,u32,u32,u32);

@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 extern int  func_0201C6C4(u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(u32 p);
+extern void func_02045334(struct Descriptor *p);
 extern void func_02045374(u32 p);
 extern u8   func_02045730(u32 p);
 extern void func_02041B6C(u32 bit);
@@ -61,7 +61,7 @@ void func_020278F4(u8 *p)
     }
     for (i = 0; i < *(u8 *)(p + 0x24); i++) {
         u32 v = (*(u32 **)(p + 0x18))[i];
-        func_02045334(v);
+        func_02045334((struct Descriptor *)v);
         func_02045374(v);
         func_02041B6C(func_02045730(v));
     }

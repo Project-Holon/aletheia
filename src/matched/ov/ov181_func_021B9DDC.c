@@ -11,5 +11,6 @@
  * symbols:
  *   func_02045334 0x02045334 arm
  */
-extern void func_02045334(unsigned);
-void func_021B9DDC(char *p){if(*(unsigned char *)(p+0x2cc)&1)func_02045334(*(unsigned *)(p+0x2bc));if(*(unsigned char *)(p+0x2cc)&2)func_02045334(*(unsigned *)(p+0x2c4));*(unsigned char *)(p+0x2cc)=0;}
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
+void func_021B9DDC(char *p){if(*(unsigned char *)(p+0x2cc)&1)func_02045334((struct Descriptor *)*(unsigned *)(p+0x2bc));if(*(unsigned char *)(p+0x2cc)&2)func_02045334((struct Descriptor *)*(unsigned *)(p+0x2c4));*(unsigned char *)(p+0x2cc)=0;}

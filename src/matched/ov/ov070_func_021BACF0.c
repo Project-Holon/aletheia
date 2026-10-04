@@ -37,7 +37,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern signed char func_02012FFC(void);
 extern int func_0201CCE4(int, int, int, int, int, int, int, int, int, int);
 extern void func_021BB6E0(int p, int obj, int str, u16 x, s16 y, u16 color);
@@ -52,7 +52,7 @@ void func_021BACF0(int p, int mode)
         *(int *)(p + 0x4FC) = func_020450F0(3, 1, 1, 0x1E, 4, 0xC, 1);
     }
     func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p + 0x4FC)), 0xF);
-    func_02045334(*(int *)(p + 0x4FC));
+    func_02045334((struct Descriptor *)*(int *)(p + 0x4FC));
     win = p + 0x4FC;
     if (mode == 1) {
         *(int *)(p + 0x510) = func_0201CCE4(*(int *)(p + 0x4FC), 0, 0, *(int *)(p + 0x528),

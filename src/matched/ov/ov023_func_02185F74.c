@@ -62,7 +62,7 @@ extern void *func_02045770(struct Descriptor *a);
 extern void func_02043AF4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_02008500(u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(u32 a);
 extern u32  func_02045730(u32 a);
 extern void func_020409B4(u32 a);
@@ -100,7 +100,7 @@ void func_02185F74(u32 *win, u16 color, W *p)
             }
         }
         w = win[i];
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
     }

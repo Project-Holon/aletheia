@@ -52,7 +52,7 @@ int func_0201C6C4(int a0, int a1);
 int func_02012B70(int a0);
 int func_02012B58(int a0);
 void func_02043B5C(int a0, int a1);
-void func_02045334(int a0);
+void func_02045334(struct Descriptor *a0);
 int func_02012950(int a0, int a1);
 void func_0201F02C(int a0, int a1, int a2);
 void func_02045CAC(int a0, int a1, int a2);
@@ -88,7 +88,7 @@ void func_0217E638(Obj *p)
     p->f10C = mode;
     if (mode == 7) {
         func_02043B5C((int)func_02045770((struct Descriptor *)p->f44), 0);
-        func_02045334(p->f44);
+        func_02045334((struct Descriptor *)p->f44);
         return;
     }
     if (mode >= 3 && mode <= 6) {

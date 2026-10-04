@@ -19,7 +19,8 @@
  *   func_02027974 0x02027974 thumb
  */
 typedef unsigned short u16;
-extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045334(void *),func_02027974(void *);
+struct Descriptor;
+extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045334(struct Descriptor *),func_02027974(void *);
 extern int func_02028484(void *,void *),func_0201C4E4(void *),func_0201C6B4(void *);
 extern void *func_0202EE8C(void *,void *,unsigned char,unsigned char,u16);
 #define P(k) (*(void **)(p+(k)))

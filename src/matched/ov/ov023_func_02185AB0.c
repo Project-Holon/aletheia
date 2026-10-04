@@ -27,7 +27,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 func_02039338(void);
-extern void func_02045334(u32 a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(u32 a);
 extern u32  func_02045730(u32 a);
 extern void func_020409B4(u32 a);
@@ -70,7 +71,7 @@ void func_02185AB0(char *p, int msg, int arg)
         if (*(int *)(p + 0x198) == 6 || *(int *)(p + 0x198) == 0x10) {
             func_02186480(p);
             w = *(u32 *)(p + 0x118);
-            func_02045334(w);
+            func_02045334((struct Descriptor *)w);
             func_02045374(w);
             func_020409B4(func_02045730(w));
         }

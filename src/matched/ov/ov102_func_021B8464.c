@@ -46,7 +46,7 @@ struct CharBuf;
 struct StrObj;
 struct U16Vec;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(u32);
 extern u32 func_02045730(u32);
 extern void func_020409B4(u32);
@@ -84,7 +84,7 @@ void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 he
         p->windows[i]=func_020450F0(bg,row->x+4,row->y+1,row->w-8,row->h-2,row->color,1);
         func_02043B5C(func_02045770((struct Descriptor *)p->windows[i]),4);
         win=p->windows[i];
-        func_02045334(win);
+        func_02045334((struct Descriptor *)win);
         func_02045374(win);
         func_020409B4(func_02045730(win));
         text=func_02045EC0(func_021B7CC4(object),rows[i].id);
@@ -94,7 +94,7 @@ void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 he
         target=func_02045770((struct Descriptor *)p->windows[i]);
         func_0201C7A4(target,(row->w-8)*4-(width>>1),(row->h-2)*4-(height>>1),text,func_021B7CBC(object));
         func_02045808(text);
-        func_02045334(p->windows[i]);
+        func_02045334((struct Descriptor *)p->windows[i]);
     }
     func_0201DD68();
 }
