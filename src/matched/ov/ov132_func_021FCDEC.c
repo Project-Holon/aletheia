@@ -16,10 +16,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_020399A8(int);
-extern void func_02039C68(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 
 void func_021FCDEC(int a, int b)
 {
-    func_02039C68(func_020399A8(a), b, 0x11);
+    func_02039C68((struct Link *)func_020399A8(), b, 0x11);
 }

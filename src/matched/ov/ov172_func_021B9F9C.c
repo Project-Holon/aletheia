@@ -34,7 +34,7 @@ extern u32 func_0208BF54(u8);
 extern int func_02085D3C(void);
 extern void func_021BA014(int, void *);
 extern void func_021BA1B4(char *, u32);
-extern void *func_0203D7C8(u32, u32, u32, u32);
+extern void *func_0203D7C8(u32, u32, const char *, u16);
 extern int func_02005654(int, int);
 extern const char d_021C7218[], d_021C720C[];
 extern void *g_021C88EC;
@@ -48,7 +48,7 @@ void *func_021B9F9C(u32 heap)
     func_0208BF54(80);
     if (func_02085D3C() == 1) func_021BA014(0, (void *)d_021C720C);
     func_021BA1B4((char *)p, heap);
-    p[1] = (u32)func_0203D7C8(heap, 51200, (u32)d_021C7218, 134);
+    p[1] = (u32)func_0203D7C8(heap, 51200, d_021C7218, 134);
     p[0] = 0;
     p[2] = 0;
     *((u8 *)p + 16) = 0;

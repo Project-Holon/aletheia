@@ -32,7 +32,7 @@ extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
 extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 extern void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap);
-extern void func_02012E4C(u8 *p, void *a);
+extern void func_02012E4C(u8 *p, u32 a);
 void func_021B9B20(char *p)
 {
     unsigned date[4];
@@ -44,7 +44,7 @@ void func_021B9B20(char *p)
     record=func_020073D8(save,8,0);
     if(func_020071F0(save)==0) {
         func_0200EBD0(record,object,date,4);
-        func_02012E4C(*(void **)(p+4),(void *)8);
+        func_02012E4C(*(void **)(p+4),8);
         *(int *)(p+56)=1;
     }
 }

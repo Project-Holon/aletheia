@@ -53,7 +53,9 @@ extern void func_02048AD0(struct Light *l);
 extern void func_0207DC44(int, int, int, int);
 extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void func_02046A94(u8, const void *);
-extern void func_02011610(u32 t, VecFx32 *out);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *out);
 extern void func_02051838(void *obj, VecFx32 *v);
 extern char d_021E79C8[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }
@@ -85,11 +87,11 @@ void func_021E2C3C(Work *w, Transform *t)
     for (i = 0; i < 4; i++) func_02046A94(i, d_021E79C8 + i * 8);
     if (w->sub != 0) {
         if (w->sub->objA0 != 0) {
-            func_02011610(w->sub->anim98, &v1);
+            func_02011610((struct IcaAnime *)w->sub->anim98, (struct Rec12 *)&v1);
             func_02051838(w->sub->objA0, &v1);
         }
         if (w->sub->objA4 != 0) {
-            func_02011610(w->sub->anim9c, &v2);
+            func_02011610((struct IcaAnime *)w->sub->anim9c, (struct Rec12 *)&v2);
             func_02051838(w->sub->objA4, &v2);
         }
     }
