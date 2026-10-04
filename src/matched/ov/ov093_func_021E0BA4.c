@@ -25,7 +25,8 @@ extern int func_021D775C(int key);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 
 void func_021E0BA4(int unused, void *q, int id, int *f)
 {
@@ -34,7 +35,7 @@ void func_021E0BA4(int unused, void *q, int id, int *f)
     if (id == func_021D775C(3)) {
         m = (u8 *)func_021C88A4(q, 4, id);
         func_021C8838(m + 4, 2, 0x29e);
-        func_021C8860(m + 4, id);
+        func_021C8860((struct S *)(m + 4), id);
         func_021C88C8(q, m);
         f[6] = 1;
     }

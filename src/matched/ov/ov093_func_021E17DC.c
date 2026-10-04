@@ -26,7 +26,8 @@ extern void *func_021C7CF4(int *p, int i);
 extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(void *, void *);
 void func_021E17DC(void *a, void *b, int c)
 {
@@ -74,7 +75,7 @@ void func_021E17DC(void *a, void *b, int c)
         func_021C88C8(b, p);
         p = func_021C88A4(b, 4, c);
         func_021C8838(p + 4, 2, 724);
-        func_021C8860(p + 4, c);
+        func_021C8860((struct S *)(p + 4), c);
         func_021C88C8(b, p);
     }
 }

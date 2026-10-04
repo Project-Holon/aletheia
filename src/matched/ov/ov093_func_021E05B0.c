@@ -24,7 +24,8 @@ extern void *func_021C88A4(void *a, int k, int b);
 typedef unsigned int   u32;
 extern int func_021E8940(u32 a);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, unsigned v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E05B0(int a, void *b, int c)
@@ -37,7 +38,7 @@ void func_021E05B0(int a, void *b, int c)
             p[1] = 1;
             p[2] = func_021E8940(5);
             func_021C8838(p + 4, 2, 0x359);
-            func_021C8860(p + 4, c);
+            func_021C8860((struct S *)(p + 4), c);
             func_021C88C8(b, p);
         } else {
             p = func_021C88A4(b, 0x1c, c);

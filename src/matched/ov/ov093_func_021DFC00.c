@@ -33,7 +33,8 @@ extern int func_021C83D4(u8 *p);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 
 void func_021DFC00(int self, void *q, int id)
 {
@@ -53,8 +54,8 @@ void func_021DFC00(int self, void *q, int id)
         return;
     r = (u8 *)func_021C88A4(q, 0x23, id);
     func_021C8838(r + 8, 2, 0x1a1);
-    func_021C8860(r + 8, id);
-    func_021C8860(r + 8, t);
+    func_021C8860((struct S *)(r + 8), id);
+    func_021C8860((struct S *)(r + 8), t);
     func_021C88C8(q, r);
     r = (u8 *)func_021C88A4(q, 0x2e, id);
     r[6] = func_021D775C(3);

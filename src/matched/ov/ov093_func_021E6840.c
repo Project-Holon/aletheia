@@ -35,7 +35,8 @@ extern u8 func_021D5778(struct UtilWork *p, u16 id);
 extern void *func_021C88A4(void *, int, int);
 extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(void *, void *);
 extern void func_021D7040(struct Node *n);
 void func_021E6840(void *x, void *a, int c)
@@ -62,8 +63,8 @@ void func_021E6840(void *x, void *a, int c)
                     p[4] = func_021D5584(m, (u8)i) * multiplier;
                     p[7] |= 2;
                     func_021C8838(p + 8, 2, 0x27b);
-                    func_021C8860(p + 8, k);
-                    func_021C8860(p + 8, id);
+                    func_021C8860((struct S *)(p + 8), k);
+                    func_021C8860((struct S *)(p + 8), id);
                     func_021C88C8(a, p);
                 }
                 func_021D7040(x);

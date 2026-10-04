@@ -27,7 +27,8 @@ extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C88C8(void *, void *);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 void func_021E1668(int unused, void *q, int id)
 {
     void *m;
@@ -47,8 +48,8 @@ void func_021E1668(int unused, void *q, int id)
         func_021C88C8(q, r);
         r = func_021C88A4(q, 4, id);
         func_021C8838(r + 4, 2, 0x2d1);
-        func_021C8860(r + 4, id);
-        func_021C8860(r + 4, zero);
+        func_021C8860((struct S *)(r + 4), id);
+        func_021C8860((struct S *)(r + 4), zero);
         func_021C88C8(q, r);
         r = func_021C88A4(q, 14, id);
         r[15] = 1;

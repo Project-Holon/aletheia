@@ -18,7 +18,8 @@
 
 extern int func_021D775C(int);
 extern void func_021C8838(int p, int a, int b);
-extern void func_021C8860(int p, int a);
+struct S;
+extern void func_021C8860(struct S *p, unsigned int a);
 typedef unsigned int   u32;
 extern int func_021D76BC(int key, u32 val);
 
@@ -31,12 +32,12 @@ void func_021E3D38(int u, int v, int c, int *w)
         switch (w[0]) {
         case 1:
             func_021C8838(p, 2, 0x2e9);
-            func_021C8860(p, c);
+            func_021C8860((struct S *)p, c);
             func_021D76BC(0x51, 1);
             break;
         case 2:
             func_021C8838(p, 2, 0x2ec);
-            func_021C8860(p, c);
+            func_021C8860((struct S *)p, c);
             func_021D76BC(0x51, 1);
             break;
         }

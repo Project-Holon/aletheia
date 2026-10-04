@@ -41,7 +41,8 @@ extern int func_021D775C(int key);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern Word func_021D7D18(int x);
 struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
@@ -59,7 +60,7 @@ void func_021DF640(void *self, void *q, int id)
     r->id = id;
     r->f1c = func_021D70A8(self);
     func_021C8838(r->f14, 2, 0x102);
-    func_021C8860(r->f14, id);
-    func_021C8860(r->f14, func_021D70A8(self));
+    func_021C8860((struct S *)r->f14, id);
+    func_021C8860((struct S *)r->f14, func_021D70A8(self));
     func_021C88C8(q, r);
 }

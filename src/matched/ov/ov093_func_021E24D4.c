@@ -29,7 +29,8 @@ extern int func_021D5B68(void *m);
 extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void *func_021C88A4(void *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, unsigned v);
+struct S;
+extern void func_021C8860(struct S *p, unsigned int val);
 extern void func_021C88C8(void *a, void *b);
 typedef unsigned short u16;
 extern u16 func_021D70A8(void *p);
@@ -47,13 +48,13 @@ void func_021E24D4(void *a, void *b, int c, int *d)
             if (func_021D62C4(v, 0x19) == 0) {
                 p = func_021C88A4(b, 4, c);
                 func_021C8838(p + 4, 2, 0x2CE);
-                func_021C8860(p + 4, c);
+                func_021C8860((struct S *)(p + 4), c);
                 func_021C88C8(b, p);
                 func_021E03D8(v, func_021D70A8(a));
             } else {
                 p = func_021C88A4(b, 4, c);
                 func_021C8838(p + 4, 2, 0x2CB);
-                func_021C8860(p + 4, c);
+                func_021C8860((struct S *)(p + 4), c);
                 func_021C88C8(b, p);
             }
         }

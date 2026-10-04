@@ -35,7 +35,8 @@ extern void func_021D7090(u8 *p);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
 extern u16 func_021D70A8(struct QQ *p);
-extern void func_021C8860(void *p, unsigned v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
@@ -50,8 +51,8 @@ void func_021E01D4(void *a, void *b, int c, int *d, u8 e)
             func_021D7090(a);
             p = func_021C88A4(b, 0x23, c);
             func_021C8838(p + 8, 1, 0xb6);
-            func_021C8860(p + 8, func_021D70A8(a));
-            func_021C8860(p + 8, func_021D775C(0x12));
+            func_021C8860((struct S *)(p + 8), func_021D70A8(a));
+            func_021C8860((struct S *)(p + 8), func_021D775C(0x12));
             func_021C88C8(b, p);
             *d = 1;
         }

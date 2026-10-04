@@ -27,7 +27,8 @@ typedef struct { u32 v; } Word;
 extern int func_021D775C(int key);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F2484[];
 
@@ -41,7 +42,7 @@ void func_021E556C(int a, void *b, int c, int d, u8 e, int f, Word g, u16 h)
         m[0xc] = e;
         *(Word *)(m + 8) = g;
         func_021C8838(m + 0x10, 1, h);
-        func_021C8860(m + 0x10, e);
+        func_021C8860((struct S *)(m + 0x10), e);
         func_021C88C8(b, m);
     }
 }

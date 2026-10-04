@@ -36,7 +36,8 @@ extern u8 *func_021C88A4(void *, int, int);
 extern u16 func_021D70A8(struct QQ *p);
 extern Word func_021E896C(int, int);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(void *, void *);
 extern u32 func_021C7D00(void *, int);
 extern u8 *func_021C8120(void *, int);
@@ -59,7 +60,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
     func_021C88C8(b, p);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 703);
-    func_021C8860(p + 4, c);
+    func_021C8860((struct S *)(p + 4), c);
     func_021C88C8(b, p);
     flags = func_021C7D00(b, c);
     buf = func_021C8120(b, 7);
@@ -72,7 +73,7 @@ void func_021E237C(void *a, void *b, u8 c, u8 *d)
             p[20] = 1;
             p[8] = entry[1];
             func_021C8838(p + 24, 2, 706);
-            func_021C8860(p + 24, entry[1]);
+            func_021C8860((struct S *)(p + 24), entry[1]);
             func_021C88C8(b, p);
         }
     }
