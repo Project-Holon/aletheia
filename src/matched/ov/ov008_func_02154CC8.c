@@ -23,9 +23,10 @@ typedef unsigned int   u32;
 struct S020315D4;
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
-extern void func_0203133C(int x);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int x);
+extern void func_020306F0(u32 heap);
 
 int func_02154CC8(void *a0, int a1, char *a2, int *a3)
 {
@@ -33,7 +34,7 @@ int func_02154CC8(void *a0, int a1, char *a2, int *a3)
         if (func_0200FB24() != 0)
             func_0200FB38();
     }
-    func_0203133C(*a3);
+    func_0203133C((struct S020314B8 *)*a3);
     func_020315D4(a0);
     func_020306F0(0x76);
     return 1;
