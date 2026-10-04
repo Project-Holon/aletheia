@@ -13,7 +13,8 @@
  */
 typedef signed short s16;
 extern void func_02045CAC(int,int,int);
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern unsigned int func_02017E1C(void *,unsigned int,unsigned int);
 extern void func_0201EF8C(int,int,int);
 extern void func_0201F250(int,int,int);
@@ -25,5 +26,5 @@ void func_021E1AA8(int a,int b,int x,int y,char *p)
     v=func_02017E1C((void *)a,10,0);
     func_0201EF8C(*(int *)(p+0x724),0,v);
     func_0201F250(*(int *)(p+0x724),*(int *)(p+0x730),*(int *)(p+0x734));
-    func_0201C7A4(func_02045770(b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
 }

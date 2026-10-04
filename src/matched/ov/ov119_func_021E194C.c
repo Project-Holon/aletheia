@@ -13,10 +13,11 @@
  */
 typedef signed short s16;
 extern void func_02045CAC(int,int,int);
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 void func_021E194C(int a,int b,int x,int y,char *p)
 {
     func_02045CAC(*(int *)(p+0x720),44,*(int *)(p+0x730));
-    func_0201C7A4(func_02045770(b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
+    func_0201C7A4(func_02045770((struct Descriptor *)b),x,y,*(void **)(p+0x730),*(void **)(p+0x728));
 }

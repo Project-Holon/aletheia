@@ -15,7 +15,8 @@
  *   func_02041B6C 0x02041B6C arm
  *   func_021E0E4C 0x021E0E4C thumb ov119
  */
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct CharBuf;
@@ -27,7 +28,7 @@ extern void func_021E0E4C(char *p);
 void func_021E2438(char *p,int i)
 {
     if (*(int *)(p+0x5bc+4*i)) {
-        func_02043B5C(func_02045770(*(int *)(p+0x5bc+4*i)),0);
+        func_02043B5C(func_02045770((struct Descriptor *)*(int *)(p+0x5bc+4*i)),0);
         func_020456F8(*(int *)(p+0x5bc+4*i));
         func_020452E8(*(int *)(p+0x5bc+4*i));
         func_02041B6C(3);

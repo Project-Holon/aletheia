@@ -42,7 +42,8 @@ extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern void func_020452E8(int);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 extern void func_0201DD78(u32,u32,u32);
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_021D8ADC(char *p);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E1670(void *,void *,int,int,char *,int,int);
@@ -72,15 +73,15 @@ void func_021E1B14(char *p,int i,void *mon)
     *(int *)(p+0x5bc+index)=func_020450F0(3,*(int *)((char *)&a+index),1,14,20,14,0);
     func_0201DD78(15,2,0);
     {
-        void *window=func_02045770(*(int *)(p+0x5bc+index));
+        void *window=func_02045770((struct Descriptor *)*(int *)(p+0x5bc+index));
         func_021E1430(mon,window,16,0,flag,func_021D8ADC(p),p);
     }
     if(flag==0) {
         char *items=p+0x5bc;
-        void *window=func_02045770(*(int *)(items+index));
+        void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
         func_021E1670(mon,window,80,0,p,0,func_021D8ADC(p));
         func_0201DD78(15,2,0);
-        func_021E15F8(mon,func_02045770(*(int *)(items+index)),16,19,p);
+        func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(items+index)),16,19,p);
         func_021E1778((int)mon,*(int *)(items+index),16,128,p);
         i++;
         func_021E0E68(p+0x8c4+i*20,mon,*(int *)(p+0x9c4),*(int *)((char *)&b+index)+16,16,0,*(u16 *)(p+0x5f4),*(int *)((char *)&c+index));
