@@ -23,7 +23,8 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02045808(struct U16Vec *vec);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
@@ -36,7 +37,7 @@ void func_0220D348(char *p, int i, int id)
     bank = func_02045B38(0, 2, 0xCA, *(u16 *)(*(char **)p + 16));
     t = func_02045EC0(bank, id);
     f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x3DC0);
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F70 + i * 8)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x3DC0);
     *(u8 *)(p + i * 8 + 0x1F74) = 1;
     func_02045808(t);
     func_02045C04(bank);

@@ -17,7 +17,9 @@
  */
 typedef struct { char *ctx;int pad4[2];int c;int a;int b;void *text;void *window;int pad20[2]; } Work;
 extern void func_02082BCC(void *,int,int),func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short),func_02043B5C(void *,unsigned char);
-extern void *func_0201F5DC(void *,unsigned,unsigned,unsigned),*func_02045770(void *);
+extern void *func_0201F5DC(void *,unsigned,unsigned,unsigned);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 void func_021BF404(char *p,Work *out,int a,int b,int c,unsigned char d,unsigned char e,unsigned char f,unsigned char g)
 {
