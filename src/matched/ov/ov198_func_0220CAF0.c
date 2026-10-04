@@ -1,7 +1,7 @@
 /*
  * function: func_0220CAF0
  * address:  0x0220CAF0
- * packet:   pkt_0220CAF0
+ * packet:   pkt_ov198_0220CAF0
  * region:   ov198
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -32,7 +32,7 @@ struct MsgBank;
 struct U16Vec;
 struct WordSet;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32   func_02045770(void *a);
+extern void *func_02045770(struct Descriptor *p);
 extern void  func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(struct U16Vec *vec);
 extern u32   func_020457B0(u32 a, u32 b);
@@ -57,7 +57,7 @@ void func_0220CAF0(char *p, int i)
     elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
     t = func_02045EC0(*(void **)(p + 0x1ea0), 0x32);
     x = *(u32 *)(p + 0x1eac);
-    y = func_02045770(*(void **)(p + 0x1ff0));
+    y = (u32)func_02045770(*(void **)(p + 0x1ff0));
     func_0201C724(x, y, 0, 0, (u32)t, *(u32 *)(*(u32 *)p + 0xc), 0x3dc0);
     *(u8 *)(p + 0x1ff4) = 1;
     func_02045808(t);
@@ -68,7 +68,7 @@ void func_0220CAF0(char *p, int i)
     b = func_0201D304(h, *(u32 *)(*(u32 *)p + 0xc), 0);
     c = (func_02045738(*(void **)(p + 0x1fa8)) << 3) - b;
     d = *(u32 *)(p + 0x1eac);
-    e = func_02045770(*(void **)(p + 0x1fa8));
+    e = (u32)func_02045770(*(void **)(p + 0x1fa8));
     func_0201C724(d, e, c, 0, h, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
     *(u8 *)(p + 0x1fac) = 1;
     func_02045808(t2);

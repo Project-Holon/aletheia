@@ -22,7 +22,8 @@ struct CharBuf;
 struct MsgBank;
 struct U16Vec;
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
@@ -34,7 +35,7 @@ void func_0220C60C(char *p, int id)
     func_02043B5C((void *)func_02045770(*(void **)(p + 0x1F60)), 15);
     t = func_02045EC0(*(void **)(p + 0x1EA0), id);
     f = *(void **)(p + 0x1EAC);
-    func_0201C724(f, func_02045770(*(void **)(p + 0x1F60)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x440);
+    func_0201C724(f, (u32)func_02045770(*(void **)(p + 0x1F60)), 0, 0, (u32)t, *(u32 *)(*(char **)p + 12), 0x440);
     *(u8 *)(p + 0x1F64) = 1;
     func_02045808(t);
     ((struct Flags *)p)->high = 1;

@@ -33,7 +33,7 @@ extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u8 func_02045738(struct Descriptor *p);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
-extern u32 func_02045770(void *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(struct U16Vec *vec);
 void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
@@ -53,7 +53,7 @@ void func_0220C4DC(char *p,int value,int slot,int id,u16 x,s16 y,u32 color)
         x=((width<<3)-func_0201D304(buf,*(u32 *)(*(char **)p+12),0))>>1;
     }
     context=*(void **)(p+0x1EAC);
-    func_0201C724(context,func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)x,y,(u32)buf,*(u32 *)(*(char **)p+12),(u16)color);
+    func_0201C724(context,(u32)func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)x,y,(u32)buf,*(u32 *)(*(char **)p+12),(u16)color);
     *(u8 *)(p+slot*8+0x1F74)=1;
     func_02045808(text);
     func_02045808(buf);
