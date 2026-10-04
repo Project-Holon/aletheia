@@ -28,6 +28,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 extern int func_021B8004(void *); extern int func_021B8000(void *); extern int func_021B7FFC(void *); extern int func_021B8008(void *);
-extern int func_02045770(int); extern void func_02043B5C(int,u8); extern void func_02045CAC(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *); extern void func_02043B5C(int,u8); extern void func_02045CAC(int,int,int); extern void func_0201C6EC(int); extern void func_0201C6FC(int,int,s16,s16,int,int);
 extern int func_02045738(int); extern int func_02045740(int); extern int func_0201D304(int,int,int); extern int func_0201D42C(int,int); extern void func_0201C724(int,int,s16,s16,int,int,int);
-void func_021B81A4(u8 *p,void *q,int c) {int a,b,d; u16 x,y; a=func_021B8004(q); b=func_021B8000(q); d=func_021B7FFC(q); func_02043B5C(func_02045770(*(int *)p),*(u16 *)(p+16)); func_02045CAC(a,c,*(int *)(p+12)); x=func_02045738(*(int *)p)*4; y=func_02045740(*(int *)p)*4; x-=(u16)(func_0201D304(*(int *)(p+12),d,0)>>1); y-=(u16)(func_0201D42C(*(int *)(p+12),d)>>1); func_0201C6EC(b); func_0201C724(b,func_02045770(*(int *)(p+4)),x,y,*(int *)(p+12),d,0x3dc4); p[8]=1; }
+void func_021B81A4(u8 *p,void *q,int c) {int a,b,d; u16 x,y; a=func_021B8004(q); b=func_021B8000(q); d=func_021B7FFC(q); func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p),*(u16 *)(p+16)); func_02045CAC(a,c,*(int *)(p+12)); x=func_02045738(*(int *)p)*4; y=func_02045740(*(int *)p)*4; x-=(u16)(func_0201D304(*(int *)(p+12),d,0)>>1); y-=(u16)(func_0201D42C(*(int *)(p+12),d)>>1); func_0201C6EC(b); func_0201C724(b,(int)func_02045770((struct Descriptor *)*(int *)(p+4)),x,y,*(int *)(p+12),d,0x3dc4); p[8]=1; }

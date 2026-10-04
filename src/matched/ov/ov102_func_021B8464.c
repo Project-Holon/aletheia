@@ -40,7 +40,8 @@ extern void func_02082BCC(void *,u8,u32);
 extern void *func_02051B84(u8 *,int,int,int);
 extern void func_021B8794(u16,int,u8 *);
 extern u32 func_020450F0(u32,u8,u8,u8,u8,u8,u8);
-extern void *func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
 struct StrObj;
 struct U16Vec;
@@ -81,7 +82,7 @@ void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 he
     for(i=0;i<p->count;i++) {
         row=rows+i;
         p->windows[i]=func_020450F0(bg,row->x+4,row->y+1,row->w-8,row->h-2,row->color,1);
-        func_02043B5C(func_02045770(p->windows[i]),4);
+        func_02043B5C(func_02045770((struct Descriptor *)p->windows[i]),4);
         win=p->windows[i];
         func_02045334(win);
         func_02045374(win);
@@ -90,7 +91,7 @@ void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 he
         func_0201DD78(15,14,4);
         width=func_0201D304(text,func_021B7CBC(object),0);
         height=func_0201D42C(text,func_021B7CBC(object));
-        target=func_02045770(p->windows[i]);
+        target=func_02045770((struct Descriptor *)p->windows[i]);
         func_0201C7A4(target,(row->w-8)*4-(width>>1),(row->h-2)*4-(height>>1),text,func_021B7CBC(object));
         func_02045808(text);
         func_02045334(p->windows[i]);
