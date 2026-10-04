@@ -30,7 +30,8 @@ extern u32 func_02045730(u32);
 extern void func_02041B6C(u32);
 extern void func_02040588(u32, u32);
 extern void func_0204B3DC(u32, int);
-extern void func_0204B92C(u32, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 int func_02200800(u8 *p)
 {
     u32 w;
@@ -55,7 +56,7 @@ int func_02200800(u8 *p)
         w = *(u32 *)(p + 0xdd0);
         func_020456F8(w);
         func_02041B6C(func_02045730(w));
-        func_0204B92C(*(u32 *)(p + 0xbf4), 1);
+        func_0204B92C((struct Obj *)*(u32 *)(p + 0xbf4), 1);
         *(u32 *)(p + 0x28) = 5;
         func_0204B3DC(*(u32 *)(p + 0xbf4), 1);
     }
