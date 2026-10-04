@@ -27,8 +27,9 @@ extern u8 *func_02012944(void *p);
 extern int func_02008554();
 extern int func_02027174();
 extern int func_020307B0();
-extern int func_020315D4();
-extern int func_020306F0();
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int heap);
 
 int func_0216F1E0(int a0, int a1, int a2, int a3)
 {
@@ -64,10 +65,10 @@ a0 = *(int *)((char *)t4 + 0x18);
     a0 = func_020307B0(a0);
 loc_0216F216:
 a0 = t6 + 0;
-    a0 = func_020315D4(a0);
+    func_020315D4((struct S020315D4 *)a0);
 loc_0216F21C:
 a0 = 0x26;
-    a0 = func_020306F0(a0);
+    func_020306F0(a0);
 loc_0216F222:
 a0 = 1;
     return a0;}

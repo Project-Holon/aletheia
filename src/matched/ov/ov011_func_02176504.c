@@ -61,7 +61,8 @@ typedef struct {
 } Work;
 
 extern int func_020120F4(u32 a);
-extern void func_02012138(u32 a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *a);
 extern u32 func_02031330(void *a);
 extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
@@ -90,7 +91,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
     int busy;
 
     h = func_020120F4(obj->w0);
-    func_02012138(obj->w0);
+    func_02012138((const struct Ctx *)obj->w0);
     busy = func_02031330((void *)work->wF4);
     if (func_0200FB24() != 0 || func_0203CDBC() == 1) {
         if (*state > 0 && *state < 6) {

@@ -28,11 +28,12 @@
  */
 
 extern int func_021BD118(int a);
-extern unsigned int func_02013E4C(void);
+extern unsigned int func_02013E4C(unsigned int id);
 extern void func_021BC5BC(int a);
 extern int func_021BCB48(int a, int b);
-extern void func_02012138(int a);
-extern int func_02158344(void);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *a);
+extern int func_02158344(int a);
 extern int func_0215841C(int a);
 extern int func_021583EC(int a, int b);
 extern int func_02045EC0(int a, int b);
@@ -49,7 +50,7 @@ void func_021BCAB0(int *p)
     unsigned int r4;
 
     r6 = func_021BD118((int)p);
-    r4 = func_02013E4C();
+    r4 = func_02013E4C((unsigned int)r6);
     if (r4 >= 0x75) {
         r4 = 0;
     }
@@ -58,8 +59,7 @@ void func_021BCAB0(int *p)
         return;
     }
     if (func_021BCB48((int)p, r6) != 0) {
-        func_02012138(p[0]);
-        func_02158344();
+        func_02158344((int)func_02012138((const struct Ctx *)p[0]));
         r7 = func_021583EC(p[1], func_0215841C(p[1]));
         r6 = func_02045EC0(p[5], 3);
         func_02045CAC(p[5], r4, p[7]);

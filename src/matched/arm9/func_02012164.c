@@ -45,13 +45,15 @@ struct IcaAnime {
     u8  f32;
 };
 
-extern void *func_02012138(struct IcaAnime *p);
-extern u8   *func_020120F8(struct IcaAnime *p);
-extern u16   func_02012AC8(u8 *h);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
+extern u8   *func_020120F8(const struct Ctx *p);
+struct Rec44;
+extern u16   func_02012AC8(const struct Rec44 *h);
 struct Sub02009210Obj;
 extern u32 func_02013D34(u32 id);
 extern u32   func_0200FB24(void);
-extern u32   func_0201214C(struct IcaAnime *p);
+extern u32   func_0201214C(const struct Ctx *p);
 extern u32   func_02158318(struct IcaAnime *p);
 extern u32   func_02035390(void);
 extern int func_020353B0(void);
@@ -62,12 +64,12 @@ u32 func_02012164(struct IcaAnime *p)
 {
     u16 id;
 
-    func_02012138(p);
-    id = func_02012AC8(func_020120F8(p));
+    func_02012138((const struct Ctx *)p);
+    id = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)p));
     if (p->f32 == 0
      && func_02013D34(id) == 0
      && func_0200FB24() == 0
-     && func_0201214C(p) == 1
+     && func_0201214C((const struct Ctx *)p) == 1
      && func_02158318(p) == 1
      && !(func_02035390() == 1 && func_020353B0() == 1)) {
         if (func_020090E0(func_0200921C(p->f1c)) != 0) {

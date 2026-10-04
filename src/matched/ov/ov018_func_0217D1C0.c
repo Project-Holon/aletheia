@@ -47,16 +47,17 @@ typedef struct { u8 a : 7; u8 b : 1; } FlagsF8;
 
 extern char str_02183B28[];
 
-void *func_02012138(void *);
-struct BigObj;
 struct Ctx;
+unsigned int func_02012138(const struct Ctx *);
+struct BigObj;
 struct Descriptor;
 struct Obj;
 struct PrintSys;
 struct Tcbl;
 void *func_020120F4(const struct Ctx *p);
 u8 *func_020120F8(const struct Ctx *p);
-int func_02012AC8(void *);
+struct Rec44;
+unsigned short func_02012AC8(const struct Rec44 *);
 void *func_0201283C(void *);
 u32 func_0201058C(void *key);
 void func_02037174(void);
@@ -93,10 +94,10 @@ void func_0217D1C0(u8 *w, int b)
     int v;
     void *h;
 
-    s1 = func_02012138(*(void **)w);
+    s1 = (void *)func_02012138(*(void **)w);
     s2 = func_020120F4(*(void **)w);
     p = func_02158344(s1);
-    q = func_02012AC8(func_020120F8(*(void **)w));
+    q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
     func_0201058C(func_0201283C(s2));
     func_02037174();
     if (p == 0 || (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 0)) {
