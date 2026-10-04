@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021DAC90   0x021DAC90  thumb ov093
@@ -42,7 +42,8 @@ int func_0201C314(int v);
 void *func_021C88A4(int a, int k, int b);
 void func_021C88B4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
-void func_021C8860(void *p, int a);
+struct S;
+void func_021C8860(struct S *p, unsigned int a);
 void func_021C88C8(int a, void *p);
 
 void func_021DAC90(void *a, int b, int c)
@@ -67,7 +68,7 @@ void func_021DAC90(void *a, int b, int c)
     func_021C88B4(b, 2, c);
     q = func_021C88A4(b, 4, c);
     func_021C8838((u8 *)q + 4, 2, 0xd2);
-    func_021C8860((u8 *)q + 4, c);
+    func_021C8860((struct S *)((u8 *)q + 4), c);
     func_021C88C8(b, q);
     func_021C88B4(b, 3, c);
 }

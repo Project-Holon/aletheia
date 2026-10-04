@@ -26,7 +26,8 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(u8 *p, u32 val);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C8810(u8 *p);
 extern int func_021C20BC(u8 *p, u8 *a, int r);
 extern void func_021C99A0(u8 *p, u8 *l);
@@ -41,11 +42,11 @@ void func_021C4EA4(u8 *p, u8 *a, int k, int n)
     switch (k) {
     case 4:
         func_021C8838(p + 0x1AE4, 2, 396);
-        func_021C8860(p + 0x1AE4, x);
+        func_021C8860((struct S *)(p + 0x1AE4), x);
         break;
     case 3:
         func_021C8838(p + 0x1AE4, 2, 399);
-        func_021C8860(p + 0x1AE4, x);
+        func_021C8860((struct S *)(p + 0x1AE4), x);
         break;
     default:
         func_021C8810(p + 0x1AE4);

@@ -28,7 +28,8 @@ extern unsigned char func_021B9A40(unsigned int x);
 extern u8 *func_021C88A4(int, int, int);
 extern Word func_021E8940(int);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(int, u8 *);
 extern int func_021C7D34(int, int);
 void func_021E84FC(int a, int b, int c, const int *d)
@@ -80,7 +81,7 @@ void func_021E84FC(int a, int b, int c, const int *d)
             p[12] = selected;
             *(Word *)(p + 8) = func_021E8940(4);
             func_021C8838(p + 16, 1, message);
-            func_021C8860(p + 16, selected);
+            func_021C8860((struct S *)(p + 16), selected);
             func_021C88C8(b, p);
             if (target != 31) {
                 tmp = func_021C7D34(b, target);

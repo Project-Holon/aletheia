@@ -29,7 +29,8 @@ extern int func_021D775C(int a);
 extern void func_021C88B4(int a, int k, int b);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, int a);
+struct S;
+extern void func_021C8860(struct S *p, u32 a);
 extern void func_021C88C8(int a, void *p);
 
 void func_021DA780(int a, int b, int c, int *d)
@@ -43,7 +44,7 @@ void func_021DA780(int a, int b, int c, int *d)
     func_021C88B4(b, 2, c);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x202);
-    func_021C8860(p + 4, c);
+    func_021C8860((struct S *)(p + 4), c);
     func_021C88C8(b, p);
     func_021C88B4(b, 3, c);
     *d = 0;

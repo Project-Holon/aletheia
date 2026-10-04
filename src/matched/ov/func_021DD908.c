@@ -40,7 +40,8 @@ int func_021D5BDC(struct UtilWork *p, u32 n);
 void *func_021C88A4(int a, int k, int b);
 void func_021C88C8(int a, void *p);
 void func_021C8838(void *p, int a, int b);
-void func_021C8860(void *p, int a);
+struct S;
+void func_021C8860(struct S *p, unsigned int a);
 extern u16 func_021D70A8(struct QQ *p);
 
 void func_021DD908(void *a, int b, int c)
@@ -57,7 +58,7 @@ void func_021DD908(void *a, int b, int c)
     func_021C88C8(b, p);
     q = func_021C88A4(b, 4, c);
     func_021C8838((u8 *)q + 4, 2, 0x3e9);
-    func_021C8860((u8 *)q + 4, c);
-    func_021C8860((u8 *)q + 4, func_021D70A8(a));
+    func_021C8860((struct S *)((u8 *)q + 4), c);
+    func_021C8860((struct S *)((u8 *)q + 4), func_021D70A8(a));
     func_021C88C8(b, q);
 }

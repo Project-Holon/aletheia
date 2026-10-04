@@ -44,7 +44,8 @@ extern int func_021C8010(u8 *p, unsigned int v);
 extern int func_021C815C(void *);
 extern void *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *, void *);
 void func_021DA150(int a, void *b, int c, int *d)
 {
@@ -92,8 +93,8 @@ void func_021DA150(int a, void *b, int c, int *d)
         p[8] = 1;
         *(u32 *)p |= 1 << 23;
         func_021C8838(p + 12, 2, 0x17d);
-        func_021C8860(p + 12, chosen);
-        func_021C8860(p + 12, *(u16 *)(p + 4));
+        func_021C8860((struct S *)(p + 12), chosen);
+        func_021C8860((struct S *)(p + 12), *(u16 *)(p + 4));
         func_021C88C8(b, p);
     }
 }

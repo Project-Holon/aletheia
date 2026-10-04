@@ -31,7 +31,8 @@ extern void *func_021C7CF4(int, int);
 extern u8 *func_021C88A4(int, int, int);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *, u32);
 extern void func_021C88C8(int, u8 *);
 extern int d_021F2634[];
 
@@ -56,7 +57,7 @@ void func_021E7A78(int a, int b, int c)
                     *(u16 *)(p + 4) = func_021D7B74(x, 16);
                     ((struct Flag { u8 bit : 1; } *)(p + 7))->bit = 1;
                     func_021C8838(p + 12, 2, 0x451);
-                    func_021C8860(p + 12, p[6]);
+                    func_021C8860((struct S *)(p + 12), p[6]);
                     func_021C88C8(b, p);
                 }
             }

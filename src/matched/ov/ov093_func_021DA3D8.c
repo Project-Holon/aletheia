@@ -46,7 +46,8 @@ extern u32 func_021D78AC(u32);
 extern void func_021C88B4(void *, int, int);
 extern void *func_021C88A4(void *, int, int);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *, void *);
 static inline u32 score(u16 move)
 {
@@ -97,8 +98,8 @@ void func_021DA3D8(int a, void *b, int c)
     func_021C88B4(b, 2, c);
     p = func_021C88A4(b, 4, c);
     func_021C8838(p + 4, 2, 0x1b1);
-    func_021C8860(p + 4, entries[choice].id);
-    func_021C8860(p + 4, entries[choice].move);
+    func_021C8860((struct S *)(p + 4), entries[choice].id);
+    func_021C8860((struct S *)(p + 4), entries[choice].move);
     func_021C88C8(b, p);
     func_021C88B4(b, 3, c);
 }

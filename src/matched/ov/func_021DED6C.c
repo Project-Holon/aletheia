@@ -41,7 +41,8 @@ struct QQ;
 extern u16 func_021D70A8(struct QQ *p);
 void *func_021C88A4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
-void func_021C8860(void *p, int a);
+struct S;
+void func_021C8860(struct S *p, unsigned int a);
 void func_021C88C8(int a, void *p);
 
 void func_021DED6C(void *a, int b, int c)
@@ -63,7 +64,7 @@ void func_021DED6C(void *a, int b, int c)
     *(u8 *)(p + 6) = c;
     *(u16 *)(p + 4) = v;
     func_021C8838(p + 8, 2, 0x392);
-    func_021C8860(p + 8, c);
-    func_021C8860(p + 8, func_021D70A8(a));
+    func_021C8860((struct S *)(p + 8), c);
+    func_021C8860((struct S *)(p + 8), func_021D70A8(a));
     func_021C88C8(b, p);
 }

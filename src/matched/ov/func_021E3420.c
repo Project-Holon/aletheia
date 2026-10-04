@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021E3420   0x021E3420  thumb ov093
@@ -39,7 +39,8 @@ void *func_021C7CF4(int a, int b);
 int func_021D5B40(void *p);
 void *func_021C88A4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
-void func_021C8860(void *p, int a);
+struct S;
+void func_021C8860(struct S *p, unsigned int a);
 void func_021C88C8(int a, void *p);
 
 void func_021E3420(void *a, int b, int c)
@@ -60,8 +61,8 @@ void func_021E3420(void *a, int b, int c)
     *(u8 *)(p + 6) = k;
     *(u16 *)(p + 4) = 0;
     func_021C8838(p + 0xc, 2, 0x41a);
-    func_021C8860(p + 0xc, c);
-    func_021C8860(p + 0xc, k);
-    func_021C8860(p + 0xc, v);
+    func_021C8860((struct S *)(p + 0xc), c);
+    func_021C8860((struct S *)(p + 0xc), k);
+    func_021C8860((struct S *)(p + 0xc), v);
     func_021C88C8(b, p);
 }
