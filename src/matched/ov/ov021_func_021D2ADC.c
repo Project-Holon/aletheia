@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 struct Big;
 struct Ctx;
 struct Sub02008C20Obj;
@@ -35,8 +35,8 @@ extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 int func_021D2ADC(u32 a, u32 b)
 {
     void *x = func_0215A5DC((void *)b);
-    u32 k1 = func_02159B10(a, b);
-    u32 k2 = func_02159B10(a, b);
+    u32 k1 = func_02159B10((void *)a, (void *)b);
+    u32 k2 = func_02159B10((void *)a, (void *)b);
 
     func_02008DAC(func_02008C58(func_02012EBC(func_020120F4((void *)x))), k1, k2);
     return 0;

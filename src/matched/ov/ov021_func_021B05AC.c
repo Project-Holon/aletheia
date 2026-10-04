@@ -32,7 +32,7 @@ typedef unsigned char  u8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u16 func_02188C84(u8 *p);
-extern u32 func_02159B10(u32, u32);
+extern unsigned int func_02159B10(void *, void *);
 extern int func_02159190(int a0);
 extern u32 func_0215A630(u32);
 extern void func_0202F038(u8 *p);
@@ -47,7 +47,7 @@ int func_021B05AC(u32 a, u32 b)
     u32 r6, r4, t0;
 
     r6 = func_02188C84(func_0201210C(func_0215A5DC((void *)b)));
-    r4 = func_02159B10(a, b);
+    r4 = func_02159B10((void *)a, (void *)b);
     if (!func_02159190(1)) {
         return 0;
     }

@@ -22,7 +22,7 @@
  */
 
 extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern int func_02159B10(int a, int b);
+extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215A5DC(void *a0);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
@@ -36,9 +36,9 @@ extern int func_0218BACC(int a, int b);
 int func_021B2D34(int a, int b)
 {
     unsigned short *out = func_02159AE8((void *)a, (void *)b);
-    int f = func_02159B10(a, b);
-    int x = func_02159B10(a, b);
-    int y = func_02159B10(a, b);
+    int f = func_02159B10((void *)a, (void *)b);
+    int x = func_02159B10((void *)a, (void *)b);
+    int y = func_02159B10((void *)a, (void *)b);
     int h;
     int buf[3];
 

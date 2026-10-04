@@ -25,7 +25,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02189A00(unsigned char *p);
-extern int func_02159B10(int a, int b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_0215A5F4(void *p);
 extern int func_021C1CB0(int a, char *b, int c);
 extern void func_0215897C(void *vm, void *task);
@@ -42,7 +42,7 @@ int func_021C81F8(int a, int b)
 
     sp4 = func_0215A5DC((void *)b);
     sp0 = func_02189A00(func_0201210C(sp4));
-    v = func_02159B10(a, b);
+    v = (int)func_02159B10((void *)a, (void *)b);
     found = 0;
     for (i = 0; i < 17; i++) {
         if (v == d_021DAAE0[i * 2]) {

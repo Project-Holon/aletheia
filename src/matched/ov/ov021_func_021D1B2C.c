@@ -30,7 +30,7 @@ extern u32 d_021DD608[];
 
 extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(void *a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u32 func_02188CCC(u32 a);
 extern void *func_0215A5DC(void *a0);
 struct Desc;
@@ -51,7 +51,7 @@ int func_021D1B2C(u32 a, u32 b)
 
     r7 = func_0215A5F4((void *)b);
     e = func_02158F58(r7);
-    r5 = func_02159B10(a, b);
+    r5 = func_02159B10((void *)a, (void *)b);
     r4 = func_02188CCC(e[1]);
     r6 = func_0215A5DC((void *)b);
     r6 = func_020122C0(r6, 0, func_021D1AEC, 8);

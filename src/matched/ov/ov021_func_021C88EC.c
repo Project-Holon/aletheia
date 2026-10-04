@@ -21,9 +21,11 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void func_020120F4();
-extern int *func_02012ED0();
-extern int func_02159B10(int a, int b);
+struct Ctx;
+struct Big;
+extern void *func_020120F4(const struct Ctx *p);
+extern unsigned char *func_02012ED0(struct Big *p);
+extern unsigned int func_02159B10(void *a, void *b);
 extern int func_02011330(int a);
 extern void func_021C87D4(int p, int i, int v);
 
@@ -35,13 +37,11 @@ int func_021C88EC(int a, int b)
     int v;
 
     func_0215A5F4((void *)b);
-    func_0215A5DC((void *)b);
-    func_020120F4();
-    r7 = func_02012ED0();
-    sp = func_02159B10(a, b);
+    r7 = (int *)func_02012ED0(func_020120F4(func_0215A5DC((void *)b)));
+    sp = (int)func_02159B10((void *)a, (void *)b);
     r5 = func_02011330(a);
     func_02011330(a);
-    v = func_02159B10(a, b);
+    v = (int)func_02159B10((void *)a, (void *)b);
     switch (r5) {
     case 0:
     case 1:

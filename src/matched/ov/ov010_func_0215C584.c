@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 struct Blk34;
 struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
-extern int func_02159B10(int,int);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_02012F08(int *p);
 extern u32 func_0200C29C(struct Blk34 *p, u32 v);
 int func_0215C584(int a,int b)
@@ -29,7 +29,7 @@ int func_0215C584(int a,int b)
     void *p = func_0215A5E4((void *)b);
     int k;
     func_020127A4(p);
-    k = func_02159B10(a,b);
+    k = func_02159B10((void *)a,(void *)b);
     func_0200C29C(func_02012F08(p),k);
     return 0;
 }

@@ -59,7 +59,7 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012944(void *a);
 extern u32 func_02158F74(void *a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void func_0201F02C(u32 ws, u32 i, u32 a);
 extern void *func_02012934(const struct BigObj *p);
@@ -97,7 +97,7 @@ int func_021D2B54(u32 a, u32 b)
     h = func_020120F4(func_0215A5DC((void *)b));
     name = func_02012944(h);
     ws = func_02158F74(o);
-    v = func_02159B10(a, b);
+    v = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     func_0201F02C(ws, 0, name);
     party = func_02012934(h);

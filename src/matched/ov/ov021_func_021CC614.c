@@ -34,7 +34,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
@@ -56,8 +56,8 @@ int func_021CC614(u32 a, u32 b)
     u32 v;
     void *t;
 
-    sel = func_02159B10(a, b);
-    v = func_02159B10(a, b);
+    sel = func_02159B10((void *)a, (void *)b);
+    v = func_02159B10((void *)a, (void *)b);
     t = func_0215A5DC((void *)b);
     func_020120F4(t);
     func_0201210C((void *)t);

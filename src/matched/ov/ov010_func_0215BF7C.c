@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02159B10(void *, void *);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct BigObj;
@@ -49,9 +49,9 @@ extern void func_0200CFA0(struct Blk37 *p, void *m);
 
 int func_0215BF7C(void *a0, void *a1)
 {
-    void *k = func_02159B10(a0, a1);
-    void *v = func_02159B10(a0, a1);
-    void *w = func_02159B10(a0, a1);
+    void *k = (void *)func_02159B10(a0, a1);
+    void *v = (void *)func_02159B10(a0, a1);
+    void *w = (void *)func_02159B10(a0, a1);
     void *h;
     void *e;
 

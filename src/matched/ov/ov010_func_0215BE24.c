@@ -40,7 +40,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *c, void *vm);
-extern u16 func_02159B10(void *c, void *vm);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *vm);
 struct Buf;
 struct Sub0200852CObj;
@@ -62,7 +62,7 @@ int func_0215BE24(void *c, void *vm)
     void *player;
     void *mon;
     u16 *res;
-    u16 slot;
+    u32 slot;
     u32 heap;
     void *a;
     void *b;

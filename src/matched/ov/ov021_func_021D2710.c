@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02159B10  0x02159B10  thumb  ov010
@@ -23,10 +23,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(void);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012F08(u32 a);
 extern u32 func_02012944(u32 a);
 extern u16 func_0216BF9C(u32 a, u32 b, u32 c);
@@ -38,10 +39,9 @@ u32 func_021D2710(u32 a, u32 b)
     u32 t;
     u32 r6;
 
-    r7 = func_02159B10(a, b);
+    r7 = func_02159B10((void *)a, (void *)b);
     r5 = func_02159AE8((void *)a, (void *)b);
-    func_0215A5DC((void *)b);
-    t = func_020120F4();
+    t = (u32)func_020120F4((const struct Ctx *)func_0215A5DC((void *)b));
     r6 = func_02012F08(t);
     *r5 = func_0216BF9C(r6, r7, func_02012944(t));
     return 0;

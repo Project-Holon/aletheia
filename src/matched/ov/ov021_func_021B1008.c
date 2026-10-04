@@ -30,7 +30,7 @@ typedef unsigned char u8;
 
 extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(void *);
-extern int func_02159B10(void *, int);
+extern unsigned int func_02159B10(void *, void *);
 extern int func_021B162C(int, void *, int);
 extern int func_02159190(int);
 extern int func_0215A61C(int);
@@ -50,7 +50,7 @@ int func_021B1008(void *a, int b, int c)
     u8 *p;
     o = func_0215A5F4((void *)b);
     q = func_02158F58(o);
-    t = func_02159B10(a, b);
+    t = func_02159B10(a, (void *)b);
     p = *(u8 **)((char *)a + 0x14);
     n = *p;
     *(u8 **)((char *)a + 0x14) = p + 1;

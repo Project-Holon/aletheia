@@ -31,7 +31,7 @@ struct Sub02009470Obj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02009470Obj *func_02009470(void *sys);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void sub_02009618(struct Sub02009470Obj *obj, int value);
 
 int func_021D0014(u32 a, u32 b)
@@ -41,7 +41,7 @@ int func_021D0014(u32 a, u32 b)
 
     func_0215A5F4((void *)b);
     x = func_0215A5DC((void *)b);
-    v = func_02159B10(a, b);
+    v = func_02159B10((void *)a, (void *)b);
     sub_02009618(func_02009470(func_02012EBC(func_020120F4((void *)x))), v);
     return 0;
 }

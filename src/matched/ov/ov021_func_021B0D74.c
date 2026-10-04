@@ -22,7 +22,7 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F90(void *);
-extern int func_02159B10(int, int);
+extern unsigned int func_02159B10(void *, void *);
 extern unsigned short func_0216D588(void *);
 extern int func_021B0BAC(int, int, int, int, int, int);
 extern void func_020113D0(int, int (*)(int, int));
@@ -34,10 +34,10 @@ int func_021B0D74(int a, int b)
     int v0, v1, v2, v3;
     unsigned char f;
     o = func_02158F90(func_0215A5F4((void *)b));
-    v0 = func_02159B10(a, b);
-    v1 = func_02159B10(a, b);
-    v2 = func_02159B10(a, b);
-    v3 = func_02159B10(a, b);
+    v0 = func_02159B10((void *)a, (void *)b);
+    v1 = func_02159B10((void *)a, (void *)b);
+    v2 = func_02159B10((void *)a, (void *)b);
+    v3 = func_02159B10((void *)a, (void *)b);
     if (o == 0) {
         return 1;
     }

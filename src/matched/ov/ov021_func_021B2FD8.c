@@ -55,7 +55,7 @@ typedef struct Work {
     u32 f24;
 } Work;
 
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *, void *);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
 extern u32 func_020120F4(void *a);
@@ -89,7 +89,7 @@ int func_021B2FD8(u32 a, u32 b)
     u32 z;
     Work *w;
 
-    v = func_02159B10(a, b);
+    v = func_02159B10((void *)a, (void *)b);
     func_02159AE8((void *)a, (void *)b);
     t = func_0215A5DC((void *)b);
     s = func_020120F4(t);

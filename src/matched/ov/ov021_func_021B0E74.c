@@ -17,7 +17,7 @@
  *   func_021B0CEC  0x021B0CEC  thumb
  */
 
-extern int func_02159B10(int, int);
+extern unsigned int func_02159B10(void *, void *);
 extern int func_021B0BAC(int, int, int, int, int, int);
 extern void func_020113D0(int, int (*)(int, int));
 extern int func_021B0CEC(int, int);
@@ -25,12 +25,12 @@ extern int func_021B0CEC(int, int);
 int func_021B0E74(int a, int b)
 {
     int v0, v2, v3, v4, v5;
-    v0 = func_02159B10(a, b);
-    func_02159B10(a, b);
-    v2 = func_02159B10(a, b);
-    v3 = func_02159B10(a, b);
-    v4 = func_02159B10(a, b);
-    v5 = func_02159B10(a, b);
+    v0 = func_02159B10((void *)a, (void *)b);
+    func_02159B10((void *)a, (void *)b);
+    v2 = func_02159B10((void *)a, (void *)b);
+    v3 = func_02159B10((void *)a, (void *)b);
+    v4 = func_02159B10((void *)a, (void *)b);
+    v5 = func_02159B10((void *)a, (void *)b);
     if (func_021B0BAC(b, v3, v0, v2, v4, v5) == 1) {
         func_020113D0(a, func_021B0CEC);
         return 1;

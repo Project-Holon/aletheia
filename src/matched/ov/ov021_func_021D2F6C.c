@@ -28,7 +28,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *map, u32 id);
 struct Actor;
@@ -55,12 +55,12 @@ u32 func_021D2F6C(u32 a, u32 b)
     s10 = func_0215A5F4((void *)b);
     sc = func_0215A5DC((void *)b);
     s14 = func_0201210C(sc);
-    s18 = func_02159B10(a, b);
-    s8 = func_02159B10(a, b);
-    s4 = func_02159B10(a, b);
-    r7 = func_02159B10(a, b);
-    r6 = func_02159B10(a, b);
-    r4 = func_02159B10(a, b);
+    s18 = (int)func_02159B10((void *)a, (void *)b);
+    s8 = (int)func_02159B10((void *)a, (void *)b);
+    s4 = (int)func_02159B10((void *)a, (void *)b);
+    r7 = (int)func_02159B10((void *)a, (void *)b);
+    r6 = (int)func_02159B10((void *)a, (void *)b);
+    r4 = (int)func_02159B10((void *)a, (void *)b);
     r = func_0216DE94(func_02188C7C((void *)s14), s18);
     if (r != 0) {
         func_0216D88C(r, (struct VecFx32 *)v);

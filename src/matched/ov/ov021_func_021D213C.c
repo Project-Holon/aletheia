@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_020249B0(u32 a, u16 b);
 
@@ -30,9 +30,9 @@ int func_021D213C(u32 a, u32 b)
     u32 base, s, r7, r4;
     u16 *p;
 
-    r4 = func_02159B10(a, b);
-    s = func_02159B10(a, b);
-    r7 = func_02159B10(a, b);
+    r4 = func_02159B10((void *)a, (void *)b);
+    s = func_02159B10((void *)a, (void *)b);
+    r7 = func_02159B10((void *)a, (void *)b);
     p = func_02159AE8((void *)a, (void *)b);
     switch (r4) {
     case 1:

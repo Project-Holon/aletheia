@@ -19,7 +19,7 @@
 
 typedef unsigned short u16;
 
-int func_02159B10(int a, int b);
+unsigned int func_02159B10(void *a, void *b);
 u16 *func_02159AE8(void *a0, void *a1);
 int func_0215A5EC(int b);
 int func_0216DE94(int a, int b);
@@ -32,8 +32,8 @@ int func_021B19E0(int a, int b)
     u16 *r6;
     int r0;
 
-    r7 = func_02159B10(a, b);
-    r4 = func_02159B10(a, b);
+    r7 = func_02159B10((void *)a, (void *)b);
+    r4 = func_02159B10((void *)a, (void *)b);
     r6 = func_02159AE8((void *)a, (void *)b);
     r0 = func_0216DE94(func_0215A5EC(b), r7);
     if (r4 <= 2 && r0 != 0) {

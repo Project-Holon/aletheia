@@ -25,7 +25,7 @@ extern void *func_0215A5F4(void *p);
 extern void func_02158F58(void *h);
 extern u32 func_02158F54(void *h);
 extern u32 func_02011330(u32 a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void func_021C9934(u32 a, u32 b, u32 c);
 int func_021CA544(u32 a, u32 b)
 {
@@ -34,6 +34,6 @@ int func_021CA544(u32 a, u32 b)
     func_02158F58(h);
     x = func_02158F54(h);
     y = func_02011330(a);
-    func_021C9934(x, y, func_02159B10(a, b));
+    func_021C9934(x, y, func_02159B10((void *)a, (void *)b));
     return 0;
 }

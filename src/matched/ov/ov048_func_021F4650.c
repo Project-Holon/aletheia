@@ -24,7 +24,7 @@ extern void *func_0215A5DC(void *a0);
 typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02159B10(int a, int b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void func_020061E4(u32 a);
 extern void *func_021F4DBC(void *a, void *b, int c);
 extern void func_0215897C(void *a, void *b);
@@ -39,7 +39,7 @@ int func_021F4650(int a, int b)
     r6 = func_0215A5F4((void *)b);
     r7 = func_0215A5DC((void *)b);
     sp = func_0201210C((void *)r7);
-    r4 = func_02159B10(a, b);
+    r4 = (int)func_02159B10((void *)a, (void *)b);
     func_020061E4(0x547);
     func_0215897C(r6, func_021F4DBC(r7, sp, r4));
     return 1;

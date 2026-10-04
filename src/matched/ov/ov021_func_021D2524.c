@@ -30,7 +30,7 @@ struct Ctx;
 struct Desc;
 struct Obj;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_0215A5F4(void *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
@@ -48,10 +48,10 @@ int func_021D2524(u32 a, u32 b)
 
     r6 = func_0215A5DC((void *)b);
     func_0201210C(r6);
-    s1 = func_02159B10(a, b);
-    s2 = func_02159B10(a, b);
-    s3 = func_02159B10(a, b);
-    r5 = func_02159B10(a, b);
+    s1 = func_02159B10((void *)a, (void *)b);
+    s2 = func_02159B10((void *)a, (void *)b);
+    s3 = func_02159B10((void *)a, (void *)b);
+    r5 = func_02159B10((void *)a, (void *)b);
     r7 = func_0215A5F4((void *)b);
     r4 = func_020122C0(r6, 0, func_021D26D0, 0x18);
     r6 = func_020124E8(r4);

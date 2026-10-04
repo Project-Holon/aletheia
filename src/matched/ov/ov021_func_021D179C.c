@@ -38,7 +38,7 @@ extern void *func_0215A5E4(void *a0);
 extern u32 func_0215A5CC(u32 a);
 extern u32 func_02158F74(void *a);
 extern u32 func_02012F8C(u32 *p);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02009390(u32 a, u32 b);
 extern u32 func_020457B0(u32 a, u32 b);
 struct Strbuf;
@@ -63,8 +63,8 @@ int func_021D179C(u32 a, u32 b)
     s8 = func_0215A5CC(b);
     s12 = func_02158F74(r6);
     id = func_02012F8C(r7);
-    k0 = func_02159B10(a, b);
-    k1 = func_02159B10(a, b);
+    k0 = func_02159B10((void *)a, (void *)b);
+    k1 = func_02159B10((void *)a, (void *)b);
     e = func_02009390(id, k1);
     if (e != 0 && e[0] != 0x7E && e[0] != 0) {
         h = func_020457B0(0xE, s8);

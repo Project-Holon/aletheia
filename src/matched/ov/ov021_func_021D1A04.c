@@ -28,7 +28,7 @@ typedef unsigned int   u32;
 extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(void *a);
 extern u32 func_02188C84(u32 a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void *func_02188CB4(unsigned char *p);
 struct VecFx32;
 extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
@@ -41,7 +41,7 @@ int func_021D1A04(u32 a, u32 b)
     void *s = func_0215A5F4((void *)b);
     u32 *q = func_02158F58(s);
     u32 t = func_02188C84(q[1]);
-    u32 k = func_02159B10(a, b);
+    u32 k = func_02159B10((void *)a, (void *)b);
     u8 *r;
 
     func_021A3038(func_02188CB4((u8 *)q[1]), (struct VecFx32 *)buf);

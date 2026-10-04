@@ -24,13 +24,13 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_0215910C(void *a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void func_021D1894(u32 a, u32 b);
 
 int func_021D1A74(u32 a, u32 b)
 {
     void *x = func_0215A5F4((void *)b);
-    u32 k = func_02159B10(a, b);
+    u32 k = func_02159B10((void *)a, (void *)b);
 
     func_021D1894(func_0215910C(x), k);
     return 0;

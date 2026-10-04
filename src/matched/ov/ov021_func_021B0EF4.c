@@ -51,7 +51,7 @@ typedef struct S {
 
 extern void *func_0215A5F4(void *p);
 extern unsigned char **func_02158F58(void *);
-extern int func_02159B10(void *, int);
+extern unsigned int func_02159B10(void *, void *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_02158F78(u8 *p);
@@ -87,9 +87,9 @@ int func_021B0EF4(void *a, int b)
 
     o = func_0215A5F4((void *)b);
     q = func_02158F58(o);
-    k0 = func_02159B10(a, b);
-    k1 = func_02159B10(a, b);
-    k2 = func_02159B10(a, b);
+    k0 = func_02159B10(a, (void *)b);
+    k1 = func_02159B10(a, (void *)b);
+    k2 = func_02159B10(a, (void *)b);
     m = func_02158F78(o);
     if (func_02159190(2) != 0) {
         return 1;

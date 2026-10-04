@@ -30,7 +30,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void func_0215897C(void *a, void *b);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *, void *);
 extern u32 func_02012EBC(void *a);
 extern u32 func_02009210(u32 a);
 extern void func_020090D8(u32 a, u32 b);
@@ -44,7 +44,7 @@ int func_021B4F1C(u32 a, u32 b)
     void *r4;
 
     r7 = func_02009210(func_02012EBC(func_0215A5E4((void *)b)));
-    r5 = func_02159B10(a, b);
+    r5 = func_02159B10((void *)a, (void *)b);
     r6 = func_0215A5F4((void *)b);
     r4 = func_0215A5DC((void *)b);
     func_020090D8(r7, 1);
