@@ -18,7 +18,9 @@ typedef struct Row { char pad[0x244]; void *item; char gap[0x94]; unsigned id; }
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
-extern void func_0204B454(void *, Pair *, unsigned);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(void *, const Pair *, unsigned);
 void func_021BA61C(char *ctx)
 {
@@ -32,7 +34,7 @@ void func_021BA61C(char *ctx)
         if (row->id == 65535) {
             func_0204B3DC(item, 0);
         } else {
-            func_0204B454(item, &pos, 65535);
+            func_0204B454(item, (struct PtS *)&pos, 65535);
             pos.y = row->id * 2 + 92;
             func_0204B404(item, &pos, 65535);
         }

@@ -17,7 +17,9 @@ struct Obj;
 struct Vec2 { short x,y; };
 extern unsigned func_02040804(unsigned);
 extern void func_02041EE4(unsigned,unsigned,unsigned);
-extern void func_0204B454(struct Obj *,struct Vec2 *,unsigned);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
 void func_021B9D38(unsigned char *p)
 {
@@ -30,7 +32,7 @@ void func_021B9D38(unsigned char *p)
         if(amount>=2) amount=2;
         func_02041EE4(1,5,amount);
         func_02041EE4(2,5,amount);
-        func_0204B454(*(struct Obj **)(p+0x54),&pair,0);
+        func_0204B454((struct Actor *)*(struct Obj **)(p+0x54),(struct PtS *)&pair,0);
         pair.y+=(short)amount;
         func_0204B404(*(struct Obj **)(p+0x54),&pair,0);
         p[0x44]=0;

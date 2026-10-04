@@ -23,7 +23,9 @@ struct Row1 {char pad[0x2b0];void *item;};
 typedef unsigned int   u32;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B454(void *,Pair *,unsigned);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(void *,const Pair *,unsigned);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 static inline void scroll(const char *p,short delta,int space,Pair *pos)
@@ -35,7 +37,7 @@ static inline void scroll(const char *p,short delta,int space,Pair *pos)
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
         if(func_0204B3F4(item)){
-            func_0204B454(item,pos,space);
+            func_0204B454(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
             func_0204B404(item,pos,space);
@@ -56,7 +58,7 @@ static inline void scrollSecond(const char *p,short delta,int space,Pair *pos)
         if(space==0)item=((struct Row0 *)(p+i*4))->item;
         else item=((struct Row1 *)(p+i*4))->item;
         if(func_0204B3F4(item)){
-            func_0204B454(item,pos,space);
+            func_0204B454(item,(struct PtS *)pos,space);
             pos->y+=delta;
             value=pos->y;
             func_0204B404(item,pos,space);
