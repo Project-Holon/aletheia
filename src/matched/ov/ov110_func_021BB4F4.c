@@ -31,7 +31,8 @@ extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 struct CharBuf;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void *func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern int func_021BB1F4(void);
 extern void func_021BB1F8(u32,void *);
@@ -48,13 +49,13 @@ u8 *func_021BB4F4(u8 *p,u8 *q) {
     w=func_021BAC44(*(u8 **)p);
     a=func_020450F0(1,1,8,30,14,12,1);
     str=func_020457B0(4,42);
-    func_02043B5C(func_02045770(a),15);
+    func_02043B5C(func_02045770((struct Descriptor *)a),15);
     n=func_021BB1F4();
     for(i=0;i<n;i++) {
         func_021BB1F8(i,str);
         func_021BB224(i,&x,&y);
         func_0201DD78(1,2,15);
-        func_0201C7A4(func_02045770(a),x+5,y,str,w);
+        func_0201C7A4(func_02045770((struct Descriptor *)a),x+5,y,str,w);
     }
     func_02045334(a);
     func_02045808(str);

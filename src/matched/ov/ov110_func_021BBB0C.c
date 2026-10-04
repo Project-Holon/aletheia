@@ -17,7 +17,8 @@
  */
 typedef unsigned char u8;
 extern unsigned func_021BAC4C(u8 *);
-extern unsigned func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(unsigned, unsigned);
 struct Descriptor;
 extern void func_02045334(struct Descriptor *d);
@@ -32,7 +33,7 @@ int func_021BBB0C(u8 *p, int a)
     ready = 1;
     if (a) {
         if (p[0xa0]) {
-            if (func_0201C6C4(owner, func_02045770(*(void **)(p + 0x9c))) == 0) {
+            if (func_0201C6C4(owner, (unsigned)func_02045770(*(void **)(p + 0x9c))) == 0) {
                 func_02045334(*(void **)(p + 0x9c));
                 p[0xa0] = 0;
             }

@@ -66,7 +66,8 @@ extern void func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
 extern int func_02061CA4(void *,u32,u32,int);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_021BF7C4(u8 *);
@@ -114,7 +115,7 @@ void func_021B9CE4(void *unused,u8 *p) {
     func_020498F4((u32)h,24,7,0,0,0,42);
     func_020413B0(7,0,0,32,32,5);
     *(u32 *)(*(u8 **)p+0x6c)=func_020450F0(7,3,5,26,7,5,1);
-    func_02043B5C(func_02045770(*(u32 *)(*(u8 **)p+0x6c)),7);
+    func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(*(u8 **)p+0x6c)),7);
     *(u32 *)(*(u8 **)p+0x70)=0;
     if(func_021BF7C4(*(u8 **)(p+4)) || func_021BF6D8(*(u8 **)(p+4))!=2) func_021BAD68(p,1);
     else func_021BAD68(p,0);
