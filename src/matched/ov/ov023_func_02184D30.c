@@ -57,8 +57,8 @@ typedef struct Work {
     u32 f100;
 } Work;
 
-extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
 struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(u32, u16);
 extern void func_0204B3DC(u32, int);
@@ -81,7 +81,7 @@ void func_02184D30(Work *p)
     for (i = 0; i < 5; i++) {
         pos.x = i * 0x28 + 0x18;
         pos.y = 0x40;
-        p->a60[i] = func_0204B294(p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
+        p->a60[i] = (u32)func_0204B294((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
         func_0204B92C((struct Obj *)p->a60[i], 1);
         func_0204B878(p->a60[i], i);
         func_0204B3DC(p->a60[i], 0);
@@ -89,7 +89,7 @@ void func_02184D30(Work *p)
     for (j = 0; j < 12; j++) {
         pos.x = d_02186BEC[j].x;
         pos.y = d_02186BEC[j].y;
-        p->aD0[j] = func_0204B294(p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
+        p->aD0[j] = (u32)func_0204B294((void *)p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
         func_0204B92C((struct Obj *)p->aD0[j], 1);
         func_0204B878(p->aD0[j], d_02186BEC[j].anim);
         if (j >= 8) {
@@ -100,7 +100,7 @@ void func_02184D30(Work *p)
     for (i = 0; i < 5; i++) {
         pos.x = 0x18;
         pos.y = i * 0x20 + 0x20 + 0x100000u;
-        p->a98[i] = func_0204B294(p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
+        p->a98[i] = (u32)func_0204B294((void *)p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
         func_0204B92C((struct Obj *)p->a98[i], 1);
         func_0204B878(p->a98[i], i);
         func_0204B800(p->a98[i], 1);
@@ -108,7 +108,7 @@ void func_02184D30(Work *p)
     }
     pos.x = 0xD4;
     pos.y = 0xA0;
-    p->f100 = func_0204B294(p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
+    p->f100 = (u32)func_0204B294((void *)p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
     func_0204B92C((struct Obj *)p->f100, 1);
     func_0204B878(p->f100, 1);
     func_0204B3DC(p->f100, 1);

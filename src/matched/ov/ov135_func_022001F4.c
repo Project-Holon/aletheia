@@ -22,8 +22,8 @@ typedef unsigned int u32;
 typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
 typedef struct { u16 x, y; } Pair;
 extern const Pair d_022038E0[];
-extern void *func_0204B294(void *, void *, void *, void *, ObjPos *, int, int);
 struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_020355C4(void);
@@ -37,7 +37,7 @@ void func_022001F4(u8 *p)
     pos.z = 0;
     pos.pri = 0;
     pos.f7 = 1;
-    *(void **)(p + 0xBF4) = func_0204B294(*(void **)(p + 0xBC0), *(void **)(p + 0xBE8), *(void **)(p + 0xBC8), *(void **)(p + 0xBF0), &pos, 0, 0x48);
+    *(void **)(p + 0xBF4) = func_0204B294(*(void **)(p + 0xBC0), (unsigned int)*(void **)(p + 0xBE8), (unsigned int)*(void **)(p + 0xBC8), (unsigned int)*(void **)(p + 0xBF0), &pos, 0, 0x48);
     func_0204B92C(*(void **)(p + 0xBF4), 1);
     func_0204B878(*(void **)(p + 0xBF4), 0);
     if (func_020355C4() == 1) {

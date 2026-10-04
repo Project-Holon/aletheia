@@ -42,7 +42,7 @@ extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16),func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020409B4(u32),func_02049238(void *),func_02040588(u32,u32),func_020413B0(u32,u8,u8,u8,u8,u8);
 extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16),func_0204A6C8(u32,u32,u32,u32,u16),func_0204AF28(u32,u32,u32,u32);
-extern struct Obj *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *owner,unsigned int i,unsigned int j,unsigned int k,const void *position,unsigned short space,unsigned short heap);
 extern void func_0204B3DC(struct Obj *,u32);
 extern u32 func_020275E4(void),func_02027614(void),func_02027618(void),func_02027624(void),func_02027628(void),func_0202762C(void),func_0202761C(u32),func_02027620(u32);
 void func_021EF0F4(u8 *p) {
@@ -84,7 +84,7 @@ void func_021EF0F4(u8 *p) {
  *(int *)(p+0x78)=func_0204AF28((u32)archive,first,func_02027620(2),*(u16 *)p);
  func_02049238(archive);
  placement.x=232;placement.y=168;placement.z=1;placement.f7=0;placement.f6=0;
- *(struct Obj **)(p+0x7c)=func_0204B294(*(u32 *)(p+0x6c),*(u32 *)(p+0x74),*(u32 *)(p+0x70),*(u32 *)(p+0x78),(u32)&placement,1,*(u16 *)p);
+ *(struct Obj **)(p+0x7c)=func_0204B294((void *)*(u32 *)(p+0x6c),*(u32 *)(p+0x74),*(u32 *)(p+0x70),*(u32 *)(p+0x78),&placement,1,*(u16 *)p);
  if(!p[0x28]) {func_0204B3DC(*(struct Obj **)(p+0x7c),1);return;}
  else {func_0204B3DC(*(struct Obj **)(p+0x7c),0);return;}
 }

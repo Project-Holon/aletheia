@@ -21,7 +21,8 @@ struct arg_021C295C {
     unsigned char e;
 };
 
-extern int func_0204B294(int, int, int, int, struct arg_021C295C *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 
 void func_021C295C(unsigned char *p)
 {
@@ -36,7 +37,7 @@ void func_021C295C(unsigned char *p)
     s.e = 0;
     for (i = 0; i < 4; i++) {
         *(int *)(p + 0x10 + i * 4) =
-            func_0204B294(*(int *)(p + 0xc), q[0], q[1], q[2], &s,
+            (int)func_0204B294((void *)*(int *)(p + 0xc), q[0], q[1], q[2], &s,
                           *(unsigned short *)((unsigned char *)q + 0xc),
                           *(unsigned short *)p);
     }
