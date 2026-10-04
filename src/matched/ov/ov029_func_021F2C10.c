@@ -15,7 +15,8 @@
  *   func_0204B98C  0x0204B98C  arm
  */
 
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *a, unsigned int b);
 extern void func_0204B954(int a, int b);
 extern int func_0204B98C(int a);
 
@@ -23,7 +24,7 @@ int func_021F2C10(char *p)
 {
     switch (*(unsigned char *)(p + 0x455)) {
     case 0:
-        func_0204B92C(*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c), 1);
+        func_0204B92C((struct Obj *)*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c), 1);
         func_0204B954(*(int *)(p + *(unsigned char *)(p + 0x416) * 4 + 0x12c), 1 << 13);
         *(unsigned char *)(p + 0x455) += 1;
         break;

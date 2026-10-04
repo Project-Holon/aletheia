@@ -38,7 +38,8 @@ typedef struct {
 
 extern int func_0204B294(int, int, int, int, Rect *, int, u16);
 extern void func_0204B3DC(int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern int func_021B811C(char *);
 extern const B5 d_021BBAA8;
 extern const B5 d_021BBA6C;
@@ -68,8 +69,8 @@ void func_021BA6F4(char *p)
         *(int *)(p + i * 4 + 0x710) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
         func_0204B3DC(*(int *)(p + i * 4 + 0x710), 1);
     }
-    func_0204B92C(*(int *)(p + 0x710), 1);
-    func_0204B92C(*(int *)(p + 0x714), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + 0x710), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + 0x714), 1);
     if (func_021B811C(p) == 0) {
         func_0204B3DC(*(int *)(p + 0x718), 0);
     }
@@ -84,7 +85,7 @@ void func_021BA6F4(char *p)
         r.c = t3.v[i];
         r.e = 0;
         *(int *)(p + (u8)(i + 5) * 4 + 0x710) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
-        func_0204B92C(*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
+        func_0204B92C((struct Obj *)*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
         func_0204B3DC(*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
     }
 }

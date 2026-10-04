@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   unit_0204B92C  0x0204B92C  arm
@@ -25,7 +25,8 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void unit_0204B92C(void *p, int v);
+struct Obj;
+extern void unit_0204B92C(struct Obj *p, unsigned int v);
 extern void unit_0204B3DC(void *p, int v);
 
 typedef struct {
