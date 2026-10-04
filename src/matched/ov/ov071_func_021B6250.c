@@ -56,7 +56,7 @@ extern u32 func_0202648C(void *obj);
 extern u32 func_02026454(void *obj);
 extern void func_02031348(int h, int id, int a, void *b);
 extern void func_0201DD78(u32, u32, u32);
-extern int func_02031330(int h);
+extern u32 func_02031330(void *h);
 extern void func_020310C4(struct Tcbl *p);
 extern void func_0201C4E4(int);
 extern void func_0204A600(void);
@@ -100,14 +100,14 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
                 mywk[0x136] = 1;
             }
         }
-        s2 = func_02031330(*(int *)(mywk + 0x130));
+        s2 = func_02031330((void *)*(int *)(mywk + 0x130));
         k = mywk[0x124];
         if (k == 4 || (s2 != 1 && mywk[0x126] == 1)) {
             mywk[0x125] = 1;
         } else if (mywk[0x134] != k && d_021BA774[mywk[0x134]].a != d_021BA774[k].a) {
             mywk[0x125] = 1;
         }
-        s1 = func_02031330(*(int *)(mywk + 0x12C));
+        s1 = func_02031330((void *)*(int *)(mywk + 0x12C));
         if (s1 == 1 && s2 == 1)
             break;
         if (mywk[0x126] == 1 || mywk[0x124] == 4) {

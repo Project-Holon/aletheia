@@ -15,12 +15,13 @@
  */
 typedef unsigned int u32;
 int func_021736D8(void);
-u32 func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 u32 func_0203D3F8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 u32 func_0217440C(void)
 {
     if (func_021736D8() == 0) {
         return 1;
     }
-    return func_0203D3F8(func_020399A8(), 0, 0x21e, 0, 0, 0, 0, 0);
+    return func_0203D3F8((u32)func_020399A8(), 0, 0x21e, 0, 0, 0, 0, 0);
 }

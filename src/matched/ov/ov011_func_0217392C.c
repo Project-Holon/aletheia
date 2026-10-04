@@ -16,7 +16,8 @@
  *   func_02174F54  0x02174F54  thumb ov011
  */
 
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D1A4(int a);
 void func_020264B4(int a, int b, int c, unsigned char d, int e, int f);
 void func_02174F54(void *a, int b, const void *c, int d);
@@ -29,7 +30,7 @@ typedef struct C {
 
 void func_0217392C(int a, int b, const C *c, unsigned char *d)
 {
-    if (a == func_0203D1A4(func_020399A8())) {
+    if (a == func_0203D1A4((int)func_020399A8())) {
         func_020264B4(*(int *)(d + 4), a, c->w14, c->f, 0x15, 0);
     } else if ((d[0x8FB] & (1 << a)) != 0) {
         func_02174F54(d, a, c, 0);

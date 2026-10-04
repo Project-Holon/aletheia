@@ -76,7 +76,7 @@ extern u8  ov015_id[];
 
 extern void func_02034714(void *dst, u32 val, void *dst2);
 extern void func_0217963C(u32 v);
-extern void func_0203D7FC(u32 v);
+extern void func_0203D7FC(void *p);
 extern void func_02034A5C(int handle);
 
 void func_020103E4(u8 *p)
@@ -85,8 +85,8 @@ void func_020103E4(u8 *p)
         func_02034714(&sWihDwc, 0, &sWihDwc);
     }
     func_0217963C(0);
-    func_0203D7FC(*(u32 *)(p + 0x300));
-    func_0203D7FC((u32)p);
+    func_0203D7FC((void *)*(u32 *)(p + 0x300));
+    func_0203D7FC(p);
     g_021461E0 = 0;
     func_02034A5C((int)ov015_id);
 }

@@ -35,7 +35,8 @@ extern int func_021587B0(int a0, int a1, int a2, int a3);
 extern void func_02159058(int a, int b, int c, int d, u16 e);
 extern u32  func_02158F74(u32 a);
 extern u32  func_020457B0(u32 size, u32 heap);
-extern void func_02045994(u32 dst, const void *src, u32 len);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *dst, const u16 *src, u32 len);
 extern void func_02045808(u32 p);
 extern void func_0201EE0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 
@@ -50,7 +51,7 @@ int func_021CFBA8(u32 a, u32 unused, const Rec *src)
     func_02159058(h, r.v[8], 0, 0, 0);
     x = func_02158F74(h);
     buf = func_020457B0(8, 0x15);
-    func_02045994(buf, &r, 8);
+    func_02045994((struct Strbuf *)buf, (const u16 *)&r, 8);
     func_0201EE0C(x, 3, buf, 1, 1, 2);
     func_02045808(buf);
     return 0;
