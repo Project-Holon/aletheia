@@ -39,10 +39,11 @@ extern void func_020414C4(u32 idx);
 extern void func_020414EC(u32 i);
 extern void func_021BC6D0(char *p);
 extern void func_021BC720(char *p);
-extern void func_02045334(u32 a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 a);
-extern void func_02045730(u32 a);
-extern void func_020409B4(void);
+extern unsigned char func_02045730(struct Descriptor *d);
+extern void func_020409B4(unsigned int index);
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_0207D63C(int, int, int, int, int);
@@ -69,10 +70,9 @@ void func_021BCC80(char *p)
     case 2:
         func_021BC720(p);
         w = *(u32 *)(p + 0x24);
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
-        func_02045730(w);
-        func_020409B4();
+        func_020409B4(func_02045730((struct Descriptor *)w));
         func_0204047C(3, 1);
         func_02040588(3, 0);
         func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);

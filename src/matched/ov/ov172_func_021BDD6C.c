@@ -35,7 +35,7 @@ extern void func_021BDEF0(u8 *p, char *a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern u32 func_0201C6C4(struct PrintSys *p, void *v);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(u32 a);
 extern int func_02045730(u32 p);
 extern void func_02041B6C(u32 bit);
@@ -77,7 +77,7 @@ void func_021BDD6C(u8 *p)
         if (!(p[0x1b5] & m)) continue;
         if (func_0201C6C4(*(void **)(p + 0x1d0), func_02045770((struct Descriptor *)*(u32 *)(p + i * 4 + 0x1b8))) != 0) continue;
         w = *(u32 *)(p + i * 4 + 0x1b8);
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_02041B6C(func_02045730(w));
         p[0x1b5] -= (u8)m;

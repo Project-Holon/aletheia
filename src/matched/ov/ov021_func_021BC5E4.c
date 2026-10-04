@@ -25,10 +25,11 @@
 extern void func_021BC6D0(int a);
 extern void func_021BC6E8(int a);
 extern void func_021BD01C(int a);
-extern void func_02045334(int a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int a);
-extern void func_02045730(int a);
-extern void func_020409B4(void);
+extern unsigned char func_02045730(struct Descriptor *d);
+extern void func_020409B4(unsigned int index);
 typedef unsigned int   u32;
 extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 which, u32 enable);
@@ -42,10 +43,9 @@ void func_021BC5E4(int *p)
     func_021BC6E8((int)p);
     func_021BD01C((int)p);
     r4 = p[9];
-    func_02045334(r4);
+    func_02045334((struct Descriptor *)r4);
     func_02045374(r4);
-    func_02045730(r4);
-    func_020409B4();
+    func_020409B4(func_02045730((struct Descriptor *)r4));
     func_0204047C(3, 1);
     func_02040588(3, 0);
     func_0207D63C(0x04000050, 8, 0x11, 0x10, 4);

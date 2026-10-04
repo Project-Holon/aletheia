@@ -17,7 +17,7 @@
 typedef struct { char pad[0x8C];int bitmap[1]; } View;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02043B5C(int,int),func_02045334(int);
+extern void func_02043B5C(int,int),func_02045334(struct Descriptor *d);
 extern void func_021FCF54(int,int,int,int,unsigned short,unsigned short,unsigned short,unsigned short);
 void func_021FCE60(char *p,int start)
 {
@@ -29,5 +29,5 @@ void func_021FCE60(char *p,int start)
             func_021FCF54(((View *)p)->bitmap[i],(int)func_02045770((struct Descriptor *)*(int *)(p+0x38)),0,0,0,(i-start)*height,*(unsigned char *)(p+0xA),height);
         }
     }
-    func_02045334(*(int *)(p+0x38));
+    func_02045334((struct Descriptor *)*(int *)(p+0x38));
 }

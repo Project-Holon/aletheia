@@ -101,7 +101,7 @@ extern u32 func_020086D0(const void *);
 extern u32 func_020086D8(const void *);
 extern u32 func_020086E0(const void *);
 extern u32 func_020086E8(const void *);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0201ED04(void *);
 extern void func_02045C04(void *);
 extern const u8 d_021F0A70[];
@@ -177,7 +177,7 @@ void func_021F0284(u8 *p)
         func_0201EFA4(ws,4,func_020086E8(t),2,2,1);
         func_0201F250(ws,dst,s7);
         print_record(p,7,dst,s7,4,0x3580,one);
-    } else func_02045334(*(u32 *)(p+68));
+    } else func_02045334((struct Descriptor *)*(u32 *)(p+68));
     func_02045808(dst);
     func_0201ED04(ws);
     func_02045C04(bank);

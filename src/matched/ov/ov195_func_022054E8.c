@@ -26,7 +26,7 @@ extern int func_0201F73C(int, int, int, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern unsigned char func_02045730(int);
 typedef unsigned int   u32;
@@ -40,7 +40,7 @@ void func_022054E8(int a, int *p, int flag)
         func_0201F73C(p[0x1b], 0, (unsigned short)p[0x1d], 2);
         func_02043B5C((int)func_02045770((struct Descriptor *)p[0x1b]), 0xf);
         q = (int *)p[0x1b];
-        func_02045334((int)q);
+        func_02045334((struct Descriptor *)q);
         func_02045374((int)q);
         func_020409B4(func_02045730((int)q));
     } else {

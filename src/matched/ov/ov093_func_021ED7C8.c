@@ -22,14 +22,14 @@ struct S { int h; int x; int y; int dx; int dy; u8 state; u8 cnt; };
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 
 void func_021ED7C8(struct S *s, int keep)
 {
     if ((u8)(s->state + 0xff) <= 1) {
         if (keep == 0) {
             func_02043B5C((int)func_02045770((struct Descriptor *)s->h), 0xc);
-            func_02045334(s->h);
+            func_02045334((struct Descriptor *)s->h);
         }
         s->x = 0;
         s->y = 0x10000;

@@ -32,7 +32,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 a);
 extern u8 func_02045730(u32 a);
 extern void func_020409B4(u32 index);
@@ -56,7 +56,7 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
                       func_020437D4(func_02045770((struct Descriptor *)*(u32 *)(d + 0x118))),
                       0x3840);
         t = *(u32 *)(d + 0x118);
-        func_02045334(t);
+        func_02045334((struct Descriptor *)t);
         func_02045374(t);
         func_020409B4(func_02045730(t));
     } else {

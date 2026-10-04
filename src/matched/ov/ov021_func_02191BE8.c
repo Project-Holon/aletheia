@@ -36,7 +36,7 @@ extern u32 func_020457B0(u32 a, u32 heap);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern int func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
-extern void func_02045334(u32 w);
+extern void func_02045334(struct Descriptor *w);
 extern void func_020409B4(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern int func_02192138(u32 a, u32 b, u32 c);
@@ -54,7 +54,7 @@ u32 func_02191BE8(u32 *p, u32 b)
         p[4] = b;
         p[5] = func_020457B0(func_020458F8(b) + 2, *(u16 *)p[0]);
         func_0219214C((u32)func_02045770((struct Descriptor *)p[1]), p[12], p[4], p[5], p + 9, 15);
-        func_02045334(p[1]);
+        func_02045334((struct Descriptor *)p[1]);
         func_020409B4((u8)((u16 *)p[0])[1]);
         p[6]++;
         break;
@@ -75,7 +75,7 @@ u32 func_02191BE8(u32 *p, u32 b)
     case 3:
         if ((func_020362DC() & 3) == 0) {
             func_021928C0(p + 10, (u32)func_02045770((struct Descriptor *)p[1]), 15);
-            func_02045334(p[1]);
+            func_02045334((struct Descriptor *)p[1]);
             break;
         }
         func_021927FC(p + 10, (u32)func_02045770((struct Descriptor *)p[1]), 15);
@@ -90,7 +90,7 @@ u32 func_02191BE8(u32 *p, u32 b)
         } else {
             p[8] += 4;
         }
-        func_02045334(p[1]);
+        func_02045334((struct Descriptor *)p[1]);
         func_020409B4((u8)((u16 *)p[0])[1]);
         break;
     case 5:

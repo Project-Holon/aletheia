@@ -21,7 +21,7 @@
 extern int func_0201C6C4(int a, int b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern int func_02045730(int);
 typedef unsigned int   u32;
@@ -35,11 +35,11 @@ void func_021BD480(char *a, int *b)
         && func_0201C6C4(*(int *)(a + 0x140), (int)func_02045770((struct Descriptor *)b[2])) == 0) {
         q = b[1];
         b[0] = 0;
-        func_02045334(q);
+        func_02045334((struct Descriptor *)q);
         func_02045374(q);
         func_02041B6C(func_02045730(q));
         q = b[2];
-        func_02045334(q);
+        func_02045334((struct Descriptor *)q);
         func_02045374(q);
         func_02041B6C(func_02045730(q));
     }

@@ -13,7 +13,7 @@
  *   func_02045334 0x02045334 arm
  */
 struct Descriptor;
-extern void *func_02045770(struct Descriptor *); extern int func_0201C6C4(int,int); extern void func_02045334(void *);
+extern void *func_02045770(struct Descriptor *); extern int func_0201C6C4(int,int); extern void func_02045334(struct Descriptor *d);
 int func_021F3304(char *p) {
  int q;
  q=*(int *)(p+0xF8);

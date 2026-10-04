@@ -87,7 +87,7 @@ extern u32  func_0201C6C4(u32 a, u32 b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern void func_0201F73C(u32 w, u32 a, u32 b, u32 c);
-extern void func_02045334(u32 w);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(u32 w);
 extern void func_02041B6C(u32 a);
 extern void func_020409B4(u32 a);
@@ -235,7 +235,7 @@ int func_021BA9EC(void *a0, char *p)
         t = func_021BE044(a0);
         if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x48))) == 0) {
             func_0201F73C(*(u32 *)(p + 0x48), 2, 0x140, 9);
-            func_02045334(*(u32 *)(p + 0x48));
+            func_02045334((struct Descriptor *)*(u32 *)(p + 0x48));
             func_02045374(*(u32 *)(p + 0x48));
             func_02041B6C(4);
             i = 0;
@@ -256,7 +256,7 @@ int func_021BA9EC(void *a0, char *p)
     if (*(u32 *)(p + 0x40) == 1) {
         t = func_021BE044(a0);
         if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x4c))) == 0) {
-            func_02045334(*(u32 *)(p + 0x4c));
+            func_02045334((struct Descriptor *)*(u32 *)(p + 0x4c));
             func_02045374(*(u32 *)(p + 0x4c));
             func_020409B4(4);
             *(u32 *)(p + 0x40) = 0;
@@ -265,7 +265,7 @@ int func_021BA9EC(void *a0, char *p)
     if (*(u32 *)(p + 0x44) == 1 && *(u32 *)(p + 0x50) != 0) {
         t = func_021BE044(a0);
         if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x50))) == 0) {
-            func_02045334(*(u32 *)(p + 0x50));
+            func_02045334((struct Descriptor *)*(u32 *)(p + 0x50));
             func_02045374(*(u32 *)(p + 0x50));
             func_020409B4(0);
             *(u32 *)(p + 0x44) = 0;

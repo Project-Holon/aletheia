@@ -42,7 +42,7 @@ extern u32 func_02045740(u32 w);
 extern void func_02191FA0(u32 layer, u32 x, u32 y, u32 w, u32 h, u32 tile, u32 mode);
 extern void func_020456F8(u32 w);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
-extern void func_02045334(u32 w);
+extern void func_02045334(struct Descriptor *w);
 extern void func_020452E8(u32 w);
 extern void func_020409B4(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
@@ -70,7 +70,7 @@ void func_02191B14(u32 *a)
     w = func_02045738(a[1]);
     h = func_02045740(a[1]);
     func_02041300((u8)((u16 *)a[0])[1], 0, x, y, w, h, 0x11);
-    func_02045334(a[1]);
+    func_02045334((struct Descriptor *)a[1]);
     func_020452E8(a[1]);
     func_020409B4((u8)((u16 *)a[0])[1]);
     func_02040618((u8)((u16 *)a[0])[1], 3, 0);

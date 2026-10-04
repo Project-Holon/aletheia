@@ -32,7 +32,7 @@ extern void *func_020457B0(unsigned,unsigned short);
 extern void *func_020450F0(unsigned char,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
-extern void func_02045334(void *),func_02045374(void *);
+extern void func_02045334(struct Descriptor *d),func_02045374(void *);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 void *func_021FC6A4(unsigned short plane,unsigned a,unsigned short b,unsigned short c,unsigned char d,unsigned char e,void *owner,unsigned short heap)

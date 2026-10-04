@@ -40,7 +40,7 @@ struct Descriptor;
 extern u32 func_021F3358(u32 a, u32 b, u32 c);
 extern void func_021F256C(char *,unsigned,int,void *,u32);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045334(void *),func_02045374(void *);
+extern void func_02045334(struct Descriptor *d),func_02045374(void *);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_021F26F0(char *,char *,void *,void *,u32);
 extern u8 func_020355C4(void);

@@ -30,7 +30,8 @@ extern void func_021BC9C0(char *p);
 extern void func_021BD0D0(char *p);
 extern void func_021BC9CC(char *p);
 extern int func_021BCA48(char *p);
-extern void func_02045334(u32 a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_021BC92C(char *p);
 extern void func_021BCB9C(void *p, int keep);
 
@@ -60,7 +61,7 @@ void func_021BCDD8(char *p)
         }
         break;
     case 2:
-        func_02045334(*(u32 *)(p + 0x24));
+        func_02045334((struct Descriptor *)*(u32 *)(p + 0x24));
         func_021BD0D0(p);
         break;
     case 3:

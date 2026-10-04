@@ -45,7 +45,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045374(u32 w);
-extern void func_02045334(u32 w);
+extern void func_02045334(struct Descriptor *w);
 extern void func_02191D88(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02045758(u32 w);
 extern u32 func_02045760(u32 w);
@@ -75,7 +75,7 @@ u32 *func_02191A10(u16 *a, u32 b, u32 c)
     p[3] = func_02043678(0x1c, 4, 0x20, a[0]);
     func_02043B5C((u32)func_02045770((struct Descriptor *)p[1]), 15);
     func_02045374(p[1]);
-    func_02045334(p[1]);
+    func_02045334((struct Descriptor *)p[1]);
     func_02191D88(a[1], 9, b, a[0]);
     x = func_02045758(p[1]);
     y = func_02045760(p[1]);

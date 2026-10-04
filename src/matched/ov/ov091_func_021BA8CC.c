@@ -44,7 +44,7 @@ typedef struct {
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(int a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 a);
 extern u8 func_02045730(u32 a);
 extern void func_02041B6C(u32 bit);
@@ -65,7 +65,7 @@ void func_021BA8CC(u32 a, S *s)
         if (func_0201C6C4(*(int *)(a + 0x140), t) == 0) {
             a = s->w20;
             s->w18 = 0;
-            func_02045334(a);
+            func_02045334((struct Descriptor *)a);
             func_02045374(a);
             func_02041B6C(func_02045730(a));
         }

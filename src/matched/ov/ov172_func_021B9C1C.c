@@ -33,7 +33,7 @@ extern void func_02043B5C(u32, int);
 extern u32 func_02045EC0(u32, int);
 extern void func_0201C724(u32, u32, int, int, u32, u32, int);
 extern void func_02045808(u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(u32);
 extern void func_0201F73C(u32, int, int, int);
 void func_021B9C1C(void *p, char *q, int id)
@@ -47,7 +47,7 @@ void func_021B9C1C(void *p, char *q, int id)
     text = func_02045EC0(msgs, id);
     func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(q + 124)), 0, 0, text, font, 1088);
     func_02045808(text);
-    func_02045334(*(u32 *)(q + 124));
+    func_02045334((struct Descriptor *)*(u32 *)(q + 124));
     func_02045374(*(u32 *)(q + 124));
     func_0201F73C(*(u32 *)(q + 124), 1, 320, 9);
     *(u32 *)(q + 40) = 1;

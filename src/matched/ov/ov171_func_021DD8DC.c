@@ -18,7 +18,7 @@ extern int func_0201C4E4(int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 void func_021DD8DC(char *p)
 {
     int a, b, c, d;
@@ -39,7 +39,7 @@ void func_021DD8DC(char *p)
         q = p + i * 8;
         if (*(unsigned char *)(q + d)) {
             if (!func_0201C6C4(obj, (int)func_02045770((struct Descriptor *)*(int *)(q + c)))) {
-                func_02045334(*(int *)(q + a));
+                func_02045334((struct Descriptor *)*(int *)(q + a));
                 *(unsigned char *)(q + b) = 0;
             }
         }

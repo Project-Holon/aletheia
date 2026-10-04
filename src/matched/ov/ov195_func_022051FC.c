@@ -35,7 +35,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32, int);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32);
 extern unsigned char func_02045730(u32);
 extern void func_02041B6C(u32);
@@ -53,11 +53,11 @@ void func_022051FC(int a, char *b)
     func_02049B40(0x17, 5, 0, 0x20, 0x20, *(u16 *)(b + 2));
     *(u32 *)(b + 0x70) = func_020450F0(1, 0, 0, 1, 1, 1, 0);
     func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(b + 0x70)), 0);
-    func_02045334(*(u32 *)(b + 0x70));
+    func_02045334((struct Descriptor *)*(u32 *)(b + 0x70));
     *(u32 *)(b + 0x6c) = func_020450F0(1, 1, 0x13, 0x1e, 4, 1, 1);
     func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(b + 0x6c)), 0);
     p = *(u32 *)(b + 0x6c);
-    func_02045334(p);
+    func_02045334((struct Descriptor *)p);
     func_02045374(p);
     func_02041B6C(func_02045730(p));
     *(u32 *)(b + 0x74) = func_0201F5DC(1, 2, 0, *(u16 *)(b + 2));

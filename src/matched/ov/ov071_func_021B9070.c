@@ -79,7 +79,7 @@ extern void func_021B9BAC(void *,u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(u32,u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 extern void func_021B9798(void *,void *,u32);
 extern int func_021B98B4(void *,void *);
 extern int func_02035C60(void);
@@ -140,7 +140,7 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
     func_021B9BD8(o); func_021B9BAC(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
     if (o[0x28c]!=0 && func_0201C6C4(handle,(u32)func_02045770((struct Descriptor *)W(0x288)))==0) {
-        func_02045334(W(0x288)); o[0x28c]=0;
+        func_02045334((struct Descriptor *)W(0x288)); o[0x28c]=0;
     }
     if (c[0x2e]==1 && *state==4) return 1;
     switch (*state) {

@@ -23,7 +23,7 @@
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern unsigned char func_02045730(int);
 typedef unsigned int   u32;
@@ -37,7 +37,7 @@ void func_0220549C(char *a, int b)
 
     func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(a + 0x6c)), b);
     p = *(int *)(a + 0x6c);
-    func_02045334(p);
+    func_02045334((struct Descriptor *)p);
     func_02045374(p);
     func_02041B6C(func_02045730(p));
     if (*(int *)(a + 0x64) != 0)

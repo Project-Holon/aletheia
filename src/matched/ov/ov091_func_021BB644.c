@@ -40,7 +40,7 @@ extern void func_02045808(u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0202865C(u32,u32,int);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *d);
 extern int func_0201C6C4(int,u32);
 extern void func_02045374(u32);
 extern u8 func_02045730(u32);
@@ -61,14 +61,14 @@ void func_021BB644(u8 *p,u8 *s)
                 func_02045808(W(0x10));
             } else {
                 func_0202865C(W(0x14),(u32)func_02045770((struct Descriptor *)W(4)),15);
-                func_02045334(W(4));
+                func_02045334((struct Descriptor *)W(4));
             }
         }
     }
     if (W(0x24) == 1 && func_0201C6C4(W(0x28),(u32)func_02045770((struct Descriptor *)W(4))) == 0) {
         u32 t=W(4);
         W(0x24)=0;
-        func_02045334(t);
+        func_02045334((struct Descriptor *)t);
         func_02045374(t);
         func_02041B6C(func_02045730(t));
         if (W(0x30) == 1) {

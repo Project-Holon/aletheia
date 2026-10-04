@@ -24,7 +24,7 @@ struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_0201C7A4(int, int, int, int, int);
 extern void func_0201F79C(int, int, int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045808(int);
 
 void func_021F0254(char *p, int a1, int a2)
@@ -32,6 +32,6 @@ void func_021F0254(char *p, int a1, int a2)
     int r6 = func_02045EC0(*(int *)(p + 0x38), a2);
     func_0201C7A4((int)func_02045770((struct Descriptor *)a1), 0, 0, r6, *(int *)(p + 0x34));
     func_0201F79C(a1, 0, *(int *)(p + 0x14), 2);
-    func_02045334(a1);
+    func_02045334((struct Descriptor *)a1);
     func_02045808(r6);
 }

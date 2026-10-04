@@ -48,7 +48,7 @@ extern u32 func_02045180(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u32 off
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(u32 a, u32 b);
-extern void func_02045334(u32 w);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 w);
 extern void func_0201F73C(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020457B0(u32 n, u32 heap);
@@ -74,13 +74,13 @@ int func_021D29F0(u32 a, u32 b)
         msg = func_02045B38(0, 2, 0x16, heap);
         win = func_02045180(2, 1, 1, 0x1E, 10, 14, 0x40);
         func_02043B5C((u32)func_02045770((struct Descriptor *)win), 0xF);
-        func_02045334(win);
+        func_02045334((struct Descriptor *)win);
         func_02045374(win);
         func_0201F73C(win, 0, 1, 0xD);
         s = func_020457B0(0xB4, heap);
         func_02045CAC(msg, 3, s);
         func_0201C7A4((u32)func_02045770((struct Descriptor *)win), 0, 0, s, func_021904AC(m));
-        func_02045334(win);
+        func_02045334((struct Descriptor *)win);
         func_02041B6C(2);
         func_02045808(s);
         func_02045C04(msg);

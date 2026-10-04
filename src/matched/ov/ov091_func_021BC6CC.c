@@ -61,7 +61,7 @@ extern void func_0201F73C(u32,u32,u32,u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32,int);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32);
 extern u8 func_02045730(u32);
 extern void func_02041B6C(u8);
@@ -113,7 +113,7 @@ void func_021BC6CC(u8 *p)
         W(0x130)=func_020450F0(0,1,1,14,12,14,1);
         func_0201F73C(W(0x130),1,1,12);
         func_02043B5C((u32)func_02045770((struct Descriptor *)W(0x130)),15);
-        q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q));
+        q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374(q); func_02041B6C(func_02045730(q));
         for(i=0;i<6;i++) {
             off=i; off=off*2;
             delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)d_021BECE4+off),0)-*(u16 *)(p+off+0x124);
@@ -137,7 +137,7 @@ void func_021BC6CC(u8 *p)
     }
     case 1:
         if(func_0201C6C4(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)))==0) {
-            q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=2;
+            q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=2;
         } break;
     case 2:
         if((func_020362DC()&1)||(func_020362DC()&2)||func_02035C60()==1) { func_020061E4(0x547); p[0xe]=3; }
@@ -158,7 +158,7 @@ void func_021BC6CC(u8 *p)
     }
     case 4:
         if(func_0201C6C4(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)))==0) {
-            q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=5;
+            q=W(0x130); func_02045334((struct Descriptor *)q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=5;
         } break;
     case 5:
         if((func_020362DC()&1)||(func_020362DC()&2)||func_02035C60()==1) {

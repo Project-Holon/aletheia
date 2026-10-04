@@ -50,7 +50,7 @@ extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32  func_0203101C(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_0201C440(u16 heap);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 a);
 extern u32  func_02045730(u32 a);
 extern void func_020409B4(u32 a);
@@ -77,7 +77,7 @@ void func_02184ECC(W *p)
         p->ent[i].w = p->win[i];
         p->ent[i].f = 0;
         w = p->win[i];
-        func_02045334(w);
+        func_02045334((struct Descriptor *)w);
         func_02045374(w);
         func_020409B4(func_02045730(w));
     }

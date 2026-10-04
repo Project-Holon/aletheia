@@ -34,7 +34,7 @@ extern void func_0201F73C(u32 h, u32 a, u32 b, u32 c);
 extern signed char func_02013080(u32 idx);
 extern int func_0201CCE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
                           u32 a8, u16 a9, u16 a10);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern int func_02045730(int);
 extern void func_02041B6C(u32 bit);
@@ -49,7 +49,7 @@ void func_021BD118(int *p, u32 mode)
     p[5] = func_0201CCE4(p[7], 0, 0, p[4], p[1], func_02013080(0), p[6], 10, 0x81, 15);
     p[10] = 0;
     t = p[7];
-    func_02045334(t);
+    func_02045334((struct Descriptor *)t);
     func_02045374(t);
     func_02041B6C(func_02045730(t));
 }

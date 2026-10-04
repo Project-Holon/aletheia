@@ -26,7 +26,8 @@ typedef unsigned int u32;
 
 extern void func_020456F8(int);
 extern void func_02045788(int, u8);
-extern void func_02045334(int);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern void func_021F0254(char *p, int a1, int a2);
 extern u32 func_020221A4(void);
@@ -39,7 +40,7 @@ int func_021F053C(char *p)
         func_020456F8(*(int *)(p + 0x18));
         func_020456F8(*(int *)(p + 0x1C));
         func_02045788(*(int *)(p + 0x1C), 6);
-        func_02045334(*(int *)(p + 0x1C));
+        func_02045334((struct Descriptor *)*(int *)(p + 0x1C));
         func_02045374(*(int *)(p + 0x1C));
         func_021F0254(p, *(int *)(p + 0x1C), 4);
         (*(u16 *)(p + 0x4A))++;

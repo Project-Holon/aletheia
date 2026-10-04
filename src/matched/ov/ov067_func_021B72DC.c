@@ -42,7 +42,7 @@ extern void func_02040588(u32 which, u32 enable);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int a, int b);
-extern void func_02045334(int a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int a);
 extern int func_02045730(int a);
 extern void func_02041B6C(u32 bit);
@@ -61,11 +61,11 @@ void func_021B72DC(struct S *s)
     func_02043B5C((int)func_02045770((struct Descriptor *)s->f88), 0);
     func_02043B5C((int)func_02045770((struct Descriptor *)s->f8c), 0);
     p = (int)s->f88;
-    func_02045334(p);
+    func_02045334((struct Descriptor *)p);
     func_02045374(p);
     func_02041B6C(func_02045730(p));
     p = (int)s->f8c;
-    func_02045334(p);
+    func_02045334((struct Descriptor *)p);
     func_02045374(p);
     func_02041B6C(func_02045730(p));
     for (i = 0; i < 4; i++) {

@@ -40,7 +40,8 @@ struct O {
 };
 
 extern void func_02043B5C(int a, int b);
-extern void func_02045334(int a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern u32 func_021EB318(void);
@@ -49,7 +50,7 @@ extern int func_021EE3E8(void *a, void *b);
 void func_021EE23C(struct Q *q)
 {
     func_02043B5C(q->f04, 12);
-    func_02045334(q->f00);
+    func_02045334((struct Descriptor *)q->f00);
     func_0204E720(1, 16, 0, -3);
 }
 

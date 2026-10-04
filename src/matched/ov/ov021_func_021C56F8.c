@@ -22,7 +22,7 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(int a, int b);
-extern void func_02045334(int a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_021C577C(int a, int b, int c);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, unsigned int v);
@@ -35,7 +35,7 @@ int func_021C56F8(int *a)
 
     if (*(u8 *)(a + 5) != 0) {
         if (func_0201C6C4(r4, (int)func_02045770((struct Descriptor *)a[4])) == 0) {
-            func_02045334(a[4]);
+            func_02045334((struct Descriptor *)a[4]);
             *(u8 *)(a + 5) = 0;
         }
     }

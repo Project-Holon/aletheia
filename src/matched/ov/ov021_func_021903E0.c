@@ -51,7 +51,7 @@ extern void func_021919C8(u32 a);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 extern void func_020310C4(u32 a);
 extern void func_0219470C(u32 a);
 extern void func_02194760(u32 a);
@@ -78,7 +78,7 @@ void func_021903E0(Obj *o)
         if (t != 0) {
             if (s->f20 != 0) {
                 if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)s->f1c)) == 0) {
-                    func_02045334(s->f1c);
+                    func_02045334((struct Descriptor *)s->f1c);
                     s->f20 = 0;
                 }
             }

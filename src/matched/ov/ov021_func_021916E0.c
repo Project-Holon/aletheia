@@ -40,7 +40,7 @@ extern void func_021928C0(u32 *, u32, u32);
 extern u32 func_0219320C(u32);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 
 u32 func_021916E0(u32 *a)
 {
@@ -61,13 +61,13 @@ u32 func_021916E0(u32 *a)
     case 0:
         if (func_021927F8(a) == 1) {
             func_021927FC(a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
-            func_02045334(a[6]);
+            func_02045334((struct Descriptor *)a[6]);
         }
         break;
     case 1:
         if (func_0219320C(a[3] + 0x160) == 0) {
             func_021928C0(a, (u32)func_02045770((struct Descriptor *)a[6]), 15);
-            func_02045334(a[6]);
+            func_02045334((struct Descriptor *)a[6]);
         }
         break;
     case 2:

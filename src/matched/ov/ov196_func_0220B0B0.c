@@ -19,14 +19,14 @@ extern void func_0201C4E4(int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(int,int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 void func_0220B0B0(Entry *p,int b,unsigned n)
 {
     unsigned i;
     func_0201C4E4(b);
     for(i=0;i<n;i++) {
         if(p[i].active && func_0201C6C4(b,(int)func_02045770((struct Descriptor *)p[i].handle))==0) {
-            func_02045334(p[i].handle);
+            func_02045334((struct Descriptor *)p[i].handle);
             p[i].active=0;
         }
     }

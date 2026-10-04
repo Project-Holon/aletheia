@@ -46,7 +46,7 @@ extern void func_02045808(u32 a);
 extern signed char func_02012FFC(void);
 extern u32 func_0201CD10(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h,
                          u32 i, u32 j, void *k);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 a);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
@@ -74,7 +74,7 @@ void func_021B4714(u8 *p, u32 sel, u32 c, u32 d)
                                         *(u32 *)(p + 0x1b4), 0, *(u16 *)(p + 4), 0xffff,
                                         func_021B4710);
     h = *(u32 *)(p + 0x17c);
-    func_02045334(h);
+    func_02045334((struct Descriptor *)h);
     func_02045374(h);
     func_020409B4(func_02045730((struct Descriptor *)h));
 }

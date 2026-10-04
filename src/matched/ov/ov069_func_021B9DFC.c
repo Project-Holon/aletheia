@@ -20,7 +20,7 @@ extern void func_0201C4E4(int);
 extern int func_0201C6C4(int, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 
 void func_021B9DFC(unsigned char *p)
 {
@@ -32,7 +32,7 @@ void func_021B9DFC(unsigned char *p)
         h = *(int *)(p + 0xE8);
         if (p[i * 8 + 0x5C] != 0) {
             if (func_0201C6C4(h, (int)func_02045770((struct Descriptor *)*(int *)(p + i * 8 + 0x58))) == 0) {
-                func_02045334(*(int *)(p + i * 8 + 0x58));
+                func_02045334((struct Descriptor *)*(int *)(p + i * 8 + 0x58));
                 p[i * 8 + 0x5C] = 0;
             }
         }

@@ -44,7 +44,7 @@ extern int func_020450F0(u8, int, int, int, int, u8, int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(int);
 extern u8 func_02045730(int);
 extern void func_020409B4(u32);
@@ -62,7 +62,7 @@ void func_021B9C44(Obj *o)
         o->a[i] = func_020450F0(e->f0, e->f4, e->f5, e->f6, e->f7, e->f8, 1);
         func_02043B5C((int)func_02045770((struct Descriptor *)o->a[i]), 0);
         h = o->a[i];
-        func_02045334(h);
+        func_02045334((struct Descriptor *)h);
         func_02045374(h);
         func_020409B4(func_02045730(h));
     }
