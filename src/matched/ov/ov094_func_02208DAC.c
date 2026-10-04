@@ -65,7 +65,7 @@ extern u32 func_0204ABF0(void *, u32, u32, u32, u16);
 extern void *func_021F86E0(void);
 extern u32 func_0204AEF4(u32, int);
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
-extern void *func_0204B294(u32, u32, u32, u32, Pos *, u16, u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B454(void *, Vec2 *, int);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -101,7 +101,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     pos.x = base + (side == 0 ? 0x80 : -0x80);
     pos.y = d_0220AB6C[arg->side].y0;
     for (i = 0; i < 6; i++) {
-        w->e[i].h = func_0204B294(w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+        w->e[i].h = func_0204B294((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
         func_0204B454(w->e[i].h, &w->e[i].pos, 0);
         func_0204B92C(w->e[i].h, 1);
         func_0204B878(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
@@ -114,7 +114,7 @@ Work *func_02208DAC(const Arg *arg, u32 heapId)
     }
     pos.x = d_0220AB6C[arg->side].x1 + (arg->side == 0 ? 0x80 : -0x80);
     pos.y = d_0220AB6C[arg->side].y1;
-    w->e[i].h = func_0204B294(w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+    w->e[i].h = func_0204B294((void *)w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
     func_0204B454(w->e[i].h, &w->e[i].pos, 0);
     func_0204B92C(w->e[i].h, 1);
     func_0204B878(w->e[i].h, d_0220AB7C[arg->side][4]);

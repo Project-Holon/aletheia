@@ -30,8 +30,8 @@ struct Bytes { u8 v[8]; };
 struct Desc {u16 x,y,z;u8 kind,flag;};
 struct Context {u8 prefix[0x100];u8 rest[0x74];void *bank;void *actors[8];};
 extern struct Bytes g_BFA0[3];
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_021D62E4(char *);
@@ -51,13 +51,13 @@ void func_021D4FBC(struct Context *ctx)
         if(i<=2){a=*(u32 *)(p+0xc8);b=*(u32 *)(p+0xfc);}
         else{a=*(u32 *)(p+0xcc);b=*(u32 *)(p+0x100);}
         d.x=x.v[i];d.y=(i==3)?172:168;d.z=z.v[i];
-        ctx->actors[i]=func_0204B294((u32)ctx->bank,a,*(u32 *)(p+0x98),b,(u32)&d,0,*(u16 *)p);
+        ctx->actors[i]=func_0204B294(ctx->bank,a,*(u32 *)(p+0x98),b,&d,0,*(u16 *)p);
         func_0204B92C(ctx->actors[i],1);
         func_0204B3DC(ctx->actors[i],1);
     }
     d.x=0;d.y=0;d.z=0;
-    *(void **)(p+0x198)=func_0204B294(*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),(u32)&d,0,*(u16 *)p);
-    *(void **)(p+0x19c)=func_0204B294(*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),(u32)&d,0,*(u16 *)p);
+    *(void **)(p+0x198)=func_0204B294((void *)*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),&d,0,*(u16 *)p);
+    *(void **)(p+0x19c)=func_0204B294((void *)*(u32 *)(p+0x174),*(u32 *)(p+0x130),*(u32 *)(p+0xa4),*(u32 *)(p+0x10c),&d,0,*(u16 *)p);
     for(j=0;j<2;j++)func_0204B3DC(*(void **)(p+0x198+j*4),0);
     if((*(u8 **)(p+8))[13]==2)for(i=0;i<8;i++)if(i!=7)func_0204B3DC(*(void **)(p+0x178+i*4),0);
     if(func_021D62E4(p)==0){func_0204B3DC(*(void **)(p+0x190),0);func_0204B3DC(*(void **)(p+0x184),0);}

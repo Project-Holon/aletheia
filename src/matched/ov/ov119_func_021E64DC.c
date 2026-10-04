@@ -15,12 +15,13 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Create;
-extern int func_0204B294(int,int,int,int,Create *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern int func_0201BBE8(void *);
 extern void func_0204B6F4(int,unsigned int,unsigned int);
 void func_021E64DC(int p, int i, int j, int x, int y, void *q) {
     Create c;
     c.x=x; c.y=y; c.z=1; c.a=0; c.b=0;
-    *(int *)(p+0xf20)=func_0204B294(*(int *)(p+0x9c4),*(int *)(p+i*20+j*4+0x9cc),*(int *)(p+0x87c),*(int *)(p+0x8ac),&c,1,*(u16 *)(p+0x5f4));
+    *(int *)(p+0xf20)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+i*20+j*4+0x9cc),*(int *)(p+0x87c),*(int *)(p+0x8ac),&c,1,*(u16 *)(p+0x5f4));
     func_0204B6F4(*(int *)(p+0xf20),func_0201BBE8(q),1);
 }
