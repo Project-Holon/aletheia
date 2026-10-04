@@ -16,8 +16,10 @@
  */
 typedef unsigned char u8;
 extern int func_0203D1B4(void);
-extern int func_020399A8(void);
-extern void func_02039C68(int, int, u8);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern void func_02157960(int, int, int);
 extern void func_02157D0C(int *p);
-void func_02157D68(int *p) { if (func_0203D1B4() > 1) { func_02039C68(func_020399A8(), 0x17, (u8)p[0]); func_02157960((int)p, (int)func_02157D0C, 0x1af); } }
+void func_02157D68(int *p) { if (func_0203D1B4() > 1) { func_02039C68((struct Link *)func_020399A8(), 0x17, (u8)p[0]); func_02157960((int)p, (int)func_02157D0C, 0x1af); } }

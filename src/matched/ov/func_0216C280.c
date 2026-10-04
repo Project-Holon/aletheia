@@ -25,7 +25,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02011610(void *, void *);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *, struct Rec12 *);
 extern void *func_02188D2C(void *);
 extern void *func_021BE480(void *, int, int);
 
@@ -34,7 +36,7 @@ void *func_0216C280(void *p)
     char v[12];
     void *q;
 
-    func_02011610(*(void **)((char *)p + 0x10), v);
+    func_02011610(*(void **)((char *)p + 0x10), (struct Rec12 *)v);
     q = func_021BE480(func_02188D2C(*(void **)((char *)p + 8)), 0, 0);
     *(void **)((char *)q + 4) = *(void **)(v + 4);
 

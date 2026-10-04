@@ -34,7 +34,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 *g_021469D8;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203A81C(u32 a0, u32 a1, u32 a2);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char sNet3730[];
@@ -47,7 +48,7 @@ void func_0203A958(int a0, int a1, const u8 *a2, int a3, int a4)
   i = a0;
   if (a0 == 0xff)
     i = 8;
-  if (a4 != func_020399A8())
+  if (a4 != (int)func_020399A8())
     return;
   if (func_0203A81C(*((u16 *) (a2 + 6)), a0, *((u32 *) a2)) == 0)
     return;
