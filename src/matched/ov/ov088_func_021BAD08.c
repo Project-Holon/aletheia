@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Title menu graphics setup: creates the fourteen handles at +0x80 from
  * the 6-byte table d_021BD7C4 (released by func_021BB164), then draws each

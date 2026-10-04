@@ -31,7 +31,8 @@ typedef unsigned int u32;
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045EC0(u32 a, u32 b);
-extern u32 func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
 extern void func_02045808(u32 a);
 extern void func_02045C04(u32 a);
@@ -50,7 +51,7 @@ void func_021BBE48(char *p)
     *(u32 *)(p + 0xf0) = func_020450F0(0, 2, 2, 0x1e, 0x14, 5, 1);
     s = func_02045EC0(msg, 0x20);
     a = *(u32 *)(p + 0x68);
-    func_0201C724(a, func_02045770(*(u32 *)(p + 0xf0)), 0, 0, s, *(u32 *)(p + 0x58), 0x440);
+    func_0201C724(a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xf0)), 0, 0, s, *(u32 *)(p + 0x58), 0x440);
     *(u8 *)(p + 0xf4) = 1;
     func_02045808(s);
     func_02045C04(msg);

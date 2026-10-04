@@ -32,7 +32,8 @@ typedef signed short s16;
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_020450F0(int, int, u8, int, int, int, int);
 extern void func_02045374(u32 win);
-extern u32 func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
 extern u32 func_02045EC0(u32 a, u32 b);
 extern void func_0201F73C(u32 desc, u32 kind, u16 base, u32 pal);
@@ -55,19 +56,19 @@ void func_021BC75C(u8 *p)
     p[0] = 0;
     W(0xc) = func_020450F0(5, 1, 0x13, 0x1d, 4, 0, 1);
     func_02045374(W(0xc));
-    func_02043B5C(func_02045770(W(0xc)), 0xf);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)W(0xc)), 0xf);
     s = func_02045EC0(arc, W(4));
     func_0201F73C(W(0xc), 0, 1, 1);
-    func_0201C7A4(func_02045770(W(0xc)), 2, 2, s, W(8));
+    func_0201C7A4((u32)func_02045770((struct Descriptor *)W(0xc)), 2, 2, s, W(8));
     func_02045808(s);
     func_02045334(W(0xc));
     for (i = 0; i < 2; i++) {
         q = p + i * 4;
         *(u32 *)(q + 0x10) = func_020450F0(1, 6, i * 4 + 0xc, 0x14, 2, 0, 1);
         func_02045374(*(u32 *)(q + 0x10));
-        func_02043B5C(func_02045770(*(u32 *)(q + 0x10)), 0xf);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10)), 0xf);
         s = func_02045EC0(arc, i + 5 + W(4) * 2);
-        func_0201C7A4(func_02045770(*(u32 *)(q + 0x10)), 2, 2, s, W(8));
+        func_0201C7A4((u32)func_02045770((struct Descriptor *)*(u32 *)(q + 0x10)), 2, 2, s, W(8));
         func_02045808(s);
         func_02045334(*(u32 *)(q + 0x10));
     }

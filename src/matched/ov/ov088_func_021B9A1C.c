@@ -76,7 +76,8 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32  func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
 extern void func_02045374(u32 a);
 extern void func_02045334(u32 a);
@@ -111,7 +112,7 @@ void func_021B9A1C(Work *p, u32 heap)
     func_02040C14(5, 0, 1, 0);
     func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
     p->win = func_020450F0(5, 0, 0x13, 0x20, 2, 0xA, 0);
-    p->bmp = func_02045770(p->win);
+    p->bmp = (u32)func_02045770((struct Descriptor *)p->win);
     func_02043B5C(p->bmp, 0);
     func_02045374(p->win);
     func_02045334(p->win);
