@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020122B4  0x020122B4  thumb
@@ -31,17 +31,17 @@ typedef unsigned int u32;
 
 extern void func_020122B4(void *o);
 extern void func_02012258(void *o);
-extern void func_0202B4F0(u32 v);
-extern void func_02012704(u32 v);
-extern void func_02026250(u32 v);
+extern void func_0202B4F0(unsigned char *p);
+extern void func_02012704(unsigned char *p);
+extern void func_02026250(void *obj);
 extern void func_02013A48(void);
 
 void func_02011F90(u32 *o)
 {
     func_020122B4(o);
     func_02012258(o);
-    func_0202B4F0(o[0xb]);
-    func_02012704(o[7]);
-    func_02026250(o[9]);
+    func_0202B4F0((unsigned char *)o[0xb]);
+    func_02012704((unsigned char *)o[7]);
+    func_02026250((void *)o[9]);
     func_02013A48();
 }

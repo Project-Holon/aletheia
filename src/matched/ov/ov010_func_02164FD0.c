@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  func_02082D44(void *src, void *dst, int n);
-extern u32   func_02012138(u32 a);
+struct Ctx;
+extern u32   func_02012138(const struct Ctx *p);
 extern void  func_020307B0(void *a);
 extern int   func_02012164(u32 a);
 extern int   func_020264AC(u32 a);
@@ -49,13 +50,13 @@ void func_02164FD0(u8 *obj, int flag)
     u32 w;
     u8 *p;
     func_02082D44(obj + 4, buf, 6);
-    w = func_02012138(o);
+    w = func_02012138((const struct Ctx *)o);
     func_020307B0(obj);
     if (flag == 0 && func_02012164(o) == 1 && func_020264AC(w) == 0
         && func_0203CD98() == 0 && func_02026454(w) == 0) {
         p = func_02030734(5, 0x10, 1, d_021729BC, 0x287);
         *(u32 *)p = o;
-        *(u32 *)(p + 4) = func_02012138(o);
+        *(u32 *)(p + 4) = func_02012138((const struct Ctx *)o);
         func_02082D44(buf, p + 8, 6);
         func_020263D8(w, 2, p);
     }

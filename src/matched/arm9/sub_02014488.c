@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
  *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
  * note:     re-verified 2026-09-20: MATCH*; see verify output
@@ -41,7 +41,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *sub_02012A30(void *a);
+struct BigObj;
+extern u32 sub_02012A30(const struct BigObj *p);
 struct Ctx;
 struct Sys;
 extern u32 sub_020120F0(const struct Ctx *p);
@@ -56,7 +57,7 @@ int sub_02014488(void *a0, u32 *a1, u8 *a2)
     void *x = (void *)*(u32 *)(a2 + 4);
     void *y;
 
-    y = sub_02012A30(v);
+    y = (void *)sub_02012A30(v);
     switch (*a1) {
     case 0:
         func_02188BD8(x);

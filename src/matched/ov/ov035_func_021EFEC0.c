@@ -24,23 +24,24 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021F0678[];
-extern int func_02012138(int);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *);
 extern void func_021EFF78(char *p, int a1);
 extern int func_0202EB44(void);
-extern int func_0201214C(int);
+extern u32 func_0201214C(const struct Ctx *);
 extern void func_021EFF3C(void *, int);
 
 void *func_021EFEC0(int a0, int a1, int a2)
 {
     char *p = (char *)func_02030734(a2, 0x50, 1, d_021F0678, 0x12D);
     *(int *)(p + 4) = a1;
-    *(int *)(p + 8) = func_02012138(a1);
+    *(int *)(p + 8) = func_02012138((const struct Ctx *)a1);
     *(int *)(p + 0xC) = a0;
     *(unsigned short *)p = a2;
     func_021EFF78(p, a2);
     if (func_0202EB44() == 0)
         *(unsigned short *)(p + 0x48) = 2;
-    else if (func_0201214C(a1) == 1)
+    else if (func_0201214C((const struct Ctx *)a1) == 1)
         *(unsigned short *)(p + 0x48) = 1;
     else
         *(unsigned short *)(p + 0x48) = 0;

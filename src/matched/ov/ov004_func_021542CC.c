@@ -36,7 +36,8 @@
 
 int func_020120F4(int p);
 int func_020122C0(int p, int a, void (*cb)(void), int n);
-int func_02012138(int p);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *p);
 int func_02026454(int x);
 void func_02026400(int x);
 int *func_020124E8(int p);
@@ -65,8 +66,8 @@ int func_021542CC(int a, int b)
 
     r6 = func_020120F4(a);
     h = func_020122C0(a, 0, func_02154390, 0x54);
-    if (func_02026454(func_02012138(a)))
-        func_02026400(func_02012138(a));
+    if (func_02026454(func_02012138((const struct Ctx *)a)))
+        func_02026400(func_02012138((const struct Ctx *)a));
     p = func_020124E8(h);
     func_02082BCC(p, 0, 0x54);
     p[1] = a;

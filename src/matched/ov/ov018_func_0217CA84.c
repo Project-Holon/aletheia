@@ -27,11 +27,11 @@ typedef struct {
     int f24;
 } Ov018Work;
 
-void *func_02012138(void *);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *);
 int func_020122C0(void *, int, void (*)(void), int);
 Ov018Work *func_020124E8(int);
 typedef unsigned int   u32;
-struct Ctx;
 u32 func_02026454(void *obj);
 unsigned char *func_02026474(void *);
 u32 func_0202647C(void *obj);
@@ -47,7 +47,7 @@ int func_0217CA84(void *a, int b)
     Ov018Work *work;
     unsigned char *x;
 
-    sys = func_02012138(a);
+    sys = (void *)func_02012138(a);
     ret = func_020122C0(a, 0, func_0217CAFC, 0x28);
     work = func_020124E8(ret);
     work->f20 = b;
