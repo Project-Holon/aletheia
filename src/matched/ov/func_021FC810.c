@@ -36,7 +36,8 @@ struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern u32 sub_02045EC0(u32 a, u32 b);
 extern void func_0201F250(u32 a, u32 b, u32 c);
-extern u32 sub_02045770(u32 a);
+struct Descriptor;
+extern void *sub_02045770(struct Descriptor *p);
 extern void sub_02043B5C(u32 a, u32 b);
 extern void sub_02045334(u32 a);
 extern void sub_02045374(u32 a);
@@ -54,7 +55,7 @@ void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
     func_0201EE84(*(void **)(p + 0xb68), 0, (void *)sel);
     v = sub_02045EC0(*(u32 *)(p + 0xb6c), b);
     func_0201F250(*(u32 *)(p + 0xb68), *(u32 *)(p + 0xb88), v);
-    sub_02043B5C(sub_02045770(*(u32 *)(p + 0xd40)), 0xf);
+    sub_02043B5C((u32)sub_02045770((struct Descriptor *)*(u32 *)(p + 0xd40)), 0xf);
     func_0201F73C(*(u32 *)(p + 0xd40), 0, 1, 0xe);
     h = *(u32 *)(p + 0xd40);
     sub_02045334(h);

@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020206C0
+ * function: func_020206C0, func_0202071C
  * address:  0x020206C0
  * packet:   pkt_02020408
  * region:   arm9
@@ -67,7 +67,8 @@ struct Obj {
     u16 f42;
 };
 
-extern u32  func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f);
 extern void func_02020D5C(void *a, u32 b, u32 c, void *d, void *e, void *f);
 
@@ -92,7 +93,7 @@ void func_0202071C(struct Obj *obj, u32 n)
 {
     switch (obj->f1Atop) {
     case 0:
-        func_02043AF4(func_02045770(obj->unk0C),
+        func_02043AF4((u32)func_02045770((struct Descriptor *)obj->unk0C),
                       obj->f16,
                       (s16)(u16)(obj->f17lo + n * (u8)(obj->f22 + obj->f1Amid)),
                       obj->f20,
