@@ -12,7 +12,9 @@
  */
 typedef short s16;
 typedef unsigned char u8;
-extern void func_0204B454(void *, s16 *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 void func_021E1008(char *p)
 {
     int i, x, y;
@@ -25,7 +27,7 @@ void func_021E1008(char *p)
             x = 4;
             y = 8;
         }
-        func_0204B454(*(void **)(p + i * 28 + 12), pos, 1);
+        func_0204B454(*(void **)(p + i * 28 + 12), (struct PtS *)pos, 1);
         (*(u8 **)(p + i * 28 + 16))[0] = pos[1] - y;
         (*(u8 **)(p + i * 28 + 16))[2] = pos[0] - x;
         (*(u8 **)(p + i * 28 + 16))[1] = pos[1] + y;

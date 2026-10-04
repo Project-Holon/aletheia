@@ -16,7 +16,9 @@ typedef unsigned char u8;
 typedef short s16;
 typedef unsigned long u32;
 typedef struct {s16 a,b,x,y;} Coords;
-extern void func_0204B454(void *,s16 *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern void func_0204B404(void *,s16 *,int);
 void func_021E0E90(char *p,int animated) {
     int i,group;
@@ -32,7 +34,7 @@ void func_021E0E90(char *p,int animated) {
             if(i==0)pos+=20;else pos+=8;
         }
         record=(char *)((u32)p+i*28);
-        func_0204B454(*(void **)(record+12),&coords.x,1);
+        func_0204B454(*(void **)(record+12),(struct PtS *)&coords.x,1);
         if(animated==0){
             coords.x=pos;
             func_0204B404(*(void **)(record+12),&coords.x,1);
@@ -44,7 +46,7 @@ void func_021E0E90(char *p,int animated) {
         }
         special=(char *)((u32)p+group*28);
         if(i==*(int *)(special+0x150)&&group!=2){
-            func_0204B454(*(void **)(special+0x15C),&coords.a,1);
+            func_0204B454(*(void **)(special+0x15C),(struct PtS *)&coords.a,1);
             if(*(int *)(p+0x248)==*(int *)(p+0x24C))pos+=8;
             else {
                 if(i>*(int *)(p+0x248)&&i<*(int *)(p+0x24C))pos+=20;

@@ -18,7 +18,9 @@ typedef struct {
     unsigned short base;
     unsigned short objBase[5];
 } Work;
-extern void func_0204B454(void *, Pos *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(void *, Pos *, int);
 extern int func_0209C2B0(int, int);
 typedef unsigned int   u32;
@@ -33,12 +35,12 @@ int func_021E777C(Work *p)
     done = 0;
     if (p->count == 0) {
         if (p->main != 0) {
-            func_0204B454(p->main, &pos[1], done);
+            func_0204B454(p->main, (struct PtS *)&pos[1], done);
             p->base = pos[1].x;
         }
         for (i = 0; i < 5; i++) {
             if (p->obj[i] != 0) {
-                func_0204B454(p->obj[i], &pos[1], 0);
+                func_0204B454(p->obj[i], (struct PtS *)&pos[1], 0);
                 p->objBase[i] = pos[1].x;
             }
         }
@@ -46,13 +48,13 @@ int func_021E777C(Work *p)
     }
     shift = func_0209C2B0(p->count << 8, 20) - 0x100;
     if (p->main != 0) {
-        func_0204B454(p->main, &pos[0], 0);
+        func_0204B454(p->main, (struct PtS *)&pos[0], 0);
         pos[0].x = p->base - func_0209C2B0(p->count << 8, 20);
         func_0204B404(p->main, &pos[0], 0);
     }
     for (i = 0; i < 5; i++) {
         if (p->obj[i] != 0) {
-            func_0204B454(p->obj[i], &pos[0], 0);
+            func_0204B454(p->obj[i], (struct PtS *)&pos[0], 0);
             pos[0].x = p->objBase[i] - func_0209C2B0(p->count << 8, 20);
             func_0204B404(p->obj[i], &pos[0], 0);
         }

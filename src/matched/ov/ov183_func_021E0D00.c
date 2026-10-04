@@ -12,6 +12,8 @@
  *   func_0204B454 0x0204B454 arm
  *   func_0204B404 0x0204B404 arm
  */
-extern void func_0204B454(void *,short *,int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern void func_0204B404(void *,short *,int);
-void func_021E0D00(char *p,int i){short pos[2];void *obj;obj=*(void **)(p+i*28+12);*(int *)(p+0x188)=i;func_0204B454(obj,pos,1);pos[1]+=16;func_0204B404(*(void **)(p+0x194),pos,1);}
+void func_021E0D00(char *p,int i){short pos[2];void *obj;obj=*(void **)(p+i*28+12);*(int *)(p+0x188)=i;func_0204B454(obj,(struct PtS *)pos,1);pos[1]+=16;func_0204B404(*(void **)(p+0x194),pos,1);}

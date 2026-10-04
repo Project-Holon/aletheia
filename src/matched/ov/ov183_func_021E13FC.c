@@ -31,7 +31,9 @@ typedef unsigned long u32;
 typedef struct {s16 a,b,x,y;} Coords;
 typedef struct {u32 x,y;} Pair;
 extern const int d_021E3998[],d_021E397C[];
-extern void func_0204B454(void *,s16 *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern void func_0204B404(void *,s16 *,int);
 extern void func_0204B5AC(void *,Pair *);
 struct Obj;
@@ -55,7 +57,7 @@ int func_021E13FC(char *p) {
         for(i=0;i<*(int *)(p+0x23C);i++){
             record=(char *)((u32)p+i*28);
             if(*(u8 *)(record+24)!=0){
-                func_0204B454(*(void **)(record+12),&coords.x,1);
+                func_0204B454(*(void **)(record+12),(struct PtS *)&coords.x,1);
                 coords.x+=*(s16 *)(record+20);
                 coords.y+=*(s16 *)(record+22);
                 func_0204B404(*(void **)(record+12),&coords.x,1);
@@ -77,7 +79,7 @@ int func_021E13FC(char *p) {
         for(i=0;i<2;i++){
             record=(char *)((u32)p+i*28);
             if(*(u8 *)(record+0x168)!=0){
-                func_0204B454(*(void **)(record+0x15C),&coords.a,1);
+                func_0204B454(*(void **)(record+0x15C),(struct PtS *)&coords.a,1);
                 coords.a+=*(s16 *)(record+0x164);
                 coords.b+=*(s16 *)(record+0x166);
                 func_0204B404(*(void **)(record+0x15C),&coords.a,1);
