@@ -42,7 +42,8 @@ extern u32 func_0202D8D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key);
 extern void func_02017DE4(u32 a, u32 b);
 extern void func_02049238(u32 a);
-extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Tbl *e, u32 f, u32 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, unsigned short f, unsigned short g);
 
 void func_021D1F78(u32 *w)
 {
@@ -59,5 +60,5 @@ void func_021D1F78(u32 *w)
     func_02017DE4(r4, t);
     func_02049238(r7);
     buf = d_021DD60C;
-    w[0x3c / 4] = func_0204B294(w[0x38 / 4], w[0x40 / 4], w[0x44 / 4], w[0x48 / 4], &buf, 0, 0x15);
+    w[0x3c / 4] = (u32)func_0204B294((void *)w[0x38 / 4], w[0x40 / 4], w[0x44 / 4], w[0x48 / 4], &buf, 0, 0x15);
 }

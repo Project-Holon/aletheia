@@ -49,7 +49,7 @@ extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
 extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
 extern void func_02049238(void *);
-extern struct Obj *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B84C(S *,u32);
 extern void func_0204B92C(struct Obj *,u32);
@@ -77,7 +77,7 @@ void func_021B7B2C(u32 *p,const void *config,u16 heap) {
  func_02049238(archive);
  func_02082BCC(&desc,0,8);
  for(i=0;i<30;i++) {
-  p[i+10]=(u32)func_0204B294(p[0],p[2],p[1],p[3],(u32)&desc,0,heap);
+  p[i+10]=(u32)func_0204B294((void *)p[0],p[2],p[1],p[3],&desc,0,heap);
   func_0204B3DC((struct Obj *)p[i+10],0);
   func_0204B84C((S *)p[i+10],3);
   func_0204B92C((struct Obj *)p[i+10],1);
@@ -86,7 +86,7 @@ void func_021B7B2C(u32 *p,const void *config,u16 heap) {
  desc.x=128; desc.y=96;
  for(i=31;i<34;i++) {
   desc.z=i-30;
-  p[i+10]=(u32)func_0204B294(p[0],p[8],p[7],p[9],(u32)&desc,0,heap);
+  p[i+10]=(u32)func_0204B294((void *)p[0],p[8],p[7],p[9],&desc,0,heap);
   func_0204B3DC((struct Obj *)p[i+10],0);
   func_0204B6F4((struct Obj *)p[i+10],0,1);
  }

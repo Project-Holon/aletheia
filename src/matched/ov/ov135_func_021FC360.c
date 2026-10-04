@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
 extern void func_02082BCC(void *, int, int);
-extern void *func_0204B294(void *, void *, void *, void *, ObjPos *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -34,7 +35,7 @@ void func_021FC360(char *p)
     func_02082BCC(&pos, 0, sizeof(pos));
     pos.x = 0xd0;
     pos.y = 0x3a;
-    *(void **)(p + 0xd08) = func_0204B294(*(void **)(p + 0xbc0), *(void **)(p + 0xbc4), *(void **)(p + 0xbc8), *(void **)(p + 0xbcc), &pos, 0, 0x48);
+    *(void **)(p + 0xd08) = func_0204B294(*(void **)(p + 0xbc0), (unsigned int)*(void **)(p + 0xbc4), (unsigned int)*(void **)(p + 0xbc8), (unsigned int)*(void **)(p + 0xbcc), &pos, 0, 0x48);
     func_0204B92C(*(void **)(p + 0xd08), 1);
     func_0204B878(*(void **)(p + 0xd08), 0x24);
     func_0204B84C(*(void **)(p + 0xd08), 1);
