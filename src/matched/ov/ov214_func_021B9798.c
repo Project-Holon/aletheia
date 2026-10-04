@@ -41,7 +41,7 @@ extern void func_0201D83C(void *p);
 extern void func_021BB220(char *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *heap);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
 int func_021B9798(void *owner,int unused,int state,char *p)
 {
@@ -64,7 +64,7 @@ int func_021B9798(void *owner,int unused,int state,char *p)
     func_0201D83C(*(void **)(p+8));
     func_021BB220(*(char **)(p+4));
     func_020315D4(owner);
-    func_020306F0((void *)117);
+    func_020306F0(117);
     func_02034A5C((int)ov067_id);
     return 1;
 }

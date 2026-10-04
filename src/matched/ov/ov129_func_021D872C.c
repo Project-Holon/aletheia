@@ -44,7 +44,7 @@ extern void func_02049238(void *);
 extern void func_02051C6C(void *);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(u32 heap);
 int func_021D872C(void *a,int b,int c,char *p)
 {
     func_02030EAC(*(void **)(p+0x318));
@@ -62,6 +62,6 @@ int func_021D872C(void *a,int b,int c,char *p)
     func_02051C6C(*(void **)(p+0x294));
     if(c==0) func_02045808(*(void **)(p+0x348));
     func_020315D4(a);
-    func_020306F0((void *)50);
+    func_020306F0(50);
     return 1;
 }
