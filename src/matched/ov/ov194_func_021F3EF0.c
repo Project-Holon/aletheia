@@ -36,7 +36,8 @@ extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
 extern void func_02045808(int);
 extern void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b);
 extern void func_0201CE48(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int,unsigned char);
 extern void func_0204581C(struct U16Vec *vec);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
@@ -57,7 +58,7 @@ void func_021F3EF0(char *p,char *q,int *w,u32 heap)
     }
     func_0201F164(set,1,w[4],w[5]);
     if(*(int *)p) func_0201CE48(*(int *)p);
-    func_02043B5C(func_02045770(*(int *)(q+20)),*(u16 *)(q+32));
+    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(q+20)),*(u16 *)(q+32));
     func_0204581C(*(void **)(q+28));
     func_0201F250(set,*(void **)(q+28),(void *)w[3]);
     *(int *)p=func_0201CCE4(*(u32 *)(q+20),0,0,*(u32 *)(q+28),*(u32 *)(q+4),func_02012FFC(),*(u32 *)(p+4),2,heap,*(u16 *)(q+32));

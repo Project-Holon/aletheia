@@ -20,7 +20,8 @@
  *   func_02045808 0x02045808 arm
  */
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
@@ -34,7 +35,7 @@ void func_0220549C(char *a, int b)
 {
     int p;
 
-    func_02043B5C(func_02045770(*(int *)(a + 0x6c)), b);
+    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(a + 0x6c)), b);
     p = *(int *)(a + 0x6c);
     func_02045334(p);
     func_02045374(p);
