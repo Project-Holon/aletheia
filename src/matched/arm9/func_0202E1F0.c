@@ -86,7 +86,8 @@ extern void *func_02024368(const MSGPARAM *p, u32 heap, int count);
 extern u32   func_0201D528(void *s, u8 idx, u32 a, u32 b);
 extern u32   func_0201D4BC(void *s, u8 idx);
 extern void  func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n, const BLINKPOS *pos);
-extern u32   func_02045770(u32 msg);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *msg);
 extern void  func_02043B5C(u32 a, u8 b);
 extern void  func_0201C724(void *owner, u32 a, s16 x, s16 y, void *buf, u32 e, u16 f);
 extern void  func_02043AF4(u32 a, u32 b, s16 c, u32 d, u32 e, u8 f);
@@ -124,8 +125,8 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
         }
     }
     buf = func_02024368(param, heapID, n);
-    func_02043B5C(func_02045770(wk->msg), pal);
-    func_0201C724(owner, func_02045770(wk->msg), pos->x, pos->y, buf, a2, pri);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)wk->msg), pal);
+    func_0201C724(owner, (u32)func_02045770((struct Descriptor *)wk->msg), pos->x, pos->y, buf, a2, pri);
     wk->active = 1;
     for (i = 0; i < n; i++) {
         if (wk->blink[i] == 1) {
@@ -135,7 +136,7 @@ void func_0202E1F0(BLINKWORK *wk, void *owner, u32 a2, u32 a3,
         } else if (mark[i] == 1) {
             u32 x = func_0201D528(buf, i, a2, 0);
             u32 y = func_0201D4BC(buf, i);
-            func_02043AF4(func_02045770(a3), x, y << 4, 0x54, 0x10, pal);
+            func_02043AF4((u32)func_02045770((struct Descriptor *)a3), x, y << 4, 0x54, 0x10, pal);
         }
     }
     func_02045808(buf);

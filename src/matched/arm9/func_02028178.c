@@ -69,7 +69,8 @@ struct Anim {
     u16 unk1e;
 };
 
-extern u32  func_02045770(u32 obj);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *obj);
 extern u32  func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 obj);
 extern void func_02045374(u32 obj);
@@ -85,7 +86,7 @@ void func_02028178(u8 *p)
 
     if (*(u32 *)(p + 0xc) != 0) {
         if (func_0201C6C4(*(u32 *)(*(u32 *)(p + 0x18) + 0x14),
-                          func_02045770(*(u32 *)p)) == 0) {
+                          (u32)func_02045770((struct Descriptor *)*(u32 *)p)) == 0) {
             obj = *(u32 *)p;
             func_02045334(obj);
             func_02045374(obj);

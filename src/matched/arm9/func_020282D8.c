@@ -52,7 +52,8 @@ struct Cfg {
 
 extern u32  func_02045740(u32 bg);
 extern u32  func_02045738(u32 bg);
-extern u32  func_02045770(u32 bg);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *bg);
 extern u32  func_020437D4(u32 cell);
 extern void MIi_CpuCopy32(const void *src, void *dst, u32 n);
 
@@ -80,7 +81,7 @@ void func_020282D8(u32 bg, struct Cfg *cfg, u32 style)
             goto nextrow;
         }
         for (;;) {
-        dst = func_020437D4(func_02045770(bg));
+        dst = func_020437D4((u32)func_02045770((struct Descriptor *)bg));
         rowbase = (x + y * func_02045738(bg)) << 5;
         if (y == 0 && x == 0) {
             src = cfg->f04->f14;
