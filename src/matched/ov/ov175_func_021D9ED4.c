@@ -21,12 +21,14 @@
 
 typedef unsigned long u32;
 
-extern u32  func_020399A8(void);
-extern void func_02039C68(u32 tick, u32 value, u32 line);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 
 void func_021D9ED4(char *obj, u32 v)
 {
     *(u32 *)(obj + 0x14) = v;
-    func_02039C68(func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
+    func_02039C68((struct Link *)func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
 }
 
