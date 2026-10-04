@@ -37,7 +37,8 @@ extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204B294(u32,u32,u32,u32,Create *,u16,u16);
 extern int func_0201BBE8(void *);
 extern void func_0204B6F4(int,u32,u32);
-extern void func_0204B92C(int,u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(int,u32);
 extern void func_02049238(int);
 void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
@@ -56,7 +57,7 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
     *(int *)(p+0x1020+i*12+j*4) = func_0204A6C8((u32)h,func_0201BA68(q),0,n,*(u16 *)(p+0x5f4));
     *(int *)(p+0x1008+i*12+j*4) = func_0204B294(*(int *)(p+0x9c4),*(int *)(p+0x1020+i*12+j*4),*(int *)(p+0x890),*(int *)(p+0x8c0),&c,n,*(u16 *)(p+0x5f4));
     func_0204B6F4(*(int *)(p+0x1008+i*12+j*4),func_0201BBE8(q),1);
-    func_0204B92C(*(int *)(p+0x1008+i*12+j*4),0);
+    func_0204B92C((struct Obj *)*(int *)(p+0x1008+i*12+j*4),0);
     func_0204B3DC(*(int *)(p+0x1008+i*12+j*4),visible);
     func_02049238((int)h);
 }

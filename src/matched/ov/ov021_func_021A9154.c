@@ -97,7 +97,7 @@ extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0204AF28(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0204B324(u32 a, u32 b, u32 c, u32 d, Hdr *h, u32 f, u32 g);
 extern void func_0204B954(u32, u32);
-extern void func_0204B92C(u32 obj, int v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(u32, u16);
 extern void func_0204B3DC(u32, int);
 
@@ -131,7 +131,7 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
         h.f16 = 2;
         it->f18 = func_0204B324(p->f11C, it->f0C, p->f104, it->f10, &h, 0, p->f00);
         func_0204B954(it->f18, 0x1000);
-        func_0204B92C(it->f18, 1);
+        func_0204B92C((struct Obj *)it->f18, 1);
         func_0204B878(it->f18, 0);
         if (it->f08 == 7)
             func_0204B3DC(it->f18, 0);

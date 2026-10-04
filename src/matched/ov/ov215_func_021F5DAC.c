@@ -32,7 +32,8 @@ extern int func_0204AF28(void *, unsigned int, unsigned int, unsigned int);
 extern void func_02049238(void *);
 extern unsigned int func_021F64FC(unsigned int);
 extern unsigned int func_0204B294(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
-extern void func_0204B92C(unsigned int, unsigned int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const unsigned int table[][2];
 struct Context {
     unsigned short heap;
@@ -66,6 +67,6 @@ void func_021F5DAC(int unused, struct Context *p)
         tmp2 = (unsigned int)table[i];
         o = func_0204B294(func_021F64FC(p->owner), p->resource1, p->resource2, p->resource3, tmp2, 0, p->heap);
         out->objects[0] = o;
-        func_0204B92C(o, 0);
+        func_0204B92C((struct Obj *)o, 0);
     }
 }

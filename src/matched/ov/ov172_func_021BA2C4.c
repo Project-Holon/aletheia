@@ -67,7 +67,8 @@ extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_02049238(void *a);
 extern u32  func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Desc *e, u32 f, u32 heap);
-extern void func_0204B92C(u32 o, u32 k);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(u32 o, u32 k);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32  func_02045770(void *w);
@@ -128,7 +129,7 @@ void func_021BA2C4(void *a0, u8 *p)
     d.y = 0xc0;
     d.z = 0x1;
     *(u32 *)(p + 0x6c) = func_0204B294(func_021BE024(a0), func_021BE018(a0, 7), func_021BE018(a0, 3), func_021BE018(a0, 10), &d, 0, v);
-    func_0204B92C(*(u32 *)(p + 0x6c), 1);
+    func_0204B92C((struct Obj *)*(u32 *)(p + 0x6c), 1);
     for (i = 0; i < 6; i++) {
         func_0204B3DC(*(u32 *)(p + i * 4 + 0x58), 1);
     }
