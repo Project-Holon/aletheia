@@ -66,7 +66,7 @@ struct Ctx;
 struct Obj;
 struct WordSet;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_02012138(void *);
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void *func_02012F08(int *p);
@@ -102,7 +102,7 @@ int func_0218261C(void *a, int *state, Outer *c)
 
     sub = func_020124E4(a);
     x = func_020120F4(sub);
-    t = func_02012138(sub);
+    t = (void *)func_02012138(sub);
     h = c->h58;
     v = func_02158344(t);
     if (v == 0) {

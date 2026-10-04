@@ -60,14 +60,15 @@ extern void func_021888C8(u8 *p);
 extern void func_0204A600(void);
 extern void func_02035648(void);
 extern void func_021892CC(u8 *p);
-extern int func_020120D8(void *a);
+extern int func_020120D8(char *a);
 extern void func_02168EEC(u32 a);
 extern void func_021BC484(u32 a);
 extern void func_021C7FAC(u32 a);
 extern void func_021A2EB8(u32 a);
 extern int func_02013CC8(u16 a);
 extern int func_02013CE0(u16 a);
-extern void *func_02012138(void *a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *a);
 extern void func_021737A4(void *a, u8 *p);
 extern void func_0217AE20(u8 *p, u32 a, u32 b);
 extern void func_021A0D68(u32 a);
@@ -106,7 +107,7 @@ int func_02188758(void *a, u8 *p)
     func_021C7FAC(*(u32 *)(p + 0xA0));
     func_021A2EB8(*(u32 *)(p + 0x8C));
     if (func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1)
-        func_021737A4(func_02012138(a), p);
+        func_021737A4((void *)func_02012138(a), p);
     else
         func_0217AE20(p, *(u32 *)(p + 4), *(u32 *)(p + 0x8C));
     func_021A0D68(*(u32 *)(p + 0x24));
