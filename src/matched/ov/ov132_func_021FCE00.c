@@ -17,5 +17,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(struct Entry *,int,int);
-int func_021FCE00(char *p,int id) {if(func_02039CB4(func_020399A8(),id,0x11)==1)return 1;if(*(int *)(p+4)==1)return 1;return 0;}
+struct Link;
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+int func_021FCE00(char *p,int id) {if(func_02039CB4((struct Link *)func_020399A8(),id,0x11)==1)return 1;if(*(int *)(p+4)==1)return 1;return 0;}

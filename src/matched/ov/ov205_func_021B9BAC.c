@@ -17,5 +17,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj0203159C;extern void func_0203064C(void *,u32,u32);extern void *func_0203159C(struct Obj0203159C *,u32,u32);extern void func_02082A7C(u32,void *,u32);
-int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx) { char *p;func_0203064C((void *)1,84,0x40000);p=func_0203159C(obj,28,84);func_02082A7C(0,p,28);*(u16 *)p=84;*(u32 *)(p+4)=*(u32 *)(ctx+4);*(u32 *)(p+8)=*(u32 *)(ctx+8);return 1; }
+struct Obj0203159C;extern void func_0203064C(u32 src,u32 dst,u32 size);extern void *func_0203159C(struct Obj0203159C *,u32,u32);extern void func_02082A7C(u32,void *,u32);
+int func_021B9BAC(struct Obj0203159C *obj,u32 unused,char *ctx) { char *p;func_0203064C(1,84,0x40000);p=func_0203159C(obj,28,84);func_02082A7C(0,p,28);*(u16 *)p=84;*(u32 *)(p+4)=*(u32 *)(ctx+4);*(u32 *)(p+8)=*(u32 *)(ctx+8);return 1; }
