@@ -59,8 +59,9 @@ struct Res {
     u32 f10;
 };
 
-extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d,
-                           struct Zero4 *e, u32 f, u32 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *a, u32 b, u32 c, u32 d,
+                                const void *e, u16 f, u16 g);
 struct Actor;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -68,13 +69,13 @@ extern void func_0204B92C(struct Obj *p, u32 v);
 extern u8 func_02035630(void);
 extern void func_0204B954(struct Actor *a, u32 v);
 
-void *func_0202DFEC(struct Res *r, u32 a)
+void *func_0202DFEC(struct Res *r, u16 a)
 {
     struct Zero4 z = { 0, 0, 0, 0 };
     void *o;
     u32 one;
 
-    o = func_0204B294(r->f00, r->f0c, r->f08, r->f10, &z, (u16)r->f04, a);
+    o = func_0204B294((void *)r->f00, r->f0c, r->f08, r->f10, &z, (u16)r->f04, a);
     func_0204B3DC(o, 0);
     one = 1;
     func_0204B92C(o, 1);

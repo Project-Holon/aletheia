@@ -32,7 +32,7 @@ struct Obj;
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void*);
 extern u32 func_021BA028(char *p);
-extern void* func_0204B294(u32,u32,u32,u32,const void*,u16,u16);
+extern struct Obj *func_0204B294(void*,u32,u32,u32,const void*,u16,u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021B9CE4(char*p)
@@ -45,7 +45,7 @@ void func_021B9CE4(char*p)
  *(int*)(p+0x50)=func_0204AF28(h,8,9,*(u16*)p);
  func_02049238((void*)h);
  t=func_021BA028(*(void**)(p+8));
- *(void**)(p+0x54)=func_0204B294(t,*(u32*)(p+0x48),*(u32*)(p+0x4c),*(u32*)(p+0x50),d_021BA1D8,0,*(u16*)p);
+ *(void**)(p+0x54)=func_0204B294((void*)t,*(u32*)(p+0x48),*(u32*)(p+0x4c),*(u32*)(p+0x50),d_021BA1D8,0,*(u16*)p);
  func_0204B3DC(*(void**)(p+0x54),1);
  func_0204B92C(*(void**)(p+0x54),1);
 }

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * ABI: 0204B294's own void file retains live r0, which the original stores at +88.
+ * ABI: 0204B294 returns an Obj pointer, which the original stores at +88.
  * symbols:
  *   func_021F4684 0x021F4684 thumb ov112
  *   func_0204B100 0x0204B100 arm
@@ -64,7 +64,8 @@ extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern int func_0204AF28(u32,u32,u32,u32);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 void func_021F44F8(u8 *p)
 {
     Desc d;
@@ -100,6 +101,6 @@ void func_021F44F8(u8 *p)
         d.z=1;
         d.b=0;
         d.a=0;
-        *(void **)(p+88)=func_0204B294(*(u32 *)(p+72),*(u32 *)(p+80),*(u32 *)(p+76),*(u32 *)(p+84),(u32)&d,1,*(u16 *)p);
+        *(void **)(p+88)=func_0204B294((void *)*(u32 *)(p+72),*(u32 *)(p+80),*(u32 *)(p+76),*(u32 *)(p+84),&d,1,*(u16 *)p);
     }
 }

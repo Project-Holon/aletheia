@@ -42,7 +42,7 @@ extern u32 func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B570(struct Actor *actor, u32 value);
@@ -74,7 +74,7 @@ void func_02183FC4(char *p,u16 heap)
     do{
         r=&d_02184910[i];
         q=p+r->group*4;
-        *(void **)(p+i*4)=func_0204B294(*(u32 *)(p+0x1c),*(u32 *)(q+0x20),*(u32 *)(q+0x24),*(u32 *)(q+0x28),(u32)&d_021848AC[r->config],r->id,heap);
+        *(void **)(p+i*4)=func_0204B294((void *)*(u32 *)(p+0x1c),*(u32 *)(q+0x20),*(u32 *)(q+0x24),*(u32 *)(q+0x28),&d_021848AC[r->config],r->id,heap);
         func_0204B92C(*(void **)(p+i*4),1);
         ++i;
     }while(i<7);

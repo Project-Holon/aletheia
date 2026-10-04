@@ -27,7 +27,7 @@ extern struct Entry d_021DAACC[];
 struct Actor;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
+extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -38,7 +38,7 @@ void func_021D634C(u8 *p, unsigned int i)
     if (*(void **)(p + i*4 + 0x74)) func_0204B3B4(*(void **)(p+i*4+0x74));
     pt.x = d_021DAACC[i].x; pt.y = d_021DAACC[i].y;
     pt.f4 = i; pt.f6 = d_021DAACC[i].n; pt.f7 = 1;
-    ((void **)(p + 0x74))[i] = func_0204B294(*(u32 *)(p+0xc), *(void **)(p+0x38), *(u32 *)(p+0x20), *(u32 *)(p+0x54), &pt, 0, *(u16 *)(p+0x43c4));
+    ((void **)(p + 0x74))[i] = func_0204B294((void *)*(u32 *)(p+0xc), (u32)*(void **)(p+0x38), *(u32 *)(p+0x20), *(u32 *)(p+0x54), &pt, 0, *(u16 *)(p+0x43c4));
     func_0204B8C4(((void **)(p+0x74))[i],0);
     func_0204B92C(((void **)(p+0x74))[i],1);
     func_0204B3DC(((void **)(p+0x74))[i],1);

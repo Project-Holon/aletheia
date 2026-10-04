@@ -42,7 +42,8 @@ typedef signed int     s32;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *a);
 extern int func_0201BBE8(int x);
-extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *a, u32 b, u32 c, u32 d, const void *r, u16 f, u16 g);
 extern void func_0204B6F4(int a, int b, int c);
 struct Obj;
 extern void func_0204B92C(struct Obj *a, u32 b);
@@ -65,7 +66,7 @@ void func_021BAA50(u8 *a, u8 *s)
     rc.d = 0;
     rc.e = 2;
     {
-        int x = func_0204B294(*(int *)(s + 0x28), *(int *)(s + 0x2c), *(int *)(a + 0x190),
+        int x = (int)func_0204B294((void *)*(int *)(s + 0x28), *(int *)(s + 0x2c), *(int *)(a + 0x190),
                               *(int *)(a + 0x1d0), &rc, 0, *(u16 *)a);
         *(int *)(s + 0x30) = x;
         func_0204B6F4(x, r, 1);
