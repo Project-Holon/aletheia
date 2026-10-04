@@ -20,8 +20,8 @@ typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt pos[6]; } Table;
 extern const Table d_021E7DEC;
-extern int func_0204B294(int,int,int,int,Create *,u16,u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p,unsigned int v);
 extern void func_0204B3DC(int,unsigned int);
 extern void func_0204B404(int,const Pt *,unsigned int);
@@ -33,7 +33,7 @@ void func_021E68F4(int p, int i) {
     } else {
         if(!*(int *)(p+0xfd4)) {
             c.x=64;c.y=48;c.z=23;c.a=0;c.b=1;
-            *(int *)(p+0xfd4)=func_0204B294(*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
+            *(int *)(p+0xfd4)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
         }
         func_0204B92C((struct Obj *)*(int *)(p+0xfd4),1);
         func_0204B3DC(*(int *)(p+0xfd4),1);

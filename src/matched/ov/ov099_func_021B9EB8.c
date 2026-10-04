@@ -33,9 +33,9 @@ typedef struct {
     u8 d, e;
 } Rec;
 
-extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Rec *e, u16 f, u16 g);
-extern void func_0204B3DC(u32 a, int b);
 struct Obj;
+extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *e, u16 f, u16 g);
+extern void func_0204B3DC(u32 a, int b);
 extern void func_0204B92C(struct Obj *a, u32 b);
 
 void func_021B9EB8(Obj *o, int a)
@@ -47,11 +47,11 @@ void func_021B9EB8(Obj *o, int a)
     r.c = 0;
     r.d = 0;
     r.e = 0;
-    o->f14 = func_0204B294(o->f0, o->f8, o->fc, o->f10, &r, 0, a);
+    o->f14 = (u32)func_0204B294((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
     r.c = 2;
     r.d = 0xfe;
     r.e = 3;
-    o->f18 = func_0204B294(o->f0, o->f8, o->fc, o->f10, &r, 0, a);
+    o->f18 = (u32)func_0204B294((void *)o->f0, o->f8, o->fc, o->f10, &r, 0, a);
     func_0204B3DC(o->f14, 0);
     func_0204B3DC(o->f18, 0);
     func_0204B92C((struct Obj *)o->f14, 1);

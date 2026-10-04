@@ -45,9 +45,9 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32  func_0204B294(u32 sys, u32 chr, u32 pal, u32 cell, struct Ov208CellHdr *hdr, u32 a,
-                          u32 heap);
 struct Obj;
+extern struct Obj *func_0204B294(void *sys, unsigned int chr, unsigned int pal, unsigned int cell, const void *hdr, u16 a,
+                                u16 heap);
 extern void func_0204B92C(struct Obj *obj, u32 on);
 extern void func_0204B3DC(u32 obj, int v);
 extern void func_0204B688(u32 obj, u32 on);
@@ -82,7 +82,7 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
         hdr[1].z = t[2];
         hdr[1].a = t[3];
         hdr[1].b = t[4];
-        *(u32 *)(p + i * 4 + 0x5e4) = func_0204B294(W(0), RES(t[5]), RES(t[6]), RES(t[7]), &hdr[1], 0, *heap);
+        *(u32 *)(p + i * 4 + 0x5e4) = (u32)func_0204B294((void *)W(0), RES(t[5]), RES(t[6]), RES(t[7]), &hdr[1], 0, *heap);
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 1);
         func_0204B3DC(*(u32 *)(p + i * 4 + 0x5e4), 0);
         func_0204B688(*(u32 *)(p + i * 4 + 0x5e4), 1);
@@ -155,7 +155,7 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
         hdr[0].z = *(u8 *)(e + 0x608);
         hdr[0].a = 0;
         hdr[0].b = 3;
-        *(u32 *)(e + 0x618) = func_0204B294(W(0), RES(*(u32 *)(e + 0x5f8)), RES(*(u32 *)(e + 0x5fc)),
+        *(u32 *)(e + 0x618) = (u32)func_0204B294((void *)W(0), RES(*(u32 *)(e + 0x5f8)), RES(*(u32 *)(e + 0x5fc)),
                                             RES(*(u32 *)(e + 0x600)), &hdr[0], 0, *heap);
         func_0204B92C((struct Obj *)*(u32 *)(e + 0x618), 1);
         func_0204B688(*(u32 *)(e + 0x618), 1);
