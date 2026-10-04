@@ -50,7 +50,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u8 ov67_id[];
 extern int func_02034AC4(int);
-extern void func_0203064C(void*,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern char *func_0203159C(void*,u32,u32);
 extern void func_02082BCC(void*,u32,u32);
 extern void func_02040588(u32,u32),func_0204047C(u32,u16),func_02040EBC(u32,u32),func_0204E720(u32,int,int,int);
@@ -75,7 +75,7 @@ int func_021B95A0(void *manager,char *state,char * const obj)
     u8 i;
     enum {K=3} k;
     func_02034AC4((int)ov67_id);
-    func_0203064C((void*)1,0x75,0x50000);
+    func_0203064C(1,0x75,0x50000);
     p=func_0203159C(manager,0x2f0,0x75);
     func_02082BCC(p,0,0x2f0);
     *(u16*)p=0x75;

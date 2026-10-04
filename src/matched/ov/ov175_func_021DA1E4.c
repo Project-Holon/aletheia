@@ -47,10 +47,12 @@ extern void func_0203D7B0(int a);
 extern void func_0203D7BC(int a);
 extern u16 func_02039338(void);
 extern int func_02039ACC(void);
-extern u32 func_020399A8(void);
-extern void func_02039C68(u32 h, int a, int b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 extern int func_020399EC(void);
-extern int func_02039CB4(u32 h, int a, int b);
+extern unsigned int func_02039CB4(struct Link *h, unsigned int a, unsigned int b);
 extern void func_021DA384(char *obj);
 extern int func_021DA390(char *obj);
 extern void func_0203CA04(void);
@@ -108,7 +110,7 @@ int func_021DA1E4(char *obj)
         }
         break;
     case 4:
-        func_02039C68(func_020399A8(), 0xf, 0x24);
+        func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
         *(u32 *)(obj + 0x1a4) = 0;
         *(u32 *)(obj + 0x40) = 6;
         break;
@@ -117,7 +119,7 @@ int func_021DA1E4(char *obj)
             func_021DA384(obj);
             *(u32 *)(obj + 0x40) = 7;
         } else if (func_020399EC() && func_02039ACC()) {
-            func_02039C68(func_020399A8(), 0xf, 0x24);
+            func_02039C68((struct Link *)func_020399A8(), 0xf, 0x24);
             *(u32 *)(obj + 0x1a4) = 0;
             *(u32 *)(obj + 0x40) = 6;
         }
@@ -126,7 +128,7 @@ int func_021DA1E4(char *obj)
         if ((*(u32 *)(obj + 0x1a4))++ > 0xe10) {
             func_021DA384(obj);
             *(u32 *)(obj + 0x40) = 7;
-        } else if (func_02039CB4(func_020399A8(), 0xf, 0x24)) {
+        } else if (func_02039CB4((struct Link *)func_020399A8(), 0xf, 0x24)) {
             *(u32 *)(obj + 0x40) = 8;
         }
         break;
