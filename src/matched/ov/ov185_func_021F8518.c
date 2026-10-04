@@ -32,7 +32,8 @@ extern void func_021FC0C8(int,int);
 extern void func_021FD820(char *);
 extern void func_02025588(int);
 extern void func_0201C4C0(int);
-extern void func_020315D4(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_02034A5C(int);
 extern char ov112_id[];
 int func_021F8518(int obj,int b,char *q,char *p)
@@ -49,7 +50,7 @@ int func_021F8518(int obj,int b,char *q,char *p)
     for (i=0;i<2;i++) func_021FD820(*(char **)(p+i*4+56));
     func_02025588(*(int *)(p+40));
     func_0201C4C0(*(int *)(p+44));
-    func_020315D4(obj);
+    func_020315D4((struct S020315D4 *)obj);
     func_02034A5C((int)ov112_id);
     return 1;
 }

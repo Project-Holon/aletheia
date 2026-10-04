@@ -17,14 +17,15 @@
  *   func_020306F0 0x020306F0 arm
  */
 typedef unsigned int u32;
-extern void func_0203133C(u32 v);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
 extern void func_020306F0(u32 v);
 int func_021C54DC(void *a, void *b, void *c, u32 *p)
 {
-    func_0203133C(p[12]);
+    func_0203133C((struct S020314B8 *)p[12]);
     func_020315D4(a);
     func_0203084C(0x65);
     func_020306F0(0x65);
