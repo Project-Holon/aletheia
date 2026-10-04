@@ -34,7 +34,7 @@ extern void func_021E5534(int);
 extern void func_021E867C(int);
 extern void func_021E7E08(int);
 extern void func_021E5980(int);
-extern void func_021E64C0(int,int);
+extern int func_021E64C0(unsigned char *,void *);
 extern void func_021E7774(int,int);
 extern void func_021E84F8(int,int);
 int func_021D6B38(unsigned sys,int *state,int unused,int *p)
@@ -48,7 +48,7 @@ int func_021D6B38(unsigned sys,int *state,int unused,int *p)
     }
     func_021E5534(p[0]); func_0201C4E4(p[4]); func_021E867C(p[11]);
     func_021E7E08(p[10]); func_021E5980(p[1]); func_021D9ED0(p[13]);
-    if(p[7]) func_021E64C0(p[7],p[4]);
+    if(p[7]) func_021E64C0((unsigned char *)p[7],(void *)p[4]);
     if(p[8]) func_021E7774(p[8],p[4]);
     if(p[9]) func_021E84F8(p[9],p[4]);
     return 0;

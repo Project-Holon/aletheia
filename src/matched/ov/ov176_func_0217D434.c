@@ -22,11 +22,11 @@
  */
 
 extern void func_021E8A80(int);
-extern void func_021E64C0(int, int);
+extern int func_021E64C0(unsigned char *, void *);
 
 void func_0217D434(int *p)
 {
     func_021E8A80(*(int *)((char *)p + 0x10));
     if (*(int *)((char *)p + 8))
-        func_021E64C0(*(int *)((char *)p + 8), *(int *)((char *)p + 0x24));
+        func_021E64C0((unsigned char *)*(int *)((char *)p + 8), (void *)*(int *)((char *)p + 0x24));
 }
