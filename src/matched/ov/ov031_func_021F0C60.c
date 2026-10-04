@@ -34,7 +34,9 @@ typedef struct {
 
 extern int func_021F0D40(B *);
 extern u32 func_021F0D58(void *unused, u32 d);
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 
 void func_021F0C60(B *o, B *b)
 {
@@ -45,7 +47,7 @@ void func_021F0C60(B *o, B *b)
     int i;
     int j;
 
-    func_0204B454(o->h, buf, 1);
+    func_0204B454((struct Actor *)o->h, (struct PtS *)buf, 1);
     t = (buf[1] - 0x1C) << 8;
     k = func_021F0D40(b);
     c = func_021F0D58(b, k);

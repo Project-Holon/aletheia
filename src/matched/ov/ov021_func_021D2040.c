@@ -25,7 +25,9 @@ typedef struct {
     s16 y;
 } Pt;
 
-extern void func_0204B454(u32 a, Pt *p, u32 b);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *a, struct PtS *p, unsigned int b);
 extern void func_0204B404(u32 a, Pt *p, u32 b);
 
 int func_021D2040(u8 *w)
@@ -42,7 +44,7 @@ int func_021D2040(u8 *w)
             return 0;
         }
     }
-    func_0204B454(*(u32 *)(w + 0x3c), &pt, 0);
+    func_0204B454((struct Actor *)*(u32 *)(w + 0x3c), (struct PtS *)&pt, 0);
     pt.y = pt.y - *(s8 *)(w + 0x4d);
     func_0204B404(*(u32 *)(w + 0x3c), &pt, 0);
     *(s8 *)(w + 0x4d) = *(s8 *)(w + 0x4d) - 1;

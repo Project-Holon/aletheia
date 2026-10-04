@@ -24,7 +24,9 @@ typedef signed short   s16;
 typedef struct { s16 x, y; } Pt;
 
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_021F0628(int *p, int i);
 extern void func_020061E4(u32 se);
 
@@ -42,7 +44,7 @@ int func_021F0584(int *p, u8 *flag)
     if (func_02035D20(&w, &h) == 0)
         return 0;
     for (i = 0; i <= 4; i++) {
-        func_0204B454(p[6 + i], &t, 1);
+        func_0204B454((struct Actor *)p[6 + i], (struct PtS *)&t, 1);
         y0 = t.y - 10;
         y1 = t.y + 10;
         x1 = t.x + 10;

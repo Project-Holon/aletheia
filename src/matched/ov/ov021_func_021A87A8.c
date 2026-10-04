@@ -43,7 +43,9 @@ typedef struct {
 } S;
 
 extern void func_0204B09C(int a, int b, P *c);
-extern void func_0204B454(int h, P *out, int k);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *h, struct PtS *out, unsigned int k);
 extern void func_0204B3DC(int h, int v);
 
 void func_021A87A8(S *s)
@@ -58,7 +60,7 @@ void func_021A87A8(S *s)
     func_0204B09C(s->f120, 0, &v);
     for (i = 0; i < 7; i++) {
         if (s->e[i].f10 != 0 && s->e[i].f0 != 7) {
-            func_0204B454(s->e[i].f10, &p4, 0);
+            func_0204B454((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
             if (p4.y < 0xd0) {
                 func_0204B3DC(s->e[i].f10, 1);
             } else {
@@ -66,7 +68,7 @@ void func_021A87A8(S *s)
             }
         }
     }
-    func_0204B454(s->f124, &p0, 0);
+    func_0204B454((struct Actor *)s->f124, (struct PtS *)&p0, 0);
     if (s->f2c != 0 && p0.y < 0xd6) {
         func_0204B3DC(s->f124, 1);
     } else {

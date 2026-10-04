@@ -23,7 +23,9 @@ typedef signed short s16;
 extern int *func_021A2630(int);
 extern int func_021A2638(int);
 extern void func_021A21E0(int);
-extern void func_0204B454(int, s16 *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(int, s16 *, int);
 
 void func_021EED78(int a)
@@ -34,7 +36,7 @@ void func_021EED78(int a)
 
     p = func_021A2630(a);
     q = func_021A2638(a);
-    func_0204B454(q, v, 0);
+    func_0204B454((struct Actor *)q, (struct PtS *)v, 0);
     switch (p[3]) {
     case 0:
         v[0] = v[0] + (s16)p[4];

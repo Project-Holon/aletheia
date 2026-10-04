@@ -23,7 +23,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern int func_02035C60(void);
 extern void func_0204B404(int, void *, int);
 
@@ -37,7 +39,7 @@ int func_021F0B98(char *o)
     if (func_02035CB8(&x, &y) == 0)
         return 0;
     r = 1;
-    func_0204B454(*(int *)(o + 0x2C), buf, 1);
+    func_0204B454((struct Actor *)*(int *)(o + 0x2C), (struct PtS *)buf, 1);
     if (*(u8 *)(o + 0x31) == 0) {
         if (func_02035C60() == 0)
             return 0;
