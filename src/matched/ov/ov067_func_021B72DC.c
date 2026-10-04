@@ -39,7 +39,8 @@ struct S {
 };
 
 extern void func_02040588(u32 which, u32 enable);
-extern int func_02045770(int a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int a, int b);
 extern void func_02045334(int a);
 extern void func_02045374(int a);
@@ -56,8 +57,8 @@ void func_021B72DC(struct S *s)
 
     func_02040588(s->f14, 0);
     func_02040588(s->f18, 0);
-    func_02043B5C(func_02045770((int)s->f88), 0);
-    func_02043B5C(func_02045770((int)s->f8c), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)s->f88), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)s->f8c), 0);
     p = (int)s->f88;
     func_02045334(p);
     func_02045374(p);

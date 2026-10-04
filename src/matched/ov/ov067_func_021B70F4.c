@@ -67,7 +67,8 @@ extern u8 func_021B76C8(u32 a, u32 b, u32 c);
 extern void func_0204B404(int h, Pt *pt, u16 v);
 extern void func_021B7718(int which, int idx, void *data);
 extern void func_02040588(u32 which, u32 enable);
-extern int func_02045770(int a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int a, int b);
 extern u32 func_0201D304(u32 a, u32 b, u32 c);
 extern void func_0201C724(u32 a, u32 b, s16 x, s16 y, u32 str, u32 font, u16 color);
@@ -99,23 +100,23 @@ void func_021B70F4(struct S *s, u32 a1, u32 a2)
     func_021B7718(s->f10, s->f16, s->f22);
     func_021B7718(s->f10, s->f17, s->f22);
     func_02040588(s->f14, 1);
-    func_02043B5C(func_02045770(s->f88), 0);
-    func_02043B5C(func_02045770(s->f8c), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)s->f88), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)s->f8c), 0);
     t = func_0201D304(a1, s->f8, 0);
-    func_0201C724(s->fC, func_02045770(s->f88), (u16)((0x100 - t) / 2), 0x10, a1, s->f8, 0x3c40);
+    func_0201C724(s->fC, (int)func_02045770((struct Descriptor *)s->f88), (u16)((0x100 - t) / 2), 0x10, a1, s->f8, 0x3c40);
     t = func_0201D304(a2, s->f8, 0);
-    func_0201C724(s->fC, func_02045770(s->f8c), (u16)((0x100 - t) / 2), 0x10, a2, s->f8, 0x3c40);
+    func_0201C724(s->fC, (int)func_02045770((struct Descriptor *)s->f8c), (u16)((0x100 - t) / 2), 0x10, a2, s->f8, 0x3c40);
     s->f90 = 0;
     s->f94 = 0;
     func_02040588(s->f18, 1);
-    if (s->f90 == 0 && func_0201C6C4(s->fC, func_02045770(s->f88)) == 0) {
+    if (s->f90 == 0 && func_0201C6C4(s->fC, (int)func_02045770((struct Descriptor *)s->f88)) == 0) {
         p = s->f88;
         func_02045334(p);
         func_02045374(p);
         func_02041B6C(func_02045730(p));
         s->f90 = 1;
     }
-    if (s->f94 == 0 && func_0201C6C4(s->fC, func_02045770(s->f8c)) == 0) {
+    if (s->f94 == 0 && func_0201C6C4(s->fC, (int)func_02045770((struct Descriptor *)s->f8c)) == 0) {
         p = s->f8c;
         func_02045334(p);
         func_02045374(p);

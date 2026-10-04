@@ -36,7 +36,8 @@ extern u32  func_020457B0(u32 a, u32 b);
 extern void func_02028470(u8 *p, u32 v);
 extern u32  func_02045778(u32 a);
 extern void func_0201F73C(u32 win, u32 kind, u32 base, u32 pal);
-extern u32  func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
@@ -60,7 +61,7 @@ void func_021BA1C4(u8 *p, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u16 s2)
     *(u32 *)(p + 0x28) = 0;
     func_02028470(p + 0x2c, 0x406);
     func_0201F73C(*(u32 *)(p + 0x10), 2, 1, func_02045778(a1));
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x10)), (u8)*(u16 *)(p + 0x18));
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x10)), (u8)*(u16 *)(p + 0x18));
     w = *(u32 *)(p + 0x10);
     func_02045334(w);
     func_02045374(w);

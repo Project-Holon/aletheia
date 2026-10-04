@@ -56,7 +56,8 @@ extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_02045EC0(u32 a, u32 b);
 extern u32  func_0201D304(u32 a, u32 b, u32 c);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32  func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
 extern void func_0201C7A4(u32 a, s16 b, s16 c, u32 d, u32 e);
 extern void func_0201C7D0(u32 a, s16 b, s16 c, u32 d, u32 e, u16 f);
@@ -102,8 +103,8 @@ void func_021B9C04(u32 *p)
         wv = (x + func_0201D304(str, font, 0) + 7) >> 3;
         e->w = wv;
         p[i] = func_020450F0(1, e->x, e->y, wv, e->h, 0, 1);
-        func_02043B5C(func_02045770(p[i]), 0);
-        func_0201C7A4(func_02045770(p[i]), x, 0, str, font);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p[i]), 0);
+        func_0201C7A4((u32)func_02045770((struct Descriptor *)p[i]), x, 0, str, font);
         w = p[i];
         func_02045334(w);
         func_02045374(w);
@@ -111,11 +112,11 @@ void func_021B9C04(u32 *p)
         func_02045808(str);
     }
     w = *(u32 *)(p[22] + 0x14);
-    func_02082A90(w, func_020437D4(func_02045770(p[16])), 0x600);
+    func_02082A90(w, func_020437D4((u32)func_02045770((struct Descriptor *)p[16])), 0x600);
     str = func_02045EC0(msg, 0);
     x = func_02045738(p[16]) * 4;
     x -= func_0201D304(str, font, 0) >> 1;
-    func_0201C7D0(func_02045770(p[16]), x, 4, str, font, 0x3dc1);
+    func_0201C7D0((u32)func_02045770((struct Descriptor *)p[16]), x, 4, str, font, 0x3dc1);
     w = p[16];
     func_02045334(w);
     func_02045374(w);

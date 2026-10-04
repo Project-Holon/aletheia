@@ -35,7 +35,8 @@ struct S {
 
 extern int func_0201C4E4(int a);
 extern int func_0201C6C4(int a, int b);
-extern int func_02045770(int a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_02045334(int a);
 
 void func_021B9344(struct S *s)
@@ -48,7 +49,7 @@ void func_021B9344(struct S *s)
         int a = s->f34;
 
         if (e->flag != 0) {
-            if (func_0201C6C4(a, func_02045770((int)e->p)) == 0) {
+            if (func_0201C6C4(a, (int)func_02045770((struct Descriptor *)e->p)) == 0) {
                 func_02045334((int)e->p);
                 e->flag = 0;
             }
