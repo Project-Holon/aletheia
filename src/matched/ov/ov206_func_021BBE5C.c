@@ -45,7 +45,7 @@ extern u32 func_021BC0E0(void);
 struct MsgBank;
 extern void *func_020490F4(u32 id, u16 heap);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *func_0201ADE4(u32 a, u16 b, u16 c);
+extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021BBE5C(S *p)
 {

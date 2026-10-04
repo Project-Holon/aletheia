@@ -19,7 +19,8 @@ typedef struct { int x,y,z; } Vec;
 typedef struct { int m[9]; } Mtx;
 typedef struct { Vec pos,scale; Mtx rot; } Transform;
 extern void *func_02048A18(void *,u16);
-extern void func_020520FC(int,u16,int,Mtx *);
+struct Mtx33;
+extern void func_020520FC(int,int,int,struct Mtx33 *);
 extern void func_02047A60(void *,Transform *);
 static inline void VecSet(Vec *v,int x,int y,int z)
 {
@@ -34,6 +35,6 @@ void func_021E05D4(u8 *p)
     object=func_02048A18(*(void **)(p+2804),*(int *)(s+188));
     VecSet(&t.pos,*(int *)(s+12),*(int *)(s+16),*(int *)(s+20));
     VecSet(&t.scale,*(int *)(s+24),*(int *)(s+28),*(int *)(s+32));
-    func_020520FC(*(u16 *)(s+76),*(s16 *)(s+78)*182,*(u16 *)(s+80),&t.rot);
+    func_020520FC(*(u16 *)(s+76),(u16)(*(s16 *)(s+78)*182),*(u16 *)(s+80),(struct Mtx33 *)&t.rot);
     func_02047A60(object,&t);
 }

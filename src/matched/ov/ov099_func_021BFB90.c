@@ -18,11 +18,12 @@
 struct Entry;
 struct Sub020097BCObj;
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *, unsigned int, unsigned int);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern int func_02156A3C(void);
 extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 int func_021BFB90(char *p, int ret) {
- func_02039C68(func_020399A8(),19,10);
+ func_02039C68((struct Link *)func_020399A8(),19,10);
  func_02009B80(*(void **)(p+4),func_02156A3C());
  *(int *)(p+0x1cc)=149;
  return ret;

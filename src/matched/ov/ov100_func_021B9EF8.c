@@ -31,11 +31,12 @@ extern void func_02027A04(int);
 extern void func_02027858(int);
 typedef unsigned int   u32;
 struct Entry;
+struct Link;
 extern void func_02041B6C(u32 bit);
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(void *, int, int);
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern int func_02039C68(void *, int, int);
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern void func_021B95B8(int, void (*)(void));
 extern void func_021BA290(int, int);
 extern void func_021B9EA4(void);
@@ -59,9 +60,9 @@ void func_021B9EF8(int a)
     {
         int k = 0xc;
 
-        if (func_02039CB4(func_020399A8(), 0x78, k) != 0) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x78, k) != 0) {
             if (func_0203D3A8(func_020399A8(), k << 8, 4, a + 0x24c) != 0) {
-                func_02039C68(func_020399A8(), 0x7c, k);
+                func_02039C68((struct Link *)func_020399A8(), 0x7c, k);
                 func_021B95B8(a, func_021B9DB8);
             }
         }
