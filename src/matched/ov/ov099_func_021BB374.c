@@ -39,7 +39,8 @@ extern void *func_0202DA48(void *a, int b, int c, u16 d);
 extern void *func_0202DA18(void *a, int b, int c, int d, u16 e);
 extern void *func_0202DA6C(int a, int b, int c, u16 d);
 extern void func_02049238(void *o);
-extern void *func_0204B294(void *a, void *b, void *c, void *d, T4 *e, int f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 
 void func_021BB374(char *p, int a, int b)
 {
@@ -57,5 +58,5 @@ void func_021BB374(char *p, int a, int b)
     *(void **)(p + 0x188) = func_0202DA18(o, r, 1, 0, b);
     *(void **)(p + 0x18C) = func_0202DA6C(r, 2, 1, b);
     func_02049238(o);
-    *(void **)(p + 0x180) = func_0204B294(*(void **)(p + 0x110), *(void **)(p + 0x184), *(void **)(p + 0x188), *(void **)(p + 0x18C), &t, 1, b);
+    *(void **)(p + 0x180) = func_0204B294(*(void **)(p + 0x110), (unsigned int)*(void **)(p + 0x184), (unsigned int)*(void **)(p + 0x188), (unsigned int)*(void **)(p + 0x18C), &t, 1, b);
 }

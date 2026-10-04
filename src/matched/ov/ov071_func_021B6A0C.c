@@ -90,7 +90,8 @@ struct Sys;
 struct U16Vec;
 struct WordSet;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
-extern void *func_0204B294(u32 a, u32 res, u32 c, u32 d, struct Point *pt, u16 f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -136,7 +137,7 @@ void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
     x = c == 0 ? B_FALSE : B_TRUE;
     param.f14 = x;
     param.f12 = x;
-    b->act = func_0204B294(a->f14, a->res[c].f44, a->res[c].f40, a->res[c].f48, &pt, x, 0x61);
+    b->act = func_0204B294((void *)a->f14, a->res[c].f44, a->res[c].f40, a->res[c].f48, &pt, x, 0x61);
     b->grid = func_020255A0(a->f2c, &param);
     s = func_02045EC0(a->f28, g);
     if (h) {
