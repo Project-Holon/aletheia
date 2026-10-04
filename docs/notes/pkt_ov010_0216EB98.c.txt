@@ -7,21 +7,36 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- *
- * DIFF, 457 concrete bytes, 608/612 bytes; 40/50 relocations resolved.
- * Owner-blocked: no further retry or leaf work while Ilias blockers remain.
- * Image keeps proc in r2; C coalesces it with r1 and omits two 2-byte copies.
- * Baseline, enum state and an inline state-step helper give the same verdict.
- * Three fixed one runs; historical seed 8701 / budget 400 is consumed.
- * Current unresolved sites (compiled offsets):
- * +C8 ARM9 func_0202E80C; +D6 ov021 func_021882DC;
- * +11A ov021 func_02188354; +13C ov021 func_02188390;
- * +15C/+18C ov010 func_0216EFDC (no overlay leaves while ARM9 blocks).
- * +228 ov093_id; +22C d_021EFDAC; +230 ov092_id; +234 d_021B9D94.
- * Calls lack external code witnesses; the four pool data/id sites lack
- * external witnesses. Retain exact sites for owner handoff, not new leaves.
- *
+ * status:   DIFF (612/612 B, 2 concrete bytes; wave 83 R1 retry)
+ * lever:    case 1's argument-less `bl func_02189A08` takes proc (the
+ *           func_0201210C result) as its hidden r0 argument: the matched
+ *           ov021 definition is int func_02189A08(unsigned char *p). That
+ *           keeps proc in r0 through the dispatch, the index in r1 and the
+ *           r2 copy of proc for cases 2 and 10 (457 -> 2 bytes). The ov230
+ *           probe calls resolve with the `ov230d` token, prototypes copied
+ *           from the matched twin src/matched/arm9/func_02011D9C.c.
+ * residue:  case 7 zeroes its spilled `ok` (sp+0xC) through r2 in the image
+ *           (`movs r2,#0; str r2,[sp,#0xc]` at 0x0216ECCC), r0 in the compile.
+ *           No change from ok as u32, u8, enum, function-scope, passed as the
+ *           seed, or with start/end locals ahead of it; permuter 300 found
+ *           nothing (baseline agrees, DIFF 2/612).
+ * blocker:  even byte-correct this caps at MATCH: 0x0202E80C (arm9, Thumb,
+ *           unlabelled: `ldr r1,[r0]; str r1,[r0,#8]; movs r1,#0; str
+ *           r1,[r0]; bx lr`, verified C not filed: arm9 is Ilias's);
+ *           0x0216EFDC (ov010 unlabelled tail-call leaf, not filed while an
+ *           arm9 leaf blocks); ov093_id/ov092_id pooled ids passed to
+ *           func_02012444, which is not in OVERLAY_ID_CONSUMERS;
+ *           d_021EFDAC/d_021B9D94 (proc data of ov093/ov092) unwitnessed.
+ * prototype conflicts (parked, matched callees not edited):
+ *           func_0216F054 (ov010 0x0216F054, src/matched/ov/func_0216F054.c)
+ *           is defined int(int a0, int a1) but a1 is overwritten before any
+ *           read (`ldr r1,[r0,#0x20]` at 0x0216F054); the three call sites
+ *           here set only r0 (`adds r0, r5, #0; bl`). func_02012F20 (arm9,
+ *           src/matched/arm9/func_02012F20.c) is defined int(int p0..p3) and
+ *           reads only p0; both sites here set only r0 (`ldr r0,[sp,#0x10];
+ *           bl`). The C below declares both with one parameter.
+ * runs:     4 iteration + checks (2 + 2 + 1) + permuter 300; one cleanup run.
+ * checks:   1 every callee re-derived from its matched definition: func_02189A08 takes the live proc in r0 (fixed), F054/2F20 definitions over-declare (conflict above); 2 twin func_02011D9C gives the ov230d probe tokens and prototypes (resolved 3 sites), u32 start local no change; 3 ok as u32 / enum no change; 4 u8 flag idiom (a-narrow-flag-local-is-spilled) no change, zero-register idioms read; 5 idioms re-listed, nothing new applies
  * symbols:
  *   func_0201210C  0x0201210C  thumb
  *   func_02012374  0x02012374  thumb
@@ -54,9 +69,9 @@
  *   func_0216F070  0x0216F070  thumb  ov010
  *   func_0216F07C  0x0216F07C  thumb  ov010
  *   func_02189A08  0x02189A08  thumb  ov021
- *   func_021882DC  0x021882DC  arm  ov021
- *   func_02188354  0x02188354  arm  ov021
- *   func_02188390  0x02188390  arm  ov021
+ *   func_021882DC  0x021882DC  arm  ov230d
+ *   func_02188354  0x02188354  arm  ov230d
+ *   func_02188390  0x02188390  arm  ov230d
  *   func_021CF498  0x021CF498  thumb  ov021
  *   func_021BE92C  0x021BE92C  thumb  ov021
  *   ov093_id       0x0000005D  data
@@ -70,6 +85,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
 
 typedef struct Info {
     u8 pad00[0x18];
@@ -96,41 +112,41 @@ extern u8 d_021EFDAC[];
 extern u8 d_021B9D94[];
 extern u32 g_0214624C;
 
-extern void *func_0201210C(void *sys);
-extern void func_02012374(void *evt, void *task);
-extern void func_0201235C(void *evt, void *task);
-extern void func_02012444(void *evt, u32 id, void *data, void *arg);
-extern void *func_02012B38(void *p);
-extern void *func_02012F20(void *p);
-extern void **func_02012F50(void *p);
-extern void func_0201447C(void *p, u32 on);
-extern void *func_020144DC(void *sys, void *proc);
+extern void *func_0201210C(const void *p);
+extern void func_02012374(void *evt, void **out);
+extern void func_0201235C(void *o, u32 *out);
+extern void func_02012444(void *obj, u32 a1, u32 a2, u32 a3);
+extern void *func_02012B38(const void *p);
+extern int func_02012F20(int p0);
+extern void *func_02012F50(void *base);
+extern u8 func_0201447C(void *o, u8 v);
+extern int func_020144DC(int a0, int a1);
 extern void *func_020145CC(void *sys);
-extern void *func_02029B28(void *sys, u32 n);
-extern void *func_02029BCC(void *sys, u16 v);
-extern void *func_02029C00(void *sys);
-extern void *func_02029CC0(void *sys);
-extern void func_0202E79C(void *p);
+extern void *func_02029B28(void *a, u16 b);
+extern void *func_02029BCC(void *a, u32 b);
+extern void *func_02029C00(void *a);
+extern void *func_02029CC0(void *a);
+extern void func_0202E79C(u8 *p);
 extern void func_0202E80C(void *p);
-extern void func_02034AC4(u32 id);
-extern void func_02034A5C(u32 id);
-extern void func_020056A0(void (*fn)(void), void *arg, u32 pri);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
+extern void *func_020056A0(void (*callback)(void *, void *), void *work, u32 key);
 extern void func_02011D34(void);
 extern void *func_0215F6E8(void *sys);
-extern void func_02168D30(void *p, Info *info);
+extern void func_02168D30(void *r, void *s);
 extern int func_0216EFDC(Work *w);
-extern void func_0216EFF0(Work *w, void *p);
-extern void func_0216F054(Work *w);
-extern void func_0216E680(void);
-extern void func_0216F064(void);
-extern void func_0216F070(void);
-extern void func_0216F07C(void);
-extern void *func_02189A08(void);
-extern u32 func_021882DC(void (*start)(void), void (*end)(void), u32 seed);
-extern u32 func_02188354(void (*start)(void), void (*end)(void), u32 seed);
-extern u32 func_02188390(void (*start)(void), void (*end)(void), u32 seed);
-extern void func_021CF498(void *p, void *evt, void *arg);
-extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_0216EFF0(int *p, void *a);
+extern int func_0216F054(int a0);
+extern int func_0216E680(int a0);
+extern int func_0216F064(int a0);
+extern int func_0216F070(int a0);
+extern int func_0216F07C(int a0);
+extern int func_02189A08(unsigned char *p);
+extern u32 func_021882DC(void (*a)(void), void (*b)(void), u32 c);
+extern u32 func_02188354(void (*a)(void), void (*b)(void), u32 c);
+extern u32 func_02188390(void (*a)(void), void (*b)(void), u32 c);
+extern void func_021CF498(void *c, u32 x, int idx);
+extern int func_021BE92C(void *a, int b, int sel, int d, int e, u8 f, u8 g);
 
 int func_0216EB98(void *evt, u32 *state, Work *w)
 {
@@ -145,43 +161,43 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 1:
-        func_021CF498(func_02189A08(), evt, w->f24);
+        func_021CF498((void *)func_02189A08(proc), (u32)evt, (int)w->f24);
         (*state)++;
         break;
     case 2:
-        func_02012374(evt, func_020144DC(sys, proc));
+        func_02012374(evt, (void *)func_020144DC((int)sys, (int)proc));
         (*state)++;
         break;
     case 3:
         func_0201447C(func_02012B38(p04), 1);
-        func_0202E79C(func_02012F20(p04));
-        func_02012444(evt, (u32)ov093_id, d_021EFDAC, w->f08);
+        func_0202E79C((u8 *)func_02012F20((int)p04));
+        func_02012444(evt, (u32)ov093_id, (u32)d_021EFDAC, (u32)w->f08);
         (*state)++;
         break;
     case 4:
         w->f10 = w->f08;
         w->f0c = p04;
-        func_02012444(evt, (u32)ov092_id, d_021B9D94, &w->f0c);
+        func_02012444(evt, (u32)ov092_id, (u32)d_021B9D94, (u32)&w->f0c);
         (*state)++;
         break;
     case 5:
-        func_02034AC4((u32)ov230_id);
+        func_02034AC4((s32)ov230_id);
         func_0201447C(func_02012B38(p04), 0);
-        func_0202E80C(func_02012F20(p04));
+        func_0202E80C((void *)func_02012F20((int)p04));
         (*state)++;
         break;
     case 6: {
         int ok = 0;
 
-        if (func_021882DC(func_0216E680, func_0216F064, 0) == ~(u32)func_0216F064)
+        if (func_021882DC((void (*)(void))func_0216E680, (void (*)(void))func_0216F064, 0) == ~(u32)func_0216F064)
             ok = 1;
         sum += ok ? 0 : 0x3D1;
-        func_0216EFF0(w, p04);
+        func_0216EFF0((int *)w, p04);
         if (w->f1c != 0)
-            func_02168D30(*func_02012F50(p04), w->f08);
+            func_02168D30(*(void **)func_02012F50(p04), w->f08);
         (*state)++;
         ok = 0;
-        if (func_02188354(func_0216E680, func_0216F070, 0) == ~(u32)func_0216F070)
+        if (func_02188354((void (*)(void))func_0216E680, (void (*)(void))func_0216F070, 0) == ~(u32)func_0216F070)
             ok = 1;
         sum += ok ? 0 : 0x5D1;
         break;
@@ -189,24 +205,24 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
     case 7: {
         int ok = 0;
 
-        if (func_02188390(func_0216E680, func_0216F07C, 0) == ~(u32)func_0216F07C)
+        if (func_02188390((void (*)(void))func_0216E680, (void (*)(void))func_0216F07C, 0) == ~(u32)func_0216F07C)
             ok = 1;
         sum += ok * 0x9D;
         if (w->f18 == 0 && func_0216EFDC(w) == 1)
             func_02012374(evt, func_02029B28(sys, 0x1E));
         else
             func_02012374(evt, func_02029C00(sys));
-        func_02034A5C((u32)ov230_id);
+        func_02034A5C((s32)ov230_id);
         (*state)++;
         break;
     }
     case 8:
         if (w->f18 == 0 && func_0216EFDC(w) == 1) {
             if (w->f14 == 1) {
-                func_0216F054(w);
+                func_0216F054((int)w);
                 return 1;
             }
-            func_0216F054(w);
+            func_0216F054((int)w);
             func_0201235C(evt, func_0215F6E8(sys));
             return 0;
         }
@@ -219,15 +235,15 @@ int func_0216EB98(void *evt, u32 *state, Work *w)
         break;
     case 10:
         if (w->f14 == 0)
-            func_02012374(evt, func_021BE92C(sys, proc, 0, 0, 1, 0, 0));
+            func_02012374(evt, (void *)func_021BE92C(sys, (int)proc, 0, 0, 1, 0, 0));
         (*state)++;
         break;
     case 11:
-        func_0216F054(w);
+        func_0216F054((int)w);
         return 1;
     }
     if (sum % 0x1933 != 0) {
-        func_020056A0(func_02011D34, 0, 0x7F);
+        func_020056A0((void (*)(void *, void *))func_02011D34, 0, 0x7F);
         g_0214624C++;
     }
     return 0;

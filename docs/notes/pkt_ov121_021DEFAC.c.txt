@@ -7,13 +7,48 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- *
- * checks: 1 own current ARM9 unit_020185F0.c declares void(void), but original/twin call flow requires preserved mon r0; owner prototype gate stops new caller compiles; 2 new ov010 gift twin read, u8 gender/form restores five concrete bytes here; 3 width change was fresh iteration, subsequent const check blocked by owner; 4 stack-frame and declared-struct idioms inspected; 5 fresh full directory and same/sibling neighbours read. Next uncompiled hypothesis: correct decoded pointer payloads, unsigned level/species and explicit frame storage, after owner correction.
- * wave77-runs: one substantive u8 gender/form one compile; DIFF1060/1352 versus prior1065, 54/56 relocations resolved. No prior search recorded; first eligible permuter deferred by explicit owner-blocked-caller exclusion, not consumed.
- * blocker: existing ARM9 func_020185F0 void(void) bare bx lr should return the forwarded mon pointer for this caller; ov010 EXACT witness uses void *func_020185F0(void *). Owner review required, no protected write.
- * decoding: draft field74 and field8E setters pass f1e/f4a values, but original passes addresses p+1E and p+4A. Correct those payloads only with a new verified caller compile after owner gate clears; current source remains a DIFF draft.
- * metadata: add explicit sub_0201808C Thumb symbols entry for existing ARM9 witness; table021DFB2C remains unwitnessed data after removing ov121 hint. No overlay leaves filed while owner blocker remains.
+ * status:   EXACT bytes (1348/1348 B, 56 of 56 relocations; wave 83 R1 retry),
+ *           PARKED: matches only against four declarations that disagree
+ *           with the callees' matched definitions (owner review; no matched
+ *           callee edited).
+ * blocker (declaration conflicts, all arm9):
+ *   func_020185F0 0x020185F0 (src/matched/arm9/unit_020185F0.c) is defined
+ *     void(void), an empty `bx lr`. Here it takes mon and its r0 result is
+ *     func_0202F2AC's first argument: 0x021DF450 `adds r0, r5, #0`,
+ *     0x021DF452 `bl 0x020185F0`, then 0x021DF462 `bl 0x0202F2AC` with r0
+ *     not rewritten. Declared here as void *(void *p) (identity; its
+ *     neighbour 0x020185F4 is exactly `void *f(void *p){ return p; }`).
+ *   sub_020084F4 0x020084F4 (src/matched/arm9/unit_020084BC.c) is defined
+ *     void(void), empty. Here r0 = func_02012944(a1) goes in and r0 comes back
+ *     as the 0x8E value: 0x021DF3B2 `bl 0x02012944`, 0x021DF3B6
+ *     `bl 0x020084F4`, 0x021DF3BA `adds r2, r0, #0`. Declared u32(u8 *p).
+ *   func_020180F4 0x020180F4 (src/matched/arm9/func_020180F4.c) is defined
+ *     void(void), a Thumb tail thunk to func_020180FC(void). Here it gets
+ *     (mon, move): 0x021DF22A `adds r0, r5, #0`, 0x021DF22C `adds r1, r6, #0`,
+ *     0x021DF22E `bl 0x020180F4`. Declared void(void *p, u32 move).
+ *   func_020186C8 0x020186C8 (src/matched/arm9/func_020186C8.c) declares a1
+ *     int, but the caller narrows it (0x021DF1A0 `lsls r1, r1, #0x10`,
+ *     0x021DF1A8 `lsrs r1, r1, #0x10`; again at 0x021DF1CA/0x021DF1D0) and
+ *     the definition forwards a1 to func_020185F8, defined (u16 a, u16 b,
+ *     u32 c) in unit_020185F0.c. Declared u16 a1 here; with the definition's
+ *     int a1 the file is DIFF 791 B.
+ * lever:    the 0x50 body is an inlined static MakeMon(p, a1, a2) (it
+ *           re-reads p->fb3 after filling the IV/move buffer, so the switch's
+ *           case 1 re-checks the type) plus inlined Check2/Check3 (const
+ *           param: the type is re-read, not taken from the switch register).
+ *           Frame: otid u32 at sp+0x18 copied into u64 id (declared first)
+ *           right before func_020173F0, so id's low half shares otid's slot
+ *           and only the zero high word is stored late (sp+0x1C). IV/move
+ *           buffer as u8[0x10] with u16 casts keeps the fb3 load after the
+ *           stores. Branch shapes: separate species > 0x289 / == 0 tests,
+ *           `if (p->f08 != 0)` first, f34 through a temp, `f5a <= 2` first,
+ *           `if (m == 0) cnt++; else free(m)`. 0x74 / 0x8E pass &p->f1e /
+ *           &p->f4a (addresses, per `adds r2, #0x1e` / `adds r2, #0x4a`).
+ * runs:     1 baseline (1064) + 9 iteration (inline rewrite 1145, then
+ *           1108, 1092, 1063, 483, 408, 96, 11, EXACT) + 2 prototype checks
+ *           (definition's int a1: 791; u16 a1 only: EXACT); permuter not run
+ *           (EXACT); 1 note validation (EXACT).
+ * checks:   1 every callee re-derived from its matched definition: four conflicts above (020185F0, 020084F4, 020180F4 void(void); 020186C8 a1 int vs caller narrowing), func_020056EC/func_020307B0 from matched callers; 2 twin: ov010 witness of void *func_020185F0(void *) recorded by the earlier lane; 3 const Src * on the inline checks was the lever for the switch-register reuse; 4 idioms: cross-jumped then-block (`beq; b`) read as branch-order evidence; 5 nothing new filed as an idiom
  * symbols:
  *   func_02045A98  0x02045A98  arm
  *   func_020056EC  0x020056EC  thumb
@@ -41,15 +76,9 @@
  *   d_0209DF0C     0x0209DF0C  data
  *   tbl_021DFB2C   0x021DFB2C  data  a4
  *
- * True extent 0x021DEFAC..0x021DF4F0 (0x544 bytes: code + the inline pool at
- * 0x021DF33C + the tail pool at 0x021DF4E4), NOT the enumerator's 3156 bytes,
- * which run to the region end through an unrelated static data tail.
- *
- * WIP first draft; see docs/notes/ov121-lane-func_021DEFAC.c.txt.
- *
- * Re-verified 2026-09-27 (DIFF fixer lane): still DIFF, 1065 concrete bytes.
- * The whole body is still being reconstructed (frame 0x50 vs 0x4c and every
- * window offset shifted); no promotion attempted this pass.
+ * True extent 0x021DEFAC..0x021DF4F0 (code + inline pool at 0x021DF33C +
+ * tail pool at 0x021DF4E4), not the enumerator's 3156 bytes. See also
+ * docs/notes/ov121-lane-func_021DEFAC.c.txt.
  */
 
 typedef unsigned char u8;
@@ -111,13 +140,13 @@ struct Src {
 struct Mon;
 
 extern u16 func_02045A98(void);
-extern u32 func_020056EC(int a0);
+extern u32 func_020056EC(u32 range);
 extern u8 *func_02012944(void *p);
 extern u32 sub_020084F4(u8 *p);
 extern u32 sub_02008530(const void *p);
 extern u8  sub_02008550(const void *p);
 extern void *func_020173F0(u16 species, u16 level, u64 id, u16 heap);
-extern u32 func_020186C8(u32 a0, u16 a1, u8 a2, int a3, int a4, int a5);
+extern u32 func_020186C8(u32 a0, u16 a1, int a2, int a3, int a4, int a5);
 extern void func_02017588(struct Mon *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017FA8(void *p);
@@ -125,7 +154,7 @@ extern u32 sub_0201808C(void *p, u32 move);
 extern void func_020180F4(void *p, u32 move);
 extern void func_02018A00(void *p, u32 a, u32 b);
 extern void func_020307B0(void *p);
-extern void func_020185F0(void *p);
+extern void *func_020185F0(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_020185C4(void *p);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -137,230 +166,252 @@ extern u8 d_0209DF08;
 extern u8 d_0209DF0C;
 extern u32 tbl_021DFB2C[];
 
+
+static inline void *MakeMon(struct Src *p, void *a1, u16 a2)
+{
+    u64 id;
+    u32 otid;
+    u16 level;
+    u32 species;
+    u64 pid;
+    u32 ball;
+    u32 nat;
+    u32 month;
+    u8 buf[0x10];
+    void *mon;
+    u32 packed;
+    int x;
+    int i;
+    u32 j;
+    u16 mv;
+    u32 year;
+    u32 day;
+    u32 sel;
+    void *s;
+    u32 t;
+
+    level = p->f5b;
+    otid = p->f00;
+    species = p->f1a;
+    ball = p->f35;
+    nat = p->f36;
+    buf[0] = p->f43;
+    buf[1] = p->f44;
+    buf[2] = p->f45;
+    buf[3] = p->f47;
+    buf[4] = p->f48;
+    buf[5] = p->f46;
+    ((u16 *)(buf + 6))[0] = p->f12;
+    ((u16 *)(buf + 6))[1] = p->f14;
+    ((u16 *)(buf + 6))[2] = p->f16;
+    ((u16 *)(buf + 6))[3] = p->f18;
+
+    if (p->fb3 != 1)
+        return 0;
+    if (species > 0x289)
+        return 0;
+    if (species == 0)
+        return 0;
+    if (level > 100)
+        return 0;
+    if (p->f10 > 0x272)
+        return 0;
+
+    if (level == 0)
+        level = func_020056EC(100) + 1;
+    if (p->f00 == 0)
+        otid = sub_02008530(func_02012944(a1));
+    if (ball == 0xff)
+        ball = 2;
+    for (i = 0; i < 6; i++) {
+        if (buf[i] == 0xff)
+            buf[i] = func_020056EC(0x20);
+    }
+
+    id = otid;
+    mon = func_020173F0(species, level, id, a2);
+    packed = (buf[0] & 0x1f) | ((buf[1] & 0x1f) << 5) | ((buf[2] & 0x1f) << 10)
+           | ((buf[3] & 0x1f) << 15) | ((buf[4] & 0x1f) << 20) | ((buf[5] & 0x1f) << 25);
+
+    if (nat == 4)
+        nat = (u8)func_020056EC(3);
+    switch (nat) {
+    case 0: x = 0; break;
+    case 1: x = 1; break;
+    case 2: x = 0; break;
+    case 3: x = 2; break;
+    default: return 0;
+    }
+
+    if (p->f08 != 0) {
+        pid = p->f08;
+    } else {
+        if (p->f37 == 0)
+            pid = func_020186C8(otid, species, p->f1c, ball, x, 0);
+        else if (p->f37 == 1)
+            pid = func_020186C8(otid, species, p->f1c, ball, x, 2);
+        else if (p->f37 == 2)
+            pid = func_020186C8(otid, species, p->f1c, ball, x, 1);
+    }
+
+    func_02017588((struct Mon *)mon, p->f1a, level, id, packed, pid);
+    func_02017E40(mon, 6, p->f10);
+    func_02017FA8(mon);
+
+    for (i = 0; i < 4; i++) {
+        mv = ((u16 *)(buf + 6))[i];
+        if (mv != 0 && mv < 0x230) {
+            if (sub_0201808C(mon, mv) == 0xffff)
+                func_020180F4(mon, mv);
+        }
+    }
+
+    if (p->f08 == 0 && nat == 2)
+        func_02018A00(mon, species, p->f1c);
+
+    func_02017E40(mon, 0x6f, p->f1c);
+    if (p->f0e != 0 && p->f0e <= 0x19)
+        func_02017E40(mon, 0x98, p->f0e);
+    else
+        func_02017E40(mon, 0x98, 4);
+    if (p->f3c != 0)
+        func_02017E40(mon, 0x99, p->f3c);
+    func_02017E40(mon, 0x13, p->f3d);
+    func_02017E40(mon, 0x14, p->f3e);
+    func_02017E40(mon, 0x15, p->f3f);
+    func_02017E40(mon, 0x16, p->f40);
+    func_02017E40(mon, 0x17, p->f41);
+    func_02017E40(mon, 0x18, p->f41);
+
+    for (j = 0; j < 0xf; j++) {
+        if (p->f0c & (1 << j))
+            func_02017E40(mon, tbl_021DFB2C[j], 1);
+    }
+
+    if (p->f04 == 0)
+        func_02017E40(mon, 0x77, d_0209DF08);
+    else
+        func_02017E40(mon, 0x77, p->f04);
+    if (p->f1d == 0)
+        func_02017E40(mon, 0xc, d_0209DF0C);
+    else
+        func_02017E40(mon, 0xc, p->f1d);
+
+    if (p->f1e == 0) {
+        func_020307B0(mon);
+        return 0;
+    }
+    if (func_02045A98() != p->f1e)
+        func_02017E40(mon, 0x74, (u32)&p->f1e);
+
+    t = p->f34;
+    if (t == 0xff)
+        t = (u8)func_020056EC(0x19);
+    func_02017E40(mon, 0x70, t);
+    func_02017E40(mon, 0x95, p->f38);
+    func_02017E40(mon, 0x96, p->f3a);
+
+    if (p->f4a == 0) {
+        func_020307B0(mon);
+        return 0;
+    }
+    if (func_02045A98() == p->f4a)
+        func_02017E40(mon, 0x8e, sub_020084F4(func_02012944(a1)));
+    else
+        func_02017E40(mon, 0x8e, (u32)&p->f4a);
+
+    if (p->f5a <= 2)
+        func_02017E40(mon, 0x9a, p->f5a);
+    else
+        func_02017E40(mon, 0x9a, sub_02008550(func_02012944(a1)));
+
+    if (p->f5c != 0) {
+        func_02017E40(mon, 0x4c, 1);
+        s = sub_02045EC0(gMsgBank, 0x28a);
+        func_02017E40(mon, 0x73, (u32)s);
+        sub_02045808(s);
+        func_02017E40(mon, 9, 0xa);
+    }
+
+    year = (u16)((s32)p->fac >> 16);
+    month = (u8)((s32)p->fac >> 8);
+    day = (u8)p->fac;
+    if (p->f5c != 0)
+        sel = p->f38;
+    else
+        sel = p->f3a;
+    func_0202F2AC(func_020185F0(mon), sel, year - 2000, month, day);
+    func_020185C4(mon);
+
+    if (func_02017E1C(mon, 3, 0) != 0) {
+        func_020307B0(mon);
+        return 0;
+    }
+    return mon;
+}
+
+static inline u16 Check2(const struct Src *p)
+{
+    s32 v;
+
+    if (p->fb3 != 2) {
+        v = 0;
+    } else {
+        v = p->f00;
+        if (v <= 0 || v > 0x272)
+            v = 0;
+    }
+    return v;
+}
+
+static inline u16 Check3(const struct Src *p)
+{
+    s32 v;
+
+    if (p->fb3 != 3) {
+        v = 0x30;
+    } else {
+        v = p->f00;
+        if (v < 0x21 || v > 0x26)
+            v = 0x30;
+    }
+    return v;
+}
+
 s32 func_021DEFAC(struct Src *p, void *a1, u16 a2)
 {
-    s32 v18, v1c, v20, v24, v28, v2c, v34, v38;
-    u8 v30;
     s32 cnt = 0;
-    u8 buf[0x10];
-    s32 x;
-    u32 packed;
-    void *mon;
-    void *flag;
-    s32 i;
     s32 found = 1;
-    s32 zero = 0;
+    s32 i;
+    void *m;
 
     for (i = 0; i < 0x25; i++) {
         if (func_02045A98() == p->f60[i])
-            found = zero;
+            found = 0;
     }
     if (found != 0)
         cnt++;
-
     if (p->fb0 >= 0x800)
         cnt++;
-
     if (p->fb3 == 0 || p->fb3 >= 4)
         cnt++;
 
     switch (p->fb3) {
     case 1:
-        v20 = p->f5b;
-        v18 = p->f00;
-        v24 = p->f1a;
-        v30 = p->f35;
-        v34 = p->f36;
-        buf[0] = p->f43;
-        buf[1] = p->f44;
-        buf[2] = p->f45;
-        buf[3] = p->f47;
-        buf[4] = p->f48;
-        buf[5] = p->f46;
-        ((u16 *)(buf + 6))[0] = p->f12;
-        ((u16 *)(buf + 6))[1] = p->f14;
-        ((u16 *)(buf + 6))[2] = p->f16;
-        ((u16 *)(buf + 6))[3] = p->f18;
-
-        if (p->fb3 != 1)
-            goto fail;
-        if (v24 > 0x289)
-            goto fail;
-        if (v24 == 0)
-            goto fail;
-        if (v20 > 0x64)
-            goto fail;
-        if (p->f10 > 0x272)
-            goto fail;
-
-        if (v20 == 0)
-            v20 = (func_020056EC(0x64) + 1) & 0xffff;
-        if (p->f00 == 0)
-            v18 = sub_02008530(func_02012944(a1));
-
-        if (v30 == 0xff)
-            v30 = 2;
-
-        for (i = 0; i < 6; i++) {
-            if (buf[i] == 0xff)
-                buf[i] = func_020056EC(0x20);
-        }
-
-        v1c = 0;
-        mon = func_020173F0((u16)v24, v20, (u64)(u32)v18, a2);
-
-        packed = ((buf[5] & 0x1f) << 25) | ((buf[4] & 0x1f) << 20)
-               | ((buf[3] & 0x1f) << 15) | ((buf[2] & 0x1f) << 10)
-               | ((buf[1] & 0x1f) << 5) | (buf[0] & 0x1f);
-
-        if (v34 == 4)
-            v34 = func_020056EC(3) & 0xff;
-
-        switch (v34) {
-        case 0: x = 0; break;
-        case 1: x = 1; break;
-        case 2: x = 0; break;
-        case 3: x = 2; break;
-        default: goto fail;
-        }
-
-        if (p->f08 == 0) {
-            if (p->f37 == 0) {
-                v2c = 0;
-                v28 = func_020186C8(v18, (u16)v24, p->f1c, v30, x, 0);
-            } else if (p->f37 == 1) {
-                v28 = func_020186C8(v18, (u16)v24, p->f1c, v30, x, 2);
-                v2c = 0;
-            } else if (p->f37 == 2) {
-                v28 = func_020186C8(v18, (u16)v24, p->f1c, v30, x, 1);
-                v2c = 0;
-            }
-        } else {
-            v28 = p->f08;
-            v2c = 0;
-        }
-
-        func_02017588((struct Mon *)mon, p->f1a, v20, (u64)(u32)v18, packed,
-                      ((u64)(u32)v2c << 32) | (u32)v28);
-        func_02017E40(mon, 6, p->f10);
-        func_02017FA8(mon);
-
-        for (i = 0; i < 4; i++) {
-            u16 id = ((u16 *)(buf + 6))[i];
-
-            if (id != 0 && id < 0x230) {
-                if (sub_0201808C(mon, id) == 0xffff)
-                    func_020180F4(mon, id);
-            }
-        }
-
-        if (p->f08 == 0 && v34 == 2)
-            func_02018A00(mon, v24, p->f1c);
-
-        func_02017E40(mon, 0x6f, p->f1c);
-
-        if (p->f0e != 0 && p->f0e <= 0x19)
-            func_02017E40(mon, 0x98, p->f0e);
+        m = MakeMon(p, a1, a2);
+        if (m == 0)
+            cnt++;
         else
-            func_02017E40(mon, 0x98, 4);
-
-        if (p->f3c != 0)
-            func_02017E40(mon, 0x99, p->f3c);
-        func_02017E40(mon, 0x13, p->f3d);
-        func_02017E40(mon, 0x14, p->f3e);
-        func_02017E40(mon, 0x15, p->f3f);
-        func_02017E40(mon, 0x16, p->f40);
-        func_02017E40(mon, 0x17, p->f41);
-        func_02017E40(mon, 0x18, p->f41);
-
-        for (i = 0; i < 0xf; i++) {
-            if (p->f0c & (1 << i))
-                func_02017E40(mon, tbl_021DFB2C[i], 1);
-        }
-
-        func_02017E40(mon, 0x77, p->f04 != 0 ? p->f04 : d_0209DF08);
-        func_02017E40(mon, 0xc, p->f1d != 0 ? p->f1d : d_0209DF0C);
-
-        if (p->f1e == 0)
-            goto fail_free;
-
-        if (func_02045A98() != p->f1e)
-            func_02017E40(mon, 0x74, p->f1e);
-
-        if (p->f34 == 0xff)
-            func_02017E40(mon, 0x70, func_020056EC(0x19) & 0xff);
-        else
-            func_02017E40(mon, 0x70, p->f34);
-        func_02017E40(mon, 0x95, p->f38);
-        func_02017E40(mon, 0x96, p->f3a);
-
-        if (p->f4a == 0)
-            goto fail_free;
-
-        if (func_02045A98() != p->f4a)
-            func_02017E40(mon, 0x8e, p->f4a);
-        else
-            func_02017E40(mon, 0x8e, sub_020084F4(func_02012944(a1)));
-
-        if (p->f5a > 2)
-            func_02017E40(mon, 0x9a, sub_02008550(func_02012944(a1)));
-        else
-            func_02017E40(mon, 0x9a, p->f5a);
-
-        if (p->f5c != 0) {
-            void *s;
-
-            func_02017E40(mon, 0x4c, 1);
-            s = sub_02045EC0(gMsgBank, 0x28a);
-            func_02017E40(mon, 0x73, (u32)s);
-            func_02045808(s);
-            func_02017E40(mon, 9, 0xa);
-        }
-
-        v38 = (p->fac >> 16) & 0xffff;
-        func_020185F0(mon);
-        func_0202F2AC(mon, p->f5c != 0 ? p->f38 : p->f3a,
-                      v38 - 0x7d0, (p->fac >> 8) & 0xff, p->fac & 0xff);
-        func_020185C4(mon);
-
-        if (func_02017E1C(mon, 3, 0) != 0) {
-            func_020307B0(mon);
-            flag = 0;
-        } else {
-            flag = mon;
-        }
-        goto done;
-
+            func_020307B0(m);
+        break;
     case 2:
-        v28 = 0;
-        if (p->f00 > 0 && p->f00 <= 0x272)
-            v28 = (u16)p->f00;
-        if ((u16)v28 != 0)
-            return cnt;
-        cnt++;
-        return cnt;
-
+        if (Check2(p) == 0)
+            cnt++;
+        break;
     case 3:
-        v28 = 0x30;
-        if (p->f00 >= 0x21 && p->f00 <= 0x26)
-            v28 = p->f00;
-        if ((u16)v28 != 0x30)
-            return cnt;
-        cnt++;
-        return cnt;
+        if (Check3(p) == 0x30)
+            cnt++;
+        break;
     }
-    return cnt;
-
-fail:
-    flag = 0;
-    goto done;
-fail_free:
-    func_020307B0(mon);
-    flag = 0;
-done:
-    if (flag != 0)
-        func_020307B0(flag);
-    else
-        cnt++;
     return cnt;
 }
