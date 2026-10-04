@@ -33,12 +33,16 @@
  *   func_021DB7AC 0x021DB7AC thumb ov119
  */
 typedef unsigned char u8;
-extern int func_021D8A24(void *),func_020399A8(void),func_02039CB4(int,int,int),func_021D8AA8(void *);
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+extern int func_021D8A24(void *),func_021D8AA8(void *);
 extern void func_021E1098(char *),func_021DD1B8(char *),func_021DF904(void *),func_0215642C(int),func_02045CAC(int,int,int),func_021E1024(void *);
 extern void func_021DD528(char *,int),func_021DD68C(void *),func_021DF78C(void *),func_021DF7AC(void *,int),func_02082BCC(void *,int,int),func_021D8C84(void *),func_02027858(int),func_021E4420(void *),func_021E6700(void *),func_021DBB6C(char *),func_021D8E84(void *,int),func_021DA898(char *),func_021DB7AC(char *,int,int);
 void func_021DA8F8(char *p)
 {
- if(func_021D8A24(p) && !func_02039CB4(func_020399A8(),18,8)) return;
+ if(func_021D8A24(p) && !func_02039CB4((struct Link *)func_020399A8(),18,8)) return;
  func_021E1098(p);
  if(func_021D8AA8(p)) {
   func_021DD1B8(p);func_021DF904(p);

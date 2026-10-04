@@ -30,7 +30,7 @@ struct GfFont;
 struct MsgBank;
 extern int func_02034AC4(s32 handle);
 extern void func_0207D534(volatile u16 *reg, int brightness);
-extern void func_0203064C(int,int,unsigned);
+extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02024988(void *);
