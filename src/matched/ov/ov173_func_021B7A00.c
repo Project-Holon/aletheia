@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * abi: B294's result is stored and used; declare the live r0 return despite its matched void spelling.
+ * abi: B294 returns the Obj pointer stored and used by this caller.
  * symbols:
  *   func_021B7658 0x021B7658 thumb ov173
  *   func_021B76C8 0x021B76C8 thumb ov173
@@ -28,7 +28,8 @@ extern void func_021B7658(char *,void *);
 extern void func_021B76C8(char *,void *);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(u32,u16);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021B7A00(char *p,void *arg)
@@ -44,7 +45,7 @@ void func_021B7A00(char *p,void *arg)
         pos.z=d_021B85E0[i].z;
         pos.a=d_021B85E0[i].a;
         pos.b=d_021B85E0[i].h;
-        *(void **)(p+i*4+0x104)=func_0204B294(*(u32 *)(p+0x100),*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),(u32)&pos,d_021B85E0[i].c,79);
+        *(void **)(p+i*4+0x104)=func_0204B294((void *)*(u32 *)(p+0x100),*(u32 *)(p+d_021B85E0[i].d*4+0x70),*(u32 *)(p+d_021B85E0[i].e*4+0x94),*(u32 *)(p+d_021B85E0[i].f*4+0xb8),&pos,d_021B85E0[i].c,79);
         func_0204B92C(*(void **)(p+i*4+0x104),0);
     }
     func_0204B92C(*(void **)(p+0x138),1);

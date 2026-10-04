@@ -80,7 +80,8 @@ extern void func_02204BCC(void *a0, int *c);
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
-extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B404(void *, const Point *, int);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -117,7 +118,7 @@ void func_022057CC(Main *m, Info *q)
     for (i = 0; i < n; i++) {
         if (q->species[i] != 0) {
             m->h1b0[i] = func_0204A6C8(arc, func_0201BABC(q->species[i], q->form[i], q->gender[i], 0), 0, 1, m->heap);
-            m->h1c8[i].obj = func_0204B294(m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
+            m->h1c8[i].obj = func_0204B294((void *)m->h1c4, m->h1b0[i], m->h1bc, m->h1c0, d_0220A392, 1, m->heap);
             func_0204B404(m->h1c8[i].obj, &d_0220A50C[m->mode][i], 1);
             func_0204B92C(m->h1c8[i].obj, 1);
             if (q->sel == i) {

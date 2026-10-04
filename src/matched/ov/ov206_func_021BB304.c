@@ -43,7 +43,8 @@ extern u32 func_02027600(u32 a);
 extern void *func_0204AC18(void *, int, int, int, int, int, unsigned short);
 extern void *func_0204AF28(void *, int, int, unsigned short);
 extern void *func_0204A6C8(void *, int, int, int, unsigned short);
-extern void *func_0204B294(void *, void *, void *, void *, Rect *, unsigned short, unsigned short);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -100,7 +101,7 @@ void func_021BB304(Ent *p)
         p->f171 = 0x11;
         for (i = 0; i < 0x11; i++) {
             p->a[i] = func_0204A6C8(arc, func_020275F8(i), 0, flag, p->f0);
-            p->b[i] = func_0204B294(p->f24, p->a[i], p->fc8, p->fcc, &r, sh, p->f0);
+            p->b[i] = func_0204B294(p->f24, (unsigned int)p->a[i], (unsigned int)p->fc8, (unsigned int)p->fcc, &r, sh, p->f0);
             func_0204B6F4(p->b[i], func_020275EC(i), 1);
             func_0204B800(p->b[i], 2);
             func_0204B688(p->b[i], 1);
