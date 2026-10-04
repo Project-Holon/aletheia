@@ -16,8 +16,10 @@
  */
 typedef unsigned short u16;
 extern int func_021C1154(char *, int);
-extern int func_020399A8(void);
-extern int func_02039CB4(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern unsigned func_02008468(int);
 typedef unsigned char  u8;
 extern u8 *func_02012944(void *p);
@@ -29,8 +31,8 @@ int func_021C1374(char *p, int ret)
     unsigned count;
     void *q;
     if (func_021C1154(p, ret) == 0) {
-        if (func_02039CB4(func_020399A8(), 14, 10) != 0) {
-            h = func_020399A8();
+        if (func_02039CB4((struct Link *)func_020399A8(), 14, 10) != 0) {
+            h = (int)func_020399A8();
             count = func_02008468(h);
             q = func_02012944(*(void **)(p + 0xc4));
             if (func_0203D3A8((void *)h, 0xa04, count, q) != 0) {

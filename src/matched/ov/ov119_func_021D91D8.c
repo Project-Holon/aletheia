@@ -13,11 +13,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int);
 void func_021D91D8(int a,int b,const u8 *c,u8 *p,int e) {
- if(e==func_020399A8()) {
-  if(a!=func_0203D1A4(func_020399A8())) {
+ if(e==(int)func_020399A8()) {
+  if(a!=func_0203D1A4((int)func_020399A8())) {
    p[0x11f2]=c[0]; p[0x11f4]=c[1];
    *(u16 *)(p+0x107e)=p[0x11f2]*160+16;
   }

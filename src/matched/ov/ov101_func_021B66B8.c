@@ -12,7 +12,8 @@
  *   func_02039338 0x02039338 arm
  *   func_02082D44 0x02082D44 arm
  */
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned short func_02039338(void);
 extern void func_02082D44(void *,const void *,unsigned);
-void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e) { if(e==func_020399A8()) { if(a!=func_02039338()) func_02082D44(c,d+0x3c,4); } }
+void func_021B66B8(unsigned a,int b,void *c,unsigned char *d,unsigned e) { if(e==(unsigned)func_020399A8()) { if(a!=func_02039338()) func_02082D44(c,d+0x3c,4); } }

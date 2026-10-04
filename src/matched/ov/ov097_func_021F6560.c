@@ -15,7 +15,7 @@
  *   func_02082BCC 0x02082BCC arm
  */
 struct Obj0203159C;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(struct Obj0203159C *,unsigned int,unsigned int);
 extern void func_02082BCC(void *,int,unsigned int);
 int func_021F6560(struct Obj0203159C *a, int b, int c) { void *p; func_0203064C(1,0x71,0x18000); p=func_0203159C(a,0x120,0x71); func_02082BCC(p,0,0x120); *(int *)p=c; return 1; }

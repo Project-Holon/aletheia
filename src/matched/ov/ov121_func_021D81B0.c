@@ -37,7 +37,8 @@ struct U16Vec;
 extern void *func_021D6C58(u8 *p, int i);
 extern void func_021D83CC(char *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(void *,void *,int);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *,const u16 *,u32);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_020490F4(int,int);
 extern void func_02049B68(void *,int,int,int,int,int);
@@ -82,7 +83,7 @@ void func_021D81B0(u8 *p,u32 which,int heap)
     case 2:
         d.w[0]=0;
         d.w[4]=(u32)func_020457B0(37,heap);
-        func_02045994((void *)d.w[4],p+1068,37);
+        func_02045994((struct Strbuf *)d.w[4],(const u16 *)(p+1068),37);
         d.w[8]=1;
         d.h[4]=-1;
         d.h[5]=-2;
