@@ -35,12 +35,13 @@ struct IcaAnime {
     u8  f33;        /* +0x33 */
 };
 
-extern u32 func_0201214C(struct IcaAnime *p);
+struct Ctx;
+extern u32 func_0201214C(const struct Ctx *p);
 extern void func_02012158(struct IcaAnime *p, u32 v);
 
 void func_02012220(struct IcaAnime *p)
 {
-    if (func_0201214C(p) != 0) {
+    if (func_0201214C((const struct Ctx *)p) != 0) {
         func_02012158(p, 0);
         p->f33 = (p->f33 & ~1) | 1;
     }

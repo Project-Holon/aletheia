@@ -26,7 +26,7 @@ extern void func_0201D83C(u32 v);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_0203084C(u16 v);
-extern void func_020306F0(u16 v);
+extern void func_020306F0(u32 v);
 int func_021C4290(void *a, void *b, void *c, u32 *p)
 {
     u32 h;
@@ -36,6 +36,6 @@ int func_021C4290(void *a, void *b, void *c, u32 *p)
     h = p[0];
     func_020315D4(a);
     func_0203084C(h);
-    func_020306F0(h);
+    func_020306F0((u16)h);
     return 1;
 }

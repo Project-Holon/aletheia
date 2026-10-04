@@ -44,14 +44,16 @@ typedef struct {
 
 typedef struct { unsigned char a : 7; unsigned char b : 1; } FlagsF8;
 
-void *func_02012138(void *);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
 struct Ctx;
 void *func_020120F4(const struct Ctx *p);
 u8 *func_020120F8(const struct Ctx *p);
-int func_02012AC8(void *);
+struct Rec44;
+unsigned short func_02012AC8(const struct Rec44 *);
 u8 func_02012B70(const struct BigObj *p);
 u32 func_02013D5C(u32 id);
 u32 func_02026454(void *obj);
@@ -81,10 +83,10 @@ void func_0217D3AC(Ov018Menu *w)
     int flag;
     int k;
 
-    s1 = func_02012138(w->f0);
+    s1 = (void *)func_02012138(w->f0);
     s2 = func_020120F4(w->f0);
     p = func_02158344(s1);
-    q = func_02012AC8(func_020120F8(w->f0));
+    q = func_02012AC8((const struct Rec44 *)func_020120F8(w->f0));
     flag = 0;
     k = func_0217EBD8(w);
     if (p != 0 && func_02175DA8(p + 0x1AC) == 0) {
