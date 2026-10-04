@@ -29,7 +29,8 @@ extern u8 d_021D9290[];
 struct Actor;
 struct VecFx32;
 extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
-extern int func_021ABE8C(int a, int b);
+struct T;
+extern int func_021ABE8C(struct T *a, int b);
 extern void func_021ABE30(int a, int *b, int c);
 typedef unsigned int   u32;
 extern int func_021ABEA0(u32 a, u32 b);
@@ -44,7 +45,7 @@ void func_021ADD7C(int a, int b)
     func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     v.y += 0x1000;
     v.z += 0xc000;
-    if (func_021ABE8C(b, 10) == 0) {
+    if (func_021ABE8C((struct T *)b, 10) == 0) {
         n = 10;
         func_021ABE30(b, &n, 1);
     }
