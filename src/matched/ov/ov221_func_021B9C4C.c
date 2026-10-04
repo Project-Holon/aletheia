@@ -30,7 +30,7 @@ extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
 extern void func_02049238(void *);
 extern unsigned func_021B9F90(char *p);
-extern struct Obj *func_0204B294(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short,unsigned short);
+extern struct Obj *func_0204B294(void *,unsigned,unsigned,unsigned,const void *,unsigned short,unsigned short);
 extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_0204B92C(struct Obj *,unsigned);
 void func_021B9C4C(unsigned char *p)
@@ -40,7 +40,7 @@ void func_021B9C4C(unsigned char *p)
     *(int *)(p+0x48)=func_0204A6C8((unsigned)h,3,0,0,*(unsigned short *)p);
     *(int *)(p+0x50)=func_0204AF28((unsigned)h,8,9,*(unsigned short *)p);
     func_02049238(h);
-    *(struct Obj **)(p+0x54)=func_0204B294(func_021B9F90(*(void **)(p+8)),*(unsigned *)(p+0x48),*(unsigned *)(p+0x4C),*(unsigned *)(p+0x50),(unsigned)&d_021BA140,0,*(unsigned short *)p);
+    *(struct Obj **)(p+0x54)=func_0204B294((void *)func_021B9F90(*(void **)(p+8)),*(unsigned *)(p+0x48),*(unsigned *)(p+0x4C),*(unsigned *)(p+0x50),&d_021BA140,0,*(unsigned short *)p);
     func_0204B3DC(*(struct Obj **)(p+0x54),1);
     func_0204B92C(*(struct Obj **)(p+0x54),1);
 }

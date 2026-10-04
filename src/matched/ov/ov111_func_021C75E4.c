@@ -44,7 +44,8 @@ typedef struct {
     void *set[6];
 } Work;
 
-extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
+struct Obj;
+extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -61,7 +62,7 @@ void func_021C75E4(Work *p)
         pos.z = d_021C8AA0[i].z;
         pos.f7 = 0;
         pos.pri = 0x24 - i;
-        p->obj[i] = func_0204B294(p->res, p->set[d_021C8AA0[i].cell], p->set[d_021C8AA0[i].chr], p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
+        p->obj[i] = func_0204B294(p->res, (unsigned int)p->set[d_021C8AA0[i].cell], (unsigned int)p->set[d_021C8AA0[i].chr], (unsigned int)p->set[d_021C8AA0[i].anm], &pos, 0, 0x27);
         func_0204B92C(p->obj[i], 1);
     }
 }
