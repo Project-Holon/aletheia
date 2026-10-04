@@ -19,7 +19,8 @@
  */
 
 extern int func_0201C6C4(int a, int b);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02045334(int);
 extern void func_02045374(int);
 extern int func_02045730(int);
@@ -30,8 +31,8 @@ void func_021BD480(char *a, int *b)
 {
     int q;
     if (b[0] == 1
-        && func_0201C6C4(*(int *)(a + 0x140), func_02045770(b[1])) == 0
-        && func_0201C6C4(*(int *)(a + 0x140), func_02045770(b[2])) == 0) {
+        && func_0201C6C4(*(int *)(a + 0x140), (int)func_02045770((struct Descriptor *)b[1])) == 0
+        && func_0201C6C4(*(int *)(a + 0x140), (int)func_02045770((struct Descriptor *)b[2])) == 0) {
         q = b[1];
         b[0] = 0;
         func_02045334(q);

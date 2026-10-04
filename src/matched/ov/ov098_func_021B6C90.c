@@ -17,7 +17,8 @@
 
 typedef unsigned char u8;
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 
@@ -25,7 +26,7 @@ void func_021B6C90(char *p, int flag)
 {
     if ((u8)(*(u8 *)(p + 0x14) + 0xff) <= 1) {
         if (flag == 0) {
-            func_02043B5C(func_02045770(*(int *)p), 0xc);
+            func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p), 0xc);
             func_02045334(*(int *)p);
         }
         *(int *)(p + 4) = 0;

@@ -21,7 +21,8 @@ typedef unsigned int   u32;
 typedef unsigned char  u8;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern int func_02045EC0(int bank, int idx);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02045808(int);
 extern void func_0201C724(int a, int b, int c, int d, int e, int f, int g);
 
@@ -31,7 +32,7 @@ void func_021BD59C(char *p)
     *(int *)(p + 0x1FC) = func_020450F0(4, 7, 0x15, 0xB, 3, 0xE, 1);
     *(int *)(p + 0x200) = func_020450F0(4, 0x14, 0x15, 5, 3, 0xE, 1);
     s = func_02045EC0(*(int *)(p + 0x134), 0xAD);
-    func_0201C724(*(int *)(p + 0x140), func_02045770(*(int *)(p + 0x1FC)), 0, 4, s,
+    func_0201C724(*(int *)(p + 0x140), (int)func_02045770((struct Descriptor *)*(int *)(p + 0x1FC)), 0, 4, s,
                   *(int *)(p + 0x138), 0x3C40);
     func_02045808(s);
     *(int *)(p + 0x204) = 1;
