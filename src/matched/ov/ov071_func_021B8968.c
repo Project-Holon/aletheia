@@ -50,7 +50,7 @@ extern char d_021BAAA4[];
 struct Descriptor;
 int func_021B8968(int a, int *b, C *c, u8 *d)
 {
-    extern unsigned func_02045770(void *);
+    extern void *func_02045770(struct Descriptor *p);
     extern int func_0201C6C4(void *, unsigned);
     extern void func_02045334(struct Descriptor *d);
     extern void func_021B8EDC(void *);
@@ -70,7 +70,7 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
         void *q = c->f4->f8;
         u8 *s = d + i * 8;
         if (s[0x1c] != 0) {
-            if (func_0201C6C4(q, func_02045770(*(void **)(s + 0x18))) == 0) {
+            if (func_0201C6C4(q, (unsigned)func_02045770(*(void **)(s + 0x18))) == 0) {
                 func_02045334(*(void **)(s + 0x18));
                 s[0x1c] = 0;
             }

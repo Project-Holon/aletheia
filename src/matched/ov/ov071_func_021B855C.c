@@ -43,7 +43,7 @@ int func_021B855C(int a, int *p, C *c, unsigned char *d)
     extern u32 func_02012138(const struct Ctx *p);
     extern int func_02158344(int a0);
     extern void func_021B6F04(Q *, unsigned char *);
-    extern unsigned func_02045770(void *);
+    extern void *func_02045770(struct Descriptor *p);
     extern int func_0201C6C4(void *, unsigned);
     extern void func_02045334(struct Descriptor *d);
     extern void func_021B8798(C *, Q *, unsigned char *, int, unsigned);
@@ -61,7 +61,7 @@ int func_021B855C(int a, int *p, C *c, unsigned char *d)
         void *q = c->f4->f8;
         unsigned char *s = d + i * 8;
         if (s[0xc] != 0) {
-            if (func_0201C6C4(q, func_02045770(*(void **)(s + 8))) == 0) {
+            if (func_0201C6C4(q, (unsigned)func_02045770(*(void **)(s + 8))) == 0) {
                 func_02045334(*(void **)(s + 8));
                 s[0xc] = 0;
             }
