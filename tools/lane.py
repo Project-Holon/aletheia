@@ -57,12 +57,15 @@ def covered_addresses():
 
 
 def pending_addresses():
+    """Pending claims keyed by region as well as address: overlays overlap."""
     out = {}
     for path in glob.glob(os.path.join(ROOT, "src", "pending", "**", "*.c"), recursive=True):
         head = open(path, encoding="utf-8", errors="replace").read(6000).split("*/", 1)[0]
         m = re.search(r"^ \* address:\s+0x([0-9A-Fa-f]{8})", head, re.M)
         if m:
-            out[int(m.group(1), 16)] = os.path.basename(path)
+            region = re.search(r"^ \* region:\s+(\S+)", head, re.M)
+            if region:
+                out[(region.group(1), int(m.group(1), 16))] = os.path.basename(path)
     return out
 
 
@@ -127,7 +130,7 @@ def main(argv=None):
             size = end - addr
             if not (lo <= size < hi):
                 continue
-            if (region, addr) in covered or addr in pending:
+            if (region, addr) in covered or (region, addr) in pending:
                 continue
             flag = ""
             if size >= 256 and not body_has_branch(path, addr, end):

@@ -52,11 +52,35 @@ INT_TYPES = ("int", "u32", "s32", "u16", "s16", "u8", "s8", "BOOL", "unsigned", 
 
 
 class Program:
-    def __init__(self, text, func):
+    def __init__(self, text, func, source_path=None):
+        text = text.replace("\r\n", "\n")
         self.func = func
         m = re.match(r"\s*/\*.*?\*/", text, re.S)
         self.header = m.group(0) if m else ""
         rest = text[len(self.header):]
+        # Generated Obj headers contain only guarded struct definitions. Expand
+        # those definitions into variants so relocation to scratch does not
+        # strand their relative includes. Other directives retain their policy.
+        expanded = set()
+        def obj_header(include):
+            hint = include.group(1)
+            name = os.path.basename(hint.replace("\\", "/"))
+            if not re.fullmatch(r"Obj\d+\.h", name):
+                return include.group(0)
+            path = os.path.join(os.path.dirname(os.path.abspath(source_path)), hint) if source_path else ""
+            if not path or not os.path.isfile(path):
+                path = os.path.join(ROOT, "src", "matched", "include", name)
+            path = os.path.realpath(path)
+            if path in expanded:
+                return ""
+            if not os.path.isfile(path):
+                raise SystemExit("permuter: missing generated Obj header: " + hint)
+            expanded.add(path)
+            with open(path, encoding="utf-8") as stream:
+                body = stream.read()
+            return re.sub(r"^[ \t]*#.*$", "", body, flags=re.M)
+        rest = re.sub(r'^[ \t]*#[ \t]*include[ \t]+"([^"\r\n]+)"[ \t]*\r?$',
+                      obj_header, rest, flags=re.M)
         self.directives = [ln for ln in rest.split("\n") if ln.lstrip().startswith("#")]
         stripped = re.sub(r"/\*.*?\*/", "", rest, flags=re.S)
         stripped = re.sub(r"//[^\n]*", "", stripped)
@@ -1589,7 +1613,7 @@ def main(argv=None):
     lang = args.lang or h["lang"]
     region = args.region or h["region"]
     text = open(args.src, encoding="utf-8", errors="replace").read()
-    prog = Program(text, args.func)
+    prog = Program(text, args.func, args.src)
     log = (lambda s: None) if args.quiet else (lambda s: print(s, flush=True))
 
     if args.list:

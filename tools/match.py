@@ -6704,6 +6704,20 @@ def manifest_check():
     return 1
 
 
+def source_newer_than_shard(path, shard_mtime):
+    """Generated shared structs are compilation inputs, just like their C."""
+    if os.path.getmtime(path) > shard_mtime:
+        return True
+    with open(path, encoding="utf-8", errors="replace") as stream:
+        text = stream.read()
+    for hint in re.findall(r'^[ \t]*#[ \t]*include[ \t]+"([^"\r\n]*Obj\d+\.h)"',
+                           text, re.M):
+        header = os.path.join(os.path.dirname(os.path.abspath(path)), hint)
+        if not os.path.isfile(header) or os.path.getmtime(header) > shard_mtime:
+            return True
+    return False
+
+
 def cmd_manifest(args):
     if getattr(args, "check", False):
         return manifest_check()
@@ -6752,7 +6766,7 @@ def cmd_manifest(args):
             norm_rel = os.path.normcase(os.path.normpath(rel))
             if args.verify and not force and norm_rel in cached_entries:
                 smtime, e = cached_entries[norm_rel]
-                if os.path.getmtime(path) <= smtime and e.get("status") in MATCHED_STATUS:
+                if not source_newer_than_shard(path, smtime) and e.get("status") in MATCHED_STATUS:
                     by_shard[key][idx] = e
                     continue
             to_verify.append((key, idx, (path, header, kind, rel)))
