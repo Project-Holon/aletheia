@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02012AC8();
+struct Rec44;
+extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern int func_02012B28();
 extern void *func_02188CB4(unsigned char *p);
 extern int func_021A30C8();
@@ -41,7 +42,7 @@ int func_02164508(int a0, int a1, int a2)
 t5 = a2 + 0;
 a0 = t5 + 0;
 t4 = a1 + 0;
-    a0 = func_02012AC8(a0);
+    a0 = func_02012AC8((const struct Rec44 *)a0);
 loc_02164514:
 t6 = a0 + 0;
 a0 = t5 + 0;

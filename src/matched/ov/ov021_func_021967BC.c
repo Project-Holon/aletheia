@@ -21,18 +21,18 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern u32 func_020221A4();
-extern void func_02155A90(u32 a);
-extern void func_02012138();
-extern u32 func_02026454();
+struct Ctx;
+extern u32 func_02155A90(u8 *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern u32 func_02026454(void *obj);
 extern void func_02196034(void *p, u32 a, u32 b);
 
 void func_021967BC(u8 *p)
 {
     if (func_020221A4()) {
         if (*(u32 *)(p + 8) != 0xC) {
-            func_02155A90(*(u32 *)(p + 0x2E4));
-            func_02012138();
-            if (func_02026454() == 0)
+            if (func_02026454((void *)func_02012138((const struct Ctx *)
+                    func_02155A90((u8 *)*(u32 *)(p + 0x2E4)))) == 0)
                 func_02196034(p, 0, 0x361);
         } else {
             func_02196034(p, 0, 0x365);

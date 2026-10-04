@@ -72,7 +72,7 @@ struct Evt;
 struct Obj;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+u32 func_02012138(const struct Ctx *p);
 int func_02158344(void *);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void *func_020120F4(const struct Ctx *p);
@@ -93,7 +93,7 @@ int func_02180ED4(void *a, int *state, Ov018Outer *c)
     Args args;
 
     sub = func_020124E4(a);
-    v = func_02158344(func_02012138(sub));
+    v = func_02158344((void *)func_02012138(sub));
     switch (*state) {
     case 0:
         func_0201F02C(c->obj.f00, 0, c->f78);

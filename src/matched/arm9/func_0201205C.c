@@ -45,17 +45,18 @@ struct IcaAnime {
     u32 f2c;        /* +0x2C */
 };
 
-extern u32 func_020120D8(struct IcaAnime *p);
-extern u32 func_02012114(struct IcaAnime *p);
-extern void *func_0201210C(struct IcaAnime *p);
-extern u32 func_02188BE8(void *v);   /* overlay-resident */
+extern int func_020120D8(char *p);
+struct Ctx;
+extern u32 func_02012114(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188BE8(void *v);   /* overlay-resident */
 extern u32 func_020121CC(struct IcaAnime *p);
 
 void func_0201205C(struct IcaAnime *p)
 {
-    if (func_020120D8(p) == 0) {
-        if (func_02012114(p) == 1) {
-            if (func_02188BE8(func_0201210C(p)) == 1)
+    if (func_020120D8((char *)p) == 0) {
+        if (func_02012114((const struct Ctx *)p) == 1) {
+            if (func_02188BE8(func_0201210C((const struct Ctx *)p)) == 1)
                 func_020121CC(p);
         }
     }

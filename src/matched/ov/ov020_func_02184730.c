@@ -23,7 +23,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_02012A30(int a);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *p);
 extern int func_02161824(int a, int b);
 extern void func_02012374(int a, int b);
 typedef unsigned int   u32;
@@ -43,7 +44,7 @@ int func_02184730(int ctx, int *state, u8 *p)
     x = *(int *)(p + 0);
     y = *(int *)(p + 4);
     z = *(int *)(p + 8);
-    v = func_02012A30(y);
+    v = func_02012A30((const struct BigObj *)y);
 
     switch (*state) {
     case 0:

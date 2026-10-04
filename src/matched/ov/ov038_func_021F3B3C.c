@@ -70,7 +70,8 @@ extern u32 d_021F4608[];
 extern u32 d_021F4620[];
 
 extern void *func_020124E4(int a0);
-extern void *func_0201210C(void *w);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern void *func_02188CB4(void *p);
