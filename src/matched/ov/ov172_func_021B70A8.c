@@ -20,7 +20,7 @@ extern void func_0207D59C(void *, int *, int, int, int, int);
 extern void func_020307B0(void *);
 extern int func_021BE100(void);
 extern void func_021B63B8(char *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int);
 void func_021B70A8(int unused, char *q)
 {
     int matrix[4];

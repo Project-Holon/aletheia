@@ -36,7 +36,7 @@ extern void func_0201D83C(void *);
 extern void func_021B9F20(char *);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
 {
     Layer i=LAYER_FIRST;
@@ -55,6 +55,6 @@ int func_021B9748(void *owner,void *unused1,void *unused2,char *p)
     func_0201D83C(*(void **)(p+0xC));
     func_021B9F20(*(char **)(p+8));
     func_020315D4((struct S020315D4 *)owner);
-    func_020306F0((void *)0x83);
+    func_020306F0(0x83);
     return 1;
 }
