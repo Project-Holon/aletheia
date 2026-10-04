@@ -51,9 +51,11 @@ extern u32 func_0200FB24(void);
 extern void  func_0203CEAC(void (*cb)(Work *));
 extern int   func_0203D1B4(void);
 extern int   func_021736EC(Work *w);
-extern u32   func_020399A8(void);
-extern void  func_02039C68(u32 h, u32 a, u32 b);
-extern u32   func_02039CB4(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, u32 a, u32 b);
+extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
 extern void  func_0203D7BC(int a);
 extern u32 func_0203D378(void);
 extern void  func_02173580(Work *w);
@@ -79,12 +81,12 @@ int func_021730AC(int *state, Param *p, Work *w)
         break;
     case 1:
         w->timer = 0;
-        func_02039C68(func_020399A8(), 0x14, 2);
+        func_02039C68((struct Link *)func_020399A8(), 0x14, 2);
         (*state)++;
         break;
     case 2:
         w->timer++;
-        if (func_02039CB4(func_020399A8(), 0x14, 2) == 1 || w->timer > 300) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x14, 2) == 1 || w->timer > 300) {
             func_0203D7BC(0);
             (*state)++;
         }

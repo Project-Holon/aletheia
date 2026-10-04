@@ -33,7 +33,7 @@ typedef struct {
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern void  func_020307B0(void *p);
 extern u32   func_02007248(void *a, u32 b, u32 c, void *d, u32 e);
-extern void  func_0200E06C(void *p);
+extern void func_0200E06C(char *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern char  sFile_020A720C[];
 
@@ -48,7 +48,7 @@ u32 func_0200E2BC(void *a0, u32 *a1, void *heap, u32 mode)
     buf = func_02030734((u32)heap, 0x850, 1, sFile_020A720C, 0x1ac);
     for (i = 0; i < 2; i++) {
         if (func_02007248(a0, 0x3d, i, buf, 0x850) == 1) {
-            func_0200E06C(buf);
+            func_0200E06C((char *)buf);
             for (j = 0; j < 530; j++) {
                 if (mode == 1) {
                     if (key->lo != ((Key *)buf)[j].lo) continue;

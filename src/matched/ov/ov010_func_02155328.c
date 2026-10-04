@@ -58,7 +58,8 @@ struct Ctx {
 
 extern const Map2 d_0216FED8;
 extern const Map4 d_0216FEDC;
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 struct Rec44;
 struct Sub24;
@@ -72,7 +73,7 @@ void func_02155328(struct Ctx *ctx, void *party)
     int i;
 
     if (ctx->f88->f22 != 0) {
-        if (ctx->b78[func_0203D1A4(func_020399A8())] < 2) {
+        if (ctx->b78[func_0203D1A4((u32)func_020399A8())] < 2) {
             for (i = 0; i < 4; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
                 ctx->slot[ctx->b78[i]].mon = func_02012950(func_020120F4(party), i);
@@ -86,7 +87,7 @@ void func_02155328(struct Ctx *ctx, void *party)
             }
         }
     } else {
-        if (func_0203D1A4(func_020399A8()) == 0) {
+        if (func_0203D1A4((u32)func_020399A8()) == 0) {
             for (i = 0; i < 2; i++) {
                 ctx->slot[ctx->b78[i]].list = ctx->f3c[i];
                 ctx->slot[ctx->b78[i]].mon = func_02012950(func_020120F4(party), i);

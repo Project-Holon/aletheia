@@ -61,7 +61,7 @@ extern void func_0201205C(char *p);
 struct T;
 extern int func_02012380(void *p);
 extern void func_0202627C(int v);
-extern int func_02031330(int v);
+extern unsigned int func_02031330(void *p);
 extern void *func_02012A30(int h);
 extern void func_02028A14(struct T *p);
 extern void func_0202B500(int v);
@@ -79,7 +79,7 @@ int func_02011FCC(char *p)
         func_02012380(p);
         func_0202627C(*(int *)(p + 0x24));
     }
-    *(int *)(p + 0xc) = func_02031330(*(int *)(p + 8));
+    *(int *)(p + 0xc) = func_02031330((void *)*(int *)(p + 8));
     func_02028A14(func_02012A30(*(int *)(p + 0x1c)));
     func_0202B500(*(int *)(p + 0x2c));
     func_02021464(*(int *)(p + 0x1c));
