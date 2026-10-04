@@ -1,13 +1,13 @@
 /*
  * function: func_021BE8F8
  * address:  0x021BE8F8
- * packet:   pkt_021BE8F8
+ * packet:   pkt_ov210_021BE8F8
  * region:   ov210
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02043B5C  0x02043B5C  arm
@@ -21,7 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_02043B5C(u32, u32);
-extern u32  func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 typedef unsigned short u16;
 extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
 extern void func_021BE49C(u8 *p);
@@ -30,10 +31,10 @@ extern void func_021BE978(u8 *p);
 void func_021BE8F8(u8 *p)
 {
     func_021BE49C(p + 0x14C);
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x154)), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154)), 0);
     func_021BE44C(p, 1, 5, 0, 4, 0x440, 0);
     func_021BE49C(p + 0x154);
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x1AC)), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1AC)), 0);
     func_021BE44C(p, 0xC, 0xD, 0x28, 0, 0x3C40, 2);
     func_021BE49C(p + 0x1AC);
     func_021BE978(p);
