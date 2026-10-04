@@ -48,7 +48,7 @@ extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);
 extern void *func_0204AC18(void *, u32, u32, u16, u32, u32, u16);
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_0204B294(void *, void *, void *, void *, const Request *, u16, u32);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
@@ -87,7 +87,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
         shown = func_0200B214(rec, 2, i);
         if (species != 0) {
             req.x = (i << 5) + 0x120;
-            w->objs[i] = func_0204B294(owner, w->chr[i], w->pal, w->cell, &req, w->layer, heap);
+            w->objs[i] = func_0204B294(owner, (unsigned int)w->chr[i], (unsigned int)w->pal, (unsigned int)w->cell, &req, w->layer, heap);
             func_0204B6F4(w->objs[i], func_0201BB5C(species, form, gender, 0), 0);
             if (shown != 0) {
                 sub = req;
@@ -95,7 +95,7 @@ void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
                 sub.y += 8;
                 sub.a = 0;
                 sub.id = 0;
-                w->objs[i + 15] = func_0204B294(owner, w->chr2, w->pal2, w->cell2, &sub, w->layer, heap);
+                w->objs[i + 15] = func_0204B294(owner, (unsigned int)w->chr2, (unsigned int)w->pal2, (unsigned int)w->cell2, &sub, w->layer, heap);
             } else {
                 w->objs[i + 15] = 0;
             }

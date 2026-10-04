@@ -27,8 +27,8 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
-extern int func_0204B294(int, int, int, int, Sprite *, int, u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(int, int);
 void func_021E58A0(int p)
@@ -41,7 +41,7 @@ void func_021E58A0(int p)
     *(int *)(p + 0x8b0) = func_0204AF28(a, 0x17, 0x16, *(u16 *)(p + 0x5f4));
     func_02049238(a);
     s.x = 0x80; s.y = 0xb4; s.z = 2; s.a = 0xe; s.b = 0;
-    *(int *)(p + 0xf04) = func_0204B294(*(int *)(p + 0x9c4), *(int *)(p + 0x894), *(int *)(p + 0x880), *(int *)(p + 0x8b0), &s, 1, *(u16 *)(p + 0x5f4));
+    *(int *)(p + 0xf04) = (int)func_0204B294((void *)*(int *)(p + 0x9c4), *(int *)(p + 0x894), *(int *)(p + 0x880), *(int *)(p + 0x8b0), &s, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C((struct Obj *)*(int *)(p + 0xf04), 0);
     func_0204B3DC(*(int *)(p + 0xf04), 1);
 }

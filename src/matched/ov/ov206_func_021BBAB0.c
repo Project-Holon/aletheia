@@ -49,7 +49,8 @@ typedef struct S {
 extern u32 func_021BC0E4(u32 a, u32 b);
 extern int func_021BC0B0(int v);
 extern u32 func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Point *pt, u16 f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *pt, u16 f, u16 g);
 struct Actor;
 struct Node;
 extern void func_0204B800(struct Node *node, u32 val);
@@ -80,9 +81,9 @@ void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
     pt.f6 = 1;
     pt.f7 = 0;
     if (a <= 0x1ED && v != 0xFFFF)
-        p->a188[idx] = (u32)func_0204B294(p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
+        p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f180, &pt, flag2, p->id);
     else
-        p->a188[idx] = (u32)func_0204B294(p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
+        p->a188[idx] = (u32)func_0204B294((void *)p->f24, p->a174[idx], p->f17c, p->f184, &pt, flag2, p->id);
     func_0204B800((void *)p->a188[idx], 1);
     func_0204B688((void *)p->a188[idx], 1);
     func_021BBC04(p);

@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
-extern int func_0204B294(int,int,int,int,void *,int,int);
+struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B3DC(int,int);
 extern int func_021DA158(int x, int flag);
 void func_021D9AB0(char *p)
@@ -32,13 +33,13 @@ void func_021D9AB0(char *p)
         q=(unsigned)p+(unsigned)k*28;
         if(i==(int)((unsigned)k+(unsigned)*(int *)(q+0x150)+1)) {
             s.x=76+(unsigned)i*8; s.y=24; s.frame=22;
-            *(int *)(q+0x15c)=func_0204B294(h,*(int *)(p+0x26c),*(int *)(p+0x260),*(int *)(p+0x284),&s,0,50);
+            *(int *)(q+0x15c)=(int)func_0204B294((void *)h,*(int *)(p+0x26c),*(int *)(p+0x260),*(int *)(p+0x284),&s,0,50);
             k++;
         } else {
             s.x=76+(unsigned)i*8; s.y=24;
             q=(unsigned)p+(unsigned)j*28;
             s.frame=func_021DA158(*(int *)q,*(int *)(q+8));
-            *(int *)(q+12)=func_0204B294(h,*(int *)(p+0x26c),*(int *)(p+0x260),*(int *)(p+0x284),&s,0,50);
+            *(int *)(q+12)=(int)func_0204B294((void *)h,*(int *)(p+0x26c),*(int *)(p+0x260),*(int *)(p+0x284),&s,0,50);
             j++;
         }
     }

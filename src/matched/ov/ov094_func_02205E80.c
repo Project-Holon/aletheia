@@ -25,8 +25,8 @@ typedef struct {
 
 extern const Q d_0220A580;
 extern const u16 d_0220A392[];
-extern u32 func_0204B294(u32 res, u32 a, u32 b, u32 c, const void *pos, u32 f, u32 heap);
 struct Obj;
+extern struct Obj *func_0204B294(void *res, unsigned int a, unsigned int b, unsigned int c, const void *pos, u16 f, u16 heap);
 extern void func_0204B92C(struct Obj *h, u32 f);
 extern void func_0204B878(int h, u16 f);
 extern void func_0204B3DC(int h, int f);
@@ -56,7 +56,7 @@ void func_02205E80(char *m)
     o5 = 0x180;
     for (j = 0; j < 6; j++) {
         p = m + j * 8;
-        *(u32 *)(p + o3) = func_0204B294(*(u32 *)(m + o0), *(u32 *)(m + 0x110), *(u32 *)(m + o1),
+        *(u32 *)(p + o3) = (u32)func_0204B294((void *)*(u32 *)(m + o0), *(u32 *)(m + 0x110), *(u32 *)(m + o1),
                                          *(u32 *)(m + o2), d_0220A392, 1, *(u16 *)(m + 0x240));
         func_0204B92C((struct Obj *)*(int *)(p + o4), 1);
         func_0204B878(*(int *)(p + o5), q.v[j]);
