@@ -8,7 +8,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-int func_02010D98(int a0, int a1, int a2, int a3){ int t0 = func_0203133C((int)*(int *)(((char *)(a3) + 8))); int t1 = func_020315D4((int)((a0 + 0) + 0)); int t2 = func_020306F0((int)0x5b); return 1; }
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+
+int func_02010D98(int a0, int a1, int a2, int a3){ int t2; func_0203133C((struct S020314B8 *)*(int *)(((char *)(a3) + 8))); func_020315D4((struct S020315D4 *)((a0 + 0) + 0)); t2 = func_020306F0((int)0x5b); return 1; }

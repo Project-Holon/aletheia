@@ -89,7 +89,7 @@ struct Ctx;
 struct Evt;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_02012138(void *);
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 *func_02158344(void *);
 extern void func_0217F528(void *, void *, int, int, int, int);
 extern void func_021762D8(Info *, void *, int, u16);
@@ -116,7 +116,7 @@ int func_0217C4D0(void *task, int *state, Work *w)
     u8 t;
 
     sys = func_020124E4(task);
-    peer = func_02158344(func_02012138(sys));
+    peer = func_02158344((void *)func_02012138(sys));
     if (peer == 0 && *state == 0)
         *state = 8;
 

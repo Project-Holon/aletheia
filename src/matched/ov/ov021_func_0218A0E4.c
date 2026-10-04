@@ -74,7 +74,8 @@ struct FieldInput {
     u32 b10 : 1;
 };
 
-extern void *func_02012138(void *sys);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_02026474(void *p);
 extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
 struct Comm;
@@ -111,7 +112,7 @@ int func_0218A0E4(void *sys, u8 *pos)
     u32 k;
     void *m;
 
-    a = func_02012138(sys);
+    a = (void *)func_02012138(sys);
     ev = func_02026474(a);
     func_0218A4E0(&in, sys, pos);
     if (ev == 0) {

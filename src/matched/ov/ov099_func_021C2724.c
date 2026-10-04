@@ -39,7 +39,7 @@ extern int func_02156A3C(void);
 extern void func_021BCBB0(void *);
 extern void func_021BB224(char *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(u32 heap);
 int func_021C2724(void *task, int unused, char *output, char *p)
 {
     if (!func_021C2438(p)) return 0;
