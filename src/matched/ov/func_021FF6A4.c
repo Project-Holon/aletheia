@@ -87,7 +87,9 @@ extern void func_0204B3DC(u32, int);
 extern void func_021FFAEC(u32 a, u16 b, u16 c);
 extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
 extern void func_021F4EA0(u32 a, u32 b, u32 c);
-extern void func_0204B454(u32 obj, SPos *out, int c);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *obj, struct PtS *out, unsigned int c);
 
 void func_021FF6A4(Obj *p)
 {
@@ -127,7 +129,7 @@ void func_021FF6A4(Obj *p)
     func_021F4EA0(p->page, 0x37, p->pageNum + 0xa8);
     func_0204B3DC(p->page, 0);
     for (i = 0; i < 8; i++) {
-        func_0204B454(p->spr[i], &pos, 1);
+        func_0204B454((struct Actor *)p->spr[i], (struct PtS *)&pos, 1);
         p->pos[i].x = pos.x;
         p->pos[i].y = pos.y;
     }
