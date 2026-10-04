@@ -17,19 +17,18 @@
  * lives in r3), then keeps s2/s0 in r4/r5 and re-reads s0 from the arg home in the
  * loop; ours keeps a3 in r3 and spills s0 to [sp,#8]. Tried: x0 local copy, ternary
  * abs, int params with (u8) casts (worse).
- * retry: renewed wave77 exhausted, eight one runs plus first permuter300.
- * checks: 1 own B9B88 body and B9E5C caller rederived: exact own
- *   prototype has int x/y; explicit u8 argument casts retain original
- *   pre-call truncations; raster address now pointer typed;
- *   2 B9E5C full caller supplies widths, no exact walker twin;
- *   3 const a3/raster pointer and long n unchanged206B/182B;
- *   4 vendor-homing and spill-scope idioms read; long a3 and one-byte
- *   aggregate s0 unchanged; y0 copy worsens187B; forbidden volatile
- *   parameter experiment discarded (214B/100B) and removed from retained C;
- *   5 refreshed idioms and B9E5C/B9B88 neighbours, scalar spills only.
- *   Macro-free permuter baseline agrees206B/182B; winner208B/184B rejected:
- *   dy read before assignment, changed void return and sx potentially uninitialized.
- *   Final exact own B9B88 int x/y prototype compiled206B/182B,13/13 resolved.
+ * checks: 1 own B9B88 int x/y prototype and B9E5C full-word x/u8 y/endpoints rederived; runtime helper arities preserved;
+ *   2 current B9B88/B9E5C sources reread, no exact walker twin;
+ *   3 long i and int-versus-enum x/helper parameter retain208B/149B;
+ *   narrowing full-word x rejected from body evidence; raster is mutable;
+ *   4 address-taking absoluteDelta and enum a3 unchanged206B/182B;
+ *   lineSpan inline helper with both delta declarations initialized reaches208B/149B;
+ *   moving dy calculation after abs restores206B/182B; scheduling variants consumed;
+ *   5 fresh unfiltered idioms and B9B88/B9E5C neighbours reread, scalar spills only.
+ * wave78 R10: seven one calls, best208/208 with149 concrete byte differences and13/13 relocations resolved.
+ * Retained lineSpan computes exactly the original max(abs(dx),abs(dy))+1;
+ * it changes scheduling, not coordinate widths. Prologue x homing/y spill and early absolute-value sequence remain different.
+ * Earlier wave77 types300 pass consumed; invalid read-before-assignment/return-changing winner remains rejected. FINAL retry-exhausted.
  *
  * symbols:
  *   func_0209BDBC  0x0209BDBC  arm
@@ -50,18 +49,21 @@ extern int func_0209C494(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);
 extern void func_021B9B88(u8 *a, int x, int y, int c);
-
-void func_021B9AB8(int a0, int a1, u8 *a2, const int a3, u8 s0, u8 s1, u8 s2, int s3)
+static inline int lineSpan(int x, u8 y, u8 endx, u8 endy)
 {
-    int dx = a3 - s1;
-    int dy, n, t, i, sx, sy, cx, cy;
+    int dx=x-endx,dy=y-endy;
+    dx=(dx<0)?-dx:dx;
+    dy=(dy<0)?-dy:dy;
+    if(dx<=dy) dx=dy;
+    return dx+1;
+}
 
-    dx = (dx < 0) ? -dx : dx;
-    dy = s0 - s2;
-    dy = (dy < 0) ? -dy : dy;
-    if (dx <= dy)
-        dx = dy;
-    n = dx + 1;
+void func_021B9AB8(int a0, char *a1, u8 *a2, const int a3, u8 s0, u8 s1, u8 s2, int s3)
+{
+    int n, t, sx, sy, cx, cy;
+    long i;
+
+    n = lineSpan(a3,s0,s1,s2);
     t = s1 - a3;
     if (t > 0)
         t = func_0209C95C(0x3F000000, func_0209BDBC(t << 12));

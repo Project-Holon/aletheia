@@ -8,7 +8,8 @@
  * isa: thumb
  * status: DIFF
  * residue: 9 concrete bytes; scanline value and common hardware base swap r4/r5.
- * checks: 1 current 0207E3D0 interface remains three full-word inputs; 2 current ov123 neighbours have no scanline twin; 3 long i unchanged9; 4 inline BG3 getter with long parameters unchanged9, applicable hardware/getter idioms reread; 5 fresh idiom directory and ov123/ov124 neighbours checked, no closer twin or stack-object residue.
+ * checks: 1 0207E3D0 show reads pointer and two word arguments; 2 same-region60F8 and sibling table callers refreshed, no scanline twin; 3 State pointer top-level const compiled flat9; 4 hardware inline and allocator-colouring idioms read; 5 fresh full directory and same-region neighbours refreshed, no stack object. Next hypothesis: hardware-base/live-value colouring tie, no sweep authorized.
+ * wave78: FINAL retry exhausted; unsigned-long scanline with signed sum worsened11, named hardware-base pointer worsened153/176, enum scanline flat9/172 and const-p check flat9/172. Four runs, three nonshrinking changes; prior once300 search consumed, not repeated. Best prior C retained.
  * retry-budget: prior 3 iterations + 4 checks; wave26 R1 1x2 named getter/declaration
  *           sweep + one 300-candidate types permuter. Signed-int GX_GetVCount
  *           inline and v declared after n/i both stay DIFF 9, permuter stays 9.

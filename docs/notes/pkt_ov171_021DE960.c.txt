@@ -7,17 +7,13 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * note: renewed w77 pass: 220B / 158 concrete bytes differ. All 4 relocations resolve.
- *   Original frame 0x20, compiled 0x18; bestX spills in original but stays r7 here.
- *   Recovered unsigned output words from unit_02035C70, with unsigned interval comparisons.
- *   Four-bound spelling, unsigned loop and s16 best assignment compiled 236B/188 differences;
- *   enum best and const obj gave no improvement. DE5F4 returns only 0 or 6, proving loop domain.
- * checks: 1 own DE0E4 four args, DE5F4 one, 035D20 two u32 outputs; 2 DD5A8/DE684 no full twin;
- *   3 enum best and const obj compiled flat; 4 struct-slot/out-param idioms read, no justified padding;
- *   5 directory and DE684 re-read, no new twin. permuter 300 consumed; baseline 220B/158 agrees;
- *   unsigned lo winner rejected because it folds the negative-bound clamp. Next: typed sentinel web.
- *   Runtime signed remainder resolves at 0209C0A4 without a new runtime entry.
+ * status: EXACT
+ * checks: wave78 exact after five iteration calls; own callee arities re-derived.
+ *   Supersedes wave77 DIFF; matched source and shard verified after guard repair.
+ * note: Four signed bounds are computed before clamping; the guarded do loop
+ *   saves start only after its unsigned entry guard. Separate sentinel and
+ *   explicit selection arms retain the original best-index register web.
+ *   Listing after the 228-byte function and pool is rodata from 021DEA44.
  * symbols:
  *   func_021DE0E4  0x021DE0E4  thumb ov171
  *   func_021DE5F4  0x021DE5F4  thumb ov171
@@ -35,14 +31,16 @@ extern int func_0209C0A4(int, int);
 
 int func_021DE960(char *obj)
 {
-    unsigned int out2;
     unsigned int out1;
+    unsigned int out2;
     s16 win[2];
     s16 p1;
     s16 p2;
+    s16 bestX;
     int start;
     int best;
-    s16 bestX;
+    int sentinel;
+    unsigned int end;
     int i;
 
     if (func_02035D20(&out1, &out2) == 0)
@@ -50,44 +48,50 @@ int func_021DE960(char *obj)
 
     i = (s16)func_021DE5F4(obj);
     best = -1;
-    start = i;
-    bestX = 0;
+    sentinel = -1;
+    end = i + 6;
 
-    for (; i < start + 6; i++) {
-        if (*(int *)(obj + 0x0b74 + i * 4) != 0) {
-            func_021DE0E4((unsigned char *)obj, i, &win[1], &win[0]);
+    if ((unsigned int)i < end) {
+        start = i;
+        do {
+            if (*(int *)(obj + 0x0b74 + i * 4) != 0) {
+                func_021DE0E4((unsigned char *)obj, i, &win[1], &win[0]);
 
-            p1 = win[1];
-            p2 = win[0];
+                p1 = win[1];
 
-            {
-                s16 lo, hi;
+                {
+                    s16 lo, hi, ylo, yhi;
 
-                lo = p1 - 0x30;
-                hi = p1 + 0x30;
-                if (lo < 0) lo = 0;
-                if (hi > 0xff) hi = 0xff;
+                    lo = p1 - 0x30;
+                    hi = p1 + 0x30;
+                    p2 = win[0];
+                    ylo = p2 - 0x30;
+                    yhi = p2 + 0x30;
+                    if (lo < 0) lo = 0;
+                    if (hi > 0xff) hi = 0xff;
+                    if (ylo < 0) ylo = 0;
+                    if (yhi > 0xff) yhi = 0xff;
 
-                if (out1 < lo) continue;
-                if (out1 >= hi) continue;
+                    if (out1 < lo) continue;
+                    if (out1 >= hi) continue;
 
-                lo = p2 - 0x30;
-                hi = p2 + 0x30;
-                if (lo < 0) lo = 0;
-                if (hi > 0xff) hi = 0xff;
+                    if (out2 < ylo) continue;
+                    if (out2 >= yhi) continue;
+                }
 
-                if (out2 < lo) continue;
-                if (out2 >= hi) continue;
+                if (best == sentinel) {
+                    bestX = p2;
+                    best = (s16)(i - start);
+                } else if (p2 > bestX) {
+                    bestX = p2;
+                    best = (s16)(i - start);
+                }
             }
-
-            if (best == -1 || p2 > bestX) {
-                bestX = p2;
-                best = i - start;
-            }
-        }
+        } while ((unsigned int)++i < end);
     }
 
-    if (best == -1)
+    if (best != -1)
+        return (best % 6) + 5;
+    else
         return 0xff;
-    return (best % 6) + 5;
 }

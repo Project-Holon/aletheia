@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: W77 DIFF22, compiled828/original828,62/62 resolved. Separate active-loop progress improves24 to22; source/progress homes and lerp operand registers remain. Nine one runs; iteration stopped after three nonshrinking changes following best22.
- * checks: W77 1 exact own callee definitions copied, preserving pointer vs word return types and argument counts, run8 unchanged22; 2 current8140/8254/8444 callers reread; 3 long coordinate locals inert on35 variant, mixed long lerp progress worsened346 in run9, best22 restored; 4 separate-loop-local/stack/arithmetic-type idioms read, split source worsened35, both scheduling variants consumed; 5 complete directory and current neighbours refreshed; declared Vec storage already agrees. Prior permuter300 consumed and not repeated.
+ * residual: W78 DIFF22, compiled828/original828,62/62 resolved; source/progress homes and lerp operand registers remain. Four one runs; three nonshrinking changes stopped iteration, best original retained; FINAL retry-exhausted.
+ * checks: W78 1 own BA184/218/250/238/228/240/208/24C/148/1D8/22C and F4E definitions reread; 2 current8140/8254/8444 callers refreshed; 3 const source p unchanged22; 4 compound lerp statements and reordered inline lerp arguments each unchanged22, relevant local-scope/stack/arithmetic idioms read; 5 complete directory and current neighbours refreshed, declared Vec storage already agrees. Prior permuter300 consumed, not repeated.
  * ABI: 021BA24C stores r1 with strh and returns (021BA24C/24E); original
  *      021B8DBC forwards the full timer without a truncation, so its extern
  *      parameter is unsigned int, matching its own definition; the full word is preserved.

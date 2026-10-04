@@ -11,7 +11,8 @@
  * residual: 440/444 bytes; missing add r5, sp, #0 at +0x10c, then byte-copy register shift; 146 concrete bytes differ, 13/13 relocations resolved.
  * semantics: unrestricted size addition and payload length subtraction use unsigned 32-bit operations before casting to int, preserving the original ARM word wrapping without a fabricated input-range constraint.
  * renewed-pass: wave77 R17 five fixed compiles: inline copy helper, four-byte local array, one-word length struct all unchanged146 close iteration; unsigned flags and length self-assignment checks unchanged146. Two scheduling/extraction variants consumed. Prior once300 search consumed, unsafe best rejected; not repeated.
- * checks: 1 current own 7D30/7CC0/7808/891C/89EC and allocator caller8C14 confirm interfaces; 2 current ov125 callers show four full-word parameters without an exact stack-copy twin; 3 unsigned flags unchanged146, preserved unsigned size wrapping; 4 inline helper/local aggregate/self-assignment unchanged146, stack-copy idioms reread; 5 fresh idiom listing and ov124/ov125/ov126 neighbours checked, no closer twin.
+ * checks: 1 current own7D30/7CC0/7808/891C/89EC and allocator caller8C14 plus own02092344 pointer-return/u32 count confirm interfaces; 2 current ov125 callers no exact stack-copy twin; 3 unsigned-long flags unchanged146,payload already const,size wraps unsigned; 4 integer-address helper and byte-storage length unchanged146,stack/aggregate idioms reread; 5 fresh idioms and7770/7D30/891C/89EC neighbours reread,no closer twin; next sweep none.
+ * wave78: R4 three changed calls flat440/444,146 bytes; once300 already consumed,not repeated.
  * symbols:
  *   d_021D9E40 0x021D9E40 data a4
  *   func_021D7CAC 0x021D7CAC arm ov125
@@ -35,7 +36,7 @@ extern int func_021D89EC(int);
 extern int func_021D891C(int);
 extern char *func_021D7C7C(u32);
 extern int func_021D7D30(void);
-extern void func_02092344(void *, const void *, int);
+extern void *func_02092344(void *, const void *, unsigned int);
 int func_021D7A10(int id, const void *payload, int flags, int size)
 {
     char *packet;

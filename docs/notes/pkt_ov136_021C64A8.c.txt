@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * residual: 212 bytes, DIFF11; only the joined 0/1 tail differs at +0098..00A6.
+ * residual: historical DIFF11; wave78 resolved by src/matched/ov/ov136_func_021C64A8.c (currently pending until guard fix), EXACT in 3 runs. Named q plus explicit if/else fix tail reload and arm polarity; old body below retained as historical evidence.
  * lever: enum-typed ACTIVE local in the inline setter fixes the whole second
  *   loop: 0x1F0 remains in r7 and movs r1,#1 is emitted inside each iteration.
  * checks: 1 own ARM9 hardware/setter units and six overlay definitions read;

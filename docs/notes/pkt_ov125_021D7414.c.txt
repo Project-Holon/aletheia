@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 85E8 veneer->7BDC reads no args; own 3F1FC body returns u16 and takes const u8* plus u32, true prototype unchanged7; 2 current 7374/7540 neighbours and DIFF74D8 supply no exact shadow twin; 3 long i unchanged7; 4 aggregate-copy/load scheduling idioms checked; 5 fresh idiom directory and ov124/ov125/ov126 neighbours supply no closer twin or stack-object residue.
+ * checks: 1 matched 0203F1FC defines u16(const u8 *,u32), own7374 confirms argless85E8; 2 current7374/73E0 and sibling search show no shadow-loop twin; 3 long max compiled flat7; 4 u64-field and aggregate/scheduling idioms read; 5 fresh full directory and neighbours refreshed, no stack aggregate residue. Next hypothesis: shadow/live scalar colouring tie, no further sweep authorized.
+ * wave78: FINAL retry exhausted; u64 XOR worsened150/172, signed shadow locals worsened75/160, direct pair expression worsened25/160; long-max check retains7/160. Four runs, three nonshrinking changes; prior once300 search consumed, not repeated. Best prior C retained.
  * Residue: 160 bytes, all five relocations resolved; 7 concrete bytes differ in shadow0/live0 register rotation and load scheduling at +48..+60.
  * retry-budget: prior 4 iterations + 3 checks; wave26 R1 1x4 typed-record/helper
  *           sweep (first two scratch layouts invalid: copied 196-byte range from

@@ -8,20 +8,24 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee definitions/SDK bodies inspected; 2 matrix/fill twins inspected; 3 const Ent pointer worsened133; 4 relevant idioms inspected; 5 permuter300 baseline62 agrees, winner57 selfassign rejected.
+ * checks: 1 own BE054/BE05C/8B8C/8BAC and SDK bodies re-derived; 2 BA0BC/BE054 no full twin;
+ *   3 const Ent loadRow pointer compiled flat15; 4 inline/struct-slot idioms read;
+ *   5 fresh directory and matched neighbours read. Prior permuter300 consumed; no repeat.
+ * wave78-final: 960B / 15 differing bytes, 22/22 relocations. Integer byte address inside
+ *   loadRow reduces62->15; u32 dst, inline matrix initializer, bit order all flat15.
+ *   FINAL retry exhausted; scale register, one store timing and bit/height spill slots remain.
  * volatile: WIN0H/WIN0V/WIN1H/WIN1V stores 021B72BA/72BC/72C0/72C2 to 04000040/44/42/46.
  * wave77: 6 iteration + 1 check compile; DIFF960/62, 22/22 relocs. Named rowBase reduced110->62.
  *   Scale enum/long bit/Bit enum/long rowBase flat; signed Ent.h trial invalid and discarded.
  *   Const Ent pointer worsened133. Permuter300 consumed, selfassign winner rejected.
- *   Next: distinct typed height/index web or inline destination helper. Both scheduling variants consumed.
+ *   The renewed inline destination helper is retained below.
  * note: 2026-10-02 first pass, 110 bytes left, control flow and all calls match. Keys: the mode==0
  *   block is the if arm of an if/else that holds the rest (own `b end`, not the shared trampoline);
  *   halving is `/= 2` (lsrs plus hoisted field pointers), doubling `<<= 1`; size is w * h * 2.
  *   Residue: (1) scale select lands in r0 then `lsls r5, r0`, the original selects straight into r5
  *   (ternary, if/else + `<<= 12`, `* 0x1000`, block-scoped scale all inert); (2) spill slots for
  *   bit and h are swapped (orig bit sp+0x10, h sp+0x14; declaration order and block scope inert);
- *   (3) inner ECF0 call: original loads ent.h first and keeps ent.w in r3 until the size arg, ours
- *   loads ent.w first (u16 *dst, &dst[..] form, j + h - eh form, distributed offset all inert).
+ *   (3) inner ECF0 row arithmetic and field load order now agree with an integer byte address.
  *   func_021B8B8C/8BAC take `int unused` in their matched definitions, hence (int)p.
  * symbols:
  *   func_021BE05C 0x021BE05C thumb ov172
@@ -101,13 +105,21 @@ extern fx32 func_0207C778(fx32 v);
 extern void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1);
 extern int func_0202EB14(void);
 
+static inline void loadRow(u8 *dst, int w, u16 h, int j, Ent *e)
+{
+    int rowBase;
+    rowBase = h - e->h + j;
+    func_0207ECF0((void *)((u32)dst + rowBase * w * 2 + (w - e->w) * 2),
+                  e->x * 2 + (j + e->y) * 512, e->w * 2);
+}
+
 void func_021B71B8(void *p, Work *s)
 {
     int mode;
     u32 big;
     u32 base;
     u8 *dst;
-    long bit;
+    unsigned long bit;
     u16 h;
     u8 k, n;
     int w, idx, j;
@@ -228,10 +240,7 @@ void func_021B71B8(void *p, Work *s)
                     }
                 }
                 for (j = 0; j < s->ent[k].h; j++) {
-                    int rowBase;
-                    rowBase = h - s->ent[k].h + j;
-                    func_0207ECF0((u16 *)dst + rowBase * w + (w - s->ent[k].w),
-                                  s->ent[k].x * 2 + (j + s->ent[k].y) * 512, s->ent[k].w * 2);
+                    loadRow(dst, w, h, j, &s->ent[k]);
                 }
             }
             s->f10 -= (u8)bit;

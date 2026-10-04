@@ -9,8 +9,8 @@
  * isa: thumb
  * status: DIFF
  * followers: unlabelled leaves begin at 021FD4D0 and 021FD4F8, followed by already-matched 021FD52C; permuter skipped because these followers are omitted.
- * residual: four bytes at +34/+36, copy length add and source-address add trade places; 96-byte lead in a 224-byte extent, 4/4 relocations resolved.
- * checks: w77 renewed: 1 own 084BC/173E8 definitions and SDK ABI confirm arity/width; 2 D22C/D2B8/D350 twins refreshed; 3 enum n unchanged4, u16 n rejected DIFF70/104 bytes, mandatory u32 n/k unchanged4; 4 enum base/offset copy inline unchanged4, argument-binding/const-source idioms read; 5 fresh directory and ov132 neighbours. Four fresh one runs; enum baseline complete log in tool transcript. Permuter skipped solely because the 224-byte extent contains omitted followers D4D0/D4F8/D52C. Exhausted.
+ * residual: W78 four bytes at +34/+36, copy length add and source-address add trade places; 96-byte lead in the current 188-byte inferred extent, 4/4 relocations resolved.
+ * checks: W78 1 own 084BC/173EC definitions and 82D44 copy ABI confirm arity/width; 2 D22C/D2B8/D350 twins refreshed; 3 unsigned long n unchanged4, source already const; 4 length inline and base/offset inline each unchanged4, argument-binding/const-source idioms read; 5 current directory and ov132 neighbours refreshed. Four one runs, best original retained. Permuter skipped because omitted followers D4D0/D4F8 lie in the inferred extent ending at D52C. FINAL retry-exhausted.
  * symbols:
  *   func_020084BC 0x020084BC thumb
  *   func_020173EC 0x020173EC thumb

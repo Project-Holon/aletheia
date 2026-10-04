@@ -7,14 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 172 bytes compiled, 118 concrete bytes differ; extraction and weight scheduling/register allocation.
- * checks: 1 own arm9 callee source confirms four arguments and signed int return, corrected prototype compiled; 2 no twin in ov106/ov120/ov121/ov122; 3 int weight gives 168 bytes/151 differs, s16 restored; 4 inline helper same118, reordered locals125, mutable table same118; 5 refreshed idiom listing/neighbours, u8/u16 stack inputs, no stack object.
- * wave77: renewed three iterations plus check3 (4 one runs), best172/118.
- *           Scalar channel helper and later weight computation give172/125;
- *           enum green gives176/163; const palette stays172/118. Checks1..5 complete.
- *           First eligible once300 search consumed: macrofree emitted baseline
- *           agrees172/118; 300 candidates give no improvement. Archive wave25/S16
- *           had only rejected CLI, no earlier compiler search. Do not rerun search.
+ * residual: 172 bytes, 118 concrete bytes differ; channel extraction, weight scheduling and register allocation.
+ * checks: 1 own 02061CA4 reads all four arguments and returns int; 2 AB50 shares blend but no matched ov120/121/122 twin; 3 unsigned slot stays118, wide helper inputs stay118; 4 per-channel-shift and narrow-type idioms reread; 5 fresh idiom directory and matched/pending neighbours, no aggregate or stack-object residue.
+ * wave78: 5 one runs; flat direct blend118, blue-first122, wide helper118 exhaust three nonshrinks; both scheduling variants consumed. Prior once300 search consumed, not repeated. FINAL retry-exhausted.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a4
  *   func_02061CA4 0x02061CA4 arm

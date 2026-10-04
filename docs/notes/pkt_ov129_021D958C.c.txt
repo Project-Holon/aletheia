@@ -8,12 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own DA158 int/B878 pointer/u16,93D4 const-pointer,9320/9564 byte-pointer interfaces corrected and validated unchanged460/420; 2 matched93D4 and8FA0 confirm fields, no complete twin; 3 long flag/long next unchanged; 4 inline state-store helper unchanged, third draft initially unused corrected withincheck4; 5 unfiltered idiom directory and93D4/9348/9760/97CC neighbours refreshed; no addressed stack object.
+ * checks: 1 current own DA158 int(int,int),B878 void(pointer,u16),93D4 const-pointer,9320/9564 byte-pointer and9348/8AF4/9E48/9E98/9EE8 current definitions copied; 2 current93D4/9348 no complete twin; 3 long flag unchanged460/420; 4 const-array and enum-offset/crossjump idioms reread,raw unsigned-long offset unchanged420,enum worse430,switch-to-if unchanged420; 5 fresh idioms and93D4/9348/9564 neighbours refreshed,no addressed stack object; next sweep none.
+ * wave78: R4 four calls,three nonshrinking iteration changes closed; prior once300 consumed,not repeated.
  * residual: DIFF460/468 (-8),420 concrete bytes,19/19 relocs; first guard foldsbeq+b intobne and runtime record index keeps elementpointer instead of original scaled offset.
  * runs: w77/R19:8 one; three nonshrinking iteration drafts (long i/enumvalue/unused helper), two check3, corrected called helper check4, two strict-definition check1 calls including pointer handle field correction. Prior P300 consumed, not repeated.
  * history: Prior bounded-array repair460/420 retained. Old P300468/287 rejected because tmpassignment beforecase was bypassed and tmp2.state changedlocalcopy instead ofp[i].state.
  * bounds: B8 original 85C0 allocates 0x34C but can copy 36 incoming bytes to +330 without guards (021D8624..8634), so counts and index +188 are not bounded by 12. Runtime record loads/stores use unsigned 32-bit address arithmetic, and unsigned i preserves i+1 wrapping; guarded index<=11 path retained.
- * scratch: scratchpad/overlay-newpass-20261003-w77/R19
+ * scratch: scratchpad/overlay-newpass-20261004-w78/R4
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_021D93D4 0x021D93D4 thumb ov129

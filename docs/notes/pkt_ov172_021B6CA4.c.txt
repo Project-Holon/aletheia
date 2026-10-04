@@ -14,6 +14,13 @@
  *   4 enum and struct-slot idioms read, no valid padding; 5 directory and 6E5C re-read, no twin.
  *   Permuter 300 consumed, baseline 54B agrees; emitted baseline has a data-witness difference;
  *   volatile n winner rejected. Other long locals flat. Next: coordinate pair type / CSE slot.
+ * wave78-final: origin coordinate pair54/440; reverse dy383/440; enum cx/cy54/440;
+ *   three nonshrinks. Enum i check61/440. Best previous C retained.
+ * checks-w78: 1 own6E5C5args widths and four runtime converter/add/sub bodies reread;
+ *   2 BD43C runtime caller reread no drawing twin; 3 enum i worsened61, signed loop;
+ *   4 pair/declared-struct idioms read; 5 fresh idiom directory and6E5C reread.
+ *   CSE y row slot remains earliest instead of last; prior permuter consumed;
+ *   no repeated search, FINAL retry exhausted.
  * note: 2026-10-02 (relaunch) 65 bytes left, logic and loop shape now match. Keys found: the glyph
  *   table is const (g->w/g->h loads are not killed by the calls, which gives the hoisted bound and
  *   the guard that reuses w); w/h are u32 (lsrs); lx/ly compare against the previous px/py;

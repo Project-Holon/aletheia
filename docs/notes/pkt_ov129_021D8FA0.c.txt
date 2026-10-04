@@ -8,13 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own DA158 int return, B878 pointer/u16,93D4 const pointer,9320 byte pointer and ARM9 key-unit signatures copied; 2 no full twin, neighbours retain record/table shape; 3 byte changed and long next unchanged840/714; 4 named int row and unsigned-long column helper improves to842/576; 5 unfiltered idiom directory and93D4/9E48/9E98/9EE8/9760 neighbours refreshed, declared stack Table idiom read.
+ * checks: 1 fresh own DA158 int(int,int),B878 pointer/u16,93D4 const-pointer,9320 byte-pointer,ARM9 key units unsigned(void) and061E4 void(unsigned) confirmed; 2 current8F78/92E4/9760 and sibling124/128/123 no full twin; 3 const parameter worse583,long n unchanged576; 4 raw table expression worse714,unsigned-long changed unchanged576,int-row/long-column and declared-stack/const-array idioms read; 5 fresh unfiltered idioms and own/sibling neighbours reread; next sweep none,three nonshrinking changes ended iteration.
  * residual: DIFF842/836 (+6),576 concrete bytes,25/26 relocs; frame0x48 versus0x44, extra entry pushr3/spills; table data d_021DA75C remains unresolved at+2E8.
  * runs: w77/R19:6 one; three nonshrinking iterations long n/long offset/helper table, then two check3 and one check4. Checks improved without reopening iteration. Prior P300 consumed, not repeated.
  * history: Prior840/714 modular-address repair retained; old836/644 array spelling rejected for unknown runtime domain. Old P300 best changedvoidreturn, rejected; never rerun.
  * evidence: All runtime table/record addresses retain unsigned32 arithmetic including row*20 andcolumn*4 beforeintpage binding. Cursor/count updates retain modular32 behavior. Helper full-word int andunsignedlong do not narrow addresses or indices.
  * bounds: 85C0 nonzero argument copies nine unchecked words to+330; 89C4 sums counts into+23C. Physical12-record allocation does not bound index188 or i+1. Signed cursor1B8/1BA initialized0 but full callback domain not proved; both table reads and record fields use unsigned32 raw addresses, cursor/count updates preserve modular32 arithmetic.
- * scratch: scratchpad/overlay-newpass-20261003-w77/R19
+ * wave78: R4 four one calls; best842/836,576 concrete,25/26 relocs preserved. Earlier once300 consumed, not repeated. Unresolved data is not an owner blocker while concrete bytes differ.
+ * scratch: scratchpad/overlay-newpass-20261004-w78/R4
  * symbols:
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm

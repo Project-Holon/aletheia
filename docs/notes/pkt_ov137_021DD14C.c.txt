@@ -8,14 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched DE6EC and fresh ARM9 show confirm 7E51C three word arguments;
- *   2 DD2E0/DE6EC neighbours read, Pair count/frame shares the two adjacent pool bases;
- *   3 enum i remains DIFF56; const p and reuse of unused as counter remain DIFF56;
- *   4 enum/index/table-field/reload idioms read; observed State fields and pointer
- *   object replace raw integer pointer payloads, no byte improvement;
- *   5 fresh unfiltered idiom directory and DD2E0/DD5AC/DE6EC read; no aggregate
- *   stack local. Two scheduling variants used; next hypothesis accessor-shaped table.
- * runs: wave77 renewed 3 iteration + 2 checks; old permuter300 consumed,
+ * checks: 1 own callee callers DE6EC plus fresh ARM9 show confirm 7E51C three word arguments; 2 DD2E0/DE6EC neighbours reread, no full twin; 3 const p unchanged56 in wave78; 4 long-index and distinct-arithmetic-types idioms read, long i56/mutable table59/signed i56; 5 fresh idiom directory, neighbours and sibling source checks, no stack object. No further sweep: retry exhausted.
+ * runs: wave78 FINAL 3 iteration + 1 check, three nonshrinks; wave77 3 iteration + 2 checks; old permuter300 consumed,
  *   unsafe volatile winner rejected previously, not repeated in this pass.
  * residual: DIFF56/88; index/counter register colours swap, table base CSE
  *   omits the second pool load and shifts later branches. No unresolved sites.

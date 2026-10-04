@@ -13,7 +13,8 @@
  * prior-checks: 1 clear helper reads pointer/fill/full-word length, own ov121 DE2A0 confirms three arguments; 2 fresh same-region callers have no initializer twin; 3 long c/d flat at DIFF11, int/u32 b added truncation and worsened to DIFF37; 4 logical halfword placement worsened to DIFF13 and parameter-register idiom fits remaining rotation; 5 unfiltered idiom listing and DE2A0/97C8/9828/986C neighbours re-read. Next named hypothesis: typed record member grouping, outside this exhausted retry.
  * retry: renewed wave77 pass exhausted; earlier exhaustion did not exclude this run.
  * wave77-runs: typed State record 11/44; unsigned c/d 11/44; signed b 34/48; check3 State *const 11/44. Three consecutive nonshrinking changes; four fixed one runs, prior 300 search not repeated.
- * checks: 1 current DE2A0 and clear helper confirm three full-word inputs; 2 initializer neighbours and sibling callers refreshed, no twin; 3 State *const compiled flat11 after width iterations; 4 register-colouring and typed record idioms inspected; 5 fresh unfiltered directory and DE2A0/DE2F0/DE300 read, no new lever. Next hypothesis: independent long type for the initialized value's source register.
+ * checks: 1 clear helper show confirms pointer/fill/word length; 2 current DE2A0 and same-region callers refreshed, no initializer twin; 3 u16-pointer parameter compiled flat11; 4 inline and allocator-colouring idioms read; 5 fresh directory plus DE2F0/DE300 and sibling search refreshed, no stack object. Next hypothesis: parameter-home allocator tie, no sweep authorized.
+ * wave78: FINAL retry exhausted; four runs: independent long c, reordered inline initializer parameters, unsigned-long d and u16-pointer check all flat11/44. Three nonshrinking changes; prior once300 permuter consumed and not repeated. Best prior C retained.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  */

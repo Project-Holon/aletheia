@@ -6,9 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * checks: W77 1 exact own callee return/parameter types, current ARM9 units and shards verified before compiling; 2 current75E0/8A30/8140/94C0 agree; 3 unsigned long count and long total inert; 4 unsigned modular oy and enum-opposite inline helper inert, negation/FX_Mul/stack/spill idioms read; 5 complete idiom directory and current ov133/ov112 neighbours refreshed. Prior permuter300 consumed and not repeated.
+ * checks: W78 1 own callee definitions and ARM9 prototypes reread; 2 current75E0/7A70/7CFC/8A30 neighbours refreshed; 3 s16 delta/int rx and enum count each unchanged282; 4 enum negation worsened663/960 bytes, two-statement negation worsened668/960 bytes, negation/stack/spill idioms read; 5 complete idiom directory and current neighbours refreshed. Prior permuter300 consumed, not repeated.
  * status: DIFF
- * residual: W77 DIFF282, compiled956/original956, 33/33 resolved; early negation folds one instruction and count/ry spills differ. Five one compiles; three nonshrinking changes stopped iteration; required post-stop width check inert. One parser-only invocation lacked addr and never compiled.
+ * residual: W78 DIFF282, compiled956/original956, 33/33 resolved; early negation folds one instruction and count/ry spills differ. Five one runs; scheduling attempts stopped after nonshrinking changes, required width checks inert, best original retained; FINAL retry-exhausted.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133

@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: renewed 1 own cursor/mask/context/position/allocator/task definitions reread, void* used for local structs; 2 B2B0 and ov112_6D68 refreshed no closer twin; 3 enum wait and void* ctx DIFF23, actual SDK const-source declaration DIFF23; 4 declared stack array and enum inline parameters DIFF23, stack/scope idioms read; 5 unfiltered directory and ov132/ov112 neighbours refreshed.
+ * checks: 1 own cursor/mask/context/position/allocator/task definitions reread; 2 B2B0 reread, no closer twin; 3 u32 rate unchanged23, u16 i with explicit byte steps unchanged23; 4 flat u32 coordinate locals25, stacked coordinate record23; 5 unfiltered directory/neighbours refreshed, declared stack object/scope idioms read.
+ * wave78: FINAL retry exhausted; 5 one runs, best DIFF328/32823 retained,19/19 relocations resolved. Both scheduling variants consumed. Earlier P300 consumed/rejected for changed cursor reads, not repeated.
  * renewed-pass: six compiles, same-size328 DIFF23 with19/19 resolved; x/y/z/wait/context/index spills remain; two manual scheduling variants exhausted.
  * permuter: earlier once300/types best22 rejected because its mutation swapped z/wait cursor reads; consumed search was not repeated.
  * symbols:

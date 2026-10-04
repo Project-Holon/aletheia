@@ -9,12 +9,15 @@
  * lang: c99
  * status: DIFF
  * checks: 1 current own SDK Process/Response/Shutdown/GetLastError/97E0
- * and memcpy bodies rederived; memcpy returns void*. 2 current 8F2C/941C
- * and same-region shared-data callers read, no exact twin. 3 u16 helper
- * byte temporaries gave 1044/43; full-width locals also 43, unsigned Hdr
- * fields retained; no entry parameter to narrow. 4 aggregate/pointer/enum
- * and inline-wrapper idioms read. 5 full unfiltered idiom listing and
- * current ov114/115/116 neighbours refreshed; no new exact lever.
+ * and memcpy bodies rederived; memcpy returns void pointer and takes uint size.
+ * 2 current 8F2C/941C/8C68/87FC and sibling poller lack an exact twin.
+ * 3 nonconst response unchanged40; unsigned state unchanged40, byte Hdr fields
+ * retained; no entry parameter to narrow. 4 aggregate/pointer/enum, const source
+ * and inline-wrapper idioms reread. 5 full unfiltered idiom directory and
+ * live ov114/115/116 neighbours refreshed; no new exact lever.
+ * retry-wave78: FINAL retry-exhausted: five compiled one calls baseline1044/40,
+ * direct Hdr assignment with own memcpy ABI1044/40, temporary Hdr1068/713,
+ * unsigned state1044/40, nonconst response1044/40. Three nongains STOP.
  * residual: 1044/1044 bytes, 40 concrete bytes out, all 34 sites resolve.
  * fresh pass: macro-free expansion and memcpy ABI repair flat; reversed
  * inline arguments flat; explicit byte locals worse. Three nongains STOP.
@@ -52,7 +55,7 @@ extern void DWCi_EncSessionShutdown(void);
 extern u32 DWCi_EncSessionGetResponse(u32 *);
 extern int DWC_GetLastErrorEx(int *,int *);
 extern int func_021C97E0(unsigned);
-extern void *func_02092344(void *,const void *,u32);
+extern void *func_02092344(void *,const void *,unsigned int);
 static inline void copyHdr(Hdr *out,const Hdr *in)
 {
     *out=*in;

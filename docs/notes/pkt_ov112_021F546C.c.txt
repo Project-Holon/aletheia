@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 no callees; 2 same-region neighbours have no twin; 3 unsigned long mode and enum x/y unchanged; 4 long-index/multiply idioms reread; 5 full idiom directory refreshed, no stack aggregate or safe rescue.
+ * checks: 1 no callees; 2 live 5438/5444/5464/5518 neighbours have no twin; 3 nonconst input gave170/157, rejected; 4 long-index/multiply, integer base and aggregate idioms reread; 5 unfiltered directory and live neighbours refreshed, no stack aggregate rescue.
+ * retry-wave78: FINAL retry-exhausted after five fixed one calls: baseline170/153, enum index/unsigned address, split index, inline Slot copy all170/153; nonconst Input170/157. Three nongains STOP; previous once300 remains consumed. Size-zero plan entry is a real unlabelled Thumb start, listing extent172.
  * retry: wave77 authorized renewed pass: baseline plus unsigned long index, compound index/p step, long Vec fields, unsigned long mode and enum x/y: six fixed one calls, all170B/153. Three consecutive iteration nongains stopped; older wave64 variants preserved in archive.
  * permuter: archive/legacy check found no consumed earlier search; mandatory once300 --types now consumed. Macro-free emitted baseline170B/153 agreed; best188B/100 added volatile(y), rejected without adoption or recompile. Output preserved in wave77/R10/021F546C_permuter.c.
  * residue: compiled 170 vs original 172; 153 concrete bytes differ after missing index copy shifts remaining layout.

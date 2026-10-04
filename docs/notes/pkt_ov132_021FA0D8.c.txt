@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 5725C/A3A8 arities2/3 and ARM9 unit020056A0 sub02005728 u32(u32) copied; signed runtime scalar retained; 2 fresh A4AC/A3A8/9FEC, no full twin; 3 byte round unchanged5, signed byte round worsened418/199; 4 explicit byte row-base418/182, unsigned row-base414/8, count struct unchanged5; 5 fresh directory and neighbours, declared stack-object idiom reread.
+ * checks: 1 5725C/A3A8 own definitions and ARM9 unit020056A0 random u32(u32) reread, scalar signed divider retained; 2 A4AC/A3A8/9FEC reread, no full twin; 3 u16 round with explicit byte step unchanged5; 4 scoped round and inline shuffle both unchanged5; 5 unfiltered directory/neighbours refreshed, stack object and scope/inline idioms read.
+ * wave78: FINAL retry exhausted; 4 one runs; best DIFF414/4165 retained. Both manual scheduling variants consumed. Prior P300 consumed, not repeated.
  * Wave77: five runs; best DIFF414/416 five stack-slot bytes. New byte/unsigned row bases182/8; byte round unchanged5; signed byte round199; count struct unchanged5. Prior permuter300 not repeated.
  * residue: round and row-times-12 spill slots exchange sp+4/sp+8 at +B0/D4/DC/114/118; compiled body 414, original extent 416 includes 2 alignment bytes.
  * next: row-times-12 CSE and round homes remain exchanged; independent scalar home versus CSE creation order remains.

@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 no callees; 2 matched97CC gives no full twin; 3 long value/mutablep unchanged; 4 enumcountoffset/longcounter/rawunsignedaddress unchanged; 5 unfiltered idiom directory and97CC/93D4 neighbours refreshed; no stack aggregate.
+ * checks: 1 no callees; 2 97CC/93D4 reread, no full twin; 3 long count and long count field both remain DIFF4; 4 count/offset/struct pointer idioms read; 5 unfiltered idiom directory and neighbours refreshed, no stack aggregate.
+ * wave78: FINAL retry exhausted; 3 one runs. Fresh baseline DIFF58/60 with4 concrete bytes; long count/field did not alter scratch r2. Prior P300 consumed, not repeated. Best prior C retained.
  * residual: DIFF58/60 (-2 alignment bytes),4 concrete bytes; countload addressscratchr2 instead ofr4.
  * runs: w77/R19:5 one; three nonshrinking iteration changes followedtwo check3 calls. Prior P300 consumed, not repeated.
  * history: Old longcounter/u8flag/typedrecords/declaration order failed; priorP300 best4/58 retained without another search; new rawaddress spelling preserves32-bit modular record indexing.

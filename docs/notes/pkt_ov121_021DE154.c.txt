@@ -12,7 +12,8 @@
  * residual: 332/332 bytes, 9 concrete bytes differ in scheduling at +0036..0040; seven relocations resolved by fixed one.
  * permuter: macro-free emitted baseline confirmed by fixed one; search best stayed 9 bytes, exit 1; no candidate accepted.
  * wave77-runs: const Pair table cast 9/332; const signed-byte tables 9/332; direct target member assignment 9/332; check3 State *const 9/332. Three consecutive nonshrinking changes; four fixed one runs; prior 300 search not repeated.
- * checks: 1 signed and unsigned runtime helper arities remain two full-word inputs, named calls preserve admitted zero; 2 ov121 DE308 and sibling neighbours refreshed, no interpolation twin; 3 State *const compiled flat9; 4 const-source and copied-pair scheduling idioms inspected; 5 full directory and DE2F0/DE300/current neighbours read, no stack scratch object. Next hypothesis: signed-long index home preserving decoded u16 field extraction.
+ * checks: 1 runtime helpers remain two word arguments; 2 DE308 and sibling table callers refreshed, no interpolation twin; 3 named u16 index and State *const compiled flat9; 4 long-index/coordinate-copy scheduling idioms read; 5 fresh full directory plus DE2F0/DE300 refreshed, no stack scratch-object residue. Next hypothesis: table-index shift scheduling tie, no sweep authorized.
+ * wave78: FINAL retry exhausted; named signed-long index, unsigned-long index, u16 index and State *const all flat9/332, four runs. Three nonshrinking changes; prior once300 consumed, not repeated. Best prior C retained.
  * symbols:
  *   d_021DF858 0x021DF858 data a2
  *   d_021DF822 0x021DF822 data a1

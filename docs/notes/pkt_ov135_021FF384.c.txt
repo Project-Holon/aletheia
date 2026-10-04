@@ -8,12 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * residual: renewed wave77 pass exhausted; canonical prototype spelling DIFF181, compiled248/original240; zero retained inr7 instead of color.
- * checks: 1 own ARM945EC0/45808 types copied, ov13591A0/91DC seven-argument listings and matched callers reread; canonical u16 sixth parameter DIFF181/248; 2 C8CC/CA8C/FF474/7F9C twins reread; 3 s16 and unsigned-long color each DIFF181/248, read-only win slots const variant DIFF62/238 while iterating; 4 enum color assigned after first allocation reached DIFF8/238 only with widened sixth extern; zero enum worsened, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
- * runs: wave77 5 iteration + 4 checks; no new permuter.
+ * residual: FINAL W78 retry exhausted; DIFF181, compiled248/original240; zero retained inr7 instead of color; canonical baseline retained.
+ * checks: 1 own ARM945EC0/45808 definitions reread,91A0/91DC show stackldrh for sixth argument and seven args; 2 currentC8CC/CA8C/FF474/7F9C callers reread; 3 u16 color DIFF181/248, const window slots DIFF183/248; 4 enum color DIFF244/262, enum/narrow-argument/constant idioms read; 5 complete idiom directory/currentC8CC/CA8C refreshed, no stack aggregate. Sixth extern remains observed u16; no divergent width sweep justified.
+ * runs: W78 4 one runs; three nonshrinking width/qualifier/enum hypotheses; no new permuter.
  * permuter: earlier budget400 seed10601 already consumed per legacy pkt_021FF384 note; not repeated.
  * hypothesis: scratch ff_own.c is DIFF8/238 with enum color and u32 sixth extern. It is not the parked canonical C: matched callers use u16 and callee021F91A8/021F91C6 reload the slot withldrh; no own matched definition exists. Preserve the narrower observed prototype until stronger evidence.
- * next: remaining hypothesis is the first zero/color/store/shift interleave; no scheduling budget remains.
+ * next: FINAL retry exhausted; no automatic requeue. First zero/color/store/shift interleave remains unresolved.
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm

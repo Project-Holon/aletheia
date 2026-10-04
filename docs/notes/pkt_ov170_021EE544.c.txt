@@ -19,7 +19,12 @@
  *   neighbours, original56B pool slots0188/DCC/370 versus bestDCC/370/0188.
  * permuter: prior300 consumed; emitted33 disagreed fixed35, winner21 had
  *   changed void return and CCERR, rejected; no repeated search.
- * next-hypothesis: table-source selection retaining original target pool first.
+ * wave78-final: target pointer initialized before selection (raw and Pair)42/52;
+ *   enum index42/52 rejected signed branch; three nonshrinks. Best recheck31/56.
+ * checks-w78: 1 own EFA4 verified5args/u8; 2 fresh ov170/171 search no twin;
+ *   3 const p37/56; 4 table/integer-base idioms reread; 5 fresh directory and
+ *   EFA4 reread, no addressable aggregate. Prior permuter consumed, not repeated.
+ * next-hypothesis: inline selected-table helper without extending target pointer web.
  * symbols:
  *   d_021F0188 0x021F0188 data a1
  *   d_021F0DCC 0x021F0DCC data a1

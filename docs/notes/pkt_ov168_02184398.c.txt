@@ -7,11 +7,12 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: CCERR
  * checks: 1 matched CBC heap u32, allocator heap/size u32 and tag u16, getter u32, fill pointer/u32/u32; restored prototypes plus explicit narrowing DIFF75, inline u16 wrappers also75 (two compiles); 2 02183B60/021844C8 callback and payload twins read; 3 const payload unchanged18 before signature correction; 4 enum-width/stack-parameter/register-colouring idioms read; 5 fresh unfiltered idiom directory, 0218441C/021844C8/02183B60 read; no ov167/ov169 matched/pending sources; no declared stack scratch object. Next hypothesis narrow-argument wrapper with distinct heap enum, no further sweep this pass.
  * retry: renewed wave77: three iterations18/112 (allocator ABI/site correction, unsigned long address, callback pointer), one check3 run18, two check1 runs75; stop at three nonshrinks.
  * permuter: first and only 300 types search consumed this pass before final prototype correction; emitted baseline agreed fixed-one18/112, no improvement; no winning mutations and no repeat.
- * residual: valid matched-callee prototypes DIFF75/112, six of six relocations resolved; original repeats heap truncation before each call while compiled CSE reuses it.
+ * residual: OWNER-BLOCKED definition conflicts: matching 02034F84's actual void(void) definition makes the caller's explicit argument8 CCERR. ARM9 allocator 02030734 fourth const char* and fifth u16 conflict with original r3=0x603/[sp]=d_02184A20. Do not retry before owner repair.
+ * evidence78: 021843AC loads r0=8; 02034F88 forwards r0 into r1 despite void(void) declaration. 021843B6 stores d_02184A20 at [sp], 021843BC loads r3=0x603. One caller compile with own matched void(void) prototype exited1 CCERR; no declarations repaired.
  * evidence: old DIFF18 depended on incorrect u16 heap externs for CBC and allocator; own CBC(u32), sub_02030734(u32,u32,int,const char*,u16), unit_02006D44 getter u32 retained. Caller show +0008/+000a and +0020/+0026 narrows heap twice. Old size enum avoids constant-folding to 104 bytes.
  * symbols:
  *   d_02184A20 0x02184A20 data
@@ -26,7 +27,7 @@
 extern const char d_02184A20[];
 extern void func_02006CBC(unsigned int);
 extern unsigned int func_02006D94(void);
-extern void func_02034F84(int);
+extern void func_02034F84(void);
 extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern void func_02082BCC(void *, unsigned int, unsigned int);
 

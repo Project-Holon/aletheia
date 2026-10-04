@@ -7,13 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 200 bytes, 124 concrete bytes differ; coefficient narrowing and channel scheduling/registers.
- * checks: 1 readonly 02061CA4 body reads all four argument registers; 2 related 021DAAA4 note has same blend, no exact ov120/ov121/ov122 twin; 3 int weight and const palette parameters in iteration no improvement, const table targeted compile stays124; 4 channel-shift/narrow-type idioms read, direct loop worsens; 5 refreshed idiom listing/neighbours, no twin or stack object.
- * wave77: renewed three iterations plus check3 (4 one runs), best200/124.
- *           Scalar channel helper gives204/151; enum weight and long loop each
- *           give208/160; const palette stays200/124. Checks1..5 complete, three
- *           nonshrinking iterations exhausted; previously consumed once300 not rerun.
- * budget: 4 iteration runs, first nonshrinking run 2, three consecutive nonshrinking; check3 1/2; ordering variant 1/2; permuter 300 used once, only volatile-add(last) candidate rejected.
+ * residual: 200 bytes, 123 concrete bytes differ; channel extraction/coefficient narrowing and register allocation.
+ * checks: 1 own 02061CA4 reads all four arguments and returns int; 2 AAA4 shares blend, no matched ov120/121/122 twin; 3 s16 loop gives204/151, wide helper124 and wide end204/153; 4 per-channel-shift/narrow-type idioms reread; 5 fresh idiom directory and matched/pending neighbours, no aggregate or stack-object residue.
+ * wave78: 6 one runs; blue-first improves124 to123; wide helper124, pack126 and wide end153 exhaust three nonshrinks; both scheduling variants consumed. Prior once300 search consumed, not repeated. FINAL retry-exhausted.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a4
  *   func_02061CA4 0x02061CA4 arm
@@ -27,8 +23,8 @@ static inline u16 blend(u16 first,u16 last,s16 weight)
 {
     u8 green=(u8)((first&0x3e0)>>5);
     u16 end=last;
-    u8 red=(u8)(first&31);
     u8 blue=(u8)((first&0x7c00)>>10);
+    u8 red=(u8)(first&31);
     u8 eb=(u8)((end&0x7c00)>>10);
     blue=(u8)(blue+(((eb-blue)*weight)>>12));
     red=(u8)(red+((((u8)(end&31)-red)*weight)>>12));

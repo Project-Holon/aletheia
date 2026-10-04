@@ -9,7 +9,7 @@
  * isa: thumb
  * status: DIFF
  * residue: 4 concrete bytes; adds r2,#0x7c exchanges order with adds r1,r6,r7.
- * checks: w77 renewed: 1 own 173E8/3996C/3D3F8 definitions and SDK copy ABI reread; corrected 3D3F8 u32 return/eight u32 parameters, const copy-source and u32 length DIFF4; explicit return of its result DIFF4 (FCAA8 reads r0). 2 D22C/D2B8/D350 twins refreshed; 3 const p, enum n unchanged4; 4 enum-length inline unchanged4, argument-binding/const-source idioms read; 5 directory and ov132 neighbours refreshed. Three iteration runs plus two checks; first two complete logs in tool transcript. Earlier once300/types consumed, not repeated; exhausted.
+ * checks: W78 1 own 173EC/3996C/3D3F8 definitions and 82D44 three-argument copy ABI reread; 2 D22C/D2B8/D350 twins refreshed; 3 unsigned long n unchanged4, source already const; 4 length inline and base/offset inline each unchanged4, argument-binding/const-source idioms read; 5 current idiom directory and neighbours refreshed. Four one runs, best original retained. Earlier once300/types consumed, not repeated; FINAL retry-exhausted.
  * symbols:
  *   func_020173EC 0x020173EC thumb
  *   func_02082D44 0x02082D44 arm

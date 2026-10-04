@@ -9,7 +9,8 @@
  * isa: thumb
  * status: DIFF
  * residual: same-size 576 B, 23 concrete bytes in indexed lookup load order/register colours.
- * checks: 1 own 0207D760 and SDK headers identify G3i_FrustumW_, nine arguments, and G3_RotZ two. 2 611C/61D8/5678 neighbours lack a twin. 3 unsigned long entry address and full32 camera enum unchanged. 4 full SDK texture/polygon inlines and fx32-long signature spelling unchanged. 5 unfiltered directory refreshed; long-index/record-pointer idioms reread.
+ * checks: 1 own G3i_FrustumW_ nine long/int/pointer arguments and G3_RotZ two long arguments reread. 2 live 611C/61D8/5678 lack a twin. 3 const Data read retains576/23. 4 integer-base, long-index, unsigned index and SDK hardware-inline idioms reread. 5 unfiltered directory and live neighbours refreshed.
+ * retry-wave78: FINAL retry-exhausted after five fixed one calls: baseline576/23, typed Entry pointer576/32, unsigned long sub576/23, const Index576/23, const Data576/23. Three nongains STOP; prior once300 remains consumed. Best baseline retained.
  * retry: permuter --budget 300 --types baseline/best both DIFF 23; operand order reduced 29 to 23.
  * retry-wave77: six fixed one calls: baseline plus texture inline, polygon inline, SDK fx32 spelling, unsigned long entry and camera enum; all576B/23. Three consecutive iteration nongains stopped. Wave58B9 permuter300 remains consumed; no repeated search.
  * volatile: 0x04000440,0x04000450,0x040004AC,0x040004A4,0x04000470,

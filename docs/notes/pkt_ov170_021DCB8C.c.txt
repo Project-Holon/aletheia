@@ -19,7 +19,13 @@
  *   3 const p compiled tied14; 4 enum-zero/inline/stack idioms read;
  *   5 fresh idiom directory/neighbours, pal out-object frame already agrees.
  * permuter: prior600 anneal seed10501 consumed, plateau14; not repeated.
- * next-hypothesis: original zero-web lifetime boundary after fourth49B68.
+ * wave78-final: baseline14/556, canonical F34 third u32 and address cast14;
+ *   u8 counter106/560, unsigned-long counter14/556; three nonshrinks.
+ * checks-w78: 1 own matched definitions reread; F34 cast keeps canonical arity;
+ *   2 ov171 DCA7C/ov170 ED094 reread no closer twin; 3 u16 counter106/560;
+ *   4 repeated-constant/basic-block idiom read, no original control-flow gap;
+ *   5 fresh directory and neighbours, pal object frame agrees. Prior permuter
+ *   consumed, no repeated search. Best retained; FINAL retry exhausted.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049658 0x02049658 arm
@@ -51,7 +57,7 @@ extern void func_02049658(void *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02049740(void *p, u32 a, u32 b, u32 c, u32 d, u16 e);
 extern void func_020498F4(void *p, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049238(void *p);
-extern void *func_02049F34(u32 arc, u32 file, void **out, u32 heap);
+extern void *func_02049F34(u32 arc, u32 file, u32 out, u32 heap);
 extern void func_02040E78(u32 a, void *src, u32 b, u32 ofs);
 extern void func_020307B0(void *p);
 extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
@@ -81,7 +87,7 @@ void func_021DCB8C(unsigned char *p)
     func_02049B68(h, 0x3F, 0, 0x180, 0x40, 0x4C);
     {
         void *pal;
-        void *res = func_02049F34(func_020275E4(), 0x1F, &pal, 0x804C);
+        void *res = func_02049F34(func_020275E4(), 0x1F, (u32)&pal, 0x804C);
         u8 *d = ((u8 **)pal)[3];
         u32 ofs = 0x194;
         func_02040E78(0, d + 0x34, 4, ofs);

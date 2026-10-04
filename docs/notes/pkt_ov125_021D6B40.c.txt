@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov11499F4 uses u32/u32 including p+1 integer arithmetic; own9A14 uses u8*/u32; true prototypes and casts unchanged103; 2 current 7064/7154/71D8 and sibling124/126 neighbours have no closer twin; 3 one-word result array unchanged103; 4 inline getter for first command-data call improves103->102; 5 fresh idiom directory and current matched neighbours checked.
+ * checks: 1 current own ov114/ov125 callee interfaces plus ARM9 B784/45F5C read; 2 7064/7154/71D8 and sibling124/126 neighbours refreshed, no closer twin; 3 signed-int result flat102; 4 struct-slot/declaration-scope and overwritten-local idioms read; 5 fresh full directory and current neighbours refreshed, stack grouping worsened106. Next hypothesis: declaration scopes for distinct command-data lives, outside exhausted retry.
+ * wave78: FINAL retry exhausted; initial compile CCERR from saved header's stray star-slash token, fixed here; three-word stack struct106/1132, reversed struct106/1132; signed-int result check102/1132. Four runs including CCERR, no new permuter because prior once300 already consumed. Best102 retained.
  * retry: wave60 seven runs; after two improvements, three nonshrinking changes stop iteration, followed by one own-interface check; prior permuter300 skipped, volatile result mutant rejected and baseline scorer136 disagreed with fixed140.
  * renewed-pass: wave77 R17 six fixed compiles. Full-body inline extraction258, one-word result104, _Bool status103 close iteration after three nonshrinking verdicts; true interfaces103, result array103, first getter inline102. Two scheduling/extraction variants consumed; old failed once300 search not repeated.
  * residual: 1132 versus1136, 102 concrete bytes; result at sp0 rather than sp8, first data sp4 correct, second data sp8 rather than sp0; case3 result store still cross-jumps onto case2, leaving tail two bytes early. All50 relocations resolved.
@@ -99,7 +100,7 @@ extern void *d_020A7370;
 static inline char *get_command_data(void) { return func_021D7700(); }
 int func_021D6B40(char *p,u32 *out)
 {
-    u32 result=0;
+    int result=0;
     const char *data;
     Status ok;
     u8 *received;

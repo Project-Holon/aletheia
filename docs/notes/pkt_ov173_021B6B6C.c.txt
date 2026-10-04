@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own7460 rederived void(char*,u32); 2 current815C/817C twins and6174 caller read; 3 signed-char n compiled unchanged48/15; 4 inline byte-store helper, enum offset and enum flag unchanged or worse; 5 fresh unfiltered idioms and matched neighbours reread, no stack object.
+ * checks: 1 own7460 rederived void(char*,u32); 2 current815C/817C twins and6174 caller reread; 3 u32 flag local unchanged48/15; 4 struct flag/kind stores, typed State parameter and enum-valued inline word setter unchanged48/15; 5 fresh unfiltered idioms and matched neighbours reread, no stack object.
+ * wave78 R10: six one calls; three nonshrinking iterations, then width and field-pointer-helper checks, followed by retained-C validation48/15. Prior types300 pass consumed. FINAL retry-exhausted.
  * renewed wave77: iteration3 nonshrinks plus check3 one run; helper and enum-offset manual extraction variants spent. Previous types300 search and worse52/29 temporary winner remain consumed; no repeat. Exhausted renewed pass.
  * residual: 48 versus 52 bytes; 15 concrete byte differences from offset sharing after byte store.
  * symbols:

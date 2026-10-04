@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 copied own-definition 4913C heap u32, retained original caller u16 cast; 490F4 ID u32; current49238 definition takes arc pointer. 2 no ov112/111/113 twin. 3 unsigned long heap/unused unchanged; no const destination or narrowed full32 mode. 4 home-store/pointer-add idioms reread. 5 unfiltered directory and neighbouring sources refreshed.
+ * checks: 1 current own loader/allocator/size/archive callees reread; retained full32 mode comparisons and caller's visible u16 conversion. 2 no ov112/111/113 twin. 3 unsigned long kind unchanged; no const writable destination. 4 home-store, pointer-add and vendor homed-parameter idioms reread. 5 unfiltered directory and live neighbours refreshed.
+ * retry-wave78: FINAL retry-exhausted after five fixed one calls: baseline296/274, full32 enum kind296/274, inline byte write296/274, signed fullword kind296/274, unsigned long kind296/274. Three nongains STOP; wave39 once300 remains consumed. Best baseline retained.
  * residual: DIFF274, 296/296 bytes, 18/18 sites resolved; missing mode reload at +0x0e shifts following code. Wave77 seven calls: baseline, fullword kind, long sizes, inline size header, long heap, long unused, exact-definition ABI correction; all unchanged. Three consecutive iteration nongains; check1 one, check3 two; wave39B8 once300 retained.
  * rejected: permuter DIFF206 reads p+0x2c before original size store, then adds size4 twice to the block pointers. Diagnostic only; not ported or recompiled.
  * ABI: entry r3 mode is preserved full32 for both unsigned >=4 tests; byte store does not prove a narrow parameter. Entry stack heap remains u32 for loaders/allocator; 4913C caller alone visibly truncates16. C6D8 returns u32 address; 49238 current matched asm has one void* input. 30734 fifth tag is u16; scalar260 supplies original slot bits.

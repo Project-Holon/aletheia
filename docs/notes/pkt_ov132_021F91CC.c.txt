@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 02061CA4 four args and s32 return copied, exact u32 third parameter verified166; 2 fresh 879C caller, no full twin; 3 wide tmp and const channel pointers DIFF185; 4 enum offsets/green-mask widths/raw-address clean body worsened, named green packing unchanged166; 5 fresh directory and neighbours.
+ * checks: 1 own 02061CA4 int(void*,u32,u32,int) reread, exact declaration retained; 2 879C caller reread, no full twin; 3 u16 counter with explicit byte step unchanged166, u16 color unchanged166; 4 phase shared-store252/240 and fullword masks252/204 worsened; 5 unfiltered directory and neighbours refreshed, no stack aggregate.
+ * wave78: FINAL retry exhausted; 5 one runs. Best DIFF256/256166 retained; prior P300 consumed, not repeated. No declaration repair or protected writes.
  * residual: Wave77 seven runs; best DIFF256/256166. Named offset body221, unsigned offset/mask223, raw-u32 base216; corrected ABI unchanged166; width/const185; named green unchanged166; strict prototype unchanged166. Prior permuter300 not repeated; p/offset homes and channel temporary lifetimes remain.
  * ABI: Own 02061CA4 definition is int(void*,u32,u32,int); caller's output address is kept as a full-word unsigned local.
  * symbols:

@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched 021E19C0 and 021E15DC each take two arguments, shows agree; 2 DEE4C table twin read; 3 long target unchanged26; 4 enum/stack-struct/pool scheduling idioms read, unbounded extern unchanged26; 5 fresh unfiltered idiom directory, ov137 E0570/DEE4C and ov136 C5E30 read, no ov138 matched/pending sources; stack object remains declared struct. Next hypothesis distinct unsigned row and signed column arithmetic types, no further sweep this pass.
- * retry: renewed wave77: three iteration runs (raw unsigned table26, target-first101, typed Selected26), check3 one run26 and check4 one run26; stop at three nonshrinks.
+ * checks: 1 own matched 021E19C0 and 021E15DC definitions reread, each two arguments; 2 DEE4C table twin reread; 3 const Obj parameter worsens29 in wave78; 4 int-row/unsigned-long-column and distinct-arithmetic-types idioms read, mixed arithmetic39/int step26/local order26; 5 fresh idiom directory and E0570/DEE4C reread, no ov138 sources; declared stack struct matches sp-relative read. No further sweep: retry exhausted.
+ * retry: wave78 FINAL 3 iteration + 1 check, three nonshrinks; wave77 three iteration + check3 + check4, stopped at three nonshrinks. Recorded C remains the best26 spelling.
  * permuter: earlier 300 types search consumed, unchanged26; not repeated.
  * residual: 26 concrete bytes at 116/116, r4/r5/r6 rotation and table-index load scheduling.
  * symbols:

@@ -18,6 +18,12 @@
  *   n/a no addressable aggregate, residue is scalar spills/register rotation.
  * permuter: prior300 consumed; winner109 rejected uninitialized q/signature
  *   change, not repeated. Next hypothesis: selected-slot address web type.
+ * wave78-final: all enum offsets169/176, off-only158/164; unsigned selected
+ *   address web114/160 ties best; three nonshrinks. u16 flag check114/160.
+ * checks-w78: 1 no calls; 2 DD10C/DD38C same-region callers reread no twin;
+ *   3 u16 flag flat, not retained absent width proof; 4 enum-offset idiom read;
+ *   5 fresh directory/neighbours no twin, no addressable stack aggregate.
+ *   Prior permuter consumed; best prior C retained, FINAL retry exhausted.
  * symbols:
  *   d_021DEC94 0x021DEC94 data a4
  */

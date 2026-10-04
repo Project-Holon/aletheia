@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * resolved: wave78 R1 inline signed-long fxmul((time/3)*offset,s)
+ *   reproduces 252 bytes EXACT; retained in src/matched/ov/ov112_func_021F7D30.c.
  * checks: 1 own-definition prototypes copied exactly with typed raw word/pointer loads; one check1 call preserves best. 2 full7BA8/7AEC/7FAC/7E2C/7ECC read. 3 unsigned long offset restores frame and size, long angle worse. 4 signed product and reversed factors worse; FX idioms reread. 5 long/u16 offset worse; directory and neighbours refreshed. Both input pointers written.
  * residual: original252B, safe best252B/16; only+44..52 integer multiply and 64-bit operand allocation differ. Unsigned long offset recovers original sp4 home and all subsequent instructions.
  * budgets: wave77 eleven calls: baseline plus three iteration nongains; check3 two, check4 two, check5 two, check1 one. Scheduling/extraction2 consumed across iteration/check4; all terminal. Wave39B10 once300 retained, never repeated.

@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: W77 1 final own-definition BA184/228/218/208 and F4EA4/E8C types, plus matched8A30 prototype for unmatched765C; own ov133/ov112 sources, current matched BG and B404 callers reread; u32 handle and const Vec input corrected; 2 current95AC/9784 agree; 3 long then unsigned long distance inert, signed->unsigned is exact because all uses already cast to unsigned sum; 4 radial-distance inline helper inert, FX_Mul/stack/spill/unsigned-sum idioms read; 5 complete directory/current neighbours refreshed; stack-object storage already declared. Prior permuter300 consumed and not repeated.
- * residual: W77 final canonical DIFF591, compiled644/original640, 51/51 resolved; historical best DIFF6/640 used divergent scalar widths. Run7 applies matched8A30 prototype (u8*,u16,s16,int,u16), callee stack ldrh at021B7706 and own-definition return/argument types; caller adds narrowing pair for initial and shifts listing by4. Do not restore divergent extern. Seven one runs; three nonshrinking changes stopped iteration.
+ * checks: W78 1 ownBA184/228/218/208 and ov1124EA4/E8C definitions reread, matched8A30 retained for unmatched765C; R6 confirms fifth argument stackldrh; 2 current95AC/9784 and ARM9 BG/B404 definition reread; 3 unsigned-long inline initial result DIFF591/644; 4 direct float argument and u16-return inline initial helper each DIFF591/644, float/stack/enum/narrow-argument idioms read; 5 complete directory/current neighbours refreshed, declared Vec/Pos retained. Prior permuter300 consumed and not repeated. No divergent fifth-parameter sweep justified.
+ * residual: FINAL W78 retry exhausted; DIFF591, compiled644/original640,51/51 resolved; first extra narrowing pair after_ffixu shifts remaining listing by4. Keep observed u16 fifth extern; baseline best retained. W78 four one runs, three nonshrinking inline/width hypotheses.
  * symbols:
  *   func_021B765C 0x021B765C thumb ov133
  *   func_021BA184 0x021BA184 thumb ov133

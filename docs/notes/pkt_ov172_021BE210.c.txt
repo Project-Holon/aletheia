@@ -5,6 +5,7 @@
  * region: ov172
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
  * prior note 2026-10-02: 36 bytes differ, only the placement of the third-call arg load (ldr r2,[sp]); original loads it after the 8-byte table copies, ours hoists it above them. Tried: struct-local, pointer-to-struct local, block-init, volatile arg, const-less externs.
@@ -17,7 +18,8 @@
  *   In the original the [sp] reload behaves as if it may alias the byte stores
  *   (ldr r1,[r5,r4] and ldr r2,[sp] both stay after the copies, in source order);
  *   ours treats [sp] as a private spill slot and fills the ldrb/strb stall with it.
- * checks: 1 own definitions confirm three-input getters; 08510 tag is int; 45808 uses U16Vec* and B9A0 Actor*, both validated unchanged34; 2 E05C/getter bodies and matched neighbours reread; 3 const source improved36 to34, long index unchanged full word; 4 declared-stack-object/const-source/parameter-spill idioms read; 5 fresh unfiltered idioms and matched neighbours reread, declared B4/Vec2 storage agrees with original.
+ * checks: 1 own definitions confirm three-input getters, 08510 void*(void*,int), 45808 U16Vec*, B404 const Vec2*, B9A0 Actor*; 2 E05C/getters and DD6C current caller reread; 3 full-word unsigned long arg unchanged208/34, removing const p worsens208/36; 4 nested table/point block and inline copy4 unchanged208/34; 5 fresh unfiltered idioms and neighbours reread, declared B4/Vec2 stack storage agrees with original.
+ * wave78 R10: five one calls; baseline plus three nonshrinking changes and const check. Keep original simpler best C; prior types300 consumed. FINAL retry-exhausted.
  * renewed wave77: aggregate Frame and Tail variants worse; full-word long index unchanged36; iteration3 nonshrinks, checks2, winner validation1.
  * permuter: first types300 search consumed; macro-free emitted baseline agrees208/34. Best208/4 narrows arg long->u8 plus two temporaries; rejected narrowing. Full-word winner validation returns208/34; retain simpler best.
  * residual: 208/208, 34 concrete bytes, 12/12 relocations; third getter's r2 spill reload hoists above the two byte copies. Exhausted renewed pass; no repeat of this search.

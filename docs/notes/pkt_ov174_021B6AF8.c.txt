@@ -5,9 +5,11 @@
  * region: ov174
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own formatter/destructor/constructor/three-input setter rederived; corrected12944 return u8* validated100/5; 2 6704/68F8/6A04 and matched siblings reread; 3 const p first CCERR for three nonconst overlay calls, explicit mutable call casts validated unchanged100/5 (2/2); 4 integer row/unsigned-long column/enum-row helpers unchanged100/5; 5 fresh unfiltered directory and matched neighbours reread, no stack object.
+ * checks: 1 own formatter/destructor/constructor/setters rederived, 12944 own definition returns u8*; 2 6704/68F8/6A04 plus typed step-table twin6A90 reread; 3 mutable p unchanged100/5, u16 offset worse102/89; 4 four-byte Record pointer, named full-word offset and StepObj fields unchanged100/5; 5 fresh unfiltered directory and matched neighbours reread, no stack object.
+ * wave78 R10: five one calls; three nonshrinking iterations, mutable-parameter and typed-step-object checks. Prior types300 consumed; FINAL retry-exhausted.
  * renewed wave77: three nonshrinking iterations plus check1 and two check3 calls; full-word signed-base/unsigned-long offset retained. Old types300 search already consumed, not repeated. Exhausted; next manual hypothesis needs fresh evidence.
  * residual: five concrete bytes at +000A/+000C/+000E; 100/100, seven relocations resolved. Source computes row scaling after pointer load; image scales first.
  * symbols:
@@ -29,7 +31,7 @@ static inline u8 *rowLookup(u8 *p,u8 row)
 {
     return *(u8 **)(p+64)+(row<<2);
 }
-void func_021B6AF8(const u8 *p)
+void func_021B6AF8(u8 *p)
 {
  u8 *desc; u8 index,code; void *res;
  desc=(u8 *)((int)*(u8 **)(p+64)+((unsigned long)*(u8 *)(p+137)<<2));

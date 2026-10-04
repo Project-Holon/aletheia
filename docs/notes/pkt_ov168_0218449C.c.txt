@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 no calls; 2 own matched 021844C8 confirms int return and data object, no twin; 3 mutable Samples parameter unchanged6; 4 long-index/loaded-byte-bound/const-register idioms read; 5 fresh unfiltered idiom directory, 0218441C/021844C8/02183B60 read; no ov167/ov169 matched/pending sources, no stack object. Next hypothesis genuinely distinct inline index type, no further sweep this pass.
- * retry: renewed wave77: three iteration runs (typed input6, unsigned data address6, inline byte magnitude6), one check3 run6; stop at three nonshrinks.
+ * checks: 1 no calls; 2 matched 021844C8 confirms int return and samples object; 3 const Samples parameter unchanged6 in wave78; 4 long-index/declaration-colouring idioms read; 5 fresh idiom directory and 0218441C/021844C8/02183B60 reread, no ov167/ov169 sources and no stack object. No further sweep: retry exhausted.
+ * retry: wave78 FINAL: three nonshrinking iterations (explicit bound9, long index16, long count6), one check3 const run6; earlier wave77 three iterations6 and one check3 run6.
  * permuter: earlier 300 types search consumed, unchanged6/44; not repeated.
  * residual: six concrete bytes at 44/44; original bound r3/index r1 versus compiled bound r1/index r3.
  * symbols:

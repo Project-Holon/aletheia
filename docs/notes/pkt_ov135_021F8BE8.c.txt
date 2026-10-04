@@ -8,11 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * residual: renewed wave77 pass exhausted; DIFF139, compiled292/original296; inner default hop at 021F8C90 is threaded out.
- * checks: 1 own 4FC4/513C/4EC0 byte-pointer inputs and ov114 listings/caller checked; corrected externs DIFF139; 2 F8BBC/F8D10/46A8 twins reread; 3 unsigned code DIFF254/304, unsigned wait DIFF139/292; const p cannot cover its stores; 4 hop-copy and switch idioms reread, do-loop and Cleanup helper consume the two scheduling variants; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
- * runs: wave77 3 iteration + 3 checks; no new permuter.
+ * residual: FINAL W78 retry exhausted; DIFF139, compiled292/original296; inner default hop at021F8C90 is threaded out; canonical baseline retained.
+ * checks: 1 own4FC4 and listings4EC0/513C plus ov11486A8 getter and866C definition reread; 2 current46A8/0220171C caller declarations agree; 3 enum substate and unsigned wait each DIFF139/292, const p excluded by stores; 4 explicit default goto finish DIFF139/292, duplicated default call/return DIFF142/304 after cross-jumped-tail idiom read; 5 complete directory and current135 neighbours refreshed, no stack aggregate. No further hop variant justified.
+ * runs: W78 4 one runs, three nonshrinking goto/enum/wait hypotheses plus required-check tail variant; no new permuter.
  * permuter: earlier 1500-iteration seed11601 search already consumed (legacy pkt_021F8BE8 note); not repeated.
- * next: a new source hypothesis must preserve the inner out-of-range hop; no manual scheduling or check budget remains this wave.
+ * next: FINAL retry exhausted; no automatic requeue. Inner out-of-range hop remains unresolved.
  *
  * symbols:
  *   func_021C7C1C  0x021C7C1C  arm  ov114

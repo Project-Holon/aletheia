@@ -14,9 +14,8 @@
  *   three nongains. Own-definition API correction and unsigned ctx retain 202.
  * prior: enum setter 204; enum inline poll 242; unsigned fields 204.
  * previous: permuter budget 600 was already run, best 163 in previous environment.
- * checks: 1 own definitions copied: Process int/0, Shutdown void/0, GetResponse ulong/ulong*, error int/int*/int*, 8EB4 int/uint, memcpy void*/3; API spelling compiled unchanged 202; 2 live 8EB4/8C68/87FC twins reread, no closer poll twin; 3 const resp/long fields/long len 202 during iteration, unsigned ctx check 202; 4 global-base and small-constant idioms read, prior enum inline 242; 5 unfiltered idiom directory refreshed and live neighbours reread, no aggregate stack-object residue.
- * next: independent per-case state-pointer scopes instead of one shared ctx;
- *   not compiled here because the two scheduling variants are consumed.
+ * checks: 1 current own Process int/0, Shutdown void/0, Response ulong with ulong pointer, error int with two int pointers, 8EB4 int/uint and memcpy void pointer/3 reread; 2 live8EB4/8C68/87FC and sibling poller lack exact twin; 3 const response unchanged202; 4 global-base, aggregate-inline and small-constant idioms reread; 5 unfiltered directory/live neighbours refreshed, no stack aggregate rescue.
+ * retry-wave78: FINAL retry-exhausted: one CCERR from prior comment's embedded comment terminator repaired; five compiled one calls baseline2620/202, independent case-scoped Ctx pointers2620/202, long fields2620/202, inline Hdr copy2620/202, const response2620/202. Three nongains STOP; previous permuter600 remains consumed. Best baseline retained.
  *
  * DWC encryption-session poll: a switch on the session state (0..24); every
  * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)

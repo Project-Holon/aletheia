@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: renewed wave77 pass exhausted; DIFF4/264, offsets +DC,+DE,+F8 retain1 inr4 instead of rematerializingr0.
- * checks: 1 own2208C pointer-first seven args, overlay definitions and empty ARM9 bodies reread; exact pointer/char/unused-word prototypes DIFF4, caller-observed empty-stub arguments/live r0 retained; 2 FCC40/FCBF0 twins reread; 3 unsigned-long and enum index both DIFF4, const p excluded by actual stores and prior qualifier CCERR; 4 named done-step and inline Finish each DIFF4, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
- * runs: wave77 3 iteration + 5 checks.
+ * residual: FINAL W78 retry exhausted; DIFF4/264, offsets +DC,+DE,+F8 retain1 inr4 instead of rematerializingr0; baseline C retained.
+ * checks: 1 own2208C and owned overlay definitions rechecked, observed live argument/result at empty ARM9 stubs retained; 2 currentFCBF0 and02200C0C twins reread; 3 enum return and C99 bool return each DIFF4/264, const p excluded by writes; 4 return1L DIFF4/264, constant-rematerialization/enum/switch-return idioms read; 5 complete idiom directory and currentFCBF0 refreshed; no stack aggregate. No further return-width sweep justified.
+ * runs: W78 4 one runs; three nonshrinking return-type/constant hypotheses.
  * permuter: prior budget300/types consumed, emitted baseline4/264 agreed and best unchanged; not repeated.
  * prototype: 020185F0/0200ADB4/020084F4 bx-lr bodies preserve the full-word argument/result observed in this caller.
  *

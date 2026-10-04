@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: renewed wave77 pass exhausted; DIFF13/52 loop register allocation.
- * checks: 1 own CE48 Rec3 pointer type copied, listing arity and matched02878 caller confirmed; DIFF13; 2 02878 reread, no matching loop twin; 3 s16 counter DIFF39/56, signed address base DIFF13/52, const p excluded by writes; 4 pointer-element iteration and inline Clear each DIFF13/52, loop/long-index/named-element idioms reread, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread; no stack object.
- * runs: wave77 3 iteration + 4 checks.
+ * residual: FINAL retry exhausted W78; DIFF13/52 loop base/zero/multiply register allocation; baseline best retained.
+ * checks: 1 matched02878 Rec3-pointer callee declaration rechecked; 2 current02878 twin reread; 3 unsigned-long address arithmetic DIFF13/52, s16 counter DIFF39/56, const p excluded by writes; 4 struct element DIFF13/52 and enum zero DIFF15/52, element-pointer/struct-field/enum-zero idioms read; 5 complete idiom directory refreshed, current02878 reread; no stack object. No further sweep justified.
+ * runs: W78 5 one runs; three nonshrinking hypotheses; prior permuter already consumed and not repeated.
  * permuter: earlier budget300/types emitted baselineDIFF13/52 agrees and best remains13; not repeated.
  *
  * symbols:

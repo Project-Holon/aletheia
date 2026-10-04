@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: W77 1 final exact own-definition BA184/258/20C/208 types inert in run7, ARM9 unit0200A3FC and shard0200A3D0, ov1125450 reread; 2 current 94C0/95AC agree; 3 full-word unsigned long index and const parameter binding inert; 4 getter inline and initialized const index leave slots unchanged, stack/block/extra-inline idioms read; 5 refreshed complete directory/current neighbours; declared-struct stack idiom does not explain ordinary spill homes.
- * retry: W77 renewed big pass, 7 one runs; getter inline, wide index and const initialization three nonshrinking changes. Old permuter300 consumed and not repeated.
- * residual: Seven byte differences only: index and slot spill homes swapped at sp+0/sp+4.
+ * checks: W78 1 own BA184/258/20C/208, ARM9 unit0200A3FC and ov1125450 definitions rechecked; 2 current95AC/9784 agree; 3 unsigned-long index explicitly narrowed u16 DIFF7/172, const p DIFF154/176; 4 index function scope DIFF7/172, early slot/index declaration order DIFF10/172, function/block/stack-slot/extra-inline idioms read; 5 complete directory and current95AC/9784 refreshed; ordinary spills, no stack aggregate. No remaining scheduling sweep permitted.
+ * retry: FINAL W78 retry exhausted; 5 one runs; three nonshrinking hypotheses plus const check. Earlier permuter300 consumed and not repeated.
+ * residual: DIFF7/172; only index and slot spill homes swapped at sp+0/sp+4; baseline C retained.
  * symbols:
  *   func_0200A628 0x0200A628 thumb
  *   func_0200A604 0x0200A604 thumb

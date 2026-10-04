@@ -9,7 +9,8 @@
  * isa: thumb
  * status: DIFF
  * followers: unlabelled leaves begin at 021FD208 and 021FD218.
- * checks: renewed 1 own allocator/sender/size definitions and SDK-copy matched callers reread; 2 D350/D2B8 refreshed; 3 const q DIFF6, exact fallback nonconst SDK-copy source DIFF6; 4 inline Copy DIFF6, allocator-tie/inline/enum idioms read; 5 unfiltered idiom directory and neighbours refreshed.
+ * checks: 1 own allocator/sender/size definitions and SDK-copy matched callers reread; 2 D350/D2B8 reread, no closer twin; 3 unsigned-int s unchanged6, pointer s unchanged6; 4 reassigned q worsened176/121, allocator/inline/scope idioms read; 5 unfiltered directory/neighbours refreshed, no stack aggregate.
+ * wave78: FINAL retry exhausted; 4 one runs, best lead DIFF188/2246 retained,15/15 resolved. Permuter skipped for omitted D208/D218 followers. No leaves filed for a DIFF lead.
  * renewed-pass: six compiles; lead188-byte DIFF6,15/15 resolved; q/s allocation-result colours r6/r4 instead of r4/r6; one manual inline scheduling variant used.
  * permuter: skipped because224-byte extent includes omitted unlabelled D208/D218 followers; no historical search rerun.
  * symbols:
