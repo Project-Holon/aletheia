@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204B3DC(u32 p, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern u32 func_0204B898(u32 p);
 extern void func_0204B878(u32 p, u16 k);
 extern int func_021FA514(void *p, u8 *flags);
@@ -27,14 +28,14 @@ int func_021FB674(u8 *p)
     r = func_021FA514(p, p + 0x60);
     switch ((u32)r) {
     case -2:
-        func_0204B3DC(*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
         func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
         *(int *)(p + 0x48) = 3;
         *(int *)(p + 0x4c) = 20;
         *(s16 *)(p + 0x38) = -1;
         break;
     case 10:
-        func_0204B3DC(*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
         func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
         *(int *)(p + 0x48) = 3;
         *(int *)(p + 0x4c) = 20;
@@ -42,7 +43,7 @@ int func_021FB674(u8 *p)
         break;
     case -1: break;
     default:
-        func_0204B3DC(*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
         func_0204B878(*(u32 *)(p + 8), 19);
         *(s16 *)(p + 0x38) = r;
         *(int *)(p + 0x48) = 20;

@@ -10,9 +10,10 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021E6790(void *p, int i, int a)
 {
-    func_0204B3DC(*(int *)((char *)p + i * 4 + 0x10bc), a);
+    func_0204B3DC((struct Obj *)*(int *)((char *)p + i * 4 + 0x10bc), a);
 }

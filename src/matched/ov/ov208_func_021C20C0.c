@@ -41,7 +41,8 @@ extern u16 func_020437DC(u32 win);
 extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(void *a0, u8 *st, void *a2, u8 i);
-extern void func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 extern int func_021C0CC0(void *a0, u8 *st, void *a2);
 extern void func_021C0C8C(void *a0, u8 *st, void *a2, int on);
 
@@ -66,7 +67,7 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
             func_02045808(msg);
             *(u32 *)(st + 0x30) = 1;
             func_021C0740(a0, st, a2, 3);
-            func_0204B3DC(*(int *)(st + 0xc8), 1);
+            func_0204B3DC((struct Obj *)*(int *)(st + 0xc8), 1);
         }
     } else {
         u8 i;
@@ -77,7 +78,7 @@ void func_021C20C0(void *a0, u8 *st, void *a2)
         for (i = 0; i < 0x3d; i++) {
             tbl = *(u8 **)(st + 0x94);
             if (tbl[v * 0x3e + st[0x3cc + i] + 2] != 0 && *(u32 *)(st + 0x1e0 + i * 8) != 1) {
-                func_0204B3DC(*(int *)(st + 0xdc + i * 4), 1);
+                func_0204B3DC((struct Obj *)*(int *)(st + 0xdc + i * 4), 1);
             }
         }
         if (func_021C0CC0(a0, st, a2) == 0) {

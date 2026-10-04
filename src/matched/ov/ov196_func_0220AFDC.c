@@ -7,13 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
 
-extern void func_0204B3DC(void *, void *);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_0220AFDC(char *p, void *v)
 {
@@ -22,7 +23,7 @@ void func_0220AFDC(char *p, void *v)
         unsigned int i;
         for (i = 0; i < 4; i++)
         {
-            func_0204B3DC(*(void **)(p + i * 4), v);
+            func_0204B3DC(*(void **)(p + i * 4), (unsigned int)v);
         }
         *(void **)(p + 0x14) = v;
     }

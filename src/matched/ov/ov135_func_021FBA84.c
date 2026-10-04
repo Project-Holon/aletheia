@@ -37,9 +37,9 @@ extern const Cell tbl_02203236[];
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32,int);
 extern void func_0204B878(u32,u16);
 struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B92C(struct Obj *,u32);
 extern void func_021F9260(void *,u32);
 extern int func_021F8908(void *,void *,int);
@@ -65,9 +65,9 @@ int func_021FBA84(u8 *p)
     func_021F4FF4(*(u32 *)(p+12),0xB0,0x88);
     func_021F4FF4(*(u32 *)(p+16),0x58,0x88);
     if(func_020355C4()==1)
-        func_0204B3DC(*(u32 *)(p+8),0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p+8),0);
     else
-        func_0204B3DC(*(u32 *)(p+8),1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p+8),1);
     if(pages==1) {
         func_0204B878(*(u32 *)(p+12),0x3D);
         func_0204B878(*(u32 *)(p+16),0x3E);
@@ -77,8 +77,8 @@ int func_021FBA84(u8 *p)
     }
     func_0204B92C((struct Obj *)*(u32 *)(p+12),0);
     func_0204B92C((struct Obj *)*(u32 *)(p+16),0);
-    func_0204B3DC(*(u32 *)(p+12),1);
-    func_0204B3DC(*(u32 *)(p+16),1);
+    func_0204B3DC((struct Obj *)*(u32 *)(p+12),1);
+    func_0204B3DC((struct Obj *)*(u32 *)(p+16),1);
     *(int *)(p+0x48)=27;
     return -1;
 }

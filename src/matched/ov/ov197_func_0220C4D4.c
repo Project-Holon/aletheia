@@ -14,11 +14,12 @@
  *   func_0204B404 0x0204B404 arm
  */
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B404(int, int, int);
 
 void func_0220C4D4(int a, int b)
 {
-    func_0204B3DC(a, 1);
+    func_0204B3DC((struct Obj *)a, 1);
     func_0204B404(a, b, 1);
 }

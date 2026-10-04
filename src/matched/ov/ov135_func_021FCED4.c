@@ -26,7 +26,8 @@ extern void func_021FD1E0(u8 *p);
 extern void func_021FCFC8(void);
 extern void func_022000E4(void *);
 extern void func_021F4EC8(u8 *p);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0203D34C(u32 a, u32 b);
 int func_021FCED4(unsigned char *p)
 {
@@ -36,7 +37,7 @@ int func_021FCED4(unsigned char *p)
     func_021FD1E0(p);
     func_021FCFC8();
     func_022000E4(p);
-    func_0204B3DC(*(u32 *)(p + 0xd38), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 0);
     func_021F4EC8(p);
     if (*(int *)(p + 0x12fc) == 0)
         func_0203D34C(0, 0x48);

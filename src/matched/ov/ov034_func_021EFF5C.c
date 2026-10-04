@@ -23,7 +23,8 @@ extern void *func_020120F4(int);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021EFF5C(int *p)
 {
@@ -33,7 +34,7 @@ void func_021EFF5C(int *p)
     if (!(p[0x4A] & 1) && func_0201C6B4(p[2]) == 1) {
         n = func_02012934(func_020120F4(p[0]));
         for (i = 0; i < func_0201AA18(n); i++)
-            func_0204B3DC(p[0x15 + i], 1);
+            func_0204B3DC((struct Obj *)p[0x15 + i], 1);
         p[0x4A] |= 1;
     }
 }

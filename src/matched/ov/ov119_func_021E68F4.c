@@ -23,20 +23,20 @@ extern const Table d_021E7DEC;
 struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B92C(struct Obj *p,unsigned int v);
-extern void func_0204B3DC(int,unsigned int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B404(int,const Pt *,unsigned int);
 void func_021E68F4(int p, int i) {
     Table t=d_021E7DEC;
     Create c;
     if(i==-1) {
-        if(*(int *)(p+0xfd4)) func_0204B3DC(*(int *)(p+0xfd4),0);
+        if(*(int *)(p+0xfd4)) func_0204B3DC((struct Obj *)*(int *)(p+0xfd4),0);
     } else {
         if(!*(int *)(p+0xfd4)) {
             c.x=64;c.y=48;c.z=23;c.a=0;c.b=1;
             *(int *)(p+0xfd4)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
         }
         func_0204B92C((struct Obj *)*(int *)(p+0xfd4),1);
-        func_0204B3DC(*(int *)(p+0xfd4),1);
+        func_0204B3DC((struct Obj *)*(int *)(p+0xfd4),1);
         func_0204B404(*(int *)(p+0xfd4),&t.pos[i],1);
     }
 }

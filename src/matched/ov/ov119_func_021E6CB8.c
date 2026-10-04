@@ -34,7 +34,7 @@ extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(int,unsigned int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_02049238(void *);
 void func_021E6CB8(char *p)
 {
@@ -51,7 +51,7 @@ void func_021E6CB8(char *p)
     for (i = 0; i < 8; i++) {
         c.x = *(short *)((char *)&t + i * 4); c.y = *(short *)((char *)&t + i * 4 + 2); c.z = 0; c.a = 0; c.b = 1;
         *(int *)(p + i * 4 + 0x10cc) = (int)func_0204B294((void *)*(int *)(p + 0x9c4), *(int *)(p + i * 4 + 0x1114), *(int *)(p + 0x10ec), *(int *)(p + 0x10f0), &c, 1, *(u16 *)(p + 0x5f4));
-        func_0204B3DC(*(int *)(p + i * 4 + 0x10cc), 1);
+        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x10cc), 1);
     }
     func_02049238(h);
 }

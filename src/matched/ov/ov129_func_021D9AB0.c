@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
 struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
-extern void func_0204B3DC(int,int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021DA158(int x, int flag);
 void func_021D9AB0(char *p)
 {
@@ -44,7 +44,7 @@ void func_021D9AB0(char *p)
         }
     }
     if(*(int *)(p+0x334)==0 && *(int *)(p+0x338)==0) {
-        func_0204B3DC(*(int *)(p+0x15c),0);
-        func_0204B3DC(*(int *)(p+0x178),0);
+        func_0204B3DC((struct Obj *)*(int *)(p+0x15c),0);
+        func_0204B3DC((struct Obj *)*(int *)(p+0x178),0);
     }
 }

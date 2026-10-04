@@ -16,14 +16,15 @@
  */
 extern void func_0204B800(int,int);
 extern int func_0204B404(int,void *,int);
-extern void func_0204B3DC(int,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021D8C6C(void *);
 extern void func_02082BCC(void *,int,int);
 void func_021D8C84(void *p) {
  if(*(int *)((char *)p+0xf60)!=0) {
  func_0204B800(*(int *)((char *)p+0xf60),16);
  func_0204B404(*(int *)((char *)p+0xf60),(char *)p+0xf64,1);
- func_0204B3DC(*(int *)((char *)p+0xf60),1);
+ func_0204B3DC((struct Obj *)*(int *)((char *)p+0xf60),1);
  *(int *)((char *)p+0xf7c)=-1;
  *(int *)((char *)p+0xf80)=-1;
  func_021D8C6C(p); func_02082BCC((char *)p+4,0,2);

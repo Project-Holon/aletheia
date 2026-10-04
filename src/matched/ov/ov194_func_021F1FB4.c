@@ -38,7 +38,9 @@ extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C724(void *,u32,u32,u32,void *,u32,u16),func_0201C6FC(void *,u32,u32,u32,void *,u32);
 extern void func_02045334(struct Descriptor *d);
-extern void func_0204B8C4(void *,u32),func_0204B878(void *,u16),func_0204B3DC(void *,u32);
+extern void func_0204B8C4(void *,u32),func_0204B878(void *,u16);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern int func_021F22E8(u8 *);
 int func_021F1FB4(u8 *p)
 {

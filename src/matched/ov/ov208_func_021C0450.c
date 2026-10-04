@@ -43,7 +43,7 @@ extern void func_0204B878(u32 obj, u32 anim);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B84C(u32 obj, int v);
 extern void func_0204B800(u32 obj, int v);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_0204B688(u32 obj, u32 on);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -62,7 +62,7 @@ void ov208_func_021C0450(u16 *heap, u8 *p, int key)
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
         func_0204B84C(*(u32 *)(p + i * 4 + 0xdc), 2);
         func_0204B800(*(u32 *)(p + i * 4 + 0xdc), 4);
-        func_0204B3DC(*(u32 *)(p + i * 4 + 0xdc), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 0);
         func_0204B688(*(u32 *)(p + i * 4 + 0xdc), 1);
     }
 }

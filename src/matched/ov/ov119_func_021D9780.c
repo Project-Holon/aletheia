@@ -27,7 +27,8 @@ extern const Pt d_021E757C;
 extern int func_0204B404(int a, void *b, int c);
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern int func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void *func_021D8FA4(void *p, int a);
 extern void func_021E5B6C(void *p, int a, int b);
 extern void func_021E219C(char *p, void *mon, int side, int flag);
@@ -43,10 +44,10 @@ void func_021D9780(char *p, int a1, int a2)
     }
     if (func_020355C4()) {
         func_021E5B6C(p, a1, 0);
-        func_0204B3DC(*(int *)(p + 0xf0c), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 0);
     } else {
         func_021E5B6C(p, a1, 1);
-        func_0204B3DC(*(int *)(p + 0xf0c), 1);
+        func_0204B3DC((struct Obj *)*(int *)(p + 0xf0c), 1);
     }
     if (a2 != 0) {
         void *v;

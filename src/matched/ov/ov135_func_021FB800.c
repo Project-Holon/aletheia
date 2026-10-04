@@ -79,7 +79,8 @@ extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B878(u32 v, int k);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 
 int func_021FB800(Obj *p)
 {
@@ -111,12 +112,12 @@ int func_021FB800(Obj *p)
     }
     func_021F4FF4(p->cursor, (tbl_022032C6[p->pos].x + 0x10) * 8, tbl_022032C6[p->pos].y * 8);
     if (func_020355C4() == 1) {
-        func_0204B3DC(p->cursor, 0);
+        func_0204B3DC((struct Obj *)p->cursor, 0);
     } else {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
     }
     if (p->cursor2 != 0) {
-        func_0204B3DC(p->cursor2, 1);
+        func_0204B3DC((struct Obj *)p->cursor2, 1);
     }
     p->state = 0x17;
     return -1;

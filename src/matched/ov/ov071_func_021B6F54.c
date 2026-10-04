@@ -40,7 +40,7 @@ extern struct H4 d_021BA844;
 
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
 
@@ -61,7 +61,7 @@ int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
     }
     r = (int)func_0204B294((void *)p->w[5], p->e[e].w[1], p->e[e].w[0], p->e[e].w[2], &s, flag, 0x61);
     if (m[c] == 0) {
-        func_0204B3DC(r, 0);
+        func_0204B3DC((struct Obj *)r, 0);
     }
     func_0204B92C((struct Obj *)r, 1);
     return r;

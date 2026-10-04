@@ -37,7 +37,8 @@ extern u8 *func_02026474(void *p);
 extern u32 func_02026454(void *obj);
 extern void func_021BBA70(u8 *q, int a, u8 *b, int c);
 extern void func_021F0680(char *p, u8 *b);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern int func_021F0584(char *p, u8 *flag);
 extern void func_021736C8(u8 *a, int v);
 extern int func_021F0B98(char *o);
@@ -65,7 +66,7 @@ void func_021F00D4(char *p, int mode)
         }
         func_021F0680(p, q + 0x30E0);
         if (*(int *)(q + 0x351C) >= 3)
-            func_0204B3DC(*(int *)(p + 0x2C), 1);
+            func_0204B3DC((struct Obj *)*(int *)(p + 0x2C), 1);
     }
     if (mode == 1) {
         res = func_021F0584(p, q);

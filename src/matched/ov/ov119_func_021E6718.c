@@ -18,7 +18,7 @@ typedef struct { short x,y,z; u8 a,b; } Create;
 struct Obj;
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B92C(struct Obj *,unsigned int);
-extern void func_0204B3DC(int,unsigned int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 void func_021E6718(char *p, int i) {
     Create c;
     if (!*(int *)(p+0x10bc+i*4)) {
@@ -26,5 +26,5 @@ void func_021E6718(char *p, int i) {
         *(int *)(p+0x10bc+i*4)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
     }
     func_0204B92C((struct Obj *)*(int *)(p+0x10bc+i*4),1);
-    func_0204B3DC(*(int *)(p+0x10bc+i*4),1);
+    func_0204B3DC((struct Obj *)*(int *)(p+0x10bc+i*4),1);
 }

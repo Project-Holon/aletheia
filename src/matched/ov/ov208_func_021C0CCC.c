@@ -31,7 +31,8 @@ extern const Pt data_021C8554;
 extern u8   func_021C0C14(u16 *heap, u8 *p, int key);
 extern u16  func_021BBB3C(u32 tbl, int idx, int field);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -46,5 +47,5 @@ void func_021C0CCC(u16 *heap, u8 *p, int key)
         pt.y = func_021BBB3C(W(0x3c8), p[0x79], 3);
     }
     func_0204B404(W(0xcc), &pt, 0);
-    func_0204B3DC(W(0xcc), 1);
+    func_0204B3DC((struct Obj *)W(0xcc), 1);
 }

@@ -32,7 +32,8 @@ extern void func_021E1410(void *,Pair *,int);
 extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern void func_021E1E00(void *,int,int);
 extern void func_020307B0(int);
-extern void func_0204B3DC(int,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021D8C84(void *);
 typedef unsigned char  u8;
 extern void func_021D8B38(char *p);
@@ -54,7 +55,7 @@ void func_021DA640(char *p) {
     *(int *)(p+0x10A0)=zero;
     func_021E1E00(p,0,n);
     func_020307B0(n);
-    func_0204B3DC(*(int *)(p+0xF04),0);
+    func_0204B3DC((struct Obj *)*(int *)(p+0xF04),0);
     func_021D8C84(p);
     func_021D8B38(p);
     if(func_020355C4()) func_02027A08(*(int *)(p+0x64C),zero);

@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void func_0204B3DC(u32 p, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern u32 func_0204B898(u32 p);
 extern void func_0204B878(u32 p, u16 k);
 extern int func_021FA85C(void *p);
@@ -29,7 +30,7 @@ int func_021FBBA0(u8 *p)
     r = func_021FA85C(p);
     switch (r) {
     case -2:
-        func_0204B3DC(*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
         func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
         func_0202CAE4(*(void **)(p + 0x18), 0, 0x60, 0x18, 1);
         *(int *)(p + 0x48) = 5;
@@ -37,7 +38,7 @@ int func_021FBBA0(u8 *p)
         break;
     case -1: break;
     default:
-        func_0204B3DC(*(u32 *)(p + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
         func_0204B878(*(u32 *)(p + 8), func_0204B898(*(u32 *)(p + 8)) + 9);
         *(int *)(p + 0x48) = 3;
         *(int *)(p + 0x4c) = 29;

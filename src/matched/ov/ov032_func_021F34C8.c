@@ -33,7 +33,8 @@ extern void func_02045808(unsigned p);
 extern void func_02025774(unsigned p, int v);
 extern void func_0202570C(unsigned p);
 extern void func_020437AC(unsigned p);
-extern void func_0204B3DC(unsigned p, int v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B3B4(unsigned p);
 extern void func_02082BCC(void *p, int v, int n);
 
@@ -46,11 +47,11 @@ void func_021F34C8(char *a0, int a1)
     func_02025774(p->f18, 0);
     func_0202570C(p->f18);
     func_020437AC(p->f1c);
-    func_0204B3DC(p->f14, 0);
+    func_0204B3DC((struct Obj *)p->f14, 0);
     func_0204B3B4(p->f14);
-    func_0204B3DC(p->f10, 0);
+    func_0204B3DC((struct Obj *)p->f10, 0);
     func_0204B3B4(p->f10);
-    func_0204B3DC(p->f0c, 0);
+    func_0204B3DC((struct Obj *)p->f0c, 0);
     func_0204B3B4(p->f0c);
     func_02082BCC(p, 0, 0x34);
 }

@@ -21,9 +21,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0204B3DC(u32 p, int on);
 struct Actor;
 struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern u16 func_0204B898(struct Obj *p);
 extern void func_0204B878(u32 p, u16 k);
 extern u32 func_0204B98C(struct Actor *a);
@@ -34,7 +34,7 @@ extern const int tbl_022033FC[][2];
 int func_021FB704(u8 *p)
 {
     if (func_0204B98C(*(void **)(p + 8)) != 0) return -1;
-    func_0204B3DC(*(u32 *)(p + 8), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
     func_021F9660(p, 6);
     if (*(s16 *)(p + 0x38) < 0) {
         if (*(s16 *)(p + 0x38) == -1) return -2;
@@ -45,7 +45,7 @@ int func_021FB704(u8 *p)
         } else {
             *(s16 *)(p + 0x3a) = 0;
             func_0202CD64(*(void **)(p + 0x18), 0, -4, 0, 3);
-            if (*(u32 *)(p + 0x14) != 0) func_0204B3DC(*(u32 *)(p + 0x14), 0);
+            if (*(u32 *)(p + 0x14) != 0) func_0204B3DC((struct Obj *)*(u32 *)(p + 0x14), 0);
             func_0204B878(*(u32 *)(p + 8), 7);
             *(int *)(p + 0x48) = 2;
             func_0202CAE4(*(void **)(p + 0x18), 0, 0x60, 0x18, 1);

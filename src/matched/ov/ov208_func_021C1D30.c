@@ -49,7 +49,8 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void func_0204B878(u32 obj, u32 anim);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_02045334(u32 p);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -72,9 +73,9 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
         pt.y = func_021BBB3C(W(0x3c8), p[0x79], 3);
         func_0204B878(W(0xd0), 5);
         func_0204B404(W(0xd0), &pt, 0);
-        func_0204B3DC(W(0xd0), 1);
+        func_0204B3DC((struct Obj *)W(0xd0), 1);
     } else {
         func_02045334(W(0x18));
-        func_0204B3DC(W(0xd0), 0);
+        func_0204B3DC((struct Obj *)W(0xd0), 0);
     }
 }

@@ -34,7 +34,8 @@ extern void *func_021BC3B4(int key);
 extern void func_021BDBAC(void *s, u32 on);
 extern void func_021C0D3C(u16 *heap, u8 *p, int key);
 extern u8   func_021C0D5C(u16 *heap, u8 *p, int key, u8 x, u8 y);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
 extern void func_021C2238(u16 *heap, u8 *p, int key);
 extern u16  func_021BC3BC(char *p);
@@ -76,7 +77,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
                 } else {
                     p[0x79] = func_021C0D5C(heap, p, key, p[0x80], p[0x81]);
                     if (p[0x79] != 0xff)
-                        func_0204B3DC(W(0xd0), 1);
+                        func_0204B3DC((struct Obj *)W(0xd0), 1);
                 }
                 func_021C1D30(heap, p, key);
                 func_021C2238(heap, p, key);
@@ -113,8 +114,8 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
         if (mode == 0) {
             W(0x70) = 3;
             W(0x74) = 3;
-            func_0204B3DC(W(0xcc), 0);
-            func_0204B3DC(W(0xd0), 0);
+            func_0204B3DC((struct Obj *)W(0xcc), 0);
+            func_0204B3DC((struct Obj *)W(0xd0), 0);
             wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
             func_021BDC14(s, func_02012BF8(func_021BC3A4(key), 0x12));

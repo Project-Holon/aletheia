@@ -22,7 +22,7 @@ typedef struct { short v; void *p; void (*fn)(void *); } Callback;
 struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *,unsigned int);
-extern void func_0204B3DC(int,unsigned int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204BA00(int,const Callback *);
 extern void func_021E7058(void *);
 extern void func_021E6FC8(void *);
@@ -32,7 +32,7 @@ void func_021E6FD4(char *p, int x, int y) {
     c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
     func_021E7058(p);
     *(int *)(p+0xf24)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
-    func_0204B3DC(*(int *)(p+0xf24),1);
+    func_0204B3DC((struct Obj *)*(int *)(p+0xf24),1);
     func_0204B92C((struct Obj *)*(int *)(p+0xf24),1);
     p[0x11f5]=0;
     cb.v=0;cb.p=p;cb.fn=func_021E6FC8;

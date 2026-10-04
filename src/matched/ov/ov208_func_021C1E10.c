@@ -48,7 +48,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B8C4(u32 obj, int v);
 extern void func_021BDC48(void *s, u32 on);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C0CCC(u16 *heap, u8 *p, int key);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
 extern void func_021C1FC4(u16 *heap, u8 *p, int key);
@@ -86,7 +86,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
     func_0204B8C4(OBJ(other), 0);
     func_021BDC48(s, 0);
     if (touch == 1) {
-        func_0204B3DC(W(0xcc), 0);
+        func_0204B3DC((struct Obj *)W(0xcc), 0);
     } else if (W(0x6c) == 5 && W(0x90) == 1) {
         func_021C0CCC(heap, p, key);
         func_021C1D30(heap, p, key);

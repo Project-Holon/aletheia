@@ -64,7 +64,8 @@ extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
 extern void func_0204B404(int obj, Pt *pt, int k);
 extern u32 func_020362DC(void);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
-extern void func_0204B3DC(int obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021BA0E4(Cur *c, void *q)
 {
@@ -159,7 +160,7 @@ void func_021BA0E4(Cur *c, void *q)
         }
     }
     if (func_020355C4() == 0)
-        func_0204B3DC(c->obj, 1);
+        func_0204B3DC((struct Obj *)c->obj, 1);
     else
-        func_0204B3DC(c->obj, 0);
+        func_0204B3DC((struct Obj *)c->obj, 0);
 }

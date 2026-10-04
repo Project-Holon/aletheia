@@ -14,7 +14,8 @@
  *   func_0220C574 0x0220C574 thumb ov197
  *   func_0220C618 0x0220C618 thumb ov197
  */
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0220C714(char *);
 extern void func_0220C538(char *);
 extern void func_0220C574(char *);
@@ -22,7 +23,7 @@ extern void func_0220C618(char *);
 void func_0220C4EC(char *p, int mode)
 {
     unsigned int i;
-    for (i = 0; i < 63; i++) func_0204B3DC(*(int *)(p + i * 4 + 0x424), 0);
+    for (i = 0; i < 63; i++) func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x424), 0);
     func_0220C714(p);
     switch (mode) {
     case 0: func_0220C538(p); break;

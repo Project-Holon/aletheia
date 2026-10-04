@@ -17,15 +17,16 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Actor;
 extern u32 func_0204B98C(struct Actor *a);
-extern void func_0204B3DC(u32 p, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern void func_021F9660(void *p, u32 mode);
 extern void func_0201F868(void *p);
 int func_021FBC78(u8 *p)
 {
     if (func_0204B98C(*(void **)(p + 8)) != 0) return -1;
-    func_0204B3DC(*(u32 *)(p + 8), 0);
-    func_0204B3DC(*(u32 *)(p + 12), 0);
-    func_0204B3DC(*(u32 *)(p + 16), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 12), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 16), 0);
     func_021F9660(p, 3);
     func_0201F868(*(void **)(p + 0x30));
     return *(s16 *)(p + 0x3e);

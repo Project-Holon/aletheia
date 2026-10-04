@@ -24,7 +24,8 @@ typedef struct {
 } Pos;
 
 extern int func_021BA774(int a, int i);
-extern void func_0204B3DC(int obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_0204B404(int obj, Pos *pos, int c);
 extern void func_0204B9A0(int obj);
 
@@ -33,7 +34,7 @@ void func_021BA3F4(int *p, int a, int *b)
     Pos pos;
 
     if (a == 0) {
-        func_0204B3DC(p[1], 0);
+        func_0204B3DC((struct Obj *)p[1], 0);
         p[5] = 0;
         return;
     }
@@ -41,7 +42,7 @@ void func_021BA3F4(int *p, int a, int *b)
         pos.x = b[0] + func_021BA774(a, 4);
         pos.y = b[1] + func_021BA774(a, 5);
         func_0204B404(p[1], &pos, 0);
-        func_0204B3DC(p[1], 1);
+        func_0204B3DC((struct Obj *)p[1], 1);
         func_0204B9A0(p[1]);
         p[5] = a;
     }

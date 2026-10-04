@@ -22,7 +22,9 @@ typedef unsigned short u16;
 typedef struct Rect {int left,top,right,bottom;} Rect;
 extern void func_020413B0(unsigned,u8,u8,u8,u8,u8);
 extern u8 func_020355C4(void);
-extern void func_0204B9A0(void *),func_0204B3DC(void *,unsigned);
+extern void func_0204B9A0(void *);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_020409B4(unsigned),func_02082BCC(void *,int,int);
 void func_021F1A1C(char *p,int mode,const Rect *rect,int flag,int selected)
 {

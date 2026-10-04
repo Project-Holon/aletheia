@@ -52,7 +52,8 @@ struct U16Vec;
 struct WordSet;
 extern void func_021C1F44(int a);
 extern Entry *func_021C1F28(u32 a, u32 b, u32 c);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_021C0C00(u32 a, u32 b);
 extern int  func_021BC3A4(int key);
 extern void *func_0200CA1C(int a);
@@ -99,7 +100,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
         W(0x90) = ((Entry *)W(0x94))[p[0x78]].f1 == 0;
 
     if (SLOT5C(*(int *)(p + 0x64)) != 0)
-        func_0204B3DC(SLOT5C(*(int *)(p + 0x64)), 0);
+        func_0204B3DC((struct Obj *)SLOT5C(*(int *)(p + 0x64)), 0);
     *(int *)(p + 0x64) = (*(int *)(p + 0x64) + 1) % 2;
     if (SLOT5C(*(int *)(p + 0x64)) != 0) {
         if (SLOT5C(*(int *)(p + 0x64)) != 0)
@@ -131,16 +132,16 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
             func_0201C6EC(W(0x3c));
             func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
             func_02045334(W(0x1c));
-            func_0204B3DC(W(0xbc), 0);
-            func_0204B3DC(W(0xc4), 0);
-            func_0204B3DC(W(0xc0), 0);
+            func_0204B3DC((struct Obj *)W(0xbc), 0);
+            func_0204B3DC((struct Obj *)W(0xc4), 0);
+            func_0204B3DC((struct Obj *)W(0xc0), 0);
         }
     } else if (prev == 0) {
         func_021C1F50(heap, p, key);
-        func_0204B3DC(W(0xbc), 1);
+        func_0204B3DC((struct Obj *)W(0xbc), 1);
         func_0204B878(W(0xc4), 2);
-        func_0204B3DC(W(0xc4), 1);
+        func_0204B3DC((struct Obj *)W(0xc4), 1);
         func_0204B878(W(0xc0), 4);
-        func_0204B3DC(W(0xc0), 1);
+        func_0204B3DC((struct Obj *)W(0xc0), 1);
     }
 }

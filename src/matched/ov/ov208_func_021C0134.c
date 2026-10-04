@@ -81,7 +81,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B84C(u32 obj, int v);
 extern void func_0204B800(u32 obj, int v);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *obj, unsigned int on);
 extern void func_0204B688(u32 obj, u32 on);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 
@@ -136,7 +136,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
         func_0204B92C((struct Obj *)OBJ(i), 1);
         func_0204B84C(OBJ(i), pri.v[i]);
         func_0204B800(OBJ(i), pal.v[i]);
-        func_0204B3DC(OBJ(i), 0);
+        func_0204B3DC((struct Obj *)OBJ(i), 0);
         func_0204B688(OBJ(i), 1);
     }
 

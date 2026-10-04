@@ -21,8 +21,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_0204B3DC(u32 p, int on);
 struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int on);
 extern u16 func_0204B898(struct Obj *p);
 extern void func_0204B878(u32 p, u16 k);
 extern void func_021FA9C8(u8 *p, int mode, int pos);
@@ -34,11 +34,11 @@ int func_021FB7A0(u8 *p)
 {
     func_021FA9C8(p, 6, 0x10);
     func_0204B878(*(u32 *)(p + 8), 18);
-    func_0204B3DC(*(u32 *)(p + 8), 1);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
     *(int *)(p + 0x44) = *(s16 *)(p + 0x38);
     func_021F4FF4(*(u32 *)(p + 8), (tbl_02203298[*(int *)(p + 0x44)][0] + 16) * 8, tbl_02203298[*(int *)(p + 0x44)][1] * 8);
-    if (func_020355C4() == 1) func_0204B3DC(*(u32 *)(p + 8), 0);
-    else func_0204B3DC(*(u32 *)(p + 8), 1);
+    if (func_020355C4() == 1) func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
+    else func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 1);
     *(int *)(p + 0x48) = 19;
     return -1;
 }

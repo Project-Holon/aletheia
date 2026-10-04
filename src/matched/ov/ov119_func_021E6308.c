@@ -15,13 +15,14 @@ typedef struct {
     int h[2][3];
 } Work;
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021E6308(Work *p, int a, int v)
 {
     int i;
     for (i = 0; i < 3; i++) {
         if (p->h[a][i])
-            func_0204B3DC(p->h[a][i], v);
+            func_0204B3DC((struct Obj *)p->h[a][i], v);
     }
 }
