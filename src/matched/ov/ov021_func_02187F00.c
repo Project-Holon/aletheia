@@ -27,8 +27,10 @@
 
 extern char d_021DE700[];
 
-int func_020120F8(int x);
-int func_02012AC8(int x);
+struct Ctx;
+unsigned char *func_020120F8(const struct Ctx *x);
+struct Rec44;
+unsigned short func_02012AC8(const struct Rec44 *x);
 int func_02189BBC(int x);
 void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 typedef unsigned int   u32;
@@ -37,8 +39,8 @@ void func_02030678(void *a, u32 b, u32 c);
 void *func_0203159C(int a, int size, int heap);
 void *func_02188030(int a, int b);
 void func_02012110(struct Ctx *p, void *v);
-int func_0201214C(int x);
-int func_02012138(int x);
+unsigned int func_0201214C(const struct Ctx *x);
+unsigned int func_02012138(const struct Ctx *x);
 int func_02026454(int x);
 void func_02026400(int x);
 
@@ -47,7 +49,7 @@ int func_02187F00(int a, int *state, int b)
     switch (*state) {
     case 0:
         {
-            int sz = func_02189BBC(func_02012AC8(func_020120F8(b))) - 0xD000;
+            int sz = func_02189BBC(func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)b))) - 0xD000;
             func_0203064C(1, 0x15, sz);
         }
         func_0203064C(1, 0x70, 0xD000);
@@ -65,8 +67,8 @@ int func_02187F00(int a, int *state, int b)
         (*state)++;
         break;
     case 1:
-        if (func_0201214C(b) == 0) {
-            int t = func_02012138(b);
+        if (func_0201214C((const struct Ctx *)b) == 0) {
+            int t = func_02012138((const struct Ctx *)b);
             switch (func_02026454(t)) {
             case 1:
             case 2:

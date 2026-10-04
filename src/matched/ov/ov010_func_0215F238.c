@@ -19,7 +19,8 @@
  */
 
 extern void *func_0215A5DC(void *p);
-extern void *func_02012138(void *p);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct Comm;
@@ -35,7 +36,7 @@ int func_0215F238(void *a, void *b)
     void *s;
 
     t = func_0215A5DC(b);
-    s = func_02012138(t);
+    s = (void *)func_02012138(t);
     switch (func_02026454(s)) {
     case 1:
     case 2:

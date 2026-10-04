@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 *func_02159AE8(void *, void *);
 extern void *func_0215A5DC(void *);
-extern void *func_02012138(void *);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *);
 extern u8 *func_02158344(void *);
 int func_0217F8A0(void *a, void *vm)
 {
@@ -28,7 +29,7 @@ int func_0217F8A0(void *a, void *vm)
     u8 *p;
     int v;
     out = func_02159AE8(a, vm);
-    p = func_02158344(func_02012138(func_0215A5DC(vm)));
+    p = func_02158344((void *)func_02012138(func_0215A5DC(vm)));
     if (p == 0 || *(u16 *)(p + 0x88) == 0) {
         *out = 0;
     } else {

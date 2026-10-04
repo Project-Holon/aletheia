@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 extern u32  func_020120F4(u8 *p);
 extern u8  *func_020122C0(u8 *p, u32 a, u32 cb, u32 c);
 extern u8  *func_020124E8(u8 *p);
-extern u32  func_02012A30(u32 v);
+struct BigObj;
+extern u32  func_02012A30(const struct BigObj *v);
 extern int func_02029560(u32 unused, u32 *state, u8 *cfg);
 
 u8 *func_020295A4(u8 *p, u32 a)
@@ -31,7 +32,7 @@ u8 *func_020295A4(u8 *p, u32 a)
     u8 *r6 = func_020122C0(p, 0, (u32)func_02029560, 0x10);
     u8 *r4 = func_020124E8(r6);
 
-    *(u32 *)(r4 + 4) = func_02012A30(r7);
+    *(u32 *)(r4 + 4) = func_02012A30((const struct BigObj *)r7);
     *(u16 *)(r4 + 0xe) = (u16)a;
     return r6;
 }

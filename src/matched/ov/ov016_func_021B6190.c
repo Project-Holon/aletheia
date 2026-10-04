@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 extern void func_0200F234(u32);
 extern void func_02034A5C(int);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 extern void func_020107CC(void);
 extern char ov107_id[];
-int func_021B6190(void) { func_0200F234(1); func_02034A5C((int)ov107_id); func_020306F0((void *)15); func_020107CC(); return 1; }
+int func_021B6190(void) { func_0200F234(1); func_02034A5C((int)ov107_id); func_020306F0(15); func_020107CC(); return 1; }

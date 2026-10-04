@@ -30,7 +30,8 @@ struct SoundSys2;
 extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 extern int func_021AAA4C(int a, u16 *v);
 extern u16 func_0209C0A4(int a, int b);
-extern void *func_02012A30(void *p);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *p);
 extern void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who);
 extern u8 d_021D9234[];
 
@@ -50,7 +51,7 @@ void func_021ADC04(u8 *w, u8 *o)
             v = 3;
         c = d_021D9234[v];
         k = *(u16 *)(o + 0x8a);
-        x = func_02012A30(*(void **)(*(int *)(w + 0x34) + 8));
+        x = (void *)func_02012A30(*(void **)(*(int *)(w + 0x34) + 8));
         func_02028ACC(x, k, c);
     }
 }
