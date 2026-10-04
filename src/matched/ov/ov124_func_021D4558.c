@@ -39,7 +39,7 @@ extern int func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
 extern int func_0204A6C8(u32, u32, u32, u32, u16);
 extern int func_0204AF28(u32, u32, u32, u16);
 extern void *func_02049F78(u32, u32, u32, u32);
-extern void *func_0204B294(void *, u32, u32, u32, Request *, u16, u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021D4558(char *p)

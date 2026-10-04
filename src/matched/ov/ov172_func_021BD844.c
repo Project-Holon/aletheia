@@ -73,7 +73,7 @@ extern u32 func_02027620(u32 a);
 extern void func_02049238(void *arc);
 extern u32 func_021BE024(void *p);
 extern u32 func_021BE018(void *p, int i);
-extern void *func_0204B294(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *e, unsigned short f, unsigned short g);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void *func_02049F78(void *arc, u32 fileId, struct PltData **out, u16 heap);
@@ -138,7 +138,7 @@ void func_021BD844(u8 *p)
     i0 = func_021BE018(p, 4);
     i1 = func_021BE018(p, z);
     i2 = func_021BE018(p, 8);
-    W(0x1b0) = (u32)func_0204B294(o, i0, i1, i2, (u32)&cfg, z, HEAP);
+    W(0x1b0) = (u32)func_0204B294((void *)o, i0, i1, i2, &cfg, z, HEAP);
     func_0204B3DC((void *)W(0x1b0), z);
     func_0204B92C((void *)W(0x1b0), 1);
     if (func_02008550(t) == 0) {

@@ -24,7 +24,8 @@ typedef struct {
     u8 e;
 } Local;
 
-extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B3DC(u32, int);
@@ -41,7 +42,7 @@ void func_021D434C(void *p)
         s.d = 0;
         s.e = 0;
         *(u32 *)((char *)*(void **)((char *)p + 0xc) + 0xb0) =
-            func_0204B294(*(u32 *)((char *)p + 0x9C4),
+            (u32)func_0204B294((void *)*(u32 *)((char *)p + 0x9C4),
                           *(u32 *)((char *)p + 0x8A8),
                           *(u32 *)((char *)p + 0x88C),
                           *(u32 *)((char *)p + 0x8BC),

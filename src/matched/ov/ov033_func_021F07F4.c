@@ -71,7 +71,8 @@ typedef signed int     s32;
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B688(u32, int);
@@ -95,7 +96,7 @@ void func_021F07F4(Obj *p)
             p->rec[i].cell = func_0204AF28(arc, d_021F0DBC[i].b, d_021F0DBC[i].c, p->heap);
         }
         s.d = i;
-        p->rec[i].obj = func_0204B294(p->fC, p->rec[i].chr, p->f2C, p->rec[i].cell, &s, 1, p->heap);
+        p->rec[i].obj = (u32)func_0204B294((void *)p->fC, p->rec[i].chr, p->f2C, p->rec[i].cell, &s, 1, p->heap);
         func_0204B92C((struct Obj *)p->rec[i].obj, 1);
         func_0204B688(p->rec[i].obj, 1);
     }

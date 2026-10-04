@@ -17,7 +17,8 @@
  */
 typedef struct { short x,y,z,w; } Pos;
 extern void func_02082BCC(void *,int,int);
-extern int func_0204B294(int,int,int,int,Pos *,unsigned short,unsigned short);
+struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B800(int,int);
 extern void func_0204B688(int,int);
 extern int func_0201AE1C(int,int);
@@ -30,7 +31,7 @@ void func_021BB23C(char *p,int x,int y,int index)
     func_02082BCC(&pos,0,8);
     pos.x=x;
     pos.y=y;
-    *(int *)(p+0xac+index*4)=func_0204B294(*(int *)(p+0x24),*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,*(unsigned short *)p);
+    *(int *)(p+0xac+index*4)=(int)func_0204B294((void *)*(int *)(p+0x24),*(int *)(p+0x94+index*4),*(int *)(p+0x9c+index*4),*(int *)(p+0xa4+index*4),&pos,flag,*(unsigned short *)p);
     func_0204B800(*(int *)(p+0xac+index*4),0);
     if(*(int *)(p+0x18)==2) func_0204B688(*(int *)(p+0xac+index*4),1);
     if(func_0201AE1C(*(int *)(p+0x26c),34)==0) func_0204B604(*(int *)(p+0xac+index*4),1,1);

@@ -35,7 +35,8 @@ extern u32 func_020499D4(void *,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -54,7 +55,7 @@ void func_021BA898(char *p)
     *(int *)(p+0x58)=func_0204AF28(*(void **)(*(char **)(p+4)+0x24),7,8,*(u16 *)(*(char **)(p+4)+4));
     q[1]=d_021BBF8C;
     parent=*(char **)(p+4);
-    *(void **)(p+0x5c)=func_0204B294((u32)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),(u32)&q[1],1,*(u16 *)(parent+4));
+    *(void **)(p+0x5c)=func_0204B294((void *)func_021B9A08(*(void **)(parent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),&q[1],1,*(u16 *)(parent+4));
     func_0204B3DC(*(void **)(p+0x5c),0);
     func_0204B92C(*(void **)(p+0x5c),1);
     q[0]=d_021BBF94;
@@ -62,7 +63,7 @@ void func_021BA898(char *p)
         char *loopparent;
         q[0].y=i*24-8;
         loopparent=*(char **)(p+4);
-        *(void **)(p+i*4+0x60)=func_0204B294((u32)func_021B9A08(*(void **)(loopparent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),(u32)&q[0],1,*(u16 *)(loopparent+4));
+        *(void **)(p+i*4+0x60)=func_0204B294((void *)func_021B9A08(*(void **)(loopparent+8)),*(u32 *)(p+0x50),*(u32 *)(p+0x54),*(u32 *)(p+0x58),&q[0],1,*(u16 *)(loopparent+4));
         func_0204B3DC(*(void **)(p+i*4+0x60),0);
         func_0204B92C(*(void **)(p+i*4+0x60),1);
     }

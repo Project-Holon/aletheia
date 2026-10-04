@@ -130,7 +130,7 @@ extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_0201EC64(int);
 extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern u32 func_0201BD28(u16 id, u32 field);
-extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B404(void *, const Point *, int);
 extern u32 func_020275E4(void);
 extern u32 func_020275F8(u8);
@@ -218,7 +218,7 @@ void func_02204CC0(Work *p, const Slots *q)
         if (q->id[i] != 0) {
             k = func_0201BD28(q->id[i], 0);
             file = d_0220A5F0[k];
-            p->obj[i] = func_0204B294((u32)p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
+            p->obj[i] = func_0204B294(p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
             func_0204B404(p->obj[i], &d_0220A3C4[i], 1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
