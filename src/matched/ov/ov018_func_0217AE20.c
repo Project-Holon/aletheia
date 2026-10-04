@@ -77,7 +77,7 @@ typedef struct {
     u8 f910;
 } Obj;
 
-extern int func_02012138();
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_02026474();
 extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
@@ -111,7 +111,7 @@ void func_0217AE20(int a0, int a1, int a2)
     int i;
     int r;
 
-    h = func_02012138(a1);
+    h = func_02012138((const struct Ctx *)a1);
     p = func_02026474(h);
     ctx = func_020120F4((const struct Ctx *)a1);
     if (func_02012E40(ctx) == 1)

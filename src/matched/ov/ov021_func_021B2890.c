@@ -30,8 +30,8 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(void);
 struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02012984(u32 a);
 extern u32 func_021BE92C(void *a, void *b, int c, int d, int e, u8 f, u8 g);
@@ -47,7 +47,7 @@ int func_021B2890(u32 a, u32 b)
 
     x = func_0215A5F4((void *)b);
     y = func_0215A5DC((void *)b);
-    p = func_020120F4();
+    p = (u32)func_020120F4(y);
     q = func_0201210C((void *)y);
     z = func_02012984(p);
     func_0215897C(x, func_021BE92C(y, q, 3, 0, 0, z, z));

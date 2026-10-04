@@ -32,7 +32,7 @@ extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *);
 extern void *func_021821B0(void *, int);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
-extern int func_02188BE8(u32);
+extern int func_02188BE8(void *a);
 extern void func_0216D9E4(void *);
 
 int func_02182150(void *a, int *state, int c)
@@ -49,7 +49,7 @@ int func_02182150(void *a, int *state, int c)
         (*state)++;
         break;
     case 1:
-        if (r != 0 && func_02188BE8((u32)r) == 1) {
+        if (r != 0 && func_02188BE8(r) == 1) {
             func_0216D9E4((void *)func_02188C7C(r));
             return 1;
         }

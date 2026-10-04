@@ -19,14 +19,15 @@
 void func_021880A4(int x);
 struct Ctx;
 void func_02012110(struct Ctx *p, void *v);
-void func_020315D4(int a);
-void func_020306F0(int a);
+struct S020315D4;
+void func_020315D4(struct S020315D4 *p);
+void func_020306F0(unsigned int heap);
 
 int func_02187FE8(int a, int unused, int b, int *c)
 {
     func_021880A4(*c);
     func_02012110((void *)b, 0);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x96);
     func_020306F0(0x92);
     func_020306F0(0x93);

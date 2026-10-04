@@ -62,7 +62,8 @@ u32 func_02029C94(void *task, u32 *state, struct Work *work)
 extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_02012A30(void *a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 
 void *func_02029CC0(void *a)
 {
@@ -70,6 +71,6 @@ void *func_02029CC0(void *a)
     void *task = func_020122C0(a, 0, func_02029C94, 0x10);
     struct Work *work = func_020124E8(task);
 
-    work->unk04 = func_02012A30(x);
+    work->unk04 = (void *)func_02012A30(x);
     return task;
 }

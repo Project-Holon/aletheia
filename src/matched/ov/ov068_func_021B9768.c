@@ -48,7 +48,7 @@ extern void func_021B98E0(u8 *p);
 extern void func_02031140(struct S02031140 *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int a);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int a);
 extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_0201C4C0(struct PrintSys *p);
