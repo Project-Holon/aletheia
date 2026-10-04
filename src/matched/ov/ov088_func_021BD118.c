@@ -27,7 +27,8 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
 extern void func_0201F73C(u32 h, u32 a, u32 b, u32 c);
 extern signed char func_02013080(u32 idx);
@@ -43,7 +44,7 @@ void func_021BD118(int *p, u32 mode)
     int t;
 
     func_02045CAC(p[2], mode, p[4]);
-    func_02043B5C(func_02045770(p[7]), 15);
+    func_02043B5C((int)func_02045770((struct Descriptor *)p[7]), 15);
     func_0201F73C(p[7], 2, 1, 14);
     p[5] = func_0201CCE4(p[7], 0, 0, p[4], p[1], func_02013080(0), p[6], 10, 0x81, 15);
     p[10] = 0;

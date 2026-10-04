@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02045EC0  0x02045EC0  arm
@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 extern void *func_02045EC0(u32 h, u32 idx);
-extern u32   func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct U16Vec;
 extern void func_02045808(struct U16Vec *vec);
 extern void  func_0201C7D0(u32 bmp, s16 x, s16 y, void *text, u32 f, u16 color);
@@ -30,6 +31,6 @@ extern void  func_0201C7D0(u32 bmp, s16 x, s16 y, void *text, u32 f, u16 color);
 void func_021B9CB0(u8 *p, u32 win, u32 idx, u32 x, s16 y, u16 color)
 {
     void *text = func_02045EC0(*(u32 *)(p + 0x134), idx);
-    func_0201C7D0(func_02045770(win), x, y, text, *(u32 *)(p + 0x13c), color);
+    func_0201C7D0((u32)func_02045770((struct Descriptor *)win), x, y, text, *(u32 *)(p + 0x13c), color);
     func_02045808(text);
 }
